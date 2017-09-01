@@ -1,0 +1,30 @@
+<?php
+require 'simplepie-1.5/autoloader.php';
+$feed = new SimplePie();
+$feed->set_feed_url("http://admin.coinfi.com/rss/");
+$feed->init();
+$item = $feed->get_items()[0];
+require_once 'header.php';
+?>
+
+    <h1>The CoinFi Daily</h1>
+    <p class="lead">
+      We send a daily email curated with the most relevant content in the rapidly changing cryptocurrency space that you need to know about. Take a sneak peek at the most recent edition here.
+    </p>
+
+    <div class="panel panel-default">
+      <div class="panel-body">
+        <h2 class="panel-header"><?php echo $item->get_title(); ?></h2>
+        <p><?php echo $item->get_content(); ?></p>
+      </div>
+    </div>
+
+    <h3>Want this in your inbox? Sign up now!</h3>
+    <form action="/subscribe.php" method="post">
+      <div class="form-group">
+        <input id="email" name="email" type="email" placeholder="Email" class="form-control input-lg">
+      </div>
+      <button type="submit" class="btn btn-lg btn-warning">Sign Up Now</button>
+    </form>
+
+<?php require_once 'footer.php'; ?>
