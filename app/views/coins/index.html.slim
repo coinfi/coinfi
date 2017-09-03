@@ -15,7 +15,7 @@ table.table
     - @coins.each do |coin|
       tr
         td= coin.id
-        td= link_to coin.name, coin
+        td= link_to coin.name, coin, id: coin.slug
         td
         td
         td

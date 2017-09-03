@@ -34,6 +34,7 @@ gem 'jbuilder', '~> 2.5'
 
 gem 'administrate'
 gem 'feedjira'
+gem 'friendly_id', '~> 5.2.1'
 gem 'httparty'
 gem 'slim-rails'
 
