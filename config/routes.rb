@@ -1,7 +1,6 @@
 Rails.application.routes.draw do
   namespace :admin do
     resources :coins
-
     root to: "coins#index"
   end
 
@@ -15,4 +14,6 @@ Rails.application.routes.draw do
   #get '/customize' => 'pages#customize', as: 'customize'
   # post '/subscribe'
   #post '/segment'
+
+  resources :coins, only: [:index, :show]
 end

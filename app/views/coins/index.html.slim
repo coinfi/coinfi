@@ -1,0 +1,24 @@
+h1 Currencies
+
+table.table
+  thead
+    tr
+      th #
+      th Name
+      th Market Cap
+      th Price
+      th Supply
+      th Volume (24h)
+      th % Change (24h)
+      th Price Graph
+  tbody
+    - @coins.each do |coin|
+      tr
+        td= coin.id
+        td= link_to coin.name, coin
+        td
+        td
+        td
+        td
+        td
+        td
