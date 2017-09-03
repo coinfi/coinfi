@@ -32,6 +32,7 @@ gem 'jbuilder', '~> 2.5'
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
+gem 'administrate'
 gem 'feedjira'
 gem 'httparty'
 gem 'slim-rails'

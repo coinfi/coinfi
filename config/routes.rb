@@ -1,4 +1,10 @@
 Rails.application.routes.draw do
+  namespace :admin do
+    resources :coins
+
+    root to: "coins#index"
+  end
+
   root 'pages#home'
 
   get '/' => 'pages#home', as: 'home'
