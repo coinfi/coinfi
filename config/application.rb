@@ -14,5 +14,14 @@ module CoinfiRails
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded.
+
+    # Use .js by default instead of .coffee
+    config.generators do |g|
+      g.scaffold_stylesheet false
+      g.javascript_engine :js
+      g.test_framework    nil, fixture: false
+      g.view_specs        false
+      g.helper_specs      false
+    end
   end
 end
