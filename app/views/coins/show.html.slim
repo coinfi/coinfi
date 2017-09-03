@@ -56,8 +56,37 @@ p
 br
 p
 
-ul.nav.nav-tabs role="tablist"
+ul.nav.nav-tabs.nav-justified role="tablist"
   li.active
     a href="#charts" aria-controls="charts" role="tab" data-toggle="tab" Charts
   li
     a href="#background" aria-controls="background" role="tab" data-toggle="tab" Background
+  li
+    a href="#social" aria-controls="social" role="tab" data-toggle="tab" Social
+/ TODO: http://www.aidanlister.com/2014/03/persisting-the-tab-state-in-bootstrap/
+.tab-content
+  #charts.tab-pane.fade.in.active
+    h3 Charts
+  #background.tab-pane.fade
+    h3 Background
+  #social.tab-pane.fade
+    h3
+      i class="fa fa-twitter" aria-hidden="true"
+      | &nbsp;Twitter
+    <a class="twitter-timeline" data-height="600" href="#{@coin.twitter}">Tweets by Bitcoin</a> <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+    h3
+      i class="fa fa-reddit" aria-hidden="true"
+      | &nbsp;Reddit
+    #reddit-timeline
+
+
+javascript:
+  $(document).ready(function() {
+    // Reddit lazy load
+    var lazyLoadReddit = document.createElement("script");
+    document.write = function(text) {
+        document.getElementById("reddit-timeline").innerHTML += text;
+    };
+    lazyLoadReddit.src = "#{@coin.reddit}.embed?limit=6";
+    document.body.appendChild(lazyLoadReddit);
+  });
