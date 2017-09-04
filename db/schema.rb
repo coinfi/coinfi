@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170903171239) do
+ActiveRecord::Schema.define(version: 20170904174545) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -39,6 +39,36 @@ ActiveRecord::Schema.define(version: 20170903171239) do
     t.string "slug"
   end
 
+  create_table "daily_prices", force: :cascade do |t|
+    t.bigint "coin_id"
+    t.date "date"
+    t.integer "timestamp"
+    t.bigint "supply"
+    t.decimal "usd_price"
+    t.decimal "usd_volume"
+    t.decimal "btc_price"
+    t.decimal "btc_volume"
+    t.decimal "eur_price"
+    t.decimal "eur_volume"
+    t.decimal "cny_price"
+    t.decimal "cny_volume"
+    t.decimal "gbp_price"
+    t.decimal "gbp_volume"
+    t.decimal "rub_price"
+    t.decimal "rub_volume"
+    t.decimal "hkd_price"
+    t.decimal "hkd_volume"
+    t.decimal "jpy_price"
+    t.decimal "jpy_volume"
+    t.decimal "aud_price"
+    t.decimal "aud_volume"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["coin_id", "date"], name: "index_daily_prices_on_coin_id_and_date", unique: true
+    t.index ["coin_id"], name: "index_daily_prices_on_coin_id"
+    t.index ["date"], name: "index_daily_prices_on_date"
+  end
+
   create_table "friendly_id_slugs", force: :cascade do |t|
     t.string "slug", null: false
     t.integer "sluggable_id", null: false
@@ -51,4 +81,5 @@ ActiveRecord::Schema.define(version: 20170903171239) do
     t.index ["sluggable_type"], name: "index_friendly_id_slugs_on_sluggable_type"
   end
 
+  add_foreign_key "daily_prices", "coins"
 end
