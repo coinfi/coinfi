@@ -65,16 +65,23 @@ ul.nav.nav-tabs.nav-justified role="tablist"
 / TODO: http://www.aidanlister.com/2014/03/persisting-the-tab-state-in-bootstrap/
 .tab-content
   #charts.tab-pane.fade.in.active
-    h3 Charts
+    h3.text-center
+      i class="fa fa-line-chart" aria-hidden="true"
+      | &nbsp;Charts
     #chart
   #background.tab-pane.fade
-    h3 Background
+    h3.text-center
+      i class="fa fa-book" aria-hidden="true"
+      | &nbsp;Background
   #social.tab-pane.fade
-    h3
+    h3.text-center
+      i class="fa fa-share-alt" aria-hidden="true"
+      | &nbsp;Social
+    h4
       i class="fa fa-twitter" aria-hidden="true"
       | &nbsp;Twitter
     <a class="twitter-timeline" data-height="600" href="#{@coin.twitter}">Tweets by Bitcoin</a> <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
-    h3
+    h4
       i class="fa fa-reddit" aria-hidden="true"
       | &nbsp;Reddit
     #reddit-timeline
