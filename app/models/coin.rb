@@ -2,6 +2,7 @@ class Coin < ApplicationRecord
   extend FriendlyId
   friendly_id :name, use: [:slugged, :finders]
 
+  has_many :articles
   has_many :daily_prices
 
   scope :find_by_symbol, -> (symbol) { where('lower(symbol) = ?', symbol.downcase).first }

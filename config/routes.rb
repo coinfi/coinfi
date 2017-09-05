@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
   namespace :admin do
     resources :coins
+    resources :articles
     root to: "coins#index"
   end
 

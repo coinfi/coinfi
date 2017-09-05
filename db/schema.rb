@@ -10,10 +10,24 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170904174545) do
+ActiveRecord::Schema.define(version: 20170905155512) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "articles", force: :cascade do |t|
+    t.bigint "coin_id"
+    t.string "url"
+    t.string "title"
+    t.text "summary"
+    t.datetime "published_date"
+    t.decimal "importance"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["coin_id"], name: "index_articles_on_coin_id"
+    t.index ["importance"], name: "index_articles_on_importance"
+    t.index ["published_date"], name: "index_articles_on_published_date"
+  end
 
   create_table "coins", force: :cascade do |t|
     t.string "name"
@@ -81,5 +95,6 @@ ActiveRecord::Schema.define(version: 20170904174545) do
     t.index ["sluggable_type"], name: "index_friendly_id_slugs_on_sluggable_type"
   end
 
+  add_foreign_key "articles", "coins"
   add_foreign_key "daily_prices", "coins"
 end
