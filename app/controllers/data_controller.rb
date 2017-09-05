@@ -3,15 +3,12 @@ class DataController < ApplicationController
     @symbol = params[:symbol]
     @start_date = params[:start_date] || Date.today - 1.year
     @stop_date = params[:stop_date] || Date.today
-    @currency = params[:currency] || 'USD'
+    @currency = params[:currency] || 'usd'
 
     # Query goes here
+    coin = Coin.select(:id).find_by_symbol(@symbol)
+    prices = DailyPrice.historical(coin.id, @currency)
 
-    # Format DB data into CSV?
-    response = HTTParty.get('http://coinmarketcap.northpole.ro/history.json?coin=bitcoin&period=2017&format=array')
-    data = JSON.parse(response.body, symbolize_names: true)
-    byebug
-
-    #render json:
+    render plain: prices
   end
 end

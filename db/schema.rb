@@ -42,7 +42,7 @@ ActiveRecord::Schema.define(version: 20170904174545) do
   create_table "daily_prices", force: :cascade do |t|
     t.bigint "coin_id"
     t.date "date"
-    t.integer "timestamp"
+    t.bigint "timestamp"
     t.bigint "supply"
     t.decimal "usd_price"
     t.decimal "usd_volume"

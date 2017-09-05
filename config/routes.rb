@@ -16,4 +16,6 @@ Rails.application.routes.draw do
   #post '/segment'
 
   resources :coins, only: [:index, :show]
+
+  get '/historical/:symbol' => 'data#historical'
 end

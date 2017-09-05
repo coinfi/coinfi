@@ -3,7 +3,7 @@ class CreateDailyPrices < ActiveRecord::Migration[5.1]
     create_table :daily_prices do |t|
       t.references :coin, foreign_key: true
       t.date :date
-      t.integer :timestamp
+      t.bigint :timestamp
       t.bigint :supply
       t.decimal :usd_price
       t.decimal :usd_volume
