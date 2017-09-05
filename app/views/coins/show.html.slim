@@ -2,8 +2,8 @@
   .col-md-6
     h1
       - # Logo goes here!
-      => @coin.name
-      small= "(#{@coin.symbol})"
+      span#name=> @coin.name
+      small#symbol= @coin.symbol
     br
     ul.list-unstyled
       li

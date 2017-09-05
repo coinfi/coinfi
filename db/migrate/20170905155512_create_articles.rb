@@ -6,12 +6,12 @@ class CreateArticles < ActiveRecord::Migration[5.1]
       t.string :title
       t.text :summary
       t.datetime :published_date
+      t.bigint :published_epoch
       t.decimal :importance
 
       t.timestamps
     end
 
-    add_index :articles, :published_date
     add_index :articles, :importance
   end
 end

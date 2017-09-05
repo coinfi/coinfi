@@ -1,23 +1,30 @@
 $(function() {
-  $.getJSON('/historical/btc', function (data) {
-    var prices = [],
+  var name = $('#name').text();
+  var symbol = $('#symbol').text();
+  $.getJSON('/historical/' + symbol.toLowerCase() + '.json', function (data) {
+    var historical = data["prices"],
+        news = data["news"],
+        prices = [],
         volume = [],
-        dataLength = data.length,
+        historicalLength = historical.length,
         i = 0;
 
-    for (i; i < dataLength; i += 1) {
+    for (i; i < historicalLength; i += 1) {
       prices.push([
-        data[i][0], // timestamp
-        data[i][1], // price
+        historical[i][0], // timestamp
+        historical[i][1], // price
       ]);
       volume.push([
-        data[i][0], // timestamp
-        data[i][2], // volume
+        historical[i][0], // timestamp
+        historical[i][2], // volume
       ]);
     }
 
-    var lastDate = data[dataLength - 1][0],  // Get year of last data point
-        days = 24 * 36e5; // Milliseconds in a day
+    Highcharts.setOptions({
+      lang: {
+        thousandsSep: ','
+      }
+    });
 
     Highcharts.stockChart('chart', {
       rangeSelector: {
@@ -25,7 +32,7 @@ $(function() {
       },
 
       title: {
-        text: 'Bitcoin Price'
+        text: name + ' Price'
       },
 
       yAxis: [{
@@ -53,31 +60,30 @@ $(function() {
       }],
 
       tooltip: {
-        split: true
+        style: {
+          width: '200px'
+        },
+        valueDecimals: 4,
+        xDateFormat: '%A, %b %e, %Y',
+        useHTML: true,
+        hideDelay: 1500,
+        shared: true
       },
 
       series: [{
         id: 'price',
-        name: 'BTC',
+        name: 'USD',
         data: prices,
       }, {
         type: 'flags',
-        //name: 'Flags on series',
+        name: 'News',
         useHTML: true,
         dataLabels: {
           useHTML: true
         },
-        data: [{
-          x: lastDate - 60 * days,
-          title: '<a href="#">On series</a>',
-          text: ''
-        }, {
-          x: lastDate - 30 * days,
-          title: 'On series',
-          text: ''
-        }],
+        data: news,
         onSeries: 'price',
-        shape: 'squarepin'
+        shape: 'circlepin'
       }, {
         type: 'column',
         name: 'Volume',

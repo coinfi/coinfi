@@ -21,12 +21,12 @@ ActiveRecord::Schema.define(version: 20170905155512) do
     t.string "title"
     t.text "summary"
     t.datetime "published_date"
+    t.bigint "published_epoch"
     t.decimal "importance"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["coin_id"], name: "index_articles_on_coin_id"
     t.index ["importance"], name: "index_articles_on_importance"
-    t.index ["published_date"], name: "index_articles_on_published_date"
   end
 
   create_table "coins", force: :cascade do |t|
