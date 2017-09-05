@@ -31,10 +31,6 @@ $(function() {
         selected: 1
       },
 
-      title: {
-        text: name + ' Price'
-      },
-
       yAxis: [{
         labels: {
           align: 'right',

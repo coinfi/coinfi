@@ -50,33 +50,32 @@
         td.text-right= number_with_delimiter(@data["total_supply"]) + " #{@coin.symbol}"
       tr
         td Last Updated
-        td.text-right= Time.at(@data["last_updated"].to_i).to_datetime
+        td.text-right= Time.at(@data["last_updated"].to_i)
 p
 br
 p
 
 ul.nav.nav-tabs.nav-justified role="tablist"
   li.active
-    a href="#charts" aria-controls="charts" role="tab" data-toggle="tab" Charts
+    a href="#charts" aria-controls="charts" role="tab" data-toggle="tab"
+      i class="fa fa-line-chart" aria-hidden="true"
+      | &nbsp;Charts
   li
-    a href="#background" aria-controls="background" role="tab" data-toggle="tab" Background
+    a href="#background" aria-controls="background" role="tab" data-toggle="tab"
+      i class="fa fa-book" aria-hidden="true"
+      | &nbsp;Background
   li
-    a href="#social" aria-controls="social" role="tab" data-toggle="tab" Social
+    a href="#social" aria-controls="social" role="tab" data-toggle="tab"
+      i class="fa fa-share-alt" aria-hidden="true"
+      | &nbsp;Social
 / TODO: http://www.aidanlister.com/2014/03/persisting-the-tab-state-in-bootstrap/
 .tab-content
   #charts.tab-pane.fade.in.active
-    h3.text-center
-      i class="fa fa-line-chart" aria-hidden="true"
-      | &nbsp;Charts
+    br
     #chart
   #background.tab-pane.fade
-    h3.text-center
-      i class="fa fa-book" aria-hidden="true"
-      | &nbsp;Background
   #social.tab-pane.fade
-    h3.text-center
-      i class="fa fa-share-alt" aria-hidden="true"
-      | &nbsp;Social
+    br
     h4
       i class="fa fa-twitter" aria-hidden="true"
       | &nbsp;Twitter
