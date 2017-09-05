@@ -40,7 +40,7 @@ class CoinDashboard < Administrate::BaseDashboard
     :id,
     :name,
     :symbol,
-    :website,
+    :tier,
   ].freeze
 
   # SHOW_PAGE_ATTRIBUTES
