@@ -32,26 +32,25 @@
         =< link_to 'Github', @coin.github if @coin.github
   .col-md-6
     h1.price
-      => "$4534.76"
-      - percentage_change = 0.81
-      - sign = percentage_change > 0 ? "+" : "-"
-      - color = percentage_change > 0 ? "text-success" : "text-danger"
-
-      small(class=color)= "(#{sign}#{percentage_change}%)"
+      => number_to_currency @data["price_usd"]
+      small== display_percentage_change(@data["percent_change_24h"].to_f)
     br
-    table.table
+    table.table.table-condensed
       tr
         td Market Cap
-        td
+        td.text-right= number_to_currency @data["market_cap_usd"], precision: 0
       tr
         td Volume (24h)
-        td
+        td.text-right= number_with_delimiter @data["24h_volume_usd"]
       tr
         td Circulation
-        td
+        td.text-right= number_with_delimiter(@data["available_supply"]) + " #{@coin.symbol}"
       tr
         td Max Supply
-        td
+        td.text-right= number_with_delimiter(@data["total_supply"]) + " #{@coin.symbol}"
+      tr
+        td Last Updated
+        td.text-right= Time.at(@data["last_updated"].to_i).to_datetime
 p
 br
 p

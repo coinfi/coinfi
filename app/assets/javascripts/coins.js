@@ -16,6 +16,9 @@ $(function() {
       ]);
     }
 
+    var lastDate = data[dataLength - 1][0],  // Get year of last data point
+        days = 24 * 36e5; // Milliseconds in a day
+
     Highcharts.stockChart('chart', {
       rangeSelector: {
         selected: 1
@@ -54,8 +57,27 @@ $(function() {
       },
 
       series: [{
+        id: 'price',
         name: 'BTC',
         data: prices,
+      }, {
+        type: 'flags',
+        //name: 'Flags on series',
+        useHTML: true,
+        dataLabels: {
+          useHTML: true
+        },
+        data: [{
+          x: lastDate - 60 * days,
+          title: '<a href="#">On series</a>',
+          text: ''
+        }, {
+          x: lastDate - 30 * days,
+          title: 'On series',
+          text: ''
+        }],
+        onSeries: 'price',
+        shape: 'squarepin'
       }, {
         type: 'column',
         name: 'Volume',
