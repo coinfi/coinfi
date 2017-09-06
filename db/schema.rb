@@ -30,8 +30,18 @@ ActiveRecord::Schema.define(version: 20170905155512) do
   end
 
   create_table "coins", force: :cascade do |t|
-    t.string "name"
-    t.string "symbol"
+    t.string "name", null: false
+    t.string "symbol", null: false
+    t.string "slug"
+    t.string "category"
+    t.jsonb "market_cap"
+    t.jsonb "price"
+    t.jsonb "volume24"
+    t.decimal "change1h"
+    t.decimal "change24h"
+    t.decimal "change7d"
+    t.bigint "available_supply"
+    t.bigint "max_supply"
     t.string "website"
     t.string "website2"
     t.string "explorer"
@@ -43,14 +53,23 @@ ActiveRecord::Schema.define(version: 20170905155512) do
     t.string "medium"
     t.string "github"
     t.string "whitepaper"
-    t.integer "tier"
     t.date "release_date"
-    t.text "consensus_method"
+    t.string "algorithm"
+    t.string "proof_type"
+    t.string "image_url"
+    t.boolean "is_premined"
+    t.integer "tier"
+    t.integer "ranking"
+    t.integer "last_synced"
     t.text "intro"
     t.text "summary"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "slug"
+    t.index ["category"], name: "index_coins_on_category"
+    t.index ["market_cap"], name: "index_coins_on_market_cap", using: :gin
+    t.index ["price"], name: "index_coins_on_price", using: :gin
+    t.index ["slug"], name: "index_coins_on_slug"
+    t.index ["volume24"], name: "index_coins_on_volume24", using: :gin
   end
 
   create_table "daily_prices", force: :cascade do |t|

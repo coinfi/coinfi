@@ -1,4 +1,6 @@
-h1 Currencies
+h1 Coins
+
+- currency = 'usd' # TODO: Allow user to select default currency.
 
 table.table
   thead
@@ -14,11 +16,11 @@ table.table
   tbody
     - @coins.each do |coin|
       tr
-        td= coin.id
+        td= coin.ranking
         td= link_to coin.name, coin, id: coin.slug
-        td
-        td
-        td
-        td
-        td
+        td= number_to_currency coin.market_cap[currency]
+        td= number_to_currency coin.price[currency]
+        td= number_with_delimiter(coin.available_supply) + " #{coin.symbol}"
+        td= number_with_delimiter coin.volume24[currency]
+        td= display_percentage_change coin.change24h
         td
