@@ -11,11 +11,11 @@ $(function() {
 
     for (i; i < historicalLength; i += 1) {
       prices.push([
-        historical[i][0], // timestamp
+        historical[i][0] * 1000, // timestamp
         historical[i][1], // price
       ]);
       volume.push([
-        historical[i][0], // timestamp
+        historical[i][0] * 1000, // timestamp
         historical[i][2], // volume
       ]);
     }
