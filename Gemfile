@@ -36,6 +36,7 @@ gem 'administrate'
 gem 'feedjira'
 gem 'friendly_id', '~> 5.2.1'
 gem 'httparty'
+gem 'kaminari'
 gem 'slim-rails'
 
 group :development, :test do
