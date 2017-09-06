@@ -1,7 +1,5 @@
 require 'httparty'
 
-CRYPTO_CURRENCIES = %w().freeze
-
 FIAT_CURRENCIES = %w(usd btc eur cny gbp rub hkd jpy aud).freeze
 
 namespace :coinmarketcap do
@@ -23,6 +21,7 @@ namespace :coinmarketcap do
 
           data = contents["markets"].first
           Coin.create(
+            slug: coin["identifier"],
             ranking: data["position"],
             name: data["name"],
             symbol: data["symbol"],
@@ -42,33 +41,31 @@ namespace :coinmarketcap do
       end
     end
 
-=begin
     desc "Scrape extra data (website, social media handles, etc.) from CoinMarketCap"
-    task :scrape_cmc => :environment do
-      Wombat.configure do |config|
-        config.set_user_agent "Wombat"
-        config.set_user_agent_alias "Mac Safari"
-      end
-
+    task :scrape_meta => :environment do
       Coin.find_each do |coin|
-        results = Wombat.crawl do
-          base_url "https://coinmarketcap.com"
-          path "/currencies/#{coin.name.downcase}"
+        puts coin.slug
 
-          website css: '.row.bottom-margin-2x li a'
-          website2
-          explorer
-          explorer2
-          forum
-          forum2
+        begin
+          results = Wombat.crawl do
+            base_url "https://coinmarketcap.com"
+            path "/currencies/#{coin.slug}"
+
+            website xpath: "//a[text()='Website']/@href"
+            website2 xpath: "//a[text()='Website 2']/@href"
+            explorer xpath: "//a[text()='Explorer']/@href"
+            explorer2 xpath: "//a[text()='Explorer 2']/@href"
+            forum xpath: "//a[text()='Message Board']/@href"
+            forum2 xpath: "//a[text()='Message Board 2']/@href"
+            twitter xpath: "//*[@class='twitter-timeline']/@href"
+          end
+
+          coin.update(results)
+        rescue => e
+          puts e.message
         end
-
-        coin.update(results)
-
-        sleep rand(10..16)
       end
     end
-=end
 
     # Source: http://coinmarketcap.northpole.ro/history.json?coin=bitcoin&period=2017&format=array
     desc "Ingest specific coin's historical price data scraped from CoinMarketCap via API"
