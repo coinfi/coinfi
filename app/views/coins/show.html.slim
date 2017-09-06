@@ -76,23 +76,27 @@ ul.nav.nav-tabs.nav-justified role="tablist"
   #background.tab-pane.fade
   #social.tab-pane.fade
     br
-    h4
-      i class="fa fa-twitter" aria-hidden="true"
-      | &nbsp;Twitter
-    <a class="twitter-timeline" data-height="600" href="#{@coin.twitter}">Tweets by Bitcoin</a> <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
-    h4
-      i class="fa fa-reddit" aria-hidden="true"
-      | &nbsp;Reddit
-    #reddit-timeline
+    - if @coin.twitter
+      h4
+        i class="fa fa-twitter" aria-hidden="true"
+        | &nbsp;Twitter
+      <a class="twitter-timeline" data-height="600" href="#{@coin.twitter}">Tweets by Bitcoin</a> <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
 
+    - if @coin.reddit
+      h4
+        i class="fa fa-reddit" aria-hidden="true"
+        | &nbsp;Reddit
+      #reddit-timeline
 
-javascript:
-  $(document).ready(function() {
-    // Reddit lazy load
-    var lazyLoadReddit = document.createElement("script");
-    document.write = function(text) {
-        document.getElementById("reddit-timeline").innerHTML += text;
-    };
-    lazyLoadReddit.src = "#{@coin.reddit}.embed?limit=6";
-    document.body.appendChild(lazyLoadReddit);
-  });
+- if @coin.reddit
+  javascript:
+    $(function() {
+      if
+      // Reddit lazy load
+      var lazyLoadReddit = document.createElement("script");
+      document.write = function(text) {
+          document.getElementById("reddit-timeline").innerHTML += text;
+      };
+      lazyLoadReddit.src = "#{@coin.reddit}.embed?limit=6";
+      document.body.appendChild(lazyLoadReddit);
+    });
