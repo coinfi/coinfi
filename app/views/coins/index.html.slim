@@ -17,7 +17,7 @@ table.table
         .text-right Volume (24h)
       th
         .text-right % Change (24h)
-      th Price Graph
+      /th Price Graph
   tbody
     - @coins.each do |coin|
       tr
@@ -30,6 +30,6 @@ table.table
         td.text-right= number_with_delimiter(coin.available_supply) + " #{coin.symbol}"
         td.text-right= number_with_delimiter coin.volume24[currency]
         td.text-right= display_percentage_change coin.change24h
-        td
+        /td
 
 = paginate @coins
