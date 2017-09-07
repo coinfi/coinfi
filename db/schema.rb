@@ -77,29 +77,15 @@ ActiveRecord::Schema.define(version: 20170905155512) do
     t.date "date"
     t.bigint "timestamp"
     t.bigint "supply"
-    t.decimal "usd_price"
-    t.decimal "usd_volume"
-    t.decimal "btc_price"
-    t.decimal "btc_volume"
-    t.decimal "eur_price"
-    t.decimal "eur_volume"
-    t.decimal "cny_price"
-    t.decimal "cny_volume"
-    t.decimal "gbp_price"
-    t.decimal "gbp_volume"
-    t.decimal "rub_price"
-    t.decimal "rub_volume"
-    t.decimal "hkd_price"
-    t.decimal "hkd_volume"
-    t.decimal "jpy_price"
-    t.decimal "jpy_volume"
-    t.decimal "aud_price"
-    t.decimal "aud_volume"
+    t.jsonb "price"
+    t.jsonb "volume24"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["coin_id", "date"], name: "index_daily_prices_on_coin_id_and_date", unique: true
     t.index ["coin_id"], name: "index_daily_prices_on_coin_id"
     t.index ["date"], name: "index_daily_prices_on_date"
+    t.index ["price"], name: "index_daily_prices_on_price", using: :gin
+    t.index ["volume24"], name: "index_daily_prices_on_volume24", using: :gin
   end
 
   create_table "friendly_id_slugs", force: :cascade do |t|
