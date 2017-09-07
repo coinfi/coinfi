@@ -9,8 +9,13 @@ class CoinDashboard < Administrate::BaseDashboard
   # on pages throughout the dashboard.
   ATTRIBUTE_TYPES = {
     id: Field::Number,
+    ranking: Field::Number,
     name: Field::String,
     symbol: Field::String,
+    slug: Field::String,
+    category: Field::String,
+    available_supply: Field::Number,
+    max_supply: Field::Number,
     website: Field::String,
     website2: Field::String,
     explorer: Field::String,
@@ -24,7 +29,10 @@ class CoinDashboard < Administrate::BaseDashboard
     whitepaper: Field::String,
     tier: Field::Number,
     release_date: Field::DateTime,
-    consensus_method: Field::Text,
+    algorithm: Field::Text,
+    proof_type: Field::Text,
+    image_url: Field::Text,
+    is_premined: Field::Boolean,
     intro: Field::Text,
     summary: Field::Text,
     created_at: Field::DateTime,
@@ -38,9 +46,10 @@ class CoinDashboard < Administrate::BaseDashboard
   # Feel free to add, remove, or rearrange items.
   COLLECTION_ATTRIBUTES = [
     :id,
+    :ranking,
     :name,
     :symbol,
-    :tier,
+    :slug,
   ].freeze
 
   # SHOW_PAGE_ATTRIBUTES
@@ -49,12 +58,17 @@ class CoinDashboard < Administrate::BaseDashboard
     :id,
     :name,
     :symbol,
+    :slug,
+    :image_url,
+    :category,
+    :available_supply,
+    :max_supply,
     :website,
-    :website2,
+    #:website2,
     :explorer,
-    :explorer2,
+    #:explorer2,
     :forum,
-    :forum2,
+    #:forum2,
     :twitter,
     :reddit,
     :medium,
@@ -62,7 +76,9 @@ class CoinDashboard < Administrate::BaseDashboard
     :whitepaper,
     :tier,
     :release_date,
-    :consensus_method,
+    :algorithm,
+    :proof_type,
+    :is_premined,
     :intro,
     :summary,
     :created_at,
@@ -75,12 +91,17 @@ class CoinDashboard < Administrate::BaseDashboard
   FORM_ATTRIBUTES = [
     :name,
     :symbol,
+    :slug,
+    :image_url,
+    :category,
+    :available_supply,
+    :max_supply,
     :website,
-    :website2,
+    #:website2,
     :explorer,
-    :explorer2,
+    #:explorer2,
     :forum,
-    :forum2,
+    #:forum2,
     :twitter,
     :reddit,
     :medium,
@@ -88,7 +109,9 @@ class CoinDashboard < Administrate::BaseDashboard
     :whitepaper,
     :tier,
     :release_date,
-    :consensus_method,
+    :algorithm,
+    :proof_type,
+    :is_premined,
     :intro,
     :summary,
   ].freeze
@@ -96,7 +119,7 @@ class CoinDashboard < Administrate::BaseDashboard
   # Overwrite this method to customize how coins are displayed
   # across all pages of the admin dashboard.
   #
-  # def display_resource(coin)
-  #   "Coin ##{coin.id}"
-  # end
+  def display_resource(coin)
+    "#{coin.name}"
+  end
 end
