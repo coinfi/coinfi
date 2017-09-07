@@ -9,7 +9,7 @@ class ArticleDashboard < Administrate::BaseDashboard
   # on pages throughout the dashboard.
   ATTRIBUTE_TYPES = {
     id: Field::Number,
-    coin: Field::BelongsTo,
+    coin: Field::BelongsToSearch.with_options(class_name: 'Coin'),
     url: Field::String,
     title: Field::String,
     summary: Field::Text,

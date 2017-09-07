@@ -51,6 +51,10 @@ GEM
       momentjs-rails (~> 2.8)
       sass-rails (~> 5.0)
       selectize-rails (~> 0.6)
+    administrate-field-belongs_to_search (0.4.0)
+      administrate (>= 0.3, < 1.0)
+      rails (>= 4.2, < 5.2)
+      selectize-rails (~> 0.6)
     arel (8.0.0)
     autoprefixer-rails (7.1.3)
       execjs
@@ -272,6 +276,7 @@ PLATFORMS
 
 DEPENDENCIES
   administrate
+  administrate-field-belongs_to_search
   byebug
   capybara (~> 2.13)
   coffee-rails (~> 4.2)

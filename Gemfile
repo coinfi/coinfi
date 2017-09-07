@@ -33,6 +33,7 @@ gem 'jbuilder', '~> 2.5'
 # gem 'capistrano-rails', group: :development
 
 gem 'administrate'
+gem 'administrate-field-belongs_to_search'
 gem 'feedjira'
 gem 'friendly_id', '~> 5.2.1'
 gem 'httparty'
