@@ -1,35 +1,43 @@
 .row
   .col-md-6
     h1
-      - # Logo goes here!
+      = image_tag @coin.image_url, alt: @coin.name if @coin.image_url
       span#name=> @coin.name
       small#symbol= @coin.symbol
     br
     ul.list-unstyled
-      li
-        i class="fa fa-link" aria-hidden="true"
-        =< link_to 'Website', @coin.website
-      li
-        i class="fa fa-search" aria-hidden="true"
-        =< link_to 'Explorer', @coin.explorer if @coin.explorer
-      li
-        i class="fa fa-comments-o" aria-hidden="true"
-        =< link_to 'Forum', @coin.forum if @coin.forum
-      li
-        i class="fa fa-file-text-o" aria-hidden="true"
-        =< link_to 'Whitepaper', @coin.whitepaper, target: "_blank" if @coin.whitepaper
-      li
-        i class="fa fa-twitter" aria-hidden="true"
-        =< link_to 'Twitter', @coin.twitter if @coin.twitter
-      li
-        i class="fa fa-reddit" aria-hidden="true"
-        =< link_to 'Reddit', @coin.reddit if @coin.reddit
-      li
-        i class="fa fa-medium" aria-hidden="true"
-        =< link_to 'Medium', @coin.medium if @coin.medium
-      li
-        i class="fa fa-github" aria-hidden="true"
-        =< link_to 'Github', @coin.github if @coin.github
+      - if @coin.website
+        li
+          i class="fa fa-link" aria-hidden="true"
+          =< link_to 'Website', @coin.website, target: "_blank"
+      - if @coin.explorer
+        li
+          i class="fa fa-search" aria-hidden="true"
+          =< link_to 'Explorer', @coin.explorer, target: "_blank"
+      - if @coin.forum
+        li
+          i class="fa fa-comments-o" aria-hidden="true"
+          =< link_to 'Forum', @coin.forum, target: "_blank"
+      - if @coin.whitepaper
+        li
+          i class="fa fa-file-text-o" aria-hidden="true"
+          =< link_to 'Whitepaper', @coin.whitepaper, target: "_blank"
+      - if @coin.twitter
+        li
+          i class="fa fa-twitter" aria-hidden="true"
+          =< link_to 'Twitter', @coin.twitter, target: "_blank"
+      - if @coin.reddit
+        li
+          i class="fa fa-reddit" aria-hidden="true"
+          =< link_to 'Reddit', @coin.reddit, target: "_blank"
+      - if @coin.medium
+        li
+          i class="fa fa-medium" aria-hidden="true"
+          =< link_to 'Medium', @coin.medium, target: "_blank"
+      - if @coin.github
+        li
+          i class="fa fa-github" aria-hidden="true"
+          =< link_to 'Github', @coin.github, target: "_blank"
   .col-md-6
     h1.price
       => custom_number_to_currency @data["price_usd"].to_f
