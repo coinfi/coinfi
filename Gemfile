@@ -38,6 +38,7 @@ gem 'feedjira'
 gem 'friendly_id', '~> 5.2.1'
 gem 'httparty'
 gem 'kaminari'
+gem 'lograge'
 gem 'slim-rails'
 gem 'wombat'
 
