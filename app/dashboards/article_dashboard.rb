@@ -15,6 +15,7 @@ class ArticleDashboard < Administrate::BaseDashboard
     summary: Field::Text,
     published_date: Field::DateTime,
     importance: Field::String.with_options(searchable: false),
+    tag_list: TagListField,
     created_at: Field::DateTime,
     updated_at: Field::DateTime,
   }.freeze
@@ -30,6 +31,7 @@ class ArticleDashboard < Administrate::BaseDashboard
     :url,
     :published_date,
     :importance,
+    :tag_list,
   ].freeze
 
   # SHOW_PAGE_ATTRIBUTES
@@ -42,6 +44,7 @@ class ArticleDashboard < Administrate::BaseDashboard
     :summary,
     :published_date,
     :importance,
+    :tag_list,
     :created_at,
     :updated_at,
   ].freeze
@@ -56,6 +59,7 @@ class ArticleDashboard < Administrate::BaseDashboard
     :summary,
     :published_date,
     :importance,
+    :tag_list,
   ].freeze
 
   # Overwrite this method to customize how articles are displayed
