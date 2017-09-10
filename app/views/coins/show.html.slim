@@ -1,11 +1,16 @@
 .row
   .col-md-6
-    h1
-      = image_tag @coin.image_url, alt: @coin.name if @coin.image_url
-      span#name=> @coin.name
-      small#symbol= @coin.symbol
-    br
-    ul.list-unstyled
+    .pull-left
+      h1
+        = image_tag @coin.image_url, class: 'currency-header-image', alt: @coin.name if @coin.image_url
+        span#name=> @coin.name
+        small#symbol= @coin.symbol
+    .pull-right
+      h2
+        => custom_number_to_currency @data["price_usd"].to_f
+        small== display_percentage_change(@data["percent_change_24h"].to_f)
+    p.clearfix
+    ul.list-inline
       - if @coin.website
         li
           i class="fa fa-link" aria-hidden="true"
@@ -38,10 +43,9 @@
         li
           i class="fa fa-github" aria-hidden="true"
           =< link_to 'Github', @coin.github, target: "_blank"
+    / List exchanges here?
   .col-md-6
     h1.price
-      => custom_number_to_currency @data["price_usd"].to_f
-      small== display_percentage_change(@data["percent_change_24h"].to_f)
     br
     table.table.table-condensed
       tr
