@@ -34,7 +34,6 @@ gem 'jbuilder', '~> 2.5'
 
 gem 'acts-as-taggable-on'
 gem 'administrate'
-gem 'administrate-field-belongs_to_search'
 gem 'feedjira'
 gem 'friendly_id', '~> 5.2.1'
 gem 'httparty'
