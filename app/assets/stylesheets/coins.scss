@@ -2,6 +2,15 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
+body {
+  font-size: 16px;
+  font-family: Lato;
+}
+
+h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
+  font-family: Roboto;
+}
+
 .currency-image {
   height: 16px;
   width: 16px;
@@ -11,12 +20,4 @@
 .currency-header-image {
   margin-right: 8px;
   margin-bottom: 8px;
-}
-
-body {
-  font-family: Lato;
-}
-
-h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
-  font-family: Roboto;
 }

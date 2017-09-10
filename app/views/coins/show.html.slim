@@ -9,7 +9,7 @@
       h2
         => custom_number_to_currency @data["price_usd"].to_f
         small== display_percentage_change(@data["percent_change_24h"].to_f)
-    p.clearfix
+    .clearfix
     ul.list-inline
       - if @coin.website
         li
@@ -43,9 +43,24 @@
         li
           i class="fa fa-github" aria-hidden="true"
           =< link_to 'Github', @coin.github, target: "_blank"
-    / List exchanges here?
+    br.visible-sm.visible-xs
+    small
+      .row
+        strong.col-xs-5 Category
+        .col-xs-7= @coin.category.humanize
+      .row
+        strong.col-xs-5 Release Date
+        .col-xs-7= @coin.release_date
+      .row
+        strong.col-xs-5 Hashing Algorithm
+        .col-xs-7= @coin.algorithm
+      .row
+        strong.col-xs-5 Proof Type
+        .col-xs-7= @coin.proof_type
+      .row
+        strong.col-xs-5 Premined?
+        .col-xs-7= @coin.is_premined
   .col-md-6
-    h1.price
     br
     table.table.table-condensed
       tr
@@ -64,41 +79,80 @@
         td Last Updated
         td.text-right= Time.at(@data["last_updated"].to_i)
 p
-br
-p
 
-ul.nav.nav-tabs.nav-justified role="tablist"
-  li.active
-    a href="#charts" aria-controls="charts" role="tab" data-toggle="tab"
-      i class="fa fa-line-chart" aria-hidden="true"
-      | &nbsp;Charts
-  li
-    a href="#background" aria-controls="background" role="tab" data-toggle="tab"
-      i class="fa fa-book" aria-hidden="true"
-      | &nbsp;Background
-  li
-    a href="#social" aria-controls="social" role="tab" data-toggle="tab"
-      i class="fa fa-share-alt" aria-hidden="true"
-      | &nbsp;Social
-/ TODO: http://www.aidanlister.com/2014/03/persisting-the-tab-state-in-bootstrap/
-.tab-content
-  #charts.tab-pane.fade.in.active
-    br
-    #chart
-  #background.tab-pane.fade
-  #social.tab-pane.fade
-    br
-    - if @coin.twitter
-      h4
-        i class="fa fa-twitter" aria-hidden="true"
-        | &nbsp;Twitter
-      <a class="twitter-timeline" data-height="600" href="#{@coin.twitter}">Tweets by Bitcoin</a> <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+hr
+#charts
+  h2.text-center
+    i class="fa fa-line-chart" aria-hidden="true"
+    | &nbsp;Charts and News
+  br
+  #chart
 
-    - if @coin.reddit
-      h4
-        i class="fa fa-reddit" aria-hidden="true"
-        | &nbsp;Reddit
-      #reddit-timeline
+  .row
+    .col-md-6
+      h3
+        i.fa.fa-calendar
+        |&nbsp;Latest News
+      - if @latest_news.blank?
+        p No latest news yet, check back soon!
+      - else
+        .list-group
+          - @latest_news.each do |item|
+            = link_to item.url, class: 'list-group-item', target: '_blank'
+              h4.list-group-item-heading= item.title
+              p.list-group-item-text
+                small.text-info= item.url
+                br
+                span.text-muted= item.published_date.strftime('%B %e, %Y')
+                - if item.summary.present?
+                  br
+                  = item.summary
+
+    .col-md-6
+      h3
+        i.fa.fa-hourglass-half
+        |&nbsp;Upcoming Events
+      - if @upcoming_events.blank?
+        p No upcoming events yet, check back soon!
+      - else
+        table.table
+          - @upcoming_events.each do |item|
+            tr
+              td= link_to item.title, item.url, target: "_blank"
+              td= item.published_date
+
+hr
+#exchanges
+  h2.text-center
+    i class="fa fa-bank" aria-hidden="true"
+    | &nbsp;Exchanges
+  p Coming soon!
+
+hr
+#background
+  h2.text-center
+    i class="fa fa-book" aria-hidden="true"
+    | &nbsp;Background
+  p Coming soon!
+
+hr
+#social
+  h2.text-center
+    i class="fa fa-share-alt" aria-hidden="true"
+    | &nbsp;Social
+  .row
+    .col-md-6
+      - if @coin.twitter
+        h3
+          i class="fa fa-twitter" aria-hidden="true"
+          | &nbsp;Twitter
+        <a class="twitter-timeline" data-height="600" href="#{@coin.twitter}">Tweets by Bitcoin</a> <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+    .col-md-6
+      - if @coin.reddit
+        h3
+          i class="fa fa-reddit" aria-hidden="true"
+          | &nbsp;Reddit
+        #reddit-timeline
 
 - if @coin.reddit
   javascript:

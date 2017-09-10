@@ -3,9 +3,12 @@ class Article < ApplicationRecord
 
   belongs_to :coin
 
-  scope :chart_data, -> { select(:url, :title, :published_epoch).order(:published_date) }
-
   before_save :sync_published_date_to_epoch
+
+  scope :importancy,       -> (score) { where('importance >= ?', score) }
+  scope :chart_data,      -> { select(:url, :title, :published_epoch).order(:published_date) }
+  scope :latest_news,     -> { where('published_date <= ?', Time.now).order(published_date: :desc) }
+  scope :upcoming_events, -> { where('published_date > ?', Time.now).order(published_date: :asc) }
 
   def sync_published_date_to_epoch
     # Use JS epoch for convenience.
