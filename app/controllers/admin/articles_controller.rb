@@ -17,5 +17,22 @@ module Admin
 
     # See https://administrate-prototype.herokuapp.com/customizing_controller_actions
     # for more information
+    def reddit
+      if params[:subReddit].present?
+        before = params[:endDate].to_datetime.to_i
+        after = params[:startDate].to_datetime.to_i
+        base_url = "https://api.pushshift.io/reddit/search/submission/"
+        arguments = "?subreddit=#{params[:subReddit]}&before=#{before}&after=#{after}&sort=desc&sort_type=score&limit=#{params[:limit]}&fields=title,url,score,selftext,retrieved_on"
+        puts base_url+arguments
+
+        response = HTTParty.get(base_url + arguments)
+        data = JSON.parse(response.body)
+        @entries = data['data']
+      else
+        @entries = []
+      end
+
+      render :reddit
+    end
   end
 end

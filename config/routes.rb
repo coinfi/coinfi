@@ -2,6 +2,7 @@ Rails.application.routes.draw do
   namespace :admin do
     resources :coins
     resources :articles
+    get 'reddit' => 'articles#reddit'
     root to: "coins#index"
   end
 
