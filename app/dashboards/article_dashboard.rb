@@ -29,9 +29,9 @@ class ArticleDashboard < Administrate::BaseDashboard
     :id,
     :coin,
     :url,
+    :title,
     :published_date,
     :importance,
-    :tag_list,
   ].freeze
 
   # SHOW_PAGE_ATTRIBUTES
