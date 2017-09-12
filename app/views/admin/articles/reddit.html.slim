@@ -43,6 +43,6 @@ section.main-content__body
           td.cell-data.cell-data--string
             = entry['title']
             br
-            small= link_to entry['url'], entry['url']
+            small= link_to entry['url'], entry['url'], target: "_blank"
           td.cell-data.cell-data--string(width="180")= Time.at(entry['retrieved_on'])
           /td.cell-data.cell-data--string= entry['selftext']
