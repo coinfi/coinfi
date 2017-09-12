@@ -104,9 +104,13 @@ hr
                 small.text-info= item.url
                 br
                 span.text-muted= item.published_date.strftime('%B %e, %Y')
+                br
+                - item.tag_list.each do |tag|
+                  span.label.label-default=> tag
+                .clearfix
                 - if item.summary.present?
                   br
-                  = item.summary
+                  p= item.summary
 
     .col-md-6
       h3
