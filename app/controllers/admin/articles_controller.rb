@@ -23,13 +23,14 @@ module Admin
         after = params[:startDate].to_datetime.to_i
         base_url = "https://api.pushshift.io/reddit/search/submission/"
         arguments = "?subreddit=#{params[:subReddit]}&before=#{before}&after=#{after}&sort=desc&sort_type=score&limit=#{params[:limit]}&fields=title,url,score,selftext,retrieved_on"
-        puts base_url+arguments
+        @url = base_url+arguments
 
         response = HTTParty.get(base_url + arguments)
         data = JSON.parse(response.body)
         @entries = data['data']
       else
         @entries = []
+        @url = ""
       end
 
       render :reddit

@@ -26,6 +26,8 @@ section.main-content__body
     .form-actions
       input type="submit" value="Submit"
 
+  br
+  p= link_to @url, @url
 - if @entries.present?
   table
     thead
