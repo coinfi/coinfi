@@ -1,0 +1,1 @@
+pg_dump -Fc coinfi-rails_development > coinfi-dump.pgsql
