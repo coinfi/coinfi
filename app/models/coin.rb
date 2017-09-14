@@ -4,6 +4,7 @@ class Coin < ApplicationRecord
 
   has_many :articles
   has_many :daily_prices
+  has_many :hourly_prices
 
   validates :name, uniqueness: true
   validates :symbol, uniqueness: true
