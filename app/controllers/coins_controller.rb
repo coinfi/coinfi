@@ -6,7 +6,7 @@ class CoinsController < ApplicationController
   def show
     @coin = Coin.find(params[:id])
     # TODO: Cache results
-    response = HTTParty.get("https://api.coinmarketcap.com/v1/ticker/#{@coin.slug}/")
+    response = HTTParty.get("https://api.coinmarketcap.com/v1/ticker/#{@coin.slug}/?convert=BTC")
     @data = JSON.parse(response.body)
     @data = @data[0]
 
