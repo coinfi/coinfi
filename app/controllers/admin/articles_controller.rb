@@ -21,13 +21,27 @@ module Admin
       if params[:subReddit].present?
         before = params[:endDate].to_datetime.to_i
         after = params[:startDate].to_datetime.to_i
-        base_url = "https://api.pushshift.io/reddit/search/submission/"
-        arguments = "?subreddit=#{params[:subReddit]}&before=#{before}&after=#{after}&sort=desc&sort_type=score&limit=#{params[:limit]}&fields=title,url,score,selftext,retrieved_on"
-        @url = base_url+arguments
 
-        response = HTTParty.get(base_url + arguments)
+        # Old API Endpoints, doesn't have historical data...
+        #base_url = "https://api.pushshift.io/reddit/search/submission/"
+        #arguments = "?subreddit=#{params[:subReddit]}&before=#{before}&after=#{after}&sort=desc&sort_type=score&limit=#{params[:limit]}&fields=title,url,score,selftext,retrieved_on"
+
+        # Optional args
+        title = params[:title].present? ? "title:#{params[:title]} AND " : ""
+        domain = params[:domain].present? ? "domain:#{params[:domain]} AND " : ""
+
+        # Documentation for endpoint at
+        # https://www.reddit.com/r/redditdev/comments/64cs5u/new_pushshift_api_endpoint_all_reddit_submissions/
+        base_url = "https://elastic.pushshift.io/rs/submissions/_search/"
+        query = "?q=(#{title}#{domain}subreddit:#{params[:subReddit]} AND created_utc:>#{after} AND created_utc:<#{before})".gsub(' ', '%20')
+        arguments = "&sort=score:desc&size=#{params[:limit]}"
+        @url = base_url + query + arguments
+
+        response = HTTParty.get(@url)
         data = JSON.parse(response.body)
-        @entries = data['data']
+        @entries = data['hits']['hits'].map do |hit|
+          hit['_source'].slice('title', 'score', 'url', 'created_utc')
+        end
       else
         @entries = []
         @url = ""

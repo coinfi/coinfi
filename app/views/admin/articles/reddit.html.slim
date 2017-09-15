@@ -7,22 +7,32 @@ section.main-content__body
       .field-unit__label
         label for="subReddit" SubReddit
       .field-unit__field
-        input name="subReddit" type="text" value=params[:subReddit]
+        input name="subReddit" type="text" value=params[:subReddit] required="required"
     .field-unit.field-unit--date-time
       .field-unit__label
         label for="startDate" Start Date
       .field-unit__field
-        input.datetimepicker name="startDate" type="text" value=params[:startDate]
+        input.datetimepicker name="startDate" type="text" value=params[:startDate] required="required"
     .field-unit.field-unit--date-time
       .field-unit__label
         label for="endDate" End Date
       .field-unit__field
-        input.datetimepicker name="endDate" type="text" value=params[:endDate]
+        input.datetimepicker name="endDate" type="text" value=params[:endDate] required="required"
     .field-unit.field-unit--number
       .field-unit__label
         label for="limit" Limit
       .field-unit__field
-        input name="limit" type="number" value="#{params[:limit] || 100}"
+        input name="limit" type="number" value="#{params[:limit] || 100}" required="required"
+    .field-unit.field-unit--string
+      .field-unit__label
+        label for="title" Title Keyword Query <small>(Optional)</small>
+      .field-unit__field
+        input name="title" type="text" value=params[:title]
+    .field-unit.field-unit--string
+      .field-unit__label
+        label for="domain" Site Domain Query <small>(Optional)</small>
+      .field-unit__field
+        input name="domain" type="text" placeholder="domain.tld" value=params[:domain]
     .form-actions
       input type="submit" value="Submit"
 
@@ -44,5 +54,5 @@ section.main-content__body
             = entry['title']
             br
             small= link_to entry['url'], entry['url'], target: "_blank"
-          td.cell-data.cell-data--string(width="180")= Time.at(entry['retrieved_on'])
+          td.cell-data.cell-data--string(width="180")= Time.at(entry['created_utc'])
           /td.cell-data.cell-data--string= entry['selftext']
