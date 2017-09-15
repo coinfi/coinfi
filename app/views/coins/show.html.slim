@@ -140,7 +140,7 @@
           - else
             dl
               - @latest_news.each_with_index do |item, index|
-                dd.clearfix class="#{index.odd? ? 'pos-right' : 'pos-left'}"
+                dd.clearfix class="#{index.odd? ? 'pos-right' : 'pos-left'}" id="n#{index + 1}" name="n#{index + 1}"
                   .circ
                   .time= index + 1
                   .events
