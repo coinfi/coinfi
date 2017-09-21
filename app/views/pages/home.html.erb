@@ -80,8 +80,10 @@
             <li class="nav-item"><a class="nav-link" href="#contact" data-scrollto="contact">Contact</a></li>
           </ul>
           <div class="d-inline-flex ml-30">
-            <a class="btn btn-sm btn-outline btn-primary hidden-sm-down mr-4" href="/coins">Platform <small>(beta)</small></a>
-            <a class="btn btn-sm btn-success" href="/presale">Presale</a>
+            <% -# <a class="btn btn-sm btn-outline btn-primary hidden-sm-down mr-4" href="/coins">Platform <small>(beta)</small></a> %>
+            <button type="button" class="btn btn-small btn-success" data-toggle="modal" data-target="#presaleModal">
+              Register for Presale
+            </button>
           </div>
         </div>
 
@@ -352,7 +354,6 @@
                 <li><strong>30%</strong> retained by company shareholders.</li>
                 <li><strong>20%</strong> retained by the CoinFi Foundation to incentivize partners and early adopters of the product.</li>
               </ul>
-              <p>The company allocation will be locked in a smart contract and will be accessible proportionally every 3 months after the closing date of the token sale.</p>
             </div>
           </div>
 
@@ -682,6 +683,25 @@
       </div>
     </footer>
     <!-- END Footer -->
+
+    <!-- Presale Registration Modal -->
+    <div class="modal fade" id="presaleModal" tabindex="-1" role="dialog" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Register for the CoinFi ICO Presale</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            Enter your information below to get notified when the CoinFi ICO presale is about to launch!
+            <script async id="_ck_267531" src="https://forms.convertkit.com/267531?v=6"></script>
+            <style>.ck_form.ck_naked .ck_form_fields { padding: 0; }</style>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <!-- Scripts -->
     <!--
