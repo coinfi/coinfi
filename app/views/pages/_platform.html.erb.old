@@ -1,0 +1,163 @@
+<!--
+|‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒
+| Platform
+|‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒‒
+!-->
+<a id="platform" name="platform"></a>
+<section class="section bg-gray">
+  <div class="container">
+    <header class="section-header">
+      <small>Capabilities</small>
+      <h2>Platform</h2>
+      <hr>
+      <p class="lead">CoinFi is designed to deliver real-time news, trading signals, and financial analysis overlaid on top of price data to give traders all the info they need to make educated decisions on how to generate alpha.</p>
+    </header>
+
+    <div class="row gap-y align-items-center">
+      <div class="col-12 col-md-5">
+        <img class="rounded shadow-2" src="" alt="">
+      </div>
+      <div class="col-12 col-md-7">
+        <h4>Real-time News</h4>
+
+        <p>Right now trying to find urgent trading news, alerts and abnormal price movements is like looking for a needle in a haystack. Information is distributed on multiple channels such as Slack, Telegram, Twitter, Reddit, etc.</p>
+
+        There is no quick or easy way to answer daily recurring questions from traders such as:
+        <ul>
+          <li>What are the coins in the last 24 hours that have abnormal price and volume?</li>
+          <li>What is the historical market moving news for this coin so I can get up to speed?</li>
+          <li>Where are the high quality research thought pieces on this particular coin?</li>
+        </ul>
+
+        <p>The CoinFi database will enable users to monitor and analyze real-time crypto market news information in ways that are currently impossible with existing tools. It changes the current delivery frequency of market news from delayed and spread out to aggregated and real-time, while helping to curate the best content with both community and machine learning support.</p>
+      </div>
+    </div>
+
+    <hr>
+
+    <div class="row gap-y align-items-center">
+      <div class="col-12 col-md-7">
+        <h4>Trading Signals</h4>
+        <p>
+          Market inputs such as price, volume, social signals, and news, will be fed into both in-house and user contributed models that are overlaid with machine learning algorithms to output intelligent trading signals.
+        </p>
+        <p>
+          Signals can include
+          Which exchange has the best price
+
+        </p>
+        <p>
+          These signals can generate real-time alerts via SMS, email, or push notifications to notify traders about market movements.
+        </p>
+        <p>
+          Traders can use these signals to detect abnormal market movements, act to capitalize on the information, and capture this alpha with winning trades.
+        </p>
+      </div>
+      <div class="col-12 col-md-5">
+        <img class="rounded shadow-2" src="" alt="">
+      </div>
+    </div>
+
+    <hr>
+
+    <div class="row gap-y align-items-center">
+      <div class="col-12 col-md-5">
+        <img class="rounded shadow-2" src="" alt="">
+      </div>
+      <div class="col-12 col-md-7">
+        <h4>Financial Analysis</h4>
+        <p>In equities markets, research has shown that a crowd of experienced investors can often provide additional insight above and beyond Wall Street analysts and predict stock market returns better than traditional financial media outlets like the Wall Street Journal.</p>
+
+        <p>CoinFi enables contributions from real investors instead of only depending on financial journalists who are not necessarily "in-the-trenches" or sell-side analysts who are restricted from trading the equities they cover so they have no skin in the game.</p>
+
+        <p>In addition with the custom in-house model narrowing the focus on contributor authority, contributor history and social signals CoinFi is able to filter out and sort the highest quality research pieces so that traders who want to learn about the history of the coin.</p>
+
+        <p>The platform also incentives coverage of small cap coins that are not cost effective for salaried journalists or analysts to cover but may present interest to segments of the community, especially since major profits are made when a cryptocurrency is in its early stages.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section section-inverse">
+  <div class="container">
+    <header class="section-header">
+      <small>For Main Street, Not Wall Street</small>
+      <h2>Advantages of Decentralization</h2>
+      <hr>
+      <p class="lead">CORE THESIS:
+      All this is great - it's going to happen regardless. But this only benefits you if you have access to it.
+      You don't want Wall Street controlling the market, otherwise you'll pay through the nose.
+      By supporting us, you'll prevent their domination and instead put the power into the people's hands.</p>
+    </header>
+
+    <div class="row gap-y align-items-center">
+      <div class="col-12 col-md-6 col-xl-4 feature-1">
+        <p class="feature-icon"><img src="assets/img/icon-planet.png" alt="..."></p>
+        <h5>Crowdsourced Intelligence</h5>
+        <br>
+        <p class="text-muted">CoinFi is a blockchain solution where contributors in the ecosystem are rewarded and thus incentivized to contribute and curate the highest quality and relevant pieces of content.</p>
+      </div>
+      <div class="col-12 col-md-6 col-xl-4 feature-1">
+        <p class="feature-icon"><img src="assets/img/icon-planet.png" alt="..."></p>
+        <h5>Low Cost of Access</h5>
+        <br>
+        <p class="text-muted">By nurturing an incentivized community, CoinFi's operational costs will be much lower than a traditional media company, thereby allowing more users access at a much lower price.</p>
+      </div>
+      <div class="col-12 col-md-6 col-xl-4 feature-1">
+        <p class="feature-icon"><img src="assets/img/icon-planet.png" alt="..."></p>
+        <h5>Deep and Wide Coverage</h5>
+        <br>
+        <p class="text-muted">Traditional publishing solutions are not equipped to cover 1000+ altcoins. By tapping the community, CoinFi can provide high quality content on up-and-coming coins unmentioned by the mass media.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section section-inverse bg-primary">
+  <div class="container">
+    <header class="section-header">
+      <small>Custom Tailored Just For You</small>
+      <h2>Personalization</h2>
+      <hr>
+      <p class="lead">Too much data is just as bad as not enough data. The CoinFi platform allows you to customize and select the information that's important to you for a strong signal-to-noise ratio of content.</p>
+    </header>
+
+    <div class="row gap-y">
+      <div class="col-12 col-md-6 feature-3">
+        <div class="feature-icon"><i class="icon-mobile"></i></div>
+
+        <div class="feature-description">
+          <h5>Curated News Feed</h5>
+          <p>Create your own unique news feed of the cryptocurrencies you are interested in to stay up-to-date on the latest developments in a rapidly changing environment.</p>
+        </div>
+      </div>
+
+      <div class="col-12 col-md-6 feature-3">
+        <div class="feature-icon"><i class="icon-mobile"></i></div>
+
+        <div class="feature-description">
+          <h5>Real Time Alerts</h5>
+          <p>Create real-time alerts (email, SMS, or push notification) based on custom criteria you set to receive notifications when the market moves.</p>
+        </div>
+      </div>
+
+      <div class="col-12 col-md-6 feature-3">
+        <div class="feature-icon"><i class="icon-mobile"></i></div>
+
+        <div class="feature-description">
+          <h5>Identify Thought Leadership</h5>
+          <p>Prioritize content which contributors you think are experts in the space; their contributions will be given more weight in your feed.</p>
+        </div>
+      </div>
+
+      <div class="col-12 col-md-6 feature-3">
+        <div class="feature-icon"><i class="icon-mobile"></i></div>
+
+        <div class="feature-description">
+          <h5>Portfolio Management</h5>
+          <p>Monitor your holdings with a custom portfolio management section of the platform that lets you keep track of your positions and trade history across every exchange and asset pair.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
