@@ -1,15 +1,6 @@
 class PagesController < ApplicationController
   RSS_URL = 'http://admin.coinfi.com/rss/'.freeze
-  layout 'gsdk', only: [
-    :home,
-    :detect_whale_price_manipulation,
-    :predict_coins,
-    :find_relevant_news,
-    :cloak_trading,
-    :identify_best_priced_exchange,
-    :research_bad_actors,
-    :facilitate_altcoin_coverage
-  ]
+  layout 'gsdk', except: [:about, :contact, :daily]
 
   def home
   end
@@ -29,13 +20,16 @@ class PagesController < ApplicationController
     @content = entry.content.html_safe
   end
 
-  def detect_whale_price_manipulation
+  def identify_whale_price_manipulation
   end
 
-  def predict_coins
+  def detect_coins_about_to_moon
   end
 
   def find_relevant_news
+  end
+
+  def display_research_pieces
   end
 
   def cloak_trading
