@@ -1,5 +1,5 @@
 @charset "UTF-8";
-@import url("https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,800|Dosis:300,600");
+@import url("https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,800|Oxygen:300,600");
 body {
   font-family: "Open Sans", sans-serif;
   color: #535353;
@@ -82,7 +82,7 @@ small,
 
 h1, h2, h3, h4, h5, h6,
 .h1, .h2, .h3, .h4, .h5, .h6 {
-  font-family: "Dosis", "Open Sans", sans-serif;
+  font-family: "Oxygen", "Open Sans", sans-serif;
   font-weight: 600;
   color: #37404d;
   letter-spacing: 1px;
@@ -4362,7 +4362,7 @@ textarea.form-control-sm {
 }
 
 .shop-item .item-details .item-price {
-  font-family: "Dosis", "Open Sans", sans-serif;
+  font-family: "Oxygen", "Open Sans", sans-serif;
   font-weight: 100;
   font-size: 25px;
   letter-spacing: 1px;
@@ -8937,7 +8937,7 @@ a.text-danger:hover, a.text-danger:focus {
 
 .font-title,
 .font-raleway {
-  font-family: "Dosis", "Open Sans", sans-serif;
+  font-family: "Oxygen", "Open Sans", sans-serif;
 }
 
 .fs-8 {
