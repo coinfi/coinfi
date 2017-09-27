@@ -1,5 +1,12 @@
 @charset "UTF-8";
 @import url("https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,800|Oxygen:300,600");
+@font-face {
+  font-family: "Beyno";
+  src: url(/landing/fonts/beyno.ttf) format("truetype");
+}
+.topbar-brand {
+  font-family: "Beyno";
+}
 body {
   font-family: "Open Sans", sans-serif;
   color: #535353;

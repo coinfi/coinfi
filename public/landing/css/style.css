@@ -93,12 +93,9 @@
 }
 
 @media (max-width: 768px) {
-
   .thesaas-sections-split .section,
   .thesaas-sections-split .main-content .site-footer {
     margin: 30px 0 100px;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
   }
-
 }
-
