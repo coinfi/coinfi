@@ -3,6 +3,7 @@ class PagesController < ApplicationController
   layout 'gsdk', except: [:about, :contact, :daily]
 
   def home
+    @is_homepage = true
   end
 
   def about
