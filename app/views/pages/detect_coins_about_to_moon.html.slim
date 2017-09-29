@@ -1,0 +1,91 @@
+header.header.header-inverse.h-fullscreen.pb-80 data-overlay="8" style=("background-image: url(landing/img/andrea-reiman-250388.jpg);")
+  .container.text-center
+    .row.h-full
+      .col-12.col-lg-8.offset-lg-2.align-self-center
+        p.opacity-70 Case Study
+        br
+        h1.display-4.hidden-sm-down Detect Coins That Are About To Moon
+        h1.hidden-md-up Detect Coins That Are About To Moon
+      .col-12.align-self-end.text-center
+        a.scroll-down-1.scroll-down-inverse data-scrollto="section-content" href="#"
+          span
+main.main-content
+  #section-content.section
+    .container
+      .row
+        .col-12.col-lg-8.offset-lg-2
+          p There is no methodology available that can predict with 100% certainty that a coin is about to moon. Anyone that makes this claim will be unable to provide evidence showing that their predictive model will be correct on all occasions.
+          p What Wall Street professional investors do is analyze a number of factors simultaneously in a model. If multiple factors provide a positive signal, then on balance we can have higher confidence in the prediction.
+          p With our team of ex-Wall Street traders and technologists at CoinFI, we use the same models and apply them to the cryptocurrency space.
+          h3 Understanding The Model
+          p Going back to first principles, let’s answer a basic question: what causes a coin’s price to rapidly rise?
+
+          p It’s simple supply and demand: a sudden increase in the number of buyers over sellers in a short space of time. In this scenario, certain phenomena can be observed such as:
+
+          ul
+            li An acceleration of volume within a short period of time.
+            li An increase in price volatility over historic averages.
+            li An increase in the ratio of volume traded on bid/ask versus normal.
+
+          p Each of these phenomena can be quantified by tracking the following factors:
+
+          ol
+            li Volume traded over an hourly period.
+            li Change in price over an hourly period.
+            li Volume of the coin traded on the offer divided by the volume of the coin traded on the bid over an hourly period.
+
+          p Every factor is stored by CoinFi (in this case hourly) and plotted on a normal distribution. When the latest hourly data is updated, the model reruns comparing the current factor value versus the historical factor values. The data is plotted on a normal distribution and any current factor value that is 2 standard deviations above the mean triggers an alert.
+
+          p When there are multiple factors triggering alerts, they indicate more confidence in the signal.
+
+          p For example if:
+
+          ul
+            li Volume traded in the last hour was 3 standard deviations above the mean; AND
+            li Change in price over the last hour is 2 standard deviations above the mean; AND
+            li Volume ratio of offer/bid is 2 standard deviations above the mean.
+
+          p we will have greater confidence in the signal.
+
+          p The model will take in factors over multiple time periods (i.e. minute, hourly, daily, weekly) and will also compare against multiple historical time periods (i.e. volume over last 24 hours, 48 hours, 72 hours)
+
+          p Furthermore CoinFi stores these factors across a selected universe of coins and the model is continuously run, outputting alerts when a factor or a series of factors has a positive signal.
+
+          h3 Signals With Higher Confidence
+
+          p We have simplified the model above for the sake of explanation, the actual production model is significantly more complex, involving statistical analysis for anomalies for earlier detection.
+
+          p In addition to the technical price and volume information, CoinFi will overlay the above inputs with additional data gathered from media sources and run through machine learning signals. Here is a simple example of how that works: if a coin is making a sharp move, there will be traders tweeting about the move and the news behind the move.
+
+          p CoinFi’s prototype currently uses real-time natural language processing of tweets and other sources of news, combined with our convolutional neural network learning algorithms, to build a confidence factor indicating whether the news is driven by fundamental news. If the model determines the news is driving the move, then it can be more confident about the predictions.
+
+          p A common scenario where a coin moons occurs after a news announcement of the coin being added to an exchange.
+
+          p Our model in detecting this news adds an additional machine learning “Tweet Factor” which:
+
+          ul
+            li Measures the acceleration of tweets for a coin within a window of time
+            li Uses natural language processing to categorize each tweet with a confidence level, i.e. if we identify mentions of Bitfinex, OKCoin, Bittrex etc. and our algorithms detect language related to keywords like “exchange” or “added”, we can identify that the tweet is likely referring to a coin getting added to an exchange.
+            li Scores each person tweeting with a trust score (which measures the frequency of the tweeter, number of followers, trust of their followers, follower / following ratio)
+
+          p If there are a significant number of tweets about the coin in a short space of time AND the presence of tweets that mention the same exchange or keyword AND if the tweets are generally done by users with high trust (to strip out bots / traders gaming the signal), we can give a higher degree of confidence in the factor.
+
+          p Combining the above model which detected an acceleration in volume, price and volume traded on the offer, with this analysis of tweets providing market moving news, provides a high degree of confidence to trade the coin allowing the trader using CoinFi to catch it in its early stages of mooning.
+
+          p Additional signals layered on top of the models described above can further increase confidence.
+
+          p CoinFi has an internal process to perform rigorous testing on both in-house and crowdsourced models, analyzing the results and adjusting the models to constantly improve the signalling confidence and accuracy.
+
+          h3 Signal Smoothing
+
+          p Is is important to note that the signal needs smoothing otherwise there will be a lot of false positives (i.e. a lot of alerts, but no actual profitable trades).  The factors are run through some statistical smoothing processes to trim out the false positives.
+
+          p Furthermore as the blackbox continues to run, it will use past positive signals to give it greater confidence on future predictions.  I.e. coins usually moon over a few hours.  So a positive moon signal in the 2nd hour of alerts when the previous hour had already alerted on a moon gives greater confidence in the signal and can guide the trader to add to their position.
+
+          h3 Summary
+
+          p Remember no signal is going to work 100%, it is about making better decisions on balance and screening out irrelevant noise and data.  Research in equities markets has shown that in the long-run, even the best traders only get winning trades 60% of the time.  Signals are there to help increase your probability of making profitable trades.
+
+          p It is also important to note that as the market matures, simple signals like detecting additions on exchange will be arbitraged out.  CoinFi will typically keep the signals it’s working on internal to it’s own community rather than publishing them to public record.
+
+          p In the first phase before full automation, the goal of this signal is to efficiently and intelligently provide traders with early and potentially profitable abnormalities in the market.  The trader can overlay this with their own experience in the coin, additional news they are seeing, historical knowledge and context of the coin’s price movements to make better trading decisions.
