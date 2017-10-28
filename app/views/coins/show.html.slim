@@ -1,100 +1,184 @@
-.row
-  .col-md-6
-    h1
-      = image_tag @coin.image_url, alt: @coin.name if @coin.image_url
-      span#name=> @coin.name
-      small#symbol= @coin.symbol
-    br
-    ul.list-unstyled
-      - if @coin.website
-        li
-          i class="fa fa-link" aria-hidden="true"
-          =< link_to 'Website', @coin.website, target: "_blank"
-      - if @coin.explorer
-        li
-          i class="fa fa-search" aria-hidden="true"
-          =< link_to 'Explorer', @coin.explorer, target: "_blank"
-      - if @coin.forum
-        li
-          i class="fa fa-comments-o" aria-hidden="true"
-          =< link_to 'Forum', @coin.forum, target: "_blank"
-      - if @coin.whitepaper
-        li
-          i class="fa fa-file-text-o" aria-hidden="true"
-          =< link_to 'Whitepaper', @coin.whitepaper, target: "_blank"
-      - if @coin.twitter
-        li
-          i class="fa fa-twitter" aria-hidden="true"
-          =< link_to 'Twitter', @coin.twitter, target: "_blank"
-      - if @coin.reddit
-        li
-          i class="fa fa-reddit" aria-hidden="true"
-          =< link_to 'Reddit', @coin.reddit, target: "_blank"
-      - if @coin.medium
-        li
-          i class="fa fa-medium" aria-hidden="true"
-          =< link_to 'Medium', @coin.medium, target: "_blank"
-      - if @coin.github
-        li
-          i class="fa fa-github" aria-hidden="true"
-          =< link_to 'Github', @coin.github, target: "_blank"
-  .col-md-6
-    h1.price
-      => custom_number_to_currency @data["price_usd"].to_f
-      small== display_percentage_change(@data["percent_change_24h"].to_f)
-    br
-    table.table.table-condensed
-      tr
-        td Market Cap
-        td.text-right= number_to_currency @data["market_cap_usd"], precision: 0
-      tr
-        td Volume (24h)
-        td.text-right= number_with_delimiter @data["24h_volume_usd"]
-      tr
-        td Circulation
-        td.text-right= number_with_delimiter(@data["available_supply"]) + " #{@coin.symbol}"
-      tr
-        td Max Supply
-        td.text-right= number_with_delimiter(@data["total_supply"]) + " #{@coin.symbol}"
-      tr
-        td Last Updated
-        td.text-right= Time.at(@data["last_updated"].to_i)
-p
-br
-p
+.section.section-gray
+  .container
+    .row
+      .col-md-6.col-md-offset-3
+        .card.card-user
+          .image
+          .content
+            .author
+              a
+                = image_tag @coin.image_url.gsub('32x32', '128x128'), class: 'avatar', alt: @coin.name if @coin.image_url
+                h1.title
+                  span#name= @coin.name
+                  | &nbsp;
+                  small#symbol= @coin.symbol
+                h2.title
+                  => custom_number_to_currency @data["price_usd"].to_f
+                  small
+                    strong== display_percentage_change(@data["percent_change_24h"].to_f)
+            br
+            .text-center
+              ul.list-inline
+                - if @coin.website
+                  li
+                    i class="fa fa-link" aria-hidden="true"
+                    =< link_to 'Website', @coin.website, target: "_blank"
+                - if @coin.explorer
+                  li
+                    i class="fa fa-search" aria-hidden="true"
+                    =< link_to 'Explorer', @coin.explorer, target: "_blank"
+                - if @coin.forum
+                  li
+                    i class="fa fa-comments-o" aria-hidden="true"
+                    =< link_to 'Forum', @coin.forum, target: "_blank"
+                - if @coin.whitepaper
+                  li
+                    i class="fa fa-file-text-o" aria-hidden="true"
+                    =< link_to 'Whitepaper', @coin.whitepaper, target: "_blank"
+                - if @coin.twitter
+                  li
+                    i class="fa fa-twitter" aria-hidden="true"
+                    =< link_to 'Twitter', @coin.twitter, target: "_blank"
+                - if @coin.reddit
+                  li
+                    i class="fa fa-reddit" aria-hidden="true"
+                    =< link_to 'Reddit', @coin.reddit, target: "_blank"
+                - if @coin.medium
+                  li
+                    i class="fa fa-medium" aria-hidden="true"
+                    =< link_to 'Medium', @coin.medium, target: "_blank"
+                - if @coin.github
+                  li
+                    i class="fa fa-github" aria-hidden="true"
+                    =< link_to 'Github', @coin.github, target: "_blank"
+            p.description
+              br
+              .row
+                .col-sm-8.col-sm-offset-2
+                  table.table.table-condensed
+                    tr
+                      td Market Cap
+                      td.text-right
+                        = number_to_currency @data["market_cap_usd"], precision: 0
+                        br
+                        small.text-muted= number_to_currency @data["market_cap_btc"], unit: '&#x0E3F;'.html_safe,precision: 0
+                    tr
+                      td Volume (24h)
+                      td.text-right
+                        = number_with_delimiter @data["24h_volume_usd"]
+                        br
+                        small.text-muted= number_to_currency @data["24h_volume_btc"], unit: '&#x0E3F;'.html_safe
+                    tr
+                      td Circulation
+                      td.text-right= number_with_delimiter(@data["available_supply"]) + " #{@coin.symbol}"
+                    tr
+                      td Max Supply
+                      td.text-right= number_with_delimiter(@data["total_supply"]) + " #{@coin.symbol}"
+                    tr
+                      td Last Updated
+                      td.text-right= Time.at(@data["last_updated"].to_i)
+      /.col-md-6
+        .card
+          .content
+            ul.nav.nav-tabs.nav-justified.text-center role="tablist"
+              li.active
+                a href="#upcoming" role="tab" data-toggle="tab" aria-expanded="true" Upcoming Events
+              li
+                a href="#background" role="tab" data-toggle="tab" aria-expanded="true" Background
+              li
+                a href="#exchanges" role="tab" data-toggle="tab" aria-expanded="true" Exchanges
+            .tab-content
+              #upcoming.tab-pane.active
+                h3 Upcoming Events
+                - if @upcoming_events.blank?
+                  p No upcoming events yet, check back soon!
+                - else
+                  table.table
+                    - @upcoming_events.each do |item|
+                      tr
+                        td= link_to item.title, item.url, target: "_blank"
+                        td= item.published_date
+              #background.tab-pane
+                h3 Background
+                .row
+                  strong.col-xs-5 Category
+                  .col-xs-7= @coin.category.humanize
+                .row
+                  strong.col-xs-5 Release Date
+                  .col-xs-7= @coin.release_date
+                .row
+                  strong.col-xs-5 Hashing Algorithm
+                  .col-xs-7= @coin.algorithm
+                .row
+                  strong.col-xs-5 Proof Type
+                  .col-xs-7= @coin.proof_type
+                .row
+                  strong.col-xs-5 Premined?
+                  .col-xs-7= @coin.is_premined
+              #exchanges.tab-pane
+                h3 Exchanges
+                label.label.label-info.label-fill Coming Soon!
 
-ul.nav.nav-tabs.nav-justified role="tablist"
-  li.active
-    a href="#charts" aria-controls="charts" role="tab" data-toggle="tab"
-      i class="fa fa-line-chart" aria-hidden="true"
-      | &nbsp;Charts
-  li
-    a href="#background" aria-controls="background" role="tab" data-toggle="tab"
-      i class="fa fa-book" aria-hidden="true"
-      | &nbsp;Background
-  li
-    a href="#social" aria-controls="social" role="tab" data-toggle="tab"
-      i class="fa fa-share-alt" aria-hidden="true"
-      | &nbsp;Social
-/ TODO: http://www.aidanlister.com/2014/03/persisting-the-tab-state-in-bootstrap/
-.tab-content
-  #charts.tab-pane.fade.in.active
-    br
-    #chart
-  #background.tab-pane.fade
-  #social.tab-pane.fade
-    br
-    - if @coin.twitter
-      h4
-        i class="fa fa-twitter" aria-hidden="true"
-        | &nbsp;Twitter
-      <a class="twitter-timeline" data-height="600" href="#{@coin.twitter}">Tweets by Bitcoin</a> <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+#charts.section
+  h2.header
+    i.pe-7s-graph2
+    | &nbsp;Price Charts
+  br
+  #chart
 
-    - if @coin.reddit
-      h4
-        i class="fa fa-reddit" aria-hidden="true"
-        | &nbsp;Reddit
-      #reddit-timeline
+#news.section.section-gray
+  h2.header
+    i.pe-7s-news-paper
+    | &nbsp;Latest News
+
+  .container
+    .row
+      .col-md-12
+        .timeline
+          - if @latest_news.blank?
+            p No latest news yet, check back soon!
+          - else
+            dl
+              - @latest_news.each_with_index do |item, index|
+                dd.clearfix class="#{index.odd? ? 'pos-right' : 'pos-left'}" id="n#{index + 1}" name="n#{index + 1}"
+                  .circ
+                  .time= index + 1
+                  .events
+                    .card.card-plain
+                      .content
+                        p.category= item.published_date.strftime('%B %e, %Y')
+                        = link_to item.url, class: 'card-link', target: '_blank'
+                          h4.title= item.title
+                        p.description
+                          = link_to item.url, item.url
+                          == natural_format(item.summary) if item.summary.present?
+                        p.footer
+                          - item.tag_list.each do |tag|
+                            span.label.label-default.label-fill=> tag
+
+#social.section
+  h2.header
+    i.pe-7s-share
+    | &nbsp;Social
+  br
+  .container
+    .row
+      .col-md-6
+        - if @coin.twitter
+          .card
+            .content
+              h3.header
+                i class="fa fa-twitter" aria-hidden="true"
+                | &nbsp;&nbsp;Twitter
+              <a class="twitter-timeline" data-height="600" href="#{@coin.twitter}">Tweets by Bitcoin</a> <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+      .col-md-6
+        - if @coin.reddit
+          .card
+            .content
+              h3.header
+                i class="fa fa-reddit" aria-hidden="true"
+                | &nbsp;&nbsp;Reddit
+              #reddit-timeline
 
 - if @coin.reddit
   javascript:

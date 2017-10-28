@@ -2,38 +2,11 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
-@media (min-width: 768px) {
-  #main {
-    max-width: 730px;
-  }
-  footer {
-    margin-top: 4em;
-  }
+.navbar {
+  margin: 0;
+  border-radius: 0;
 }
 
 .mastfoot {
-  margin: 2em 0 1em 0;
-}
-
-a {
-  word-wrap: break-word;
-}
-
-.navbar {
-  margin: 0;
-}
-
-.panel-body {
-  color: #333;
-  background: #fff;
-}
-
-.panel-body a {
-  color: #5bc0de;
-}
-
-.panel-header {
-  font-size: 1.8em;
-  margin: 0;
-  text-shadow: none;
+  margin: 1em 0;
 }

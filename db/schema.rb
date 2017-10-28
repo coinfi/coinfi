@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170907220924) do
+ActiveRecord::Schema.define(version: 20170913143902) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -100,6 +100,46 @@ ActiveRecord::Schema.define(version: 20170907220924) do
     t.index ["sluggable_type"], name: "index_friendly_id_slugs_on_sluggable_type"
   end
 
+  create_table "hourly_prices", force: :cascade do |t|
+    t.bigint "coin_id"
+    t.datetime "datetime"
+    t.bigint "timestamp"
+    t.bigint "supply"
+    t.jsonb "price"
+    t.jsonb "volume24"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["coin_id", "datetime"], name: "index_hourly_prices_on_coin_id_and_datetime", unique: true
+    t.index ["coin_id"], name: "index_hourly_prices_on_coin_id"
+    t.index ["price"], name: "index_hourly_prices_on_price", using: :gin
+    t.index ["volume24"], name: "index_hourly_prices_on_volume24", using: :gin
+  end
+
+  create_table "taggings", id: :serial, force: :cascade do |t|
+    t.integer "tag_id"
+    t.string "taggable_type"
+    t.integer "taggable_id"
+    t.string "tagger_type"
+    t.integer "tagger_id"
+    t.string "context", limit: 128
+    t.datetime "created_at"
+    t.index ["context"], name: "index_taggings_on_context"
+    t.index ["tag_id", "taggable_id", "taggable_type", "context", "tagger_id", "tagger_type"], name: "taggings_idx", unique: true
+    t.index ["tag_id"], name: "index_taggings_on_tag_id"
+    t.index ["taggable_id", "taggable_type", "context"], name: "index_taggings_on_taggable_id_and_taggable_type_and_context"
+    t.index ["taggable_id", "taggable_type", "tagger_id", "context"], name: "taggings_idy"
+    t.index ["taggable_id"], name: "index_taggings_on_taggable_id"
+    t.index ["taggable_type"], name: "index_taggings_on_taggable_type"
+    t.index ["tagger_id", "tagger_type"], name: "index_taggings_on_tagger_id_and_tagger_type"
+    t.index ["tagger_id"], name: "index_taggings_on_tagger_id"
+  end
+
+  create_table "tags", id: :serial, force: :cascade do |t|
+    t.string "name"
+    t.integer "taggings_count", default: 0
+    t.index ["name"], name: "index_tags_on_name", unique: true
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -123,4 +163,5 @@ ActiveRecord::Schema.define(version: 20170907220924) do
 
   add_foreign_key "articles", "coins"
   add_foreign_key "daily_prices", "coins"
+  add_foreign_key "hourly_prices", "coins"
 end

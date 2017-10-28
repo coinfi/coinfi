@@ -1,10 +1,16 @@
-h1 The CoinFi Daily
-p.lead We send a daily email curated with the most relevant content in the rapidly changing cryptocurrency space that you need to know about. Take a sneak peek at the most recent edition here.
+.section.section-gray
+  .container
+    .row
+      .col-md-10.col-md-offset-1
+        h1.header The CoinFi Daily
+        p.lead We send a daily email curated with the most relevant content in the rapidly changing cryptocurrency space that you need to know about. Take a sneak peek at the most recent edition here.
 
-.panel.panel-default
-  .panel-body
-    h2.panel-header= @title
-    p= @content
+        .card
+          .content
+            h2.title= @title
+            p= @content
 
-h3 Want this in your inbox? Sign up now!
-= render partial: 'layouts/opt_in'
+footer.footer-black
+  .container
+    h3 Want this in your inbox? Sign up now!
+    = render partial: 'layouts/opt_in'

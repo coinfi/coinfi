@@ -1,91 +1,206 @@
 $(function() {
-  var name = $('#name').text();
-  var symbol = $('#symbol').text();
-  $.getJSON('/historical/' + symbol.toLowerCase() + '.json', function (data) {
-    var historical = data["prices"],
-        news = data["news"],
-        prices = [],
-        volume = [],
-        historicalLength = historical.length,
-        i = 0;
-
-    for (i; i < historicalLength; i += 1) {
-      prices.push([
-        historical[i][0] * 1000, // timestamp
-        historical[i][1], // price
-      ]);
-      volume.push([
-        historical[i][0] * 1000, // timestamp
-        historical[i][2], // volume
-      ]);
+  // Prevent flag overlap issues
+  // https://github.com/highcharts/highcharts/issues/4674
+  // http://jsfiddle.net/p037jdyj/
+  (function (H) {
+    function collide(a, b) {
+      return !(b.x > a.x + a.width || b.x + b.width < a.x || b.y > a.y + a.height || b.y + b.height < a.y);
     }
 
-    Highcharts.setOptions({
-      lang: {
-        thousandsSep: ','
+    H.wrap(H.seriesTypes.flags.prototype, 'drawPoints', function (p) {
+      var series = this,
+      chart = series.chart,
+      overlap = true,
+      counter = 0,
+      index,
+      offset = series.options.stackDistance,
+      currentBBox,
+      compareBBox,
+      compareSeries;
+
+      p.call(this);
+
+      // as long as flags do overlap, move them. Extra limiter up to 100 iterations.
+      while (overlap && counter < 100) {
+        overlap = false;
+        H.each(series.points, function (currentPoint) {
+          // only existing point with label
+          if (currentPoint.graphic) {
+
+            index = 0;
+            currentBBox = {
+              x: currentPoint.graphic.translateX,
+              y: currentPoint.graphic.translateY,
+              width: currentPoint.graphic.width,
+              height: currentPoint.graphic.height
+            };
+
+            // compare only with previous series
+            for (; series.index - index >= 0; index++) {
+              compareSeries = chart.series[index];
+
+              if (compareSeries.options.type === "flags") {
+
+                H.each(compareSeries.points, function (comparePoint) {
+                  // compare current label with all others
+                  if (compareSeries === series && comparePoint.index >= currentPoint.index ) {
+                    return;
+                  }
+
+                  if (comparePoint.graphic) {
+                    // only existing point with label
+
+                    compareBBox = {
+                      x: comparePoint.graphic.translateX,
+                      y: comparePoint.graphic.translateY,
+                      width: comparePoint.graphic.width,
+                      height: comparePoint.graphic.height
+                    };
+
+                    // when collide, move current label to top
+                    if (collide(currentBBox, compareBBox)) {
+                      overlap = true;
+                      currentPoint.graphic.attr({
+                        y: currentPoint.graphic.attr("y") - offset,
+                        anchorY: currentPoint.plotY
+                      });
+                      currentPoint.tooltipPos[1] -= offset;
+                    }
+                  }
+                });
+              }
+            }
+          }
+        });
+        counter++;
       }
     });
+  })(Highcharts);
 
-    Highcharts.stockChart('chart', {
-      rangeSelector: {
-        selected: 1
-      },
+  if (window.location.href.indexOf("/coins/") > -1) {
+    var name = $('#name').text();
+    var symbol = $('#symbol').text();
+    $.getJSON('/historical/' + symbol.toLowerCase() + '.json', function (data) {
+      var historical = data["prices"],
+          news = data["news"],
+          prices = [],
+          volume = [],
+          historicalLength = historical.length,
+          i = 0;
 
-      yAxis: [{
-        labels: {
-          align: 'right',
-          x: -3
-        },
-        title: {
-          text: 'Price'
-        },
-        height: '60%',
-        lineWidth: 2
-      }, {
-        labels: {
-          align: 'right',
-          x: -3
-        },
-        title: {
-          text: 'Volume'
-        },
-        top: '65%',
-        height: '35%',
-        offset: 0,
-        lineWidth: 2
-      }],
+      for (i; i < historicalLength; i += 1) {
+        prices.push([
+          historical[i][0] * 1000, // timestamp
+          historical[i][1], // price
+        ]);
+        volume.push([
+          historical[i][0] * 1000, // timestamp
+          historical[i][2], // volume
+        ]);
+      }
 
-      tooltip: {
-        style: {
-          width: '200px'
+      Highcharts.setOptions({
+        lang: {
+          thousandsSep: ','
         },
-        valueDecimals: 4,
-        xDateFormat: '%A, %b %e, %Y',
-        useHTML: true,
-        hideDelay: 1500,
-        shared: true
-      },
+        // http://jkunst.com/highcharts-themes-collection/
+        // https://raw.githubusercontent.com/jbkunst/highcharts-themes-collection/gh-pages/themes/google.js
+        "colors": [
+          "#0266C8",
+          "#F90101",
+          "#F2B50F",
+          "#00933B"
+        ],
+        "chart": {
+          "style": {
+            "fontFamily": "Roboto",
+            "color": "#444444"
+          }
+        },
+        "xAxis": {
+          "gridLineWidth": 1,
+          "gridLineColor": "#F3F3F3",
+          "lineColor": "#F3F3F3",
+          "minorGridLineColor": "#F3F3F3",
+          "tickColor": "#F3F3F3",
+          "tickWidth": 1
+        },
+        "yAxis": {
+          "gridLineColor": "#F3F3F3",
+          "lineColor": "#F3F3F3",
+          "minorGridLineColor": "#F3F3F3",
+          "tickColor": "#F3F3F3",
+          "tickWidth": 1
+        },
+        "legendBackgroundColor": "rgba(0, 0, 0, 0.5)",
+        "background2": "#505053",
+        "dataLabelsColor": "#B0B0B3",
+        "textColor": "#C0C0C0",
+        "contrastTextColor": "#F0F0F3",
+        "maskColor": "rgba(255,255,255,0.3)"
+      });
 
-      series: [{
-        id: 'price',
-        name: 'USD',
-        data: prices,
-      }, {
-        type: 'flags',
-        name: 'News',
-        useHTML: true,
-        dataLabels: {
-          useHTML: true
+      Highcharts.stockChart('chart', {
+        rangeSelector: {
+          selected: 1
         },
-        data: news,
-        onSeries: 'price',
-        shape: 'circlepin'
-      }, {
-        type: 'column',
-        name: 'Volume',
-        data: volume,
-        yAxis: 1
-      }]
+
+        yAxis: [{
+          labels: {
+            align: 'right',
+            x: -3
+          },
+          title: {
+            text: 'Price'
+          },
+          height: '60%',
+          lineWidth: 2
+        }, {
+          labels: {
+            align: 'right',
+            x: -3
+          },
+          title: {
+            text: 'Volume'
+          },
+          top: '65%',
+          height: '35%',
+          offset: 0,
+          lineWidth: 2
+        }],
+
+        tooltip: {
+          style: {
+            width: '200px'
+          },
+          valueDecimals: 4,
+          xDateFormat: '%A, %b %e, %Y',
+          useHTML: true,
+          hideDelay: 1500,
+          shared: true
+        },
+
+        series: [{
+          id: 'price',
+          name: 'USD',
+          data: prices,
+        }, {
+          type: 'flags',
+          name: 'News',
+          useHTML: true,
+          dataLabels: {
+            useHTML: true
+          },
+          data: news,
+          onSeries: 'price',
+          shape: 'circlepin'
+        }, {
+          type: 'column',
+          name: 'Volume',
+          data: volume,
+          yAxis: 1
+        }]
+      });
     });
-  });
+  }
 });

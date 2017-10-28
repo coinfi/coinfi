@@ -1,0 +1,51 @@
+<!-- Topbar -->
+<nav class="topbar topbar-inverse topbar-expand-md topbar-sticky">
+  <div class="container">
+
+    <div class="topbar-left">
+      <button class="topbar-toggler">&#9776;</button>
+      <a class="topbar-brand mr-64" href="/">
+        <strong>CoinFi</strong>
+        <%
+        #<img class="logo-default" src="/landing/img/logo.png" alt="logo">
+        #<img class="logo-inverse" src="/landing/img/logo-light.png" alt="logo">
+        %>
+      </a>
+    </div>
+
+    <div class="topbar-right">
+      <ul class="topbar-nav nav">
+        <li class="nav-item">
+          <a class="nav-link" href="<%= '/' unless @is_homepage %>#platform" <%= 'data-scrollto=platform' if @is_homepage %>>Platform</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="<%= '/' unless @is_homepage %>#team" <%= 'data-scrollto=team' if @is_homepage %>>Team</a></li>
+        <li class="nav-item">
+          <a class="nav-link" href="<%= '/' unless @is_homepage %>#timeline" <%= 'data-scrollto=timeline' if @is_homepage %>>Timeline</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="<%= '/' unless @is_homepage %>#token" <%= 'data-scrollto=token' if @is_homepage %>>Token</a>
+        </li>
+        <%
+          #<li class="nav-item"><a class="nav-link" href="#roadmap" data-scrollto="roadmap">Roadmap</a></li>
+          #<li class="nav-item"><a class="nav-link" href="#faq" data-scrollto="faq">FAQ</a></li>
+        %>
+        <li class="nav-item"><a class="nav-link" href="<%= '/' unless @is_homepage %>#contact" data-scrollto="contact">Contact</a></li>
+      </ul>
+      <div class="d-inline-flex ml-30">
+        <%
+          #<a class="btn btn-sm btn-outline btn-primary hidden-sm-down mr-4" href="/coins">Platform <small>(beta)</small></a>
+        %>
+        <button type="button" class="btn btn-small btn-outline btn-default" data-toggle="modal" data-target="#whitePaperModal">
+          White Paper
+        </button>
+        &nbsp;
+        <button type="button" class="btn btn-small btn-success" data-toggle="modal" data-target="#presaleModal">
+          Register for Presale
+        </button>
+      </div>
+    </div>
+
+  </div>
+</nav>
+<!-- END Topbar -->
