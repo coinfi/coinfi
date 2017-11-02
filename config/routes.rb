@@ -1,5 +1,15 @@
 Rails.application.routes.draw do
-  devise_for :users, controllers: { omniauth_callbacks: 'users/omniauth_callbacks' }
+  devise_scope :user do
+    get "/register" => "users/registrations#new", as: "new_user_registration"
+  end
+  devise_for :users,
+    controllers: {
+      registrations: 'users/registrations',
+      omniauth_callbacks: 'users/omniauth_callbacks'
+    },
+    path: '',
+    path_names: { sign_in: 'login', sign_out: 'logout'}
+
   namespace :admin do
     resources :coins
     resources :articles
@@ -7,7 +17,7 @@ Rails.application.routes.draw do
     root to: "coins#index"
   end
 
-  get '/', to: 'pages#home', as: 'user_root'
+  get '/token-sale', to: 'users#token_sale', as: 'user_root'
   root 'pages#home'
 
   get '/' => 'pages#home', as: 'home'
@@ -26,6 +36,9 @@ Rails.application.routes.draw do
   #get '/customize' => 'pages#customize', as: 'customize'
   # post '/subscribe'
   #post '/segment'
+
+  get '/token-sale' => 'users#token_sale'
+  post '/token-sale' => 'users#update'
 
   resources :coins, only: [:index, :show]
 

@@ -1,0 +1,38 @@
+<script src="https://www.google.com/recaptcha/api.js" async defer></script>
+
+<section class="section text-center">
+  <header class="section-header">
+    <small><strong>Registration</strong></small>
+    <h2 class="fs-36 fw-900">Join the CoinFi Token Sale</h2>
+    <hr>
+    <p class="lead text-primary"><strong>For a limited time, receive 10 free CoinFi tokens for registering and joining Telegram!</strong></p>
+  </header>
+
+  <div class="row">
+    <div class="col-md-1"></div>
+    <div class="col-md-5">
+      <%= form_for(:user, url: registration_path(:user)) do |f| %>
+        <%= devise_error_messages! %>
+        <div class="form-group">
+          <%= f.email_field :email, class: "form-control form-control-lg", placeholder: "Email" %>
+        </div>
+
+        <div class="form-group">
+          <%= f.password_field :password, class: "form-control form-control-lg", placeholder: "Password" %>
+        </div>
+
+        <div class="g-recaptcha" data-sitekey=""></div>
+
+        <%= f.submit "Register", class: "btn btn-block btn-lg btn-success" %>
+      <% end %>
+<!--
+      <br>
+      <p class="small">or use your <a href="#"><i class="fa fa-twitter"></i> Twitter account</a></p>
+-->
+    </div>
+    <div class="col-md-5 col-md-offset-1">
+      <p>In order to seed the CoinFi platform and community with early adopters, we’re giving away 10 free CoinFi tokens (COF) to anyone who completes the quick 4 step registration process for the token sale - <strong>no contribution required</strong>.</p>
+      <p>Once you complete registration, if you’re still in our Telegram channel during the token issuance event, you’ll receive 10 COF into the Ethereum wallet address you'll provide; <em>it’s that easy</em> ! Just enter your information to get started.</p>
+    </div>
+  </div>
+</section>

@@ -10,10 +10,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170913143902) do
+ActiveRecord::Schema.define(version: 20171101182330) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+  enable_extension "pg_stat_statements"
 
   create_table "articles", force: :cascade do |t|
     t.bigint "coin_id"
@@ -155,6 +156,7 @@ ActiveRecord::Schema.define(version: 20170913143902) do
     t.datetime "updated_at", null: false
     t.string "provider"
     t.string "uid"
+    t.jsonb "token_sale"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["provider"], name: "index_users_on_provider"
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
