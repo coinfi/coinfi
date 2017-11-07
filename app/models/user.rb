@@ -1,4 +1,6 @@
 class User < ApplicationRecord
+  attr_accessor :skip_password_validation
+
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable
   devise :database_authenticatable, :registerable,
@@ -27,7 +29,14 @@ class User < ApplicationRecord
     end
   end
 
-  private
+protected
+
+  def password_required?
+    return false if skip_password_validation
+    super
+  end
+
+private
 
   def self.dummy_email(auth)
     "#{auth.uid}-#{auth.provider}@example.com"

@@ -1,0 +1,16 @@
+
+main.main-content
+  .container
+    .row
+      .col-md-12
+        .progress
+          .progress-bar role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 50%;" 50%
+
+    br
+    .section-dialog.text-center
+      h2 <small>Step 3 of 4:</small> Estimated Ether
+      p Enter how much Ether you plan on using to purchase CoinFi tokens in the token sale.
+      = form_for(:user, url: new_user_submit_contribution_path) do |f|
+        .form-group
+          = f.number_field :estimated_contribution, placeholder: "Estimated Ethereum Amount", class: 'form-control', min: 0, step: 'any'
+        = f.submit "Confirm Contribution Estimate", class: "btn btn-block btn-success"

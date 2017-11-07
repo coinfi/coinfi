@@ -1,6 +1,13 @@
 Rails.application.routes.draw do
   devise_scope :user do
+    match "/signup" => "users#signup", as: "new_user_signup", via: [:get, :post]
     get "/register" => "users/registrations#new", as: "new_user_registration"
+    get "/set-password" => "users#set_password", as: "new_user_set_password"
+    post "/submit-password" => "users#submit_password", as: "new_user_submit_password"
+    get "/estimate-contribution" => "users#estimate_contribution", as: "new_user_estimate_contribution"
+    post "/submit-contribution" => "users#submit_contribution", as: "new_user_submit_contribution"
+    get "/join-telegram" => "users#join_telegram", as: "new_user_join_telegram"
+    get "/dashboard" => "users#dashboard", as: "new_user_dashboard"
   end
   devise_for :users,
     controllers: {
