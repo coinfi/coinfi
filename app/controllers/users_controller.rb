@@ -7,6 +7,8 @@ class UsersController < DeviseController
 
   def signup
     @email = params[:email] || user_params[:email]
+    ck = Convertkit::Client.new
+    ck.add_subscriber_to_form('267531', @email) # 267531 is the Form ID for CoinFi ICO signup
     user = User.create(email: @email, skip_password_validation: true)
     if user
       sign_in(:user, user)
