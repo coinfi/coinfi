@@ -85,6 +85,7 @@ $(function() {
           news = data["news"],
           prices = [],
           volume = [],
+          sevenDayAvgVol = [],
           historicalLength = historical.length,
           i = 0;
 
@@ -97,6 +98,13 @@ $(function() {
           historical[i][0] * 1000, // timestamp
           historical[i][2], // volume
         ]);
+        if (i > 7) {
+          var mean = (volume[i][1] + volume[i-1][1] + volume[i-2][1] + volume[i-3][1] + volume[i-4][1] + volume[i-5][1] + volume[i-6][1] + volume[i-7][1]) / 7.0;
+          sevenDayAvgVol.push([
+            historical[i][0] * 1000, // timestamp
+            mean
+          ]);
+        }
       }
 
       Highcharts.setOptions({
@@ -106,9 +114,9 @@ $(function() {
         // http://jkunst.com/highcharts-themes-collection/
         // https://raw.githubusercontent.com/jbkunst/highcharts-themes-collection/gh-pages/themes/google.js
         "colors": [
-          "#0266C8",
+          "#26afda",
           "#F90101",
-          "#F2B50F",
+          "#d35400",
           "#00933B"
         ],
         "chart": {
@@ -145,15 +153,34 @@ $(function() {
           selected: 1
         },
 
+        legend: {
+          enabled: true,
+          layout: 'vertical',
+          align: 'left',
+          verticalAlign: 'top',
+          backgroundColor: (Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF'
+        },
+
         yAxis: [{
           labels: {
             align: 'right',
             x: -3
           },
           title: {
-            text: 'Price'
+            text: 'USD Price'
           },
           height: '60%',
+          lineWidth: 2
+        }, {
+          labels: {
+            align: 'left',
+            x: -3
+          },
+          title: {
+            text: 'Avg Vol'
+          },
+          height: '60%',
+          opposite: false,
           lineWidth: 2
         }, {
           labels: {
@@ -176,14 +203,23 @@ $(function() {
           valueDecimals: 4,
           xDateFormat: '%A, %b %e, %Y',
           useHTML: true,
-          hideDelay: 1500,
+          hideDelay: 1000,
           shared: true
         },
 
         series: [{
           id: 'price',
-          name: 'USD',
+          name: 'USD Price',
           data: prices,
+        }, {
+          id: '7dayAvgVol',
+          name: 'Moving Average Volume',
+          data: sevenDayAvgVol,
+          visible: false,
+          yAxis: 1
+        //}, {
+        //  name: 'Signal 1',
+        //  visible: false
         }, {
           type: 'flags',
           name: 'News',
@@ -195,10 +231,12 @@ $(function() {
           onSeries: 'price',
           shape: 'circlepin'
         }, {
+          id: 'volume',
           type: 'column',
           name: 'Volume',
           data: volume,
-          yAxis: 1
+          color: Highcharts.getOptions().colors[2],
+          yAxis: 2
         }]
       });
     });
