@@ -27,19 +27,23 @@
           <a class="nav-link" href="<%= '/' unless @is_homepage %>#token" <%= 'data-scrollto=token' if @is_homepage %>>Token</a>
         </li>
         <li class="nav-item"><a class="nav-link" href="<%= '/' unless @is_homepage %>#contact" data-scrollto="contact">Contact</a></li>
+        <li class="nav-item"><a class="nav-link" href="https://blog.coinfi.com">Blog</a></li>
         <li class="nav-item hidden-sm-up"><a class="nav-link" href="https://docs.google.com/document/d/1p6xaFl4nPv1CuJv6F2fkZ6qBq2lBS6ePyFna8QZt1KM/edit">White Paper</a></li>
       </ul>
       <div class="d-inline-flex ml-30">
         <%
           #<a class="btn btn-sm btn-outline btn-primary hidden-sm-down mr-4" href="/coins">Platform <small>(beta)</small></a>
         %>
-        <a href="https://docs.google.com/document/d/1p6xaFl4nPv1CuJv6F2fkZ6qBq2lBS6ePyFna8QZt1KM/edit" target="_blank" class="btn btn-small btn-outline btn-default hidden-sm-down">
-          White Paper
-        </a>
         &nbsp;
         <% if user_signed_in? %>
+          <%= link_to "Dashboard", "/dashboard", class: "btn btn-small btn-info" %>
+          &nbsp;
           <%= button_to "Log Out", destroy_user_session_path, method: :delete, class: "btn btn-small btn-danger" %>
         <% else %>
+          <a href="https://docs.google.com/document/d/1p6xaFl4nPv1CuJv6F2fkZ6qBq2lBS6ePyFna8QZt1KM/edit" target="_blank" class="btn btn-small btn-outline btn-default hidden-sm-down">
+            White Paper
+          </a>
+          &nbsp;
           <%= link_to "Join Presale", new_user_registration_path, class: "btn btn-small btn-success" %>
           <%
           # <button type="button" class="btn btn-small btn-success" data-toggle="modal" data-target="#presaleModal">
