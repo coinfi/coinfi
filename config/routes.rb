@@ -24,7 +24,7 @@ Rails.application.routes.draw do
     root to: "coins#index"
   end
 
-  get '/token-sale', to: 'users#token_sale', as: 'user_root'
+  get '/dashboard', to: 'users#dashboard', as: 'user_root'
   root 'pages#home'
 
   get '/' => 'pages#home', as: 'home'
