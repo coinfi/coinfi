@@ -28,7 +28,10 @@
         </li>
         <li class="nav-item"><a class="nav-link" href="<%= '/' unless @is_homepage %>#contact" data-scrollto="contact">Contact</a></li>
         <li class="nav-item"><a class="nav-link" href="https://blog.coinfi.com">Blog</a></li>
-        <li class="nav-item hidden-sm-up"><a class="nav-link" href="https://docs.google.com/document/d/1p6xaFl4nPv1CuJv6F2fkZ6qBq2lBS6ePyFna8QZt1KM/edit">White Paper</a></li>
+        <li class="nav-item hidden-sm-up"><a class="nav-link" target="_blank" href="https://docs.google.com/document/d/1p6xaFl4nPv1CuJv6F2fkZ6qBq2lBS6ePyFna8QZt1KM/edit">White Paper</a></li>
+        <% if user_signed_in? %>
+          <li class="nav-item hidden-sm-down"><a class="nav-link" target="_blank" href="https://docs.google.com/document/d/1p6xaFl4nPv1CuJv6F2fkZ6qBq2lBS6ePyFna8QZt1KM/edit">White Paper</a></li>
+        <% end %>
       </ul>
       <div class="d-inline-flex ml-30">
         <%
@@ -44,7 +47,7 @@
             White Paper
           </a>
           &nbsp;
-          <%= link_to "Join Presale", new_user_registration_path, class: "btn btn-small btn-success" %>
+          <%= link_to "Join Whitelist", new_user_registration_path, class: "btn btn-small btn-success" %>
           <%
           # <button type="button" class="btn btn-small btn-success" data-toggle="modal" data-target="#presaleModal">
           #   Join Presale
