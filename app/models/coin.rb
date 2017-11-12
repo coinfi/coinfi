@@ -10,5 +10,4 @@ class Coin < ApplicationRecord
   validates :symbol, uniqueness: true
 
   scope :find_by_symbol, -> (symbol) { where('lower(symbol) = ?', symbol.downcase).first }
-  scope :find_by_name, -> (name) { where('lower(name) = ?', name.downcase).first }
 end
