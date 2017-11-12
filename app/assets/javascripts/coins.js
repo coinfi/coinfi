@@ -1,4 +1,9 @@
 $(function() {
+  // WebKit notifications
+  if (Notification && Notification.permission !== "granted") {
+    Notification.requestPermission();
+  }
+
   // Prevent flag overlap issues
   // https://github.com/highcharts/highcharts/issues/4674
   // http://jsfiddle.net/p037jdyj/
@@ -80,7 +85,7 @@ $(function() {
   if (window.location.href.indexOf("/coins/") > -1) {
     var name = $('#name').text();
     var symbol = $('#symbol').text();
-    $.getJSON('/historical/' + symbol.toLowerCase() + '.json', function (data) {
+    $.getJSON('/delayed_historical/' + symbol.toLowerCase() + '.json', function (data) {
       var historical = data["prices"],
           news = data["news"],
           prices = [],
@@ -149,6 +154,43 @@ $(function() {
       });
 
       Highcharts.stockChart('chart', {
+        chart: {
+          events: {
+            load: function() {
+              var priceSeries = this.series[0];
+              var avgVolSeries = this.series[1];
+              var volumeSeries = this.series[3];
+              var currentTimestamp = Math.round((new Date()).getTime()) - 60*60*24*90*1000; // 90 days before
+              var alerted = false;
+              setInterval(function() {
+                if (currentTimestamp < (new Date()).getTime()) {
+                  var avgVol = volumeSeries.data.slice(-7).reduce(function(a, b) { return a + b.y; }, 0) / 7.0;
+                  $.getJSON("/historical/" + symbol + "/" + Math.round(currentTimestamp/1000) + ".json", function(data) {
+                    // Volume detection
+                    var currentVolume = data["volume"];
+                    var previousVolume = volumeSeries.data[volumeSeries.data.length - 1].y;
+                    var boolean = !alerted && currentVolume > previousVolume * 4 && Notification && Notification.permission == "granted";
+                    if (boolean) {
+                      var notification = new Notification("Abnormal Volume Detected for " + name, {
+                        icon: "https://blog.coinfi.com/CoinFi%20Logo%20Square.png",
+                        body: "The current volume is 2σ higher than the average normally!"
+                      });
+                      alerted = true;
+                    }
+
+                    var timestamp = data["timestamp"] * 1000;
+                    priceSeries.addPoint([timestamp, data["price"]], true, true);
+                    volumeSeries.addPoint([timestamp, data["volume"]], true, true);
+                    avgVolSeries.addPoint([timestamp, avgVol], true, true);
+
+                    currentTimestamp += 60 * 60 * 24 * 1000; // increase timestamp by one day!
+                  });
+                }
+              }, 3000);
+            }
+          }
+        },
+
         rangeSelector: {
           selected: 1
         },
@@ -210,7 +252,7 @@ $(function() {
         series: [{
           id: 'price',
           name: 'USD Price',
-          data: prices,
+          data: prices
         }, {
           id: '7dayAvgVol',
           name: 'Moving Average Volume',

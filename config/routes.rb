@@ -44,10 +44,9 @@ Rails.application.routes.draw do
   # post '/subscribe'
   #post '/segment'
 
-  get '/token-sale' => 'users#token_sale'
-  post '/token-sale' => 'users#update'
-
   resources :coins, only: [:index, :show]
 
   get '/historical/:symbol' => 'data#historical'
+  get '/delayed_historical/:symbol' => 'data#delayed_historical'
+  get '/historical/:symbol/:timestamp' => 'data#single_historical'
 end
