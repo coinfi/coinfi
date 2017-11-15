@@ -1,3 +1,11 @@
+.social-colored a {
+  border: 0;
+}
+
+.social-medium {
+  background-color: #00a57d;
+}
+
 .timeline {
   border-left: 4px solid #0e97ff;
   border-bottom-right-radius: 4px;
