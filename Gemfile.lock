@@ -82,6 +82,10 @@ GEM
       execjs
     bcrypt (3.1.11)
     bindex (0.5.0)
+    blazer (1.8.0)
+      chartkick
+      rails
+      safely_block (>= 0.1.1)
     browser (2.5.2)
     builder (3.2.3)
     byebug (9.0.6)
@@ -92,6 +96,7 @@ GEM
       rack (>= 1.0.0)
       rack-test (>= 0.5.4)
       xpath (~> 2.0)
+    chartkick (2.2.5)
     childprocess (0.6.3)
       ffi (~> 1.0, >= 1.0.11)
     coderay (1.1.1)
@@ -349,6 +354,7 @@ DEPENDENCIES
   administrate
   administrate-field-belongs_to_search
   ahoy_matey
+  blazer
   byebug
   capybara (~> 2.13)
   coffee-rails (~> 4.2)
