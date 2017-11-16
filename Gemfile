@@ -44,6 +44,7 @@ gem 'kaminari'
 gem 'lograge'
 gem 'omniauth'
 gem 'omniauth-twitter'
+gem 'rollbar'
 gem 'slim-rails'
 gem 'wombat'
 
