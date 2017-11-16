@@ -48,6 +48,10 @@ gem 'rollbar'
 gem 'slim-rails'
 gem 'wombat'
 
+# Devise needs to be in front of Ahoy in the Gemfile to have Ahoy automatically update Visit with User ID:
+# https://github.com/ankane/ahoy/issues/12
+gem 'ahoy_matey'
+
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
