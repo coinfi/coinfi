@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  mount Blazer::Engine, at: "blazer"
+
   devise_scope :user do
     match "/signup" => "users#signup", as: "new_user_signup", via: [:get, :post]
     get "/register" => "users/registrations#new", as: "new_user_registration"
