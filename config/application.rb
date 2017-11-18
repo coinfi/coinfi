@@ -25,5 +25,12 @@ module CoinfiRails
     end
 
     config.action_view.embed_authenticity_token_in_remote_forms = true
+
+    config.middleware.insert_before 0, Rack::Cors do
+      allow do
+        origins 'https://blog.coinfi.com', 'https://landing.coinfi.com'
+        resource '/ahoy/*', headers: :any, methods: [:get, :post]
+      end
+    end
   end
 end
