@@ -44,6 +44,9 @@
     "ROLLBAR_ENDPOINT": {
       "required": true
     },
+    "ROOT_DOMAIN": {
+      "required": true
+    },
     "SECRET_KEY_BASE": {
       "required": true
     },
