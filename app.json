@@ -55,7 +55,7 @@
     },
     "TWITTER_APP_ID": {
       "required": true
-    }
+    },
     "WEBFACTION_SMTP_PASSWORD": {
       "required": true
     }
