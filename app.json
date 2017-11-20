@@ -44,6 +44,9 @@
     "ROLLBAR_ENDPOINT": {
       "required": true
     },
+    "ROOT_DOMAIN": {
+      "required": true
+    },
     "SECRET_KEY_BASE": {
       "required": true
     },
@@ -55,7 +58,7 @@
     },
     "TWITTER_APP_ID": {
       "required": true
-    }
+    },
     "WEBFACTION_SMTP_PASSWORD": {
       "required": true
     }

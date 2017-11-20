@@ -1,3 +1,4 @@
+# Hourly data from CoinMarketCap
 class HourlyPrice < ApplicationRecord
   belongs_to :coin
 
