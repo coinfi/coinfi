@@ -11,4 +11,7 @@
 // about supported directives.
 //
 //= require rails-ujs
+//= require ahoy
 //= require_tree .
+
+ahoy.trackAll();

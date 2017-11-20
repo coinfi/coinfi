@@ -1,6 +1,8 @@
 class User < ApplicationRecord
   attr_accessor :skip_password_validation
 
+  has_many :visits
+
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable
   devise :database_authenticatable, :registerable,

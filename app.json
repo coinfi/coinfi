@@ -1,0 +1,70 @@
+{
+  "name": "coinfi-rails",
+  "scripts": {},
+  "env": {
+    "ADMINISTRATE_PASSWORD": {
+      "required": true
+    },
+    "BLAZER_DATABASE_URL": {
+      "required": true
+    },
+    "BLAZER_PASSWORD": {
+      "required": true
+    },
+    "BLAZER_USERNAME": {
+      "required": true
+    },
+    "CONVERTKIT_API_KEY": {
+      "required": true
+    },
+    "CONVERTKIT_API_SECRET": {
+      "required": true
+    },
+    "LANG": {
+      "required": true
+    },
+    "RACK_ENV": {
+      "required": true
+    },
+    "RAILS_ENV": {
+      "required": true
+    },
+    "RAILS_LOG_TO_STDOUT": {
+      "required": true
+    },
+    "RAILS_SERVE_STATIC_FILES": {
+      "required": true
+    },
+    "ROLLBAR_ACCESS_TOKEN": {
+      "required": true
+    },
+    "ROLLBAR_CLIENT_ACCESS_TOKEN": {
+      "required": true
+    },
+    "ROLLBAR_ENDPOINT": {
+      "required": true
+    },
+    "SECRET_KEY_BASE": {
+      "required": true
+    },
+    "TWITTER_API_KEY": {
+      "required": true
+    },
+    "TWITTER_API_SECRET": {
+      "required": true
+    },
+    "TWITTER_APP_ID": {
+      "required": true
+    }
+  },
+  "formation": {},
+  "addons": [
+    "papertrail",
+    "rollbar"
+  ],
+  "buildpacks": [
+    {
+      "url": "heroku/ruby"
+    }
+  ]
+}
