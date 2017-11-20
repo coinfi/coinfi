@@ -1,7 +1,7 @@
 main.main-content
   .container.center-vh
     .card.card-shadowed.p-50.w-400.mb-0
-      h2.text-center Forgot password?
+      h2.text-center Forgot Password?
       = form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f|
         = devise_error_messages!
         .form-group
@@ -9,6 +9,6 @@ main.main-content
           br
           = f.email_field :email, autofocus: true, class: 'form-control'
         .actions
-          = f.submit "Send Password Reset", class: 'btn btn-primary btn-block'
+          = f.submit "send password reset", class: 'btn btn-primary btn-block'
       = render "devise/shared/links"
 br

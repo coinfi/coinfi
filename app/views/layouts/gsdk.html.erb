@@ -107,7 +107,10 @@
   <body>
     <%= render partial: "layouts/topnav" %>
 
-    <%= yield %>
+    <main class="main-content">
+      <%= render partial: "layouts/flash" %>
+      <%= yield %>
+    </main>
 
     <!-- Footer -->
     <footer class="site-footer">
