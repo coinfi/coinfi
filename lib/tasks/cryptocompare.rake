@@ -40,8 +40,7 @@ namespace :cryptocompare do
     task :histohour => :environment do
       puts "Running CryptoCompare HistoHour Volume Detection Signal, storing gathered data..."
 
-      #symbols = Coin.top(20).pluck(:symbol).drop(1) # Drop the first element which is generally always going to be BTC
-      symbols = ['MIOTA']
+      symbols = Coin.top(20).pluck(:symbol).drop(1) # Drop the first element which is generally always going to be BTC
       symbols.each do |symbol|
         symbol = "IOT" if symbol == "MIOTA" # CryptoCompare is IOT, CoinMarketCap is MIOTA
         puts symbol
