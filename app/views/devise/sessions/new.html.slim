@@ -1,0 +1,21 @@
+main.main-content
+  .container.center-vh
+    .card.card-shadowed.p-50.w-400.mb-0
+      h2.text-center Login
+      = form_for(resource, as: resource_name, url: session_path(resource_name)) do |f|
+        .form-group
+          = f.label :email
+          br
+          = f.email_field :email, autofocus: true, class: 'form-control'
+        .form-group
+          = f.label :password
+          br
+          = f.password_field :password, autocomplete: "off", class: 'form-control'
+        /- if devise_mapping.rememberable?
+          .field
+            = f.check_box :remember_me
+            = f.label :remember_me
+        .actions
+          = f.submit "Login", class: 'btn btn-primary btn-block'
+      = render "devise/shared/links"
+br
