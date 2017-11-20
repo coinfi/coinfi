@@ -1,4 +1,5 @@
 require 'httparty'
+require 'pony'
 
 namespace :cryptocompare do
   namespace :ingest do
@@ -37,9 +38,13 @@ namespace :cryptocompare do
     # Only pull the top 20 currencies.
     # desc ""
     task :histohour => :environment do
-      symbols = Coin.top(20).pluck(:symbol).drop(1) # Drop the first element which is generally always going to be BTC
+      puts "Running CryptoCompare HistoHour Volume Detection Signal, storing gathered data..."
+
+      #symbols = Coin.top(20).pluck(:symbol).drop(1) # Drop the first element which is generally always going to be BTC
+      symbols = ['MIOTA']
       symbols.each do |symbol|
-        symbol = "IOTA" if symbol == "MIOTA"
+        symbol = "IOT" if symbol == "MIOTA" # CryptoCompare is IOT, CoinMarketCap is MIOTA
+        puts symbol
 
         url = "https://min-api.cryptocompare.com/data/histohour?fsym=#{symbol}&tsym=BTC&limit=1&aggregate=3&e=CCCAGG"
         response = HTTParty.get(url)
@@ -52,40 +57,36 @@ namespace :cryptocompare do
           end
 
           volumes = HistoHour.volume_difference(symbol, 'BTC')
-          before_volume = volume.first
-          after_volume = volume.last
+          before_volume = volumes.first
+          after_volume = volumes.last
 
+          mail_text = "#{symbol} current hour volume of #{after_volume} is > 5x the previous hour volue of #{before_volume}."
+
+          #if (after_volume > 0 && after_volume >= 5 * before_volume)
           if (after_volume >= 5 * before_volume)
-            # SEND ALERT!!!
+            puts "ALERT: #{mail_text}"
+            Pony.mail({
+              from: 'CoinFi AlertBot <alerts@coinfi.com>',
+              to: 'admin@coinfi.com',
+              subject: 'Volume Alert',
+              body: mail_text,
+              charset: 'utf-8',
+              via: :smtp,
+              via_options: {
+                address: 'smtp.webfaction.com',
+                port: 587,
+                enable_starttls_auto: true,
+                user_name: 'coinfi',
+                password: ENV.fetch('WEBFACTION_SMTP_PASSWORD'),
+                authentication: :plain,
+                domain: 'coinfi.com',
+              }
+            })
           end
         else
           puts data
         end
-        sleep 5..10 # Avoid rate limit by sleeping 5-10 seconds between requests
-      end
-    end
-  end
-
-  namespace :prepopulate do
-    task :histohour => :environment do
-      symbols = Coin.top(20).pluck(:symbol).drop(1) # Drop the first element which is generally always going to be BTC
-      symbols.each do |symbol|
-        symbol = "IOTA" if symbol == "MIOTA"
-        puts symbol
-
-        url = "https://min-api.cryptocompare.com/data/histohour?fsym=#{symbol}&tsym=BTC&limit=2000&aggregate=3&e=CCCAGG"
-        response = HTTParty.get(url)
-        data = JSON.parse(response.body)
-        if data["Response"] == "Success"
-          entries = data["Data"]
-          entries.each do |entry|
-            #puts entry
-            HistoHour.create(entry.merge({from_symbol: symbol, to_symbol: 'BTC'}))
-          end
-        else
-          puts data
-        end
-        sleep 2 # Avoid rate limit by sleeping 5-10 seconds between requests
+        sleep(rand(3..5)) # Avoid rate limit by sleeping 5-10 seconds between requests
       end
     end
   end

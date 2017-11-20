@@ -221,6 +221,8 @@ GEM
       rack
     orm_adapter (0.5.0)
     pg (0.20.0)
+    pony (1.11)
+      mail (>= 2.0)
     pry (0.10.4)
       coderay (~> 1.1.0)
       method_source (~> 0.8.1)
@@ -376,6 +378,7 @@ DEPENDENCIES
   omniauth
   omniauth-twitter
   pg (~> 0.18)
+  pony
   pry-byebug
   pry-rails
   puma (~> 3.7)
@@ -396,4 +399,4 @@ RUBY VERSION
    ruby 2.4.1p111
 
 BUNDLED WITH
-   1.15.4
+   1.16.0

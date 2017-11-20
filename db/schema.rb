@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171119225117) do
+ActiveRecord::Schema.define(version: 20171120225256) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -176,8 +176,8 @@ ActiveRecord::Schema.define(version: 20171119225117) do
     t.decimal "open"
     t.decimal "volumefrom"
     t.decimal "volumeto"
-    t.index ["from_symbol", "to_symbol"], name: "index_histo_hours_on_from_symbol_and_to_symbol"
-    t.index ["time"], name: "index_histo_hours_on_time", unique: true
+    t.index ["from_symbol"], name: "index_histo_hours_on_from_symbol"
+    t.index ["time"], name: "index_histo_hours_on_time"
   end
 
   create_table "hourly_prices", force: :cascade do |t|
