@@ -108,6 +108,9 @@ GEM
       execjs
     coffee-script-source (1.12.2)
     concurrent-ruby (1.0.5)
+    cryptocompare (0.12.0)
+      faraday
+      json
     datetime_picker_rails (0.0.7)
       momentjs-rails (>= 2.8.1)
     devise (4.3.0)
@@ -360,6 +363,7 @@ DEPENDENCIES
   capybara (~> 2.13)
   coffee-rails (~> 4.2)
   convertkit-ruby!
+  cryptocompare
   devise
   dotenv-rails
   feedjira
