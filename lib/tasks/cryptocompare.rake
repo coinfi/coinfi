@@ -61,12 +61,12 @@ namespace :cryptocompare do
           end
 
           volumes = HistoHour.volume_difference(symbol, 'BTC')
-          before_volume = volumes.first
-          after_volume = volumes.last
+          current_volume = volumes.first
+          previous_volume = volumes.last
 
-          mail_text = "#{symbol} current hour volume of #{after_volume} is > 5x the previous hour volue of #{before_volume}."
+          mail_text = "#{symbol} previous hour volume of #{previous_volume} is > 5x the current hour volue of #{current_volume}."
 
-          if (before_volume > 0 && before_volume >= 5 * after_volume)
+          if (current_volume > 0 && current_volume >= 5 * previous_volume)
             puts "ALERT: #{mail_text}"
             Pony.mail({
               from: 'CoinFi AlertBot <alerts@coinfi.com>',
