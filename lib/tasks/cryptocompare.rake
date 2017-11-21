@@ -40,7 +40,12 @@ namespace :cryptocompare do
     task :histohour => :environment do
       puts "Running CryptoCompare HistoHour Volume Detection Signal, storing gathered data..."
 
-      symbols = Coin.top(20).pluck(:symbol).drop(1) # Drop the first element which is generally always going to be BTC
+      symbols = []
+      top20 = Coin.top(21).pluck(:symbol).drop(1) # Drop the first element which is generally always going to be BTC
+      midcap = Coin.where(ranking: [80..90, 120..130]).pluck(:symbol)
+      symbols.push(*top20)
+      symbols.push(*midcap)
+
       symbols.each do |symbol|
         symbol = "IOT" if symbol == "MIOTA" # CryptoCompare is IOT, CoinMarketCap is MIOTA
         puts symbol
@@ -61,8 +66,7 @@ namespace :cryptocompare do
 
           mail_text = "#{symbol} current hour volume of #{after_volume} is > 5x the previous hour volue of #{before_volume}."
 
-          #if (after_volume > 0 && after_volume >= 5 * before_volume)
-          if (after_volume >= 5 * before_volume)
+          if (before_volume > 0 && before_volume >= 5 * after_volume)
             puts "ALERT: #{mail_text}"
             Pony.mail({
               from: 'CoinFi AlertBot <alerts@coinfi.com>',
