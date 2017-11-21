@@ -6,6 +6,9 @@ class PagesController < ApplicationController
     @is_homepage = true
   end
 
+  def press
+  end
+
   def about
   end
 

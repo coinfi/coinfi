@@ -30,6 +30,7 @@ Rails.application.routes.draw do
   root 'pages#home'
 
   get '/' => 'pages#home', as: 'home'
+  get '/press-release' => 'pages#press'
   get '/about' => 'pages#about'
   get '/contact' => 'pages#contact'
   get '/daily' => 'pages#daily', as: 'daily'
