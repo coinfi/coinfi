@@ -64,14 +64,14 @@ namespace :cryptocompare do
           current_volume = volumes.first
           previous_volume = volumes.last
 
-          mail_text = "#{symbol} previous hour volume of #{previous_volume} is > 5x the current hour volue of #{current_volume}."
+          mail_text = "#{symbol} previous hour volume of #{previous_volume} has increased to the current hour volue of #{current_volume}."
 
           if (current_volume > 0 && current_volume >= 5 * previous_volume)
             puts "ALERT: #{mail_text}"
             Pony.mail({
               from: 'CoinFi AlertBot <alerts@coinfi.com>',
               to: 'admin@coinfi.com',
-              subject: 'Volume Alert',
+              subject: 'Abnormal Volume Alert',
               body: mail_text,
               charset: 'utf-8',
               via: :smtp,
