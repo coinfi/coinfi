@@ -64,7 +64,7 @@ namespace :cryptocompare do
           current_volume = volumes.first
           previous_volume = volumes.last
 
-          #mail_text = "#{symbol} previous hour volume of #{previous_volume} has increased to the current hour volue of #{current_volume}."
+          #mail_text = "#{symbol} previous hour volume of #{previous_volume} has increased to the current hour volume of #{current_volume}."
 
           if (current_volume > 0 && current_volume >= 5 * previous_volume)
             puts "ALERT: #{mail_text}"
