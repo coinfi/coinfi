@@ -4,6 +4,10 @@
   font-family: "Beyno";
   src: url(/landing/fonts/beyno.ttf) format("truetype");
 }
+@font-face {
+  font-family: "themify";
+  src: url(/landing/fonts/themify.ttf) format("truetype");
+}
 .topbar-brand {
   font-family: "Beyno";
 }
