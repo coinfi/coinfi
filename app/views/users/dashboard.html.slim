@@ -1,10 +1,8 @@
 main.main-content
   .container
     .row
-      .col-12
-        h2 Dashboard
-    .row
       .col-lg-6
+        h2 Dashboard
         br
         p Congrats on signing up for the CoinFi token sale!
         p Stay tuned to your inbox for more information regarding the token sale details.
@@ -16,13 +14,31 @@ main.main-content
         p
           a.btn.btn-primary href="https://blog.coinfi.com" Learn more about the CoinFi Platform
       .col-lg-6
+        - if @referral_link.present?
+          h2 Referral Program
+          br
+          p Congrats on being accepted to the CoinFi Referral Program!
+          p
+            ' Your custom referral link is:
+            code= @referral_link
+          br
+          - if @referrals.present?
+            table.table
+              tr
+                th Referral Email
+                th Timestamp
+              - @referrals.each do |referral|
+                tr
+                  td= EmailAddress.munge(referral.email)
+                  td= referral.created_at
+          - else
+            p You currently do not have any referrals; once your first one arrives, you'll see them here.
         - if current_user.token_sale.blank? || current_user.token_sale['estimated_contribution'].blank?
-          .card
-            .card-block
-              h5.card-title Finalize Registration
-              p.card-text
-                | Please enter how much ETH you plan on using to purchase CoinFi tokens in the token sale.
-                = form_for(:user, url: new_user_submit_contribution_path) do |f|
-                  .form-group
-                    = f.number_field :estimated_contribution, placeholder: "Estimated Ethereum Amount", class: 'form-control', min: 0, step: 'any'
-                  = f.submit "Confirm Contribution Estimate", class: "btn btn-block btn-success"
+          h2 Finalize Registration
+          br
+          p
+            | Please enter how much ETH you plan on using to purchase CoinFi tokens.
+            = form_for(:user, url: new_user_submit_contribution_path) do |f|
+              .form-group
+                = f.number_field :estimated_contribution, placeholder: "Estimated Ethereum Amount", class: 'form-control', min: 0, step: 'any'
+              = f.submit "Confirm Contribution Estimate", class: "btn btn-block btn-success"

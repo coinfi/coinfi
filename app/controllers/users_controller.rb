@@ -1,21 +1,32 @@
 class UsersController < DeviseController
   layout 'gsdk'
-
-  def token_sale
-    @token_sale_details = current_user.token_sale || {}
-  end
+  before_action :check_user_signed_in, only: [
+    :set_password, :submit_password, :estimate_contribution, :submit_contribution, :join_telegram, :dashboard, :update
+  ]
 
   def signup
     @email = params[:email] || user_params[:email]
     ck = Convertkit::Client.new
     ck.add_subscriber_to_form('267531', @email) # 267531 is the Form ID for CoinFi ICO signup
-    user = User.create(email: @email, skip_password_validation: true)
+    user = User.find_by_email @email
     if user
-      sign_in(:user, user)
-      redirect_to '/set-password'
-    else
-      # Show error message, have user sign up via /register page.
+      if user == current_user
+        redirect_to '/dashboard', notice: 'You are already logged in!' and return
+      else
+        redirect_to '/login', notice: 'Email already exists - please log in.' and return
+      end
     end
+
+    user = User.new(email: @email, skip_password_validation: true)
+    user.token_sale = {} if user.token_sale.blank?
+    user.token_sale['referred_by'] = request.env['affiliate.tag'] if request.env['affiliate.tag']
+    if user.save
+      sign_in(:user, user)
+      redirect_to '/set-password' and return
+    elsif user.encrypted_password.blank?
+      redirect_to '/set-password' and return
+    end
+    redirect_to '/register', notice: 'There was an issue with your signup - please try again!'
   end
 
   def set_password
@@ -29,6 +40,7 @@ class UsersController < DeviseController
       sign_in(:user, current_user, bypass: true)
       redirect_to '/estimate-contribution'
     else
+      redirect_to '/set-password', notice: 'There was a problem saving your password: #{current_user.errors.full_messages} - please try again.'
     end
   end
 
@@ -41,6 +53,7 @@ class UsersController < DeviseController
     if current_user.save
       redirect_to '/join-telegram'
     else
+      redirect_to '/estimate-contribution', notice: 'There was a problem saving your estimated contribution: #{current_user.errors.full_messages} - please try again.'
     end
   end
 
@@ -48,20 +61,17 @@ class UsersController < DeviseController
   end
 
   def dashboard
-  end
-
-  def update
-    return unless current_user
-    current_user.token_sale = params[:user][:token_sale]
-    current_user.save
-
-    respond_to do |format|
-      format.html { head :no_content }
-      format.js
+    if current_user.token_sale && current_user.token_sale.fetch('referral_program', nil)
+      @referral_link = "https://sale.coinfi.com/?ref=#{current_user.id}"
+      @referrals = current_user.get_referrals
     end
   end
 
 protected
+
+  def check_user_signed_in
+    redirect_to new_user_session_path, notice: 'Please sign in or register.' and return unless current_user
+  end
 
   def user_params
     params.require(:user).permit(:email, :password, :estimated_contribution)

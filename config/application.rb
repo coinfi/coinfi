@@ -28,6 +28,7 @@ module CoinfiRails
 
     config.action_mailer.default_url_options = { host: ENV.fetch('ROOT_DOMAIN') }
 
+    config.middleware.use Rack::Affiliates
     config.middleware.insert_before 0, Rack::Cors do
       allow do
         origins 'https://blog.coinfi.com', 'https://landing.coinfi.com'
