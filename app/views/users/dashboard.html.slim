@@ -13,3 +13,24 @@ main.main-content
           a.btn.btn-default href="" Read the CoinFi White Paper
         p
           a.btn.btn-primary href="https://blog.coinfi.com" Learn more about the CoinFi Platform
+
+        hr
+
+        - if @referral_link.present?
+          h2 Referral Program
+          p Congrats on being accepted to the CoinFi Referral Program!
+          p
+            ' Your custom referral link is:
+            code= @referral_link
+          br
+          - if @referrals.present?
+            table.table
+              tr
+                th Referral Email
+                th Timestamp
+              - @referrals.each do |referral|
+                tr
+                  td= EmailAddress.munge(referral.email)
+                  td= referral.created_at
+          - else
+            p You currently do not have any referrals; once your first one arrives, you'll see them here.

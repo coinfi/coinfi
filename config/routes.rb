@@ -22,6 +22,8 @@ Rails.application.routes.draw do
   namespace :admin do
     resources :coins
     resources :articles
+    resources :users
+    post "users/:id/toggle_referral_program" => "users#toggle_referral_program", as: 'toggle_referral_program'
     get 'reddit' => 'articles#reddit'
     root to: "coins#index"
   end
@@ -46,9 +48,6 @@ Rails.application.routes.draw do
   #get '/customize' => 'pages#customize', as: 'customize'
   # post '/subscribe'
   #post '/segment'
-
-  get '/token-sale' => 'users#token_sale'
-  post '/token-sale' => 'users#update'
 
   resources :coins, only: [:index, :show]
 
