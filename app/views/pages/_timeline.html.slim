@@ -51,6 +51,134 @@ section.section.bg-gray
     br
     br
     header.section-header
+      small Early Mover Rewards
+      h2 Bonus Structure
+    .row.gap-y
+      .col-12.text-center
+        p
+          | Contributions greater than or equal to 100 ETH during the presale will receive an additional 10% bonus.
+          br
+          | Contributions greater than or equal to 300 ETH during the presale will receive an additional 20% bonus.
+      .col-12.col-lg-3
+        .card.card-bordered.card-hover-shadow
+          .card-block
+            h5.card-title
+              | Presale Tier 1
+              .pull-right(style="color: #0e97ff") Dec 4 - 17
+            p.card-text
+              center 50% bonus
+              br
+              canvas#presale1
+              javascript:
+                $(function() {
+                  var presale1 = document.getElementById("presale1");
+                  var presaleChart1 = new Chart(presale1, {
+                    type: 'pie',
+                    data: {
+                      datasets: [{
+                        data: [50, 50],
+                        backgroundColor: ['#46da60']
+                      }]
+                    },
+                    options: {
+                      legend: { display: false },
+                      tooltips: { enabled: false }
+                    }
+                  });
+                });
+      .col-12.col-lg-3
+        .card.card-bordered.card-hover-shadow
+          .card-block
+            h5.card-title
+              | Presale Tier 2
+              .pull-right(style="color: #0e97ff") Dec 18 - 31
+            p.card-text
+              center 40% bonus
+              br
+              canvas#presale2
+              javascript:
+                $(function() {
+                  var presale2 = document.getElementById("presale2");
+                  var presaleChart2 = new Chart(presale2, {
+                    type: 'pie',
+                    data: {
+                      datasets: [{
+                        data: [40, 60],
+                        backgroundColor: ['#46da60']
+                      }]
+                    },
+                    options: {
+                      legend: { display: false },
+                      tooltips: { enabled: false }
+                    }
+                  });
+                });
+      .col-12.col-lg-3
+        .card.card-bordered.card-hover-shadow
+          .card-block
+            h5.card-title
+              | Presale Tier 3
+              .pull-right(style="color: #0e97ff") Jan 1 - 15
+            p.card-text
+              center 30% bonus
+              br
+              canvas#presale3
+              javascript:
+                $(function() {
+                  var presale3 = document.getElementById("presale3");
+                  var presaleChart3 = new Chart(presale3, {
+                    type: 'pie',
+                    data: {
+                      datasets: [{
+                        data: [30, 70],
+                        backgroundColor: ['#46da60']
+                      }]
+                    },
+                    options: {
+                      legend: { display: false },
+                      tooltips: { enabled: false }
+                    }
+                  });
+                });
+      .col-12.col-lg-3
+        .card.card-bordered.card-hover-shadow
+          .card-block
+            h5.card-title
+              | Crowdsale
+              .pull-right(style="color: #0e97ff") Jan 15 - 31
+            p.card-text.text-center
+              | 20% bonus during 1st hour
+              br
+              | 10% bonus during the 1st day
+              small Bonus capped at 20 ETH/participant
+              br
+              br
+              canvas#crowdsale
+              javascript:
+                $(function() {
+                  var crowdsale = document.getElementById("crowdsale");
+                  var crowdsaleChart = new Chart(crowdsale, {
+                    type: 'pie',
+                    data: {
+                      datasets: [{
+                        data: [10, 10, 80],
+                        backgroundColor: ['#46da60', '#46da60']
+                      }],
+                      labels: [
+                        'Bonus',
+                        ''
+                      ]
+                    },
+                    options: {
+                      legend: { display: false },
+                      tooltips: { enabled: false }
+                    }
+                  });
+                });
+    br
+    br
+    br
+    header.section-header
       small Anticipated
       h2 Roadmap
       p.text-muted[style="font-size: 12px;"] The roadmap outlined below is subject to change based on user feedback, market conditions, and the competitive landscape; it is merely intended as an overview to explain the features that CoinFi intends to implement on the platform.
