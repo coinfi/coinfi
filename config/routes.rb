@@ -32,6 +32,7 @@ Rails.application.routes.draw do
   root 'pages#home'
 
   get '/' => 'pages#home', as: 'home'
+  get '/prototype' => 'pages#prototype', as: 'prototype'
   get '/press-release' => 'pages#press'
   get '/about' => 'pages#about'
   get '/contact' => 'pages#contact'

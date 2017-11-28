@@ -1,0 +1,59 @@
+header.header.header-inverse style="background-image: url(/landing/img/thomas-kvistholt-191153.jpg)" data-overlay="8"
+  .container.text-center
+    .row
+      .col-12
+        h1 Prototype
+        p Get a sneak peak at the functionality CoinFi has developed so far.
+        p
+          a.btn.btn-default.btn-large href="https://github.com/coinfi"
+            i.fa.fa-github &nbsp;
+            | Github
+
+main.main-content
+  section.section
+    .container
+      .row
+        .col-12.col-md-8
+          <iframe allowtransparency="true" frameborder="0" scrolling="no" class="wistia_embed" name="wistia_embed" src="https://fast.wistia.com/embed/iframe/47g3uf7zbi" width="700" height="480"></iframe>
+        .col-12.col-md-4
+          h5 Abnormal Volume Detection Signal
+          p Abnormally high trading volume can act as a leading indicator for alerting you to breaking news that could affect a cryptocurrency’s price.
+          p Learn how we're building a signal to keep track of volume spikes on the altcoins you're interested in, and visualizing those signals on price charts so you can see how effectively the signal performs based on historical data.
+          p These alerts will be available as email, SMS, as well as browser and native mobile app notifications.
+          p As part of the roadmap, you'll also be able to adjust the signal sensitivity based on the volume threshold calculations you think are best, allowing for full customization and chaining of signals to alert you to the market conditions you care about.
+  hr
+  section.section
+    .container
+      .row
+        .col-12.col-md-5
+          h5 Admin for News Aggregation & Curation
+          p To help with the collation and curation of cryptocurrency news articles, we've developed an in-house administrative backend to allow editorial staff and contributors to add relevant, high quality content from any source (including Twitter, Reddit, Medium, Telegram, Slack, and cryptocurreny news sites).
+          p These pieces of content are then overlaid on top of price data to help you determine what's going on currently in the cryptocurrency you're interested in, as well as giving you the historic context for what has moved the market in the past.
+          p In addition, the content includes tags to help you filter for specific categories that you can mix and match, including technical / developer updates, founding team announcements, regulatory changes, exchange listings, etc.
+          p Community members will also be able to submit and upvote content to help with the aggregation and curation, while receiving compensation in the form of CoinFi tokens for their contributions.
+          p This foundational infrastructure will be expanded down the road to include machine learning techniques such as natural language processing for sentiment analysis.
+
+        .col-12.col-md-7
+          img src="/landing/img/neo-screencast.gif"
+        /.col-12.col-md-4
+          /img src="https://blog.coinfi.com/wp-content/uploads/2017/11/coinfi-admin-backend.png"
+          img src="/landing/img/coinfi-admin-backend.png"
+  hr
+  section.section
+    .container
+      .row
+        .col-12.col-md-7
+          /img src="https://blog.coinfi.com/wp-content/uploads/2017/11/coinfi-historical-data.png"
+          img src="/landing/img/coinfi-historical-data.png"
+        .col-12.col-md-5
+          h5 Exchange Data Pipeline and Warehouse
+          p You can't develop trading signals and algorithms without the most important requirement: historical data. Backtesting on historical data is the only way to quickly determine the relevancy of a signal, so CoinFi has built significant amounts of infrastructure in the form of a data warehouse to ingest and store market data from a wide selection of cryptocurrency exchanges.
+          p The architecture requires high availability to remain online 24/7/365, even during periods of high volume. It also requires accuracy to ensure data integrity since exchange APIs sometimes incur downtime that needs to be backfilled.
+          p Finally, the data needs to be standardized into a common format since each exchange uses a different data structure for representing their information such as instruments/trading pairs, price feeds, trade history, order books, etc.
+          p We've leveraged this data to develop initial prototypes of trading signals that are showcased on the <a href="https://blog.coinfi.com">blog</a>.
+          p The <a href="/#roadmap">roadmap</a> contains plans to expand our data ingest servers to colocate closer to each exchange to ensure that the data latency is minimized in the future to ensure the fastest feeds and provide you with a signal and execution advantage.
+
+section.section.bg-gray.text-center
+  h2.mb-20 Join the Whitelist
+  p.lead If this demo has perked your interest, click below to stay updated with the latest news from CoinFi.
+  = link_to "Keep Me Updated", new_user_registration_path, class: "btn btn-xl btn-round btn-warning fs-20 fw-500 shadow-3 hidden-sm-down", style: "color: #000; text-transform: none"
