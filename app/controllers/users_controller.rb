@@ -1,8 +1,6 @@
 class UsersController < DeviseController
   layout 'gsdk'
-  before_action :check_user_signed_in, only: [
-    :set_password, :submit_password, :estimate_contribution, :submit_contribution, :join_telegram, :dashboard, :update
-  ]
+  before_action :check_user_signed_in, except: [:signup]
 
   def signup
     @email = params[:email] || user_params[:email]
@@ -70,8 +68,24 @@ class UsersController < DeviseController
   def kyc
   end
 
-  #def submit_kyc
-  #end
+  def submit_kyc
+    current_user.token_sale = {} if current_user.token_sale.blank?
+    current_user.token_sale.merge!({
+      "first_name" => params[:first_name],
+      "last_name" => params[:last_name],
+      "date_of_birth" => params[:date_of_birth],
+      "gender" => params[:gender],
+      "nationality" => params[:nationality],
+      "residency" => params[:residency],
+      "id_number" => params[:id_number],
+      "ethereum_address" => params[:ethereum_address],
+    })
+    current_user.save
+
+    # TODO: Spin up new background job for KYC
+
+    redirect_to dashboard_path
+  end
 
 protected
 
