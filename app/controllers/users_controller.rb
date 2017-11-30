@@ -67,6 +67,12 @@ class UsersController < DeviseController
     end
   end
 
+  def kyc
+  end
+
+  #def submit_kyc
+  #end
+
 protected
 
   def check_user_signed_in

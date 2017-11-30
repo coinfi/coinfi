@@ -1,0 +1,346 @@
+main.main-content
+  .container
+    .section-header
+      h2 Access the CoinFi Token Sale
+      p.lead
+        | You're one final step away to getting access!
+        br
+        | Please enter the following information to complete the registration.
+
+    = form_tag '' do |f|
+      .row
+        .form-group.col-12.col-md-6
+          label for="first_name" First Name
+          input.form-control name="first_name" type="text"
+
+        .form-group.col-12.col-md-6
+          label for="last_name" Last Name
+          input.form-control name="last_name" type="text"
+
+      .row
+        .form-group.col-12.col-md-4
+          label for="dob" Date of Birth
+          input.form-control name="dob" type="date"
+
+        .form-group.col-12.col-md-4
+          label for="gender" Gender
+          select.form-control name="gender"
+            option value="male" Male
+            option value="female" Female
+
+        .form-group.col-12.col-md-4
+          label for="nationality" Nationality
+          select.form-control name="residence" type="text"
+            <option class="bs-title-option" value="">Select Country</option>
+            <option value="ABKHAZIA">Abkhazia</option>
+            <option value="ALAND ISLANDS">Aland Islands</option>
+            <option value="ALBANIA">Albania</option>
+            <option value="ALGERIA">Algeria</option>
+            <option value="AMERICAN SAMOA">American Samoa</option>
+            <option value="ANDORRA">Andorra</option>
+            <option value="ANGOLA">Angola</option>
+            <option value="ANGUILLA">Anguilla</option>
+            <option value="ANTARCTICA">Antarctica</option>
+            <option value="ANTIGUA AND BARBUDA">Antigua And Barbuda</option>
+            <option value="ARGENTINA">Argentina</option>
+            <option value="ARMENIA">Armenia</option>
+            <option value="ARUBA">Aruba</option>
+            <option value="ASCENSION">Ascension</option>
+            <option value="ASHMORE AND CARTIER ISLANDS">Ashmore And Cartier Islands</option>
+            <option value="AUSTRALIA">Australia</option>
+            <option value="AUSTRALIAN ANTARCTIC TERRITORY">Australian Antarctic Territory</option>
+            <option value="AUSTRIA">Austria</option>
+            <option value="AZERBAIJAN">Azerbaijan</option>
+            <option value="BAHAMAS">Bahamas</option>
+            <option value="BAHRAIN">Bahrain</option>
+            <option value="BAKER ISLAND">Baker Island</option>
+            <option value="BANGLADESH">Bangladesh</option>
+            <option value="BARBADOS">Barbados</option>
+            <option value="BELARUS">Belarus</option>
+            <option value="BELGIUM">Belgium</option>
+            <option value="BELIZE">Belize</option>
+            <option value="BENIN">Benin</option>
+            <option value="BERMUDA">Bermuda</option>
+            <option value="BHUTAN">Bhutan</option>
+            <option value="BOLIVIA">Bolivia</option>
+            <option value="BOTSWANA">Botswana</option>
+            <option value="BOUVET ISLAND">Bouvet Island</option>
+            <option value="BRAZIL">Brazil</option>
+            <option value="BRITISH ANTARCTIC TERRITORY">British Antarctic Territory</option>
+            <option value="BRITISH INDIAN OCEAN TERRITORY">British Indian Ocean Territory</option>
+            <option value="BRITISH SOVEREIGN BASE AREAS">British Sovereign Base Areas</option>
+            <option value="BRITISH VIRGIN ISLANDS">British Virgin Islands</option>
+            <option value="BRUNEI">Brunei</option>
+            <option value="BULGARIA">Bulgaria</option>
+            <option value="BURKINA FASO">Burkina Faso</option>
+            <option value="BURMA (REPUBLIC OF THE UNION OF MYANMAR)">Burma (Republic Of The Union Of Myanmar)</option>
+            <option value="BURUNDI">Burundi</option>
+            <option value="CAMBODIA">Cambodia</option>
+            <option value="CAMEROON">Cameroon</option>
+            <option value="CANADA">Canada</option>
+            <option value="CAPE VERDE">Cape Verde</option>
+            <option value="CARIBBEAN NETHERLANDS">Caribbean Netherlands</option>
+            <option value="CAYMAN ISLANDS">Cayman Islands</option>
+            <option value="CHAD">Chad</option>
+            <option value="CHILE">Chile</option>
+            <option value="CHRISTMAS ISLAND">Christmas Island</option>
+            <option value="CLIPPERTON ISLAND">Clipperton Island</option>
+            <option value="COCOS (KEELING) ISLANDS">Cocos (Keeling) Islands</option>
+            <option value="COLOMBIA">Colombia</option>
+            <option value="COMOROS">Comoros</option>
+            <option value="CONGO (REPUBLIC OF)">Congo (Republic Of)</option>
+            <option value="COOK ISLANDS">Cook Islands</option>
+            <option value="CORAL SEA ISLANDS">Coral Sea Islands</option>
+            <option value="COSTA RICA">Costa Rica</option>
+            <option value="COTE D'IVOIRE (IVORY COAST)">Cote D'ivoire (Ivory Coast)</option>
+            <option value="CROATIA">Croatia</option>
+            <option value="CURACAO">Curacao</option>
+            <option value="CYPRUS">Cyprus</option>
+            <option value="CZECH REPUBLIC">Czech Republic</option>
+            <option value="DENMARK">Denmark</option>
+            <option value="DJIBOUTI">Djibouti</option>
+            <option value="DOMINICA">Dominica</option>
+            <option value="DOMINICAN REPUBLIC">Dominican Republic</option>
+            <option value="ECUADOR">Ecuador</option>
+            <option value="EGYPT">Egypt</option>
+            <option value="EL SALVADOR">El Salvador</option>
+            <option value="EQUATORIAL GUINEA">Equatorial Guinea</option>
+            <option value="ESTONIA">Estonia</option>
+            <option value="FALKLAND ISLANDS">Falkland Islands</option>
+            <option value="FAROE ISLANDS">Faroe Islands</option>
+            <option value="FIJI">Fiji</option>
+            <option value="FINLAND">Finland</option>
+            <option value="FRANCE">France</option>
+            <option value="FRENCH GUIANA">French Guiana</option>
+            <option value="FRENCH POLYNESIA">French Polynesia</option>
+            <option value="FRENCH SOUTHERN AND ANTARCTIC LANDS">French Southern And Antarctic Lands</option>
+            <option value="FRENCH SOUTHERN TERRITORIES">French Southern Territories</option>
+            <option value="GABON">Gabon</option>
+            <option value="GAMBIA">Gambia</option>
+            <option value="GEORGIA">Georgia</option>
+            <option value="GERMANY">Germany</option>
+            <option value="GHANA">Ghana</option>
+            <option value="GIBRALTAR">Gibraltar</option>
+            <option value="GREECE">Greece</option>
+            <option value="GREENLAND">Greenland</option>
+            <option value="GRENADA">Grenada</option>
+            <option value="GUADELOUPE">Guadeloupe</option>
+            <option value="GUAM">Guam</option>
+            <option value="GUATEMALA">Guatemala</option>
+            <option value="GUERNSEY">Guernsey</option>
+            <option value="GUINEA">Guinea</option>
+            <option value="GUYANA">Guyana</option>
+            <option value="HAITI">Haiti</option>
+            <option value="HEARD AND MCDONALD ISLANDS">Heard And Mcdonald Islands</option>
+            <option value="HONDURAS">Honduras</option>
+            <option value="HONG KONG">Hong Kong</option>
+            <option value="HOWLAND ISLAND">Howland Island</option>
+            <option value="HUNGARY">Hungary</option>
+            <option value="ICELAND">Iceland</option>
+            <option value="INDIA">India</option>
+            <option value="INDONESIA">Indonesia</option>
+            <option value="IRELAND">Ireland</option>
+            <option value="ISLE OF MAN">Isle Of Man</option>
+            <option value="ISRAEL">Israel</option>
+            <option value="ITALY">Italy</option>
+            <option value="JAMAICA">Jamaica</option>
+            <option value="JAPAN">Japan</option>
+            <option value="JARVIS ISLAND">Jarvis Island</option>
+            <option value="JERSEY">Jersey</option>
+            <option value="JOHNSTON ATOLL">Johnston Atoll</option>
+            <option value="JORDAN">Jordan</option>
+            <option value="KAZAKHSTAN">Kazakhstan</option>
+            <option value="KENYA">Kenya</option>
+            <option value="KINGMAN REEF">Kingman Reef</option>
+            <option value="KIRIBATI">Kiribati</option>
+            <option value="KOSOVO">Kosovo</option>
+            <option value="KUWAIT">Kuwait</option>
+            <option value="KYRGYZSTAN">Kyrgyzstan</option>
+            <option value="LAOS">Laos</option>
+            <option value="LATVIA">Latvia</option>
+            <option value="LESOTHO">Lesotho</option>
+            <option value="LIBERIA">Liberia</option>
+            <option value="LIECHTENSTEIN">Liechtenstein</option>
+            <option value="LITHUANIA">Lithuania</option>
+            <option value="LUXEMBOURG">Luxembourg</option>
+            <option value="MACAU">Macau</option>
+            <option value="MACEDONIA">Macedonia</option>
+            <option value="MADAGASCAR">Madagascar</option>
+            <option value="MALAWI">Malawi</option>
+            <option value="MALAYSIA">Malaysia</option>
+            <option value="MALDIVES">Maldives</option>
+            <option value="MALI">Mali</option>
+            <option value="MALTA">Malta</option>
+            <option value="MARSHALL ISLANDS">Marshall Islands</option>
+            <option value="MARTINIQUE">Martinique</option>
+            <option value="MAURITANIA">Mauritania</option>
+            <option value="MAURITIUS">Mauritius</option>
+            <option value="MAYOTTE">Mayotte</option>
+            <option value="MEXICO">Mexico</option>
+            <option value="MICRONESIA">Micronesia</option>
+            <option value="MIDWAY ISLANDS">Midway Islands</option>
+            <option value="MOLDOVA">Moldova</option>
+            <option value="MONACO">Monaco</option>
+            <option value="MONGOLIA">Mongolia</option>
+            <option value="MONTENEGRO">Montenegro</option>
+            <option value="MONTSERRAT">Montserrat</option>
+            <option value="MOROCCO">Morocco</option>
+            <option value="MOZAMBIQUE">Mozambique</option>
+            <option value="NAGORNO-KARABAKH">Nagorno Karabakh</option>
+            <option value="NAMIBIA">Namibia</option>
+            <option value="NAURU">Nauru</option>
+            <option value="NAVASSA ISLAND">Navassa Island</option>
+            <option value="NEPAL">Nepal</option>
+            <option value="NETHERLANDS">Netherlands</option>
+            <option value="NEW CALEDONIA">New Caledonia</option>
+            <option value="NICARAGUA">Nicaragua</option>
+            <option value="NIGER">Niger</option>
+            <option value="NIGERIA">Nigeria</option>
+            <option value="NIUE">Niue</option>
+            <option value="NORFOLK ISLAND">Norfolk Island</option>
+            <option value="NORTHERN CYPRUS">Northern Cyprus</option>
+            <option value="NORTHERN MARIANA ISLANDS">Northern Mariana Islands</option>
+            <option value="NORWAY">Norway</option>
+            <option value="OMAN">Oman</option>
+            <option value="PAKISTAN">Pakistan</option>
+            <option value="PALAU">Palau</option>
+            <option value="PALESTINE">Palestine</option>
+            <option value="PALMYRA ATOLL">Palmyra Atoll</option>
+            <option value="PANAMA">Panama</option>
+            <option value="PAPUA NEW GUINEA">Papua New Guinea</option>
+            <option value="PARAGUAY">Paraguay</option>
+            <option value="PERU">Peru</option>
+            <option value="PETER I ISLAND">Peter I Island</option>
+            <option value="PHILIPPINES">Philippines</option>
+            <option value="PITCAIRN">Pitcairn</option>
+            <option value="PITCAIRN ISLANDS">Pitcairn Islands</option>
+            <option value="POLAND">Poland</option>
+            <option value="PORTUGAL">Portugal</option>
+            <option value="PRIDNESTROVIE (TRANSNISTRIA)">Pridnestrovie (Transnistria)</option>
+            <option value="PUERTO RICO">Puerto Rico</option>
+            <option value="QATAR">Qatar</option>
+            <option value="QUEEN MAUD LAND">Queen Maud Land</option>
+            <option value="REUNION">Reunion</option>
+            <option value="ROMANIA">Romania</option>
+            <option value="ROSS DEPENDENCY">Ross Dependency</option>
+            <option value="RUSSIAN FEDERATION">Russian Federation</option>
+            <option value="RWANDA">Rwanda</option>
+            <option value="SAINT BARTHELEMY">Saint Barthelemy</option>
+            <option value="SAINT HELENA">Saint Helena</option>
+            <option value="SAINT KITTS AND NEVIS">Saint Kitts And Nevis</option>
+            <option value="SAINT LUCIA">Saint Lucia</option>
+            <option value="SAINT MARTIN (FRANCE)">Saint Martin (France)</option>
+            <option value="SAINT MARTIN (NETHERLANDS)">Saint Martin (Netherlands)</option>
+            <option value="SAINT PIERRE AND MIQUELON">Saint Pierre And Miquelon</option>
+            <option value="SAINT VINCENT AND GRENADINES">Saint Vincent And Grenadines</option>
+            <option value="SAMOA">Samoa</option>
+            <option value="SAN MARINO">San Marino</option>
+            <option value="SAO TOME AND PRINCIPE">Sao Tome And Principe</option>
+            <option value="SAUDI ARABIA">Saudi Arabia</option>
+            <option value="SENEGAL">Senegal</option>
+            <option value="SERBIA">Serbia</option>
+            <option value="SEYCHELLES">Seychelles</option>
+            <option value="SIERRA LEONE">Sierra Leone</option>
+            <option value="SINGAPORE">Singapore</option>
+            <option value="SLOVAKIA">Slovakia</option>
+            <option value="SLOVENIA">Slovenia</option>
+            <option value="SOLOMON ISLANDS">Solomon Islands</option>
+            <option value="SOMALILAND">Somaliland</option>
+            <option value="SOUTH AFRICA">South Africa</option>
+            <option value="SOUTH GEORGIA &amp; SOUTH SANDWICH ISLANDS">South Georgia &amp; South Sandwich Islands</option>
+            <option value="SOUTH GEORGIA AND THE SOUTH SANDWICH ISLANDS">South Georgia And The South Sandwich Islands</option>
+            <option value="SOUTH KOREA">South Korea</option>
+            <option value="SOUTH OSSETIA">South Ossetia</option>
+            <option value="SPAIN">Spain</option>
+            <option value="SURINAME">Suriname</option>
+            <option value="SVALBARD AND JAN MAYEN ISLANDS">Svalbard And Jan Mayen Islands</option>
+            <option value="SWAZILAND">Swaziland</option>
+            <option value="SWEDEN">Sweden</option>
+            <option value="SWITZERLAND">Switzerland</option>
+            <option value="TAIWAN">Taiwan</option>
+            <option value="TAJIKISTAN">Tajikistan</option>
+            <option value="TANZANIA">Tanzania</option>
+            <option value="THAILAND">Thailand</option>
+            <option value="TIMOR-LESTE">Timor Leste</option>
+            <option value="TOGO">Togo</option>
+            <option value="TOKELAU">Tokelau</option>
+            <option value="TONGA">Tonga</option>
+            <option value="TRINIDAD AND TOBAGO">Trinidad And Tobago</option>
+            <option value="TRISTAN DA CUNHA">Tristan Da Cunha</option>
+            <option value="TURKEY">Turkey</option>
+            <option value="TURKMENISTAN">Turkmenistan</option>
+            <option value="TURKS AND CAICOS ISLANDS">Turks And Caicos Islands</option>
+            <option value="TUVALU">Tuvalu</option>
+            <option value="UGANDA">Uganda</option>
+            <option value="UKRAINE">Ukraine</option>
+            <option value="UNITED ARAB EMIRATES">United Arab Emirates</option>
+            <option value="UNITED KINGDOM">United Kingdom</option>
+            <option value="UNITED STATES MINOR OUTLYING ISLANDS">United States Minor Outlying Islands</option>
+            <option value="UNITED STATES OF AMERICA" selected="">United States Of America</option>
+            <option value="UNITED STATES VIRGIN ISLANDS">United States Virgin Islands</option>
+            <option value="URUGUAY">Uruguay</option>
+            <option value="UZBEKISTAN">Uzbekistan</option>
+            <option value="VATICAN">Vatican</option>
+            <option value="VENEZUELA">Venezuela</option>
+            <option value="VIETNAM">Vietnam</option>
+            <option value="WAKE ISLAND">Wake Island</option>
+            <option value="WALLIS AND FUTUNA ISLANDS">Wallis And Futuna Islands</option>
+            <option value="WESTERN SAHARAN">Western Saharan</option>
+            <option value="ZAMBIA">Zambia</option>
+            <option value="ZIMBABWE">Zimbabwe</option>
+
+      .row
+        .col-12.col-lg-6
+          .form-group
+            label for="id_number" Identification Document Number
+            input.form-control name="id_number" type="text"
+        .col-12.col-lg-6
+          br
+          small Acceptable forms of ID are government issued passports, national IDs, and driver's licenses.
+
+      .row
+        .col-12.col-lg-6
+          .form-group
+            label for="ethereum_address" Ethereum Address
+            input.form-control name="ethereum_address" type="text" placeholder="0x..."
+        .col-12.col-lg-6
+          br
+            small IMPORTANT: Make sure to use your Ethereum Wallet address, and NOT an addresse from exchanges like Coinbase, Kraken, Poloniex, Gemini, etc.
+
+      .row
+        .col-12.col-lg-6
+          label for="id_image" Upload Photo/Scan Of ID Document
+          .form-group.input-group.file-group
+            <input type="text" class="form-control file-value" placeholder="Upload ID Photo" readonly="">
+            <input type="file" multiple="">
+            <span class="input-group-btn">
+              <button class="btn btn-primary file-browser" type="button"><i class="fa fa-upload"></i></button>
+        .col-12.col-lg-6
+          br
+          small
+            | Please upload a high quality scan/photo of your ID document.
+            br
+            | Maximum filesize is 10MB, JPG/PNG/PDF file extensions only.
+
+      .row
+        .col-12.col-lg-6
+          label for="selfie_image" Upload Photo Of You Holding Your ID Document
+          .form-group.input-group.file-group
+            input type="text" class="form-control file-value" placeholder="Upload Selfie Photo" readonly=""
+            input type="file" multiple=""
+            span class="input-group-btn"
+              | Upload File
+              button.btn.btn-primary.file-browser type="button"
+                i.fa.fa-upload
+        .col-12.col-lg-6
+          br
+          small
+            | Please upload a high quality photo of you holding your ID document.
+            br
+            | Maximum filesize is 10MB, JPG/PNG/PDF file extensions only.
+
+      br
+      button.btn.btn-xl.btn-success.btn-block type="submit"
+        i.fa.fa-check-circle &nbsp;
+        | Complete Registration
+br
