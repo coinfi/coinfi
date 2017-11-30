@@ -56,9 +56,9 @@ section.section.bg-gray
     .row.gap-y
       .col-12.text-center
         p
-          | Contributions greater than or equal to 100 ETH during the presale will receive an additional 10% bonus.
+          | Contributions greater than or equal to 100 ETH during the presale will receive an additional 5% bonus.
           br
-          | Contributions greater than or equal to 300 ETH during the presale will receive an additional 20% bonus.
+          | Contributions greater than or equal to 300 ETH during the presale will receive an additional 15% bonus.
       .col-12.col-lg-3
         .card.card-bordered.card-hover-shadow
           .card-block
@@ -66,7 +66,7 @@ section.section.bg-gray
               | Presale Tier 1
               .pull-right(style="color: #0e97ff") Dec 4 - 17
             p.card-text
-              center 50% bonus
+              center 20% bonus
               br
               canvas#presale1
               javascript:
@@ -76,7 +76,7 @@ section.section.bg-gray
                     type: 'pie',
                     data: {
                       datasets: [{
-                        data: [50, 50],
+                        data: [20, 80],
                         backgroundColor: ['#46da60']
                       }]
                     },
@@ -93,7 +93,7 @@ section.section.bg-gray
               | Presale Tier 2
               .pull-right(style="color: #0e97ff") Dec 18 - 31
             p.card-text
-              center 40% bonus
+              center 15% bonus
               br
               canvas#presale2
               javascript:
@@ -103,7 +103,7 @@ section.section.bg-gray
                     type: 'pie',
                     data: {
                       datasets: [{
-                        data: [40, 60],
+                        data: [15, 85],
                         backgroundColor: ['#46da60']
                       }]
                     },
@@ -120,7 +120,7 @@ section.section.bg-gray
               | Presale Tier 3
               .pull-right(style="color: #0e97ff") Jan 1 - 15
             p.card-text
-              center 30% bonus
+              center 10% bonus
               br
               canvas#presale3
               javascript:
@@ -130,7 +130,7 @@ section.section.bg-gray
                     type: 'pie',
                     data: {
                       datasets: [{
-                        data: [30, 70],
+                        data: [10, 90],
                         backgroundColor: ['#46da60']
                       }]
                     },
@@ -146,11 +146,9 @@ section.section.bg-gray
             h5.card-title
               | Crowdsale
               .pull-right(style="color: #0e97ff") Jan 15 - 31
-            p.card-text.text-center
-              | 20% bonus during 1st hour
-              br
-              | 10% bonus during the 1st day
-              small Bonus capped at 20 ETH/participant
+            p.card-text.text-center style="line-height: 1.7"
+              span  5% bonus during 1st hour
+              small 20 ETH/person max during 1st hour
               br
               br
               canvas#crowdsale
@@ -161,8 +159,8 @@ section.section.bg-gray
                     type: 'pie',
                     data: {
                       datasets: [{
-                        data: [10, 10, 80],
-                        backgroundColor: ['#46da60', '#46da60']
+                        data: [5, 95],
+                        backgroundColor: ['#46da60']
                       }],
                       labels: [
                         'Bonus',
