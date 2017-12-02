@@ -12,12 +12,12 @@ main.main-content
 
     br
     .section-dialog.text-center
-      h2 <small>Step 4 of 4:</small> Join Telegram
+      h2 <small>Step 4 of 5:</small> Join Telegram
       p Get to know the team, ask questions, and get the latest important announcements via the CoinFi Telegram channel:
       = link_to "https://t.me/coinfi", target: '_blank', class: 'btn btn-primary btn-large' do
         <i class="fa fa-telegram"></i> Join CoinFi Telegram
       p
-      = link_to "Finish", "/dashboard", class: 'btn btn-success'
+      = link_to "Next", kyc_path, class: 'btn btn-success'
 
 javascript:
   fbq('track', 'CompleteRegistration', {});

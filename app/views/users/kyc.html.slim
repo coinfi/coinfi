@@ -1,13 +1,13 @@
 main.main-content
   .container
     .section-header
-      h2 Access the CoinFi Token Sale
+      h2 Register For The CoinFi Token Sale
       p.lead
         | You're one final step away to getting access!
         br
         | Please enter the following information to complete the registration.
 
-    = form_tag submit_kyc_path, multipart: true do |f|
+    = form_tag submit_kyc_path, multipart: true, class: 'directUpload', data: { 'form-data' => (@s3_direct_post.fields), 'url' => @s3_direct_post.url, 'host' => URI.parse(@s3_direct_post.url).host } do |f|
       .row
         .form-group.col-12.col-md-6
           label for="first_name" First Name
@@ -570,11 +570,11 @@ main.main-content
       .row
         .col-12.col-lg-6
           label for="id_image" Upload Photo/Scan Of ID Document
-          .form-group.input-group.file-group
-            <input type="text" class="form-control file-value" placeholder="Upload ID Photo" readonly="">
-            <input type="file" multiple="">
-            <span class="input-group-btn">
-              <button class="btn btn-primary file-browser" type="button"><i class="fa fa-upload"></i></button>
+          .file-group
+            button.btn.btn-primary.file-browser
+              i.fa.fa-upload &nbsp;
+              | Select File To Upload
+            = file_field_tag :id_doc_image, required: true
         .col-12.col-lg-6
           br
           small
@@ -585,22 +585,112 @@ main.main-content
       .row
         .col-12.col-lg-6
           label for="selfie_image" Upload Photo Of You Holding Your ID Document
-          .form-group.input-group.file-group
-            input type="text" class="form-control file-value" placeholder="Upload Selfie Photo" readonly=""
-            input type="file" multiple=""
-            span class="input-group-btn"
-              | Upload File
-              button.btn.btn-primary.file-browser type="button"
-                i.fa.fa-upload
+          .file-group
+            button.btn.btn-primary.file-browser
+              i.fa.fa-upload &nbsp;
+              | Select File To Upload
+            = file_field_tag :selfie_image, required: true
         .col-12.col-lg-6
           br
           small
             | Please upload a high quality photo of you holding your ID document.
             br
             | Maximum filesize is 5MB, JPG/PNG file extensions only.
+      br
+
+      .row
+        .col-12.text-center
+          h4 I Confirm The Following
+          p
+            => check_box_tag 'confirm_correct_info', '1', false, required: true
+            = label_tag "confirm_correct_info", "All the information I have entered is true and correct."
+            br
+            => check_box_tag 'confirm_no_legal_restrictions', '1', false, required: true
+            = label_tag "confirm_no_legal_restrictions", "I am not restricted under any law from providing this information or purchasing CoinFi tokens."
+            br
+            => check_box_tag 'confirm_privacy_policy', '1', false, required: true
+            = label_tag "confirm_privacy_policy", "I have read, understood and agree to CoinFi’s <a href='https://docs.google.com/document/d/1tfJlsvTm6VRKZOprbg_p3-d7ST4WX4sfAbFbajG4sjk/edit'>Privacy Policy</a>.".html_safe
+            br
+            => check_box_tag 'confirm_token_agreement', '1', false, required: true
+            = label_tag "confirm_token_agreement", "I have read, understood and agree to CoinFi’s <a href='https://docs.google.com/document/d/1q_2KWTOmqAJogpVw1SWq2bcpNWp6KqtjdxYTY-Getng/edit'>Token Agreement</a>.".html_safe
+            br
+            => check_box_tag 'confirm_terms_conditions', '1', false, required: true
+            = label_tag "confirm_terms_conditions", "I understand that any purchase of CoinFi’s Tokens may be subject to additional terms and conditions."
+            br
+            => check_box_tag 'confirm_whitelist_address', '1', false, required: true
+            = label_tag "confirm_whitelist_address", "I agree that I will send payment from and receive any CoinFi tokens to the digital wallet address I have entered on this page."
 
       br
-      button.btn.btn-xl.btn-success.btn-block type="submit"
+      button.btn.btn-xl.btn-success.btn-block type="submit" onclick="this.form.submit(); this.disabled=true; this.value='Sending…';"
         i.fa.fa-check-circle &nbsp;
         | Complete Registration
 br
+
+javascript:
+  $(function() {
+    $('.directUpload').find("input:file").each(function(i, elem) {
+      var fileInput    = $(elem);
+      var form         = $(fileInput.parents('form:first'));
+      var submitButton = form.find('button[type="submit"]');
+      var progressBar  = $("<div class='progress-bar'></div>");
+      var barContainer = $("<div class='progress'></div>").append(progressBar);
+      fileInput.after(barContainer);
+
+      fileInput.fileupload({
+        fileInput:       fileInput,
+        url:             form.data('url'),
+        type:            'POST',
+        autoUpload:       true,
+        formData:         form.data('form-data'),
+        paramName:        'file', // S3 does not like nested name fields i.e. name="user[avatar_url]"
+        dataType:         'XML',  // S3 returns XML if success_action_status is set to 201
+        replaceFileInput: false,
+        // https://stackoverflow.com/questions/17451629/maxfilesize-and-acceptfiletypes-in-blueimp-file-upload-plugin-do-not-work-why
+        add: function(e, data) {
+          var uploadErrors = [];
+          var acceptFileTypes = /^image\/(jpe?g|png)$/i;
+          if (data.files[0]['type'] && !acceptFileTypes.test(data.files[0]['type'])) {
+            uploadErrors.push('Not an accepted file type! Only JPG and PNG are allowed.');
+          }
+          if (data.files[0]['size'] && data.files[0]['size'] > 5000000) {
+            uploadErrors.push('Filesize is too big! Please resize or use a smaller image.');
+          }
+          if (uploadErrors.length > 0) {
+            alert(uploadErrors.join("\n"));
+          } else {
+            data.submit();
+          }
+        },
+        progressall: function (e, data) {
+          var progress = parseInt(data.loaded / data.total * 100, 10);
+          progressBar.css('width', progress + '%');
+          progressBar.text(progress + '%');
+        },
+        start: function (e) {
+          submitButton.prop('disabled', true);
+
+          progressBar.
+            css('width', '0%').
+            text("Loading...");
+        },
+        done: function(e, data) {
+          submitButton.prop('disabled', false);
+
+          // extract key and generate URL from response
+          var key   = $(data.jqXHR.responseXML).find("Key").text();
+          var url   = '//' + form.data('host') + '/' + key;
+
+          // create hidden field
+          var input = $("<input />", { type:'hidden', name: fileInput.attr('name'), value: url })
+          form.append(input);
+        },
+        fail: function(e, data) {
+          submitButton.prop('disabled', false);
+
+          progressBar.
+            css("background", "red").
+            text("Failed");
+        }
+      });
+    });
+  });

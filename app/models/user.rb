@@ -35,6 +35,38 @@ class User < ApplicationRecord
     end
   end
 
+  def in_referral_program?
+    token_sale && token_sale.fetch('referral_program', nil)
+  end
+
+  def kyc_completed?
+    token_sale && token_sale.fetch('ethereum_address', nil)
+  end
+
+  def kyc_result_cleared?
+    token_sale["artemis_report"] == "CLEARED"
+  end
+
+  def rejected_residence?
+    Artemis.restricted_residencies.include? token_sale["residency"]
+  end
+
+  def id_doc_image_key
+    token_sale["id_doc_image"].sub("//#{ENV.fetch('S3_BUCKET')}.s3.amazonaws.com/", "") if token_sale["id_doc_image"]
+  end
+
+  def selfie_image_key
+    token_sale["selfie_image"].sub("//#{ENV.fetch('S3_BUCKET')}.s3.amazonaws.com/", "") if token_sale["selfie_image"]
+  end
+
+  def approval_status
+    token_sale["individual_risk_approval_status"] if token_sale["individual_risk_approval_status"]
+  end
+
+  def similarity_score
+    token_sale["facial_recognition_similarity_score"] if token_sale["facial_recognition_similarity_score"]
+  end
+
 protected
 
   def password_required?

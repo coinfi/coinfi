@@ -12,7 +12,7 @@
       <%= form_for(:user, url: new_user_signup_path) do |f| %>
         <%= devise_error_messages! %>
         <div class="form-group">
-          <%= f.email_field :email, class: "form-control form-control-lg", placeholder: "Email" %>
+          <%= f.email_field :email, class: "form-control form-control-lg", autofocus: true, placeholder: "Email" %>
         </div>
 
         <%= f.submit "Register", onclick: "this.form.submit(); this.disabled=true; this.value='Sending…';", class: "btn btn-block btn-lg btn-success" %>
