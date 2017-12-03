@@ -36,11 +36,11 @@ class User < ApplicationRecord
   end
 
   def in_referral_program?
-    token_sale && token_sale.fetch('referral_program', nil)
+    token_sale && token_sale["referral_program"].present?
   end
 
   def kyc_completed?
-    token_sale && token_sale.fetch('ethereum_address', nil)
+    token_sale && token_sale["ethereum_address"].present?
   end
 
   def kyc_result_cleared?

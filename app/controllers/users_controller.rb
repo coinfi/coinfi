@@ -78,7 +78,9 @@ class UsersController < DeviseController
       first_name last_name date_of_birth gender nationality residency id_number ethereum_address id_doc_image selfie_image
       confirm_correct_info confirm_no_legal_restrictions confirm_privacy_policy confirm_token_agreement confirm_terms_conditions confirm_whitelist_address
     ]
-    redirect_to kyc, notice: 'You must fill in all fields!' unless required_params.all? { |k| params[k].present? }
+    unless required_params.all? { |k| params[k].present? }
+      return redirect_to kyc_path, notice: 'You must fill in all fields, including the check boxes!'
+    end
 
     user_id = current_user.id
 

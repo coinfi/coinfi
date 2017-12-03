@@ -7,7 +7,7 @@ main.main-content
         br
         | Please enter the following information to complete the registration.
 
-    = form_tag submit_kyc_path, multipart: true, class: 'directUpload', data: { 'form-data' => (@s3_direct_post.fields), 'url' => @s3_direct_post.url, 'host' => URI.parse(@s3_direct_post.url).host } do |f|
+    = form_tag submit_kyc_path, multipart: true, id: 'kyc-form', class: 'directUpload', data: { 'form-data' => (@s3_direct_post.fields), 'url' => @s3_direct_post.url, 'host' => URI.parse(@s3_direct_post.url).host } do |f|
       .row
         .form-group.col-12.col-md-6
           label for="first_name" First Name
@@ -619,15 +619,18 @@ main.main-content
             br
             => check_box_tag 'confirm_whitelist_address', '1', false, required: true
             = label_tag "confirm_whitelist_address", "I agree that I will send payment from and receive any CoinFi tokens to the digital wallet address I have entered on this page."
-
+          p.lead <strong>Note:</strong> The submission process can take up to 60 seconds so please be patient and stay on the page; do NOT refresh, click the Back button, or click anything else on the page!
       br
-      button.btn.btn-xl.btn-success.btn-block type="submit" onclick="this.form.submit(); this.disabled=true; this.value='Sending…';"
+      button.btn.btn-xl.btn-success.btn-block type="submit"
         i.fa.fa-check-circle &nbsp;
         | Complete Registration
 br
 
 javascript:
   $(function() {
+    $('form#kyc-form').submit(function(){
+      $(this).find('button[type=submit]').prop('disabled', true).text('Processing...');
+    });
     $('.directUpload').find("input:file").each(function(i, elem) {
       var fileInput    = $(elem);
       var form         = $(fileInput.parents('form:first'));
@@ -674,8 +677,6 @@ javascript:
             text("Loading...");
         },
         done: function(e, data) {
-          submitButton.prop('disabled', false);
-
           // extract key and generate URL from response
           var key   = $(data.jqXHR.responseXML).find("Key").text();
           var url   = '//' + form.data('host') + '/' + key;
@@ -683,10 +684,10 @@ javascript:
           // create hidden field
           var input = $("<input />", { type:'hidden', name: fileInput.attr('name'), value: url })
           form.append(input);
+
+          submitButton.prop('disabled', false);
         },
         fail: function(e, data) {
-          submitButton.prop('disabled', false);
-
           progressBar.
             css("background", "red").
             text("Failed");
