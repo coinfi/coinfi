@@ -16,11 +16,11 @@ main.main-content
           - else
             p.lead Thanks for submitting your information!<br>We're currently processing your security verification.
             p You'll receive an email notification once the verification is complete.
-            p If you think this is an error, please reach out to <a href="mailto:contact@coinfi.com">contact@coinfi.com</a> with your registartion email to see if we can manually resolve the issue.
+            p If you think this is an error, please reach out to <a href="mailto:contact@coinfi.com">contact@coinfi.com</a> with your registration email to see if we can manually resolve the issue.
 
         - else
-          p.lead You have one final step remaining for registration!
-          p= link_to "Finish Registration", kyc_path, class: "btn btn-xl btn-success"
+          p.lead In order to be eligible for the token sale you need to complete registration and get whitelisted - there's just one final step remaining!
+          p= link_to "Finish Registration and Get Whitelisted", kyc_path, class: "btn btn-xl btn-success"
 
       .col-lg-6
         - if @referral_link.present?
