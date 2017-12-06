@@ -1,6 +1,9 @@
 class Artemis
   def self.restricted_residencies
-    [ "CANADA", "HONG KONG", "UNITED STATES", "CAYMAN ISLANDS", "CHINA" ]
+    [
+      "CANADA", "HONG KONG", "CAYMAN ISLANDS", "CHINA",
+      "UNITED STATES OF AMERICA", "UNITED STATES VIRGIN ISLANDS", "UNITED STATES MINOR OUTLYING ISLANDS"
+    ]
   end
 
   def self.auth_hash
