@@ -5,7 +5,10 @@ main.main-content
       p.lead
         | You're one final step away to getting access!
         br
-        | Please enter the following information to complete the registration.
+        | Please enter the following information to complete the registration and get whitelisted.
+        br
+      p
+        strong Note: We regret to inform you that residents of the United States of America, Canada, Hong Kong, the People's Republic of China, and the Cayman Islands are ineligible for participation at this time.
 
     = form_tag submit_kyc_path, multipart: true, id: 'kyc-form', class: 'directUpload', data: { 'form-data' => (@s3_direct_post.fields), 'url' => @s3_direct_post.url, 'host' => URI.parse(@s3_direct_post.url).host } do |f|
       .row
@@ -78,10 +81,10 @@ main.main-content
             <option value="BURUNDI">Burundi</option>
             <option value="CAMBODIA">Cambodia</option>
             <option value="CAMEROON">Cameroon</option>
-            <option value="CANADA">Canada</option>
+            /<option value="CANADA">Canada</option>
             <option value="CAPE VERDE">Cape Verde</option>
             <option value="CARIBBEAN NETHERLANDS">Caribbean Netherlands</option>
-            <option value="CAYMAN ISLANDS">Cayman Islands</option>
+            /<option value="CAYMAN ISLANDS">Cayman Islands</option>
             <option value="CHAD">Chad</option>
             <option value="CHILE">Chile</option>
             <option value="CHRISTMAS ISLAND">Christmas Island</option>
@@ -134,7 +137,7 @@ main.main-content
             <option value="HAITI">Haiti</option>
             <option value="HEARD AND MCDONALD ISLANDS">Heard And Mcdonald Islands</option>
             <option value="HONDURAS">Honduras</option>
-            <option value="HONG KONG">Hong Kong</option>
+            /<option value="HONG KONG">Hong Kong</option>
             <option value="HOWLAND ISLAND">Howland Island</option>
             <option value="HUNGARY">Hungary</option>
             <option value="ICELAND">Iceland</option>
@@ -276,9 +279,9 @@ main.main-content
             <option value="UKRAINE">Ukraine</option>
             <option value="UNITED ARAB EMIRATES">United Arab Emirates</option>
             <option value="UNITED KINGDOM">United Kingdom</option>
-            <option value="UNITED STATES MINOR OUTLYING ISLANDS">United States Minor Outlying Islands</option>
-            <option value="UNITED STATES OF AMERICA">United States Of America</option>
-            <option value="UNITED STATES VIRGIN ISLANDS">United States Virgin Islands</option>
+            /<option value="UNITED STATES MINOR OUTLYING ISLANDS">United States Minor Outlying Islands</option>
+            /<option value="UNITED STATES OF AMERICA">United States Of America</option>
+            /<option value="UNITED STATES VIRGIN ISLANDS">United States Virgin Islands</option>
             <option value="URUGUAY">Uruguay</option>
             <option value="UZBEKISTAN">Uzbekistan</option>
             <option value="VATICAN">Vatican</option>
@@ -555,7 +558,7 @@ main.main-content
             label for="id_number" Identification Document Number
             input.form-control name="id_number" type="text" required="required"
         .col-12.col-lg-6
-          br
+          br.hidden-lg-down
           small Acceptable forms of ID are government issued passports, national IDs, and driver's licenses.
 
       .row
@@ -564,66 +567,80 @@ main.main-content
             label for="ethereum_address" Ethereum Address
             input.form-control name="ethereum_address" type="text" placeholder="0x..."  required="required"
         .col-12.col-lg-6
-          br
-            small IMPORTANT: Make sure to use your Ethereum Wallet address, and NOT an address from exchanges like Coinbase, Kraken, Poloniex, Gemini, etc.
+            small(style="margin-top: 10px") You will deposit ETH and receive tokens at this address.<br>IMPORTANT: Make sure to use your Ethereum Wallet address, and NOT an address from exchanges like Coinbase, Kraken, Poloniex, Gemini, Bittrex, etc.
 
       .row
         .col-12.col-lg-6
           label for="id_image" Upload Photo/Scan Of ID Document
           .file-group
-            button.btn.btn-primary.file-browser
+            button.btn.btn-primary.btn-block.file-browser
               i.fa.fa-upload &nbsp;
               | Select File To Upload
             = file_field_tag :id_doc_image, required: true
         .col-12.col-lg-6
-          br
+          br.hidden-lg-down
           small
             | Please upload a high quality scan/photo of your ID document.
             br
             | Maximum filesize is 5MB, JPG/PNG file extensions only.
+          .fa.fa-info-circle data-toggle="tooltip" data-placement="top" data-html="true" title="<img src='https://unichange.me/images/verification_docs/id_both_sides.png'>"
 
       .row
         .col-12.col-lg-6
           label for="selfie_image" Upload Photo Of You Holding Your ID Document
           .file-group
-            button.btn.btn-primary.file-browser
+            button.btn.btn-primary.btn-block.file-browser
               i.fa.fa-upload &nbsp;
               | Select File To Upload
             = file_field_tag :selfie_image, required: true
         .col-12.col-lg-6
-          br
+          br.hidden-lg-down
           small
             | Please upload a high quality photo of you holding your ID document.
             br
             | Maximum filesize is 5MB, JPG/PNG file extensions only.
+          .fa.fa-info-circle data-toggle="tooltip" data-placement="top" data-html="true" title="<img src='https://unichange.me/images/verification_docs/international_pass_selfie.png'>"
       br
 
       .row
         .col-12.text-center
           h4 I Confirm The Following
-          p
-            => check_box_tag 'confirm_correct_info', '1', false, required: true
-            = label_tag "confirm_correct_info", "All the information I have entered is true and correct."
-            br
-            => check_box_tag 'confirm_no_legal_restrictions', '1', false, required: true
-            = label_tag "confirm_no_legal_restrictions", "I am not restricted under any law from providing this information or purchasing CoinFi tokens."
-            br
-            => check_box_tag 'confirm_privacy_policy', '1', false, required: true
-            = label_tag "confirm_privacy_policy", "I have read, understood and agree to CoinFi’s <a href='https://docs.google.com/document/d/1tfJlsvTm6VRKZOprbg_p3-d7ST4WX4sfAbFbajG4sjk/edit'>Privacy Policy</a>.".html_safe
-            br
-            => check_box_tag 'confirm_token_agreement', '1', false, required: true
-            = label_tag "confirm_token_agreement", "I have read, understood and agree to CoinFi’s <a href='https://docs.google.com/document/d/1q_2KWTOmqAJogpVw1SWq2bcpNWp6KqtjdxYTY-Getng/edit'>Token Agreement</a>.".html_safe
-            br
-            => check_box_tag 'confirm_terms_conditions', '1', false, required: true
-            = label_tag "confirm_terms_conditions", "I understand that any purchase of CoinFi’s Tokens may be subject to additional terms and conditions."
-            br
-            => check_box_tag 'confirm_whitelist_address', '1', false, required: true
-            = label_tag "confirm_whitelist_address", "I agree that I will send payment from and receive any CoinFi tokens to the digital wallet address I have entered on this page."
-          p.lead <strong>Note:</strong> The submission process can take up to 60 seconds so please be patient and stay on the page; do NOT refresh, click the Back button, or click anything else on the page!
+      .row
+        .col-3.text-right
+          => check_box_tag 'confirm_correct_info', '1', false, required: true
+        .col-9
+          = label_tag "confirm_correct_info", "All the information I have entered is true and correct."
+      .row
+        .col-3.text-right
+          => check_box_tag 'confirm_no_legal_restrictions', '1', false, required: true
+        .col-9
+          = label_tag "confirm_no_legal_restrictions", "I am not restricted under any law from providing this information or purchasing CoinFi tokens."
+      .row
+        .col-3.text-right
+          => check_box_tag 'confirm_privacy_policy', '1', false, required: true
+        .col-9
+          = label_tag "confirm_privacy_policy", "I have read, understood and agree to CoinFi’s <a href='https://docs.google.com/document/d/1tfJlsvTm6VRKZOprbg_p3-d7ST4WX4sfAbFbajG4sjk/edit' target='_blank'>Privacy Policy</a>.".html_safe
+      .row
+        .col-3.text-right
+          => check_box_tag 'confirm_token_agreement', '1', false, required: true
+        .col-9
+          = label_tag "confirm_token_agreement", "I have read, understood and agree to CoinFi’s <a href='https://docs.google.com/document/d/1q_2KWTOmqAJogpVw1SWq2bcpNWp6KqtjdxYTY-Getng/edit' target='_blank'>Token Agreement</a>.".html_safe
+      .row
+        .col-3.text-right
+          => check_box_tag 'confirm_terms_conditions', '1', false, required: true
+        .col-9
+          = label_tag "confirm_terms_conditions", "I understand that any purchase of CoinFi’s Tokens may be subject to additional terms and conditions."
+      .row
+        .col-3.text-right
+          => check_box_tag 'confirm_whitelist_address', '1', false, required: true
+        .col-9
+          = label_tag "confirm_whitelist_address", "I agree that I will send payment from and receive any CoinFi tokens to the digital wallet address I have entered on this page."
+      br
+      p.lead.text-center <strong>Note:</strong> The submission process can take up to 60 seconds so please be patient and stay on the page.<br>Do NOT refresh, click the Back button, close the window, or click anything else on the page!
       br
       button.btn.btn-xl.btn-success.btn-block type="submit"
         i.fa.fa-check-circle &nbsp;
-        | Complete Registration
+        | Complete Registration and Get Whitelisted
 br
 
 script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/crypto-js.min.js"
@@ -671,6 +688,8 @@ javascript:
   };
 
   $(function() {
+    $('[data-toggle="tooltip"]').tooltip();
+
     $('form input[name=ethereum_address]').change(function() {
       var ethereumAddress = $(this)[0].value;
       console.log(ethereumAddress);
@@ -682,6 +701,7 @@ javascript:
     $('form#kyc-form').submit(function(){
       $(this).find('button[type=submit]').prop('disabled', true).text('Processing...');
     });
+
     $('.directUpload').find("input:file").each(function(i, elem) {
       var fileInput    = $(elem);
       var form         = $(fileInput.parents('form:first'));
@@ -724,7 +744,8 @@ javascript:
           submitButton.prop('disabled', true);
 
           progressBar.
-            css('width', '0%').
+            css("width", "0%").
+            css("background", "#0275d8").
             text("Loading...");
         },
         done: function(e, data) {
@@ -741,7 +762,7 @@ javascript:
         fail: function(e, data) {
           progressBar.
             css("background", "red").
-            text("Failed");
+            text("Upload failed, please try again!");
         }
       });
     });
