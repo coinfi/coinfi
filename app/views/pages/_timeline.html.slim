@@ -9,8 +9,8 @@ section.section.bg-gray
         ul.timeline
           li.event[data-date="Nov 1"] Whitepaper Release
           li.event[data-date="Nov 10"] Token Sale Registration Opens
-          li.event[data-date="Dec 4"] Presale Begins
-          li.event[data-date="Jan 15"] Crowdsale Begins
+          li.event[data-date="Dec 15"] Presale Begins
+          li.event[data-date="Jan 18"] Crowdsale Begins
           li.event[data-date="TBA"] Token Distribution
           li.event[data-date="TBA"] Exchange Trading
       .col-12.col-md-6
@@ -54,19 +54,14 @@ section.section.bg-gray
       small Early Mover Rewards
       h2 Bonus Structure
     .row.gap-y
-      .col-12.text-center
-        p
-          | Contributions greater than or equal to 100 ETH during the presale will receive an additional 10% bonus.
-          br
-          | Contributions greater than or equal to 300 ETH during the presale will receive an additional 20% bonus.
       .col-12.col-lg-3
         .card.card-bordered.card-hover-shadow
           .card-block
             h5.card-title
               | Presale Tier 1
-              .pull-right(style="color: #0e97ff") Dec 4 - 17
+              .pull-right(style="color: #0e97ff") Dec 15 - 29
             p.card-text
-              center 50% bonus
+              center 20% bonus
               br
               canvas#presale1
               javascript:
@@ -76,7 +71,7 @@ section.section.bg-gray
                     type: 'pie',
                     data: {
                       datasets: [{
-                        data: [50, 50],
+                        data: [20, 80],
                         backgroundColor: ['#46da60']
                       }]
                     },
@@ -91,9 +86,9 @@ section.section.bg-gray
           .card-block
             h5.card-title
               | Presale Tier 2
-              .pull-right(style="color: #0e97ff") Dec 18 - 31
+              .pull-right(style="color: #0e97ff") Dec 30 - Jan 7
             p.card-text
-              center 40% bonus
+              center 15% bonus
               br
               canvas#presale2
               javascript:
@@ -103,7 +98,7 @@ section.section.bg-gray
                     type: 'pie',
                     data: {
                       datasets: [{
-                        data: [40, 60],
+                        data: [15, 85],
                         backgroundColor: ['#46da60']
                       }]
                     },
@@ -118,9 +113,9 @@ section.section.bg-gray
           .card-block
             h5.card-title
               | Presale Tier 3
-              .pull-right(style="color: #0e97ff") Jan 1 - 15
+              .pull-right(style="color: #0e97ff") Jan 8 - 17
             p.card-text
-              center 30% bonus
+              center 10% bonus
               br
               canvas#presale3
               javascript:
@@ -130,7 +125,7 @@ section.section.bg-gray
                     type: 'pie',
                     data: {
                       datasets: [{
-                        data: [30, 70],
+                        data: [10, 90],
                         backgroundColor: ['#46da60']
                       }]
                     },
@@ -145,12 +140,10 @@ section.section.bg-gray
           .card-block
             h5.card-title
               | Crowdsale
-              .pull-right(style="color: #0e97ff") Jan 15 - 31
-            p.card-text.text-center
-              | 20% bonus during 1st hour
-              br
-              | 10% bonus during the 1st day
-              small Bonus capped at 20 ETH/participant
+              .pull-right(style="color: #0e97ff") Jan 18 - 31
+            p.card-text.text-center style="line-height: 1.7"
+              span  5% bonus during 1st hour
+              small 5 ETH/person max during 1st hour
               br
               br
               canvas#crowdsale
@@ -161,8 +154,8 @@ section.section.bg-gray
                     type: 'pie',
                     data: {
                       datasets: [{
-                        data: [10, 10, 80],
-                        backgroundColor: ['#46da60', '#46da60']
+                        data: [5, 95],
+                        backgroundColor: ['#46da60']
                       }],
                       labels: [
                         'Bonus',
@@ -175,6 +168,13 @@ section.section.bg-gray
                     }
                   });
                 });
+      .col-12.text-center
+        p
+          | Please note that presale contributions require a 1 ETH minimum. There is no minimum for the crowdsale. In addition to the bonuses above,
+          br
+          | contributions greater than or equal to 100 ETH during the presale will receive an extra 5% bonus, and
+          br
+          | contributions greater than or equal to 300 ETH during the presale will receive an extra 15% bonus.
     br
     br
     br
