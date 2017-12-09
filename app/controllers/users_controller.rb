@@ -157,20 +157,8 @@ private
 
   def set_s3_direct_post
     @s3_direct_post = S3_BUCKET.presigned_post(
-      #key: "#{current_user.id}/#{SecureRandom.uuid}/${filename}",
       key: "#{current_user.id}/${filename}",
       success_action_status: '201',
-      #acl: 'public-read'
     )
   end
-=begin
-  def file_from_s3(filename, stream)
-    filename = filename.split('/').last
-    File.open(filename, 'w') do |file|
-      stream.respond_to?(:read) ? IO.copy_stream(stream, file) : file.write(stream)
-      #file.open
-    end
-    File.open(filename, 'rb')
-  end
-=end
 end
