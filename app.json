@@ -5,6 +5,21 @@
     "ADMINISTRATE_PASSWORD": {
       "required": true
     },
+    "ARTEMIS_API_ENDPOINT": {
+      "required": true
+    },
+    "ARTEMIS_API_TOKEN": {
+      "required": true
+    },
+    "ARTEMIS_DOMAIN": {
+      "required": true
+    },
+    "AWS_ACCESS_KEY_ID": {
+      "required": true
+    },
+    "AWS_SECRET_ACCESS_KEY": {
+      "required": true
+    },
     "BLAZER_DATABASE_URL": {
       "required": true
     },
@@ -48,6 +63,9 @@
       "required": true
     },
     "ROOT_DOMAIN": {
+      "required": true
+    },
+    "S3_BUCKET": {
       "required": true
     },
     "SECRET_KEY_BASE": {

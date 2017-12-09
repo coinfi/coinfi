@@ -9,7 +9,9 @@ Rails.application.routes.draw do
     get "/estimate-contribution" => "users#estimate_contribution", as: "new_user_estimate_contribution"
     post "/submit-contribution" => "users#submit_contribution", as: "new_user_submit_contribution"
     get "/join-telegram" => "users#join_telegram", as: "new_user_join_telegram"
-    get "/dashboard" => "users#dashboard", as: "new_user_dashboard"
+    get "/dashboard" => "users#dashboard", as: "dashboard"
+    get "/kyc", to: "users#kyc", as: "kyc"
+    post "/kyc", to: "users#submit_kyc", as: "submit_kyc"
   end
   devise_for :users,
     controllers: {
@@ -28,7 +30,6 @@ Rails.application.routes.draw do
     root to: "coins#index"
   end
 
-  get '/dashboard', to: 'users#dashboard', as: 'user_root'
   root 'pages#home'
 
   get '/' => 'pages#home', as: 'home'

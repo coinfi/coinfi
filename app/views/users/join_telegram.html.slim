@@ -12,12 +12,19 @@ main.main-content
 
     br
     .section-dialog.text-center
-      h2 <small>Step 4 of 4:</small> Join Telegram
+      h2 <small>Step 4 of 5:</small> Join Telegram and Finalize Registration
+      br
+
+      h4 Part 1
       p Get to know the team, ask questions, and get the latest important announcements via the CoinFi Telegram channel:
       = link_to "https://t.me/coinfi", target: '_blank', class: 'btn btn-primary btn-large' do
         <i class="fa fa-telegram"></i> Join CoinFi Telegram
-      p
-      = link_to "Finish", "/dashboard", class: 'btn btn-success'
+
+      hr
+
+      h4 Part 2
+      p We need some information from you to meet KYC/AML (Know Your Customer, Anti Money Laundering) requirements - only contributors who complete this step may purchase tokens.
+      p= link_to "Finalize Registration", kyc_path, class: 'btn btn-success btn-xl'
 
 javascript:
   fbq('track', 'CompleteRegistration', {});
