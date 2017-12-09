@@ -69,7 +69,7 @@ class UsersController < DeviseController
   end
 
   def kyc
-    #redirect_to dashboard_path if current_user.kyc_completed?
+    redirect_to dashboard_path if current_user.kyc_completed?
   end
 
   def submit_kyc
