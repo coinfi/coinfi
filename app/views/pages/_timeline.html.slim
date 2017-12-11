@@ -58,8 +58,6 @@ section.section.bg-gray
               | Presale Tier 1
               .pull-right(style="color: #0e97ff") Dec 15 - 29
             p.card-text
-              center 20% bonus
-              br
               canvas#presale1
               javascript:
                 $(function() {
@@ -68,8 +66,8 @@ section.section.bg-gray
                     type: 'pie',
                     data: {
                       datasets: [{
-                        data: [20, 80],
-                        backgroundColor: ['#46da60']
+                        data: [20, 5, 10, 65],
+                        backgroundColor: ['#46da60', '', '']
                       }]
                     },
                     options: {
@@ -78,6 +76,17 @@ section.section.bg-gray
                     }
                   });
                 });
+            small.table-responsive.text-success
+              table.table.table-sm
+                tr
+                  th 1 - 100 ETH
+                  td.text-right 20% bonus
+                tr
+                  th 100 - 300 ETH
+                  td.text-right 25% bonus
+                tr
+                  th 300+ ETH
+                  td.text-right 35% bonus
       .col-12.col-lg-3
         .card.card-bordered.card-hover-shadow
           .card-block
@@ -85,8 +94,6 @@ section.section.bg-gray
               | Presale Tier 2
               .pull-right(style="color: #0e97ff") Dec 30 - Jan 7
             p.card-text
-              center 15% bonus
-              br
               canvas#presale2
               javascript:
                 $(function() {
@@ -105,6 +112,17 @@ section.section.bg-gray
                     }
                   });
                 });
+            small.table-responsive.text-success
+              table.table.table-sm
+                tr
+                  th 1 - 100 ETH
+                  td.text-right 15% bonus
+                tr
+                  th 100 - 300 ETH
+                  td.text-right 20% bonus
+                tr
+                  th 300+ ETH
+                  td.text-right 30% bonus
       .col-12.col-lg-3
         .card.card-bordered.card-hover-shadow
           .card-block
@@ -112,8 +130,6 @@ section.section.bg-gray
               | Presale Tier 3
               .pull-right(style="color: #0e97ff") Jan 8 - 17
             p.card-text
-              center 10% bonus
-              br
               canvas#presale3
               javascript:
                 $(function() {
@@ -132,6 +148,17 @@ section.section.bg-gray
                     }
                   });
                 });
+            small.table-responsive.text-success
+              table.table.table-sm
+                tr
+                  th 1 - 100 ETH
+                  td.text-right 10% bonus
+                tr
+                  th 100 - 300 ETH
+                  td.text-right 15% bonus
+                tr
+                  th 300+ ETH
+                  td.text-right 25% bonus
       .col-12.col-lg-3
         .card.card-bordered.card-hover-shadow
           .card-block
@@ -139,10 +166,6 @@ section.section.bg-gray
               | Crowdsale
               .pull-right(style="color: #0e97ff") Jan 18 - 31
             p.card-text.text-center style="line-height: 1.7"
-              span  5% bonus during 1st hour
-              small 5 ETH/person max during 1st hour
-              br
-              br
               canvas#crowdsale
               javascript:
                 $(function() {
@@ -165,13 +188,20 @@ section.section.bg-gray
                     }
                   });
                 });
-      .col-12.text-center
-        p
-          | Please note that presale contributions require a 1 ETH minimum. There is no minimum for the crowdsale. In addition to the bonuses above,
-          br
-          | contributions greater than or equal to 100 ETH during the presale will receive an extra 5% bonus, and
-          br
-          | contributions greater than or equal to 300 ETH during the presale will receive an extra 15% bonus.
+            small.table-responsive
+              table.table.table-sm.text-success
+                tr
+                  td.text-muted.text-center colspan="2" During 1st hour of crowdsale:
+                tr
+                  th 0 - 5 ETH
+                  td.text-right 5% bonus
+                tr
+                  td.text-muted.text-center colspan="2" After 1st hour of crowdsale:
+                tr
+                  th 0 - 10000 ETH
+                  td.text-right No bonus
+                tr
+                  td.text-muted.text-center colspan="2" 5 ETH/person max during 1st hour
     br
     br
     br
