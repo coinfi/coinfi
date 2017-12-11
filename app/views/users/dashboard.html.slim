@@ -1,6 +1,18 @@
 main.main-content
   .container
     .row
+      .col-12
+        .alert.alert-warning
+          h5 Phishing Alert!
+          p The ONLY place you will see the CoinFi Ethereum funding address is on this Dashboard. We will never publish the address anywhere else. There are multiple funding addresses and you will be assigned to a specific one, so you must find your particular funding address on the Dashboard. Make sure you are logged in using your email and password at <a href="https://sale.coinfi.com/dashboard">https://sale.coinfi.com/dashboard</a>. IGNORE all other sources including email, Telegram, or blog posts, even if it looks like it comes from CoinFi.
+          p We will never request personal information via email; make sure to ignore all emails asking for your personal information.
+    .row
+      .col-12
+        .alert.alert-success
+          h5 CoinFi Ethereum Contribution Address
+          p This is where you will see your assigned Ethereum contribution address when it is released.
+
+    .row
       .col-lg-6
         h2 Dashboard
         br
@@ -11,8 +23,8 @@ main.main-content
           - elsif current_user.kyc_result_cleared?
             p Congrats on signing up for the CoinFi token sale!
             p Stay tuned to your email inbox for more information regarding the token sale details, including detailed instructions, the exact timeline for when the sale opens, as well as the official Ethereum contribution address.
-            /p.lead Here is your Ethereum contribution address: <code>0x1234567890(PLACEHOLDER)</code>
-            / TODO: Add countdown for the current sale
+            p Token issuance occurs on Feb 9.
+
           - else
             p.lead Thanks for submitting your information!<br>We're currently processing your security verification.
             p You'll receive an email notification once the verification is complete.
