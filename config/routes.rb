@@ -26,6 +26,7 @@ Rails.application.routes.draw do
     resources :articles
     resources :users
     post "users/:id/toggle_referral_program" => "users#toggle_referral_program", as: 'toggle_referral_program'
+    post "users/:id/run_kyc" => "users#run_kyc", as: 'run_kyc'
     get 'reddit' => 'articles#reddit'
     root to: "coins#index"
   end

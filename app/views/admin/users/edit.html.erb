@@ -23,6 +23,7 @@ It displays a header, and renders the `_form` partial to do the heavy lifting.
   </h1>
 
   <div>
+    <%= link_to "Run KYC", admin_run_kyc_path, class: "button", method: :post %>
     <%= link_to(
       "#{t("administrate.actions.show")} #{page.page_title}",
       [namespace, page.resource],
@@ -34,3 +35,4 @@ It displays a header, and renders the `_form` partial to do the heavy lifting.
 <section class="main-content__body">
   <%= render "form", page: page %>
 </section>
+

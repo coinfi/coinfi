@@ -20,8 +20,6 @@ class Artemis
       "nationality" => params[:nationality],
       "country_of_residence" => params[:residency],
       "gender" => params[:gender].upcase,
-      "date_of_birth" => Artemis.format_dob(params[:date_of_birth]),
-      "identification_number" => params[:id_number],
       "ssic_code" => "UNKNOWN",
       "ssoc_code" => "UNKNOWN",
       "onboarding_mode" => "NON FACE-TO-FACE",

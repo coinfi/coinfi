@@ -82,8 +82,6 @@ class UsersController < DeviseController
       return redirect_to kyc_path, notice: 'You must fill in all fields, including the check boxes!'
     end
 
-    user_id = current_user.id
-
     current_user.token_sale = {} if current_user.token_sale.blank?
     current_user.token_sale.merge!({
       "first_name" => params[:first_name],
@@ -107,37 +105,8 @@ class UsersController < DeviseController
       redirect_to dashboard_path and return
     end
 
-    s3 = Aws::S3::Client.new
-
     # TODO: Run in background job?
-    begin
-      # Send user data to Artemis
-      response = Artemis.individual_risk(user_id, params)
-      current_user.token_sale["individual_risk_api_response"] = response
-      approval_status = Artemis.individual_risk_approval_status(response)
-      current_user.token_sale["individual_risk_approval_status"] = approval_status
-
-      # Send photos to Artemis
-      id_doc_string_io = s3.get_object(bucket: ENV.fetch('S3_BUCKET'), key: current_user.id_doc_image_key).body
-      source_doc_id = Artemis.upload_individual_document(user_id, id_doc_string_io, current_user.id_doc_image_key)
-
-      selfie_string_io = s3.get_object(bucket: ENV.fetch('S3_BUCKET'), key: current_user.selfie_image_key).body
-      target_doc_id = Artemis.upload_individual_document(user_id, selfie_string_io, current_user.selfie_image_key)
-
-      # Run documents through facial recognition
-      response = Artemis.facial_recognition(user_id, source_doc_id, target_doc_id)
-      current_user.token_sale["facial_recognition_api_response"] = response
-      similarity_score = Artemis.facial_recognition_similarity_score(response)
-      current_user.token_sale["facial_recognition_similarity_score"] = similarity_score
-
-      # Run individual customer report
-      current_user.token_sale["artemis_report"] = Artemis.individual_report(user_id)
-      current_user.save
-    rescue => e
-      # TODO: Log error using Rollbar?
-      # Don't actually raise
-      puts e, e.backtrace
-    end
+    current_user.run_kyc!
 
     redirect_to dashboard_path
   end
