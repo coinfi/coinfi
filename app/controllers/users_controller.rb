@@ -137,7 +137,8 @@ class UsersController < DeviseController
       current_user.save
     rescue => e
       # TODO: Log error using Rollbar?
-      raise
+      # Don't actually raise
+      puts e, e.backtrace
     end
 
     redirect_to dashboard_path
