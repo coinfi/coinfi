@@ -12,13 +12,13 @@ main.main-content
 
         - if current_user.kyc_completed?
           - if current_user.rejected_residence?
-            p.lead Unfortunately, we cannot accept funds from your country of residence.
+            p Unfortunately, we cannot accept funds from your country of residence.
           - elsif current_user.kyc_result_cleared?
             p Congrats on signing up for the CoinFi token sale!
             p Stay tuned to your email inbox for more information regarding the token sale details, including detailed instructions, the exact timeline for when the sale opens, as well as the official Ethereum contribution address.
 
           - else
-            p.lead
+            p
               | Thanks for submitting your information!
               br
               | We're currently processing your security verification.
@@ -30,6 +30,7 @@ main.main-content
           p= link_to "Finish Registration and Get Whitelisted", kyc_path, class: "btn btn-xl btn-success"
 
         - if current_user.kyc_completed? && !current_user.kyc_result_cleared?
+        /
           p
             a.btn.btn-success href="https://sale.coinfi.com" Check out the CoinFi Token Sale Page
           p

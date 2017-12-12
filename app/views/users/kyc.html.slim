@@ -3,7 +3,7 @@ main.main-content
     .section-header
       h2 Register For The CoinFi Token Sale
       p.lead
-        | You're one final step away to getting access!
+        | You're one final step away!
         br
         | Please enter the following information to complete the registration and get whitelisted.
         br
@@ -552,14 +552,6 @@ main.main-content
             <option value="YEMENI">Yemeni</option>
             <option value="ZAMBIAN">Zambian</option>
             <option value="ZIMBABWEAN">Zimbabwean</option>
-      .row
-        .col-12.col-lg-6
-          .form-group
-            label for="id_number" Identification Document Number
-            input.form-control name="id_number" type="text" required="required"
-        .col-12.col-lg-6
-          br.hidden-lg-down
-          small Acceptable forms of ID are government issued passports, national IDs, and driver's licenses.
 
       .row
         .col-12.col-lg-6
@@ -567,7 +559,7 @@ main.main-content
             label for="ethereum_address" Ethereum Address
             input.form-control name="ethereum_address" type="text" placeholder="0x..."  required="required"
         .col-12.col-lg-6
-            small(style="margin-top: 10px") You will deposit ETH and receive tokens at this address.<br>IMPORTANT: Make sure to use your Ethereum Wallet address, and NOT an address from exchanges like Coinbase, Kraken, Poloniex, Gemini, Bittrex, etc.
+            small.text-danger(style="margin-top: 12px") IMPORTANT: You will deposit ETH and receive COFI tokens at this address.<br>Make sure to use your Ethereum wallet address, and NOT an address from exchanges like Coinbase, Kraken, Poloniex, Gemini, Bittrex, etc. <a href="https://blog.coinfi.com/how-to-participate-in-the-coinfi-token-sale/" target="_blank">Click here for step-by-step instructions.</a>
 
       .row
         .col-12.col-lg-6
@@ -630,17 +622,13 @@ main.main-content
           => check_box_tag 'confirm_terms_conditions', '1', false, required: true
         .col-9
           = label_tag "confirm_terms_conditions", "I understand that any purchase of CoinFi’s Tokens may be subject to additional terms and conditions."
-      .row
-        .col-3.text-right
-          => check_box_tag 'confirm_whitelist_address', '1', false, required: true
-        .col-9
-          = label_tag "confirm_whitelist_address", "I agree that I will send payment from and receive any CoinFi tokens to the digital wallet address I have entered on this page."
       br
       p.lead.text-center <strong>Note:</strong> The submission process can take up to 60 seconds so please be patient and stay on the page.<br>Do NOT refresh, click the Back button, close the window, or click anything else on the page!
       br
       button.btn.btn-xl.btn-success.btn-block type="submit"
         i.fa.fa-check-circle &nbsp;
-        | Complete Registration and Get Whitelisted
+        | Complete Registration
+        span.hidden-md-down and Get Whitelisted
 br
 
 script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/crypto-js.min.js"

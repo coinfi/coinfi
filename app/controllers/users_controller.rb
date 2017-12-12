@@ -75,8 +75,8 @@ class UsersController < DeviseController
   def submit_kyc
     # Server side param check
     required_params = %i[
-      first_name last_name date_of_birth gender nationality residency id_number ethereum_address id_doc_image selfie_image
-      confirm_correct_info confirm_no_legal_restrictions confirm_privacy_policy confirm_token_agreement confirm_terms_conditions confirm_whitelist_address
+      first_name last_name date_of_birth gender nationality residency ethereum_address id_doc_image selfie_image
+      confirm_correct_info confirm_no_legal_restrictions confirm_privacy_policy confirm_token_agreement confirm_terms_conditions
     ]
     unless required_params.all? { |k| params[k].present? }
       return redirect_to kyc_path, notice: 'You must fill in all fields, including the check boxes!'
@@ -92,7 +92,6 @@ class UsersController < DeviseController
       "gender" => params[:gender],
       "nationality" => params[:nationality],
       "residency" => params[:residency],
-      "id_number" => params[:id_number],
       "ethereum_address" => params[:ethereum_address],
       "id_doc_image" => params[:id_doc_image],
       "selfie_image" => params[:selfie_image],
@@ -101,7 +100,6 @@ class UsersController < DeviseController
       "confirm_privacy_policy" => params[:confirm_privacy_policy],
       "confirm_token_agreement" => params[:confirm_token_agreement],
       "confirm_terms_conditions" => params[:confirm_terms_conditions],
-      "confirm_whitelist_address" => params[:confirm_whitelist_address],
     })
     current_user.save
 
