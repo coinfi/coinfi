@@ -119,6 +119,23 @@ class Artemis
     end
   end
 
+  def self.check_status(user_id)
+    begin
+      response = RestClient.get(
+        ENV.fetch("ARTEMIS_API_ENDPOINT") + "default/check_status.json",
+        Artemis.auth_hash.merge(
+          params: { "rfrID" => user_id }
+        )
+      )
+      data = JSON.parse(response.body)
+      data["approval_status"]
+    rescue => e
+      puts "Error during processing: #{$!}"
+      puts "Backtrace:\n\t#{e.backtrace.join("\n\t")}"
+      raise
+    end
+  end
+
 private
 
   def self.format_dob(yyyymmdd)

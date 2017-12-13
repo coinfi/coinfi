@@ -75,7 +75,7 @@ class User < ApplicationRecord
 
   def update_kyc!
     begin
-      token_sale["artemis_report"] = Artemis.individual_report(id)
+      token_sale["artemis_report"] = Artemis.check_status(id)
       save
     rescue => e
       puts e
@@ -92,7 +92,7 @@ class User < ApplicationRecord
   end
 
   def kyc_result_cleared?
-    token_sale["artemis_report"] == "CLEARED"
+    token_sale["artemis_report"].in? ["CLEARED", "ACCEPTED"]
   end
 
   def rejected_residence?
