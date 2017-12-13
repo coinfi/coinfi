@@ -49,6 +49,7 @@ class User < ApplicationRecord
       token_sale["individual_risk_api_response"] = response
       approval_status = Artemis.individual_risk_approval_status(response)
       token_sale["individual_risk_approval_status"] = approval_status
+      save
 
       # Send photos to Artemis
       id_doc_string_io = s3.get_object(bucket: ENV.fetch('S3_BUCKET'), key: id_doc_image_key).body
@@ -68,6 +69,17 @@ class User < ApplicationRecord
       save
     rescue => e
       puts e
+      save
+    end
+  end
+
+  def update_kyc!
+    begin
+      token_sale["artemis_report"] = Artemis.individual_report(id)
+      save
+    rescue => e
+      puts e
+      save
     end
   end
 
