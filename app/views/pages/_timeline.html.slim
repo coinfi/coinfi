@@ -9,11 +9,11 @@ section.section.bg-gray
         ul.timeline
           li.event[data-date="Nov 1"] Whitepaper Release
           li.event[data-date="Nov 10"] Token Sale Registration Opens
-          li.event[data-date="Dec 15"] Presale Begins
-          li.event[data-date="Jan 18"] Crowdsale Begins
-          li.event[data-date="Feb 9"] Token Distribution
+          li.event[data-date="Jan 15"] Presale Begins
+          li.event[data-date="Feb 8"] Crowdsale Begins
+          li.event[data-date="Feb 28"] Token Distribution
           li.event[data-date="Mar 2"] Exchange Trading
-          li.event[data-date="Apr 1"] Public Beta Launch
+          li.event[data-date="Apr 6"] Public Beta Launch
       .col-12.col-md-7
         table.table
           tr
@@ -21,9 +21,10 @@ section.section.bg-gray
             td.text-right
               span.text-info.fs-40 ~300,000,000
           tr
-            th Initial Offering Price
+            th Initial Offering Price<br><small>(Ethereum price adjusts based on volatility)</small>
             td.text-right
-              span.text-info.fs-40 1 <small class="text-info">ETH</small> = 4200 <small class="text-info">COFI</small>
+              .text-info.fs-40 $0.10 <small class="text-info">USD</small> = 1 <small class="text-info">COFI</small>
+              .text-info.fs-40 1 <small class="text-info">ETH</small> = 7500 <small class="text-info">COFI</small>
           tr
             th Soft Cap On Raise
             td.text-right
@@ -56,7 +57,7 @@ section.section.bg-gray
           .card-block
             h5.card-title
               | Presale Tier 1
-              .pull-right(style="color: #0e97ff") Dec 15 - 29
+              .pull-right(style="color: #0e97ff") Jan 15 - 21
             p.card-text
               canvas#presale1
               javascript:
@@ -66,8 +67,8 @@ section.section.bg-gray
                     type: 'pie',
                     data: {
                       datasets: [{
-                        data: [20, 5, 10, 65],
-                        backgroundColor: ['#46da60', '', '']
+                        data: [20, 80],
+                        backgroundColor: ['#46da60']
                       }]
                     },
                     options: {
@@ -92,7 +93,7 @@ section.section.bg-gray
           .card-block
             h5.card-title
               | Presale Tier 2
-              .pull-right(style="color: #0e97ff") Dec 30 - Jan 7
+              .pull-right(style="color: #0e97ff") Jan 22 - Jan 28
             p.card-text
               canvas#presale2
               javascript:
@@ -128,7 +129,7 @@ section.section.bg-gray
           .card-block
             h5.card-title
               | Presale Tier 3
-              .pull-right(style="color: #0e97ff") Jan 8 - 17
+              .pull-right(style="color: #0e97ff") Jan 29 - Feb 4
             p.card-text
               canvas#presale3
               javascript:
@@ -164,7 +165,7 @@ section.section.bg-gray
           .card-block
             h5.card-title
               | Crowdsale
-              .pull-right(style="color: #0e97ff") Jan 18 - 31
+              .pull-right(style="color: #0e97ff") Feb 8 - 22
             p.card-text.text-center style="line-height: 1.7"
               canvas#crowdsale
               javascript:
