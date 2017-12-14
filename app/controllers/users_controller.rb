@@ -1,4 +1,5 @@
 require 'open-uri'
+BLOCKED_COUNTRIES = ENV.fetch('BLOCKED_COUNTRIES').to_s.split(',')
 
 class UsersController < DeviseController
   layout 'gsdk'
@@ -62,6 +63,8 @@ class UsersController < DeviseController
   end
 
   def dashboard
+    render_if_blocked_country
+
     if current_user.in_referral_program?
       @referral_link = "https://sale.coinfi.com/?ref=#{current_user.id}"
       @referrals = current_user.get_referrals
@@ -69,6 +72,7 @@ class UsersController < DeviseController
   end
 
   def kyc
+    render_if_blocked_country
     redirect_to dashboard_path if current_user.kyc_completed?
   end
 
@@ -112,6 +116,10 @@ class UsersController < DeviseController
   end
 
 protected
+
+  def render_if_blocked_country
+    render "blocked" if BLOCKED_COUNTRIES.include? request.env['HTTP_CF_IPCOUNTRY']
+  end
 
   def check_user_signed_in
     redirect_to new_user_session_path, notice: 'Please sign in or register.' and return unless current_user
