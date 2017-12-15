@@ -12,7 +12,10 @@ class UsersController < DeviseController
     ck.add_subscriber_to_form('267531', @email) # 267531 is the Form ID for CoinFi ICO signup
     user = User.find_by_email @email
     if user
-      if user == current_user
+      if user.encrypted_password == ''
+        sign_in(:user, user)
+        redirect_to '/set-password' and return
+      elsif user == current_user
         redirect_to '/dashboard', notice: 'You are already logged in!' and return
       else
         redirect_to '/login', notice: 'Email already exists - please log in.' and return
