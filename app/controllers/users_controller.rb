@@ -66,8 +66,6 @@ class UsersController < DeviseController
   end
 
   def dashboard
-    render_if_blocked_country
-
     if current_user.in_referral_program?
       @referral_link = "https://sale.coinfi.com/?ref=#{current_user.id}"
       @referrals = current_user.get_referrals
@@ -75,7 +73,6 @@ class UsersController < DeviseController
   end
 
   def kyc
-    render_if_blocked_country
     redirect_to dashboard_path if current_user.kyc_completed?
   end
 
