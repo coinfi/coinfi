@@ -690,7 +690,8 @@ javascript:
       }
     });
 
-    $('form#kyc-form').submit(function(){
+    $('form#kyc-form').submit(function() {
+      ga('send', 'event', "Registration", "Submit", "KYC");
       $(this).find('button[type=submit]').prop('disabled', true).text('Processing...');
     });
 
