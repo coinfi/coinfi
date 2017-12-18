@@ -567,34 +567,26 @@ main.main-content
       .row
         .col-12.col-lg-6
           label for="id_image" Upload Photo/Scan Of ID Document
-          .file-group
-            button.btn.btn-primary.btn-block.file-browser
-              i.fa.fa-upload &nbsp;
-              | Select File To Upload
-            = file_field_tag :id_doc_image, required: true
+          = file_field_tag :id_doc_image, required: true, class: "filestyle", data: { placeholder: "Please select a file", btnClass: "btn-primary" }
         .col-12.col-lg-6
           br.hidden-lg-down
-          small
-            | Please upload a high quality scan/photo of your ID document.
+          img.d-inline.float-right.mt-2 src="/landing/img/id_doc.png" height="60px"
+          small.d-inline
+            | Please upload a scan/photo of your ID document.
             br
-            | Maximum filesize is 5MB, JPG/PNG file extensions only.
-          .fa.fa-info-circle data-toggle="tooltip" data-placement="top" data-html="true" title="<img src='https://unichange.me/images/verification_docs/id_both_sides.png'>"
+            | Maximum filesize is 5MB, JPG/PNG files only.
 
       .row
         .col-12.col-lg-6
           label for="selfie_image" Upload Photo Of You Holding Your ID Document
-          .file-group
-            button.btn.btn-primary.btn-block.file-browser
-              i.fa.fa-upload &nbsp;
-              | Select File To Upload
-            = file_field_tag :selfie_image, required: true
+          = file_field_tag :selfie_image, required: true, class: "filestyle", data: { placeholder: "Please select a file", btnClass: "btn-primary" }
         .col-12.col-lg-6
           br.hidden-lg-down
-          small
-            | Please upload a high quality photo of you holding your ID document.
+          img.d-inline.float-right src="/landing/img/selfie.png" height="80px"
+          small.d-inline
+            | Please upload a photo of you holding your ID document.
             br
-            | Maximum filesize is 5MB, JPG/PNG file extensions only.
-          .fa.fa-info-circle data-toggle="tooltip" data-placement="top" data-html="true" title="<img src='https://unichange.me/images/verification_docs/international_pass_selfie.png'>"
+            | Maximum filesize is 5MB, JPG/PNG files only.
       br
 
       .row
@@ -634,7 +626,9 @@ main.main-content
         span.hidden-md-down and Get Whitelisted
 br
 
+
 script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/crypto-js.min.js"
+script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-filestyle/2.1.0/bootstrap-filestyle.min.js"
 javascript:
   window.FCSP = 'f2d1ab26e9a2990f1b601a77e6df6767';
   /**
@@ -680,8 +674,6 @@ javascript:
   };
 
   $(function() {
-    $('[data-toggle="tooltip"]').tooltip();
-
     $('form input[name=ethereum_address]').change(function() {
       var ethereumAddress = $(this)[0].value;
       console.log(ethereumAddress);
@@ -697,11 +689,12 @@ javascript:
 
     $('.directUpload').find("input:file").each(function(i, elem) {
       var fileInput    = $(elem);
+      var fileInputUi  = $(elem).siblings('.bootstrap-filestyle');
       var form         = $(fileInput.parents('form:first'));
       var submitButton = form.find('button[type="submit"]');
       var progressBar  = $("<div class='progress-bar'></div>");
       var barContainer = $("<div class='progress'></div>").append(progressBar);
-      fileInput.after(barContainer);
+      fileInputUi.after(barContainer);
 
       fileInput.fileupload({
         fileInput:       fileInput,
@@ -743,8 +736,8 @@ javascript:
         },
         done: function(e, data) {
           // extract key and generate URL from response
-          var key   = $(data.jqXHR.responseXML).find("Key").text();
-          var url   = '//' + form.data('host') + '/' + key;
+          var key = $(data.jqXHR.responseXML).find("Key").text();
+          var url = '//' + form.data('host') + '/' + key;
 
           // create hidden field
           var input = $("<input />", { type:'hidden', name: fileInput.attr('name'), value: url })
@@ -761,3 +754,6 @@ javascript:
     });
   });
 script src="https://chat-assets.frontapp.com/v1/chat.bundle.js"
+scss:
+  .bootstrap-filestyle { margin-bottom: 4px; }
+
