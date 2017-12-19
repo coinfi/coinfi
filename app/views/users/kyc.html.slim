@@ -684,6 +684,10 @@ javascript:
 
     $('form#kyc-form').submit(function() {
       ga('send', 'event', "Registration", "Submit", "KYC");
+      fbq('track', 'CompleteRegistration', {});
+      var redditPixel = new Image();
+      redditPixel.src = "https://alb.reddit.com/snoo.gif?q=CAAHAAABAAoACQAAAAX8EiouAA==&s=np2HU7iSg7XAI1IpBBVmV9LUREdGNBX8sgTenUbyVGE=";
+
       $(this).find('button[type=submit]').prop('disabled', true).text('Processing...');
     });
 
