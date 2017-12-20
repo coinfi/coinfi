@@ -1,3 +1,4 @@
+=begin
 module Admin
   class UsersController < Admin::ApplicationController
     def run_kyc
@@ -24,3 +25,4 @@ module Admin
     end
   end
 end
+=end
