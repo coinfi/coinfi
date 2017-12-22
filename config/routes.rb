@@ -9,7 +9,9 @@ Rails.application.routes.draw do
     get "/estimate-contribution" => "users#estimate_contribution", as: "new_user_estimate_contribution"
     post "/submit-contribution" => "users#submit_contribution", as: "new_user_submit_contribution"
     get "/join-telegram" => "users#join_telegram", as: "new_user_join_telegram"
-    get "/dashboard" => "users#dashboard", as: "new_user_dashboard"
+    get "/dashboard" => "users#dashboard", as: "dashboard"
+    get "/kyc", to: "users#kyc", as: "kyc"
+    post "/kyc", to: "users#submit_kyc", as: "submit_kyc"
   end
   devise_for :users,
     controllers: {
@@ -22,14 +24,19 @@ Rails.application.routes.draw do
   namespace :admin do
     resources :coins
     resources :articles
+    resources :users
+    post "users/:id/toggle_referral_program" => "users#toggle_referral_program", as: 'toggle_referral_program'
+    post "users/:id/run_kyc" => "users#run_kyc", as: 'run_kyc'
+    post "users/:id/update_kyc" => "users#update_kyc", as: 'update_kyc'
     get 'reddit' => 'articles#reddit'
     root to: "coins#index"
   end
 
-  get '/dashboard', to: 'users#dashboard', as: 'user_root'
   root 'pages#home'
 
   get '/' => 'pages#home', as: 'home'
+  get '/prototype' => 'pages#prototype', as: 'prototype'
+  get '/press-release' => 'pages#press'
   get '/about' => 'pages#about'
   get '/contact' => 'pages#contact'
   get '/daily' => 'pages#daily', as: 'daily'

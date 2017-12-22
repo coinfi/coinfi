@@ -1,0 +1,261 @@
+a#timeline[name="timeline"]
+section.section.bg-gray
+  .container
+    header.section-header
+      small Projected
+      h2 Timeline
+    .row.gap-y
+      .col-12.col-md-5
+        ul.timeline
+          li.event[data-date="Nov 1"] Whitepaper Release
+          li.event[data-date="Nov 10"] Token Sale Registration Opens
+          li.event[data-date="Jan 15"] Presale Begins
+          li.event[data-date="Feb 8"] Crowdsale Begins
+          li.event[data-date="Feb 28"] Token Distribution
+          li.event[data-date="Mar 2"] Exchange Trading
+          li.event[data-date="Apr 6"] Public Beta Launch
+      .col-12.col-md-7
+        table.table
+          tr
+            th Total Token Supply
+            td.text-right
+              span.text-info.fs-40 ~300,000,000
+          tr
+            th Initial Offering Price<br><small>(Ethereum price adjusts based on volatility)</small>
+            td.text-right
+              .text-info.fs-40 $0.10 <small class="text-info">USD</small> = 1 <small class="text-info">COFI</small>
+              .text-info.fs-40 1 <small class="text-info">ETH</small> = 7500 <small class="text-info">COFI</small>
+          tr
+            th Soft Cap On Raise
+            td.text-right
+              span.text-info.fs-40
+                ' $3M
+                small.text-info USD
+          tr
+            th Hard Cap On Raise
+            td.text-right
+              span.text-info.fs-40
+                ' $15M
+                small.text-info USD
+          tr
+            th Currencies Accepted
+            td.text-right
+              span.text-info.fs-40 Ethereum
+          tr
+            th Minimum Contribution <br><small>(Presale only, no minimum on crowdsale)</small>
+            td.text-right
+              span.text-info.fs-40 1 ETH
+    br
+    br
+    br
+    header.section-header
+      small Early Mover Rewards
+      h2 Bonus Structure
+    .row.gap-y
+      .col-12.col-lg-3
+        .card.card-bordered.card-hover-shadow
+          .card-block
+            h5.card-title
+              | Presale Tier 1
+              .pull-right(style="color: #0e97ff") Jan 15 - 21
+            p.card-text
+              .lead.text-center.text-success 20% Bonus
+              br
+              canvas#presale1
+              javascript:
+                $(function() {
+                  var presale1 = document.getElementById("presale1");
+                  var presaleChart1 = new Chart(presale1, {
+                    type: 'pie',
+                    data: {
+                      datasets: [{
+                        data: [20, 80],
+                        backgroundColor: ['#46da60']
+                      }]
+                    },
+                    options: {
+                      legend: { display: false },
+                      tooltips: { enabled: false }
+                    }
+                  });
+                });
+      .col-12.col-lg-3
+        .card.card-bordered.card-hover-shadow
+          .card-block
+            h5.card-title
+              | Presale Tier 2
+              .pull-right(style="color: #0e97ff") Jan 22 - Jan 28
+            p.card-text
+              .lead.text-center.text-success 15% Bonus
+              br
+              canvas#presale2
+              javascript:
+                $(function() {
+                  var presale2 = document.getElementById("presale2");
+                  var presaleChart2 = new Chart(presale2, {
+                    type: 'pie',
+                    data: {
+                      datasets: [{
+                        data: [15, 85],
+                        backgroundColor: ['#46da60']
+                      }]
+                    },
+                    options: {
+                      legend: { display: false },
+                      tooltips: { enabled: false }
+                    }
+                  });
+                });
+      .col-12.col-lg-3
+        .card.card-bordered.card-hover-shadow
+          .card-block
+            h5.card-title
+              | Presale Tier 3
+              .pull-right(style="color: #0e97ff") Jan 29 - Feb 4
+            p.card-text
+              .lead.text-center.text-success 10% Bonus
+              br
+              canvas#presale3
+              javascript:
+                $(function() {
+                  var presale3 = document.getElementById("presale3");
+                  var presaleChart3 = new Chart(presale3, {
+                    type: 'pie',
+                    data: {
+                      datasets: [{
+                        data: [10, 90],
+                        backgroundColor: ['#46da60']
+                      }]
+                    },
+                    options: {
+                      legend: { display: false },
+                      tooltips: { enabled: false }
+                    }
+                  });
+                });
+      .col-12.col-lg-3
+        .card.card-bordered.card-hover-shadow
+          .card-block
+            h5.card-title
+              | Crowdsale
+              .pull-right(style="color: #0e97ff") Feb 8 - 22
+            p.card-text.text-center style="line-height: 1.7"
+              .lead.text-center.text-success 5% Bonus during 1st hour
+              .text-center.text-muted
+                small 5 ETH/person max during 1st hour
+              br
+              canvas#crowdsale
+              javascript:
+                $(function() {
+                  var crowdsale = document.getElementById("crowdsale");
+                  var crowdsaleChart = new Chart(crowdsale, {
+                    type: 'pie',
+                    data: {
+                      datasets: [{
+                        data: [5, 95],
+                        backgroundColor: ['#46da60']
+                      }],
+                      labels: [
+                        'Bonus',
+                        ''
+                      ]
+                    },
+                    options: {
+                      legend: { display: false },
+                      tooltips: { enabled: false }
+                    }
+                  });
+                });
+    br
+    br
+    br
+    header.section-header
+      small Anticipated
+      h2 Roadmap
+      p.text-muted[style="font-size: 12px;"] The roadmap outlined below is subject to change based on user feedback, market conditions, and the competitive landscape; it is merely intended as an overview to explain the features that CoinFi intends to implement on the platform.
+    #roadmap.accordion
+      .card
+        h5.card-title
+          a.collapsed[data-toggle="collapse" data-parent="#roadmap" href="#roadmap2018Q1"] 2018Q1: Platform Foundations
+        #roadmap2018Q1.in.collapse
+          .card-block
+            ul
+              li News and content aggregation overlaid on price charts per cryptocurrency
+              li Obtain minute-level historical price data and market data feeds for cryptocurrencies
+              li Develop editorial procedures, begin in-house compilation of news aggregation on existing cryptocurrencies
+              li Search and filter functionality
+              li User authentication and authorization
+              li Social functionality including upvote/downvote and sharing
+              li Prototype of machine learning algorithms for content classification, quality assurance, and fraud detection
+              li Public beta of platform released
+      .card
+        h5.card-title
+          a.collapsed[data-toggle="collapse" data-parent="#roadmap" href="#roadmap2018Q2"] 2018Q2: Personalization
+        #roadmap2018Q2.in.collapse
+          .card-block
+            ul
+              li Custom cryptocurrency portfolio dashboard
+              li Custom newsfeed / watchlist
+              li Custom email subscriptions for specific cryptocurrency newsfeeds
+              li Allow users to follow others’ portfolios
+      .card
+        h5.card-title
+          a.collapsed[data-toggle="collapse" data-parent="#roadmap" href="#roadmap2018Q3"] 2018Q3: Premium Subscriptions
+        #roadmap2018Q3.in.collapse
+          .card-block
+            ul
+              li Accept staked tokens for advanced functionality and premium subscriptions
+              li Sentiment analysis of real-time news data per cryptocurrency
+              li Accept community content contributions
+      .card
+        h5.card-title
+          a.collapsed[data-toggle="collapse" data-parent="#roadmap" href="#roadmap2018Q4"] 2018Q4: Trading Signals
+        #roadmap2018Q4.in.collapse
+          .card-block
+            ul
+              li Abnormal volatility detection
+              li Abnormal price movement detection
+              li Abnormal volume detection
+              li Increased social mention detection
+              li Best price exchange identification
+              li Best currency pair identification
+              li Source code release detection
+              li Launch premium subscription for trading signals
+              li Accept community contributed trading signals
+      .card
+        h5.card-title
+          a.collapsed[data-toggle="collapse" data-parent="#roadmap" href="#roadmap2019Q1"] 2019Q1: Trading Algorithms
+        #roadmap2019Q1.in.collapse
+          .card-block
+            ul
+              li VWAP (Volume Weighted Average Price)
+              li TWAP (Time Weighted Average Price)
+              li BWAP (Block Weighted Average Price)
+              li Sniper
+              li % of Volume
+              li Target Close
+              li Implementation Shortfall
+              li Launch premium subscription for trading algorithms
+              li Accept community contributed trading algorithms
+      .card
+        h5.card-title
+          a.collapsed[data-toggle="collapse" data-parent="#roadmap" href="#roadmap2019Q2"] 2019Q2: Auction Framework
+        #roadmap2019Q2.in.collapse
+          .card-block
+            ul
+              li Develop auction platform
+              li Private auctions
+              li Dutch auction
+              li Reverse auction
+              li Build ability to leave reviews on vendor quality
+              li Escrow service for auction payment
+      .card
+        h5.card-title
+          a.collapsed[data-toggle="collapse" data-parent="#roadmap" href="#roadmap2019Q3"] 2019Q3: Combining and Customizing Signals
+        #roadmap2019Q3.in.collapse
+          .card-block
+            ul
+              li Platform architecture for custom signals
+              li UI/UX for developing custom signals
+              li Drag and drop functionality to combine signals
+              li Custom alerting

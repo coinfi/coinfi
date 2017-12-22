@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171116194619) do
+ActiveRecord::Schema.define(version: 20171120225256) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -164,6 +164,20 @@ ActiveRecord::Schema.define(version: 20171116194619) do
     t.index ["slug", "sluggable_type"], name: "index_friendly_id_slugs_on_slug_and_sluggable_type"
     t.index ["sluggable_id"], name: "index_friendly_id_slugs_on_sluggable_id"
     t.index ["sluggable_type"], name: "index_friendly_id_slugs_on_sluggable_type"
+  end
+
+  create_table "histo_hours", force: :cascade do |t|
+    t.string "from_symbol"
+    t.string "to_symbol"
+    t.integer "time"
+    t.decimal "close"
+    t.decimal "high"
+    t.decimal "low"
+    t.decimal "open"
+    t.decimal "volumefrom"
+    t.decimal "volumeto"
+    t.index ["from_symbol"], name: "index_histo_hours_on_from_symbol"
+    t.index ["time"], name: "index_histo_hours_on_time"
   end
 
   create_table "hourly_prices", force: :cascade do |t|

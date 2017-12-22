@@ -1,5 +1,3 @@
-<script src="https://www.google.com/recaptcha/api.js" async defer></script>
-
 <section class="section text-center">
   <header class="section-header">
     <small><strong>Registration</strong></small>
@@ -12,7 +10,7 @@
       <%= form_for(:user, url: new_user_signup_path) do |f| %>
         <%= devise_error_messages! %>
         <div class="form-group">
-          <%= f.email_field :email, class: "form-control form-control-lg", placeholder: "Email" %>
+          <%= f.email_field :email, class: "form-control form-control-lg", autofocus: true, required: true, placeholder: "Email" %>
         </div>
 
         <%= f.submit "Register", class: "btn btn-block btn-lg btn-success" %>
@@ -20,3 +18,11 @@
     </div>
   </div>
 </section>
+
+<script>
+  $(function() {
+    $('form').submit(function() {
+      $(this).find('input[type=submit]').prop('disabled', true).text('Processing...');
+    });
+  });
+</script>

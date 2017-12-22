@@ -1,15 +1,68 @@
 main.main-content
   .container
     .row
-      .col-md-12
+      .col-12
+        .alert.alert-success
+          h5 CoinFi Ethereum Contribution Address
+          p This is where you will see your assigned Ethereum contribution address when the token sale opens.
+
+    .row
+      .col-lg-6
         h2 Dashboard
-        br
-        p Congrats on signing up for the CoinFi token sale!
-        p Stay tuned to your inbox for more information regarding the token sale details.
-        p In the meantime...
-        p
-          a.btn.btn-success href="https://sale.coinfi.com" Check out the CoinFi Token Sale Page
-        p
-          a.btn.btn-default href="" Read the CoinFi White Paper
-        p
-          a.btn.btn-primary href="https://blog.coinfi.com" Learn more about the CoinFi Platform
+
+        - if current_user.kyc_completed?
+          - if current_user.rejected_residence?
+            p Unfortunately, we cannot accept funds from your country of residence.
+          - elsif current_user.kyc_result_cleared?
+            p Congrats on signing up for the CoinFi token sale!
+            p Stay tuned to your email inbox for more information regarding the token sale details, including detailed instructions, the exact timeline for when the sale opens, as well as the official Ethereum contribution address.
+
+          - else
+            p
+              | Thanks for submitting your information!
+              br
+              | We're currently processing your security verification.
+              br
+              | You'll receive an email notification once the verification is complete.
+
+        - else
+          p.lead In order to be eligible for the token sale you need to complete registration and get whitelisted - there's just one final step remaining!
+          p= link_to "Finish Registration and Get Whitelisted", kyc_path, class: "btn btn-xl btn-success"
+
+        - if current_user.kyc_completed? && !current_user.kyc_result_cleared?
+        /
+          p
+            a.btn.btn-success href="https://sale.coinfi.com" Check out the CoinFi Token Sale Page
+          p
+            a.btn.btn-info href="https://sale.coinfi.com/prototype" Get a sneak peek at the Prototypes
+          p
+            a.btn.btn-default href="https://docs.google.com/document/d/1p6xaFl4nPv1CuJv6F2fkZ6qBq2lBS6ePyFna8QZt1KM/edit" Read the CoinFi White Paper
+          p
+            a.btn.btn-primary href="https://blog.coinfi.com" Learn more about the CoinFi Platform
+
+      .col-lg-6
+        - if @referral_link.present?
+          h2 Referral Program
+          p Congrats on being accepted to the CoinFi Referral Program!
+          p
+            ' Your custom referral link is:
+            code= @referral_link
+          br
+          - if @referrals.present?
+            table.table
+              tr
+                th Referral Email
+                th Timestamp
+              - @referrals.each do |referral|
+                tr
+                  td= EmailAddress.munge(referral.email)
+                  td= referral.created_at
+          - else
+            p You currently do not have any referrals; once your first one arrives, you'll see them here.
+
+    .row
+      .col-12
+        .alert.alert-warning
+          h5 Warning: Watch Out For Scams!
+          p The ONLY place you will see the CoinFi Ethereum funding address is on this Dashboard. We will never publish the address anywhere else. There are multiple funding addresses and you will be assigned to a specific one, so you must find your particular funding address on the Dashboard. Make sure you are logged in using your email and password at <a href="https://sale.coinfi.com/dashboard">https://sale.coinfi.com/dashboard</a>. IGNORE all other sources including email, Telegram, or blog posts, even if it looks like it comes from CoinFi.
+          p We will never request personal information via email; make sure to ignore all emails asking for your personal information.

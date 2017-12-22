@@ -80,6 +80,14 @@ GEM
     arel (8.0.0)
     autoprefixer-rails (7.1.3)
       execjs
+    aws-sdk (2.10.94)
+      aws-sdk-resources (= 2.10.94)
+    aws-sdk-core (2.10.94)
+      aws-sigv4 (~> 1.0)
+      jmespath (~> 1.0)
+    aws-sdk-resources (2.10.94)
+      aws-sdk-core (= 2.10.94)
+    aws-sigv4 (1.0.2)
     bcrypt (3.1.11)
     bindex (0.5.0)
     blazer (1.8.0)
@@ -108,6 +116,9 @@ GEM
       execjs
     coffee-script-source (1.12.2)
     concurrent-ruby (1.0.5)
+    cryptocompare (0.12.0)
+      faraday
+      json
     datetime_picker_rails (0.0.7)
       momentjs-rails (>= 2.8.1)
     devise (4.3.0)
@@ -122,6 +133,9 @@ GEM
     dotenv-rails (2.2.1)
       dotenv (= 2.2.1)
       railties (>= 3.2, < 5.2)
+    email_address (0.1.3)
+      netaddr
+      simpleidn
     errbase (0.0.3)
     erubi (1.6.0)
     execjs (2.7.0)
@@ -149,6 +163,7 @@ GEM
     jbuilder (2.6.3)
       activesupport (>= 3.0.0, < 5.2)
       multi_json (~> 1.2)
+    jmespath (1.3.1)
     jquery-rails (4.3.1)
       rails-dom-testing (>= 1, < 3)
       railties (>= 4.2.0)
@@ -201,6 +216,7 @@ GEM
     multipart-post (2.0.0)
     net-http-digest_auth (1.4.1)
     net-http-persistent (2.9.4)
+    netaddr (1.5.1)
     netrc (0.11.0)
     nio4r (2.1.0)
     nokogiri (1.8.0)
@@ -218,6 +234,8 @@ GEM
       rack
     orm_adapter (0.5.0)
     pg (0.20.0)
+    pony (1.11)
+      mail (>= 2.0)
     pry (0.10.4)
       coderay (~> 1.1.0)
       method_source (~> 0.8.1)
@@ -230,6 +248,8 @@ GEM
     public_suffix (2.0.5)
     puma (3.8.2)
     rack (2.0.3)
+    rack-affiliates (0.4.0)
+      rack
     rack-attack (5.0.1)
       rack
     rack-cors (1.0.2)
@@ -295,6 +315,7 @@ GEM
       childprocess (~> 0.5)
       rubyzip (~> 1.0)
       websocket (~> 1.0)
+    simpleidn (0.0.9)
     slim (3.0.7)
       temple (~> 0.7.6)
       tilt (>= 1.3.3, < 2.1)
@@ -355,13 +376,16 @@ DEPENDENCIES
   administrate
   administrate-field-belongs_to_search
   ahoy_matey
+  aws-sdk (~> 2)
   blazer
   byebug
   capybara (~> 2.13)
   coffee-rails (~> 4.2)
   convertkit-ruby!
+  cryptocompare
   devise
   dotenv-rails
+  email_address
   feedjira
   friendly_id (~> 5.2.1)
   httparty
@@ -372,12 +396,15 @@ DEPENDENCIES
   omniauth
   omniauth-twitter
   pg (~> 0.18)
+  pony
   pry-byebug
   pry-rails
   puma (~> 3.7)
+  rack-affiliates
   rack-cors
   rails (~> 5.1.3)
   rails_12factor
+  rest-client
   rollbar
   sass-rails (~> 5.0)
   selenium-webdriver
@@ -392,4 +419,4 @@ RUBY VERSION
    ruby 2.4.1p111
 
 BUNDLED WITH
-   1.15.4
+   1.16.0
