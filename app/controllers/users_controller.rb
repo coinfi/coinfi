@@ -88,8 +88,8 @@ class UsersController < DeviseController
 
     current_user.token_sale = {} if current_user.token_sale.blank?
     current_user.token_sale.merge!({
-      "first_name" => params[:first_name],
-      "last_name" => params[:last_name],
+      "first_name" => params[:first_name].try(:to_ascii),
+      "last_name" => params[:last_name].try(:to_ascii),
       "date_of_birth" => params[:date_of_birth],
       "gender" => params[:gender],
       "nationality" => params[:nationality],

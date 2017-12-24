@@ -53,6 +53,7 @@ gem 'rack-cors'
 gem 'rest-client'
 gem 'rollbar'
 gem 'slim-rails'
+gem 'unidecoder'
 gem 'wombat'
 
 # Devise needs to be in front of Ahoy in the Gemfile to have Ahoy automatically update Visit with User ID:
