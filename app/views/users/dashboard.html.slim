@@ -10,6 +10,7 @@ main.main-content
       .col-lg-6
         h2 Dashboard
 
+        p= "Welcome, #{current_user.email}!"
         - if current_user.kyc_completed?
           - if current_user.rejected_residence?
             p Unfortunately, we cannot accept funds from your country of residence.
