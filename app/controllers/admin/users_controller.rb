@@ -1,6 +1,7 @@
-=begin
 module Admin
   class UsersController < Admin::ApplicationController
+    before_action :authenticate_admin
+
     def run_kyc
       user = User.find(params[:id])
       user.run_kyc!
@@ -25,4 +26,3 @@ module Admin
     end
   end
 end
-=end

@@ -1,4 +1,3 @@
-=begin
 require "administrate/base_dashboard"
 
 class UserDashboard < Administrate::BaseDashboard
@@ -49,4 +48,3 @@ class UserDashboard < Administrate::BaseDashboard
   #   "Article ##{article.id}"
   # end
 end
-=end
