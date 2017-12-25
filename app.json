@@ -29,10 +29,22 @@
     "BLAZER_USERNAME": {
       "required": true
     },
+    "BLOCKED_COUNTRIES": {
+      "required": true
+    },
     "CONVERTKIT_API_KEY": {
       "required": true
     },
     "CONVERTKIT_API_SECRET": {
+      "required": true
+    },
+    "COUNTER_FACEBOOK": {
+      "required": true
+    },
+    "COUNTER_REDDIT": {
+      "required": true
+    },
+    "COUNTER_TELEGRAM": {
       "required": true
     },
     "LANG": {
