@@ -17,14 +17,18 @@
       <ul class="topbar-nav nav">
         <li class="nav-item"><a class="nav-link" href="/prototype">Prototype</a></li>
         <li class="nav-item">
-          <a class="nav-link" href="<%= '/' unless @is_homepage %>#team" <%= 'data-scrollto=team' if @is_homepage %>>Team</a></li>
-        <li class="nav-item">
           <a class="nav-link" href="<%= '/' unless @is_homepage %>#timeline" <%= 'data-scrollto=timeline' if @is_homepage %>>Timeline</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="<%= '/' unless @is_homepage %>#ecosystem" data-scrollto="ecosystem">Ecosystem</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="<%= '/' unless @is_homepage %>#token" <%= 'data-scrollto=token' if @is_homepage %>>Token</a>
         </li>
-        <li class="nav-item"><a class="nav-link" href="<%= '/' unless @is_homepage %>#contact" data-scrollto="contact">Contact</a></li>
+        <li class="nav-item">
+          <a class="nav-link" href="<%= '/' unless @is_homepage %>#team" <%= 'data-scrollto=team' if @is_homepage %>>Team</a>
+        </li>
+        <li class="nav-item hidden-md-up"><a class="nav-link" href="<%= '/' unless @is_homepage %>#contact" data-scrollto="contact">Contact</a></li>
         <li class="nav-item"><a class="nav-link" href="https://blog.coinfi.com">Blog</a></li>
         <li class="nav-item hidden-sm-up"><a class="nav-link" target="_blank" href="https://docs.google.com/document/d/1p6xaFl4nPv1CuJv6F2fkZ6qBq2lBS6ePyFna8QZt1KM/edit">White Paper</a></li>
         <% if user_signed_in? %>
