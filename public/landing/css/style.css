@@ -1,3 +1,8 @@
+.section-inverse .card .card-block p,
+.section-inverse .card .card-block h2 {
+  color: #333;
+}
+
 .social-colored a {
   border: 0;
 }

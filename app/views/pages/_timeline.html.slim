@@ -1,11 +1,12 @@
 a#timeline[name="timeline"]
-section.section.bg-gray
+section.section
   .container
     header.section-header
       small Projected
       h2 Timeline
     .row.gap-y
       .col-12.col-md-5
+        br
         ul.timeline
           li.event[data-date="Nov 1"] Whitepaper Release
           li.event[data-date="Nov 10"] Token Sale Registration Opens
@@ -42,9 +43,13 @@ section.section.bg-gray
             td.text-right
               span.text-info.fs-40 Ethereum
           tr
-            th Minimum Contribution <br><small>(Presale only, no minimum on crowdsale)</small>
+            th Minimum Contribution<br>[Presale Only]<br><small>(Presale only, no minimum on crowdsale)</small>
             td.text-right
               span.text-info.fs-40 1 ETH
+          tr
+            th Maximum Contribution<br>[Crowdsale Only]<br><small>(Crowdsale only; whale protection mechanism)</small>
+            td.text-right
+              span.text-info.fs-40 25 ETH
     br
     br
     br
