@@ -56,4 +56,6 @@ Rails.application.routes.draw do
   resources :coins, only: [:index, :show]
 
   get '/historical/:symbol' => 'data#historical'
+  get '/delayed_historical/:symbol' => 'data#delayed_historical'
+  get '/historical/:symbol/:timestamp' => 'data#single_historical'
 end

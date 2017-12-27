@@ -8,4 +8,12 @@ class DailyPrice < ApplicationRecord
       "volume24 -> '#{currency}'"
     )
   }
+
+  scope :before, -> (before_timestamp) {
+    where("timestamp < ?", before_timestamp)
+  }
+
+  scope :at_timestamp, -> (timestamp) {
+    where("timestamp > ?", timestamp).order(timestamp: 'ASC').first
+  }
 end
