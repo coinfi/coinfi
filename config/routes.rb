@@ -56,4 +56,8 @@ Rails.application.routes.draw do
   resources :coins, only: [:index, :show]
 
   get '/historical/:symbol' => 'data#historical'
+
+  scope "(:locale)", locale: /en|cn/ do
+    get '/' => 'pages#home'
+  end
 end
