@@ -1,0 +1,171 @@
+a#timeline[name="timeline"]
+section.section.bg-gray
+  .container
+    header.section-header
+      small 预期的
+      h2 时间表
+    .row.gap-y
+      .col-12.col-md-5
+        br
+        ul.timeline
+          li.event[data-date="Nov 1"] 发表白皮书
+          li.event[data-date="Nov 10"] 开始代币销售登记
+          li.event[data-date="Jan 15"] 开始预售
+          li.event[data-date="Feb 8"] 开始众筹销售
+          li.event[data-date="Feb 28"] 代币分配
+          li.event[data-date="Apr 6"] 推出Public Beta版
+      .col-12.col-md-7
+        table.table
+          tr
+            th 总代币供应
+            td.text-right
+              span.text-info.fs-40 ~300,000,000
+          tr
+            th 首次发售价格 <br><small>(以太币的价格根据市场变动调整)</small>
+            td.text-right
+              .text-info.fs-40 1 <small class="text-info">ETH</small> = 7500 <small class="text-info">COFI</small>
+          tr
+            th 软顶
+            td.text-right
+              span.text-info.fs-40
+                ' $3M
+                small.text-info USD
+          tr
+            th 硬顶
+            td.text-right
+              span.text-info.fs-40
+                ' $15M
+                small.text-info USD
+          tr
+            th 接受货币
+            td.text-right
+              span.text-info.fs-40 以太坊
+          tr
+            th 最低供款额<br>[仅限于预售]<br><small>(仅限于预售，众筹时不设最低供款额)</small>
+            td.text-right
+              span.text-info.fs-40 1 ETH
+          tr
+            th 最大供款额<br>[仅限于众筹]<br><small>(仅限于众筹，预售时不设最大供款额；<br>作为蓝鲸保护机制)</small>
+            td.text-right
+              span.text-info.fs-40 25 ETH
+    br
+    br
+    br
+    header.section-header
+      small 先行者奖励
+      h2 分红机制
+    .row.gap-y
+      .col-12.col-lg-3
+        .card.card-bordered.card-hover-shadow
+          .card-block
+            h5.card-title
+              | 第1阶段预售
+              .pull-right(style="color: #0e97ff") 1月15日至21日
+            p.card-text
+              .lead.text-center.text-success 20%分红
+              br
+              canvas#presale1
+              javascript:
+                $(function() {
+                  var presale1 = document.getElementById("presale1");
+                  var presaleChart1 = new Chart(presale1, {
+                    type: 'pie',
+                    data: {
+                      datasets: [{
+                        data: [20, 80],
+                        backgroundColor: ['#46da60']
+                      }]
+                    },
+                    options: {
+                      legend: { display: false },
+                      tooltips: { enabled: false }
+                    }
+                  });
+                });
+      .col-12.col-lg-3
+        .card.card-bordered.card-hover-shadow
+          .card-block
+            h5.card-title
+              | 第2阶段预售
+              .pull-right(style="color: #0e97ff") 1月22日至28日
+            p.card-text
+              .lead.text-center.text-success 15%分红
+              br
+              canvas#presale2
+              javascript:
+                $(function() {
+                  var presale2 = document.getElementById("presale2");
+                  var presaleChart2 = new Chart(presale2, {
+                    type: 'pie',
+                    data: {
+                      datasets: [{
+                        data: [15, 85],
+                        backgroundColor: ['#46da60']
+                      }]
+                    },
+                    options: {
+                      legend: { display: false },
+                      tooltips: { enabled: false }
+                    }
+                  });
+                });
+      .col-12.col-lg-3
+        .card.card-bordered.card-hover-shadow
+          .card-block
+            h5.card-title
+              | 第3阶段预售
+              .pull-right(style="color: #0e97ff") 1月29日至2月4日
+            p.card-text
+              .lead.text-center.text-success 10%分红
+              br
+              canvas#presale3
+              javascript:
+                $(function() {
+                  var presale3 = document.getElementById("presale3");
+                  var presaleChart3 = new Chart(presale3, {
+                    type: 'pie',
+                    data: {
+                      datasets: [{
+                        data: [10, 90],
+                        backgroundColor: ['#46da60']
+                      }]
+                    },
+                    options: {
+                      legend: { display: false },
+                      tooltips: { enabled: false }
+                    }
+                  });
+                });
+      .col-12.col-lg-3
+        .card.card-bordered.card-hover-shadow
+          .card-block
+            h5.card-title
+              | 众筹销售
+              .pull-right(style="color: #0e97ff") 2月8日至22日
+            p.card-text.text-center style="line-height: 1.7"
+              .lead.text-center.text-success 于首1小时内认购可获5%分红
+              .text-center.text-muted
+                small 于首1小时每人最多可买5 ETH
+              br
+              canvas#crowdsale
+              javascript:
+                $(function() {
+                  var crowdsale = document.getElementById("crowdsale");
+                  var crowdsaleChart = new Chart(crowdsale, {
+                    type: 'pie',
+                    data: {
+                      datasets: [{
+                        data: [5, 95],
+                        backgroundColor: ['#46da60']
+                      }],
+                      labels: [
+                        'Bonus',
+                        ''
+                      ]
+                    },
+                    options: {
+                      legend: { display: false },
+                      tooltips: { enabled: false }
+                    }
+                  });
+                });
