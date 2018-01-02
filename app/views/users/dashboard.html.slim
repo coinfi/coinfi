@@ -1,10 +1,17 @@
+<script type="text/javascript" src="https://addevent.com/libs/atc/1.6.1/atc.min.js" async defer></script>
+
 main.main-content
   .container
     .row
       .col-12
         .alert.alert-success
           h5 CoinFi Ethereum Contribution Address
-          p This is where you will see your assigned Ethereum contribution address when the token sale opens.
+          p This is where you will see your assigned Ethereum contribution address when the token sale opens at midnight UTC/GMT (London) on January 15, 2018.
+          div title="Add to Calendar" class="addeventatc"
+            | Add to Calendar
+            span.start 01/15/2018 12:00 AM
+            span.timezone Europe/London
+            span.title CoinFi Presale
 
     .row
       .col-lg-6
@@ -16,13 +23,15 @@ main.main-content
             p Unfortunately, we cannot accept funds from your country of residence.
           - elsif current_user.kyc_result_cleared?
             p Congrats on signing up for the CoinFi token sale!
-            p Stay tuned to your email inbox for more information regarding the token sale details, including detailed instructions, the exact timeline for when the sale opens, as well as the official Ethereum contribution address.
+            p You have successfully registered and passed the KYC process.
+            p Your next steps are to follow the instructions at <a href="https://blog.coinfi.com/how-to-participate-in-the-coinfi-token-sale/" target="_blank">https://blog.coinfi.com/how-to-participate-in-the-coinfi-token-sale/</a> to make sure that you are ready for the token sale opening, which is when you will be able to purchase CoinFi tokens.
+            p Looking forward to having you onboard!
 
           - else
             p
               | Thanks for submitting your information!
               br
-              | We're currently processing your security verification.
+              | We're currently processing your KYC verification.
               br
               | You'll receive an email notification once the verification is complete.
 
