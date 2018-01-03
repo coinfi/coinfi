@@ -12,6 +12,7 @@ Rails.application.routes.draw do
     get "/dashboard" => "users#dashboard", as: "dashboard"
     get "/kyc", to: "users#kyc", as: "kyc"
     post "/kyc", to: "users#submit_kyc", as: "submit_kyc"
+    post "/eth", to: "users#update_ethereum_address", as: "update_eth"
   end
   devise_for :users,
     controllers: {

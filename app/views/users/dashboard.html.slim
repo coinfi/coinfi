@@ -4,7 +4,7 @@ main.main-content
   .container
     .row
       .col-12
-        .alert.alert-success
+        .alert.alert-info
           h5 CoinFi Ethereum Contribution Address
           p This is where you will see your assigned Ethereum contribution address when the token sale opens at midnight UTC/GMT (London) on January 15, 2018.
           div title="Add to Calendar" class="addeventatc"
@@ -18,6 +18,7 @@ main.main-content
         h2 Dashboard
 
         p= "Welcome, #{current_user.email}!"
+
         - if current_user.kyc_completed?
           - if current_user.rejected_residence?
             p Unfortunately, we cannot accept funds from your country of residence.
@@ -51,6 +52,23 @@ main.main-content
             a.btn.btn-primary href="https://blog.coinfi.com" Learn more about the CoinFi Platform
 
       .col-lg-6
+        - if current_user.ethereum_address
+          h2 Your Ethereum Address
+          = form_tag '/eth'
+            p If you need to check or change your Ethereum address, you can do so here:
+            label for="ethereum_address"
+              ' Your Whitelisted Ethereum Address
+              small <a href="https://blog.coinfi.com/how-to-create-your-ethereum-address/" target="_blank">Click here for step-by-step instructions on where to find this.</a>
+            input.form-control name="ethereum_address" type="text" placeholder="0x..." required="required" autocomplete="off" value="#{current_user.ethereum_address if current_user.ethereum_address}"
+
+            input type="submit" class="btn btn-primary" value="Update"
+
+            small.text-danger(style="margin-top: 12px; line-height: 1.5em") IMPORTANT: You will deposit ETH and receive COFI tokens at this address.<br>Make sure to use your own Ethereum wallet address, and NOT an address from exchanges like Coinbase, Kraken, Poloniex, Gemini, Bittrex, etc.
+
+          p Please note that we will disable this functionality before the start of the presale, so if you need to make any changes, do so ASAP!
+          br
+
+
         - if @referral_link.present?
           h2 Referral Program
           p Congrats on being accepted to the CoinFi Referral Program!
@@ -76,3 +94,58 @@ main.main-content
           h5 Warning: Watch Out For Scams!
           p The ONLY place you will see the CoinFi Ethereum funding address is on this Dashboard. We will never publish the address anywhere else. There are multiple funding addresses and you will be assigned to a specific one, so you must find your particular funding address on the Dashboard. Make sure you are logged in using your email and password at <a href="https://sale.coinfi.com/dashboard">https://sale.coinfi.com/dashboard</a>. IGNORE all other sources including email, Telegram, or blog posts, even if it looks like it comes from CoinFi.
           p We will never request personal information via email; make sure to ignore all emails asking for your personal information.
+
+script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/crypto-js.min.js"
+javascript:
+  window.FCSP = 'f2d1ab26e9a2990f1b601a77e6df6767';
+  /**
+   * Checks if the given string is an address
+   *
+   * @method isAddress
+   * @param {String} address the given HEX adress
+   * @return {Boolean}
+  */
+  var isEthereumAddress = function (address) {
+      if (!/^(0x)?[0-9a-f]{40}$/i.test(address)) {
+          // check if it has the basic requirements of an address
+          return false;
+      } else if (/^(0x)?[0-9a-f]{40}$/.test(address) || /^(0x)?[0-9A-F]{40}$/.test(address)) {
+          // If it's all small caps or all all caps, return true
+          return true;
+      } else {
+          // Otherwise check each case
+          return isChecksumAddress(address);
+      }
+  };
+
+  /**
+   * Checks if the given string is a checksummed address
+   *
+   * @method isChecksumAddress
+   * @param {String} address the given HEX adress
+   * @return {Boolean}
+  */
+  var isChecksumAddress = function (address) {
+      // Check each case
+      address = address.replace('0x','');
+      console.log("address: ", address);
+      var addressHash = CryptoJS.SHA3(address.toLowerCase());
+      console.log("addressHash: ", addressHash);
+      for (var i = 0; i < 40; i++ ) {
+          // the nth letter should be uppercase if the nth digit of casemap is 1
+          if ((parseInt(addressHash[i], 16) > 7 && address[i].toUpperCase() !== address[i]) || (parseInt(addressHash[i], 16) <= 7 && address[i].toLowerCase() !== address[i])) {
+              return false;
+          }
+      }
+      return true;
+  };
+
+  $(function() {
+    $('form input[name=ethereum_address]').change(function() {
+      var ethereumAddress = $(this)[0].value;
+      console.log(ethereumAddress);
+      if (!isEthereumAddress(ethereumAddress)) {
+        alert("This doesn't seem to be a valid Ethereum address!");
+      }
+    });
+  });

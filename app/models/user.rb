@@ -115,6 +115,10 @@ class User < ApplicationRecord
     token_sale["facial_recognition_similarity_score"] if token_sale["facial_recognition_similarity_score"]
   end
 
+  def ethereum_address
+    token_sale["ethereum_address"] if token_sale["ethereum_address"]
+  end
+
 protected
 
   def password_required?

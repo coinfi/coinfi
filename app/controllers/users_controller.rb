@@ -118,6 +118,17 @@ class UsersController < DeviseController
     redirect_to dashboard_path
   end
 
+  def update_ethereum_address
+    current_user.token_sale['ethereum_address'] = params[:ethereum_address]
+    if current_user.save
+      flash[:success] = "Your Ethereum address has been successfully updated."
+    else
+      flash[:danger] = "There was an error updating your Ethereum address, please try again or reach us at contact@coinfi.com if this persists."
+    end
+
+    redirect_to dashboard_path
+  end
+
 protected
 
   def render_if_blocked_country
