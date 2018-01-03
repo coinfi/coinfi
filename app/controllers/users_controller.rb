@@ -110,7 +110,10 @@ class UsersController < DeviseController
     end
 
     # TODO: Run in background job?
-    current_user.run_kyc!
+    result = current_user.run_kyc!
+    if result
+      ApplicationMailer.kyc_confirmation(current_user).deliver_later
+    end
 
     redirect_to dashboard_path
   end
