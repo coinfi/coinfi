@@ -92,7 +92,7 @@ class User < ApplicationRecord
   end
 
   def kyc_result_cleared?
-    token_sale["artemis_report"].in? ["CLEARED", "ACCEPTED"]
+    token_sale && token_sale["artemis_report"] && token_sale["artemis_report"].in?(["CLEARED", "ACCEPTED"])
   end
 
   def rejected_residence?
