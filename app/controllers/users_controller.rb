@@ -43,7 +43,7 @@ class UsersController < DeviseController
     current_user.password_confirmation = @password
     if current_user.save
       sign_in(:user, current_user, bypass: true)
-      redirect_to "/estimate-contribution"
+      redirect_to "/join-telegram"
     else
       redirect_to "/set-password", notice: "There was a problem saving your password: #{current_user.errors.full_messages.join('\n')} - please try again."
     end
