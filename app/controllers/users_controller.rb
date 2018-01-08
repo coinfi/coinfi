@@ -68,7 +68,7 @@ class UsersController < DeviseController
   end
 
   def dashboard
-    if current_user.waitlisted? || !current_user.kyc_completed?
+    if current_user.waitlisted?
       render "waitlist" and return
     end
 
