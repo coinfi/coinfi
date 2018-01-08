@@ -95,6 +95,10 @@ class User < ApplicationRecord
     token_sale && token_sale["artemis_report"] && token_sale["artemis_report"].in?(["CLEARED", "ACCEPTED"])
   end
 
+  def waitlisted?
+    token_sale && token_sale["waitlisted"].present?
+  end
+
   def rejected_residence?
     Artemis.restricted_residencies.include? token_sale["residency"]
   end

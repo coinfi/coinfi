@@ -25,6 +25,8 @@ class UsersController < DeviseController
     user = User.new(email: @email, skip_password_validation: true)
     user.token_sale = {} if user.token_sale.blank?
     user.token_sale['referred_by'] = request.env['affiliate.tag'] if request.env['affiliate.tag']
+    user.token_sale["waitlist"] = true
+
     if user.save
       sign_in(:user, user)
       redirect_to '/set-password' and return
@@ -66,6 +68,10 @@ class UsersController < DeviseController
   end
 
   def dashboard
+    if current_user.waitlisted? || !current_user.kyc_completed?
+      render "waitlist" and return
+    end
+
     if current_user.in_referral_program?
       @referral_link = "https://sale.coinfi.com/?ref=#{current_user.id}"
       @referrals = current_user.get_referrals

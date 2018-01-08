@@ -6,10 +6,6 @@
       <button class="topbar-toggler">&#9776;</button>
       <a class="topbar-brand mr-64" href="/" style="font-size: 1.25rem">
         <strong>CoinFi</strong>
-        <%
-        #<img class="logo-default" src="/landing/img/logo.png" alt="logo">
-        #<img class="logo-inverse" src="/landing/img/logo-light.png" alt="logo">
-        %>
       </a>
     </div>
 
@@ -37,9 +33,6 @@
         <li class="nav-item"><a class="nav-link" href="/cn">中文</a></li>
       </ul>
       <div class="d-inline-flex ml-30">
-        <%
-          #<a class="btn btn-sm btn-outline btn-primary hidden-sm-down mr-4" href="/coins">Platform <small>(beta)</small></a>
-        %>
         &nbsp;
         <% if user_signed_in? %>
           <%= link_to "Dashboard", "/dashboard", class: "btn btn-small btn-info" %>
@@ -50,12 +43,8 @@
             White Paper
           </a>
           &nbsp;
-          <%= link_to "Join Whitelist", new_user_registration_path, class: "btn btn-small btn-success" %>
-          <%
-          # <button type="button" class="btn btn-small btn-success" data-toggle="modal" data-target="#presaleModal">
-          #   Join Presale
-          # </button>
-          %>
+
+          <%= link_to "Join Waitlist", new_user_registration_path, class: "btn btn-small btn-success" %>
         <% end %>
       </div>
     </div>

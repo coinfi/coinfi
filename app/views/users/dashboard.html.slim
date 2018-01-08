@@ -27,7 +27,6 @@ main.main-content
             p You have successfully registered and passed the KYC process.
             p Your next steps are to follow the instructions at <a href="https://blog.coinfi.com/how-to-participate-in-the-coinfi-token-sale/" target="_blank">https://blog.coinfi.com/how-to-participate-in-the-coinfi-token-sale/</a> to make sure that you are ready for the token sale opening, which is when you will be able to purchase CoinFi tokens.
             p Looking forward to having you onboard!
-
           - else
             p
               | Thanks for submitting your information!
@@ -37,19 +36,7 @@ main.main-content
               | You'll receive an email notification once the verification is complete.
 
         - else
-          p.lead In order to be eligible for the token sale you need to complete registration and get whitelisted - there's just one final step remaining!
-          p= link_to "Finish Registration and Get Whitelisted", kyc_path, class: "btn btn-xl btn-success"
-
-        - if current_user.kyc_completed? && !current_user.kyc_result_cleared?
-        /
-          p
-            a.btn.btn-success href="https://sale.coinfi.com" Check out the CoinFi Token Sale Page
-          p
-            a.btn.btn-info href="https://sale.coinfi.com/prototype" Get a sneak peek at the Prototypes
-          p
-            a.btn.btn-default href="https://docs.google.com/document/d/1p6xaFl4nPv1CuJv6F2fkZ6qBq2lBS6ePyFna8QZt1KM/edit" Read the CoinFi White Paper
-          p
-            a.btn.btn-primary href="https://blog.coinfi.com" Learn more about the CoinFi Platform
+          p The whitelist is now closed; you've been added to the waitlist for access to the CoinFi public beta.
 
       .col-lg-6
         - if current_user.ethereum_address
