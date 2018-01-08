@@ -73,6 +73,7 @@ class UsersController < DeviseController
   end
 
   def kyc
+    render_if_blocked_country
     redirect_to dashboard_path if current_user.kyc_completed?
   end
 
