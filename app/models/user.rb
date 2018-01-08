@@ -116,7 +116,7 @@ class User < ApplicationRecord
   end
 
   def ethereum_address
-    token_sale["ethereum_address"] if token_sale["ethereum_address"]
+    token_sale["ethereum_address"] if token_sale && token_sale["ethereum_address"]
   end
 
 protected
