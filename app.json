@@ -65,6 +65,9 @@
     "RAILS_SERVE_STATIC_FILES": {
       "required": true
     },
+    "RESTRICTED_RESIDENCIES": {
+      "required": true
+    },
     "ROLLBAR_ACCESS_TOKEN": {
       "required": true
     },
