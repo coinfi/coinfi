@@ -100,7 +100,7 @@ class User < ApplicationRecord
   end
 
   def rejected_residence?
-    Artemis.restricted_residencies.include? token_sale["residency"]
+    token_sale && Artemis.restricted_residencies.include?(token_sale["residency"])
   end
 
   def id_doc_image_key
