@@ -3,6 +3,11 @@
 main.main-content
   .container
     .row
+      .col-12
+        .alert.alert-success
+          h5 Thanks for your support - you will receive 500 COFI tokens to the address below on Jan 31, 2018!
+  .container
+    .row
       .col-lg-6
         h2 Dashboard
 
@@ -18,11 +23,11 @@ main.main-content
         p At the same time, an airdrop allows us to show you our gratitude, and having 18,000+ token holders bodes well for the future of the platform, as CoinFi’s crowdsourced model depends on having a large community of engaged users and quality contributors.
         p
           strong So how do you claim your 500 COFI tokens?
-        p If you’re seeing this message, we’ll be airdropping 500 COFI tokens to the Ethereum address you specify here on Jan 31, 2018. These tokens will be fully unlocked. We'll have further instructions for you on how to set up your wallet to view these tokens, so stay tuned.
+        p If you’re seeing this message, we’ll be airdropping 500 COFI tokens to the Ethereum address you specify here on Jan 31, 2018. These tokens will be fully unlocked. We'll have further instructions for you on how to set up your wallet to access these tokens, so stay tuned.
 
       .col-lg-6
         - if current_user.ethereum_address
-          h2 Your Ethereum Address
+          h2 Ethereum Address For Receiving Airdrop Tokens
           = form_tag '/eth'
             p If you need to check or change your Ethereum address, you can do so here:
             label for="ethereum_address"
