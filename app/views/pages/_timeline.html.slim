@@ -2,18 +2,14 @@ a#timeline[name="timeline"]
 section.section
   .container
     header.section-header
-      small Projected
-      h2 Timeline
+      small Project
+      h2 Information
     .row.gap-y
       .col-12.col-md-5
         br
         ul.timeline
-          li.event[data-date="Nov 1"] Whitepaper Release
-          li.event[data-date="Nov 10"] Token Sale Registration Opens
-          li.event[data-date="Jan 15"] Presale Begins
-          li.event[data-date="Feb 8"] Crowdsale Begins
-          li.event[data-date="Feb 22"] Token Sale Ends
-          li.event[data-date="Feb 28"] Token Distribution
+          li.event[data-date="Jan 31"] Airdrop
+          li.event[data-date="Feb 28"] Token Unlock
           li.event[data-date="Apr 6"] Public Beta Launch
       .col-12.col-md-7
         table.table
@@ -22,15 +18,9 @@ section.section
             td.text-right
               span.text-info.fs-40 ~300,000,000
           tr
-            th Initial Offering Price<br><small>(Ethereum price adjusts based on volatility)</small>
+            th Ticker Symbol
             td.text-right
-              .text-info.fs-40 1 <small class="text-info">ETH</small> = 7500 <small class="text-info">COFI</small>
-          tr
-            th Soft Cap On Raise
-            td.text-right
-              span.text-info.fs-40
-                ' $3M
-                small.text-info USD
+              span.text-info.fs-40 COFI
           tr
             th Hard Cap On Raise
             td.text-right
@@ -38,139 +28,11 @@ section.section
                 ' $15M
                 small.text-info USD
           tr
-            th Currencies Accepted
+            th Airdrop Amount
             td.text-right
-              span.text-info.fs-40 Ethereum
-          tr
-            th Presale Minimum Contribution
-            td.text-right
-              span.text-info.fs-40 1 ETH
-          tr
-            th Crowdsale Minimum Contribution
-            td.text-right
-              span.text-info.fs-40 0.25 ETH
-          tr
-            th Maximum Contribution<br><small>(Both Presale and Crowdsale)</small>
-            td.text-right
-              span.text-info.fs-40 15 ETH
+              span.text-info.fs-40
+                ' 500
+                small.text-info COFI
     br
     br
     br
-    header.section-header
-      small Early Mover Rewards
-      h2 Bonus Structure
-    .row.gap-y
-      .col-12.col-lg-3
-        .card.card-shadowed
-          .card-block
-            h5.card-title
-              | Presale Tier 1
-              .pull-right(style="color: #0e97ff") Jan 15 - 21
-            p.card-text
-              .lead.text-center.text-success 20% Bonus
-              br
-              canvas#presale1
-              javascript:
-                $(function() {
-                  var presale1 = document.getElementById("presale1");
-                  var presaleChart1 = new Chart(presale1, {
-                    type: 'pie',
-                    data: {
-                      datasets: [{
-                        data: [20, 80],
-                        backgroundColor: ['#46da60']
-                      }]
-                    },
-                    options: {
-                      legend: { display: false },
-                      tooltips: { enabled: false }
-                    }
-                  });
-                });
-      .col-12.col-lg-3
-        .card.card-shadowed
-          .card-block
-            h5.card-title
-              | Presale Tier 2
-              .pull-right(style="color: #0e97ff") Jan 22 - Jan 28
-            p.card-text
-              .lead.text-center.text-success 15% Bonus
-              br
-              canvas#presale2
-              javascript:
-                $(function() {
-                  var presale2 = document.getElementById("presale2");
-                  var presaleChart2 = new Chart(presale2, {
-                    type: 'pie',
-                    data: {
-                      datasets: [{
-                        data: [15, 85],
-                        backgroundColor: ['#46da60']
-                      }]
-                    },
-                    options: {
-                      legend: { display: false },
-                      tooltips: { enabled: false }
-                    }
-                  });
-                });
-      .col-12.col-lg-3
-        .card.card-shadowed
-          .card-block
-            h5.card-title
-              | Presale Tier 3
-              .pull-right(style="color: #0e97ff") Jan 29 - Feb 4
-            p.card-text
-              .lead.text-center.text-success 10% Bonus
-              br
-              canvas#presale3
-              javascript:
-                $(function() {
-                  var presale3 = document.getElementById("presale3");
-                  var presaleChart3 = new Chart(presale3, {
-                    type: 'pie',
-                    data: {
-                      datasets: [{
-                        data: [10, 90],
-                        backgroundColor: ['#46da60']
-                      }]
-                    },
-                    options: {
-                      legend: { display: false },
-                      tooltips: { enabled: false }
-                    }
-                  });
-                });
-      .col-12.col-lg-3
-        .card.card-shadowed
-          .card-block
-            h5.card-title
-              | Crowdsale
-              .pull-right(style="color: #0e97ff") Feb 8 - 22
-            p.card-text.text-center style="line-height: 1.7"
-              .lead.text-center.text-success 5% Bonus during 1st hour
-              .text-center.text-muted
-                small 5 ETH/person max during 1st hour
-              br
-              canvas#crowdsale
-              javascript:
-                $(function() {
-                  var crowdsale = document.getElementById("crowdsale");
-                  var crowdsaleChart = new Chart(crowdsale, {
-                    type: 'pie',
-                    data: {
-                      datasets: [{
-                        data: [5, 95],
-                        backgroundColor: ['#46da60']
-                      }],
-                      labels: [
-                        'Bonus',
-                        ''
-                      ]
-                    },
-                    options: {
-                      legend: { display: false },
-                      tooltips: { enabled: false }
-                    }
-                  });
-                });
