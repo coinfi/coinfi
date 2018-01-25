@@ -5,7 +5,7 @@ main.main-content
     .row
       .col-12
         .alert.alert-success
-          h5 Thanks for your support - you will receive 500 COFI tokens to the address below on Jan 31, 2018!
+          h5 Thanks for your support - you will receive 500 COFI tokens to the address below before Jan 29, 2018!
   .container
     .row
       .col-lg-6
@@ -29,17 +29,13 @@ main.main-content
         - if current_user.ethereum_address
           h2 Ethereum Address For Receiving Airdrop Tokens
           = form_tag '/eth'
-            p If you need to check or change your Ethereum address, you can do so here:
             label for="ethereum_address"
               ' Your Whitelisted Ethereum Address
               small <a href="https://blog.coinfi.com/how-to-create-your-ethereum-address/" target="_blank">Click here for step-by-step instructions on where to find this.</a>
-            input.form-control name="ethereum_address" type="text" placeholder="0x..." required="required" autocomplete="off" value="#{current_user.ethereum_address if current_user.ethereum_address}"
-
-            input type="submit" class="btn btn-primary" value="Update"
+            input.form-control name="ethereum_address" type="text" placeholder="0x..." required="required" autocomplete="off"  disabled="disabled" value="#{current_user.ethereum_address if current_user.ethereum_address}"
 
             small.text-danger(style="margin-top: 12px; line-height: 1.5em") IMPORTANT: You will receive COFI tokens at this address.<br>Make sure to use your own ERC-20 compatible wallet address, and NOT an address from exchanges like Coinbase, Kraken, Poloniex, Gemini, Bittrex, etc.
 
-          p Do note that we will disable this functionality on January 20, so if you need to make any changes, please do so ASAP!
           br
 
 
