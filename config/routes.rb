@@ -27,6 +27,8 @@ Rails.application.routes.draw do
     resources :coins
     resources :articles
     resources :users
+    resources :submission_categories
+    resources :contributor_submissions
     post "users/:id/toggle_referral_program" => "users#toggle_referral_program", as: 'toggle_referral_program'
     post "users/:id/run_kyc" => "users#run_kyc", as: 'run_kyc'
     post "users/:id/update_kyc" => "users#update_kyc", as: 'update_kyc'
