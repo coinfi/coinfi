@@ -6,7 +6,7 @@ class ContributorSubmissionsController < ApplicationController
   # GET /contributor_submissions
   # GET /contributor_submissions.json
   def index
-    @contributor_submissions = ContributorSubmission.all
+    @contributor_submissions = current_user.contributor_submissions
   end
 
   # GET /contributor_submissions/1
@@ -16,7 +16,7 @@ class ContributorSubmissionsController < ApplicationController
 
   # GET /contributor_submissions/new
   def new
-    @contributor_submission = ContributorSubmission.new
+    @contributor_submission = current_user.contributor_submissions.build
   end
 
   # GET /contributor_submissions/1/edit
@@ -26,11 +26,11 @@ class ContributorSubmissionsController < ApplicationController
   # POST /contributor_submissions
   # POST /contributor_submissions.json
   def create
-    @contributor_submission = ContributorSubmission.new(contributor_submission_params)
+    @contributor_submission = current_user.contributor_submissions.build(contributor_submission_params)
 
     respond_to do |format|
       if @contributor_submission.save
-        format.html { redirect_to @contributor_submission, notice: 'Contributor submission was successfully created.' }
+        format.html { redirect_to contributor_submissions_path, notice: 'Contributor submission was successfully created.' }
         format.json { render :show, status: :created, location: @contributor_submission }
       else
         format.html { render :new }
@@ -66,7 +66,7 @@ class ContributorSubmissionsController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_contributor_submission
-      @contributor_submission = ContributorSubmission.find(params[:id])
+      @contributor_submission = current_user.contributor_submissions.find(params[:id])
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

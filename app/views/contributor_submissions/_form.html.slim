@@ -3,7 +3,7 @@
   = f.input :title
   = f.input :summary
   = f.input :content
-  = f.input :submission_category, collection: SubmissionCategory.order(:name), label: 'Category'
+  = f.input :submission_category_id, collection: SubmissionCategory.order(:name), label: 'Category'
   = f.input :disclosure
 
-  .actions = f.submit 'Submit', input_html: {class: 'btn btn-primary'}
+  .actions = f.submit 'Submit', class: 'btn btn-primary'

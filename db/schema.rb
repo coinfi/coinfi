@@ -143,7 +143,7 @@ ActiveRecord::Schema.define(version: 20180227115542) do
     t.text "summary"
     t.text "content"
     t.bigint "submission_category_id"
-    t.integer "status"
+    t.integer "status", default: 0, null: false
     t.text "disclosure"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -294,7 +294,7 @@ ActiveRecord::Schema.define(version: 20180227115542) do
 
   add_foreign_key "articles", "coins"
   add_foreign_key "contributor_submissions", "submission_categories"
-  add_foreign_key "contributor_submissions", "users"
+  add_foreign_key "contributor_submissions", "users", on_delete: :cascade
   add_foreign_key "daily_prices", "coins"
   add_foreign_key "hourly_prices", "coins"
 end

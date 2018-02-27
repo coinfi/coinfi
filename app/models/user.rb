@@ -2,6 +2,7 @@ class User < ApplicationRecord
   attr_accessor :skip_password_validation
 
   has_many :visits
+  has_many :contributor_submissions
 
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable

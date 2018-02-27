@@ -1,7 +1,7 @@
 .container
   h1 Submissions
 
-  table
+  table.table.table-striped
     thead
       tr
         th Title
@@ -15,10 +15,9 @@
           td = contributor_submission.title
           td = contributor_submission.created_at
           td = contributor_submission.status
-          td 
-            = link_to 'Show', contributor_submission, class: 'btn btn-xs btn-primary'
-            = link_to 'Edit', edit_contributor_submission_path(contributor_submission), class: 'btn btn-xs btn-info'
-            = link_to 'Destroy', contributor_submission, data: { confirm: 'Are you sure?' }, method: :delete, class: 'btn btn-xs btn-danger'
+          td.text-right 
+            = link_to 'View', contributor_submission, class: 'btn btn-xs btn-primary'
+            =< link_to 'Edit', edit_contributor_submission_path(contributor_submission), class: 'btn btn-xs btn-info'
 
   br
 
