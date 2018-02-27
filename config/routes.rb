@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :contributor_submissions
   mount Blazer::Engine, at: "blazer"
 
   devise_scope :user do

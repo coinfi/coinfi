@@ -1,0 +1,33 @@
+h1 Listing contributor_submissions
+
+table
+  thead
+    tr
+      th User
+      th Title
+      th Summary
+      th Content
+      th Submission category
+      th Status
+      th Disclosure
+      th
+      th
+      th
+
+  tbody
+    - @contributor_submissions.each do |contributor_submission|
+      tr
+        td = contributor_submission.user
+        td = contributor_submission.title
+        td = contributor_submission.summary
+        td = contributor_submission.content
+        td = contributor_submission.submission_category
+        td = contributor_submission.status
+        td = contributor_submission.disclosure
+        td = link_to 'Show', contributor_submission
+        td = link_to 'Edit', edit_contributor_submission_path(contributor_submission)
+        td = link_to 'Destroy', contributor_submission, data: { confirm: 'Are you sure?' }, method: :delete
+
+br
+
+= link_to 'New Contributor submission', new_contributor_submission_path

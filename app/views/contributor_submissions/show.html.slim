@@ -1,0 +1,27 @@
+p#notice = notice
+
+p
+  strong User:
+  = @contributor_submission.user
+p
+  strong Title:
+  = @contributor_submission.title
+p
+  strong Summary:
+  = @contributor_submission.summary
+p
+  strong Content:
+  = @contributor_submission.content
+p
+  strong Submission category:
+  = @contributor_submission.submission_category
+p
+  strong Status:
+  = @contributor_submission.status
+p
+  strong Disclosure:
+  = @contributor_submission.disclosure
+
+= link_to 'Edit', edit_contributor_submission_path(@contributor_submission)
+'  |
+= link_to 'Back', contributor_submissions_path

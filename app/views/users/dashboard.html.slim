@@ -26,6 +26,8 @@ main.main-content
         p If you’re seeing this message, we’ll be airdropping 500 COFI tokens to the Ethereum address you specify here on Jan 31, 2018. These tokens will be fully unlocked. We'll have further instructions for you on how to set up your wallet to access these tokens, so stay tuned.
 
       .col-lg-6
+        .text-right
+          = link_to "Contribute Content", new_contributor_submission_path, class: 'btn btn-small btn-info'
         - if current_user.ethereum_address
           h2 Ethereum Address For Receiving Airdrop Tokens
           = form_tag '/eth'

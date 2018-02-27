@@ -1,0 +1,30 @@
+= form_for @contributor_submission do |f|
+  - if @contributor_submission.errors.any?
+    #error_explanation
+      h2 = "#{pluralize(@contributor_submission.errors.count, "error")} prohibited this contributor_submission from being saved:"
+      ul
+        - @contributor_submission.errors.full_messages.each do |message|
+          li = message
+
+  .field
+    = f.label :user
+    = f.text_field :user
+  .field
+    = f.label :title
+    = f.text_field :title
+  .field
+    = f.label :summary
+    = f.text_area :summary
+  .field
+    = f.label :content
+    = f.text_area :content
+  .field
+    = f.label :submission_category
+    = f.text_field :submission_category
+  .field
+    = f.label :status
+    = f.number_field :status
+  .field
+    = f.label :disclosure
+    = f.text_area :disclosure
+  .actions = f.submit
