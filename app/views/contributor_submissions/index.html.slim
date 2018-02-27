@@ -1,33 +1,25 @@
-h1 Listing contributor_submissions
+.container
+  h1 Submissions
 
-table
-  thead
-    tr
-      th User
-      th Title
-      th Summary
-      th Content
-      th Submission category
-      th Status
-      th Disclosure
-      th
-      th
-      th
-
-  tbody
-    - @contributor_submissions.each do |contributor_submission|
+  table
+    thead
       tr
-        td = contributor_submission.user
-        td = contributor_submission.title
-        td = contributor_submission.summary
-        td = contributor_submission.content
-        td = contributor_submission.submission_category
-        td = contributor_submission.status
-        td = contributor_submission.disclosure
-        td = link_to 'Show', contributor_submission
-        td = link_to 'Edit', edit_contributor_submission_path(contributor_submission)
-        td = link_to 'Destroy', contributor_submission, data: { confirm: 'Are you sure?' }, method: :delete
+        th Title
+        th Submission Date
+        th Status
+        th
 
-br
+    tbody
+      - @contributor_submissions.each do |contributor_submission|
+        tr
+          td = contributor_submission.title
+          td = contributor_submission.created_at
+          td = contributor_submission.status
+          td 
+            = link_to 'Show', contributor_submission, class: 'btn btn-xs btn-primary'
+            = link_to 'Edit', edit_contributor_submission_path(contributor_submission), class: 'btn btn-xs btn-info'
+            = link_to 'Destroy', contributor_submission, data: { confirm: 'Are you sure?' }, method: :delete, class: 'btn btn-xs btn-danger'
 
-= link_to 'New Contributor submission', new_contributor_submission_path
+  br
+
+  = link_to 'New submission', new_contributor_submission_path, class: 'btn btn-sm btn-info'
