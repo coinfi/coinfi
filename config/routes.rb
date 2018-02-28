@@ -1,5 +1,4 @@
 Rails.application.routes.draw do
-  resources :contributor_submissions
   mount Blazer::Engine, at: "blazer"
 
   devise_scope :user do
@@ -58,6 +57,8 @@ Rails.application.routes.draw do
   #post '/segment'
 
   resources :coins, only: [:index, :show]
+
+  resources :contributor_submissions, path: 'contributor-submissions'
 
   get '/historical/:symbol' => 'data#historical'
 
