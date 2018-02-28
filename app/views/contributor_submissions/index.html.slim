@@ -1,5 +1,9 @@
 .container
-  h1 Submissions
+  .row
+    .col-sm-6
+      h1 Submissions
+    .col-sm-6.text-right
+      = link_to 'New submission', new_contributor_submission_path, class: 'btn btn-sm btn-info'
 
   table.table.table-striped
     thead
@@ -18,7 +22,3 @@
           td.text-right 
             = link_to 'View', contributor_submission, class: 'btn btn-xs btn-primary'
             =< link_to 'Edit', edit_contributor_submission_path(contributor_submission), class: 'btn btn-xs btn-info'
-
-  br
-
-  = link_to 'New submission', new_contributor_submission_path, class: 'btn btn-sm btn-info'
