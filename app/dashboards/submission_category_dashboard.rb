@@ -47,4 +47,7 @@ class SubmissionCategoryDashboard < Administrate::BaseDashboard
   # def display_resource(article)
   #   "Article ##{article.id}"
   # end
+  def display_resource(category)
+    category.name
+  end
 end

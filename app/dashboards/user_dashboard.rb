@@ -41,6 +41,9 @@ class UserDashboard < Administrate::BaseDashboard
     :email,
   ].freeze
 
+  def display_resource(user)
+    user.email
+  end
   # Overwrite this method to customize how articles are displayed
   # across all pages of the admin dashboard.
   #
