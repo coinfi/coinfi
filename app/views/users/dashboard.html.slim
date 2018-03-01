@@ -3,114 +3,29 @@
 main.main-content
   .container
     .row
-      .col-12
-        .alert.alert-success
-          h5 Thanks for your support - you will receive 500 COFI tokens to the address below before Jan 29, 2018!
-  .container
-    .row
-      .col-lg-6
-        h2 Dashboard
-
-        p= "Welcome, #{current_user.email}!"
-
-        p First of all, we want to thank all of you for being part of the CoinFi community. It’s been incredible to watch this community grow from just the 3 of us cofounders and a few of our crypto nerd friends, to a team of 12 and over 20,000+ Telegram users in just 5 months.
-        p CoinFi will be cancelling our public sale (both presale/crowdsale). Instead, we will be airdropping 9,375,000 COFI tokens to our whitelist.
+      .col-lg-8.offset-lg-2
+        h1.text-center Stay Tuned!
         p
-          strong Why are we airdropping COFI tokens instead of holding a public sale?
-        p We’ve mentioned in the past that there was a private sale round with early adopters and partners who bring a strategic benefit to growing the CoinFi platform. Having a group of early backers was a core part of our strategy to quickly launch and scale the CoinFi platform.
-        p Although these private partners were allocated only a portion of the token sale, due to the extreme run up in ETH recently, this strategic private sale has now filled our entire hard cap.
-        p After the recent ETH run up, there was simply no way to run an equitable public sale without drastically increasing our hard cap, which was never an option. Our goal has always been to only collect as much as we need to scale up our platform.
-        p At the same time, an airdrop allows us to show you our gratitude, and having 18,000+ token holders bodes well for the future of the platform, as CoinFi’s crowdsourced model depends on having a large community of engaged users and quality contributors.
+          => "Welcome, #{current_user.email}!"
+          | You're on the waitlist to get access to the CoinFi Public Beta.
+
+        h3 Contribute to the CoinFi Ecosystem, Earn COFI Tokens
+        p As outlined in the whitepaper, CoinFi’s platform will include a crowdsourced ecosystem of contributors delivering news, research & analysis.
+        p If you’re interested in contributing in exchange for COFI tokens, please read the instructions here and click the button below the contribute your research & analysis.
+
+        p= link_to "Contribute Content", "/contributor-submissions/new", class: 'btn btn-lg btn-success'
+
+        p If you’re not interested or able to contribute, but want to support the CoinFi project, you can help us out by sharing this post or forwarding it to someone you know who may want to contribute!
+
+        p Of course, CoinFi is also available for purchase on <a href="https://www.kucoin.com" target="_blank">Kucoin</a> in BTC and ETH pairs.
+
+        h3 More about the CoinFi project
+        p While many of you know the whitepaper inside and out, there are also some of you who might not be familiar with the CoinFi platform and the exciting product our team is working hard to build.
+        p Here’s a great overview of the CoinFi project from the team over at CrushCrypto:
+        <iframe width="560" height="315" src="https://www.youtube.com/embed/zpfsWfBxbvI?rel=0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
         p
-          strong So how do you claim your 500 COFI tokens?
-        p If you’re seeing this message, we’ll be airdropping 500 COFI tokens to the Ethereum address you specify here on Jan 31, 2018. These tokens will be fully unlocked. We'll have further instructions for you on how to set up your wallet to access these tokens, so stay tuned.
-
-      .col-lg-6
-        .text-right
-          = link_to "Contribute Content", new_contributor_submission_path, class: 'btn btn-small btn-info'
-        - if current_user.ethereum_address
-          h2 Ethereum Address For Receiving Airdrop Tokens
-          = form_tag '/eth'
-            label for="ethereum_address"
-              ' Your Whitelisted Ethereum Address
-              small <a href="https://blog.coinfi.com/how-to-create-your-ethereum-address/" target="_blank">Click here for step-by-step instructions on where to find this.</a>
-            input.form-control name="ethereum_address" type="text" placeholder="0x..." required="required" autocomplete="off"  disabled="disabled" value="#{current_user.ethereum_address if current_user.ethereum_address}"
-
-            small.text-danger(style="margin-top: 12px; line-height: 1.5em") IMPORTANT: You will receive COFI tokens at this address.<br>Make sure to use your own ERC-20 compatible wallet address, and NOT an address from exchanges like Coinbase, Kraken, Poloniex, Gemini, Bittrex, etc.
-
-          br
-
-
-        - if @referral_link.present?
-          h2 Referral Program
-          p Congrats on being accepted to the CoinFi Referral Program!
-          p
-            ' Your custom referral link is:
-            code= @referral_link
-          br
-          - if @referrals.present?
-            table.table
-              tr
-                th Referral Email
-                th Timestamp
-              - @referrals.each do |referral|
-                tr
-                  td= EmailAddress.munge(referral.email)
-                  td= referral.created_at
-          - else
-            p You currently do not have any referrals; once your first one arrives, you'll see them here.
-
-script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/crypto-js.min.js"
-javascript:
-  window.FCSP = 'f2d1ab26e9a2990f1b601a77e6df6767';
-  /**
-   * Checks if the given string is an address
-   *
-   * @method isAddress
-   * @param {String} address the given HEX adress
-   * @return {Boolean}
-  */
-  var isEthereumAddress = function (address) {
-      if (!/^(0x)?[0-9a-f]{40}$/i.test(address)) {
-          // check if it has the basic requirements of an address
-          return false;
-      } else if (/^(0x)?[0-9a-f]{40}$/.test(address) || /^(0x)?[0-9A-F]{40}$/.test(address)) {
-          // If it's all small caps or all all caps, return true
-          return true;
-      } else {
-          // Otherwise check each case
-          return isChecksumAddress(address);
-      }
-  };
-
-  /**
-   * Checks if the given string is a checksummed address
-   *
-   * @method isChecksumAddress
-   * @param {String} address the given HEX adress
-   * @return {Boolean}
-  */
-  var isChecksumAddress = function (address) {
-      // Check each case
-      address = address.replace('0x','');
-      console.log("address: ", address);
-      var addressHash = CryptoJS.SHA3(address.toLowerCase());
-      console.log("addressHash: ", addressHash);
-      for (var i = 0; i < 40; i++ ) {
-          // the nth letter should be uppercase if the nth digit of casemap is 1
-          if ((parseInt(addressHash[i], 16) > 7 && address[i].toUpperCase() !== address[i]) || (parseInt(addressHash[i], 16) <= 7 && address[i].toLowerCase() !== address[i])) {
-              return false;
-          }
-      }
-      return true;
-  };
-
-  $(function() {
-    $('form input[name=ethereum_address]').change(function() {
-      var ethereumAddress = $(this)[0].value;
-      console.log(ethereumAddress);
-      if (!isEthereumAddress(ethereumAddress)) {
-        alert("This doesn't seem to be a valid Ethereum address!");
-      }
-    });
-  });
+        p If you're interested in taking a deep-dive into what CoinFi is all about, we highly recommend this Ask Me Anything segment that our cofounder Timothy Tam recorded with TheGobOne.
+        p Thanks to his 15+ year career as a battle hardened hedge fund trader, Tim has some unique insights into the crypto markets, often drawing parallels to things he's seen happen over and over while trading equities.
+        p This AMA is also a great opportunity for you to learn more about the CoinFi team, our advisors, and most importantly, how the platform is going to work, and how the token fits into the CoinFi ecosystem.
+        <iframe width="560" height="315" src="https://www.youtube.com/embed/ffAGfR8UGrs?rel=0&amp;start=364" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+        p
