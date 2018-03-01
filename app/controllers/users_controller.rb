@@ -68,18 +68,6 @@ class UsersController < DeviseController
   end
 
   def dashboard
-    if current_user.rejected_residence?
-      render "blocked" and return
-    end
-
-    if current_user.waitlisted? || !current_user.kyc_completed?
-      render "waitlist" and return
-    end
-
-    if current_user.in_referral_program?
-      @referral_link = "https://sale.coinfi.com/?ref=#{current_user.id}"
-      @referrals = current_user.get_referrals
-    end
   end
 
   def kyc
