@@ -1,6 +1,6 @@
 require "administrate/base_dashboard"
 
-class UserDashboard < Administrate::BaseDashboard
+class ContributorSubmissionDashboard < Administrate::BaseDashboard
   # ATTRIBUTE_TYPES
   # a hash that describes the type of each of the model's fields.
   #
@@ -9,7 +9,13 @@ class UserDashboard < Administrate::BaseDashboard
   # on pages throughout the dashboard.
   ATTRIBUTE_TYPES = {
     id: Field::Number,
-    email: Field::String,
+    user: Field::BelongsTo.with_options(class_name: 'User', order: 'name DESC'),
+    title: Field::String,
+    summary: Field::Text,
+    content: Field::Text,
+    submission_category: Field::BelongsTo.with_options(class_name: 'SubmissionCategory', order: 'name DESC'),
+    status: Field::Select.with_options(collection: ContributorSubmission::statuses),
+    disclosure: Field::Text,
     created_at: Field::DateTime,
     updated_at: Field::DateTime,
   }.freeze
@@ -20,16 +26,23 @@ class UserDashboard < Administrate::BaseDashboard
   # By default, it's limited to four items to reduce clutter on index pages.
   # Feel free to add, remove, or rearrange items.
   COLLECTION_ATTRIBUTES = [
-    :id,
-    :email,
-    :created_at,
+    :title,
+    :user,
+    :status,
+    :created_at
   ].freeze
 
   # SHOW_PAGE_ATTRIBUTES
   # an array of attributes that will be displayed on the model's show page.
   SHOW_PAGE_ATTRIBUTES = [
     :id,
-    :email,
+    :user,
+    :title,
+    :summary,
+    :content,
+    :submission_category,
+    :status,
+    :disclosure,
     :created_at,
     :updated_at,
   ].freeze
@@ -38,12 +51,15 @@ class UserDashboard < Administrate::BaseDashboard
   # an array of attributes that will be displayed
   # on the model's form (`new` and `edit`) pages.
   FORM_ATTRIBUTES = [
-    :email,
+    :user,
+    :title,
+    :summary,
+    :content,
+    :submission_category,
+    :status,
+    :disclosure,
   ].freeze
 
-  def display_resource(user)
-    user.email
-  end
   # Overwrite this method to customize how articles are displayed
   # across all pages of the admin dashboard.
   #

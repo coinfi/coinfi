@@ -1,0 +1,24 @@
+.container
+  .row
+    .col-sm-6
+      h1 Your Content Submissions
+    .col-sm-6.text-right
+      = link_to 'New Content Submission', new_contributor_submission_path, class: 'btn btn-success'
+
+  table.table.table-striped
+    thead
+      tr
+        th Title
+        th Submission Date
+        th Status
+        th
+
+    tbody
+      - @contributor_submissions.each do |contributor_submission|
+        tr
+          td = contributor_submission.title
+          td = contributor_submission.created_at
+          td = contributor_submission.status
+          td.text-right
+            = link_to 'View', contributor_submission, class: 'btn btn-xs btn-primary'
+            =< link_to 'Edit', edit_contributor_submission_path(contributor_submission), class: 'btn btn-xs btn-info'

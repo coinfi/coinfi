@@ -50,6 +50,9 @@
     "LANG": {
       "required": true
     },
+    "MAILGUN_SMTP_PORT": {
+      "required": true
+    },
     "RACK_ENV": {
       "required": true
     },

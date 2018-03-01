@@ -315,6 +315,9 @@ GEM
       childprocess (~> 0.5)
       rubyzip (~> 1.0)
       websocket (~> 1.0)
+    simple_form (3.5.0)
+      actionpack (> 4, < 5.2)
+      activemodel (> 4, < 5.2)
     simpleidn (0.0.9)
     slim (3.0.7)
       temple (~> 0.7.6)
@@ -410,6 +413,7 @@ DEPENDENCIES
   rollbar
   sass-rails (~> 5.0)
   selenium-webdriver
+  simple_form
   slim-rails
   spring
   spring-watcher-listen (~> 2.0.0)

@@ -10,11 +10,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171120225256) do
+ActiveRecord::Schema.define(version: 20180227115542) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
-  enable_extension "pg_stat_statements"
 
   create_table "ahoy_events", force: :cascade do |t|
     t.integer "visit_id"
@@ -138,6 +137,20 @@ ActiveRecord::Schema.define(version: 20171120225256) do
     t.index ["volume24"], name: "index_coins_on_volume24", using: :gin
   end
 
+  create_table "contributor_submissions", force: :cascade do |t|
+    t.bigint "user_id"
+    t.string "title"
+    t.text "summary"
+    t.text "content"
+    t.bigint "submission_category_id"
+    t.integer "status", default: 0, null: false
+    t.text "disclosure"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["submission_category_id"], name: "index_contributor_submissions_on_submission_category_id"
+    t.index ["user_id"], name: "index_contributor_submissions_on_user_id"
+  end
+
   create_table "daily_prices", force: :cascade do |t|
     t.bigint "coin_id"
     t.date "date"
@@ -193,6 +206,12 @@ ActiveRecord::Schema.define(version: 20171120225256) do
     t.index ["coin_id"], name: "index_hourly_prices_on_coin_id"
     t.index ["price"], name: "index_hourly_prices_on_price", using: :gin
     t.index ["volume24"], name: "index_hourly_prices_on_volume24", using: :gin
+  end
+
+  create_table "submission_categories", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "taggings", id: :serial, force: :cascade do |t|
@@ -274,6 +293,8 @@ ActiveRecord::Schema.define(version: 20171120225256) do
   end
 
   add_foreign_key "articles", "coins"
+  add_foreign_key "contributor_submissions", "submission_categories"
+  add_foreign_key "contributor_submissions", "users", on_delete: :cascade
   add_foreign_key "daily_prices", "coins"
   add_foreign_key "hourly_prices", "coins"
 end
