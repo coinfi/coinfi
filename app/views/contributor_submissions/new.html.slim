@@ -1,4 +1,26 @@
 .container
-  h1 New Submission
+  .row
+    .col-lg-12
+      h1 New Content Submission
+      .alert.alert-warning
+        | Please ensure that your content meets CoinFi’s <a href="https://blog.coinfi.com/editorial-guidelines/" target="_blank">editorial standards</a>.
+        br
+        | Find details of how CoinFi <a href="https://blog.coinfi.com/contributor-compensation/" target="_blank">compensates contributors here</a>.
+    .col-lg-6
+      == render 'form'
+    .col-lg-6
+      h3 What are we looking for?
+      p While the vision for the CoinFi ecosystem will encompass a wide range of research and analysis, we’re going to start with a narrower scope.
 
-  == render 'form'
+      p Here are the types of content we’re looking for at the moment:
+
+      p <strong>Actionable Investment Ideas</strong>: Write about a coin, token, crypto asset/project in an actionable way for crypto investors. Macro-economic posts are ok, but we don’t publish articles that are primarily focused on economic theory or politics. Explicit buy/sell recommendations are not what we’re looking for, but your piece should help a reader make an investment decision.
+
+      p <strong>Fundamental Analysis</strong>: We value rigorous fundamental analysis. Examine the underlying business model, technology, codebase, competitive environment, team, valuation, or other aspects of a coin, token or other crypto asset. We value well-presented, thoroughly researched pieces that offer an informed viewpoint.
+
+      p <strong>Personal Experience</strong>: Focus is on actionable info, research, analysis, and data, but talking about personal experience is fine in the context of explaining what made you decide to buy or sell a coin for your portfolio. We value insights into why crypto investors made the decisions they did - it is up to readers to evaluate your reasoning for themselves. But providing research and reasoning to support your decision will make your personal experience more valuable.
+
+      p <strong>Quantitative Analysis</strong>: We like numbers and data.  If you have a thesis for how traditional quantitative factors such as price, volume, value, momentum, yield, quality, size influence a coin’s performance which is backed up by hard data, that is interesting to us.  We also like analysis that looks at factors that you think might be pertinent to crypto investing such as sentiment, influencer impact, community growth momentum, advisor impact, etc.
+
+      p A note on Technical Analysis: While TA can be used to support your quantitative analysis, at the moment we don’t accept pure Technical Analysis pieces - defined as analysis based solely on chart patterns.
+p

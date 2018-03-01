@@ -13,7 +13,7 @@
       span.text-info
         i.fa.fa-info-circle
     = f.text_area :content, class: 'form-control', rows: 20
-  = f.input :submission_category_id, collection: SubmissionCategory.order(:name), label: 'Category'
+  /= f.input :submission_category_id, collection: SubmissionCategory.order(:name), label: 'Category'
   .form-group
     = f.label :disclosure, title: 'Disclose any positions over $500 USD you hold in any cryptocurrencies mentioned', class: 'has-tooltip' do
       ' Disclosure
@@ -21,4 +21,4 @@
         i.fa.fa-info-circle
     = f.text_area :disclosure, class: 'form-control'
 
-  .actions = f.submit 'Submit', class: 'btn btn-primary'
+  .actions = f.submit 'Submit Content', class: 'btn btn-lg btn-primary'
