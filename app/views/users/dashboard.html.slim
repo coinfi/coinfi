@@ -13,7 +13,10 @@ main.main-content
         p As outlined in the <a href="https://docs.google.com/document/d/1p6xaFl4nPv1CuJv6F2fkZ6qBq2lBS6ePyFna8QZt1KM/edit" target="_blank">whitepaper</a>, CoinFi’s platform will include a crowdsourced ecosystem of contributors delivering news, research, and analysis.
         p If you’re interested in contributing in exchange for COFI tokens, please <a href="https://blog.coinfi.com/coinfi-now-accepting-user-contributed-submissions-for-platform-launch" target="_blank">read the instructions here</a> and click the button below the contribute your research &amp; analysis.
 
-        p= link_to "Contribute Content", "/contributor-submissions/new", class: 'btn btn-lg btn-success'
+        p
+          => link_to "Contribute Content", "/contributor-submissions/new", class: 'btn btn-lg btn-success'
+          - if current_user.contributor_submissions.count > 0
+            = link_to "View Submitted Content", "/contributor-submissions", class: 'btn btn-lg btn-info'
 
         p If you’re not interested or unable to contribute, but want to support the CoinFi project, you can help us out by <a href="https://blog.coinfi.com/coinfi-now-accepting-user-contributed-submissions-for-platform-launch" target="_blank">sharing this post</a> or forwarding it to someone you know who may want to contribute!
 
