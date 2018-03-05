@@ -14,6 +14,7 @@ Rails.application.routes.draw do
     post "/kyc", to: "users#submit_kyc", as: "submit_kyc"
     post "/eth", to: "users#update_ethereum_address", as: "update_eth"
   end
+
   devise_for :users,
     controllers: {
       registrations: 'users/registrations',
@@ -21,6 +22,10 @@ Rails.application.routes.draw do
     },
     path: '',
     path_names: { sign_in: 'login', sign_out: 'logout'}
+
+  post '/profile', to: 'author_profiles#create', as: 'create_author_profile'
+  patch '/profile', to: 'author_profiles#update', as: 'update_author_profile'
+  get '/profile', to: 'author_profiles#edit', as: 'edit_author_profile'
 
   namespace :admin do
     resources :coins

@@ -1,0 +1,26 @@
+= simple_form_for @profile, url: update_author_profile_path, html: {class: ''} do |f|
+  == render partial: 'application/model_errors', locals: {model: @profile}
+  .form-group
+    = f.simple_fields_for :user do |ff|
+      = ff.input :username, class: 'form-control'
+      = ff.hidden_field :id
+  .form-group
+    = f.input :name, class: 'form-control'
+  .form-group
+    = f.input :company, class: 'form-control'
+  .form-group
+    = f.input :role, class: 'form-control'
+  .form-group
+    = f.input :bio, as: :text, class: 'form-control'
+  .form-group
+    = f.input :website_url, class: 'form-control'
+  .form-group
+    = f.input :twitter_url, class: 'form-control'
+  .form-group
+    = f.input :linkedin_url, class: 'form-control'
+  .form-group
+    = f.input :photo, label: 'Photo URL', class: 'form-control'
+
+  .actions = f.submit 'Save', class: 'btn btn-lg btn-primary'
+
+  p  
