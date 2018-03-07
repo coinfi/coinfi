@@ -1,9 +1,4 @@
 = simple_form_for @profile, url: update_author_profile_path, html: {class: ''} do |f|
-  == render partial: 'application/model_errors', locals: {model: @profile}
-  .form-group
-    = f.simple_fields_for :user do |ff|
-      = ff.input :username, class: 'form-control'
-      = ff.hidden_field :id
   .form-group
     = f.input :name, class: 'form-control'
   .form-group

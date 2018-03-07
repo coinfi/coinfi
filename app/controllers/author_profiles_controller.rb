@@ -8,19 +8,20 @@ class AuthorProfilesController < ApplicationController
   end
 
   def update
-    @profile.update!(profile_params)
-    current_user.update(user_params)
-    redirect_to :edit_author_profile
+    if @profile.update(profile_params)
+      args = { notice: "Profile updated" }
+    else
+      args = { flash: { "alert-warning": @profile.errors.full_messages } }
+    end
+    redirect_to :edit_author_profile, args
   end
 
   def create
     @profile = AuthorProfile.new(profile_params)
     @profile.user = current_user
     @profile.save
-    current_user.update(user_params)
     redirect_to :edit_author_profile
   end
-
 
   private
 
@@ -37,10 +38,6 @@ class AuthorProfilesController < ApplicationController
       :name, :company, :role, :website_url, :twitter_url, :linkedin_url, 
       :bio, :investing_style, :photo
     )
-  end
-
-  def user_params
-    params[:author_profile].require(:user_attributes).permit(:username)
   end
 
 end
