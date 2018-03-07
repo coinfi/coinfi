@@ -65,6 +65,8 @@ Rails.application.routes.draw do
 
   resources :contributor_submissions, path: 'contributor-submissions'
 
+  resources :author_profiles, only: [:index, :show], path: 'authors'
+
   get '/historical/:symbol' => 'data#historical'
 
   scope "(:locale)", locale: /en|cn/ do

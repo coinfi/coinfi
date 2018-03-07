@@ -2,7 +2,16 @@ class AuthorProfilesController < ApplicationController
 
   layout "gsdk"
 
-  before_action :set_profile
+  before_action :set_author_profile, only: [:edit, :update, :create]
+
+  def index
+    @profiles = AuthorProfile.all
+  end
+
+  def show
+    @profile = AuthorProfile.friendly.find(params[:id]) 
+    @author = @profile.user
+  end
 
   def edit
   end
@@ -19,13 +28,17 @@ class AuthorProfilesController < ApplicationController
   def create
     @profile = AuthorProfile.new(profile_params)
     @profile.user = current_user
-    @profile.save
-    redirect_to :edit_author_profile
+    if @profile.save
+      args = { notice: "Profile created" }
+    else
+      args = { flash: { "alert-warning": @profile.errors.full_messages } }
+    end
+    redirect_to :edit_author_profile, args
   end
 
   private
 
-  def set_profile
+  def set_author_profile
     if user_signed_in?
       @profile = current_user.author_profile || AuthorProfile.new(user:current_user)
     else
