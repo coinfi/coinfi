@@ -1,4 +1,7 @@
 class CoinsController < ApplicationController
+  
+  # TODO: Respond with JSON for use on marketing site?
+  
   def index
     @coins = Coin.order(:ranking).page(params[:page])
   end

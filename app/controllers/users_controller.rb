@@ -2,7 +2,6 @@ require 'open-uri'
 BLOCKED_COUNTRIES = ENV.fetch('BLOCKED_COUNTRIES').to_s.split(',')
 
 class UsersController < DeviseController
-  layout 'gsdk'
   before_action :check_user_signed_in, except: [:signup]
   before_action :set_s3_direct_post, only: [:kyc, :submit_kyc]
 
