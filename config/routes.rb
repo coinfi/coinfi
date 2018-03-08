@@ -45,7 +45,4 @@ Rails.application.routes.draw do
 
   get '/historical/:symbol' => 'data#historical'
 
-  scope "(:locale)", locale: /en|cn/ do
-    get '/' => 'pages#home'
-  end
 end
