@@ -41,6 +41,8 @@ Rails.application.routes.draw do
     root to: "coins#index"
   end
 
+  resources :coins, only: [:index, :show]
+
   resources :contributor_submissions, path: 'contributor-submissions'
 
   get '/historical/:symbol' => 'data#historical'
