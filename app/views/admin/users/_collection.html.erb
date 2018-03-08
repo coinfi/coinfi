@@ -46,8 +46,6 @@ to display a collection of resources in an HTML table.
           <% end %>
         </th>
       <% end %>
-      <th>In Referral Program?</th>
-      <th>KYC Status</th>
       <% [valid_action?(:edit, collection_presenter.resource_name),
           valid_action?(:destroy, collection_presenter.resource_name)].count(true).times do %>
         <th scope="col"></th>
@@ -72,14 +70,6 @@ to display a collection of resources in an HTML table.
             </a>
           </td>
         <% end %>
-
-        <td>
-          <%= resource.token_sale.try(:fetch, 'referral_program', false) || false %>
-        </td>
-
-        <td>
-          <%= resource.token_sale.try(:fetch, 'artemis_report', '') %>
-        </td>
 
         <% if valid_action? :edit, collection_presenter.resource_name %>
           <td><%= link_to(
