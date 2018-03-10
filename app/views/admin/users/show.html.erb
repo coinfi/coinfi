@@ -46,9 +46,6 @@ as well as a link to its edit page.
           ><%= render_field attribute %></dd>
     <% end %>
 
-    <dt class="attribute-label">Referral Program Access</dt>
-    <dd class="attribute-data"><%= page.resource.in_referral_program? %></dd>
-
     <dt class="attribute-label">Token Sale</dt>
     <dd class="attribute-data"><pre><%= JSON.pretty_generate(page.resource.token_sale) %></pre></dd>
   </dl>
