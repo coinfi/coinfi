@@ -1,24 +1,8 @@
 = simple_form_for @contributor_submission, html: {class: 'form-horizontal'} do |f|
   == render partial: 'application/model_errors', locals: {model: @contributor_submission}
   = f.input :title
-  .form-group
-    = f.label :summary, title: 'Summarize your article’s key points in bullet points', class: 'has-tooltip' do
-      ' Summary
-      span.text-info
-        i.fa.fa-info-circle
-    = f.text_area :summary, class: 'form-control'
-  .form-group
-    = f.label :content, title: 'Please include links in parenthesis', class: 'has-tooltip' do
-      ' Content
-      span.text-info
-        i.fa.fa-info-circle
-    = f.text_area :content, class: 'form-control', rows: 20
-  /= f.input :submission_category_id, collection: SubmissionCategory.order(:name), label: 'Category'
-  .form-group
-    = f.label :disclosure, title: 'Disclose any positions over $500 USD you hold in any cryptocurrencies mentioned', class: 'has-tooltip' do
-      ' Disclosure
-      span.text-info
-        i.fa.fa-info-circle
-    = f.text_area :disclosure, class: 'form-control'
+  = f.input :summary, label_html: {class: 'has-tooltip help', title: 'Summarize your article’s key points in bullet points'}
+  = f.input :content, label_html: {class: 'has-tooltip help', title: 'Please include links in parenthesis'}, input_html: {rows: 20}
+  = f.input :disclosure, label_html: {class: 'has-tooltip help', title: 'Disclose any positions over $500 USD you hold in any cryptocurrencies mentioned'}
 
   .actions = f.submit 'Submit Content', class: 'btn btn-lg btn-primary'

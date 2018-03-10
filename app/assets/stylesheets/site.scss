@@ -1,0 +1,11 @@
+label.help {
+  position: relative;
+}
+label.help:after {
+  position: absolute;
+  content: "\f05a";
+  font-family: 'FontAwesome';
+  top: 2px;
+  right: -18px;
+  color: #0e97ff;
+}
