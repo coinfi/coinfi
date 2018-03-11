@@ -1,5 +1,5 @@
 = simple_form_for @contributor_submission, html: {class: 'form-horizontal'} do |f|
-  == render partial: 'application/model_errors', locals: {model: @contributor_submission}
+  == render partial: 'shared/model_errors', locals: {model: @contributor_submission}
   = f.input :title
   .form-group
     = f.label :summary, title: 'Summarize your article’s key points in bullet points', class: 'has-tooltip' do

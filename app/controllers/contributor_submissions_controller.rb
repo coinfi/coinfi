@@ -1,5 +1,5 @@
 class ContributorSubmissionsController < ApplicationController
-  layout 'gsdk'
+
   before_action :authenticate_user!
   before_action :set_contributor_submission, only: [:show, :edit, :update, :destroy]
 
