@@ -1,0 +1,65 @@
+<!-- Topbar -->
+<nav class="topbar topbar-expand-md topbar-sticky">
+  <div class="container">
+
+    <div class="topbar-left">
+      <button class="topbar-toggler">&#9776;</button>
+      <a class="topbar-brand mr-64" href="/" style="font-size: 1.25rem">
+        <strong>CoinFi</strong>
+        <%
+        #<img class="logo-default" src="/landing/img/logo.png" alt="logo">
+        #<img class="logo-inverse" src="/landing/img/logo-light.png" alt="logo">
+        %>
+      </a>
+    </div>
+
+    <div class="topbar-right">
+      <ul class="topbar-nav nav">
+        <li class="nav-item"><a class="nav-link" href="/prototype">框架</a></li>
+        <li class="nav-item">
+          <a class="nav-link" href="<%= '/' unless @is_homepage %>#timeline" <%= 'data-scrollto=timeline' if @is_homepage %>>时间节点</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="<%= '/' unless @is_homepage %>#ecosystem" data-scrollto="ecosystem">生态系统</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="<%= '/' unless @is_homepage %>#team" <%= 'data-scrollto=team' if @is_homepage %>>团队</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="<%= '/' unless @is_homepage %>#token" <%= 'data-scrollto=token' if @is_homepage %>>代币</a>
+        </li>
+        <li class="nav-item hidden-md-up"><a class="nav-link" href="<%= '/' unless @is_homepage %>#contact" data-scrollto="contact">联系我们</a></li>
+        <li class="nav-item"><a class="nav-link" href="https://blog.coinfi.com">博客</a></li>
+        <li class="nav-item hidden-sm-up"><a class="nav-link" target="_blank" href="https://docs.google.com/document/d/1p6xaFl4nPv1CuJv6F2fkZ6qBq2lBS6ePyFna8QZt1KM/edit">白皮书</a></li>
+        <% if user_signed_in? %>
+          <li class="nav-item hidden-sm-down"><a class="nav-link" target="_blank" href="https://docs.google.com/document/d/1p6xaFl4nPv1CuJv6F2fkZ6qBq2lBS6ePyFna8QZt1KM/edit">白皮书</a></li>
+        <% end %>
+        <li class="nav-item"><a class="nav-link" href="/">English</a></li>
+      </ul>
+      <div class="d-inline-flex ml-30">
+        <%
+          #<a class="btn btn-sm btn-outline btn-primary hidden-sm-down mr-4" href="/coins">Platform <small>(beta)</small></a>
+        %>
+        &nbsp;
+        <% if user_signed_in? %>
+          <%= link_to "Dashboard", "/dashboard", class: "btn btn-small btn-info" %>
+          &nbsp;
+          <%= button_to "Log Out", destroy_user_session_path, method: :delete, class: "btn btn-small btn-danger" %>
+        <% else %>
+          <a href="https://docs.google.com/document/d/1p6xaFl4nPv1CuJv6F2fkZ6qBq2lBS6ePyFna8QZt1KM/edit" target="_blank" class="btn btn-small btn-outline btn-default hidden-sm-down">
+            白皮书
+          </a>
+          &nbsp;
+          <%= link_to "Join Whitelist", new_user_registration_path, class: "btn btn-small btn-success" %>
+          <%
+          # <button type="button" class="btn btn-small btn-success" data-toggle="modal" data-target="#presaleModal">
+          #   Join Presale
+          # </button>
+          %>
+        <% end %>
+      </div>
+    </div>
+
+  </div>
+</nav>
+<!-- END Topbar -->

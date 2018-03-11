@@ -1,5 +1,5 @@
-@import 'utilities/variables';
-
+@import 'base/variables';
+@import 'base/tachyons_config';
 @import 'base/tachyons';
 @import 'base/general';
 @import 'base/typography';
@@ -7,6 +7,7 @@
 @import 'components/container';
 @import 'components/buttons';
 @import 'components/forms';
+@import 'components/navigation';
 
 @import 'utilities/conceal';
 @import 'utilities/brand-colors';

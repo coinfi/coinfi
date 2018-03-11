@@ -1,0 +1,43 @@
+<nav id="header-navigation">
+  <div class="container flex justify-between items-center">
+
+    <a class="block" href="/">
+      <img src="<%= image_path('logo.svg') %>">
+    </a>
+
+    <div class="nav-horizontal">
+      <ul class="">
+        <li><a href="/prototype">Prototype</a></li>
+        <li>
+          <a href="<%= '/' unless @is_homepage %>#timeline" <%= 'data-scrollto=timeline' if @is_homepage %>>Timeline</a>
+        </li>
+        <li>
+          <a href="<%= '/' unless @is_homepage %>#ecosystem" data-scrollto="ecosystem">Ecosystem</a>
+        </li>
+        <li>
+          <a href="<%= '/' unless @is_homepage %>#team" <%= 'data-scrollto=team' if @is_homepage %>>Team</a>
+        </li>
+        <li>
+          <a href="<%= '/' unless @is_homepage %>#token" <%= 'data-scrollto=token' if @is_homepage %>>Token</a>
+        </li>
+        <li class="nav-item hidden-md-up"><a class="nav-link" href="<%= '/' unless @is_homepage %>#contact" data-scrollto="contact">Contact</a></li>
+        <li><a href="https://blog.coinfi.com">Blog</a></li>
+        <li><a target="_blank" href="https://docs.google.com/document/d/1p6xaFl4nPv1CuJv6F2fkZ6qBq2lBS6ePyFna8QZt1KM/edit">White Paper</a></li>
+        <li><a href="/cn">中文</a></li>
+      </ul>
+    </div>
+
+    <div class="">
+      <% if user_signed_in? %>
+        <%= link_to "Dashboard", "/dashboard", class: "btn sm btn-blue" %>
+        <%= button_to "Log Out", destroy_user_session_path, method: :delete, class: "btn sm btn-red" %>
+      <% else %>
+        <a href="https://docs.google.com/document/d/1p6xaFl4nPv1CuJv6F2fkZ6qBq2lBS6ePyFna8QZt1KM/edit" target="_blank" class="btn sm">
+          White Paper
+        </a>
+        <%= link_to "Join Waitlist", new_user_registration_path, class: "btn sm btn-blue" %>
+      <% end %>
+    </div>
+
+  </div>
+</nav>

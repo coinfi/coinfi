@@ -1,44 +1,13 @@
-.tolopea {
-  color: $tolopea;
-}
-.bg-tolopea {
-  background-color: $tolopea;
-}
-
-.torch {
-  color: $torch;
-}
-.bg-torch {
-  background-color: $torch;
-}
-.haze {
-  color: $haze;
-}
-.bg-haze {
-  background-color: $haze;
+@mixin addColorClass($hex, $name) {
+  .#{$name} {
+    color: #{$hex};
+  }
+  .bg-#{$name} {
+    background-color: #{$name};
+  }
 }
 
-.bg-torch-tolopea {
-  /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#ff0054+0,160447+100 */
-  background: rgb(255, 0, 84); /* Old browsers */
-  background: -moz-linear-gradient(
-    left,
-    rgba(255, 0, 84, 1) 0%,
-    rgba(22, 4, 71, 1) 100%
-  ); /* FF3.6-15 */
-  background: -webkit-linear-gradient(
-    left,
-    rgba(255, 0, 84, 1) 0%,
-    rgba(22, 4, 71, 1) 100%
-  ); /* Chrome10-25,Safari5.1-6 */
-  background: linear-gradient(
-    to right,
-    rgba(255, 0, 84, 1) 0%,
-    rgba(22, 4, 71, 1) 100%
-  ); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-  filter: progid:DXImageTransform.Microsoft.gradient(
-      startColorstr='#ff0054',
-      endColorstr='#160447',
-      GradientType=1
-    ); /* IE6-9 */
-}
+@include addColorClass($picton, 'picton');
+@include addColorClass($dodger, 'dodger');
+@include addColorClass($emerald, 'emerald');
+@include addColorClass($sunset, 'sunset');
