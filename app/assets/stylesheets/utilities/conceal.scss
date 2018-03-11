@@ -1,0 +1,36 @@
+@mixin conceal() {
+  position: absolute !important;
+  height: 1px !important;
+  width: 1px !important;
+  overflow: hidden !important;
+  clip: rect(1px, 1px, 1px, 1px) !important;
+  opacity: 0 !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+.hide,
+.sm-show,
+.md-show,
+.lg-show {
+  display: none;
+}
+.conceal {
+  @include conceal();
+}
+
+// @media (max-width: $large) {
+//   .lg-reveal { @include conceal(); }
+// }
+
+@media #{$breakpoint-large} {
+  .lg-conceal {
+    @include conceal();
+  }
+  .lg-show {
+    display: block;
+  }
+  .lg-hide {
+    display: none;
+  }
+}
