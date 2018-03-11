@@ -18,3 +18,10 @@ $sp4: 2rem;
 $sp5: 4rem;
 $sp6: 8rem;
 $sp7: 16rem;
+
+// Breakpoints
+// Tachyons defaults are very weird, will fixed in v5
+
+$breakpoint-s: 'screen and (min-width: 30em)';
+$breakpoint-m: 'screen and (min-width: 48em)';
+$breakpoint-l: 'screen and (min-width: 60em)';
