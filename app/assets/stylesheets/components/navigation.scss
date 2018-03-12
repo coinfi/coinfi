@@ -6,9 +6,11 @@
     li {
       display: inline-block;
       > * {
-        display: block;
-        padding: $sp3;
         @extend .btn;
+        @extend .btn-sm;
+        @extend .hover-dark-gray;
+        display: block;
+        padding: $sp2;
       }
     }
   }

@@ -1,12 +1,12 @@
 // Class to add padding which scales down with
 // the screen size. Used usually only for the
 // edges of the page.
-.rp {
+.phr {
   padding-right: $sp3;
   padding-left: $sp3;
 }
 @media #{$breakpoint-m} {
-  .rp {
+  .phr {
     padding-right: $sp4;
     padding-left: $sp4;
   }

@@ -1,0 +1,22 @@
+$sizes_em: 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
+  21, 22;
+
+@mixin width-setup($namespace) {
+  @each $size in $sizes_em {
+    .#{$namespace}mw#{$size}e {
+      max-width: #{$size}em;
+    }
+    .#{$namespace}mh#{$size}e {
+      max-height: #{$size}em;
+    }
+
+    .#{$namespace}w#{$size}e {
+      width: #{$size}em;
+    }
+    .#{$namespace}h#{$size}e {
+      height: #{$size}em;
+    }
+  }
+}
+
+@include width-setup('');
