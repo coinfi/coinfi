@@ -16,8 +16,6 @@
     <link rel="apple-touch-icon" href="/landing/img/apple-touch-icon.png">
     <link rel="icon" href="/landing/img/favicon.png">
     <%= stylesheet_link_tag 'application' %>
-    <%= javascript_include_tag 'application' %>
-    <%= render partial: 'components/tracking_scripts' %>
   </head>
 
   <body>
@@ -27,7 +25,8 @@
       <%= yield %>
     </main>
     <%= render partial: "components/footer" %>
-    <%= render partial: "components/footer_scripts" %>
+    <%= javascript_include_tag 'application' %>
+    <%= render partial: "components/tracking_scripts" %>
   </body>
 
 </html>

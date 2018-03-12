@@ -1,4 +1,4 @@
-<div class="tr flex-none">
+<div class="<%= defined?(klass) ? klass : '' %>">
   <% if user_signed_in? %>
     <%= link_to "Dashboard", "/dashboard", class: "btn btn-sm btn-blue" %>
     <%= button_to "Log Out", destroy_user_session_path, method: :delete, class: "btn btn-sm btn-red" %>

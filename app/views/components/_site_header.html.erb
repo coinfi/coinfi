@@ -6,11 +6,11 @@
     </a>
 
     <div class="flex items-center reveal-m">
-      <%= render partial: 'components/header_navigation' %>
-      <%= render partial: 'components/header_actions' %>
+      <%= render partial: 'components/main_nav', locals: { klass: 'nav-horizontal mh4' } %>
+      <%= render partial: 'components/user_actions', locals: { klass: 'tr flex-none' } %>
     </div>
 
-    <button class="conceal-m f3 mid-gray">
+    <button class="conceal-m f3 mid-gray mobile-nav-toggle">
       <i class="fas fa-bars"></i>
     </button>
 
