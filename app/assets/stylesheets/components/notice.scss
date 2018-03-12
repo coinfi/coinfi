@@ -1,8 +1,9 @@
 .notice,
 .alert {
   padding: $sp3;
-  color: $black-70;
-  background-color: $near-white;
+  border: 1px solid $dodger;
+  color: $dodger;
+  background-color: $white;
   font-size: 0.9em;
   @extend .lh-copy;
   margin-bottom: $sp4;
@@ -12,8 +13,6 @@
   }
 }
 .alert-warning {
-  background-color: $light-yellow;
-}
-.alert-info {
-  background-color: $light-blue;
+  border-color: $orange;
+  color: $orange;
 }

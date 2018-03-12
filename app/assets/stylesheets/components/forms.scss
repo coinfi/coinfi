@@ -9,7 +9,8 @@
 }
 .input {
   width: 100%;
-  display: block;
+  max-width: 40em;
+  display: inline-block;
   padding: $sp3;
   transition: all 0.5s;
   -webkit-transition: all 0.5s;

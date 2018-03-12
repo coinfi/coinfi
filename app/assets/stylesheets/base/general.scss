@@ -3,4 +3,17 @@
 }
 body {
   font-family: $serif;
+  @extend .min-vh-100;
+  @extend .flex;
+  @extend .flex-column;
+  > main {
+    @extend .flex-auto;
+    padding-top: $sp3;
+    padding-bottom: $sp3;
+    @extend .flex;
+    @extend .flex-column;
+    > * {
+      @extend .flex-auto;
+    }
+  }
 }
