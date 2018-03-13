@@ -1,34 +1,36 @@
 <script type="text/javascript" src="https://addevent.com/libs/atc/1.6.1/atc.min.js" async defer></script>
 
-main.main-content
-  .container
-    .row
-      .col-lg-8.offset-lg-2
-        h1.text-center Stay Tuned!
-        p
-          => "Welcome, #{current_user.email}!"
-          | You're on the waitlist to get access to the CoinFi Public Beta.
+.phr
+  .container-narrow.lh-copy
+    h1.f1.tc Stay Tuned!
+    p
+      => "Welcome, #{current_user.email}!"
+      | You're on the waitlist to get access to the CoinFi Public Beta.
 
-        h3 Contribute to the CoinFi Ecosystem, Earn COFI Tokens
-        p As outlined in the <a href="https://docs.google.com/document/d/1p6xaFl4nPv1CuJv6F2fkZ6qBq2lBS6ePyFna8QZt1KM/edit" target="_blank">whitepaper</a>, CoinFi’s platform will include a crowdsourced ecosystem of contributors delivering news, research, and analysis.
-        p If you’re interested in contributing in exchange for COFI tokens, please <a href="https://blog.coinfi.com/coinfi-now-accepting-user-contributed-submissions-for-platform-launch" target="_blank">read the instructions here</a> and click the button below the contribute your research &amp; analysis.
+    h3.f3 Contribute to the CoinFi Ecosystem, Earn COFI Tokens
+    p As outlined in the <a href="https://docs.google.com/document/d/1p6xaFl4nPv1CuJv6F2fkZ6qBq2lBS6ePyFna8QZt1KM/edit" target="_blank">whitepaper</a>, CoinFi’s platform will include a crowdsourced ecosystem of contributors delivering news, research, and analysis.
+    p If you’re interested in contributing in exchange for COFI tokens, please <a href="https://blog.coinfi.com/coinfi-now-accepting-user-contributed-submissions-for-platform-launch" target="_blank">read the instructions here</a> and click the button below the contribute your research &amp; analysis.
 
-        p
-          => link_to "Contribute Content", "/contributor-submissions/new", class: 'btn btn-lg btn-success'
-          - if current_user.contributor_submissions.count > 0
-            = link_to "View Submitted Content", "/contributor-submissions", class: 'btn btn-lg btn-info'
+    p
+      => link_to "Contribute Content", "/contributor-submissions/new", class: 'btn btn-green'
+      - if current_user.contributor_submissions.count > 0
+        = link_to "View Submitted Content", "/contributor-submissions", class: 'btn btn-blue'
 
-        p If you’re not interested or unable to contribute, but want to support the CoinFi project, you can help us out by <a href="https://blog.coinfi.com/coinfi-now-accepting-user-contributed-submissions-for-platform-launch" target="_blank">sharing this post</a> or forwarding it to someone you know who may want to contribute!
+    p If you’re not interested or unable to contribute, but want to support the CoinFi project, you can help us out by <a href="https://blog.coinfi.com/coinfi-now-accepting-user-contributed-submissions-for-platform-launch" target="_blank">sharing this post</a> or forwarding it to someone you know who may want to contribute!
 
-        p Of course, CoinFi is also available for purchase on <a href="https://www.kucoin.com" target="_blank">Kucoin</a> in <a href="https://www.kucoin.com/#/trade.pro/COFI-BTC" target="_blank">BTC</a> and <a href="https://www.kucoin.com/#/trade.pro/COFI-ETH" target="_blank">ETH</a> pairs.
+    p Of course, CoinFi is also available for purchase on <a href="https://www.kucoin.com" target="_blank">Kucoin</a> in <a href="https://www.kucoin.com/#/trade.pro/COFI-BTC" target="_blank">BTC</a> and <a href="https://www.kucoin.com/#/trade.pro/COFI-ETH" target="_blank">ETH</a> pairs.
 
-        h3 More about the CoinFi project
-        p While many of you know the whitepaper inside and out, there are also some of you who might not be familiar with the CoinFi platform and the exciting product our team is working hard to build.
-        p Here’s a great overview of the CoinFi project from the team over at CrushCrypto:
-        <iframe width="560" height="315" src="https://www.youtube.com/embed/zpfsWfBxbvI?rel=0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
-        p
-        p If you're interested in taking a deep-dive into what CoinFi is all about, we highly recommend this Ask Me Anything segment that our cofounder Timothy Tam recorded with TheGobOne.
-        p Thanks to his 15+ year career as a battle hardened hedge fund trader, Tim has some unique insights into the crypto markets, often drawing parallels to things he's seen happen over and over while trading equities.
-        p This AMA is also a great opportunity for you to learn more about the CoinFi team, our advisors, and most importantly, how the platform is going to work, and how the token fits into the CoinFi ecosystem.
-        <iframe width="560" height="315" src="https://www.youtube.com/embed/ffAGfR8UGrs?rel=0&amp;start=364" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
-        p
+    h3.f3 More about the CoinFi project
+
+    p While many of you know the whitepaper inside and out, there are also some of you who might not be familiar with the CoinFi platform and the exciting product our team is working hard to build.
+    p Here’s a great overview of the CoinFi project from the team over at CrushCrypto:
+
+    .aspect-ratio.aspect-ratio--16x9.mv4
+      <iframe class="aspect-ratio--object" src="https://www.youtube.com/embed/zpfsWfBxbvI?rel=0" frameborder="0" allow="encrypted-media" allowfullscreen></iframe>
+
+    p If you're interested in taking a deep-dive into what CoinFi is all about, we highly recommend this Ask Me Anything segment that our cofounder Timothy Tam recorded with TheGobOne.
+    p Thanks to his 15+ year career as a battle hardened hedge fund trader, Tim has some unique insights into the crypto markets, often drawing parallels to things he's seen happen over and over while trading equities.
+    p This AMA is also a great opportunity for you to learn more about the CoinFi team, our advisors, and most importantly, how the platform is going to work, and how the token fits into the CoinFi ecosystem.
+
+    .aspect-ratio.aspect-ratio--16x9.mv4
+      <iframe class="aspect-ratio--object" src="https://www.youtube.com/embed/ffAGfR8UGrs?rel=0&amp;start=364" frameborder="0" allow="encrypted-media" allowfullscreen></iframe>

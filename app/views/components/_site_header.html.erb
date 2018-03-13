@@ -1,0 +1,18 @@
+<div class="phr pv4">
+  <div class="container flex justify-between items-center">
+
+    <a class="block flex-none" href="/">
+      <img src="<%= image_path('logo.png') %>" class="w4e">
+    </a>
+
+    <div class="flex items-center reveal-m">
+      <%= render partial: 'components/main_nav', locals: { klass: 'nav-horizontal mh4' } %>
+      <%= render partial: 'components/user_actions', locals: { klass: 'tr flex-none' } %>
+    </div>
+
+    <button class="conceal-m f3 mid-gray mobile-nav-toggle">
+      <i class="fas fa-bars"></i>
+    </button>
+
+  </div>
+</div>

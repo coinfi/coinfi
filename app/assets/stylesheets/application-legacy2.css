@@ -10,7 +10,8 @@
  * files in this directory. Styles in this file should be added after the last require_* statement.
  * It is generally better to create a new file per style scope.
  *
- *= require gsdk
- *= require_tree .
- *= require_self
+ *= require legacy2/gsdk
+ *= require legacy2/pe-icon-7-stroke
+ *= require legacy2/coins
+ *= require legacy2/pages
  */

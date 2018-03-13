@@ -1,0 +1,46 @@
+@mixin conceal() {
+  position: fixed;
+  position: absolute;
+  clip: rect(1px 1px 1px 1px);
+  clip: rect(1px, 1px, 1px, 1px);
+}
+
+.conceal {
+  @include conceal();
+}
+
+@media (max-width: $screen-s) {
+  .reveal-s {
+    @include conceal();
+  }
+}
+
+@media (min-width: $screen-s) {
+  .conceal-s {
+    @include conceal();
+  }
+}
+
+@media (max-width: $screen-m) {
+  .reveal-m {
+    @include conceal();
+  }
+}
+
+@media (min-width: $screen-m) {
+  .conceal-m {
+    @include conceal();
+  }
+}
+
+@media (max-width: $screen-l) {
+  .reveal-l {
+    @include conceal();
+  }
+}
+
+@media (min-width: $screen-l) {
+  .conceal-l {
+    @include conceal();
+  }
+}

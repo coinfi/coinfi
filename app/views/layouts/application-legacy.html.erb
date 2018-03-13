@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+
+  <!-- This file is to be deleted after sales extraction -->
+
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
@@ -151,14 +154,14 @@
         }
       }]);
     </script>
-    <%= javascript_include_tag 'site' %>
+    <%= javascript_include_tag 'application-legacy' %>
   </head>
 
   <body>
-    <%= render partial: "layouts/topnav" %>
+    <%= render partial: "components/legacy/site_header" %>
 
     <main class="main-content">
-      <%= render partial: "layouts/flash" %>
+      <%= render partial: "components/flash_legacy" %>
       <%= yield %>
     </main>
 

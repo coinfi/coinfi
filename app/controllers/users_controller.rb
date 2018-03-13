@@ -1,7 +1,6 @@
 require 'open-uri'
 
 class UsersController < DeviseController
-  layout 'gsdk'
   before_action :check_user_signed_in, except: [:signup]
 
   def signup
