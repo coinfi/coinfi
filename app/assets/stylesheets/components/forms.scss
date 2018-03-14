@@ -1,0 +1,45 @@
+.field {
+  padding-top: $sp1;
+  padding-bottom: $sp3;
+  label {
+    display: block;
+    margin-bottom: $sp2;
+    font-size: 0.9em;
+  }
+}
+.input {
+  width: 100%;
+  max-width: 40em;
+  display: inline-block;
+  padding: $sp3;
+  transition: all 0.5s;
+  -webkit-transition: all 0.5s;
+  border: 1px solid $moon-gray;
+  border-radius: 2px;
+  -webkit-border-radius: 2px;
+  &:focus {
+    border-color: $picton;
+    box-shadow: 0 0 2px $picton;
+  }
+}
+input,
+select,
+textarea {
+  &:not([type='submit']) {
+    @extend .input;
+  }
+}
+::-webkit-input-placeholder {
+  color: $silver;
+}
+:-ms-input-placeholder {
+  color: $silver;
+}
+::-moz-placeholder {
+  color: $silver;
+  opacity: 1;
+}
+:-moz-placeholder {
+  color: $silver;
+  opacity: 1;
+}

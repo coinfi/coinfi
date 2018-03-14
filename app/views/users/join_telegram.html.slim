@@ -1,15 +1,10 @@
-main.main-content
-  .container
-    .section-dialog.text-center
-      h2 <small>Step 3:</small> Join Telegram
-      br
-
-      p Get to know the team, ask questions, and get the latest important announcements via the CoinFi Telegram channel:
-      = link_to "https://t.me/coinfi", target: '_blank', class: 'btn btn-primary btn-large' do
-        <i class="fa fa-telegram"></i> Join CoinFi Telegram
-      br
-      br
+.phr.flex.items-center
+  .container-narrower
+    .ph5.tc
+      h2.f2 <small>Step 3:</small> Join Telegram
+      .mb4
+        p Get to know the team, ask questions, and get the latest important announcements via the CoinFi Telegram channel:
+        = link_to "https://t.me/coinfi", target: '_blank', class: 'btn btn-blue' do
+          <i class="fab fa-telegram-plane"></i> Join CoinFi Telegram
       p Once you've joined, check out your dashboard here:
-      = link_to "Go to Dashboard", "/dashboard", class: 'btn btn-success btn-large'
-      br
-      br
+      = link_to "Go to Dashboard", "/dashboard", class: 'btn btn-green'

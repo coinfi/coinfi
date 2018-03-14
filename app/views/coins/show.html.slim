@@ -1,83 +1,81 @@
-.section.section-gray
-  .container
-    .row
-      .col-md-6.col-md-offset-3
-        .card.card-user
-          .image
-          .content
-            .author
-              a
-                = image_tag @coin.image_url.gsub('32x32', '128x128'), class: 'avatar', alt: @coin.name if @coin.image_url
-                h1.title
-                  span#name= @coin.name
-                  | &nbsp;
-                  small#symbol= @coin.symbol
-                h2.title
-                  => custom_number_to_currency @data["price_usd"].to_f
-                  small
-                    strong== display_percentage_change(@data["percent_change_24h"].to_f)
-            br
-            .text-center
-              ul.list-inline
-                - if @coin.website.present?
-                  li
-                    i class="fa fa-link" aria-hidden="true"
-                    =< link_to 'Website', @coin.website, target: "_blank"
-                - if @coin.explorer.present?
-                  li
-                    i class="fa fa-search" aria-hidden="true"
-                    =< link_to 'Explorer', @coin.explorer, target: "_blank"
-                - if @coin.forum.present?
-                  li
-                    i class="fa fa-comments-o" aria-hidden="true"
-                    =< link_to 'Forum', @coin.forum, target: "_blank"
-                - if @coin.whitepaper.present?
-                  li
-                    i class="fa fa-file-text-o" aria-hidden="true"
-                    =< link_to 'Whitepaper', @coin.whitepaper, target: "_blank"
-                - if @coin.twitter.present?
-                  li
-                    i class="fa fa-twitter" aria-hidden="true"
-                    =< link_to 'Twitter', @coin.twitter, target: "_blank"
-                - if @coin.reddit.present?
-                  li
-                    i class="fa fa-reddit" aria-hidden="true"
-                    =< link_to 'Reddit', @coin.reddit, target: "_blank"
-                - if @coin.medium.present?
-                  li
-                    i class="fa fa-medium" aria-hidden="true"
-                    =< link_to 'Medium', @coin.medium, target: "_blank"
-                - if @coin.github.present?
-                  li
-                    i class="fa fa-github" aria-hidden="true"
-                    =< link_to 'Github', @coin.github, target: "_blank"
-            p.description
+.phr.pv4.bg-near-white
+  .container-narrower
+    .bg-white.ba.b--moon-gray.shadow--small-subtle.pa5.center.tc
+      = image_tag @coin.image_url.gsub('32x32', '128x128'), class: 'avatar', alt: @coin.name if @coin.image_url
+      h1.title
+        span#name= @coin.name
+        | &nbsp;
+        small#symbol= @coin.symbol
+      h2.title
+        => custom_number_to_currency @data["price_usd"].to_f
+        small
+          strong== display_percentage_change(@data["percent_change_24h"].to_f)
+      table
+        - if @coin.website.present?
+          tr
+            td
+              i class="fas fa-link" aria-hidden="true"
+              =< link_to 'Website', @coin.website, target: "_blank"
+        - if @coin.explorer.present?
+          tr
+            td
+              i class="fas fa-search" aria-hidden="true"
+              =< link_to 'Explorer', @coin.explorer, target: "_blank"
+        - if @coin.forum.present?
+          tr
+            td
+              i class="far fa-comments-o" aria-hidden="true"
+              =< link_to 'Forum', @coin.forum, target: "_blank"
+        - if @coin.whitepaper.present?
+          tr
+            td
+              i class="far fa-file-text-o" aria-hidden="true"
+              =< link_to 'Whitepaper', @coin.whitepaper, target: "_blank"
+        - if @coin.twitter.present?
+          tr
+            td
+              i class="fab fa-twitter" aria-hidden="true"
+              =< link_to 'Twitter', @coin.twitter, target: "_blank"
+        - if @coin.reddit.present?
+          tr
+            td
+              i class="fab fa-reddit" aria-hidden="true"
+              =< link_to 'Reddit', @coin.reddit, target: "_blank"
+        - if @coin.medium.present?
+          tr
+            td
+              i class="fab fa-medium" aria-hidden="true"
+              =< link_to 'Medium', @coin.medium, target: "_blank"
+        - if @coin.github.present?
+          tr
+            td
+              i class="fab fa-github" aria-hidden="true"
+              =< link_to 'Github', @coin.github, target: "_blank"
+        table.tl
+          tr
+            td Market Cap
+            td.tr
+              = number_to_currency(@data["market_cap_usd"], precision: 0) || "Not Available"
               br
-              .row
-                .col-sm-8.col-sm-offset-2
-                  table.table.table-condensed
-                    tr
-                      td Market Cap
-                      td.text-right
-                        = number_to_currency(@data["market_cap_usd"], precision: 0) || "Not Available"
-                        br
-                        small.text-muted
-                          = number_to_currency(@data["market_cap_btc"], unit: '&#x0E3F;'.html_safe, precision: 0) || ""
-                    tr
-                      td Volume (24h)
-                      td.text-right
-                        = number_with_delimiter @data["24h_volume_usd"]
-                        br
-                        small.text-muted= number_to_currency @data["24h_volume_btc"], unit: '&#x0E3F;'.html_safe
-                    tr
-                      td Circulation
-                      td.text-right= number_with_delimiter(number_with_precision(@data["available_supply"], precision: 0)) + " #{@coin.symbol}"
-                    tr
-                      td Max Supply
-                      td.text-right= number_with_delimiter(number_with_precision(@data["total_supply"], precision: 0)) + " #{@coin.symbol}"
-                    tr
-                      td Last Updated
-                      td.text-right= Time.at(@data["last_updated"].to_i)
+              small.text-muted
+                = number_to_currency(@data["market_cap_btc"], unit: '&#x0E3F;'.html_safe, precision: 0) || ""
+          tr
+            td Volume (24h)
+            td.tr
+              = number_with_delimiter @data["24h_volume_usd"]
+              br
+              small.text-muted= number_to_currency @data["24h_volume_btc"], unit: '&#x0E3F;'.html_safe
+          tr
+            td Circulation
+            td.tr= number_with_delimiter(number_with_precision(@data["available_supply"], precision: 0)) + " #{@coin.symbol}"
+          tr
+            td Max Supply
+            td.tr
+              - if @data["total_supply"]
+                = number_with_delimiter(number_with_precision(@data["total_supply"], precision: 0)) + " #{@coin.symbol}"
+          tr
+            td Last Updated
+            td.tr= Time.at(@data["last_updated"].to_i)
       /.col-md-6
         .card
           .content
@@ -120,48 +118,43 @@
                 h3 Exchanges
                 label.label.label-info.label-fill Coming Soon!
 
-#charts.section
-  h2.header
-    i.pe-7s-graph2
-    | &nbsp;Price Charts
+#charts.section.phr.pv4
+  h2.f2.tc
+    i.fas.fa-chart-line.mr3
+    | Price Charts
   br
   #chart
 
-#news.section.section-gray
-  h2.header
-    i.pe-7s-news-paper
-    | &nbsp;Latest News
+#news.bg-near-white.phr.pv4
+  h2.f2.tc
+    i.far.fa-newspaper.mr3
+    | Latest News
 
-  .container
-    .row
-      .col-md-12
-        .timeline
-          - if @latest_news.blank?
-            p No latest news yet, check back soon!
-          - else
-            dl
-              - @latest_news.each_with_index do |item, index|
-                dd.clearfix class="#{index.odd? ? 'pos-right' : 'pos-left'}" id="n#{index + 1}" name="n#{index + 1}"
-                  .circ
-                  .time= index + 1
-                  .events
-                    .card.card-plain
-                      .content
-                        p.category= item.published_date.strftime('%B %e, %Y')
-                        = link_to item.url, class: 'card-link', target: '_blank'
-                          h4.title= item.title
-                        p.description
-                          = link_to item.url, item.url
-                          == natural_format(item.summary) if item.summary.present?
-                        p.footer
-                          - item.tag_list.each do |tag|
-                            span.label.label-default.label-fill=> tag
+  .container-narrow
+    - if @latest_news.blank?
+      p No latest news yet, check back soon!
+    - else
+      - @latest_news.each_with_index do |item, index|
+        .bg-white.pa4.mb4 class="#{index.odd? ? 'pos-right' : 'pos-left'}" id="n#{index + 1}" name="n#{index + 1}"
+          .circ
+          .time= index + 1
+          .events
+            .card.card-plain
+              .content
+                p.category= item.published_date.strftime('%B %e, %Y')
+                = link_to item.url, class: 'card-link', target: '_blank'
+                  h4.title= item.title
+                p.description
+                  = link_to item.url, item.url
+                  == natural_format(item.summary) if item.summary.present?
+                p.footer
+                  - item.tag_list.each do |tag|
+                    span.label.label-default.label-fill=> tag
 
-#social.section
-  h2.header
-    i.pe-7s-share
-    | &nbsp;Social
-  br
+#social.section.phr.pv4
+  h2.f2.tc
+    i.fas.fa-share-alt.mr3
+    | Social
   .container
     .row
       .col-md-6

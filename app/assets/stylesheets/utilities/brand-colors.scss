@@ -1,0 +1,14 @@
+@mixin addColorClass($hex, $name) {
+  .#{$name} {
+    color: #{$hex};
+  }
+  .bg-#{$name} {
+    background-color: #{$name};
+  }
+}
+
+@include addColorClass($picton, 'picton');
+@include addColorClass($dodger, 'dodger');
+@include addColorClass($emerald, 'emerald');
+@include addColorClass($sunset, 'sunset');
+@include addColorClass($bright-gray, 'bright-gray');
