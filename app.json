@@ -5,15 +5,6 @@
     "ADMINISTRATE_PASSWORD": {
       "required": true
     },
-    "ARTEMIS_API_ENDPOINT": {
-      "required": true
-    },
-    "ARTEMIS_API_TOKEN": {
-      "required": true
-    },
-    "ARTEMIS_DOMAIN": {
-      "required": true
-    },
     "AWS_ACCESS_KEY_ID": {
       "required": true
     },
@@ -27,9 +18,6 @@
       "required": true
     },
     "BLAZER_USERNAME": {
-      "required": true
-    },
-    "BLOCKED_COUNTRIES": {
       "required": true
     },
     "CONVERTKIT_API_KEY": {
@@ -66,9 +54,6 @@
       "required": true
     },
     "RAILS_SERVE_STATIC_FILES": {
-      "required": true
-    },
-    "RESTRICTED_RESIDENCIES": {
       "required": true
     },
     "ROLLBAR_ACCESS_TOKEN": {

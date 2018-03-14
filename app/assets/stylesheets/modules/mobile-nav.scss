@@ -1,0 +1,59 @@
+#mobile-nav {
+  overflow: hidden;
+  background: $white-90;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: $sp3;
+  text-align: center;
+  font-size: 1.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 98;
+  transition: all 0.5s;
+  opacity: 0;
+  > * {
+    transform: scale(0.95);
+    -webkit-transform: scale(0.95);
+    transition: all 0.7s;
+    -webkit-transition: all 0.7s;
+    ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      li {
+        display: block;
+        a,
+        button {
+          line-height: 1;
+          display: block;
+          width: 100%;
+          text-align: center;
+          padding: $sp3;
+          color: $mid-gray;
+          background: transparent;
+          border: none;
+          font-size: inherit;
+          text-transform: none;
+          font-weight: normal;
+          box-sizing: border-box;
+          text-transform: uppercase;
+          font-weight: 700;
+        }
+      }
+    }
+  }
+  &:not(.visible) {
+    display: none;
+  }
+  &.active {
+    opacity: 1;
+    > * {
+      transform: scale(1);
+      -webkit-transform: scale(1);
+    }
+  }
+}

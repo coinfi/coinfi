@@ -13,8 +13,6 @@ Rails.application.routes.draw do
     get "/register" => "users/registrations#new", as: "new_user_registration"
     get "/set-password" => "users#set_password", as: "new_user_set_password"
     post "/submit-password" => "users#submit_password", as: "new_user_submit_password"
-    get "/estimate-contribution" => "users#estimate_contribution", as: "new_user_estimate_contribution"
-    post "/submit-contribution" => "users#submit_contribution", as: "new_user_submit_contribution"
     get "/join-telegram" => "users#join_telegram", as: "new_user_join_telegram"
     get "/kyc", to: "users#kyc", as: "kyc"
     post "/kyc", to: "users#submit_kyc", as: "submit_kyc"
@@ -34,9 +32,6 @@ Rails.application.routes.draw do
     resources :users
     resources :submission_categories
     resources :contributor_submissions
-    post "users/:id/toggle_referral_program" => "users#toggle_referral_program", as: 'toggle_referral_program'
-    post "users/:id/run_kyc" => "users#run_kyc", as: 'run_kyc'
-    post "users/:id/update_kyc" => "users#update_kyc", as: 'update_kyc'
     get 'reddit' => 'articles#reddit'
     root to: "coins#index"
   end

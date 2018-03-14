@@ -1,0 +1,20 @@
+<nav class="<%= defined?(klass) ? klass : '' %>">
+  <ul>
+    <li><a class="nav-link" href="/prototype">框架</a></li>
+    <li>
+      <a class="nav-link" href="<%= '/' unless @is_homepage %>#timeline" <%= 'data-scrollto=timeline' if @is_homepage %>>时间节点</a>
+    </li>
+    <li>
+      <a class="nav-link" href="<%= '/' unless @is_homepage %>#ecosystem" data-scrollto="ecosystem">生态系统</a>
+    </li>
+    <li>
+      <a class="nav-link" href="<%= '/' unless @is_homepage %>#team" <%= 'data-scrollto=team' if @is_homepage %>>团队</a>
+    </li>
+    <li>
+      <a class="nav-link" href="<%= '/' unless @is_homepage %>#token" <%= 'data-scrollto=token' if @is_homepage %>>代币</a>
+    </li>
+    <li><a href="https://blog.coinfi.com">博客</a></li>
+    <li><a target="_blank" href="https://docs.google.com/document/d/1p6xaFl4nPv1CuJv6F2fkZ6qBq2lBS6ePyFna8QZt1KM/edit">白皮书</a></li>
+    <li><a href="/">English</a></li>
+  </ul>
+</nav>

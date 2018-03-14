@@ -1,23 +1,25 @@
-<section class="section text-center">
-  <header class="section-header">
-    <small><strong>Registration</strong></small>
-    <h2 class="fs-36 fw-900">Join the CoinFi Token Sale</h2>
-    <hr>
-  </header>
+<div class="phr flex items-center">
+  <div class="container-narrower">
+    <div class="ph5 tc">
 
-  <div class="container">
-    <div class="section-dialog text-center">
-      <%= form_for(:user, url: new_user_signup_path) do |f| %>
-        <%= devise_error_messages! %>
-        <div class="form-group">
-          <%= f.email_field :email, class: "form-control form-control-lg", autofocus: true, required: true, placeholder: "Email" %>
-        </div>
+      <header class="section-header">
+        <small><strong>Registration</strong></small>
+        <h2 class="f2 mt1">Join the CoinFi Token Sale</h2>
+      </header>
 
-        <%= f.submit "Register", class: "btn btn-block btn-lg btn-success" %>
-      <% end %>
+      <div class="section-dialog text-center">
+        <%= form_for(:user, url: new_user_signup_path) do |f| %>
+          <%= devise_error_messages! %>
+          <div class="mb3">
+            <%= f.email_field :email, class: "form-control form-control-lg", autofocus: true, required: true, placeholder: "Email" %>
+          </div>
+
+          <%= f.submit "Register", class: "btn btn-green w-100" %>
+        <% end %>
+      </div>
     </div>
   </div>
-</section>
+</div>
 
 <script>
   $(function() {
