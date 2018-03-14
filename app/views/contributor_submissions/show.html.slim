@@ -1,26 +1,28 @@
-.container
-  p#notice = notice
+.phr
+  .container
+    p#notice = notice
 
-  p
-    strong Title:
-    br
-    = @contributor_submission.title
-  p
-    strong Status:
-    br
-    = @contributor_submission.status
-  p
-    strong Summary:
-    br
-    = @contributor_submission.summary
-  p
-    strong Content:
-    br
-    = @contributor_submission.content
-  p
-    strong Disclosure:
-    br
-    = @contributor_submission.disclosure
+    .mb4
+      strong Title:
+      br
+      = @contributor_submission.title
+    .mb4
+      strong Status:
+      br
+      = @contributor_submission.status
+    .mb4
+      strong Summary:
+      br
+      = @contributor_submission.summary
+    .mb4
+      strong Content:
+      br
+      = @contributor_submission.content
+    .mb4
+      strong Disclosure:
+      br
+      = @contributor_submission.disclosure
 
-  = link_to 'Edit', edit_contributor_submission_path(@contributor_submission), class: 'btn btn-primary btn-sm'
-  =< link_to 'Back', contributor_submissions_path, class: 'btn btn-default btn-sm'
+    .pt4
+      = link_to 'Edit', edit_contributor_submission_path(@contributor_submission), class: 'btn btn-blue'
+      =< link_to 'Back', contributor_submissions_path, class: 'btn'

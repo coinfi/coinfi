@@ -38,5 +38,9 @@ module CoinfiRails
         resource '/ahoy/*', headers: :any, methods: [:get, :post]
       end
     end
+
+    # Give the asset pipeline access to npm packages
+    config.assets.paths << Rails.root.join('node_modules')
+
   end
 end

@@ -8,6 +8,7 @@ module CoinsHelper
   end
 
   def custom_number_to_currency(amount, options = {})
+    amount = amount || 0
     custom = {
       precision: amount < 1.0 ? 6 : 2
     }

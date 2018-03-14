@@ -1,7 +1,5 @@
 class AuthorProfilesController < ApplicationController
 
-  layout "gsdk"
-
   before_action :set_author_profile, only: [:edit, :update, :create]
 
   def index

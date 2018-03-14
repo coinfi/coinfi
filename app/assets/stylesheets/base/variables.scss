@@ -1,0 +1,32 @@
+// Brand colors
+
+$picton: #23adf0;
+$dodger: #2099fc;
+$emerald: #46da60;
+$sunset: #ff4954;
+$bright-gray: #37404d;
+
+// Typography
+
+$body-font: 'Open Sans', sans-serif;
+
+// Spacing
+
+$sp1: 0.25rem;
+$sp2: 0.5rem;
+$sp3: 1rem;
+$sp4: 2rem;
+$sp5: 4rem;
+$sp6: 8rem;
+$sp7: 16rem;
+
+// Breakpoints
+// Tachyons defaults are very weird, will fixed in v5
+
+$screen-s: 30em;
+$screen-m: 48em;
+$screen-l: 60em;
+
+$breakpoint-s: 'screen and (min-width: #{$screen-s})';
+$breakpoint-m: 'screen and (min-width: #{$screen-m})';
+$breakpoint-l: 'screen and (min-width: #{$screen-l})';

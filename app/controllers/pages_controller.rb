@@ -1,6 +1,6 @@
 class PagesController < ApplicationController
   RSS_URL = 'http://admin.coinfi.com/rss/'.freeze
-  layout 'gsdk', except: [:about, :contact, :daily]
+  layout :layout_by_page
 
   def home
     @is_homepage = true
@@ -50,4 +50,12 @@ class PagesController < ApplicationController
 
   def facilitate_altcoin_coverage
   end
+
+  private
+
+  def layout_by_page
+    return 'application-legacy2' if ['about', 'contact', 'daily'].include? action_name
+    'application-legacy'
+  end
+
 end

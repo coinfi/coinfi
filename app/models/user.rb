@@ -38,54 +38,6 @@ class User < ApplicationRecord
     end
   end
 
-  def run_kyc!
-    s3 = Aws::S3::Client.new
-
-    params = HashWithIndifferentAccess.new(
-      token_sale.slice(*%w(first_name last_name date_of_birth gender nationality residency))
-    )
-
-    return false if params.values.any? { |x| x.blank? }
-
-    begin
-      response = Artemis.individual_risk(id, params)
-      token_sale["individual_risk_api_response"] = response
-      approval_status = Artemis.individual_risk_approval_status(response)
-      token_sale["individual_risk_approval_status"] = approval_status
-      save
-
-      # Send photos to Artemis
-      id_doc_string_io = s3.get_object(bucket: ENV.fetch('S3_BUCKET'), key: id_doc_image_key).body
-      source_doc_id = Artemis.upload_individual_document(id, id_doc_string_io, id_doc_image_key)
-
-      selfie_string_io = s3.get_object(bucket: ENV.fetch('S3_BUCKET'), key: selfie_image_key).body
-      target_doc_id = Artemis.upload_individual_document(id, selfie_string_io, selfie_image_key)
-
-      # Run documents through facial recognition
-      response = Artemis.facial_recognition(id, source_doc_id, target_doc_id)
-      token_sale["facial_recognition_api_response"] = response
-      similarity_score = Artemis.facial_recognition_similarity_score(response)
-      token_sale["facial_recognition_similarity_score"] = similarity_score
-
-      # Run individual customer report
-      token_sale["artemis_report"] = Artemis.individual_report(id)
-      save
-    rescue => e
-      puts e
-      save
-    end
-  end
-
-  def update_kyc!
-    begin
-      token_sale["artemis_report"] = Artemis.check_status(id)
-      save
-    rescue => e
-      puts e
-      save
-    end
-  end
-
   def in_referral_program?
     token_sale && token_sale["referral_program"].present?
   end
@@ -100,10 +52,6 @@ class User < ApplicationRecord
 
   def waitlisted?
     token_sale && token_sale["waitlisted"].present?
-  end
-
-  def rejected_residence?
-    token_sale && Artemis.restricted_residencies.include?(token_sale["residency"])
   end
 
   def id_doc_image_key

@@ -1,5 +1,8 @@
 {
   "name": "coinfi-rails",
   "private": true,
-  "dependencies": {}
+  "dependencies": {
+    "jquery": "^3.3.1",
+    "tachyons-sass": "^4.9.2"
+  }
 }
