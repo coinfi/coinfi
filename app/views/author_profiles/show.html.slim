@@ -1,2 +1,19 @@
-.container
-  h1= @profile.name
+.phr.flex.flex-column
+  .container-narrow.bg-white.flex-auto
+    .pa4
+      .row.pt3
+        .col-md-3
+          .mb3.relative
+            img src=image_path('profile-picture-placeholder.svg')
+            - if @profile.photo.present?
+              .overlay.bg-white
+                img.w-100 src=@profile.photo
+          .tc
+            .f6= @profile.role
+            .ttu.f7= @profile.company
+        .col-md-9
+          .pl3
+            h1.mt0.f3.fw7= @profile.name
+            .i.lh-copy= @profile.bio
+            - if @profile.user.submissions.any?
+              h4= "Latest from #{@profile.name}"

@@ -1,21 +1,24 @@
-= simple_form_for @profile, url: update_author_profile_path, html: {class: ''} do |f|
-  .form-group
-    = f.input :name, class: 'form-control'
-  .form-group
-    = f.input :company, class: 'form-control'
-  .form-group
-    = f.input :role, class: 'form-control'
-  .form-group
-    = f.input :bio, as: :text, class: 'form-control'
-  .form-group
-    = f.input :website_url, class: 'form-control'
-  .form-group
-    = f.input :twitter_url, class: 'form-control'
-  .form-group
-    = f.input :linkedin_url, class: 'form-control'
-  .form-group
-    = f.input :photo, label: 'Photo URL', class: 'form-control'
-
-  .actions = f.submit 'Save', class: 'btn btn-lg btn-primary'
-
-  p  
+.ph4-m
+  = form_for @profile do |f|
+    .field.alt
+      label Name
+      div= f.text_field :name
+    .field.alt
+      label Company
+      div= f.text_field :company
+    .field.alt
+      label Role
+      div= f.text_field :role
+    .field.alt
+      label Bio
+      div= f.text_area :bio, class: "min-h8e"
+    .field.alt
+      label Website URL
+      div= f.text_field :website_url
+    .field.alt
+      label Twitter URL
+      div= f.text_field :twitter_url
+    .field.alt.mb3
+      label Photo URL
+      div= f.text_field :photo
+    = f.submit 'Save', class: 'btn btn-blue w-100'

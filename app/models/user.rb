@@ -74,6 +74,8 @@ class User < ApplicationRecord
     token_sale["ethereum_address"] if token_sale && token_sale["ethereum_address"]
   end
 
+  alias_method :submissions, :contributor_submissions
+
 protected
 
   def password_required?

@@ -18,9 +18,6 @@ Rails.application.routes.draw do
     path: '',
     path_names: { sign_in: 'login', sign_out: 'logout'}
 
-  post '/profile', to: 'author_profiles#create', as: 'create_author_profile'
-  patch '/profile', to: 'author_profiles#update', as: 'update_author_profile'
-  get '/profile', to: 'author_profiles#edit', as: 'edit_author_profile'
 
   namespace :admin do
     resources :coins
@@ -51,7 +48,8 @@ Rails.application.routes.draw do
 
   resources :contributor_submissions, path: 'contributor-submissions'
 
-  resources :author_profiles, only: [:index, :show], path: 'authors'
+  get '/profile', to: 'author_profiles#edit', as: 'edit_author_profile'
+  resources :author_profiles, only: [:index, :show, :create, :update], path: 'authors'
 
   get '/historical/:symbol' => 'data#historical'
 

@@ -1,0 +1,9 @@
+.box {
+  background: $white;
+  display: block;
+  @extend .shadow--small-subtle;
+  padding: $sp4;
+  &.cosy {
+    padding: $sp5;
+  }
+}
