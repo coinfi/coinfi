@@ -4,7 +4,18 @@
   @extend .shadow--small-subtle;
   padding: $sp4;
   border: 1px solid $light-gray;
-  &.cosy {
-    padding: $sp5;
+}
+@media #{$breakpoint-s} {
+  .box {
+    &.cosy {
+      padding: $sp4;
+    }
+  }
+}
+@media #{$breakpoint-m} {
+  .box {
+    &.cosy {
+      padding: $sp5;
+    }
   }
 }
