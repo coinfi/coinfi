@@ -3,6 +3,7 @@
   display: block;
   @extend .shadow--small-subtle;
   padding: $sp4;
+  border: 1px solid $light-gray;
   &.cosy {
     padding: $sp5;
   }

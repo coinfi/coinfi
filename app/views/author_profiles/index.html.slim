@@ -1,7 +1,19 @@
 .phr.pv3
   .container
-    .row
-      - @profiles.each do |p|
-        .col-xs-12.col-sm-6.col-md-4.col-lg-3
-          = link_to author_profile_path(p), class: 'box'
-            = p.name
+    .box.cosy
+      h1.mt0 Coinfi Authors
+      table
+        thead
+          tr
+            th.w-33 Author name
+            th.w-33 Company
+            th.w-33 Contribution count
+        tbody
+        - @profiles.each do |p|
+          tr
+            td.pa0 colspan=3
+              a.w-100.flex href=author_profile_path(p)
+                .pa3.w-33= p.name
+                .pa3.w-33= p.company
+                .pa3.w-33= p.user.submissions.count
+
