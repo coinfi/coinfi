@@ -2,7 +2,6 @@
   outline: none;
 }
 body {
-  background-color: $near-white;
   @extend .min-vh-100;
   @extend .flex;
   @extend .flex-column;

@@ -2,18 +2,27 @@
   .container-narrow.bg-white.flex-auto
     .pa4
       .row.pt3
-        .col-md-3
-          .mb3.relative
-            img src=image_path('profile-picture-placeholder.svg')
-            - if @profile.photo.present?
-              .overlay.bg-white
-                img.w-100 src=@profile.photo
-          .tc
-            .f6= @profile.role
-            .ttu.f7= @profile.company
-        .col-md-9
+        .col-xs-12.col-md-3
+          .pr3
+            .mb3.relative
+              img src=image_path('profile-picture-placeholder.svg')
+              - if @profile.photo.present?
+                .overlay.bg-white
+                  img.w-100 src=@profile.photo
+            .tc.pt1
+              .f6.mb1= @profile.role
+              .ttu.f7= @profile.company
+        .col-xs-12.col-md-9
           .pl3
-            h1.mt0.f3.fw7= @profile.name
-            .i.lh-copy= @profile.bio
+            h1.mt0.f2.fw7= @profile.name
+            .i.lh-copy.mb2= @profile.bio
             - if @profile.user.submissions.any?
-              h4= "Latest from #{@profile.name}"
+              .pt4
+                h4.ttu.f7.bb.b--slate.slate
+                  .dib.bw2.bb.b--slate.pb1.ph2
+                    = "Latest from #{@profile.name}"
+                - @profile.user.submissions.each do |s|
+                  a.db.mb3.color-inherit href=contributor_submission_path(s)
+                    .b.mb2= s.title
+                    .f7= pretty_date(s.created_at)
+

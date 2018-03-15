@@ -5,6 +5,9 @@
   .bg-#{$name} {
     background-color: #{$name};
   }
+  .b--#{$name} {
+    border-color: #{$name};
+  }
 }
 
 @include addColorClass($picton, 'picton');
@@ -12,3 +15,4 @@
 @include addColorClass($emerald, 'emerald');
 @include addColorClass($sunset, 'sunset');
 @include addColorClass($bright-gray, 'bright-gray');
+@include addColorClass($slate, 'slate');
