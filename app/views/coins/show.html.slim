@@ -1,57 +1,50 @@
-.phr.pv4.bg-near-white
-  .container-narrower
-    .bg-white.ba.b--moon-gray.shadow--small-subtle.pa5.center.tc
-      = image_tag @coin.image_url.gsub('32x32', '128x128'), class: 'avatar', alt: @coin.name if @coin.image_url
-      h1.title
-        span#name= @coin.name
-        | &nbsp;
-        small#symbol= @coin.symbol
-      h2.title
-        => custom_number_to_currency @data["price_usd"].to_f
-        small
-          strong== display_percentage_change(@data["percent_change_24h"].to_f)
-      table
-        - if @coin.website.present?
-          tr
-            td
-              i class="fas fa-link" aria-hidden="true"
-              =< link_to 'Website', @coin.website, target: "_blank"
-        - if @coin.explorer.present?
-          tr
-            td
-              i class="fas fa-search" aria-hidden="true"
-              =< link_to 'Explorer', @coin.explorer, target: "_blank"
-        - if @coin.forum.present?
-          tr
-            td
-              i class="far fa-comments-o" aria-hidden="true"
-              =< link_to 'Forum', @coin.forum, target: "_blank"
-        - if @coin.whitepaper.present?
-          tr
-            td
-              i class="far fa-file-text-o" aria-hidden="true"
-              =< link_to 'Whitepaper', @coin.whitepaper, target: "_blank"
-        - if @coin.twitter.present?
-          tr
-            td
-              i class="fab fa-twitter" aria-hidden="true"
-              =< link_to 'Twitter', @coin.twitter, target: "_blank"
-        - if @coin.reddit.present?
-          tr
-            td
-              i class="fab fa-reddit" aria-hidden="true"
-              =< link_to 'Reddit', @coin.reddit, target: "_blank"
-        - if @coin.medium.present?
-          tr
-            td
-              i class="fab fa-medium" aria-hidden="true"
-              =< link_to 'Medium', @coin.medium, target: "_blank"
-        - if @coin.github.present?
-          tr
-            td
-              i class="fab fa-github" aria-hidden="true"
-              =< link_to 'Github', @coin.github, target: "_blank"
-        table.tl
+.container
+  .row
+    .col-xs-12.col-md-6.col-lg-4
+      .bg-near-white.tc.pa3
+        = image_tag @coin.image_url.gsub('32x32', '128x128'), class: 'avatar', alt: @coin.name if @coin.image_url
+        h1.title
+          span#name= @coin.name
+          | &nbsp;
+          small#symbol= @coin.symbol
+        h2.title
+          => custom_number_to_currency @data["price_usd"].to_f
+          small
+            strong== display_percentage_change(@data["percent_change_24h"].to_f)
+      .bg-light-gray.pa3
+        .row
+          .col-xs-6
+            table.stats
+              tr
+                td Presale raised
+                td 1.25m
+              tr
+                td Hard cap
+                td 8.5m
+              tr
+                td Closing date
+                td
+              tr
+                td Total supply
+                td
+              tr 
+                td % Offered
+                td
+          .col-xs-6
+            table.stats
+              tr
+                td ICO price
+                td
+              tr
+                td Accepted
+                td
+              tr 
+                td Personal min
+                td
+              tr
+                td Personal max
+                td
+        / table.tl
           tr
             td Market Cap
             td.tr
@@ -76,47 +69,89 @@
           tr
             td Last Updated
             td.tr= Time.at(@data["last_updated"].to_i)
-      /.col-md-6
-        .card
-          .content
-            ul.nav.nav-tabs.nav-justified.text-center role="tablist"
-              li.active
-                a href="#upcoming" role="tab" data-toggle="tab" aria-expanded="true" Upcoming Events
-              li
-                a href="#background" role="tab" data-toggle="tab" aria-expanded="true" Background
-              li
-                a href="#exchanges" role="tab" data-toggle="tab" aria-expanded="true" Exchanges
-            .tab-content
-              #upcoming.tab-pane.active
-                h3 Upcoming Events
-                - if @upcoming_events.blank?
-                  p No upcoming events yet, check back soon!
-                - else
-                  table.table
-                    - @upcoming_events.each do |item|
-                      tr
-                        td= link_to item.title, item.url, target: "_blank"
-                        td= item.published_date
-              #background.tab-pane
-                h3 Background
-                .row
-                  strong.col-xs-5 Category
-                  .col-xs-7= @coin.category.humanize
-                .row
-                  strong.col-xs-5 Release Date
-                  .col-xs-7= @coin.release_date
-                .row
-                  strong.col-xs-5 Hashing Algorithm
-                  .col-xs-7= @coin.algorithm
-                .row
-                  strong.col-xs-5 Proof Type
-                  .col-xs-7= @coin.proof_type
-                .row
-                  strong.col-xs-5 Premined?
-                  .col-xs-7= @coin.is_premined
-              #exchanges.tab-pane
-                h3 Exchanges
-                label.label.label-info.label-fill Coming Soon!
+        /.col-md-6
+          .card
+            .content
+              ul.nav.nav-tabs.nav-justified.text-center role="tablist"
+                li.active
+                  a href="#upcoming" role="tab" data-toggle="tab" aria-expanded="true" Upcoming Events
+                li
+                  a href="#background" role="tab" data-toggle="tab" aria-expanded="true" Background
+                li
+                  a href="#exchanges" role="tab" data-toggle="tab" aria-expanded="true" Exchanges
+              .tab-content
+                #upcoming.tab-pane.active
+                  h3 Upcoming Events
+                  - if @upcoming_events.blank?
+                    p No upcoming events yet, check back soon!
+                  - else
+                    table.table
+                      - @upcoming_events.each do |item|
+                        tr
+                          td= link_to item.title, item.url, target: "_blank"
+                          td= item.published_date
+                #background.tab-pane
+                  h3 Background
+                  .row
+                    strong.col-xs-5 Category
+                    .col-xs-7= @coin.category.humanize
+                  .row
+                    strong.col-xs-5 Release Date
+                    .col-xs-7= @coin.release_date
+                  .row
+                    strong.col-xs-5 Hashing Algorithm
+                    .col-xs-7= @coin.algorithm
+                  .row
+                    strong.col-xs-5 Proof Type
+                    .col-xs-7= @coin.proof_type
+                  .row
+                    strong.col-xs-5 Premined?
+                    .col-xs-7= @coin.is_premined
+                #exchanges.tab-pane
+                  h3 Exchanges
+                  label.label.label-info.label-fill Coming Soon!
+      .pa3
+        table
+          - if @coin.website.present?
+            tr
+              td
+                i class="fas fa-link" aria-hidden="true"
+                =< link_to 'Website', @coin.website, target: "_blank"
+          - if @coin.explorer.present?
+            tr
+              td
+                i class="fas fa-search" aria-hidden="true"
+                =< link_to 'Explorer', @coin.explorer, target: "_blank"
+          - if @coin.forum.present?
+            tr
+              td
+                i class="far fa-comments-o" aria-hidden="true"
+                =< link_to 'Forum', @coin.forum, target: "_blank"
+          - if @coin.whitepaper.present?
+            tr
+              td
+                i class="far fa-file-text-o" aria-hidden="true"
+                =< link_to 'Whitepaper', @coin.whitepaper, target: "_blank"
+          - if @coin.twitter.present?
+            tr
+              td
+                i class="fab fa-twitter" aria-hidden="true"
+                =< link_to 'Twitter', @coin.twitter, target: "_blank"
+          - if @coin.reddit.present?
+            tr
+              td
+                i class="fab fa-reddit" aria-hidden="true"
+                =< link_to 'Reddit', @coin.reddit, target: "_blank"
+          - if @coin.medium.present?
+            tr
+              td
+                i class="fab fa-medium" aria-hidden="true"
+                =< link_to 'Medium', @coin.medium, target: "_blank"
+          - if @coin.github.present?
+            tr
+              td
+                i class="fab fa-github" aria-hidden="true"
+                =< link_to 'Github', @coin.github, target: "_blank"
 
 #charts.section.phr.pv4
   h2.f2.tc
