@@ -43,7 +43,8 @@ Rails.application.routes.draw do
   get '/identify-best-priced-exchange' => 'pages#identify_best_priced_exchange'
 
   resources :coins, only: [:index, :show]
-  get '/coins/:id/historical_data' => 'coins#historical_data'
+  get '/coins/:id/historical_data', to: 'coins#historical_data'
+  get '/social_feeds/tweets_by_user', to: 'social_feeds#tweets_by_user'
 
   resources :contributor_submissions, path: 'contributor-submissions'
 
