@@ -145,6 +145,8 @@ GEM
       multipart-post (>= 1.2, < 3)
     faraday_middleware (0.12.2)
       faraday (>= 0.7.4, < 1.0)
+    fast_jsonapi (1.1.1)
+      activesupport (>= 4.2)
     feedjira (2.1.2)
       faraday (>= 0.9)
       faraday_middleware (>= 0.9)
@@ -420,6 +422,7 @@ DEPENDENCIES
   devise
   dotenv-rails
   email_address
+  fast_jsonapi
   feedjira
   friendly_id (~> 5.2.1)
   httparty
