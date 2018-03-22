@@ -1,0 +1,21 @@
+.box {
+  background: $white;
+  display: block;
+  @extend .shadow--small-subtle;
+  padding: $sp4;
+  border: 1px solid $light-gray;
+}
+@media #{$breakpoint-s} {
+  .box {
+    &.cosy {
+      padding: $sp4;
+    }
+  }
+}
+@media #{$breakpoint-m} {
+  .box {
+    &.cosy {
+      padding: $sp5;
+    }
+  }
+}

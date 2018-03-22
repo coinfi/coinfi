@@ -1,9 +1,12 @@
 @mixin addColorClass($hex, $name) {
   .#{$name} {
-    color: #{$hex};
+    color: $hex;
   }
   .bg-#{$name} {
-    background-color: #{$hex};
+    background-color: $hex;
+  }
+  .b--#{$name} {
+    border-color: $hex;
   }
 }
 

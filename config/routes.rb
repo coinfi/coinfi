@@ -1,6 +1,5 @@
 Rails.application.routes.draw do
 
-  root to: 'pages#show'
 
   devise_scope :user do
     # TODO: (possibly)
@@ -8,9 +7,8 @@ Rails.application.routes.draw do
     # within devise_scope, eg. login, signup, etc, and most 
     # of the UsersController doesn't need to inherit from
     # DeviseController. But I might be missing something. :)
-    get "/dashboard" => "users#dashboard", as: "dashboard"
     match "/signup" => "users#signup", as: "new_user_signup", via: [:get, :post]
-    get "/register" => "users/registrations#new", as: "new_user_registration"
+    get "/register" => "users/registrations#new", as: "register"
     get "/set-password" => "users#set_password", as: "new_user_set_password"
     post "/submit-password" => "users#submit_password", as: "new_user_submit_password"
     get "/join-telegram" => "users#join_telegram", as: "new_user_join_telegram"
@@ -41,6 +39,9 @@ Rails.application.routes.draw do
   resources :contributor_submissions, path: 'contributor-submissions'
 
   get '/historical/:symbol' => 'data#historical'
+
+  root to: 'pages#show'
+  get '/:id', to: 'pages#show'
 
   mount Blazer::Engine, at: "blazer"
 

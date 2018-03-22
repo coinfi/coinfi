@@ -4,7 +4,15 @@ class ApplicationController < ActionController::Base
   before_action :set_locale
 
   def after_sign_in_path_for(resource)
-    dashboard_path
+    '/dashboard'
+  end
+
+  def render_404
+    raise ActionController::RoutingError.new('Not Found')
+  end
+
+  def render_403
+    head :forbidden
   end
 
   private
