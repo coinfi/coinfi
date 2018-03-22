@@ -1,0 +1,98 @@
+.row
+  .col-xs-6
+    table.stats
+      tr
+        td Presale raised
+        td 1.25m
+      tr
+        td Hard cap
+        td 8.5m
+      tr
+        td Closing date
+        td
+      tr
+        td Total supply
+        td
+      tr 
+        td % Offered
+        td
+  .col-xs-6
+    table.stats
+      tr
+        td ICO price
+        td
+      tr
+        td Accepted
+        td
+      tr 
+        td Personal min
+        td
+      tr
+        td Personal max
+        td
+/ table.tl
+  tr
+    td Market Cap
+    td.tr
+      = number_to_currency(@data["market_cap_usd"], precision: 0) || "Not Available"
+      br
+      small.text-muted
+        = number_to_currency(@data["market_cap_btc"], unit: '&#x0E3F;'.html_safe, precision: 0) || ""
+  tr
+    td Volume (24h)
+    td.tr
+      = number_with_delimiter @data["24h_volume_usd"]
+      br
+      small.text-muted= number_to_currency @data["24h_volume_btc"], unit: '&#x0E3F;'.html_safe
+  tr
+    td Circulation
+    td.tr= number_with_delimiter(number_with_precision(@data["available_supply"], precision: 0)) + " #{@coin.symbol}"
+  tr
+    td Max Supply
+    td.tr
+      - if @data["total_supply"]
+        = number_with_delimiter(number_with_precision(@data["total_supply"], precision: 0)) + " #{@coin.symbol}"
+  tr
+    td Last Updated
+    td.tr= Time.at(@data["last_updated"].to_i)
+/.col-md-6
+  .card
+    .content
+      ul.nav.nav-tabs.nav-justified.text-center role="tablist"
+        li.active
+          a href="#upcoming" role="tab" data-toggle="tab" aria-expanded="true" Upcoming Events
+        li
+          a href="#background" role="tab" data-toggle="tab" aria-expanded="true" Background
+        li
+          a href="#exchanges" role="tab" data-toggle="tab" aria-expanded="true" Exchanges
+      .tab-content
+        #upcoming.tab-pane.active
+          h3 Upcoming Events
+          - if @upcoming_events.blank?
+            p No upcoming events yet, check back soon!
+          - else
+            table.table
+              - @upcoming_events.each do |item|
+                tr
+                  td= link_to item.title, item.url, target: "_blank"
+                  td= item.published_date
+        #background.tab-pane
+          h3 Background
+          .row
+            strong.col-xs-5 Category
+            .col-xs-7= @coin.category.humanize
+          .row
+            strong.col-xs-5 Release Date
+            .col-xs-7= @coin.release_date
+          .row
+            strong.col-xs-5 Hashing Algorithm
+            .col-xs-7= @coin.algorithm
+          .row
+            strong.col-xs-5 Proof Type
+            .col-xs-7= @coin.proof_type
+          .row
+            strong.col-xs-5 Premined?
+            .col-xs-7= @coin.is_premined
+        #exchanges.tab-pane
+          h3 Exchanges
+          label.label.label-info.label-fill Coming Soon!

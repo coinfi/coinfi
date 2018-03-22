@@ -20,4 +20,18 @@ table {
       }
     }
   }
+  &.stats {
+    font-size: 0.8em;
+    tbody {
+      tr {
+        background-color: transparent;
+        td {
+          &:nth-child(2) {
+            text-align: right;
+            font-weight: bold;
+          }
+        }
+      }
+    }
+  }
 }
