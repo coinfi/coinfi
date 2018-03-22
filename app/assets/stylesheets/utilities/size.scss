@@ -1,0 +1,33 @@
+$sizes_em: 5, 10, 15, 20, 25, 28, 40;
+
+@mixin em-setup($namespace) {
+  @each $size in $sizes_em {
+    .min-w#{$size}e#{$namespace} {
+      min-width: #{$size}em;
+    }
+    .min-h#{$size}e#{$namespace} {
+      min-height: #{$size}em;
+    }
+
+    .w#{$size}e#{$namespace} {
+      width: #{$size}em;
+    }
+    .h#{$size}e#{$namespace} {
+      height: #{$size}em;
+    }
+  }
+}
+
+@include em-setup('');
+
+$sizes_vh: 50, 75;
+
+@mixin vh-setup($namespace) {
+  @each $size in $sizes_vh {
+    .min-vh-#{$size}#{$namespace} {
+      min-height: #{$size}vh;
+    }
+  }
+}
+
+@include vh-setup('');

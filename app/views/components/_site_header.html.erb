@@ -1,18 +1,20 @@
-<div class="phr pv4">
-  <div class="container flex justify-between items-center">
+<div class="h5e">
+  <div class="h5e w-100 fixed phr bg-tiber flex items-center">
+    <div class="container pv1 flex justify-between items-center">
 
-    <a class="block flex-none" href="/">
-      <img src="<%= image_path('logo.png') %>" class="w4e">
-    </a>
+      <a class="block flex-none" href="/">
+        <img src="<%= image_path('logo.svg') %>" class="w5e">
+      </a>
 
-    <div class="flex items-center reveal-m">
-      <%= render partial: 'components/main_nav', locals: { klass: 'nav-horizontal mh4' } %>
-      <%= render partial: 'components/user_actions', locals: { klass: 'tr flex-none' } %>
+      <div class="flex items-center reveal-m">
+        <%= render partial: 'components/main_nav', locals: { klass: 'nav-horizontal dark-theme mh4' } %>
+        <%= render partial: 'components/user_actions', locals: { klass: 'tr flex-none' } %>
+      </div>
+
+      <button class="conceal-m f3 mid-gray mobile-nav-toggle">
+        <i class="fas fa-bars"></i>
+      </button>
+
     </div>
-
-    <button class="conceal-m f3 mid-gray mobile-nav-toggle">
-      <i class="fas fa-bars"></i>
-    </button>
-
   </div>
 </div>

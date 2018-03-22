@@ -6,7 +6,7 @@
   background-color: $white;
   font-size: 0.9em;
   @extend .lh-copy;
-  margin-bottom: $sp4;
+  @extend .container;
   a {
     color: inherit;
     text-decoration: underline;

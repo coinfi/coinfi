@@ -3,7 +3,7 @@
     color: #{$hex};
   }
   .bg-#{$name} {
-    background-color: #{$name};
+    background-color: #{$hex};
   }
 }
 
@@ -12,3 +12,4 @@
 @include addColorClass($emerald, 'emerald');
 @include addColorClass($sunset, 'sunset');
 @include addColorClass($bright-gray, 'bright-gray');
+@include addColorClass($tiber, 'tiber');
