@@ -1,4 +1,4 @@
-$sizes_em: 5, 10, 15, 20, 25, 28, 40;
+$sizes_em: 5, 10, 15, 20, 25, 28, 47;
 
 @mixin em-setup($namespace) {
   @each $size in $sizes_em {
