@@ -22,12 +22,24 @@ $sp5: 4rem;
 $sp6: 8rem;
 $sp7: 16rem;
 
+// Font scale
+
+$f00: 4rem;
+$f0: 3.5rem;
+$f1: 3rem;
+$f2: 2.25rem;
+$f3: 1.75rem;
+$f4: 1.25rem;
+$f5: 1rem;
+$f6: 0.875rem;
+$f7: 0.7rem;
+
 // Breakpoints
 // Tachyons defaults are very weird, will fixed in v5
 
 $screen-s: 30em;
 $screen-m: 48em;
-$screen-l: 60em;
+$screen-l: 64em;
 
 $breakpoint-s: 'screen and (min-width: #{$screen-s})';
 $breakpoint-m: 'screen and (min-width: #{$screen-m})';

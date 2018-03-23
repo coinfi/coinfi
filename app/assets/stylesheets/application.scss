@@ -1,5 +1,13 @@
 @import 'base/variables';
 @import 'base/tachyons_config';
+
+@import 'utilities/conceal';
+@import 'utilities/brand-colors';
+@import 'utilities/responsive-padding';
+@import 'utilities/size';
+@import 'utilities/shadows';
+@import 'utilities/bg-img';
+
 @import 'base/tachyons';
 @import 'base/general';
 @import 'base/typography';
@@ -13,11 +21,5 @@
 @import 'components/notice';
 @import 'components/box';
 @import 'components/grid';
-
-@import 'utilities/conceal';
-@import 'utilities/brand-colors';
-@import 'utilities/responsive-padding';
-@import 'utilities/size';
-@import 'utilities/shadows';
 
 @import 'modules/mobile-nav';

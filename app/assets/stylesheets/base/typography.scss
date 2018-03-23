@@ -25,9 +25,6 @@ a {
   transition: all 0.2s;
 }
 
-.f7 {
-  font-size: 0.7em;
-}
 .heading-font {
   font-family: $heading-font;
 }
@@ -40,6 +37,25 @@ a {
 }
 .smaller3 {
   font-size: 0.7em;
+}
+
+.f-hero {
+  font-size: $f2;
+}
+@media #{$breakpoint-s} {
+  .f-hero {
+    font-size: $f1;
+  }
+}
+@media #{$breakpoint-m} {
+  .f-hero {
+    font-size: $f0;
+  }
+}
+@media #{$breakpoint-l} {
+  .f-hero {
+    font-size: $f00;
+  }
 }
 
 @import url('https://fonts.googleapis.com/css?family=Open+Sans:300,400,700,800|Oxygen:300,600');
