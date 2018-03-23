@@ -1,5 +1,5 @@
 = simple_form_for @contributor_submission do |f|
-  = render partial: 'components/model_errors', locals: {model: @contributor_submission}
+  = render partial: 'components/errors', locals: {model: @contributor_submission}
   .field
     = f.input :title
   .field

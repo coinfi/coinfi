@@ -1,0 +1,27 @@
+.ph4-m
+  = form_for @profile do |f|
+    .field.alt
+      label Name
+      div= f.text_field :name
+    .field.alt
+      label Company
+      div= f.text_field :company
+    .field.alt
+      label Role
+      div= f.text_field :role
+    .field.alt
+      label Bio
+      div= f.text_area :bio, class: "min-h8e"
+    .field.alt
+      label Website URL
+      div= f.text_field :website_url
+    .field.alt
+      label Twitter URL
+      div= f.text_field :twitter_url
+    .field.alt
+      label LinkedIn URL
+      div= f.text_field :linkedin_url
+    .field.alt.mb3
+      label Photo URL
+      div= f.text_field :photo
+    = f.submit 'Save', class: 'btn btn-blue w-100'

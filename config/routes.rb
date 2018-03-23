@@ -9,6 +9,7 @@ Rails.application.routes.draw do
     get "/join-telegram" => "users#join_telegram", as: "new_user_join_telegram"
     get "/dashboard" => "users#dashboard", as: "dashboard"
   end
+
   devise_for :users,
     controllers: {
       registrations: 'users/registrations',
@@ -16,6 +17,7 @@ Rails.application.routes.draw do
     },
     path: '',
     path_names: { sign_in: 'login', sign_out: 'logout'}
+
 
   namespace :admin do
     resources :coins
@@ -45,6 +47,9 @@ Rails.application.routes.draw do
   resources :coins, only: [:index, :show]
 
   resources :contributor_submissions, path: 'contributor-submissions'
+
+  get '/profile', to: 'author_profiles#edit', as: 'edit_author_profile'
+  resources :author_profiles, only: [:index, :show, :create, :update], path: 'authors'
 
   get '/historical/:symbol' => 'data#historical'
 
