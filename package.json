@@ -18,6 +18,7 @@
     "tachyons-sass": "^4.9.2"
   },
   "devDependencies": {
+    "stylelint-config-recommended": "^2.1.0",
     "webpack-dev-server": "2.11.2"
   }
 }
