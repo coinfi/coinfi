@@ -1,4 +1,6 @@
 class CoinsController < ApplicationController
+  layout 'application-legacy2'
+
   def index
     @coins = Coin.order(:ranking).page(params[:page])
   end
