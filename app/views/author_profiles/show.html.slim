@@ -1,0 +1,39 @@
+.phr.flex.flex-column
+  .container-narrow.bg-white.flex-auto
+    .pa3.pa4-m
+      .row.pt3
+        .col-xs-12.col-md-3
+          .pr3-m
+            .mb3.relative
+              img src=image_path('profile-picture-placeholder.svg')
+              - if @profile.photo.present?
+                .overlay.bg-white
+                  img.w-100 src=@profile.photo
+            .tc.pt1
+              .f6.mb1= @profile.role
+              .ttu.f7= @profile.company
+            .tc.mt3.f3
+              - if @profile.twitter_url.present?
+                a.tib.slate.mh2 href=@profile.twitter_url
+                  i.fab.fa-twitter-square
+              - if @profile.linkedin_url.present?
+                a.tib.slate.mh2 href=@profile.linkedin_url
+                  i.fab.fa-linkedin
+              - if @profile.website_url.present?
+                a.tib.slate.mh2 href=@profile.website_url
+                  i.fas.fa-link
+        .col-xs-12.col-md-9
+          .pl3-m
+            .tc.tl-m
+              h1.mt0.f2.fw7= @profile.name
+              .i.lh-copy.mb2= @profile.bio
+            - if @profile.user.submissions.any?
+              .pt4
+                h4.ttu.f7.bb.b--slate.slate
+                  .dib.bw2.bb.b--slate.pb1.ph2
+                    = "Latest from #{@profile.name}"
+                - @profile.user.submissions.each do |s|
+                  a.db.mb3.color-inherit href=contributor_submission_path(s)
+                    .b.mb2= s.title
+                    .f7= pretty_date(s.created_at)
+

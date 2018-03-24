@@ -4,7 +4,7 @@
   <head>
     <title>CoinFi</title>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <meta name="description" content="">
     <meta name="keywords" content="">
     <meta property="og:title" content="CoinFi">
@@ -13,8 +13,8 @@
     <meta property="og:url" content="">
     <meta name="twitter:card" content="">
     <link rel="manifest" href="/manifest.json">
-    <link rel="apple-touch-icon" href="/landing/img/apple-touch-icon.png">
-    <link rel="icon" href="/landing/img/favicon.png">
+    <link rel="apple-touch-icon" href="<%= image_path('apple-touch-icon.png') %>">
+    <link rel="icon" href="<%= image_path('favicon.png') %>">
     <%= stylesheet_link_tag 'application' %>
     <%= javascript_pack_tag 'app' %>
   </head>
@@ -26,6 +26,7 @@
       <%= yield %>
     </main>
     <%= render partial: "components/footer" %>
+    <script src="https://code.highcharts.com/stock/highstock.js"></script>
     <%= javascript_include_tag 'application' %>
     <%= render partial: "components/tracking_scripts" %>
   </body>

@@ -5,7 +5,7 @@ class HomePage extends Component {
   render() {
     const { coin } = this.props
     return (
-      <div className="container-wide">
+      <div className="container">
         <div className="row no-gutter">
           <div className="col-xs-12 col-md-6 col-lg-4">
             <div className="bg-white tc pa3">

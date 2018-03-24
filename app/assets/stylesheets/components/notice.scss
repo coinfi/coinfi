@@ -1,12 +1,14 @@
 .notice,
 .alert {
+  @extend .container;
   padding: $sp3;
   border: 1px solid $dodger;
   color: $dodger;
   background-color: $white;
   font-size: 0.9em;
   @extend .lh-copy;
-  margin-bottom: $sp4;
+  @extend .container;
+  margin-top: $sp4;
   a {
     color: inherit;
     text-decoration: underline;

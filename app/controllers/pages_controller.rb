@@ -1,61 +1,32 @@
 class PagesController < ApplicationController
-  RSS_URL = 'http://admin.coinfi.com/rss/'.freeze
-  layout :layout_by_page
 
-  def home
-    @is_homepage = true
-  end
-
-  def prototype
-  end
-
-  def press
-  end
-
-  def about
-  end
-
-  def contact
-  end
-
-  def daily
-    # TODO: Add caching!
-    xml = HTTParty.get(RSS_URL).body
-    feed = Feedjira::Feed.parse xml
-    entry = feed.entries.first
-    @title = entry.title
-    @content = entry.content.html_safe
-  end
-
-  def identify_whale_price_manipulation
-  end
-
-  def detect_coins_about_to_moon
-  end
-
-  def find_relevant_news
-  end
-
-  def display_research_pieces
-  end
-
-  def cloak_trading
-  end
-
-  def identify_best_priced_exchange
-  end
-
-  def research_bad_actors
-  end
-
-  def facilitate_altcoin_coverage
+  def show
+    @page = params[:id] || 'home'
+    render_404 unless page_known?
+    render_403 and return if member_page? && !current_user
+    render "pages/#{@page}"
   end
 
   private
 
-  def layout_by_page
-    return 'application-legacy2' if ['about', 'contact', 'daily'].include? action_name
-    'application-legacy'
+  def page_known? 
+    pages.include? @page
+  end
+
+  def member_page?
+    member_pages.include? @page
+  end
+
+  def pages
+    public_pages + member_pages
+  end
+
+  def public_pages
+    ['home']
+  end
+
+  def member_pages
+    ['dashboard']
   end
 
 end
