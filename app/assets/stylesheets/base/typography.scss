@@ -1,3 +1,15 @@
+/*
+ * Scale: http://tachyons.io/docs/typography/scale
+ * Weight: http://tachyons.io/docs/typography/font-weight/
+ * Style: http://tachyons.io/docs/typography/font-style/
+ * Case: http://tachyons.io/docs/typography/text-transform/
+ * Alignment: http://tachyons.io/docs/typography/text-align
+ * Color: http://tachyons.io/docs/themes/skins/
+ */
+
+@import url('https://fonts.googleapis.com/css?family=Open+Sans:300,400,700,800|Oxygen:300,600');
+@import url('https://use.fontawesome.com/releases/v5.0.0/css/all.css');
+
 body {
   font-family: $body-font;
   -webkit-font-smoothing: antialiased;
@@ -58,8 +70,6 @@ a {
   }
 }
 
-@import url('https://fonts.googleapis.com/css?family=Open+Sans:300,400,700,800|Oxygen:300,600');
-@import url('https://use.fontawesome.com/releases/v5.0.0/css/all.css');
 /*
  * Font weights:
  * 100

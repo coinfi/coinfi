@@ -3,6 +3,8 @@ class User < ApplicationRecord
 
   has_many :visits
   has_many :contributor_submissions
+  has_one :author_profile, inverse_of: :user
+  accepts_nested_attributes_for :author_profile
 
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable
@@ -71,6 +73,8 @@ class User < ApplicationRecord
   def ethereum_address
     token_sale["ethereum_address"] if token_sale && token_sale["ethereum_address"]
   end
+
+  alias_method :submissions, :contributor_submissions
 
 protected
 

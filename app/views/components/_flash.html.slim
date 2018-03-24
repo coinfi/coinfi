@@ -1,2 +1,8 @@
 - flash.each do |type, message|
-  .alert.mv3(class=bootstrap_class_for(type.to_sym))= message
+  .alert(class=bootstrap_class_for(type.to_sym))
+    - if message.kind_of?(Array)
+      ul
+        - message.each do |m|
+          li= m
+    - else
+      = message

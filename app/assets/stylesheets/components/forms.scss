@@ -6,12 +6,32 @@
     margin-bottom: $sp2;
     font-size: 0.9em;
   }
+  &.alt {
+    padding-top: 0;
+    padding-bottom: $sp3;
+    @extend .row;
+    @extend .items-center;
+    label {
+      @extend .col-xs-12;
+      @extend .col-md-3;
+      text-align: right;
+      margin-top: $sp2;
+    }
+    > div {
+      @extend .col-xs-12;
+      @extend .col-md-9;
+    }
+    input,
+    textarea {
+      font-size: 0.9em;
+    }
+  }
 }
 .input {
   width: 100%;
   max-width: 40em;
   display: inline-block;
-  padding: $sp3;
+  padding: $sp2 $sp3;
   transition: all 0.5s;
   -webkit-transition: all 0.5s;
   border: 1px solid $moon-gray;

@@ -1,0 +1,11 @@
+- # Accepts a resource with errors, or an array of errors
+- model_name = ''
+- if defined?(model) && model.errors.any?
+  - errors = model.errors.full_messages
+  - model_name = "#{model.class.name.humanize} "
+- if errors
+  #error_explanation
+    h2 = "#{pluralize(errors.count, "error")} prohibited this #{model_name}from being saved:"
+    ul
+      - errors.each do |message|
+        li = message

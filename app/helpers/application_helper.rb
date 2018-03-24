@@ -77,4 +77,7 @@ module ApplicationHelper
     pee
   end
 
+  def pretty_date date
+    date.strftime('%A, %B %e - %H:%M%p')
+  end
 end

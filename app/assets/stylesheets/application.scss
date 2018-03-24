@@ -1,3 +1,16 @@
+/*
+ * Folder structure:
+ * - Base: global/base styling
+ * - Components: reusable elements
+ * - Modules: unique elements (use ID selector here)
+ * - Utilities: useful classes
+ * 
+ * Useful Tachyons links:
+ * - http://tachyons.io/docs/layout/widths/
+ * - http://tachyons.io/docs/themes/borders/
+ * - http://tachyons.io/docs/typography/scale/
+ */
+
 @import 'base/variables';
 @import 'base/tachyons_config';
 
@@ -7,6 +20,7 @@
 @import 'utilities/size';
 @import 'utilities/shadows';
 @import 'utilities/bg-img';
+@import 'utilities/position';
 
 @import 'base/tachyons';
 @import 'base/general';

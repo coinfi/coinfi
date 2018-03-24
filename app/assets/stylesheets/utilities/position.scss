@@ -1,0 +1,5 @@
+.overlay {
+  @extend .absolute;
+  @extend .absolute--fill;
+  @extend .z-2;
+}
