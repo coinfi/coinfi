@@ -2,6 +2,7 @@
   outline: none;
 }
 body {
+  font-family: $sans-serif;
   @extend .min-vh-100;
   @extend .flex;
   @extend .flex-column;

@@ -15,4 +15,15 @@
       }
     }
   }
+  &.dark-theme {
+    ul {
+      li {
+        a {
+          background: transparent;
+          color: $white-80;
+          @extend .hover-white;
+        }
+      }
+    }
+  }
 }

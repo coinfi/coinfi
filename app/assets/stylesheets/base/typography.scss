@@ -23,7 +23,12 @@ h3,
 h4,
 h5,
 h6 {
+  font-weight: 500;
   color: $bright-gray;
+  font-family: $heading-font;
+  &:first-child {
+    margin-top: 0;
+  }
 }
 
 a {
@@ -32,6 +37,65 @@ a {
   transition: all 0.2s;
 }
 
-.f7 {
+.heading-font {
+  font-family: $heading-font;
+}
+
+.smaller1 {
+  font-size: 0.9em;
+}
+.smaller2 {
+  font-size: 0.8em;
+}
+.smaller3 {
   font-size: 0.7em;
+}
+
+.f-hero {
+  font-size: $f2;
+}
+@media #{$breakpoint-s} {
+  .f-hero {
+    font-size: $f1;
+  }
+}
+@media #{$breakpoint-m} {
+  .f-hero {
+    font-size: $f0;
+  }
+}
+@media #{$breakpoint-l} {
+  .f-hero {
+    font-size: $f00;
+  }
+}
+
+/*
+ * Font weights:
+ * 100
+ * 200
+ * 300
+ * 400 (regular)
+ * 500
+ * 600
+ * 700 (bold)
+ * 800 
+ * 900
+ */
+@font-face {
+  font-family: 'Avenir';
+  src: font-url('/fonts/AvenirNext/Regular.eot');
+  src: font-url('/fonts/AvenirNext/Regular.eot?#iefix')
+      format('embedded-opentype'),
+    font-url('/fonts/AvenirNext/Regular.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Avenir';
+  src: font-url('AvenirNext/Medium.eot');
+  src: font-url('AvenirNext/Medium.eot?#iefix') format('embedded-opentype'),
+    font-url('AvenirNext/Medium.woff') format('woff');
+  font-weight: 500;
+  font-style: normal;
 }

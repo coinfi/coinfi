@@ -1,0 +1,12 @@
+.bg-img--* {
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+}
+.bg-img--light-gray-1 {
+  background: image-url('bg-img--light-gray-1.jpg') center center no-repeat;
+  background-size: cover;
+}
+.bg-img--tiber-1 {
+  background-image: image-url('bg-img--tiber-1.jpg');
+}
