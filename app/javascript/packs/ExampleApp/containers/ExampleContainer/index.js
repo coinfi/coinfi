@@ -2,15 +2,15 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { createStructuredSelector } from 'reselect'
-import { fetchCoin } from './actions'
+import { fetchEntity } from './actions'
 import * as selectors from './selectors'
 
 const Container = Page => {
   class HOC extends Component {
     id = window.location.pathname.split('/')[2]
     componentDidMount() {
-      const { fetchCoin } = this.props
-      fetchCoin(this.id)
+      const { fetchEntity } = this.props
+      fetchEntity(this.id)
     }
     render() {
       return <Page {...this.props} />
@@ -19,12 +19,12 @@ const Container = Page => {
 
   function mapDispatch(dispatch) {
     return {
-      ...bindActionCreators({ fetchCoin }, dispatch)
+      ...bindActionCreators({ fetchEntity }, dispatch)
     }
   }
 
   const mapState = createStructuredSelector({
-    coin: selectors.coin()
+    entity: selectors.entity()
   })
   return connect(mapState, mapDispatch)(HOC)
 }

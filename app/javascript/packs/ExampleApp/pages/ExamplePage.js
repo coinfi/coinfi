@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
-import Container from '../containers/CoinContainer'
+import Container from '../containers/ExampleContainer'
 
 class HomePage extends Component {
   render() {
-    const { coin } = this.props
+    const { entity } = this.props
     return (
       <div className="container">
         <div className="row no-gutter">
@@ -11,10 +11,10 @@ class HomePage extends Component {
             <div className="bg-white tc pa3">
               <img
                 className="w4e"
-                src={coin.get('imageUrl')}
-                alt={coin.get('name')}
+                src={entity.get('imageUrl')}
+                alt={entity.get('name')}
               />
-              <h1 className="title mt2">{coin.get('name')}</h1>
+              <h1 className="title mt2">{entity.get('name')}</h1>
             </div>
           </div>
         </div>

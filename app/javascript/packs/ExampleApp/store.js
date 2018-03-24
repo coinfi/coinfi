@@ -1,7 +1,7 @@
 import { combineReducers, createStore, applyMiddleware, compose } from 'redux'
 import { fromJS } from 'immutable'
 import createSagaMiddleware from 'redux-saga'
-import coinReducer from './containers/CoinContainer/reducer'
+import entityReducer from './containers/ExampleContainer/reducer'
 import sagas from './sagas'
 
 const sagaMiddleware = createSagaMiddleware()
@@ -11,7 +11,7 @@ export default function configureStore(initialState) {
     window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
 
   const rootReducer = combineReducers({
-    coin: coinReducer
+    entity: entityReducer
   })
 
   const middlewares = [sagaMiddleware]

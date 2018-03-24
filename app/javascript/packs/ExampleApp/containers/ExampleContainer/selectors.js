@@ -1,6 +1,6 @@
 import { createSelector } from 'reselect'
 
-export const coin = () => state => state.coin
+export const entity = () => state => state.entity
 
 export const selectThing = () =>
   createSelector(selectDomain(), s => {

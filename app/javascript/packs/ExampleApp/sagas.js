@@ -1,7 +1,7 @@
 import { fork, all } from 'redux-saga/effects'
-import CoinSagas from './containers/CoinContainer/sagas'
+import EntitySagas from './containers/ExampleContainer/sagas'
 
-const sagas = [CoinSagas]
+const sagas = [EntitySagas]
 
 export default function* root() {
   yield all(sagas.map(saga => fork(saga)))

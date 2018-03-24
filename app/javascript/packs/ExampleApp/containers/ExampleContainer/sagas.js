@@ -7,9 +7,9 @@ import * as actions from './actions'
 // (like react-boilerplate does it)
 
 export default function* watcher() {
-  yield takeLatest('FETCH_COIN', fetchCoin)
+  yield takeLatest('FETCH_ENTITY', fetchEntity)
 }
 
-function* fetchCoin({ id }) {
-  yield sagas.get(`/coins/${id}.json`, null, actions.fetchCoinSuccess)
+function* fetchEntity({ id }) {
+  yield sagas.get(`/coins/${id}.json`, null, actions.fetchEntitySuccess)
 }
