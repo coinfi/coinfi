@@ -1,0 +1,29 @@
+.grid {
+  @extend .row;
+  margin-top: -$sp3;
+  > * {
+    @extend .col-xs-12;
+    margin-top: $sp3;
+    @extend .flex;
+  }
+}
+@mixin setWidth($width) {
+  -webkit-flex-basis: $width;
+  -ms-flex-preferred-size: $width;
+  flex-basis: $width;
+  max-width: $width;
+}
+@media #{$breakpoint-m} {
+  .grid {
+    > * {
+      @include setWidth(50%);
+    }
+  }
+}
+@media #{$breakpoint-l} {
+  .grid {
+    > * {
+      @include setWidth(33.333%);
+    }
+  }
+}

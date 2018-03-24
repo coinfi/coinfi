@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180227115542) do
+ActiveRecord::Schema.define(version: 20180307044820) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -39,6 +39,22 @@ ActiveRecord::Schema.define(version: 20180227115542) do
     t.datetime "updated_at", null: false
     t.index ["coin_id"], name: "index_articles_on_coin_id"
     t.index ["importance"], name: "index_articles_on_importance"
+  end
+
+  create_table "author_profiles", force: :cascade do |t|
+    t.bigint "user_id"
+    t.string "name"
+    t.string "company"
+    t.string "role"
+    t.string "website_url"
+    t.string "twitter_url"
+    t.string "linkedin_url"
+    t.string "photo"
+    t.text "bio"
+    t.string "investing_style"
+    t.string "slug"
+    t.index ["slug"], name: "index_author_profiles_on_slug"
+    t.index ["user_id"], name: "index_author_profiles_on_user_id"
   end
 
   create_table "blazer_audits", force: :cascade do |t|
@@ -256,10 +272,12 @@ ActiveRecord::Schema.define(version: 20180227115542) do
     t.string "provider"
     t.string "uid"
     t.jsonb "token_sale"
+    t.string "username"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["provider"], name: "index_users_on_provider"
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
     t.index ["uid"], name: "index_users_on_uid"
+    t.index ["username"], name: "index_users_on_username"
   end
 
   create_table "visits", force: :cascade do |t|

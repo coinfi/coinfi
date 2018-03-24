@@ -1,11 +1,7 @@
 <div class="<%= defined?(klass) ? klass : '' %>">
   <% if user_signed_in? %>
-    <%= link_to "Dashboard", "/dashboard", class: "btn btn-sm btn-blue" %>
-    <%= button_to "Log Out", destroy_user_session_path, method: :delete, class: "btn btn-sm btn-red" %>
+    <%= button_to "Logout", destroy_user_session_path, method: :delete, class: "btn btn-sm btn-red" %>
   <% else %>
-    <a href="https://docs.google.com/document/d/1p6xaFl4nPv1CuJv6F2fkZ6qBq2lBS6ePyFna8QZt1KM/edit" target="_blank" class="btn sm">
-      White Paper
-    </a>
-    <%= link_to "Join Waitlist", new_user_registration_path, class: "btn sm btn-blue" %>
+    <%= link_to "Login", new_user_session_path, class: "btn btn-sm btn-green" %>
   <% end %>
 </div>
