@@ -1,9 +1,12 @@
 @mixin addColorClass($hex, $name) {
   .#{$name} {
-    color: #{$hex};
+    color: $hex;
   }
   .bg-#{$name} {
-    background-color: #{$name};
+    background-color: $hex;
+  }
+  .b--#{$name} {
+    border-color: $hex;
   }
   .b--#{$name} {
     border-color: #{$name};
@@ -15,4 +18,5 @@
 @include addColorClass($emerald, 'emerald');
 @include addColorClass($sunset, 'sunset');
 @include addColorClass($bright-gray, 'bright-gray');
+@include addColorClass($tiber, 'tiber');
 @include addColorClass($slate, 'slate');
