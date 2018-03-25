@@ -3,7 +3,6 @@
   "private": true,
   "dependencies": {
     "jquery": "^3.3.1",
-    "npm": "^5.8.0",
     "tachyons-sass": "^4.9.2"
   }
 }
