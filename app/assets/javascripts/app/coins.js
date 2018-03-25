@@ -85,13 +85,11 @@ $(function() {
 
     var articles = $.getJSON('/historical/' + symbol.toLowerCase() + '.json', function (data) {
       news = data['news'];
-      console.log(data['prices']);
     });
     var prices = $.getJSON(window.pricesURL + 'api/v1/coins/' + symbol.toLowerCase() + '/daily_history.json', function(data) {
       historical = $.map(data, function(el) {
         return [[el.timestamp, el.close-0, el.volume_from-0]]
       });
-      console.log(historical);
     });
     $.when(articles, prices).done(function() {
       //var historical = data["prices"],

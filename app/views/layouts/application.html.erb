@@ -15,6 +15,9 @@
     <link rel="manifest" href="/manifest.json">
     <link rel="apple-touch-icon" href="<%= image_path('apple-touch-icon.png') %>">
     <link rel="icon" href="<%= image_path('favicon.png') %>">
+    <%= javascript_tag do %>
+      window.pricesURL = '<%= ENV.fetch('COINFI_PRICES_URL', '') %>';
+    <% end %>
     <%= stylesheet_link_tag 'application' %>
   </head>
 
