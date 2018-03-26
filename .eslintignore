@@ -1,1 +1,2 @@
+# Don't lint legacy JS
 app/assets/**/*.js
