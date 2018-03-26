@@ -2,59 +2,30 @@
   .col-xs-6
     table.stats
       tr
-        td Presale raised
-        td 1.25m
-      tr
-        td Hard cap
-        td 8.5m
-      tr
-        td Closing date
+        td Volume 
         td
+          = abbreviated_number(@data["24h_volume_usd"])
       tr
-        td Total supply
+        td Market Cap
         td
-      tr 
-        td % Offered
-        td
+          - cap = @data["market_cap_usd"]
+          - if cap
+            = abbreviated_number(cap, prefix: '$')
+          - else
+            | N/A
   .col-xs-6
     table.stats
       tr
-        td ICO price
-        td
+        td Circulation
+        td= abbreviated_number(@data["available_supply"]) + " #{@coin.symbol}"
       tr
-        td Accepted
+        td Total Supply
         td
-      tr 
-        td Personal min
-        td
-      tr
-        td Personal max
-        td
-/ table.tl
-  tr
-    td Market Cap
-    td.tr
-      = number_to_currency(@data["market_cap_usd"], precision: 0) || "Not Available"
-      br
-      small.text-muted
-        = number_to_currency(@data["market_cap_btc"], unit: '&#x0E3F;'.html_safe, precision: 0) || ""
-  tr
-    td Volume (24h)
-    td.tr
-      = number_with_delimiter @data["24h_volume_usd"]
-      br
-      small.text-muted= number_to_currency @data["24h_volume_btc"], unit: '&#x0E3F;'.html_safe
-  tr
-    td Circulation
-    td.tr= number_with_delimiter(number_with_precision(@data["available_supply"], precision: 0)) + " #{@coin.symbol}"
-  tr
-    td Max Supply
-    td.tr
-      - if @data["total_supply"]
-        = number_with_delimiter(number_with_precision(@data["total_supply"], precision: 0)) + " #{@coin.symbol}"
-  tr
-    td Last Updated
-    td.tr= Time.at(@data["last_updated"].to_i)
+          - supply = @data["total_supply"]
+          - if supply
+            = abbreviated_number(supply) + " #{@coin.symbol}"
+          - else
+            | N/A
 /.col-md-6
   .card
     .content

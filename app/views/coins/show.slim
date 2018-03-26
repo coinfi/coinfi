@@ -1,29 +1,31 @@
 .container
-  .row.no-gutter
-    .col-xs-12.col-md-6.col-lg-4
-      .bg-near-white.tc.pa3
-        - if @coin.image_url
-          img.w4e src=@coin.image_url alt=@coin.name
-        h1.title.mt2
-          span#name= @coin.name
-          | &nbsp;
-          small#symbol= @coin.symbol
-        h2.title
+  .row.no-gutter.flex
+    .col-xs-12.col-md-6.col-lg-4.flex.flex-column
+      .bg-white.pa4.pt3
+        .tr.mb3
+          button.btn.btn-xs
+            i.fas.fa-plus.mr1
+            | Watch
+        .flex.items-center.mb3
+          - if @coin.image_url
+            img.w4e.mr3 src=@coin.image_url alt=@coin.name
+          h1.ma0.lh-solid
+            span#name= @coin.name
+            span.ml3.f6= @coin.symbol
+        .f3
           => custom_number_to_currency @data["price_usd"].to_f
           small
             strong== display_percentage_change(@data["percent_change_24h"].to_f)
-      .bg-light-gray.pa3
+      .bg-athens.pa4
         = render partial: 'stats'
-      .pa3
+      .bg-athens-dark.pa4
+        = render partial: 'stats2'
+      .bg-tiber.pa4.flex.flex-wrap.justify-center.flex-auto
         = render partial: 'links'
     .col-xs-12.col-md-6.col-lg-8
-      #charts.section.phr.pv4
-        h2.f3.tc
-          i.fas.fa-chart-line.mr3
-          | Price Charts
-        br
+      section.phr.pv4
         #chart
-      #news.bg-near-white.phr.pv4
+      section.phr.pv4
         h2.f3.tc
           i.far.fa-newspaper.mr3
           | Latest News

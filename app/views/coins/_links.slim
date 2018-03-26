@@ -1,0 +1,33 @@
+- if @coin.website.present?
+  a.icon.icon-light href=@coin.website target="_blank"
+    i class="fas fa-link"
+    label Website
+- if @coin.explorer.present?
+  a.icon.icon-light href=@coin.explorer target="_blank"
+    i class="fas fa-search"
+    label Explorer
+- if @coin.forum.present?
+  a.icon.icon-light href=@coin.forum target="_blank"
+    i class="far fa-comments"
+    label Forum
+- if @coin.whitepaper.present?
+  a.icon.icon-light href=@coin.whitepaper target="_blank"
+    i class="far fa-file-text-o" 
+    label Whitepaper
+- if @coin.twitter.present?
+  a.icon.icon-light href=@coin.twitter target="_blank"
+    i class="fab fa-twitter" 
+    label Twitter
+- if @coin.reddit.present?
+  a.icon.icon-light href=@coin.reddit target="_blank"
+    i class="fab fa-reddit" 
+    label Reddit
+- if @coin.medium.present?
+  a.icon.icon-light href=@coin.medium target="_blank"
+    i class="fab fa-medium" 
+    label Medium
+- if @coin.github.present?
+  a.icon.icon-light href=@coin.github target="_blank"
+    i class="fab fa-github" 
+    label Github
+

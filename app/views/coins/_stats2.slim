@@ -1,0 +1,19 @@
+.row
+  .col-xs-6
+    table.stats
+      tr
+        td ICO Price
+        td 
+      tr
+        td Release date
+        td= @coin.release_date
+  .col-xs-6
+    table.stats
+      tr
+        td ICO returns
+        td
+      tr
+        td Blockchain
+        td
+.tc.f7.mt4
+  = "Last Updated: #{time_ago_in_words(Time.at(@data["last_updated"].to_i))} ago"
