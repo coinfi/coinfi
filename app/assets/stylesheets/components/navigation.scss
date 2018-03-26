@@ -7,18 +7,23 @@
     li {
       display: inline-block;
       > * {
-        @extend .btn;
-        @extend .btn-sm;
-        @extend .hover-dark-gray;
+        @include btn-base();
         display: block;
+      }
+    }
+  }
+  &.nav-sm {
+    li {
+      > * {
+        @extend .btn-sm;
         padding: $sp2;
       }
     }
   }
-  &.dark-theme {
+  &.nav-dark {
     ul {
       li {
-        a {
+        > * {
           background: transparent;
           color: $white-80;
           @extend .hover-white;

@@ -17,8 +17,8 @@
       - @coins.each do |coin|
         tr
           td= coin.ranking
-          td
-            = image_tag coin.image_url, size: '16', class: 'currency-image', alt: coin.name if coin.image_url
+          td.flex.items-center
+            = image_tag coin.image_url, class: 'w2e mr2', alt: coin.name if coin.image_url
             = link_to coin.name, coin, id: coin.slug
           td.tr= number_to_currency coin.market_cap[currency]
           td.tr= custom_number_to_currency coin.price[currency]

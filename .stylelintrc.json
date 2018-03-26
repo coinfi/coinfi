@@ -1,6 +1,3 @@
 {
-  "extends": "stylelint-config-recommended-scss",
-  "rules": {
-    "selector-nested-pattern": "^&"
-  }
+  "extends": "stylelint-config-recommended-scss"
 }
