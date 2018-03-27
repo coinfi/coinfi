@@ -1,5 +1,4 @@
 json.prices @prices
-
 #letters = *('A'..'ZZ').take(@news.length).reverse
 i = @news.length
 json.news @news.each do |news|
