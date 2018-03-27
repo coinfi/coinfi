@@ -11,7 +11,6 @@ $(document).ready(() => {
       .addClass('tab-active')
   })
   $(document).on('click', '.tab', function() {
-    console.log('yo')
     $('.tab-active').removeClass('tab-active')
     $(this).addClass('tab-active')
     $(
