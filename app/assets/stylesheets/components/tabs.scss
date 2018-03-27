@@ -1,0 +1,16 @@
+.tabs {
+  @extend .flex;
+  .tab {
+    @extend .flex-auto;
+    text-align: center;
+    cursor: pointer;
+    border: 2px solid transparent;
+  }
+  .tab.tab-active {
+    border-color: #b2c9d4;
+    cursor: default;
+  }
+}
+.tab-content:not(.tab-active) {
+  display: none;
+}

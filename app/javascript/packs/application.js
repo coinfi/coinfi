@@ -1,3 +1,3 @@
 import 'jquery'
-import '../modules/mobile-nav'
+import '../modules/navigation'
 import '../modules/coins'

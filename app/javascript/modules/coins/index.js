@@ -3,11 +3,12 @@ import fixOverlap from './fixOverlap'
 import fetchData from './fetchData'
 import options from './options'
 import chartOptions from './chartOptions'
+window.Highcharts = Highcharts
 
 if (window.location.href.indexOf('/coins/') > -1) {
   fetchData().then(data => {
-    Highcharts.setOptions(options)
-    Highcharts.stockChart('chart', chartOptions(Highcharts, data))
-    fixOverlap(Highcharts)
+    window.Highcharts.setOptions(options)
+    window.Highcharts.stockChart('chart', chartOptions(data))
+    fixOverlap()
   })
 }

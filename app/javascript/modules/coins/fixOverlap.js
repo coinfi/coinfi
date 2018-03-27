@@ -1,4 +1,5 @@
-export default Highcharts => {
+export default () => {
+  const { Highcharts } = window
   // Prevent flag overlap issues
   // https://github.com/highcharts/highcharts/issues/4674
   // http://jsfiddle.net/p037jdyj/

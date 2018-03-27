@@ -1,7 +1,11 @@
-export default (Highcharts, { news, prices, volume, sevenDayAvgVol }) => {
+export default ({ news, prices, volume, sevenDayAvgVol }) => {
+  const { Highcharts } = window
   return {
     rangeSelector: {
       selected: 1
+    },
+    navigator: {
+      enabled: false
     },
 
     legend: {
