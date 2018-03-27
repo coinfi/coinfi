@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180307044820) do
+ActiveRecord::Schema.define(version: 20180326043054) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -146,6 +146,28 @@ ActiveRecord::Schema.define(version: 20180307044820) do
     t.text "summary"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "ico_status"
+    t.bigint "ico_usd_raised"
+    t.bigint "ico_start_date"
+    t.bigint "ico_end_date"
+    t.decimal "ico_token_price_usd", precision: 10, scale: 2
+    t.decimal "ico_token_price_btc", precision: 24, scale: 16
+    t.decimal "ico_token_price_eth", precision: 24, scale: 16
+    t.decimal "ico_personal_cap_usd_min", precision: 10, scale: 2
+    t.decimal "ico_personal_cap_usd_max", precision: 10, scale: 2
+    t.decimal "ico_fundraising_goal_usd", precision: 18, scale: 2
+    t.decimal "ico_fundraising_goal_eth", precision: 24, scale: 16
+    t.decimal "ico_fundraising_status_usd", precision: 18, scale: 2
+    t.decimal "ico_fundraising_status_eth", precision: 24, scale: 16
+    t.decimal "ico_tokens_sold", precision: 32, scale: 16
+    t.float "ico_returns_usd"
+    t.float "ico_returns_btc"
+    t.float "ico_returns_eth"
+    t.jsonb "influencer"
+    t.jsonb "excluded_countries", array: true
+    t.string "blockchain_tech"
+    t.string "token_type"
+    t.jsonb "exchanges", array: true
     t.index ["category"], name: "index_coins_on_category"
     t.index ["market_cap"], name: "index_coins_on_market_cap", using: :gin
     t.index ["price"], name: "index_coins_on_price", using: :gin
