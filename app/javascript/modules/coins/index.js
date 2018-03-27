@@ -1,4 +1,4 @@
-$(function() {
+$(() => {
   // Prevent flag overlap issues
   // https://github.com/highcharts/highcharts/issues/4674
   // http://jsfiddle.net/p037jdyj/
@@ -13,7 +13,7 @@ $(function() {
     }
 
     H.wrap(H.seriesTypes.flags.prototype, 'drawPoints', function(p) {
-      var series = this,
+      let series = this,
         chart = series.chart,
         overlap = true,
         counter = 0,
@@ -28,7 +28,7 @@ $(function() {
       // as long as flags do overlap, move them. Extra limiter up to 100 iterations.
       while (overlap && counter < 100) {
         overlap = false
-        H.each(series.points, function(currentPoint) {
+        H.each(series.points, (currentPoint) => {
           // only existing point with label
           if (currentPoint.graphic) {
             index = 0
@@ -44,7 +44,7 @@ $(function() {
               compareSeries = chart.series[index]
 
               if (compareSeries.options.type === 'flags') {
-                H.each(compareSeries.points, function(comparePoint) {
+                H.each(compareSeries.points, (comparePoint) => {
                   // compare current label with all others
                   if (
                     compareSeries === series &&
@@ -84,10 +84,10 @@ $(function() {
   })(Highcharts)
 
   if (window.location.href.indexOf('/coins/') > -1) {
-    var name = $('#name').text()
-    var friendlyID = window.location.pathname.split('/').reverse()[0]
-    $.getJSON('/coins/' + friendlyID + '/historical_data.json', function(data) {
-      var historical = data['prices'],
+    let name = $('#name').text()
+    let friendlyID = window.location.pathname.split('/').reverse()[0]
+    $.getJSON('/coins/' + friendlyID + '/historical_data.json', (data) => {
+      let historical = data['prices'],
         news = data['news'],
         prices = [],
         volume = [],
@@ -105,7 +105,7 @@ $(function() {
           historical[i][2] // volume
         ])
         if (i > 7) {
-          var mean =
+          let mean =
             (volume[i][1] +
               volume[i - 1][1] +
               volume[i - 2][1] +
@@ -130,8 +130,9 @@ $(function() {
         // https://raw.githubusercontent.com/jbkunst/highcharts-themes-collection/gh-pages/themes/google.js
         colors: ['#26afda', '#F90101', '#d35400', '#00933B'],
         chart: {
+          height: 500,
           style: {
-            fontFamily: 'Roboto',
+            fontFamily: 'Open Sans',
             color: '#444444'
           }
         },
@@ -164,9 +165,9 @@ $(function() {
         },
 
         legend: {
-          enabled: true,
+          enabled: false,
           layout: 'vertical',
-          align: 'left',
+          align: 'right',
           verticalAlign: 'top',
           backgroundColor:
             (Highcharts.theme && Highcharts.theme.legendBackgroundColor) ||

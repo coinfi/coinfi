@@ -6,11 +6,14 @@ import configureStore from './store'
 import ExamplePage from './pages/ExamplePage'
 import 'babel-polyfill'
 
-export default container =>
+document.addEventListener('DOMContentLoaded', () => {
+  const container = document.getElementById('example-app')
+  if (!container) return
   ReactDOM.render(
     <Provider store={configureStore()}>
       <ExamplePage />
     </Provider>,
     container
   )
-registerServiceWorker()
+  registerServiceWorker()
+})
