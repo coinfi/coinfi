@@ -153,8 +153,6 @@ ActiveRecord::Schema.define(version: 20180327105205) do
     t.decimal "ico_token_price_usd", precision: 10, scale: 2
     t.decimal "ico_token_price_btc", precision: 24, scale: 16
     t.decimal "ico_token_price_eth", precision: 24, scale: 16
-    t.string "ico_personal_cap_usd_min"
-    t.string "ico_personal_cap_usd_max"
     t.decimal "ico_fundraising_goal_usd", precision: 18, scale: 2
     t.decimal "ico_fundraising_goal_eth", precision: 24, scale: 16
     t.decimal "ico_fundraising_status_usd", precision: 18, scale: 2
@@ -168,6 +166,10 @@ ActiveRecord::Schema.define(version: 20180327105205) do
     t.string "blockchain_tech"
     t.string "token_type"
     t.jsonb "exchanges", array: true
+    t.decimal "ico_personal_cap_usd_min", precision: 10, scale: 2
+    t.decimal "ico_personal_cap_usd_max", precision: 10, scale: 2
+    t.string "ico_personal_cap_min"
+    t.string "ico_personal_cap_max"
     t.index ["category"], name: "index_coins_on_category"
     t.index ["market_cap"], name: "index_coins_on_market_cap", using: :gin
     t.index ["price"], name: "index_coins_on_price", using: :gin
