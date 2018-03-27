@@ -5,11 +5,14 @@
   text-decoration: none;
   text-align: center;
   color: $tiber;
+  margin-left: $sp3;
+  margin-right: $sp3;
   &.icon-light {
     color: $white;
   }
-  &:not(:last-child) {
-    margin-right: $sp3;
+  > i {
+    transform: scale(0.9);
+    -webkit-transform: scale(0.9);
   }
   label {
     display: block;
