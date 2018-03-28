@@ -23,13 +23,13 @@
 
   <body>
     <%= render partial: "components/site_header" %>
+    <%= render partial: "components/site_subheader" unless @hide_subheader %>
     <%= render partial: "components/flash" %>
     <main>
       <%= yield %>
     </main>
     <%= render partial: "components/footer" %>
-    <script src="https://code.highcharts.com/stock/highstock.js"></script>
-    <%= javascript_include_tag 'application' %>
+    <%= javascript_pack_tag 'application' %>
     <%= render partial: "components/tracking_scripts" %>
   </body>
 

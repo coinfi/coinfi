@@ -1,0 +1,12 @@
+#site-subheader {
+  .nav-horizontal {
+    border-left: 1px solid $black-10;
+    li {
+      > * {
+        color: $gray;
+        border-right: 1px solid $black-10;
+        font-size: 0.7rem;
+      }
+    }
+  }
+}

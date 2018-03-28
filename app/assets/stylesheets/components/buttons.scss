@@ -1,20 +1,27 @@
-.btn {
+@mixin btn-base() {
   display: inline-block;
-  border: none;
-  background-color: $white;
-  color: $silver;
   text-transform: uppercase;
   text-decoration: none;
   font-size: 0.8rem;
   font-weight: 700;
   line-height: 1;
-  padding: $sp3 $sp4;
+  padding: ($sp3 * 1.2) $sp4;
   border-radius: 2px;
   font-family: $sans-serif;
   letter-spacing: 0.05rem;
   transition: all 0.2s;
   -webkit-transition: all 0.2s;
   cursor: pointer;
+}
+.btn {
+  @include btn-base();
+  border: none;
+  background-color: $white;
+  color: $silver;
+  &.btn-xs {
+    font-size: 0.7rem;
+    padding: 0.6rem 1rem;
+  }
   &.btn-sm {
     font-size: 0.75rem;
     padding: 0.75rem 1.5rem;

@@ -7,7 +7,6 @@
  * Color: http://tachyons.io/docs/themes/skins/
  */
 
-@import url('https://fonts.googleapis.com/css?family=Open+Sans:300,400,700,800|Oxygen:300,600');
 @import url('https://use.fontawesome.com/releases/v5.0.0/css/all.css');
 
 body {
@@ -40,7 +39,9 @@ a {
 .heading-font {
   font-family: $heading-font;
 }
-
+.body-font {
+  font-family: $body-font;
+}
 .smaller1 {
   font-size: 0.9em;
 }
@@ -82,20 +83,16 @@ a {
  * 800 
  * 900
  */
-@font-face {
-  font-family: 'Avenir';
-  src: font-url('/fonts/AvenirNext/Regular.eot');
-  src: font-url('/fonts/AvenirNext/Regular.eot?#iefix')
-      format('embedded-opentype'),
-    font-url('/fonts/AvenirNext/Regular.woff') format('woff');
-  font-weight: normal;
-  font-style: normal;
+@mixin build-font($name, $path, $weight) {
+  @font-face {
+    font-family: $name;
+    src: font-url('#{$path}.eot');
+    src: font-url('#{$path}.eot?#iefix') format('embedded-opentype'),
+      font-url('#{$path}.woff') format('woff');
+    font-weight: $weight;
+    font-style: normal;
+  }
 }
-@font-face {
-  font-family: 'Avenir';
-  src: font-url('AvenirNext/Medium.eot');
-  src: font-url('AvenirNext/Medium.eot?#iefix') format('embedded-opentype'),
-    font-url('AvenirNext/Medium.woff') format('woff');
-  font-weight: 500;
-  font-style: normal;
-}
+@include build-font('Avenir', '/fonts/AvenirNext/Regular', 400);
+@include build-font('Avenir', '/fonts/AvenirNext/Medium', 500);
+@include build-font('Avenir', '/fonts/AvenirNext/DemiBold', 600);

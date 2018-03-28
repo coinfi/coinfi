@@ -1,0 +1,23 @@
+.tabs {
+  @extend .flex;
+  .tab {
+    font-size: 0.9rem;
+    color: $tiber;
+    font-family: Arial, sans-serif;
+    font-weight: bold;
+    text-align: center;
+    cursor: pointer;
+    border-bottom: 3px solid transparent;
+    padding: 0 0 $sp2 0;
+    &:not(:last-child) {
+      margin-right: $sp3;
+    }
+  }
+  .tab.tab-active {
+    border-bottom-color: $tiber;
+    cursor: default;
+  }
+}
+.tab-content:not(.tab-active) {
+  display: none;
+}
