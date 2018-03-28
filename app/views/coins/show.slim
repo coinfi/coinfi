@@ -38,7 +38,7 @@
             = render partial: 'news'
           .tab-content data-position=2
             - if @coin.twitter.present?
-              #twitter-feed data-for=@coin.twitter
+              #twitter-feed data-user=@coin.twitter
           .tab-content data-position=3
             - if @coin.reddit.present?
               h3 Reddit
