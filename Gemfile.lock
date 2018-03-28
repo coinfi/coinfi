@@ -1,4 +1,12 @@
 GIT
+  remote: https://github.com/eddietejeda/administrate-field-json.git
+  revision: 53b1099be0298b2384bf3ff3d168e168d5fbd875
+  specs:
+    administrate-field-json (0.0.4)
+      administrate (~> 0.3)
+      rails (>= 4.2, < 5.3)
+
+GIT
   remote: https://github.com/hanchang/convertkit-ruby.git
   revision: 7aa5efeee74ae6fa94e34fae8da876a96c06ac16
   specs:
@@ -381,6 +389,7 @@ DEPENDENCIES
   acts-as-taggable-on
   administrate
   administrate-field-belongs_to_search
+  administrate-field-json!
   ahoy_matey
   aws-sdk (~> 2)
   blazer
