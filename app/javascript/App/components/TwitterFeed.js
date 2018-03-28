@@ -16,7 +16,6 @@ class TwitterFeed extends Component {
     axios
       .get(`/social_feeds/tweets_by_user.json?user=${this.username()}`)
       .then(({ data }) => {
-        console.log(data)
         this.setState({ tweets: data })
       })
       .catch(error => {
@@ -26,7 +25,9 @@ class TwitterFeed extends Component {
   render() {
     return (
       <div>
-        {this.state.tweets.map(tweet => <Tweet key={tweet.id} data={tweet} />)}
+        {this.state.tweets.map(tweet => (
+          <Tweet key={tweet.id} data={tweet} linkProps={{ target: '_blank' }} />
+        ))}
       </div>
     )
   }

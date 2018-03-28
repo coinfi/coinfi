@@ -41,16 +41,4 @@
               #twitter-feed data-user=@coin.twitter
           .tab-content data-position=3
             - if @coin.reddit.present?
-              h3 Reddit
-                #reddit-timeline
-              javascript:
-                $(function() {
-                  if
-                  // Reddit lazy load
-                  var lazyLoadReddit = document.createElement("script");
-                  document.write = function(text) {
-                      document.getElementById("reddit-timeline").innerHTML += text;
-                  };
-                  lazyLoadReddit.src = "#{@coin.reddit}.embed?limit=6";
-                  document.body.appendChild(lazyLoadReddit);
-                });
+              #reddit-feed data-subreddit=@coin.reddit
