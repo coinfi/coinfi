@@ -1,5 +1,5 @@
 .row
-  .col-xs-6
+  .col-xs-12.col-sm-6
     table.stats
       tr
         td Volume 
@@ -13,7 +13,7 @@
             = abbreviated_number(cap, prefix: '$')
           - else
             | N/A
-  .col-xs-6
+  .col-xs-12.col-sm-6.mt3.mt0-ns
     table.stats
       tr
         td Circulation
@@ -26,44 +26,3 @@
             = abbreviated_number(supply) + " #{@coin.symbol}"
           - else
             | N/A
-/.col-md-6
-  .card
-    .content
-      ul.nav.nav-tabs.nav-justified.text-center role="tablist"
-        li.active
-          a href="#upcoming" role="tab" data-toggle="tab" aria-expanded="true" Upcoming Events
-        li
-          a href="#background" role="tab" data-toggle="tab" aria-expanded="true" Background
-        li
-          a href="#exchanges" role="tab" data-toggle="tab" aria-expanded="true" Exchanges
-      .tab-content
-        #upcoming.tab-pane.active
-          h3 Upcoming Events
-          - if @upcoming_events.blank?
-            p No upcoming events yet, check back soon!
-          - else
-            table.table
-              - @upcoming_events.each do |item|
-                tr
-                  td= link_to item.title, item.url, target: "_blank"
-                  td= item.published_date
-        #background.tab-pane
-          h3 Background
-          .row
-            strong.col-xs-5 Category
-            .col-xs-7= @coin.category.humanize
-          .row
-            strong.col-xs-5 Release Date
-            .col-xs-7= @coin.release_date
-          .row
-            strong.col-xs-5 Hashing Algorithm
-            .col-xs-7= @coin.algorithm
-          .row
-            strong.col-xs-5 Proof Type
-            .col-xs-7= @coin.proof_type
-          .row
-            strong.col-xs-5 Premined?
-            .col-xs-7= @coin.is_premined
-        #exchanges.tab-pane
-          h3 Exchanges
-          label.label.label-info.label-fill Coming Soon!

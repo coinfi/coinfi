@@ -1,5 +1,5 @@
 .row
-  .col-xs-6
+  .col-xs-12.col-sm-6
     table.stats
       tr
         td ICO Price
@@ -7,7 +7,7 @@
       tr
         td Release date
         td= @coin.ico_start_date
-  .col-xs-6
+  .col-xs-12.col-sm-6.mt3.mt0-ns
     table.stats
       tr
         td ICO returns
@@ -16,4 +16,4 @@
         td Blockchain
         td= @coin.blockchain_tech
 .tc.f7.mt4
-  = "Last Updated: #{time_ago_in_words(Time.at(@data["last_updated"].to_i))} ago"
+  = "Last updated: #{time_ago_in_words(Time.at(@data["last_updated"].to_i))} ago"

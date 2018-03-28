@@ -6,7 +6,8 @@
   padding-left: $sp3;
 }
 @media #{$breakpoint-s} {
-  .phr {
+  .phr,
+  .phr-s {
     padding-right: $sp4;
     padding-left: $sp4;
   }
