@@ -25,4 +25,4 @@
 /node_modules
 yarn-debug.log*
 .yarn-integrity
-.package-lock.json # Using yarn.lock
+yarn.lock
