@@ -38,8 +38,7 @@
             = render partial: 'news'
           .tab-content data-position=2
             - if @coin.twitter.present?
-              h3 Twitter
-              <a class="twitter-timeline" data-height="600" href="#{@coin.twitter}">Tweets by Bitcoin</a> <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+              #twitter-feed data-for=@coin.twitter
           .tab-content data-position=3
             - if @coin.reddit.present?
               h3 Reddit
