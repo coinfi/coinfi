@@ -3,15 +3,15 @@
     .col-xs-12.col-md-6.col-lg-4.flex.flex-column
       .bg-white.pa4.pt3
         .tr.mb3
-          button.btn.btn-xs
+          button.btn.btn-xs.btn-gray
             i.fas.fa-plus.mr1
             | Watch
         .flex.items-center.mb3
           - if @coin.image_url
-            img.w4e.mr3 src=@coin.image_url alt=@coin.name
+            img.w4e.mr3.a1 src=@coin.image_url alt=@coin.name
           h1.ma0.lh-solid
-            span#name= @coin.name
-            span.ml3.f6= @coin.symbol
+            span.fw4#name= @coin.name
+            span.ml3.f6.fw9.arial= @coin.symbol
         .f3
           => custom_number_to_currency @data["price_usd"].to_f
           small
@@ -23,7 +23,7 @@
       .bg-tiber.pa4.flex.flex-wrap.justify-center.flex-auto
         = render partial: 'links'
     .col-xs-12.col-md-6.col-lg-8.bg-gradient--fl1
-      section.pl2.pt3
+      section.pl2-m.pt3
         #chart
       section.phr.pv4
         .tab-area

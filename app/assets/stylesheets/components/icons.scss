@@ -1,25 +1,30 @@
-.icon {
-  display: inline-block;
-  font-size: 1.6rem;
-  line-height: 1;
-  text-decoration: none;
-  text-align: center;
-  color: $tiber;
-  margin-left: $sp3;
-  margin-right: $sp3;
-  &.icon-light {
-    color: $white;
-  }
-  > i {
-    transform: scale(0.9);
-    -webkit-transform: scale(0.9);
-  }
-  label {
-    display: block;
-    text-transform: uppercase;
-    font-size: 0.5rem;
-    margin-top: $sp2;
-    letter-spacing: 0.1em;
-    font-family: Arial, sans-serif;
+.icons {
+  @extend .mhn3;
+  @extend .mtn3;
+  .icon {
+    display: inline-block;
+    font-size: 1.6rem;
+    line-height: 1;
+    text-decoration: none;
+    text-align: center;
+    color: $tiber;
+    margin-left: $sp3;
+    margin-right: $sp3;
+    margin-top: $sp3;
+    &.icon-light {
+      color: $white;
+    }
+    > i {
+      transform: scale(0.9);
+      -webkit-transform: scale(0.9);
+    }
+    label {
+      display: block;
+      text-transform: uppercase;
+      font-size: 0.5rem;
+      margin-top: $sp2;
+      letter-spacing: 0.1em;
+      font-family: Arial, sans-serif;
+    }
   }
 }
