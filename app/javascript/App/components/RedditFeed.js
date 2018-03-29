@@ -10,7 +10,6 @@ class RedditFeed extends Component {
     axios
       .get(`https://www.reddit.com/r/${subreddit}/top/.json?sort=top&t=day`)
       .then(({ data: { data: { children } } }) => {
-        console.log(children)
         this.setState({ posts: children })
       })
       .catch(error => {

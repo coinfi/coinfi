@@ -10,7 +10,6 @@ document.addEventListener('DOMContentLoaded', () => {
   }
   c = document.getElementById('reddit-feed')
   if (c) {
-    console.log(c.getAttribute('data-subreddit'))
     ReactDOM.render(
       <RedditFeed subreddit={c.getAttribute('data-subreddit')} />,
       c
