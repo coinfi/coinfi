@@ -7,6 +7,30 @@
 const { environment } = require('@rails/webpacker')
 const merge = require('webpack-merge')
 const webpack = require('webpack')
+const dotenv = require('dotenv')
+
+/*
+ * Provide dotenv
+ */
+
+const dotenvFiles = [
+  `.env.${process.env.NODE_ENV}.local`,
+  '.env.local',
+  `.env.${process.env.NODE_ENV}`,
+  '.env'
+]
+dotenvFiles.forEach(dotenvFile => {
+  dotenv.config({ path: dotenvFile, silent: true })
+})
+
+environment.plugins.prepend(
+  'Environment',
+  new webpack.EnvironmentPlugin(JSON.parse(JSON.stringify(process.env)))
+)
+
+/*
+ * Provide jQuery
+ */
 
 environment.plugins.prepend(
   'Provide',

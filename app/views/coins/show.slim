@@ -10,8 +10,8 @@
           - if @coin.image_url
             img.w4e.mr3.a1 src=@coin.image_url alt=@coin.name
           h1.ma0.lh-solid
-            span.fw4#name= @coin.name
-            span.ml3.f6.fw9.arial= @coin.symbol
+            span.fw4= @coin.name
+            span#symbol.ml3.f6.fw9.arial= @coin.symbol
         .f3
           => custom_number_to_currency @data["price_usd"].to_f
           small
