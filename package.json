@@ -1,9 +1,16 @@
 {
   "name": "coinfi-rails",
   "private": true,
+  "engines": {
+    "node": "^8.9.1",
+    "npm": "^5.8.0",
+    "yarn": "^1.5.1"
+  },
   "dependencies": {
     "@rails/webpacker": "^3.3.1",
     "axios": "^0.18.0",
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.4",
     "babel-preset-react": "^6.24.1",
     "highcharts": "^6.0.7",
     "immutable": "^3.8.2",
