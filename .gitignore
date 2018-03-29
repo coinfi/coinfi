@@ -23,6 +23,6 @@
 /public/packs
 /public/packs-test
 /node_modules
+package-lock.json
 yarn-debug.log*
 .yarn-integrity
-yarn.lock
