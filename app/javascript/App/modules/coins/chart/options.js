@@ -1,14 +1,17 @@
 export default {
+  credits: {
+    enabled: false
+  },
   lang: {
     thousandsSep: ','
   },
   // http://jkunst.com/highcharts-themes-collection/
   // https://raw.githubusercontent.com/jbkunst/highcharts-themes-collection/gh-pages/themes/google.js
-  colors: ['#26afda', '#F90101', '#d35400', '#00933B'],
+  colors: ['#22adef', '#128b78'],
   chart: {
     height: 500,
     style: {
-      fontFamily: 'Open Sans',
+      fontFamily: 'Avenir',
       color: '#444444'
     }
   },
