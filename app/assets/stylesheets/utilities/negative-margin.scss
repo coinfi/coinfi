@@ -1,0 +1,16 @@
+$spacings: $sp1, $sp2, $sp3, $sp4;
+
+@mixin margin-setup($namespace) {
+  @each $sp in $spacings {
+    $i: index($spacings, $sp);
+    .mhn#{$i}#{$namespace} {
+      margin-left: -#{$sp};
+      margin-right: -#{$sp};
+    }
+    .mtn#{$i}#{$namespace} {
+      margin-top: -#{$sp};
+    }
+  }
+}
+
+@include margin-setup('');

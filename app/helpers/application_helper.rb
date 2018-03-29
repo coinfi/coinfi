@@ -78,6 +78,8 @@ module ApplicationHelper
   end
 
   def pretty_date date
-    date.strftime('%A, %B %e - %H:%M%p')
+    d = date.strftime('%A, %B %e - %H:%M%p')
+    return d.split(' -')[0] if d.include? '00:00'
+    d
   end
 end

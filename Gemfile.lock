@@ -95,6 +95,7 @@ GEM
       rails
       safely_block (>= 0.1.1)
     browser (2.5.2)
+    buftok (0.2.0)
     builder (3.2.3)
     byebug (9.0.6)
     capybara (2.13.0)
@@ -137,6 +138,7 @@ GEM
     email_address (0.1.3)
       netaddr
       simpleidn
+    equalizer (0.0.11)
     errbase (0.0.3)
     erubi (1.6.0)
     execjs (2.7.0)
@@ -144,6 +146,8 @@ GEM
       multipart-post (>= 1.2, < 3)
     faraday_middleware (0.12.2)
       faraday (>= 0.7.4, < 1.0)
+    fast_jsonapi (1.1.1)
+      activesupport (>= 4.2)
     feedjira (2.1.2)
       faraday (>= 0.9)
       faraday_middleware (>= 0.9)
@@ -156,8 +160,15 @@ GEM
     globalid (0.4.0)
       activesupport (>= 4.2.0)
     hashie (3.5.6)
+    http (3.0.0)
+      addressable (~> 2.3)
+      http-cookie (~> 1.0)
+      http-form_data (>= 2.0.0.pre.pre2, < 3)
+      http_parser.rb (~> 0.6.0)
     http-cookie (1.0.3)
       domain_name (~> 0.5)
+    http-form_data (2.1.0)
+    http_parser.rb (0.6.0)
     httparty (0.15.6)
       multi_xml (>= 0.5.2)
     i18n (0.8.4)
@@ -205,6 +216,8 @@ GEM
       nokogiri (~> 1.6)
       ntlm-http (~> 0.1, >= 0.1.1)
       webrobots (>= 0.0.9, < 0.2)
+    memoizable (0.4.2)
+      thread_safe (~> 0.3, >= 0.3.1)
     method_source (0.8.2)
     mime-types (3.1)
       mime-types-data (~> 3.2015)
@@ -216,6 +229,7 @@ GEM
     multi_json (1.12.1)
     multi_xml (0.6.0)
     multipart-post (2.0.0)
+    naught (1.1.0)
     net-http-digest_auth (1.4.1)
     net-http-persistent (2.9.4)
     netaddr (1.5.1)
@@ -255,6 +269,8 @@ GEM
     rack-attack (5.0.1)
       rack
     rack-cors (1.0.2)
+    rack-proxy (0.6.4)
+      rack
     rack-test (0.6.3)
       rack (>= 1.0)
     rails (5.1.3)
@@ -320,6 +336,7 @@ GEM
     simple_form (3.5.0)
       actionpack (> 4, < 5.2)
       activemodel (> 4, < 5.2)
+    simple_oauth (0.3.1)
     simpleidn (0.0.9)
     slim (3.0.7)
       temple (~> 0.7.6)
@@ -345,6 +362,17 @@ GEM
     thor (0.19.4)
     thread_safe (0.3.6)
     tilt (2.0.7)
+    twitter (6.2.0)
+      addressable (~> 2.3)
+      buftok (~> 0.2.0)
+      equalizer (~> 0.0.11)
+      http (~> 3.0)
+      http-form_data (~> 2.0)
+      http_parser.rb (~> 0.6.0)
+      memoizable (~> 0.4.0)
+      multipart-post (~> 2.0)
+      naught (~> 1.0)
+      simple_oauth (~> 0.3.0)
     tzinfo (1.2.3)
       thread_safe (~> 0.1)
     uglifier (3.2.0)
@@ -362,6 +390,10 @@ GEM
       activemodel (>= 5.0)
       bindex (>= 0.4.0)
       railties (>= 5.0)
+    webpacker (3.3.1)
+      activesupport (>= 4.2)
+      rack-proxy (>= 0.6.1)
+      railties (>= 4.2)
     webrobots (0.1.2)
     websocket (1.2.4)
     websocket-driver (0.6.5)
@@ -392,6 +424,7 @@ DEPENDENCIES
   devise
   dotenv-rails
   email_address
+  fast_jsonapi
   feedjira
   friendly_id (~> 5.2.1)
   httparty
@@ -419,9 +452,11 @@ DEPENDENCIES
   slim-rails
   spring
   spring-watcher-listen (~> 2.0.0)
+  twitter
   uglifier (>= 1.3.0)
   unidecoder
   web-console (>= 3.3.0)
+  webpacker (~> 3.3)
   wombat
 
 RUBY VERSION

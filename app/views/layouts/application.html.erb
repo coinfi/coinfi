@@ -15,21 +15,18 @@
     <link rel="manifest" href="/manifest.json">
     <link rel="apple-touch-icon" href="<%= image_path('apple-touch-icon.png') %>">
     <link rel="icon" href="<%= image_path('favicon.png') %>">
-    <%= javascript_tag do %>
-      window.pricesURL = '<%= ENV.fetch('COINFI_PRICES_URL') %>';
-    <% end %>
     <%= stylesheet_link_tag 'application' %>
   </head>
 
   <body>
     <%= render partial: "components/site_header" %>
+    <%= render partial: "components/site_subheader" unless @hide_subheader %>
     <%= render partial: "components/flash" %>
     <main>
       <%= yield %>
     </main>
     <%= render partial: "components/footer" %>
-    <script src="https://code.highcharts.com/stock/highstock.js"></script>
-    <%= javascript_include_tag 'application' %>
+    <%= javascript_pack_tag 'application' %>
     <%= render partial: "components/tracking_scripts" %>
   </body>
 

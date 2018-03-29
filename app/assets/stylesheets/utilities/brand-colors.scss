@@ -8,9 +8,6 @@
   .b--#{$name} {
     border-color: $hex;
   }
-  .b--#{$name} {
-    border-color: #{$name};
-  }
 }
 
 @include addColorClass($picton, 'picton');
@@ -20,3 +17,5 @@
 @include addColorClass($bright-gray, 'bright-gray');
 @include addColorClass($tiber, 'tiber');
 @include addColorClass($slate, 'slate');
+@include addColorClass($athens, 'athens');
+@include addColorClass($athens-dark, 'athens-dark');

@@ -1,0 +1,25 @@
+// Override inline styles provided by react-tweet
+.tweet {
+  padding-left: 0 !important;
+  padding-bottom: $sp4 !important;
+  &:first-child {
+    padding-top: 0 !important;
+  }
+  &:not(:first-child) {
+    padding-top: $sp4 !important;
+  }
+  .header {
+    a:last-child {
+      display: none;
+    }
+  }
+  .content {
+    margin-left: 66px !important;
+  }
+  .avatar {
+    margin-left: -66px !important;
+  }
+  .ProfileTweet-actionList {
+    display: none !important;
+  }
+}
