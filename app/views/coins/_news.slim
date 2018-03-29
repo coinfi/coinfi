@@ -4,8 +4,8 @@
   - @latest_news.each_with_index do |item, index|
     a.box.tiber.mb4 href=item.url
       .f7= pretty_date(item.published_date)
-      h4.fw6.mv3.f2= item.title
-      .pt1
+      h4.fw6.mv3.f3.f2-l= item.title
+      .pt1.lh-copy
         = item.summary.html_safe if item.summary.present?
       - if item.tag_list.any?
         .mt3

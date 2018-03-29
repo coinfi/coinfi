@@ -25,12 +25,12 @@ module CoinsHelper
     if t.length == 3 
       decimal = t[2][0..1]
       t.pop(2)
-      return "#{opts[:prefix]}#{t[0]}.#{decimal}m"
+      return "#{opts[:prefix]}#{t[0]}.#{decimal}M"
     end
     # Over a billion
     billions = t.first(t.length - 3).join(',')
     decimal = t.first(t.length - 2).reverse[0][0..1]
-    "#{opts[:prefix]}#{billions}.#{decimal}b"
+    "#{opts[:prefix]}#{billions}.#{decimal}B"
   end  
 
 end

@@ -66,10 +66,16 @@ a {
   .f-hero {
     font-size: $f0;
   }
+  .f2-m {
+    font-size: $f2;
+  }
 }
 @media #{$breakpoint-l} {
   .f-hero {
     font-size: $f00;
+  }
+  .f2-l {
+    font-size: $f2;
   }
 }
 
