@@ -16,7 +16,8 @@ module CoinsHelper
     number_to_currency(amount, options.merge(custom))
   end
 
-  def abbreviated_number number, opts = {}
+  def abbreviated_number number = 0, opts = {}
+    return 0 unless number
     n = number_with_delimiter(number)
     t = n.split(',')
     # Less than a million

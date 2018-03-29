@@ -22,6 +22,14 @@
   margin-right: -$sp2;
   margin-left: -$sp2;
 }
+.row.narrow-gutter {
+  margin-right: -$sp1;
+  margin-left: -$sp1;
+  > div {
+    padding-right: $sp1;
+    padding-left: $sp1;
+  }
+}
 .row.wide-gutter {
   margin-right: -$sp3;
   margin-left: -$sp3;

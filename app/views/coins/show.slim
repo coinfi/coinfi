@@ -1,45 +1,34 @@
-.container
-  .row.no-gutter.flex
-    .col-xs-12.col-md-4.flex.flex-column
-      .bg-white
-        .bg-white.pa3.tr
-          button.btn.btn-xs.btn-gray
-            i.fas.fa-plus.mr1
-            | Watch
-        .pa4.pt0
-          .flex.justify-center.items-center.mb3
-            - if @coin.image_url
-              img.w4e.mr3.a1 src=@coin.image_url alt=@coin.name
-            h1.ma0.lh-solid
-              span.fw4= @coin.name
-              span#symbol.ml3.f6.fw9.arial= @coin.symbol
-          .f3.tc
-            => custom_number_to_currency @data["price_usd"].to_f
-            small
-              strong== display_percentage_change(@data["percent_change_24h"].to_f)
-      .bg-athens.pa4
-        = render partial: 'stats'
-      .bg-athens-dark.pa4
-        = render partial: 'stats2'
-      .bg-tiber.pa4.flex.flex-wrap.justify-center.flex-auto
-        = render partial: 'links'
-    .col-xs-12.col-md-8.bg-gradient--fl1
-      section.pl2-m.pt3
-        #chart
-      section.phr.pv4
-        .tab-area
-          .tabs.mb4
-            .tab data-position=1 
-              = "#{@coin.symbol} related news"
-            .tab data-position=2
-              | Twitter
-            .tab data-position=3
-              | Reddit
-          .tab-content data-position=1
-            = render partial: 'news'
-          .tab-content data-position=2
-            - if @coin.twitter.present?
-              #twitter-feed data-user=@coin.twitter
-          .tab-content data-position=3
-            - if @coin.reddit.present?
-              #reddit-feed data-subreddit=@coin.reddit
+.bg-athens
+  .container
+    .row.narrow-gutter.flex
+      .col-xs-12.col-md-4.flex.flex-column
+        = render partial: 'header'
+        - if @coin.is_listed?
+          = render partial: 'stats_listed'
+        - else
+          = render partial: 'stats_ico'
+        .bg-white.tc.f7.pa4.mb2
+          = "Last updated: #{time_ago_in_words(Time.at(@data["last_updated"].to_i))} ago"
+        .bg-tiber.pa4.flex.flex-wrap.justify-center.flex-auto
+          = render partial: 'links'
+      .col-xs-12.col-md-8
+        .bg-white
+          section.pl2-m.pt3
+            #chart
+          section.phr.pv4
+            .tab-area
+              .tabs.mb4
+                .tab data-position=1 
+                  = "#{@coin.symbol} related news"
+                .tab data-position=2
+                  | Twitter
+                .tab data-position=3
+                  | Reddit
+              .tab-content data-position=1
+                = render partial: 'news'
+              .tab-content data-position=2
+                - if @coin.twitter.present?
+                  #twitter-feed data-user=@coin.twitter
+              .tab-content data-position=3
+                - if @coin.reddit.present?
+                  #reddit-feed data-subreddit=@coin.reddit

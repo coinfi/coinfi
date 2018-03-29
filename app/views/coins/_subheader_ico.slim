@@ -1,0 +1,13 @@
+.tc.arial
+  .flex.items-center.justify-center.fw6
+    .green
+      | $
+      = @coin.ico_usd_raised || "0000.00"
+    .mh2.f7.ttu.silver
+      | of
+    div
+      | $
+      = @coin.ico_fundraising_goal_usd || "0000.00"
+  .mt3.ttu.fw6.f7
+    span.silver Closing
+    span.tiber.ml2= pretty_date(@coin.ico_end_date)

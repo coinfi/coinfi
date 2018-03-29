@@ -1,0 +1,16 @@
+.bg-white.mb2
+  .pa3.tr
+    button.btn.btn-xs.btn-gray
+      i.fas.fa-plus.mr1
+      | Watch
+  .pa4.pt0
+    .flex.justify-center.items-center.mb3
+      - if @coin.image_url
+        img.w4e.mr3.a1 src=@coin.image_url alt=@coin.name
+      h1.ma0.lh-solid
+        span.fw4= @coin.name
+        span#symbol.ml3.f6.fw9.arial= @coin.symbol
+    - if @coin.is_ico?
+      = render partial: 'subheader_ico'
+    - else
+      = render partial: 'subheader_listed'
