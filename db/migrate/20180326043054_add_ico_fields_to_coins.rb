@@ -10,8 +10,8 @@ class AddIcoFieldsToCoins < ActiveRecord::Migration[5.1]
     add_column :coins, :ico_token_price_btc, :decimal, precision: 24, scale: 16
     add_column :coins, :ico_token_price_eth, :decimal, precision: 24, scale: 16
 
-    add_column :coins, :ico_personal_cap_usd_min, :decimal, precision: 10, scale: 2
-    add_column :coins, :ico_personal_cap_usd_max, :decimal, precision: 10, scale: 2
+    add_column :coins, :ico_personal_cap_min, :string
+    add_column :coins, :ico_personal_cap_max, :string
 
     add_column :coins, :ico_fundraising_goal_usd, :decimal, precision: 18, scale: 2
     add_column :coins, :ico_fundraising_goal_eth, :decimal, precision: 24, scale: 16
@@ -23,10 +23,6 @@ class AddIcoFieldsToCoins < ActiveRecord::Migration[5.1]
     add_column :coins, :ico_returns_usd, :float
     add_column :coins, :ico_returns_btc, :float
     add_column :coins, :ico_returns_eth, :float
-
-    add_column :coins, :influencer, :jsonb
-
-    add_column :coins, :excluded_countries, :jsonb, array: true
 
     add_column :coins, :blockchain_tech, :string
     add_column :coins, :token_type, :string
