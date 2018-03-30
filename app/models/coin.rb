@@ -12,8 +12,8 @@ class Coin < ApplicationRecord
 
   validates :name, uniqueness: true
 
-  accepts_nested_attributes_for :coin_excluded_countries
-  accepts_nested_attributes_for :influencer_reviews
+  accepts_nested_attributes_for :coin_excluded_countries, allow_destroy: true, reject_if: :all_blank
+  accepts_nested_attributes_for :influencer_reviews, allow_destroy: true, reject_if: :all_blank
 
   scope :find_by_symbol, -> (symbol) { where('lower(symbol) = ?', symbol.downcase).first }
   scope :top, -> (limit) { order(ranking: :asc).limit(limit) }
