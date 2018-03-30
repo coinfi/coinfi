@@ -32,6 +32,8 @@ Rails.application.routes.draw do
     resources :users
     resources :submission_categories
     resources :contributor_submissions
+    resources :countries
+    resources :influencers
     get 'reddit' => 'articles#reddit'
     root to: "coins#index"
   end

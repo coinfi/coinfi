@@ -15,6 +15,14 @@ GIT
       faraday_middleware (>= 0.10.0)
       json (>= 1.8.3)
 
+GIT
+  remote: https://github.com/nickcharlton/administrate-field-nested_has_many.git
+  revision: 10eefee002395a55fccf4a59c318d7da38df22e6
+  specs:
+    administrate-field-nested_has_many (1.0.0)
+      administrate (> 0.8, < 1)
+      cocoon (~> 1.2, >= 1.2.11)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -115,6 +123,7 @@ GEM
     chartkick (2.2.5)
     childprocess (0.6.3)
       ffi (~> 1.0, >= 1.0.11)
+    cocoon (1.2.11)
     coderay (1.1.1)
     coffee-rails (4.2.1)
       coffee-script (>= 2.2.0)
@@ -390,6 +399,7 @@ DEPENDENCIES
   administrate
   administrate-field-belongs_to_search
   administrate-field-json!
+  administrate-field-nested_has_many!
   ahoy_matey
   aws-sdk (~> 2)
   blazer
