@@ -20,6 +20,15 @@
       }
     }
   }
+  &.nav-spacious {
+    ul {
+      @extend .mhn3;
+      li {
+        padding-left: $sp3;
+        padding-right: $sp3;
+      }
+    }
+  }
   &.nav-dark {
     ul {
       li {
