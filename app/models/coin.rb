@@ -11,7 +11,6 @@ class Coin < ApplicationRecord
   has_many :excluded_countries, through: :coin_excluded_countries
 
   validates :name, uniqueness: true
-  validates :symbol, uniqueness: true
 
   scope :find_by_symbol, -> (symbol) { where('lower(symbol) = ?', symbol.downcase).first }
   scope :top, -> (limit) { order(ranking: :asc).limit(limit) }
