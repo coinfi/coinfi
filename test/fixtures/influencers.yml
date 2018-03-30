@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  coin: one
+  influencer: MyString
+  url: MyString
+  rating: MyString
+  review: MyText
+
+two:
+  coin: two
+  influencer: MyString
+  url: MyString
+  rating: MyString
+  review: MyText

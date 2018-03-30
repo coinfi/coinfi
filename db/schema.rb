@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180327105205) do
+ActiveRecord::Schema.define(version: 20180330020221) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -110,6 +110,16 @@ ActiveRecord::Schema.define(version: 20180327105205) do
     t.index ["creator_id"], name: "index_blazer_queries_on_creator_id"
   end
 
+  create_table "coin_excluded_countries", force: :cascade do |t|
+    t.bigint "coin_id"
+    t.bigint "country_id"
+    t.text "notes"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["coin_id"], name: "index_coin_excluded_countries_on_coin_id"
+    t.index ["country_id"], name: "index_coin_excluded_countries_on_country_id"
+  end
+
   create_table "coins", force: :cascade do |t|
     t.string "name", null: false
     t.string "symbol", null: false
@@ -191,6 +201,13 @@ ActiveRecord::Schema.define(version: 20180327105205) do
     t.index ["user_id"], name: "index_contributor_submissions_on_user_id"
   end
 
+  create_table "countries", force: :cascade do |t|
+    t.string "name"
+    t.string "alpha2"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "daily_prices", force: :cascade do |t|
     t.bigint "coin_id"
     t.date "date"
@@ -246,6 +263,17 @@ ActiveRecord::Schema.define(version: 20180327105205) do
     t.index ["coin_id"], name: "index_hourly_prices_on_coin_id"
     t.index ["price"], name: "index_hourly_prices_on_price", using: :gin
     t.index ["volume24"], name: "index_hourly_prices_on_volume24", using: :gin
+  end
+
+  create_table "influencers", force: :cascade do |t|
+    t.bigint "coin_id"
+    t.string "influencer"
+    t.string "url"
+    t.string "rating"
+    t.text "review"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["coin_id"], name: "index_influencers_on_coin_id"
   end
 
   create_table "submission_categories", force: :cascade do |t|
@@ -335,8 +363,11 @@ ActiveRecord::Schema.define(version: 20180327105205) do
   end
 
   add_foreign_key "articles", "coins"
+  add_foreign_key "coin_excluded_countries", "coins"
+  add_foreign_key "coin_excluded_countries", "countries"
   add_foreign_key "contributor_submissions", "submission_categories"
   add_foreign_key "contributor_submissions", "users", on_delete: :cascade
   add_foreign_key "daily_prices", "coins"
   add_foreign_key "hourly_prices", "coins"
+  add_foreign_key "influencers", "coins"
 end
