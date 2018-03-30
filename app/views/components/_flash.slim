@@ -1,5 +1,5 @@
 - flash.each do |type, message|
-  .alert(class=bootstrap_class_for(type.to_sym))
+  div class="flash flash-#{type}"
     - if message.kind_of?(Array)
       ul
         - message.each do |m|

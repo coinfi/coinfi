@@ -1,5 +1,4 @@
-.notice,
-.alert {
+.flash {
   @extend .container;
   padding: $sp3;
   border: 1px solid $dodger;
@@ -14,7 +13,7 @@
     text-decoration: underline;
   }
 }
-.alert-warning {
+.flash-alert {
   border-color: $orange;
   color: $orange;
 }

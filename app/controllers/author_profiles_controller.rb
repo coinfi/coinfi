@@ -18,7 +18,7 @@ class AuthorProfilesController < ApplicationController
     if @profile.update(profile_params)
       args = { notice: "Profile updated" }
     else
-      args = { flash: { "alert-warning": @profile.errors.full_messages } }
+      args = { alert: @profile.errors.full_messages }
     end
     redirect_to :edit_author_profile, args
   end
