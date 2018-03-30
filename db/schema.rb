@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180330020221) do
+ActiveRecord::Schema.define(version: 20180330023221) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -163,6 +163,8 @@ ActiveRecord::Schema.define(version: 20180330020221) do
     t.decimal "ico_token_price_usd", precision: 10, scale: 2
     t.decimal "ico_token_price_btc", precision: 24, scale: 16
     t.decimal "ico_token_price_eth", precision: 24, scale: 16
+    t.string "ico_personal_cap_min"
+    t.string "ico_personal_cap_max"
     t.decimal "ico_fundraising_goal_usd", precision: 18, scale: 2
     t.decimal "ico_fundraising_goal_eth", precision: 24, scale: 16
     t.decimal "ico_fundraising_status_usd", precision: 18, scale: 2
@@ -171,15 +173,9 @@ ActiveRecord::Schema.define(version: 20180330020221) do
     t.float "ico_returns_usd"
     t.float "ico_returns_btc"
     t.float "ico_returns_eth"
-    t.jsonb "influencer"
-    t.jsonb "excluded_countries", array: true
     t.string "blockchain_tech"
     t.string "token_type"
     t.jsonb "exchanges", array: true
-    t.decimal "ico_personal_cap_usd_min", precision: 10, scale: 2
-    t.decimal "ico_personal_cap_usd_max", precision: 10, scale: 2
-    t.string "ico_personal_cap_min"
-    t.string "ico_personal_cap_max"
     t.index ["category"], name: "index_coins_on_category"
     t.index ["market_cap"], name: "index_coins_on_market_cap", using: :gin
     t.index ["price"], name: "index_coins_on_price", using: :gin
@@ -265,15 +261,23 @@ ActiveRecord::Schema.define(version: 20180330020221) do
     t.index ["volume24"], name: "index_hourly_prices_on_volume24", using: :gin
   end
 
-  create_table "influencers", force: :cascade do |t|
+  create_table "influencer_reviews", force: :cascade do |t|
     t.bigint "coin_id"
-    t.string "influencer"
+    t.bigint "influencer_id"
     t.string "url"
     t.string "rating"
     t.text "review"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["coin_id"], name: "index_influencers_on_coin_id"
+    t.index ["coin_id"], name: "index_influencer_reviews_on_coin_id"
+    t.index ["influencer_id"], name: "index_influencer_reviews_on_influencer_id"
+  end
+
+  create_table "influencers", force: :cascade do |t|
+    t.string "name"
+    t.string "website"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "submission_categories", force: :cascade do |t|
@@ -363,11 +367,12 @@ ActiveRecord::Schema.define(version: 20180330020221) do
   end
 
   add_foreign_key "articles", "coins"
-  add_foreign_key "coin_excluded_countries", "coins"
-  add_foreign_key "coin_excluded_countries", "countries"
+  add_foreign_key "coin_excluded_countries", "coins", on_delete: :cascade
+  add_foreign_key "coin_excluded_countries", "countries", on_delete: :cascade
   add_foreign_key "contributor_submissions", "submission_categories"
   add_foreign_key "contributor_submissions", "users", on_delete: :cascade
   add_foreign_key "daily_prices", "coins"
   add_foreign_key "hourly_prices", "coins"
-  add_foreign_key "influencers", "coins"
+  add_foreign_key "influencer_reviews", "coins", on_delete: :cascade
+  add_foreign_key "influencer_reviews", "influencers", on_delete: :cascade
 end

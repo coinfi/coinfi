@@ -1,3 +1,3 @@
 class Influencer < ApplicationRecord
-  belongs_to :coin
+  has_many :influencer_reviews
 end

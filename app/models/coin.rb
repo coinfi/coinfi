@@ -6,6 +6,10 @@ class Coin < ApplicationRecord
   has_many :daily_prices
   has_many :hourly_prices
 
+  has_many :influencer_reviews
+  has_many :coin_excluded_countries
+  has_many :excluded_countries, through: :coin_excluded_countries
+
   validates :name, uniqueness: true
   validates :symbol, uniqueness: true
 
