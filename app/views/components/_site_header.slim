@@ -1,0 +1,9 @@
+.h5e.w-100.phr.bg-tiber.flex.items-center
+  .container.pv1.flex.justify-between.items-center
+    a.block.flex-none href="/"
+      img.w5e src=image_path('logo.svg')
+    .flex.items-center.reveal-m
+      = render partial: 'components/main_nav', locals: { klass: 'nav-horizontal nav-dark nav-sm mh4' }
+      = render partial: 'components/user_actions', locals: { klass: 'tr flex-none' }
+    button.conceal-m.f3.white.mobile-nav-toggle
+      i.fas.fa-bars

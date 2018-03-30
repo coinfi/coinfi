@@ -1,6 +1,10 @@
 * {
   outline: none;
 }
+a,
+a > * {
+  cursor: pointer;
+}
 body {
   font-family: $sans-serif;
   @extend .min-vh-100;

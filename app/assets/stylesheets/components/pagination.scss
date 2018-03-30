@@ -1,0 +1,19 @@
+.pagination {
+  list-style: none;
+  padding-left: 0;
+  margin: $sp4 0;
+  li {
+    margin: 0 $sp1;
+    display: inline-block;
+    a {
+      @extend .btn;
+      @extend .btn-sm;
+      @extend .btn-white;
+    }
+    &.active {
+      a {
+        @extend .btn-blue;
+      }
+    }
+  }
+}

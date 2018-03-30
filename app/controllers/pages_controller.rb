@@ -4,6 +4,7 @@ class PagesController < ApplicationController
     @page = params[:id] || 'home'
     render_404 unless page_known?
     render_403 and return if member_page? && !current_user
+    @hide_subheader = true if @page == 'home'
     render "pages/#{@page}"
   end
 
