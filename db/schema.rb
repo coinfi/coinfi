@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180330023221) do
+ActiveRecord::Schema.define(version: 20180330071456) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -122,7 +122,7 @@ ActiveRecord::Schema.define(version: 20180330023221) do
 
   create_table "coins", force: :cascade do |t|
     t.string "name", null: false
-    t.string "symbol", null: false
+    t.string "symbol"
     t.string "slug"
     t.string "category"
     t.jsonb "market_cap"
