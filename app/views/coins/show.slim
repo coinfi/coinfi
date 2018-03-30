@@ -11,24 +11,33 @@
           = "Last updated: #{time_ago_in_words(Time.at(@data["last_updated"].to_i))} ago"
         .bg-tiber.pa4.flex.flex-wrap.justify-center.flex-auto
           = render partial: 'links'
-      .col-xs-12.col-md-8
+      .col-xs-12.col-md-8.flex
         .bg-white
           section.pl2-m.pt3
-            #chart
+            - if @coin.is_listed?
+              #chart
+            - else
+              .row.tc.pv4
+                .col-xs-12.col-md-6
+                  img src=image_path('charts-placeholder.jpg')
+                .col-xs-12.col-md-6.md-reveal
+                  img src=image_path('charts-placeholder.jpg')
           section.phr.pv4
             .tab-area
               .tabs.mb4
                 .tab data-position=1 
                   = "#{@coin.symbol} related news"
-                .tab data-position=2
-                  | Twitter
-                .tab data-position=3
-                  | Reddit
+                - if @coin.twitter.present?
+                  .tab data-position=2
+                    | Twitter
+                - if @coin.reddit.present?
+                  .tab data-position=3
+                    | Reddit
               .tab-content data-position=1
                 = render partial: 'news'
-              .tab-content data-position=2
-                - if @coin.twitter.present?
+              - if @coin.twitter.present?
+                .tab-content data-position=2
                   #twitter-feed data-user=@coin.twitter
-              .tab-content data-position=3
-                - if @coin.reddit.present?
+              - if @coin.reddit.present?
+                .tab-content data-position=3
                   #reddit-feed data-subreddit=@coin.reddit
