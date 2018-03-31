@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180330071456) do
+ActiveRecord::Schema.define(version: 20180331043729) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -176,6 +176,7 @@ ActiveRecord::Schema.define(version: 20180330071456) do
     t.string "blockchain_tech"
     t.string "token_type"
     t.jsonb "exchanges", array: true
+    t.string "logo_url"
     t.index ["category"], name: "index_coins_on_category"
     t.index ["market_cap"], name: "index_coins_on_market_cap", using: :gin
     t.index ["price"], name: "index_coins_on_price", using: :gin
