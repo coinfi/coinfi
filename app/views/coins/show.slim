@@ -34,7 +34,7 @@
             .tab data-position=3
               | Reddit
           .tab-content data-position=1
-            = render partial: 'news'
+            = render partial: 'articles', locals: { articles: @latest_news }
           .tab-content data-position=2
             - if @coin.twitter.present?
               #twitter-feed data-user=@coin.twitter

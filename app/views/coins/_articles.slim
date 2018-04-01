@@ -1,7 +1,7 @@
-- if @latest_news.empty?
+- if articles.empty?
   | No news yet, check back soon.
 - else
-  - @latest_news.each_with_index do |item, index|
+  - articles.each_with_index do |item, index|
     a.box.tiber.mb4 href=item.url
       .f7= pretty_date(item.published_date)
       h4.fw6.mv3.f3.f2-l= item.title
