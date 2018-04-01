@@ -3,9 +3,7 @@
     .col-xs-12.col-md-4.flex.flex-column
       .bg-white
         .bg-white.pa3.tr
-          button.btn.btn-xs.btn-gray
-            i.fas.fa-plus.mr1
-            | Watch
+          .watchlist-button data-coin-id=@coin.id
         .pa4.pt0
           .flex.justify-center.items-center.mb3
             - if @coin.image_url

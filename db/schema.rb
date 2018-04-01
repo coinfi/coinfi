@@ -10,20 +10,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180326043054) do
+ActiveRecord::Schema.define(version: 20180330075054) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+  enable_extension "pg_stat_statements"
 
-  create_table "ahoy_events", force: :cascade do |t|
+  create_table "ahoy_events", id: false, force: :cascade do |t|
+    t.bigserial "id", null: false
     t.integer "visit_id"
     t.integer "user_id"
     t.string "name"
     t.jsonb "properties"
     t.datetime "time"
-    t.index ["name", "time"], name: "index_ahoy_events_on_name_and_time"
-    t.index ["user_id", "name"], name: "index_ahoy_events_on_user_id_and_name"
-    t.index ["visit_id", "name"], name: "index_ahoy_events_on_visit_id_and_name"
   end
 
   create_table "articles", force: :cascade do |t|
@@ -36,8 +35,6 @@ ActiveRecord::Schema.define(version: 20180326043054) do
     t.decimal "importance"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["coin_id"], name: "index_articles_on_coin_id"
-    t.index ["importance"], name: "index_articles_on_importance"
   end
 
   create_table "author_profiles", force: :cascade do |t|
@@ -56,17 +53,17 @@ ActiveRecord::Schema.define(version: 20180326043054) do
     t.index ["user_id"], name: "index_author_profiles_on_user_id"
   end
 
-  create_table "blazer_audits", force: :cascade do |t|
+  create_table "blazer_audits", id: false, force: :cascade do |t|
+    t.bigserial "id", null: false
     t.bigint "user_id"
     t.bigint "query_id"
     t.text "statement"
     t.string "data_source"
     t.datetime "created_at"
-    t.index ["query_id"], name: "index_blazer_audits_on_query_id"
-    t.index ["user_id"], name: "index_blazer_audits_on_user_id"
   end
 
-  create_table "blazer_checks", force: :cascade do |t|
+  create_table "blazer_checks", id: false, force: :cascade do |t|
+    t.bigserial "id", null: false
     t.bigint "creator_id"
     t.bigint "query_id"
     t.string "state"
@@ -77,29 +74,27 @@ ActiveRecord::Schema.define(version: 20180326043054) do
     t.datetime "last_run_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["creator_id"], name: "index_blazer_checks_on_creator_id"
-    t.index ["query_id"], name: "index_blazer_checks_on_query_id"
   end
 
-  create_table "blazer_dashboard_queries", force: :cascade do |t|
+  create_table "blazer_dashboard_queries", id: false, force: :cascade do |t|
+    t.bigserial "id", null: false
     t.bigint "dashboard_id"
     t.bigint "query_id"
     t.integer "position"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["dashboard_id"], name: "index_blazer_dashboard_queries_on_dashboard_id"
-    t.index ["query_id"], name: "index_blazer_dashboard_queries_on_query_id"
   end
 
-  create_table "blazer_dashboards", force: :cascade do |t|
+  create_table "blazer_dashboards", id: false, force: :cascade do |t|
+    t.bigserial "id", null: false
     t.bigint "creator_id"
     t.text "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["creator_id"], name: "index_blazer_dashboards_on_creator_id"
   end
 
-  create_table "blazer_queries", force: :cascade do |t|
+  create_table "blazer_queries", id: false, force: :cascade do |t|
+    t.bigserial "id", null: false
     t.bigint "creator_id"
     t.string "name"
     t.text "description"
@@ -107,7 +102,6 @@ ActiveRecord::Schema.define(version: 20180326043054) do
     t.string "data_source"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["creator_id"], name: "index_blazer_queries_on_creator_id"
   end
 
   create_table "coins", force: :cascade do |t|
@@ -168,11 +162,13 @@ ActiveRecord::Schema.define(version: 20180326043054) do
     t.string "blockchain_tech"
     t.string "token_type"
     t.jsonb "exchanges", array: true
-    t.index ["category"], name: "index_coins_on_category"
-    t.index ["market_cap"], name: "index_coins_on_market_cap", using: :gin
-    t.index ["price"], name: "index_coins_on_price", using: :gin
-    t.index ["slug"], name: "index_coins_on_slug"
-    t.index ["volume24"], name: "index_coins_on_volume24", using: :gin
+  end
+
+  create_table "coins_watchlists", id: false, force: :cascade do |t|
+    t.bigint "watchlist_id", null: false
+    t.bigint "coin_id", null: false
+    t.index ["coin_id"], name: "index_coins_watchlists_on_coin_id"
+    t.index ["watchlist_id"], name: "index_coins_watchlists_on_watchlist_id"
   end
 
   create_table "contributor_submissions", force: :cascade do |t|
@@ -198,26 +194,19 @@ ActiveRecord::Schema.define(version: 20180326043054) do
     t.jsonb "volume24"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["coin_id", "date"], name: "index_daily_prices_on_coin_id_and_date", unique: true
-    t.index ["coin_id"], name: "index_daily_prices_on_coin_id"
-    t.index ["date"], name: "index_daily_prices_on_date"
-    t.index ["price"], name: "index_daily_prices_on_price", using: :gin
-    t.index ["volume24"], name: "index_daily_prices_on_volume24", using: :gin
   end
 
-  create_table "friendly_id_slugs", force: :cascade do |t|
+  create_table "friendly_id_slugs", id: false, force: :cascade do |t|
+    t.bigserial "id", null: false
     t.string "slug", null: false
     t.integer "sluggable_id", null: false
     t.string "sluggable_type", limit: 50
     t.string "scope"
     t.datetime "created_at"
-    t.index ["slug", "sluggable_type", "scope"], name: "index_friendly_id_slugs_on_slug_and_sluggable_type_and_scope", unique: true
-    t.index ["slug", "sluggable_type"], name: "index_friendly_id_slugs_on_slug_and_sluggable_type"
-    t.index ["sluggable_id"], name: "index_friendly_id_slugs_on_sluggable_id"
-    t.index ["sluggable_type"], name: "index_friendly_id_slugs_on_sluggable_type"
   end
 
-  create_table "histo_hours", force: :cascade do |t|
+  create_table "histo_hours", id: false, force: :cascade do |t|
+    t.bigserial "id", null: false
     t.string "from_symbol"
     t.string "to_symbol"
     t.integer "time"
@@ -227,11 +216,10 @@ ActiveRecord::Schema.define(version: 20180326043054) do
     t.decimal "open"
     t.decimal "volumefrom"
     t.decimal "volumeto"
-    t.index ["from_symbol"], name: "index_histo_hours_on_from_symbol"
-    t.index ["time"], name: "index_histo_hours_on_time"
   end
 
-  create_table "hourly_prices", force: :cascade do |t|
+  create_table "hourly_prices", id: false, force: :cascade do |t|
+    t.bigserial "id", null: false
     t.bigint "coin_id"
     t.datetime "datetime"
     t.bigint "timestamp"
@@ -240,10 +228,6 @@ ActiveRecord::Schema.define(version: 20180326043054) do
     t.jsonb "volume24"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["coin_id", "datetime"], name: "index_hourly_prices_on_coin_id_and_datetime", unique: true
-    t.index ["coin_id"], name: "index_hourly_prices_on_coin_id"
-    t.index ["price"], name: "index_hourly_prices_on_price", using: :gin
-    t.index ["volume24"], name: "index_hourly_prices_on_volume24", using: :gin
   end
 
   create_table "submission_categories", force: :cascade do |t|
@@ -260,21 +244,11 @@ ActiveRecord::Schema.define(version: 20180326043054) do
     t.integer "tagger_id"
     t.string "context", limit: 128
     t.datetime "created_at"
-    t.index ["context"], name: "index_taggings_on_context"
-    t.index ["tag_id", "taggable_id", "taggable_type", "context", "tagger_id", "tagger_type"], name: "taggings_idx", unique: true
-    t.index ["tag_id"], name: "index_taggings_on_tag_id"
-    t.index ["taggable_id", "taggable_type", "context"], name: "index_taggings_on_taggable_id_and_taggable_type_and_context"
-    t.index ["taggable_id", "taggable_type", "tagger_id", "context"], name: "taggings_idy"
-    t.index ["taggable_id"], name: "index_taggings_on_taggable_id"
-    t.index ["taggable_type"], name: "index_taggings_on_taggable_type"
-    t.index ["tagger_id", "tagger_type"], name: "index_taggings_on_tagger_id_and_tagger_type"
-    t.index ["tagger_id"], name: "index_taggings_on_tagger_id"
   end
 
   create_table "tags", id: :serial, force: :cascade do |t|
     t.string "name"
     t.integer "taggings_count", default: 0
-    t.index ["name"], name: "index_tags_on_name", unique: true
   end
 
   create_table "users", force: :cascade do |t|
@@ -294,10 +268,6 @@ ActiveRecord::Schema.define(version: 20180326043054) do
     t.string "uid"
     t.jsonb "token_sale"
     t.string "username"
-    t.index ["email"], name: "index_users_on_email", unique: true
-    t.index ["provider"], name: "index_users_on_provider"
-    t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
-    t.index ["uid"], name: "index_users_on_uid"
     t.index ["username"], name: "index_users_on_username"
   end
 
@@ -328,13 +298,13 @@ ActiveRecord::Schema.define(version: 20180326043054) do
     t.string "utm_content"
     t.string "utm_campaign"
     t.datetime "started_at"
-    t.index ["user_id"], name: "index_visits_on_user_id"
-    t.index ["visit_token"], name: "index_visits_on_visit_token", unique: true
   end
 
-  add_foreign_key "articles", "coins"
+  create_table "watchlists", force: :cascade do |t|
+    t.bigint "user_id"
+    t.index ["user_id"], name: "index_watchlists_on_user_id"
+  end
+
   add_foreign_key "contributor_submissions", "submission_categories"
   add_foreign_key "contributor_submissions", "users", on_delete: :cascade
-  add_foreign_key "daily_prices", "coins"
-  add_foreign_key "hourly_prices", "coins"
 end

@@ -8,3 +8,4 @@
  */
 import './modules/coins'
 import './modules/navigation'
+import './modules/watchlist'

@@ -5,6 +5,7 @@ class User < ApplicationRecord
   has_many :contributor_submissions
   has_one :author_profile, inverse_of: :user
   accepts_nested_attributes_for :author_profile
+  has_one :watchlist, inverse_of: :user
 
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable

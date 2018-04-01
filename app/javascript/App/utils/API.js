@@ -1,9 +1,33 @@
 import axios from 'axios'
 
-const get = path => {
+const request = (path, data = {}, remote = true, type = 'get') => {
+  let config = {}
+  let endpoint = ''
+  if (remote) {
+    endpoint = process.env['COINFI_PRICES_URL']
+  } else {
+    config = {
+      headers: {
+        'X-CSRF-Token': document
+          .querySelector('meta[name="csrf-token"]')
+          .getAttribute('content')
+      }
+    }
+  }
+  const url = `${endpoint}${path}`
   return new Promise(resolve => {
-    axios
-      .get(`${process.env['COINFI_PRICES_URL']}${path}`)
+    if (type === 'delete') {
+      axios
+        .delete(url, { data, headers: config.headers })
+        .then(data => {
+          resolve(data)
+        })
+        .catch(error => {
+          console.log(error)
+        })
+      return
+    }
+    axios[type](url, data, config)
       .then(data => {
         resolve(data)
       })
@@ -13,4 +37,17 @@ const get = path => {
   })
 }
 
-export default { get }
+export default {
+  get(path, data, remote) {
+    return request(path, data, remote, 'get')
+  },
+  post(path, data, remote) {
+    return request(path, data, remote, 'post')
+  },
+  patch(path, data, remote) {
+    return request(path, data, remote, 'patch')
+  },
+  delete(path, data, remote) {
+    return request(path, data, remote, 'delete')
+  }
+}

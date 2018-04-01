@@ -1,10 +1,10 @@
-class SocialFeedsController < ApplicationController
+class Api::SocialFeedsController < ApplicationController
+
+  respond_to :json
 
   def tweets_by_user
     tweets = twitter_client.user_timeline(params[:user])
-    respond_to do |format|
-      format.json { render json: tweets }
-    end
+    respond_success tweets
   end
 
   private

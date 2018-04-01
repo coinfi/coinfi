@@ -37,11 +37,18 @@ Rails.application.routes.draw do
 
   resources :coins, only: [:index, :show]
   get '/coins/:id/historical_data', to: 'coins#historical_data'
-  get '/social_feeds/tweets_by_user', to: 'social_feeds#tweets_by_user'
   resources :contributor_submissions, path: 'contributor-submissions'
   get '/profile', to: 'author_profiles#edit', as: 'edit_author_profile'
   resources :author_profiles, only: [:index, :show, :create, :update], path: 'authors'
-  get '/watchlist', to: 'watchlist#show', as: 'watchlist'
+
+  namespace :api, constraints: { format: 'json' } do
+    scope :watchlist do
+      get '/coins/:id', to: 'watchlist#show_coin'
+      post '/coins/:id', to: 'watchlist#add_coin'
+      delete '/coins/:id', to: 'watchlist#remove_coin'
+    end
+    get '/social_feeds/tweets_by_user', to: 'social_feeds#tweets_by_user'
+  end
 
   root to: 'pages#show'
   get '/:id', to: 'pages#show'
