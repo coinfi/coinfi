@@ -8,7 +8,8 @@
         - else
           = render partial: 'stats_ico'
         .bg-white.tc.f7.pa4.mb2
-          = "Last updated: #{time_ago_in_words(Time.at(@data["last_updated"].to_i))} ago"
+          - last_update = @data["last_updated"].presence || @coin.updated_at
+          = "Last updated: #{distance_of_time_in_words(Integer(last_update), Time.now)} ago"
         .bg-tiber.pa4.flex.flex-wrap.justify-center.flex-auto
           = render partial: 'links'
       .col-xs-12.col-md-8.flex
@@ -25,7 +26,7 @@
           section.phr.pv4
             .tab-area
               .tabs.mb4
-                .tab data-position=1 
+                .tab data-position=1
                   = "#{@coin.symbol} related news"
                 - if @coin.twitter.present?
                   .tab data-position=2
