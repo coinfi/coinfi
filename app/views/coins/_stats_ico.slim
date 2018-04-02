@@ -1,0 +1,43 @@
+.bg-white.mb2.pa4
+  .row.mtn4
+    .stat-block.col-xs-6.col-sm-3.col-md-12.col-lg-6.mt4
+      label Total Supply
+      = @coin.max_supply || '-'
+    .stat-block.col-xs-6.col-sm-3.col-md-12.col-lg-6.mt4
+      label ICO Price
+      - if @coin.ico_token_price_usd
+        = number_to_currency(@coin.ico_token_price_usd)
+        .dib.f7.ml1 USD
+      - else
+        | -
+    .stat-block.col-xs-6.col-sm-3.col-md-12.col-lg-6.mt4
+      label Personal Min
+      = @coin.ico_personal_cap_min || '-'
+    .stat-block.col-xs-6.col-sm-3.col-md-12.col-lg-6.mt4
+      label Personal Max
+      = @coin.ico_personal_cap_max || '-'
+    .stat-block.col-xs-6.col-sm-3.col-md-12.col-lg-6.mt4
+      label Start Date
+      - if @coin.ico_start_date
+        = DateTime.strptime(@coin.ico_start_date.to_s, '%s').strftime('%B %e, %Y')
+      - else
+        | -
+    .stat-block.col-xs-6.col-sm-3.col-md-12.col-lg-6.mt4
+      label End Date
+      - if @coin.ico_end_date
+        = DateTime.strptime(@coin.ico_end_date.to_s, '%s').strftime('%B %e, %Y')
+      - else
+        | -
+    .stat-block.col-xs-6.col-sm-3.col-md-12.col-lg-6.mt4
+      label Blockchain
+      - if @coin.blockchain_tech
+        = "#{@coin.blockchain_tech} (#{@coin.token_type})"
+      - else
+        | -
+    .stat-block.col-xs-6.col-sm-3.col-md-12.col-lg-6.mt4
+      label Excluded Countries
+      = @coin.excluded_countries.map { |country| country.name }.try(:join, ', ') || '-'
+    /- if @coin.smart_contract_address
+      .stat-block.col-xs-6.col-sm-3.col-md-12.col-lg-6.mt4
+        label Smart Contract Address
+        = @coin.smart_contract_address
