@@ -1,15 +1,18 @@
-class Api::WatchlistController < ApplicationController
+class Api::Watchlist::CoinsController < ApiController
 
-  respond_to :json
+  include Api::Watchlist::Concerns
   before_action :authenticate_user!
-  before_action :set_watchlist
 
-  def show_coin
+  def index
+    respond_success serialized(@watchlist.coins)
+  end
+
+  def show
     @coin = @watchlist.coins.find_by_id(params[:id])
     respond_success @coin || {}
   end
 
-  def add_coin
+  def create
     @coin = Coin.find(params[:id])
     if @watchlist.coins.find_by_id(@coin.id)
       respond_warning "Coin already added"
@@ -20,7 +23,7 @@ class Api::WatchlistController < ApplicationController
     end
   end
 
-  def remove_coin
+  def destroy
     if @coin = @watchlist.coins.find_by_id(params[:id])
       @watchlist.coins.delete(@coin)
       respond_success "Coin removed from watchlist"
@@ -31,9 +34,8 @@ class Api::WatchlistController < ApplicationController
 
   private
 
-  def set_watchlist
-    @watchlist = current_user.watchlist
-    @watchlist = Watchlist.create(user:current_user) unless @watchlist
+  def serialized obj
+    obj.as_json(only: [:id, :name, :image_url])
   end
 
 end

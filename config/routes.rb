@@ -38,10 +38,9 @@ Rails.application.routes.draw do
   end
 
   namespace :api, constraints: { format: 'json' } do
-    scope :watchlist do
-      get '/coins/:id', to: 'watchlist#show_coin'
-      post '/coins/:id', to: 'watchlist#add_coin'
-      delete '/coins/:id', to: 'watchlist#remove_coin'
+    namespace :watchlist do
+      resources :coins, except: [ :edit, :update, :new ]
+      resources :articles, only: [ :index ]
     end
     get '/social_feeds/tweets_by_user', to: 'social_feeds#tweets_by_user'
   end
@@ -51,7 +50,6 @@ Rails.application.routes.draw do
   resources :contributor_submissions, path: 'contributor-submissions'
   get '/profile', to: 'author_profiles#edit', as: 'edit_author_profile'
   resources :author_profiles, only: [:index, :show, :create, :update], path: 'authors'
-  get '/watchlist', to: 'watchlist#show'
 
   root to: 'pages#show'
   get '/:id', to: 'pages#show'

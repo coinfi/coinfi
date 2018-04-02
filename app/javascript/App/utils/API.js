@@ -2,7 +2,7 @@ import axios from 'axios'
 
 const request = (path, data = {}, remote = true, type = 'get') => {
   let config = {}
-  let endpoint = ''
+  let endpoint = '/api'
   if (remote) {
     endpoint = process.env['COINFI_PRICES_URL']
   } else {
@@ -19,8 +19,9 @@ const request = (path, data = {}, remote = true, type = 'get') => {
     if (type === 'delete') {
       axios
         .delete(url, { data, headers: config.headers })
-        .then(data => {
-          resolve(data)
+        .then(response => {
+          const d = remote ? response : response.data
+          resolve(d)
         })
         .catch(error => {
           console.log(error)
@@ -28,8 +29,9 @@ const request = (path, data = {}, remote = true, type = 'get') => {
       return
     }
     axios[type](url, data, config)
-      .then(data => {
-        resolve(data)
+      .then(response => {
+        const d = remote ? response : response.data
+        resolve(d)
       })
       .catch(error => {
         console.log(error)
