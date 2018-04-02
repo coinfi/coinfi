@@ -4,7 +4,7 @@ import normalize from './normalize'
 
 const WatchlistContainer = Component => {
   class HOC extends React.Component {
-    state = { coins: {}, articles: {} }
+    state = { coins: {}, articles: {}, tags: {} }
     fetchCoins = () => {
       API.get('/watchlist/coins.json').then(({ payload }) => {
         this.setState(normalize.coins(payload))
@@ -20,9 +20,8 @@ const WatchlistContainer = Component => {
       this.fetchArticles()
     }
     render() {
-      const { coins, articles } = this.state
-      const pProps = { coins, articles }
-      return <Component {...pProps} />
+      console.log(this.state)
+      return <Component {...this.state} />
     }
   }
   return HOC

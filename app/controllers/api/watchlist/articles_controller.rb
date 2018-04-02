@@ -10,7 +10,7 @@ class Api::Watchlist::ArticlesController < ApiController
   private
 
   def serialized obj
-    obj.as_json(only: [:id, :title, :summary, :published_date, :url])
+    obj.as_json(only: [:id, :title, :summary, :published_date, :url], include: :tags)
   end
 
 end
