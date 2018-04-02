@@ -14,12 +14,4 @@ class CoinsController < ApplicationController
     @latest_news = @coin.articles.latest_news
     @upcoming_events = @coin.articles.upcoming_events
   end
-
-  def historical_data
-    @currency = params[:currency] || 'usd'
-    coin = Coin.find(params[:id])
-    @prices = coin.daily_prices.for_currency(@currency)
-    @news = coin.articles.chart_data
-  end
-
 end
