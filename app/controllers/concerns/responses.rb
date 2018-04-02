@@ -14,25 +14,25 @@ module Responses
   end
 
   def respond_success payload = nil, message = nil
-    respond_with build_response(payload, message)
+    json_response payload, message, 'success'
   end
 
   def respond_warning message, payload = nil
-    respond_with build_response(payload, message, 'warning'), 400
+    json_response payload, message, 'warning'
   end
 
   def respond_error message, payload = nil
-    respond_with build_response(payload, message, 'error'), 400
+    json_response payload, message, 'error', 400
   end
 
   def respond_unfound message = nil
-    respond_with build_response(nil, message, 'not_found'), 404
+    json_response nil, message, 'not_found'
   end
 
   private
 
-  def respond_with json, status = 200
-    render json: json, status: status
+  def json_response message, payload, type, status = 200
+    render json: build_response(message, payload, type), status: status
   end
 
   def build_response payload = nil, message = nil, type = 'success'

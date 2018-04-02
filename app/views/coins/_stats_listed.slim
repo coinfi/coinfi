@@ -1,0 +1,49 @@
+.bg-white.pa4.mb2
+  .row.mtn4
+    .stat-block.col-xs-6.col-sm-3.col-md-12.col-lg-6.mt4
+      label Volume
+      = number_to_human(@data["24h_volume_usd"], number_to_human_options)
+    .stat-block.col-xs-6.col-sm-3.col-md-12.col-lg-6.mt4
+      label Circulation
+      = number_to_human(@data["available_supply"], number_to_human_options)
+      .dib.f7.ml1= @coin.symbol
+    .stat-block.col-xs-6.col-sm-3.col-md-12.col-lg-6.mt4
+      label Market Cap
+      - cap = @data["market_cap_usd"]
+      - if cap
+        = "$#{number_to_human(cap, number_to_human_options)}"
+        .dib.f7.ml1 USD
+      - else
+        | N/A
+    .stat-block.col-xs-6.col-sm-3.col-md-12.col-lg-6.mt4
+      label Total Supply
+      - supply = @data["total_supply"]
+      - if supply
+        = number_to_human(supply, number_to_human_options)
+        .dib.f7.ml1= @coin.symbol
+      - else
+        | N/A
+- if @coin.ico_token_price_usd || @coin.ico_returns_usd || @coin.ico_start_date || @coin.blockchain_tech
+  .bg-white.pa4.mb2
+    .row.mtn4
+      - if @coin.ico_token_price_usd
+        .stat-block.col-xs-6.col-sm-3.col-md-12.col-lg-6.mt4
+          label ICO Price
+          = "$#{@coin.ico_token_price_usd}"
+          .dib.f7.ml1 USD
+      - if @coin.ico_returns_usd
+        .stat-block.col-xs-6.col-sm-3.col-md-12.col-lg-6.mt4
+          label ICO Returns
+          = "$#{@coin.ico_returns_usd}"
+          .dib.f7.ml1 USD
+      - if @coin.ico_start_date
+        .stat-block.col-xs-6.col-sm-3.col-md-12.col-lg-6.mt4
+          label Release Date
+          - if @coin.ico_start_date.is_a?(Integer)
+            = DateTime.strptime(@coin.ico_start_date.to_s, '%s').strftime('%B %e, %Y')
+          - else
+            = @coin.ico_start_date
+      - if @coin.blockchain_tech
+        .stat-block.col-xs-6.col-sm-3.col-md-12.col-lg-6.mt4
+          label Blockchain
+          = @coin.blockchain_tech

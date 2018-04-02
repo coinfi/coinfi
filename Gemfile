@@ -35,6 +35,8 @@ gem 'jbuilder', '~> 2.5'
 gem 'acts-as-taggable-on'
 gem 'administrate'
 gem 'administrate-field-belongs_to_search'
+gem 'administrate-field-json', github: 'eddietejeda/administrate-field-json'
+gem 'administrate-field-nested_has_many', github: 'nickcharlton/administrate-field-nested_has_many'
 gem 'aws-sdk', '~> 2'
 gem 'convertkit-ruby', require: 'convertkit', git: 'https://github.com/hanchang/convertkit-ruby.git'
 gem 'cryptocompare'
@@ -59,7 +61,6 @@ gem 'unidecoder'
 gem 'wombat'
 gem 'twitter'
 gem 'webpacker', '~> 3.3'
-gem 'fast_jsonapi'
 
 # Devise needs to be in front of Ahoy in the Gemfile to have Ahoy automatically update Visit with User ID:
 # https://github.com/ankane/ahoy/issues/12

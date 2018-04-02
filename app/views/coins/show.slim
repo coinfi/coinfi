@@ -1,43 +1,44 @@
-.container
-  .row.no-gutter.flex
-    .col-xs-12.col-md-4.flex.flex-column
-      .bg-white
-        .bg-white.pa3.tr
-          .watchlist-button data-coin-id=@coin.id
-        .pa4.pt0
-          .flex.justify-center.items-center.mb3
-            - if @coin.image_url
-              img.w4e.mr3.a1 src=@coin.image_url alt=@coin.name
-            h1.ma0.lh-solid
-              span.fw4= @coin.name
-              span#symbol.ml3.f6.fw9.arial= @coin.symbol
-          .f3.tc
-            => custom_number_to_currency @data["price_usd"].to_f
-            small
-              strong== display_percentage_change(@data["percent_change_24h"].to_f)
-      .bg-athens.pa4
-        = render partial: 'stats'
-      .bg-athens-dark.pa4
-        = render partial: 'stats2'
-      .bg-tiber.pa4.flex.flex-wrap.justify-center.flex-auto
-        = render partial: 'links'
-    .col-xs-12.col-md-8.bg-gradient--fl1
-      section.pl2-m.pt3
-        #chart
-      section.phr.pv4
-        .tab-area
-          .tabs.mb4
-            .tab data-position=1 
-              = "#{@coin.symbol} related news"
-            .tab data-position=2
-              | Twitter
-            .tab data-position=3
-              | Reddit
-          .tab-content data-position=1
-            = render partial: 'articles', locals: { articles: @latest_news }
-          .tab-content data-position=2
-            - if @coin.twitter.present?
-              #twitter-feed data-user=@coin.twitter
-          .tab-content data-position=3
-            - if @coin.reddit.present?
-              #reddit-feed data-subreddit=@coin.reddit
+.bg-athens
+  .container
+    .row.narrow-gutter.flex
+      .col-xs-12.col-md-4.flex.flex-column
+        = render partial: 'header'
+        - if @coin.is_listed?
+          = render partial: 'stats_listed'
+        - else
+          = render partial: 'stats_ico'
+        .bg-white.tc.f7.pa4.mb2
+          - last_update = @data["last_updated"].presence || @coin.updated_at
+          = "Last updated: #{distance_of_time_in_words(Integer(last_update), Time.now)} ago"
+        .bg-tiber.pa4.flex.flex-wrap.justify-center.flex-auto
+          = render partial: 'links'
+      .col-xs-12.col-md-8.flex
+        .bg-white.w-100
+          section.pl2-m.pt3
+            - if @coin.is_listed?
+              #chart
+            - else
+              .row.tc.pv4
+                .col-xs-12.col-md-6
+                  img src=image_path('charts-placeholder.jpg')
+                .col-xs-12.col-md-6.md-reveal
+                  img src=image_path('charts-placeholder.jpg')
+          section.phr.pv4
+            .tab-area
+              .tabs.mb4
+                .tab data-position=1
+                  = "#{@coin.symbol} related news"
+                - if @coin.twitter.present?
+                  .tab data-position=2
+                    | Twitter
+                - if @coin.reddit.present?
+                  .tab data-position=3
+                    | Reddit
+              .tab-content data-position=1
+                = render partial: 'articles', locals: { articles: @latest_news }
+              - if @coin.twitter.present?
+                .tab-content data-position=2
+                  #twitter-feed data-user=@coin.twitter
+              - if @coin.reddit.present?
+                .tab-content data-position=3
+                  #reddit-feed data-subreddit=@coin.reddit
