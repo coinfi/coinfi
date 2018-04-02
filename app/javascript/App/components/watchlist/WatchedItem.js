@@ -12,7 +12,10 @@ export default ({ coin }) => {
           <span className="ml3 f6 fw9 arial">{coin.symbol}</span>
         </h1>
       </div>
-      <div className="f3" />
+      <div className="f3">
+        {coin.market_data.price_usd}
+        ({coin.market_data.percent_change_24h}%)
+      </div>
     </div>
   )
 }

@@ -11,8 +11,10 @@ export default ({ article, tags }) => {
       <div className="pt1 lh-copy">{article.summary}</div>
       {article.tags.length > 0 && (
         <div className="mt3">
-          {article.tags.map(tagID => (
-            <div className="tag">{tags[tagID].name}</div>
+          {article.tags.map(id => (
+            <div key={id} className="tag">
+              {tags[id].name}
+            </div>
           ))}
         </div>
       )}

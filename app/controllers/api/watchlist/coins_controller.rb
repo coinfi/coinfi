@@ -9,7 +9,7 @@ class Api::Watchlist::CoinsController < ApiController
 
   def show
     @coin = @watchlist.coins.find_by_id(params[:id])
-    respond_success @coin || {}
+    respond_success serialized(@coin) || {}
   end
 
   def create
@@ -34,8 +34,8 @@ class Api::Watchlist::CoinsController < ApiController
 
   private
 
-  def serialized obj
-    obj.as_json(only: [:id, :name, :image_url])
+  def serialized coin
+    coin.as_json(only: [:id, :name, :image_url, :symbol], methods: [:market_data])
   end
 
 end
