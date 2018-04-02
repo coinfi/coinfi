@@ -43,10 +43,10 @@ Rails.application.routes.draw do
       resources :articles, only: [ :index ]
     end
     get '/social_feeds/tweets_by_user', to: 'social_feeds#tweets_by_user'
+    get '/coins/:id/historical_data', to: 'coins#historical_data'
   end
 
   resources :coins, only: [:index, :show]
-  get '/coins/:id/historical_data', to: 'coins#historical_data'
   resources :contributor_submissions, path: 'contributor-submissions'
   get '/profile', to: 'author_profiles#edit', as: 'edit_author_profile'
   resources :author_profiles, only: [:index, :show, :create, :update], path: 'authors'

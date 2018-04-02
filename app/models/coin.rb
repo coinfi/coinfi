@@ -1,5 +1,6 @@
 class Coin < ApplicationRecord
   include ICO
+  include MarketData
   extend FriendlyId
   friendly_id :name, use: [:slugged, :finders]
 

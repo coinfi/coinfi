@@ -8,7 +8,7 @@ export default () => {
     let news = []
 
     const articles = $.getJSON(
-      `/coins/${friendlyID}/historical_data.json`,
+      `/api/coins/${friendlyID}/historical_data.json`,
       data => {
         news = data['news']
       }
