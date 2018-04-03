@@ -9,8 +9,7 @@ module Api::Watchlist::Concerns
   private
 
   def set_watchlist
-    @watchlist = current_user.watchlist
-    @watchlist = Watchlist.create(user:current_user) unless @watchlist
+    @watchlist = current_user.watchlist || Watchlist.create(user: current_user)
   end
 
 end
