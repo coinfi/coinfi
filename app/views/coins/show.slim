@@ -17,11 +17,7 @@
           - if @coin.is_listed?
             #chart
           - else
-            .row.tc.pv4
-              .col-xs-12.col-md-6
-                img src=image_path('charts-placeholder.jpg')
-              .col-xs-12.col-md-6.md-reveal
-                img src=image_path('charts-placeholder.jpg')
+            = render partial: 'ico_charts'
         section.phr.pv4
           .tab-area
             .tabs.mb4

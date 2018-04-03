@@ -26,7 +26,9 @@ Rails.application.routes.draw do
 
 
   namespace :admin do
-    resources :coins
+    resources :coins do
+      get 'influencers', on: :collection
+    end
     resources :articles
     resources :users
     resources :submission_categories
