@@ -10,7 +10,7 @@ class PagesController < ApplicationController
 
   private
 
-  def page_known? 
+  def page_known?
     pages.include? @page
   end
 
@@ -23,7 +23,7 @@ class PagesController < ApplicationController
   end
 
   def public_pages
-    ['home']
+    ['home', 'about']
   end
 
   def member_pages
