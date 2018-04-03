@@ -44,15 +44,17 @@ const WatchlistContainer = Component => {
       this.fetchArticles()
     }
     render() {
-      const { articles, tags } = this.state
+      const { articles, tags, category } = this.state
       const { selectCategory, searchCoins } = this
       const cProps = {
         searchCoins,
         selectCategory,
         articles,
         tags,
+        category,
         coins: this.selectedCoins()
       }
+      console.log(cProps)
       return <Component {...cProps} />
     }
   }

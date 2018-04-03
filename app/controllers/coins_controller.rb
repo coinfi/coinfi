@@ -6,7 +6,7 @@ class CoinsController < ApplicationController
 
   def show
     @coin = Coin.find(params[:id])
-    @data = @coin.market_data
+    @data = @coin.market_info
     @latest_news = @coin.articles.latest_news
     @upcoming_events = @coin.articles.upcoming_events
   end

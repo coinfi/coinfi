@@ -1,33 +1,48 @@
 import React, { Component } from 'react'
 import Container from '../containers/WatchlistContainer'
-import WatchedItem from '../components/watchlist/WatchedItem'
+import WatchedItem from '../components/WatchlistItem'
 import Article from '../components/Article'
 
 class WatchlistPage extends Component {
   render() {
-    const { coins, articles, tags, selectCategory, searchCoins } = this.props
+    const {
+      coins,
+      articles,
+      tags,
+      category,
+      selectCategory,
+      searchCoins
+    } = this.props
+    const buttonProps = name => ({
+      onClick: selectCategory(name),
+      className: `tab ${name === category ? 'tab-active' : ''}`
+    })
     return (
-      <div className="container">
-        <div className="row no-gutter flex">
+      <div className="container pv2">
+        <div className="row narrow-gutter flex">
           <div className="col-xs-12 col-md-4 flex flex-column">
-            <div className="bg-athens pa3">
-              <div>
-                <button onClick={selectCategory('listed')}>Listed Coins</button>
-                <button onClick={selectCategory('ico')}>ICO</button>
+            <div className="bg-white">
+              <div className="tabs tabs-alt">
+                <button {...buttonProps('listed')}>Listed Coins</button>
+                <button {...buttonProps('ico')}>ICO</button>
               </div>
-              <input
-                type="text"
-                onChange={({ target: { value } }) => searchCoins(value)}
-              />
+              <div className="pa3">
+                <input
+                  type="text"
+                  onChange={({ target: { value } }) => searchCoins(value)}
+                  className="input-alt tc"
+                  placeholder="Search"
+                />
+              </div>
             </div>
-            <div className="bg-white pa3">
+            <div className="bg-white mt2">
               {Object.entries(coins).map(([id, coin]) => (
                 <WatchedItem coin={coin} key={id} />
               ))}
             </div>
           </div>
           <div className="col-xs-12 col-md-8 flex">
-            <div className="bg-gradient--fl1 w-100 pa4">
+            <div className="bg-white w-100 pa4">
               {Object.entries(articles).map(([id, article]) => (
                 <Article article={article} tags={tags} key={id} />
               ))}

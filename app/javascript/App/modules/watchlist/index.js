@@ -1,6 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import WatchButton from '../../components/watchlist/WatchButton'
+import WatchButton from '../../components/WatchButton'
 import WatchlistPage from '../../pages/WatchlistPage'
 
 document.addEventListener('DOMContentLoaded', () => {
