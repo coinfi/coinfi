@@ -5,7 +5,7 @@ export default ({ number, className, ...rest }) => {
   let pol = '+'
   let klass = 'green'
   if (n < 0) {
-    pol = '-'
+    pol = ''
     klass = 'sunset'
   }
   if (className) klass = `${className} ${klass}`

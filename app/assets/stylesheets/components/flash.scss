@@ -8,6 +8,7 @@
   @extend .lh-copy;
   @extend .container;
   margin-top: $sp4;
+  flex: none;
   a {
     color: inherit;
     text-decoration: underline;
