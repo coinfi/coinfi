@@ -17,5 +17,20 @@ module Admin
 
     # See https://administrate-prototype.herokuapp.com/customizing_controller_actions
     # for more information
+
+    # TODO: Refactor when PR is merged:
+    # https://github.com/thoughtbot/administrate/pull/1096
+    # https://github.com/thoughtbot/administrate/issues/320
+    def influencers
+      page = Administrate::Page::Collection.new(dashboard)
+      resources = Coin.where(id: InfluencerReview.pluck(:coin_id)).page(params[:page]).per(records_per_page)
+      render :index, locals: { page: page, resources: resources, search_term: search_term, show_search_bar: show_search_bar? }
+    end
+
+    private
+
+    def search_term
+      params[:search].to_s.strip
+    end
   end
 end
