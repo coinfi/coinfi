@@ -11,7 +11,7 @@ module MarketData
       url = "https://api.coinmarketcap.com/v1/ticker/#{slug}/?convert=BTC"
       response = HTTParty.get(url)
       data = JSON.parse(response.body)[0] || {}
-      data["available_supply"] ||= @coin.available_supply
+      data["available_supply"] ||= self.available_supply
       data
     end
   end
