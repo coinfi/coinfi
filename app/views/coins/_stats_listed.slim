@@ -1,8 +1,9 @@
 .bg-white.pa4.mb2
   .row.mtn4
     .stat-block.col-xs-6.col-sm-3.col-md-12.col-lg-6.mt4
-      label Volume
-      = number_to_human(@data["24h_volume_usd"], number_to_human_options)
+      label Volume (24  h)
+      = "$#{number_to_human(@data["24h_volume_usd"], number_to_human_options)}"
+      .dib.f7.ml1 USD
     .stat-block.col-xs-6.col-sm-3.col-md-12.col-lg-6.mt4
       label Circulation
       = number_to_human(@data["available_supply"], number_to_human_options)
