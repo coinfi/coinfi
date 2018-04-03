@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180330075054) do
+ActiveRecord::Schema.define(version: 20180402070433) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -212,22 +212,6 @@ ActiveRecord::Schema.define(version: 20180330075054) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "daily_prices", force: :cascade do |t|
-    t.bigint "coin_id"
-    t.date "date"
-    t.bigint "timestamp"
-    t.bigint "supply"
-    t.jsonb "price"
-    t.jsonb "volume24"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["coin_id", "date"], name: "index_daily_prices_on_coin_id_and_date", unique: true
-    t.index ["coin_id"], name: "index_daily_prices_on_coin_id"
-    t.index ["date"], name: "index_daily_prices_on_date"
-    t.index ["price"], name: "index_daily_prices_on_price", using: :gin
-    t.index ["volume24"], name: "index_daily_prices_on_volume24", using: :gin
-  end
-
   create_table "friendly_id_slugs", force: :cascade do |t|
     t.string "slug", null: false
     t.integer "sluggable_id", null: false
@@ -238,35 +222,6 @@ ActiveRecord::Schema.define(version: 20180330075054) do
     t.index ["slug", "sluggable_type"], name: "index_friendly_id_slugs_on_slug_and_sluggable_type"
     t.index ["sluggable_id"], name: "index_friendly_id_slugs_on_sluggable_id"
     t.index ["sluggable_type"], name: "index_friendly_id_slugs_on_sluggable_type"
-  end
-
-  create_table "histo_hours", force: :cascade do |t|
-    t.string "from_symbol"
-    t.string "to_symbol"
-    t.integer "time"
-    t.decimal "close"
-    t.decimal "high"
-    t.decimal "low"
-    t.decimal "open"
-    t.decimal "volumefrom"
-    t.decimal "volumeto"
-    t.index ["from_symbol"], name: "index_histo_hours_on_from_symbol"
-    t.index ["time"], name: "index_histo_hours_on_time"
-  end
-
-  create_table "hourly_prices", force: :cascade do |t|
-    t.bigint "coin_id"
-    t.datetime "datetime"
-    t.bigint "timestamp"
-    t.bigint "supply"
-    t.jsonb "price"
-    t.jsonb "volume24"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["coin_id", "datetime"], name: "index_hourly_prices_on_coin_id_and_datetime", unique: true
-    t.index ["coin_id"], name: "index_hourly_prices_on_coin_id"
-    t.index ["price"], name: "index_hourly_prices_on_price", using: :gin
-    t.index ["volume24"], name: "index_hourly_prices_on_volume24", using: :gin
   end
 
   create_table "influencer_reviews", force: :cascade do |t|
@@ -384,8 +339,6 @@ ActiveRecord::Schema.define(version: 20180330075054) do
   add_foreign_key "coin_excluded_countries", "countries", on_delete: :cascade
   add_foreign_key "contributor_submissions", "submission_categories"
   add_foreign_key "contributor_submissions", "users", on_delete: :cascade
-  add_foreign_key "daily_prices", "coins"
-  add_foreign_key "hourly_prices", "coins"
   add_foreign_key "influencer_reviews", "coins", on_delete: :cascade
   add_foreign_key "influencer_reviews", "influencers", on_delete: :cascade
 end
