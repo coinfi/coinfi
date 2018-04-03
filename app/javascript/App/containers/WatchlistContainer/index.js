@@ -6,7 +6,7 @@ const WatchlistContainer = Component => {
   class HOC extends React.Component {
     state = {
       category: 'listed',
-      search: '',
+      filterText: '',
       coins: {},
       articles: {},
       tags: {}
@@ -24,17 +24,17 @@ const WatchlistContainer = Component => {
     selectCategory = category => () => {
       this.setState({ category })
     }
-    searchCoins = search => {
-      this.setState({ search })
+    filterCoins = filterText => {
+      this.setState({ filterText })
     }
-    selectedCoins = () => {
-      const { coins, category, search } = this.state
+    filteredCoins = () => {
+      const { coins, category, filterText } = this.state
       let selectedIDs = Object.keys(coins).filter(
         id => coins[id].category === category
       )
-      if (search !== '')
+      if (filterText !== '')
         selectedIDs = selectedIDs.filter(id =>
-          coins[id].name.toLowerCase().includes(search.toLowerCase())
+          coins[id].name.toLowerCase().includes(filterText.toLowerCase())
         )
       return selectedIDs.map(id => coins[id])
     }
@@ -44,14 +44,14 @@ const WatchlistContainer = Component => {
     }
     render() {
       const { articles, tags, category } = this.state
-      const { selectCategory, searchCoins } = this
+      const { selectCategory, filterCoins } = this
       const cProps = {
-        searchCoins,
+        filterCoins,
         selectCategory,
         articles,
         tags,
         category,
-        coins: this.selectedCoins()
+        coins: this.filteredCoins()
       }
       console.log(cProps)
       return <Component {...cProps} />

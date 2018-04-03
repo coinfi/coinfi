@@ -11,7 +11,7 @@ class WatchlistPage extends Component {
       tags,
       category,
       selectCategory,
-      searchCoins
+      filterCoins
     } = this.props
     const buttonProps = name => ({
       onClick: selectCategory(name),
@@ -29,7 +29,7 @@ class WatchlistPage extends Component {
               <div className="pa3">
                 <input
                   type="text"
-                  onChange={({ target: { value } }) => searchCoins(value)}
+                  onChange={({ target: { value } }) => filterCoins(value)}
                   className="input-alt tc"
                   placeholder="Search"
                 />
