@@ -10,11 +10,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180402070433) do
+ActiveRecord::Schema.define(version: 20180403105419) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
-  enable_extension "pg_stat_statements"
 
   create_table "ahoy_events", force: :cascade do |t|
     t.integer "visit_id"
@@ -177,6 +176,8 @@ ActiveRecord::Schema.define(version: 20180402070433) do
     t.string "blockchain_tech"
     t.string "token_type"
     t.jsonb "exchanges", array: true
+    t.bigint "ico_max_supply"
+    t.bigint "ico_available_supply"
     t.index ["category"], name: "index_coins_on_category"
     t.index ["market_cap"], name: "index_coins_on_market_cap", using: :gin
     t.index ["price"], name: "index_coins_on_price", using: :gin
