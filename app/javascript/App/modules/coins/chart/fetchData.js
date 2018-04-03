@@ -8,7 +8,7 @@ export default () => {
     let news = []
 
     const articles = $.getJSON(
-      `/api/coins/${friendlyID}/historical_data.json`,
+      `/api/coins/${friendlyID}/news.json`,
       data => {
         news = data['news']
       }
@@ -24,8 +24,6 @@ export default () => {
       }
     )
     $.when(articles, prices).done(() => {
-      //var historical = data["prices"],
-      //   news = data["news"],
       const prices = [],
         volume = [],
         sevenDayAvgVol = [],

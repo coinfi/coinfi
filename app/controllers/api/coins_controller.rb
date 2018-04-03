@@ -1,9 +1,8 @@
 class Api::CoinsController < ApiController
 
-  def historical_data
+  def news
     @currency = params[:currency] || 'usd'
     coin = Coin.find(params[:id])
-    @prices = coin.daily_prices.for_currency(@currency)
     chart_data = coin.articles.chart_data
     i = chart_data.length + 1
     @news = chart_data.map { |item|
@@ -14,7 +13,7 @@ class Api::CoinsController < ApiController
         text: item.title
       }
     }
-    respond_success prices: @prices, news: @news
+    respond_success news: @news
   end
 
 end

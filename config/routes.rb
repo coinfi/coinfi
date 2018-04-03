@@ -2,8 +2,8 @@ Rails.application.routes.draw do
 
   devise_scope :user do
     # TODO: (possibly)
-    # I don't think anything but devise remappings should be 
-    # within devise_scope, eg. login, signup, etc, and most 
+    # I don't think anything but devise remappings should be
+    # within devise_scope, eg. login, signup, etc, and most
     # of the UsersController doesn't need to inherit from
     # DeviseController. But I might be missing something. :)
     match "/signup" => "users#signup", as: "new_user_signup", via: [:get, :post]
@@ -42,8 +42,8 @@ Rails.application.routes.draw do
       resources :coins, except: [ :edit, :update, :new ]
       resources :articles, only: [ :index ]
     end
+    get '/coins/:id/news', to: 'coins#news'
     get '/social_feeds/tweets_by_user', to: 'social_feeds#tweets_by_user'
-    get '/coins/:id/historical_data', to: 'coins#historical_data'
   end
 
   resources :coins, only: [:index, :show]
