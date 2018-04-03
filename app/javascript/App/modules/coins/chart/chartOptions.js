@@ -32,18 +32,6 @@ export default ({ news, prices, volume, sevenDayAvgVol }) => {
       },
       {
         labels: {
-          align: 'left',
-          x: -3
-        },
-        title: {
-          text: 'Avg Vol'
-        },
-        height: '60%',
-        opposite: false,
-        lineWidth: 2
-      },
-      {
-        labels: {
           align: 'right',
           x: -3
         },
@@ -75,16 +63,6 @@ export default ({ news, prices, volume, sevenDayAvgVol }) => {
         data: prices
       },
       {
-        id: '7dayAvgVol',
-        name: 'Moving Average Volume',
-        data: sevenDayAvgVol,
-        visible: false,
-        yAxis: 1
-        //}, {
-        //  name: 'Signal 1',
-        //  visible: false
-      },
-      {
         type: 'flags',
         name: 'News',
         useHTML: true,
@@ -101,7 +79,7 @@ export default ({ news, prices, volume, sevenDayAvgVol }) => {
         name: 'Volume',
         data: volume,
         color: Highcharts.getOptions().colors[2],
-        yAxis: 2
+        yAxis: 1
       }
     ]
   }
