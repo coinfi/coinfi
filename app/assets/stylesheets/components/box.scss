@@ -1,7 +1,7 @@
 .box {
   background: $white;
   display: block;
-  @extend .shadow--small-subtle;
+  @extend .shadow-s1;
   padding: $sp4;
   border: 1px solid $light-gray;
 }

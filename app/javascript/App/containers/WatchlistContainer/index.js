@@ -29,15 +29,14 @@ const WatchlistContainer = Component => {
     }
     selectedCoins = () => {
       const { coins, category, search } = this.state
-      const selectedIDs = Object.keys(coins).filter(
+      let selectedIDs = Object.keys(coins).filter(
         id => coins[id].category === category
       )
-      if (search === '') return selectedIDs.map(id => coins[id])
-      return selectedIDs
-        .filter(id =>
+      if (search !== '')
+        selectedIDs = selectedIDs.filter(id =>
           coins[id].name.toLowerCase().includes(search.toLowerCase())
         )
-        .map(id => coins[id])
+      return selectedIDs.map(id => coins[id])
     }
     componentDidMount() {
       this.fetchCoins()

@@ -5,7 +5,7 @@ import Currency from './Currency'
 export default ({ coin }) => {
   const { name, image_url, symbol, market_info: info, category } = coin
   return (
-    <div className="bb b--athens-dark">
+    <div className="bg-white shadow-s1 ba b--athens-darker mb2">
       <div className="pa4 flex flex-column items-center">
         <div className="flex items-center mb3">
           {image_url && (
@@ -16,7 +16,7 @@ export default ({ coin }) => {
             <span className="ml3 f6 fw9 arial">{symbol}</span>
           </h1>
         </div>
-        <div className="f3">
+        <div className="f3 sans-alt">
           <Currency>{info.price_usd}</Currency>
           <PercentageChange
             number={info.percent_change_24h}
@@ -25,7 +25,7 @@ export default ({ coin }) => {
         </div>
       </div>
       {category === 'listed' && (
-        <div className="bg-athens-dark pa3">
+        <div className="bt b--athens-dark pa3">
           <div className="row mtn4">
             <div className="stat-block col-xs-6 col-sm-3 col-md-12 col-lg-6 mt4">
               <label>Volume</label>

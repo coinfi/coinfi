@@ -35,7 +35,7 @@ class WatchlistPage extends Component {
                 />
               </div>
             </div>
-            <div className="bg-white mt2">
+            <div className="mt2">
               {Object.entries(coins).map(([id, coin]) => (
                 <WatchedItem coin={coin} key={id} />
               ))}
