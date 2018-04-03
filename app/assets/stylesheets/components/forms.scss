@@ -31,15 +31,22 @@
   width: 100%;
   max-width: 40em;
   display: inline-block;
-  padding: $sp2 $sp3;
+  padding: ($sp2 * 1.5) $sp3;
   transition: all 0.5s;
   -webkit-transition: all 0.5s;
   border: 1px solid $moon-gray;
   border-radius: 2px;
   -webkit-border-radius: 2px;
+  color: $black-70;
+  font-family: $sans-alt;
   &:focus {
     border-color: $picton;
     box-shadow: 0 0 2px $picton;
+  }
+  &.input-alt {
+    border: none;
+    background: $athens;
+    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.1);
   }
 }
 input,
@@ -52,12 +59,12 @@ textarea {
 ::-webkit-input-placeholder {
   color: $silver;
 }
-:-ms-input-placeholder {
-  color: $silver;
-}
 ::-moz-placeholder {
   color: $silver;
   opacity: 1;
+}
+:-ms-input-placeholder {
+  color: $silver;
 }
 :-moz-placeholder {
   color: $silver;

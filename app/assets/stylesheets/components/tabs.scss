@@ -3,19 +3,33 @@
   .tab {
     font-size: 0.9rem;
     color: $tiber;
-    font-family: Arial, sans-serif;
+    font-family: $sans-alt;
     font-weight: bold;
     text-align: center;
     cursor: pointer;
+    border: none;
     border-bottom: 3px solid transparent;
-    padding: 0 0 $sp2 0;
+    padding: $sp2 0;
+    display: block;
     &:not(:last-child) {
       margin-right: $sp4;
     }
+    &.tab-active {
+      border-bottom-color: $tiber;
+      cursor: default;
+    }
   }
-  .tab.tab-active {
-    border-bottom-color: $tiber;
-    cursor: default;
+  &.tabs-alt {
+    .tab {
+      @extend .flex-auto;
+      padding: $sp3;
+      margin: 0;
+      border: none;
+      color: $black-80;
+      &:not(.tab-active) {
+        background: $athens;
+      }
+    }
   }
 }
 .tab-content:not(.tab-active) {

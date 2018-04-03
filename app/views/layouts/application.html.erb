@@ -22,8 +22,8 @@
   <body>
     <%= render partial: "components/site_header" %>
     <%= render partial: "components/site_subheader" unless @hide_subheader %>
-    <%= render partial: "components/flash" %>
     <main>
+      <%= render partial: "components/flash" %>
       <%= yield %>
     </main>
     <%= render partial: "components/footer" %>

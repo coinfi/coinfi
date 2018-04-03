@@ -1,41 +1,40 @@
-.bg-athens
-  .container
-    .row.narrow-gutter.flex
-      .col-xs-12.col-md-4.flex.flex-column
-        = render partial: 'header'
-        - if @coin.is_listed?
-          = render partial: 'stats_listed'
-        - else
-          = render partial: 'stats_ico'
-        .bg-white.tc.f7.pa4.mb2
-          - last_update = @data["last_updated"].presence || @coin.updated_at
-          = "Last updated: #{distance_of_time_in_words(Integer(last_update), Time.now)} ago"
-        .bg-tiber.pa4.flex.flex-wrap.justify-center.flex-auto
-          = render partial: 'links'
-      .col-xs-12.col-md-8.flex
-        .bg-white.w-100
-          section.pl2-m.pt3
-            - if @coin.is_listed?
-              #chart
-            - else
-              .row.tc.pv4
-                .col-xs-12.col-md-6
-                  img src=image_path('charts-placeholder.jpg')
-                .col-xs-12.col-md-6.md-reveal
-                  img src=image_path('charts-placeholder.jpg')
-          section.phr.pv4
-            .tab-area
-              .tabs.mb4
-                .tab data-position=1 News
-                - if @coin.twitter.present?
-                  .tab data-position=2 Twitter
-                - if @coin.reddit.present?
-                  .tab data-position=3 Reddit
-              .tab-content data-position=1
-                = render partial: 'articles', locals: { articles: @latest_news }
+.container.pv2
+  .row.narrow-gutter.flex
+    .col-xs-12.col-md-4.flex.flex-column
+      = render partial: 'header'
+      - if @coin.is_listed?
+        = render partial: 'stats_listed'
+      - else
+        = render partial: 'stats_ico'
+      .bg-white.tc.f7.pa4.mb2
+        - last_update = @data["last_updated"].presence || @coin.updated_at
+        = "Last updated: #{distance_of_time_in_words(Integer(last_update), Time.now)} ago"
+      .bg-tiber.pa4.flex.flex-wrap.justify-center.flex-auto
+        = render partial: 'links'
+    .col-xs-12.col-md-8.flex
+      .bg-white.w-100
+        section.pl2-m.pt3
+          - if @coin.is_listed?
+            #chart
+          - else
+            .row.tc.pv4
+              .col-xs-12.col-md-6
+                img src=image_path('charts-placeholder.jpg')
+              .col-xs-12.col-md-6.md-reveal
+                img src=image_path('charts-placeholder.jpg')
+        section.phr.pv4
+          .tab-area
+            .tabs.mb4
+              .tab data-position=1 News
               - if @coin.twitter.present?
-                .tab-content data-position=2
-                  #twitter-feed data-user=@coin.twitter
+                .tab data-position=2 Twitter
               - if @coin.reddit.present?
-                .tab-content data-position=3
-                  #reddit-feed data-subreddit=@coin.reddit
+                .tab data-position=3 Reddit
+            .tab-content data-position=1
+              = render partial: 'articles', locals: { articles: @latest_news }
+            - if @coin.twitter.present?
+              .tab-content data-position=2
+                #twitter-feed data-user=@coin.twitter
+            - if @coin.reddit.present?
+              .tab-content data-position=3
+                #reddit-feed data-subreddit=@coin.reddit
