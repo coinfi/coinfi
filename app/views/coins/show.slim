@@ -26,14 +26,11 @@
           section.phr.pv4
             .tab-area
               .tabs.mb4
-                .tab data-position=1
-                  = "#{@coin.symbol} related news"
+                .tab data-position=1 News
                 - if @coin.twitter.present?
-                  .tab data-position=2
-                    | Twitter
+                  .tab data-position=2 Twitter
                 - if @coin.reddit.present?
-                  .tab data-position=3
-                    | Reddit
+                  .tab data-position=3 Reddit
               .tab-content data-position=1
                 = render partial: 'articles', locals: { articles: @latest_news }
               - if @coin.twitter.present?
