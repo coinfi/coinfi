@@ -35,7 +35,7 @@ class Api::Watchlist::CoinsController < ApiController
   private
 
   def serialized coin
-    coin.as_json(only: [:id, :name, :image_url, :symbol], methods: [:market_data])
+    coin.as_json(only: [:id, :name, :image_url, :symbol], methods: [:market_data, :category])
   end
 
 end

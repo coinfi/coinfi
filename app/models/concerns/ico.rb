@@ -5,6 +5,10 @@ module ICO
     alias_method "is_listed?", "historical_data_exists?"
   end
 
+  def category
+    is_listed? ? 'listed' : 'ico'
+  end
+
   def is_ico?
     !is_listed?
   end
