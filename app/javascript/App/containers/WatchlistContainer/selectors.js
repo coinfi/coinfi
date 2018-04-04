@@ -16,3 +16,8 @@ export const selectSearchedCoins = () =>
   createSelector(selectDomain(), s => {
     return s.get('searchedCoins')
   })
+
+export const selectSearchText = () =>
+  createSelector(selectDomain(), s => {
+    return s.get('searchText')
+  })

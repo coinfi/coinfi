@@ -12,7 +12,7 @@ export default class WatchButton extends Component {
     }
   }
   handleClick = () => {
-    const { coinID } = this.props
+    const { coinID, onSuccess } = this.props
     const { watching } = this.state
     if (watching) {
       API.delete(`/watchlist/coins/${coinID}.json`).then(({ type }) => {
@@ -21,7 +21,10 @@ export default class WatchButton extends Component {
     } else {
       API.post('/watchlist/coins.json', { id: coinID }).then(
         ({ type, payload: coin }) => {
-          if (type === 'success') this.setState({ coin, watching: true })
+          if (type === 'success') {
+            this.setState({ coin, watching: true })
+            if(onSuccess) onSuccess()
+          }
         }
       )
     }

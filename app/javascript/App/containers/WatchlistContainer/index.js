@@ -6,7 +6,8 @@ import {
   fetchCoins,
   fetchArticles,
   selectCategory,
-  searchCoins
+  searchCoins,
+  addCoinSuccess
 } from './actions'
 import * as selectors from './selectors'
 
@@ -23,7 +24,13 @@ const WatchlistContainer = Component => {
   function mapDispatch(dispatch) {
     return {
       ...bindActionCreators(
-        { fetchCoins, fetchArticles, selectCategory, searchCoins },
+        {
+          fetchCoins,
+          fetchArticles,
+          selectCategory,
+          searchCoins,
+          addCoinSuccess
+        },
         dispatch
       )
     }
@@ -32,7 +39,8 @@ const WatchlistContainer = Component => {
   const mapState = createStructuredSelector({
     entities: selectors.selectEntities(),
     category: selectors.selectCategory(),
-    searchedCoins: selectors.selectSearchedCoins()
+    searchedCoins: selectors.selectSearchedCoins(),
+    searchText: selectors.selectSearchText()
   })
   return connect(mapState, mapDispatch)(HOC)
 }

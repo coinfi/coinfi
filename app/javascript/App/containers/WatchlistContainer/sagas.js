@@ -6,6 +6,7 @@ export default function* watcher() {
   yield takeLatest('FETCH_COINS', fetchCoins)
   yield takeLatest('FETCH_ARTICLES', fetchArticles)
   yield takeLatest('SEARCH_COINS', searchCoins)
+  yield takeLatest('ADD_COIN_SUCCESS', addCoinSuccess)
 }
 
 function* fetchCoins() {
@@ -21,9 +22,15 @@ function* fetchArticles() {
 }
 
 function* searchCoins({ searchText }) {
+  if (searchText.length < 2) return
   yield sagas.get(
     '/coins.json',
     { q: { name_cont: searchText }, exclude_watched: true },
     actions.searchCoinsSuccess
   )
+}
+
+function* addCoinSuccess() {
+  yield fetchCoins()
+  yield fetchArticles()
 }

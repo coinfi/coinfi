@@ -29,3 +29,7 @@ export const searchCoins = searchText => {
 export const searchCoinsSuccess = response => {
   return { type: 'SEARCH_COINS_SUCCESS', response }
 }
+
+export const addCoinSuccess = () => {
+  return { type: 'ADD_COIN_SUCCESS' }
+}
