@@ -1,7 +1,9 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
+import { Provider } from 'react-redux'
 import WatchButton from '../../components/WatchButton'
-import WatchlistPage from '../../pages/WatchlistPage'
+import WatchlistPage from '../../components/WatchlistPage'
+import configureStore from './configureStore'
 
 document.addEventListener('DOMContentLoaded', () => {
   // Watch buttons
@@ -17,6 +19,11 @@ document.addEventListener('DOMContentLoaded', () => {
   // Watchlist page
   c = document.getElementById('watchlist-page')
   if (c) {
-    ReactDOM.render(<WatchlistPage />, c)
+    ReactDOM.render(
+      <Provider store={configureStore()}>
+        <WatchlistPage />
+      </Provider>,
+      c
+    )
   }
 })

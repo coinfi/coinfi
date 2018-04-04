@@ -1,2 +1,0 @@
-import './chart'
-import './social'

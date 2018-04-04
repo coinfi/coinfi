@@ -1,7 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import TwitterFeed from '../../components/TwitterFeed'
-import RedditFeed from '../../components/RedditFeed'
+import TwitterFeed from '../components/TwitterFeed'
+import RedditFeed from '../components/RedditFeed'
 
 document.addEventListener('DOMContentLoaded', () => {
   let c = document.getElementById('twitter-feed')

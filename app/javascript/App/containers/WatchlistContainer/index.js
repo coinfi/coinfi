@@ -1,6 +1,9 @@
 import React from 'react'
-import API from '../../utils/localAPI'
+import API from '../../lib/localAPI'
 import normalize from './normalize'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
+import { createStructuredSelector } from 'reselect'
 
 const WatchlistContainer = Component => {
   class HOC extends React.Component {
@@ -67,7 +70,14 @@ const WatchlistContainer = Component => {
       return <Component {...cProps} />
     }
   }
-  return HOC
+  function mapDispatch(dispatch) {
+    return {
+      ...bindActionCreators({}, dispatch)
+    }
+  }
+
+  const mapState = createStructuredSelector({})
+  return connect(mapState, mapDispatch)(HOC)
 }
 
 export default WatchlistContainer
