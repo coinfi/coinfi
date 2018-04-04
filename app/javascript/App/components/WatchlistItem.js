@@ -6,47 +6,53 @@ export default props => {
   const coin = props.coin.toJS()
   const { name, image_url, symbol, market_info: info, category } = coin
   return (
-    <div className="bg-white shadow-s1 ba b--athens-darker mb3">
-      <div className="flex items-end justify-between pa3">
-        <div className="flex items-center">
-          {image_url && <img className="w2e h2e mr3" src={image_url} alt="" />}
-          <h1 className="ma0 lh-solid f3 flex-auto">
-            <div className="">
-              {name} <span className="f6 fw9 o-50 mb1">{symbol}</span>
+    <div className="bg-white shadow-s1 ba b--athens-darker mb3 tc tl-ns">
+      <div className="pa3">
+        <div className="row bottom-xs">
+          <div className="col-xs-12 col-sm-7 col-md-12 col-lg-7">
+            <div className="flex items-center">
+              {image_url && (
+                <img className="w2e h2e mr3" src={image_url} alt="" />
+              )}
+              <h1 className="ma0 lh-solid f3">
+                <div className="">
+                  {name} <span className="f6 fw9 o-50 mb1">{symbol}</span>
+                </div>
+              </h1>
             </div>
-          </h1>
-        </div>
-        <div className="f4 fw9 tr">
-          {category === 'listed' && (
-            <Fragment>
-              <PercentageChange
-                number={info.percent_change_24h}
-                className="smaller2 b mr2"
-              />
-              <Currency>{info.price_usd}</Currency>
-            </Fragment>
-          )}
+          </div>
+          <div className="col-xs-12 col-sm-5 col-md-12 col-lg-5 f4 fw9 tr mt2 mt0-s">
+            {category === 'listed' && (
+              <Fragment>
+                <PercentageChange
+                  number={info.percent_change_24h}
+                  className="smaller2 b mr2"
+                />
+                <Currency>{info.price_usd}</Currency>
+              </Fragment>
+            )}
+          </div>
         </div>
       </div>
       <div className="bt b--athens-dark pa3 pt3">
         {category === 'listed' ? (
-          <div className="row mtn4 tr o-90">
-            <div className="stat-block col-xs-6 col-sm-3 col-md-12 col-lg-3 mt4">
+          <div className="row mtn4 tc tr-l o-90">
+            <div className="stat-block col-xs-6 col-sm-3 col-md-6 col-lg-3 mt4">
               <label className="o-60">Volume</label>
               {info['24h_volume_usd']}
               <div className="f7 ml1">USD</div>
             </div>
-            <div className="stat-block col-xs-6 col-sm-3 col-md-12 col-lg-3 mt4">
+            <div className="stat-block col-xs-6 col-sm-3 col-md-6 col-lg-3 mt4">
               <label className="o-60">Circulation</label>
               {info.available_supply}
               <div className="f7 ml1">{symbol}</div>
             </div>
-            <div className="stat-block col-xs-6 col-sm-3 col-md-12 col-lg-3 mt4">
+            <div className="stat-block col-xs-6 col-sm-3 col-md-6 col-lg-3 mt4">
               <label className="o-60">Market cap</label>
               {info.market_cap_usd}
               <div className="f7 ml1">USD</div>
             </div>
-            <div className="stat-block col-xs-6 col-sm-3 col-md-12 col-lg-3 mt4">
+            <div className="stat-block col-xs-6 col-sm-3 col-md-6 col-lg-3 mt4">
               <label className="o-60">Total supply</label>
               {info.total_supply}
               <div className="f7 ml1">{symbol}</div>

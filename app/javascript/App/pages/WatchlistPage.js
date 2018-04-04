@@ -26,7 +26,7 @@ class WatchlistPage extends Component {
               </div>
             </div>
             <div className="col-xs-12 col-md-7 flex">
-              <div className="bg-white w-100 pa4">
+              <div className="bg-white w-100 pa3 pa4-m">
                 {articles &&
                   articles
                     .valueSeq()
