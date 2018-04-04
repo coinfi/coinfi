@@ -12,17 +12,21 @@ namespace :coins do
     cdn_url = "https://gitcdn.link/repo/cjdowner/cryptocurrency-icons/master/svg/color/"
     Coin.all.order('name').each do |coin|
       if coin.image_url.to_s.present?
-        unless args.force 
+        unless args.force
           puts "#{coin.name} - skipped, image_url present"
           next
         end
       end
-      path = "#{coin.symbol.downcase}.svg"
-      if UrlHelper::url_exists? "#{github_url}#{path}"
-        coin.update!({image_url: "#{cdn_url}#{path}"})
-        puts "#{coin.name} - updated image_url"
+      if coin.symbol
+        path = "#{coin.symbol.downcase}.svg"
+        if UrlHelper::url_exists? "#{github_url}#{path}"
+          coin.update!({image_url: "#{cdn_url}#{path}"})
+          puts "#{coin.name} - updated image_url"
+        else
+          puts "#{coin.name} - CDN URL not found"
+        end
       else
-        puts "#{coin.name} - CDN URL not found"
+        puts "#{coin.name} - symbol not found"
       end
     end
   end
