@@ -6,16 +6,15 @@ import Article from '../components/Article'
 class WatchlistPage extends Component {
   render() {
     const {
-      coins,
-      articles,
-      tags,
+      entities,
       category,
       selectCategory,
       searchCoins,
       searchedCoins
     } = this.props
+    const { coins, articles } = entities.toObject()
     const buttonProps = name => ({
-      onClick: selectCategory(name),
+      onClick: () => selectCategory(name),
       className: `tab ${name === category ? 'tab-active' : ''}`
     })
     return (
@@ -36,26 +35,39 @@ class WatchlistPage extends Component {
                 />
               </div>
             </div>
-            {searchedCoins.length > 0 && (
+            {searchedCoins.size > 0 && (
               <div>
                 {searchedCoins.map(coin => (
-                  <div key={coin.id} className="pb3 mb3 bb b--athens-dark">
-                    {coin.name}
+                  <div
+                    key={coin.get('id')}
+                    className="pb3 mb3 bb b--athens-dark"
+                  >
+                    {coin.get('name')}
                   </div>
                 ))}
               </div>
             )}
             <div className="mt3">
-              {Object.entries(coins).map(([id, coin]) => (
-                <WatchedItem coin={coin} key={id} />
-              ))}
+              {coins &&
+                coins
+                  .valueSeq()
+                  .map(coin => (
+                    <WatchedItem coin={coin} key={coin.get('id')} />
+                  ))}
             </div>
           </div>
           <div className="col-xs-12 col-md-7 flex">
             <div className="bg-white w-100 pa4">
-              {Object.entries(articles).map(([id, article]) => (
-                <Article article={article} tags={tags} key={id} />
-              ))}
+              {articles &&
+                articles
+                  .valueSeq()
+                  .map(article => (
+                    <Article
+                      article={article}
+                      tags={entities.get('tags')}
+                      key={article.get('id')}
+                    />
+                  ))}
             </div>
           </div>
         </div>

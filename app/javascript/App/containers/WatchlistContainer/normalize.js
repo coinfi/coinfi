@@ -7,6 +7,6 @@ const articleSchema = new schema.Entity('articles', { tags: tagListSchema })
 const articleListSchema = [articleSchema]
 
 export default {
-  coins: coins => normalize(coins, coinListSchema).entities,
-  articles: articles => normalize(articles, articleListSchema).entities
+  coins: coins => normalize(coins, coinListSchema),
+  articles: articles => normalize(articles, articleListSchema)
 }

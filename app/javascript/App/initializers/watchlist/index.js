@@ -2,7 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import { Provider } from 'react-redux'
 import WatchButton from '../../components/WatchButton'
-import WatchlistPage from '../../components/WatchlistPage'
+import WatchlistPage from '../../pages/WatchlistPage'
 import configureStore from './configureStore'
 
 document.addEventListener('DOMContentLoaded', () => {

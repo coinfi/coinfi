@@ -3,7 +3,7 @@ import PercentageChange from './PercentageChange'
 import Currency from './Currency'
 
 export default ({ coin }) => {
-  const { name, image_url, symbol, market_info: info, category } = coin
+  const { name, image_url, symbol, market_info: info, category } = coin.toJS()
   return (
     <div className="bg-white shadow-s1 ba b--athens-darker mb3">
       <div className="flex items-end justify-between pa4 pb3">

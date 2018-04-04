@@ -2,7 +2,7 @@ class Api::CoinsController < ApiController
 
   def index
     @q = Coin.ransack(params[:q])
-    @coins = @q.result(distinct: true)
+    @coins = @q.result(distinct: true).limit(4)
     respond_success serialized(@coins)
   end
 
