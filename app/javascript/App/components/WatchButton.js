@@ -4,10 +4,12 @@ import API from '../lib/localAPI'
 export default class WatchButton extends Component {
   state = { coin: null, watching: false }
   componentDidMount() {
-    const { coinID } = this.props
-    API.get(`/watchlist/coins/${coinID}.json`).then(({ payload: coin }) => {
-      if (coin.id) this.setState({ coin, watching: true })
-    })
+    const { coinID, noFetch } = this.props
+    if (!noFetch) {
+      API.get(`/watchlist/coins/${coinID}.json`).then(({ payload: coin }) => {
+        if (coin.id) this.setState({ coin, watching: true })
+      })
+    }
   }
   handleClick = () => {
     const { coinID } = this.props
