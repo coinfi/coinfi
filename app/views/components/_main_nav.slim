@@ -1,7 +1,20 @@
-nav class=("#{defined?(klass) ? klass : ''}") 
+nav class=("#{defined?(klass) ? klass : ''}")
   ul
     li
-      a href="/coins"  Coins
-    - if current_user
+      a href="/coins" Coins
+    li
+      a href="/watchlist" Watchlist
+    - if user_signed_in?
       li
-        a href="/watchlist" Watchlist
+        a.coming-soon href="#" onclick="alert('Coming soon!')" Portfolio
+      li
+        a.coming-soon href="#" onclick="alert('Coming soon!')" Signals
+      li
+        a.coming-soon href="#" onclick="alert('Coming soon!')" Algos
+    - else
+      li
+        a href="https://blog.coinfi.com" Blog
+      li
+        a href="https://careers.coinfi.com" Careers
+      li
+        a href="/about" About
