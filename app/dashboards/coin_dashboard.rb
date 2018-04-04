@@ -116,7 +116,6 @@ class CoinDashboard < Administrate::BaseDashboard
     :ico_returns_usd,
     :ico_returns_btc,
     :ico_returns_eth,
-    :coin_excluded_countries,
     :blockchain_tech,
     :token_type,
     :exchanges,
