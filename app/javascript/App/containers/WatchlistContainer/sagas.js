@@ -23,7 +23,7 @@ function* fetchArticles() {
 function* searchCoins({ searchText }) {
   yield sagas.get(
     '/coins.json',
-    { q: { name_cont: searchText } },
+    { q: { name_cont: searchText }, exclude_watched: true },
     actions.searchCoinsSuccess
   )
 }
