@@ -38,15 +38,22 @@ const WatchlistContainer = Component => {
         )
       return selectedIDs.map(id => coins[id])
     }
+    searchCoins = searchTerm => {
+      API.get('/coins.json', { q: { name_cont: searchTerm } }).then(
+        ({ payload }) => {
+          console.log(payload)
+        }
+      )
+    }
     componentDidMount() {
       this.fetchCoins()
       this.fetchArticles()
     }
     render() {
       const { articles, tags, category } = this.state
-      const { selectCategory, filterCoins } = this
+      const { selectCategory, searchCoins } = this
       const cProps = {
-        filterCoins,
+        searchCoins,
         selectCategory,
         articles,
         tags,

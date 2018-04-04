@@ -44,6 +44,7 @@ Rails.application.routes.draw do
       resources :coins, except: [ :edit, :update, :new ]
       resources :articles, only: [ :index ]
     end
+    get '/coins', to: 'coins#index'
     get '/coins/:id/news', to: 'coins#news'
     get '/social_feeds/tweets_by_user', to: 'social_feeds#tweets_by_user'
   end

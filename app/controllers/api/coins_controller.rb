@@ -1,5 +1,11 @@
 class Api::CoinsController < ApiController
 
+  def index
+    @q = Coin.ransack(params[:q])
+    @coins = @q.result(distinct: true)
+    respond_success serialized(@coins)
+  end
+
   def news
     @currency = params[:currency] || 'usd'
     coin = Coin.find(params[:id])
@@ -14,6 +20,12 @@ class Api::CoinsController < ApiController
       }
     }
     respond_success news: @news
+  end
+
+  private
+
+  def serialized coin
+    coin.as_json(only: [:id, :name, :image_url, :symbol])
   end
 
 end

@@ -11,7 +11,7 @@ class WatchlistPage extends Component {
       tags,
       category,
       selectCategory,
-      filterCoins
+      searchCoins
     } = this.props
     const buttonProps = name => ({
       onClick: selectCategory(name),
@@ -20,7 +20,7 @@ class WatchlistPage extends Component {
     return (
       <div className="container pv2">
         <div className="row narrow-gutter flex">
-          <div className="col-xs-12 col-md-4 flex flex-column">
+          <div className="col-xs-12 col-md-5 flex flex-column">
             <div className="bg-white">
               <div className="tabs tabs-alt">
                 <button {...buttonProps('listed')}>Listed Coins</button>
@@ -29,19 +29,19 @@ class WatchlistPage extends Component {
               <div className="pa3">
                 <input
                   type="text"
-                  onChange={({ target: { value } }) => filterCoins(value)}
+                  onChange={({ target: { value } }) => searchCoins(value)}
                   className="input-alt tc"
                   placeholder="Search"
                 />
               </div>
             </div>
-            <div className="mt2">
+            <div className="mt3">
               {Object.entries(coins).map(([id, coin]) => (
                 <WatchedItem coin={coin} key={id} />
               ))}
             </div>
           </div>
-          <div className="col-xs-12 col-md-8 flex">
+          <div className="col-xs-12 col-md-7 flex">
             <div className="bg-white w-100 pa4">
               {Object.entries(articles).map(([id, article]) => (
                 <Article article={article} tags={tags} key={id} />

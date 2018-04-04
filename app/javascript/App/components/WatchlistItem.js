@@ -5,47 +5,45 @@ import Currency from './Currency'
 export default ({ coin }) => {
   const { name, image_url, symbol, market_info: info, category } = coin
   return (
-    <div className="bg-white shadow-s1 ba b--athens-darker mb2">
-      <div className="pa4 flex flex-column items-center">
-        <div className="flex items-center mb3">
-          {image_url && (
-            <img className="w4e mr3 a1" src={image_url} alt={name} />
-          )}
-          <h1 className="ma0 lh-solid">
-            <span className="fw4">{name}</span>
-            <span className="ml3 f6 fw9 arial">{symbol}</span>
-          </h1>
-        </div>
-        <div className="f3 sans-alt">
-          <Currency>{info.price_usd}</Currency>
+    <div className="bg-white shadow-s1 ba b--athens-darker mb3">
+      <div className="flex items-center justify-between pa3">
+        {image_url && (
+          <img className="w2e h2e mr3 a1" src={image_url} alt={name} />
+        )}
+        <h1 className="ma0 lh-solid f3 flex-auto">
+          <div className="f6 fw9 o-50">{symbol}</div>
+          <div className="">{name}</div>
+        </h1>
+        <div className="f4 fw9 tr">
           <PercentageChange
             number={info.percent_change_24h}
-            className="smaller2 b ml2"
+            className="smaller2 b mr2"
           />
+          <Currency>{info.price_usd}</Currency>
         </div>
       </div>
       {category === 'listed' && (
         <div className="bt b--athens-dark pa3">
-          <div className="row mtn4">
-            <div className="stat-block col-xs-6 col-sm-3 col-md-12 col-lg-6 mt4">
-              <label>Volume</label>
+          <div className="row mtn4 tr o-90">
+            <div className="stat-block col-xs-6 col-sm-3 col-md-12 col-lg-3 mt4">
+              <label className="o-60">Volume</label>
               {info['24h_volume_usd']}
-              <span className="dib f7 ml1">USD</span>
+              <div className="f7 ml1">USD</div>
             </div>
-            <div className="stat-block col-xs-6 col-sm-3 col-md-12 col-lg-6 mt4">
-              <label>Circulation</label>
+            <div className="stat-block col-xs-6 col-sm-3 col-md-12 col-lg-3 mt4">
+              <label className="o-60">Circulation</label>
               {info.available_supply}
-              <span className="dib f7 ml1">{symbol}</span>
+              <div className="f7 ml1">{symbol}</div>
             </div>
-            <div className="stat-block col-xs-6 col-sm-3 col-md-12 col-lg-6 mt4">
-              <label>Market cap</label>
+            <div className="stat-block col-xs-6 col-sm-3 col-md-12 col-lg-3 mt4">
+              <label className="o-60">Market cap</label>
               {info.market_cap_usd}
-              <span className="dib f7 ml1">USD</span>
+              <div className="f7 ml1">USD</div>
             </div>
-            <div className="stat-block col-xs-6 col-sm-3 col-md-12 col-lg-6 mt4">
-              <label>Total supply</label>
+            <div className="stat-block col-xs-6 col-sm-3 col-md-12 col-lg-3 mt4">
+              <label className="o-60">Total supply</label>
               {info.total_supply}
-              <span className="dib f7 ml1">{symbol}</span>
+              <div className="f7 ml1">{symbol}</div>
             </div>
           </div>
         </div>
