@@ -21,9 +21,16 @@ export default class WatchlistSearch extends Component {
             {searchedCoins.map(coin => (
               <div
                 key={coin.get('id')}
-                className="pb3 mb3 bb b--athens-dark flex justify-between"
+                className="pb3 mb3 bb b--athens-dark flex"
               >
-                <div>
+                <div className="flex-auto flex items-center">
+                  {coin.get('image_url') && (
+                    <img
+                      className="w2e h2e mr3"
+                      src={coin.get('image_url')}
+                      alt=""
+                    />
+                  )}
                   {coin.get('name')}
                   <span className="b ml2 f7">{coin.get('symbol')}</span>
                 </div>

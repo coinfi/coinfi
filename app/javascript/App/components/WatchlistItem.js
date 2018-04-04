@@ -9,9 +9,7 @@ export default props => {
     <div className="bg-white shadow-s1 ba b--athens-darker mb3">
       <div className="flex items-end justify-between pa3">
         <div className="flex items-center">
-          {image_url && (
-            <img className="w2e h2e mr3" src={image_url} alt={name} />
-          )}
+          {image_url && <img className="w2e h2e mr3" src={image_url} alt="" />}
           <h1 className="ma0 lh-solid f3 flex-auto">
             <div className="">
               {name} <span className="f6 fw9 o-50 mb1">{symbol}</span>

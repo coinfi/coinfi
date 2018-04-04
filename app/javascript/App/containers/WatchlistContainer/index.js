@@ -40,7 +40,8 @@ const WatchlistContainer = Component => {
     entities: selectors.selectEntities(),
     category: selectors.selectCategory(),
     searchedCoins: selectors.selectSearchedCoins(),
-    searchText: selectors.selectSearchText()
+    searchText: selectors.selectSearchText(),
+    isLoading: selectors.selectIsLoading()
   })
   return connect(mapState, mapDispatch)(HOC)
 }

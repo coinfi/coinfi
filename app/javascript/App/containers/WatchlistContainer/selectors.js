@@ -21,3 +21,8 @@ export const selectSearchText = () =>
   createSelector(selectDomain(), s => {
     return s.get('searchText')
   })
+
+export const selectIsLoading = () =>
+  createSelector(selectDomain(), s => {
+    return s.get('isLoading')
+  })
