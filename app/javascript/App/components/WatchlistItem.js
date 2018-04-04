@@ -77,7 +77,7 @@ export default props => {
             </div>
             <div className="stat-block col-xs-6 col-sm-3 col-md-12 col-lg-3 mt4">
               <label className="o-60">ICO Price</label>
-              {coin.ico_token_price_usd}
+              ${coin.ico_token_price_usd}
               <div className="f7 ml1">USD</div>
             </div>
             <div className="stat-block col-xs-6 col-sm-3 col-md-12 col-lg-3 mt4">
