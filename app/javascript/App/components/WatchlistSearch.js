@@ -2,13 +2,6 @@ import React, { Component } from 'react'
 import WatchButton from './WatchButton'
 
 export default class WatchlistSearch extends Component {
-  tabProps = name => {
-    const { category, selectCategory } = this.props
-    return {
-      onClick: () => selectCategory(name),
-      className: `tab ${name === category ? 'tab-active' : ''}`
-    }
-  }
   handleSearchInput = ({ target: { value } }) => {
     this.props.searchCoins(value)
   }
@@ -17,10 +10,6 @@ export default class WatchlistSearch extends Component {
     return (
       <div>
         <div className="bg-white">
-          <div className="tabs tabs-alt">
-            <button {...this.tabProps('listed')}>Listed Coins</button>
-            <button {...this.tabProps('ico')}>ICO</button>
-          </div>
           <div className="pa3">
             <input
               type="text"
