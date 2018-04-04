@@ -3,12 +3,12 @@ import Container from '../containers/WatchlistContainer'
 import WatchedItem from '../components/WatchlistItem'
 import WatchlistSearch from '../components/WatchlistSearch'
 import LoadingIndicator from '../components/LoadingIndicator'
-import Article from '../components/Article'
+import ArticleList from '../components/ArticleList'
 
 class WatchlistPage extends Component {
   render() {
     const { entities, isLoading } = this.props
-    const { coins, articles } = entities.toObject()
+    const { coins } = entities.toObject()
     return (
       <div className="pa2">
         <div className="container">
@@ -23,20 +23,14 @@ class WatchlistPage extends Component {
                     .map(coin => (
                       <WatchedItem coin={coin} key={coin.get('id')} />
                     ))}
+                {(!coins || coins.size === 0) && (
+                  <div className="o-60 pt3 tc">Nothing added yet</div>
+                )}
               </div>
             </div>
             <div className="col-xs-12 col-md-7 flex">
               <div className="bg-white w-100 pa3 pa4-m">
-                {articles &&
-                  articles
-                    .valueSeq()
-                    .map(article => (
-                      <Article
-                        article={article}
-                        tags={entities.get('tags')}
-                        key={article.get('id')}
-                      />
-                    ))}
+                <ArticleList {...this.props} />
               </div>
             </div>
           </div>

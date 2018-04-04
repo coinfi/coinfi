@@ -11,6 +11,7 @@
     border-bottom: 3px solid transparent;
     padding: $sp2 0;
     display: block;
+    background: transparent;
     &:not(:last-child) {
       margin-right: $sp4;
     }

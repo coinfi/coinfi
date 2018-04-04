@@ -2,7 +2,6 @@ import { fromJS } from 'immutable'
 import normalize from './normalize'
 
 const initialState = fromJS({
-  category: 'listed',
   searchText: '',
   searchedCoins: [],
   entities: {},
