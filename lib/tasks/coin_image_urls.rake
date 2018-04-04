@@ -18,6 +18,7 @@ namespace :coins do
         end
       end
       if coin.symbol
+        next unless coin.symbol.ascii_only?
         path = "#{coin.symbol.downcase}.svg"
         if UrlHelper::url_exists? "#{github_url}#{path}"
           coin.update!({image_url: "#{cdn_url}#{path}"})
