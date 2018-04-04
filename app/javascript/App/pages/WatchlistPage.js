@@ -11,7 +11,8 @@ class WatchlistPage extends Component {
       tags,
       category,
       selectCategory,
-      searchCoins
+      searchCoins,
+      searchedCoins
     } = this.props
     const buttonProps = name => ({
       onClick: selectCategory(name),
@@ -35,6 +36,15 @@ class WatchlistPage extends Component {
                 />
               </div>
             </div>
+            {searchedCoins.length > 0 && (
+              <div>
+                {searchedCoins.map(coin => (
+                  <div key={coin.id} className="pb3 mb3 bb b--athens-dark">
+                    {coin.name}
+                  </div>
+                ))}
+              </div>
+            )}
             <div className="mt3">
               {Object.entries(coins).map(([id, coin]) => (
                 <WatchedItem coin={coin} key={id} />

@@ -9,7 +9,8 @@ const WatchlistContainer = Component => {
       filterText: '',
       coins: {},
       articles: {},
-      tags: {}
+      tags: {},
+      searchedCoins: []
     }
     fetchCoins = () => {
       API.get('/watchlist/coins.json').then(({ payload }) => {
@@ -41,7 +42,8 @@ const WatchlistContainer = Component => {
     searchCoins = searchTerm => {
       API.get('/coins.json', { q: { name_cont: searchTerm } }).then(
         ({ payload }) => {
-          console.log(payload)
+          const searchedCoins = payload || []
+          this.setState({ searchedCoins })
         }
       )
     }
@@ -50,10 +52,11 @@ const WatchlistContainer = Component => {
       this.fetchArticles()
     }
     render() {
-      const { articles, tags, category } = this.state
+      const { articles, tags, category, searchedCoins } = this.state
       const { selectCategory, searchCoins } = this
       const cProps = {
         searchCoins,
+        searchedCoins,
         selectCategory,
         articles,
         tags,
