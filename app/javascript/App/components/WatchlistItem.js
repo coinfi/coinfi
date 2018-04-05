@@ -5,7 +5,18 @@ import dateFormat from 'dateformat'
 
 export default props => {
   const coin = props.coin.toJS()
-  const { name, image_url, symbol, market_info: info, category, slug } = coin
+  const {
+    name,
+    image_url,
+    symbol,
+    market_info: info,
+    category,
+    slug,
+    max_supply,
+    ico_token_price_usd,
+    ico_start_date,
+    ico_end_date
+  } = coin
   return (
     <a
       href={`/coins/${slug}`}
@@ -76,24 +87,38 @@ export default props => {
           <div className="row mtn4 tr o-90">
             <div className="stat-block col-xs-6 col-sm-3 col-md-12 col-lg-3 mt4">
               <label className="o-60">Total Supply</label>
-              {coin.max_supply}
-              <div className="f7 ml1">{symbol}</div>
+              {max_supply ? (
+                <div>
+                  {max_supply}
+                  <div className="f7 ml1">{symbol}</div>
+                </div>
+              ) : (
+                '?'
+              )}
             </div>
             <div className="stat-block col-xs-6 col-sm-3 col-md-12 col-lg-3 mt4">
               <label className="o-60">ICO Price</label>
-              ${coin.ico_token_price_usd}
-              <div className="f7 ml1">USD</div>
+              {ico_token_price_usd ? (
+                <div>
+                  {ico_token_price_usd}
+                  <div className="f7 ml1">USD</div>
+                </div>
+              ) : (
+                '?'
+              )}
             </div>
             <div className="stat-block col-xs-6 col-sm-3 col-md-12 col-lg-3 mt4">
               <label className="o-60">Start Date</label>
               <div className="f6">
-                {dateFormat(coin.ico_start_date, 'mmm d, yyyy')}
+                {ico_start_date
+                  ? dateFormat(ico_start_date, 'mmm d, yyyy')
+                  : '?'}
               </div>
             </div>
             <div className="stat-block col-xs-6 col-sm-3 col-md-12 col-lg-3 mt4">
               <label className="o-60">End Date</label>
               <div className="f6">
-                {dateFormat(coin.ico_end_date, 'mmm d, yyyy')}
+                {ico_end_date ? dateFormat(ico_end_date, 'mmm d, yyyy') : '?'}
               </div>
             </div>
           </div>
