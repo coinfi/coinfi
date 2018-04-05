@@ -20,14 +20,11 @@ export default props => {
   if (start) start = new Date(start * 1000)
   if (end) end = new Date(end * 1000)
   return (
-    <a
-      href={`/coins/${slug}`}
-      className="bright-gray db bg-white shadow-s1 ba b--athens-darker mb3 tc tl-ns"
-    >
+    <div className="bright-gray db bg-white shadow-s1 ba b--athens-darker mb3 tc tl-ns">
       <div className="pa3">
         <div className="row bottom-xs">
           <div className="col-xs-12 col-sm-7 col-md-12 col-lg-7">
-            <div className="flex items-center">
+            <a href={`/coins/${slug}`} className="flex items-center">
               {image_url && (
                 <img className="w2e h2e mr3" src={image_url} alt="" />
               )}
@@ -36,7 +33,7 @@ export default props => {
                   {name} <span className="f6 fw9 o-50 mb1">{symbol}</span>
                 </div>
               </h1>
-            </div>
+            </a>
           </div>
           <div className="col-xs-12 col-sm-5 col-md-12 col-lg-5 f4 fw9 tr mt2 mt0-s">
             {category === 'listed' ? (
@@ -126,6 +123,6 @@ export default props => {
           </div>
         )}
       </div>
-    </a>
+    </div>
   )
 }
