@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react'
 import PercentageChange from './PercentageChange'
 import Currency from './Currency'
+import dateFormat from 'dateformat'
 
 export default props => {
   const coin = props.coin.toJS()
@@ -85,11 +86,15 @@ export default props => {
             </div>
             <div className="stat-block col-xs-6 col-sm-3 col-md-12 col-lg-3 mt4">
               <label className="o-60">Start Date</label>
-              {coin.ico_start_date}
+              <div className="f6">
+                {dateFormat(coin.ico_start_date, 'mmm d, yyyy')}
+              </div>
             </div>
             <div className="stat-block col-xs-6 col-sm-3 col-md-12 col-lg-3 mt4">
               <label className="o-60">End Date</label>
-              {coin.ico_end_date}
+              <div className="f6">
+                {dateFormat(coin.ico_end_date, 'mmm d, yyyy')}
+              </div>
             </div>
           </div>
         )}
