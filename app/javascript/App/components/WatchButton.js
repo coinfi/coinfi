@@ -15,7 +15,7 @@ export default class WatchButton extends Component {
     const { coinID, onSuccess } = this.props
     const { watching } = this.state
     if (watching) {
-      API.delete(`/watchlist/coins/${coinID}.json`).then(({ type }) => {
+      API.destroy(`/watchlist/coins/${coinID}.json`).then(({ type }) => {
         if (type === 'success') this.setState({ coin: null, watching: false })
       })
     } else {
@@ -23,7 +23,7 @@ export default class WatchButton extends Component {
         ({ type, payload: coin }) => {
           if (type === 'success') {
             this.setState({ coin, watching: true })
-            if(onSuccess) onSuccess()
+            if (onSuccess) onSuccess()
           }
         }
       )

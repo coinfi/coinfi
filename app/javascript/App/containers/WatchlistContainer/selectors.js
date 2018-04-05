@@ -22,7 +22,7 @@ export const selectSearchText = () =>
     return s.get('searchText')
   })
 
-export const selectIsLoading = () =>
+export const selectUI = () =>
   createSelector(selectDomain(), s => {
-    return s.get('isLoading')
+    return s.get('UI')
   })

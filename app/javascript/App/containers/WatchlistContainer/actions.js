@@ -30,6 +30,18 @@ export const searchCoinsSuccess = response => {
   return { type: 'SEARCH_COINS_SUCCESS', response }
 }
 
+export const removeCoin = id => {
+  return { type: 'REMOVE_COIN', id }
+}
+
+export const removeCoinSuccess = response => {
+  return { type: 'REMOVE_COIN_SUCCESS', response }
+}
+
 export const addCoinSuccess = () => {
   return { type: 'ADD_COIN_SUCCESS' }
+}
+
+export const editWatchlist = () => {
+  return { type: 'EDIT_WATCHLIST' }
 }

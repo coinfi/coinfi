@@ -7,10 +7,19 @@ export default function* watcher() {
   yield takeLatest('FETCH_ARTICLES', fetchArticles)
   yield takeLatest('SEARCH_COINS', searchCoins)
   yield takeLatest('ADD_COIN_SUCCESS', addCoinSuccess)
+  yield takeLatest('REMOVE_COIN', removeCoin)
 }
 
 function* fetchCoins() {
   yield sagas.get('/watchlist/coins.json', null, actions.fetchCoinsSuccess)
+}
+
+function* removeCoin({ id }) {
+  yield sagas.destroy(
+    `/watchlist/coins/${id}.json`,
+    null,
+    actions.removeCoinSuccess
+  )
 }
 
 function* fetchArticles() {

@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import WatchButton from './WatchButton'
 
 export default class WatchlistSearch extends Component {
@@ -8,7 +8,7 @@ export default class WatchlistSearch extends Component {
   render() {
     const { searchedCoins, addCoinSuccess, searchText } = this.props
     return (
-      <div className="bg-white pa3">
+      <div className="">
         <input
           type="text"
           value={searchText}
@@ -17,11 +17,11 @@ export default class WatchlistSearch extends Component {
           placeholder="Search"
         />
         {searchedCoins.size > 0 && (
-          <div className="mt3">
+          <div>
             {searchedCoins.map(coin => (
               <div
                 key={coin.get('id')}
-                className="pb3 mb3 bb b--athens-dark flex"
+                className="pb3 mt3 bb b--athens-dark flex"
               >
                 <div className="flex-auto flex items-center">
                   {coin.get('image_url') && (

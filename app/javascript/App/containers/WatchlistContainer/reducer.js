@@ -5,14 +5,19 @@ const initialState = fromJS({
   searchText: '',
   searchedCoins: [],
   entities: {},
-  isLoading: true
+  UI: {
+    loading: true,
+    editing: false
+  }
 })
 
 export default (state = initialState, action) => {
   const { type, response } = action
   switch (type) {
     case 'FETCH_COINS_SUCCESS':
-      return state.mergeDeep(normalize.coins(response)).set('isLoading', false)
+      return state
+        .mergeDeep(normalize.coins(response))
+        .setIn(['UI', 'loading'], false)
     case 'FETCH_ARTICLES_SUCCESS':
       return state.mergeDeep(normalize.articles(response))
     case 'SEARCH_COINS':
@@ -26,7 +31,11 @@ export default (state = initialState, action) => {
       return state
         .set('searchText', '')
         .set('searchedCoins', [])
-        .set('isLoading', true)
+        .setIn(['UI', 'loading'], true)
+    case 'REMOVE_COIN_SUCCESS':
+      return state.deleteIn(['entities', 'coins', `${response.id}`])
+    case 'EDIT_WATCHLIST':
+      return state.setIn(['UI', 'editing'], !state.getIn(['UI', 'editing']))
     default:
       return state
   }

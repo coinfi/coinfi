@@ -40,7 +40,7 @@ export function* post(url, params, callback) {
 
 export function* destroy(url, params, callback) {
   try {
-    const response = yield call(API.destroy, url, params)
+    const response = yield call(API.delete, url, params)
     yield handleResponse(callback, response)
   } catch (e) {
     yield handleError(e)

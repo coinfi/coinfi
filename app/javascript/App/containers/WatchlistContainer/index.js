@@ -7,7 +7,9 @@ import {
   fetchArticles,
   selectCategory,
   searchCoins,
-  addCoinSuccess
+  addCoinSuccess,
+  editWatchlist,
+  removeCoin
 } from './actions'
 import * as selectors from './selectors'
 
@@ -29,7 +31,9 @@ const WatchlistContainer = Component => {
           fetchArticles,
           selectCategory,
           searchCoins,
-          addCoinSuccess
+          addCoinSuccess,
+          editWatchlist,
+          removeCoin
         },
         dispatch
       )
@@ -41,7 +45,7 @@ const WatchlistContainer = Component => {
     category: selectors.selectCategory(),
     searchedCoins: selectors.selectSearchedCoins(),
     searchText: selectors.selectSearchText(),
-    isLoading: selectors.selectIsLoading()
+    UI: selectors.selectUI()
   })
   return connect(mapState, mapDispatch)(HOC)
 }

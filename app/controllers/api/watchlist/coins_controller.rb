@@ -26,7 +26,7 @@ class Api::Watchlist::CoinsController < ApiController
   def destroy
     if @coin = @watchlist.coins.find_by_id(params[:id])
       @watchlist.coins.delete(@coin)
-      respond_success "Coin removed from watchlist"
+      respond_success({ id: @coin.id }, "Coin removed from watchlist")
     else
       respond_warning "Coin already removed"
     end
