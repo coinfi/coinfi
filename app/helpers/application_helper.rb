@@ -66,7 +66,7 @@ module ApplicationHelper
   def pretty_date(date)
     return "Unknown" unless date
     date = Time.at(date) if date.is_a? Integer
-    d = date.strftime('%A, %B %e - %H:%M%p')
+    d = date.strftime('%A, %B %e, %Y - %H:%M%p')
     return d.split(' -')[0] if d.include? '00:00'
     d
   end

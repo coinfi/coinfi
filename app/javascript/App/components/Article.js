@@ -5,7 +5,7 @@ export default ({ article, tags }) => {
   return (
     <a className="box tiber mb4" href={article.get('url')} target="_blank">
       <div className="f7">
-        {dateFormat(article.get('published_date'), 'dddd, mmmm dS')}
+        {dateFormat(article.get('published_date'), 'dddd, mmmm dS, yyyy')}
       </div>
       <h4 className="fw6 mv3 f3 f2-l">{article.get('title')}</h4>
       <div className="pt1 lh-copy">{article.get('summary')}</div>
