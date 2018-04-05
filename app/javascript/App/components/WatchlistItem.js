@@ -4,9 +4,12 @@ import Currency from './Currency'
 
 export default props => {
   const coin = props.coin.toJS()
-  const { name, image_url, symbol, market_info: info, category } = coin
+  const { name, image_url, symbol, market_info: info, category, slug } = coin
   return (
-    <div className="bg-white shadow-s1 ba b--athens-darker mb3 tc tl-ns">
+    <a
+      href={`/coins/${slug}`}
+      className="bright-gray db bg-white shadow-s1 ba b--athens-darker mb3 tc tl-ns"
+    >
       <div className="pa3">
         <div className="row bottom-xs">
           <div className="col-xs-12 col-sm-7 col-md-12 col-lg-7">
@@ -91,6 +94,6 @@ export default props => {
           </div>
         )}
       </div>
-    </div>
+    </a>
   )
 }
