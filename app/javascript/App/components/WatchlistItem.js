@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react'
 import PercentageChange from './PercentageChange'
 import Currency from './Currency'
+import numeral from 'numeral'
 import dateFormat from 'dateformat'
 
 export default props => {
@@ -48,11 +49,13 @@ export default props => {
             ) : (
               <div className="flex items-center justify-end">
                 <div className="green">
-                  <Currency>{coin.ico_usd_raised || 0}</Currency>
+                  {`$${numeral(coin.ico_usd_raised || 0).format('0,0')}`}
                 </div>
                 <div className="mh2 f7 ttu silver">of</div>
                 <div>
-                  <Currency>{coin.ico_fundraising_goal_usd || 0}</Currency>
+                  {`$${numeral(coin.ico_fundraising_goal_usd || 0).format(
+                    '0,0'
+                  )}`}
                 </div>
               </div>
             )}
