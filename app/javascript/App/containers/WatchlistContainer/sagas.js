@@ -8,6 +8,7 @@ export default function* watcher() {
   yield takeLatest('SEARCH_COINS', searchCoins)
   yield takeLatest('ADD_COIN_SUCCESS', addCoinSuccess)
   yield takeLatest('REMOVE_COIN', removeCoin)
+  yield takeLatest('REORDER_COINS', reorderCoins)
 }
 
 function* fetchCoins() {
@@ -36,6 +37,14 @@ function* searchCoins({ searchText }) {
     '/coins.json',
     { q: { name_cont: searchText }, exclude_watched: true },
     actions.searchCoinsSuccess
+  )
+}
+
+function* reorderCoins({ order }) {
+  yield sagas.patch(
+    '/watchlist/coins.json',
+    { order },
+    actions.reorderCoinsSuccess
   )
 }
 

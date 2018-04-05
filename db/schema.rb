@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180402070433) do
+ActiveRecord::Schema.define(version: 20180405174214) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -184,13 +184,6 @@ ActiveRecord::Schema.define(version: 20180402070433) do
     t.index ["volume24"], name: "index_coins_on_volume24", using: :gin
   end
 
-  create_table "coins_watchlists", id: false, force: :cascade do |t|
-    t.bigint "watchlist_id", null: false
-    t.bigint "coin_id", null: false
-    t.index ["coin_id"], name: "index_coins_watchlists_on_coin_id"
-    t.index ["watchlist_id"], name: "index_coins_watchlists_on_watchlist_id"
-  end
-
   create_table "contributor_submissions", force: :cascade do |t|
     t.bigint "user_id"
     t.string "title"
@@ -327,6 +320,15 @@ ActiveRecord::Schema.define(version: 20180402070433) do
     t.datetime "started_at"
     t.index ["user_id"], name: "index_visits_on_user_id"
     t.index ["visit_token"], name: "index_visits_on_visit_token", unique: true
+  end
+
+  create_table "watchlist_items", force: :cascade do |t|
+    t.bigint "watchlist_id", null: false
+    t.bigint "coin_id", null: false
+    t.integer "position", default: 0
+    t.index ["coin_id"], name: "index_watchlist_items_on_coin_id"
+    t.index ["position"], name: "index_watchlist_items_on_position"
+    t.index ["watchlist_id"], name: "index_watchlist_items_on_watchlist_id"
   end
 
   create_table "watchlists", force: :cascade do |t|

@@ -9,7 +9,8 @@ import {
   searchCoins,
   addCoinSuccess,
   editWatchlist,
-  removeCoin
+  removeCoin,
+  reorderCoins
 } from './actions'
 import * as selectors from './selectors'
 
@@ -33,7 +34,8 @@ const WatchlistContainer = Component => {
           searchCoins,
           addCoinSuccess,
           editWatchlist,
-          removeCoin
+          removeCoin,
+          reorderCoins
         },
         dispatch
       )
@@ -41,6 +43,7 @@ const WatchlistContainer = Component => {
   }
 
   const mapState = createStructuredSelector({
+    coinIDs: selectors.selectCoinIDs(),
     entities: selectors.selectEntities(),
     category: selectors.selectCategory(),
     searchedCoins: selectors.selectSearchedCoins(),

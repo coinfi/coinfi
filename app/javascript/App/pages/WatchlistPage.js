@@ -1,14 +1,13 @@
 import React, { Component } from 'react'
 import Container from '../containers/WatchlistContainer'
-import WatchedItem from '../components/WatchlistItem/index'
+import Watchlist from '../components/Watchlist'
 import WatchlistSearch from '../components/WatchlistSearch'
 import LoadingIndicator from '../components/LoadingIndicator'
 import ArticleList from '../components/ArticleList'
 
 class WatchlistPage extends Component {
   render() {
-    const { entities, UI, editWatchlist } = this.props
-    const { coins } = entities.toObject()
+    const { UI, editWatchlist } = this.props
     const { loading, editing } = UI.toObject()
     return (
       <div className="pa3">
@@ -16,9 +15,14 @@ class WatchlistPage extends Component {
           <div className="row narrow-gutter flex">
             <div className="col-xs-12 col-md-5 flex flex-column">
               <div className="bg-white pa4">
-                <div className="flex justify-between">
-                  <h1 className="mt0 mt0 ttu b f4">Watchlist</h1>
-                  <button onClick={editWatchlist} className="btn btn-sm">
+                <div className="flex items-end justify-between mb3">
+                  <h1 className="ma0 ttu b f4">Watchlist</h1>
+                  <button
+                    onClick={editWatchlist}
+                    className={`btn btn-xs ${
+                      editing ? 'btn-green' : 'btn-white'
+                    }`}
+                  >
                     {editing ? 'Done Editing' : 'Edit Watchlist'}
                   </button>
                 </div>
@@ -26,21 +30,7 @@ class WatchlistPage extends Component {
               </div>
               <div className="mt3">
                 {loading && <LoadingIndicator className="h5e mb3" />}
-                {coins &&
-                  coins.valueSeq().map(coin => (
-                    <WatchedItem
-                      {...{
-                        ...this.props,
-                        key: coin.get('id'),
-                        coin: coin.toJS(),
-                        editing
-                      }}
-                    />
-                  ))}
-                {!loading &&
-                  (!coins || coins.size === 0) && (
-                    <div className="o-60 pt3 tc">Nothing added yet</div>
-                  )}
+                <Watchlist {...this.props} />
               </div>
             </div>
             <div className="col-xs-12 col-md-7 flex">

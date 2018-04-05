@@ -1,4 +1,5 @@
 import React from 'react'
+import { SortableElement } from 'react-sortable-hoc'
 import ListedData from './ListedData'
 import ListedInfo from './ListedInfo'
 import IcoData from './IcoData'
@@ -6,11 +7,11 @@ import IcoInfo from './IcoInfo'
 import Title from './Title'
 import Actions from './Actions'
 
-export default props => {
+const WatchlistItem = props => {
   const { coin, editing } = props
   return (
     <div className="bright-gray db bg-white shadow-s1 ba b--athens-darker mb3 tc tl-ns">
-      <div className="pa3">
+      <div className="pa3 noselect">
         <div className="row bottom-xs">
           <div className="col-xs-12 col-sm-7 col-md-12 col-lg-7">
             <Title {...props} />
@@ -42,3 +43,5 @@ export default props => {
     </div>
   )
 }
+
+export default SortableElement(WatchlistItem)

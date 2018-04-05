@@ -13,7 +13,7 @@ export default class WatchlistSearch extends Component {
           type="text"
           value={searchText}
           onChange={this.handleSearchInput}
-          className="input-alt tc"
+          className="input-alt"
           placeholder="Search"
         />
         {searchedCoins.size > 0 && (

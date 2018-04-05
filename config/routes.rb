@@ -42,6 +42,7 @@ Rails.application.routes.draw do
   namespace :api, constraints: { format: 'json' } do
     namespace :watchlist do
       resources :coins, except: [ :edit, :update, :new ]
+      patch '/coins', to: 'coins#reorder'
       resources :articles, only: [ :index ]
     end
     get '/coins', to: 'coins#index'

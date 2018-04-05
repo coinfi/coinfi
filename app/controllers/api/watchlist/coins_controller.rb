@@ -17,18 +17,25 @@ class Api::Watchlist::CoinsController < ApiController
     if @watchlist.coins.find_by_id(@coin.id)
       respond_warning "Coin already added"
     else
-      @watchlist.coins << @coin
+      @watchlist.items.create(coin: @coin)
       @watchlist.save
       respond_success "Coin added to watchlist"
     end
   end
 
   def destroy
-    if @coin = @watchlist.coins.find_by_id(params[:id])
-      @watchlist.coins.delete(@coin)
-      respond_success({ id: @coin.id }, "Coin removed from watchlist")
+    if @item = @watchlist.items.find_by_coin_id(params[:id])
+      @item.destroy
+      respond_success({ id: @item.coin_id }, "Coin removed from watchlist")
     else
       respond_warning "Coin already removed"
+    end
+  end
+
+  def reorder
+    params[:order].each_with_index do |coin_id, position|
+      item = @watchlist.items.find_by_coin_id(coin_id)
+      item.update(position: position)
     end
   end
 

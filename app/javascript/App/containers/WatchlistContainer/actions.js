@@ -45,3 +45,11 @@ export const addCoinSuccess = () => {
 export const editWatchlist = () => {
   return { type: 'EDIT_WATCHLIST' }
 }
+
+export const reorderCoins = order => {
+  return { type: 'REORDER_COINS', order }
+}
+
+export const reorderCoinsSuccess = () => {
+  return { type: 'REORDER_COINS_SUCCESS' }
+}
