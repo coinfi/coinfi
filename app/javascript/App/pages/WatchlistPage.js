@@ -23,9 +23,10 @@ class WatchlistPage extends Component {
                     .map(coin => (
                       <WatchedItem coin={coin} key={coin.get('id')} />
                     ))}
-                {(!coins || coins.size === 0) && (
-                  <div className="o-60 pt3 tc">Nothing added yet</div>
-                )}
+                {!isLoading &&
+                  (!coins || coins.size === 0) && (
+                    <div className="o-60 pt3 tc">Nothing added yet</div>
+                  )}
               </div>
             </div>
             <div className="col-xs-12 col-md-7 flex">
