@@ -14,10 +14,11 @@ export default props => {
     category,
     slug,
     max_supply,
-    ico_token_price_usd,
-    ico_start_date,
-    ico_end_date
+    ico_token_price_usd
   } = coin
+  let { ico_start_date: start, ico_end_date: end } = coin
+  if (start) start = new Date(start * 1000)
+  if (end) end = new Date(end * 1000)
   return (
     <a
       href={`/coins/${slug}`}
@@ -113,15 +114,13 @@ export default props => {
             <div className="stat-block col-xs-6 col-sm-3 col-md-12 col-lg-3 mt4">
               <label className="o-60">Start Date</label>
               <div className="f6">
-                {ico_start_date
-                  ? dateFormat(ico_start_date, 'mmm d, yyyy')
-                  : '?'}
+                {start ? dateFormat(start, 'mmm d, yyyy') : '?'}
               </div>
             </div>
             <div className="stat-block col-xs-6 col-sm-3 col-md-12 col-lg-3 mt4">
               <label className="o-60">End Date</label>
               <div className="f6">
-                {ico_end_date ? dateFormat(ico_end_date, 'mmm d, yyyy') : '?'}
+                {end ? dateFormat(end, 'mmm d, yyyy') : '?'}
               </div>
             </div>
           </div>
