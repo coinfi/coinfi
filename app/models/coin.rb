@@ -16,4 +16,14 @@ class Coin < ApplicationRecord
 
   scope :find_by_symbol, -> (symbol) { where('lower(symbol) = ?', symbol.downcase).first }
   scope :top, -> (limit) { order(ranking: :asc).limit(limit) }
+
+  def market_cap_by_currency(currency)
+    market_cap.try(:[], currency)
+  end
+  def volume24_by_currency(currency)
+    volume24.try(:[], currency)
+  end
+  def price_by_currency(currency)
+    price.try(:[], currency)
+  end
 end
