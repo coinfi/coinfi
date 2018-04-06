@@ -15,20 +15,6 @@ module CoinsHelper
     number_to_currency(amount, options.merge(custom))
   end
 
-  def number_to_human_options
-    {
-      delimiter: ',',
-      format: "%n%u",
-      precision: 2,
-      significant: false,
-      units: {
-        million: 'M',
-        billion: 'B',
-        trillion: 'T'
-      }
-    }
-  end
-
   def display_available_supply(coin)
     coin.available_supply.try(:>, 0) ? "#{number_with_delimiter(coin.available_supply)} #{coin.symbol}" : ""
   end

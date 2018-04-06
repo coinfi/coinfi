@@ -1,0 +1,17 @@
+// Misc
+.cursor-move {
+  cursor: move !important;
+}
+.noselect {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+// Adjustments
+.a1 {
+  transform: scale(1.2) translateY(-0.2em);
+  -webkit-transform: scale(1.2) translateY(-0.2em);
+}

@@ -16,13 +16,14 @@
     <link rel="apple-touch-icon" href="<%= image_path('apple-touch-icon.png') %>">
     <link rel="icon" href="<%= image_path('favicon.png') %>">
     <%= stylesheet_link_tag 'application' %>
+    <%= csrf_meta_tags %>
   </head>
 
   <body>
     <%= render partial: "components/site_header" %>
     <%= render partial: "components/site_subheader" unless @hide_subheader %>
-    <%= render partial: "components/flash" %>
     <main>
+      <%= render partial: "components/flash" %>
       <%= yield %>
     </main>
     <%= render partial: "components/footer" %>

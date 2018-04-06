@@ -1,10 +1,10 @@
 #site-subheader {
-  border-left: 1px solid $black-10;
+  border-left: 1px solid $black-05;
   .nav-horizontal {
     li {
       > * {
         color: $gray;
-        border-right: 1px solid $black-10;
+        border-right: 1px solid $black-05;
         font-size: 0.7rem;
       }
     }
@@ -13,7 +13,7 @@
 @media (max-width: $screen-s) {
   #site-subheader {
     .nav-horizontal {
-      border-top: 1px solid $black-10;
+      border-top: 1px solid $black-05;
     }
   }
 }

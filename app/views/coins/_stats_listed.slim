@@ -1,25 +1,24 @@
 .bg-white.pa4.mb2
-  .row.mtn4
+  .row.mtn4.tc.fw6
     .stat-block.col-xs-6.col-sm-3.col-md-12.col-lg-6.mt4
-      label Volume
-      = number_to_human(@data["24h_volume_usd"], number_to_human_options)
+      label Volume (24  h)
+      = @data["24h_volume_usd"]
+      .dib.f7.ml1 USD
     .stat-block.col-xs-6.col-sm-3.col-md-12.col-lg-6.mt4
       label Circulation
-      = number_to_human(@data["available_supply"], number_to_human_options)
+      = @data["available_supply"]
       .dib.f7.ml1= @coin.symbol
     .stat-block.col-xs-6.col-sm-3.col-md-12.col-lg-6.mt4
       label Market Cap
-      - cap = @data["market_cap_usd"]
-      - if cap
-        = "$#{number_to_human(cap, number_to_human_options)}"
+      - if cap = @data["market_cap_usd"]
+        = cap
         .dib.f7.ml1 USD
       - else
         | N/A
     .stat-block.col-xs-6.col-sm-3.col-md-12.col-lg-6.mt4
       label Total Supply
-      - supply = @data["total_supply"]
-      - if supply
-        = number_to_human(supply, number_to_human_options)
+      - if supply = @data["total_supply"]
+        = supply
         .dib.f7.ml1= @coin.symbol
       - else
         | N/A

@@ -225,7 +225,7 @@ ActiveRecord::Schema.define(version: 20180406014547) do
     t.text "review"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.date "review_date"
+    t.datetime "review_date"
     t.index ["coin_id"], name: "index_influencer_reviews_on_coin_id"
     t.index ["influencer_id"], name: "index_influencer_reviews_on_influencer_id"
   end
@@ -321,6 +321,20 @@ ActiveRecord::Schema.define(version: 20180406014547) do
     t.datetime "started_at"
     t.index ["user_id"], name: "index_visits_on_user_id"
     t.index ["visit_token"], name: "index_visits_on_visit_token", unique: true
+  end
+
+  create_table "watchlist_items", force: :cascade do |t|
+    t.bigint "watchlist_id", null: false
+    t.bigint "coin_id", null: false
+    t.integer "position", default: 0
+    t.index ["coin_id"], name: "index_watchlist_items_on_coin_id"
+    t.index ["position"], name: "index_watchlist_items_on_position"
+    t.index ["watchlist_id"], name: "index_watchlist_items_on_watchlist_id"
+  end
+
+  create_table "watchlists", force: :cascade do |t|
+    t.bigint "user_id"
+    t.index ["user_id"], name: "index_watchlists_on_user_id"
   end
 
   add_foreign_key "articles", "coins"

@@ -39,12 +39,19 @@ Rails.application.routes.draw do
     root to: "coins#index"
   end
 
+  namespace :api, constraints: { format: 'json' } do
+    namespace :watchlist do
+      resources :coins, except: [ :edit, :update, :new ]
+      patch '/coins', to: 'coins#reorder'
+      resources :articles, only: [ :index ]
+    end
+    get '/coins', to: 'coins#index'
+    get '/coins/:id/news', to: 'coins#news'
+    get '/social_feeds/tweets_by_user', to: 'social_feeds#tweets_by_user'
+  end
+
   resources :coins, only: [:index, :show]
-  get '/coins/:id/historical_data', to: 'coins#historical_data'
-  get '/social_feeds/tweets_by_user', to: 'social_feeds#tweets_by_user'
-
   resources :contributor_submissions, path: 'contributor-submissions'
-
   get '/profile', to: 'author_profiles#edit', as: 'edit_author_profile'
   resources :author_profiles, only: [:index, :show, :create, :update], path: 'authors'
 

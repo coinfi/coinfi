@@ -1,0 +1,20 @@
+.flash {
+  @extend .container;
+  padding: $sp3;
+  border: 1px solid $dodger;
+  color: $dodger;
+  background-color: $white;
+  font-size: 0.9em;
+  @extend .lh-copy;
+  @extend .container;
+  margin-top: $sp4;
+  flex: none;
+  a {
+    color: inherit;
+    text-decoration: underline;
+  }
+}
+.flash-alert {
+  border-color: $orange;
+  color: $orange;
+}

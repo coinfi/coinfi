@@ -1,18 +1,4 @@
 module ApplicationHelper
-  def bootstrap_class_for(flash_type)
-    case flash_type
-      when :success
-        "alert-success"
-      when :error
-        "alert-error"
-      when :alert
-        "alert-block"
-      when :notice
-        "alert-info"
-      else
-        flash_type.to_s
-    end
-  end
 
   def natural_format(pee, br = true)
     # Taken from https://github.com/jekyll/jekyll-import/blob/master/lib/jekyll-import/util.rb
@@ -80,7 +66,7 @@ module ApplicationHelper
   def pretty_date(date)
     return "Unknown" unless date
     date = Time.at(date) if date.is_a? Integer
-    d = date.strftime('%A, %B %e - %H:%M%p')
+    d = date.strftime('%A, %B %e, %Y - %H:%M%p')
     return d.split(' -')[0] if d.include? '00:00'
     d
   end

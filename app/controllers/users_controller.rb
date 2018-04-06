@@ -13,9 +13,9 @@ class UsersController < DeviseController
         sign_in(:user, user)
         redirect_to '/set-password' and return
       elsif user == current_user
-        redirect_to '/dashboard', notice: 'You are already logged in!' and return
+        redirect_to '/dashboard', alert: 'You are already logged in!' and return
       else
-        redirect_to '/login', notice: 'Email already exists - please log in.' and return
+        redirect_to '/login', alert: 'Email already exists - please log in.' and return
       end
     end
 
@@ -30,7 +30,7 @@ class UsersController < DeviseController
     elsif user.encrypted_password.blank?
       redirect_to '/set-password' and return
     end
-    redirect_to '/register', notice: 'There was an issue with your signup - please try again!'
+    redirect_to '/register', alert: 'There was an issue with your signup - please try again!'
   end
 
   def set_password
@@ -44,7 +44,7 @@ class UsersController < DeviseController
       sign_in(:user, current_user, bypass: true)
       redirect_to "/join-telegram"
     else
-      redirect_to "/set-password", notice: "There was a problem saving your password: #{current_user.errors.full_messages.join('\n')} - please try again."
+      redirect_to "/set-password", alert: "There was a problem saving your password: #{current_user.errors.full_messages.join('\n')} - please try again."
     end
   end
 
@@ -57,7 +57,7 @@ class UsersController < DeviseController
 protected
 
   def check_user_signed_in
-    redirect_to new_user_session_path, notice: 'Please sign in or register.' and return unless current_user
+    redirect_to new_user_session_path, alert: 'Please sign in or register.' and return unless current_user
   end
 
   def user_params

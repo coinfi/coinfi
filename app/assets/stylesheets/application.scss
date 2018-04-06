@@ -23,7 +23,7 @@
 @import 'utilities/bg-img';
 @import 'utilities/bg-gradient';
 @import 'utilities/position';
-@import 'utilities/adjustments';
+@import 'utilities/misc';
 
 @import 'base/tachyons';
 @import 'base/general';
@@ -35,7 +35,7 @@
 @import 'components/navigation';
 @import 'components/tables';
 @import 'components/flexboxgrid';
-@import 'components/notice';
+@import 'components/flash';
 @import 'components/box';
 @import 'components/grid';
 @import 'components/pagination';
@@ -43,6 +43,7 @@
 @import 'components/tabs';
 @import 'components/tags';
 @import 'components/stat-block';
+@import 'components/loading-indicator';
 
 @import 'modules/mobile-nav';
 @import 'modules/site-subheader';
