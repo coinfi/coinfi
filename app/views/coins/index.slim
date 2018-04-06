@@ -17,7 +17,8 @@
             th.tr Supply
             th.tr Volume (24h)
             th.tr % Change (24h)
-            /th Price Graph
+            - if current_user
+              th
         tbody
           - @coins.each do |coin|
             tr
@@ -30,6 +31,7 @@
               td.tr= display_available_supply(coin)
               td.tr= number_with_delimiter(coin.volume24_by_currency(currency))
               td.tr= display_percentage_change coin.change24h
-              /td
+              - if current_user
+                td.tr.watchlist-button data-coin-id=coin.id data-watching=user_is_watching?(coin)
 
       .tc= paginate @coins

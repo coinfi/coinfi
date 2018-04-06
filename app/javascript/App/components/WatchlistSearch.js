@@ -39,7 +39,6 @@ class CoinSearch extends Component {
                 </div>
                 <WatchButton
                   coinID={coin.get('id')}
-                  noFetch
                   onSuccess={addCoinSuccess}
                 />
               </div>

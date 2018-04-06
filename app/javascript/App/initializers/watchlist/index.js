@@ -11,7 +11,8 @@ document.addEventListener('DOMContentLoaded', () => {
   if (c) {
     Array.from(c).forEach(cc => {
       const props = {
-        coinID: cc.getAttribute('data-coin-id')
+        coinID: cc.getAttribute('data-coin-id'),
+        watching: cc.getAttribute('data-watching')
       }
       ReactDOM.render(<WatchButton {...props} />, cc)
     })
