@@ -1,6 +1,6 @@
 .bg-white.mb2
-  - if current_user
-    .pa3.tr
+  .pa3.tr
+    - if current_user
       .watchlist-button data-coin-id=@coin.id data-watching=user_is_watching?(@coin)
   .pa4.pt0
     .flex.justify-center.items-center.mb3
