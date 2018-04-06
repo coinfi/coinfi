@@ -1,9 +1,12 @@
+- currency = 'usd' # TODO: Allow user to select default currency.
 .pa3-s.pa4-m
   .container-wide
     .bg-white.pa3.pa4-s.pa5-m.shadow-s1
-      h1.header Coins
-      - currency = 'usd' # TODO: Allow user to select default currency.
-      #coin-search.center.mb4
+      .row.mb4
+        .col-xs-8
+          h1.header Coins
+        .col-xs-4
+          #coin-search
       table
         thead
           tr

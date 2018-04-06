@@ -15,39 +15,31 @@ class CoinSearch extends Component {
         <Input
           value={searchText}
           onChange={this.handleSearchInput}
-          className=""
+          className="tr"
           placeholder="Search"
           autoFocus
         />
         {searchedCoins.size > 0 && (
-          <div className="mt3">
-            <table>
-              <tbody>
-                {searchedCoins.map((coin, key) => (
-                  <tr key={key}>
-                    <td>
-                      <a
-                        href={`/coins/${coin.get('slug')}`}
-                        key={coin.get('id')}
-                        className="db"
-                      >
-                        <div className="flex items-center">
-                          {coin.get('image_url') && (
-                            <img
-                              className="w2e h2e mr3"
-                              src={coin.get('image_url')}
-                              alt=""
-                            />
-                          )}
-                          {coin.get('name')}
-                          <span className="b ml2 f7">{coin.get('symbol')}</span>
-                        </div>
-                      </a>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+          <div id="coin-search-results" className="tr">
+            {searchedCoins.map((coin, key) => (
+              <a
+                href={`/coins/${coin.get('slug')}`}
+                key={coin.get('id')}
+                className="db pa2 bb b--light-gray"
+              >
+                <div className="flex items-center justify-end">
+                  <span className="b mr2 f7">{coin.get('symbol')}</span>
+                  {coin.get('name')}
+                  {coin.get('image_url') && (
+                    <img
+                      className="w2e h2e ml3"
+                      src={coin.get('image_url')}
+                      alt=""
+                    />
+                  )}
+                </div>
+              </a>
+            ))}
           </div>
         )}
       </div>
