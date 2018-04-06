@@ -4,6 +4,7 @@ module MarketData
   include CoinsHelper
 
   def live_market_data
+    return default_market_data unless ico_listed?
     Rails.cache.fetch(
       "/coins/#{symbol}/market_data",
       { expires_in: 1.minute }
@@ -11,8 +12,7 @@ module MarketData
       url = "https://api.coinmarketcap.com/v1/ticker/#{slug}/?convert=BTC"
       response = HTTParty.get(url)
       data = JSON.parse(response.body)[0] || {}
-      data["available_supply"] ||= self.available_supply
-      data
+      default_market_data.merge(data)
     end
   end
 
@@ -35,6 +35,10 @@ module MarketData
   end
 
   private
+
+  def default_market_data
+    {'available_supply' => available_supply}
+  end
 
   def humanize number, prefix = '', suffix = ''
     "#{prefix}#{number_to_human(number, number_to_human_options)}#{suffix}"
