@@ -2,7 +2,7 @@
   .row.narrow-gutter.flex
     .col-xs-12.col-md-4.flex.flex-column
       = render partial: 'header'
-      - if @coin.is_listed?
+      - if @coin.ico_listed?
         = render partial: 'stats_listed'
       - else
         = render partial: 'stats_ico'
@@ -13,7 +13,7 @@
         = render partial: 'links'
     .col-xs-12.col-md-8.flex
       .bg-white.w-100
-        - if @coin.is_listed?
+        - if @coin.ico_listed?
           section.pl2-m.pt3
             #chart
         - else
