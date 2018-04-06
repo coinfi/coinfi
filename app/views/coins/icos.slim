@@ -1,0 +1,42 @@
+- currency = 'usd' # TODO: Allow user to select default currency.
+.pa3-s.pa4-m
+  .container-wide
+    .bg-white.pa3.pa4-s.pa5-m.shadow-s1
+      .row.mb4
+        .col-xs-10
+          = render partial: "ico_nav"
+        .col-xs-2
+          #coin-search
+      table
+        thead
+          tr
+            th Name
+            th.tr Amount Raised
+            th.tr Hard Cap
+            th.tr End Date
+            th.tr Total Supply
+            th.tr ICO Price
+            th.tr Token Type
+        tbody
+          - @coins.each do |coin|
+            tr
+              td.flex.items-center
+                  = image_tag coin.image_url, class: 'w2e mr2', alt: coin.name if coin.image_url
+                  = link_to coin.name, coin, id: coin.slug
+              td.tr= number_to_currency(coin.ico_fundraising_status_usd, precision: 0) || "?"
+              td.tr
+                - if coin.ico_fundraising_goal_usd.present? && coin.ico_fundraising_goal_usd > 0
+                  = number_to_currency(coin.ico_fundraising_goal_usd, precision: 0)
+                - else
+                  | ?
+              td.tr= coin.ico_end_datetime.is_a?(DateTime) ? coin.ico_end_datetime.strftime('%B %e, %Y') : "?"
+              td.tr= coin.max_supply
+              td.tr
+                - if coin.ico_token_price_usd
+                  => number_to_currency(coin.ico_token_price_usd, precision: 4)
+                  small USD
+                - else
+                  | ?
+              td.tr= coin.token_type
+
+      .tc= paginate @coins
