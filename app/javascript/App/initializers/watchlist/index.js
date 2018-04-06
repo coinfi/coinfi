@@ -2,7 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import { Provider } from 'react-redux'
 import WatchButton from '../../components/WatchButton'
-import WatchlistPage from '../../pages/WatchlistPage'
+import WatchlistPageContainer from '../../containers/WatchlistPageContainer'
 import configureStore from './configureStore'
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -11,7 +11,8 @@ document.addEventListener('DOMContentLoaded', () => {
   if (c) {
     Array.from(c).forEach(cc => {
       const props = {
-        coinID: cc.getAttribute('data-coin-id')
+        coinID: cc.getAttribute('data-coin-id'),
+        watching: cc.getAttribute('data-watching')
       }
       ReactDOM.render(<WatchButton {...props} />, cc)
     })
@@ -21,7 +22,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if (c) {
     ReactDOM.render(
       <Provider store={configureStore()}>
-        <WatchlistPage />
+        <WatchlistPageContainer />
       </Provider>,
       c
     )
