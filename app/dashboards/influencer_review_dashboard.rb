@@ -14,6 +14,7 @@ class InfluencerReviewDashboard < Administrate::BaseDashboard
     url: Field::String,
     rating: Field::String,
     review: Field::Text,
+    review_date: Field::DateTime,
     created_at: Field::DateTime,
     updated_at: Field::DateTime,
   }.freeze
@@ -25,6 +26,7 @@ class InfluencerReviewDashboard < Administrate::BaseDashboard
   # Feel free to add, remove, or rearrange items.
   COLLECTION_ATTRIBUTES = [
     :coin,
+    :review_date,
     :influencer,
     :id,
     :url,
@@ -38,6 +40,7 @@ class InfluencerReviewDashboard < Administrate::BaseDashboard
     :id,
     :url,
     :rating,
+    :review_date,
     :review,
     :created_at,
     :updated_at,
@@ -51,6 +54,7 @@ class InfluencerReviewDashboard < Administrate::BaseDashboard
     :influencer,
     :url,
     :rating,
+    :review_date,
     :review,
   ].freeze
 
