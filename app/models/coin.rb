@@ -10,7 +10,7 @@ class Coin < ApplicationRecord
   has_many :coin_excluded_countries
   has_many :excluded_countries, through: :coin_excluded_countries, source: :country
 
-  validates :name, uniqueness: true
+  validates :name, uniqueness: true, presence: true
 
   accepts_nested_attributes_for :coin_excluded_countries, allow_destroy: true, reject_if: :all_blank
   accepts_nested_attributes_for :influencer_reviews, allow_destroy: true, reject_if: :all_blank
