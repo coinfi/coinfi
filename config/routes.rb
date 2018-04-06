@@ -1,5 +1,4 @@
 Rails.application.routes.draw do
-
   devise_scope :user do
     # TODO: (possibly)
     # I don't think anything but devise remappings should be
@@ -11,9 +10,6 @@ Rails.application.routes.draw do
     get "/set-password" => "users#set_password", as: "new_user_set_password"
     post "/submit-password" => "users#submit_password", as: "new_user_submit_password"
     get "/join-telegram" => "users#join_telegram", as: "new_user_join_telegram"
-    get "/kyc", to: "users#kyc", as: "kyc"
-    post "/kyc", to: "users#submit_kyc", as: "submit_kyc"
-    post "/eth", to: "users#update_ethereum_address", as: "update_eth"
   end
 
   devise_for :users,
@@ -23,7 +19,6 @@ Rails.application.routes.draw do
     },
     path: '',
     path_names: { sign_in: 'login', sign_out: 'logout'}
-
 
   namespace :admin do
     resources :coins do
@@ -51,6 +46,9 @@ Rails.application.routes.draw do
   end
 
   resources :coins, only: [:index, :show]
+  get '/icos(/:status)', to: 'coins#icos'
+  get '/coins/:id/historical_data', to: 'coins#historical_data'
+  get '/social_feeds/tweets_by_user', to: 'social_feeds#tweets_by_user'
   resources :contributor_submissions, path: 'contributor-submissions'
   get '/profile', to: 'author_profiles#edit', as: 'edit_author_profile'
   resources :author_profiles, only: [:index, :show, :create, :update], path: 'authors'
@@ -59,5 +57,4 @@ Rails.application.routes.draw do
   get '/:id', to: 'pages#show'
 
   mount Blazer::Engine, at: "blazer"
-
 end

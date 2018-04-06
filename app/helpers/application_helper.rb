@@ -1,4 +1,10 @@
 module ApplicationHelper
+  def nav_link(link_text, link_path, html_options)
+    class_name = current_page?(link_path) ? ' b black' : ''
+
+    link_to(link_text, link_path, html_options.merge({ class: class_name }) { |key, original, addition| original + addition })
+  end
+
   def natural_format(pee, br = true)
     # Taken from https://github.com/jekyll/jekyll-import/blob/master/lib/jekyll-import/util.rb
     return '' if pee.strip == ''
