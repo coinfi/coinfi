@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import Container from '../containers/WatchlistContainer'
 import Watchlist from '../components/Watchlist'
 import WatchlistSearch from '../components/WatchlistSearch'
 import LoadingIndicator from '../components/LoadingIndicator'
@@ -45,4 +44,4 @@ class WatchlistPage extends Component {
   }
 }
 
-export default Container(WatchlistPage)
+export default WatchlistPage

@@ -14,14 +14,6 @@ export const fetchArticlesSuccess = response => {
   return { type: 'FETCH_ARTICLES_SUCCESS', response }
 }
 
-export const selectCategory = category => {
-  return { type: 'SELECT_CATEGORY', category }
-}
-
-export const filterCoins = filterText => {
-  return { type: 'FILTER_COINS', filterText }
-}
-
 export const searchCoins = searchText => {
   return { type: 'SEARCH_COINS', searchText }
 }

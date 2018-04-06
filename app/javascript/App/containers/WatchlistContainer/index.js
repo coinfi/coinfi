@@ -5,7 +5,6 @@ import { createStructuredSelector } from 'reselect'
 import {
   fetchCoins,
   fetchArticles,
-  selectCategory,
   searchCoins,
   addCoinSuccess,
   editWatchlist,
@@ -13,44 +12,41 @@ import {
   reorderCoins
 } from './actions'
 import * as selectors from './selectors'
+import WatchlistPage from '../../pages/WatchlistPage'
 
-const WatchlistContainer = Component => {
-  class HOC extends React.Component {
-    componentDidMount() {
-      this.props.fetchCoins()
-      this.props.fetchArticles()
-    }
-    render() {
-      return <Component {...this.props} />
-    }
+class WatchlistContainer extends React.Component {
+  componentDidMount() {
+    this.props.fetchCoins()
+    this.props.fetchArticles()
   }
-  function mapDispatch(dispatch) {
-    return {
-      ...bindActionCreators(
-        {
-          fetchCoins,
-          fetchArticles,
-          selectCategory,
-          searchCoins,
-          addCoinSuccess,
-          editWatchlist,
-          removeCoin,
-          reorderCoins
-        },
-        dispatch
-      )
-    }
+  render() {
+    return <WatchlistPage {...this.props} />
   }
-
-  const mapState = createStructuredSelector({
-    coinIDs: selectors.selectCoinIDs(),
-    entities: selectors.selectEntities(),
-    category: selectors.selectCategory(),
-    searchedCoins: selectors.selectSearchedCoins(),
-    searchText: selectors.selectSearchText(),
-    UI: selectors.selectUI()
-  })
-  return connect(mapState, mapDispatch)(HOC)
 }
 
-export default WatchlistContainer
+function mapDispatch(dispatch) {
+  return {
+    ...bindActionCreators(
+      {
+        fetchCoins,
+        fetchArticles,
+        searchCoins,
+        addCoinSuccess,
+        editWatchlist,
+        removeCoin,
+        reorderCoins
+      },
+      dispatch
+    )
+  }
+}
+
+const mapState = createStructuredSelector({
+  coinIDs: selectors.selectCoinIDs(),
+  entities: selectors.selectEntities(),
+  searchedCoins: selectors.selectSearchedCoins(),
+  searchText: selectors.selectSearchText(),
+  UI: selectors.selectUI()
+})
+
+export default connect(mapState, mapDispatch)(WatchlistContainer)
