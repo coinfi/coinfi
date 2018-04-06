@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import Container from '../containers/WatchlistContainer'
 import Watchlist from '../components/Watchlist'
 import WatchlistSearch from '../components/WatchlistSearch'
 import LoadingIndicator from '../components/LoadingIndicator'
@@ -26,7 +25,12 @@ class WatchlistPage extends Component {
                     {editing ? 'Done Editing' : 'Edit Watchlist'}
                   </button>
                 </div>
-                <WatchlistSearch {...this.props} />
+                <WatchlistSearch
+                  {...{
+                    ...this.props,
+                    searchOpts: { exclude_watched: true, limit: 4 }
+                  }}
+                />
               </div>
               <div className="mt3">
                 {loading && <LoadingIndicator className="h5e mb3" />}
@@ -45,4 +49,4 @@ class WatchlistPage extends Component {
   }
 }
 
-export default Container(WatchlistPage)
+export default WatchlistPage

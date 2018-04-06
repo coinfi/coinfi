@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import WatchButton from './WatchButton'
 import Input from './Input'
 import CoinSearchContainer from '../containers/CoinSearchContainer'
 
@@ -10,23 +9,24 @@ class CoinSearch extends Component {
     this.props.searchCoins(value, searchOpts)
   }
   render() {
-    const { searchedCoins, addCoinSuccess, searchText } = this.props
+    const { searchedCoins, searchText } = this.props
     return (
       <div>
         <Input
           value={searchText}
           onChange={this.handleSearchInput}
-          className="input-alt"
           placeholder="Search"
+          autoFocus
         />
         {searchedCoins.size > 0 && (
-          <div>
-            {searchedCoins.map(coin => (
-              <div
+          <div id="coin-search-results">
+            {searchedCoins.map((coin, key) => (
+              <a
+                href={`/coins/${coin.get('slug')}`}
                 key={coin.get('id')}
-                className="pb3 mt3 bb b--athens-dark flex"
+                className="db pa2 bb b--light-gray"
               >
-                <div className="flex-auto flex items-center">
+                <div className="flex items-center">
                   {coin.get('image_url') && (
                     <img
                       className="w2e h2e mr3"
@@ -37,11 +37,7 @@ class CoinSearch extends Component {
                   {coin.get('name')}
                   <span className="b ml2 f7">{coin.get('symbol')}</span>
                 </div>
-                <WatchButton
-                  coinID={coin.get('id')}
-                  onSuccess={addCoinSuccess}
-                />
-              </div>
+              </a>
             ))}
           </div>
         )}

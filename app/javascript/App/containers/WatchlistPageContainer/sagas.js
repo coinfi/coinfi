@@ -5,7 +5,6 @@ import * as actions from './actions'
 export default function* watcher() {
   yield takeLatest('FETCH_COINS', fetchCoins)
   yield takeLatest('FETCH_ARTICLES', fetchArticles)
-  yield takeLatest('SEARCH_COINS', searchCoins)
   yield takeLatest('ADD_COIN_SUCCESS', addCoinSuccess)
   yield takeLatest('REMOVE_COIN', removeCoin)
   yield takeLatest('REORDER_COINS', reorderCoins)
@@ -28,15 +27,6 @@ function* fetchArticles() {
     '/watchlist/articles.json',
     null,
     actions.fetchArticlesSuccess
-  )
-}
-
-function* searchCoins({ searchText }) {
-  if (searchText.length < 2) return
-  yield sagas.get(
-    '/coins.json',
-    { q: { name_cont: searchText }, exclude_watched: true },
-    actions.searchCoinsSuccess
   )
 }
 
