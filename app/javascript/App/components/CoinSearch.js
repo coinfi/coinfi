@@ -20,18 +20,27 @@ class CoinSearch extends Component {
           autoFocus
         />
         {searchedCoins.size > 0 && (
-          <div className="ba b--light-gray mt3">
+          <div className="mt3">
             <table>
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Market Cap</th>
+                  <th>Price</th>
+                  <th>Supply</th>
+                  <th>Volume (24h)</th>
+                </tr>
+              </thead>
               <tbody>
-                {searchedCoins.map(coin => (
-                  <tr>
+                {searchedCoins.map((coin, key) => (
+                  <tr key={key}>
                     <td>
                       <a
                         href={`/coins/${coin.get('slug')}`}
                         key={coin.get('id')}
-                        className="db flex"
+                        className="db"
                       >
-                        <div className="flex-auto flex items-center">
+                        <div className="flex items-center">
                           {coin.get('image_url') && (
                             <img
                               className="w2e h2e mr3"
@@ -43,6 +52,16 @@ class CoinSearch extends Component {
                           <span className="b ml2 f7">{coin.get('symbol')}</span>
                         </div>
                       </a>
+                    </td>
+                    <td>
+                      {coin.getIn(['stored_market_info', 'market_cap_usd'])}
+                    </td>
+                    <td>{coin.getIn(['stored_market_info', 'price_usd'])}</td>
+                    <td>
+                      {coin.getIn(['stored_market_info', 'available_supply'])}
+                    </td>
+                    <td>
+                      {coin.getIn(['stored_market_info', '24h_volume_usd'])}
                     </td>
                   </tr>
                 ))}

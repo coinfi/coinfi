@@ -26,7 +26,10 @@ class WatchlistPage extends Component {
                   </button>
                 </div>
                 <WatchlistSearch
-                  {...{ ...this.props, searchOpts: { exclude_watched: true } }}
+                  {...{
+                    ...this.props,
+                    searchOpts: { exclude_watched: true, limit: 4 }
+                  }}
                 />
               </div>
               <div className="mt3">

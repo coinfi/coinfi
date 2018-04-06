@@ -6,7 +6,7 @@ class Api::CoinsController < ApiController
     else
       @q = Coin.ransack(params[:q])
     end
-    @coins = @q.result(distinct: true).limit(4)
+    @coins = @q.result(distinct: true).limit(params[:limit] || 10)
     respond_success serialized(@coins)
   end
 
@@ -29,7 +29,7 @@ class Api::CoinsController < ApiController
   private
 
   def serialized coin
-    coin.as_json(only: [:id, :name, :image_url, :symbol, :slug])
+    coin.as_json(only: [:id, :name, :image_url, :symbol, :slug, :price_usd], methods: [:stored_market_info])
   end
 
 end
