@@ -124,6 +124,30 @@ namespace :coinmarketcap do
       end
     end
 
+    desc "Scrape images from CoinMarketCap"
+    task :scrape_images => :environment do
+      Coin.where("image_url is null or image_url = ''").each do |coin|
+        puts coin.slug
+
+        begin
+          results = Wombat.crawl do
+            base_url "https://coinmarketcap.com"
+            path "/currencies/#{coin.slug}"
+
+            image_url xpath: "//*[@class='currency-logo-32x32']/@src"
+          end
+
+          file = results['image_url'].split('/').last
+          results['image_url'] = "https://res.cloudinary.com/coinfi/image/upload/coinlogos/#{file}"
+          pp results
+
+          coin.update(results)
+        rescue => e
+          puts e.message
+        end
+      end
+    end
+
     # Source: http://coinmarketcap.northpole.ro/history.json?coin=bitcoin&period=2017&format=array
     desc "Ingest coin daily historical price data scraped from CoinMarketCap via API"
     task :daily_historical, [:coin] => :environment do |task, args|
