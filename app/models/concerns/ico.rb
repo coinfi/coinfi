@@ -1,16 +1,12 @@
 module ICO
   extend ActiveSupport::Concern
 
-  included do
-    alias_method "is_listed?", "ico_listed?"
-  end
-
   def category
-    is_listed? ? 'listed' : 'ico'
+    ico_listed? ? 'listed' : 'ico'
   end
 
   def is_ico?
-    !is_listed?
+    !ico_listed?
   end
 
   # TODO: Refactor as a helper
