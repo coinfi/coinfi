@@ -1,0 +1,9 @@
+.box.mt3
+  - unless review.rating.blank?
+    .f7.silver.mb2.ttu
+      | Rating
+    .sunset.ttu.mb3.b
+      = review.rating
+  .f4.b.ttu.mb2
+    = review.influencer.name
+  .lh-copy= review.review

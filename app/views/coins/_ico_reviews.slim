@@ -1,0 +1,5 @@
+.row.mtn3.mb4
+  - @coin.influencer_reviews.in_groups(2).each do |group|
+    .col-xs-12.col-md-12.col-lg-6
+      - group.each do |review|
+        = render partial: 'ico_review', locals: { review: review } if review
