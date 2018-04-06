@@ -77,6 +77,12 @@
     "SECRET_KEY_BASE": {
       "required": true
     },
+    "TWITTER_ACCESS_SECRET": {
+      "required": true
+    },
+    "TWITTER_ACCESS_TOKEN": {
+      "required": true
+    },
     "TWITTER_API_KEY": {
       "required": true
     },
