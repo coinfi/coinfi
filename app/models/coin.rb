@@ -17,12 +17,9 @@ class Coin < ApplicationRecord
   accepts_nested_attributes_for :influencer_reviews, allow_destroy: true, reject_if: :all_blank
 
   scope :top, -> (limit) { order(ranking: :asc).limit(limit) }
-  scope :upcoming, -> { where(ico_status: "upcoming") }
-  scope :active, -> { where(ico_status: "active") }
-  scope :ended, -> { where(ico_status: "ended") }
-  scope :listed, -> { where(ico_status: "listed") }
 
   ICO_STATUSES.each do |status|
+    scope status, -> { where(ico_status: status) }
     define_method "ico_#{status}?" do
       ico_status == status
     end
