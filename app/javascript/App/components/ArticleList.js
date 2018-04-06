@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import ArticleFilters from '../components/ArticleFilters'
 import Article from '../components/Article'
 
 export default class ArticleList extends Component {
@@ -12,13 +13,16 @@ export default class ArticleList extends Component {
     const { tab } = this.state
     return (
       <div>
-        <div className="tabs mb3">
-          <button className="tab tab-active" onClick={this.tabClick('news')}>
-            Trending News
-          </button>
-          <button className="tab" onClick={this.tabClick('events')}>
-            Event Calendar
-          </button>
+        <div className="flex justify-between">
+          <div className="tabs mb3">
+            <button className="tab tab-active" onClick={this.tabClick('news')}>
+              Trending News
+            </button>
+            <button className="tab" onClick={this.tabClick('events')}>
+              Event Calendar
+            </button>
+          </div>
+          <ArticleFilters />
         </div>
         {tab === 'news' ? (
           <div>
