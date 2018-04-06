@@ -17,6 +17,7 @@
           - if @coin.is_listed?
             #chart
           - else
+            = render partial: 'ico_influencer_reviews'
             = render partial: 'ico_charts'
         section.phr.pv4
           .tab-area
