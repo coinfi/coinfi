@@ -1,7 +1,8 @@
 import { fork, all } from 'redux-saga/effects'
-import WatchlistSagas from '../../containers/WatchlistContainer/sagas'
+import WatchlistPageSagas from '../../containers/WatchlistPageContainer/sagas'
+import CoinSearchSagas from '../../containers/CoinSearchContainer/sagas'
 
-const sagas = [WatchlistSagas]
+const sagas = [WatchlistPageSagas, CoinSearchSagas]
 
 export default function* root() {
   yield all(sagas.map(saga => fork(saga)))

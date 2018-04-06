@@ -1,14 +1,16 @@
 import React, { Component, Fragment } from 'react'
 import WatchButton from './WatchButton'
 
-export default class WatchlistSearch extends Component {
+export default class CoinSearch extends Component {
   handleSearchInput = ({ target: { value } }) => {
-    this.props.searchCoins(value)
+    let { searchOpts } = this.props
+    searchOpts = searchOpts || {}
+    this.props.searchCoins(value, searchOpts)
   }
   render() {
     const { searchedCoins, addCoinSuccess, searchText } = this.props
     return (
-      <div className="">
+      <div>
         <input
           type="text"
           value={searchText}

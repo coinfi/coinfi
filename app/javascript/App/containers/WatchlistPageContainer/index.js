@@ -5,7 +5,6 @@ import { createStructuredSelector } from 'reselect'
 import {
   fetchCoins,
   fetchArticles,
-  searchCoins,
   addCoinSuccess,
   editWatchlist,
   removeCoin,
@@ -14,7 +13,7 @@ import {
 import * as selectors from './selectors'
 import WatchlistPage from '../../pages/WatchlistPage'
 
-class WatchlistContainer extends React.Component {
+class WatchlistPageContainer extends React.Component {
   componentDidMount() {
     this.props.fetchCoins()
     this.props.fetchArticles()
@@ -30,7 +29,6 @@ function mapDispatch(dispatch) {
       {
         fetchCoins,
         fetchArticles,
-        searchCoins,
         addCoinSuccess,
         editWatchlist,
         removeCoin,
@@ -44,9 +42,7 @@ function mapDispatch(dispatch) {
 const mapState = createStructuredSelector({
   coinIDs: selectors.selectCoinIDs(),
   entities: selectors.selectEntities(),
-  searchedCoins: selectors.selectSearchedCoins(),
-  searchText: selectors.selectSearchText(),
   UI: selectors.selectUI()
 })
 
-export default connect(mapState, mapDispatch)(WatchlistContainer)
+export default connect(mapState, mapDispatch)(WatchlistPageContainer)

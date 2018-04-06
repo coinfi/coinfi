@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import Watchlist from '../components/Watchlist'
-import WatchlistSearch from '../components/WatchlistSearch'
+import CoinSearchContainer from '../containers/CoinSearchContainer'
 import LoadingIndicator from '../components/LoadingIndicator'
 import ArticleList from '../components/ArticleList'
 
@@ -25,7 +25,9 @@ class WatchlistPage extends Component {
                     {editing ? 'Done Editing' : 'Edit Watchlist'}
                   </button>
                 </div>
-                <WatchlistSearch {...this.props} />
+                <CoinSearchContainer
+                  {...{ ...this.props, searchOpts: { exclude_watched: true } }}
+                />
               </div>
               <div className="mt3">
                 {loading && <LoadingIndicator className="h5e mb3" />}
