@@ -25,6 +25,7 @@ namespace :coinmarketcap do
             change1h: data["change1h"],
             change7d: data["change7d"],
             last_synced: data["timestamp"],
+            ico_status: 'listed'
           )
         rescue => e
           puts e.message
