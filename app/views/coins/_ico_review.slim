@@ -1,0 +1,7 @@
+.box.mt3
+  .tr= review.review_date.try(:strftime, "%B %d, %Y")
+  - unless review.rating.blank?
+    .f7.silver.mb2.ttu Rating
+    .sunset.ttu.mb3.b= review.rating
+  .lh-copy= review.review
+  .f4.mt2.tr= link_to review.influencer.name, review.url, { target: "_blank", rel: "nofollow" }

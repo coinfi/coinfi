@@ -1,5 +1,4 @@
 module ApplicationHelper
-
   def natural_format(pee, br = true)
     # Taken from https://github.com/jekyll/jekyll-import/blob/master/lib/jekyll-import/util.rb
     return '' if pee.strip == ''
@@ -69,5 +68,19 @@ module ApplicationHelper
     d = date.strftime('%A, %B %e, %Y - %H:%M%p')
     return d.split(' -')[0] if d.include? '00:00'
     d
+  end
+
+  def number_to_human_options
+    {
+      delimiter: ',',
+      format: "%n%u",
+      precision: 2,
+      significant: false,
+      units: {
+        million: 'M',
+        billion: 'B',
+        trillion: 'T'
+      }
+    }
   end
 end

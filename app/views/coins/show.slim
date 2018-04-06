@@ -13,12 +13,14 @@
         = render partial: 'links'
     .col-xs-12.col-md-8.flex
       .bg-white.w-100
-        section.pl2-m.pt3
-          - if @coin.is_listed?
+        - if @coin.is_listed?
+          section.pl2-m.pt3
             #chart
-          - else
-            = render partial: 'ico_charts'
+        - else
+          = render partial: 'ico_reviews'
+          = render partial: 'ico_charts'
         section.phr.pv4
+          h3 Relevant Content
           .tab-area
             .tabs.mb4
               .tab data-position=1 News
