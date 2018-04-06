@@ -29,7 +29,7 @@ class Api::CoinsController < ApiController
   private
 
   def serialized coin
-    coin.as_json(only: [:id, :name, :image_url, :symbol])
+    coin.as_json(only: [:id, :name, :image_url, :symbol, :slug])
   end
 
 end

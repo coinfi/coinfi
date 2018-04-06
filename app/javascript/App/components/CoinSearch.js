@@ -1,51 +1,58 @@
-import React, { Component, Fragment } from 'react'
-import WatchButton from './WatchButton'
+import React, { Component } from 'react'
+import Input from './Input'
+import CoinSearchContainer from '../containers/CoinSearchContainer'
 
-export default class CoinSearch extends Component {
+class CoinSearch extends Component {
   handleSearchInput = ({ target: { value } }) => {
     let { searchOpts } = this.props
     searchOpts = searchOpts || {}
     this.props.searchCoins(value, searchOpts)
   }
   render() {
-    const { searchedCoins, addCoinSuccess, searchText } = this.props
+    const { searchedCoins, searchText } = this.props
     return (
       <div>
-        <input
-          type="text"
+        <Input
           value={searchText}
           onChange={this.handleSearchInput}
-          className="input-alt"
+          className=""
           placeholder="Search"
+          autoFocus
         />
         {searchedCoins.size > 0 && (
-          <div>
-            {searchedCoins.map(coin => (
-              <div
-                key={coin.get('id')}
-                className="pb3 mt3 bb b--athens-dark flex"
-              >
-                <div className="flex-auto flex items-center">
-                  {coin.get('image_url') && (
-                    <img
-                      className="w2e h2e mr3"
-                      src={coin.get('image_url')}
-                      alt=""
-                    />
-                  )}
-                  {coin.get('name')}
-                  <span className="b ml2 f7">{coin.get('symbol')}</span>
-                </div>
-                <WatchButton
-                  coinID={coin.get('id')}
-                  noFetch
-                  onSuccess={addCoinSuccess}
-                />
-              </div>
-            ))}
+          <div className="ba b--light-gray mt3">
+            <table>
+              <tbody>
+                {searchedCoins.map(coin => (
+                  <tr>
+                    <td>
+                      <a
+                        href={`/coins/${coin.get('slug')}`}
+                        key={coin.get('id')}
+                        className="db flex"
+                      >
+                        <div className="flex-auto flex items-center">
+                          {coin.get('image_url') && (
+                            <img
+                              className="w2e h2e mr3"
+                              src={coin.get('image_url')}
+                              alt=""
+                            />
+                          )}
+                          {coin.get('name')}
+                          <span className="b ml2 f7">{coin.get('symbol')}</span>
+                        </div>
+                      </a>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
         )}
       </div>
     )
   }
 }
+
+export default CoinSearchContainer(CoinSearch)

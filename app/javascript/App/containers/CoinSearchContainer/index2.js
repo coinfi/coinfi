@@ -5,7 +5,7 @@ import { createStructuredSelector } from 'reselect'
 import { searchCoins } from './actions'
 import * as selectors from './selectors'
 
-export default Component => {
+const WatchlistContainer = Component => {
   class HOC extends React.Component {
     render() {
       return <Component {...this.props} />
@@ -27,3 +27,5 @@ export default Component => {
   })
   return connect(mapState, mapDispatch)(HOC)
 }
+
+export default WatchlistContainer
