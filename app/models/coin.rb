@@ -4,6 +4,8 @@ class Coin < ApplicationRecord
   extend FriendlyId
   friendly_id :name, use: [:slugged, :finders]
 
+  ICO_STATUSES = %w(upcoming active ended listed).freeze
+
   has_many :articles
 
   has_many :influencer_reviews
@@ -17,6 +19,12 @@ class Coin < ApplicationRecord
 
   scope :find_by_symbol, -> (symbol) { where('lower(symbol) = ?', symbol.downcase).first }
   scope :top, -> (limit) { order(ranking: :asc).limit(limit) }
+
+  ICO_STATUSES.each do |status|
+    define_method "ico_#{status}?" do
+      ico_status == status
+    end
+  end
 
   def market_cap_by_currency(currency)
     market_cap.try(:[], currency)
