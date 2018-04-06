@@ -126,7 +126,7 @@ namespace :coinmarketcap do
 
     desc "Scrape images from CoinMarketCap"
     task :scrape_images => :environment do
-      Coin.find_each do |coin|
+      Coin.where("image_url is null or image_url = ''").each do |coin|
         puts coin.slug
 
         begin
