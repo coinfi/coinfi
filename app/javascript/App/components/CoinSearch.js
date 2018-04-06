@@ -22,15 +22,6 @@ class CoinSearch extends Component {
         {searchedCoins.size > 0 && (
           <div className="mt3">
             <table>
-              <thead>
-                <tr>
-                  <th>Name</th>
-                  <th>Market Cap</th>
-                  <th>Price</th>
-                  <th>Supply</th>
-                  <th>Volume (24h)</th>
-                </tr>
-              </thead>
               <tbody>
                 {searchedCoins.map((coin, key) => (
                   <tr key={key}>
@@ -52,16 +43,6 @@ class CoinSearch extends Component {
                           <span className="b ml2 f7">{coin.get('symbol')}</span>
                         </div>
                       </a>
-                    </td>
-                    <td>
-                      {coin.getIn(['stored_market_info', 'market_cap_usd'])}
-                    </td>
-                    <td>{coin.getIn(['stored_market_info', 'price_usd'])}</td>
-                    <td>
-                      {coin.getIn(['stored_market_info', 'available_supply'])}
-                    </td>
-                    <td>
-                      {coin.getIn(['stored_market_info', '24h_volume_usd'])}
                     </td>
                   </tr>
                 ))}
