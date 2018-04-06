@@ -24,7 +24,7 @@
             tr
               td= coin.ranking
               td.flex.items-center
-                = image_tag coin.image_url, class: 'w2e mr2', alt: coin.name if coin.image_url
+                = image_tag coin.image_url, class: 'w2e mr2', alt: coin.name if coin.image_url.present?
                 = link_to coin.name, coin, id: coin.slug
               td.tr= number_to_currency coin.market_cap_by_currency(currency)
               td.tr= custom_number_to_currency coin.price_by_currency(currency)
@@ -33,5 +33,4 @@
               td.tr= display_percentage_change coin.change24h
               - if current_user
                 td.tr.watchlist-button data-coin-id=coin.id data-watching=user_is_watching?(coin)
-
       .tc= paginate @coins
