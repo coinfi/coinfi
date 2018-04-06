@@ -25,7 +25,7 @@ module MarketData
     data
   end
 
-  def stored_market_info 
+  def stored_market_info
     market_info({
       "24h_volume_usd": self.volume24['usd'],
       "available_supply": display_available_supply(self),
@@ -40,6 +40,7 @@ module MarketData
     {'available_supply' => available_supply}
   end
 
+  # TODO: Refactor into presentation helper
   def humanize number, prefix = '', suffix = ''
     "#{prefix}#{number_to_human(number, number_to_human_options)}#{suffix}"
   end
@@ -57,5 +58,4 @@ module MarketData
       }
     }
   end
-
 end

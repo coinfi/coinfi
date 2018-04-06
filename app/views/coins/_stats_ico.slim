@@ -2,7 +2,8 @@
   .row.mtn4.tc.fw6
     .stat-block.col-xs-6.col-sm-3.col-md-12.col-lg-6.mt4
       label Total Supply
-      = @coin.max_supply || '-'
+      = number_to_human(@coin.max_supply, number_to_human_options) || '-'
+      .dib.f7.ml1= @coin.symbol
     .stat-block.col-xs-6.col-sm-3.col-md-12.col-lg-6.mt4
       label ICO Price
       - if @coin.ico_token_price_usd
@@ -30,8 +31,8 @@
         | -
     .stat-block.col-xs-6.col-sm-3.col-md-12.col-lg-6.mt4
       label Blockchain
-      - if @coin.blockchain_tech
-        = "#{@coin.blockchain_tech} (#{@coin.token_type})"
+      - if @coin.blockchain_tech || @coin.token_type
+        = "#{@coin.blockchain_tech} #{@coin.token_type}"
       - else
         | -
     .stat-block.col-xs-6.col-sm-3.col-md-12.col-lg-6.mt4
