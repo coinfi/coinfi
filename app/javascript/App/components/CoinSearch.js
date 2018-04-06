@@ -15,28 +15,27 @@ class CoinSearch extends Component {
         <Input
           value={searchText}
           onChange={this.handleSearchInput}
-          className="tr"
           placeholder="Search"
           autoFocus
         />
         {searchedCoins.size > 0 && (
-          <div id="coin-search-results" className="tr">
+          <div id="coin-search-results">
             {searchedCoins.map((coin, key) => (
               <a
                 href={`/coins/${coin.get('slug')}`}
                 key={coin.get('id')}
                 className="db pa2 bb b--light-gray"
               >
-                <div className="flex items-center justify-end">
-                  <span className="b mr2 f7">{coin.get('symbol')}</span>
-                  {coin.get('name')}
+                <div className="flex items-center">
                   {coin.get('image_url') && (
                     <img
-                      className="w2e h2e ml3"
+                      className="w2e h2e mr3"
                       src={coin.get('image_url')}
                       alt=""
                     />
                   )}
+                  {coin.get('name')}
+                  <span className="b ml2 f7">{coin.get('symbol')}</span>
                 </div>
               </a>
             ))}
