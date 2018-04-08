@@ -9,10 +9,10 @@ module MarketData
       "/coins/#{symbol}/market_data",
       { expires_in: 1.minute }
     ) do
-      url = "https://coinmarketcap.northpole.ro/ticker.json?identifier=#{slug}&version=v8"
+      url = "https://api.coinmarketcap.com/v1/ticker/#{slug}/?convert=BTC"
       response = HTTParty.get(url)
-      data = JSON.parse(response.body) || {}
-      default_market_data.merge(transform_northpole_data(data))
+      data = JSON.parse(response.body)[0] || {}
+      default_market_data.merge(data)
     end
   end
 
@@ -37,17 +37,7 @@ module MarketData
   private
 
   def default_market_data
-    {'available_supply' => available_supply, 'total_supply' => max_supply}
-  end
-
-  def transform_northpole_data(data)
-    {
-      '24h_volume_usd' => data.dig('markets', 0, 'volume24', 'usd'),
-      'available_supply' => data.dig('markets', 0, 'availableSupply'),
-      'market_cap_usd' => data.dig('markets', 0, 'marketCap', 'usd'),
-      'price_usd' => data.dig('markets', 0, 'price', 'usd'),
-      'percent_change_24h' => data.dig('markets', 0, 'change24h')
-    }
+    {'available_supply' => available_supply}
   end
 
   # TODO: Refactor into presentation helper
