@@ -10,7 +10,7 @@ export default () => {
     const articles = $.getJSON(
       `/api/coins/${friendlyID}/news.json`,
       data => {
-        news = data['news']
+        news = data['payload']['news']
       }
     )
     const prices = $.getJSON(
