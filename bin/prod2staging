@@ -1,10 +1,10 @@
 #!/bin/bash
 
-APP="coinfi-staging"
+APP="coinfi-staging-eu"
 if [ "$1" != "" ]; then
   APP=$1
 fi
 echo "Copying production database to Heroku app $APP..."
-heroku pg:backups:capture --app coinfi
+heroku pg:backups:capture --app coinfi-eu
 heroku pg:backups:restore $(heroku pg:backups:public-url --app coinfi) DATABASE_URL --app $APP
 
