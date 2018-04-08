@@ -45,7 +45,8 @@ module MarketData
       '24h_volume_usd' => data.dig('markets', 0, 'volume24', 'usd'),
       'available_supply' => data.dig('markets', 0, 'availableSupply'),
       'market_cap_usd' => data.dig('markets', 0, 'marketCap', 'usd'),
-      'price_usd' => data.dig('markets', 0, 'price', 'usd')
+      'price_usd' => data.dig('markets', 0, 'price', 'usd'),
+      'percent_change_24h' => data.dig('markets', 0, 'change24h')
     }
   end
 
