@@ -47,9 +47,6 @@
     "RACK_ENV": {
       "required": true
     },
-    "RAILS_AUTOSCALE_URL": {
-      "required": true
-    },
     "RAILS_ENV": {
       "required": true
     },
