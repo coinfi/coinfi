@@ -29,7 +29,7 @@
               td.tr= number_to_currency coin.market_cap_by_currency(currency)
               td.tr= custom_number_to_currency coin.price_by_currency(currency)
               td.tr= display_available_supply(coin)
-              td.tr= number_with_delimiter(coin.volume24_by_currency(currency))
+              td.tr= custom_number_to_currency coin.volume24_by_currency(currency)
               td.tr= display_percentage_change coin.change24h
               - if current_user
                 td.tr.watchlist-button data-coin-id=coin.id data-watching=user_is_watching?(coin)
