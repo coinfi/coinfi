@@ -33,6 +33,27 @@ namespace :coinmarketcap do
       end
     end
 
+    desc "Daily updates from CMC"
+    task :daily_update => :environment do
+      Coin.listed.find_each do |coin|
+        puts coin.slug
+        ticker_url = "https://api.coinmarketcap.com/v1/ticker/#{coin.slug}/?convert=BTC"
+        begin
+          response = HTTParty.get(ticker_url)
+          contents = JSON.parse(response.body)
+
+          next if contents.none?
+
+          data = contents.first
+          coin.update(
+            max_supply: data["max_supply"]
+          )
+        rescue => e
+          puts e.message
+        end
+      end
+    end
+
     # Grab history but only keep most recent day.
     desc "Most recent daily price update"
     task :last_daily_update, [:coin] => :environment do |task, args|
