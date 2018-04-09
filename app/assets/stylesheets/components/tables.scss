@@ -44,4 +44,63 @@ table {
       }
     }
   }
+  &.responsive-table {
+    tbody {
+      tr {
+        td {
+          label {
+            display: none;
+          }
+        }
+      }
+    }
+  }
+}
+@media (max-width: $screen-m) {
+  table.responsive-table {
+    display: block;
+    width: 100%;
+    thead {
+      display: none;
+    }
+    tbody {
+      display: block;
+      width: 100%;
+      tr {
+        display: block;
+        width: 100%;
+        border-bottom: 1px solid $moon-gray;
+        td {
+          display: flex;
+          width: 100%;
+          > label {
+            display: block !important;
+          }
+          > * {
+            width: 50%;
+            flex: 1 1 auto;
+            text-align: center;
+            &:first-child {
+              text-align: right;
+              margin-right: $sp3;
+            }
+            &:nth-child(2) {
+              text-align: left;
+              font-weight: 600;
+            }
+            &:only-child {
+              text-align: center;
+              width: 100%;
+            }
+          }
+          &:first-child {
+            padding-top: $sp3;
+          }
+          &:last-child {
+            padding-bottom: $sp3;
+          }
+        }
+      }
+    }
+  }
 }

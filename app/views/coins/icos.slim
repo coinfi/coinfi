@@ -1,13 +1,14 @@
 - currency = 'usd' # TODO: Allow user to select default currency.
-.pa3-s.pa4-m
-  .container-wide
-    .bg-white.pa3.pa4-s.pa5-m.shadow-s1
-      .row.mb4
-        .col-xs-10
+.container-wide
+  .bg-white
+    .ph3.pt4.ph4-ns
+      .row.mb4.flex.items-center
+        .col-xs-12.col-md-6.col-lg-8.tc.tl-m
           = render partial: "ico_nav"
-        .col-xs-2
-          #coin-search
-      table
+        .col-xs-12.col-md-6.col-lg-4.tc.tr-m.mt3.mt0-m
+          #coin-search.dib.max-w18e.w-100
+    .pt4.ph3-ns.ph4-m
+      table.responsive-table
         thead
           tr
             th Name
@@ -20,23 +21,42 @@
         tbody
           - @coins.each do |coin|
             tr
-              td.flex.items-center
-                  = image_tag coin.image_url, class: 'w2e mr2', alt: coin.name if coin.image_url
-                  = link_to coin.name, coin, id: coin.slug
-              td.tr= number_to_currency(coin.ico_fundraising_status_usd, precision: 0) || "?"
-              td.tr
-                - if coin.ico_fundraising_goal_usd.present? && coin.ico_fundraising_goal_usd > 0
-                  = number_to_currency(coin.ico_fundraising_goal_usd, precision: 0)
-                - else
-                  | ?
-              td.tr= coin.ico_end_datetime.is_a?(DateTime) ? coin.ico_end_datetime.strftime('%B %e, %Y') : "?"
-              td.tr= coin.max_supply
-              td.tr
-                - if coin.ico_token_price_usd
-                  => number_to_currency(coin.ico_token_price_usd, precision: 4)
-                  small USD
-                - else
-                  | ?
-              td.tr= coin.token_type
+              td
+                div
+                  .dib
+                    .flex.items-center.b
+                      = image_tag coin.image_url, class: 'w2e mr2', alt: coin.name if coin.image_url
+                      = link_to coin.name, coin, id: coin.slug
+              td
+                label Amount Raised
+                .tr
+                  = number_to_currency(coin.ico_fundraising_status_usd, precision: 0) || "?"
+              td
+                label Hard Cap
+                .tr
+                  - if coin.ico_fundraising_goal_usd.present? && coin.ico_fundraising_goal_usd > 0
+                    = number_to_currency(coin.ico_fundraising_goal_usd, precision: 0)
+                  - else
+                    | ?
+              td
+                label End Date
+                .tr
+                  = coin.ico_end_datetime.is_a?(DateTime) ? coin.ico_end_datetime.strftime('%B %e, %Y') : "?"
+              td
+                label Total Supply
+                .tr
+                  = coin.max_supply
+              td
+                label ICO Price
+                .tr
+                  - if coin.ico_token_price_usd
+                    => number_to_currency(coin.ico_token_price_usd, precision: 4)
+                    small USD
+                  - else
+                    | ?
+              td
+                label Token Type
+                .tr
+                  = coin.token_type
 
       .tc= paginate @coins

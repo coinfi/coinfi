@@ -1,6 +1,6 @@
 module ApplicationHelper
   def nav_link(link_text, link_path, html_options)
-    class_name = current_page?(link_path) ? ' b black' : ''
+    class_name = current_page?(link_path) ? ' b dark-gray' : ''
 
     link_to(link_text, link_path, html_options.merge({ class: class_name }) { |key, original, addition| original + addition })
   end
