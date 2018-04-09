@@ -28,7 +28,7 @@
               td
                 .flex.items-center
                   = image_tag coin.image_url, class: 'w2e mr2', alt: coin.name if coin.image_url.present?
-                  a.db.b href=coin.slug
+                  a.db.b href=coin_url(coin)
                     = coin.name
                     .f7.mt1
                       = coin.symbol
