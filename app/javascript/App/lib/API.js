@@ -15,7 +15,7 @@ const request = (path, data = {}, remote = true, type = 'get') => {
       .getAttribute('content')
   }
   if (type === 'get') params = { params }
-  if (remote) endpoint = process.env['COINFI_PRICES_URL']
+  if (remote) endpoint = window.pricesURL
   if (!remote) config = { headers }
   const url = `${endpoint}${path}`
   return new Promise(resolve => {

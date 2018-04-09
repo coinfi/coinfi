@@ -27,6 +27,9 @@
       <%= yield %>
     </main>
     <%= render partial: "components/footer" %>
+    <%= javascript_tag do %>
+      window.pricesURL = '<%= ENV.fetch('COINFI_PRICES_URL') %>';
+    <% end %>
     <%= javascript_pack_tag 'application' %>
     <%= render partial: "components/tracking_scripts" %>
   </body>
