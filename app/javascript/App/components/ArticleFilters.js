@@ -1,7 +1,7 @@
 import React from 'react'
 
 export default () => (
-  <div className="flex-auto black-80 relative noselect">
+  <div className="flex-auto black-80 relative noselect mt3">
     <div className="absolute absolute--fill z-2 flex items-center justify-center justify-end-l">
       <div className="b ttu tc black-20 f6 bg-white">Filters Coming Soon</div>
     </div>

@@ -32,13 +32,13 @@ class WatchlistPage extends Component {
                   }}
                 />
               </div>
-              <div className="mt2 mt3-ns">
+              <div className="mt2 mt3-l">
                 {loading && <LoadingIndicator className="h5e mb3" />}
                 <Watchlist {...this.props} />
               </div>
             </div>
             <div className="col-xs-12 col-md-7 flex">
-              <div className="bg-white w-100 pa2-ns pt4 pa4-m ml2-m">
+              <div className="bg-white w-100 ph2-ns pt5 pa4-m ml2-l">
                 <ArticleList {...this.props} />
               </div>
             </div>

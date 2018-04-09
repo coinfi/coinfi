@@ -4,7 +4,7 @@ import dateFormat from 'dateformat'
 export default ({ article, tags }) => {
   return (
     <a
-      className="box tiber mb2 mb4-ns"
+      className="box tiber mb2 mb4-l"
       href={article.get('url')}
       target="_blank"
     >
