@@ -30,9 +30,8 @@ export default props => (
   <SortableWatchlist
     {...props}
     lockToContainerEdges
-    distance={10}
     axis="y"
-    useDragHandle={true}
+    pressDelay={200}
     onSortEnd={({ oldIndex, newIndex }) => {
       const { reorderCoins, coinIDs } = props
       reorderCoins(arrayMove(coinIDs, oldIndex, newIndex))
