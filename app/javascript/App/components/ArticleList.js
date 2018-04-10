@@ -24,25 +24,27 @@ export default class ArticleList extends Component {
           </div>
           <ArticleFilters />
         </div>
-        {tab === 'news' ? (
-          <div>
-            {articles &&
-              articles
-                .valueSeq()
-                .map(article => (
-                  <Article
-                    article={article}
-                    tags={tags}
-                    key={article.get('id')}
-                  />
-                ))}
-            {(!articles || articles.size === 0) && (
-              <div className="pt2 o-60">Add items to see news here</div>
-            )}
-          </div>
-        ) : (
-          <div>Event calendar coming soon</div>
-        )}
+        <div className="pt1 ph1 bg-athens-dark bg-white-m">
+          {tab === 'news' ? (
+            <div>
+              {articles &&
+                articles
+                  .valueSeq()
+                  .map(article => (
+                    <Article
+                      article={article}
+                      tags={tags}
+                      key={article.get('id')}
+                    />
+                  ))}
+              {(!articles || articles.size === 0) && (
+                <div className="pt2 o-60">Add items to see news here</div>
+              )}
+            </div>
+          ) : (
+            <div>Event calendar coming soon</div>
+          )}
+        </div>
       </div>
     )
   }

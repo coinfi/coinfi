@@ -1,4 +1,7 @@
-.shadow-s1 {
+@mixin shadow-s1() {
   box-shadow: 0 0 15px rgba(0, 0, 0, 0.05);
   -webkit-box-shadow: 0 0 15px rgba(0, 0, 0, 0.05);
+}
+.shadow-s1 {
+  @include shadow-s1();
 }
