@@ -1,8 +1,11 @@
 @mixin conceal() {
   position: fixed !important;
-  position: absolute !important;
   clip: rect(1px 1px 1px 1px);
   clip: rect(1px, 1px, 1px, 1px);
+  opacity: 0;
+  overflow: hidden;
+  height: 1px;
+  width: 1px;
 }
 
 .conceal {
