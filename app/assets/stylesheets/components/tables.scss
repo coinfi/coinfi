@@ -70,7 +70,11 @@ table {
         display: block;
         width: 100%;
         border-bottom: 1px solid $moon-gray;
+        padding: $sp3 0;
         td {
+          &:first-child {
+            border-top: 0;
+          }
           display: flex;
           width: 100%;
           > label {
@@ -92,12 +96,6 @@ table {
               text-align: center;
               width: 100%;
             }
-          }
-          &:first-child {
-            padding-top: $sp4;
-          }
-          &:last-child {
-            padding-bottom: $sp4;
           }
         }
       }
