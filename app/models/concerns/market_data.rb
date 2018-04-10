@@ -40,22 +40,4 @@ module MarketData
     {'available_supply' => available_supply}
   end
 
-  # TODO: Refactor into presentation helper
-  def humanize number, prefix = '', suffix = ''
-    "#{prefix}#{number_to_human(number, number_to_human_options)}#{suffix}"
-  end
-
-  def number_to_human_options
-    {
-      delimiter: ',',
-      format: "%n%u",
-      precision: 2,
-      significant: false,
-      units: {
-        million: 'M',
-        billion: 'B',
-        trillion: 'T'
-      }
-    }
-  end
 end

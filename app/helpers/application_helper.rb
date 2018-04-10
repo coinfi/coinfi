@@ -76,17 +76,4 @@ module ApplicationHelper
     d
   end
 
-  def number_to_human_options
-    {
-      delimiter: ',',
-      format: "%n%u",
-      precision: 2,
-      significant: false,
-      units: {
-        million: 'M',
-        billion: 'B',
-        trillion: 'T'
-      }
-    }
-  end
 end
