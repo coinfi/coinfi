@@ -1,4 +1,3 @@
-- currency = 'usd' # TODO: Allow user to select default currency.
 .container-wide
   .bg-white
     .ph3.pt4.ph4-ns
@@ -24,15 +23,21 @@
               td
                 div
                   .dib
-                    .flex.items-center.b
-                      = image_tag coin.image_url, class: 'w2e mr2', alt: coin.name if coin.image_url
+                    .flex.items-center.b.f4.f5-m
+                      = image_tag coin.image_url, class: 'w2e mr3 mr2-m', alt: coin.name if coin.image_url
                       = link_to coin.name, coin, id: coin.slug
-              td
+              td.reveal-m
                 label Amount Raised
                 .tr
                   = number_to_currency(coin.ico_fundraising_status_usd, precision: 0) || "?"
               td
-                label Hard Cap
+                - if coin.ico_fundraising_status_usd
+                  label
+                    .mhn1
+                      span.green.b.mr2= number_to_currency(coin.ico_fundraising_status_usd, precision: 0) || "?"
+                      | of
+                - else
+                  label Hard cap
                 .tr
                   - if coin.ico_fundraising_goal_usd.present? && coin.ico_fundraising_goal_usd > 0
                     = number_to_currency(coin.ico_fundraising_goal_usd, precision: 0)
@@ -45,7 +50,8 @@
               td
                 label Total Supply
                 .tr
-                  = coin.max_supply
+                  = humanize(coin.max_supply)
+                  .dib.f7.ml1.conceal-m= "(#{coin.token_type})"
               td
                 label ICO Price
                 .tr
@@ -54,7 +60,7 @@
                     small USD
                   - else
                     | ?
-              td
+              td.reveal-m
                 label Token Type
                 .tr
                   = coin.token_type
