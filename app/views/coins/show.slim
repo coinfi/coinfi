@@ -15,6 +15,7 @@
       .bg-white.w-100
         - if @coin.ico_listed?
           section.pl2-m.pt3
+            h2.tc #{@coin.name} Price Chart
             #chart
         - else
           = render partial: 'ico_reviews'
@@ -23,7 +24,7 @@
           h3 Relevant Content
           .tab-area
             .tabs.mb4
-              .tab data-position=1 News
+              .tab data-position=1 #{@coin.name} News
               - if @coin.twitter.present?
                 .tab data-position=2 Twitter
               - if @coin.reddit.present?
