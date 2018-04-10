@@ -2,9 +2,16 @@
 <div id="mobile-nav" class="conceal-m">
   <div>
     <a class="block" href="/">
-      <img src="<%= image_path('logo.svg') %>" class="w4e">
+      <img src="<%= image_path('logo.svg') %>" class="w5e">
     </a>
     <%= render partial: 'components/main_nav', locals: { klass: 'mt4' } %>
+    <div class="mt2">
+      <% if user_signed_in? %>
+        <%= button_to "Logout", destroy_user_session_path, method: :delete, class: "btn btn-sm btn-red" %>
+      <% else %>
+        <%= link_to "Login", new_user_session_path, class: "btn btn-sm btn-green" %>
+      <% end %>
+    </div>
     <button class="btn-icon mobile-nav-toggle mt4 silver">
       <i class="fas fa-times"></i>
     </button>
