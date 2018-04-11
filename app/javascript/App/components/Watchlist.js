@@ -7,7 +7,7 @@ const SortableWatchlist = SortableContainer(props => {
   const { coins } = entities.toObject()
   const { loading, editing } = UI.toObject()
   if (!loading && (!coins || coins.size === 0))
-    return <div className="o-60 pt3 tc">Nothing added yet</div>
+    return <div className="o-60 pv3 tc">Nothing added yet</div>
   return (
     <div>
       {coinIDs &&
@@ -30,9 +30,8 @@ export default props => (
   <SortableWatchlist
     {...props}
     lockToContainerEdges
-    distance={10}
     axis="y"
-    useDragHandle={true}
+    pressDelay={200}
     onSortEnd={({ oldIndex, newIndex }) => {
       const { reorderCoins, coinIDs } = props
       reorderCoins(arrayMove(coinIDs, oldIndex, newIndex))

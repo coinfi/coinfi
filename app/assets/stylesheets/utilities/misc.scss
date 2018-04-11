@@ -10,6 +10,10 @@
   -ms-user-select: none;
   user-select: none;
 }
+.blur-1 {
+  filter: blur(1px);
+  -webkit-filter: blur(1px);
+}
 // Adjustments
 .a1 {
   transform: scale(1.2) translateY(-0.2em);

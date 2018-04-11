@@ -9,11 +9,11 @@ class WatchlistPage extends Component {
     const { UI, editWatchlist } = this.props
     const { loading, editing } = UI.toObject()
     return (
-      <div className="pa3">
+      <div className="pa3-l">
         <div className="container">
           <div className="row narrow-gutter flex">
             <div className="col-xs-12 col-md-5 flex flex-column">
-              <div className="bg-white pa4">
+              <div className="bg-white pa3 pt4 pa4-ns">
                 <div className="flex items-end justify-between mb3">
                   <h1 className="ma0 ttu b f4">Watchlist</h1>
                   <button
@@ -32,13 +32,13 @@ class WatchlistPage extends Component {
                   }}
                 />
               </div>
-              <div className="mt3">
+              <div className="mt1 mt3-l">
                 {loading && <LoadingIndicator className="h5e mb3" />}
                 <Watchlist {...this.props} />
               </div>
             </div>
             <div className="col-xs-12 col-md-7 flex">
-              <div className="bg-white w-100 pa3 pa4-m ml2-m">
+              <div className="bg-white w-100 pt5 pa4-m ml2-l">
                 <ArticleList {...this.props} />
               </div>
             </div>

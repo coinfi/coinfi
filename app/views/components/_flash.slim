@@ -1,8 +1,10 @@
-- flash.each do |type, message|
-  div class="flash flash-#{type}"
-    - if message.kind_of?(Array)
-      ul
-        - message.each do |m|
-          li= m
-    - else
-      = message
+- if flash.any?
+  .pt3.ph3
+    - flash.each do |type, message|
+      div class="flash flash-#{type}"
+        - if message.kind_of?(Array)
+          ul
+            - message.each do |m|
+              li= m
+        - else
+          = message

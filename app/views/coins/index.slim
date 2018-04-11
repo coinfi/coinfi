@@ -1,36 +1,55 @@
 - currency = 'usd' # TODO: Allow user to select default currency.
-.pa3-s.pa4-m
-  .container-wide
-    .bg-white.pa3.pa4-s.pa5-m.shadow-s1
-      .row.mb4
-        .col-xs-10
-          h1.pt3 Top Cryptocurrency Prices
-        .col-xs-2
-          #coin-search
+.container-wide
+  .bg-white
+    .pt3.ph3.ph4-ns.pt4-ns.pt5-m.ph5-m
+      .row
+        .col-xs-4
+          h1.ma0 Top Cryptocurrency Prices
+        .col-xs-8.tr
+          #coin-search.dib.max-w18e.w-100
+    .ph4-s.ph5-m.pt4.pt5-m
       table
         thead
           tr
-            th #
+            th.pr0.o-30 #
             th Name
             th.tr Market Cap
             th.tr Price
-            th.tr Supply
+            th.tr.reveal-l Supply
             th.tr Volume (24h)
-            th.tr % Change (24h)
+            th.tr.reveal-l % Change (24h)
             - if current_user
-              th
+              th.reveal-m
         tbody
           - @coins.each do |coin|
             tr
-              td= coin.ranking
-              td.flex.items-center
-                = image_tag coin.image_url, class: 'w2e mr2', alt: coin.name if coin.image_url.present?
-                = link_to coin.name, coin, id: coin.slug
-              td.tr= number_to_currency coin.market_cap_by_currency(currency)
-              td.tr= custom_number_to_currency coin.price_by_currency(currency)
-              td.tr= display_available_supply(coin)
-              td.tr= custom_number_to_currency coin.volume24_by_currency(currency)
-              td.tr= display_percentage_change coin.change24h
+              td.pr0
+                = coin.ranking
+              td
+                .flex.items-center
+                  = image_tag coin.image_url, class: 'w2e mr2', alt: coin.name if coin.image_url.present?
+                  a.db.b href=coin_url(coin)
+                    = coin.name
+                    .f7.mt1
+                      = coin.symbol
+              td.tr
+                .reveal-l
+                  = number_to_currency coin.market_cap_by_currency(currency)
+                .conceal-l
+                  = coin.stored_market_info['market_cap_usd']
+              td.tr
+                = custom_number_to_currency coin.price_by_currency(currency)
+                .conceal-l
+                  = display_percentage_change coin.change24h
+              td.tr.reveal-l
+                = display_available_supply(coin)
+              td.tr 
+                .reveal-l
+                  = custom_number_to_currency coin.volume24_by_currency(currency)
+                .conceal-l
+                  = coin.stored_market_info['24h_volume_usd']
+              td.tr.reveal-l
+                = display_percentage_change coin.change24h
               - if current_user
-                td.tr.watchlist-button data-coin-id=coin.id data-watching=user_is_watching?(coin)
+                td.tr.watchlist-button.reveal-m data-coin-id=coin.id data-watching=user_is_watching?(coin)
       .tc= paginate @coins

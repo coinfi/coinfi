@@ -7,16 +7,11 @@ export default () => {
     let historical = []
     let news = []
 
-    const articles = $.getJSON(
-      `/api/coins/${friendlyID}/news.json`,
-      data => {
-        news = data['payload']['news']
-      }
-    )
+    const articles = $.getJSON(`/api/coins/${friendlyID}/news.json`, data => {
+      news = data['payload']['news']
+    })
     const prices = $.getJSON(
-      `${
-        process.env['COINFI_PRICES_URL']
-      }api/v1/coins/${symbol}/daily_history.json`,
+      `${window.pricesURL}api/v1/coins/${symbol}/daily_history.json`,
       data => {
         historical = $.map(data, el => {
           return [[el.timestamp, el.close - 0, el.volume_from - 0]]

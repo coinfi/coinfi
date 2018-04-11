@@ -1,4 +1,4 @@
-$sizes_em: 2, 3, 4, 5, 6, 10, 15, 18, 20, 25, 28, 50;
+$sizes_em: 1, 2, 3, 4, 5, 6, 10, 15, 18, 20, 25, 28, 50;
 
 @mixin em-setup($namespace) {
   @each $size in $sizes_em {
@@ -25,7 +25,7 @@ $sizes_em: 2, 3, 4, 5, 6, 10, 15, 18, 20, 25, 28, 50;
 
 @include em-setup('');
 @media #{$breakpoint-s} {
-  @include em-setup('-s');
+  @include em-setup('-ns');
 }
 @media #{$breakpoint-m} {
   @include em-setup('-m');

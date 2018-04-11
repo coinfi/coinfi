@@ -1,7 +1,6 @@
 .box {
   background: $white;
   display: block;
-  @extend .shadow-s1;
   padding: $sp4;
   border: 1px solid $light-gray;
 }
@@ -17,5 +16,6 @@
     &.cosy {
       padding: $sp5;
     }
+    @include shadow-s1();
   }
 }

@@ -2,7 +2,7 @@
   .row.mtn4.tc.fw6
     .stat-block.col-xs-6.col-sm-3.col-md-12.col-lg-6.mt4
       label Total Supply
-      = number_to_human(@coin.max_supply, number_to_human_options) || '-'
+      = humanize(@coin.max_supply || '-')
       .dib.f7.ml1= @coin.symbol
     .stat-block.col-xs-6.col-sm-3.col-md-12.col-lg-6.mt4
       label ICO Price
