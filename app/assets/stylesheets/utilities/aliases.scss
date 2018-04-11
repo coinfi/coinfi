@@ -1,0 +1,10 @@
+// Not a fan of some of Tachyons' class names
+.right-align {
+  @extend .tr;
+}
+.left-align {
+  @extend .tl;
+}
+.center-align {
+  @extend .tc;
+}
