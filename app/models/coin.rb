@@ -16,6 +16,8 @@ class Coin < ApplicationRecord
   accepts_nested_attributes_for :coin_excluded_countries, allow_destroy: true, reject_if: :all_blank
   accepts_nested_attributes_for :influencer_reviews, allow_destroy: true, reject_if: :all_blank
 
+  before_save :update_previous_name
+
   scope :top, -> (limit) { order(ranking: :asc).limit(limit) }
 
   ICO_STATUSES.each do |status|
@@ -23,6 +25,10 @@ class Coin < ApplicationRecord
     define_method "ico_#{status}?" do
       ico_status == status
     end
+  end
+
+  def update_previous_name
+    self.previous_name = name_was if name_changed?
   end
 
   def market_cap_by_currency(currency)
