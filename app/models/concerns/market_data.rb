@@ -22,6 +22,7 @@ module MarketData
     data["available_supply"] = humanize(data["available_supply"]) if data["available_supply"]
     data["market_cap_usd"] = humanize(data["market_cap_usd"], '$') if data["market_cap_usd"]
     data["total_supply"] = humanize(data["total_supply"]) if data["total_supply"]
+    data["max_supply"] = humanize(data["max_supply"]) if data["max_supply"]
     data
   end
 
@@ -37,7 +38,6 @@ module MarketData
   private
 
   def default_market_data
-    {'available_supply' => available_supply}
+    {'available_supply' => available_supply, 'max_supply' => max_supply}
   end
-
 end
