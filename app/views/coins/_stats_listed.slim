@@ -17,7 +17,7 @@
         | N/A
     .stat-block.col-xs-6.col-sm-3.col-md-12.col-lg-6.mt4
       label Total Supply
-      - if supply = @data["total_supply"]
+      - if supply = @data["max_supply"]
         = supply
         .dib.f7.ml1= @coin.symbol
       - else
