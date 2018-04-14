@@ -10,10 +10,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180406091445) do
+ActiveRecord::Schema.define(version: 20180413062102) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+  enable_extension "pg_stat_statements"
 
   create_table "ahoy_events", force: :cascade do |t|
     t.integer "visit_id"
@@ -179,6 +180,7 @@ ActiveRecord::Schema.define(version: 20180406091445) do
     t.string "previous_name"
     t.index ["category"], name: "index_coins_on_category"
     t.index ["market_cap"], name: "index_coins_on_market_cap", using: :gin
+    t.index ["name"], name: "index_coins_on_name", unique: true
     t.index ["price"], name: "index_coins_on_price", using: :gin
     t.index ["slug"], name: "index_coins_on_slug"
     t.index ["volume24"], name: "index_coins_on_volume24", using: :gin
