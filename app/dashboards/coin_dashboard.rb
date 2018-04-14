@@ -55,6 +55,7 @@ class CoinDashboard < Administrate::BaseDashboard
     blockchain_tech: Field::String,
     token_type: Field::String,
     exchanges: Field::JSON,
+    previous_name: Field::String,
     created_at: Field::DateTime,
     updated_at: Field::DateTime,
   }.freeze
@@ -79,6 +80,7 @@ class CoinDashboard < Administrate::BaseDashboard
     :name,
     :symbol,
     :slug,
+    :previous_name,
     :image_url,
     :category,
     :available_supply,
@@ -130,6 +132,7 @@ class CoinDashboard < Administrate::BaseDashboard
     :name,
     :symbol,
     :slug,
+    :previous_name,
     :image_url,
     :category,
     :available_supply,
