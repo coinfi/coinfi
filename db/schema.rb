@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180413062102) do
+ActiveRecord::Schema.define(version: 20180415081641) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -235,6 +235,25 @@ ActiveRecord::Schema.define(version: 20180413062102) do
   create_table "influencers", force: :cascade do |t|
     t.string "name"
     t.string "website"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "news_items", force: :cascade do |t|
+    t.string "feed_item_id"
+    t.string "source_domain"
+    t.string "url"
+    t.string "title"
+    t.text "summary"
+    t.text "content"
+    t.string "actor_id"
+    t.datetime "feed_item_published_at"
+    t.datetime "feed_item_updated_at"
+    t.jsonb "feed_item_json"
+    t.string "websub_hub"
+    t.integer "importance", default: 0
+    t.boolean "is_published", default: true
+    t.boolean "is_processed", default: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
