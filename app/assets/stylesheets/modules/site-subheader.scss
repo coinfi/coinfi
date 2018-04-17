@@ -1,19 +1,51 @@
 #site-subheader {
-  border-left: 1px solid $black-05;
-  .nav-horizontal {
-    li {
-      > * {
-        color: $gray;
-        border-right: 1px solid $black-05;
-        font-size: 0.7rem;
-      }
-    }
+  background: $tiber;
+  color: $white;
+  padding: $sp4 0 0 0;
+  h1 {
+    margin-top: 0;
+    margin-bottom: 0;
+    padding-top: $sp2;
+    line-height: 1;
+    color: $white;
   }
-}
-@media (max-width: $screen-s) {
-  #site-subheader {
-    .nav-horizontal {
-      border-top: 1px solid $black-05;
+  nav {
+    margin-left: -$sp3;
+    margin-right: -$sp3;
+    a {
+      display: inline-block;
+      padding: $sp3 $sp3 $sp4 $sp3;
+      color: $white;
+      font-size: 1.3rem;
+      font-weight: 500;
+      position: relative;
+      &:after {
+        content: ' ';
+        display: block;
+        width: 1rem;
+        height: 1rem;
+        background: $white;
+        position: absolute;
+        top: 100%;
+        left: 50%;
+        transform: translate(-50%, 50%) rotate(45deg);
+        -webkit-transform: translate(-50%, 50%) rotate(45deg);
+        transition: all 0.5s;
+        -webkit-transition: all 0.5s;
+      }
+      &.active {
+        color: $picton;
+      }
+      &.active,
+      &:hover {
+        &:after {
+          transform: translate(-50%, -50%) rotate(45deg);
+          -webkit-transform: translate(-50%, -50%) rotate(45deg);
+        }
+      }
+      &:not(.active) {
+        color: $white-70;
+      }
     }
   }
 }

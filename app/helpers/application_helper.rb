@@ -1,8 +1,9 @@
 module ApplicationHelper
-  def nav_link(link_text, link_path, html_options)
-    class_name = current_page?(link_path) ? ' b dark-gray' : ''
-
-    link_to(link_text, link_path, html_options.merge({ class: class_name }) { |key, original, addition| original + addition })
+  def nav_link(link_text, link_path, html_options = {})
+    klass = html_options[:class] || ''
+    klass += ' active' if current_page?(link_path)
+    html_options[:class] = klass
+    link_to(link_text, link_path, html_options)
   end
 
   def natural_format(pee, br = true)

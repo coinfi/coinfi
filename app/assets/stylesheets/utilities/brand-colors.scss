@@ -11,7 +11,6 @@
 }
 
 @include addColorClass($picton, 'picton');
-@include addColorClass($dodger, 'dodger');
 @include addColorClass($emerald, 'emerald');
 @include addColorClass($sunset, 'sunset');
 @include addColorClass($bright-gray, 'bright-gray');
@@ -20,3 +19,4 @@
 @include addColorClass($athens, 'athens');
 @include addColorClass($athens-dark, 'athens-dark');
 @include addColorClass($athens-darker, 'athens-darker');
+@include addColorClass($elephant, 'elephant');
