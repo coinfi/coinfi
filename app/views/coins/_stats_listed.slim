@@ -1,5 +1,5 @@
 .bg-white.pa4.mb2
-  .row.mtn4.tc.fw6
+  .row.nt4.tc.fw6
     .stat-block.col-xs-6.col-sm-3.col-md-12.col-lg-6.mt4
       label Volume (24  h)
       = @data["24h_volume_usd"]
@@ -24,7 +24,7 @@
         | N/A
 - if @coin.ico_token_price_usd || @coin.ico_returns_usd || @coin.ico_start_date || @coin.blockchain_tech
   .bg-white.pa4.mb2
-    .row.mtn4
+    .row.nt4
       - if @coin.ico_token_price_usd
         .stat-block.col-xs-6.col-sm-3.col-md-12.col-lg-6.mt4
           label ICO Price

@@ -1,7 +1,7 @@
 - if @coin.influencer_reviews.present?
   section.pa3.pa4-l
     h3 Influencer Reviews
-    .row.mtn3
+    .row.nt3
       - @coin.influencer_reviews.in_groups(2).each do |group|
         .col-xs-12.col-md-12.col-lg-6
           - group.each do |review|

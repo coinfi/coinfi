@@ -18,7 +18,7 @@ class RedditFeed extends Component {
   }
   render() {
     return (
-      <div className="mtn4">
+      <div className="nt4">
         {this.state.posts.map(({ data }, k) => (
           <RedditPost key={k} {...data} />
         ))}
