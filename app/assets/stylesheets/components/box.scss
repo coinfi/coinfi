@@ -4,14 +4,14 @@
   padding: $sp4;
   border: 1px solid $light-gray;
 }
-@media #{$breakpoint-s} {
+@media #{$screen-min-ns} {
   .box {
     &.cosy {
       padding: $sp4;
     }
   }
 }
-@media #{$breakpoint-m} {
+@media #{$screen-min-m} {
   .box {
     &.cosy {
       padding: $sp5;

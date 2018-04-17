@@ -165,6 +165,6 @@ $washed-red: #ffdfdf;
 
 // Breakpoints
 
-$breakpoint-not-small: $breakpoint-s;
-$breakpoint-medium: $breakpoint-m;
-$breakpoint-large: $breakpoint-l;
+$breakpoint-not-small: $screen-min-ns;
+$screen-min-medium: $screen-min-m;
+$screen-min-large: $screen-min-l;

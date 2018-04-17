@@ -13,14 +13,14 @@
   flex-basis: $width;
   max-width: $width;
 }
-@media #{$breakpoint-m} {
+@media #{$screen-min-m} {
   .grid {
     > * {
       @include setWidth(50%);
     }
   }
 }
-@media #{$breakpoint-l} {
+@media #{$screen-min-l} {
   .grid {
     > * {
       @include setWidth(33.333%);

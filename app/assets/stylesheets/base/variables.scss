@@ -40,12 +40,15 @@ $f6: 0.875rem;
 $f7: 0.7rem;
 
 // Breakpoints
-// Tachyons defaults are very weird, will fixed in v5
 
-$screen-s: 30em;
-$screen-m: 48em;
-$screen-l: 74em;
+$screen-ns: 480px;
+$screen-m: 768px;
+$screen-l: 1184px;
 
-$breakpoint-s: 'screen and (min-width: #{$screen-s})';
-$breakpoint-m: 'screen and (min-width: #{$screen-m})';
-$breakpoint-l: 'screen and (min-width: #{$screen-l})';
+$screen-min-ns: 'screen and (min-width: #{$screen-ns})';
+$screen-min-m: 'screen and (min-width: #{$screen-m})';
+$screen-min-l: 'screen and (min-width: #{$screen-l})';
+
+$screen-max-ns: 'screen and (max-width: #{$screen-ns - 1px})';
+$screen-max-m: 'screen and (max-width: #{$screen-m - 1px})';
+$screen-max-l: 'screen and (max-width: #{$screen-l - 1px})';
