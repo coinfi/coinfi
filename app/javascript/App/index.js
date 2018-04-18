@@ -10,11 +10,13 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import { Provider } from 'react-redux'
 import configureStore from './configureStore'
+
 import WatchButton from './components/WatchButton'
 import WatchlistPage from './components/pages/WatchlistPage'
 import GlobalCoinSearch from './components/GlobalCoinSearch'
 import TwitterFeed from './components/TwitterFeed'
 import RedditFeed from './components/RedditFeed'
+import IcoFilters from './components/IcoFilters'
 
 const componentOptions = {
   WatchButton: {
@@ -39,6 +41,11 @@ const componentOptions = {
   },
   GlobalCoinSearch: {
     Component: GlobalCoinSearch,
+    propNames: [],
+    withStore: true
+  },
+  IcoFilters: {
+    Component: IcoFilters,
     propNames: [],
     withStore: true
   }
