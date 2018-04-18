@@ -11,20 +11,37 @@ import ReactDOM from 'react-dom'
 import { Provider } from 'react-redux'
 import configureStore from './configureStore'
 import WatchButton from './components/WatchButton'
-import WatchlistPageContainer from './containers/WatchlistPageContainer'
+import WatchlistPage from './components/pages/WatchlistPage'
 import GlobalCoinSearch from './components/GlobalCoinSearch'
 import TwitterFeed from './components/TwitterFeed'
 import RedditFeed from './components/RedditFeed'
 
-const componentMap = {
+const componentOptions = {
   WatchButton: {
     Component: WatchButton,
-    propNames: ['coinID', 'watching']
+    propNames: ['coinID', 'watching'],
+    withStore: false
   },
-  WatchlistPage: { Component: WatchlistPageContainer, withStore: true },
-  TwitterFeed: { Component: TwitterFeed, propNames: ['user'] },
-  RedditFeed: { Component: RedditFeed, propNames: ['subreddit'] },
-  GlobalCoinSearch: { Component: GlobalCoinSearch, withStore: true }
+  WatchlistPage: {
+    Component: WatchlistPage,
+    propNames: [],
+    withStore: true
+  },
+  TwitterFeed: {
+    Component: TwitterFeed,
+    propNames: ['user'],
+    withStore: false
+  },
+  RedditFeed: {
+    Component: RedditFeed,
+    propNames: ['subreddit'],
+    withStore: false
+  },
+  GlobalCoinSearch: {
+    Component: GlobalCoinSearch,
+    propNames: [],
+    withStore: true
+  }
 }
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -32,7 +49,10 @@ document.addEventListener('DOMContentLoaded', () => {
   if (hooks) {
     Array.from(hooks).forEach(hook => {
       const name = hook.getAttribute('name')
-      const { Component, withStore, propNames } = componentMap[name]
+      const opts = componentOptions[name]
+      if (!opts)
+        return console.error(`React component options not found for ${name}`)
+      const { Component, withStore, propNames } = componentOptions[name]
       const props = {}
       if (propNames) {
         propNames.forEach(name => {

@@ -3,6 +3,7 @@ import Watchlist from '../Watchlist'
 import WatchlistSearch from '../WatchlistSearch'
 import LoadingIndicator from '../LoadingIndicator'
 import ArticleList from '../ArticleList'
+import WatchlistPageContainer from '../../containers/WatchlistPageContainer'
 
 class WatchlistPage extends Component {
   render() {
@@ -49,4 +50,4 @@ class WatchlistPage extends Component {
   }
 }
 
-export default WatchlistPage
+export default WatchlistPageContainer(WatchlistPage)

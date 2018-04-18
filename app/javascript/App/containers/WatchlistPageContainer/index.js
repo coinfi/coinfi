@@ -11,38 +11,39 @@ import {
   reorderCoins
 } from './actions'
 import * as selectors from './selectors'
-import WatchlistPage from '../../components/pages/WatchlistPage'
 
-class WatchlistPageContainer extends React.Component {
-  componentDidMount() {
-    this.props.fetchCoins()
-    this.props.fetchArticles()
+export default Component => {
+  class HOC extends React.Component {
+    componentDidMount() {
+      this.props.fetchCoins()
+      this.props.fetchArticles()
+    }
+    render() {
+      return <Component {...this.props} />
+    }
   }
-  render() {
-    return <WatchlistPage {...this.props} />
+
+  function mapDispatch(dispatch) {
+    return {
+      ...bindActionCreators(
+        {
+          fetchCoins,
+          fetchArticles,
+          addCoinSuccess,
+          editWatchlist,
+          removeCoin,
+          reorderCoins
+        },
+        dispatch
+      )
+    }
   }
+
+  const mapState = createStructuredSelector({
+    coinIDs: selectors.selectCoinIDs(),
+    entities: selectors.selectEntities(),
+    UI: selectors.selectUI()
+  })
+
+  return connect(mapState, mapDispatch)(HOC)
 }
-
-function mapDispatch(dispatch) {
-  return {
-    ...bindActionCreators(
-      {
-        fetchCoins,
-        fetchArticles,
-        addCoinSuccess,
-        editWatchlist,
-        removeCoin,
-        reorderCoins
-      },
-      dispatch
-    )
-  }
-}
-
-const mapState = createStructuredSelector({
-  coinIDs: selectors.selectCoinIDs(),
-  entities: selectors.selectEntities(),
-  UI: selectors.selectUI()
-})
-
-export default connect(mapState, mapDispatch)(WatchlistPageContainer)
