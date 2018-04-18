@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { createStructuredSelector } from 'reselect'
-import { searchCoins } from './actions'
+import { searchCoins, clearSearch } from './actions'
 import * as selectors from './selectors'
 
 export default Component => {
@@ -15,7 +15,8 @@ export default Component => {
     return {
       ...bindActionCreators(
         {
-          searchCoins
+          searchCoins,
+          clearSearch
         },
         dispatch
       )

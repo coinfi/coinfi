@@ -26,6 +26,7 @@
 @import 'utilities/misc';
 @import 'utilities/responsive-colors';
 @import 'utilities/aliases';
+@import 'utilities/mixins';
 
 @import 'base/tachyons';
 @import 'base/general';
@@ -50,4 +51,4 @@
 @import 'modules/mobile-nav';
 @import 'modules/site-subheader';
 @import 'modules/twitter';
-@import 'modules/coin-search';
+@import 'modules/global-coin-search';

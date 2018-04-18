@@ -1,15 +1,15 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { Provider } from 'react-redux'
-import CoinSearch from '../../components/CoinSearch'
+import GlobalCoinSearch from '../../components/GlobalCoinSearch'
 import configureStore from './configureStore'
 
 document.addEventListener('DOMContentLoaded', () => {
-  let c = document.getElementById('coin-search')
+  let c = document.getElementById('global-coin-search')
   if (c) {
     ReactDOM.render(
       <Provider store={configureStore()}>
-        <CoinSearch />
+        <GlobalCoinSearch />
       </Provider>,
       c
     )

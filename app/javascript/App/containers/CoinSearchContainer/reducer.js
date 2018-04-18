@@ -16,6 +16,7 @@ export default (state = initialState, action) => {
     case 'SEARCH_COINS_SUCCESS':
       return state.set('searchedCoins', fromJS(response))
     case 'ADD_COIN_SUCCESS':
+    case 'CLEAR_SEARCH':
       return state.set('searchText', '').set('searchedCoins', [])
     default:
       return state

@@ -1,14 +1,9 @@
-#site-subheader
+#site-subheader.phr
   .container-wide
     h1.fw6 ICO Database
     = render partial: "ico_nav"
 .container-wide
   .bg-white
-    .ph3.pt4.ph4-ns
-      .row.mb4.flex.items-center
-        .col-xs-12.col-md-6.col-lg-8.tc.tl-m
-        .col-xs-12.col-md-6.col-lg-4.tc.tr-m.mt3.mt0-m
-          #coin-search.dib.max-w18e.w-100
     .pt4.ph3-ns.ph4-m
       table.responsive-table.right-align
         thead
@@ -36,7 +31,7 @@
               td
                 - if coin.ico_fundraising_status_usd
                   label
-                    .mhn1
+                    .nh1
                       span.green.b.mr2= number_to_currency(coin.ico_fundraising_status_usd, precision: 0) || "?"
                       | of
                 - else
