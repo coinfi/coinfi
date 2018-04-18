@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { createStructuredSelector } from 'reselect'
-import {} from './actions'
+import { toggleNew } from './actions'
 import * as selectors from './selectors'
 
 export default Component => {
@@ -13,9 +13,11 @@ export default Component => {
   }
   function mapDispatch(dispatch) {
     return {
-      ...bindActionCreators({}, dispatch)
+      ...bindActionCreators({ toggleNew }, dispatch)
     }
   }
-  const mapState = createStructuredSelector({})
+  const mapState = createStructuredSelector({
+    UI: selectors.selectUI()
+  })
   return connect(mapState, mapDispatch)(HOC)
 }

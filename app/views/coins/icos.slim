@@ -2,69 +2,70 @@
   .container-wide
     h1.fw6 ICO Database
     = render partial: "ico_nav"
-.container-wide.bg-white
-  component name="IcoFilters"
-  .pt4.ph3-ns.ph4-m
-    table.responsive-table.right-align
-      thead
-        tr
-          th.left-align Name
-          th Amount Raised
-          th Hard Cap
-          th End Date
-          th Total Supply
-          th ICO Price
-          th Token Type
-      tbody
-        - @coins.each do |coin|
+.bg-white
+  .container-wide
+    component name="IcoFilters"
+    .pt4.ph3-ns.ph4-m
+      table.responsive-table.right-align
+        thead
           tr
-            td.left-align
-              div
-                .dib
-                  .flex.items-center.b.f4.f5-m
-                    = image_tag coin.image_url, class: 'w2e mr3 mr2-m', alt: coin.name if coin.image_url
-                    = link_to coin.name, coin, id: coin.slug
-            td.reveal-m
-              label Amount Raised
-              div
-                = number_to_currency(coin.ico_fundraising_status_usd, precision: 0) || "?"
-            td
-              - if coin.ico_fundraising_status_usd
-                label
-                  .nh1
-                    span.green.b.mr2= number_to_currency(coin.ico_fundraising_status_usd, precision: 0) || "?"
-                    | of
-              - else
-                label
-                  | Hard Cap
-              div
-                - if coin.ico_fundraising_goal_usd.present? && coin.ico_fundraising_goal_usd > 0
-                  = number_to_currency(coin.ico_fundraising_goal_usd, precision: 0)
+            th.left-align Name
+            th Amount Raised
+            th Hard Cap
+            th End Date
+            th Total Supply
+            th ICO Price
+            th Token Type
+        tbody
+          - @coins.each do |coin|
+            tr
+              td.left-align
+                div
+                  .dib
+                    .flex.items-center.b.f4.f5-m
+                      = image_tag coin.image_url, class: 'w2e mr3 mr2-m', alt: coin.name if coin.image_url
+                      = link_to coin.name, coin, id: coin.slug
+              td.reveal-m
+                label Amount Raised
+                div
+                  = number_to_currency(coin.ico_fundraising_status_usd, precision: 0) || "?"
+              td
+                - if coin.ico_fundraising_status_usd
+                  label
+                    .nh1
+                      span.green.b.mr2= number_to_currency(coin.ico_fundraising_status_usd, precision: 0) || "?"
+                      | of
                 - else
-                  | ?
-              - if coin.ico_fundraising_status_usd
-                footer.f7.black-50.pt1 Amount Raised of Hard Cap
-            td
-              label End Date
-              div
-                = coin.ico_end_datetime.is_a?(DateTime) ? coin.ico_end_datetime.strftime('%B %e, %Y') : "?"
-            td
-              label Total Supply
-              div
-                => humanize(coin.max_supply)
-                = coin.symbol
-                .dib.f7.ml1.conceal-m= "(#{coin.token_type})"
-            td
-              label ICO Price
-              div
-                - if coin.ico_token_price_usd
-                  => number_to_currency(coin.ico_token_price_usd, precision: 4)
-                  small USD
-                - else
-                  | ?
-            td.reveal-m
-              label Token Type
-              div
-                = coin.token_type
+                  label
+                    | Hard Cap
+                div
+                  - if coin.ico_fundraising_goal_usd.present? && coin.ico_fundraising_goal_usd > 0
+                    = number_to_currency(coin.ico_fundraising_goal_usd, precision: 0)
+                  - else
+                    | ?
+                - if coin.ico_fundraising_status_usd
+                  footer.f7.black-50.pt1 Amount Raised of Hard Cap
+              td
+                label End Date
+                div
+                  = coin.ico_end_datetime.is_a?(DateTime) ? coin.ico_end_datetime.strftime('%B %e, %Y') : "?"
+              td
+                label Total Supply
+                div
+                  => humanize(coin.max_supply)
+                  = coin.symbol
+                  .dib.f7.ml1.conceal-m= "(#{coin.token_type})"
+              td
+                label ICO Price
+                div
+                  - if coin.ico_token_price_usd
+                    => number_to_currency(coin.ico_token_price_usd, precision: 4)
+                    small USD
+                  - else
+                    | ?
+              td.reveal-m
+                label Token Type
+                div
+                  = coin.token_type
 
-    .tc= paginate @coins
+      .tc= paginate @coins

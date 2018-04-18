@@ -47,18 +47,6 @@
     }
   }
 }
-.flex-nav {
-  @extend .flex;
-  @extend .flex-wrap;
-  @extend .items-center;
-  @extend .justify-between;
-  @extend .nh3;
-  @extend .pt3;
-  > * {
-    @extend .pa3;
-    @extend .nt3;
-  }
-}
 @media (max-width: $screen-ns) {
   .nav-x {
     ul {

@@ -6,14 +6,14 @@
 }
 @media #{$screen-min-ns} {
   .box {
-    &.cosy {
+    &.cozy {
       padding: $sp4;
     }
   }
 }
 @media #{$screen-min-m} {
   .box {
-    &.cosy {
+    &.cozy {
       padding: $sp5;
     }
     @include shadow-s1();
