@@ -11,7 +11,7 @@ class CoinSearch extends Component {
   render() {
     const { searchedCoins, searchText, clearSearch } = this.props
     return (
-      <div>
+      <div id="global-coin-search">
         <div className="relative">
           <div className="search-input icon-input tiber">
             <i className="fas fa-search reveal-m" />

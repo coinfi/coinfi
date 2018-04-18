@@ -47,5 +47,6 @@
               td.tr.reveal-l
                 = display_percentage_change coin.change24h
               - if current_user
-                td.tr.watchlist-button.reveal-m data-coin-id=coin.id data-watching=user_is_watching?(coin)
+                td.tr.reveal-m
+                  component name="WatchButton" coinID=coin.id watching=user_is_watching?(coin)
       .tc= paginate @coins
