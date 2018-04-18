@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
-import Watchlist from '../components/Watchlist'
-import WatchlistSearch from '../components/WatchlistSearch'
-import LoadingIndicator from '../components/LoadingIndicator'
-import ArticleList from '../components/ArticleList'
+import Watchlist from '../Watchlist'
+import WatchlistSearch from '../WatchlistSearch'
+import LoadingIndicator from '../LoadingIndicator'
+import ArticleList from '../ArticleList'
 
 class WatchlistPage extends Component {
   render() {

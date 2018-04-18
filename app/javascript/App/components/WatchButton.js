@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import API from '../lib/localAPI'
+import API from '../utils/localAPI'
 
 export default class WatchButton extends Component {
   state = { coin: null, watching: false }

@@ -1,9 +1,9 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { Provider } from 'react-redux'
-import WatchButton from '../../components/WatchButton'
-import WatchlistPageContainer from '../../containers/WatchlistPageContainer'
-import configureStore from './configureStore'
+import WatchButton from '../components/WatchButton'
+import WatchlistPageContainer from '../containers/WatchlistPageContainer'
+import configureStore from '../configureStore'
 
 document.addEventListener('DOMContentLoaded', () => {
   // Watch buttons

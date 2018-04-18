@@ -10,7 +10,7 @@
   }
 }
 
-@include addColorClass($picton, 'picton');
+@include addColorClass($aqua, 'aqua');
 @include addColorClass($emerald, 'emerald');
 @include addColorClass($sunset, 'sunset');
 @include addColorClass($bright-gray, 'bright-gray');
@@ -20,3 +20,4 @@
 @include addColorClass($athens-dark, 'athens-dark');
 @include addColorClass($athens-darker, 'athens-darker');
 @include addColorClass($elephant, 'elephant');
+@include addColorClass($geyser, 'geyser');

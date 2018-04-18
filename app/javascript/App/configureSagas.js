@@ -1,6 +1,6 @@
 import { fork, all } from 'redux-saga/effects'
-import WatchlistPageSagas from '../../containers/WatchlistPageContainer/sagas'
-import CoinSearchSagas from '../../containers/CoinSearchContainer/sagas'
+import WatchlistPageSagas from './containers/WatchlistPageContainer/sagas'
+import CoinSearchSagas from './containers/CoinSearchContainer/sagas'
 
 const sagas = [WatchlistPageSagas, CoinSearchSagas]
 

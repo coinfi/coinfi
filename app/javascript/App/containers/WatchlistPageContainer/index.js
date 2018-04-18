@@ -11,7 +11,7 @@ import {
   reorderCoins
 } from './actions'
 import * as selectors from './selectors'
-import WatchlistPage from '../../pages/WatchlistPage'
+import WatchlistPage from '../../components/pages/WatchlistPage'
 
 class WatchlistPageContainer extends React.Component {
   componentDidMount() {

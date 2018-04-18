@@ -18,7 +18,8 @@ class CoinSearch extends Component {
             <i
               className="fas fa-arrow-left silver conceal-m"
               onClick={() => {
-                toggleOverlay($('#global-coin-search'))
+                const e = document.getElementById('global-coin-search')
+                toggleOverlay(e)
                 clearSearch()
               }}
             />

@@ -8,4 +8,4 @@
 import 'babel-polyfill'
 import './initializers/social'
 import './initializers/watchlist'
-import './initializers/global-coin-search'
+import './initializers/globalCoinSearch'

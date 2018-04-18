@@ -1,0 +1,13 @@
+.select-button {
+  padding: $sp2 $sp3;
+  border: 1px solid $geyser;
+  box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.09);
+  > label {
+    display: block;
+    color: $tiber;
+    font-size: 0.8rem;
+  }
+  > div {
+    color: $aqua;
+  }
+}
