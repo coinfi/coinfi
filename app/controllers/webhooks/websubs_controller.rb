@@ -6,7 +6,7 @@ class Webhooks::WebsubsController < ApplicationController
 
   def superfeedr_ingest
     params[:items].each do |item|
-      NewsItem.ingest!(item, params[:source])
+      NewsItemRaw.ingest!(item, params[:source])
     end
 
     head :ok

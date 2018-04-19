@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180417055558) do
+ActiveRecord::Schema.define(version: 20180419054701) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -250,23 +250,32 @@ ActiveRecord::Schema.define(version: 20180417055558) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "news_items", force: :cascade do |t|
-    t.bigint "feed_source_id"
+  create_table "news_item_raws", force: :cascade do |t|
     t.string "feed_item_id"
-    t.string "url"
-    t.string "title"
-    t.text "summary"
+    t.string "source"
+    t.string "websub_hub"
+    t.jsonb "feed_item_json"
+    t.boolean "is_processed", default: false
+    t.integer "news_item_id"
+  end
+
+  create_table "news_items", force: :cascade do |t|
+    t.bigint "feed_source_id", null: false
+    t.string "feed_item_id", null: false
+    t.string "url", null: false
+    t.string "title", null: false
+    t.text "summary", null: false
     t.text "content"
-    t.string "actor_id"
-    t.datetime "feed_item_published_at"
-    t.datetime "feed_item_updated_at"
+    t.string "actor_id", null: false
+    t.datetime "feed_item_published_at", null: false
+    t.datetime "feed_item_updated_at", null: false
     t.jsonb "feed_item_json"
     t.string "websub_hub"
     t.integer "importance", default: 0
     t.boolean "is_published", default: true
-    t.boolean "is_processed", default: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["feed_source_id", "feed_item_id"], name: "index_news_items_on_feed_source_id_and_feed_item_id", unique: true
     t.index ["feed_source_id"], name: "index_news_items_on_feed_source_id"
   end
 
