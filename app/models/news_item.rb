@@ -1,14 +1,18 @@
 class NewsItem < ApplicationRecord
-  def self.ingest!(feed_item)
+  belongs_to :feed_source
+
+  def self.ingest!(feed_item, source)
     news_item = NewsItem.create(websub_hub: 'superfeedr', feed_item_json: feed_item)
-    news_item.process!
+    news_item.process!(source)
   end
 
-  def process!
+  def process!(source)
     item = HashWithIndifferentAccess.new(feed_item_json)
+    feed_source = FeedSource.find(source)
+
     update(
       feed_item_id: item[:id],
-      source_domain: URI.parse(item[:permalinkUrl]).host.downcase,
+      feed_source: feed_source,
       url: item[:permalinkUrl],
       title: item[:title],
       summary: item[:summary],

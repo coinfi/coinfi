@@ -52,7 +52,10 @@ Rails.application.routes.draw do
   resources :contributor_submissions, path: 'contributor-submissions'
   get '/profile', to: 'author_profiles#edit', as: 'edit_author_profile'
   resources :author_profiles, only: [:index, :show, :create, :update], path: 'authors'
-  post '/feed-ingest', to: 'rss#feed_ingest'
+
+  namespace :webhooks do
+    post "#{ENV.fetch('SUPERFEEDR_CALLBACK_URL_SEGMENT_SECRET')}-superfeedr-ingest", to: 'websubs#superfeedr_ingest'
+  end
 
   root to: 'pages#show'
   get '/:id', to: 'pages#show'
