@@ -1,8 +1,8 @@
 class CreateNewsItems < ActiveRecord::Migration[5.1]
   def change
     create_table :news_items do |t|
+      t.references :feed_source
       t.string :feed_item_id
-      t.string :source_domain
       t.string :url
       t.string :title
       t.text :summary
