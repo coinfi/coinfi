@@ -22,6 +22,6 @@ class NewsItemRaw < ApplicationRecord
       feed_item_updated_at: DateTime.strptime(item[:updated].to_s, '%s'),
     )
 
-    NewsItemRaw.update(is_processed: true, news_item: news_item)
+    update(is_processed: true, news_item: news_item)
   end
 end
