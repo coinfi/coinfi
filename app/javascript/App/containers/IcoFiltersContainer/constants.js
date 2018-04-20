@@ -57,8 +57,47 @@ export const filterList = [
   },
   {
     key: 'countries',
-    label: 'countriesAllowed',
+    label: 'Countries Allowed',
     Component: components.CountriesAllowed,
     defaultValue: null
   }
+]
+
+export const categories = [
+  'Advertising & Marketing',
+  'Artificial Intelligence',
+  'Banking',
+  'Blockchain',
+  'Blockchain tools',
+  'Cloud Storage',
+  'Crowdfunding',
+  'CryptoFund',
+  'Currency',
+  'Data',
+  'Energy',
+  'Exchange',
+  'Finance',
+  'Gambling',
+  'Gaming',
+  'Healthcare',
+  'Insurance',
+  'Identity',
+  'IOT',
+  'Logistics',
+  'Marketplace',
+  'Media',
+  'Mining',
+  'Mobile',
+  'Network',
+  'Payments',
+  'Protocol',
+  'Real Assets',
+  'Real Business',
+  'Real Estate',
+  'Security',
+  'Social',
+  'Ticketing',
+  'Trading',
+  'Virtual Reality',
+  'Voting'
 ]

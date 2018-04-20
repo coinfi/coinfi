@@ -1,9 +1,6 @@
-.oi-btn,
-.oi-pane {
+.oi-btn {
   padding: $sp2 $sp3;
   @include box-style-1();
-}
-.oi-btn {
   > label {
     display: block;
     color: $tiber;
@@ -17,5 +14,70 @@
     padding-top: $sp2;
     padding-bottom: $sp2;
     color: $geyser;
+  }
+}
+.oi-pane {
+  .oi-pane-content {
+    padding: $sp2 $sp3;
+    @include box-style-1();
+    min-width: 200px;
+    ul {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      li {
+        display: block;
+        a,
+        button {
+          display: flex;
+          justify-content: space-between;
+          padding: $sp2;
+          width: 100%;
+          border: none;
+          background: transparent;
+          color: inherit;
+          text-align: left;
+          white-space: nowrap;
+          font-size: 0.8rem;
+          i.fas {
+            opacity: 0;
+          }
+          &:hover {
+            i.fas {
+              opacity: 1;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+@media #{$screen-max-m} {
+  .oi {
+    .oi-pane {
+      position: fixed;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      background: $black-70;
+      .oi-pane-content {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        -webkit-transform: translate(-50%, -50%);
+      }
+    }
+  }
+}
+@media #{$screen-min-m} {
+  .oi {
+    position: relative;
+    .oi-pane {
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
   }
 }

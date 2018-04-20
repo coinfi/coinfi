@@ -2,10 +2,10 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { createStructuredSelector } from 'reselect'
-import { toggleUI, setActiveFilters, addFilter } from './actions'
+import { toggleUI, setActiveFilters, setFilter } from './actions'
 import * as selectors from './selectors'
 import { parseFiltersInURL } from './helpers'
-import { filterList } from './constants'
+import { filterList, categories } from './constants'
 
 export default Component => {
   class HOC extends React.Component {
@@ -21,17 +21,21 @@ export default Component => {
         <Component
           {...this.props}
           filterList={filterList}
+          categories={categories}
           availableFilters={filterList.filter(
             item => !activeFilters.includes(item.key)
           )}
-          UI={key => this.props.UI.get(key)}
+          showing={(key, val = null) => {
+            if (!val) return UI.get(key)
+            return UI.get(key) === val
+          }}
         />
       )
     }
   }
   function mapDispatch(dispatch) {
     return {
-      ...bindActionCreators({ toggleUI, setActiveFilters, addFilter }, dispatch)
+      ...bindActionCreators({ toggleUI, setActiveFilters, setFilter }, dispatch)
     }
   }
   const mapState = createStructuredSelector({

@@ -1,3 +1,6 @@
+button {
+  cursor: pointer !important;
+}
 @mixin btn-base() {
   display: inline-block;
   text-transform: uppercase;
@@ -17,7 +20,7 @@
   @include btn-base();
   border: none;
   background-color: $white;
-  color: $silver;
+  color: $base-font-color;
   &.btn-xs {
     font-size: 0.6rem;
     padding: 0.5rem 0.7rem;

@@ -5,7 +5,7 @@ import AddFilter from './AddFilter'
 class IcoFilters extends React.Component {
   render() {
     return (
-      <div className="pv4">
+      <div className="pv4 phr">
         <div className="flex-stack">
           <div>
             <button className="oi-btn">
