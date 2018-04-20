@@ -5,7 +5,7 @@ namespace :coinmarketcap do
     # Direct ticker access
     desc "10min ticker price update"
     task :ticker_update => :environment do
-      Coin.find_each do |coin|
+      Coin.where.not(slug: '').find_each do |coin|
         puts coin.slug
         ticker_url = "http://coinmarketcap.northpole.ro/ticker.json?identifier=#{coin.slug}&version=v8"
         begin
