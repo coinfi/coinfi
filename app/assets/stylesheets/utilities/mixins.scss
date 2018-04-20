@@ -9,3 +9,11 @@
   font-family: Font Awesome\ 5 Free, sans-serif;
   font-weight: 900;
 }
+@mixin box-style-1() {
+  background: $white;
+  border: 1px solid $geyser;
+  box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.09);
+  -webkit-box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.09);
+  border-radius: 2px;
+  -webkit-border-radius: 2px;
+}

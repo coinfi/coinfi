@@ -1,7 +1,9 @@
-.select-button {
+.oi-btn,
+.oi-pane {
   padding: $sp2 $sp3;
-  border: 1px solid $geyser;
-  box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.09);
+  @include box-style-1();
+}
+.oi-btn {
   > label {
     display: block;
     color: $tiber;

@@ -1,22 +1,19 @@
 import React from 'react'
-import IcoFiltersContainer from '../containers/IcoFiltersContainer'
+import IcoFiltersContainer from '../../containers/IcoFiltersContainer'
+import AddFilter from './AddFilter'
 
 class IcoFilters extends React.Component {
   render() {
-    const { UI, toggleNew } = this.props
     return (
       <div className="pv4">
         <div className="flex-stack">
           <div>
-            <button className="select-button">
+            <button className="oi-btn">
               <i className="fas fa-search" />
             </button>
           </div>
           <div>
-            <button className="select-button" onClick={toggleNew}>
-              <i className="fas fa-plus" />
-            </button>
-            {UI.get('newFilter') && <div>new filter</div>}
+            <AddFilter {...this.props} />
           </div>
         </div>
       </div>

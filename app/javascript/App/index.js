@@ -12,7 +12,7 @@ import { Provider } from 'react-redux'
 import configureStore from './configureStore'
 
 import WatchButton from './components/WatchButton'
-import WatchlistPage from './components/pages/WatchlistPage'
+import WatchlistPage from './components/WatchlistPage'
 import GlobalCoinSearch from './components/GlobalCoinSearch'
 import TwitterFeed from './components/TwitterFeed'
 import RedditFeed from './components/RedditFeed'
