@@ -1,7 +1,7 @@
 import { fromJS } from 'immutable'
 
 const initialState = fromJS({
-  activeFilters: [],
+  activeFilters: {},
   UI: {
     newFilter: false
   }
@@ -20,8 +20,11 @@ export default (state = initialState, action) => {
         if (state.getIn(['UI', key]) === value) newState = false
       }
       return state.setIn(['UI', key], newState)
-    case 'SET_ACTIVE_FILTERS':
+    case 'SET_FILTERS':
       return state.set('activeFilters', fromJS(payload))
+    case 'SET_FILTER':
+      console.log(payload)
+      return state.setIn(['activeFilters', payload.key], fromJS(payload.value))
     default:
       return state
   }

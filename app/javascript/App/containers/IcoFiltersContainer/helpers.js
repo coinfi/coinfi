@@ -1,1 +1,1 @@
-export const parseFiltersInURL = () => []
+export const parseFiltersInURL = () => ({})

@@ -7,13 +7,13 @@ class AddFilter extends React.Component {
     if (showing('newFilter')) toggleUI('newFilter')
   }
   SelectedFilterComponent = props => {
-    const { showing, filterList } = this.props
+    const { showing, filterList, activeFilters } = this.props
     const key = showing('newFilter')
     if (!key) return null
     const item = filterList.find(item => item.key === key)
     if (item) {
       const { Component } = item
-      return <Component {...props} />
+      return <Component {...props} value={activeFilters.get(key)} />
     }
     return null
   }
@@ -30,7 +30,7 @@ class AddFilter extends React.Component {
         </button>
         {showing('newFilter') && (
           <div className="oi-pane">
-            <div className="oi-pane-content">
+            <div className="oi-pane-content pa3">
               {showing('newFilter', 'step1') ? (
                 <ul>
                   {availableFilters.map(item => (

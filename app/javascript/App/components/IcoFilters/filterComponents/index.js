@@ -1,4 +1,4 @@
-import Category from './Category'
+import Categories from './Categories'
 import ClosingDate from './ClosingDate'
 import CountriesAllowed from './CountriesAllowed'
 import HardCap from './HardCap'
@@ -10,7 +10,7 @@ import StartingDate from './StartingDate'
 import TokenType from './TokenType'
 
 export default {
-  Category,
+  Categories,
   ClosingDate,
   CountriesAllowed,
   HardCap,

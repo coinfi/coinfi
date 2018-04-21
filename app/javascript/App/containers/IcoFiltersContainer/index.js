@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { createStructuredSelector } from 'reselect'
-import { toggleUI, setActiveFilters, setFilter } from './actions'
+import { toggleUI, setFilters, setFilter } from './actions'
 import * as selectors from './selectors'
 import { parseFiltersInURL } from './helpers'
 import { filterList, categories } from './constants'
@@ -13,7 +13,7 @@ export default Component => {
       // parse URL to determine which filters have been set
       const currentFilters = parseFiltersInURL()
       // update the state as such
-      this.props.setActiveFilters(currentFilters)
+      this.props.setFilters(currentFilters)
     }
     render() {
       const { UI, activeFilters } = this.props
@@ -35,7 +35,7 @@ export default Component => {
   }
   function mapDispatch(dispatch) {
     return {
-      ...bindActionCreators({ toggleUI, setActiveFilters, setFilter }, dispatch)
+      ...bindActionCreators({ toggleUI, setFilters, setFilter }, dispatch)
     }
   }
   const mapState = createStructuredSelector({

@@ -32,9 +32,9 @@ export const filterList = [
     defaultValue: null
   },
   {
-    key: 'category',
-    label: 'Category',
-    Component: components.Category,
+    key: 'categories',
+    label: 'Categories',
+    Component: components.Categories,
     defaultValue: null
   },
   {
