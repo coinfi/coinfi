@@ -53,23 +53,22 @@ const componentOptions = {
 
 document.addEventListener('DOMContentLoaded', () => {
   const hooks = document.getElementsByTagName('component')
+  const store = configureStore()
   if (hooks) {
     Array.from(hooks).forEach(hook => {
       const name = hook.getAttribute('name')
       const opts = componentOptions[name]
       if (!opts)
         return console.error(`React component options not found for ${name}`)
-      const { Component, withStore, propNames } = componentOptions[name]
+      const { Component, withStore, propNames } = opts
       const props = {}
-      if (propNames) {
-        propNames.forEach(name => {
-          props[name] = hook.getAttribute(name)
-        })
-      }
+      propNames.forEach(name => {
+        props[name] = hook.getAttribute(name)
+      })
       if (withStore) {
         ReactDOM.render(
-          <Provider store={configureStore()}>
-            <Component />
+          <Provider store={store}>
+            <Component {...props} />
           </Provider>,
           hook
         )
