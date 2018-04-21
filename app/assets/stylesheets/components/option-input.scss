@@ -18,7 +18,6 @@
 }
 .oi-pane {
   .oi-pane-content {
-    padding: $sp2 $sp3;
     @include box-style-1();
     min-width: 200px;
     ul {
@@ -78,6 +77,10 @@
       position: absolute;
       top: 0;
       left: 0;
+      .oi-pane-content {
+        border-color: $aqua;
+        @include shadow-s2-blue();
+      }
     }
   }
 }

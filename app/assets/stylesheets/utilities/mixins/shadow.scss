@@ -1,0 +1,11 @@
+@mixin shadow-s1() {
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.05);
+  -webkit-box-shadow: 0 0 15px rgba(0, 0, 0, 0.05);
+}
+@mixin shadow-s2($r: 0, $g: 0, $b: 0) {
+  box-shadow: 1px 1px 5px rgba($r, $g, $b, 0.09);
+  -webkit-box-shadow: 1px 1px 5px rgba($r, $g, $b, 0.09);
+}
+@mixin shadow-s2-blue() {
+  @include shadow-s2(35, 173, 240);
+}

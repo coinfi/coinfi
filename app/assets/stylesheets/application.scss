@@ -14,6 +14,10 @@
 @import 'base/variables';
 @import 'base/tachyons_config';
 
+@import 'utilities/mixins/shadow';
+@import 'utilities/mixins/box-style';
+@import 'utilities/mixins/misc';
+
 @import 'utilities/conceal';
 @import 'utilities/brand-colors';
 @import 'utilities/responsive-padding';
@@ -26,7 +30,6 @@
 @import 'utilities/misc';
 @import 'utilities/responsive-colors';
 @import 'utilities/aliases';
-@import 'utilities/mixins';
 @import 'utilities/flex-stack';
 
 @import 'base/tachyons';
