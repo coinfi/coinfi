@@ -1,7 +1,8 @@
 import { fromJS } from 'immutable'
+import { filterList } from './constants'
 
 const initialState = fromJS({
-  activeFilters: {},
+  activeFilters: [],
   UI: {
     newFilter: false
   }
@@ -23,9 +24,20 @@ export default (state = initialState, action) => {
     case 'SET_FILTERS':
       return state.set('activeFilters', fromJS(payload))
     case 'SET_FILTER':
-      console.log(payload)
-      return state.setIn(['activeFilters', payload.key], fromJS(payload.value))
+      const activeFilters = state.get('activeFilters')
+      const index = listIndex(activeFilters, payload.key)
+      const filter = { ...filterList.find(o => o.key === payload.key) }
+      filter.value = payload.value
+      delete filter.Component
+      return state.setIn(['activeFilters', index], fromJS(filter))
     default:
       return state
   }
+}
+
+const listIndex = (list, value, key = 'key') => {
+  let index = list.size
+  const existingIndex = list.findIndex(o => o.get(key) === value)
+  if (existingIndex >= 0) index = existingIndex
+  return index
 }

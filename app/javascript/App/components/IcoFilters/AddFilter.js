@@ -9,13 +9,15 @@ class AddFilter extends React.Component {
   SelectedFilterComponent = props => {
     const { showing, filterList, activeFilters } = this.props
     const key = showing('newFilter')
-    if (!key) return null
-    const item = filterList.find(item => item.key === key)
-    if (item) {
-      const { Component } = item
-      return <Component {...props} value={activeFilters.get(key)} />
+    const config = filterList.find(item => item.key === key)
+    if (!config) {
+      console.error(`Filter config not found for "${key}"`)
+      return null
     }
-    return null
+    const { Component } = config
+    const activeFilter = activeFilters.find(o => o.get('key') === key)
+    const value = activeFilter ? activeFilter.get('value') : null
+    return <Component {...props} value={value} />
   }
   render() {
     const { showing, toggleUI, availableFilters } = this.props

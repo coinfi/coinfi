@@ -23,7 +23,7 @@ export default Component => {
           filterList={filterList}
           categories={categories}
           availableFilters={filterList.filter(
-            item => !activeFilters.includes(item.key)
+            item => !activeFilters.find(o => o.get('key') === item.key)
           )}
           showing={(key, val = null) => {
             if (!val) return UI.get(key)
