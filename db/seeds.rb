@@ -6,7 +6,7 @@ FeedSource.create(name: 'Bitcoin Magazine', feed_url: 'https://bitcoinmagazine.c
 FeedSource.create(name: 'Bitcoin News', feed_url: 'https://news.bitcoin.com/feed/', site_url: 'https://www.bitcoin.com/')
 FeedSource.create(name: 'Bitcoinist', feed_url: 'http://bitcoinist.com/feed/', site_url: 'http://bitcoinist.com/')
 FeedSource.create(name: 'Bitfalls', feed_url: 'https://bitfalls.com/feed/', site_url: 'https://bitfalls.com/')
-FeedSource.create(name: 'CoinIdol', feed_url: 'https://coinidol.com/rssshort/', site_url: 'https://coinidol.com/')
+#FeedSource.create(name: 'CoinIdol', feed_url: 'https://coinidol.com/rssshort/', site_url: 'https://coinidol.com/') # Removed due to lack of summary and author fields
 FeedSource.create(name: 'Coin Insider', feed_url: 'https://www.coininsider.com/feed/', site_url: 'https://www.coininsider.com/')
 FeedSource.create(name: 'CoinSpectator Blog', feed_url: 'https://blog.coinspectator.com/feed/', site_url: 'https://blog.coinspectator.com/')
 FeedSource.create(name: 'CoinCap', feed_url: 'http://news.coincap.io/feed/', site_url: 'http://news.coincap.io/')

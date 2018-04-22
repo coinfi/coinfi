@@ -1,11 +1,41 @@
 class FeedSource < ApplicationRecord
+  SUPERFEEDR_API_URL = 'https://push.superfeedr.com/'.freeze
+  SUPERFEEDR_AUTH = { username: ENV.fetch('SUPERFEEDR_USER'), password: ENV.fetch('SUPERFEEDR_TOKEN') }.freeze
+  SUPERFEEDR_RETRIEVE_BATCH_SIZE = 50.freeze
+
   extend FriendlyId
   friendly_id :name, use: [:slugged, :finders]
 
   has_many :news_items
 
+  def retrieve(before: nil)
+    body = {
+      'hub.mode' => 'retrieve', 
+      'hub.topic' => feed_url, 
+      'format' => 'json', 
+      'count' => SUPERFEEDR_RETRIEVE_BATCH_SIZE
+    }
+
+    body.merge!('before' => before ) if before
+
+    options = {
+      basic_auth: SUPERFEEDR_AUTH,
+      body: body
+    }
+
+    results = HTTParty.get(SUPERFEEDR_API_URL, options)
+
+    items = results['items']
+    puts "Fetched #{items.size} items"
+    last_item_id = items.last.try(:[], "id") #using try in case 0 items
+    puts "Last item fetched: #{last_item_id}"
+    #sleep(1) # to try and avoid API timeouts.  Not sure if we still need this.
+
+    items += retrieve(before: last_item_id) unless items.size < SUPERFEEDR_RETRIEVE_BATCH_SIZE
+    items
+  end
+
   def subscribe!
-    subscribe_api_url = 'https://push.superfeedr.com/'
     body = {
       'hub.mode' => 'subscribe', 
       'hub.topic' => feed_url, 
@@ -19,7 +49,7 @@ class FeedSource < ApplicationRecord
       body: body
     }
 
-    result = HTTParty.post(subscribe_api_url, options)
+    result = HTTParty.post(SUPERFEEDR_API_URL, options)
 
     puts result
   end

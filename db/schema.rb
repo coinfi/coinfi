@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180419054701) do
+ActiveRecord::Schema.define(version: 20180420035401) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -257,6 +257,7 @@ ActiveRecord::Schema.define(version: 20180419054701) do
     t.jsonb "feed_item_json"
     t.boolean "is_processed", default: false
     t.integer "news_item_id"
+    t.boolean "was_replaced_by_an_update"
   end
 
   create_table "news_items", force: :cascade do |t|

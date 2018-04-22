@@ -9,7 +9,6 @@ class NewsItemRaw < ApplicationRecord
   end
 
   def process!
-
     begin
       news_item = NewsItem.create!(news_item_params)
     rescue ActiveRecord::RecordNotUnique => e
@@ -35,7 +34,6 @@ class NewsItemRaw < ApplicationRecord
 
   def news_item_params
     return @news_item_params if @news_item_params
-    item = HashWithIndifferentAccess.new(feed_item_json)
 
     @news_item_params = {
       feed_item_id: feed_item_id,
@@ -50,7 +48,15 @@ class NewsItemRaw < ApplicationRecord
     }
   end
 
+  def item
+    @item ||= HashWithIndifferentAccess.new(feed_item_json)
+  end
+
   def actor_id
     item.try(:[], :actor).try(:[], :id)
+  end
+
+  def feed_item_updated_at
+    item["updated"]
   end
 end

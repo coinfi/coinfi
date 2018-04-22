@@ -1,7 +1,5 @@
 require_relative 'batch_process'
 
-SUPERFEEDR_AUTH = { username: ENV.fetch('SUPERFEEDR_USER'), password: ENV.fetch('SUPERFEEDR_TOKEN') }
-
 namespace :feeds do
   desc "Subscribe to all the feeds"
   task :subscribe_all => :environment do
@@ -13,18 +11,17 @@ namespace :feeds do
 
   desc "Unsubscribe to all the feeds"
   task :unsubscribe_all do
-    api_url = 'https://push.superfeedr.com/'
     body = {
       'hub.mode' => 'list', 
       'by_page' => 500, # This is the max supported by SuperFeedr
     }
 
     options = {
-      basic_auth: SUPERFEEDR_AUTH,
+      basic_auth: FeedSource::SUPERFEEDR_AUTH,
       body: body
     }
 
-    subs = HTTParty.get(api_url, options)
+    subs = HTTParty.get(FeedSource::SUPERFEEDR_API_URL, options)
 
     subs.each do |res_item|
       sub = res_item["subscription"]
@@ -35,12 +32,27 @@ namespace :feeds do
       }
 
       options = {
-        basic_auth: SUPERFEEDR_AUTH,
+        basic_auth: FeedSource::SUPERFEEDR_AUTH,
         body: body
       }
 
-      result = HTTParty.post(api_url, options)
+      result = HTTParty.post(FeedSource::SUPERFEEDR_API_URL, options)
       puts result
+    end
+  end
+
+  # example usage to retrieve just one feed: rake feeds:retrieve_items["coinidol"]
+  desc "Retrieve items"
+  task :retrieve_items, [:feed_slug] => :environment do |task, args|
+    feeds = nil
+    feed_slug = args[:feed_slug]
+    feeds = feed_slug.present? ? FeedSource.where(slug: feed_slug) : FeedSource.all
+
+    batch_process(feeds) do |feed|
+      puts feed.name
+      items = feed.retrieve
+      items.map!{|item| HashWithIndifferentAccess.new(item)} #since ingest is using symbols to access the hash
+      items.each{|item| NewsItemRaw.ingest!(item, feed.slug)}
     end
   end
 end
