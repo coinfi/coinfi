@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import Type from 'prop-types'
 
 export default class Categories extends Component {
   selectedCategories = () => {
@@ -27,18 +28,16 @@ export default class Categories extends Component {
         <div className="oi-pane-content">
           <div className="pa2">
             <div>Category</div>
-            {this.props.value && (
-              <ul>
-                {this.props.value.map((cat, i) => (
-                  <li key={`selected-cat-${i}`}>
-                    <button onClick={() => this.remove(cat)}>
-                      {cat}
-                      <i className="fas fa-minus ml3" />
-                    </button>
-                  </li>
-                ))}
-              </ul>
-            )}
+            <ul>
+              {this.selectedCategories().map((cat, i) => (
+                <li key={`selected-cat-${i}`}>
+                  <button onClick={() => this.remove(cat)}>
+                    {cat}
+                    <i className="fas fa-minus ml3" />
+                  </button>
+                </li>
+              ))}
+            </ul>
           </div>
           <div className="bt b--geyser pa2 h5 overflow-x-scroll">
             <ul>
@@ -56,4 +55,10 @@ export default class Categories extends Component {
       </div>
     )
   }
+}
+
+Categories.propTypes = {
+  value: Type.array,
+  categories: Type.array,
+  setFilter: Type.func
 }

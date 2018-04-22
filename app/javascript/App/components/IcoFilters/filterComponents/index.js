@@ -8,16 +8,18 @@ import ReviewedBy from './ReviewedBy'
 import SocialCounts from './SocialCounts'
 import StartingDate from './StartingDate'
 import TokenType from './TokenType'
+import SelectFilter from './SelectFilter'
 
 export default {
-  Categories,
-  ClosingDate,
-  CountriesAllowed,
-  HardCap,
-  OpenWhitelist,
-  PercentOffered,
-  ReviewedBy,
-  SocialCounts,
-  StartingDate,
-  TokenType
+  categories: Categories,
+  closingDate: ClosingDate,
+  countriesAllowed: CountriesAllowed,
+  hardCap: HardCap,
+  openWhitelist: OpenWhitelist,
+  percentOffered: PercentOffered,
+  reviewedBy: ReviewedBy,
+  socialCounts: SocialCounts,
+  startingDate: StartingDate,
+  tokenType: TokenType,
+  selectFilter: SelectFilter
 }

@@ -1,6 +1,7 @@
 .oi-btn {
   padding: $sp2 $sp3;
   @include box-style-1();
+  text-align: left;
   > label {
     display: block;
     color: $tiber;
@@ -17,6 +18,7 @@
   }
 }
 .oi-pane {
+  z-index: 2;
   .oi-pane-content {
     @include box-style-1();
     min-width: 200px;

@@ -1,65 +1,43 @@
-import components from '../../components/IcoFilters/filterComponents'
-
 export const filterList = [
   {
     key: 'hardCap',
-    label: 'Hard Cap',
-    Component: components.HardCap,
-    defaultValue: 1
+    label: 'Hard Cap'
   },
   {
     key: 'startDate',
-    label: 'Start Date',
-    Component: components.StartingDate,
-    defaultValue: null
+    label: 'Start Date'
   },
   {
     key: 'closingDate',
-    label: 'Closing Date',
-    Component: components.ClosingDate,
-    defaultValue: null
+    label: 'Closing Date'
   },
   {
     key: 'openWhitelist',
-    label: 'Open Whitelist',
-    Component: components.OpenWhitelist,
-    defaultValue: null
+    label: 'Open Whitelist'
   },
   {
     key: 'reviewedBy',
-    label: 'Reviewed By',
-    Component: components.ReviewedBy,
-    defaultValue: null
+    label: 'Reviewed By'
   },
   {
     key: 'categories',
-    label: 'Categories',
-    Component: components.Categories,
-    defaultValue: null
+    label: 'Categories'
   },
   {
     key: 'socialCounts',
-    label: 'Social Counts',
-    Component: components.SocialCounts,
-    defaultValue: null
+    label: 'Social Counts'
   },
   {
-    key: 'offered',
-    label: '% Coins Offered',
-    Component: components.PercentOffered,
-    defaultValue: null
+    key: 'percentOffered',
+    label: '% Coins Offered'
   },
   {
     key: 'tokenType',
-    label: 'Token Type',
-    Component: components.TokenType,
-    defaultValue: null
+    label: 'Token Type'
   },
   {
     key: 'countries',
-    label: 'Countries Allowed',
-    Component: components.CountriesAllowed,
-    defaultValue: null
+    label: 'Countries Allowed'
   }
 ]
 

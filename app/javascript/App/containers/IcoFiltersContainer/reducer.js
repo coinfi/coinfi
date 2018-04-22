@@ -28,7 +28,6 @@ export default (state = initialState, action) => {
       const index = listIndex(activeFilters, payload.key)
       const filter = { ...filterList.find(o => o.key === payload.key) }
       filter.value = payload.value
-      delete filter.Component
       return state.setIn(['activeFilters', index], fromJS(filter))
     default:
       return state
