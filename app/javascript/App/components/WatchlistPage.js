@@ -3,12 +3,11 @@ import Watchlist from './Watchlist'
 import WatchlistSearch from './WatchlistSearch'
 import LoadingIndicator from './LoadingIndicator'
 import ArticleList from './ArticleList'
-import WatchlistPageContainer from '../containers/WatchlistPageContainer'
+import watchlistPage from '../containers/watchlistPage'
 
 class WatchlistPage extends Component {
   render() {
-    const { UI, editWatchlist } = this.props
-    const { loading, editing } = UI.toObject()
+    const { currentUI, editWatchlist } = this.props
     return (
       <div className="pa3-l">
         <div className="container">
@@ -20,10 +19,10 @@ class WatchlistPage extends Component {
                   <button
                     onClick={editWatchlist}
                     className={`btn btn-xs ${
-                      editing ? 'btn-green' : 'btn-white'
+                      currentUI('editing') ? 'btn-green' : 'btn-white'
                     }`}
                   >
-                    {editing ? 'Done Editing' : 'Edit Watchlist'}
+                    {currentUI('editing') ? 'Done Editing' : 'Edit Watchlist'}
                   </button>
                 </div>
                 <WatchlistSearch
@@ -34,7 +33,9 @@ class WatchlistPage extends Component {
                 />
               </div>
               <div className="mt1 mt3-l">
-                {loading && <LoadingIndicator className="h5e mb3" />}
+                {currentUI('loading') && (
+                  <LoadingIndicator className="h5e mb3" />
+                )}
                 <Watchlist {...this.props} />
               </div>
             </div>
@@ -50,4 +51,4 @@ class WatchlistPage extends Component {
   }
 }
 
-export default WatchlistPageContainer(WatchlistPage)
+export default watchlistPage(WatchlistPage)

@@ -1,11 +1,10 @@
 /*
- * This is a button which holds a label and a value.
- * The filter prop is an Immutable map which provides
- * these. The value should be an Immutable List or 
+ * This is a button which holds a label and a value. The filter prop is an
+ * Immutable map which provides these. The value should be an Immutable List or
  * Object, or a string
- * 
- * onClick just calls toggleUI using the filter's key,
- * causing that filter's component to render.
+ *
+ * onClick just calls toggleUI using the filter's key, causing that filter's
+ * component to render.
  */
 import React, { Component, Fragment } from 'react'
 import Immutable from 'immutable'
@@ -13,7 +12,7 @@ import FilterComponent from './FilterComponent'
 
 export default class FilterButton extends Component {
   render() {
-    const { filter, toggleUI, showing } = this.props
+    const { filter, toggleUI, currentUI } = this.props
     const { label, value, key } = filter.toObject()
     let valueLabel
     const isObject = value instanceof Immutable.Map
@@ -36,19 +35,21 @@ export default class FilterButton extends Component {
     }
     return (
       <div className="oi" key={`filter-${filter.get('key')}`}>
-        {showing('editFilter') ? (
-          <FilterComponent filterKey={showing('editFilter')} {...this.props} />
-        ) : (
-          <button
-            className="oi-btn"
-            onClick={() => {
-              toggleUI('editFilter', key)
-            }}
-          >
-            <label>{filter.get('label')}</label>
-            {valueLabel}
-          </button>
+        {currentUI('editFilter') === key && (
+          <FilterComponent
+            filterKey={currentUI('editFilter')}
+            {...this.props}
+          />
         )}
+        <button
+          className="oi-btn"
+          onClick={() => {
+            toggleUI('editFilter', key)
+          }}
+        >
+          <label>{filter.get('label')}</label>
+          {valueLabel}
+        </button>
       </div>
     )
   }

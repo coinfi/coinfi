@@ -11,6 +11,7 @@ import ReactDOM from 'react-dom'
 import { Provider } from 'react-redux'
 import configureStore from './configureStore'
 
+import app from './containers/app'
 import WatchButton from './components/WatchButton'
 import WatchlistPage from './components/WatchlistPage'
 import GlobalCoinSearch from './components/GlobalCoinSearch'
@@ -66,9 +67,10 @@ document.addEventListener('DOMContentLoaded', () => {
         props[name] = hook.getAttribute(name)
       })
       if (withStore) {
+        const AppComponent = app(Component)
         ReactDOM.render(
           <Provider store={store}>
-            <Component {...props} />
+            <AppComponent {...props} />
           </Provider>,
           hook
         )

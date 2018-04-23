@@ -1,9 +1,10 @@
 import { combineReducers, createStore, applyMiddleware, compose } from 'redux'
 import { fromJS } from 'immutable'
 import createSagaMiddleware from 'redux-saga'
-import WatchlistPageReducer from './containers/WatchlistPageContainer/reducer'
-import CoinSearchReducer from './containers/CoinSearchContainer/reducer'
-import IcoFiltersReducer from './containers/IcoFiltersContainer/reducer'
+import appReducer from './containers/app/reducer'
+import watchlistPageReducer from './containers/watchlistPage/reducer'
+import coinSearchReducer from './containers/coinSearch/reducer'
+import icoFiltersReducer from './containers/icoFilters/reducer'
 import sagas from './configureSagas'
 
 const sagaMiddleware = createSagaMiddleware()
@@ -13,9 +14,10 @@ export default function configureStore(initialState) {
     window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
 
   const rootReducer = combineReducers({
-    watchlist: WatchlistPageReducer,
-    coinSearch: CoinSearchReducer,
-    icoFilters: IcoFiltersReducer
+    app: appReducer,
+    watchlist: watchlistPageReducer,
+    coinSearch: coinSearchReducer,
+    icoFilters: icoFiltersReducer
   })
 
   const middlewares = [sagaMiddleware]

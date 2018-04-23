@@ -1,5 +1,5 @@
 import React from 'react'
-import IcoFiltersContainer from '../../containers/IcoFiltersContainer'
+import icoFilters from '../../containers/icoFilters'
 import AddFilter from './AddFilter'
 import FilterButton from './FilterButton'
 
@@ -15,12 +15,8 @@ class IcoFilters extends React.Component {
             </button>
           </div>
           {activeFilters.map((filter, i) => (
-            <div>
-              <FilterButton
-                key={`filter-${i}`}
-                filter={filter}
-                {...this.props}
-              />
+            <div key={`filter-${i}`}>
+              <FilterButton filter={filter} {...this.props} />
             </div>
           ))}
           <div>
@@ -33,4 +29,4 @@ class IcoFilters extends React.Component {
   }
 }
 
-export default IcoFiltersContainer(IcoFilters)
+export default icoFilters(IcoFilters)

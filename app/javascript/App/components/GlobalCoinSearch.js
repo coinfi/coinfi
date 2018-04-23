@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import Input from './Input'
-import CoinSearchContainer from '../containers/CoinSearchContainer'
+import coinSearch from '../containers/coinSearch'
 import { toggleOverlay } from '../../modules/navigation/mobile-nav'
 
 class CoinSearch extends Component {
@@ -67,4 +67,4 @@ class CoinSearch extends Component {
   }
 }
 
-export default CoinSearchContainer(CoinSearch)
+export default coinSearch(CoinSearch)

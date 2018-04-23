@@ -16,8 +16,3 @@ export const selectCategory = () =>
   createSelector(selectDomain(), s => {
     return s.get('category')
   })
-
-export const selectUI = () =>
-  createSelector(selectDomain(), s => {
-    return s.get('UI')
-  })

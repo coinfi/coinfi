@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import WatchButton from './WatchButton'
 import Input from './Input'
-import CoinSearchContainer from '../containers/CoinSearchContainer'
+import coinSearch from '../containers/coinSearch'
 
 class WatchlistSearch extends Component {
   handleSearchInput = ({ target: { value } }) => {
@@ -50,4 +50,4 @@ class WatchlistSearch extends Component {
   }
 }
 
-export default CoinSearchContainer(WatchlistSearch)
+export default coinSearch(WatchlistSearch)

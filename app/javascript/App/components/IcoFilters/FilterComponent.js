@@ -1,7 +1,6 @@
 /*
- * This will attempt to render a filter component
- * based on the provided "filterKey" prop, as well
- * as pass its state (value) to it if present.
+ * This will attempt to render a filter component based on the provided
+ * "filterKey" prop, as well as pass its state (value) to it if present.
  */
 import React from 'react'
 import enhanceWithClickOutside from 'react-click-outside'
@@ -9,9 +8,9 @@ import components from './filterComponents'
 
 class FilterComponent extends React.Component {
   handleClickOutside() {
-    const { showing, toggleUI } = this.props
-    if (showing('newFilter')) toggleUI('newFilter')
-    if (showing('editFilter')) toggleUI('editFilter')
+    const { currentUI, toggleUI } = this.props
+    if (currentUI('newFilter')) toggleUI('newFilter')
+    if (currentUI('editFilter')) toggleUI('editFilter')
   }
   render() {
     const { filterKey, activeFilters } = this.props

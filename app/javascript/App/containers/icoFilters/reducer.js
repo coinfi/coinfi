@@ -2,25 +2,12 @@ import { fromJS } from 'immutable'
 import { filterList } from './constants'
 
 const initialState = fromJS({
-  activeFilters: [],
-  UI: {
-    newFilter: false
-  }
+  activeFilters: []
 })
 
 export default (state = initialState, action) => {
   const { type, payload, response } = action
   switch (type) {
-    case 'TOGGLE_UI':
-      const { key, value } = action
-      let newState = false
-      if (!value) {
-        newState = !state.getIn(['UI', key])
-      } else {
-        newState = value
-        if (state.getIn(['UI', key]) === value) newState = false
-      }
-      return state.setIn(['UI', key], newState)
     case 'SET_FILTERS':
       return state.set('activeFilters', fromJS(payload))
     case 'SET_FILTER':

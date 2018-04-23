@@ -41,8 +41,7 @@ export default Component => {
 
   const mapState = createStructuredSelector({
     coinIDs: selectors.selectCoinIDs(),
-    entities: selectors.selectEntities(),
-    UI: selectors.selectUI()
+    entities: selectors.selectEntities()
   })
 
   return connect(mapState, mapDispatch)(HOC)

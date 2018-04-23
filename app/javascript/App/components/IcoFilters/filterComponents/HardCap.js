@@ -5,8 +5,8 @@ import Input from '../../Input'
 export default class HardCap extends Component {
   state = { min: 1, max: 100 }
   setVal = target => ({ target: { value } }) => {
-    const s = this.state
-    s.value[target] = value
+    const s = { ...this.state }
+    s[target] = value
     this.setState(s)
   }
   componentDidMount() {

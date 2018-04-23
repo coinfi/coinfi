@@ -58,7 +58,7 @@ export default class Categories extends Component {
 }
 
 Categories.propTypes = {
-  value: Type.array,
+  value: Type.object,
   categories: Type.array,
   setFilter: Type.func
 }
