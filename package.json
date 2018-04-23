@@ -21,6 +21,7 @@
     "numeral": "^2.0.6",
     "prop-types": "^15.6.1",
     "qs": "^6.5.1",
+    "rc-slider": "^8.6.1",
     "react": "^16.2.0",
     "react-click-outside": "^3.0.1",
     "react-currency-formatter": "^1.1.0",

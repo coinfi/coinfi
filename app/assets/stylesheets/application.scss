@@ -1,23 +1,25 @@
 /*
- * Folder structure:
+ * - Root: variables, import libraries (eg. Tachyons)
+ * - Utilities: Stuff that Tachyons doesn't provide
  * - Base: global/base styling
- * - Components: reusable elements
+ * - Components: elements such as tables or inputs
  * - Modules: unique elements (use ID selector here)
- * - Utilities: useful classes
  * 
  * Useful Tachyons links:
+ * - https://github.com/dwyl/learn-tachyons
  * - http://tachyons.io/docs/layout/widths/
  * - http://tachyons.io/docs/themes/borders/
  * - http://tachyons.io/docs/typography/scale/
  */
 
-@import 'base/variables';
-@import 'base/tachyons_config';
+@import 'variables';
+@import 'tachyons_config';
+@import 'tachyons-sass/tachyons';
+@import 'rc-slider/dist/rc-slider.min';
 
 @import 'utilities/mixins/shadow';
 @import 'utilities/mixins/box-style';
 @import 'utilities/mixins/misc';
-
 @import 'utilities/conceal';
 @import 'utilities/brand-colors';
 @import 'utilities/responsive-padding';
@@ -32,7 +34,6 @@
 @import 'utilities/aliases';
 @import 'utilities/flex-stack';
 
-@import 'base/tachyons';
 @import 'base/general';
 @import 'base/typography';
 

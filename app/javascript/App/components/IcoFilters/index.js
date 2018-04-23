@@ -8,7 +8,7 @@ class IcoFilters extends React.Component {
     const { activeFilters } = this.props
     return (
       <div className="pv4 phr">
-        <div className="flex-stack">
+        <div className="flex-stack items-start">
           <div>
             <button className="oi-btn">
               <i className="fas fa-search" />
