@@ -2,96 +2,40 @@
   "name": "coinfi-rails",
   "scripts": {},
   "env": {
-    "ADMINISTRATE_PASSWORD": {
-      "required": true
-    },
-    "AWS_ACCESS_KEY_ID": {
-      "required": true
-    },
-    "AWS_SECRET_ACCESS_KEY": {
-      "required": true
-    },
-    "BLAZER_DATABASE_URL": {
-      "required": true
-    },
-    "BLAZER_PASSWORD": {
-      "required": true
-    },
-    "BLAZER_USERNAME": {
-      "required": true
-    },
-    "COINFI_PRICES_URL": {
-      "required": true
-    },
-    "CONVERTKIT_API_KEY": {
-      "required": true
-    },
-    "CONVERTKIT_API_SECRET": {
-      "required": true
-    },
-    "COUNTER_FACEBOOK": {
-      "required": true
-    },
-    "COUNTER_REDDIT": {
-      "required": true
-    },
-    "COUNTER_TELEGRAM": {
-      "required": true
-    },
-    "LANG": {
-      "required": true
-    },
-    "MAILGUN_SMTP_PORT": {
-      "required": true
-    },
-    "RACK_ENV": {
-      "required": true
-    },
-    "RAILS_ENV": {
-      "required": true
-    },
-    "RAILS_LOG_TO_STDOUT": {
-      "required": true
-    },
-    "RAILS_SERVE_STATIC_FILES": {
-      "required": true
-    },
-    "ROLLBAR_ACCESS_TOKEN": {
-      "required": true
-    },
-    "ROLLBAR_CLIENT_ACCESS_TOKEN": {
-      "required": true
-    },
-    "ROLLBAR_ENDPOINT": {
-      "required": true
-    },
-    "ROOT_DOMAIN": {
-      "required": true
-    },
-    "S3_BUCKET": {
-      "required": true
-    },
-    "SECRET_KEY_BASE": {
-      "required": true
-    },
-    "TWITTER_ACCESS_SECRET": {
-      "required": true
-    },
-    "TWITTER_ACCESS_TOKEN": {
-      "required": true
-    },
-    "TWITTER_API_KEY": {
-      "required": true
-    },
-    "TWITTER_API_SECRET": {
-      "required": true
-    },
-    "TWITTER_APP_ID": {
-      "required": true
-    },
-    "WEBFACTION_SMTP_PASSWORD": {
-      "required": true
-    }
+    "ADMINISTRATE_PASSWORD": { "required": true },
+    "AWS_ACCESS_KEY_ID": { "required": true },
+    "AWS_SECRET_ACCESS_KEY": { "required": true },
+    "BLAZER_DATABASE_URL": { "required": true },
+    "BLAZER_PASSWORD": { "required": true },
+    "BLAZER_USERNAME": { "required": true },
+    "COINFI_PRICES_URL": { "required": true },
+    "CONVERTKIT_API_KEY": { "required": true },
+    "CONVERTKIT_API_SECRET": { "required": true },
+    "COUNTER_FACEBOOK": { "required": true },
+    "COUNTER_REDDIT": { "required": true },
+    "COUNTER_TELEGRAM": { "required": true },
+    "LANG": { "required": true },
+    "MAILGUN_SMTP_PORT": { "required": true },
+    "RACK_ENV": { "required": true },
+    "RAILS_ENV": { "required": true },
+    "RAILS_LOG_TO_STDOUT": { "required": true },
+    "RAILS_SERVE_STATIC_FILES": { "required": true },
+    "ROLLBAR_ACCESS_TOKEN": { "required": true },
+    "ROLLBAR_CLIENT_ACCESS_TOKEN": { "required": true },
+    "ROLLBAR_ENDPOINT": { "required": true },
+    "ROOT_DOMAIN": { "required": true },
+    "S3_BUCKET": { "required": true },
+    "SECRET_KEY_BASE": { "required": true },
+    "SUPERFEEDR_CALLBACK_URL_SEGMENT_SECRET": { "required": true },
+    "SUPERFEEDR_SECRET": { "required": true },
+    "SUPERFEEDR_TOKEN": { "required": true },
+    "SUPERFEEDR_USER": { "required": true },
+    "TWITTER_ACCESS_SECRET": { "required": true },
+    "TWITTER_ACCESS_TOKEN": { "required": true },
+    "TWITTER_API_KEY": { "required": true },
+    "TWITTER_API_SECRET": { "required": true },
+    "TWITTER_APP_ID": { "required": true },
+    "WEBFACTION_SMTP_PASSWORD": { "required": true }
   },
   "formation": {},
   "addons": [
