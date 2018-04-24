@@ -24,33 +24,31 @@ export default class Categories extends Component {
   }
   render() {
     return (
-      <div className="oi-pane">
-        <div className="oi-pane-content">
-          <div className="pa2">
-            <div>Category</div>
-            <ul>
-              {this.selectedCategories().map((cat, i) => (
-                <li key={`selected-cat-${i}`}>
-                  <button onClick={() => this.remove(cat)}>
-                    {cat}
-                    <i className="fas fa-minus ml3" />
-                  </button>
-                </li>
-              ))}
-            </ul>
-          </div>
-          <div className="bt b--geyser pa2 h5 overflow-x-scroll">
-            <ul>
-              {this.unselectedCategories().map(cat => (
-                <li key={cat}>
-                  <button onClick={() => this.add(cat)}>
-                    {cat}
-                    <i className="fas fa-plus ml3" />
-                  </button>
-                </li>
-              ))}
-            </ul>
-          </div>
+      <div>
+        <div className="pa3">
+          <header>Category</header>
+          <ul>
+            {this.selectedCategories().map((cat, i) => (
+              <li key={`selected-cat-${i}`}>
+                <button onClick={() => this.remove(cat)}>
+                  {cat}
+                  <i className="fas fa-minus ml3" />
+                </button>
+              </li>
+            ))}
+          </ul>
+        </div>
+        <div className="bt b--geyser pa2 h5 overflow-x-scroll">
+          <ul>
+            {this.unselectedCategories().map(cat => (
+              <li key={cat}>
+                <button onClick={() => this.add(cat)}>
+                  {cat}
+                  <i className="fas fa-plus ml3" />
+                </button>
+              </li>
+            ))}
+          </ul>
         </div>
       </div>
     )

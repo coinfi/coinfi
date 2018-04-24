@@ -11,13 +11,19 @@ import ReactDOM from 'react-dom'
 import { Provider } from 'react-redux'
 import configureStore from './configureStore'
 
-import app from './containers/app'
+import { i18n } from 'element-react'
+import locale from 'element-react/src/locale/lang/en'
+
+import appContainer from './containers/app'
+
 import WatchButton from './components/WatchButton'
 import WatchlistPage from './components/WatchlistPage'
 import GlobalCoinSearch from './components/GlobalCoinSearch'
 import TwitterFeed from './components/TwitterFeed'
 import RedditFeed from './components/RedditFeed'
 import IcoFilters from './components/IcoFilters'
+
+i18n.use(locale)
 
 const componentOptions = {
   WatchButton: {
@@ -67,7 +73,7 @@ document.addEventListener('DOMContentLoaded', () => {
         props[name] = hook.getAttribute(name)
       })
       if (withStore) {
-        const AppComponent = app(Component)
+        const AppComponent = appContainer(Component)
         ReactDOM.render(
           <Provider store={store}>
             <AppComponent {...props} />

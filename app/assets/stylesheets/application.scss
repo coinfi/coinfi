@@ -5,7 +5,7 @@
  * - Components: elements such as tables or inputs
  * - Modules: unique elements (use ID selector here)
  * 
- * Useful Tachyons links:
+ * Tachyons:
  * - https://github.com/dwyl/learn-tachyons
  * - http://tachyons.io/docs/layout/widths/
  * - http://tachyons.io/docs/themes/borders/
@@ -13,8 +13,8 @@
  */
 
 @import 'variables';
-@import 'tachyons_config';
-@import 'tachyons-sass/tachyons';
+@import 'tachyons';
+@import 'element-ui';
 @import 'rc-slider/dist/rc-slider.min';
 
 @import 'utilities/mixins/shadow';

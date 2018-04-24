@@ -13,13 +13,15 @@ class FilterComponent extends React.Component {
     if (currentUI('editFilter')) toggleUI('editFilter')
   }
   render() {
-    const { filterKey, activeFilters } = this.props
+    const { uiKey, currentUI, activeFilters } = this.props
+    const filterKey = currentUI(uiKey)
     const Component = components[filterKey]
     const activeFilter = activeFilters.find(o => o.get('key') === filterKey)
     const value = activeFilter ? activeFilter.get('value') : null
+    if (!Component) return null
     return (
       <div className="oi-pane">
-        <div className="oi-pane-content pa3">
+        <div className="oi-pane-content">
           <Component {...this.props} value={value} />
         </div>
       </div>

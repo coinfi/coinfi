@@ -10,7 +10,7 @@ class IcoFilters extends React.Component {
       <div className="pv4 phr">
         <div className="flex-stack items-start">
           <div>
-            <button className="oi-btn">
+            <button className="oi-icon">
               <i className="fas fa-search" />
             </button>
           </div>

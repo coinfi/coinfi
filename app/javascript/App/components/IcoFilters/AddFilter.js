@@ -13,10 +13,10 @@ class AddFilter extends React.Component {
     return (
       <div className="oi">
         {currentUI('newFilter') ? (
-          <FilterComponent filterKey={currentUI('newFilter')} {...this.props} />
+          <FilterComponent uiKey="newFilter" {...this.props} />
         ) : (
           <button
-            className="oi-btn"
+            className="oi-icon"
             onClick={() => toggleUI('newFilter', 'selectFilter')}
           >
             <i className="fas fa-plus" />

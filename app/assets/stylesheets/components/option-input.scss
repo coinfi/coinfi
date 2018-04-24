@@ -1,15 +1,24 @@
-.oi-btn {
-  padding: $sp2 $sp3;
+.oi-btn,
+.oi-pane,
+.oi-icon {
   @include box-style-1();
-  text-align: left;
-  > label {
+  header {
     display: block;
-    color: $tiber;
+    color: $elephant;
     font-size: 0.8rem;
+    padding-bottom: $sp2;
   }
-  > div {
+  .oi-value {
     color: $aqua;
+    margin-top: $sp1;
   }
+}
+.oi-btn,
+.oi-icon {
+  text-align: center;
+  min-width: 70px;
+  min-height: 70px;
+  padding: $sp3;
   > i.fas {
     font-size: 1.2rem;
     padding-top: $sp2;
@@ -17,10 +26,12 @@
     color: $geyser;
   }
 }
+.oi-btn {
+  text-align: left;
+}
 .oi-pane {
   z-index: 2;
   .oi-pane-content {
-    @include box-style-1();
     min-width: 200px;
     ul {
       margin: 0;

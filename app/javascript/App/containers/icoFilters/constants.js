@@ -4,8 +4,8 @@ export const filterList = [
     label: 'Hard Cap'
   },
   {
-    key: 'startDate',
-    label: 'Start Date'
+    key: 'startingDate',
+    label: 'Starting Date'
   },
   {
     key: 'closingDate',
