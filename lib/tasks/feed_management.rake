@@ -11,6 +11,7 @@ namespace :feeds do
 
   desc "Unsubscribe to all the feeds"
   task :unsubscribe_all do
+    raise "Make sure PLA-164 is complete before using this again because superfeedr account is now shared between staging and dev"
     body = {
       'hub.mode' => 'list', 
       'by_page' => 500, # This is the max supported by SuperFeedr
