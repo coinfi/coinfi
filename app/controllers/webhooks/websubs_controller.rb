@@ -5,7 +5,10 @@ class Webhooks::WebsubsController < ApplicationController
 
 
   def superfeedr_ingest
-    params[:items].each do |item|
+    items = params[:items]
+    head :ok and return unless items.present?
+
+    items.each do |item|
       NewsItemRaw.ingest!(item, params[:source])
     end
 
