@@ -1,10 +1,12 @@
-#site-subheader.phr
+#site-subheader
   .container-wide
-    h1.fw6 ICO Database
-    = render partial: "ico_nav"
+    .phr
+      h1.fw6 ICO Database
+      = render partial: "ico_nav"
 .bg-white
   .container-wide
-    component name="IcoFilters"
+    .pv3.phr
+      component name="IcoFilters"
     .pt4.ph3-ns.ph4-m
       table.responsive-table.right-align
         thead

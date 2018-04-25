@@ -32,7 +32,7 @@ export default class Categories extends Component {
               <li key={`selected-cat-${i}`}>
                 <button onClick={() => this.remove(cat)}>
                   {cat}
-                  <i className="fas fa-minus ml3" />
+                  <i className="fal fa-minus ml3" />
                 </button>
               </li>
             ))}
@@ -44,7 +44,7 @@ export default class Categories extends Component {
               <li key={cat}>
                 <button onClick={() => this.add(cat)}>
                   {cat}
-                  <i className="fas fa-plus ml3" />
+                  <i className="fal fa-plus ml3" />
                 </button>
               </li>
             ))}

@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import { Switch } from 'element-react'
 
 export default class OpenWhitelist extends Component {
   render() {
@@ -8,12 +7,6 @@ export default class OpenWhitelist extends Component {
     return (
       <div className="pa3">
         <header>{`${label} Whitelist`}</header>
-        <Switch
-          value={!!checked}
-          onText="Open"
-          offText="Closed"
-          onChange={v => setFilter('openWhitelist', v)}
-        />
       </div>
     )
   }

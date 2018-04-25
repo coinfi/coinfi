@@ -1,5 +1,6 @@
 #global-coin-search {
   position: relative;
+  min-width: 200px;
   .search-input {
     color: $elephant;
     input[type='text'] {
@@ -7,6 +8,7 @@
       box-shadow: 3px 3px 0 $tiber, -3px 3px 0 $tiber, 3px -3px 0 $tiber,
         -3px -3px $tiber;
       max-width: none;
+      padding: $sp3 $sp3 $sp3 3.5rem;
     }
   }
   ul {

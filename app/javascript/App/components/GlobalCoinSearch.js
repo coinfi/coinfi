@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import Input from './Input'
+import Icon from './Icon'
 import coinSearch from '../containers/coinSearch'
 import { toggleOverlay } from '../../modules/navigation/mobile-nav'
 
@@ -14,9 +15,10 @@ class CoinSearch extends Component {
       <div id="global-coin-search">
         <div className="relative">
           <div className="search-input icon-input tiber">
-            <i className="fas fa-search reveal-m" />
-            <i
-              className="fas fa-arrow-left silver conceal-m"
+            <Icon name="search" className="fa-lg reveal-m" />
+            <Icon
+              name="arrow-left"
+              className="silver conceal-m"
               onClick={() => {
                 const e = document.getElementById('global-coin-search')
                 toggleOverlay(e)
@@ -31,8 +33,9 @@ class CoinSearch extends Component {
               setRef={ref => (this.inputRef = ref)}
             />
             {searchText.length > 0 && (
-              <i
-                className="fas fa-times silver conceal-m"
+              <Icon
+                name="times"
+                className="silver conceal-m"
                 onClick={() => {
                   clearSearch()
                   this.inputRef.focus()

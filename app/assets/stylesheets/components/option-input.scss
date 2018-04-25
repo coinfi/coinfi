@@ -15,16 +15,16 @@
 }
 .oi-btn,
 .oi-icon {
-  text-align: center;
   min-width: 70px;
   min-height: 70px;
   padding: $sp3;
-  > i.fas {
-    font-size: 1.2rem;
-    padding-top: $sp2;
-    padding-bottom: $sp2;
-    color: $geyser;
-  }
+}
+.oi-icon {
+  text-align: center;
+  font-size: 1.4rem;
+  padding-top: $sp2;
+  padding-bottom: $sp2;
+  color: $geyser;
 }
 .oi-btn {
   text-align: left;
@@ -51,11 +51,11 @@
           text-align: left;
           white-space: nowrap;
           font-size: 0.8rem;
-          i.fas {
+          .icon {
             opacity: 0;
           }
           &:hover {
-            i.fas {
+            .icon {
               opacity: 1;
             }
           }

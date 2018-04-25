@@ -1,4 +1,5 @@
 import React from 'react'
+import Icon from '../../Icon'
 
 export default props => {
   const { toggleUI, availableFilters } = props
@@ -9,7 +10,7 @@ export default props => {
           <li key={item.key}>
             <button onClick={() => toggleUI('newFilter', item.key)}>
               <div>{item.label}</div>
-              <i className="fas fa-plus ml3 aqua" />
+              <Icon name="plus" className="ml3 aqua" />
             </button>
           </li>
         ))}

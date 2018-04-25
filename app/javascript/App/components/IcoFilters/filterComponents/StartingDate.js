@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { DatePicker } from 'element-react'
+import Input from '../../Input'
 export default class StartingDate extends Component {
   handleChange = value => {
     console.log(value)
@@ -8,7 +8,7 @@ export default class StartingDate extends Component {
     return (
       <div className="pa3">
         <header>Starting date</header>
-        <DatePicker selectionMode="month" onChange={this.handleChange} />
+        <Input type="date" />
       </div>
     )
   }

@@ -6,6 +6,7 @@
  */
 import React from 'react'
 import FilterComponent from './FilterComponent'
+import Icon from '../Icon'
 
 class AddFilter extends React.Component {
   render() {
@@ -19,7 +20,7 @@ class AddFilter extends React.Component {
             className="oi-icon"
             onClick={() => toggleUI('newFilter', 'selectFilter')}
           >
-            <i className="fas fa-plus" />
+            <Icon name="plus" />
           </button>
         )}
       </div>

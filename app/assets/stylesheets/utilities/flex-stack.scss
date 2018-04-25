@@ -15,4 +15,12 @@
       @extend .nt3;
     }
   }
+  &.flush {
+    @extend .mh0;
+    @extend .pt0;
+    > * {
+      @extend .pa0;
+      @extend .mt0;
+    }
+  }
 }

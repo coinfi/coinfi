@@ -14,12 +14,10 @@
 
 @import 'variables';
 @import 'tachyons';
-@import 'element-ui';
 @import 'rc-slider/dist/rc-slider.min';
 
 @import 'utilities/mixins/shadow';
 @import 'utilities/mixins/box-style';
-@import 'utilities/mixins/misc';
 @import 'utilities/conceal';
 @import 'utilities/brand-colors';
 @import 'utilities/responsive-padding';
@@ -33,6 +31,7 @@
 @import 'utilities/responsive-colors';
 @import 'utilities/aliases';
 @import 'utilities/flex-stack';
+@import 'utilities/fa-svg-with-js';
 
 @import 'base/general';
 @import 'base/typography';
