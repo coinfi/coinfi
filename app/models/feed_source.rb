@@ -76,7 +76,8 @@ class FeedSource < ApplicationRecord
     FeedSource.create( 
       name: coin.name + " Reddit",
       feed_url: coin.reddit + ".rss",
-      site_url: coin.reddit
+      site_url: coin.reddit,
+      feed_type: 'reddit'
     )
   end
 
@@ -85,7 +86,8 @@ class FeedSource < ApplicationRecord
     FeedSource.create( 
       name: coin.name + " Twitter",
       feed_url: "https://twitrss.me/twitter_user_to_rss/?user=#{twitter_user}",
-      site_url: coin.twitter
+      site_url: coin.twitter,
+      feed_type: 'twitter'
     )
   end
 
