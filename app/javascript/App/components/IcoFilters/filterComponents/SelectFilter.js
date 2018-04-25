@@ -7,9 +7,9 @@ export default props => {
     <div className="pa3">
       <ul>
         {availableFilters.map(item => (
-          <li key={item.key}>
-            <button onClick={() => toggleUI('newFilter', item.key)}>
-              <div>{item.label}</div>
+          <li key={item.get('key')}>
+            <button onClick={() => toggleUI('newFilter', item.get('key'))}>
+              <div>{item.get('label')}</div>
               <Icon name="plus" className="ml3 aqua" />
             </button>
           </li>

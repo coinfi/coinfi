@@ -3,31 +3,32 @@
 .oi-icon {
   @include box-style-1();
   header {
-    display: block;
     color: $elephant;
     font-size: 0.8rem;
-    padding-bottom: $sp2;
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid $geyser;
+    padding: $sp3 $sp3 $sp2 $sp3;
   }
   .oi-value {
     color: $aqua;
-    margin-top: $sp1;
+    padding: $sp3;
   }
 }
 .oi-btn,
 .oi-icon {
   min-width: 70px;
   min-height: 70px;
-  padding: $sp3;
 }
 .oi-icon {
   text-align: center;
   font-size: 1.4rem;
-  padding-top: $sp2;
-  padding-bottom: $sp2;
+  padding: $sp2 $sp3;
   color: $geyser;
 }
 .oi-btn {
   text-align: left;
+  padding: 0;
 }
 .oi-pane {
   z-index: 2;
@@ -90,10 +91,8 @@
       position: absolute;
       top: 0;
       left: 0;
-      .oi-pane-content {
-        border-color: $aqua;
-        @include shadow-s2-blue();
-      }
+      border-color: $aqua;
+      @include shadow-s2-blue();
     }
   }
 }

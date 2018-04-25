@@ -13,7 +13,7 @@ export default (state = initialState, action) => {
     case 'SET_FILTER':
       const activeFilters = state.get('activeFilters')
       const index = listIndex(activeFilters, payload.key)
-      const filter = { ...filterList.find(o => o.key === payload.key) }
+      const filter = filterList.find(o => o.get('key') === payload.key).toJS()
       filter.value = payload.value
       return state.setIn(['activeFilters', index], fromJS(filter))
     default:

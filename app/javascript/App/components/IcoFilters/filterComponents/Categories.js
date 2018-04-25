@@ -2,31 +2,26 @@ import React, { Component } from 'react'
 import Type from 'prop-types'
 
 export default class Categories extends Component {
-  selectedCategories = () => {
-    const { value } = this.props
-    if (value) return value.toJS()
-    return []
-  }
+  selectedCategories = () => this.props.value || []
   unselectedCategories = () => {
     const { categories } = this.props
     let selected = this.selectedCategories()
     return categories.filter(cat => !selected.includes(cat))
   }
   add = cat => {
-    let selected = this.selectedCategories()
-    selected.push(cat)
-    this.props.setFilter('categories', selected)
+    let cats = this.selectedCategories()
+    cats.push(cat)
+    this.props.onChange(cats)
   }
   remove = cat => {
-    let selected = this.selectedCategories()
-    selected = selected.filter(c => c !== cat)
-    this.props.setFilter('categories', selected)
+    let cats = this.selectedCategories()
+    cats = cats.filter(c => c !== cat)
+    this.props.onChange(cats)
   }
   render() {
     return (
       <div>
         <div className="pa3">
-          <header>Category</header>
           <ul>
             {this.selectedCategories().map((cat, i) => (
               <li key={`selected-cat-${i}`}>
@@ -38,7 +33,7 @@ export default class Categories extends Component {
             ))}
           </ul>
         </div>
-        <div className="bt b--geyser pa2 h5 overflow-x-scroll">
+        <div className="bt b--geyser pa3 h5 overflow-x-scroll">
           <ul>
             {this.unselectedCategories().map(cat => (
               <li key={cat}>
@@ -56,7 +51,7 @@ export default class Categories extends Component {
 }
 
 Categories.propTypes = {
-  value: Type.object,
+  value: Type.array,
   categories: Type.array,
   setFilter: Type.func
 }

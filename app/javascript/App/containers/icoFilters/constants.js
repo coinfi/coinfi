@@ -1,4 +1,6 @@
-export const filterList = [
+import { fromJS } from 'immutable'
+
+export const filterList = fromJS([
   {
     key: 'hardCap',
     label: 'Hard Cap'
@@ -39,7 +41,7 @@ export const filterList = [
     key: 'countries',
     label: 'Countries Allowed'
   }
-]
+])
 
 export const categories = [
   'Advertising & Marketing',

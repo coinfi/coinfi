@@ -12,14 +12,16 @@ import FilterComponent from './FilterComponent'
 
 export default props => {
   const { filter, toggleUI, currentUI } = props
+  const uiKey = 'editFilter'
+  const filterKey = currentUI(uiKey)
   return (
     <div className="oi" key={`filter-${filter.get('key')}`}>
-      {currentUI('editFilter') === filter.get('key') && (
-        <FilterComponent uiKey="editFilter" {...props} />
+      {currentUI(uiKey) === filter.get('key') && (
+        <FilterComponent {...{ ...props, filterKey, uiKey }} />
       )}
       <button
         className="oi-btn"
-        onClick={() => toggleUI('editFilter', filter.get('key'))}
+        onClick={() => toggleUI(uiKey, filter.get('key'))}
       >
         <header>{filter.get('label')}</header>
         <div className="oi-value">
