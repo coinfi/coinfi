@@ -53,6 +53,15 @@ namespace :feeds do
     end
   end
 
+  desc "Build Feeds Source for all coins reddit feeds"
+  task :build_all_feed_sources_for_reddit  => :environment do
+    #using batch_process here just for error_handling e.g. since we have manually created one of these already
+    #we just want it to skip the unique constraint error that will be thrown and keep going to create the rest
+    batch_process(Coin.where.not(reddit: nil).where.not(reddit: "")) do |coin|
+      FeedSource.create_from_coins_reddit!(coin)
+    end
+  end
+
   desc "Check if all feed sources are subscribed"
   task :check_all_feed_source_subscriptions  => :environment do
     not_susbscribed_ids = FeedSource.ids_without_subs

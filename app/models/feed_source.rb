@@ -55,9 +55,11 @@ class FeedSource < ApplicationRecord
       body: body
     }
 
-    response = HTTParty.post(SUPERFEEDR_API_URL, options)
+    HTTParty.post(SUPERFEEDR_API_URL, options)
 
-    puts response unless response.success?
+    #if the line above fails it throws an error so if we got here
+    #we can assume this one has subscribed sucessfully
+    update(is_subscribed: true)
   end
 
   def callback_url
@@ -68,6 +70,14 @@ class FeedSource < ApplicationRecord
     protocol = Rails.env.development? ? 'http://' : 'https://'
 
     "#{protocol}#{ENV.fetch('ROOT_DOMAIN')}/webhooks/#{ENV.fetch('SUPERFEEDR_CALLBACK_URL_SEGMENT_SECRET')}-superfeedr-ingest"
+  end
+
+  def self.create_from_coins_reddit!(coin)
+    FeedSource.create( 
+      name: coin.name + " Reddit",
+      feed_url: coin.reddit + ".rss",
+      site_url: coin.reddit
+    )
   end
 
   def self.create_from_coins_twitter!(coin)
