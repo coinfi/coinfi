@@ -4,7 +4,6 @@ namespace :feeds do
   desc "Subscribe to all the feeds"
   task :subscribe_all => :environment do
     batch_process(FeedSource.all) do |source|
-      puts source.name
       source.subscribe!
     end
   end
@@ -12,17 +11,7 @@ namespace :feeds do
   desc "Unsubscribe to all the feeds"
   task :unsubscribe_all do
     raise "Make sure PLA-164 is complete before using this again because superfeedr account is now shared between staging and dev"
-    body = {
-      'hub.mode' => 'list', 
-      'by_page' => 500, # This is the max supported by SuperFeedr
-    }
-
-    options = {
-      basic_auth: FeedSource::SUPERFEEDR_AUTH,
-      body: body
-    }
-
-    subs = HTTParty.get(FeedSource::SUPERFEEDR_API_URL, options)
+    subs = FeedSource.fetch_all_subscriptions
 
     subs.each do |res_item|
       sub = res_item["subscription"]
@@ -51,9 +40,26 @@ namespace :feeds do
 
     batch_process(feeds) do |feed|
       puts feed.name
-      items = feed.retrieve
-      items.map!{|item| HashWithIndifferentAccess.new(item)} #since ingest is using symbols to access the hash
-      items.each{|item| NewsItemRaw.ingest!(item, feed.slug)}
+      feed.retrieve!
     end
+  end
+
+  desc "Build Feeds Source for all coins twitter feeds"
+  task :build_all_feed_sources_for_twitter  => :environment do
+    #using batch_process here just for error_handling e.g. since we have manually created one of these already
+    #we just want it to skip the unique constraint error that will be thrown and keep going to create the rest
+    batch_process(Coin.where.not(twitter: nil).where.not(twitter: "")) do |coin|
+      FeedSource.create_from_coins_twitter!(coin)
+    end
+  end
+
+  desc "Check if all feed sources are subscribed"
+  task :check_all_feed_source_subscriptions  => :environment do
+    not_susbscribed_ids = []
+    batch_process(FeedSource) do |fs|
+      not_susbscribed_ids << fs.id unless fs.subscribed?
+    end
+    puts "All Feed Sources are subscribed" and return if not_susbscribed_ids.empty?
+    puts "These feed sources are not subscribed #{not_susbscribed_ids}"
   end
 end

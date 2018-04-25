@@ -35,6 +35,12 @@ class FeedSource < ApplicationRecord
     items
   end
 
+  def retrieve!
+    items = retrieve
+    items.map!{|item| HashWithIndifferentAccess.new(item)} #since ingest is using symbols to access the hash
+    items.each{|item| NewsItemRaw.ingest!(item, slug)}
+  end
+
   def subscribe!
     body = {
       'hub.mode' => 'subscribe', 
@@ -49,9 +55,9 @@ class FeedSource < ApplicationRecord
       body: body
     }
 
-    result = HTTParty.post(SUPERFEEDR_API_URL, options)
+    response = HTTParty.post(SUPERFEEDR_API_URL, options)
 
-    puts result
+    puts response unless response.success?
   end
 
   def callback_url
@@ -63,4 +69,74 @@ class FeedSource < ApplicationRecord
 
     "#{protocol}#{ENV.fetch('ROOT_DOMAIN')}/webhooks/#{ENV.fetch('SUPERFEEDR_CALLBACK_URL_SEGMENT_SECRET')}-superfeedr-ingest"
   end
+
+  def self.create_from_coins_twitter!(coin)
+    twitter_user = coin.twitter.split("/").last
+    FeedSource.create( 
+      name: coin.name + " Twitter",
+      feed_url: "https://twitrss.me/twitter_user_to_rss/?user=#{twitter_user}",
+      site_url: coin.twitter
+    )
+  end
+
+  SUPERFEEDR_MAX_PER_PAGE = 500
+  def self.fetch_subs(page = 1)
+    #TODO change this now that we have > 500 subscriptions
+    body = {
+      'hub.mode' => 'list', 
+      'by_page' => SUPERFEEDR_MAX_PER_PAGE, # This is the max supported by SuperFeedr
+      'page' => page
+    }
+
+    options = {
+      basic_auth: FeedSource::SUPERFEEDR_AUTH,
+      query: body
+    }
+
+    puts "Fetching Page #: #{page}"
+    response = HTTParty.get(FeedSource::SUPERFEEDR_API_URL, options)
+
+    response.parsed_response.map{|r| r["subscription"]}
+  end
+
+  def self.fetch_all_subs
+    subs = []
+    page = 0
+    loop do
+      page += 1
+      new_subs = fetch_subs(page)
+      subs += new_subs
+      break if new_subs.size < SUPERFEEDR_MAX_PER_PAGE
+    end
+
+    subs
+  end
+
+  def self.ids_without_subs
+    all_subs = fetch_all_subs
+    fs_ids_missing_subs = []
+    FeedSource.find_each do |fs|
+      fs_ids_missing_subs << fs.id unless all_subs.any?{|sub| sub["feed"]["url"] == fs.feed_url and sub["endpoint"] == fs.callback_url}
+    end
+    fs_ids_missing_subs
+  end
+
+  def subscribed?
+    query = {
+      'hub.mode' => 'list', 
+      'search[feed][url]' => feed_url, 
+      'format' => 'json', 
+    }
+
+    options = {
+      basic_auth: { username: ENV.fetch('SUPERFEEDR_USER'), password: ENV.fetch('SUPERFEEDR_TOKEN') },
+      query: query
+    }
+
+    #debug_url = "http://tester123.proxy.beeceptor.com"
+    subs_with_this_feed_url = HTTParty.get(SUPERFEEDR_API_URL, options)
+    #subs_with_this_feed_url = HTTParty.get(debug_url, options)
+    subs_with_this_feed_url.any?{|sub| sub["subscription"]["endpoint"] == callback_url}
+  end
+
 end
