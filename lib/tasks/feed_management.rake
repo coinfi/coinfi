@@ -55,11 +55,11 @@ namespace :feeds do
 
   desc "Check if all feed sources are subscribed"
   task :check_all_feed_source_subscriptions  => :environment do
-    not_susbscribed_ids = []
-    batch_process(FeedSource) do |fs|
-      not_susbscribed_ids << fs.id unless fs.subscribed?
+    not_susbscribed_ids = FeedSource.ids_without_subs
+    if not_susbscribed_ids.empty?
+      puts "All Feed Sources are subscribed"
+    else
+      puts "These feed sources are not subscribed #{not_susbscribed_ids}"
     end
-    puts "All Feed Sources are subscribed" and return if not_susbscribed_ids.empty?
-    puts "These feed sources are not subscribed #{not_susbscribed_ids}"
   end
 end
