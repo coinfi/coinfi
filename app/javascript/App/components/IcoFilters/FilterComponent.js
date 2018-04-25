@@ -31,8 +31,13 @@ class FilterComponent extends React.Component {
   }
   applyFilter = () => {
     const { setFilter, toggleUI, uiKey, filterKey } = this.props
-    setFilter(filterKey, this.state.value)
+    const { value } = this.state
+    if (value) setFilter(filterKey, value)
     toggleUI(uiKey)
+  }
+  removeFilter = () => {
+    const { removeFilter, filterKey } = this.props
+    removeFilter(filterKey)
   }
   render() {
     const { filter, filterKey, uiKey } = this.props
@@ -47,7 +52,13 @@ class FilterComponent extends React.Component {
             <header>
               <div>{filter.get('label')}</div>
               <div>
-                {uiKey === 'editFilter' && <Icon name="trash" />}
+                {uiKey === 'editFilter' && (
+                  <Icon
+                    name="trash"
+                    className="mr2"
+                    onClick={this.removeFilter}
+                  />
+                )}
                 <Icon name="check" onClick={this.applyFilter} />
               </div>
             </header>

@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { createStructuredSelector } from 'reselect'
-import { setFilters, setFilter } from './actions'
+import { setFilters, setFilter, removeFilter } from './actions'
 import * as selectors from './selectors'
 import { parseFiltersInURL } from './helpers'
 import { filterList, categories } from './constants'
@@ -31,7 +31,7 @@ export default Component => {
   }
   function mapDispatch(dispatch) {
     return {
-      ...bindActionCreators({ setFilters, setFilter }, dispatch)
+      ...bindActionCreators({ setFilters, setFilter, removeFilter }, dispatch)
     }
   }
   const mapState = createStructuredSelector({

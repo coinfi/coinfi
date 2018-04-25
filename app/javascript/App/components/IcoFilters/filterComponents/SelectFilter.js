@@ -4,7 +4,7 @@ import Icon from '../../Icon'
 export default props => {
   const { toggleUI, availableFilters } = props
   return (
-    <div className="pa3">
+    <div className="pv2">
       <ul>
         {availableFilters.map(item => (
           <li key={item.get('key')}>

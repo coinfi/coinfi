@@ -10,7 +10,7 @@ export default class HardCap extends Component {
     this.props.onChange(this.value())
   }
   value = () => this.props.value || defaults
-  setVal = name => ({ target: { value } }) => {
+  setVal = name => value => {
     const s = this.value()
     s[name] = parseInt(value, 10)
     this.props.onChange(s)

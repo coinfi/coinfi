@@ -2,7 +2,7 @@ import React from 'react'
 
 /*
  * Simple wrapper for FontAwesome.
- * Wrapping div required to prevent error on unmount.
+ * Wrapping div/button required to prevent error on unmount.
  */
 
 export default ({ name, brand, regular, solid, className, ...rest }) => {
@@ -11,8 +11,20 @@ export default ({ name, brand, regular, solid, className, ...rest }) => {
   if (solid) prefix = 'fas'
   if (brand) prefix = 'fab'
   return (
-    <div className="icon" {...rest}>
+    <IconWrapper {...rest}>
       <i className={`${prefix} fa-${name} ${className || ''}`} />
-    </div>
+    </IconWrapper>
   )
+}
+
+const IconWrapper = ({ onClick, children, ...rest }) => {
+  if (onClick) {
+    return (
+      <button className="btn-icon icon" onClick={onClick}>
+        {children}
+      </button>
+    )
+  } else {
+    return <div className="icon">{children}</div>
+  }
 }

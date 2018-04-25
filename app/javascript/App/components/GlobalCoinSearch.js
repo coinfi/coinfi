@@ -5,7 +5,7 @@ import coinSearch from '../containers/coinSearch'
 import { toggleOverlay } from '../../modules/navigation/mobile-nav'
 
 class CoinSearch extends Component {
-  handleSearchInput = ({ target: { value } }) => {
+  handleSearchInput = value => {
     const { searchCoins, searchOpts } = this.props
     searchCoins(value, searchOpts || {})
   }

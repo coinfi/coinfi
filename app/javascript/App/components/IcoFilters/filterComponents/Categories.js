@@ -21,7 +21,7 @@ export default class Categories extends Component {
   render() {
     return (
       <div>
-        <div className="pa3">
+        <div className="pb2">
           <ul>
             {this.selectedCategories().map((cat, i) => (
               <li key={`selected-cat-${i}`}>
@@ -33,7 +33,7 @@ export default class Categories extends Component {
             ))}
           </ul>
         </div>
-        <div className="bt b--geyser pa3 h5 overflow-x-scroll">
+        <div className="bt b--geyser pv2 h5 overflow-x-scroll">
           <ul>
             {this.unselectedCategories().map(cat => (
               <li key={cat}>

@@ -4,7 +4,7 @@ import Input from './Input'
 import coinSearch from '../containers/coinSearch'
 
 class WatchlistSearch extends Component {
-  handleSearchInput = ({ target: { value } }) => {
+  handleSearchInput = value => {
     let { searchOpts } = this.props
     searchOpts = searchOpts || {}
     this.props.searchCoins(value, searchOpts)

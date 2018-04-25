@@ -1,0 +1,26 @@
+.switch {
+  display: inline-block;
+  background: $aqua;
+  border-radius: 99px;
+  border: 1px solid $aqua;
+  position: relative;
+  height: 10px;
+  width: 20px;
+  &:after {
+    content: ' ';
+    display: block;
+    height: 10px;
+    width: 10px;
+    border-radius: 99px;
+    background: $white;
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+  &.on {
+    &:after {
+      left: auto;
+      right: 0;
+    }
+  }
+}

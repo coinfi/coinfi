@@ -2,23 +2,23 @@
 .oi-pane,
 .oi-icon {
   @include box-style-1();
+  font-family: $body-font;
   header {
     color: $elephant;
     font-size: 0.8rem;
     display: flex;
     justify-content: space-between;
-    border-bottom: 1px solid $geyser;
     padding: $sp3 $sp3 $sp2 $sp3;
+    line-height: 1;
   }
   .oi-value {
     color: $aqua;
-    padding: $sp3;
+    padding: 0 $sp3 $sp3 $sp3;
   }
 }
 .oi-btn,
 .oi-icon {
   min-width: 70px;
-  min-height: 70px;
 }
 .oi-icon {
   text-align: center;
@@ -44,7 +44,7 @@
         button {
           display: flex;
           justify-content: space-between;
-          padding: $sp2;
+          padding: $sp2 $sp3;
           width: 100%;
           border: none;
           background: transparent;
