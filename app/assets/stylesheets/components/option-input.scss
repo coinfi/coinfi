@@ -14,17 +14,20 @@
   .oi-value {
     color: $aqua;
     padding: 0 $sp3 $sp3 $sp3;
+    line-height: 1;
+    white-space: nowrap;
   }
 }
 .oi-btn,
 .oi-icon {
   min-width: 70px;
+  min-height: 70px;
 }
 .oi-icon {
   text-align: center;
   font-size: 1.4rem;
-  padding: $sp2 $sp3;
   color: $geyser;
+  padding: 0;
 }
 .oi-btn {
   text-align: left;

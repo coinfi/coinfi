@@ -14,7 +14,7 @@ export default props => {
   const { filter, toggleUI, currentUI } = props
   const uiKey = 'editFilter'
   return (
-    <div className="oi" key={`filter-${filter.get('key')}`}>
+    <div className="oi">
       {currentUI(uiKey) === filter.get('key') && (
         <FilterComponent {...{ ...props, uiKey }} />
       )}

@@ -20,9 +20,10 @@ class IcoFilters extends React.Component {
           </div>
         ))}
         <div>
-          <AddFilter {...this.props} />
+          <div className="oi">
+            <AddFilter {...this.props} />
+          </div>
         </div>
-        <div />
       </div>
     )
   }

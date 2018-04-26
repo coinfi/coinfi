@@ -39,6 +39,7 @@
   -webkit-border-radius: 2px;
   color: $black-70;
   font-family: $sans-alt;
+  box-sizing: border-box;
   &:focus {
     border-color: $aqua;
     box-shadow: 0 0 2px $aqua;

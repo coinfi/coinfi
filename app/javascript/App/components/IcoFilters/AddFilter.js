@@ -23,12 +23,9 @@ export default props => {
       </button>
     )
   } else if (filterKey === 'selectFilter') {
-    return <SelectFilter {...props} />
+    return <SelectFilter {...{ ...props, uiKey }} />
+  } else {
+    const filter = filterList.find(o => o.get('key') === filterKey)
+    return <FilterComponent {...{ ...props, filter, uiKey }} />
   }
-  const filter = filterList.find(o => o.get('key') === filterKey)
-  return (
-    <div className="oi">
-      <FilterComponent {...{ ...props, filter, uiKey }} />
-    </div>
-  )
 }

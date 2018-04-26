@@ -1,10 +1,15 @@
 import React from 'react'
 import Icon from '../Icon'
+import enhanceWithClickOutside from 'react-click-outside'
 
-export default props => {
-  const { toggleUI, availableFilters } = props
-  return (
-    <div className="oi">
+class SelectFilter extends React.Component {
+  handleClickOutside() {
+    const { currentUI, uiKey, toggleUI } = this.props
+    if (currentUI(uiKey)) toggleUI(uiKey)
+  }
+  render() {
+    const { toggleUI, availableFilters } = this.props
+    return (
       <div className="oi-pane">
         <div className="oi-pane-content">
           <div className="pv2">
@@ -23,6 +28,8 @@ export default props => {
           </div>
         </div>
       </div>
-    </div>
-  )
+    )
+  }
 }
+
+export default enhanceWithClickOutside(SelectFilter)
