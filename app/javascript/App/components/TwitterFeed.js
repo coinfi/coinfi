@@ -14,7 +14,7 @@ class TwitterFeed extends Component {
   componentDidMount() {
     // Fetch tweets and update state
     axios
-      .get(`/api/social_feeds/tweets_by_user.json?user=${this.username()}`)
+      .get(`/api/social-feeds/tweets-by-user.json?user=${this.username()}`)
       .then(({ data: { payload } }) => {
         this.setState({ tweets: payload })
       })

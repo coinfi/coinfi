@@ -26,8 +26,8 @@ Rails.application.routes.draw do
     end
     resources :articles
     resources :users
-    resources :submission_categories
-    resources :contributor_submissions
+    resources :submission_categories, :path => '/submission-categories'
+    resources :contributor_submissions, :path => '/contributor-submissions'
     resources :countries
     resources :influencers
     get 'reddit' => 'articles#reddit'
@@ -42,13 +42,11 @@ Rails.application.routes.draw do
     end
     get '/coins', to: 'coins#index'
     get '/coins/:id/news', to: 'coins#news'
-    get '/social_feeds/tweets_by_user', to: 'social_feeds#tweets_by_user'
+    get '/social-feeds/tweets-by-user', to: 'social_feeds#tweets_by_user'
   end
 
   resources :coins, only: [:index, :show]
   get '/icos(/:status)', to: 'coins#icos'
-  get '/coins/:id/historical_data', to: 'coins#historical_data'
-  get '/social_feeds/tweets_by_user', to: 'social_feeds#tweets_by_user'
   resources :contributor_submissions, path: 'contributor-submissions'
   get '/profile', to: 'author_profiles#edit', as: 'edit_author_profile'
   resources :author_profiles, only: [:index, :show, :create, :update], path: 'authors'
