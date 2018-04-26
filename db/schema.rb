@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180413062102) do
+ActiveRecord::Schema.define(version: 20180425064909) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -207,6 +207,19 @@ ActiveRecord::Schema.define(version: 20180413062102) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "feed_sources", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "slug", null: false
+    t.string "feed_url", null: false
+    t.string "site_url", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "feed_type"
+    t.boolean "is_subscribed", default: false
+    t.index ["feed_url"], name: "index_feed_sources_on_feed_url", unique: true
+    t.index ["name"], name: "index_feed_sources_on_name", unique: true
+  end
+
   create_table "friendly_id_slugs", force: :cascade do |t|
     t.string "slug", null: false
     t.integer "sluggable_id", null: false
@@ -237,6 +250,36 @@ ActiveRecord::Schema.define(version: 20180413062102) do
     t.string "website"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "news_item_raws", force: :cascade do |t|
+    t.string "feed_item_id"
+    t.string "source"
+    t.string "websub_hub"
+    t.jsonb "feed_item_json"
+    t.boolean "is_processed", default: false
+    t.integer "news_item_id"
+    t.boolean "was_replaced_by_an_update"
+  end
+
+  create_table "news_items", force: :cascade do |t|
+    t.bigint "feed_source_id", null: false
+    t.string "feed_item_id", null: false
+    t.string "url", null: false
+    t.string "title", null: false
+    t.text "summary"
+    t.text "content"
+    t.string "actor_id", null: false
+    t.datetime "feed_item_published_at", null: false
+    t.datetime "feed_item_updated_at", null: false
+    t.jsonb "feed_item_json"
+    t.string "websub_hub"
+    t.integer "importance", default: 0
+    t.boolean "is_published", default: true
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["feed_source_id", "feed_item_id"], name: "index_news_items_on_feed_source_id_and_feed_item_id", unique: true
+    t.index ["feed_source_id"], name: "index_news_items_on_feed_source_id"
   end
 
   create_table "submission_categories", force: :cascade do |t|

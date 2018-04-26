@@ -63,11 +63,13 @@ gem 'wombat'
 gem 'twitter'
 gem 'webpacker', '~> 3.3'
 gem 'ransack'
+gem 'heap', '~> 1.0'
 
 # Devise needs to be in front of Ahoy in the Gemfile to have Ahoy automatically update Visit with User ID:
 # https://github.com/ankane/ahoy/issues/12
 gem 'ahoy_matey'
 gem 'blazer'
+gem 'ruby-progressbar'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

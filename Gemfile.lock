@@ -175,6 +175,9 @@ GEM
     globalid (0.4.0)
       activesupport (>= 4.2.0)
     hashie (3.5.6)
+    heap (1.0.2)
+      faraday (>= 0.8.11)
+      faraday_middleware (>= 0.8.0)
     http (3.0.0)
       addressable (~> 2.3)
       http-cookie (~> 1.0)
@@ -341,6 +344,7 @@ GEM
       netrc (~> 0.8)
     rollbar (2.15.0)
       multi_json
+    ruby-progressbar (1.9.0)
     ruby_dep (1.5.0)
     rubyzip (1.2.1)
     safely_block (0.2.0)
@@ -453,6 +457,7 @@ DEPENDENCIES
   email_address
   feedjira
   friendly_id (~> 5.2.1)
+  heap (~> 1.0)
   httparty
   jbuilder (~> 2.5)
   kaminari
@@ -474,6 +479,7 @@ DEPENDENCIES
   ransack
   rest-client
   rollbar
+  ruby-progressbar
   sass-rails (~> 5.0)
   selenium-webdriver
   simple_form
