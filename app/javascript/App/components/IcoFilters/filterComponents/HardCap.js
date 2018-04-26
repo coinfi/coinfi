@@ -6,9 +6,6 @@ import { Range } from 'rc-slider'
 const defaults = { min: 1, max: 100 }
 
 export default class HardCap extends Component {
-  componentDidMount() {
-    this.props.onChange(this.value())
-  }
   value = () => this.props.value || defaults
   setVal = name => value => {
     const s = this.value()

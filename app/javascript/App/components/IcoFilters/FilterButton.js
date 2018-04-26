@@ -13,11 +13,10 @@ import FilterComponent from './FilterComponent'
 export default props => {
   const { filter, toggleUI, currentUI } = props
   const uiKey = 'editFilter'
-  const filterKey = currentUI(uiKey)
   return (
     <div className="oi" key={`filter-${filter.get('key')}`}>
       {currentUI(uiKey) === filter.get('key') && (
-        <FilterComponent {...{ ...props, filterKey, uiKey }} />
+        <FilterComponent {...{ ...props, uiKey }} />
       )}
       <button
         className="oi-btn"

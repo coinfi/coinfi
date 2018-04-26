@@ -5,6 +5,7 @@
  * example) { newFilter: categories }
  */
 import React from 'react'
+import SelectFilter from './SelectFilter'
 import FilterComponent from './FilterComponent'
 import Icon from '../Icon'
 
@@ -12,21 +13,22 @@ export default props => {
   const { currentUI, toggleUI, filterList } = props
   const uiKey = 'newFilter'
   const filterKey = currentUI(uiKey)
-  let filter = null
-  if (filterKey && filterKey !== 'selectFilter')
-    filter = filterList.find(o => o.get('key') === filterKey)
+  if (!filterKey) {
+    return (
+      <button
+        className="oi-icon"
+        onClick={() => toggleUI('newFilter', 'selectFilter')}
+      >
+        <Icon name="plus" />
+      </button>
+    )
+  } else if (filterKey === 'selectFilter') {
+    return <SelectFilter {...props} />
+  }
+  const filter = filterList.find(o => o.get('key') === filterKey)
   return (
     <div className="oi">
-      {filterKey ? (
-        <FilterComponent {...{ ...props, filterKey, filter, uiKey }} />
-      ) : (
-        <button
-          className="oi-icon"
-          onClick={() => toggleUI('newFilter', 'selectFilter')}
-        >
-          <Icon name="plus" />
-        </button>
-      )}
+      <FilterComponent {...{ ...props, filter, uiKey }} />
     </div>
   )
 }

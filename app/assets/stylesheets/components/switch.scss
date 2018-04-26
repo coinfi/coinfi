@@ -1,26 +1,29 @@
 .switch {
+  transition: all 0.5s;
   display: inline-block;
-  background: $aqua;
-  border-radius: 99px;
-  border: 1px solid $aqua;
+  background: $gray;
+  border: none;
+  border-radius: 999px;
   position: relative;
-  height: 10px;
-  width: 20px;
+  height: 18px;
+  width: 34px;
   &:after {
+    transition: all 0.5s;
     content: ' ';
     display: block;
-    height: 10px;
-    width: 10px;
-    border-radius: 99px;
+    height: 14px;
+    width: 14px;
+    border-radius: 999px;
     background: $white;
     position: absolute;
-    top: 0;
-    left: 0;
+    top: 50%;
+    left: 50%;
+    transform: translate(0%, -50%);
   }
   &.on {
+    background: $aqua;
     &:after {
-      left: auto;
-      right: 0;
+      transform: translate(-100%, -50%);
     }
   }
 }

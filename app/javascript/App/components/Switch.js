@@ -4,7 +4,7 @@ export default class Switch extends React.Component {
   state = { on: false }
   componentWillMount() {
     const { on } = this.props
-    this.setState({ on })
+    this.setState({ on: !!on })
   }
   handleChange = () => {
     console.log(this.state)
@@ -18,7 +18,7 @@ export default class Switch extends React.Component {
     return (
       <button
         className={`switch ${on ? 'on' : ''}`}
-        onChange={this.handleChange}
+        onClick={this.handleChange}
       />
     )
   }

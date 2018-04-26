@@ -7,5 +7,5 @@ export const setFilter = (key, value) => {
 }
 
 export const removeFilter = key => {
-  return { type: 'FILTER_FILTER', key }
+  return { type: 'REMOVE_FILTER', payload: { key } }
 }

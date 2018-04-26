@@ -6,21 +6,25 @@
  * local state is used to temporarily hold the value before it's applied to the
  * main app state.
  */
-import React, { Fragment } from 'react'
+import React from 'react'
+import Types from 'prop-types'
 import enhanceWithClickOutside from 'react-click-outside'
 import components from './filterComponents'
 import Icon from '../Icon'
 
 class FilterComponent extends React.Component {
   state = { value: null }
-  componentDidMount() {
-    const { activeFilters, filterKey } = this.props
-    const activeFilter = activeFilters.find(o => o.get('key') === filterKey)
-    if (activeFilter) {
-      let value = activeFilter.get('value')
-      if (value.toJS) value = value.toJS()
-      this.setState({ value })
-    }
+  activeFilter = () =>
+    this.props.activeFilters.find(
+      o => o.get('key') === this.props.filter.get('key')
+    )
+  componentWillMount() {
+    const active = this.activeFilter()
+    const { filter } = this.props
+    let value = filter.get('defaultValue')
+    if (active) value = active.get('value')
+    if (value && value.toJS) value = value.toJS()
+    if (value) this.setState({ value })
   }
   handleClickOutside() {
     const { currentUI, uiKey, toggleUI } = this.props
@@ -30,20 +34,21 @@ class FilterComponent extends React.Component {
     this.setState({ value })
   }
   applyFilter = () => {
-    const { setFilter, toggleUI, uiKey, filterKey } = this.props
+    const { setFilter, toggleUI, uiKey, filter } = this.props
     const { value } = this.state
-    if (value) setFilter(filterKey, value)
+    if (value || value === false) setFilter(filter.get('key'), value)
     toggleUI(uiKey)
   }
   removeFilter = () => {
-    const { removeFilter, filterKey } = this.props
-    removeFilter(filterKey)
+    const { removeFilter, toggleUI, uiKey, filter } = this.props
+    removeFilter(filter.get('key'))
+    toggleUI(uiKey)
   }
   render() {
-    const { filter, filterKey, uiKey } = this.props
+    const { filter, uiKey } = this.props
     const { value } = this.state
     const { onChange } = this
-    const Component = components[filterKey]
+    const Component = components[filter.get('key')]
     if (!Component) return null
     return (
       <div className="oi-pane">
@@ -68,6 +73,15 @@ class FilterComponent extends React.Component {
       </div>
     )
   }
+}
+
+FilterComponent.propTypes = {
+  activeFilters: Types.object.isRequired,
+  filter: Types.object.isRequired,
+  uiKey: Types.string.isRequired,
+  toggleUI: Types.func.isRequired,
+  setFilter: Types.func.isRequired,
+  removeFilter: Types.func.isRequired
 }
 
 export default enhanceWithClickOutside(FilterComponent)

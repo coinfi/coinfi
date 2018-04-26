@@ -3,7 +3,8 @@ import { fromJS } from 'immutable'
 export const filterList = fromJS([
   {
     key: 'hardCap',
-    label: 'Hard Cap'
+    label: 'Hard Cap',
+    defaultValue: { min: 1, max: 100 }
   },
   {
     key: 'startingDate',
@@ -15,7 +16,8 @@ export const filterList = fromJS([
   },
   {
     key: 'openWhitelist',
-    label: 'Open Whitelist'
+    label: 'Open Whitelist',
+    defaultValue: true
   },
   {
     key: 'reviewedBy',

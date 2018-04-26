@@ -8,7 +8,6 @@ import ReviewedBy from './ReviewedBy'
 import SocialCounts from './SocialCounts'
 import StartingDate from './StartingDate'
 import TokenType from './TokenType'
-import SelectFilter from './SelectFilter'
 
 export default {
   categories: Categories,
@@ -20,6 +19,5 @@ export default {
   reviewedBy: ReviewedBy,
   socialCounts: SocialCounts,
   startingDate: StartingDate,
-  tokenType: TokenType,
-  selectFilter: SelectFilter
+  tokenType: TokenType
 }
