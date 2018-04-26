@@ -16,7 +16,7 @@ class WatchlistSearch extends Component {
         <Input
           value={searchText}
           onChange={this.handleSearchInput}
-          className="input-alt"
+          className="style2"
           placeholder="Search"
         />
         {searchedCoins.size > 0 && (

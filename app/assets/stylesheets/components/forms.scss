@@ -41,13 +41,16 @@
   font-family: $sans-alt;
   box-sizing: border-box;
   &:focus {
-    border-color: $aqua;
-    box-shadow: 0 0 2px $aqua;
+    @include highlight-box();
   }
-  &.input-alt {
+  &.style2 {
     border: none;
     background: $athens;
     box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.1);
+  }
+  &.small {
+    padding: $sp2;
+    font-size: 0.9rem;
   }
 }
 .icon-input {

@@ -2,17 +2,21 @@ import { fromJS } from 'immutable'
 
 export const filterList = fromJS([
   {
-    key: 'hardCap',
-    label: 'Hard Cap',
-    defaultValue: { min: 1, max: 100 }
-  },
-  {
-    key: 'startingDate',
-    label: 'Starting Date'
+    key: 'categories',
+    label: 'Categories'
   },
   {
     key: 'closingDate',
     label: 'Closing Date'
+  },
+  {
+    key: 'countriesAllowed',
+    label: 'Countries Allowed'
+  },
+  {
+    key: 'hardCap',
+    label: 'Hard Cap',
+    defaultValue: { min: 1, max: 100 }
   },
   {
     key: 'openWhitelist',
@@ -20,28 +24,25 @@ export const filterList = fromJS([
     defaultValue: true
   },
   {
+    key: 'percentOffered',
+    label: 'Percent Offered'
+  },
+  {
     key: 'reviewedBy',
     label: 'Reviewed By'
   },
   {
-    key: 'categories',
-    label: 'Categories'
-  },
-  {
     key: 'socialCounts',
-    label: 'Social Counts'
+    label: 'Social Counts',
+    defaultValue: { twitter: 0, telegram: 0 }
   },
   {
-    key: 'percentOffered',
-    label: '% Coins Offered'
+    key: 'startingDate',
+    label: 'Starting Date'
   },
   {
     key: 'tokenType',
     label: 'Token Type'
-  },
-  {
-    key: 'countriesAllowed',
-    label: 'Countries Allowed'
   }
 ])
 

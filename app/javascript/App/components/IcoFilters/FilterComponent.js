@@ -8,7 +8,7 @@
  */
 import React from 'react'
 import Types from 'prop-types'
-import enhanceWithClickOutside from 'react-click-outside'
+import clickOutside from 'react-onclickoutside'
 import components from './filterComponents'
 import Icon from '../Icon'
 
@@ -26,7 +26,7 @@ class FilterComponent extends React.Component {
     if (value && value.toJS) value = value.toJS()
     if (value) this.setState({ value })
   }
-  handleClickOutside() {
+  handleClickOutside(e) {
     const { currentUI, uiKey, toggleUI } = this.props
     if (currentUI(uiKey)) toggleUI(uiKey)
   }
@@ -80,4 +80,4 @@ FilterComponent.propTypes = {
   removeFilter: Types.func.isRequired
 }
 
-export default enhanceWithClickOutside(FilterComponent)
+export default clickOutside(FilterComponent)

@@ -1,6 +1,6 @@
 import React from 'react'
 import Icon from '../Icon'
-import enhanceWithClickOutside from 'react-click-outside'
+import clickOutside from 'react-onclickoutside'
 
 class SelectFilter extends React.Component {
   handleClickOutside() {
@@ -32,4 +32,4 @@ class SelectFilter extends React.Component {
   }
 }
 
-export default enhanceWithClickOutside(SelectFilter)
+export default clickOutside(SelectFilter)

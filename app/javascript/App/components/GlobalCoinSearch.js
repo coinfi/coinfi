@@ -15,7 +15,7 @@ class CoinSearch extends Component {
       <div id="global-coin-search">
         <div className="relative">
           <div className="search-input icon-input tiber">
-            <Icon name="search" className="fa-lg reveal-m" />
+            <Icon name="search" className="f4 reveal-m" />
             <Icon
               name="arrow-left"
               className="silver conceal-m"

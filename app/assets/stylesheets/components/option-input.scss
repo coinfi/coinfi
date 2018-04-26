@@ -36,7 +36,7 @@
 .oi-pane {
   z-index: 2;
   .oi-pane-content {
-    min-width: 200px;
+    min-width: 220px;
     ul {
       margin: 0;
       padding: 0;
@@ -95,7 +95,7 @@
       top: 0;
       left: 0;
       border-color: $aqua;
-      @include shadow-s2-blue();
+      @include highlight-box();
     }
   }
 }

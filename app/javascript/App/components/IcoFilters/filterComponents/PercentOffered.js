@@ -3,21 +3,25 @@ import Icon from '../../Icon'
 import Input from '../../Input'
 import Slider from 'rc-slider'
 
+const scale = { min: 1, max: 100 }
 export default class PercentOffered extends Component {
   render() {
-    const { value, onChange } = this.props
+    const { onChange } = this.props
+    const value = this.props.value || scale.min
     return (
-      <div className="pa3">
-        <div className="icon-input">
-          <Input type="number" value={value || 0} onChange={onChange} />
+      <div className="pa3 pt0">
+        <div className="flex items-center mb2">
+          <Input
+            type="number"
+            className="small mr2"
+            value={value}
+            onChange={onChange}
+            style={{ width: '60px' }}
+            {...scale}
+          />
           <Icon name="percent" />
         </div>
-        <Slider
-          value={parseInt(value || 0, 10)}
-          min={0}
-          max={100}
-          onChange={onChange}
-        />
+        <Slider value={parseInt(value, 10)} onChange={onChange} {...scale} />
       </div>
     )
   }
