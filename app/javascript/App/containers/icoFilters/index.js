@@ -5,7 +5,7 @@ import { createStructuredSelector } from 'reselect'
 import { setFilters, setFilter, removeFilter } from './actions'
 import * as selectors from './selectors'
 import { parseFiltersInURL } from './helpers'
-import { filterList, categories } from './constants'
+import { filterList, filterData } from './constants'
 
 export default Component => {
   class HOC extends React.Component {
@@ -17,14 +17,12 @@ export default Component => {
     }
     render() {
       const { activeFilters } = this.props
+      const inactiveFilters = filterList.filter(
+        item => !activeFilters.find(o => o.get('key') === item.get('key'))
+      )
       return (
         <Component
-          {...this.props}
-          filterList={filterList}
-          categories={categories}
-          availableFilters={filterList.filter(
-            item => !activeFilters.find(o => o.get('key') === item.get('key'))
-          )}
+          {...{ ...this.props, inactiveFilters, filterList, filterData }}
         />
       )
     }

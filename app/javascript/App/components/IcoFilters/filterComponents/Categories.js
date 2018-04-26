@@ -1,57 +1,19 @@
-import React, { Component } from 'react'
+import React from 'react'
 import Type from 'prop-types'
+import ItemSelector from '../../ItemSelector'
 
-export default class Categories extends Component {
-  selectedCategories = () => this.props.value || []
-  unselectedCategories = () => {
-    const { categories } = this.props
-    let selected = this.selectedCategories()
-    return categories.filter(cat => !selected.includes(cat))
-  }
-  add = cat => {
-    let cats = this.selectedCategories()
-    cats.push(cat)
-    this.props.onChange(cats)
-  }
-  remove = cat => {
-    let cats = this.selectedCategories()
-    cats = cats.filter(c => c !== cat)
-    this.props.onChange(cats)
-  }
-  render() {
-    return (
-      <div>
-        <div className="pb2">
-          <ul>
-            {this.selectedCategories().map((cat, i) => (
-              <li key={`selected-cat-${i}`}>
-                <button onClick={() => this.remove(cat)}>
-                  {cat}
-                  <i className="fal fa-minus ml3" />
-                </button>
-              </li>
-            ))}
-          </ul>
-        </div>
-        <div className="bt b--geyser pv2 h5 overflow-x-scroll">
-          <ul>
-            {this.unselectedCategories().map(cat => (
-              <li key={cat}>
-                <button onClick={() => this.add(cat)}>
-                  {cat}
-                  <i className="fal fa-plus ml3" />
-                </button>
-              </li>
-            ))}
-          </ul>
-        </div>
-      </div>
-    )
-  }
-}
+const Categories = ({ filterData, value, onChange }) => (
+  <ItemSelector
+    items={filterData.categories}
+    selectedItems={value}
+    onChange={onChange}
+  />
+)
 
 Categories.propTypes = {
   value: Type.array,
-  categories: Type.array,
-  setFilter: Type.func
+  filterData: Type.object.isRequired,
+  onChange: Type.func
 }
+
+export default Categories

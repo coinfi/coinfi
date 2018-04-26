@@ -1,7 +1,19 @@
-import React, { Component } from 'react'
+import React from 'react'
+import Type from 'prop-types'
+import ItemSelector from '../../ItemSelector'
 
-export default class CountriesAllowed extends Component {
-  render() {
-    return <div>Countries Allowed</div>
-  }
+const CountriesAllowed = ({ filterData, value, onChange }) => (
+  <ItemSelector
+    items={filterData.countries}
+    selectedItems={value}
+    onChange={onChange}
+  />
+)
+
+CountriesAllowed.propTypes = {
+  value: Type.array,
+  filterData: Type.object.isRequired,
+  onChange: Type.func
 }
+
+export default CountriesAllowed

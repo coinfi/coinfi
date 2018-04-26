@@ -56,13 +56,9 @@ class FilterComponent extends React.Component {
           {filter && (
             <header>
               <div>{filter.get('label')}</div>
-              <div>
+              <div className="nh2">
                 {uiKey === 'editFilter' && (
-                  <Icon
-                    name="trash"
-                    className="mr2"
-                    onClick={this.removeFilter}
-                  />
+                  <Icon name="trash" onClick={this.removeFilter} />
                 )}
                 <Icon name="check" onClick={this.applyFilter} />
               </div>

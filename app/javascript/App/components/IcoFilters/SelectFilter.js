@@ -8,13 +8,13 @@ class SelectFilter extends React.Component {
     if (currentUI(uiKey)) toggleUI(uiKey)
   }
   render() {
-    const { toggleUI, availableFilters } = this.props
+    const { toggleUI, inactiveFilters } = this.props
     return (
       <div className="oi-pane">
         <div className="oi-pane-content">
           <div className="pv2">
             <ul>
-              {availableFilters.map(item => (
+              {inactiveFilters.map(item => (
                 <li key={item.get('key')}>
                   <button
                     onClick={() => toggleUI('newFilter', item.get('key'))}

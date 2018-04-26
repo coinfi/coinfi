@@ -46,6 +46,8 @@ const FilterButtonLabel = ({ filter }) => {
         ))}
       </div>
     )
+  } else if ([true, false].includes(value)) {
+    return value ? 'True' : 'False'
   }
   return value
 }
