@@ -68,6 +68,7 @@ gem 'ransack'
 # https://github.com/ankane/ahoy/issues/12
 gem 'ahoy_matey'
 gem 'blazer'
+gem 'ruby-progressbar'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
