@@ -10,7 +10,7 @@ import FilterComponent from './FilterComponent'
 import Icon from '../Icon'
 
 export default props => {
-  const { currentUI, toggleUI, filterList } = props
+  const { currentUI, toggleUI, inactiveFilters } = props
   const uiKey = 'newFilter'
   const filterKey = currentUI(uiKey)
   if (!filterKey) {
@@ -25,7 +25,7 @@ export default props => {
   } else if (filterKey === 'selectFilter') {
     return <SelectFilter {...{ ...props, uiKey }} />
   } else {
-    const filter = filterList.find(o => o.get('key') === filterKey)
+    const filter = inactiveFilters.find(o => o.get('key') === filterKey)
     return <FilterComponent {...{ ...props, filter, uiKey }} />
   }
 }

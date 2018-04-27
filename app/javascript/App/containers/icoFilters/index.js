@@ -4,27 +4,16 @@ import { bindActionCreators } from 'redux'
 import { createStructuredSelector } from 'reselect'
 import { setFilters, setFilter, removeFilter } from './actions'
 import * as selectors from './selectors'
-import { parseFiltersInURL } from './helpers'
-import { filterList, filterData } from './constants'
+import bindFilters from './bindFilters'
+import { filterData } from './constants'
 
 export default Component => {
   class HOC extends React.Component {
-    componentDidMount() {
-      // parse URL to determine which filters have been set
-      const urlFilters = parseFiltersInURL()
-      // update the state as such
-      if (urlFilters) this.props.setFilters(urlFilters)
+    componentWillMount() {
+      bindFilters(this.props)
     }
     render() {
-      const { activeFilters } = this.props
-      const inactiveFilters = filterList.filter(
-        item => !activeFilters.find(o => o.get('key') === item.get('key'))
-      )
-      return (
-        <Component
-          {...{ ...this.props, inactiveFilters, filterList, filterData }}
-        />
-      )
+      return <Component {...{ ...this.props, filterData }} />
     }
   }
   function mapDispatch(dispatch) {
@@ -33,7 +22,8 @@ export default Component => {
     }
   }
   const mapState = createStructuredSelector({
-    activeFilters: selectors.selectActiveFilters()
+    activeFilters: selectors.selectActiveFilters(),
+    inactiveFilters: selectors.selectInactiveFilters()
   })
   return connect(mapState, mapDispatch)(HOC)
 }

@@ -25,9 +25,9 @@ class SocialCount extends React.Component {
     onChange(v)
   }
   render() {
-    const { value, network, ...rest } = this.props
+    const { value, network, className } = this.props
     return (
-      <div {...rest}>
+      <div className={className || ''}>
         <div className="flex justify-between items-center mb2">
           <div className="f6 elephant ttc mr3 flex-none">
             <Icon brand name={network} className="mr2 aqua" />
