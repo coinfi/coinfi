@@ -10,6 +10,7 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import { Provider } from 'react-redux'
 import configureStore from './configureStore'
+import { PersistGate } from 'redux-persist/integration/react'
 
 import appContainer from './containers/app'
 
@@ -55,7 +56,7 @@ const componentOptions = {
 
 document.addEventListener('DOMContentLoaded', () => {
   const hooks = document.getElementsByTagName('component')
-  const store = configureStore()
+  const { store, persistor } = configureStore()
   if (hooks) {
     Array.from(hooks).forEach(hook => {
       const name = hook.getAttribute('name')
@@ -71,7 +72,9 @@ document.addEventListener('DOMContentLoaded', () => {
         const AppComponent = appContainer(Component)
         ReactDOM.render(
           <Provider store={store}>
-            <AppComponent {...props} />
+            <PersistGate loading={null} persistor={persistor}>
+              <AppComponent {...props} />
+            </PersistGate>
           </Provider>,
           hook
         )

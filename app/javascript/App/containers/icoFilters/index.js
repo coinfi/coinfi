@@ -11,9 +11,9 @@ export default Component => {
   class HOC extends React.Component {
     componentDidMount() {
       // parse URL to determine which filters have been set
-      const currentFilters = parseFiltersInURL()
+      const urlFilters = parseFiltersInURL()
       // update the state as such
-      this.props.setFilters(currentFilters)
+      if (urlFilters) this.props.setFilters(urlFilters)
     }
     render() {
       const { activeFilters } = this.props
