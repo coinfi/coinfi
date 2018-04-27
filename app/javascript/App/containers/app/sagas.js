@@ -1,5 +1,11 @@
-import { takeLatest } from 'redux-saga/effects'
-import * as sagas from '../../utils/genericSagas'
-import * as actions from './actions'
+import { fork, all } from 'redux-saga/effects'
 
-export default function* watcher() {}
+import watchlistPageSagas from '../watchlistPage/sagas'
+import coinSearchSagas from '../coinSearch/sagas'
+import icoFiltersSagas from '../icoFilters/sagas'
+
+const sagas = [watchlistPageSagas, coinSearchSagas, icoFiltersSagas]
+
+export default function* watcher() {
+  yield all(sagas.map(saga => fork(saga)))
+}

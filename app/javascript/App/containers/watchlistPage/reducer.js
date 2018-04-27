@@ -31,11 +31,11 @@ export const uiReducer = (state, action) => {
   const { type } = action
   switch (type) {
     case 'FETCH_COINS_SUCCESS':
-      return state.setIn(['UI', 'loading'], false)
+      return state.set('loading', false)
     case 'ADD_COIN_SUCCESS':
-      return state.setIn(['UI', 'loading'], true)
+      return state.set('loading', true)
     case 'EDIT_WATCHLIST':
-      return state.setIn(['UI', 'editing'], !state.getIn(['UI', 'editing']))
+      return state.set('editing', !state.get('editing'))
     default:
       break
   }
