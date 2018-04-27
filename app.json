@@ -1,6 +1,8 @@
 {
   "name": "coinfi-rails",
-  "scripts": {},
+  "scripts": {
+    "postdeploy": "pg_dump coinfi-staging-eu::DATABASE_URL | psql $DATABASE_URL && bundle exec rake db:migrate"
+  },
   "env": {
     "ADMINISTRATE_PASSWORD": { "required": true },
     "AWS_ACCESS_KEY_ID": { "required": true },
@@ -39,6 +41,7 @@
   },
   "formation": {},
   "addons": [
+    "heroku-postgresql:hobby-basic",
     "papertrail",
     "rollbar"
   ],
