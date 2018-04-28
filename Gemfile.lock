@@ -341,6 +341,7 @@ GEM
       netrc (~> 0.8)
     rollbar (2.15.0)
       multi_json
+    ruby-progressbar (1.9.0)
     ruby_dep (1.5.0)
     rubyzip (1.2.1)
     safely_block (0.2.0)
@@ -474,6 +475,7 @@ DEPENDENCIES
   ransack
   rest-client
   rollbar
+  ruby-progressbar
   sass-rails (~> 5.0)
   selenium-webdriver
   simple_form
