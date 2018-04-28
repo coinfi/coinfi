@@ -11,6 +11,6 @@
   -webkit-box-shadow: 0 0 2px rgba($r, $g, $b, 0.4);
 }
 @mixin highlight-box() {
-  border-color: $aqua;
+  border: 1px solid $aqua;
   @include shadow-s3(35, 173, 240);
 }

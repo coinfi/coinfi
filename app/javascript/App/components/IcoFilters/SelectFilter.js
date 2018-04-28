@@ -12,6 +12,7 @@ class SelectFilter extends React.Component {
     return (
       <div className="oi-pane">
         <div className="oi-pane-content">
+          <header>Select a filter</header>
           <div className="pv2">
             <ul>
               {inactiveFilters.map(item => (

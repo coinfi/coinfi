@@ -5,11 +5,11 @@
   font-family: $body-font;
   header {
     color: $elephant;
-    font-size: 0.8rem;
     display: flex;
     justify-content: space-between;
-    padding: $sp3 $sp3 $sp2 $sp3;
+    align-items: flex-end;
     line-height: 1;
+    padding: $sp3 $sp3 $sp2 $sp3;
   }
   .oi-value {
     color: $aqua;
@@ -37,6 +37,7 @@
   z-index: 2;
   .oi-pane-content {
     min-width: 220px;
+    border-radius: 4px;
     ul {
       margin: 0;
       padding: 0;
@@ -68,6 +69,26 @@
     }
   }
 }
+@media #{$screen-min-m} {
+  .oi {
+    position: relative;
+    .oi-pane {
+      position: absolute;
+      top: 0;
+      left: 0;
+      @include highlight-box();
+    }
+    .oi-btn,
+    .oi-pane {
+      header {
+        font-size: 0.8rem;
+      }
+    }
+  }
+}
+/*
+ * Mobile
+ */
 @media #{$screen-max-m} {
   .oi {
     .oi-pane {
@@ -83,19 +104,15 @@
         left: 50%;
         transform: translate(-50%, -50%);
         -webkit-transform: translate(-50%, -50%);
+        background: $white;
+        width: 22rem;
+        @include highlight-box();
+        header {
+          border-bottom: 1px solid $geyser;
+          padding: $sp3;
+          margin-bottom: $sp3;
+        }
       }
-    }
-  }
-}
-@media #{$screen-min-m} {
-  .oi {
-    position: relative;
-    .oi-pane {
-      position: absolute;
-      top: 0;
-      left: 0;
-      border-color: $aqua;
-      @include highlight-box();
     }
   }
 }

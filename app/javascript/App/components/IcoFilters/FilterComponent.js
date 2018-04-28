@@ -60,7 +60,11 @@ class FilterComponent extends React.Component {
                 {uiKey === 'editFilter' && (
                   <Icon name="trash" onClick={this.removeFilter} />
                 )}
-                <Icon name="check" onClick={this.applyFilter} />
+                <Icon
+                  name="check"
+                  onClick={this.applyFilter}
+                  className="mh2 mr0-m"
+                />
               </div>
             </header>
           )}

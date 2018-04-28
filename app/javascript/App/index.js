@@ -10,6 +10,7 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import { Provider } from 'react-redux'
 import configureStore from './configureStore'
+import getScreenSize from './utils/screenSize'
 import { PersistGate } from 'redux-persist/integration/react'
 
 import appContainer from './containers/app'
@@ -55,6 +56,11 @@ const componentOptions = {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
+  window.screenSize = getScreenSize()
+  injectComponents()
+})
+
+const injectComponents = () => {
   const hooks = document.getElementsByTagName('component')
   const { store, persistor } = configureStore()
   if (hooks) {
@@ -83,4 +89,4 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     })
   }
-})
+}

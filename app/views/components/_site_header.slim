@@ -1,12 +1,12 @@
 .bg-elephant
   .container-wide
-    .flex-stack.items-center.justify-end.flush
+    .flex-stack.items-center.justify-end.cozy
       a.flex-none href="/"
-        .pl4.pv4.pr4-m.flex.items-center
+        .pl4.pr4-m.flex.items-center
           img.w5e src=image_path('logo.svg')
           span.white-90.pt1.ml2
             | beta
-      .flex-auto.w-15-m.min-w5
+      .flex-auto.w-15-m
         .pr4-m
           component name="GlobalCoinSearch" 
       .flex-none.reveal-m
@@ -14,7 +14,7 @@
           = render partial: 'components/main_nav', locals: { klass: 'nav-x dark cozy small pr4' }
           = render partial: 'components/user_actions', locals: { klass: '' }
       .conceal-m
-        button.pa4.pr3.btn-icon.f3.white.search-toggle.mr2
+        button.pa3.btn-icon.f3.white.search-toggle.mr2
           i.fal.fa-search
-        button.pa4.pl3.btn-icon.f3.white.mobile-nav-toggle
+        button.pa3.pr4.btn-icon.f3.white.mobile-nav-toggle
           i.fal.fa-bars

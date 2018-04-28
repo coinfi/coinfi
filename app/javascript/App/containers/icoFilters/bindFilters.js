@@ -34,6 +34,6 @@ export const pushStateToURL = (activeFilters, newFilter = null) => {
 }
 
 export const pullStateFromURL = setFilters => {
-  const filterObject = qs.parse(window.location.search)
+  const filterObject = qs.parse(window.location.search.substr(1))
   console.log(filterObject)
 }
