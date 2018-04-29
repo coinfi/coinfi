@@ -41,7 +41,7 @@
   font-family: $sans-alt;
   box-sizing: border-box;
   &:focus {
-    @include highlight-box();
+    @include highlight();
   }
   &.style2 {
     border: none;

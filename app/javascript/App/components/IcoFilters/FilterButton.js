@@ -8,18 +8,19 @@
  */
 import React from 'react'
 import Immutable from 'immutable'
+import Icon from '../Icon'
 import FilterComponent from './FilterComponent'
 import buttonLabels from './filterButtonLabels'
 
 export default props => {
-  const { filter, toggleUI, currentUI } = props
+  const { filter, toggleUI, currentUI, removeFilter } = props
   const uiKey = 'editFilter'
   return (
     <div className="oi">
       {currentUI(uiKey) === filter.get('key') && (
         <FilterComponent {...{ ...props, uiKey }} />
       )}
-      <button
+      <div
         className="oi-btn"
         onClick={() => toggleUI(uiKey, filter.get('key'))}
       >
@@ -27,7 +28,11 @@ export default props => {
         <div className="oi-value">
           <FilterButtonLabel {...props} />
         </div>
-      </button>
+        <div className="dn-m">
+          <Icon name="edit" />
+          <Icon name="trash" onClick={() => removeFilter(filter.get('key'))} />
+        </div>
+      </div>
     </div>
   )
 }

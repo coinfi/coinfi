@@ -1,8 +1,6 @@
 .box {
-  background: $white;
   display: block;
   padding: $sp4;
-  border: 1px solid $light-gray;
 }
 @media #{$screen-min-ns} {
   .box {

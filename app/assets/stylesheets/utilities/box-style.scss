@@ -5,3 +5,6 @@
   -webkit-border-radius: 2px;
   @include shadow-s2();
 }
+.box-style-1 {
+  @include box-style-1;
+}

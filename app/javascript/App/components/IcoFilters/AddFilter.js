@@ -9,7 +9,7 @@ import SelectFilter from './SelectFilter'
 import FilterComponent from './FilterComponent'
 import Icon from '../Icon'
 
-export default props => {
+const AddFilters = props => {
   const { currentUI, toggleUI, inactiveFilters } = props
   const uiKey = 'newFilter'
   const filterKey = currentUI(uiKey)
@@ -29,3 +29,9 @@ export default props => {
     return <FilterComponent {...{ ...props, filter, uiKey }} />
   }
 }
+
+export default props => (
+  <div className="oi">
+    <AddFilters {...props} />
+  </div>
+)

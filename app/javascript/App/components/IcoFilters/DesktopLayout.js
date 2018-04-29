@@ -8,7 +8,7 @@ export default class DesktopLayout extends Component {
     const { activeFilters } = this.props
     return (
       <div className="flex-stack items-start">
-        <div>
+        <div className="oi">
           <button className="oi-icon">
             <Icon name="search" />
           </button>
@@ -19,9 +19,7 @@ export default class DesktopLayout extends Component {
           </div>
         ))}
         <div>
-          <div className="oi">
-            <AddFilter {...this.props} />
-          </div>
+          <AddFilter {...this.props} />
         </div>
       </div>
     )

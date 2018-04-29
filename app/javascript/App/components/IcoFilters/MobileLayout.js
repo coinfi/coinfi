@@ -10,11 +10,11 @@ export default class MobileLayout extends Component {
   render() {
     const { activeFilters, currentUI } = this.props
     return (
-      <div id="ico-filters-mobile" className="ba b--geyser">
+      <div>
         {!currentUI('mobileFilters') ? (
           <button
             onClick={this.toggleFilters}
-            className="btn-reset w-100 flex items-center justify-center pa3"
+            className="box-style-1 elephant body-font w-100 flex items-center justify-center pa3"
           >
             <div>{`${activeFilters.size} filters applied`}</div>
             <Icon name="angle-down" className="ml3" />
@@ -22,8 +22,17 @@ export default class MobileLayout extends Component {
         ) : (
           <div>
             {activeFilters.map((filter, i) => (
-              <FilterButton filter={filter} {...this.props} />
+              <FilterButton key={i} filter={filter} {...this.props} />
             ))}
+            <div className="mt3 flex justify-between items-end">
+              <button onClick={this.toggleFilters} className="btn btn-sm">
+                Cancel
+              </button>
+              <AddFilter {...this.props} />
+              <button onClick={this.toggleFilters} className="btn btn-sm">
+                Finish
+              </button>
+            </div>
           </div>
         )}
       </div>

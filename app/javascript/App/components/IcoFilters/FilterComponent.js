@@ -51,25 +51,23 @@ class FilterComponent extends React.Component {
     const Component = components[filter.get('key')]
     if (!Component) return null
     return (
-      <div className="oi-pane">
-        <div className="oi-pane-content">
-          {filter && (
-            <header>
-              <div>{filter.get('label')}</div>
-              <div className="nh2">
-                {uiKey === 'editFilter' && (
-                  <Icon name="trash" onClick={this.removeFilter} />
-                )}
-                <Icon
-                  name="check"
-                  onClick={this.applyFilter}
-                  className="mh2 mr0-m"
-                />
-              </div>
-            </header>
-          )}
-          <Component {...{ ...this.props, value, onChange }} />
-        </div>
+      <div className="oi-pane-content">
+        {filter && (
+          <header>
+            <div>{filter.get('label')}</div>
+            <div className="nh2">
+              {uiKey === 'editFilter' && (
+                <Icon name="trash" onClick={this.removeFilter} />
+              )}
+              <Icon
+                name="check"
+                onClick={this.applyFilter}
+                className="mh2 mr0-m"
+              />
+            </div>
+          </header>
+        )}
+        <Component {...{ ...this.props, value, onChange }} />
       </div>
     )
   }
@@ -84,4 +82,10 @@ FilterComponent.propTypes = {
   removeFilter: Types.func.isRequired
 }
 
-export default clickOutside(FilterComponent)
+FilterComponent = clickOutside(FilterComponent)
+
+export default props => (
+  <div className="oi-pane">
+    <FilterComponent {...props} />
+  </div>
+)
