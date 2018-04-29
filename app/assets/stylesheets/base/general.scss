@@ -11,6 +11,7 @@ body {
   @extend .flex;
   @extend .flex-column;
   min-width: 360px;
+  overflow-x: hidden;
   > main {
     @extend .flex-auto;
     @extend .flex;

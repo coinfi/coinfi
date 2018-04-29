@@ -23,39 +23,33 @@
 }
 .oi-pane {
   z-index: 2;
-  header {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-end;
-  }
   .oi-pane-content {
     min-width: 220px;
     border-radius: 4px;
-    ul {
-      margin: 0;
-      padding: 0;
-      list-style: none;
-      li {
-        display: block;
-        a,
-        button {
-          display: flex;
-          justify-content: space-between;
-          padding: $sp2 $sp3;
-          width: 100%;
-          border: none;
-          background: transparent;
-          color: inherit;
-          text-align: left;
-          white-space: nowrap;
-          font-size: 0.8rem;
-          .icon {
-            opacity: 0;
-          }
-          &:hover {
-            .icon {
-              opacity: 1;
-            }
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+    }
+    > div {
+      padding-top: $sp2;
+      ul {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        li {
+          display: block;
+          button {
+            display: flex;
+            justify-content: space-between;
+            padding: $sp2 $sp3;
+            width: 100%;
+            border: none;
+            background: transparent;
+            color: inherit;
+            text-align: left;
+            white-space: nowrap;
+            font-size: 0.8rem;
           }
         }
       }
@@ -76,6 +70,9 @@
       top: 0;
       left: 0;
       @include highlight();
+      header {
+        border-bottom: 1px solid $geyser;
+      }
     }
     .oi-btn,
     .oi-icon {
@@ -105,10 +102,14 @@
       width: 100%;
       display: flex;
       align-items: center;
-      justify-content: space-between;
+      font-size: 0.9rem;
+      font-weight: 500;
       header,
       .icon {
         padding: $sp3;
+      }
+      .oi-value {
+        flex: 1 1 auto;
       }
     }
     .oi-pane {
@@ -124,13 +125,21 @@
         left: 50%;
         transform: translate(-50%, -50%);
         -webkit-transform: translate(-50%, -50%);
-        background: $white;
-        width: 22rem;
-        @include highlight();
+        width: 100%;
+        max-width: 20rem;
+        background: $near-white;
         header {
-          border-bottom: 1px solid $geyser;
-          padding: $sp3;
-          margin-bottom: $sp3;
+          background: $white;
+          padding: 1.5rem;
+        }
+        > div {
+          ul {
+            li {
+              button {
+                padding: 0.8rem 1.5rem;
+              }
+            }
+          }
         }
       }
     }

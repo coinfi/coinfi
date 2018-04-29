@@ -11,7 +11,7 @@ class SelectFilter extends React.Component {
     const { toggleUI, inactiveFilters } = this.props
     return (
       <div className="oi-pane-content">
-        <header>Select a filter</header>
+        <header>Add a filter</header>
         <div className="pv2">
           <ul>
             {inactiveFilters.map(item => (

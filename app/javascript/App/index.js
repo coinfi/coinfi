@@ -12,6 +12,7 @@ import { Provider } from 'react-redux'
 import configureStore from './configureStore'
 import getScreenSize from './utils/screenSize'
 import { PersistGate } from 'redux-persist/integration/react'
+import debounce from 'debounce'
 
 import appContainer from './containers/app'
 
@@ -55,11 +56,6 @@ const componentOptions = {
   }
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-  window.screenSize = getScreenSize()
-  injectComponents()
-})
-
 const injectComponents = () => {
   const hooks = document.getElementsByTagName('component')
   const { store, persistor } = configureStore()
@@ -90,3 +86,16 @@ const injectComponents = () => {
     })
   }
 }
+
+document.addEventListener('DOMContentLoaded', () => {
+  window.screenSize = getScreenSize()
+  injectComponents()
+})
+
+window.addEventListener(
+  'resize',
+  debounce(() => {
+    window.screenSize = getScreenSize()
+  }),
+  500
+)

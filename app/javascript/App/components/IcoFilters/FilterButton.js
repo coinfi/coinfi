@@ -29,8 +29,11 @@ export default props => {
           <FilterButtonLabel {...props} />
         </div>
         <div className="dn-m">
-          <Icon name="edit" />
-          <Icon name="trash" onClick={() => removeFilter(filter.get('key'))} />
+          <Icon
+            className="slate"
+            name="trash"
+            onClick={() => removeFilter(filter.get('key'))}
+          />
         </div>
       </div>
     </div>
