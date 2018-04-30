@@ -12,6 +12,8 @@ class Webhooks::WebsubsController < ApplicationController
       NewsItemRaw.ingest!(item, params[:source])
     end
 
+    puts "RECEIVED NEWS ITEMS FROM SUPERFEEDER.  RECEIVED #{items.count} ITEMS"
+
     head :ok
   end
 

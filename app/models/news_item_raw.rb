@@ -24,6 +24,7 @@ class NewsItemRaw < ApplicationRecord
     end
 
     update!(is_processed: true, news_item: news_item)
+    feed_source.update(last_received_data_at: Time.now)
   end
 
   def feed_source
