@@ -29,11 +29,10 @@ export const pushStateToURL = (activeFilters, newFilter = null) => {
     return n
   }, {})
   if (newFilter) filterObject[newFilter.key] = newFilter.value
-  const filterString = qs.stringify(filterObject, { arrayFormat: 'brackets' })
-  window.history.pushState(filterObject, 'ICO Database', `?${filterString}`)
+  const queryString = qs.stringify({ q: filterObject }, { encode: false })
+  window.history.pushState(filterObject, document.title, `?${queryString}`)
 }
 
 export const pullStateFromURL = setFilters => {
   const filterObject = qs.parse(window.location.search.substr(1))
-  console.log(filterObject)
 }
