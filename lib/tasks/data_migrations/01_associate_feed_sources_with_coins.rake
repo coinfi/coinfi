@@ -8,4 +8,12 @@ namespace :data_migrations do
       source.save!
     end
   end
+
+  desc "Associate all reddit feed sources with their corresponding coins"
+  task :associate_reddit_feed_sources_with_their_coins => :environment do
+    batch_process(FeedSource.where(feed_type: 'reddit')) do |source|
+      source.coin = Coin.find_by(reddit: source.site_url)
+      source.save!
+    end
+  end
 end
