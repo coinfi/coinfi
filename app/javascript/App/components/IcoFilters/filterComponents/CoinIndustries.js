@@ -8,7 +8,7 @@ const CoinIndustries = ({ industries, value, onChange }) => (
 
 CoinIndustries.propTypes = {
   value: Type.array,
-  filterData: Type.object.isRequired,
+  industries: Type.array.isRequired,
   onChange: Type.func
 }
 

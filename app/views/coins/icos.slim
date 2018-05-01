@@ -9,6 +9,6 @@
   .bg-white.z-2
     .container-wide
       .pa3.ph4-m
-        = react_component "IcoFilters", withStore: true, props: { industries: CoinIndustry.pluck(:name) }
+        = react_component "IcoFilters", withStore: true, props: { industries: CoinIndustry.pluck(:name), tokenTypes: Coin.token_types }
       #ico-table.ph3-ns.ph4-m
         = render partial: 'icos_table'

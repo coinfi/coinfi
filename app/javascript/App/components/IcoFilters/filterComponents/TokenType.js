@@ -1,7 +1,15 @@
-import React, { Component } from 'react'
+import React from 'react'
+import Type from 'prop-types'
+import ItemSelector from '../../ItemSelector'
 
-export default class TokenType extends Component {
-  render() {
-    return <div>Token type</div>
-  }
+const TokenType = ({ tokenTypes, value, onChange }) => (
+  <ItemSelector items={tokenTypes} selectedItems={value} onChange={onChange} />
+)
+
+TokenType.propTypes = {
+  value: Type.array,
+  tokenTypes: Type.array.isRequired,
+  onChange: Type.func
 }
+
+export default TokenType

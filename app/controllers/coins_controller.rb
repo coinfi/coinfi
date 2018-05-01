@@ -66,6 +66,8 @@ class CoinsController < ApplicationController
         industry_ids = CoinIndustry.where(name: value.values).pluck(:id)
         coin_ids = CoinIndustriesCoin.where(coin_industry_id: industry_ids).pluck(:coin_id)
         return [:id_in, coin_ids]
+      when :tokenType
+        return [:token_type_in, value.values]
     end
   end
 
