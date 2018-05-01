@@ -10,6 +10,7 @@ class Coin < ApplicationRecord
   has_many :influencer_reviews
   has_many :coin_excluded_countries
   has_many :excluded_countries, through: :coin_excluded_countries, source: :country
+  has_many :feed_sources
 
   validates :name, uniqueness: true, presence: true
 
