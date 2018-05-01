@@ -50,6 +50,12 @@
             text-align: left;
             white-space: nowrap;
             font-size: 0.8rem;
+            &:disabled {
+              opacity: 0.5;
+              .icon {
+                color: inherit;
+              }
+            }
           }
         }
       }

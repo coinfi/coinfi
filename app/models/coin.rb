@@ -10,6 +10,8 @@ class Coin < ApplicationRecord
   has_many :influencer_reviews
   has_many :coin_excluded_countries
   has_many :excluded_countries, through: :coin_excluded_countries, source: :country
+  has_many :coin_industries_coins
+  has_many :coin_industries, through: :coin_industries_coins
 
   validates :name, uniqueness: true, presence: true
 
@@ -19,6 +21,9 @@ class Coin < ApplicationRecord
   before_save :update_previous_name
 
   scope :top, -> (limit) { order(ranking: :asc).limit(limit) }
+  scope :icos, -> { where(ico_status: ICO_STATUSES).order(:ico_end_date) }
+
+  alias_method :industries, :coin_industries
 
   ICO_STATUSES.each do |status|
     scope status, -> { where(ico_status: status) }

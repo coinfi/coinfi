@@ -1,4 +1,4 @@
-import Categories from './Categories'
+import CoinIndustries from './CoinIndustries'
 import ClosingDate from './ClosingDate'
 import CountriesAllowed from './CountriesAllowed'
 import HardCap from './HardCap'
@@ -10,7 +10,7 @@ import StartingDate from './StartingDate'
 import TokenType from './TokenType'
 
 export default {
-  categories: Categories,
+  coinIndustries: CoinIndustries,
   closingDate: ClosingDate,
   countriesAllowed: CountriesAllowed,
   hardCap: HardCap,

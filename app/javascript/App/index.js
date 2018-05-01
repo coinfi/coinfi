@@ -51,7 +51,7 @@ const componentOptions = {
   },
   IcoFilters: {
     Component: IcoFilters,
-    propNames: [],
+    propNames: ['industriesJson'],
     withStore: true
   }
 }
@@ -68,7 +68,9 @@ const injectComponents = () => {
       const { Component, withStore, propNames } = opts
       const props = {}
       propNames.forEach(name => {
-        props[name] = hook.getAttribute(name)
+        let attr = hook.getAttribute(name)
+        if (name.endsWith('Json')) attr = JSON.parse(attr)
+        props[name] = attr
       })
       if (withStore) {
         const AppComponent = appContainer(Component)

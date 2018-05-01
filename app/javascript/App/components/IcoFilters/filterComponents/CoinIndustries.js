@@ -2,18 +2,18 @@ import React from 'react'
 import Type from 'prop-types'
 import ItemSelector from '../../ItemSelector'
 
-const Categories = ({ filterData, value, onChange }) => (
+const CoinIndustries = ({ industriesJson, value, onChange }) => (
   <ItemSelector
-    items={filterData.categories}
+    items={industriesJson}
     selectedItems={value}
     onChange={onChange}
   />
 )
 
-Categories.propTypes = {
+CoinIndustries.propTypes = {
   value: Type.array,
   filterData: Type.object.isRequired,
   onChange: Type.func
 }
 
-export default Categories
+export default CoinIndustries

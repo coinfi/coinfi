@@ -16,7 +16,10 @@ class SelectFilter extends React.Component {
           <ul>
             {inactiveFilters.map(item => (
               <li key={item.get('key')}>
-                <button onClick={() => toggleUI('newFilter', item.get('key'))}>
+                <button
+                  onClick={() => toggleUI('newFilter', item.get('key'))}
+                  disabled={item.get('disabled')}
+                >
                   <div>{item.get('label')}</div>
                   <Icon name="plus" className="ml3 aqua" />
                 </button>

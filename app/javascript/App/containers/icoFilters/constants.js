@@ -2,7 +2,7 @@ import { fromJS } from 'immutable'
 
 export const filterList = fromJS([
   {
-    key: 'categories',
+    key: 'coinIndustries',
     label: 'Categories'
   },
   {
@@ -11,7 +11,8 @@ export const filterList = fromJS([
   },
   {
     key: 'countriesAllowed',
-    label: 'Countries Allowed'
+    label: 'Countries Allowed',
+    disabled: true
   },
   {
     key: 'hardCap',
@@ -21,20 +22,24 @@ export const filterList = fromJS([
   {
     key: 'openWhitelist',
     label: 'Open Whitelist',
-    defaultValue: true
+    defaultValue: true,
+    disabled: true
   },
   {
     key: 'percentOffered',
-    label: 'Percent Offered'
+    label: 'Percent Offered',
+    disabled: true
   },
   {
     key: 'reviewedBy',
-    label: 'Reviewed By'
+    label: 'Reviewed By',
+    disabled: true
   },
   {
     key: 'socialCounts',
     label: 'Social Counts',
-    defaultValue: { twitter: 0, telegram: 0 }
+    defaultValue: { twitter: 0, telegram: 0 },
+    disabled: true
   },
   {
     key: 'startingDate',
@@ -47,43 +52,5 @@ export const filterList = fromJS([
 ])
 
 export const filterData = {
-  categories: [
-    'Advertising & Marketing',
-    'Artificial Intelligence',
-    'Banking',
-    'Blockchain',
-    'Blockchain tools',
-    'Cloud Storage',
-    'Crowdfunding',
-    'CryptoFund',
-    'Currency',
-    'Data',
-    'Energy',
-    'Exchange',
-    'Finance',
-    'Gambling',
-    'Gaming',
-    'Healthcare',
-    'Insurance',
-    'Identity',
-    'IOT',
-    'Logistics',
-    'Marketplace',
-    'Media',
-    'Mining',
-    'Mobile',
-    'Network',
-    'Payments',
-    'Protocol',
-    'Real Assets',
-    'Real Business',
-    'Real Estate',
-    'Security',
-    'Social',
-    'Ticketing',
-    'Trading',
-    'Virtual Reality',
-    'Voting'
-  ],
   countries: ['China', 'United States', 'Canada', 'South Korea']
 }
