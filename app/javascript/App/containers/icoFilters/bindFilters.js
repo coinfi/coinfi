@@ -1,4 +1,3 @@
-import { filterList } from './constants'
 import qs from 'qs'
 
 export default props => {
@@ -33,6 +32,4 @@ export const pushStateToURL = (activeFilters, newFilter = null) => {
   window.history.pushState(filterObject, document.title, `?${queryString}`)
 }
 
-export const pullStateFromURL = setFilters => {
-  const filterObject = qs.parse(window.location.search.substr(1))
-}
+export const pullStateFromURL = setFilters => {}

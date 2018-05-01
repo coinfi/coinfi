@@ -16,6 +16,7 @@ class CoinsController < ApplicationController
     set_meta_tags(
       keywords: "ico list, ico rating, ico alert, ico review, initial coin offering, initial coin offering list, ico initial coin offering"
     )
+    render(layout: false) if params[:naked]
   end
 
   def show
