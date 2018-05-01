@@ -1,7 +1,9 @@
 class CoinsController < ApplicationController
+
+  include IcoFilters
+
   def index
     @coins = Coin.order(:ranking).page(params[:page])
-
     set_meta_tags(
       title: "Top Cryptocurrency Prices Live, Cryptocurrency Market Cap, Best Cryptocurrency Charts",
       keywords: "cryptocurrency, cryptocurrency news, cryptocurrency market, cryptocurrency prices, cryptocurrency charts, top cryptocurrency, best cryptocurrency"
@@ -12,7 +14,7 @@ class CoinsController < ApplicationController
     @status = params[:status]
     redirect_to "/icos/upcoming" and return unless Coin::ICO_STATUSES.include?(@status)
     @coins = Coin.where(ico_status: @status).order(:ico_end_date).page(params[:page])
-
+    apply_filters
     set_meta_tags(
       keywords: "ico list, ico rating, ico alert, ico review, initial coin offering, initial coin offering list, ico initial coin offering"
     )
