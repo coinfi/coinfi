@@ -8,7 +8,7 @@
             | beta
       .flex-auto.w-15-m
         .pr4-m
-          component name="GlobalCoinSearch" 
+          = react_component "GlobalCoinSearch", withStore: true
       .flex-none.reveal-m
         .flex.items-center.justify-between.pr4-m
           = render partial: 'components/main_nav', locals: { klass: 'nav-x dark cozy small pr4' }

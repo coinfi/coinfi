@@ -2,12 +2,8 @@ import React from 'react'
 import Type from 'prop-types'
 import ItemSelector from '../../ItemSelector'
 
-const CoinIndustries = ({ industriesJson, value, onChange }) => (
-  <ItemSelector
-    items={industriesJson}
-    selectedItems={value}
-    onChange={onChange}
-  />
+const CoinIndustries = ({ industries, value, onChange }) => (
+  <ItemSelector items={industries} selectedItems={value} onChange={onChange} />
 )
 
 CoinIndustries.propTypes = {

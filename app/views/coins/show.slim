@@ -33,7 +33,7 @@
               = render partial: 'articles', locals: { articles: @latest_news }
             - if @coin.twitter.present?
               .tab-content data-position=2
-                component name="TwitterFeed" user=@coin.twitter
+                = react_component "TwitterFeed", props: { user: @coin.twitter }
             - if @coin.reddit.present?
               .tab-content data-position=3
-                component name="RedditFeed" subreddit=@coin.reddit
+                = react_component "RedditFeed", props: { subreddit: @coin.reddit }

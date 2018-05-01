@@ -23,55 +23,25 @@ import TwitterFeed from './components/TwitterFeed'
 import RedditFeed from './components/RedditFeed'
 import IcoFilters from './components/IcoFilters'
 
-const componentOptions = {
-  WatchButton: {
-    Component: WatchButton,
-    propNames: ['coinID', 'watching'],
-    withStore: false
-  },
-  WatchlistPage: {
-    Component: WatchlistPage,
-    propNames: [],
-    withStore: true
-  },
-  TwitterFeed: {
-    Component: TwitterFeed,
-    propNames: ['user'],
-    withStore: false
-  },
-  RedditFeed: {
-    Component: RedditFeed,
-    propNames: ['subreddit'],
-    withStore: false
-  },
-  GlobalCoinSearch: {
-    Component: GlobalCoinSearch,
-    propNames: [],
-    withStore: true
-  },
-  IcoFilters: {
-    Component: IcoFilters,
-    propNames: ['industriesJson'],
-    withStore: true
-  }
+const injectableComponents = {
+  WatchButton,
+  WatchlistPage,
+  GlobalCoinSearch,
+  TwitterFeed,
+  RedditFeed,
+  IcoFilters
 }
 
 const injectComponents = () => {
   const hooks = document.getElementsByTagName('component')
-  const { store, persistor } = configureStore()
   if (hooks) {
+    const { store, persistor } = configureStore()
     Array.from(hooks).forEach(hook => {
       const name = hook.getAttribute('name')
-      const opts = componentOptions[name]
-      if (!opts)
-        return console.error(`React component options not found for ${name}`)
-      const { Component, withStore, propNames } = opts
-      const props = {}
-      propNames.forEach(name => {
-        let attr = hook.getAttribute(name)
-        if (name.endsWith('Json')) attr = JSON.parse(attr)
-        props[name] = attr
-      })
+      const Component = injectableComponents[name]
+      if (!Component) return console.error(`Component "${name}" not found`)
+      const props = JSON.parse(hook.getAttribute('props'))
+      const withStore = hook.getAttribute('withStore') !== null
       if (withStore) {
         const AppComponent = appContainer(Component)
         ReactDOM.render(
