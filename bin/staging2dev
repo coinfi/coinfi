@@ -1,6 +1,6 @@
 #!/bin/bash
 #heroku pg:backups:capture --app coinfi-eu
-curl -o latest.dump `heroku pg:backups:public-url --app coinfi-eu`
+curl -o latest.dump `heroku pg:backups:public-url --app coinfi-staging-eu`
 pg_restore --verbose --clean --no-acl --no-owner -h localhost -d coinfi-rails_development latest.dump
 #rm latest.dump
 
