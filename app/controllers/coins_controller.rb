@@ -25,7 +25,7 @@ class CoinsController < ApplicationController
     @upcoming_events = @coin.articles.upcoming_events
 
     if @coin.ico_status == "listed"
-      title = "#{@coin.symbol} - #{@coin.name} Price Chart, Value, News, Market Cap"
+      title = "#{@coin.symbol} ($#{@coin.price["usd"]}) - #{@coin.name} Price Chart, Value, News, Market Cap"
       keywords = "#{@coin.name} price, #{@coin.name} chart, #{@coin.name} news, #{@coin.name} market cap, #{@coin.name} reddit, #{@coin.name} price prediction"
     else
       title = "#{@coin.name} ICO Review, #{@coin.name} Reviews, #{@coin.name} Coin"
