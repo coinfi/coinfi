@@ -47,7 +47,7 @@ class FilterComponent extends React.Component {
   render() {
     const { filter, uiKey } = this.props
     const { value } = this.state
-    const { onChange } = this
+    const { onChange, applyFilter, removeFilter } = this
     const Component = components[filter.get('key')]
     if (!Component) return null
     return (
@@ -67,7 +67,9 @@ class FilterComponent extends React.Component {
             </div>
           </header>
         )}
-        <Component {...{ ...this.props, value, onChange }} />
+        <Component
+          {...{ ...this.props, value, onChange, applyFilter, removeFilter }}
+        />
       </div>
     )
   }

@@ -68,6 +68,8 @@ class CoinsController < ApplicationController
         return [:id_in, coin_ids]
       when :tokenType
         return [:token_type_in, value.values]
+      when :searchName
+        return [:name_cont, value]
     end
   end
 
@@ -78,6 +80,10 @@ class CoinsController < ApplicationController
     if p[:hardCap]
       p[:hardCapMin] = p[:hardCap][:min]
       p[:hardCapMax] = p[:hardCap][:max]
+    end
+    if p[:search]
+      p[:searchName] = p[:search]
+      p[:searchSymbol] = p[:search]
     end
     p
   end

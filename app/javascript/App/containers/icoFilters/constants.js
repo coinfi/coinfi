@@ -2,6 +2,11 @@ import { fromJS } from 'immutable'
 
 export const filterList = fromJS([
   {
+    key: 'search',
+    label: 'Search',
+    unlisted: true
+  },
+  {
     key: 'coinIndustries',
     label: 'Categories'
   },
@@ -10,14 +15,22 @@ export const filterList = fromJS([
     label: 'Closing Date'
   },
   {
-    key: 'countriesAllowed',
-    label: 'Countries Allowed',
-    disabled: true
-  },
-  {
     key: 'hardCap',
     label: 'Hard Cap',
     defaultValue: { min: 1, max: 100 }
+  },
+  {
+    key: 'startingDate',
+    label: 'Starting Date'
+  },
+  {
+    key: 'tokenType',
+    label: 'Token Type'
+  },
+  {
+    key: 'countriesAllowed',
+    label: 'Countries Allowed',
+    disabled: true
   },
   {
     key: 'openWhitelist',
@@ -40,14 +53,6 @@ export const filterList = fromJS([
     label: 'Social Counts',
     defaultValue: { twitter: 0, telegram: 0 },
     disabled: true
-  },
-  {
-    key: 'startingDate',
-    label: 'Starting Date'
-  },
-  {
-    key: 'tokenType',
-    label: 'Token Type'
   }
 ])
 

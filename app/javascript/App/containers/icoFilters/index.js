@@ -5,7 +5,7 @@ import { createStructuredSelector } from 'reselect'
 import { setFilters, setFilter, removeFilter } from './actions'
 import * as selectors from './selectors'
 import bindFilters from './bindFilters'
-import { filterData } from './constants'
+import { filterData, filterList } from './constants'
 
 export default Component => {
   class HOC extends React.Component {
@@ -13,7 +13,7 @@ export default Component => {
       bindFilters(this.props)
     }
     render() {
-      return <Component {...{ ...this.props, filterData }} />
+      return <Component {...{ ...this.props, filterData, filterList }} />
     }
   }
   function mapDispatch(dispatch) {
@@ -23,7 +23,8 @@ export default Component => {
   }
   const mapState = createStructuredSelector({
     activeFilters: selectors.selectActiveFilters(),
-    inactiveFilters: selectors.selectInactiveFilters()
+    availableFilters: selectors.selectAvailableFilters(),
+    disabledFilters: selectors.selectDisabledFilters()
   })
   return connect(mapState, mapDispatch)(HOC)
 }

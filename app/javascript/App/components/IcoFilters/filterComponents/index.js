@@ -1,3 +1,4 @@
+import Search from './Search'
 import CoinIndustries from './CoinIndustries'
 import ClosingDate from './ClosingDate'
 import CountriesAllowed from './CountriesAllowed'
@@ -10,6 +11,7 @@ import StartingDate from './StartingDate'
 import TokenType from './TokenType'
 
 export default {
+  search: Search,
   coinIndustries: CoinIndustries,
   closingDate: ClosingDate,
   countriesAllowed: CountriesAllowed,

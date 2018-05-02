@@ -8,10 +8,18 @@ export const selectActiveFilters = () =>
     return s.get('activeFilters')
   })
 
-export const selectInactiveFilters = () =>
+export const selectAvailableFilters = () =>
   createSelector(selectDomain(), s => {
     const active = s.get('activeFilters')
-    return filterList.filter(
-      item => !active.find(o => o.get('key') === item.get('key'))
-    )
+    return filterList.filter(item => {
+      if (item.get('disabled') || item.get('unlisted')) return false
+      return !active.find(o => o.get('key') === item.get('key'))
+    })
+  })
+
+export const selectDisabledFilters = () =>
+  createSelector(selectDomain(), s => {
+    return filterList.filter(item => {
+      return !!item.get('disabled')
+    })
   })
