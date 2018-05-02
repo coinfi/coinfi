@@ -19,7 +19,7 @@ export default props => {
   if (queryObject && Object.keys(queryObject).length > 0) {
     props.resetFilters(queryObject)
   } else if (props.activeFilters.size > 0) {
-    pushStateToURL(props)
+    props.updateResults()
   }
 }
 

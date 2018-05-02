@@ -7,6 +7,7 @@ import * as selectors from './selectors'
 export default function* watcher() {
   yield takeLatest('SET_FILTER', update)
   yield takeLatest('REMOVE_FILTER', update)
+  yield takeLatest('UPDATE_RESULTS', update)
 }
 
 function* update(action) {
@@ -17,7 +18,7 @@ function* update(action) {
 function* updateURL({ payload }) {
   const activeFilters = yield select(selectors.selectActiveFilters())
   let newFilter = null
-  if (payload.value) newFilter = payload
+  if (payload && payload.value) newFilter = payload
   pushStateToURL({ activeFilters, newFilter })
 }
 

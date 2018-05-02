@@ -9,3 +9,7 @@ export const setFilter = (key, value) => {
 export const removeFilter = key => {
   return { type: 'REMOVE_FILTER', payload: { key } }
 }
+
+export const updateResults = () => {
+  return { type: 'UPDATE_RESULTS' }
+}
