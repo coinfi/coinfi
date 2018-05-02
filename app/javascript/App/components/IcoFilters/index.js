@@ -6,12 +6,18 @@ import React from 'react'
 import container from '../../containers/icoFilters'
 import DesktopLayout from './DesktopLayout'
 import MobileLayout from './MobileLayout'
+import debounce from 'debounce'
 
-const IcoFilters = props => {
-  if (['m', 'l'].includes(window.screenSize)) {
-    return <DesktopLayout {...props} />
-  } else {
-    return <MobileLayout {...props} />
+class IcoFilters extends React.Component {
+  componentWillMount() {
+    window.addEventListener('resize', debounce(() => this.forceUpdate()), 500)
+  }
+  render() {
+    if (['m', 'l'].includes(window.screenSize)) {
+      return <DesktopLayout {...this.props} />
+    } else {
+      return <MobileLayout {...this.props} />
+    }
   }
 }
 
