@@ -38,7 +38,7 @@ export default class HardCap extends Component {
         </div>
         <div className="ph1 pt2">
           <Range
-            value={[value.min, value.max]}
+            value={[parseInt(value.min, 10), parseInt(value.max, 10)]}
             onChange={this.onSlide}
             {...scale}
           />

@@ -5,9 +5,8 @@ import coinSearch from '../containers/coinSearch'
 
 class WatchlistSearch extends Component {
   handleSearchInput = value => {
-    let { searchOpts } = this.props
-    searchOpts = searchOpts || {}
-    this.props.searchCoins(value, searchOpts)
+    let { searchOpts, searchCoins } = this.props
+    searchCoins(value, searchOpts)
   }
   render() {
     const { searchedCoins, addCoinSuccess, searchText } = this.props

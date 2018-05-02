@@ -1,4 +1,4 @@
-export const searchCoins = namespace => (searchText, searchOpts) => {
+export const searchCoins = namespace => (searchText, searchOpts = {}) => {
   return { type: 'SEARCH_COINS', searchText, searchOpts, namespace }
 }
 

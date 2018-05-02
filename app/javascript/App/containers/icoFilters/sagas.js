@@ -3,12 +3,10 @@ import { takeLatest, select } from 'redux-saga/effects'
 import { currentURL, getQueryObject } from '../../utils/urlHelpers'
 import { pushStateToURL } from './bindFilters'
 import * as selectors from './selectors'
-import { currentUI } from '../app/selectors'
 
 export default function* watcher() {
   yield takeLatest('SET_FILTER', update)
   yield takeLatest('REMOVE_FILTER', update)
-  yield takeLatest('TOGGLE_UI', preventScrollOnMobile)
 }
 
 function* update(action) {
@@ -33,14 +31,4 @@ function updateResults({ payload }) {
       domContainer.innerHTML = html
     }
   })
-}
-
-function* preventScrollOnMobile({ key, value }) {
-  if (!window.isMobile) return
-  const blacklist = ['mobileFilters']
-  if (blacklist.includes(key)) return
-  const cUI = yield select(currentUI)
-  const uiActive = cUI(key, value)
-  const className = uiActive ? 'overflow-hidden' : ''
-  document.body.className = className
 }

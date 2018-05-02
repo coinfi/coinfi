@@ -9,12 +9,12 @@
       .flex-auto.w-15-m
         .pr4-m
           = react_component "GlobalCoinSearch", withStore: true
-      .flex-none.reveal-m
-        .flex.items-center.justify-between.pr4-m
-          = render partial: 'components/main_nav', locals: { klass: 'nav-x dark cozy small pr4' }
-          = render partial: 'components/user_actions', locals: { klass: '' }
       .conceal-m
         button.pa3.btn-icon.f3.white.search-toggle.mr2
           i.fal.fa-search
         button.pa3.pr4.btn-icon.f3.white.mobile-nav-toggle
           i.fal.fa-bars
+      .flex-none.dn.db-m
+        .flex.items-center.justify-between.pr4-m
+          = render partial: 'components/main_nav', locals: { klass: 'nav-x dark cozy small pr4' }
+          = render partial: 'components/user_actions', locals: { klass: '' }

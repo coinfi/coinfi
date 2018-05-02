@@ -6,8 +6,7 @@ import { toggleOverlay } from '../../modules/navigation/mobile-nav'
 
 class CoinSearch extends Component {
   handleSearchInput = value => {
-    const { searchCoins, searchOpts } = this.props
-    searchCoins(value, searchOpts || {})
+    this.props.searchCoins(value)
   }
   render() {
     const { searchedCoins, searchText, clearSearch } = this.props
