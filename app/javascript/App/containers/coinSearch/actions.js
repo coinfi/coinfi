@@ -1,11 +1,11 @@
-export const searchCoins = (searchText, searchOpts) => {
-  return { type: 'SEARCH_COINS', searchText, searchOpts }
+export const searchCoins = namespace => (searchText, searchOpts) => {
+  return { type: 'SEARCH_COINS', searchText, searchOpts, namespace }
 }
 
-export const searchCoinsSuccess = response => {
-  return { type: 'SEARCH_COINS_SUCCESS', response }
+export const searchCoinsSuccess = namespace => response => {
+  return { type: 'SEARCH_COINS_SUCCESS', response, namespace }
 }
 
-export const clearSearch = () => {
-  return { type: 'CLEAR_SEARCH' }
+export const clearSearch = namespace => {
+  return { type: 'CLEAR_SEARCH', namespace }
 }

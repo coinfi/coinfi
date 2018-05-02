@@ -5,7 +5,7 @@ import { createStructuredSelector } from 'reselect'
 import { searchCoins, clearSearch } from './actions'
 import * as selectors from './selectors'
 
-export default Component => {
+export default Component => (namespace = 'global') => {
   class HOC extends React.Component {
     render() {
       return <Component {...this.props} />
@@ -15,16 +15,16 @@ export default Component => {
     return {
       ...bindActionCreators(
         {
-          searchCoins,
-          clearSearch
+          searchCoins: searchCoins(namespace),
+          clearSearch: clearSearch(namespace)
         },
         dispatch
       )
     }
   }
   const mapState = createStructuredSelector({
-    searchedCoins: selectors.selectSearchedCoins(),
-    searchText: selectors.selectSearchText()
+    searchedCoins: selectors.selectSearchedCoins(namespace),
+    searchText: selectors.selectSearchText(namespace)
   })
   return connect(mapState, mapDispatch)(HOC)
 }

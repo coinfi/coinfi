@@ -2,12 +2,12 @@ import { createSelector } from 'reselect'
 
 export const selectDomain = () => state => state.coinSearch
 
-export const selectSearchedCoins = () =>
+export const selectSearchedCoins = namespace =>
   createSelector(selectDomain(), s => {
-    return s.get('searchedCoins')
+    return s.getIn([namespace, 'searchedCoins']) || []
   })
 
-export const selectSearchText = () =>
+export const selectSearchText = namespace =>
   createSelector(selectDomain(), s => {
-    return s.get('searchText')
+    return s.getIn([namespace, 'searchText']) || ''
   })

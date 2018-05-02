@@ -6,11 +6,11 @@ export default function* watcher() {
   yield takeLatest('SEARCH_COINS', searchCoins)
 }
 
-function* searchCoins({ searchText, searchOpts }) {
+function* searchCoins({ searchText, searchOpts, namespace }) {
   if (searchText.length < 2) return
   yield sagas.get(
     '/coins.json',
     Object.assign({ q: { name_cont: searchText } }, searchOpts),
-    actions.searchCoinsSuccess
+    actions.searchCoinsSuccess(namespace)
   )
 }

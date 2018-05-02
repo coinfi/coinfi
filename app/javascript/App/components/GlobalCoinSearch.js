@@ -70,4 +70,4 @@ class CoinSearch extends Component {
   }
 }
 
-export default coinSearch(CoinSearch)
+export default coinSearch(CoinSearch)()

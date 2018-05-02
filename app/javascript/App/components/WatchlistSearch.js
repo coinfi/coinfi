@@ -50,4 +50,4 @@ class WatchlistSearch extends Component {
   }
 }
 
-export default coinSearch(WatchlistSearch)
+export default coinSearch(WatchlistSearch)('watchlist')
