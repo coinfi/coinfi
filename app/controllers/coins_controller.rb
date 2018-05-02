@@ -17,6 +17,11 @@ class CoinsController < ApplicationController
       keywords: "ico list, ico rating, ico alert, ico review, initial coin offering, initial coin offering list, ico initial coin offering"
     )
     render(layout: false) if params[:naked]
+    @react_props = { 
+      industries: CoinIndustry.pluck(:name), 
+      tokenTypes: Coin.token_types,
+      influencers: Influencer.pluck(:name)
+    }
   end
 
   def show
@@ -68,8 +73,12 @@ class CoinsController < ApplicationController
         return [:id_in, coin_ids]
       when :tokenType
         return [:token_type_in, value.values]
-      when :searchName
-        return [:name_cont, value]
+      when :search
+        return [:name_or_symbol_cont, value]
+      when :reviewedBy
+        influencer_ids = Influencer.where(name: value.values).pluck(:id)
+        coin_ids = InfluencerReview.where(influencer_id: influencer_ids).pluck(:coin_id)
+        return [:id_in, coin_ids]
     end
   end
 
@@ -80,10 +89,6 @@ class CoinsController < ApplicationController
     if p[:hardCap]
       p[:hardCapMin] = p[:hardCap][:min]
       p[:hardCapMax] = p[:hardCap][:max]
-    end
-    if p[:search]
-      p[:searchName] = p[:search]
-      p[:searchSymbol] = p[:search]
     end
     p
   end

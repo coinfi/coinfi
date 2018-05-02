@@ -45,8 +45,7 @@ export const filterList = fromJS([
   },
   {
     key: 'reviewedBy',
-    label: 'Reviewed By',
-    disabled: true
+    label: 'Reviewed By'
   },
   {
     key: 'socialCounts',
