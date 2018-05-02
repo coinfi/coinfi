@@ -20,7 +20,7 @@ function* updateURL({ payload }) {
   const activeFilters = yield select(selectors.selectActiveFilters())
   let newFilter = null
   if (payload.value) newFilter = payload
-  pushStateToURL(activeFilters, newFilter)
+  pushStateToURL({ activeFilters, newFilter })
 }
 
 function updateResults({ payload }) {

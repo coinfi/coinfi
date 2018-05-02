@@ -1,5 +1,5 @@
-export const setFilters = payload => {
-  return { type: 'SET_FILTERS', payload }
+export const resetFilters = payload => {
+  return { type: 'RESET_FILTERS', payload }
 }
 
 export const setFilter = (key, value) => {

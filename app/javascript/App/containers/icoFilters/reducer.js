@@ -1,4 +1,4 @@
-import { fromJS } from 'immutable'
+import { fromJS, List } from 'immutable'
 import { filterList } from './constants'
 import { listIndex } from '../../utils/stateHelpers'
 
@@ -9,13 +9,24 @@ const initialState = fromJS({
 export default (state = initialState, action) => {
   const { type, payload } = action
   const filterIndex = () => listIndex(state.get('activeFilters'), payload.key)
+  let filter
   switch (type) {
-    case 'SET_FILTERS':
-      return state.set('activeFilters', fromJS(payload))
+    case 'RESET_FILTERS':
+      return initialState.set(
+        'activeFilters',
+        List(
+          Object.entries(payload).map(([key, value]) =>
+            filterList
+              .find(o => o.get('key') === key)
+              .set('value', fromJS(value))
+          )
+        )
+      )
     case 'SET_FILTER':
-      const filter = filterList.find(o => o.get('key') === payload.key).toJS()
-      filter.value = payload.value
-      return state.setIn(['activeFilters', filterIndex()], fromJS(filter))
+      filter = filterList
+        .find(o => o.get('key') === payload.key)
+        .set('value', fromJS(payload.value))
+      return state.setIn(['activeFilters', filterIndex()], filter)
     case 'REMOVE_FILTER':
       return state.deleteIn(['activeFilters', filterIndex()])
     default:
