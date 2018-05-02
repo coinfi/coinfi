@@ -16,7 +16,7 @@ const AddFilters = props => {
   if (!filterKey) {
     return (
       <button
-        className="oi-icon"
+        className="btn-reset oi-icon"
         onClick={() => toggleUI('newFilter', 'selectFilter')}
       >
         <Icon name="plus" />

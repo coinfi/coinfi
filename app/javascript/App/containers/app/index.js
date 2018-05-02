@@ -3,34 +3,18 @@
  */
 import React from 'react'
 import { bindActionCreators } from 'redux'
-import { createStructuredSelector } from 'reselect'
 import { connect } from 'react-redux'
-import * as selectors from './selectors'
+import { currentUI } from './selectors'
 import { toggleUI } from './actions'
 
-export const app = Component => {
-  return ({ ...props }) => {
-    const { UI } = props
-    return (
-      <Component
-        {...props}
-        currentUI={(key, val = null) => {
-          if (!val) return UI.get(key)
-          return UI.get(key) === val
-        }}
-      />
-    )
-  }
-}
+export const app = Component => props => <Component {...props} />
 
-const mapState = createStructuredSelector({
-  UI: selectors.selectUI()
+const mapState = state => ({
+  currentUI: currentUI(state)
 })
 
-function mapDispatch(dispatch) {
-  return {
-    ...bindActionCreators({ toggleUI }, dispatch)
-  }
-}
+const mapDispatch = dispatch => ({
+  ...bindActionCreators({ toggleUI }, dispatch)
+})
 
 export default Component => connect(mapState, mapDispatch)(app(Component))

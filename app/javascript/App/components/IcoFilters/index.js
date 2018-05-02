@@ -13,10 +13,10 @@ class IcoFilters extends React.Component {
     window.addEventListener('resize', debounce(() => this.forceUpdate()), 500)
   }
   render() {
-    if (['m', 'l'].includes(window.screenSize)) {
-      return <DesktopLayout {...this.props} />
-    } else {
+    if (window.isMobile) {
       return <MobileLayout {...this.props} />
+    } else {
+      return <DesktopLayout {...this.props} />
     }
   }
 }

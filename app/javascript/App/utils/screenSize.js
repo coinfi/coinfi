@@ -2,7 +2,7 @@
  * Responds with breakpoint name (s/ns/m/l) based on Tachyons.
  */
 
-export default () => {
+const getScreenSize = () => {
   let screenSize = 's'
   const breakpoints = ['ns', 'm', 'l']
   breakpoints.forEach(breakpoint => {
@@ -19,3 +19,5 @@ const isVisible = breakpoint => {
   document.body.removeChild(div)
   return isVisible
 }
+
+export default getScreenSize

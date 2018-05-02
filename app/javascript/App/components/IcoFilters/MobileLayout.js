@@ -5,7 +5,9 @@ import Icon from '../Icon'
 
 export default class MobileLayout extends Component {
   toggleFilters = () => {
-    this.props.toggleUI('mobileFilters')
+    const { toggleUI, activeFilters } = this.props
+    toggleUI('mobileFilters')
+    if (activeFilters.size === 0) toggleUI('newFilter', 'selectFilter')
   }
   render() {
     const { activeFilters, currentUI } = this.props

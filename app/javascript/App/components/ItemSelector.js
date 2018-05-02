@@ -33,7 +33,7 @@ export default class ItemSelector extends Component {
             ))}
           </ul>
         </div>
-        <div className="bt b--geyser pv2 max-h18e overflow-x-scroll">
+        <div className="bt b--geyser pv2 max-h18e-m overflow-y-scroll-m">
           <ul>
             {this.unselectedItems().map(item => (
               <li key={item}>

@@ -58,16 +58,14 @@ const injectComponents = () => {
     })
   }
 }
+const setScreenSize = () => {
+  window.screenSize = getScreenSize()
+  window.isMobile = !['m', 'l'].includes(window.screenSize)
+}
 
 document.addEventListener('DOMContentLoaded', () => {
-  window.screenSize = getScreenSize()
+  setScreenSize()
   injectComponents()
 })
 
-window.addEventListener(
-  'resize',
-  debounce(() => {
-    window.screenSize = getScreenSize()
-  }),
-  500
-)
+window.addEventListener('resize', debounce(setScreenSize), 400)

@@ -119,15 +119,16 @@
       bottom: 0;
       left: 0;
       background: $black-70;
+      overflow-y: auto;
+      padding-top: $sp3;
+      padding-bottom: $sp3;
+      display: grid;
       .oi-pane-content {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        -webkit-transform: translate(-50%, -50%);
         width: 100%;
         max-width: 20rem;
         background: $near-white;
+        align-self: center;
+        justify-self: center;
         header {
           background: $white;
           padding: 1.5rem;
