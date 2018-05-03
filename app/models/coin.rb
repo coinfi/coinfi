@@ -33,7 +33,7 @@ class Coin < ApplicationRecord
   end
 
   def self.token_types
-    self.all.pluck(:token_type).uniq.compact.reject { |t| t.length < 1 }
+    pluck(:token_type).uniq.compact.reject { |t| t.length < 1 }
   end
 
   def update_previous_name

@@ -8,6 +8,8 @@ table.responsive-table.right-align
       th Total Supply
       th ICO Price
       th Token Type
+      - if @status == 'active'
+        th Reviews
   tbody
     - @coins.each do |coin|
       tr
@@ -59,5 +61,10 @@ table.responsive-table.right-align
           label Token Type
           div
             = coin.token_type
+        - if @status == 'active'
+          td
+            label Review count
+            div
+              = coin.influencer_reviews_count
 
 .tc= paginate @coins
