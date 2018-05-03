@@ -1,34 +1,35 @@
-.icons.tc.w-100
-  - if @coin.website.present?
-    a.icon.icon-light href=@coin.website target="_blank"
-      i class="fal fa-link"
-      label Website
-  - if @coin.explorer.present?
-    a.icon.icon-light href=@coin.explorer target="_blank"
-      i class="fal fa-search"
-      label Explorer
-  - if @coin.forum.present?
-    a.icon.icon-light href=@coin.forum target="_blank"
-      i class="fal fa-comments"
-      label Forum
-  - if @coin.whitepaper.present?
-    a.icon.icon-light href=@coin.whitepaper target="_blank"
-      i class="fal fa-file-alt"
-      label Whitepaper
-  - if @coin.twitter.present?
-    a.icon.icon-light href=@coin.twitter target="_blank"
-      i class="fab fa-twitter"
-      label Twitter
-  - if @coin.reddit.present?
-    a.icon.icon-light href=@coin.reddit target="_blank"
-      i class="fab fa-reddit"
-      label Reddit
-  - if @coin.medium.present?
-    a.icon.icon-light href=@coin.medium target="_blank"
-      i class="fab fa-medium"
-      label Medium
-  - if @coin.github.present?
-    a.icon.icon-light href=@coin.github target="_blank"
-      i class="fab fa-github"
-      label Github
+.bg-tiber.pa4.flex.flex-wrap.justify-center.flex-auto
+  .icons.tc.w-100
+    - if @coin.website.present?
+      a.icon.icon-light href=@coin.website target="_blank"
+        i class="fal fa-link"
+        label Website
+    - if @coin.explorer.present?
+      a.icon.icon-light href=@coin.explorer target="_blank"
+        i class="fal fa-search"
+        label Explorer
+    - if @coin.forum.present?
+      a.icon.icon-light href=@coin.forum target="_blank"
+        i class="fal fa-comments"
+        label Forum
+    - if @coin.whitepaper.present?
+      a.icon.icon-light href=@coin.whitepaper target="_blank"
+        i class="fal fa-file-alt"
+        label Whitepaper
+    - if @coin.twitter.present?
+      a.icon.icon-light href=@coin.twitter target="_blank"
+        i class="fab fa-twitter"
+        label Twitter
+    - if @coin.reddit.present?
+      a.icon.icon-light href=@coin.reddit target="_blank"
+        i class="fab fa-reddit"
+        label Reddit
+    - if @coin.medium.present?
+      a.icon.icon-light href=@coin.medium target="_blank"
+        i class="fab fa-medium"
+        label Medium
+    - if @coin.github.present?
+      a.icon.icon-light href=@coin.github target="_blank"
+        i class="fab fa-github"
+        label Github
 

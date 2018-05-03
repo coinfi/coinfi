@@ -2,38 +2,12 @@
   .row.narrow-gutter.flex
     .col-xs-12.col-md-4.flex.flex-column
       = render partial: 'header'
-      - if @coin.ico_listed?
-        = render partial: 'stats_listed'
-      - else
-        = render partial: 'stats_ico'
-      .bg-white.tc.f7.pa4.mb2
-        - last_update = @data["last_updated"].presence || @coin.updated_at
-        = "Last updated: #{distance_of_time_in_words(Integer(last_update), Time.now)} ago"
-      .bg-tiber.pa4.flex.flex-wrap.justify-center.flex-auto
-        = render partial: 'links'
+      = render partial: 'stats'
+      = render partial: 'last_updated'
+      = render partial: 'links'
     .col-xs-12.col-md-8.flex
       .bg-white.w-100
-        - if @coin.ico_listed?
-          section.pl2-m.pt3
-            h2.tc #{@coin.name} Price Chart
-            #chart
-        - else
-          = render partial: 'ico_reviews'
-          = render partial: 'ico_charts'
-        section.phr.pv4
-          h3 Relevant Content
-          .tab-area
-            .tabs.mb4
-              .tab data-position=1 #{@coin.name} News
-              - if @coin.twitter.present?
-                .tab data-position=2 Twitter
-              - if @coin.reddit.present?
-                .tab data-position=3 Reddit
-            .tab-content data-position=1
-              = render partial: 'articles', locals: { articles: @latest_news }
-            - if @coin.twitter.present?
-              .tab-content data-position=2
-                = react_component "TwitterFeed", props: { user: @coin.twitter }
-            - if @coin.reddit.present?
-              .tab-content data-position=3
-                = react_component "RedditFeed", props: { subreddit: @coin.reddit }
+        section.pl2-m.pt3
+          h2.tc #{@coin.name} Price Chart
+          #chart
+        = render partial: 'relevant_content'

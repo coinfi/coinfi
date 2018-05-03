@@ -1,14 +1,14 @@
 - if params[:naked]
-  = render partial: 'icos_table'
+  = render partial: 'table'
 - else 
   #site-subheader
     .container-wide
       .ph4
         h1.fw6 ICO Database
-        = render partial: "ico_nav"
+        = render partial: 'nav'
   .bg-white.z-2
     .container-wide
       .pa3.ph4-m
-        = react_component "IcoFilters", withStore: true, props: @react_props
+        = react_component 'IcoFilters', withStore: true, props: @react_props
       #ico-table.ph3-ns.ph4-m
-        = render partial: 'icos_table'
+        = render partial: 'table'
