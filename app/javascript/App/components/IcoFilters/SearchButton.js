@@ -16,7 +16,7 @@ export default class Search extends Component {
           />
         )}
         <button className="oi-icon" onClick={() => toggleUI(uiKey, 'search')}>
-          <Icon name="search" />
+          <Icon name="search" className="aqua" />
         </button>
       </div>
     )

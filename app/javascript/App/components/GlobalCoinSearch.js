@@ -14,8 +14,9 @@ class CoinSearch extends Component {
       <div id="global-coin-search">
         <div className="relative">
           <div className="search-input icon-input tiber">
-            <Icon name="search" className="f4 reveal-m" />
+            <Icon regular name="search" className="f4 reveal-m" />
             <Icon
+              regular
               name="arrow-left"
               className="silver conceal-m"
               onClick={() => {
@@ -33,6 +34,7 @@ class CoinSearch extends Component {
             />
             {searchText.length > 0 && (
               <Icon
+                regular
                 name="times"
                 className="silver conceal-m"
                 onClick={() => {
