@@ -47,8 +47,6 @@ Rails.application.routes.draw do
 
   resources :coins, only: [:index, :show]
   get '/icos(/:status)', to: 'coins#icos'
-  get '/coins/:id/historical_data', to: 'coins#historical_data'
-  get '/social_feeds/tweets_by_user', to: 'social_feeds#tweets_by_user'
   resources :contributor_submissions, path: 'contributor-submissions'
   get '/profile', to: 'author_profiles#edit', as: 'edit_author_profile'
   resources :author_profiles, only: [:index, :show, :create, :update], path: 'authors'
