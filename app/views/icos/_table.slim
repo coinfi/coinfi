@@ -8,7 +8,7 @@ table.responsive-table.right-align
       th Total Supply
       th ICO Price
       th Token Type
-      - if @status == 'active'
+      - if ['upcoming', 'active'].include? @status
         th Reviews
   tbody
     - @coins.each do |coin|
@@ -61,7 +61,7 @@ table.responsive-table.right-align
           label Token Type
           div
             = coin.token_type
-        - if @status == 'active'
+        - if ['upcoming', 'active'].include? @status
           td
             label Review count
             div
