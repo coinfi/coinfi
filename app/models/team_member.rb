@@ -43,6 +43,13 @@ class TeamMember < ActiveHash::Base
       linkedin: 'https://www.linkedin.com/in/sam-peacey-2b016b121/'
     },
     { 
+      name: 'Jake Broughton',
+      title: 'Full-stack Web Engineer',
+      bio: "Solution-finder and full-stack software engineer, currently specializing in Rails, React, and Redux architecture. Growing involvement in cryptocurrency tech & trade, and proponent of the ICO paradigm.",
+      img: 'https://res.cloudinary.com/coinfi/image/upload/v1525438291/profile-photos/jake-broughton.jpg',
+      linkedin: 'https://www.linkedin.com/in/jakebroughton/'
+    },
+    { 
       name: 'Alex Lascus',
       title: 'Community Support',
       bio: "Internet marketing expert with over 5 years experience in Advertising and Community Management. Passionate about anything that’s related to social media and cryptocurrencies.",
