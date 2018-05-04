@@ -3,16 +3,15 @@ class Webhooks::WebsubsController < ApplicationController
   skip_before_action :verify_authenticity_token
   before_action :verify_signature
 
-
   def superfeedr_ingest
     items = params[:items]
-    head :ok and return unless items.present?
+    head :ok and return if items.blank?
 
     items.each do |item|
       NewsItemRaw.ingest!(item, params[:source])
     end
 
-    puts "RECEIVED NEWS ITEMS FROM SUPERFEEDER.  RECEIVED #{items.count} ITEMS"
+    puts "Received #{items.count} NewsItems from SuperFeedr."
 
     head :ok
   end
