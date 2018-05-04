@@ -6,20 +6,10 @@
 # you're free to overwrite the RESTful controller actions.
 module Admin
   class ApplicationController < Administrate::ApplicationController
-    http_basic_authenticate_with name: "coinfi", password: ENV.fetch('ADMINISTRATE_PASSWORD')
+    before_action :require_admin
 
-    def authenticate_admin
-      redirect_to "/", alert: "Not authorized." unless current_user && access_whitelist
+    def require_admin
+      redirect_to "/", alert: "Not authorized." unless current_user.admin?
     end
-
-    def access_whitelist
-      current_user && ENV.fetch('ADMINISTRATE_WHITELIST').split(',').include?(current_user.id.to_s)
-    end
-
-    # Override this value to specify the number of elements to display at a time
-    # on index pages. Defaults to 20.
-    # def records_per_page
-    #   params[:per_page] || 20
-    # end
   end
 end
