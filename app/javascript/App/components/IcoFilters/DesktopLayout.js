@@ -5,7 +5,7 @@ import SearchButton from './SearchButton'
 
 export default class DesktopLayout extends Component {
   render() {
-    const { activeFilters, availableFilters } = this.props
+    const { activeFilters } = this.props
     return (
       <div className="flex-stack items-start">
         {!activeFilters.find(f => f.get('key') === 'search') && (
@@ -18,11 +18,9 @@ export default class DesktopLayout extends Component {
             <FilterButton filter={filter} {...this.props} />
           </div>
         ))}
-        {availableFilters.size > 0 && (
-          <div>
-            <AddFilter {...this.props} />
-          </div>
-        )}
+        <div>
+          <AddFilter {...this.props} />
+        </div>
       </div>
     )
   }

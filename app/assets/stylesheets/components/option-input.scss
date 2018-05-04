@@ -1,7 +1,7 @@
 .oi-btn,
-.oi-pane {
+.oi-pane,
+.oi-icon {
   @include box-style-1();
-  font-family: $body-font;
   header {
     color: $elephant;
     line-height: 1;
@@ -16,10 +16,12 @@
   color: $geyser;
   padding: 0;
   line-height: 0;
+  cursor: pointer;
 }
 .oi-btn {
   text-align: left;
   padding: 0;
+  cursor: pointer;
 }
 .oi-pane {
   z-index: 2;
@@ -62,9 +64,6 @@
 @media #{$screen-min-m} {
   .oi {
     position: relative;
-    .oi-icon {
-      @include box-style-1();
-    }
     .oi-pane {
       position: absolute;
       top: 0;
@@ -98,10 +97,14 @@
  */
 @media #{$screen-max-m} {
   .oi {
-    .oi-btn {
+    .oi-btn,
+    .oi-icon {
       width: 100%;
       display: flex;
       align-items: center;
+      justify-content: center;
+    }
+    .oi-btn {
       font-size: 0.9rem;
       font-weight: 500;
       header,
@@ -111,6 +114,9 @@
       .oi-value {
         flex: 1 1 auto;
       }
+    }
+    .oi-icon {
+      padding: $sp2;
     }
     .oi-pane {
       position: fixed;

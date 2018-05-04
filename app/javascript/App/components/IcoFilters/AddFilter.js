@@ -10,28 +10,44 @@ import FilterComponent from './FilterComponent'
 import Icon from '../Icon'
 
 const AddFilters = props => {
-  const { currentUI, toggleUI, availableFilters } = props
+  const { currentUI, toggleUI, availableFilters, activeFilters } = props
+  if (availableFilters.size === 0) return null
   const uiKey = 'newFilter'
   const filterKey = currentUI(uiKey)
+  const toggleNew = () => toggleUI('newFilter', 'selectFilter')
   if (!filterKey) {
-    return (
-      <button
-        className="btn-reset oi-icon"
-        onClick={() => toggleUI('newFilter', 'selectFilter')}
-      >
-        <Icon name="plus" className="aqua" />
-      </button>
-    )
+    if (activeFilters.size > 0 || window.isMobile) {
+      return (
+        <div className="oi">
+          <button className="btn-reset oi-icon" onClick={toggleNew}>
+            <Icon name="plus" />
+          </button>
+        </div>
+      )
+    } else {
+      return (
+        <div className="oi">
+          <div className="oi-btn" onClick={toggleNew}>
+            <header>Filters</header>
+            <div className="oi-value">None selected</div>
+          </div>
+        </div>
+      )
+    }
   } else if (filterKey === 'selectFilter') {
-    return <SelectFilter {...{ ...props, uiKey }} />
+    return (
+      <div className="oi">
+        <SelectFilter {...{ ...props, uiKey }} />
+      </div>
+    )
   } else {
     const filter = availableFilters.find(o => o.get('key') === filterKey)
-    return <FilterComponent {...{ ...props, filter, uiKey }} />
+    return (
+      <div className="oi">
+        <FilterComponent {...{ ...props, filter, uiKey }} />
+      </div>
+    )
   }
 }
 
-export default props => (
-  <div className="oi">
-    <AddFilters {...props} />
-  </div>
-)
+export default AddFilters
