@@ -83,16 +83,92 @@ section#features.phr.pv4.pv6-m.bg-tiber.white-90
 section#team.phr.pv5.pv6-m.bg-white.tiber
   .container-narrow
     h1.tc.tl-m The Team
-    - TeamMember.all.each do |m|
+    - TeamMember.all.each do |member|
       .row.wide-gutter.mt5
         .col-xs-12.col-md-3.tc
-          img class="br-100 dib w-100 max-w10e max-w15e-m" src=m[:img] alt=m[:name]
+          img class="br-100 dib w-100 max-w10e max-w15e-m" src=member.img alt=member.name
         .col-xs-12.col-md-9.tc.tl-m
           h3.db.pt3.pt0-m
-            = m[:name]
-            .pa3.pb0.f5.fw1.db.dib-m= m[:title]
-          .lh-copy.mb3= m[:bio]
-          - unless m[:linkedin].empty?
+            = member.name
+            .pa3.pb0.f5.fw1.db.dib-m= member.title
+          .lh-copy.mb3= member.bio
+          - unless member.linkedin.empty?
             .icons
-              a.icon.hover-silver href=m[:linkedin] target="_blank"
+              a.icon.hover-silver href=member.linkedin target="_blank"
                 i.fab.fa-linkedin.dark-gray.hover-silver.f2
+
+section.phr.pv5.pv6-m.bg-bright-gray.white-90
+  .container-narrow
+    h1.white Roadmap
+    .f6.lh-copy.mb4
+      .mb3 The roadmap outlined below is subject to change based on user feedback, market conditions, and the competitive landscape; it is merely intended as an overview to explain the features that CoinFi intends to implement on the platform.
+      .i Last Updated: May 3, 2018
+    #roadmap.accordion
+      .card
+        h3.card-title.white 2018Q2
+        .card-block
+          ul
+            li Custom Newsfeed with news type classification
+            li Improved news and content aggregation overlaid on price charts per cryptocurrency
+            li Improved custom watchlist
+            li Coin Screeners
+            li Advanced ICO Metrics (token retention rate, token distribution graph)
+            li Improved data pipeline
+            li Market data warehouse
+            li In-house crypto research & analysis
+      .card
+        h3.card-title.white 2018Q3
+        #roadmap2018Q3.in.collapse
+          .card-block
+            ul
+              li Custom cryptocurrency portfolio dashboard
+              li Allow users to follow others’ portfolios
+              li Accept staked tokens for advanced functionality
+              li Token-incentivized crowdsourcing
+              li Social functionality including upvote/downvote and sharing
+      .card
+        h3.card-title.white 2018Q4
+        #roadmap2018Q4.in.collapse
+          .card-block
+            ul
+              li Initial beta versions of trading signals
+              li Prototype of machine learning algorithms for content classification, quality assurance, and fraud detection
+
+      .card
+        h3.card-title.white 2019Q1
+        #roadmap2019Q1.in.collapse
+          .card-block
+            ul
+              li Abnormal volatility detection
+              li Abnormal price movement detection
+              li Abnormal volume detection
+              li Increased social mention detection
+              li Best price exchange identification
+              li Best currency pair identification
+              li Source code release detection
+              li Launch premium subscription for trading signals
+              li Accept community contributed trading signals
+      .card
+        h3.card-title.white 2019Q2
+        #roadmap2019Q2.in.collapse
+          .card-block
+            ul
+              li VWAP (Volume Weighted Average Price)
+              li TWAP (Time Weighted Average Price)
+              li BWAP (Block Weighted Average Price)
+              li Sniper
+              li % of Volume
+              li Target Close
+              li Implementation Shortfall
+              li Launch premium subscription for trading algorithms
+              li Accept community contributed trading algorithms
+
+      .card
+        h3.card-title.white 2019Q3
+        #roadmap2019Q3.in.collapse
+          .card-block
+            ul
+              li Platform architecture for custom signals
+              li UI/UX for developing custom signals
+              li Drag and drop functionality to combine signals
+              li Custom alerting
