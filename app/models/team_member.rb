@@ -22,13 +22,6 @@ class TeamMember < ActiveHash::Base
       linkedin: 'https://www.linkedin.com/in/nate-tsang-3a493a153/'
     },
     { 
-      name: 'Laplie Anderson',
-      title: 'Lead Engineer',
-      bio: "Bachelor of Computer Science and Electrical Engineering from MIT. Experience at IBM and Lime Brokerage; served as lead developer / financial systems architect managing an engineering team that built low latency trading platforms at OpenBondX and Lime Brokerage. Expert in the design and architecture of trading systems.",
-      img: 'https://res.cloudinary.com/coinfi/image/upload/v1522671949/profile-photos/laplie-anderson.jpg',
-      linkedin: 'https://www.linkedin.com/in/laplie-anderson/'
-    },
-    { 
       name: 'Duc Tran',
       title: 'Research Analyst',
       bio: "Master's from Princeton University. Experienced research analyst who has deep consulting experience in the financial services industry investigating the impact of fiscal and government policy on market movements. Experienced with statistical methods using STATA, R, and Excel.",
