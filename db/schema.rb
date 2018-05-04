@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180425064909) do
+ActiveRecord::Schema.define(version: 20180430043527) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -216,6 +216,7 @@ ActiveRecord::Schema.define(version: 20180425064909) do
     t.datetime "updated_at", null: false
     t.string "feed_type"
     t.boolean "is_subscribed", default: false
+    t.datetime "last_received_data_at"
     t.index ["feed_url"], name: "index_feed_sources_on_feed_url", unique: true
     t.index ["name"], name: "index_feed_sources_on_name", unique: true
   end
