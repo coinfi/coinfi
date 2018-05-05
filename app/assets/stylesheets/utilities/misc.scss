@@ -14,6 +14,9 @@
   filter: blur(1px);
   -webkit-filter: blur(1px);
 }
+.no-wrap {
+  white-space: nowrap;
+}
 // Adjustments
 .a1 {
   transform: scale(1.2) translateY(-0.2em);
