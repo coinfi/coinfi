@@ -16,6 +16,7 @@
     "COUNTER_FACEBOOK": { "required": true },
     "COUNTER_REDDIT": { "required": true },
     "COUNTER_TELEGRAM": { "required": true },
+    "HEAP_APP_ID": { "required": true },
     "LANG": { "required": true },
     "MAILGUN_SMTP_PORT": { "required": true },
     "RACK_ENV": { "required": true },
