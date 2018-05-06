@@ -35,8 +35,3 @@ FeedSource.find_or_create_by(feed_type: 'general', name: 'The Daily Hodl', feed_
 FeedSource.find_or_create_by(feed_type: 'general', name: 'Trustnodes', feed_url: 'https://www.trustnodes.com/feed', site_url: 'https://www.trustnodes.com/')
 FeedSource.find_or_create_by(feed_type: 'general', name: 'UseTheBitcoin', feed_url: 'https://usethebitcoin.com/feed/', site_url: 'https://usethebitcoin.com/')
 
-#FeedSource.create(feed_type: 'general', name: 'CoinIdol', feed_url: 'https://coinidol.com/rssshort/', site_url: 'https://coinidol.com/') # Removed due to lack of summary and author fields
-#FeedSource.create(feed_type: 'general', name: 'Quartz', feed_url: 'https://qz.com/feed/', site_url: 'https://qz.com/')
-
-admin_emails = ["gduquesnay@gmail.com", "contactdanny19@gmail.com", "han+heap@hanchang.co"]
-User.where(email: admin_emails).update_all(role: 'admin')
