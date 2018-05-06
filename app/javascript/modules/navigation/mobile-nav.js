@@ -14,11 +14,13 @@ export const toggleOverlay = element => {
   return e
 }
 
-$('.mobile-nav-toggle').on('click', () => toggleOverlay($('#mobile-nav')))
+$(document).ready(() => {
+  $('.mobile-nav-toggle').on('click', () => toggleOverlay($('#mobile-nav')))
 
-$('.search-toggle').on('click', () => {
-  toggleOverlay($('#global-coin-search'))
-    .find('input[type="text"]')
-    .first()
-    .focus()
+  $('.search-toggle').on('click', () => {
+    toggleOverlay($('#global-coin-search'))
+      .find('input[type="text"]')
+      .first()
+      .focus()
+  })
 })
