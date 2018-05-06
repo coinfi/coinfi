@@ -1,6 +1,8 @@
 {
   "name": "coinfi-rails",
-  "scripts": {},
+  "scripts": {
+    "postdeploy": "pg_dump $STAGING_DATABASE_URL | psql $DATABASE_URL && bundle exec rake db:migrate"
+  },
   "env": {
     "ADMINISTRATE_PASSWORD": { "required": true },
     "AWS_ACCESS_KEY_ID": { "required": true },
@@ -26,6 +28,7 @@
     "ROOT_DOMAIN": { "required": true },
     "S3_BUCKET": { "required": true },
     "SECRET_KEY_BASE": { "required": true },
+    "STAGING_DATABASE_URL": { "required": true },
     "SUPERFEEDR_CALLBACK_URL_SEGMENT_SECRET": { "required": true },
     "SUPERFEEDR_SECRET": { "required": true },
     "SUPERFEEDR_TOKEN": { "required": true },
@@ -39,6 +42,7 @@
   },
   "formation": {},
   "addons": [
+    "heroku-postgresql:hobby-basic",
     "papertrail",
     "rollbar"
   ],
