@@ -49,4 +49,4 @@
               - if current_user
                 td.tr.reveal-m
                   = react_component "WatchButton", props: { coinID: coin.id, watching: user_is_watching?(coin) }
-      .tc= paginate @coins
+      .tc= paginate @coins, window: 6
