@@ -1,6 +1,8 @@
 class CoinsController < ApplicationController
+  COINS_PER_PAGE = 100
+
   def index
-    @coins = Coin.order(:ranking).page(params[:page])
+    @coins = Coin.order(:ranking).page(params[:page]).per(COINS_PER_PAGE)
 
     set_meta_tags(
       title: "Top Cryptocurrency Prices Live, Cryptocurrency Market Cap, Best Cryptocurrency Charts",
