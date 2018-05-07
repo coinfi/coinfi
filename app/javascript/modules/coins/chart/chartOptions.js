@@ -59,9 +59,9 @@ export default ({ news, prices, volume, sevenDayAvgVol }) => {
       flags: {
         cursor: 'pointer',
         point: {
-          events:{
-            click: function(){
-              window.open(this.url,'_blank');
+          events: {
+            click: function() {
+              window.open(this.url, '_blank');
             }
           }
         },
