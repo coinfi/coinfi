@@ -1,20 +1,24 @@
 .pagination {
-  list-style: none;
   padding: $sp4 0;
-  margin: -$sp2 0 0 0;
-  li {
-    margin: 0 $sp1;
-    display: inline-block;
-    margin-top: $sp2;
-    a {
-      @extend .btn;
-      @extend .btn-sm;
-      @extend .btn-white;
-      padding: 0.75rem 1rem;
-    }
-    &.active {
+  text-align: center;
+  ul {
+    list-style: none;
+    margin: -$sp2 0 0 0;
+    padding: 0;
+    li {
+      margin: 0 $sp1;
+      display: inline-block;
+      margin-top: $sp2;
       a {
-        @extend .btn-blue;
+        @extend .btn;
+        @extend .btn-sm;
+        @extend .btn-white;
+        padding: 0.75rem 1rem;
+      }
+      &.active {
+        a {
+          @extend .btn-blue;
+        }
       }
     }
   }
