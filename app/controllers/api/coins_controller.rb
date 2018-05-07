@@ -20,7 +20,8 @@ class Api::CoinsController < ApiController
       {
         x: item.published_epoch,
         title: i,
-        text: item.title
+        text: item.title,
+        url: item.url
       }
     }
     respond_success news: @news

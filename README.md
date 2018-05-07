@@ -44,19 +44,29 @@ Prototype: Initial trading signals: [Commit `45150ca` on Nov 9, 2017](https://gi
 
 **2018Q2: Personalization**
 
-* Accept staked tokens for advanced functionality
-* Custom cryptocurrency portfolio dashboard
-* Custom newsfeed / watchlist
-* Custom email subscriptions for specific cryptocurrency newsfeeds
-* Allow users to follow others’ portfolios
+* Custom Newsfeed with news type classification
+* Improved news and content aggregation overlaid on price charts per cryptocurrency
+* Improved custom watchlist
+* Coin Screeners
+* Advanced ICO Metrics (token retention rate, token distribution graph)
+* Improved data pipeline
+* Market data warehouse
+* In-house crypto research & analysis
 
 **2018Q3: Economy**
 
-* Launch premium subscription for content
-* Sentiment analysis of real-time news data per cryptocurrency
-* Accept community content contributions
+* Custom cryptocurrency portfolio dashboard
+* Allow users to follow others’ portfolios
+* Accept staked tokens for advanced functionality
+* Token-incentivized crowdsourcing
+* Social functionality including upvote/downvote and sharing
 
 **2018Q4: Trading Signals**
+
+* Initial beta versions of trading signals
+* Prototype of machine learning algorithms for content classification, quality assurance, and fraud detection
+
+**2019Q1**
 
 * Abnormal volatility detection
 * Abnormal price movement detection
@@ -68,7 +78,7 @@ Prototype: Initial trading signals: [Commit `45150ca` on Nov 9, 2017](https://gi
 * Launch premium subscription for trading signals
 * Accept community contributed trading signals
 
-**2019Q1: Trading Algorithms**
+**2019Q2: Trading Algorithms**
 
 * VWAP (Volume Weighted Average Price)
 * TWAP (Time Weighted Average Price)
@@ -81,6 +91,11 @@ Prototype: Initial trading signals: [Commit `45150ca` on Nov 9, 2017](https://gi
 * Accept community contributed trading algorithms
 
 **2019Q3: Auction Framework**
+
+* Platform architecture for custom signals
+* UI/UX for developing custom signals
+* Drag and drop functionality to combine signals
+* Custom alerting
 
 **2019Q4: Combining / Customizing Signals**
 

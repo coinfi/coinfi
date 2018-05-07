@@ -12,6 +12,7 @@ class Coin < ApplicationRecord
   has_many :excluded_countries, through: :coin_excluded_countries, source: :country
   has_many :coin_industries_coins
   has_many :coin_industries, through: :coin_industries_coins
+  has_many :feed_sources
 
   validates :name, uniqueness: true, presence: true
 

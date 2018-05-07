@@ -6,6 +6,7 @@ class FeedSource < ApplicationRecord
   extend FriendlyId
   friendly_id :name, use: [:slugged, :finders]
 
+  belongs_to :coin, optional: true
   has_many :news_items
 
   def retrieve(before: nil)
@@ -82,6 +83,10 @@ class FeedSource < ApplicationRecord
   end
 
   def self.create_from_coins_twitter!(coin)
+    #FIXME This isn't a reliable way to parse the twitter_user because some of them
+    #have twitter urls like "https://twitter.com/cardanostiftung?lang=en"
+    #not going to fix it now because not sure if we'll ever use this again
+    
     twitter_user = coin.twitter.split("/").last
     FeedSource.create( 
       name: coin.name + " Twitter",
