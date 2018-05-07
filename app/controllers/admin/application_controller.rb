@@ -9,7 +9,7 @@ module Admin
     before_action :require_admin
 
     def require_admin
-      redirect_to "/", alert: "Not authorized." unless current_user.admin?
+      redirect_to "/", alert: "Not authorized." unless current_user.try(:admin?)
     end
   end
 end
