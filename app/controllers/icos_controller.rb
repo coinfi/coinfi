@@ -1,10 +1,13 @@
 class IcosController < ApplicationController
 
+  ICOS_PER_PAGE = 100
+
   def index
     @status = params[:status]
-    redirect_to "/icos/upcoming" and return unless Coin::ICO_STATUSES.include?(@status)
-    @coins = Coin.icos.where(ico_status: @status).page(params[:page])
+    redirect_to "/icos/upcoming" && return unless Coin::ICO_STATUSES.include?(@status)
+    @coins = Coin.icos.where(ico_status: @status)
     apply_filters
+    @coins = @coins.page(params[:page]).per(ICOS_PER_PAGE)
     set_meta_tags(
       keywords: "ico list, ico rating, ico alert, ico review, initial coin offering, initial coin offering list, ico initial coin offering"
     )
