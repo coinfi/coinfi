@@ -88,7 +88,7 @@ table.responsive-table.right-align
           label ICO Price
           div
             - if coin.ico_token_price_usd
-              => number_to_currency(coin.ico_token_price_usd, precision: 4)
+              => number_to_currency(coin.ico_token_price_usd, precision: 2)
               small USD
             - else
               | ?
