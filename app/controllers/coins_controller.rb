@@ -23,11 +23,12 @@ class CoinsController < ApplicationController
   def show
     @coin = Coin.find(params[:id])
     @data = @coin.market_info
+    @coin_price = @data["price_usd"] # TODO: Consolidate price and volume from data warehouse and remove from coins table.
     @latest_news = @coin.articles.latest_news
     @upcoming_events = @coin.articles.upcoming_events
 
     if @coin.ico_status == "listed"
-      title = "#{@coin.symbol} ($#{@coin.price["usd"]}) - #{@coin.name} Price Chart, Value, News, Market Cap"
+      title = "#{@coin.symbol} ($#{@coin_price}) - #{@coin.name} Price Chart, Value, News, Market Cap"
       keywords = "#{@coin.name} price, #{@coin.name} chart, #{@coin.name} news, #{@coin.name} market cap, #{@coin.name} reddit, #{@coin.name} price prediction"
     else
       title = "#{@coin.name} ICO Review, #{@coin.name} Reviews, #{@coin.name} Coin"
