@@ -6,6 +6,6 @@ export const searchCoinsSuccess = namespace => response => {
   return { type: 'SEARCH_COINS_SUCCESS', response, namespace }
 }
 
-export const clearSearch = namespace => {
+export const clearSearch = namespace => () => {
   return { type: 'CLEAR_SEARCH', namespace }
 }

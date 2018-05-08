@@ -56,6 +56,7 @@ Rails.application.routes.draw do
   end
 
   root to: 'pages#show'
+  get '/dashboard', to: redirect('/watchlist')
   get '/:id', to: 'pages#show'
 
   mount Blazer::Engine, at: "blazer"
