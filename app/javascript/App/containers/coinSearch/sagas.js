@@ -10,7 +10,7 @@ function* searchCoins({ searchText, searchOpts, namespace }) {
   if (searchText.length < 2) return
   yield sagas.get(
     '/coins.json',
-    Object.assign({ q: { name_cont: searchText } }, searchOpts),
+    Object.assign({ q: { search: searchText } }, searchOpts),
     actions.searchCoinsSuccess(namespace)
   )
 }
