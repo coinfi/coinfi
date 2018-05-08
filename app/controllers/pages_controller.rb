@@ -27,7 +27,7 @@ class PagesController < ApplicationController
   end
 
   def member_pages
-    ['dashboard', 'watchlist']
+    ['watchlist']
   end
 
 end
