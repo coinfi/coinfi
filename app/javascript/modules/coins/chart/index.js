@@ -6,9 +6,11 @@ import chartOptions from './chartOptions'
 window.Highcharts = Highcharts
 
 if (window.location.href.indexOf('/coins/') > -1) {
-  fetchData().then(data => {
-    window.Highcharts.setOptions(options)
-    window.Highcharts.stockChart('chart', chartOptions(data))
-    fixOverlap()
+  document.addEventListener('DOMContentLoaded', () => {
+    fetchData().then(data => {
+      window.Highcharts.setOptions(options)
+      window.Highcharts.stockChart('chart', chartOptions(data))
+      fixOverlap()
+    })
   })
 }
