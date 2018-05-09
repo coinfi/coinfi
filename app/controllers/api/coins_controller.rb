@@ -1,12 +1,11 @@
 class Api::CoinsController < ApiController
 
   def index
+    query = { name_or_symbol_cont: params[:q][:search] }
     if params[:exclude_watched]
-      @q = Coin.where.not(id: current_user.watchlist.coin_ids).ransack(params[:q])
-    else
-      @q = Coin.ransack(params[:q])
+      query[:id_not_in] = current_user.watchlist.coin_ids
     end
-    @coins = @q.result(distinct: true).limit(params[:limit] || 10)
+    @coins = Coin.ransack(query).result(distinct: true).limit(params[:limit] || 10)
     respond_success serialized(@coins)
   end
 

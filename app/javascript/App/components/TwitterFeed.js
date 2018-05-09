@@ -24,7 +24,7 @@ class TwitterFeed extends Component {
   }
   render() {
     return (
-      <div>
+      <div id="twitter-feed">
         {this.state.tweets.map(tweet => (
           <Tweet key={tweet.id} data={tweet} linkProps={{ target: '_blank' }} />
         ))}

@@ -35,3 +35,48 @@ FeedSource.find_or_create_by(feed_type: 'general', name: 'The Daily Hodl', feed_
 FeedSource.find_or_create_by(feed_type: 'general', name: 'Trustnodes', feed_url: 'https://www.trustnodes.com/feed', site_url: 'https://www.trustnodes.com/')
 FeedSource.find_or_create_by(feed_type: 'general', name: 'UseTheBitcoin', feed_url: 'https://usethebitcoin.com/feed/', site_url: 'https://usethebitcoin.com/')
 
+#FeedSource.create(feed_type: 'general', name: 'CoinIdol', feed_url: 'https://coinidol.com/rssshort/', site_url: 'https://coinidol.com/') # Removed due to lack of summary and author fields
+#FeedSource.create(feed_type: 'general', name: 'Quartz', feed_url: 'https://qz.com/feed/', site_url: 'https://qz.com/')
+
+industries_names = [
+  'Advertising & Marketing',
+  'Artificial Intelligence',
+  'Banking',
+  'Blockchain',
+  'Blockchain tools',
+  'Cloud Storage',
+  'Crowdfunding',
+  'CryptoFund',
+  'Currency',
+  'Data',
+  'Energy',
+  'Exchange',
+  'Finance',
+  'Gambling',
+  'Gaming',
+  'Healthcare',
+  'Insurance',
+  'Identity',
+  'IOT',
+  'Logistics',
+  'Marketplace',
+  'Media',
+  'Mining',
+  'Mobile',
+  'Network',
+  'Payments',
+  'Protocol',
+  'Real Assets',
+  'Real Business',
+  'Real Estate',
+  'Security',
+  'Social',
+  'Ticketing',
+  'Trading',
+  'Virtual Reality',
+  'Voting'
+]
+
+industries_names.each do |name|
+  CoinIndustry.create!(name: name)
+end

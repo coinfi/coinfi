@@ -1,15 +1,7 @@
 .bg-white.mb2
   .pa3.tr
     - if current_user
-      .watchlist-button data-coin-id=@coin.id data-watching=user_is_watching?(@coin)
+      = react_component "WatchButton", props: { coinID: @coin.id, watching: user_is_watching?(@coin) }
   .pa4.pt0
-    .flex.justify-center.items-center.mb3
-      - if @coin.image_url.present?
-        img.w3e.h3e.mr3.a1 src=@coin.image_url alt=@coin.name width=32 height=32
-      h1.ma0.lh-solid
-        span.fw4= @coin.name
-        span#symbol.f6.fw9.sans-alt<= @coin.symbol
-    - if @coin.is_ico?
-      = render partial: 'subheader_ico'
-    - else
-      = render partial: 'subheader_listed'
+    = render partial: 'title'
+    = render partial: 'subheader'

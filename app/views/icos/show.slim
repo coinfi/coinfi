@@ -1,0 +1,12 @@
+.container.pv2
+  .row.narrow-gutter.flex
+    .col-xs-12.col-md-4.flex.flex-column
+      = render partial: 'icos/header'
+      = render partial: 'icos/stats'
+      = render partial: 'coins/last_updated'
+      = render partial: 'coins/links'
+    .col-xs-12.col-md-8.flex
+      .bg-white.w-100
+        = render partial: 'icos/reviews'
+        = render partial: 'icos/charts'
+        = render partial: 'coins/relevant_content'

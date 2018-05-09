@@ -13,7 +13,7 @@ export default class ArticleList extends Component {
     const { tab } = this.state
     return (
       <div>
-        <div className="flex justify-between items-end flex-wrap mb4">
+        <div className="flex justify-between items-end flex-wrap mb4 ph3 ph0-l">
           <div className="tabs flex-auto justify-center justify-start-l">
             <button className="tab tab-active" onClick={this.tabClick('news')}>
               Trending News

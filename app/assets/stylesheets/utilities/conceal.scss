@@ -12,37 +12,37 @@
   @include conceal();
 }
 
-@media (max-width: $screen-s) {
-  .reveal-s {
+@media #{$screen-max-ns} {
+  .reveal-ns {
     @include conceal();
   }
 }
 
-@media (min-width: $screen-s) {
-  .conceal-s {
+@media #{$screen-min-ns} {
+  .conceal-ns {
     @include conceal();
   }
 }
 
-@media (max-width: $screen-m) {
+@media #{$screen-max-m} {
   .reveal-m {
     @include conceal();
   }
 }
 
-@media (min-width: $screen-m) {
+@media #{$screen-min-m} {
   .conceal-m {
     @include conceal();
   }
 }
 
-@media (max-width: $screen-l) {
+@media #{$screen-max-l} {
   .reveal-l {
     @include conceal();
   }
 }
 
-@media (min-width: $screen-l) {
+@media #{$screen-min-l} {
   .conceal-l {
     @include conceal();
   }
