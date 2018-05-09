@@ -12,7 +12,7 @@
     <%= csrf_meta_tags %>
   </head>
 
-  <body class="<%= yield(:body_class)%>">
+  <body>
     <%= render partial: "components/site_header" %>
     <%= render partial: "components/site_subheader" unless @hide_subheader %>
     <main>

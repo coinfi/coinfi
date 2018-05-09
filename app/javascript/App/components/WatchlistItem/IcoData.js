@@ -2,8 +2,7 @@ import React from 'react'
 import dateFormat from 'dateformat'
 
 export default ({ coin }) => {
-  const { max_supply, symbol, ico_token_price_usd} = coin
-  let ico_or_listed = "ico"
+  const { max_supply, symbol, ico_token_price_usd } = coin
   let { ico_start_date: start, ico_end_date: end } = coin
   if (start) start = new Date(start * 1000)
   if (end) end = new Date(end * 1000)
