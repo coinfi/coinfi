@@ -114,6 +114,8 @@ GEM
     buftok (0.2.0)
     builder (3.2.3)
     byebug (9.0.6)
+    canonical-rails (0.2.3)
+      rails (>= 4.1, < 5.3)
     capybara (2.13.0)
       addressable
       mime-types (>= 1.16)
@@ -290,6 +292,7 @@ GEM
     rack-cors (1.0.2)
     rack-proxy (0.6.4)
       rack
+    rack-rewrite (1.5.1)
     rack-test (0.6.3)
       rack (>= 1.0)
     rails (5.1.3)
@@ -445,6 +448,7 @@ DEPENDENCIES
   aws-sdk (~> 2)
   blazer
   byebug
+  canonical-rails
   capybara (~> 2.13)
   coffee-rails (~> 4.2)
   convertkit-ruby!
@@ -470,6 +474,7 @@ DEPENDENCIES
   puma (~> 3.7)
   rack-affiliates
   rack-cors
+  rack-rewrite
   rails (~> 5.1.3)
   rails_12factor
   ransack
