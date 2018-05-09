@@ -39,6 +39,10 @@ module CoinfiRails
       end
     end
 
+    config.middleware.insert(0, Rack::Rewrite) do
+      r301 %r{(.+)/$}, '$1'
+    end
+
     # Give the asset pipeline access to npm packages
     config.assets.paths << Rails.root.join('node_modules')
 

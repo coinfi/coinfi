@@ -1,0 +1,10 @@
+@mixin box-style-1() {
+  background: $white;
+  border: 1px solid $geyser;
+  border-radius: 2px;
+  -webkit-border-radius: 2px;
+  @include shadow-s2();
+}
+.box-style-1 {
+  @include box-style-1;
+}

@@ -1,4 +1,4 @@
-.nav-horizontal {
+.nav-x {
   ul {
     list-style: none;
     margin: 0;
@@ -12,7 +12,7 @@
       }
     }
   }
-  &.nav-sm {
+  &.small {
     li {
       > * {
         @extend .btn-sm;
@@ -20,29 +20,35 @@
       }
     }
   }
-  &.nav-spacious {
+  &.cozy {
     ul {
-      @extend .mhn3;
+      margin-left: -1.5rem;
+      margin-right: -1.5rem;
       li {
-        padding-left: $sp3;
-        padding-right: $sp3;
+        a {
+          padding-left: 1.5rem;
+          padding-right: 1.5rem;
+        }
       }
     }
   }
-  &.nav-dark {
+  &.dark {
     ul {
       li {
         > * {
           background: transparent;
           color: $white-80;
           @extend .hover-white;
+          &.active {
+            color: $aqua;
+          }
         }
       }
     }
   }
 }
-@media (max-width: $screen-s) {
-  .nav-horizontal {
+@media (max-width: $screen-ns) {
+  .nav-x {
     ul {
       display: flex;
       flex-wrap: wrap;

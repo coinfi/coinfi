@@ -1,0 +1,26 @@
+.flex-stack {
+  @extend .flex;
+  @extend .flex-wrap;
+  @extend .nh2;
+  @extend .pt2;
+  > * {
+    @extend .pa2;
+    @extend .nt2;
+  }
+  &.cozy {
+    @extend .nh3;
+    @extend .pt3;
+    > * {
+      @extend .pa3;
+      @extend .nt3;
+    }
+  }
+  &.flush {
+    @extend .mh0;
+    @extend .pt0;
+    > * {
+      @extend .pa0;
+      @extend .mt0;
+    }
+  }
+}

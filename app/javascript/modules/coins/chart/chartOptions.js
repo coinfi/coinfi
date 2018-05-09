@@ -55,7 +55,18 @@ export default ({ news, prices, volume, sevenDayAvgVol }) => {
       hideDelay: 1000,
       shared: true
     },
-
+    plotOptions: {
+      flags: {
+        cursor: 'pointer',
+        point: {
+          events: {
+            click: function() {
+              window.open(this.url, '_blank');
+            }
+          }
+        },
+      }
+    },
     series: [
       {
         id: 'price',

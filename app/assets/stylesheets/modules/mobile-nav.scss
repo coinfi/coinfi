@@ -44,10 +44,10 @@
       }
     }
   }
-  &:not(.visible) {
+  &:not(.active) {
     display: none;
   }
-  &.active {
+  &.visible {
     opacity: 1;
     > * {
       transform: scale(1);

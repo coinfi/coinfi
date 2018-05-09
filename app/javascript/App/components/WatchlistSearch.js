@@ -1,13 +1,12 @@
 import React, { Component } from 'react'
 import WatchButton from './WatchButton'
 import Input from './Input'
-import CoinSearchContainer from '../containers/CoinSearchContainer'
+import coinSearch from '../containers/coinSearch'
 
-class CoinSearch extends Component {
-  handleSearchInput = ({ target: { value } }) => {
-    let { searchOpts } = this.props
-    searchOpts = searchOpts || {}
-    this.props.searchCoins(value, searchOpts)
+class WatchlistSearch extends Component {
+  handleSearchInput = value => {
+    let { searchOpts, searchCoins } = this.props
+    searchCoins(value, searchOpts)
   }
   render() {
     const { searchedCoins, addCoinSuccess, searchText } = this.props
@@ -16,7 +15,7 @@ class CoinSearch extends Component {
         <Input
           value={searchText}
           onChange={this.handleSearchInput}
-          className="input-alt"
+          className="style2"
           placeholder="Search"
         />
         {searchedCoins.size > 0 && (
@@ -50,4 +49,4 @@ class CoinSearch extends Component {
   }
 }
 
-export default CoinSearchContainer(CoinSearch)
+export default coinSearch(WatchlistSearch)('watchlist')

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180430043527) do
+ActiveRecord::Schema.define(version: 20180504051223) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -121,6 +121,20 @@ ActiveRecord::Schema.define(version: 20180430043527) do
     t.index ["country_id"], name: "index_coin_excluded_countries_on_country_id"
   end
 
+  create_table "coin_industries", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["name"], name: "index_coin_industries_on_name", unique: true
+  end
+
+  create_table "coin_industries_coins", id: false, force: :cascade do |t|
+    t.bigint "coin_id", null: false
+    t.bigint "coin_industry_id", null: false
+    t.index ["coin_id"], name: "index_coin_industries_coins_on_coin_id"
+    t.index ["coin_industry_id"], name: "index_coin_industries_coins_on_coin_industry_id"
+  end
+
   create_table "coins", force: :cascade do |t|
     t.string "name", null: false
     t.string "symbol"
@@ -178,7 +192,9 @@ ActiveRecord::Schema.define(version: 20180430043527) do
     t.string "token_type"
     t.jsonb "exchanges", array: true
     t.string "previous_name"
+    t.integer "influencer_reviews_count"
     t.index ["category"], name: "index_coins_on_category"
+    t.index ["influencer_reviews_count"], name: "index_coins_on_influencer_reviews_count"
     t.index ["market_cap"], name: "index_coins_on_market_cap", using: :gin
     t.index ["name"], name: "index_coins_on_name", unique: true
     t.index ["price"], name: "index_coins_on_price", using: :gin
@@ -217,6 +233,8 @@ ActiveRecord::Schema.define(version: 20180430043527) do
     t.string "feed_type"
     t.boolean "is_subscribed", default: false
     t.datetime "last_received_data_at"
+    t.bigint "coin_id"
+    t.index ["coin_id"], name: "index_feed_sources_on_coin_id"
     t.index ["feed_url"], name: "index_feed_sources_on_feed_url", unique: true
     t.index ["name"], name: "index_feed_sources_on_name", unique: true
   end
@@ -331,6 +349,7 @@ ActiveRecord::Schema.define(version: 20180430043527) do
     t.string "uid"
     t.jsonb "token_sale"
     t.string "username"
+    t.string "role"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["provider"], name: "index_users_on_provider"
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
@@ -388,6 +407,7 @@ ActiveRecord::Schema.define(version: 20180430043527) do
   add_foreign_key "coin_excluded_countries", "countries", on_delete: :cascade
   add_foreign_key "contributor_submissions", "submission_categories"
   add_foreign_key "contributor_submissions", "users", on_delete: :cascade
+  add_foreign_key "feed_sources", "coins"
   add_foreign_key "influencer_reviews", "coins", on_delete: :cascade
   add_foreign_key "influencer_reviews", "influencers", on_delete: :cascade
 end

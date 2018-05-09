@@ -1,18 +1,20 @@
 /*
- * Folder structure:
+ * - Root: variables, import libraries (eg. Tachyons)
+ * - Utilities: Stuff that Tachyons doesn't provide
  * - Base: global/base styling
- * - Components: reusable elements
+ * - Components: elements such as tables or inputs
  * - Modules: unique elements (use ID selector here)
- * - Utilities: useful classes
  * 
- * Useful Tachyons links:
+ * Tachyons:
+ * - https://github.com/dwyl/learn-tachyons
  * - http://tachyons.io/docs/layout/widths/
  * - http://tachyons.io/docs/themes/borders/
  * - http://tachyons.io/docs/typography/scale/
  */
 
-@import 'base/variables';
-@import 'base/tachyons_config';
+@import 'variables';
+@import 'tachyons';
+@import 'rc-slider/assets/index';
 
 @import 'utilities/conceal';
 @import 'utilities/brand-colors';
@@ -20,17 +22,20 @@
 @import 'utilities/size';
 @import 'utilities/negative-margin';
 @import 'utilities/shadows';
+@import 'utilities/box-style';
 @import 'utilities/bg-img';
 @import 'utilities/bg-gradient';
 @import 'utilities/position';
 @import 'utilities/misc';
 @import 'utilities/responsive-colors';
 @import 'utilities/aliases';
+@import 'utilities/flex-stack';
+@import 'utilities/fa-svg-with-js';
 
-@import 'base/tachyons';
 @import 'base/general';
 @import 'base/typography';
 
+@import 'components/switch';
 @import 'components/container';
 @import 'components/buttons';
 @import 'components/forms';
@@ -47,9 +52,9 @@
 @import 'components/stat-block';
 @import 'components/loading-indicator';
 @import 'components/corner-ribbon';
+@import 'components/option-input';
 
 @import 'modules/mobile-nav';
 @import 'modules/site-subheader';
 @import 'modules/twitter';
-@import 'modules/coin-search';
-
+@import 'modules/global-coin-search';

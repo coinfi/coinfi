@@ -8,9 +8,10 @@ import Title from './Title'
 import Actions from './Actions'
 
 const WatchlistItem = props => {
-  const { coin, editing } = props
+  const { coin, currentUI } = props
   let ribbonClass = 'corner-ribbon corner-ribbon-'
   ribbonClass += coin.category === 'listed' ? 'green' : 'blue'  
+
   return (
     <div className="bright-gray db bg-white shadow-s1 ba b--athens-darker mh1 mb1 mb3-l mh0-m corner-ribbon-container">
       <div className={ribbonClass}><span>{coin.category}</span></div>
@@ -20,7 +21,7 @@ const WatchlistItem = props => {
             <Title {...props} />
           </div>
           <div className="col-xs-12 col-sm-5 col-md-12 col-lg-5 tr mt2 mt0-ns">
-            {editing ? (
+            {currentUI('editing') ? (
               <Actions {...props} />
             ) : (
               <div className="f4 fw9">
@@ -34,7 +35,7 @@ const WatchlistItem = props => {
           </div>
         </div>
       </div>
-      {!editing && (
+      {!currentUI('editing') && (
         <div className="bt b--athens-dark pa3 pt3">
           {coin.category === 'listed' ? (
             <ListedData {...props} />
