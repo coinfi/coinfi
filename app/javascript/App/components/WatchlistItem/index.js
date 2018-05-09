@@ -9,8 +9,12 @@ import Actions from './Actions'
 
 const WatchlistItem = props => {
   const { coin, currentUI } = props
+  let ribbonClass = 'corner-ribbon corner-ribbon-'
+  ribbonClass += coin.category === 'listed' ? 'green' : 'blue'  
+
   return (
-    <div className="bright-gray db bg-white shadow-s1 ba b--athens-darker mh1 mb1 mb3-l mh0-m">
+    <div className="bright-gray db bg-white shadow-s1 ba b--athens-darker mh1 mb1 mb3-l mh0-m corner-ribbon-container">
+      <div className={ribbonClass}><span>{coin.category}</span></div>
       <div className="pa3 noselect">
         <div className="row bottom-xs">
           <div className="col-xs-12 col-sm-7 col-md-12 col-lg-7">

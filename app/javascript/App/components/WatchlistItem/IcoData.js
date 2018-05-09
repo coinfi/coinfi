@@ -29,6 +29,7 @@ export default ({ coin }) => {
         ) : (
           '?'
         )}
+
       </div>
       <div className="stat-block col-xs-6 col-sm-3 col-md-12 col-lg-3 mt4">
         <label className="o-60">Start Date</label>
