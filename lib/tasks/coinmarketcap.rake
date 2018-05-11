@@ -5,32 +5,7 @@ namespace :coinmarketcap do
     # Direct ticker access
     desc "10min ticker price update"
     task :ticker_update => :environment do
-      Coin.where.not(slug: '').find_each do |coin|
-        puts coin.slug
-        ticker_url = "http://coinmarketcap.northpole.ro/ticker.json?identifier=#{coin.slug}&version=v8"
-        begin
-          response = HTTParty.get(ticker_url)
-          contents = JSON.parse(response.body)
-
-          next if contents["markets"].blank?
-
-          data = contents["markets"].first
-          coin.update(
-            ranking: data["position"],
-            market_cap: data["marketCap"],
-            price: data["price"],
-            volume24: data["volume24"],
-            available_supply: data["availableSupply"],
-            change24h: data["change24h"],
-            change1h: data["change1h"],
-            change7d: data["change7d"],
-            last_synced: data["timestamp"],
-            ico_status: 'listed'
-          )
-        rescue => e
-          puts e.message
-        end
-      end
+      CoinMarketCapService.new.ticker_update
     end
 
     # Grab history but only keep most recent day.

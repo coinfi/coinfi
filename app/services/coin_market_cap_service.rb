@@ -6,14 +6,17 @@ class CoinMarketCapService
       identifier = coin["identifier"]
       update_coin(identifier, coin)
     end
-    pp @failed_updates
+    @failed_updates.sort!{|x, y| x[:ranking] <=> y[:ranking]}
+    @failed_updates.each do |update|
+      Rails.logger.info "MISSING COIN: Rank #{update[:ranking]} #{update[:identifier]} coin from CMC is missing from the `coins` table."
+    end
   end
 
   private
 
   def update_coin(identifier, data)
     coin = Coin.find_by(slug: identifier)
-    @failed_updates << identifier and return if coin.nil?
+    @failed_updates << {identifier: identifier, ranking: data["position"].to_i} and return if coin.nil?
     coin.update!(
       ranking: data["position"],
       market_cap: data["marketCap"],
