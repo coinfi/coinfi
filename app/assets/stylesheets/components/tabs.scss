@@ -15,7 +15,7 @@
     &:not(:last-child) {
       margin-right: $sp4;
     }
-    &.tab-active {
+    &.active {
       border-bottom-color: $tiber;
       cursor: default;
     }
@@ -33,6 +33,6 @@
     }
   }
 }
-.tab-content:not(.tab-active) {
+.tab-content:not(.active) {
   display: none;
 }
