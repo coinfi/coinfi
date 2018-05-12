@@ -2,6 +2,7 @@ class ApplicationController < ActionController::Base
   include Responses
   protect_from_forgery with: :exception
   before_action :set_hide_subheader, :set_locale
+  before_action :set_paper_trail_whodunnit
 
   def after_sign_in_path_for(resource)
     '/watchlist'

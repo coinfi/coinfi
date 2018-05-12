@@ -32,6 +32,9 @@ Rails.application.routes.draw do
     resources :influencers
     get 'reddit' => 'articles#reddit'
     root to: "coins#index"
+    namespace :paper_trail do
+      resources :versions
+    end
   end
 
   namespace :api, constraints: { format: 'json' } do
