@@ -80,6 +80,8 @@ group :development, :test do
   gem 'dotenv-rails'
   gem 'pry-byebug'
   gem 'pry-rails'
+  gem 'rubocop'
+  gem 'reek'
   gem 'selenium-webdriver'
 end
 
