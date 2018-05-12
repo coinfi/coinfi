@@ -5,7 +5,7 @@
   padding-right: $sp3;
   padding-left: $sp3;
 }
-@media #{$breakpoint-s} {
+@media #{$screen-min-ns} {
   .phr,
   .phr-ns {
     padding-right: $sp4;

@@ -20,6 +20,17 @@ table {
       }
     }
   }
+  &.responsive-table {
+    tbody {
+      tr {
+        td {
+          label {
+            display: none;
+          }
+        }
+      }
+    }
+  }
   &.stats {
     tbody {
       tr {
@@ -39,17 +50,6 @@ table {
         &:not(:last-child) {
           td {
             padding-bottom: $sp3;
-          }
-        }
-      }
-    }
-  }
-  &.responsive-table {
-    tbody {
-      tr {
-        td {
-          label {
-            display: none;
           }
         }
       }

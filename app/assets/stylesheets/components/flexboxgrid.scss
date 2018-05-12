@@ -312,7 +312,7 @@
   order: 1;
 }
 
-@media #{$breakpoint-s} {
+@media #{$screen-min-ns} {
   .col-sm,
   .col-sm-1,
   .col-sm-2,
@@ -564,7 +564,7 @@
   }
 }
 
-@media #{$breakpoint-m} {
+@media #{$screen-min-m} {
   .col-md,
   .col-md-1,
   .col-md-2,
@@ -816,7 +816,7 @@
   }
 }
 
-@media #{$breakpoint-l} {
+@media #{$screen-min-l} {
   .col-lg,
   .col-lg-1,
   .col-lg-2,

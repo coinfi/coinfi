@@ -2,6 +2,19 @@
   box-shadow: 0 0 15px rgba(0, 0, 0, 0.05);
   -webkit-box-shadow: 0 0 15px rgba(0, 0, 0, 0.05);
 }
+@mixin shadow-s2($r: 0, $g: 0, $b: 0) {
+  box-shadow: 1px 1px 5px rgba($r, $g, $b, 0.09);
+  -webkit-box-shadow: 1px 1px 5px rgba($r, $g, $b, 0.09);
+}
+@mixin shadow-s3($r: 0, $g: 0, $b: 0) {
+  box-shadow: 0 0 2px rgba($r, $g, $b, 0.4);
+  -webkit-box-shadow: 0 0 2px rgba($r, $g, $b, 0.4);
+}
+@mixin highlight() {
+  border: 1px solid $aqua;
+  @include shadow-s3(35, 173, 240);
+}
+
 .shadow-s1 {
   @include shadow-s1();
 }
