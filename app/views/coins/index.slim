@@ -1,12 +1,8 @@
 - currency = 'usd' # TODO: Allow user to select default currency.
 .container-wide
   .bg-white
-    .pt4.ph3.ph4-ns.pt5-m.ph5-m
-      .row
-        .col-xs-12.col-md-7
-          h1.ma0 Top Cryptocurrency Prices
-        .col-xs-12.col-md-5.tr-m.mt3.mt0-m
-          #coin-search.dib.max-w18e.w-100
+    .pt3.ph3.ph4-ns.pt4-ns.pt5-m.ph5-m
+      h1.ma0 Top Cryptocurrency Prices
     .ph4-s.ph5-m.pt4.pt5-m
       table
         thead
@@ -51,5 +47,6 @@
               td.tr.reveal-l
                 = display_percentage_change coin.change24h
               - if current_user
-                td.tr.watchlist-button.reveal-m data-coin-id=coin.id data-watching=user_is_watching?(coin)
-      .tc= paginate @coins
+                td.tr.reveal-m
+                  = react_component "WatchButton", props: { coinID: coin.id, watching: user_is_watching?(coin) }
+      = paginate @coins, window: 6

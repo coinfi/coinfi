@@ -24,13 +24,13 @@ $sizes_em: 1, 2, 3, 4, 5, 6, 10, 15, 18, 20, 25, 28, 50;
 }
 
 @include em-setup('');
-@media #{$breakpoint-s} {
+@media #{$screen-min-ns} {
   @include em-setup('-ns');
 }
-@media #{$breakpoint-m} {
+@media #{$screen-min-m} {
   @include em-setup('-m');
 }
-@media #{$breakpoint-l} {
+@media #{$screen-min-l} {
   @include em-setup('-l');
 }
 $sizes_vh: 50, 75;

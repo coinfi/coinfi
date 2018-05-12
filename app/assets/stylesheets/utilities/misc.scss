@@ -17,6 +17,17 @@
 .no-wrap {
   white-space: nowrap;
 }
+.w-15 {
+  width: 15%;
+}
+@media #{$screen-min-m} {
+  .w-15-m {
+    width: 15%;
+  }
+}
+.min-w5 {
+  min-width: $width-5;
+}
 // Adjustments
 .a1 {
   transform: scale(1.2) translateY(-0.2em);

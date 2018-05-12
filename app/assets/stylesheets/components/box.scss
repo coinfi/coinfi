@@ -1,19 +1,17 @@
 .box {
-  background: $white;
   display: block;
   padding: $sp4;
-  border: 1px solid $light-gray;
 }
-@media #{$breakpoint-s} {
+@media #{$screen-min-ns} {
   .box {
-    &.cosy {
+    &.cozy {
       padding: $sp4;
     }
   }
 }
-@media #{$breakpoint-m} {
+@media #{$screen-min-m} {
   .box {
-    &.cosy {
+    &.cozy {
       padding: $sp5;
     }
     @include shadow-s1();

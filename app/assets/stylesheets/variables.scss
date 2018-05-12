@@ -1,0 +1,56 @@
+// Brand colors
+
+$aqua: #23adf0;
+$emerald: #46da60;
+$sunset: #ff4954;
+$bright-gray: #37404d;
+$elephant: #123648;
+$tiber: #092534;
+$slate: #7a8991;
+$athens: #f7f8fa;
+$athens-dark: #f1f2f6;
+$athens-darker: #e5e8ed;
+$geyser: #cfd7db;
+
+// Typography
+
+$body-font: 'Avenir', sans-serif;
+$heading-font: 'Avenir', sans-serif;
+$sans-alt: Arial, sans-serif; // Sometimes nice to use for small elements like tags
+$base-font-color: $bright-gray;
+
+// Spacing
+
+$sp1: 0.25rem;
+$sp2: 0.5rem;
+$sp3: 1rem;
+$sp4: 2rem;
+$sp5: 4rem;
+$sp6: 8rem;
+$sp7: 16rem;
+
+// Font scale
+
+$f00: 4rem;
+$f0: 3.5rem;
+$f1: 3rem;
+$f2: 2.25rem;
+$f3: 1.75rem;
+$f4: 1.25rem;
+$f5: 1rem;
+$f6: 0.875rem;
+$f7: 0.7rem;
+
+// Breakpoints
+
+$screen-ns: 480px;
+$screen-m: 768px;
+$screen-l: 1184px;
+
+$screen-min-ns: 'screen and (min-width: #{$screen-ns})';
+$screen-min-m: 'screen and (min-width: #{$screen-m})';
+$screen-min-l: 'screen and (min-width: #{$screen-l})';
+
+$screen-max-ns: 'screen and (max-width: #{$screen-ns - 1px})';
+$screen-max-m: 'screen and (max-width: #{$screen-m - 1px})';
+$screen-max-l: 'screen and (max-width: #{$screen-l - 1px})';

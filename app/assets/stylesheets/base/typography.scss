@@ -7,8 +7,6 @@
  * Color: http://tachyons.io/docs/themes/skins/
  */
 
-@import url('https://use.fontawesome.com/releases/v5.0.0/css/all.css');
-
 body {
   font-family: $body-font;
   -webkit-font-smoothing: antialiased;
@@ -31,7 +29,7 @@ h6 {
 }
 
 a {
-  color: $picton;
+  color: $aqua;
   text-decoration: none;
   transition: all 0.2s;
 }
@@ -57,12 +55,12 @@ a {
 .f-hero {
   font-size: $f2;
 }
-@media #{$breakpoint-s} {
+@media #{$screen-min-ns} {
   .f-hero {
     font-size: $f1;
   }
 }
-@media #{$breakpoint-m} {
+@media #{$screen-min-m} {
   .f-hero {
     font-size: $f0;
   }
@@ -70,7 +68,7 @@ a {
     font-size: $f2;
   }
 }
-@media #{$breakpoint-l} {
+@media #{$screen-min-l} {
   .f-hero {
     font-size: $f00;
   }

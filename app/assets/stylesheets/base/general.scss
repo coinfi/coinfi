@@ -10,6 +10,8 @@ body {
   @extend .min-vh-100;
   @extend .flex;
   @extend .flex-column;
+  min-width: 360px;
+  overflow-x: hidden;
   > main {
     @extend .flex-auto;
     @extend .flex;

@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import API from '../lib/localAPI'
+import API from '../utils/localAPI'
 
 export default class WatchButton extends Component {
   state = { coin: null, watching: false }
@@ -31,12 +31,12 @@ export default class WatchButton extends Component {
       <button onClick={this.handleClick} className="btn btn-xs btn-gray">
         {watching ? (
           <span>
-            <i className="fas fa-eye mr1" />
+            <i className="fal fa-eye mr1" />
             Watching
           </span>
         ) : (
           <span>
-            <i className="fas fa-plus mr1" />
+            <i className="fal fa-plus mr1" />
             Watch
           </span>
         )}

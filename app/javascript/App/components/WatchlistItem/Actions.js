@@ -9,11 +9,11 @@ export default SortableHandle(props => {
         className="btn btn-xs btn-white mr2 no-wrap"
         onClick={() => removeCoin(coin.id)}
       >
-        <i className="fas fa-trash mr2" />
+        <i className="fal fa-trash mr2" />
         Remove
       </button>
       <div className="btn btn-xs btn-white cursor-move no-wrap">
-        <i className="fas fa-arrows-alt mr2" />
+        <i className="fal fa-arrows-alt mr2" />
         Reposition
       </div>
     </div>

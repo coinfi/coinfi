@@ -3,10 +3,9 @@ import { arrayMove, SortableContainer } from 'react-sortable-hoc'
 import WatchlistItem from './WatchlistItem'
 
 const SortableWatchlist = SortableContainer(props => {
-  const { entities, UI, coinIDs } = props
+  const { entities, currentUI, coinIDs } = props
   const { coins } = entities.toObject()
-  const { loading, editing } = UI.toObject()
-  if (!loading && (!coins || coins.size === 0))
+  if (!currentUI('loading') && (!coins || coins.size === 0))
     return <div className="o-60 pv3 tc">Nothing added yet</div>
   return (
     <div>
@@ -17,8 +16,7 @@ const SortableWatchlist = SortableContainer(props => {
               ...props,
               index,
               key: id,
-              coin: coins.get(`${id}`).toJS(),
-              editing
+              coin: coins.get(`${id}`).toJS()
             }}
           />
         ))}
