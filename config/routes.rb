@@ -33,7 +33,7 @@ Rails.application.routes.draw do
     get 'reddit' => 'articles#reddit'
     root to: "coins#index"
     namespace :paper_trail do
-      resources :versions
+      resources :versions, only: %i(index show)
     end
   end
 

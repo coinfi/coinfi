@@ -15,6 +15,7 @@ module PaperTrail
       whodunnit: Field::String,
       object: Field::Text,
       created_at: Field::DateTime,
+      changeset: Field::JSON
     }.freeze
 
     # COLLECTION_ATTRIBUTES
@@ -36,7 +37,7 @@ module PaperTrail
       :id,
       :event,
       :whodunnit,
-      :object,
+      :changeset,
       :created_at,
     ].freeze
 
