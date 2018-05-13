@@ -1,5 +1,5 @@
 import Datafeed from './Datafeed'
-const containerID = 'trading-view'
+const containerID = 'tradingview'
 const { TradingView } = window
 
 document.addEventListener('DOMContentLoaded', () => {

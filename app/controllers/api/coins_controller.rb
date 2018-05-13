@@ -23,7 +23,7 @@ class Api::CoinsController < ApiController
         url: item.url
       }
     }
-    respond_success news: @news
+    respond_success @news
   end
 
   private

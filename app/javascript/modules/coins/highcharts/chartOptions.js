@@ -1,4 +1,7 @@
-export default ({ news, prices, volume, sevenDayAvgVol }) => {
+import parseData from './parseData'
+export default data => {
+  const { prices, news, volume } = parseData(data)
+  console.log(parseData(data))
   const { Highcharts } = window
   return {
     rangeSelector: {
@@ -61,10 +64,10 @@ export default ({ news, prices, volume, sevenDayAvgVol }) => {
         point: {
           events: {
             click: function() {
-              window.open(this.url, '_blank');
+              window.open(this.url, '_blank')
             }
           }
-        },
+        }
       }
     },
     series: [
