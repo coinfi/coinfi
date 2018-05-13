@@ -1,7 +1,6 @@
 import parseData from './parseData'
 export default data => {
-  const { prices, news, volume } = parseData(data)
-  console.log(parseData(data))
+  const { prices, articles, volume } = parseData(data)
   const { Highcharts } = window
   return {
     rangeSelector: {
@@ -83,7 +82,7 @@ export default data => {
         dataLabels: {
           useHTML: true
         },
-        data: news,
+        data: articles,
         onSeries: 'price',
         shape: 'circlepin'
       },
