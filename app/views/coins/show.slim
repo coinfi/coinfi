@@ -9,9 +9,9 @@
       .bg-white.w-100
         section.pl2-m.pt3
           = react_component "Tabs", props: { target: 'coin-charts', items: ['Graph', 'Candlestick'] }
-          #coin-charts data-prices=@coin.prices_data
-            .tab-content
-              = react_component "PriceGraph", props: { symbol: @coin.symbol, articles: @coin.prices_data }
+          #coin-charts data-prices=@coin.prices_data.to_json
+            .tab-content.active
+              = react_component "PriceGraph", props: { symbol: @coin.symbol, articles: @coin.news_data.to_json }
             .tab-content
               = react_component "CandlestickChart", props: { symbol: @coin.symbol }
         = render partial: 'relevant_content'
