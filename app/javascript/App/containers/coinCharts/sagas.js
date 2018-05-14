@@ -1,10 +1,10 @@
 import { takeLatest, put, select } from 'redux-saga/effects'
 import * as actions from './actions'
-import { selectPrices } from './selectors'
+import { selectPrices, selectSymbol } from './selectors'
 import API from '../../utils/API'
 import localAPI from '../../utils/localAPI'
-import initHighcharts from '../../../modules/coins/highcharts'
-import initTradingview from '../../../modules/coins/tradingview'
+import initHighcharts from './highcharts'
+import initTradingview from './tradingview'
 
 export default function* watcher() {
   yield takeLatest('FETCH_DATA', fetchData)
@@ -32,5 +32,6 @@ function renderHighcharts({ data }) {
 
 function* renderTradingView() {
   const prices = yield select(selectPrices)
-  initTradingview(prices)
+  const symbol = yield select(selectSymbol)
+  initTradingview(prices, symbol)
 }
