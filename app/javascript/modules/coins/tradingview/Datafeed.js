@@ -1,13 +1,11 @@
-import fetchPrices from '../fetchPrices'
-
 /*
  * Implementation of the JS API
  * See: https://github.com/tradingview/charting_library/wiki/JS-Api
  */
 
 export default class Datafeed {
-  constructor(symbol) {
-    this.symbol = symbol
+  constructor(data) {
+    this.data = data
   }
   onReady(callback) {
     setTimeout(() => {
@@ -47,17 +45,15 @@ export default class Datafeed {
      * Example: https://github.com/tradingview/charting_library/blob/e7771668fcb61b5f99d79103d2cc7e27452cae12/datafeeds/udf/lib/history-provider.js#L7
      */
     if (!firstDataRequest) return
-    fetchPrices(this.symbol).then(data => {
-      const bars = data.map(bar => ({
-        time: bar.timestamp * 1000,
-        volume: Number(bar.volume_from),
-        open: Number(bar.open),
-        close: Number(bar.close),
-        low: Number(bar.low),
-        high: Number(bar.high)
-      }))
-      onHistoryCallback(bars)
-    })
+    const bars = this.data.map(bar => ({
+      time: bar.timestamp * 1000,
+      volume: Number(bar.volume_from),
+      open: Number(bar.open),
+      close: Number(bar.close),
+      low: Number(bar.low),
+      high: Number(bar.high)
+    }))
+    onHistoryCallback(bars)
   }
   subscribeBars() {}
 }

@@ -6,8 +6,10 @@ export default class Tabs extends Component {
     this.showTab(0)
   }
   showTab = tabKey => {
+    if (tabKey === this.state.tabKey) return
+    const { items, target, onChange } = this.props
     this.setState({ tabKey })
-    const { target } = this.props
+    if (onChange) onChange({ key: tabKey, label: items[tabKey] })
     const container = document.getElementById(target)
     const tabs = container.querySelectorAll(`.tab-content`)
     tabs.forEach((tab, key) => {

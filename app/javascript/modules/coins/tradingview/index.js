@@ -2,17 +2,19 @@ import Datafeed from './Datafeed'
 const containerID = 'tradingview'
 const { TradingView } = window
 
-document.addEventListener('DOMContentLoaded', () => {
+export default data => {
   const symbol = $('#symbol').data('coin-symbol')
+  // TODO: inject TV lib here
   if (TradingView && document.getElementById(containerID)) {
     window.TradingView.onready(() => {
-      const widget = (window.tvWidget = new TradingView.widget({
+      console.log('tv')
+      window.tvWidget = new TradingView.widget({
         debug: false,
         fullscreen: false,
         symbol: symbol,
         interval: 'D',
         container_id: containerID,
-        datafeed: new Datafeed(symbol),
+        datafeed: new Datafeed(data), // TODO: tie datafeed and redux more closely
         library_path: '/tradingview/',
         locale: 'en',
         //	Regression Trend-related functionality is not implemented yet, so it's hidden for a while
@@ -34,7 +36,7 @@ document.addEventListener('DOMContentLoaded', () => {
         charts_storage_api_version: '1.1',
         client_id: 'tradingview.com',
         user_id: 'public_user_id'
-      }))
+      })
     })
   }
-})
+}

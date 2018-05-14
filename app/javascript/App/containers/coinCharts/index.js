@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { createStructuredSelector } from 'reselect'
-import { fetchData } from './actions'
+import { fetchData, renderTradingview } from './actions'
 import * as selectors from './selectors'
 
 export default Component => {
@@ -17,7 +17,7 @@ export default Component => {
   }
   function mapDispatch(dispatch) {
     return {
-      ...bindActionCreators({ fetchData }, dispatch)
+      ...bindActionCreators({ fetchData, renderTradingview }, dispatch)
     }
   }
   const mapState = createStructuredSelector({
