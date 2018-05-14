@@ -23,9 +23,6 @@
       <%= yield %>
     </main>
     <%= render partial: "components/footer" %>
-    <%= javascript_tag do %>
-      window.pricesURL = '<%= ENV.fetch('COINFI_PRICES_URL') %>';
-    <% end %>
     <%= render partial: "components/tracking_scripts" %>
     <script src="/fontawesome/fa-brands.min.js"></script>
     <script src="/fontawesome/fa-light.min.js"></script>

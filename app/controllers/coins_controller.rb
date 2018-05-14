@@ -19,7 +19,7 @@ class CoinsController < ApplicationController
     @coin_price = @data["price_usd"] # TODO: Consolidate price and volume from data warehouse and remove from coins table.
     @latest_news = @coin.articles.latest_news
     @upcoming_events = @coin.articles.upcoming_events
-
+    
     if @coin.ico_status == 'listed'
       set_meta_tags(
         title: "#{@coin.symbol} ($#{@coin_price}) - #{@coin.name} Price Chart, Value, News, Market Cap",

@@ -23,7 +23,8 @@ import TwitterFeed from './components/TwitterFeed'
 import RedditFeed from './components/RedditFeed'
 import IcoFilters from './components/IcoFilters'
 import Tabs from './components/Tabs'
-import CoinCharts from './components/CoinCharts'
+import PriceGraph from './components/PriceGraph'
+import CandlestickChart from './components/CandlestickChart'
 
 const injectableComponents = {
   WatchButton,
@@ -33,7 +34,8 @@ const injectableComponents = {
   RedditFeed,
   IcoFilters,
   Tabs,
-  CoinCharts
+  PriceGraph,
+  CandlestickChart
 }
 
 const injectComponents = () => {

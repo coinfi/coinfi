@@ -4,14 +4,8 @@ import { currentUI } from './selectors'
 import watchlistPageSagas from '../watchlistPage/sagas'
 import coinSearchSagas from '../coinSearch/sagas'
 import icoFiltersSagas from '../icoFilters/sagas'
-import coinChartsSagas from '../coinCharts/sagas'
 
-const sagas = [
-  watchlistPageSagas,
-  coinSearchSagas,
-  icoFiltersSagas,
-  coinChartsSagas
-]
+const sagas = [watchlistPageSagas, coinSearchSagas, icoFiltersSagas]
 
 export default function* watcher() {
   yield all(sagas.map(saga => fork(saga)))

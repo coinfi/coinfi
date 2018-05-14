@@ -9,23 +9,6 @@ class Api::CoinsController < ApiController
     respond_success serialized(@coins)
   end
 
-  def news
-    @currency = params[:currency] || 'usd'
-    coin = Coin.find(params[:id])
-    chart_data = coin.articles.chart_data
-    i = chart_data.length + 1
-    @news = chart_data.map { |item|
-      i -= 1
-      {
-        x: item.published_epoch,
-        title: i,
-        text: item.title,
-        url: item.url
-      }
-    }
-    respond_success @news
-  end
-
   private
 
   def serialized coin

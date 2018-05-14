@@ -1,6 +1,7 @@
 import parseData from './parseData'
 export default data => {
-  const { prices, articles, volume } = parseData(data)
+  const { articles } = data
+  const { prices, volume } = parseData(data)
   const { Highcharts } = window
   return {
     rangeSelector: {
