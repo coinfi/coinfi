@@ -1,16 +1,15 @@
 import Datafeed from './Datafeed'
-import { tvContainerID } from '../constants'
 const { TradingView } = window
 
-export default (data, symbol) => {
+export default ({prices, symbol, containerID}) => {
   // TODO: inject TV lib here
   window.tvWidget = new TradingView.widget({
     debug: false,
     fullscreen: false,
     symbol: symbol,
     interval: 'D',
-    container_id: tvContainerID,
-    datafeed: new Datafeed(data), // TODO: tie datafeed and redux more closely
+    container_id: containerID,
+    datafeed: new Datafeed(prices), // TODO: tie datafeed and redux more closely
     library_path: '/tradingview/',
     locale: 'en',
     //	Regression Trend-related functionality is not implemented yet, so it's hidden for a while

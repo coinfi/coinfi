@@ -31,7 +31,7 @@ function renderHighcharts({ data }) {
 }
 
 function* renderTradingView() {
-  const prices = yield select(selectPrices)
-  const symbol = yield select(selectSymbol)
-  initTradingview(prices, symbol)
+  const prices = yield select(selectPrices())
+  const symbol = yield select(selectSymbol())
+  initTradingview({prices, symbol, containerID: 'tradingview'})
 }
