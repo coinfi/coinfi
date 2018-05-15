@@ -34,5 +34,9 @@
   }
 }
 .tab-content:not(.active) {
-  display: none;
+  position: fixed !important;
+  clip: rect(1px 1px 1px 1px);
+  clip: rect(1px, 1px, 1px, 1px);
+  opacity: 0;
+  overflow: hidden;
 }
