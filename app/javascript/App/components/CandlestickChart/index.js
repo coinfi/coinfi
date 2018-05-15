@@ -27,19 +27,20 @@ export default class CandlestickChart extends React.Component {
         tools: [{ name: 'Regression Trend' }]
       },
       disabled_features: [
-        'left_toolbar',
-        'header_widget_dom_node',
-        'header_resolutions',
-        'header_settings',
-        'header_compare',
-        'header_screenshot',
-        'header_undo_redo'
+        // 'left_toolbar',
+        // 'header_widget_dom_node',
+        // 'header_resolutions',
+        // 'header_settings',
+        // 'header_compare',
+        // 'header_screenshot',
+        // 'header_undo_redo'
       ],
       enabled_features: ['study_templates'],
       charts_storage_url: 'http://saveload.tradingview.com',
       charts_storage_api_version: '1.1',
       client_id: 'tradingview.com',
-      user_id: 'public_user_id'
+      user_id: 'public_user_id',
+      width: '100%'
     })
   }
   render() {
