@@ -1,5 +1,5 @@
 import { fromJS } from 'immutable'
-import { uiReducer as watchlistReducer } from '../watchlistPage/reducer'
+import { uiReducer as watchlistReducer } from '../watchlist/reducer'
 
 const initialState = fromJS({})
 
