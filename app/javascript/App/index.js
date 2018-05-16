@@ -22,6 +22,7 @@ import GlobalCoinSearch from './components/GlobalCoinSearch'
 import TwitterFeed from './components/TwitterFeed'
 import RedditFeed from './components/RedditFeed'
 import IcoFilters from './components/IcoFilters'
+import NewsfeedPage from './components/NewsfeedPage'
 
 const injectableComponents = {
   WatchButton,
@@ -29,7 +30,8 @@ const injectableComponents = {
   GlobalCoinSearch,
   TwitterFeed,
   RedditFeed,
-  IcoFilters
+  IcoFilters,
+  NewsfeedPage
 }
 
 const injectComponents = () => {

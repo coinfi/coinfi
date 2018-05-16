@@ -12,7 +12,12 @@ export const selectEntities = () =>
     return s.get('entities')
   })
 
-export const selectCategory = () =>
-  createSelector(selectDomain(), s => {
-    return s.get('category')
+export const selectCoins = () =>
+  createSelector(selectEntities(), selectCoinIDs(), (entities, ids) => {
+    if (!ids) return null
+    return ids.map(id => entities.getIn(['coins', `${id}`]))
   })
+
+export const selectWatchedCoins = () => {
+  // The Newsfeed will require this
+}

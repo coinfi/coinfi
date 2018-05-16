@@ -40,6 +40,7 @@ export default Component => {
   }
 
   const mapState = createStructuredSelector({
+    coins: selectors.selectCoins(),
     coinIDs: selectors.selectCoinIDs(),
     entities: selectors.selectEntities()
   })
