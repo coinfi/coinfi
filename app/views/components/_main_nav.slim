@@ -6,6 +6,8 @@ nav class=("#{defined?(klass) ? klass : ''}")
       = nav_link 'ICOs', '/icos/upcoming'
     li
       = nav_link 'Watchlist', '/watchlist'
+    li
+      = nav_link 'Newsfeed', '/newsfeed'
     - if user_signed_in?
       li
         a.coming-soon href="#" onclick="alert('Coming soon!')" Portfolio

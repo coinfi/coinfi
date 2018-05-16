@@ -35,11 +35,14 @@ Rails.application.routes.draw do
   end
 
   namespace :api, constraints: { format: 'json' } do
+    resources :articles, only: [ :index ]
     namespace :watchlist do
-      resources :coins, except: [ :edit, :update, :new ]
+      resources :coins, only: [ :index, :destroy ]
       patch '/coins', to: 'coins#reorder'
-      resources :articles, only: [ :index ]
     end
+    namespace :newsfeeds do
+      resources :coins, only: [ :index, :show ]
+    end    
     get '/coins', to: 'coins#index'
     get '/coins/:id/news', to: 'coins#news'
     get '/social_feeds/tweets_by_user', to: 'social_feeds#tweets_by_user'

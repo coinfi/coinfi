@@ -1,6 +1,6 @@
 import { createSelector } from 'reselect'
 
-export const selectDomain = namespace => state => state.watchlist[namespace]
+export const selectDomain = namespace => state => state.newsfeed[namespace]
 
 export const selectCoinIDs = () =>
   createSelector(selectDomain('coins'), state => state.get('result'))

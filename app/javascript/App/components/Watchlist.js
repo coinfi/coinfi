@@ -26,7 +26,7 @@ export default props => (
     pressDelay={200}
     onSortEnd={({ oldIndex, newIndex }) => {
       const { reorderCoins, coinIDs } = props
-      reorderCoins(arrayMove(coinIDs, oldIndex, newIndex))
+      reorderCoins(arrayMove(coinIDs.toJS(), oldIndex, newIndex))
     }}
   />
 )

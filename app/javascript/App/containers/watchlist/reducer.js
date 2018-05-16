@@ -1,25 +1,36 @@
+import { combineReducers } from 'redux'
 import { fromJS } from 'immutable'
-import normalize from './normalize'
+import normalizeCoins from '../../normalizers/coins'
+import normalizeArticles from '../../normalizers/articles'
 
-const initialState = fromJS({
-  entities: {}
+const initialState = fromJS({})
+
+export default combineReducers({
+  coins: coinReducer,
+  articles: articleReducer
 })
 
-export default (state = initialState, action) => {
+function coinReducer(state = initialState, action) {
   const { type, response } = action
   switch (type) {
     case 'FETCH_COINS_SUCCESS':
-      const n = normalize.coins(response)
-      return state.mergeDeep(n).set('coinIDs', n.result)
-    case 'FETCH_ARTICLES_SUCCESS':
-      return state.mergeDeep(normalize.articles(response))
+      return state.mergeDeep(normalizeCoins(response))
     case 'REMOVE_COIN_SUCCESS':
       return state.set(
-        'coinIDs',
-        state.get('coinIDs').filter(id => id !== response.id)
+        'result',
+        state.get('result').filter(id => id !== response.id)
       )
     case 'REORDER_COINS':
-      return state.set('coinIDs', action.order)
+      return state.set('result', fromJS(action.order))
+    default:
+      return state
+  }
+}
+
+function articleReducer(state = initialState, action) {
+  switch (action.type) {
+    case 'FETCH_ARTICLES_SUCCESS':
+      return state.mergeDeep(normalizeArticles(action.response))
     default:
       return state
   }

@@ -7,6 +7,7 @@ import uiReducer from './uiReducer'
 import watchlistReducer from '../watchlist/reducer'
 import coinSearchReducer from '../coinSearch/reducer'
 import icoFiltersReducer from '../icoFilters/reducer'
+import newsfeedReducer from '../newsfeed/reducer'
 
 const persistConfig = {
   transforms: [immutableTransform()],
@@ -19,7 +20,8 @@ const appReducers = combineReducers({
   UI: uiReducer,
   watchlist: watchlistReducer,
   coinSearch: coinSearchReducer,
-  icoFilters: icoFiltersReducer
+  icoFilters: icoFiltersReducer,
+  newsfeed: newsfeedReducer
 })
 
 export default persistReducer(persistConfig, appReducers)

@@ -8,8 +8,7 @@ export default class ArticleList extends Component {
     this.setState({ tab })
   }
   render() {
-    const { entities } = this.props
-    const { articles, tags } = entities.toObject()
+    const { articles, tags } = this.props
     const { tab } = this.state
     return (
       <div>

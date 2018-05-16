@@ -2,14 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { createStructuredSelector } from 'reselect'
-import {
-  fetchCoins,
-  fetchArticles,
-  addCoinSuccess,
-  editWatchlist,
-  removeCoin,
-  reorderCoins
-} from './actions'
+import { fetchCoins, fetchArticles } from './actions'
 import * as selectors from './selectors'
 
 export default Component => {
@@ -28,11 +21,7 @@ export default Component => {
       ...bindActionCreators(
         {
           fetchCoins,
-          fetchArticles,
-          addCoinSuccess,
-          editWatchlist,
-          removeCoin,
-          reorderCoins
+          fetchArticles
         },
         dispatch
       )
@@ -41,7 +30,6 @@ export default Component => {
 
   const mapState = createStructuredSelector({
     coins: selectors.selectCoins(),
-    coinIDs: selectors.selectCoinIDs(),
     articles: selectors.selectArticles(),
     tags: selectors.selectTags()
   })

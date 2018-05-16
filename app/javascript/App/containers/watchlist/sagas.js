@@ -1,6 +1,7 @@
-import { takeLatest } from 'redux-saga/effects'
+import { takeLatest, select } from 'redux-saga/effects'
 import * as sagas from '../../utils/genericSagas'
 import * as actions from './actions'
+import * as selectors from './selectors'
 
 export default function* watcher() {
   yield takeLatest('FETCH_COINS', fetchCoins)
@@ -23,11 +24,10 @@ function* removeCoin({ id }) {
 }
 
 function* fetchArticles() {
-  yield sagas.get(
-    '/watchlist/articles.json',
-    null,
-    actions.fetchArticlesSuccess
-  )
+  const q = {
+    coin_ids_in: yield select(selectors.selectCoinIDs)
+  }
+  yield sagas.get('/articles.json', { q }, actions.fetchArticlesSuccess)
 }
 
 function* reorderCoins({ order }) {

@@ -1,7 +1,7 @@
 class Api::CoinsController < ApiController
 
   def index
-    query = { name_or_symbol_cont: params[:q][:search] }
+    query = params[:q] || {}
     if params[:exclude_watched]
       query[:id_not_in] = current_user.watchlist.coin_ids
     end
