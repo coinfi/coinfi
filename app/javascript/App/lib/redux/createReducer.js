@@ -9,7 +9,7 @@ import normalizers from '../../normalizers'
 
 const initialState = fromJS({})
 
-const whitelistedActions = ['SET']
+const whitelistedActions = ['SET_ENTITIES', 'SET_ENTITY']
 
 const createReducer = (namespace, entityType, containerReducer) => (
   state = initialState,
@@ -23,10 +23,10 @@ const createReducer = (namespace, entityType, containerReducer) => (
     if (containerReducer) containerReducer(state, action)
     return state
   }
-  const normalizer = normalizers[entityType]
-  if (!normalizer) console.error(`No normalizer found for ${entityType}`)
   switch (action.type) {
-    case 'SET':
+    case 'SET_ENTITIES':
+      const normalizer = normalizers[entityType]
+      if (!normalizer) console.error(`No normalizer found for ${entityType}`)
       return state.mergeDeep(normalizer(action.response))
     default:
       return state

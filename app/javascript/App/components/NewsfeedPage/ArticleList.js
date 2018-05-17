@@ -1,16 +1,20 @@
 import React, { Component } from 'react'
-import Article from '../components/Article'
+import ArticleListItem from './ArticleListItem'
 
 export default class ArticleList extends Component {
   render() {
-    const { articles, tags } = this.props
+    const { articles } = this.props
     return (
       <div>
         {articles &&
           articles
             .valueSeq()
             .map((article) => (
-              <Article article={article} tags={tags} key={article.get('id')} />
+              <ArticleListItem
+                key={article.get('id')}
+                article={article}
+                {...this.props}
+              />
             ))}
       </div>
     )

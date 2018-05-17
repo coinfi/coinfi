@@ -6,21 +6,25 @@ import { namespace } from './constants'
 const actions = createActions(namespace)
 
 export default function* watcher() {
-  yield takeLatest('FETCH', fetch)
+  yield takeLatest('FETCH_ENTITIES', fetchEntities)
   yield takeLatest('ADD_COIN_SUCCESS', fetchWatchlist)
   yield takeLatest('REMOVE_COIN', removeCoin)
   yield takeLatest('REORDER_COINS', reorderCoins)
 }
 
-function* fetch(action) {
+function* fetchEntities(action) {
   if (action.namespace === namespace) yield fetchWatchlist()
 }
 
 function* fetchWatchlist() {
-  yield apiSagas.get('/watchlist/coins.json', null, actions.set('coins'))
+  yield apiSagas.get(
+    '/watchlist/coins.json',
+    null,
+    actions.setEntities('coins')
+  )
   const coinIDs = yield select(selectors.coinIDs)
   const q = { coin_id_in: coinIDs.toJS() }
-  yield apiSagas.get('/articles.json', { q }, actions.set('articles'))
+  yield apiSagas.get('/articles.json', { q }, actions.setEntities('articles'))
 }
 
 function* removeCoin({ id }) {

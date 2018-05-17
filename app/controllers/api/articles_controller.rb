@@ -7,6 +7,10 @@ class Api::ArticlesController < ApiController
     respond_success serialized(@articles)
   end
 
+  def show
+    respond_success serialized(Article.find(params[:id]))
+  end
+
   private
 
   def serialized(obj)

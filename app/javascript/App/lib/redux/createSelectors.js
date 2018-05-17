@@ -10,10 +10,10 @@ export const selectIDs = (containerName, namespace) => {
 }
 
 export const selectEntities = (containerName, namespace, entityID) => {
-  entityID = entityID || namespace
   return createSelector(selectState(containerName, namespace), (state) => {
     const { result, entities } = state.toObject()
-    if (!result) return null
-    return result.map((id) => entities.getIn([entityID, `${id}`]))
+    if (!result || !entities) return null
+    if (entityID) return entities.get(entityID)
+    return result.map((id) => entities.getIn([namespace, `${id}`]))
   })
 }

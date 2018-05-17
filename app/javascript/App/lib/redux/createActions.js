@@ -1,12 +1,15 @@
 export default (namespace) => ({
-  fetch: (url, params) => ({
-    type: 'FETCH',
-    namespace,
-    url,
-    params
+  fetchEntities: (entityType) => ({
+    type: 'FETCH_ENTITIES',
+    namespace
   }),
-  set: (entityType) => (response) => ({
-    type: 'SET',
+  fetchEntity: (entityType) => () => ({
+    type: 'FETCH_ENTITY',
+    namespace,
+    entityType
+  }),
+  setEntities: (entityType) => (response) => ({
+    type: 'SET_ENTITIES',
     namespace,
     entityType,
     response

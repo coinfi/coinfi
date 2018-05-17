@@ -1,11 +1,11 @@
 import React, { Component } from 'react'
-import newsfeedContainer from '../containers/newsfeed'
-import Coin from './NewsfeedCoin'
+import newsfeedContainer from '../../containers/newsfeed'
+import Coin from './Coin'
 import ArticleList from './ArticleList'
 
 class NewsfeedPage extends Component {
   render() {
-    const { coins } = this.props
+    const { coins, currentUI } = this.props
     return (
       <div className="container-wide ph4-l">
         <div className="bg-white">

@@ -1,6 +1,6 @@
 import React from 'react'
-import PercentageChange from './PercentageChange'
-import Currency from './Currency'
+import PercentageChange from '../PercentageChange'
+import Currency from '../Currency'
 
 export default ({ coin }) => {
   return (

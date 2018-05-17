@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import ArticleList from '../ArticleList'
+import Article from './Article'
 import ArticleFilters from './ArticleFilters'
 
 export default class WatchlistArticles extends Component {
@@ -8,7 +8,7 @@ export default class WatchlistArticles extends Component {
     this.setState({ tab })
   }
   render() {
-    const { articles } = this.props
+    const { articles, tags } = this.props
     const { tab } = this.state
     return (
       <div>
@@ -27,7 +27,15 @@ export default class WatchlistArticles extends Component {
           {tab === 'news' ? (
             <div>
               {articles && articles.size > 0 ? (
-                <ArticleList {...this.props} />
+                articles
+                  .valueSeq()
+                  .map((article) => (
+                    <Article
+                      article={article}
+                      tags={tags}
+                      key={article.get('id')}
+                    />
+                  ))
               ) : (
                 <div className="pt2 o-60">Add items to see news here</div>
               )}
