@@ -1,5 +1,5 @@
 import { takeLatest } from 'redux-saga/effects'
-import * as sagas from '../../utils/genericSagas'
+import { apiSagas } from '../../lib/redux'
 import * as actions from './actions'
 
 export default function* watcher() {
@@ -8,7 +8,7 @@ export default function* watcher() {
 
 function* searchCoins({ searchText, searchOpts, namespace }) {
   if (searchText.length < 2) return
-  yield sagas.get(
+  yield apiSagas.get(
     '/coins.json',
     Object.assign({ q: { name_or_symbol_cont: searchText } }, searchOpts),
     actions.searchCoinsSuccess(namespace)

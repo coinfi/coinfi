@@ -11,11 +11,11 @@
  */
 
 import qs from 'qs'
-import { getQueryObject } from '../../utils/urlHelpers'
+import { getQueryObject } from '../../lib/urlHelpers'
 
 const queryObject = getQueryObject().q
 
-export default props => {
+export default (props) => {
   if (queryObject && Object.keys(queryObject).length > 0) {
     props.resetFilters(queryObject)
   } else if (props.activeFilters.size > 0) {

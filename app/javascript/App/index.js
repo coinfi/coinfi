@@ -10,7 +10,7 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import { Provider } from 'react-redux'
 import configureStore from './configureStore'
-import getScreenSize from './utils/screenSize'
+import getScreenSize from './lib/screenSize'
 import { PersistGate } from 'redux-persist/integration/react'
 import debounce from 'debounce'
 
@@ -38,7 +38,7 @@ const injectComponents = () => {
   const hooks = document.getElementsByTagName('component')
   if (hooks) {
     const { store, persistor } = configureStore()
-    Array.from(hooks).forEach(hook => {
+    Array.from(hooks).forEach((hook) => {
       const name = hook.getAttribute('name')
       const Component = injectableComponents[name]
       if (!Component) return console.error(`Component "${name}" not found`)

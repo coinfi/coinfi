@@ -4,4 +4,4 @@ const tagListSchema = [tagSchema]
 const articleSchema = new schema.Entity('articles', { tags: tagListSchema })
 const articleListSchema = [articleSchema]
 
-export default articles => normalize(articles, articleListSchema)
+export default (response) => normalize(response, articleListSchema)

@@ -37,7 +37,7 @@ Rails.application.routes.draw do
   namespace :api, constraints: { format: 'json' } do
     resources :articles, only: %i[index]
     namespace :watchlist do
-      resources :coins, only: %i[index destroy]
+      resources :coins, only: %i[index create destroy]
       patch '/coins', to: 'coins#reorder'
     end
     namespace :newsfeed do

@@ -1,9 +1,9 @@
-import reduxHOC from '../../utils/reduxHOC'
+import { createHOC } from '../../lib/redux'
 import * as actions from './actions'
 import * as selectors from './selectors'
 
 export default (namespace = 'global') =>
-  reduxHOC({
+  createHOC({
     actions: {
       searchCoins: actions.searchCoins(namespace),
       searchCoinsSuccess: actions.searchCoinsSuccess(namespace),

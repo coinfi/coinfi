@@ -1,6 +1,7 @@
 import { createSelector } from 'reselect'
+import { namespace } from './constants'
 
-const selectState = (namespace) => (state) => state.newsfeed[namespace]
+const selectState = (entityType) => (state) => state[namespace][entityType]
 
 export const coinIDs = createSelector(selectState('coins'), (state) =>
   state.get('result')

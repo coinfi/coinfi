@@ -1,15 +1,3 @@
-export const fetchWatchlist = () => {
-  return { type: 'FETCH_WATCHLIST' }
-}
-
-export const fetchCoinsSuccess = (response) => {
-  return { type: 'FETCH_COINS_SUCCESS', response }
-}
-
-export const fetchArticlesSuccess = (response) => {
-  return { type: 'FETCH_ARTICLES_SUCCESS', response }
-}
-
 export const removeCoin = (id) => {
   return { type: 'REMOVE_COIN', id }
 }

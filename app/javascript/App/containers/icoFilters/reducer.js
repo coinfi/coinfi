@@ -1,6 +1,6 @@
 import { fromJS, List } from 'immutable'
 import { filterList } from './constants'
-import { listIndex } from '../../utils/stateHelpers'
+import { listIndex } from '../../lib/stateHelpers'
 
 const initialState = fromJS({
   activeFilters: []

@@ -1,15 +1,19 @@
 import { takeLatest, select } from 'redux-saga/effects'
-import * as sagas from '../../utils/genericSagas'
-import * as actions from './actions'
+import { apiSagas, createActions } from '../../lib/redux'
 import * as selectors from './selectors'
+import { namespace } from './constants'
+
+const actions = createActions(namespace)
 
 export default function* watcher() {
-  yield takeLatest('FETCH_NEWSFEED', fetchNewsfeed)
+  yield takeLatest('FETCH', fetch)
 }
 
-function* fetchNewsfeed() {
-  yield sagas.get('/newsfeed/coins.json', null, actions.fetchCoinsSuccess)
-  const coinIDs = yield select(selectors.coinIDs)
-  const q = { coin_id_in: coinIDs.toJS() }
-  yield sagas.get('/articles.json', { q }, actions.fetchArticlesSuccess)
+function* fetch(action) {
+  if (action.namespace === namespace) {
+    yield apiSagas.get('/newsfeed/coins.json', null, actions.set('coins'))
+    const coinIDs = yield select(selectors.coinIDs)
+    const q = { coin_id_in: coinIDs.toJS() }
+    yield apiSagas.get('/articles.json', { q }, actions.set('articles'))
+  }
 }

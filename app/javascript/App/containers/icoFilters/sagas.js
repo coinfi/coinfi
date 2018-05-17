@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { takeLatest, select } from 'redux-saga/effects'
-import { currentURL, getQueryObject } from '../../utils/urlHelpers'
+import { currentURL, getQueryObject } from '../../lib/urlHelpers'
 import { pushStateToURL } from './bindFilters'
 import * as selectors from './selectors'
 

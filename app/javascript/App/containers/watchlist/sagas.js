@@ -1,24 +1,30 @@
 import { takeLatest, select } from 'redux-saga/effects'
-import * as sagas from '../../utils/genericSagas'
-import * as actions from './actions'
+import { apiSagas, createActions } from '../../lib/redux'
 import * as selectors from './selectors'
+import { namespace } from './constants'
+
+const actions = createActions(namespace)
 
 export default function* watcher() {
-  yield takeLatest('FETCH_WATCHLIST', fetchWatchlist)
+  yield takeLatest('FETCH', fetch)
   yield takeLatest('ADD_COIN_SUCCESS', fetchWatchlist)
   yield takeLatest('REMOVE_COIN', removeCoin)
   yield takeLatest('REORDER_COINS', reorderCoins)
 }
 
+function* fetch(action) {
+  if (action.namespace === namespace) yield fetchWatchlist()
+}
+
 function* fetchWatchlist() {
-  yield sagas.get('/watchlist/coins.json', null, actions.fetchCoinsSuccess)
+  yield apiSagas.get('/watchlist/coins.json', null, actions.set('coins'))
   const coinIDs = yield select(selectors.coinIDs)
   const q = { coin_id_in: coinIDs.toJS() }
-  yield sagas.get('/articles.json', { q }, actions.fetchArticlesSuccess)
+  yield apiSagas.get('/articles.json', { q }, actions.set('articles'))
 }
 
 function* removeCoin({ id }) {
-  yield sagas.destroy(
+  yield apiSagas.destroy(
     `/watchlist/coins/${id}.json`,
     null,
     actions.removeCoinSuccess
@@ -26,7 +32,7 @@ function* removeCoin({ id }) {
 }
 
 function* reorderCoins({ order }) {
-  yield sagas.patch(
+  yield apiSagas.patch(
     '/watchlist/coins.json',
     { order },
     actions.reorderCoinsSuccess
