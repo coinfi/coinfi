@@ -3,8 +3,7 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { createStructuredSelector } from 'reselect'
 import {
-  fetchCoins,
-  fetchArticles,
+  fetchWatchlist,
   addCoinSuccess,
   editWatchlist,
   removeCoin,
@@ -15,8 +14,7 @@ import * as selectors from './selectors'
 export default Component => {
   class HOC extends React.Component {
     componentDidMount() {
-      this.props.fetchCoins()
-      this.props.fetchArticles()
+      this.props.fetchWatchlist()
     }
     render() {
       return <Component {...this.props} />
@@ -27,8 +25,7 @@ export default Component => {
     return {
       ...bindActionCreators(
         {
-          fetchCoins,
-          fetchArticles,
+          fetchWatchlist,
           addCoinSuccess,
           editWatchlist,
           removeCoin,

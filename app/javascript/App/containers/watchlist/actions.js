@@ -1,13 +1,9 @@
-export const fetchCoins = () => {
-  return { type: 'FETCH_COINS' }
+export const fetchWatchlist = () => {
+  return { type: 'FETCH_WATCHLIST' }
 }
 
 export const fetchCoinsSuccess = response => {
   return { type: 'FETCH_COINS_SUCCESS', response }
-}
-
-export const fetchArticles = () => {
-  return { type: 'FETCH_ARTICLES' }
 }
 
 export const fetchArticlesSuccess = response => {

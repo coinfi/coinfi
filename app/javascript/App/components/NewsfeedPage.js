@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import newsfeedContainer from '../containers/newsfeed'
 import Coin from './NewsfeedCoin'
+import ArticleList from './ArticleList'
 
 class NewsfeedPage extends Component {
   render() {
@@ -18,6 +19,7 @@ class NewsfeedPage extends Component {
                 <div>Search</div>
                 <div>Filters</div>
               </ColumnHeader>
+              <ArticleList {...this.props} />
             </div>
             <div className="col-xs-5 bl b--light-gray">
               <div className="pa4">Tips</div>

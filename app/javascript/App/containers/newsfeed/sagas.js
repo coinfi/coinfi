@@ -4,18 +4,12 @@ import * as actions from './actions'
 import * as selectors from './selectors'
 
 export default function* watcher() {
-  yield takeLatest('FETCH_NEWSFEED_COINS', fetchCoins)
-  yield takeLatest('FETCH_NEWSFEED_ARTICLES', fetchArticles)
+  yield takeLatest('FETCH_NEWSFEED', fetchNewsfeed)
 }
 
-function* fetchCoins() {
-  yield sagas.get('/coins.json', { scope: 'top20' }, actions.fetchCoinsSuccess)
-}
-
-function* fetchArticles() {
-  const q = {
-    // coin_ids_in: yield select(selectors.selectCoinIDs)
-    coin_ids_in: []
-  }
-  yield sagas.get('/articles.json', q, actions.fetchArticlesSuccess)
+function* fetchNewsfeed() {
+  yield sagas.get('/newsfeed/coins.json', null, actions.fetchCoinsSuccess)
+  const coinIDs = yield select(selectors.selectCoinIDs())
+  const q = { coin_id_in: coinIDs.toJS() }
+  yield sagas.get('/articles.json', { q }, actions.fetchArticlesSuccess)
 }
