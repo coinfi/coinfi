@@ -18,7 +18,7 @@ function coinReducer(state = initialState, action) {
     case 'REMOVE_COIN_SUCCESS':
       return state.set(
         'result',
-        state.get('result').filter(id => id !== response.id)
+        state.get('result').filter((id) => id !== response.id)
       )
     case 'REORDER_COINS':
       return state.set('result', fromJS(action.order))

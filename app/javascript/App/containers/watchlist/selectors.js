@@ -1,23 +1,21 @@
 import { createSelector } from 'reselect'
 
-export const selectDomain = namespace => state => state.watchlist[namespace]
+const selectState = (namespace) => (state) => state.watchlist[namespace]
 
-export const selectCoinIDs = () =>
-  createSelector(selectDomain('coins'), state => state.get('result'))
+export const coinIDs = createSelector(selectState('coins'), (state) =>
+  state.get('result')
+)
 
-export const selectCoins = () =>
-  createSelector(selectDomain('coins'), state => {
-    const { result, entities } = state.toObject()
-    if (!result) return null
-    return result.map(id => entities.getIn(['coins', `${id}`]))
-  })
+export const coins = createSelector(selectState('coins'), (state) => {
+  const { result, entities } = state.toObject()
+  if (!result) return null
+  return result.map((id) => entities.getIn(['coins', `${id}`]))
+})
 
-export const selectArticles = () =>
-  createSelector(selectDomain('articles'), state =>
-    state.getIn(['entities', 'articles'])
-  )
+export const articles = createSelector(selectState('articles'), (state) =>
+  state.getIn(['entities', 'articles'])
+)
 
-export const selectTags = () =>
-  createSelector(selectDomain('articles'), state =>
-    state.getIn(['entities', 'tags'])
-  )
+export const tags = createSelector(selectState('articles'), (state) =>
+  state.getIn(['entities', 'tags'])
+)

@@ -2,19 +2,19 @@ export const fetchWatchlist = () => {
   return { type: 'FETCH_WATCHLIST' }
 }
 
-export const fetchCoinsSuccess = response => {
+export const fetchCoinsSuccess = (response) => {
   return { type: 'FETCH_COINS_SUCCESS', response }
 }
 
-export const fetchArticlesSuccess = response => {
+export const fetchArticlesSuccess = (response) => {
   return { type: 'FETCH_ARTICLES_SUCCESS', response }
 }
 
-export const removeCoin = id => {
+export const removeCoin = (id) => {
   return { type: 'REMOVE_COIN', id }
 }
 
-export const removeCoinSuccess = response => {
+export const removeCoinSuccess = (response) => {
   return { type: 'REMOVE_COIN_SUCCESS', response }
 }
 
@@ -26,7 +26,7 @@ export const editWatchlist = () => {
   return { type: 'EDIT_WATCHLIST' }
 }
 
-export const reorderCoins = order => {
+export const reorderCoins = (order) => {
   return { type: 'REORDER_COINS', order }
 }
 

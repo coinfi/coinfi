@@ -9,7 +9,7 @@ export default function* watcher() {
 
 function* fetchNewsfeed() {
   yield sagas.get('/newsfeed/coins.json', null, actions.fetchCoinsSuccess)
-  const coinIDs = yield select(selectors.selectCoinIDs())
+  const coinIDs = yield select(selectors.coinIDs)
   const q = { coin_id_in: coinIDs.toJS() }
   yield sagas.get('/articles.json', { q }, actions.fetchArticlesSuccess)
 }
