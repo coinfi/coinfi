@@ -18,9 +18,7 @@ export default combineReducers({
         return state
     }
   }),
-  articles: createReducer(namespace, 'articles', (state, action) => {
-    return state
-  })
+  articles: createReducer(namespace, 'articles')
 })
 
 export const uiReducer = (state, action) => {

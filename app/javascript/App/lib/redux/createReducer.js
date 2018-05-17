@@ -20,7 +20,8 @@ const createReducer = (namespace, entityType, containerReducer) => (
     action.namespace !== namespace ||
     action.entityType !== entityType
   ) {
-    return containerReducer(state, action)
+    if (containerReducer) containerReducer(state, action)
+    return state
   }
   const normalizer = normalizers[entityType]
   if (!normalizer) console.error(`No normalizer found for ${entityType}`)
