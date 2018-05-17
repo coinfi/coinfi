@@ -3,13 +3,15 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { createStructuredSelector } from 'reselect'
 
-export default ({ actions, selectors, onMount }) => (Component) => {
+export default ({ actions, selectors, onMount, extraProps }) => (Component) => {
   class HOC extends React.Component {
     componentDidMount() {
       if (onMount) onMount(this)
     }
     render() {
-      return <Component {...this.props} />
+      let props = { ...this.props }
+      if (extraProps) Object.assign(props, extraProps)
+      return <Component {...props} />
     }
   }
 

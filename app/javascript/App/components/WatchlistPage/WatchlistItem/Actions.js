@@ -1,7 +1,7 @@
 import React from 'react'
 import { SortableHandle } from 'react-sortable-hoc'
 
-export default SortableHandle(props => {
+export default SortableHandle((props) => {
   const { removeCoin, coin } = props
   return (
     <div className="flex justify-end">

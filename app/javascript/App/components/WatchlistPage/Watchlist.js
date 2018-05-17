@@ -2,7 +2,7 @@ import React from 'react'
 import { arrayMove, SortableContainer } from 'react-sortable-hoc'
 import WatchlistItem from './WatchlistItem'
 
-const SortableWatchlist = SortableContainer(props => {
+const SortableWatchlist = SortableContainer((props) => {
   const { coins, currentUI } = props
   if (!currentUI('loading') && (!coins || coins.size === 0))
     return <div className="o-60 pv3 tc">Nothing added yet</div>
@@ -18,7 +18,7 @@ const SortableWatchlist = SortableContainer(props => {
   )
 })
 
-export default props => (
+export default (props) => (
   <SortableWatchlist
     {...props}
     lockToContainerEdges

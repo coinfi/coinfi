@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react'
-import PercentageChange from '../PercentageChange'
-import Currency from '../Currency'
+import PercentageChange from '../../PercentageChange'
+import Currency from '../../Currency'
 
 export default ({ coin }) => {
   const { market_info: info } = coin

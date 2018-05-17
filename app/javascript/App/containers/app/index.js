@@ -1,20 +1,11 @@
 /*
  * Any selectors or actions defined here are made globally available.
  */
-import React from 'react'
-import { bindActionCreators } from 'redux'
-import { connect } from 'react-redux'
-import { currentUI } from './selectors'
-import { toggleUI } from './actions'
+import reduxHOC from '../../utils/reduxHOC'
+import * as actions from './actions'
+import * as selectors from './selectors'
 
-export const app = Component => props => <Component {...props} />
-
-const mapState = state => ({
-  currentUI: currentUI(state)
+export default reduxHOC({
+  actions,
+  selectors
 })
-
-const mapDispatch = dispatch => ({
-  ...bindActionCreators({ toggleUI }, dispatch)
-})
-
-export default Component => connect(mapState, mapDispatch)(app(Component))

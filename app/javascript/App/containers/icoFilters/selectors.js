@@ -1,25 +1,22 @@
 import { createSelector } from 'reselect'
 import { filterList } from './constants'
 
-export const selectDomain = () => state => state.icoFilters
+const selectState = (state) => state.icoFilters
 
-export const selectActiveFilters = () =>
-  createSelector(selectDomain(), s => {
-    return s.get('activeFilters')
-  })
+export const activeFilters = createSelector(selectState, (s) => {
+  return s.get('activeFilters')
+})
 
-export const selectAvailableFilters = () =>
-  createSelector(selectDomain(), s => {
-    const active = s.get('activeFilters')
-    return filterList.filter(item => {
-      if (item.get('disabled') || item.get('unlisted')) return false
-      return !active.find(o => o.get('key') === item.get('key'))
-    })
+export const availableFilters = createSelector(selectState, (s) => {
+  const active = s.get('activeFilters')
+  return filterList.filter((item) => {
+    if (item.get('disabled') || item.get('unlisted')) return false
+    return !active.find((o) => o.get('key') === item.get('key'))
   })
+})
 
-export const selectDisabledFilters = () =>
-  createSelector(selectDomain(), s => {
-    return filterList.filter(item => {
-      return !!item.get('disabled')
-    })
+export const disabledFilters = createSelector(selectState, (s) => {
+  return filterList.filter((item) => {
+    return !!item.get('disabled')
   })
+})

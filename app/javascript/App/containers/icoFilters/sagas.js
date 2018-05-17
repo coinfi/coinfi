@@ -16,7 +16,7 @@ function* update(action) {
 }
 
 function* updateURL({ payload }) {
-  const activeFilters = yield select(selectors.selectActiveFilters())
+  const activeFilters = yield select(selectors.activeFilters)
   let newFilter = null
   if (payload && payload.value) newFilter = payload
   pushStateToURL({ activeFilters, newFilter })
@@ -25,7 +25,7 @@ function* updateURL({ payload }) {
 function updateResults({ payload }) {
   const queryObject = getQueryObject()
   queryObject.naked = true
-  axios.get(currentURL({ queryObject })).then(response => {
+  axios.get(currentURL({ queryObject })).then((response) => {
     const { data: html, status } = response
     const domContainer = document.getElementById('ico-table')
     if (domContainer && status === 200) {

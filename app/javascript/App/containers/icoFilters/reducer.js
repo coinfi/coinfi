@@ -17,14 +17,14 @@ export default (state = initialState, action) => {
         List(
           Object.entries(payload).map(([key, value]) =>
             filterList
-              .find(o => o.get('key') === key)
+              .find((o) => o.get('key') === key)
               .set('value', fromJS(value))
           )
         )
       )
     case 'SET_FILTER':
       filter = filterList
-        .find(o => o.get('key') === payload.key)
+        .find((o) => o.get('key') === payload.key)
         .set('value', fromJS(payload.value))
       return state.setIn(['activeFilters', filterIndex()], filter)
     case 'REMOVE_FILTER':

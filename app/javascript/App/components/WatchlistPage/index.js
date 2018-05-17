@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
+import watchlistContainer from '../../containers/watchlist'
+import LoadingIndicator from '../LoadingIndicator'
 import Watchlist from './Watchlist'
-import WatchlistSearch from './WatchlistSearch'
-import LoadingIndicator from './LoadingIndicator'
+import Search from './Search'
 import ArticleList from './ArticleList'
-import watchlistContainer from '../containers/watchlist'
 
 class WatchlistPage extends Component {
   render() {
@@ -24,7 +24,7 @@ class WatchlistPage extends Component {
                   {currentUI('editing') ? 'Done Editing' : 'Edit Watchlist'}
                 </button>
               </div>
-              <WatchlistSearch
+              <Search
                 {...{
                   ...this.props,
                   searchOpts: { exclude_watched: true, limit: 4 }

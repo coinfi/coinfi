@@ -1,8 +1,8 @@
-import genericHocContainer from '../../utils/genericHocContainer'
+import reduxHOC from '../../utils/reduxHOC'
 import * as actions from './actions'
 import * as selectors from './selectors'
 
-export default genericHocContainer({
+export default reduxHOC({
   actions,
   selectors,
   onMount: (container) => {

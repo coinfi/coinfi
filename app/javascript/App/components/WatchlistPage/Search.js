@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
-import WatchButton from './WatchButton'
-import Input from './Input'
-import coinSearch from '../containers/coinSearch'
+import WatchButton from '../WatchButton'
+import Input from '../Input'
+import coinSearch from '../../containers/coinSearch'
 
 class WatchlistSearch extends Component {
-  handleSearchInput = value => {
+  handleSearchInput = (value) => {
     let { searchOpts, searchCoins } = this.props
     searchCoins(value, searchOpts)
   }
@@ -20,7 +20,7 @@ class WatchlistSearch extends Component {
         />
         {searchedCoins.size > 0 && (
           <div>
-            {searchedCoins.map(coin => (
+            {searchedCoins.map((coin) => (
               <div
                 key={coin.get('id')}
                 className="pb3 mt3 bb b--athens-dark flex"
@@ -49,4 +49,4 @@ class WatchlistSearch extends Component {
   }
 }
 
-export default coinSearch(WatchlistSearch)('watchlist')
+export default coinSearch('watchlist')(WatchlistSearch)
