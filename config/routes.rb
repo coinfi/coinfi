@@ -24,6 +24,7 @@ Rails.application.routes.draw do
     resources :coins do
       get 'influencers', on: :collection
     end
+    resources :news_items
     resources :articles
     resources :users
     resources :submission_categories
