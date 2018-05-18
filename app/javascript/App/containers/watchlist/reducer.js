@@ -1,25 +1,23 @@
 import { fromJS } from 'immutable'
-import { combineReducers } from 'redux'
-import { createReducer } from '../../lib/redux'
+import { createEntityReducer } from '../../lib/redux'
 import { namespace } from './constants'
 
-export default combineReducers({
-  coins: createReducer(namespace, 'coins', (state, action) => {
-    const { type, response } = action
-    switch (type) {
-      case 'REMOVE_COIN_SUCCESS':
-        return state.set(
-          'result',
-          state.get('result').filter((id) => id !== response.id)
-        )
-      case 'REORDER_COINS':
-        return state.set('result', fromJS(action.order))
-      default:
-        return state
-    }
-  }),
-  articles: createReducer(namespace, 'articles')
-})
+export default createEntityReducer(namespace, watchlistReducer)
+
+function watchlistReducer(state, action) {
+  const { type, response } = action
+  switch (type) {
+    case 'REMOVE_COIN_SUCCESS':
+      return state.setIn(
+        ['ids', 'coins'],
+        state.getIn(['ids', 'coins']).filter((id) => id !== response.id)
+      )
+    case 'REORDER_COINS':
+      return state.setIn(['ids', 'coins'], fromJS(action.order))
+    default:
+      return state
+  }
+}
 
 export const uiReducer = (state, action) => {
   const { type } = action

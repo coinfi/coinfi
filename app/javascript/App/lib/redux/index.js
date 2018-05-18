@@ -1,6 +1,6 @@
 import createHOC from './createHOC'
-import createReducer from './createReducer'
-import createActions from './createActions'
+import createEntityReducer from './createEntityReducer'
+import createEntityActions from './createEntityActions'
 import apiSagas from './apiSagas'
 
-export { createHOC, createReducer, createActions, apiSagas }
+export { createHOC, createEntityReducer, createEntityActions, apiSagas }

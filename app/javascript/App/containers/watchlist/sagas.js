@@ -1,9 +1,9 @@
 import { takeLatest, select } from 'redux-saga/effects'
-import { apiSagas, createActions } from '../../lib/redux'
+import { apiSagas, createEntityActions } from '../../lib/redux'
 import * as selectors from './selectors'
 import { namespace } from './constants'
 
-const actions = createActions(namespace)
+const actions = createEntityActions(namespace)
 
 export default function* watcher() {
   yield takeLatest('FETCH_ENTITIES', fetchEntities)

@@ -7,30 +7,34 @@
 import { fromJS } from 'immutable'
 import normalizers from '../../normalizers'
 
-const initialState = fromJS({})
+const initialState = fromJS({
+  entities: {},
+  ids: {}
+})
 
 const whitelistedActions = ['SET_ENTITIES', 'SET_ENTITY']
 
-const createReducer = (namespace, entityType, containerReducer) => (
+const createEntityReducer = (namespace, containerReducer) => (
   state = initialState,
   action
 ) => {
-  if (
-    !whitelistedActions.includes(action.type) ||
-    action.namespace !== namespace ||
-    action.entityType !== entityType
-  ) {
-    if (containerReducer) containerReducer(state, action)
+  if (!whitelistedActions.includes(action.type)) {
+    if (containerReducer) return containerReducer(state, action)
     return state
   }
+  const { entityType } = action
+  if (namespace !== action.namespace) return state
   switch (action.type) {
     case 'SET_ENTITIES':
       const normalizer = normalizers[entityType]
       if (!normalizer) console.error(`No normalizer found for ${entityType}`)
-      return state.mergeDeep(normalizer(action.response))
+      const normalized = normalizer(action.response)
+      return state
+        .set('entities', state.get('entities').mergeDeep(normalized.entities))
+        .setIn(['ids', entityType], fromJS(normalized.result))
     default:
       return state
   }
 }
 
-export default createReducer
+export default createEntityReducer

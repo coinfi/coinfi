@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { createStructuredSelector } from 'reselect'
-import createGenericActions from './createActions'
+import createGenericActions from './createEntityActions'
 
 export default (args) => (Component) => {
   const { namespace, actions, selectors, onMount, extraProps } = args

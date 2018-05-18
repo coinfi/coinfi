@@ -1,7 +1,8 @@
 import React from 'react'
 import dateFormat from 'dateformat'
 
-export default ({ article, tags }) => {
+export default ({ article, selectArticleTags }) => {
+  const tags = selectArticleTags(article.get('id'))
   return (
     <a
       className="box tiber mb1 mb4-l"
@@ -15,11 +16,12 @@ export default ({ article, tags }) => {
       <div className="pt1 lh-copy">{article.get('summary')}</div>
       {article.get('tags').size > 0 && (
         <div className="mt3">
-          {article.get('tags').map((id) => (
-            <div key={id} className="tag">
-              {tags.getIn([`${id}`, 'name'])}
-            </div>
-          ))}
+          {tags &&
+            tags.map((tag, index) => (
+              <div key={index} className="tag">
+                {tag.get('name')}
+              </div>
+            ))}
         </div>
       )}
     </a>

@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import Article from './Article'
+import ArticleListItem from './ArticleListItem'
 import ArticleFilters from './ArticleFilters'
 
 export default class WatchlistArticles extends Component {
@@ -30,10 +30,10 @@ export default class WatchlistArticles extends Component {
                 articles
                   .valueSeq()
                   .map((article) => (
-                    <Article
+                    <ArticleListItem
                       article={article}
-                      tags={tags}
                       key={article.get('id')}
+                      {...this.props}
                     />
                   ))
               ) : (

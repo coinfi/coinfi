@@ -1,7 +1,8 @@
 export default (namespace) => ({
   fetchEntities: (entityType) => ({
     type: 'FETCH_ENTITIES',
-    namespace
+    namespace,
+    entityType
   }),
   fetchEntity: (entityType) => () => ({
     type: 'FETCH_ENTITY',

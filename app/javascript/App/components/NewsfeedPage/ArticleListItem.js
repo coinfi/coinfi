@@ -1,10 +1,12 @@
 import React from 'react'
 import dateFormat from 'dateformat'
 
-export default ({ article, tags, setUI }) => {
+export default ({ article, selectArticleTags, setUI }) => {
+  const tags = selectArticleTags(article.get('id'))
   return (
-    <div className="pa3 bb b--light-gray tiber pointer">
+    <div className="pa3 bb b--light-gray tiber">
       <div
+        className="pointer"
         onClick={() =>
           setUI(['newsfeed', 'body', 'article', article.get('id')])
         }
@@ -16,11 +18,12 @@ export default ({ article, tags, setUI }) => {
       </div>
       {article.get('tags').size > 0 && (
         <div className="mt3">
-          {article.get('tags').map((id) => (
-            <div key={id} className="tag">
-              {tags.getIn([`${id}`, 'name'])}
-            </div>
-          ))}
+          {tags &&
+            tags.map((tag, index) => (
+              <div key={index} className="tag">
+                {tag.get('name')}
+              </div>
+            ))}
         </div>
       )}
     </div>

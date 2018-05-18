@@ -1,8 +1,11 @@
-import { combineReducers } from 'redux'
-import { createReducer } from '../../lib/redux'
+import { createEntityReducer } from '../../lib/redux'
 import { namespace } from './constants'
 
-export default combineReducers({
-  coins: createReducer(namespace, 'coins'),
-  articles: createReducer(namespace, 'articles')
-})
+export default createEntityReducer(namespace, newsfeedReducer)
+
+function newsfeedReducer(state, action) {
+  switch (action.type) {
+    default:
+      return state
+  }
+}
