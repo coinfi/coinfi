@@ -6,13 +6,13 @@ export default SortableHandle(props => {
   return (
     <div className="flex justify-end">
       <button
-        className="btn btn-xs btn-white mr2"
+        className="btn btn-xs btn-white mr2 no-wrap"
         onClick={() => removeCoin(coin.id)}
       >
         <i className="fal fa-trash mr2" />
         Remove
       </button>
-      <div className="btn btn-xs btn-white cursor-move">
+      <div className="btn btn-xs btn-white cursor-move no-wrap">
         <i className="fal fa-arrows-alt mr2" />
         Reposition
       </div>
