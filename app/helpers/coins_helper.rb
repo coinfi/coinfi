@@ -39,4 +39,7 @@ module CoinsHelper
     }
   end
 
+  def paged_index(page, page_size, index)
+    ((page - 1) * page_size) + index + 1
+  end
 end
