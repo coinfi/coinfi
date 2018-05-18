@@ -16,7 +16,7 @@ class FilterComponent extends React.Component {
   state = { value: null }
   activeFilter = () =>
     this.props.activeFilters.find(
-      o => o.get('key') === this.props.filter.get('key')
+      (o) => o.get('key') === this.props.filter.get('key')
     )
   componentWillMount() {
     const active = this.activeFilter()
@@ -30,7 +30,7 @@ class FilterComponent extends React.Component {
     const { currentUI, uiKey, toggleUI } = this.props
     if (currentUI(uiKey)) toggleUI(uiKey)
   }
-  onChange = value => {
+  onChange = (value) => {
     this.setState({ value })
   }
   applyFilter = () => {
@@ -86,7 +86,7 @@ FilterComponent.propTypes = {
 
 FilterComponent = clickOutside(FilterComponent)
 
-export default props => (
+export default (props) => (
   <div className="oi-pane">
     <FilterComponent {...props} />
   </div>

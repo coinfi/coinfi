@@ -14,9 +14,11 @@ class SelectFilter extends React.Component {
         <header>Add a filter</header>
         <div className="pv2">
           <ul>
-            {availableFilters.map(item => (
+            {availableFilters.map((item) => (
               <li key={item.get('key')}>
-                <button onClick={() => toggleUI('newFilter', item.get('key'))}>
+                <button
+                  onClick={() => toggleUI(['newFilter', item.get('key')])}
+                >
                   <div>{item.get('label')}</div>
                   <Icon name="plus" className="ml3 aqua" />
                 </button>
@@ -27,7 +29,7 @@ class SelectFilter extends React.Component {
             <div className="o-50">
               <header>Coming soon</header>
               <ul>
-                {disabledFilters.map(item => (
+                {disabledFilters.map((item) => (
                   <li key={item.get('key')}>
                     <button disabled={true}>
                       <div>{item.get('label')}</div>
@@ -45,7 +47,7 @@ class SelectFilter extends React.Component {
 
 SelectFilter = clickOutside(SelectFilter)
 
-export default props => (
+export default (props) => (
   <div className="oi-pane">
     <SelectFilter {...props} />
   </div>

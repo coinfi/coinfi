@@ -12,8 +12,8 @@ export default class ArticleList extends Component {
             .map((article) => (
               <ArticleListItem
                 key={article.get('id')}
-                article={article}
                 {...this.props}
+                article={article}
               />
             ))}
       </div>

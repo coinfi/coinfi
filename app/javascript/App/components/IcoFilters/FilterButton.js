@@ -12,7 +12,7 @@ import Icon from '../Icon'
 import FilterComponent from './FilterComponent'
 import buttonLabels from './filterButtonLabels'
 
-export default props => {
+export default (props) => {
   const { filter, toggleUI, currentUI, removeFilter } = props
   const uiKey = 'editFilter'
   return (
@@ -22,7 +22,7 @@ export default props => {
       )}
       <div
         className="oi-btn"
-        onClick={() => toggleUI(uiKey, filter.get('key'))}
+        onClick={() => toggleUI([uiKey, filter.get('key')])}
       >
         <header>{filter.get('label')}</header>
         <div className="oi-value">

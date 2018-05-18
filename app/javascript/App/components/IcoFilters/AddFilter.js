@@ -9,12 +9,12 @@ import SelectFilter from './SelectFilter'
 import FilterComponent from './FilterComponent'
 import Icon from '../Icon'
 
-const AddFilters = props => {
+const AddFilters = (props) => {
   const { currentUI, toggleUI, availableFilters, activeFilters } = props
   if (availableFilters.size === 0) return null
   const uiKey = 'newFilter'
   const filterKey = currentUI(uiKey)
-  const toggleNew = () => toggleUI('newFilter', 'selectFilter')
+  const toggleNew = () => toggleUI(['newFilter', 'selectFilter'])
   if (!filterKey) {
     if (activeFilters.size > 0 || window.isMobile) {
       return (
@@ -41,7 +41,7 @@ const AddFilters = props => {
       </div>
     )
   } else {
-    const filter = availableFilters.find(o => o.get('key') === filterKey)
+    const filter = availableFilters.find((o) => o.get('key') === filterKey)
     return (
       <div className="oi">
         <FilterComponent {...{ ...props, filter, uiKey }} />

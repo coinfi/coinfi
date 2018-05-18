@@ -3,9 +3,6 @@ import { createSelector } from 'reselect'
 export const currentUI = createSelector(
   (state) => state.UI,
   (UI) => {
-    return (key, val = null) => {
-      if (!val) return UI.get(key)
-      return UI.get(key) === val
-    }
+    return (keyPath) => UI.getIn([].concat(keyPath))
   }
 )

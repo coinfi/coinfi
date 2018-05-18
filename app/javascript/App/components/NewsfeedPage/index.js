@@ -2,10 +2,12 @@ import React, { Component } from 'react'
 import newsfeedContainer from '../../containers/newsfeed'
 import Coin from './Coin'
 import ArticleList from './ArticleList'
+import Article from './Article'
 
 class NewsfeedPage extends Component {
   render() {
     const { coins, currentUI } = this.props
+    const articleID = currentUI(['newsfeed', 'body', 'article'])
     return (
       <div className="container-wide ph4-l">
         <div className="bg-white">
@@ -22,7 +24,11 @@ class NewsfeedPage extends Component {
               <ArticleList {...this.props} />
             </div>
             <div className="col-xs-5 bl b--light-gray">
-              <div className="pa4">Tips</div>
+              {articleID ? (
+                <Article id={articleID} {...this.props} />
+              ) : (
+                <div className="pa4">Tips</div>
+              )}
             </div>
           </div>
         </div>
