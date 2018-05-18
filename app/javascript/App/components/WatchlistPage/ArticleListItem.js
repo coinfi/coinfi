@@ -1,5 +1,5 @@
 import React from 'react'
-import dateFormat from 'dateformat'
+import dayjs from 'dayjs'
 
 export default ({ article, selectArticleTags }) => {
   const tags = selectArticleTags(article.get('id'))
@@ -10,7 +10,7 @@ export default ({ article, selectArticleTags }) => {
       target="_blank"
     >
       <div className="f7">
-        {dateFormat(article.get('published_date'), 'dddd, mmmm dS, yyyy')}
+        {dayjs(article.get('published_date')).format('dddd, MMM D, YYYY')}
       </div>
       <h4 className="fw6 mv3 f3">{article.get('title')}</h4>
       <div className="pt1 lh-copy">{article.get('summary')}</div>

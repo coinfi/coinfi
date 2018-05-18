@@ -1,5 +1,5 @@
 import React from 'react'
-import dateFormat from 'dateformat'
+import timeago from 'timeago.js'
 
 export default ({ article, selectArticleTags, setUI }) => {
   const tags = selectArticleTags(article.get('id'))
@@ -13,7 +13,7 @@ export default ({ article, selectArticleTags, setUI }) => {
       >
         <h4 className="fw6 mv3 f4">{article.get('title')}</h4>
         <div className="f7">
-          {dateFormat(article.get('published_date'), 'dddd, mmmm dS, yyyy')}
+          {timeago().format(article.get('published_date'))}
         </div>
       </div>
       {article.get('tags').size > 0 && (

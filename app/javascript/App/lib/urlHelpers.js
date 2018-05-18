@@ -16,3 +16,9 @@ export const currentURL = ({ withQuery, queryObject }) => {
     return withQuery ? href : href.split('?')[0]
   }
 }
+
+export const stringHostname = (string) => {
+  const { hostname } = new URL(string)
+  const parts = hostname.split('.')
+  return `${parts[parts.length - 2]}.${parts[parts.length - 1]}`
+}

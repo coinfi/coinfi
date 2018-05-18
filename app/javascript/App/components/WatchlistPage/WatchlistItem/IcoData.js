@@ -1,5 +1,5 @@
 import React from 'react'
-import dateFormat from 'dateformat'
+import dayjs from 'dayjs'
 
 export default ({ coin }) => {
   const { max_supply, symbol, ico_token_price_usd } = coin
@@ -29,17 +29,16 @@ export default ({ coin }) => {
         ) : (
           '?'
         )}
-
       </div>
       <div className="stat-block col-xs-6 col-sm-3 col-md-12 col-lg-3 mt4">
         <label className="o-60">Start Date</label>
         <div className="f6">
-          {start ? dateFormat(start, 'mmm d, yyyy') : '?'}
+          {start ? dayjs(start).format('MMM D, YYYY') : '?'}
         </div>
       </div>
       <div className="stat-block col-xs-6 col-sm-3 col-md-12 col-lg-3 mt4">
         <label className="o-60">End Date</label>
-        <div className="f6">{end ? dateFormat(end, 'mmm d, yyyy') : '?'}</div>
+        <div className="f6">{end ? dayjs(end).format('MMM D, YYYY') : '?'}</div>
       </div>
     </div>
   )
