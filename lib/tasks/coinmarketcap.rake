@@ -88,11 +88,14 @@ namespace :coinmarketcap do
             forum xpath: "//a[text()='Message Board']/@href"
             forum2 xpath: "//a[text()='Message Board 2']/@href"
             twitter xpath: "//*[@class='twitter-timeline']/@href"
-            image_url xpath: "//*[@class='currency-logo-32x32']/@src"
+            github xpath: "//a[text()='Source Code']/@href"
+            # image_url xpath: "//*[@class='currency-logo-32x32']/@src"
             # Reddit link is lazy loaded so unable to parse
           end
+          results.compact!
+          pp results
 
-          coin.update(results)
+          coin.update!(results)
         rescue => e
           puts e.message
         end
