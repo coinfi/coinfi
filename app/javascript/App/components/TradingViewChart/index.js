@@ -4,7 +4,7 @@ const { TradingView } = window
 
 const containerID = 'tradingview'
 
-export default class CandlestickChart extends React.Component {
+export default class TradingViewChart extends React.Component {
   componentDidMount() {
     // TODO: inject TV lib here
     const { symbol } = this.props
