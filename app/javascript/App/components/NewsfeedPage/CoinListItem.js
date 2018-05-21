@@ -2,9 +2,15 @@ import React from 'react'
 import PercentageChange from '../PercentageChange'
 import Currency from '../Currency'
 
-export default ({ coin }) => {
+export default ({ coin, setCurrentItem, currentItem }) => {
+  let klass = 'pa3 bb b--light-gray flex justify-between items-center'
+  if (currentItem.type === 'coin' && currentItem.id === coin.get('id'))
+    klass += ' bg-lightest-blue'
   return (
-    <div className="pa3 bb b--light-gray flex justify-between items-center">
+    <div
+      onClick={() => setCurrentItem({ type: 'coin', id: coin.get('id') })}
+      className={klass}
+    >
       <div className="b f5">{coin.get('symbol')}</div>
       <div className="right-align">
         <Currency>{coin.getIn(['market_info', 'price_usd'])}</Currency>

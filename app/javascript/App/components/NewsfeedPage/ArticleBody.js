@@ -2,9 +2,10 @@ import React, { Component } from 'react'
 import timeago from 'timeago.js'
 import { stringHostname } from '../../lib/urlHelpers'
 
-export default class Article extends Component {
+export default class ArticleBody extends Component {
   render() {
-    const { selectArticle, selectArticleTags, id } = this.props
+    const { selectArticle, selectArticleTags, currentItem } = this.props
+    const { id } = currentItem
     const tags = selectArticleTags(id)
     const article = selectArticle(id)
     return (

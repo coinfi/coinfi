@@ -6,7 +6,11 @@ class Api::CoinsController < ApiController
       query[:id_not_in] = current_user.watchlist.coin_ids
     end
     @coins = Coin.ransack(query).result(distinct: true).limit(params[:limit] || 10)
-    respond_success serialized(@coins)
+    respond_success index_serializer(@coins)
+  end
+
+  def show
+    respond_success show_serializer(Coin.find(params[:id]))
   end
 
   def news
@@ -28,7 +32,11 @@ class Api::CoinsController < ApiController
 
   private
 
-  def serialized coin
+  def index_serializer coin
+    coin.as_json(only: [:id, :name, :image_url, :symbol, :slug, :price_usd])
+  end
+
+  def show_serializer coin
     coin.as_json(only: [:id, :name, :image_url, :symbol, :slug, :price_usd])
   end
 

@@ -41,9 +41,9 @@ Rails.application.routes.draw do
       patch '/coins', to: 'coins#reorder'
     end
     namespace :newsfeed do
-      resources :coins, only: %i[index show]
+      resources :coins, only: %i[index]
     end
-    get '/coins', to: 'coins#index'
+    resources :coins, only: %i[index show]
     get '/coins/:id/news', to: 'coins#news'
     get '/social_feeds/tweets_by_user', to: 'social_feeds#tweets_by_user'
   end

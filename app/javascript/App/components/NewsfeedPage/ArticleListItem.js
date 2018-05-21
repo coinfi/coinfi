@@ -1,14 +1,14 @@
 import React from 'react'
 import timeago from 'timeago.js'
 
-export default ({ article, selectArticleTags, setUI }) => {
+export default ({ article, selectArticleTags, setCurrentItem }) => {
   const tags = selectArticleTags(article.get('id'))
   return (
     <div className="pa3 bb b--light-gray tiber">
       <div
         className="pointer"
         onClick={() =>
-          setUI(['newsfeed', 'body', 'article', article.get('id')])
+          setCurrentItem({ type: 'article', id: article.get('id') })
         }
       >
         <h4 className="fw6 mv3 f4">{article.get('title')}</h4>

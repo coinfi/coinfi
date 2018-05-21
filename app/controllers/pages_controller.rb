@@ -21,11 +21,11 @@ class PagesController < ApplicationController
   end
 
   def public_pages
-    %w[home about]
+    %w[home about newsfeed]
   end
 
   def member_pages
-    %w[watchlist newsfeed]
+    %w[watchlist]
   end
 
 end

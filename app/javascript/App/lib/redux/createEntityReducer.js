@@ -32,6 +32,8 @@ const createEntityReducer = (namespace, containerReducer) => (
       return state
         .set('entities', state.get('entities').mergeDeep(normalized.entities))
         .setIn(['ids', entityType], fromJS(normalized.result))
+    case 'SET_ENTITY':
+      return state.setIn(['currentEntity', entityType], fromJS(action.response))
     default:
       return state
   }

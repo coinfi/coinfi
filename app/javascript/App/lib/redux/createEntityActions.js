@@ -4,13 +4,20 @@ export default (namespace) => ({
     namespace,
     entityType
   }),
-  fetchEntity: (entityType) => () => ({
+  fetchEntity: (entityType, entityID) => ({
     type: 'FETCH_ENTITY',
     namespace,
-    entityType
+    entityType,
+    entityID
   }),
   setEntities: (entityType) => (response) => ({
     type: 'SET_ENTITIES',
+    namespace,
+    entityType,
+    response
+  }),
+  setEntity: (entityType) => (response) => ({
+    type: 'SET_ENTITY',
     namespace,
     entityType,
     response
