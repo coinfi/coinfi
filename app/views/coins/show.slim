@@ -1,4 +1,4 @@
-.container.pv2
+.container-wide.ph4-l.pv2
   .row.narrow-gutter.flex
     .col-xs-12.col-md-4.flex.flex-column
       = render partial: 'header'
@@ -8,10 +8,5 @@
     .col-xs-12.col-md-8.flex
       .bg-white.w-100
         section.pa3.pa4-l.pb0
-          = react_component "Tabs", props: { target: 'coin-charts', items: ['News + Price Chart', 'TradingView Chart'] }
-          #coin-charts.mt3.nl3.nr3.mh0-m data-prices=@coin.prices_data.to_json
-            .tab-content.active
-              = react_component "PriceGraph", props: { symbol: @coin.symbol, articles: @coin.news_data.to_json }
-            .tab-content
-              = react_component "TradingViewChart", props: { symbol: @coin.symbol }
+          = react_component "CoinCharts", props: { priceData: @coin.prices_data, articles: @coin.news_data }
         = render partial: 'relevant_content'

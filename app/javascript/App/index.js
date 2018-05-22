@@ -1,9 +1,7 @@
 /*
- * Normally this file would just mount the app on the
- * document body, however this is not an SPA, so it
- * looks for <component> tags in the DOM and injects
- * React components there, optionally with the Redux
- * store.
+ * Normally this file would just mount the app on the document body, however
+ * this is not an SPA, so it looks for <component> tags in the DOM and injects
+ * React components there, optionally with the Redux store.
  */
 import 'babel-polyfill'
 import React from 'react'
@@ -24,8 +22,7 @@ import RedditFeed from './components/RedditFeed'
 import IcoFilters from './components/IcoFilters'
 import NewsfeedPage from './components/NewsfeedPage'
 import Tabs from './components/Tabs'
-import PriceGraph from './components/PriceGraph'
-import TradingViewChart from './components/TradingViewChart'
+import CoinCharts from './components/CoinCharts'
 
 const injectableComponents = {
   WatchButton,
@@ -36,8 +33,7 @@ const injectableComponents = {
   IcoFilters,
   NewsfeedPage,
   Tabs,
-  PriceGraph,
-  TradingViewChart
+  CoinCharts
 }
 
 const injectComponents = () => {

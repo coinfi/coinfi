@@ -7,11 +7,7 @@ const containerID = 'tradingview'
 export default class TradingViewChart extends React.Component {
   componentDidMount() {
     // TODO: inject TV lib here
-    const { symbol } = this.props
-    let priceData = document
-      .getElementById('coin-charts')
-      .getAttribute('data-prices')
-    priceData = JSON.parse(priceData)
+    const { symbol, priceData } = this.props
     window.tvWidget = new TradingView.widget({
       debug: false,
       fullscreen: false,
