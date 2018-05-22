@@ -9,7 +9,7 @@ import Actions from './Actions'
 
 class WatchlistItem extends React.Component {
   render() {
-    const { coin, currentUI } = this.props
+    const { coin, isEditing } = this.props
     let ribbonClass = 'corner-ribbon corner-ribbon-'
     ribbonClass += coin.category === 'listed' ? 'green' : 'blue'
 
@@ -24,7 +24,7 @@ class WatchlistItem extends React.Component {
               <Title {...this.props} />
             </div>
             <div className="col-xs-12 col-sm-5 col-md-12 col-lg-5 tr mt2 mt0-ns">
-              {currentUI('editing') ? (
+              {isEditing ? (
                 <Actions {...this.props} />
               ) : (
                 <div className="f4 fw9">
@@ -38,7 +38,7 @@ class WatchlistItem extends React.Component {
             </div>
           </div>
         </div>
-        {!currentUI('editing') && (
+        {!isEditing && (
           <div className="bt b--athens-dark pa3 pt3">
             {coin.category === 'listed' ? (
               <ListedData {...this.props} />

@@ -15,7 +15,7 @@
     &:not(:last-child) {
       margin-right: $sp4;
     }
-    &.tab-active {
+    &.active {
       border-bottom-color: $tiber;
       cursor: default;
     }
@@ -33,6 +33,10 @@
     }
   }
 }
-.tab-content:not(.tab-active) {
-  display: none;
+.tab-content:not(.active) {
+  position: fixed !important;
+  clip: rect(1px 1px 1px 1px);
+  clip: rect(1px, 1px, 1px, 1px);
+  opacity: 0;
+  overflow: hidden;
 }

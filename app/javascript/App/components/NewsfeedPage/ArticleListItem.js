@@ -2,7 +2,7 @@ import React from 'react'
 import timeago from 'timeago.js'
 
 export default ({ article, selectArticleTags, setCurrentItem }) => {
-  const tags = selectArticleTags(article.get('id'))
+  const tags = selectArticleTags(article)
   return (
     <div className="pa3 bb b--light-gray tiber">
       <div

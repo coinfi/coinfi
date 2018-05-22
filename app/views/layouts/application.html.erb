@@ -10,6 +10,7 @@
     <link rel="icon" href="<%= image_path('favicon.png') %>">
     <%= canonical_tag %>
     <%= stylesheet_link_tag 'application' %>
+    <script src="/tradingview/charting_library.min.js"></script>
     <%= javascript_pack_tag 'application' %>
     <%= csrf_meta_tags %>
   </head>
@@ -21,9 +22,6 @@
       <%= yield %>
     </main>
     <%= render partial: "components/footer" %>
-    <%= javascript_tag do %>
-      window.pricesURL = '<%= ENV.fetch('COINFI_PRICES_URL') %>';
-    <% end %>
     <%= render partial: "components/tracking_scripts" %>
     <script src="/fontawesome/fa-brands.min.js"></script>
     <script src="/fontawesome/fa-light.min.js"></script>

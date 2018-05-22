@@ -2,7 +2,7 @@ import React from 'react'
 import dayjs from 'dayjs'
 
 export default ({ article, selectArticleTags }) => {
-  const tags = selectArticleTags(article.get('id'))
+  const tags = selectArticleTags(article)
   return (
     <a
       className="box tiber mb1 mb4-l"
@@ -14,7 +14,7 @@ export default ({ article, selectArticleTags }) => {
       </div>
       <h4 className="fw6 mv3 f3">{article.get('title')}</h4>
       <div className="pt1 lh-copy">{article.get('summary')}</div>
-      {article.get('tags').size > 0 && (
+      {tags && (
         <div className="mt3">
           {tags &&
             tags.map((tag, index) => (

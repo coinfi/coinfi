@@ -7,7 +7,9 @@ import ArticleList from './ArticleList'
 
 class WatchlistPage extends Component {
   render() {
-    const { currentUI, editWatchlist } = this.props
+    const { currentUI, toggleUI } = this.props
+    const toggleEditing = () => toggleUI(['watchlist', 'editing', true])
+    const isEditing = currentUI(['watchlist', 'editing'])
     return (
       <div className="container-wide ph4-l pv3-l">
         <div className="row narrow-gutter flex">
@@ -16,12 +18,12 @@ class WatchlistPage extends Component {
               <div className="flex items-end justify-between mb3">
                 <h1 className="ma0 ttu b f4">Watchlist</h1>
                 <button
-                  onClick={editWatchlist}
+                  onClick={toggleEditing}
                   className={`btn btn-xs ${
-                    currentUI('editing') ? 'btn-green' : 'btn-white'
+                    isEditing ? 'btn-green' : 'btn-white'
                   }`}
                 >
-                  {currentUI('editing') ? 'Done Editing' : 'Edit Watchlist'}
+                  {isEditing ? 'Done Editing' : 'Edit Watchlist'}
                 </button>
               </div>
               <Search
@@ -33,7 +35,7 @@ class WatchlistPage extends Component {
             </div>
             <div className="mt1 mt3-l">
               {currentUI('loading') && <LoadingIndicator className="h5e mb3" />}
-              <Watchlist {...this.props} />
+              <Watchlist {...this.props} isEditing={isEditing} />
             </div>
           </div>
           <div className="col-xs-12 col-md-7 flex">

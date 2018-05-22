@@ -1,5 +1,4 @@
 import { fromJS } from 'immutable'
-import { uiReducer as watchlistReducer } from '../watchlist/reducer'
 
 const initialState = fromJS({})
 
@@ -20,15 +19,19 @@ export default (state = initialState, action) => {
       }
       value = keyPath.pop()
       const current = state.getIn(keyPath)
-      if (value === current) {
-        return state.setIn(keyPath, false)
-      } else {
-        return state.setIn(keyPath, value)
-      }
+      if (value === current) value = false
+      return state.setIn(keyPath, value)
     default:
       break
   }
-  const stateChange = watchlistReducer(state, action)
-  if (stateChange) return stateChange
+  /*
+   * If you want to update the UI state based on other action types, you can add
+   * other reducers here as follows:
+   * 
+   *  const stateChange = otherReducer(state, action) 
+   *  if (stateChange) return stateChange
+   * 
+   * Note: that reducer should not return an updated stated unless it was changed.
+   */
   return state
 }

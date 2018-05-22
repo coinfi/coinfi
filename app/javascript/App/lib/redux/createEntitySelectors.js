@@ -40,8 +40,7 @@ export const selectEntity = (containerName, entityType) =>
   )
 
 export const selectEntityChildren = (containerName, entityType, childrenType) =>
-  createSelector(selectState(containerName), (state) => (id) => {
-    const parent = state.getIn(['entities', entityType, `${id}`])
+  createSelector(selectState(containerName), (state) => (parent) => {
     return parent
       .get(childrenType)
       .map((childID) => state.getIn(['entities', childrenType, `${childID}`]))

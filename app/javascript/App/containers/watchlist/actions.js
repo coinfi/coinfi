@@ -10,10 +10,6 @@ export const addCoinSuccess = () => {
   return { type: 'ADD_COIN_SUCCESS' }
 }
 
-export const editWatchlist = () => {
-  return { type: 'EDIT_WATCHLIST' }
-}
-
 export const reorderCoins = (order) => {
   return { type: 'REORDER_COINS', order }
 }
