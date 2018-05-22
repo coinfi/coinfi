@@ -15,7 +15,7 @@ class Api::CoinsController < ApiController
 
   private
 
-  def index_serializer(coin)
+  def index_serializer(coins)
     coin.as_json(
       only: %i[id name image_url symbol slug price_usd]
     )
@@ -24,7 +24,7 @@ class Api::CoinsController < ApiController
   def show_serializer(coin)
     coin.as_json(
       only: %i[id name image_url symbol slug price_usd],
-      methods: %i[prices_data]
+      methods: %i[prices_data news_data]
     )
   end
 

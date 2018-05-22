@@ -1,5 +1,5 @@
 import parseData from './parseData'
-export default data => {
+export default (data) => {
   const { articles } = data
   const { prices, volume } = parseData(data)
   const { Highcharts } = window

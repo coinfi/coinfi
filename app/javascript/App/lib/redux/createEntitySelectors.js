@@ -22,18 +22,18 @@
 import { createSelector } from 'reselect'
 import { pluralize } from '../misc'
 
-const selectState = (containerName) => (state) => {
-  return state[containerName]
+const selectState = (namespace) => (state) => {
+  return state[namespace]
 }
 
-export const selectIDs = (containerName, entityType) => {
-  return createSelector(selectState(containerName), (state) =>
+export const selectIDs = (namespace, entityType) => {
+  return createSelector(selectState(namespace), (state) =>
     state.getIn(['entityIDs', entityType])
   )
 }
 
-export const selectEntities = (containerName, entityType) => {
-  return createSelector(selectState(containerName), (state) => {
+export const selectEntities = (namespace, entityType) => {
+  return createSelector(selectState(namespace), (state) => {
     const ids = state.getIn(['entityIDs', entityType])
     const entities = state.getIn(['entityList', entityType])
     if (!ids || !entities) return null
@@ -41,19 +41,19 @@ export const selectEntities = (containerName, entityType) => {
   })
 }
 
-export const selectEntityFromList = (containerName, entityType) =>
-  createSelector(selectState(containerName), (state) => (id) =>
+export const selectEntityFromList = (namespace, entityType) =>
+  createSelector(selectState(namespace), (state) => (id) =>
     state.getIn(['entityList', entityType, `${id}`])
   )
 
-export const selectEntityChildren = (containerName, entityType, childrenType) =>
-  createSelector(selectState(containerName), (state) => (parent) => {
+export const selectEntityChildren = (namespace, entityType, childrenType) =>
+  createSelector(selectState(namespace), (state) => (parent) => {
     return parent
       .get(childrenType)
       .map((childID) => state.getIn(['entityList', childrenType, `${childID}`]))
   })
 
-export const selectEntityDetails = (containerName, entityType) =>
-  createSelector(selectState(containerName), (state) => (id) =>
+export const selectEntityDetails = (namespace, entityType) =>
+  createSelector(selectState(namespace), (state) => (id) =>
     state.getIn(['entityDetails', pluralize(entityType), `${id}`])
   )
