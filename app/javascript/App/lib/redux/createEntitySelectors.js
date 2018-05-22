@@ -35,10 +35,9 @@ export const selectEntities = (containerName, entityType) => {
 }
 
 export const selectEntity = (containerName, entityType) =>
-  createSelector(selectState(containerName), (state) => (id) => {
-    const entities = state.getIn(['entities', entityType])
-    return entities.get(`${id}`)
-  })
+  createSelector(selectState(containerName), (state) => (id) =>
+    state.getIn(['entities', entityType, `${id}`])
+  )
 
 export const selectEntityChildren = (containerName, entityType, childrenType) =>
   createSelector(selectState(containerName), (state) => (id) => {
