@@ -65,6 +65,7 @@ gem 'wombat'
 gem 'twitter'
 gem 'webpacker', '~> 3.3'
 gem 'ransack'
+gem 'active_hash'
 
 # Devise needs to be in front of Ahoy in the Gemfile to have Ahoy automatically update Visit with User ID:
 # https://github.com/ankane/ahoy/issues/12
@@ -80,6 +81,8 @@ group :development, :test do
   gem 'dotenv-rails'
   gem 'pry-byebug'
   gem 'pry-rails'
+  gem 'rubocop'
+  gem 'reek'
   gem 'selenium-webdriver'
 end
 

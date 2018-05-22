@@ -80,114 +80,95 @@ section#features.phr.pv4.pv6-m.bg-tiber.white-90
               a.f6 href="https://blog.coinfi.com/how-you-can-make-50-profit-in-12-hours-trading-neo/" target="_blank"
                 strong Real Example Of Volume Detection: 50% Gains In 12 Hours Trading NEO
 
-section#team.phr.bg-white.tiber
-  .container
-    .row.pv5.items-center
-      .col-xs-12.col-lg-8.col-lg-offset-2
-        h1 The Team
-      .col-xs-12.col-lg-2.col-lg-offset-2
-        .pa4.tc
-          img class="br-100 dib" src="https://res.cloudinary.com/coinfi/image/upload/v1522671951/profile-photos/tim-tam.jpg" width="256" alt="Timothy Tam"
-      .col-xs-12.col-lg-6
-        h3
-          | Timothy Tam
-          small.ml3.fw1 Co-Founder
-        p 10+ years in equities trading and hedge funds. Started his career in Goldman Sachs Asia, before working as a senior trader in two Asia hedge funds each with $1+ billion assets under management. In his last role he was cofounder of an Asia Long Short Hedge Fund that specialized in event trading.
-        = render partial: 'linkedin_icon', locals: {url: 'https://www.linkedin.com/in/ttam-0190212/'}
+section#team.phr.pv5.pv6-m.bg-white.tiber
+  .container-narrow
+    h1.tc.tl-m The Team
+    - TeamMember.all.each do |member|
+      .row.wide-gutter.mt5
+        .col-xs-12.col-md-3.tc
+          img class="br-100 dib w-100 max-w10e max-w15e-m" src=member.img alt=member.name
+        .col-xs-12.col-md-9.tc.tl-m
+          h3.db.pt3.pt0-m
+            = member.name
+            .pa3.pb0.f5.fw1.db.dib-m= member.title
+          .lh-copy.mb3= member.bio
+          - unless member.linkedin.empty?
+            .icons
+              a.icon.hover-silver href=member.linkedin target="_blank"
+                i.fab.fa-linkedin.dark-gray.hover-silver.f2
 
-      .col-xs-12.col-lg-2.col-lg-offset-2
-        .pa4.tc
-          img class="br-100 dib" src="https://res.cloudinary.com/coinfi/image/upload/v1522671945/profile-photos/han-chang.jpg" width="256" alt="Han Chang"
-      .col-xs-12.col-lg-6
-        h3
-          | Han Chang
-          small.ml3.fw1 Co-Founder
-        p Master's in Computer Science from Boston University. Early Bitcoin investor, founded a Chinese Bitcoin exchange; previously at MIT Lincoln Labs, OkCupidLabs, General Assembly, and Lime Brokerage. 8+ years of professional experience developing web applications serving 10M+ users as well as writing black box equity trading algorithms.
-        = render partial: 'linkedin_icon', locals: {url: 'https://www.linkedin.com/in/hanchang0/'}
+section.phr.pv5.pv6-m.bg-bright-gray.white-90
+  .container-narrow
+    h1.white Roadmap
+    .f6.lh-copy.mb4
+      .mb3 The roadmap outlined below is subject to change based on user feedback, market conditions, and the competitive landscape; it is merely intended as an overview to explain the features that CoinFi intends to implement on the platform.
+      .i Last Updated: May 3, 2018
+    #roadmap.accordion
+      .card
+        h3.card-title.white 2018Q2
+        .card-block
+          ul
+            li Custom Newsfeed with news type classification
+            li Improved news and content aggregation overlaid on price charts per cryptocurrency
+            li Improved custom watchlist
+            li Coin Screeners
+            li Advanced ICO Metrics (token retention rate, token distribution graph)
+            li Improved data pipeline
+            li Market data warehouse
+            li In-house crypto research & analysis
+      .card
+        h3.card-title.white 2018Q3
+        #roadmap2018Q3.in.collapse
+          .card-block
+            ul
+              li Custom cryptocurrency portfolio dashboard
+              li Allow users to follow others’ portfolios
+              li Accept staked tokens for advanced functionality
+              li Token-incentivized crowdsourcing
+              li Social functionality including upvote/downvote and sharing
+      .card
+        h3.card-title.white 2018Q4
+        #roadmap2018Q4.in.collapse
+          .card-block
+            ul
+              li Initial beta versions of trading signals
+              li Prototype of machine learning algorithms for content classification, quality assurance, and fraud detection
 
-      .col-xs-12.col-lg-2.col-lg-offset-2
-        .pa4.tc
-          img class="br-100 dib" src="https://res.cloudinary.com/coinfi/image/upload/v1522671949/profile-photos/nate-tsang.jpg" width="256"alt="Nate Tsang"
-      .col-xs-12.col-lg-6
-        h3
-          | Nate Tsang
-          small.ml3.fw1 Co-Founder
-        p Holds a Juris Doctor from UAlberta Law. 7+ years of experience as a growth hacker in media startups as well as developing multiple web properties that have cumulatively grown from zero to 10M+ pageviews. Co-founder of a keyword intelligence platform for digital marketers, acquired in 2016.
-        = render partial: 'linkedin_icon', locals: {url: 'https://www.linkedin.com/in/nate-tsang-3a493a153/'}
-section.phr.pv4.pv6-m.bg-bright-gray.white-90
-  .container
-    .row.pv5.items-center
-      .col-xs-12.col-lg-8.col-lg-offset-2
-        h1.white Roadmap
-        p.text-muted.smaller1 The roadmap outlined below is subject to change based on user feedback, market conditions, and the competitive landscape; it is merely intended as an overview to explain the features that CoinFi intends to implement on the platform.
+      .card
+        h3.card-title.white 2019Q1
+        #roadmap2019Q1.in.collapse
+          .card-block
+            ul
+              li Abnormal volatility detection
+              li Abnormal price movement detection
+              li Abnormal volume detection
+              li Increased social mention detection
+              li Best price exchange identification
+              li Best currency pair identification
+              li Source code release detection
+              li Launch premium subscription for trading signals
+              li Accept community contributed trading signals
+      .card
+        h3.card-title.white 2019Q2
+        #roadmap2019Q2.in.collapse
+          .card-block
+            ul
+              li VWAP (Volume Weighted Average Price)
+              li TWAP (Time Weighted Average Price)
+              li BWAP (Block Weighted Average Price)
+              li Sniper
+              li % of Volume
+              li Target Close
+              li Implementation Shortfall
+              li Launch premium subscription for trading algorithms
+              li Accept community contributed trading algorithms
 
-        h4.white.text-muted Last Updated: May 3, 2018
-        #roadmap.accordion
-          .card
-            h3.card-title.white 2018Q2
-            .card-block
-              ul
-                li Custom Newsfeed with news type classification
-                li Improved news and content aggregation overlaid on price charts per cryptocurrency
-                li Improved custom watchlist
-                li Coin Screeners
-                li Advanced ICO Metrics (token retention rate, token distribution graph)
-                li Improved data pipeline
-                li Market data warehouse
-                li In-house crypto research & analysis
-          .card
-            h3.card-title.white 2018Q3
-            #roadmap2018Q3.in.collapse
-              .card-block
-                ul
-                  li Custom cryptocurrency portfolio dashboard
-                  li Allow users to follow others’ portfolios
-                  li Accept staked tokens for advanced functionality
-                  li Token-incentivized crowdsourcing
-                  li Social functionality including upvote/downvote and sharing
-          .card
-            h3.card-title.white 2018Q4
-            #roadmap2018Q4.in.collapse
-              .card-block
-                ul
-                  li Initial beta versions of trading signals
-                  li Prototype of machine learning algorithms for content classification, quality assurance, and fraud detection
-
-          .card
-            h3.card-title.white 2019Q1
-            #roadmap2019Q1.in.collapse
-              .card-block
-                ul
-                  li Abnormal volatility detection
-                  li Abnormal price movement detection
-                  li Abnormal volume detection
-                  li Increased social mention detection
-                  li Best price exchange identification
-                  li Best currency pair identification
-                  li Source code release detection
-                  li Launch premium subscription for trading signals
-                  li Accept community contributed trading signals
-          .card
-            h3.card-title.white 2019Q2
-            #roadmap2019Q2.in.collapse
-              .card-block
-                ul
-                  li VWAP (Volume Weighted Average Price)
-                  li TWAP (Time Weighted Average Price)
-                  li BWAP (Block Weighted Average Price)
-                  li Sniper
-                  li % of Volume
-                  li Target Close
-                  li Implementation Shortfall
-                  li Launch premium subscription for trading algorithms
-                  li Accept community contributed trading algorithms
-
-          .card
-            h3.card-title.white 2019Q3
-            #roadmap2019Q3.in.collapse
-              .card-block
-                ul
-                  li Platform architecture for custom signals
-                  li UI/UX for developing custom signals
-                  li Drag and drop functionality to combine signals
-                  li Custom alerting
+      .card
+        h3.card-title.white 2019Q3
+        #roadmap2019Q3.in.collapse
+          .card-block
+            ul
+              li Platform architecture for custom signals
+              li UI/UX for developing custom signals
+              li Drag and drop functionality to combine signals
+              li Custom alerting

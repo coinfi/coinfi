@@ -24,16 +24,16 @@ table.responsive-table.right-align
   tbody
     - @coins.each do |coin|
       tr
-        
+
         // 1
-        
+
         td.left-align
           div
             .dib
               .flex.items-center.b.f4.f5-m
                 = image_tag coin.image_url, class: 'w2e mr3 mr2-m', alt: coin.name if coin.image_url
                 = link_to coin.name, coin, id: coin.slug
-        
+
         // 2
 
         td.reveal-m
@@ -104,8 +104,8 @@ table.responsive-table.right-align
 
         - if ['upcoming', 'active'].include? @status
           td
-            label Review count
+            label Review Count
             div
-              = coin.influencer_reviews_count
+              = coin.influencer_reviews.count
 
 = paginate @coins, window: 6

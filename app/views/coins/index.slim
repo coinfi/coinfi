@@ -17,10 +17,10 @@
             - if current_user
               th.reveal-m
         tbody
-          - @coins.each do |coin|
+          - @coins.each_with_index do |coin, idx|
             tr
               td.pr0
-                = coin.ranking
+                = paged_index(@coins.current_page, @coins.limit_value, idx)
               td
                 .flex.items-center
                   = image_tag coin.image_url, class: 'w2e mr2', alt: coin.name if coin.image_url.present?
