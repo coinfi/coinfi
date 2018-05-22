@@ -26,7 +26,7 @@ export default class Datafeed {
         ticker,
         minmov: 1,
         pricescale: 100,
-        session: '0900-1630|0900-1400:2',
+        session: '24x7',
         timezone: 'Europe/London'
       })
     }, 0)
