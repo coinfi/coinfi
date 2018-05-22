@@ -1,37 +1,38 @@
 import { takeLatest, select, put } from 'redux-saga/effects'
-import { apiSagas, createEntityActions } from '../../lib/redux'
+import {
+  apiSagas,
+  createEntityActions,
+  createEntitySagas
+} from '../../lib/redux'
 import * as selectors from './selectors'
 import * as actions from './actions'
 import { namespace } from './constants'
 
 const namespacedEntityActions = createEntityActions(namespace)
+const sagas = createEntitySagas(namespace)
 
 export default function* watcher() {
-  yield takeLatest('FETCH_ENTITIES', fetchEntities)
-  yield takeLatest('ADD_COIN_SUCCESS', doFetchEntities)
+  yield takeLatest('FETCH_ENTITY_LIST', fetchEntityList)
+  yield takeLatest('ADD_COIN_SUCCESS', doFetchEntityList)
+  yield takeLatest('REMOVE_COIN_SUCCESS', doFetchEntityList)
   yield takeLatest('REMOVE_COIN', removeCoin)
-  yield takeLatest('REMOVE_COIN_SUCCESS', doFetchEntities)
   yield takeLatest('REORDER_COINS', reorderCoins)
 }
 
-function* fetchEntities(action) {
+function* fetchEntityList(action) {
   if (action.namespace !== namespace) return
-  yield apiSagas.get(
-    '/watchlist/coins.json',
-    null,
-    namespacedEntityActions.setEntities('coins')
-  )
+  yield sagas.fetchEntityList({
+    ...action,
+    entityType: 'coins',
+    url: 'watchlist/coins'
+  })
   const coinIDs = yield select(selectors.coinIDs)
-  const q = { coin_id_in: coinIDs.toJS() }
-  yield apiSagas.get(
-    '/articles.json',
-    { q },
-    namespacedEntityActions.setEntities('articles')
-  )
+  const params = { coin_id_in: coinIDs.toJS() }
+  yield sagas.fetchEntityList({ ...action, entityType: 'articles', params })
 }
 
-function* doFetchEntities() {
-  yield put(namespacedEntityActions.fetchEntities())
+function* doFetchEntityList() {
+  yield put(namespacedEntityActions.fetchEntityList())
 }
 
 function* removeCoin({ id }) {

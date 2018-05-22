@@ -1,38 +1,23 @@
 import { takeLatest, select } from 'redux-saga/effects'
-import { apiSagas, createEntityActions } from '../../lib/redux'
+import { createEntitySagas } from '../../lib/redux'
 import * as selectors from './selectors'
 import { namespace } from './constants'
-import _ from 'lodash'
-import inflection from 'lodash-inflection'
-_.mixin(inflection)
 
-const actions = createEntityActions(namespace)
+const sagas = createEntitySagas(namespace)
 
 export default function* watcher() {
-  yield takeLatest('FETCH_ENTITIES', fetchEntities)
-  yield takeLatest('FETCH_ENTITY', fetchEntity)
+  yield takeLatest('FETCH_ENTITY_LIST', fetchEntityList)
+  yield takeLatest('FETCH_ENTITY_DETAILS', sagas.fetchEntityDetails)
 }
 
-function* fetchEntities(action) {
-  if (action.namespace === namespace) {
-    yield apiSagas.get(
-      '/newsfeed/coins.json',
-      null,
-      actions.setEntities('coins')
-    )
-    const coinIDs = yield select(selectors.coinIDs)
-    const q = { coin_id_in: coinIDs.toJS() }
-    yield apiSagas.get('/articles.json', { q }, actions.setEntities('articles'))
-  }
-}
-
-function* fetchEntity(action) {
-  if (action.namespace === namespace) {
-    const { entityType, entityID } = action
-    yield apiSagas.get(
-      `/${_.pluralize(entityType)}/${entityID}.json`,
-      null,
-      actions.setEntity('coin')
-    )
-  }
+function* fetchEntityList(action) {
+  if (action.namespace !== namespace) return
+  yield sagas.fetchEntityList({
+    ...action,
+    entityType: 'coins',
+    url: 'newsfeed/coins'
+  })
+  const coinIDs = yield select(selectors.coinIDs)
+  const params = { coin_id_in: coinIDs.toJS() }
+  yield sagas.fetchEntityList({ ...action, entityType: 'articles', params })
 }

@@ -8,6 +8,6 @@ export default createHOC({
   actions,
   selectors,
   onMount: (container) => {
-    container.props.fetchEntities()
+    container.props.fetchEntityList()
   }
 })

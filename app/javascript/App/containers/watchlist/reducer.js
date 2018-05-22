@@ -5,13 +5,7 @@ import { namespace } from './constants'
 export default createEntityReducer(namespace, watchlistReducer)
 
 function watchlistReducer(state, action) {
-  const { type, response } = action
-  switch (type) {
-    case 'REMOVE_COIN_SUCCESS':
-      return state.setIn(
-        ['ids', 'coins'],
-        state.getIn(['ids', 'coins']).filter((id) => id !== response.id)
-      )
+  switch (action.type) {
     case 'REORDER_COINS':
       return state.setIn(['ids', 'coins'], fromJS(action.order))
     default:

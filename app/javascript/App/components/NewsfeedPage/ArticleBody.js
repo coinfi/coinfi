@@ -4,10 +4,10 @@ import { stringHostname } from '../../lib/urlHelpers'
 
 export default class ArticleBody extends Component {
   render() {
-    const { selectArticle, selectArticleTags, currentItem } = this.props
+    const { selectArticleFromList, selectArticleTags, currentItem } = this.props
     const { id } = currentItem
-    const tags = selectArticleTags(id)
-    const article = selectArticle(id)
+    const article = selectArticleFromList(id)
+    const tags = selectArticleTags(article)
     return (
       <div className="pa4">
         {tags.size > 0 && (

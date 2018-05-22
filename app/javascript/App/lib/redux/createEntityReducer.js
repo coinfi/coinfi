@@ -6,13 +6,15 @@
  */
 import { fromJS } from 'immutable'
 import normalizers from '../../normalizers'
+import { pluralize } from '../misc'
 
 const initialState = fromJS({
-  entities: {},
-  ids: {}
+  entityDetails: {},
+  entityIDs: {},
+  entityList: {}
 })
 
-const whitelistedActions = ['SET_ENTITIES', 'SET_ENTITY']
+const whitelistedActions = ['SET_ENTITY_LIST', 'SET_ENTITY_DETAILS']
 
 const createEntityReducer = (namespace, containerReducer) => (
   state = initialState,
@@ -22,18 +24,22 @@ const createEntityReducer = (namespace, containerReducer) => (
     if (containerReducer) return containerReducer(state, action)
     return state
   }
-  const { entityType } = action
+  const { entityType, response } = action
   if (namespace !== action.namespace) return state
   switch (action.type) {
-    case 'SET_ENTITIES':
+    case 'SET_ENTITY_LIST':
       const normalizer = normalizers[entityType]
       if (!normalizer) console.error(`No normalizer found for ${entityType}`)
-      const normalized = normalizer(action.response)
+      const normalized = normalizer(response)
+      const entityLists = state.get('entityList').mergeDeep(normalized.entities)
       return state
-        .set('entities', state.get('entities').mergeDeep(normalized.entities))
-        .setIn(['ids', entityType], fromJS(normalized.result))
-    case 'SET_ENTITY':
-      return state.setIn(['currentEntity', entityType], fromJS(action.response))
+        .set('entityList', entityLists)
+        .setIn(['entityIDs', entityType], fromJS(normalized.result))
+    case 'SET_ENTITY_DETAILS':
+      return state.setIn(
+        ['entityDetails', pluralize(entityType), `${response.id}`],
+        fromJS(response)
+      )
     default:
       return state
   }
