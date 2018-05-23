@@ -3,7 +3,7 @@ import PercentageChange from '../PercentageChange'
 import Currency from '../Currency'
 
 export default ({ coin, setCurrentItem, currentItem }) => {
-  let klass = 'pa3 bb b--light-gray flex justify-between items-center'
+  let klass = 'pa3 bb b--light-gray flex justify-between items-center pointer'
   if (currentItem.type === 'coin' && currentItem.id === coin.get('id'))
     klass += ' bg-lightest-blue'
   return (

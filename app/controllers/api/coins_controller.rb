@@ -10,21 +10,23 @@ class Api::CoinsController < ApiController
   end
 
   def show
-    respond_success show_serializer(Coin.find(params[:id]))
+    coin = Coin.find(params[:id])
+    coin.current_user = current_user
+    respond_success show_serializer(coin)
   end
 
   private
 
   def index_serializer(coins)
-    coin.as_json(
+    coins.as_json(
       only: %i[id name image_url symbol slug price_usd]
     )
   end
-
+  
   def show_serializer(coin)
     coin.as_json(
       only: %i[id name image_url symbol slug price_usd],
-      methods: %i[prices_data news_data]
+      methods: %i[prices_data news_data market_info is_being_watched]
     )
   end
 

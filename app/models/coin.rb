@@ -1,4 +1,6 @@
 class Coin < ApplicationRecord
+  attr_accessor :current_user
+
   include ICO
   include MarketData
   extend FriendlyId
@@ -77,5 +79,8 @@ class Coin < ApplicationRecord
     }
   end
 
-
+  def is_being_watched
+    current_user && current_user.coins.include?(self)
+  end
+  
 end

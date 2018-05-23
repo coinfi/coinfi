@@ -21,34 +21,41 @@ class NewsfeedPage extends Component {
       currentItem
     }
     return (
-      <div className="container-wide ph4-l">
-        <div className="bg-white">
-          <div className="row no-gutter flex">
-            <div className="col-xs-2">
-              {coins &&
-                coins.map((coin, index) => (
-                  <CoinListItem key={index} coin={coin} {...componentProps} />
-                ))}
-            </div>
-            <div className="col-xs-5 bl b--light-gray">
-              <ColumnHeader>
-                <div>Search</div>
-                <div>Filters</div>
-              </ColumnHeader>
-              <ArticleList {...componentProps} />
-            </div>
-            <div className="col-xs-5 bl b--light-gray">
-              {currentUI(['newsfeed', 'bodyVisible']) ? (
-                <div>
-                  {currentItem.type === 'coin' ? (
-                    <CoinBody {...componentProps} />
-                  ) : (
-                    <ArticleBody {...componentProps} />
-                  )}
-                </div>
-              ) : (
-                <div className="pa4">Tips</div>
-              )}
+      <div>
+        <div id="site-subheader">
+          <div className="container-wide ph4 pb4">
+            <h1>Newsfeed</h1>
+          </div>
+        </div>
+        <div className="container-wide ph4-l">
+          <div className="bg-white">
+            <div className="row no-gutter flex">
+              <div className="col-xs-2">
+                {coins &&
+                  coins.map((coin, index) => (
+                    <CoinListItem key={index} coin={coin} {...componentProps} />
+                  ))}
+              </div>
+              <div className="col-xs-5 bl b--light-gray">
+                <ColumnHeader>
+                  <div>Search</div>
+                  <div>Filters</div>
+                </ColumnHeader>
+                <ArticleList {...componentProps} />
+              </div>
+              <div className="col-xs-5 bl b--light-gray">
+                {currentUI(['newsfeed', 'bodyVisible']) ? (
+                  <div>
+                    {currentItem.type === 'coin' ? (
+                      <CoinBody {...componentProps} />
+                    ) : (
+                      <ArticleBody {...componentProps} />
+                    )}
+                  </div>
+                ) : (
+                  <div className="pa4">Tips</div>
+                )}
+              </div>
             </div>
           </div>
         </div>

@@ -8,7 +8,7 @@ export default class DesktopLayout extends Component {
     const { activeFilters } = this.props
     return (
       <div className="flex-stack items-start">
-        {!activeFilters.find(f => f.get('key') === 'search') && (
+        {!activeFilters.find((f) => f.get('key') === 'search') && (
           <div>
             <SearchButton {...this.props} />
           </div>
