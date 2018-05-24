@@ -5,6 +5,7 @@ import ArticleList from './ArticleList'
 import ArticleBody from './ArticleBody'
 import CoinBody from './CoinBody'
 import Tips from './Tips'
+import Filters from '../Filters'
 
 class NewsfeedPage extends Component {
   render() {
@@ -13,7 +14,14 @@ class NewsfeedPage extends Component {
       <div>
         <div id="site-subheader">
           <div className="container-wide ph4 pb4">
-            <h1>Newsfeed</h1>
+            <div className="flex items-center">
+              <div>
+                <h1>Newsfeed</h1>
+              </div>
+              <div className="pl4">
+                <Filters {...this.props} />
+              </div>
+            </div>
           </div>
         </div>
         <div className="container-wide ph4-l">

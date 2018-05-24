@@ -3,12 +3,11 @@
  * change on resize, only on page refresh. 
  */
 import React from 'react'
-import container from '../../containers/icoFilters'
 import DesktopLayout from './DesktopLayout'
 import MobileLayout from './MobileLayout'
 import debounce from 'debounce'
 
-class IcoFilters extends React.Component {
+class Filters extends React.Component {
   componentWillMount() {
     window.addEventListener('resize', debounce(() => this.forceUpdate()), 500)
   }
@@ -21,4 +20,4 @@ class IcoFilters extends React.Component {
   }
 }
 
-export default container(IcoFilters)
+export default Filters
