@@ -1,13 +1,17 @@
-import { namespace } from './constants'
-import { createEntitySelectors } from '../../lib/redux'
+import { namespace, filterList } from './constants'
+import { createEntitySelectors, createFilterSelectors } from '../../lib/redux'
 
 const select = createEntitySelectors(namespace)
+const filterSelectors = createFilterSelectors(namespace, filterList)
 
-export const activeEntity = select.activeEntity
-export const coinIDs = select.entityIDs('coins')
-export const coins = select.entities('coins')
-export const articles = select.entities('articles')
-export const tags = select.entities('tags')
-export const selectArticleFromList = select.entityFromList('articles')
-export const selectCoinDetails = select.entityDetails('coin')
-export const selectArticleTags = select.entityChildren('articles', 'tags')
+export default {
+  activeEntity: select.activeEntity,
+  coinIDs: select.entityIDs('coins'),
+  coins: select.entities('coins'),
+  articles: select.entities('articles'),
+  tags: select.entities('tags'),
+  selectArticleFromList: select.entityFromList('articles'),
+  selectCoinDetails: select.entityDetails('coin'),
+  selectArticleTags: select.entityChildren('articles', 'tags'),
+  ...filterSelectors
+}

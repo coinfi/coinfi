@@ -6,6 +6,7 @@ import createEntitySelectors from './createEntitySelectors'
 import createFilterReducer from './createFilterReducer'
 import createFilterActions from './createFilterActions'
 import createFilterSelectors from './createFilterSelectors'
+import mergeReducers from './mergeReducers'
 import apiSagas from './apiSagas'
 
 export {
@@ -17,5 +18,6 @@ export {
   createEntitySelectors,
   createFilterReducer,
   createFilterActions,
-  createFilterSelectors
+  createFilterSelectors,
+  mergeReducers
 }

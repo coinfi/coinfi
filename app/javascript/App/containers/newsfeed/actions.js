@@ -1,7 +1,10 @@
 import { namespace } from './constants'
-import { createEntityActions } from '../../lib/redux'
+import { createEntityActions, createFilterActions } from '../../lib/redux'
+
 const entityActions = createEntityActions(namespace)
+const filterActions = createFilterActions(namespace)
 
 export default {
-  ...entityActions
+  ...entityActions,
+  ...filterActions
 }

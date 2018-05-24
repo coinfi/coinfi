@@ -1,9 +1,9 @@
-import { createEntityReducer } from '../../lib/redux'
+import { mergeReducers } from '../../lib/redux'
 import { namespace } from './constants'
 
-export default createEntityReducer(namespace, watchlistReducer)
+const initialState = {}
 
-function watchlistReducer(state, action) {
+const watchlistReducer = (state, action) => {
   const { type, payload } = action
   switch (type) {
     case 'REORDER_COINS':
@@ -12,3 +12,5 @@ function watchlistReducer(state, action) {
       return state
   }
 }
+
+export default mergeReducers({ namespace }, initialState, watchlistReducer)

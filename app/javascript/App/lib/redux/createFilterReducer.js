@@ -1,20 +1,11 @@
 import { fromJS, List } from 'immutable'
 import { listIndex } from '../stateHelpers'
+import initialState from './initialState'
 
-const initialState = fromJS({
-  activeFilters: []
-})
-
-const filterActions = ['RESET_FILTERS', 'SET_FILTER', 'REMOVE_FILTER']
-
-const createFilterReducer = ({ namespace, filterList }, wrappedReducer) => (
+const createFilterReducer = ({ namespace, filterList }) => (
   state = initialState,
   action
 ) => {
-  if (!filterActions.includes(action.type)) {
-    if (wrappedReducer) return wrappedReducer(state, action)
-    return state
-  }
   if (namespace !== action.namespace) return state
   const { type, payload } = action
   const filterIndex = () => listIndex(state.get('activeFilters'), payload.key)

@@ -1,4 +1,12 @@
-import { createEntityReducer } from '../../lib/redux'
-import { namespace } from './constants'
+import { mergeReducers } from '../../lib/redux'
+import { namespace, filterList } from './constants'
 
-export default createEntityReducer(namespace)
+const initialState = {}
+
+const newsfeedReducer = (state, action) => state
+
+export default mergeReducers(
+  { namespace, filterList },
+  initialState,
+  newsfeedReducer
+)

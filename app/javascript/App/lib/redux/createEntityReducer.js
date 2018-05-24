@@ -7,28 +7,9 @@
 import { fromJS } from 'immutable'
 import normalizers from '../../normalizers'
 import { pluralize } from '../misc'
+import initialState from './initialState'
 
-const initialState = fromJS({
-  activeEntity: null,
-  entityDetails: {},
-  entityIDs: {},
-  entityList: {}
-})
-
-const entityActions = [
-  'SET_ENTITY_LIST',
-  'SET_ENTITY_DETAILS',
-  'SET_ACTIVE_ENTITY'
-]
-
-const createEntityReducer = (namespace, wrappedReducer) => (
-  state = initialState,
-  action
-) => {
-  if (!entityActions.includes(action.type)) {
-    if (wrappedReducer) return wrappedReducer(state, action)
-    return state
-  }
+const createEntityReducer = (namespace) => (state = initialState, action) => {
   if (namespace !== action.namespace) return state
   const { entityType, response, payload } = action
   switch (action.type) {

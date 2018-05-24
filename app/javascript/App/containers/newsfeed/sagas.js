@@ -1,6 +1,6 @@
 import { takeLatest, select } from 'redux-saga/effects'
 import { createEntitySagas } from '../../lib/redux'
-import * as selectors from './selectors'
+import selectors from './selectors'
 import { namespace } from './constants'
 
 const sagas = createEntitySagas(namespace)
