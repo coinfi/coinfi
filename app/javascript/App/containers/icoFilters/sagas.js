@@ -1,8 +1,8 @@
 import axios from 'axios'
 import { takeLatest, select } from 'redux-saga/effects'
 import { currentURL, getQueryObject } from '../../lib/urlHelpers'
-import { pushStateToURL } from './bindFilters'
-import * as selectors from './selectors'
+import { pushObjectToURL } from '../../lib/urlHelpers'
+import selectors from './selectors'
 
 export default function* watcher() {
   yield takeLatest('SET_FILTER', update)
@@ -32,4 +32,13 @@ function updateResults({ payload }) {
       domContainer.innerHTML = html
     }
   })
+}
+
+function pushStateToURL({ activeFilters, newFilter }) {
+  let filterObject = activeFilters.toJS().reduce((n, o) => {
+    n[o.key] = o.value
+    return n
+  }, {})
+  if (newFilter) filterObject[newFilter.key] = newFilter.value
+  pushObjectToURL({ q: filterObject })
 }

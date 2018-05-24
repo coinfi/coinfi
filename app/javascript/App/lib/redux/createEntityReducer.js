@@ -21,16 +21,16 @@ const entityActions = [
   'SET_ACTIVE_ENTITY'
 ]
 
-const createEntityReducer = (namespace, containerReducer) => (
+const createEntityReducer = (namespace, wrappedReducer) => (
   state = initialState,
   action
 ) => {
   if (!entityActions.includes(action.type)) {
-    if (containerReducer) return containerReducer(state, action)
+    if (wrappedReducer) return wrappedReducer(state, action)
     return state
   }
-  const { entityType, response, payload } = action
   if (namespace !== action.namespace) return state
+  const { entityType, response, payload } = action
   switch (action.type) {
     case 'SET_ENTITY_LIST':
       const normalizer = normalizers[entityType]

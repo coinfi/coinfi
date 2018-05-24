@@ -1,22 +1,6 @@
-import { createSelector } from 'reselect'
-import { filterList } from './constants'
+import { namespace, filterList } from './constants'
+import { createFilterSelectors } from '../../lib/redux'
 
-const selectState = (state) => state.icoFilters
+const selectors = createFilterSelectors(namespace, filterList)
 
-export const activeFilters = createSelector(selectState, (s) => {
-  return s.get('activeFilters')
-})
-
-export const availableFilters = createSelector(selectState, (s) => {
-  const active = s.get('activeFilters')
-  return filterList.filter((item) => {
-    if (item.get('disabled') || item.get('unlisted')) return false
-    return !active.find((o) => o.get('key') === item.get('key'))
-  })
-})
-
-export const disabledFilters = createSelector(selectState, (s) => {
-  return filterList.filter((item) => {
-    return !!item.get('disabled')
-  })
-})
+export default selectors

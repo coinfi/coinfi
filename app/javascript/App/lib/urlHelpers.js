@@ -22,3 +22,8 @@ export const stringHostname = (string) => {
   const parts = hostname.split('.')
   return `${parts[parts.length - 2]}.${parts[parts.length - 1]}`
 }
+
+export const pushObjectToURL = (object) => {
+  const queryString = qs.stringify(object, { encode: false })
+  window.history.pushState(object, document.title, `?${queryString}`)
+}

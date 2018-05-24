@@ -1,5 +1,7 @@
 import { fromJS } from 'immutable'
 
+export const namespace = 'icoFilters'
+
 export const filterList = fromJS([
   {
     key: 'search',
