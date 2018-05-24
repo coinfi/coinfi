@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Component } from 'react'
 import Highcharts from 'highcharts/highstock'
 import fixOverlap from './fixOverlap'
 import options from './options'
@@ -7,7 +7,7 @@ window.Highcharts = Highcharts
 
 const containerID = 'highcharts'
 
-export default class PriceGraph extends React.Component {
+export default class PriceGraph extends Component {
   componentDidMount() {
     let priceData = document
       .getElementById('coin-charts')

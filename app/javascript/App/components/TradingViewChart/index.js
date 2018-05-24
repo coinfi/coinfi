@@ -1,10 +1,10 @@
-import React from 'react'
+import React, { Component } from 'react'
 import Datafeed from './Datafeed'
 const { TradingView } = window
 
 const containerID = 'tradingview'
 
-export default class TradingViewChart extends React.Component {
+export default class TradingViewChart extends Component {
   componentDidMount() {
     // TODO: inject TV lib here
     const { symbol } = this.props
