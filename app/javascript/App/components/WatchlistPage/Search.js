@@ -36,10 +36,7 @@ class WatchlistSearch extends Component {
                   {coin.get('name')}
                   <span className="b ml2 f7">{coin.get('symbol')}</span>
                 </div>
-                <WatchButton
-                  coinID={coin.get('id')}
-                  onSuccess={addCoinSuccess}
-                />
+                <WatchButton coinID={coin.get('id')} onWatch={addCoinSuccess} />
               </div>
             ))}
           </div>

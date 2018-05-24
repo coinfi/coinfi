@@ -1,25 +1,29 @@
-export default (namespace) => ({
-  fetchEntityDetails: (entityType, entityID) => ({
-    type: 'FETCH_ENTITY_DETAILS',
+import { pluralize } from '../misc'
+
+export default (namespace) => {
+  const actionProps = (entityType) => ({
     namespace,
-    entityType,
-    entityID
-  }),
-  setEntity: (entityType) => (response) => ({
-    type: 'SET_ENTITY_DETAILS',
-    namespace,
-    entityType,
-    response
-  }),
-  fetchEntityList: (entityType) => ({
-    type: 'FETCH_ENTITY_LIST',
-    namespace,
-    entityType
-  }),
-  setEntities: (entityType) => (response) => ({
-    type: 'SET_ENTITY_LIST',
-    namespace,
-    entityType,
-    response
+    entityType: entityType ? pluralize(entityType) : null
   })
-})
+  return {
+    fetchEntityDetails: (entityType, entityID) => ({
+      type: 'FETCH_ENTITY_DETAILS',
+      ...actionProps(entityType),
+      entityID
+    }),
+    setEntityDetails: (entityType, response) => ({
+      type: 'SET_ENTITY_DETAILS',
+      ...actionProps(entityType),
+      response
+    }),
+    fetchEntityList: (entityType) => ({
+      type: 'FETCH_ENTITY_LIST',
+      ...actionProps(entityType)
+    }),
+    setEntityList: (entityType, response) => ({
+      type: 'SET_ENTITY_LIST',
+      ...actionProps(entityType),
+      response
+    })
+  }
+}

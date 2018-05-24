@@ -5,7 +5,7 @@ import Currency from '../Currency'
 export default ({ coin, setCurrentItem, currentItem }) => {
   let klass = 'pa3 bb b--light-gray flex justify-between items-center pointer'
   if (currentItem.type === 'coin' && currentItem.id === coin.get('id'))
-    klass += ' bg-lightest-blue'
+    klass += ' bg-foam'
   return (
     <div
       onClick={() => setCurrentItem({ type: 'coin', id: coin.get('id') })}

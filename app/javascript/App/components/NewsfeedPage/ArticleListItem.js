@@ -1,10 +1,18 @@
 import React from 'react'
 import timeago from 'timeago.js'
 
-export default ({ article, selectArticleTags, setCurrentItem }) => {
+export default ({
+  article,
+  selectArticleTags,
+  setCurrentItem,
+  currentItem
+}) => {
   const tags = selectArticleTags(article)
+  let klass = 'pa3 bb b--light-gray tiber'
+  if (currentItem.type === 'article' && currentItem.id === article.get('id'))
+    klass += ' bg-foam'
   return (
-    <div className="pa3 bb b--light-gray tiber">
+    <div className={klass}>
       <div
         className="pointer"
         onClick={() =>

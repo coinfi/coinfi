@@ -8,7 +8,7 @@ export default class CoinBody extends Component {
   state = { fetchedID: null }
   componentWillMount = () => this.fetchCoinDetails()
   componentDidUpdate = () => this.fetchCoinDetails()
-  fetchCoinDetails() {
+  fetchCoinDetails = () => {
     const { currentItem, fetchEntityDetails } = this.props
     const { id } = currentItem
     const { fetchedID } = this.state
@@ -17,6 +17,10 @@ export default class CoinBody extends Component {
       this.setState({ fetchedID: id })
       this.forceUpdate()
     }
+  }
+  onWatchCoin = ({ id, watching }) => {
+    const details = { id, is_being_watched: watching }
+    this.props.setEntityDetails('coin', details)
   }
   render() {
     const { selectCoinDetails, currentItem } = this.props
@@ -27,7 +31,7 @@ export default class CoinBody extends Component {
     coin = coin.toJS()
     return (
       <div className="pa4">
-        <div className="flex justify-between">
+        <div className="flex justify-between items-center">
           <div className="f4 fw6 flex items-center">
             {coin.image_url && (
               <img className="w2e h2e mr3" src={coin.image_url} alt="" />
@@ -36,7 +40,11 @@ export default class CoinBody extends Component {
             <span className="ml2">({coin.symbol})</span>
           </div>
           <div>
-            <WatchButton coinID={coin.id} watching={coin.is_being_watched} />
+            <WatchButton
+              coinID={coin.id}
+              watching={coin.is_being_watched}
+              onChange={this.onWatchCoin}
+            />
           </div>
         </div>
         <div className="min-h12e flex items-center justify-center">
@@ -52,7 +60,7 @@ export default class CoinBody extends Component {
                 />
               </span>
             </div>
-            <div className="dib ph2 pv1 bg-light-gray f6">
+            <div className="dib ph2 pv1 bg-light-gray f6 mt2">
               Market:&nbsp;
               {coin.market_info.market_cap_usd}
             </div>

@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { createStructuredSelector } from 'reselect'
-import createGenericActions from './createEntityActions'
+import createEntityActions from './createEntityActions'
 
 export default (args) => (Component) => {
   const { namespace, actions, selectors, onMount, extraProps } = args
@@ -18,7 +18,7 @@ export default (args) => (Component) => {
   }
 
   let genericActions = {}
-  if (namespace) genericActions = createGenericActions(namespace)
+  if (namespace) genericActions = createEntityActions(namespace)
   const mapDispatch = (dispatch) =>
     bindActionCreators({ ...genericActions, ...actions }, dispatch)
   const mapState = createStructuredSelector(selectors)

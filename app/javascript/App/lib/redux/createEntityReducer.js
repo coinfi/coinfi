@@ -36,10 +36,9 @@ const createEntityReducer = (namespace, containerReducer) => (
         .set('entityList', entityLists)
         .setIn(['entityIDs', entityType], fromJS(normalized.result))
     case 'SET_ENTITY_DETAILS':
-      return state.setIn(
-        ['entityDetails', pluralize(entityType), `${response.id}`],
-        fromJS(response)
-      )
+      const keyPath = ['entityDetails', pluralize(entityType), `${response.id}`]
+      let existingDetails = state.getIn(keyPath) || fromJS({})
+      return state.setIn(keyPath, existingDetails.mergeDeep(response))
     default:
       return state
   }
