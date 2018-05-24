@@ -1,13 +1,13 @@
-import { fromJS } from 'immutable'
 import { createEntityReducer } from '../../lib/redux'
 import { namespace } from './constants'
 
 export default createEntityReducer(namespace, watchlistReducer)
 
 function watchlistReducer(state, action) {
-  switch (action.type) {
+  const { type, payload } = action
+  switch (type) {
     case 'REORDER_COINS':
-      return state.setIn(['ids', 'coins'], fromJS(action.order))
+      return state.setIn(['entityIDs', 'coins'], payload)
     default:
       return state
   }

@@ -24,7 +24,7 @@ const createEntityReducer = (namespace, containerReducer) => (
     if (containerReducer) return containerReducer(state, action)
     return state
   }
-  const { entityType, response } = action
+  const { entityType, response, payload } = action
   if (namespace !== action.namespace) return state
   switch (action.type) {
     case 'SET_ENTITY_LIST':
@@ -34,11 +34,13 @@ const createEntityReducer = (namespace, containerReducer) => (
       const entityLists = state.get('entityList').mergeDeep(normalized.entities)
       return state
         .set('entityList', entityLists)
-        .setIn(['entityIDs', entityType], fromJS(normalized.result))
+        .setIn(['entityIDs', entityType], normalized.result)
     case 'SET_ENTITY_DETAILS':
       const keyPath = ['entityDetails', pluralize(entityType), `${response.id}`]
       let existingDetails = state.getIn(keyPath) || fromJS({})
       return state.setIn(keyPath, existingDetails.mergeDeep(response))
+    case 'SET_CURRENT_ENTITY':
+      return state.set('currentEntity', fromJS(payload))
     default:
       return state
   }

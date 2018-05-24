@@ -36,7 +36,7 @@ export const selectEntities = (namespace, entityType) => {
   return createSelector(selectState(namespace), (state) => {
     const ids = state.getIn(['entityIDs', entityType])
     const entities = state.getIn(['entityList', entityType])
-    if (!ids || !entities) return null
+    if (!ids || !entities) return []
     return ids.map((id) => entities.get(`${id}`))
   })
 }

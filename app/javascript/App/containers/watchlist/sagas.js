@@ -26,8 +26,8 @@ function* fetchEntityList(action) {
     entityType: 'coins',
     url: 'watchlist/coins'
   })
-  const coinIDs = yield select(selectors.coinIDs)
-  const params = { coin_id_in: coinIDs.toJS() }
+  const coin_id_in = yield select(selectors.coinIDs)
+  const params = { coin_id_in }
   yield sagas.fetchEntityList({ ...action, entityType: 'articles', params })
 }
 
@@ -43,10 +43,10 @@ function* removeCoin({ id }) {
   )
 }
 
-function* reorderCoins({ order }) {
+function* reorderCoins({ payload }) {
   yield apiSagas.patch(
     '/watchlist/coins.json',
-    { order },
+    { order: payload },
     actions.reorderCoinsSuccess
   )
 }

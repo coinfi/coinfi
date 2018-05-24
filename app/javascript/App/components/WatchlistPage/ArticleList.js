@@ -17,12 +17,9 @@ export default (props) => {
       </div>
       <div id="article-list" className="pt1 ph1 bg-athens-dark bg-white-m">
         <div className="tab-content active">
-          {articles &&
-            articles
-              .valueSeq()
-              .map((article, index) => (
-                <ArticleListItem {...props} article={article} key={index} />
-              ))}
+          {articles.map((article, index) => (
+            <ArticleListItem {...props} article={article} key={index} />
+          ))}
           {(!articles || articles.size === 0) && (
             <div className="pt2 o-60">Add items to see news here</div>
           )}

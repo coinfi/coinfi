@@ -10,8 +10,8 @@ export const addCoinSuccess = () => {
   return { type: 'ADD_COIN_SUCCESS' }
 }
 
-export const reorderCoins = (order) => {
-  return { type: 'REORDER_COINS', order }
+export const reorderCoins = (payload) => {
+  return { type: 'REORDER_COINS', payload }
 }
 
 export const reorderCoinsSuccess = () => {

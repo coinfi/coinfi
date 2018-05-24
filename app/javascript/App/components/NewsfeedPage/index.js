@@ -4,6 +4,7 @@ import CoinListItem from './CoinListItem'
 import ArticleList from './ArticleList'
 import ArticleBody from './ArticleBody'
 import CoinBody from './CoinBody'
+import Tips from './Tips'
 
 class NewsfeedPage extends Component {
   state = { currentItem: {} }
@@ -31,10 +32,9 @@ class NewsfeedPage extends Component {
           <div className="bg-white">
             <div className="row no-gutter flex">
               <div className="col-xs-2">
-                {coins &&
-                  coins.map((coin, index) => (
-                    <CoinListItem key={index} coin={coin} {...componentProps} />
-                  ))}
+                {coins.map((coin, index) => (
+                  <CoinListItem key={index} coin={coin} {...componentProps} />
+                ))}
               </div>
               <div className="col-xs-5 bl b--light-gray">
                 <ColumnHeader>
@@ -53,7 +53,7 @@ class NewsfeedPage extends Component {
                     )}
                   </div>
                 ) : (
-                  <div className="pa4">Tips</div>
+                  <Tips />
                 )}
               </div>
             </div>

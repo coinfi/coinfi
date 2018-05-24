@@ -8,12 +8,11 @@ const SortableWatchlist = SortableContainer((props) => {
     return <div className="o-60 pv3 tc">Nothing added yet</div>
   return (
     <div>
-      {coins &&
-        coins.map((coin, index) => (
-          <WatchlistItem
-            {...{ ...props, index, key: index, coin: coin.toJS() }}
-          />
-        ))}
+      {coins.map((coin, index) => (
+        <WatchlistItem
+          {...{ ...props, index, key: index, coin: coin.toJS() }}
+        />
+      ))}
     </div>
   )
 })
@@ -26,7 +25,7 @@ export default (props) => (
     pressDelay={200}
     onSortEnd={({ oldIndex, newIndex }) => {
       const { reorderCoins, coinIDs } = props
-      reorderCoins(arrayMove(coinIDs.toJS(), oldIndex, newIndex))
+      reorderCoins(arrayMove(coinIDs, oldIndex, newIndex))
     }}
   />
 )

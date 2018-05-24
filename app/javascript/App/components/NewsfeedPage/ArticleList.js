@@ -6,16 +6,13 @@ export default class ArticleList extends Component {
     const { articles } = this.props
     return (
       <div>
-        {articles &&
-          articles
-            .valueSeq()
-            .map((article) => (
-              <ArticleListItem
-                key={article.get('id')}
-                {...this.props}
-                article={article}
-              />
-            ))}
+        {articles.map((article) => (
+          <ArticleListItem
+            key={article.get('id')}
+            {...this.props}
+            article={article}
+          />
+        ))}
       </div>
     )
   }
