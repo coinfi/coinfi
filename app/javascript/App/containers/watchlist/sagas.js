@@ -5,7 +5,7 @@ import {
   createEntitySagas
 } from '../../lib/redux'
 import * as selectors from './selectors'
-import * as actions from './actions'
+import actions from './actions'
 import { namespace } from './constants'
 
 const namespacedEntityActions = createEntityActions(namespace)

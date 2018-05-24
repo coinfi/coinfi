@@ -4,8 +4,12 @@ import { stringHostname } from '../../lib/urlHelpers'
 
 export default class ArticleBody extends Component {
   render() {
-    const { selectArticleFromList, selectArticleTags, currentItem } = this.props
-    const { id } = currentItem
+    const {
+      selectArticleFromList,
+      selectArticleTags,
+      activeEntity
+    } = this.props
+    const { id } = activeEntity
     const article = selectArticleFromList(id)
     const tags = selectArticleTags(article)
     return (

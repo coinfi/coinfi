@@ -9,18 +9,23 @@ import normalizers from '../../normalizers'
 import { pluralize } from '../misc'
 
 const initialState = fromJS({
+  activeEntity: null,
   entityDetails: {},
   entityIDs: {},
   entityList: {}
 })
 
-const whitelistedActions = ['SET_ENTITY_LIST', 'SET_ENTITY_DETAILS']
+const entityActions = [
+  'SET_ENTITY_LIST',
+  'SET_ENTITY_DETAILS',
+  'SET_ACTIVE_ENTITY'
+]
 
 const createEntityReducer = (namespace, containerReducer) => (
   state = initialState,
   action
 ) => {
-  if (!whitelistedActions.includes(action.type)) {
+  if (!entityActions.includes(action.type)) {
     if (containerReducer) return containerReducer(state, action)
     return state
   }
@@ -39,8 +44,8 @@ const createEntityReducer = (namespace, containerReducer) => (
       const keyPath = ['entityDetails', pluralize(entityType), `${response.id}`]
       let existingDetails = state.getIn(keyPath) || fromJS({})
       return state.setIn(keyPath, existingDetails.mergeDeep(response))
-    case 'SET_CURRENT_ENTITY':
-      return state.set('currentEntity', fromJS(payload))
+    case 'SET_ACTIVE_ENTITY':
+      return state.set('activeEntity', payload)
     default:
       return state
   }

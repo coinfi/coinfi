@@ -9,8 +9,8 @@ export default class CoinBody extends Component {
   componentWillMount = () => this.fetchCoinDetails()
   componentDidUpdate = () => this.fetchCoinDetails()
   fetchCoinDetails = () => {
-    const { currentItem, fetchEntityDetails } = this.props
-    const { id } = currentItem
+    const { activeEntity, fetchEntityDetails } = this.props
+    const { id } = activeEntity
     const { fetchedID } = this.state
     if (fetchedID !== id) {
       fetchEntityDetails('coin', id)
@@ -23,10 +23,10 @@ export default class CoinBody extends Component {
     this.props.setEntityDetails('coin', details)
   }
   render() {
-    const { selectCoinDetails, currentItem } = this.props
+    const { selectCoinDetails, activeEntity } = this.props
     const { fetchedID } = this.state
-    if (fetchedID !== currentItem.id) return null
-    let coin = selectCoinDetails(currentItem.id)
+    if (fetchedID !== activeEntity.id) return null
+    let coin = selectCoinDetails(activeEntity.id)
     if (!coin) return null
     coin = coin.toJS()
     return (

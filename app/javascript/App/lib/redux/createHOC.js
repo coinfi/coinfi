@@ -2,10 +2,9 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { createStructuredSelector } from 'reselect'
-import createEntityActions from './createEntityActions'
 
 export default (args) => (Component) => {
-  const { namespace, actions, selectors, onMount, extraProps } = args
+  const { actions, selectors, onMount, extraProps } = args
   class HOC extends React.Component {
     componentDidMount() {
       if (onMount) onMount(this)
@@ -16,11 +15,7 @@ export default (args) => (Component) => {
       return <Component {...props} />
     }
   }
-
-  let genericActions = {}
-  if (namespace) genericActions = createEntityActions(namespace)
-  const mapDispatch = (dispatch) =>
-    bindActionCreators({ ...genericActions, ...actions }, dispatch)
+  const mapDispatch = (dispatch) => bindActionCreators(actions, dispatch)
   const mapState = createStructuredSelector(selectors)
   return connect(mapState, mapDispatch)(HOC)
 }

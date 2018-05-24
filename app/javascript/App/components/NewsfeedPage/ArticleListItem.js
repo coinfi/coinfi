@@ -4,19 +4,23 @@ import timeago from 'timeago.js'
 export default ({
   article,
   selectArticleTags,
-  setCurrentItem,
-  currentItem
+  setCurrentEntity,
+  activeEntity
 }) => {
   const tags = selectArticleTags(article)
   let klass = 'pa3 bb b--light-gray tiber'
-  if (currentItem.type === 'article' && currentItem.id === article.get('id'))
+  if (
+    activeEntity &&
+    activeEntity.type === 'article' &&
+    activeEntity.id === article.get('id')
+  )
     klass += ' bg-foam'
   return (
     <div className={klass}>
       <div
         className="pointer"
         onClick={() =>
-          setCurrentItem({ type: 'article', id: article.get('id') })
+          setCurrentEntity({ type: 'article', id: article.get('id') })
         }
       >
         <h4 className="fw6 mv3 f4">{article.get('title')}</h4>

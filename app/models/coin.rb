@@ -81,7 +81,7 @@ class Coin < ApplicationRecord
 
   def is_being_watched
     # Only use this for serialization
-    current_user && coins.include?(self)
+    current_user && current_user.coins.include?(self)
   end
   
 end
