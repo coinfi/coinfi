@@ -1,9 +1,9 @@
 class Api::NewsItemsController < ApiController
 
   def index
-    @news_items = NewsItem.ransack(
-      params[:q]
-    ).result(distinct: true).order('feed_item_published_at desc').limit(10)
+    @news_items = NewsItem.includes(:news_coin_mentions)
+      .where('news_coin_mentions.coin_id = ?', params[:q][:coin_ids_any])
+      .order('feed_item_published_at desc').limit(10)
     respond_success serialized(@news_items)
   end
 

@@ -38,8 +38,8 @@ function* fetchCoins(action) {
 }
 
 function* fetchNewsItems(action) {
-  const coin_id_in = yield select(selectors.coinIDs)
-  const params = { coin_id_in }
+  const coin_ids_any = yield select(selectors.coinIDs)
+  const params = { coin_ids_any }
   yield entitySagas.fetchEntityList({
     ...action,
     entityType: 'newsItems',
@@ -56,7 +56,7 @@ function* handleFocusChange(action) {
       ...action,
       entityType: 'newsItems',
       url: 'news_items',
-      params: { coin_id_eq: id }
+      params: { coin_ids_any: id }
     })
   }
 }
