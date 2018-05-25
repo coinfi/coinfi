@@ -18,6 +18,7 @@ namespace :data_migrations do
         summary: article.summary,
         feed_item_published_at: article.published_date,
         feed_item_updated_at: article.updated_at,
+        coin_ids: [article.coin_id]
       )
     end
   end
