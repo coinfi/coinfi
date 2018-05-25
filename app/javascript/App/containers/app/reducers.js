@@ -13,7 +13,7 @@ const persistConfig = {
   transforms: [immutableTransform()],
   key: 'root',
   storage,
-  whitelist: ['icoFilters']
+  whitelist: ['icoFilters', 'newsfeed']
 }
 
 const appReducers = combineReducers({

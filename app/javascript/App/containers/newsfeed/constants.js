@@ -6,5 +6,6 @@ export const filterList = fromJS([
   {
     key: 'search',
     label: 'Search'
-  }
+  },
+  { key: 'coins', label: 'Coins' }
 ])

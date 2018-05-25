@@ -3,6 +3,7 @@ import { takeLatest, select } from 'redux-saga/effects'
 import { currentURL, getQueryObject } from '../../lib/urlHelpers'
 import { pushObjectToURL } from '../../lib/urlHelpers'
 import selectors from './selectors'
+import { namespace } from './constants'
 
 export default function* watcher() {
   yield takeLatest('SET_FILTER', update)
@@ -11,6 +12,7 @@ export default function* watcher() {
 }
 
 function* update(action) {
+  if (action.namespace !== namespace) return
   yield updateURL(action)
   updateResults(action)
 }

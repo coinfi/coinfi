@@ -19,7 +19,10 @@ class NewsfeedPage extends Component {
                 <h1>Newsfeed</h1>
               </div>
               <div className="pl4">
-                <Filters {...this.props} />
+                <Filters
+                  {...this.props}
+                  filterData={{ coins: coins.map((c) => c.get('name')) }}
+                />
               </div>
             </div>
           </div>

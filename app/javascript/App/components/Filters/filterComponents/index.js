@@ -9,6 +9,7 @@ import ReviewedBy from './ReviewedBy'
 import SocialCounts from './SocialCounts'
 import StartingDate from './StartingDate'
 import TokenType from './TokenType'
+import Coins from './Coins'
 
 export default {
   search: Search,
@@ -21,5 +22,6 @@ export default {
   reviewedBy: ReviewedBy,
   socialCounts: SocialCounts,
   startingDate: StartingDate,
-  tokenType: TokenType
+  tokenType: TokenType,
+  coins: Coins
 }

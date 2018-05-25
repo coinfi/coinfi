@@ -6,16 +6,16 @@ export default class ItemSelector extends Component {
   unselectedItems = () => {
     const { items } = this.props
     let selected = this.selectedItems()
-    return items.filter(item => !selected.includes(item))
+    return items.filter((item) => !selected.includes(item))
   }
-  add = item => {
+  add = (item) => {
     let items = this.selectedItems()
     items.push(item)
     this.props.onChange(items)
   }
-  remove = item => {
+  remove = (item) => {
     let items = this.selectedItems()
-    items = items.filter(c => c !== item)
+    items = items.filter((c) => c !== item)
     this.props.onChange(items)
   }
   render() {
@@ -35,8 +35,8 @@ export default class ItemSelector extends Component {
         </div>
         <div className="bt b--geyser pv2 max-h18e-m overflow-y-scroll-m">
           <ul>
-            {this.unselectedItems().map(item => (
-              <li key={item}>
+            {this.unselectedItems().map((item, i) => (
+              <li key={i}>
                 <button onClick={() => this.add(item)}>
                   {item}
                   <i className="fal fa-plus ml3" />
