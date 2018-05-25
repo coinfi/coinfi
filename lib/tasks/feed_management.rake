@@ -52,13 +52,13 @@ namespace :feeds do
     #using batch_process here just for error_handling e.g. since we have manually created one of these already
     #we just want it to skip the unique constraint error that will be thrown and keep going to create the rest
     batch_process(Coin.where.not(twitter: nil).where.not(twitter: "")) do |coin|
-    twitter_user = coin.twitter.split("/").last
-    FeedSource.create!( 
-      name: coin.name + " Twitter",
-      feed_url: "https://twitrss.me/twitter_user_to_rss/?user=#{twitter_user}",
-      site_url: coin.twitter,
-      feed_type: 'twitter'
-    )
+      twitter_user = coin.twitter.split("/").last
+      FeedSource.create!(
+        name: coin.name + " Twitter",
+        feed_url: "https://twitrss.me/twitter_user_to_rss/?user=#{twitter_user}",
+        site_url: coin.twitter,
+        feed_type: 'twitter'
+      )
     end
   end
 

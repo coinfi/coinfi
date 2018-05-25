@@ -272,13 +272,6 @@ ActiveRecord::Schema.define(version: 20180524092136) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "mentions", force: :cascade do |t|
-    t.bigint "coin_id"
-    t.bigint "news_item_id"
-    t.index ["coin_id"], name: "index_mentions_on_coin_id"
-    t.index ["news_item_id"], name: "index_mentions_on_news_item_id"
-  end
-
   create_table "news_item_raws", force: :cascade do |t|
     t.string "feed_item_id"
     t.string "source"
@@ -418,6 +411,4 @@ ActiveRecord::Schema.define(version: 20180524092136) do
   add_foreign_key "feed_sources", "coins"
   add_foreign_key "influencer_reviews", "coins", on_delete: :cascade
   add_foreign_key "influencer_reviews", "influencers", on_delete: :cascade
-  add_foreign_key "mentions", "coins"
-  add_foreign_key "mentions", "news_items"
 end
