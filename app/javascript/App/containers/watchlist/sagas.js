@@ -28,7 +28,12 @@ function* fetchEntityList(action) {
   })
   const coin_id_in = yield select(selectors.coinIDs)
   const params = { coin_id_in }
-  yield sagas.fetchEntityList({ ...action, entityType: 'articles', params })
+  yield sagas.fetchEntityList({
+    ...action,
+    entityType: 'newsItems',
+    url: 'news_items',
+    params
+  })
 }
 
 function* doFetchEntityList() {

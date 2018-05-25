@@ -17,12 +17,12 @@ function* fetchWatchlistEntities(action) {
     case 'coins':
       yield fetchCoins(action)
       break
-    case 'articles':
-      yield fetchArticles(action)
+    case 'newsItems':
+      yield fetchNewsItems(action)
       break
     default:
       yield fetchCoins(action)
-      yield fetchArticles(action)
+      yield fetchNewsItems(action)
       break
   }
 }
@@ -35,10 +35,15 @@ function* fetchCoins(action) {
   })
 }
 
-function* fetchArticles(action) {
+function* fetchNewsItems(action) {
   const coin_id_in = yield select(selectors.coinIDs)
   const params = { coin_id_in }
-  yield sagas.fetchEntityList({ ...action, entityType: 'articles', params })
+  yield sagas.fetchEntityList({
+    ...action,
+    entityType: 'newsItems',
+    url: 'news_items',
+    params
+  })
 }
 
 function* handleFocusChange(action) {
@@ -47,7 +52,8 @@ function* handleFocusChange(action) {
   if (type === 'coin') {
     yield sagas.fetchEntityList({
       ...action,
-      entityType: 'articles',
+      entityType: 'newsItems',
+      url: 'news_items',
       params: { coin_id_eq: id }
     })
   }

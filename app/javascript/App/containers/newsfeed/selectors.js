@@ -8,10 +8,10 @@ export default {
   activeEntity: select.activeEntity,
   coinIDs: select.entityIDs('coins'),
   coins: select.entities('coins'),
-  articles: select.entities('articles'),
+  newsItems: select.entities('newsItems'),
   tags: select.entities('tags'),
-  selectArticleFromList: select.entityFromList('articles'),
+  selectNewsItemFromList: select.entityFromList('newsItems'),
   selectCoinDetails: select.entityDetails('coin'),
-  selectArticleTags: select.entityChildren('articles', 'tags'),
+  selectNewsItemTags: select.entityChildren('newsItems', 'tags'),
   ...filterSelectors
 }

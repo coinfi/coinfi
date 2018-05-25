@@ -69,7 +69,7 @@ export default class CoinBody extends Component {
         <CoinCharts
           symbol={coin.symbol}
           priceData={coin.prices_data}
-          articles={coin.news_data}
+          newsItems={coin.news_data}
         />
       </div>
     )

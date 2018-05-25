@@ -1,7 +1,7 @@
-import articles from './articles'
+import newsItems from './newsItems'
 import coins from './coins'
 
 export default {
-  articles,
+  newsItems,
   coins
 }

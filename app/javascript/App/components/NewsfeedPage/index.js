@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import newsfeedContainer from '../../containers/newsfeed'
 import CoinListItem from './CoinListItem'
-import ArticleList from './ArticleList'
-import ArticleBody from './ArticleBody'
+import NewsItemList from './NewsItemList'
+import NewsItemBody from './NewsItemBody'
 import CoinBody from './CoinBody'
 import Tips from './Tips'
 import Filters from '../Filters'
@@ -40,7 +40,7 @@ class NewsfeedPage extends Component {
                   <div>Search</div>
                   <div>Filters</div>
                 </ColumnHeader>
-                <ArticleList {...this.props} />
+                <NewsItemList {...this.props} />
               </div>
               <div className="col-xs-5 bl b--light-gray">
                 {activeEntity ? (
@@ -48,7 +48,7 @@ class NewsfeedPage extends Component {
                     {activeEntity.type === 'coin' ? (
                       <CoinBody {...this.props} />
                     ) : (
-                      <ArticleBody {...this.props} />
+                      <NewsItemBody {...this.props} />
                     )}
                   </div>
                 ) : (

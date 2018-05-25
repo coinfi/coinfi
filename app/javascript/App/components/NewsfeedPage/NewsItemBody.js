@@ -2,16 +2,16 @@ import React, { Component } from 'react'
 import timeago from 'timeago.js'
 import { stringHostname } from '../../lib/urlHelpers'
 
-export default class ArticleBody extends Component {
+export default class NewsItemBody extends Component {
   render() {
     const {
-      selectArticleFromList,
-      selectArticleTags,
+      selectNewsItemFromList,
+      selectNewsItemTags,
       activeEntity
     } = this.props
     const { id } = activeEntity
-    const article = selectArticleFromList(id)
-    const tags = selectArticleTags(article)
+    const newsItem = selectNewsItemFromList(id)
+    const tags = selectNewsItemTags(newsItem)
     return (
       <div className="pa4">
         {tags.size > 0 && (
@@ -23,16 +23,16 @@ export default class ArticleBody extends Component {
             ))}
           </div>
         )}
-        <h1>{article.get('title')}</h1>
+        <h1>{newsItem.get('title')}</h1>
         <div className="mb3">
           <span className="mr3">
-            {timeago().format(article.get('published_date'))}
+            {timeago().format(newsItem.get('published_date'))}
           </span>
-          <a href={article.get('url')} target="_blank">
-            {stringHostname(article.get('url'))}
+          <a href={newsItem.get('url')} target="_blank">
+            {stringHostname(newsItem.get('url'))}
           </a>
         </div>
-        <div>{article.get('summary')}</div>
+        <div>{newsItem.get('summary')}</div>
       </div>
     )
   }

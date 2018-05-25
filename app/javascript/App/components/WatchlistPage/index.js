@@ -3,7 +3,7 @@ import watchlistContainer from '../../containers/watchlist'
 import LoadingIndicator from '../LoadingIndicator'
 import Watchlist from './Watchlist'
 import Search from './Search'
-import ArticleList from './ArticleList'
+import NewsItemList from './NewsItemList'
 
 class WatchlistPage extends Component {
   render() {
@@ -40,7 +40,7 @@ class WatchlistPage extends Component {
           </div>
           <div className="col-xs-12 col-md-7 flex">
             <div className="bg-white w-100 pt5 pa4-m ml2-l">
-              <ArticleList {...this.props} />
+              <NewsItemList {...this.props} />
             </div>
           </div>
         </div>

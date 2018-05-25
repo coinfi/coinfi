@@ -9,11 +9,11 @@ const containerID = 'highcharts'
 
 export default class PriceGraph extends React.Component {
   componentDidMount() {
-    let { priceData, articles } = this.props
+    let { priceData, newsItems } = this.props
     window.Highcharts.setOptions(options)
     window.Highcharts.stockChart(
       containerID,
-      chartOptions({ priceData, articles })
+      chartOptions({ priceData, newsItems })
     )
     fixOverlap()
   }

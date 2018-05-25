@@ -1,6 +1,6 @@
 import parseData from './parseData'
 export default (data) => {
-  const { articles } = data
+  const { newsItems } = data
   const { prices, volume } = parseData(data)
   const { Highcharts } = window
   return {
@@ -83,7 +83,7 @@ export default (data) => {
         dataLabels: {
           useHTML: true
         },
-        data: articles,
+        data: newsItems,
         onSeries: 'price',
         shape: 'circlepin'
       },

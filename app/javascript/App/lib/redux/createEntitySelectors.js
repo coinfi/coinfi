@@ -9,12 +9,12 @@
  *     },
  *     entityIDs: {
  *       coinIDs: []
- *       articles: [],
+ *       newsItems: [],
  *       tags: []
  *     },
  *     entityList: {
  *       coins: {},
- *       articles: {},
+ *       newsItems: {},
  *       tags: {}
  *     }
  *   }
@@ -43,11 +43,11 @@ export default (namespace) => {
       ),
     entityChildren: (entityType, childrenType) =>
       createSelector(selectState, (state) => (parent) => {
-        return parent
-          .get(childrenType)
-          .map((childID) =>
-            state.getIn(['entityList', childrenType, `${childID}`])
-          )
+        const children = parent.get(childrenType)
+        if (!children) return []
+        return children.map((childID) =>
+          state.getIn(['entityList', childrenType, `${childID}`])
+        )
       }),
     entityDetails: (entityType) =>
       createSelector(selectState, (state) => (id) =>
