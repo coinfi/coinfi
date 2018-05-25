@@ -1,14 +1,16 @@
 import { takeLatest, select } from 'redux-saga/effects'
-import { createEntitySagas } from '../../lib/redux'
+import { createEntitySagas, createFilterSagas } from '../../lib/redux'
 import selectors from './selectors'
 import { namespace } from './constants'
 
-const sagas = createEntitySagas(namespace)
+const entitySagas = createEntitySagas(namespace)
+const filterSagas = createFilterSagas(namespace, selectors, onFilterChange)
 
 export default function* watcher() {
   yield takeLatest('FETCH_ENTITY_LIST', fetchWatchlistEntities)
-  yield takeLatest('FETCH_ENTITY_DETAILS', sagas.fetchEntityDetails)
+  yield takeLatest('FETCH_ENTITY_DETAILS', entitySagas.fetchEntityDetails)
   yield takeLatest('SET_ACTIVE_ENTITY', handleFocusChange)
+  yield filterSagas
 }
 
 function* fetchWatchlistEntities(action) {
@@ -28,7 +30,7 @@ function* fetchWatchlistEntities(action) {
 }
 
 function* fetchCoins(action) {
-  yield sagas.fetchEntityList({
+  yield entitySagas.fetchEntityList({
     ...action,
     entityType: 'coins',
     url: 'newsfeed/coins'
@@ -38,7 +40,7 @@ function* fetchCoins(action) {
 function* fetchNewsItems(action) {
   const coin_id_in = yield select(selectors.coinIDs)
   const params = { coin_id_in }
-  yield sagas.fetchEntityList({
+  yield entitySagas.fetchEntityList({
     ...action,
     entityType: 'newsItems',
     url: 'news_items',
@@ -50,11 +52,15 @@ function* handleFocusChange(action) {
   if (action.namespace !== namespace) return
   const { type, id } = action.payload
   if (type === 'coin') {
-    yield sagas.fetchEntityList({
+    yield entitySagas.fetchEntityList({
       ...action,
       entityType: 'newsItems',
       url: 'news_items',
       params: { coin_id_eq: id }
     })
   }
+}
+
+function onFilterChange({ payload }) {
+  console.log('huzzah')
 }

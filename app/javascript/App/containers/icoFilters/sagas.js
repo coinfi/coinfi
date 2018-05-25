@@ -1,30 +1,15 @@
 import axios from 'axios'
-import { takeLatest, select } from 'redux-saga/effects'
 import { currentURL, getQueryObject } from '../../lib/urlHelpers'
-import { pushObjectToURL } from '../../lib/urlHelpers'
-import selectors from './selectors'
 import { namespace } from './constants'
+import selectors from './selectors'
+import { createFilterSagas } from '../../lib/redux'
 
 export default function* watcher() {
-  yield takeLatest('SET_FILTER', update)
-  yield takeLatest('REMOVE_FILTER', update)
-  yield takeLatest('UPDATE_RESULTS', update)
+  const filterSagas = createFilterSagas(namespace, selectors, onFilterChange)
+  yield filterSagas()
 }
 
-function* update(action) {
-  if (action.namespace !== namespace) return
-  yield updateURL(action)
-  updateResults(action)
-}
-
-function* updateURL({ payload }) {
-  const activeFilters = yield select(selectors.activeFilters)
-  let newFilter = null
-  if (payload && payload.value) newFilter = payload
-  pushStateToURL({ activeFilters, newFilter })
-}
-
-function updateResults({ payload }) {
+function onFilterChange({ payload }) {
   const queryObject = getQueryObject()
   queryObject.naked = true
   axios.get(currentURL({ queryObject })).then((response) => {
@@ -34,13 +19,4 @@ function updateResults({ payload }) {
       domContainer.innerHTML = html
     }
   })
-}
-
-function pushStateToURL({ activeFilters, newFilter }) {
-  let filterObject = activeFilters.toJS().reduce((n, o) => {
-    n[o.key] = o.value
-    return n
-  }, {})
-  if (newFilter) filterObject[newFilter.key] = newFilter.value
-  pushObjectToURL({ q: filterObject })
 }
