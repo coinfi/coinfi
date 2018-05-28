@@ -1,6 +1,6 @@
-import React from 'react'
+import React, { Component } from 'react'
 
-export default class Switch extends React.Component {
+export default class Switch extends Component {
   state = { on: false }
   componentWillMount() {
     const { on } = this.props
