@@ -25,7 +25,7 @@ export default (namespace) => {
       ...actionProps(entityType),
       response
     }),
-    setCurrentEntity: (payload) => ({
+    setActiveEntity: (payload) => ({
       type: 'SET_ACTIVE_ENTITY',
       namespace,
       payload

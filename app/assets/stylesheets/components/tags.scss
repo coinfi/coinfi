@@ -1,12 +1,12 @@
 .tag {
   display: inline-block;
   padding: $sp1;
-  border: 1px solid $tiber;
-  color: $tiber;
+  color: $aqua;
   text-transform: uppercase;
-  font-size: 0.6rem;
+  font-size: 0.8rem;
   font-family: $sans-alt;
   border-radius: 2px;
+  font-weight: 600;
   &:not(:last-of-type) {
     margin-right: $sp2;
   }

@@ -21,7 +21,7 @@
  * }
  */
 import { createSelector } from 'reselect'
-import { pluralize } from '../misc'
+import { pluralize, singularize } from '../misc'
 
 export default (namespace) => {
   const selectState = (state) => state[namespace]
@@ -43,7 +43,9 @@ export default (namespace) => {
       ),
     entityChildren: (entityType, childrenType) =>
       createSelector(selectState, (state) => (parent) => {
-        const children = parent.get(childrenType)
+        const children =
+          parent.get(childrenType) ||
+          parent.get(`${singularize(childrenType)}_ids`)
         if (!children) return []
         return children.map((childID) =>
           state.getIn(['entityList', childrenType, `${childID}`])

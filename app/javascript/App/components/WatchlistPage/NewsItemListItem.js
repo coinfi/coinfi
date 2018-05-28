@@ -1,8 +1,8 @@
 import React from 'react'
 import dayjs from 'dayjs'
 
-export default ({ newsItem, selectNewsItemTags }) => {
-  const tags = selectNewsItemTags(newsItem)
+export default ({ newsItem, selectNewsItemCoins }) => {
+  const coins = selectNewsItemCoins(newsItem)
   return (
     <a
       className="box tiber mb1 mb4-l"
@@ -14,11 +14,11 @@ export default ({ newsItem, selectNewsItemTags }) => {
       </div>
       <h4 className="fw6 mv3 f3">{newsItem.get('title')}</h4>
       <div className="pt1 lh-copy">{newsItem.get('summary')}</div>
-      {tags.size > 0 && (
+      {coins.size > 0 && (
         <div className="mt3">
-          {tags.map((tag, index) => (
+          {coins.map((coin, index) => (
             <div key={index} className="tag">
-              {tag.get('name')}
+              {coin.get('symbol')}
             </div>
           ))}
         </div>

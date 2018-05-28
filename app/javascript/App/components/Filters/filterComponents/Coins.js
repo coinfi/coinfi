@@ -3,8 +3,6 @@ import Type from 'prop-types'
 import ItemSelector from '../../ItemSelector'
 
 const CoinSelector = ({ filterData, value, onChange }) => {
-  console.log(filterData)
-  console.log(value)
   return (
     <ItemSelector
       items={filterData.coins}

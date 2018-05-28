@@ -1,7 +1,7 @@
 import { takeLatest, select } from 'redux-saga/effects'
 import { pushObjectToURL } from '..//urlHelpers'
 
-export default function(namespace, selectors, onChange) {
+export default function(namespace, selectors) {
   return function*() {
     yield takeLatest('SET_FILTER', update)
     yield takeLatest('REMOVE_FILTER', update)
@@ -11,7 +11,6 @@ export default function(namespace, selectors, onChange) {
   function* update(action) {
     if (action.namespace !== namespace) return
     yield updateURL(action)
-    onChange(action)
   }
 
   function* updateURL({ payload }) {

@@ -2,7 +2,7 @@ import React from 'react'
 import PercentageChange from '../PercentageChange'
 import Currency from '../Currency'
 
-export default ({ coin, setCurrentEntity, activeEntity }) => {
+export default ({ coin, setActiveEntity, activeEntity }) => {
   let klass = 'pa3 bb b--light-gray flex justify-between items-center pointer'
   if (
     activeEntity &&
@@ -12,7 +12,7 @@ export default ({ coin, setCurrentEntity, activeEntity }) => {
     klass += ' bg-foam'
   return (
     <div
-      onClick={() => setCurrentEntity({ type: 'coin', id: coin.get('id') })}
+      onClick={() => setActiveEntity({ type: 'coin', id: coin.get('id') })}
       className={klass}
     >
       <div className="b f5">{coin.get('symbol')}</div>

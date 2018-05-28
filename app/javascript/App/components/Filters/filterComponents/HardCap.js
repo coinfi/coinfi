@@ -6,7 +6,7 @@ import { Range } from 'rc-slider'
 const scale = { min: 1, max: 100 }
 
 export default class HardCap extends Component {
-  setVal = name => value => {
+  setVal = (name) => (value) => {
     const { value: v, onChange } = this.props
     v[name] = parseInt(value, 10)
     onChange(v)
@@ -49,6 +49,5 @@ export default class HardCap extends Component {
 }
 
 HardCap.propTypes = {
-  value: Type.object, // { min: 1, max: 100 }
-  setFilter: Type.func
+  value: Type.object // { min: 1, max: 100 }
 }

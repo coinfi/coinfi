@@ -36,7 +36,7 @@ class FilterComponent extends React.Component {
   applyFilter = () => {
     const { setFilter, toggleUI, uiKey, filter } = this.props
     const { value } = this.state
-    if (value || value === false) setFilter(filter.get('key'), value)
+    if (value || value === false) setFilter({ key: filter.get('key'), value })
     toggleUI(uiKey)
   }
   removeFilter = () => {

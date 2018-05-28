@@ -11,6 +11,7 @@ import Immutable from 'immutable'
 import Icon from '../Icon'
 import FilterComponent from './FilterComponent'
 import buttonLabels from './filterButtonLabels'
+import { singularize } from '../../lib/misc'
 
 export default (props) => {
   const { filter, toggleUI, currentUI, removeFilter } = props
@@ -24,9 +25,11 @@ export default (props) => {
         className="oi-btn"
         onClick={() => toggleUI([uiKey, filter.get('key')])}
       >
-        <header>{filter.get('label')}</header>
-        <div className="oi-value">
+        <header>
           <FilterButtonLabel {...props} />
+        </header>
+        <div className="oi-value">
+          <FilterButtonValue {...props} />
         </div>
         <div className="dn-m">
           <Icon
@@ -41,10 +44,23 @@ export default (props) => {
 }
 
 const FilterButtonLabel = ({ filter }) => {
+  const { value, label } = filter.toObject()
+  if (value instanceof Immutable.List)
+    if (value.size === 1) return singularize(label)
+  return label
+}
+
+const FilterButtonValue = ({ filter }) => {
   const { value, key } = filter.toObject()
   const Component = buttonLabels[key]
   if (Component) return <Component value={value} />
-  if (value instanceof Immutable.List) return `${value.size} selected`
+  if (value instanceof Immutable.List) {
+    if (value.size > 1) {
+      return `${value.size} selected`
+    } else {
+      return value.get('0')
+    }
+  }
   if ([true, false].includes(value)) return value ? 'True' : 'False'
   return value
 }
