@@ -10,7 +10,7 @@ namespace :data_migrations do
     )
 
     batch_process(Article.all) do |article|
-      NewsItem.create!(
+      news_item = NewsItem.find_or_create_by(
         feed_source: old_article_feed_source,
         feed_item_id: article.url,
         url: article.url,
@@ -18,8 +18,12 @@ namespace :data_migrations do
         summary: article.summary,
         feed_item_published_at: article.published_date,
         feed_item_updated_at: article.updated_at,
-        coin_ids: [article.coin_id]
       )
+      mention = NewsCoinMention.find_or_create_by(
+        coin_id: article.coin_id,
+        news_item_id: news_item.id
+      )
+      puts "Created NewsItem(#{news_item.id}) + NewsCoinMention(#{mention.id})"
     end
   end
 end
