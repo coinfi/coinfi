@@ -1,5 +1,10 @@
 module Admin
   class NewsItemsController < Admin::ApplicationController
+    def update
+      news_item = NewsItem.find(params[:id])
+      news_item.update(news_item_params)
+      redirect_to action: :index
+    end
     # To customize the behavior of this controller,
     # you can overwrite any of the RESTful actions. For example:
     #
@@ -17,5 +22,9 @@ module Admin
 
     # See https://administrate-prototype.herokuapp.com/customizing_controller_actions
     # for more information
+  private
+  def news_item_params
+    params.require(:news_item).permit!
+  end
   end
 end

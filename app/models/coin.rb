@@ -15,8 +15,8 @@ class Coin < ApplicationRecord
   has_many :coin_industries_coins
   has_many :coin_industries, through: :coin_industries_coins
   has_many :feed_sources
-  has_many :mentions
-  has_many :news_items, through: :mentions
+  has_many :news_coin_mentions
+  has_many :news_items, through: :news_coin_mentions
 
   validates :name, uniqueness: true, presence: true
 
