@@ -17,7 +17,7 @@ export default props => {
         <ArticleFilters />
       </div>
       <div id="article-list" className="pt1 ph1 bg-athens-dark bg-white-m">
-        <div className="tab-content">
+        <div className="tab-content active">
           {articles &&
             articles
               .valueSeq()
