@@ -27,5 +27,4 @@ package-lock.json
 yarn-debug.log*
 .yarn-integrity
 /config/database.yml
-/config/webpacker.yml
 .git-authors
