@@ -1,5 +1,5 @@
 - if flash.any?
-  .pt3.ph3
+  .pt3.ph3.flex-none
     - flash.each do |type, message|
       div class="flash flash-#{type}"
         - if message.kind_of?(Array)

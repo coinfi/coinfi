@@ -1,8 +1,8 @@
-import React from 'react'
+import React, { Component } from 'react'
 import Icon from '../Icon'
 import clickOutside from 'react-onclickoutside'
 
-class SelectFilter extends React.Component {
+class SelectFilter extends Component {
   handleClickOutside() {
     const { currentUI, uiKey, toggleUI } = this.props
     if (currentUI(uiKey)) toggleUI(uiKey)

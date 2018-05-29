@@ -6,5 +6,8 @@
     .mh2.f7.ttu.silver of
     span= number_to_currency(@coin.ico_fundraising_goal_usd, precision: 0) || "$0"
   .mt3.ttu.fw6.f7
+    span.silver ICO Status
+    span.tiber<= @coin.ico_status.capitalize
+  .mt3.ttu.fw6.f7
     span.silver Closing
     span.tiber<= pretty_date(@coin.ico_end_date)

@@ -32,6 +32,9 @@ Rails.application.routes.draw do
     resources :influencers
     get 'reddit' => 'articles#reddit'
     root to: "coins#index"
+    namespace :paper_trail do
+      resources :versions, only: %i(index show)
+    end
   end
 
   namespace :api, constraints: { format: 'json' } do
@@ -41,7 +44,6 @@ Rails.application.routes.draw do
       resources :articles, only: [ :index ]
     end
     get '/coins', to: 'coins#index'
-    get '/coins/:id/news', to: 'coins#news'
     get '/social_feeds/tweets_by_user', to: 'social_feeds#tweets_by_user'
   end
 

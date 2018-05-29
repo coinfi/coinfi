@@ -56,6 +56,7 @@ class CoinDashboard < Administrate::BaseDashboard
     token_type: Field::String,
     exchanges: Field::JSON,
     previous_name: Field::String,
+    versions: Field::HasMany.with_options(class_name: 'PaperTrail::Version'),
     created_at: Field::DateTime,
     updated_at: Field::DateTime,
   }.freeze
@@ -123,6 +124,7 @@ class CoinDashboard < Administrate::BaseDashboard
     :exchanges,
     :created_at,
     :updated_at,
+    :versions
   ].freeze
 
   # FORM_ATTRIBUTES

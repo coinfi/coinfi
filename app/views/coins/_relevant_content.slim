@@ -1,17 +1,17 @@
 section.phr.pv4
   h3 Relevant Content
-  .tab-area
-    .tabs.mb4
-      .tab data-position=1 #{@coin.name} News
-      - if @coin.twitter.present?
-        .tab data-position=2 Twitter
-      - if @coin.reddit.present?
-        .tab data-position=3 Reddit
-    .tab-content data-position=1
+  - tab_items = ["#{@coin.name} News"]
+  - if @coin.twitter.present?
+    - tab_items.push('Twitter')
+  - if @coin.reddit.present?
+    - tab_items.push('Reddit')
+  = react_component "Tabs", props: { target: 'relevant-content', items: tab_items }
+  #relevant-content.mt3
+    .tab-content
       = render partial: 'articles', locals: { articles: @latest_news }
     - if @coin.twitter.present?
-      .tab-content data-position=2
+      .tab-content
         = react_component "TwitterFeed", props: { user: @coin.twitter }
     - if @coin.reddit.present?
-      .tab-content data-position=3
+      .tab-content
         = react_component "RedditFeed", props: { subreddit: @coin.reddit }

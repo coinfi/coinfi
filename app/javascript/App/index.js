@@ -1,6 +1,6 @@
 /*
  * Normally this file would just mount the app on the
- * document body, however this is not an SPA, so it 
+ * document body, however this is not an SPA, so it
  * looks for <component> tags in the DOM and injects
  * React components there, optionally with the Redux
  * store.
@@ -22,6 +22,9 @@ import GlobalCoinSearch from './components/GlobalCoinSearch'
 import TwitterFeed from './components/TwitterFeed'
 import RedditFeed from './components/RedditFeed'
 import IcoFilters from './components/IcoFilters'
+import Tabs from './components/Tabs'
+import PriceGraph from './components/PriceGraph'
+import TradingViewChart from './components/TradingViewChart'
 
 const injectableComponents = {
   WatchButton,
@@ -29,7 +32,10 @@ const injectableComponents = {
   GlobalCoinSearch,
   TwitterFeed,
   RedditFeed,
-  IcoFilters
+  IcoFilters,
+  Tabs,
+  PriceGraph,
+  TradingViewChart
 }
 
 const injectComponents = () => {
