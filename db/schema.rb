@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180517102336) do
+ActiveRecord::Schema.define(version: 20180525043435) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -234,6 +234,7 @@ ActiveRecord::Schema.define(version: 20180517102336) do
     t.boolean "is_subscribed", default: false
     t.datetime "last_received_data_at"
     t.bigint "coin_id"
+    t.boolean "is_active", default: true
     t.index ["coin_id"], name: "index_feed_sources_on_coin_id"
     t.index ["feed_url"], name: "index_feed_sources_on_feed_url", unique: true
     t.index ["name"], name: "index_feed_sources_on_name", unique: true
@@ -295,7 +296,7 @@ ActiveRecord::Schema.define(version: 20180517102336) do
     t.string "title", null: false
     t.text "summary"
     t.text "content"
-    t.string "actor_id", null: false
+    t.string "actor_id"
     t.datetime "feed_item_published_at", null: false
     t.datetime "feed_item_updated_at", null: false
     t.jsonb "feed_item_json"
@@ -304,6 +305,7 @@ ActiveRecord::Schema.define(version: 20180517102336) do
     t.boolean "is_published", default: true
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.jsonb "coin_ids"
     t.index ["feed_source_id", "feed_item_id"], name: "index_news_items_on_feed_source_id_and_feed_item_id", unique: true
     t.index ["feed_source_id"], name: "index_news_items_on_feed_source_id"
   end
@@ -362,6 +364,17 @@ ActiveRecord::Schema.define(version: 20180517102336) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
     t.index ["uid"], name: "index_users_on_uid"
     t.index ["username"], name: "index_users_on_username"
+  end
+
+  create_table "versions", force: :cascade do |t|
+    t.string "item_type", null: false
+    t.integer "item_id", null: false
+    t.string "event", null: false
+    t.string "whodunnit"
+    t.text "object"
+    t.text "object_changes"
+    t.datetime "created_at"
+    t.index ["item_type", "item_id"], name: "index_versions_on_item_type_and_item_id"
   end
 
   create_table "visits", force: :cascade do |t|
