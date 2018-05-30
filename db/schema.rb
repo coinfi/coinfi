@@ -365,6 +365,17 @@ ActiveRecord::Schema.define(version: 20180525143358) do
     t.index ["username"], name: "index_users_on_username"
   end
 
+  create_table "versions", force: :cascade do |t|
+    t.string "item_type", null: false
+    t.integer "item_id", null: false
+    t.string "event", null: false
+    t.string "whodunnit"
+    t.text "object"
+    t.text "object_changes"
+    t.datetime "created_at"
+    t.index ["item_type", "item_id"], name: "index_versions_on_item_type_and_item_id"
+  end
+
   create_table "visits", force: :cascade do |t|
     t.string "visit_token"
     t.string "visitor_token"

@@ -35,6 +35,7 @@ class CoinDashboard < Administrate::BaseDashboard
     is_premined: Field::Boolean,
     intro: Field::Text,
     summary: Field::Text,
+    ico_status: Field::String,
     ico_start_date: Field::Number,
     ico_end_date: Field::Number,
     ico_token_price_usd: Field::Number,
@@ -56,6 +57,7 @@ class CoinDashboard < Administrate::BaseDashboard
     token_type: Field::String,
     exchanges: Field::JSON,
     previous_name: Field::String,
+    versions: Field::HasMany.with_options(class_name: 'PaperTrail::Version'),
     created_at: Field::DateTime,
     updated_at: Field::DateTime,
   }.freeze
@@ -103,6 +105,7 @@ class CoinDashboard < Administrate::BaseDashboard
     :is_premined,
     :intro,
     :summary,
+    :ico_status,
     :ico_start_date,
     :ico_end_date,
     :ico_token_price_usd,
@@ -123,6 +126,7 @@ class CoinDashboard < Administrate::BaseDashboard
     :exchanges,
     :created_at,
     :updated_at,
+    :versions
   ].freeze
 
   # FORM_ATTRIBUTES
@@ -155,6 +159,7 @@ class CoinDashboard < Administrate::BaseDashboard
     :is_premined,
     :intro,
     :summary,
+    :ico_status,
     :ico_start_date,
     :ico_end_date,
     :ico_token_price_usd,

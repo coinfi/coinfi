@@ -6,13 +6,13 @@
  * local state is used to temporarily hold the value before it's applied to the
  * main app state.
  */
-import React from 'react'
+import React, { Component } from 'react'
 import Types from 'prop-types'
 import clickOutside from 'react-onclickoutside'
 import components from './filterComponents'
 import Icon from '../Icon'
 
-class FilterComponent extends React.Component {
+class FilterComponent extends Component {
   state = { value: null }
   activeFilter = () =>
     this.props.activeFilters.find(

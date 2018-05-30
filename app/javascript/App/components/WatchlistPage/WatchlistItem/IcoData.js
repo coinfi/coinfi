@@ -1,5 +1,6 @@
 import React from 'react'
 import dayjs from 'dayjs'
+import numeral from 'numeral'
 
 export default ({ coin }) => {
   const { max_supply, symbol, ico_token_price_usd } = coin
@@ -12,7 +13,9 @@ export default ({ coin }) => {
         <label className="o-60">Total Supply</label>
         {max_supply ? (
           <div>
-            {max_supply}
+            {numeral(max_supply || 0)
+              .format('0.0a')
+              .toUpperCase()}
             <div className="f7 ml1">{symbol}</div>
           </div>
         ) : (
