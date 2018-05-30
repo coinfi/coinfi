@@ -5,27 +5,12 @@ import PercentageChange from '../PercentageChange'
 import WatchButton from '../WatchButton'
 
 export default class CoinBody extends Component {
-  state = { fetchedID: null }
-  componentWillMount = () => this.fetchCoinDetails()
-  componentDidUpdate = () => this.fetchCoinDetails()
-  fetchCoinDetails = () => {
-    const { activeEntity, fetchEntityDetails } = this.props
-    const { id } = activeEntity
-    const { fetchedID } = this.state
-    if (fetchedID !== id) {
-      fetchEntityDetails('coin', id)
-      this.setState({ fetchedID: id })
-      this.forceUpdate()
-    }
-  }
   onWatchCoin = ({ id, watching }) => {
     const details = { id, is_being_watched: watching }
     this.props.setEntityDetails('coin', details)
   }
   render() {
     const { selectCoinDetails, activeEntity } = this.props
-    const { fetchedID } = this.state
-    if (fetchedID !== activeEntity.id) return null
     let coin = selectCoinDetails(activeEntity.id)
     if (!coin) return null
     coin = coin.toJS()

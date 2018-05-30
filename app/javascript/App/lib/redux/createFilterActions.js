@@ -13,5 +13,8 @@ export default (namespace) => ({
   },
   onFilterChange: (payload) => {
     return { namespace, type: 'ON_FILTER_CHANGE', payload }
+  },
+  onFilterInitialize: (payload) => {
+    return { namespace, type: 'ON_FILTER_INITIALIZE', payload }
   }
 })

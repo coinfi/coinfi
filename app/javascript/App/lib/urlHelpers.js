@@ -6,7 +6,10 @@ export const getQueryObject = () => {
   return {}
 }
 
-export const currentURL = ({ withQuery, queryObject }) => {
+export const currentURL = (opts) => {
+  opts = opts || {}
+  let { withQuery, queryObject } = opts
+  withQuery = withQuery === false ? false : true
   let href = window.location.href
   if (queryObject) {
     const queryString = qs.stringify(queryObject, { encode: false })

@@ -18,37 +18,36 @@ export default function(namespace, onChange) {
     * state. Otherwise if filter state is present, it calls applyFilters, which
     * updates the querystring and proceeds. */
     if (action.namespace !== namespace) return
-    const queryObject = getQueryObject().q
-    const activeFilters = yield select(selectors.activeFilters)
-    if (queryObject && Object.keys(queryObject).length > 0) {
-      yield put(actions.resetFilters(queryObject))
-    } else if (activeFilters.size > 0) {
-      yield applyFilters(action)
+    let queryStringPresent = false
+    let filterObject = getQueryObject().q
+    if (filterObject) {
+      yield put(actions.resetFilters(filterObject))
+      queryStringPresent = true
+    } else {
+      const activeFilters = yield select(selectors.activeFilters)
+      if (activeFilters.size > 0) {
+        filterObject = buildFilterObject(activeFilters)
+        pushObjectToURL({ q: filterObject })
+      }
     }
+    yield put(actions.onFilterInitialize({ filterObject, queryStringPresent }))
   }
 
   function* applyFilters(action) {
     /* Updates the querystring based on state, and calls onChange if present */
     if (action.namespace !== namespace) return
     const activeFilters = yield select(selectors.activeFilters)
-    let newFilter = null
-    const { payload } = action
-    if (payload && payload.value) newFilter = payload
-    pushStateToURL({ activeFilters })
-    if (onChange) onChange(action)
-    yield put(actions.onFilterChange(activeFilters.toJS()))
+    const filterObject = buildFilterObject(activeFilters)
+    pushObjectToURL({ q: filterObject })
+    yield put(actions.onFilterChange({ filterObject }))
   }
 
   return watcher
 }
 
-function filterObject(list) {}
-
-function pushStateToURL({ activeFilters, newFilter }) {
-  let filterObject = activeFilters.toJS().reduce((n, o) => {
+function buildFilterObject(activeFilters) {
+  return activeFilters.toJS().reduce((n, o) => {
     n[o.key] = o.value
     return n
   }, {})
-  if (newFilter) filterObject[newFilter.key] = newFilter.value
-  pushObjectToURL({ q: filterObject })
 }

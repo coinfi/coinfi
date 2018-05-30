@@ -26,8 +26,9 @@ function* fetchEntityList(action) {
     entityType: 'coins',
     url: 'watchlist/coins'
   })
-  const coin_ids_any = yield select(selectors.coinIDs)
-  const params = { coin_ids_any }
+  const coin_ids = yield select(selectors.coinIDs)
+  if (coin_ids.length === 0) return
+  const params = { coin_ids }
   yield sagas.fetchEntityList({
     ...action,
     entityType: 'newsItems',

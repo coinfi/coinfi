@@ -1,9 +1,12 @@
 class Api::NewsItemsController < ApiController
 
   def index
-    news_item_ids = NewsCoinMention.where(
-      coin_id: params[:q][:coin_ids]
-    ).pluck(:news_item_id)
+    news_item_ids = []
+    if params[:q] && params[:q][:coin_ids] 
+      news_item_ids = NewsCoinMention.where(
+        coin_id: params[:q][:coin_ids]
+      ).pluck(:news_item_id)
+    end
     news_items =
       NewsItem
       .ransack(id_in: news_item_ids).result
