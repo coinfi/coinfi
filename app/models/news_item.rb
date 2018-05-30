@@ -9,6 +9,8 @@ class NewsItem < ApplicationRecord
 
   default_scope -> { order(created_at: :desc)}
 
+  scope :not_human_tagged, -> { where.not(is_human_tagged: true) }
+
   def coin_symbols
     coins.pluck(:symbol).join(', ')
   end
