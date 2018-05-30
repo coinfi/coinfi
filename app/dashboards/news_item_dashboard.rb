@@ -20,6 +20,7 @@ class NewsItemDashboard < Administrate::BaseDashboard
     feed_item_updated_at: Field::DateTime,
     importance: Field::Number,
     is_published: Field::Boolean,
+    is_human_tagged: Field::Boolean,
     created_at: Field::DateTime,
     updated_at: Field::DateTime,
     coin_symbols: Field::String
@@ -33,6 +34,7 @@ class NewsItemDashboard < Administrate::BaseDashboard
   COLLECTION_ATTRIBUTES = [
     :id,
     :coin_symbols,
+    :is_human_tagged,
     :feed_item_id,
     :title,
   ].freeze
@@ -52,6 +54,7 @@ class NewsItemDashboard < Administrate::BaseDashboard
     :feed_item_updated_at,
     :importance,
     :is_published,
+    :is_human_tagged,
     :created_at,
     :updated_at,
   ].freeze
@@ -71,6 +74,7 @@ class NewsItemDashboard < Administrate::BaseDashboard
     :feed_item_updated_at,
     :importance,
     :is_published,
+    :is_human_tagged,
   ].freeze
 
   # Overwrite this method to customize how news items are displayed
