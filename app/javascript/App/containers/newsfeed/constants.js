@@ -5,7 +5,8 @@ export const namespace = 'newsfeed'
 export const filterList = fromJS([
   {
     key: 'search',
-    label: 'Search'
+    label: 'Search',
+    unlisted: true
   },
   { key: 'coins', label: 'Coins' }
 ])

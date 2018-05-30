@@ -1,11 +1,10 @@
 import axios from 'axios'
 import { currentURL, getQueryObject } from '../../lib/urlHelpers'
 import { namespace } from './constants'
-import selectors from './selectors'
 import { createFilterSagas } from '../../lib/redux'
 
 export default function* watcher() {
-  const filterSagas = createFilterSagas(namespace, selectors, onFilterChange)
+  const filterSagas = createFilterSagas(namespace, onFilterChange)
   yield filterSagas()
 }
 

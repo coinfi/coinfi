@@ -7,7 +7,7 @@ export default createHOC({
   actions,
   selectors,
   extraProps: { filterList },
-  onMount: (container) => {
-    container.props.fetchEntityList()
+  onMount: ({ props }) => {
+    props.initializeFilters()
   }
 })

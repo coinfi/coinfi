@@ -5,7 +5,7 @@ import actions from './actions'
 import { namespace } from './constants'
 
 const entitySagas = createEntitySagas(namespace)
-const filterSagas = createFilterSagas(namespace, selectors)
+const filterSagas = createFilterSagas(namespace, fetchWatchlistEntities)
 
 export default function* watcher() {
   yield takeLatest('FETCH_ENTITY_LIST', fetchWatchlistEntities)
@@ -54,6 +54,9 @@ function* fetchNewsItems(action) {
 }
 
 function* applyCoin(action) {
+  /*
+   * When setting the active coin, this also sets the coin filter, and visa versa.
+   */
   const { payload, type } = action
   if (action.namespace !== namespace) return
   if (payload.preventSaga) return

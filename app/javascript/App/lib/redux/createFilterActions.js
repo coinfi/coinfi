@@ -1,4 +1,7 @@
 export default (namespace) => ({
+  initializeFilters: () => {
+    return { namespace, type: 'INITIALIZE_FILTERS' }
+  },
   resetFilters: (payload) => {
     return { namespace, type: 'RESET_FILTERS', payload }
   },
@@ -8,7 +11,7 @@ export default (namespace) => ({
   removeFilter: (key) => {
     return { namespace, type: 'REMOVE_FILTER', payload: { key } }
   },
-  updateResults: () => {
-    return { namespace, type: 'UPDATE_RESULTS' }
+  onFilterChange: (payload) => {
+    return { namespace, type: 'ON_FILTER_CHANGE', payload }
   }
 })
