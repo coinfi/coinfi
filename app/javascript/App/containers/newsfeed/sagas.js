@@ -43,7 +43,7 @@ function* fetchNewsItems(action) {
 }
 
 function* applyCoin(action) {
-  /* When setting the active coin, this also sets the coin filter, and visa
+  /* When setting the active coin, this also sets the coin filter, and vice
   versa. */
   const { payload, type } = action
   if (action.namespace !== namespace) return
@@ -53,6 +53,7 @@ function* applyCoin(action) {
     case 'SET_ACTIVE_ENTITY':
       if (payload.type !== 'coin') return
       let { id, label } = payload
+      // When we click a coin, set the coin filter
       yield put(
         actions.setFilter({
           key: 'coins',
@@ -74,17 +75,19 @@ function* applyCoin(action) {
       if (coin_ids && coin_ids.length >= 1) {
         params.coin_ids = coin_ids
         if (coin_ids.length === 1) {
+          // When there's 1 coin selected, make it the active entity
           const id = coin_ids[0]
           yield put(actions.fetchEntityDetails('coin', id))
           yield put(actions.setActiveEntity({ preventSaga, type: 'coin', id }))
         } else {
+          // Unset the active coin if multiple are selected
           yield put(actions.unsetActiveEntity())
         }
-        yield fetchNewsItems({ ...action, params })
       } else {
+        // Unset the active coin if none are selected
         yield put(actions.unsetActiveEntity())
-        yield fetchNewsItems({ ...action, params })
       }
+      yield fetchNewsItems({ ...action, params })
       break
     default:
       break
