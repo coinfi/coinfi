@@ -31,7 +31,9 @@ function* fetchCoins(action) {
 
 function* fetchNewsItems(action) {
   let { params } = action
-  if (!params) params = { coin_ids: yield select(selectors.coinIDs) }
+  const coin_ids = yield select(selectors.coinIDs)
+  if (!params) params = { coin_ids }
+  if (!params.coin_ids) params.coin_ids = coin_ids
   yield entitySagas.fetchEntityList({
     ...action,
     params,
@@ -62,11 +64,15 @@ function* applyCoin(action) {
       break
     case 'ON_FILTER_CHANGE':
     case 'ON_FILTER_INITIALIZE':
-      let coins = []
       let { filterObject } = payload
-      if (filterObject && filterObject.coins) coins = filterObject.coins
-      const coin_ids = coins.map((coin) => parseInt(coin.id, 10))
-      if (coin_ids.length >= 1) {
+      const params = filterObject || {}
+      let coin_ids
+      if (params.coins) {
+        coin_ids = params.coins.map((coin) => parseInt(coin.id, 10))
+        delete params.coins
+      }
+      if (coin_ids && coin_ids.length >= 1) {
+        params.coin_ids = coin_ids
         if (coin_ids.length === 1) {
           const id = coin_ids[0]
           yield put(actions.fetchEntityDetails('coin', id))
@@ -74,9 +80,10 @@ function* applyCoin(action) {
         } else {
           yield put(actions.unsetActiveEntity())
         }
-        yield fetchNewsItems({ ...action, params: { coin_ids } })
+        yield fetchNewsItems({ ...action, params })
       } else {
-        yield fetchNewsItems(action)
+        yield put(actions.unsetActiveEntity())
+        yield fetchNewsItems({ ...action, params })
       }
       break
     default:

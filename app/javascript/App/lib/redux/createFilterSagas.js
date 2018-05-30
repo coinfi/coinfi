@@ -39,7 +39,7 @@ export default function(namespace, onChange) {
     const activeFilters = yield select(selectors.activeFilters)
     const filterObject = buildFilterObject(activeFilters)
     pushObjectToURL({ q: filterObject })
-    yield put(actions.onFilterChange({ filterObject }))
+    yield put(actions.onFilterChange({ filterObject, payload: action.payload }))
   }
 
   return watcher
