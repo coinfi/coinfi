@@ -46,6 +46,7 @@ class NewsItemRaw < ApplicationRecord
       actor_id: actor_id,
       feed_item_published_at: DateTime.strptime(item[:published].to_s, '%s'),
       feed_item_updated_at: DateTime.strptime(item[:updated].to_s, '%s'),
+      coins: [feed_source.coin]
     }
   end
 
