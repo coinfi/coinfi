@@ -10,6 +10,7 @@ class NewsItemDashboard < Administrate::BaseDashboard
   ATTRIBUTE_TYPES = {
     id: Field::Number,
     coins: Field::HasMany,
+    news_categories: Field::HasMany,
     feed_item_id: Field::String,
     url: Field::String,
     title: Field::String,
@@ -23,7 +24,8 @@ class NewsItemDashboard < Administrate::BaseDashboard
     is_human_tagged: Field::Boolean,
     created_at: Field::DateTime,
     updated_at: Field::DateTime,
-    coin_symbols: Field::String
+    coin_symbols: Field::String,
+    news_category_names: Field::String,
   }.freeze
 
   # COLLECTION_ATTRIBUTES
@@ -34,6 +36,7 @@ class NewsItemDashboard < Administrate::BaseDashboard
   COLLECTION_ATTRIBUTES = [
     :id,
     :coin_symbols,
+    :news_category_names,
     :is_human_tagged,
     :feed_item_id,
     :title,
@@ -64,6 +67,7 @@ class NewsItemDashboard < Administrate::BaseDashboard
   # on the model's form (`new` and `edit`) pages.
   FORM_ATTRIBUTES = [
     :coins,
+    :news_categories,
     :feed_item_id,
     :url,
     :title,

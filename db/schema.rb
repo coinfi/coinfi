@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180530044725) do
+ActiveRecord::Schema.define(version: 20180530045743) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -279,11 +279,25 @@ ActiveRecord::Schema.define(version: 20180530044725) do
     t.index ["news_item_id"], name: "index_mentions_on_news_item_id"
   end
 
+  create_table "news_categories", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["name"], name: "index_news_categories_on_name", unique: true
+  end
+
   create_table "news_coin_mentions", force: :cascade do |t|
     t.bigint "coin_id"
     t.bigint "news_item_id"
     t.index ["coin_id"], name: "index_news_coin_mentions_on_coin_id"
     t.index ["news_item_id"], name: "index_news_coin_mentions_on_news_item_id"
+  end
+
+  create_table "news_item_categorizations", force: :cascade do |t|
+    t.bigint "news_item_id"
+    t.bigint "news_category_id"
+    t.index ["news_category_id"], name: "index_news_item_categorizations_on_news_category_id"
+    t.index ["news_item_id"], name: "index_news_item_categorizations_on_news_item_id"
   end
 
   create_table "news_item_raws", force: :cascade do |t|

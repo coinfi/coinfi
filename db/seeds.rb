@@ -80,3 +80,13 @@ industries_names = [
 industries_names.each do |name|
   CoinIndustry.create!(name: name)
 end
+
+news_category_names = %( 
+Advertising & Marketing
+Artificial Intelligence
+Banking
+).split("\n").reject!(&:blank?)
+
+news_category_names.each do |name|
+  NewsCategory.find_or_create_by(name: name)
+end
