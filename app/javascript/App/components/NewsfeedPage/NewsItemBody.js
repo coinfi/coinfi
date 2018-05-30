@@ -6,17 +6,18 @@ export default class NewsItemBody extends Component {
   render() {
     const {
       selectNewsItemFromList,
-      selectNewsItemTags,
+      selectNewsItemCoins,
       activeEntity
     } = this.props
     const { id } = activeEntity
     const newsItem = selectNewsItemFromList(id)
-    const tags = selectNewsItemTags(newsItem)
+    if (!newsItem) return null
+    const coins = selectNewsItemCoins(newsItem)
     return (
       <div className="pa4">
-        {tags.size > 0 && (
+        {coins.size > 0 && (
           <div className="mb3">
-            {tags.map((tag, index) => (
+            {coins.map((tag, index) => (
               <div key={index} className="tag">
                 {tag.get('name')}
               </div>

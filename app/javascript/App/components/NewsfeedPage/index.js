@@ -19,10 +19,7 @@ class NewsfeedPage extends Component {
                 <h1>Newsfeed</h1>
               </div>
               <div className="pl4">
-                <Filters
-                  {...this.props}
-                  filterData={{ coins: coins.map((c) => c.get('name')) }}
-                />
+                <Filters {...this.props} filterData={{ coins }} />
               </div>
             </div>
           </div>
@@ -36,10 +33,6 @@ class NewsfeedPage extends Component {
                 ))}
               </div>
               <div className="col-xs-5 bl b--light-gray">
-                <ColumnHeader>
-                  <div>Search</div>
-                  <div>Filters</div>
-                </ColumnHeader>
                 <NewsItemList {...this.props} />
               </div>
               <div className="col-xs-5 bl b--light-gray">
@@ -62,11 +55,5 @@ class NewsfeedPage extends Component {
     )
   }
 }
-
-const ColumnHeader = ({ children }) => (
-  <header className="bg-near-white bb b--light-gray f6 h3 ph3 flex items-center justify-between">
-    {children}
-  </header>
-)
 
 export default newsfeedContainer(NewsfeedPage)

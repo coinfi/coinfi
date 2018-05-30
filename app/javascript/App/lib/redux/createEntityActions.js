@@ -29,6 +29,10 @@ export default (namespace) => {
       type: 'SET_ACTIVE_ENTITY',
       namespace,
       payload
+    }),
+    unsetActiveEntity: () => ({
+      type: 'UNSET_ACTIVE_ENTITY',
+      namespace
     })
   }
 }

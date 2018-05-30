@@ -27,6 +27,8 @@ const createEntityReducer = (namespace) => (state = initialState, action) => {
       return state.setIn(keyPath, existingDetails.mergeDeep(response))
     case 'SET_ACTIVE_ENTITY':
       return state.set('activeEntity', payload)
+    case 'UNSET_ACTIVE_ENTITY':
+      return state.set('activeEntity', null)
     default:
       return state
   }

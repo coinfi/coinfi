@@ -5,8 +5,8 @@ export default class ItemSelector extends Component {
   selectedItems = () => this.props.selectedItems || []
   unselectedItems = () => {
     const { items } = this.props
-    let selected = this.selectedItems()
-    return items.filter((item) => !selected.includes(item))
+    const selected = this.selectedItems().map((item) => JSON.stringify(item))
+    return items.filter((item) => !selected.includes(JSON.stringify(item)))
   }
   add = (item) => {
     let items = this.selectedItems()
@@ -18,6 +18,10 @@ export default class ItemSelector extends Component {
     items = items.filter((c) => c !== item)
     this.props.onChange(items)
   }
+  itemLabel = (item) => {
+    if (item instanceof Object) return item.name || item.title || item.label
+    return item
+  }
   render() {
     return (
       <div>
@@ -26,7 +30,7 @@ export default class ItemSelector extends Component {
             {this.selectedItems().map((item, i) => (
               <li key={i}>
                 <button onClick={() => this.remove(item)}>
-                  <span className="aqua">{item}</span>
+                  <span className="aqua">{this.itemLabel(item)}</span>
                   <i className="fal fa-minus ml3" />
                 </button>
               </li>
@@ -38,7 +42,7 @@ export default class ItemSelector extends Component {
             {this.unselectedItems().map((item, i) => (
               <li key={i}>
                 <button onClick={() => this.add(item)}>
-                  {item}
+                  {this.itemLabel(item)}
                   <i className="fal fa-plus ml3" />
                 </button>
               </li>

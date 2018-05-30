@@ -55,10 +55,15 @@ const FilterButtonValue = ({ filter }) => {
   const Component = buttonLabels[key]
   if (Component) return <Component value={value} />
   if (value instanceof Immutable.List) {
-    if (value.size > 1) {
+    if (value.size >= 2 || value.size === 0) {
       return `${value.size} selected`
     } else {
-      return value.get('0')
+      let val = value.get('0')
+      if (val instanceof Object) {
+        if (val.toJS) val = val.toJS()
+        return val.title || val.name || val.label
+      }
+      return val
     }
   }
   if ([true, false].includes(value)) return value ? 'True' : 'False'
