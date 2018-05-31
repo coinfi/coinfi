@@ -21,7 +21,7 @@ class PagesController < ApplicationController
   end
 
   def public_pages
-    %w[home about newsfeed]
+    %w[home about news]
   end
 
   def member_pages

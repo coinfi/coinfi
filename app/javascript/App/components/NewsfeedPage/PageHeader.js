@@ -8,7 +8,7 @@ export default (props) => {
       <div className="container-wide ph4 pb4">
         <div className="flex items-center">
           <div>
-            <h1>Newsfeed</h1>
+            <h1>CoinFi News</h1>
           </div>
           <div className="pl4">
             <Filters {...props} filterData={{ coins }} />
