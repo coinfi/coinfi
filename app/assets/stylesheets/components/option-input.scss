@@ -8,6 +8,7 @@
   }
   .oi-value {
     color: $aqua;
+    text-transform: capitalize;
   }
 }
 .oi-icon {
@@ -53,6 +54,7 @@
             text-align: left;
             white-space: nowrap;
             font-size: 0.8rem;
+            text-transform: capitalize;
           }
         }
       }

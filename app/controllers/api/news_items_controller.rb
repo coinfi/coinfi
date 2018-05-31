@@ -18,7 +18,17 @@ class Api::NewsItemsController < ApiController
 
   def apply_filters
     return if filter_params.empty?
-    @news_items = @news_items.ransack(build_query).result
+    filtered_ids = []
+    if coin_ids = filter_params[:coin_ids]
+      filtered_ids += NewsCoinMention.where(coin_id: coin_ids).pluck(:news_item_id)
+    end
+    if feed_types = filter_params[:feedSources]
+      source_ids = FeedSource.where(feed_type: feed_types).pluck(:id)
+      filtered_ids += NewsItem.where(feed_source_id: source_ids).pluck(:id)
+    end
+    @news_items = @news_items
+    .ransack({id_in:filtered_ids.uniq}.merge(build_query))
+    .result(distinct: true)
   end
 
   def build_query
@@ -29,8 +39,6 @@ class Api::NewsItemsController < ApiController
 
   def parse_param key, value
     case key
-    when :coin_ids
-      [:id_in, NewsCoinMention.where(coin_id: value).pluck(:news_item_id)]
     when :search
       [:title_or_summary_cont, value]
     end
@@ -39,12 +47,7 @@ class Api::NewsItemsController < ApiController
   def filter_params
     params.permit! 
     p = HashWithIndifferentAccess.new params[:q]
-    return [] unless p
-    if p[:hardCap]
-      p[:hardCapMin] = p[:hardCap][:min]
-      p[:hardCapMax] = p[:hardCap][:max]
-    end
-    p
+    return p || []
   end
 
 

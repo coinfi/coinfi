@@ -11,6 +11,10 @@ class FeedSource < ApplicationRecord
 
   scope :active, -> { where(is_active: true) }
 
+  def self.types
+    pluck(:feed_type).uniq.compact.reject { |t| t.length < 1 }
+  end
+
   def retrieve(before: nil)
     body = {
       'hub.mode' => 'retrieve', 

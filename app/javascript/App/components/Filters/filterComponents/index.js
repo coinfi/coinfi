@@ -10,6 +10,7 @@ import SocialCounts from './SocialCounts'
 import StartingDate from './StartingDate'
 import TokenType from './TokenType'
 import Coins from './Coins'
+import FeedSources from './FeedSources'
 
 export default {
   search: Search,
@@ -23,5 +24,6 @@ export default {
   socialCounts: SocialCounts,
   startingDate: StartingDate,
   tokenType: TokenType,
-  coins: Coins
+  coins: Coins,
+  feedSources: FeedSources
 }

@@ -8,5 +8,6 @@ export const filterList = fromJS([
     label: 'Search',
     unlisted: true
   },
-  { key: 'coins', label: 'Coins' }
+  { key: 'coins', label: 'Coins' },
+  { key: 'feedSources', label: 'Feed Sources' }
 ])
