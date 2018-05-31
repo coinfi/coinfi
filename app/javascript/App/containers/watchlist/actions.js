@@ -4,6 +4,9 @@ const entityActions = createEntityActions(namespace)
 
 export default {
   ...entityActions,
+  fetchCoins: () => {
+    return { type: 'FETCH_COINS' }
+  },
   removeCoin: (id) => {
     return { type: 'REMOVE_COIN', id }
   },

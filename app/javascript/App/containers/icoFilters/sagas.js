@@ -1,4 +1,4 @@
-import { takeLatest } from 'redux-saga/effects'
+import { takeLatest, fork } from 'redux-saga/effects'
 import axios from 'axios'
 import { currentURL } from '../../lib/urlHelpers'
 import { namespace } from './constants'
@@ -9,7 +9,7 @@ const filterSagas = createFilterSagas(namespace)
 export default function* watcher() {
   yield takeLatest('ON_FILTER_INITIALIZE', initializeResults)
   yield takeLatest('ON_FILTER_CHANGE', updateResults)
-  yield filterSagas()
+  yield fork(filterSagas)
 }
 
 function* initializeResults(action) {

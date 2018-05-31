@@ -16,9 +16,10 @@ export default (namespace) => {
       ...actionProps(entityType),
       response
     }),
-    fetchEntityList: (entityType) => ({
+    fetchEntityList: (entityType, opts = {}) => ({
       type: 'FETCH_ENTITY_LIST',
-      ...actionProps(entityType)
+      ...actionProps(entityType),
+      ...opts
     }),
     setEntityList: (entityType, response) => ({
       type: 'SET_ENTITY_LIST',

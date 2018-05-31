@@ -4,7 +4,7 @@ import { getQueryObject } from '../urlHelpers'
 import { createFilterActions, createFilterSelectors } from './index'
 import { buildFilterObject } from '../stateHelpers'
 
-export default function(namespace, onChange) {
+export default function(namespace) {
   function* watcher() {
     yield takeLatest('INITIALIZE_FILTERS', initializeFilters)
     yield takeLatest('SET_FILTER', applyFilters)

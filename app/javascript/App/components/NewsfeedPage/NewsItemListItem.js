@@ -43,7 +43,7 @@ export default ({
                 })
               }
             >
-              {coin.get('symbol')}
+              {coin && coin.get('symbol')}
             </div>
           ))}
         </div>

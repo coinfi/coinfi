@@ -1,4 +1,4 @@
-import { takeLatest, select, put } from 'redux-saga/effects'
+import { takeLatest, select, put, fork } from 'redux-saga/effects'
 import { delay } from 'redux-saga'
 import { createEntitySagas, createFilterSagas } from '../../lib/redux'
 import selectors from './selectors'
@@ -10,29 +10,28 @@ const entitySagas = createEntitySagas(namespace)
 const filterSagas = createFilterSagas(namespace)
 
 export default function* watcher() {
-  yield takeLatest('ON_FILTER_INITIALIZE', fetchAll)
+  yield takeLatest('ON_FILTER_INITIALIZE', fetchCoins)
+  yield takeLatest('SET_ENTITY_LIST', fetchNewsItems)
   yield takeLatest('ON_FILTER_INITIALIZE', pollNewsItems)
-  yield takeLatest('FETCH_ENTITY_DETAILS', entitySagas.fetchEntityDetails)
   yield takeLatest('SET_ACTIVE_ENTITY', applyCoin)
   yield takeLatest('ON_FILTER_CHANGE', applyCoin)
-  yield filterSagas()
-}
-
-function* fetchAll(action) {
-  if (action.namespace !== namespace) return
-  yield fetchCoins(action)
-  yield applyCoin(action)
+  yield fork(filterSagas)
+  yield fork(entitySagas)
 }
 
 function* fetchCoins(action) {
-  yield entitySagas.fetchEntityList({
-    ...action,
-    entityType: 'coins',
-    url: 'newsfeed/coins'
-  })
+  if (action.namespace !== namespace) return
+  yield put(actions.fetchEntityList('coins', { url: 'newsfeed/coins' }))
 }
 
 function* fetchNewsItems(action) {
+  /*
+   * Here we want to be sure that there are coin IDs before proceeding, which is
+   * why we're calling it on SET_ENTITY_LIST for Coins, because by that time the
+   * IDs are available.
+   */
+  if (action.namespace !== namespace) return
+  if (action.type === 'SET_ENTITY_LIST' && action.entityType !== 'coins') return
   const activeFilters = yield select(selectors.activeFilters)
   const { coins, ...params } = buildFilterObject(activeFilters)
   if (coins) {
@@ -40,12 +39,12 @@ function* fetchNewsItems(action) {
   } else {
     params.coin_ids = yield select(selectors.coinIDs)
   }
-  yield entitySagas.fetchEntityList({
-    ...action,
-    params,
-    entityType: 'newsItems',
-    url: 'news_items'
-  })
+  yield put(
+    actions.fetchEntityList('newsItems', {
+      params,
+      url: 'news_items'
+    })
+  )
 }
 
 function* pollNewsItems(action) {
@@ -56,8 +55,13 @@ function* pollNewsItems(action) {
 }
 
 function* applyCoin(action) {
-  /* When setting the active coin, this also sets the coin filter, and vice
-  versa. */
+  /*
+   * On clicking a coin, this will set the filter and fetch NewsItems.
+   *
+   * On Filter initialize, this will attempt to set the active entity (i.e. if 1
+   * coin is selected), and on Filter change, it will also re-fetch the
+   * NewsItems.
+   */
   const { payload, type } = action
   if (action.namespace !== namespace) return
   if (payload.preventSaga) return
@@ -98,7 +102,7 @@ function* applyCoin(action) {
         // Unset the active coin if none are selected
         yield put(actions.unsetActiveEntity())
       }
-      yield fetchNewsItems(action)
+      if (type === 'ON_FILTER_CHANGE') yield fetchNewsItems(action)
       break
     default:
       break

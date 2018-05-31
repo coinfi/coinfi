@@ -9,7 +9,7 @@ import newsfeedSagas from '../newsfeed/sagas'
 const sagas = [watchlistSagas, coinSearchSagas, icoFiltersSagas, newsfeedSagas]
 
 export default function* watcher() {
-  yield all(sagas.map(saga => fork(saga)))
+  yield all(sagas.map((saga) => fork(saga)))
   yield takeLatest('TOGGLE_UI', preventScrollOnMobile)
 }
 

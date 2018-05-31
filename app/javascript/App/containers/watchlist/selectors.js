@@ -3,8 +3,10 @@ import { createEntitySelectors } from '../../lib/redux'
 
 const select = createEntitySelectors(namespace)
 
-export const coinIDs = select.entityIDs('coins')
-export const coins = select.entities('coins')
-export const newsItems = select.entities('newsItems')
-export const tags = select.entities('tags')
-export const selectNewsItemCoins = select.entityChildren('newsItems', 'coins')
+export default {
+  coinIDs: select.entityIDs('coins'),
+  coins: select.entities('coins'),
+  newsItems: select.entities('newsItems'),
+  tags: select.entities('tags'),
+  selectNewsItemCoins: select.entityChildren('newsItems', 'coins')
+}
