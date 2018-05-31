@@ -1,19 +1,21 @@
-import React, { Component } from 'react'
+import React from 'react'
 import NewsItemListItem from './NewsItemListItem'
+import LoadingIndicator from '../LoadingIndicator'
 
-export default class NewsItemList extends Component {
-  render() {
-    const { newsItems } = this.props
-    return (
-      <div>
-        {newsItems.map((newsItem) => (
-          <NewsItemListItem
-            key={newsItem.get('id')}
-            {...this.props}
-            newsItem={newsItem}
-          />
-        ))}
-      </div>
-    )
-  }
+const NewsItemList = (props) => {
+  const { newsItems, isLoading } = props
+  return (
+    <div>
+      {isLoading('newsItems') && <LoadingIndicator />}
+      {newsItems.map((newsItem) => (
+        <NewsItemListItem
+          key={newsItem.get('id')}
+          {...props}
+          newsItem={newsItem}
+        />
+      ))}
+    </div>
+  )
 }
+
+export default NewsItemList

@@ -5,5 +5,6 @@ export default fromJS({
   activeFilters: [],
   entityDetails: {},
   entityIDs: {},
-  entityList: {}
+  entityList: {},
+  loadingEntities: {}
 })

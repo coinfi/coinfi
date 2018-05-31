@@ -6,6 +6,7 @@ const filterSelectors = createFilterSelectors(namespace, filterList)
 
 export default {
   activeEntity: select.activeEntity,
+  isLoading: select.isLoading,
   coinIDs: select.entityIDs('coins'),
   coins: select.entities('coins'),
   newsItems: select.entities('newsItems'),

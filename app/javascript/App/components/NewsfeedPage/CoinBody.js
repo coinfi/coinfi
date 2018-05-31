@@ -3,6 +3,7 @@ import CoinCharts from '../CoinCharts'
 import Currency from '../Currency'
 import PercentageChange from '../PercentageChange'
 import WatchButton from '../WatchButton'
+import LoadingIndicator from '../LoadingIndicator'
 
 export default class CoinBody extends Component {
   onWatchCoin = ({ id, watching }) => {
@@ -10,9 +11,9 @@ export default class CoinBody extends Component {
     this.props.setEntityDetails('coin', details)
   }
   render() {
-    const { selectCoinDetails, activeEntity } = this.props
+    const { selectCoinDetails, activeEntity, isLoading } = this.props
     let coin = selectCoinDetails(activeEntity.id)
-    if (!coin) return null
+    if (!coin || isLoading('coin')) return <LoadingIndicator />
     coin = coin.toJS()
     return (
       <div className="pa4">
