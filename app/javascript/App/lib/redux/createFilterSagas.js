@@ -2,6 +2,7 @@ import { takeLatest, select, put } from 'redux-saga/effects'
 import { pushObjectToURL } from '..//urlHelpers'
 import { getQueryObject } from '../urlHelpers'
 import { createFilterActions, createFilterSelectors } from './index'
+import { buildFilterObject } from '../stateHelpers'
 
 export default function(namespace, onChange) {
   function* watcher() {
@@ -43,11 +44,4 @@ export default function(namespace, onChange) {
   }
 
   return watcher
-}
-
-function buildFilterObject(activeFilters) {
-  return activeFilters.toJS().reduce((n, o) => {
-    n[o.key] = o.value
-    return n
-  }, {})
 }

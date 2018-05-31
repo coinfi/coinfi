@@ -1,14 +1,17 @@
 import { takeLatest, select, put } from 'redux-saga/effects'
+import { delay } from 'redux-saga'
 import { createEntitySagas, createFilterSagas } from '../../lib/redux'
 import selectors from './selectors'
 import actions from './actions'
 import { namespace } from './constants'
+import { buildFilterObject } from '../../lib/stateHelpers'
 
 const entitySagas = createEntitySagas(namespace)
 const filterSagas = createFilterSagas(namespace)
 
 export default function* watcher() {
   yield takeLatest('ON_FILTER_INITIALIZE', fetchAll)
+  yield takeLatest('ON_FILTER_INITIALIZE', pollNewsItems)
   yield takeLatest('FETCH_ENTITY_DETAILS', entitySagas.fetchEntityDetails)
   yield takeLatest('SET_ACTIVE_ENTITY', applyCoin)
   yield takeLatest('ON_FILTER_CHANGE', applyCoin)
@@ -30,16 +33,26 @@ function* fetchCoins(action) {
 }
 
 function* fetchNewsItems(action) {
-  let { params } = action
-  const coin_ids = yield select(selectors.coinIDs)
-  if (!params) params = { coin_ids }
-  if (!params.coin_ids) params.coin_ids = coin_ids
+  const activeFilters = yield select(selectors.activeFilters)
+  const { coins, ...params } = buildFilterObject(activeFilters)
+  if (coins) {
+    params.coin_ids = coins.map((coin) => coin.id)
+  } else {
+    params.coin_ids = yield select(selectors.coinIDs)
+  }
   yield entitySagas.fetchEntityList({
     ...action,
     params,
     entityType: 'newsItems',
     url: 'news_items'
   })
+}
+
+function* pollNewsItems(action) {
+  while (true) {
+    yield delay(90000)
+    yield fetchNewsItems(action)
+  }
 }
 
 function* applyCoin(action) {
@@ -61,7 +74,7 @@ function* applyCoin(action) {
           preventSaga
         })
       )
-      yield fetchNewsItems({ ...action, params: { coin_ids: [id] } })
+      yield fetchNewsItems(action)
       break
     case 'ON_FILTER_CHANGE':
     case 'ON_FILTER_INITIALIZE':
@@ -70,10 +83,8 @@ function* applyCoin(action) {
       let coin_ids
       if (params.coins) {
         coin_ids = params.coins.map((coin) => parseInt(coin.id, 10))
-        delete params.coins
       }
       if (coin_ids && coin_ids.length >= 1) {
-        params.coin_ids = coin_ids
         if (coin_ids.length === 1) {
           // When there's 1 coin selected, make it the active entity
           const id = coin_ids[0]
@@ -87,7 +98,7 @@ function* applyCoin(action) {
         // Unset the active coin if none are selected
         yield put(actions.unsetActiveEntity())
       }
-      yield fetchNewsItems({ ...action, params })
+      yield fetchNewsItems(action)
       break
     default:
       break

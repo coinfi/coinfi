@@ -36,7 +36,11 @@ export default ({
               key={index}
               className="tag pointer"
               onClick={() =>
-                setActiveEntity({ type: 'coin', id: coin.get('id') })
+                setActiveEntity({
+                  type: 'coin',
+                  id: coin.get('id'),
+                  label: coin.get('name')
+                })
               }
             >
               {coin.get('symbol')}

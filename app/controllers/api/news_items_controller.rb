@@ -11,7 +11,7 @@ class Api::NewsItemsController < ApiController
 
   def serialized(obj)
     obj.as_json(
-      only: %i[id title summary feed_item_published_at url],
+      only: %i[id title summary feed_item_published_at updated_at url],
       methods: %i[coin_ids]
     )
   end
