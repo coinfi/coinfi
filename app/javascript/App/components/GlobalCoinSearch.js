@@ -30,6 +30,14 @@ class CoinSearch extends Component {
               onChange={this.handleSearchInput}
               placeholder="Search"
               autoFocus
+              onBlur={() => {
+                //setTimeout here is a hack to allow clicking links below enough time to work
+                setTimeout(()=>{
+                  const e = document.getElementById('global-coin-search')
+                  toggleOverlay(e)
+                  clearSearch()
+                },200)
+              }}
               setRef={ref => (this.inputRef = ref)}
             />
             {searchText.length > 0 && (
