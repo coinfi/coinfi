@@ -13,7 +13,8 @@ export default class CoinBody extends Component {
   render() {
     const { selectCoinDetails, activeEntity, isLoading } = this.props
     let coin = selectCoinDetails(activeEntity.id)
-    if (!coin || isLoading('coin')) return <LoadingIndicator />
+    if (!coin && isLoading('coin'))
+      return <LoadingIndicator className="overlay bg-white-70" />
     coin = coin.toJS()
     return (
       <div className="pa4">

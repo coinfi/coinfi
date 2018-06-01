@@ -93,6 +93,9 @@ function* applyCoin(action) {
           // When there's 1 coin selected, make it the active entity
           const id = coin_ids[0]
           yield put(actions.fetchEntityDetails('coin', id))
+          // TODO: the following line is being called after manual clicking of a
+          // coin (look at Redux Devtools after clicking a coin,
+          // SET_ACTIVE_ENTITY is called twice)
           yield put(actions.setActiveEntity({ preventSaga, type: 'coin', id }))
         } else {
           // Unset the active coin if multiple are selected

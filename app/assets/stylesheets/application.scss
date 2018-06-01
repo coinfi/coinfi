@@ -13,6 +13,7 @@
  */
 
 @import 'variables';
+@import 'flexboxgrid';
 @import 'tachyons';
 @import 'rc-slider/assets/index';
 
@@ -42,7 +43,6 @@
 @import 'components/forms';
 @import 'components/navigation';
 @import 'components/tables';
-@import 'components/flexboxgrid';
 @import 'components/flash';
 @import 'components/box';
 @import 'components/grid';
@@ -59,3 +59,4 @@
 @import 'modules/site-subheader';
 @import 'modules/twitter';
 @import 'modules/global-coin-search';
+@import 'modules/news-page';
