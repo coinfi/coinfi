@@ -22,6 +22,7 @@ const createEntityReducer = (namespace) => (state = initialState, action) => {
         .setIn(keyPath, existingDetails.mergeDeep(response))
         .setIn(['loadingEntities', singularize(entityType)], false)
     case 'FETCH_ENTITY_LIST':
+      if (action.isPolling) return state
       return state.setIn(['loadingEntities', entityType], true)
     case 'SET_ENTITY_LIST':
       const normalizer = normalizers[entityType]

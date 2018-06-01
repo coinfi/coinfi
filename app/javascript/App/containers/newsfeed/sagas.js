@@ -24,7 +24,7 @@ function* fetchCoins(action) {
   yield put(actions.fetchEntityList('coins', { url: 'newsfeed/coins' }))
 }
 
-function* fetchNewsItems(action) {
+function* fetchNewsItems(action, opts = {}) {
   /*
    * Here we want to be sure that there are coin IDs before proceeding, which is
    * why we're calling it on SET_ENTITY_LIST for Coins, because by that time the
@@ -33,16 +33,18 @@ function* fetchNewsItems(action) {
   if (action.namespace !== namespace) return
   if (action.type === 'SET_ENTITY_LIST' && action.entityType !== 'coins') return
   const activeFilters = yield select(selectors.activeFilters)
-  const { coins, ...params } = buildFilterObject(activeFilters)
+  let { coins, ...params } = buildFilterObject(activeFilters)
   if (coins) {
     params.coin_ids = coins.map((coin) => coin.id)
   } else {
     params.coin_ids = yield select(selectors.coinIDs)
   }
+  params = { ...params, ...opts }
   yield put(
     actions.fetchEntityList('newsItems', {
       params,
-      url: 'news_items'
+      url: 'news_items',
+      ...opts
     })
   )
 }
@@ -50,7 +52,12 @@ function* fetchNewsItems(action) {
 function* pollNewsItems(action) {
   while (true) {
     yield delay(90000)
-    yield fetchNewsItems(action)
+    const newsItems = yield select(selectors.newsItems)
+    const opts = { isPolling: true }
+    if (newsItems[0]) {
+      opts.updatedSince = newsItems[0].get('updated_at')
+    }
+    yield fetchNewsItems(action, opts)
   }
 }
 
