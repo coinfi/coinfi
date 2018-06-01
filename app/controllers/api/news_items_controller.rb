@@ -22,10 +22,9 @@ class Api::NewsItemsController < ApiController
     if coin_ids = filter_params[:coin_ids]
       filtered_ids += NewsCoinMention.where(coin_id: coin_ids).pluck(:news_item_id)
     end
-    if feed_types = filter_params[:feedSources]
-      source_ids = FeedSource.where(feed_type: feed_types).pluck(:id)
-      filtered_ids += NewsItem.where(feed_source_id: source_ids).pluck(:id)
-    end
+    feed_types = filter_params[:feedSources] || []
+    source_ids = FeedSource.where(feed_type: feed_types).pluck(:id)
+    filtered_ids += NewsItem.where(feed_source_id: source_ids).pluck(:id)
     @news_items = @news_items
     .ransack({id_in:filtered_ids.uniq}.merge(build_query))
     .result(distinct: true)
