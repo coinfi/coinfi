@@ -35,9 +35,9 @@ function* fetchNewsItems(action, opts = {}) {
   const activeFilters = yield select(selectors.activeFilters)
   let { coins, ...params } = buildFilterObject(activeFilters)
   if (coins) {
-    params.coin_ids = coins.map((coin) => coin.id)
+    params.coinIDs = coins.map((coin) => coin.id)
   } else {
-    params.coin_ids = yield select(selectors.coinIDs)
+    params.coinIDs = yield select(selectors.coinIDs)
   }
   params = { ...params, ...opts }
   yield put(
@@ -91,14 +91,14 @@ function* applyCoin(action) {
     case 'ON_FILTER_INITIALIZE':
       let { filterObject } = payload
       const params = filterObject || {}
-      let coin_ids
+      let coinIDs
       if (params.coins) {
-        coin_ids = params.coins.map((coin) => parseInt(coin.id, 10))
+        coinIDs = params.coins.map((coin) => parseInt(coin.id, 10))
       }
-      if (coin_ids && coin_ids.length >= 1) {
-        if (coin_ids.length === 1) {
+      if (coinIDs && coinIDs.length >= 1) {
+        if (coinIDs.length === 1) {
           // When there's 1 coin selected, make it the active entity
-          const id = coin_ids[0]
+          const id = coinIDs[0]
           yield put(actions.fetchEntityDetails('coin', id))
           // TODO: the following line is being called after manual clicking of a
           // coin (look at Redux Devtools after clicking a coin,

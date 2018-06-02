@@ -28,9 +28,9 @@ function* fetchCoins(action) {
 function* fetchNewsItems(action) {
   if (action.namespace !== namespace) return
   if (action.entityType !== 'coins') return
-  const coin_ids = yield select(selectors.coinIDs)
-  if (coin_ids.length === 0) return
-  const params = { coin_ids }
+  const coinIDs = yield select(selectors.coinIDs)
+  if (coinIDs.length === 0) return
+  const params = { coinIDs }
   yield put(
     actions.fetchEntityList('newsItems', {
       url: 'news_items',
