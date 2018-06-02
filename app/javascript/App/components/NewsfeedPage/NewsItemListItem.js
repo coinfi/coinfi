@@ -1,5 +1,6 @@
 import React from 'react'
 import timeago from 'timeago.js'
+import { stringHostname } from '../../lib/urlHelpers'
 
 export default ({
   newsItem,
@@ -27,8 +28,10 @@ export default ({
         <h4 className="fw6 mv3 f4">{newsItem.get('title')}</h4>
       </div>
       <div className="flex justify-between flex-wrap">
-        <div className="f7 silver">
+        <div className="f6 silver" title={newsItem.get('published_date')}>
           {timeago().format(newsItem.get('published_date'))}
+          <span className="ph2"></span>
+          {stringHostname(newsItem.get('url'))}
         </div>
         <div>
           {coins.map((coin, index) => (
