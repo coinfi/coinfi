@@ -11,10 +11,10 @@ const filterSagas = createFilterSagas(namespace)
 
 export default function* watcher() {
   yield takeLatest('ON_FILTER_INITIALIZE', fetchCoins)
-  yield takeLatest('SET_ENTITY_LIST', fetchNewsItems)
   yield takeLatest('ON_FILTER_INITIALIZE', pollNewsItems)
-  yield takeLatest('SET_ACTIVE_ENTITY', applyCoin)
-  yield takeLatest('ON_FILTER_CHANGE', applyCoin)
+  yield takeLatest('SET_ENTITY_LIST', onSetCoinList)
+  yield takeLatest('SET_ACTIVE_ENTITY', onSetActiveCoin)
+  yield takeLatest('ON_FILTER_CHANGE', fetchNewsItems)
   yield fork(filterSagas)
   yield fork(entitySagas)
 }
@@ -24,14 +24,14 @@ function* fetchCoins(action) {
   yield put(actions.fetchEntityList('coins', { url: 'newsfeed/coins' }))
 }
 
+function* onSetCoinList(action) {
+  // When we set the Coin list, then fetch the NewsItems
+  if (action.entityType !== 'coins') return
+  yield fetchNewsItems(action)
+}
+
 function* fetchNewsItems(action, opts = {}) {
-  /*
-   * Here we want to be sure that there are coin IDs before proceeding, which is
-   * why we're calling it on SET_ENTITY_LIST for Coins, because by that time the
-   * IDs are available.
-   */
   if (action.namespace !== namespace) return
-  if (action.type === 'SET_ENTITY_LIST' && action.entityType !== 'coins') return
   const activeFilters = yield select(selectors.activeFilters)
   let { coins, ...params } = buildFilterObject(activeFilters)
   if (coins) {
@@ -47,6 +47,7 @@ function* fetchNewsItems(action, opts = {}) {
       ...opts
     })
   )
+  yield activateFilteredCoin(params.coinIDs)
 }
 
 function* pollNewsItems(action) {
@@ -61,60 +62,34 @@ function* pollNewsItems(action) {
   }
 }
 
-function* applyCoin(action) {
-  /*
-   * On clicking a coin, this will set the filter and fetch NewsItems.
-   *
-   * On Filter initialize, this will attempt to set the active entity (i.e. if 1
-   * coin is selected), and on Filter change, it will also re-fetch the
-   * NewsItems.
-   */
-  const { payload, type } = action
+function* onSetActiveCoin(action) {
+  /* On clicking a coin, this will do fetchEntityDetails for that coin, and set
+  the filter. */
   if (action.namespace !== namespace) return
-  if (payload.preventSaga) return
-  const preventSaga = true
-  switch (type) {
-    case 'SET_ACTIVE_ENTITY':
-      if (payload.type !== 'coin') return
-      let { id, label } = payload
-      // When we click a coin, set the coin filter
-      yield put(
-        actions.setFilter({
-          key: 'coins',
-          value: [{ id, label }],
-          preventSaga
-        })
-      )
-      yield fetchNewsItems(action)
-      break
-    case 'ON_FILTER_CHANGE':
-    case 'ON_FILTER_INITIALIZE':
-      let { filterObject } = payload
-      const params = filterObject || {}
-      let coinIDs
-      if (params.coins) {
-        coinIDs = params.coins.map((coin) => parseInt(coin.id, 10))
-      }
-      if (coinIDs && coinIDs.length >= 1) {
-        if (coinIDs.length === 1) {
-          // When there's 1 coin selected, make it the active entity
-          const id = coinIDs[0]
-          yield put(actions.fetchEntityDetails('coin', id))
-          // TODO: the following line is being called after manual clicking of a
-          // coin (look at Redux Devtools after clicking a coin,
-          // SET_ACTIVE_ENTITY is called twice)
-          yield put(actions.setActiveEntity({ preventSaga, type: 'coin', id }))
-        } else {
-          // Unset the active coin if multiple are selected
-          yield put(actions.unsetActiveEntity())
-        }
-      } else {
-        // Unset the active coin if none are selected
-        yield put(actions.unsetActiveEntity())
-      }
-      if (type === 'ON_FILTER_CHANGE') yield fetchNewsItems(action)
-      break
-    default:
-      break
+  const { payload } = action
+  if (payload.type === 'coin') {
+    let { id, label } = payload
+    yield put(actions.fetchEntityDetails('coin', id))
+    if (payload.preventSaga) return
+    yield put(
+      actions.setFilter({
+        key: 'coins',
+        value: [{ id, label }]
+      })
+    )
+  }
+}
+
+function* activateFilteredCoin(coinIDs) {
+  if (coinIDs.length === 1) {
+    yield put(
+      actions.setActiveEntity({
+        preventSaga: true,
+        type: 'coin',
+        id: parseInt(coinIDs[0], 10)
+      })
+    )
+  } else {
+    yield put(actions.unsetActiveEntity())
   }
 }
