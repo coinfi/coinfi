@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import timeago from 'timeago.js'
+import sanitizeHtml from 'sanitize-html'
 import { stringHostname } from '../../lib/urlHelpers'
 
 export default class NewsItemBody extends Component {
@@ -13,6 +14,7 @@ export default class NewsItemBody extends Component {
     const newsItem = selectNewsItemFromList(id)
     if (!newsItem) return null
     const coins = selectNewsItemCoins(newsItem)
+    const content = newsItem.get('content') || newsItem.get('summary')
     return (
       <div className="pa4">
         {coins.size > 0 && (
@@ -33,7 +35,8 @@ export default class NewsItemBody extends Component {
             {stringHostname(newsItem.get('url'))}
           </a>
         </div>
-        <div>{newsItem.get('summary')}</div>
+        <hr />
+        <div dangerouslySetInnerHTML={{__html: sanitizeHtml(content)}}></div>
       </div>
     )
   }
