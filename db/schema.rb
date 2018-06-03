@@ -319,7 +319,6 @@ ActiveRecord::Schema.define(version: 20180530045743) do
     t.boolean "is_published", default: true
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.jsonb "coin_ids"
     t.boolean "is_human_tagged"
     t.index ["feed_source_id", "feed_item_id"], name: "index_news_items_on_feed_source_id_and_feed_item_id", unique: true
     t.index ["feed_source_id"], name: "index_news_items_on_feed_source_id"
