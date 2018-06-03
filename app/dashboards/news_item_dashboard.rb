@@ -24,8 +24,8 @@ class NewsItemDashboard < Administrate::BaseDashboard
     is_human_tagged: Field::Boolean,
     created_at: Field::DateTime,
     updated_at: Field::DateTime,
-    coin_symbols: Field::String,
-    news_category_names: Field::String,
+    coin_symbols: Field::String.with_options(searchable: false),
+    news_category_names: Field::String.with_options(searchable: false),
   }.freeze
 
   # COLLECTION_ATTRIBUTES
