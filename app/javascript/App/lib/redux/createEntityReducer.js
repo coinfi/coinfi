@@ -8,10 +8,12 @@ import { fromJS } from 'immutable'
 import normalizers from '../../normalizers'
 import { pluralize, singularize } from '../misc'
 import initialState from './initialState'
+import _ from 'lodash'
 
 const createEntityReducer = (namespace) => (state = initialState, action) => {
   if (namespace !== action.namespace) return state
   const { entityType, response, payload } = action
+  let normalizer, normalized, entityLists
   switch (action.type) {
     case 'FETCH_ENTITY_DETAILS':
       return state.setIn(['loadingEntities', singularize(entityType)], true)
@@ -25,14 +27,26 @@ const createEntityReducer = (namespace) => (state = initialState, action) => {
       if (action.isPolling) return state
       return state.setIn(['loadingEntities', entityType], true)
     case 'SET_ENTITY_LIST':
-      const normalizer = normalizers[entityType]
+      normalizer = normalizers[entityType]
       if (!normalizer) console.error(`No normalizer found for ${entityType}`)
-      const normalized = normalizer(response)
-      const entityLists = state.get('entityList').mergeDeep(normalized.entities)
+      normalized = normalizer(response)
+      entityLists = state.get('entityList').mergeDeep(normalized.entities)
       return state
         .set('entityList', entityLists)
         .setIn(['entityIDs', entityType], normalized.result)
         .setIn(['loadingEntities', entityType], false)
+    case 'SET_ENTITY_LIST_UPDATES':
+      normalizer = normalizers[entityType]
+      if (!normalizer) console.error(`No normalizer found for ${entityType}`)
+      normalized = normalizer(response)
+      entityLists = state.get('entityList').mergeDeep(normalized.entities)
+      const ids = _.union(
+        state.getIn(['entityIDs', entityType]),
+        normalized.result
+      )
+      return state
+        .set('entityList', entityLists)
+        .setIn(['entityIDs', entityType], ids)
     case 'SET_ACTIVE_ENTITY':
       return state.set('activeEntity', payload)
     case 'UNSET_ACTIVE_ENTITY':

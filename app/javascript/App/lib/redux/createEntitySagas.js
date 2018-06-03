@@ -7,6 +7,7 @@ export default (namespace) => {
   function* watcher() {
     yield takeLatest('FETCH_ENTITY_DETAILS', fetchEntityDetails)
     yield takeLatest('FETCH_ENTITY_LIST', fetchEntityList)
+    yield takeLatest('FETCH_ENTITY_LIST_UPDATES', fetchEntityListUpdates)
   }
 
   const actions = createEntityActions(namespace)
@@ -28,11 +29,19 @@ export default (namespace) => {
   }
 
   function* fetchEntityList(action) {
+    yield createFetchEntityList(action, actions.setEntityList)
+  }
+
+  function* fetchEntityListUpdates(action) {
+    yield createFetchEntityList(action, actions.setEntityListUpdates)
+  }
+
+  function* createFetchEntityList(action, callbackAction) {
     if (action.namespace !== namespace) return
     const { entityType, url, params } = action
     const endpoint = url || pluralize(entityType)
     yield apiSagas.get(`/${endpoint}.json`, { q: params }, (response) =>
-      actions.setEntityList(entityType, response)
+      callbackAction(entityType, response)
     )
   }
 

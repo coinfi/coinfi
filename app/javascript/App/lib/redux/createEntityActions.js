@@ -26,6 +26,16 @@ export default (namespace) => {
       ...actionProps(entityType),
       response
     }),
+    fetchEntityListUpdates: (entityType, opts = {}) => ({
+      type: 'FETCH_ENTITY_LIST_UPDATES',
+      ...actionProps(entityType),
+      ...opts
+    }),
+    setEntityListUpdates: (entityType, response) => ({
+      type: 'SET_ENTITY_LIST_UPDATES',
+      ...actionProps(entityType),
+      response
+    }),
     setActiveEntity: (payload) => ({
       type: 'SET_ACTIVE_ENTITY',
       namespace,

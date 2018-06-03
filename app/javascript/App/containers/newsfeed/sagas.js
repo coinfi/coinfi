@@ -30,21 +30,13 @@ function* onSetCoinList(action) {
   yield fetchNewsItems(action)
 }
 
-function* fetchNewsItems(action, opts = {}) {
+function* fetchNewsItems(action) {
   if (action.namespace !== namespace) return
-  const activeFilters = yield select(selectors.activeFilters)
-  let { coins, ...params } = buildFilterObject(activeFilters)
-  if (coins) {
-    params.coinIDs = coins.map((coin) => coin.id)
-  } else {
-    params.coinIDs = yield select(selectors.coinIDs)
-  }
-  params = { ...params, ...opts }
+  const params = yield newsitemParams()
   yield put(
     actions.fetchEntityList('newsItems', {
       params,
-      url: 'news_items',
-      ...opts
+      url: 'news_items'
     })
   )
   yield activateFilteredCoin(params.coinIDs)
@@ -52,13 +44,16 @@ function* fetchNewsItems(action, opts = {}) {
 
 function* pollNewsItems(action) {
   while (true) {
-    yield delay(90000)
+    yield delay(60000)
     const newsItems = yield select(selectors.newsItems)
-    const opts = { isPolling: true }
-    if (newsItems[0]) {
-      opts.updatedSince = newsItems[0].get('updated_at')
-    }
-    yield fetchNewsItems(action, opts)
+    const params = yield newsitemParams()
+    if (newsItems[0]) params.updatedSince = newsItems[0].get('updated_at')
+    yield put(
+      actions.fetchEntityListUpdates('newsItems', {
+        params,
+        url: 'news_items'
+      })
+    )
   }
 }
 
@@ -92,4 +87,15 @@ function* activateFilteredCoin(coinIDs) {
   } else {
     yield put(actions.unsetActiveEntity())
   }
+}
+
+function* newsitemParams() {
+  const activeFilters = yield select(selectors.activeFilters)
+  let { coins, ...params } = buildFilterObject(activeFilters)
+  if (coins) {
+    params.coinIDs = coins.map((coin) => coin.id)
+  } else {
+    params.coinIDs = yield select(selectors.coinIDs)
+  }
+  return params
 }

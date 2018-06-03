@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react'
-import NewsItemListItem from './NewsItemListItem'
+import NewsItemListItemAnimated from './NewsItemListItemAnimated'
 import LoadingIndicator from '../LoadingIndicator'
 
 const NewsItemList = (props) => {
@@ -9,14 +9,16 @@ const NewsItemList = (props) => {
       {isLoading('newsItems') && (
         <LoadingIndicator className="overlay bg-white-70" />
       )}
-      <div className="flex-auto overflow-y-auto">
-        {newsItems.map((newsItem) => (
-          <NewsItemListItem
-            key={newsItem.get('id')}
-            {...props}
-            newsItem={newsItem}
-          />
-        ))}
+      <div className="flex-auto overflow-y-auto relative">
+        {newsItems
+          .reverse()
+          .map((newsItem) => (
+            <NewsItemListItemAnimated
+              key={newsItem.get('id')}
+              {...props}
+              newsItem={newsItem}
+            />
+          ))}
       </div>
     </Fragment>
   )
