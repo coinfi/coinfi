@@ -28,10 +28,10 @@ module MarketData
 
   def stored_market_info
     market_info({
-      "24h_volume_usd": self.volume24['usd'],
+      "24h_volume_usd": self.try(:volume24).try(:[], 'usd'),
       "available_supply": display_available_supply(self),
-      "market_cap_usd": self.market_cap['usd'],
-      "price_usd": "$#{self.price['usd']}"
+      "market_cap_usd": self.try(:market_cap).try(:[], 'usd'),
+      "price_usd": "$#{self.try(:price).try(:[], 'usd')}"
     }.stringify_keys)
   end
 
