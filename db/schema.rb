@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180512055210) do
+ActiveRecord::Schema.define(version: 20180530061501) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -234,6 +234,7 @@ ActiveRecord::Schema.define(version: 20180512055210) do
     t.boolean "is_subscribed", default: false
     t.datetime "last_received_data_at"
     t.bigint "coin_id"
+    t.boolean "is_active", default: true
     t.index ["coin_id"], name: "index_feed_sources_on_coin_id"
     t.index ["feed_url"], name: "index_feed_sources_on_feed_url", unique: true
     t.index ["name"], name: "index_feed_sources_on_name", unique: true
@@ -271,6 +272,34 @@ ActiveRecord::Schema.define(version: 20180512055210) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "mentions", force: :cascade do |t|
+    t.bigint "coin_id"
+    t.bigint "news_item_id"
+    t.index ["coin_id"], name: "index_mentions_on_coin_id"
+    t.index ["news_item_id"], name: "index_mentions_on_news_item_id"
+  end
+
+  create_table "news_categories", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["name"], name: "index_news_categories_on_name", unique: true
+  end
+
+  create_table "news_coin_mentions", force: :cascade do |t|
+    t.bigint "coin_id"
+    t.bigint "news_item_id"
+    t.index ["coin_id"], name: "index_news_coin_mentions_on_coin_id"
+    t.index ["news_item_id"], name: "index_news_coin_mentions_on_news_item_id"
+  end
+
+  create_table "news_item_categorizations", force: :cascade do |t|
+    t.bigint "news_item_id"
+    t.bigint "news_category_id"
+    t.index ["news_category_id"], name: "index_news_item_categorizations_on_news_category_id"
+    t.index ["news_item_id"], name: "index_news_item_categorizations_on_news_item_id"
+  end
+
   create_table "news_item_raws", force: :cascade do |t|
     t.string "feed_item_id"
     t.string "source"
@@ -288,7 +317,7 @@ ActiveRecord::Schema.define(version: 20180512055210) do
     t.string "title", null: false
     t.text "summary"
     t.text "content"
-    t.string "actor_id", null: false
+    t.string "actor_id"
     t.datetime "feed_item_published_at", null: false
     t.datetime "feed_item_updated_at", null: false
     t.jsonb "feed_item_json"
@@ -297,6 +326,7 @@ ActiveRecord::Schema.define(version: 20180512055210) do
     t.boolean "is_published", default: true
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "is_human_tagged"
     t.index ["feed_source_id", "feed_item_id"], name: "index_news_items_on_feed_source_id_and_feed_item_id", unique: true
     t.index ["feed_source_id"], name: "index_news_items_on_feed_source_id"
   end
@@ -421,4 +451,6 @@ ActiveRecord::Schema.define(version: 20180512055210) do
   add_foreign_key "feed_sources", "coins"
   add_foreign_key "influencer_reviews", "coins", on_delete: :cascade
   add_foreign_key "influencer_reviews", "influencers", on_delete: :cascade
+  add_foreign_key "mentions", "coins"
+  add_foreign_key "mentions", "news_items"
 end

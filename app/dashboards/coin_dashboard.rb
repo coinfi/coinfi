@@ -186,6 +186,6 @@ class CoinDashboard < Administrate::BaseDashboard
   # across all pages of the admin dashboard.
   #
   def display_resource(coin)
-    "#{coin.name}"
+    "#{coin.name} (#{coin.symbol})"
   end
 end
