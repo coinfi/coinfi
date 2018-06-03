@@ -38,7 +38,6 @@ class NewsItemDashboard < Administrate::BaseDashboard
     :coin_symbols,
     :news_category_names,
     :is_human_tagged,
-    :feed_item_id,
     :title,
   ].freeze
 
@@ -68,17 +67,17 @@ class NewsItemDashboard < Administrate::BaseDashboard
   FORM_ATTRIBUTES = [
     :coins,
     :news_categories,
-    :feed_item_id,
-    :url,
-    :title,
-    :summary,
-    :content,
-    :actor_id,
-    :feed_item_published_at,
-    :feed_item_updated_at,
-    :importance,
-    :is_published,
     :is_human_tagged,
+    :is_published,
+    #:feed_item_id,
+    #:url,
+    #:title,
+    #:summary,
+    #:content,
+    #:actor_id,
+    #:feed_item_published_at,
+    #:feed_item_updated_at,
+    #:importance,
   ].freeze
 
   # Overwrite this method to customize how news items are displayed
