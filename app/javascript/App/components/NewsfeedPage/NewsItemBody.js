@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import timeago from 'timeago.js'
 import sanitizeHtml from 'sanitize-html'
 import { stringHostname } from '../../lib/urlHelpers'
+import _ from 'lodash'
 
 export default class NewsItemBody extends Component {
   render() {
@@ -14,7 +15,7 @@ export default class NewsItemBody extends Component {
     const newsItem = selectNewsItemFromList(id)
     if (!newsItem) return null
     const coins = selectNewsItemCoins(newsItem)
-    const content = newsItem.get('content') || newsItem.get('summary')
+    const content = _.trim(newsItem.get('content')) || _.trim(newsItem.get('summary'))
     return (
       <div className="pa4">
         {coins.size > 0 && (
