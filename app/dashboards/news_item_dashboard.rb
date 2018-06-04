@@ -9,6 +9,7 @@ class NewsItemDashboard < Administrate::BaseDashboard
   # on pages throughout the dashboard.
   ATTRIBUTE_TYPES = {
     id: Field::Number,
+    user_id: Field::Number,
     coins: Field::HasMany,
     news_categories: Field::HasMany,
     feed_item_id: Field::String,
@@ -37,8 +38,10 @@ class NewsItemDashboard < Administrate::BaseDashboard
     :id,
     :coin_symbols,
     :news_category_names,
+    :user_id,
     :is_human_tagged,
     :title,
+    :created_at,
   ].freeze
 
   # SHOW_PAGE_ATTRIBUTES
