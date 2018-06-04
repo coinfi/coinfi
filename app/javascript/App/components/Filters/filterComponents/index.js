@@ -11,6 +11,7 @@ import StartingDate from './StartingDate'
 import TokenType from './TokenType'
 import Coins from './Coins'
 import FeedSources from './FeedSources'
+import Categories from './Categories'
 
 export default {
   search: Search,
@@ -25,5 +26,6 @@ export default {
   startingDate: StartingDate,
   tokenType: TokenType,
   coins: Coins,
-  feedSources: FeedSources
+  feedSources: FeedSources,
+  categories: Categories
 }

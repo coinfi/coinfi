@@ -49,7 +49,10 @@ class FilterComponent extends Component {
     const { value } = this.state
     const { onChange, applyFilter, removeFilter } = this
     const Component = components[filter.get('key')]
-    if (!Component) return null
+    if (!Component) {
+      console.error(`Component not found for "${filter.get('key')}"`)
+      return null
+    }
     return (
       <div className="oi-pane-content">
         {filter && (

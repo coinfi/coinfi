@@ -97,5 +97,6 @@ function* newsitemParams() {
   } else {
     params.coinIDs = yield select(selectors.coinIDs)
   }
+  console.log(params)
   return params
 }

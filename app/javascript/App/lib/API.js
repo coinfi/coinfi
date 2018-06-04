@@ -1,7 +1,7 @@
 import axios from 'axios'
 import qs from 'qs'
 
-axios.defaults.paramsSerializer = params => {
+axios.defaults.paramsSerializer = (params) => {
   return qs.stringify(params, { arrayFormat: 'brackets' })
 }
 
@@ -18,23 +18,23 @@ const request = (path, data = {}, remote = true, type = 'get') => {
   if (remote) endpoint = window.pricesURL
   if (!remote) config = { headers }
   const url = `${endpoint}${path}`
-  return new Promise(resolve => {
+  return new Promise((resolve) => {
     if (type === 'delete') {
       axios
         .delete(url, { data, headers })
-        .then(response => {
+        .then((response) => {
           resolve(response.data || response)
         })
-        .catch(error => {
+        .catch((error) => {
           console.log(error)
         })
       return
     }
     axios[type](url, params, config)
-      .then(response => {
+      .then((response) => {
         resolve(response.data || response)
       })
-      .catch(error => {
+      .catch((error) => {
         console.log(error)
       })
   })

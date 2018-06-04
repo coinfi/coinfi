@@ -38,7 +38,7 @@ function escapeAmpersands(object) {
   Object.entries(object).forEach(([key, value]) => {
     if (Array.isArray(value)) {
       value.forEach((val, index) => {
-        if (val.includes('&')) {
+        if (val.includes && val.includes('&')) {
           object[key][index] = val.replace('&', '%26')
         }
       })
