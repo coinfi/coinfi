@@ -47,9 +47,11 @@ export default (namespace) => {
           parent.get(childrenType) ||
           parent.get(`${singularize(childrenType)}_ids`)
         if (!children) return []
-        return children.map((childID) =>
-          state.getIn(['entityList', childrenType, `${childID}`])
-        )
+        return children
+          .map((childID) =>
+            state.getIn(['entityList', childrenType, `${childID}`])
+          )
+          .filter((child) => child)
       }),
     entityDetails: (entityType) =>
       createSelector(selectState, (state) => (id) =>
