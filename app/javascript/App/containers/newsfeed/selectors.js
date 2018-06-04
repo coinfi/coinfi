@@ -13,6 +13,5 @@ export default {
   tags: select.entities('tags'),
   selectNewsItemFromList: select.entityFromList('newsItems'),
   selectCoinDetails: select.entityDetails('coin'),
-  selectNewsItemCoins: select.entityChildren('newsItems', 'coins'),
   ...filterSelectors
 }

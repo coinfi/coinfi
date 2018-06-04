@@ -1,16 +1,10 @@
 import React from 'react'
 import timeago from 'timeago.js'
 import { stringHostname } from '../../lib/urlHelpers'
+import NewsItemCoinTags from './NewsItemCoinTags'
 
 const NewsItemListItem = (props) => {
-  const {
-    activeEntity,
-    newsItem,
-    setActiveEntity,
-    selectNewsItemCoins,
-    preRender
-  } = props
-  const coins = selectNewsItemCoins(newsItem)
+  const { activeEntity, newsItem, setActiveEntity, preRender } = props
   let className = 'bb b--light-gray tiber overflow-hidden'
   if (activeEntity) {
     const { type, id } = activeEntity
@@ -35,23 +29,7 @@ const NewsItemListItem = (props) => {
             <span className="ph2" />
             {stringHostname(newsItem.get('url'))}
           </div>
-          <div>
-            {coins.map((coin, index) => (
-              <div
-                key={index}
-                className="tag pointer"
-                onClick={() =>
-                  setActiveEntity({
-                    type: 'coin',
-                    id: coin.get('id'),
-                    label: coin.get('name')
-                  })
-                }
-              >
-                {coin && coin.get('symbol')}
-              </div>
-            ))}
-          </div>
+          <NewsItemCoinTags {...props} />
         </div>
       </div>
     </div>
