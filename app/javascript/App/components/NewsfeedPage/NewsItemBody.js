@@ -21,7 +21,7 @@ export default class NewsItemBody extends Component {
           <span className="mr3">
             {timeago().format(newsItem.get('published_date'))}
           </span>
-          <a href={newsItem.get('url')} target="_blank">
+          <a href={newsItem.get('url')} target="_blank" rel="nofollow">
             {stringHostname(newsItem.get('url'))}
           </a>
         </div>

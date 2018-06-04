@@ -26,8 +26,15 @@ const NewsItemListItem = (props) => {
         <div className="flex justify-between flex-wrap">
           <div className="f6 silver" title={newsItem.get('published_date')}>
             {timeago().format(newsItem.get('published_date'))}
-            <span className="ph2" />
-            {stringHostname(newsItem.get('url'))}
+            <span className="ph2">~</span>
+            <a
+              href={newsItem.get('url')}
+              target="_blank"
+              rel="nofollow"
+              className="dib silver"
+            >
+              {stringHostname(newsItem.get('url'))}
+            </a>
           </div>
           <NewsItemCoinTags {...props} />
         </div>
