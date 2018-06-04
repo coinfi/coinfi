@@ -1,6 +1,6 @@
 class User < ApplicationRecord
   attr_accessor :skip_password_validation
-
+  has_many :news_items
   has_many :visits
   has_many :contributor_submissions
   has_one :author_profile, inverse_of: :user

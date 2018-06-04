@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180530045743) do
+ActiveRecord::Schema.define(version: 20180604063450) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -234,7 +234,6 @@ ActiveRecord::Schema.define(version: 20180530045743) do
     t.boolean "is_subscribed", default: false
     t.datetime "last_received_data_at"
     t.bigint "coin_id"
-    t.boolean "is_active", default: true
     t.index ["coin_id"], name: "index_feed_sources_on_coin_id"
     t.index ["feed_url"], name: "index_feed_sources_on_feed_url", unique: true
     t.index ["name"], name: "index_feed_sources_on_name", unique: true
@@ -310,7 +309,7 @@ ActiveRecord::Schema.define(version: 20180530045743) do
     t.string "title", null: false
     t.text "summary"
     t.text "content"
-    t.string "actor_id"
+    t.string "actor_id", null: false
     t.datetime "feed_item_published_at", null: false
     t.datetime "feed_item_updated_at", null: false
     t.jsonb "feed_item_json"
@@ -320,8 +319,12 @@ ActiveRecord::Schema.define(version: 20180530045743) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "is_human_tagged"
+    t.datetime "last_human_tagged_on"
+    t.datetime "last_machine_tagged_on"
+    t.bigint "user_id"
     t.index ["feed_source_id", "feed_item_id"], name: "index_news_items_on_feed_source_id_and_feed_item_id", unique: true
     t.index ["feed_source_id"], name: "index_news_items_on_feed_source_id"
+    t.index ["user_id"], name: "index_news_items_on_user_id"
   end
 
   create_table "submission_categories", force: :cascade do |t|
@@ -444,4 +447,5 @@ ActiveRecord::Schema.define(version: 20180530045743) do
   add_foreign_key "feed_sources", "coins"
   add_foreign_key "influencer_reviews", "coins", on_delete: :cascade
   add_foreign_key "influencer_reviews", "influencers", on_delete: :cascade
+  add_foreign_key "news_items", "users"
 end
