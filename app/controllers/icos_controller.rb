@@ -29,9 +29,31 @@ class IcosController < ApplicationController
   end
 
   def build_query
-    filter_params.map { |key, value|
+    p = filter_params
+    query = p.map { |key, value|
       parse_param(key.to_sym, value)
     }.compact.to_h
+    if p[:coinIndustries] || p[:reviewedBy]
+      # TODO: find sane way of filtering by multiple associations
+      ids = []
+      if p[:coinIndustries]
+        industry_ids = CoinIndustry.where(name: p[:coinIndustries].values).pluck(:id)
+        ids[0] = CoinIndustriesCoin.where( coin_industry_id: industry_ids).pluck(:coin_id)
+      end
+      if p[:reviewedBy]
+        influencer_ids = Influencer.where(name: p[:reviewedBy].values).pluck(:id)
+        ids[1] = InfluencerReview.where(
+          influencer_id: influencer_ids
+        ).pluck(:coin_id)
+      end
+      if ids[0] && ids[1]
+        query[:id_in] = ids[0] & ids[1]
+      else 
+        query[:id_in] = ids[0] || ids[1]
+      end
+      query[:id_in] << -1 if query[:id_in].empty? # Ransack returns all results if empty
+    end
+    query
   end
 
   def parse_param key, value
@@ -44,22 +66,10 @@ class IcosController < ApplicationController
       [:ico_fundraising_goal_usd_gteq, value.to_i * 1_000_000]
     when :hardCapMax
       [:ico_fundraising_goal_usd_lteq, value.to_i * 1_000_000]
-    when :coinIndustries
-      industry_ids = CoinIndustry.where(name: value.values).pluck(:id)
-      coin_ids = CoinIndustriesCoin.where(
-        coin_industry_id: industry_ids
-      ).pluck(:coin_id)
-      [:id_in, coin_ids]
     when :tokenType
       [:token_type_in, value.values]
     when :search
       [:name_or_symbol_cont, value]
-    when :reviewedBy
-      influencer_ids = Influencer.where(name: value.values).pluck(:id)
-      coin_ids = InfluencerReview.where(
-        influencer_id: influencer_ids
-      ).pluck(:coin_id)
-      [:id_in, coin_ids]
     end
   end
 

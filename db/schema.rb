@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180604063450) do
+ActiveRecord::Schema.define(version: 20180604203126) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -128,7 +128,7 @@ ActiveRecord::Schema.define(version: 20180604063450) do
     t.index ["name"], name: "index_coin_industries_on_name", unique: true
   end
 
-  create_table "coin_industries_coins", id: false, force: :cascade do |t|
+  create_table "coin_industries_coins", force: :cascade do |t|
     t.bigint "coin_id", null: false
     t.bigint "coin_industry_id", null: false
     t.index ["coin_id"], name: "index_coin_industries_coins_on_coin_id"

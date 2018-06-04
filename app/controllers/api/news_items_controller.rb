@@ -10,12 +10,23 @@ class Api::NewsItemsController < ApiController
 
   def news_item_query
     p = news_params
-    filtered_ids = NewsCoinMention.where(coin_id: p[:coinIDs]).pluck(:news_item_id)
-    if p[:feedSources]
-      source_ids = FeedSource.where(feed_type: p[:feedSources]).pluck(:id)
-      filtered_ids &= NewsItem.where(feed_source_id: source_ids).pluck(:id)
+    query = {
+      id_in: NewsCoinMention.where(coin_id: p[:coinIDs]).pluck(:news_item_id)
+    }
+    if p[:feedSources] || p[:categories]
+      # TODO: find sane way of filtering by multiple associations
+      if p[:feedSources]
+        source_ids = FeedSource.where(feed_type: p[:feedSources]).pluck(:id)
+        query[:id_in] &= NewsItem.where(feed_source_id: source_ids).pluck(:id)
+      end
+      if p[:categories]
+        category_ids = NewsCategory.where(name: p[:categories]).pluck(:id)
+        query[:id_in] &= NewsItemCategorization.where(
+          news_category_id: category_ids
+        ).pluck(:news_item_id)
+      end
+      query[:id_in] << -1 if query[:id_in].empty? # Ransack returns all results if empty
     end
-    query = { id_in: filtered_ids }
     query[:title_or_summary_cont] = p[:search] if p[:search]
     query[:updated_at_gt] = p[:updatedSince].to_datetime if p[:updatedSince]
     query
