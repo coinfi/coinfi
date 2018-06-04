@@ -1,0 +1,59 @@
+<%#
+# Form Partial
+
+This partial is rendered on a resource's `new` and `edit` pages,
+and renders all form fields for a resource's editable attributes.
+
+## Local variables:
+
+- `page`:
+  An instance of [Administrate::Page::Form][1].
+  Contains helper methods to display a form,
+  and knows which attributes should be displayed in the resource's form.
+
+[1]: http://www.rubydoc.info/gems/administrate/Administrate/Page/Form
+%>
+
+<%= form_for([namespace, page.resource], html: { class: "form" }) do |f| %>
+  <% if page.resource.errors.any? %>
+    <div id="error_explanation">
+      <h2>
+        <%= t(
+          "administrate.form.errors",
+          pluralized_errors: pluralize(page.resource.errors.count, t("administrate.form.error")),
+          resource_name: display_resource_name(page.resource_name)
+        ) %>
+      </h2>
+
+      <ul>
+        <% page.resource.errors.full_messages.each do |message| %>
+          <li class="flash-error"><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <h3><%= page.resource.title %></h3>
+  <div><%= link_to nil, page.resource.url, target: '_blank' %></div>
+  <div style="border: 1px solid #eee; padding: 8px">
+    <strong>Summary</strong>
+    <div><%= page.resource.summary.try(:html_safe) || "No summary was found in the database." %></div>
+  </div>
+  <div style="border: 1px solid #eee; padding: 8px">
+    <strong>Content</strong>
+    <div><%= page.resource.content.try(:html_safe) || "No content was found in the database." %></div>
+  </div>
+  <div>Author: <%= page.resource.actor_id %></div>
+  <div>Published At: <%= page.resource.feed_item_published_at %></div>
+  <hr />
+
+  <% page.attributes.each do |attribute| -%>
+    <div class="field-unit field-unit--<%= attribute.html_class %>">
+      <%= render_field attribute, f: f %>
+    </div>
+  <% end -%>
+
+  <div class="form-actions">
+    <%= f.submit %>
+  </div>
+<% end %>
