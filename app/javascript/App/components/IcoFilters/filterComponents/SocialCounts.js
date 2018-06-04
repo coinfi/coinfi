@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Component } from 'react'
 import Type from 'prop-types'
 import Input from '../../Input'
 import Icon from '../../Icon'
@@ -18,7 +18,7 @@ SocialCounts.propTypes = {
 }
 
 export default SocialCounts
-class SocialCount extends React.Component {
+class SocialCount extends Component {
   setVal = network => value => {
     const { onChange, value: v } = this.props
     v[network] = value

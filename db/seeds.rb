@@ -78,5 +78,22 @@ industries_names = [
 ]
 
 industries_names.each do |name|
-  CoinIndustry.create!(name: name)
+  CoinIndustry.find_or_create_by!(name: name)
+end
+
+news_category_names = %( 
+Exchange Listing
+Regulatory
+Partnerships
+Security (Vulnerabilities)
+Fundraising
+Founder News
+Events - Conferences, Meetups, Launches, etc.
+Airdrops
+Release
+ICO
+).split("\n").reject!(&:blank?)
+
+news_category_names.each do |name|
+  NewsCategory.find_or_create_by!(name: name)
 end

@@ -6,6 +6,8 @@ class Coin < ApplicationRecord
 
   ICO_STATUSES = %w(upcoming active ended listed).freeze
 
+  has_paper_trail
+
   has_many :articles
   has_many :influencer_reviews
   has_many :coin_excluded_countries
@@ -13,6 +15,8 @@ class Coin < ApplicationRecord
   has_many :coin_industries_coins
   has_many :coin_industries, through: :coin_industries_coins
   has_many :feed_sources
+  has_many :news_coin_mentions
+  has_many :news_items, through: :news_coin_mentions
 
   validates :name, uniqueness: true, presence: true
 
@@ -52,4 +56,30 @@ class Coin < ApplicationRecord
   def price_by_currency(currency)
     price.try(:[], currency)
   end
+  
+  def prices_data
+    # TODO: expires_in should probably be at midnight 
+    Rails.cache.fetch("#{symbol}_prices_data", expires_in: 1.day) do
+      url = "#{ENV.fetch('COINFI_PRICES_URL')}api/v1/coins/#{symbol}/daily_history.json"
+      response = HTTParty.get(url)
+      JSON.parse(response.body)
+    end
+  end
+
+  def news_data(currency = 'usd')
+    # TODO: add caching
+    chart_data = articles.chart_data
+    i = chart_data.length + 1
+    chart_data.map { |item|
+      i -= 1
+      {
+        x: item.published_epoch,
+        title: i,
+        text: item.title,
+        url: item.url
+      }
+    }
+  end
+
+
 end

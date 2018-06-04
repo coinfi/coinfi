@@ -9,8 +9,10 @@
     <link rel="apple-touch-icon" href="<%= image_path('apple-touch-icon.png') %>">
     <link rel="icon" href="<%= image_path('favicon.png') %>">
     <%= canonical_tag %>
+    <%= render 'layouts/tracking_scripts' %>
     <%= stylesheet_link_tag 'application' %>
-    <%= javascript_pack_tag 'application' %>
+    <%= javascript_include_tag 'cable' %>
+    <%= action_cable_meta_tag %>
     <%= csrf_meta_tags %>
   </head>
 
@@ -25,11 +27,11 @@
     <%= javascript_tag do %>
       window.pricesURL = '<%= ENV.fetch('COINFI_PRICES_URL') %>';
     <% end %>
-    <%= render partial: "components/tracking_scripts" %>
+    <script src="/tradingview/charting_library.min.js"></script>
+    <%= javascript_pack_tag 'application' %>
     <script src="/fontawesome/fa-brands.min.js"></script>
     <script src="/fontawesome/fa-light.min.js"></script>
     <script src="/fontawesome/fa-regular.min.js"></script>
     <script src="/fontawesome/fontawesome.min.js"></script>
   </body>
-
 </html>

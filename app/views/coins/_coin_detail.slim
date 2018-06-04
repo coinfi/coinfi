@@ -1,0 +1,18 @@
+td.tr
+  .reveal-l
+    = number_to_currency coin.market_cap_by_currency(currency)
+  .conceal-l
+    = coin.stored_market_info['market_cap_usd']
+td.tr
+  = custom_number_to_currency coin.price_by_currency(currency)
+  .conceal-l
+    = display_percentage_change coin.change24h
+td.tr.reveal-l
+  = display_available_supply(coin)
+td.tr
+  .reveal-l
+    = custom_number_to_currency coin.volume24_by_currency(currency)
+  .conceal-l
+    = coin.stored_market_info['24h_volume_usd']
+td.tr.reveal-l
+  = display_percentage_change coin.change24h

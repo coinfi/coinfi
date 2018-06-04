@@ -24,8 +24,10 @@ gem 'uglifier', '>= 1.3.0'
 gem 'coffee-rails', '~> 4.2'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 2.5'
+# Load environment variables from .env
+gem 'dotenv-rails'
 # Use Redis adapter to run Action Cable in production
-# gem 'redis', '~> 3.0'
+gem 'redis', '~> 3.0'
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
@@ -52,6 +54,7 @@ gem 'meta-tags'
 gem 'nokogiri', '~> 1.8.1'
 gem 'omniauth'
 gem 'omniauth-twitter'
+gem 'paper_trail'
 gem 'pony'
 gem 'rack-affiliates'
 gem 'rack-cors'
@@ -78,7 +81,6 @@ group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
   # Adds support for Capybara system testing and selenium driver
   gem 'capybara', '~> 2.13'
-  gem 'dotenv-rails'
   gem 'pry-byebug'
   gem 'pry-rails'
   gem 'rubocop'

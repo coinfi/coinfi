@@ -1,5 +1,5 @@
 - currency = 'usd' # TODO: Allow user to select default currency.
-.container-wide
+#coins.container-wide
   .bg-white
     .pt3.ph3.ph4-ns.pt4-ns.pt5-m.ph5-m
       h1.ma0 Top Cryptocurrency Prices
@@ -18,7 +18,7 @@
               th.reveal-m
         tbody
           - @coins.each_with_index do |coin, idx|
-            tr
+            = content_tag :tr, data: { id: coin.id } do
               td.pr0
                 = paged_index(@coins.current_page, @coins.limit_value, idx)
               td
@@ -28,24 +28,7 @@
                     = coin.name
                     .f7.mt1
                       = coin.symbol
-              td.tr
-                .reveal-l
-                  = number_to_currency coin.market_cap_by_currency(currency)
-                .conceal-l
-                  = coin.stored_market_info['market_cap_usd']
-              td.tr
-                = custom_number_to_currency coin.price_by_currency(currency)
-                .conceal-l
-                  = display_percentage_change coin.change24h
-              td.tr.reveal-l
-                = display_available_supply(coin)
-              td.tr 
-                .reveal-l
-                  = custom_number_to_currency coin.volume24_by_currency(currency)
-                .conceal-l
-                  = coin.stored_market_info['24h_volume_usd']
-              td.tr.reveal-l
-                = display_percentage_change coin.change24h
+              = render 'coin_detail', coin: coin, currency: currency
               - if current_user
                 td.tr.reveal-m
                   = react_component "WatchButton", props: { coinID: coin.id, watching: user_is_watching?(coin) }
