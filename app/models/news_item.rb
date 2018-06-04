@@ -13,6 +13,7 @@ class NewsItem < ApplicationRecord
   scope :pending, -> { where(is_human_tagged: nil) }
   scope :tagged, -> { where(is_human_tagged: true) }
 
+  alias_method :categories, :news_categories
   def coin_link_data
     coins.map{ |c| c.as_json(only: [:symbol, :slug] ) }
   end

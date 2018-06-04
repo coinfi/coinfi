@@ -7,9 +7,14 @@ import NewsItemCoinTags from './NewsItemCoinTags'
 
 export default class NewsItemBody extends Component {
   render() {
-    const { selectNewsItemFromList, activeEntity } = this.props
+    const {
+      selectNewsItemFromList,
+      activeEntity,
+      selectNewsItemCategories
+    } = this.props
     const { id } = activeEntity
     const newsItem = selectNewsItemFromList(id)
+    const categories = selectNewsItemCategories(newsItem)
     if (!newsItem) return null
     const content =
       _.trim(newsItem.get('content')) || _.trim(newsItem.get('summary'))
@@ -27,6 +32,15 @@ export default class NewsItemBody extends Component {
         </div>
         <hr />
         <div dangerouslySetInnerHTML={{ __html: sanitizeHtml(content) }} />
+        {categories.size > 0 && (
+          <div className="mt3">
+            {categories.map((category, index) => (
+              <div key={index} className="tag-alt">
+                {category.get('name')}
+              </div>
+            ))}
+          </div>
+        )}
       </div>
     )
   }

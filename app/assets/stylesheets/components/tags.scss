@@ -1,4 +1,5 @@
-.tag {
+.tag,
+.tag-alt {
   display: inline-block;
   padding: $sp1;
   color: $aqua;
@@ -10,4 +11,11 @@
   &:not(:last-of-type) {
     margin-right: $sp2;
   }
+}
+.tag-alt {
+  color: $gray;
+  border: 1px solid $moon-gray;
+  background-color: $near-white;
+  font-weight: normal;
+  padding: $sp2;
 }
