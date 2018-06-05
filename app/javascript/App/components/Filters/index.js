@@ -5,6 +5,7 @@
 import React from 'react'
 import DesktopLayout from './DesktopLayout'
 import MobileLayout from './MobileLayout'
+import PanelLayout from './PanelLayout'
 import debounce from 'debounce'
 
 class Filters extends React.Component {
@@ -30,8 +31,11 @@ class Filters extends React.Component {
     return data
   }
   render() {
-    const pProps = { ...this.props, filterData: this.normalizedData() }
-    if (window.isMobile) {
+    const { layout, ...props } = this.props
+    const pProps = { ...props, filterData: this.normalizedData() }
+    if (layout && layout === 'panel') {
+      return <PanelLayout {...pProps} />
+    } else if (window.isMobile) {
       return <MobileLayout {...pProps} />
     } else {
       return <DesktopLayout {...pProps} />

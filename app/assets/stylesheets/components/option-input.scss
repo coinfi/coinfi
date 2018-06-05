@@ -64,7 +64,7 @@
 /*
  * Desktop only
  */
-@media #{$screen-min-m} {
+.oi-desktop {
   .oi {
     position: relative;
     .oi-pane {
@@ -92,13 +92,16 @@
         line-height: 1;
         white-space: nowrap;
       }
+      .oi-meta {
+        display: none;
+      }
     }
   }
 }
 /*
  * Mobile only
  */
-@media #{$screen-max-m} {
+.oi-mobile {
   .oi {
     .oi-btn,
     .oi-icon {
