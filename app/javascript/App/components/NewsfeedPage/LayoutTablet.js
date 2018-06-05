@@ -1,12 +1,9 @@
 import React from 'react'
 import NewsItemList from './NewsItemList'
-import NewsItemBody from './NewsItemBody'
-import CoinBody from './CoinBody'
-import Tips from './Tips'
 import Filters from './Filters'
+import BodySection from './BodySection'
 
 export default function(props) {
-  const { activeEntity } = props
   return (
     <div className="bg-white flex flex-column flex-auto">
       <div className="row no-gutter flex-auto">
@@ -15,17 +12,7 @@ export default function(props) {
           <NewsItemList {...props} />
         </div>
         <div className="col-xs-6 bl b--light-gray relative">
-          {activeEntity ? (
-            <div>
-              {activeEntity.type === 'coin' ? (
-                <CoinBody {...props} />
-              ) : (
-                <NewsItemBody {...props} />
-              )}
-            </div>
-          ) : (
-            <Tips />
-          )}
+          <BodySection {...props} />
         </div>
       </div>
     </div>

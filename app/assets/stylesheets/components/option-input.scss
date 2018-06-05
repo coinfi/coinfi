@@ -64,7 +64,7 @@
 /*
  * Desktop only
  */
-.oi-desktop {
+.oi-layout-desktop {
   .oi {
     position: relative;
     .oi-pane {
@@ -101,7 +101,8 @@
 /*
  * Mobile only
  */
-.oi-mobile {
+.oi-layout-mobile,
+.oi-layout-alt {
   .oi {
     .oi-btn,
     .oi-icon {
@@ -158,6 +159,15 @@
     }
     &:not(:first-child) {
       margin-top: $sp2;
+    }
+  }
+}
+@media #{$screen-min-m} {
+  .oi-layout-alt {
+    .oi {
+      .oi-pane {
+        position: absolute;
+      }
     }
   }
 }

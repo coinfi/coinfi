@@ -18,7 +18,7 @@ export default class PanelLayout extends Component {
           Filters
         </button>
         {isOpen && (
-          <div className="overlay z-2 bg-athens oi-mobile oi-panel overflow-y-auto">
+          <div className="overlay z-2 bg-athens oi-layout-alt overflow-y-auto">
             <div className="pa3 bb b--athens-dark flex justify-between items-center">
               <div className="fw6">Filters</div>
               <Icon
@@ -34,8 +34,8 @@ export default class PanelLayout extends Component {
               {activeFilters.map((filter, i) => (
                 <FilterButton key={i} filter={filter} {...this.props} />
               ))}
+              <AddFilter {...this.props} />
             </div>
-            <AddFilter {...this.props} />
           </div>
         )}
       </Fragment>

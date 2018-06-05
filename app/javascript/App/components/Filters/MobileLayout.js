@@ -13,7 +13,7 @@ export default class MobileLayout extends Component {
     const { activeFilters, currentUI } = this.props
     const isOpen = currentUI('mobileFilters')
     return (
-      <div className="oi-mobile">
+      <div className="oi-layout-mobile">
         <div
           onClick={this.toggleFilters}
           className="flex items-center justify-center pa3"

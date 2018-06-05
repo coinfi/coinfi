@@ -1,11 +1,10 @@
 import React from 'react'
 import NewsItemList from './NewsItemList'
-import NewsItemBody from './NewsItemBody'
-import CoinBody from './CoinBody'
+import BodySection from './BodySection'
 import Filters from './Filters'
 
 export default function(props) {
-  const { activeEntity, currentUI, toggleUI } = props
+  const { activeEntity, currentUI } = props
   return (
     <div>
       <div className="bg-white">
@@ -15,11 +14,7 @@ export default function(props) {
       {activeEntity &&
         currentUI('newsfeedModal') && (
           <div className="overlay">
-            {activeEntity.type === 'coin' ? (
-              <CoinBody {...props} />
-            ) : (
-              <NewsItemBody {...props} />
-            )}
+            <BodySection {...props} />
           </div>
         )}
     </div>
