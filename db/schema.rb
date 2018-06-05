@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180604063450) do
+ActiveRecord::Schema.define(version: 20180605005836) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -281,7 +281,9 @@ ActiveRecord::Schema.define(version: 20180604063450) do
   create_table "news_coin_mentions", force: :cascade do |t|
     t.bigint "coin_id"
     t.bigint "news_item_id"
+    t.boolean "is_machine_tagged", default: false
     t.index ["coin_id"], name: "index_news_coin_mentions_on_coin_id"
+    t.index ["is_machine_tagged"], name: "index_news_coin_mentions_on_is_machine_tagged"
     t.index ["news_item_id"], name: "index_news_coin_mentions_on_news_item_id"
   end
 
