@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react'
+import React, { Component } from 'react'
 import Swipeable from 'react-swipeable'
 import Animate from 'react-move/Animate'
 import { easeExpOut } from 'd3-ease'
@@ -37,7 +37,7 @@ class CoinDrawerList extends Component {
   }
   render() {
     return (
-      <Swipeable onSwipedLeft={this.onSwipeLeft}>
+      <Swipeable onSwipingLeft={this.onSwipeLeft}>
         <div
           className="drawer"
           style={{ transform: `translateX(${this.props.x})` }}

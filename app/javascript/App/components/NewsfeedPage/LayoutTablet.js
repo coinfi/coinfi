@@ -1,6 +1,6 @@
 import React from 'react'
 import NewsItemList from './NewsItemList'
-import Filters from './Filters'
+import ActionBar from './ActionBar'
 import BodySection from './BodySection'
 
 export default function(props) {
@@ -8,7 +8,7 @@ export default function(props) {
     <div className="bg-white flex flex-column flex-auto">
       <div className="row no-gutter flex-auto">
         <div className="col-xs-6 bl b--light-gray relative">
-          <Filters {...props} />
+          <ActionBar {...props} />
           <NewsItemList {...props} />
         </div>
         <div className="col-xs-6 bl b--light-gray relative">

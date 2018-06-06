@@ -8,6 +8,7 @@ export default function(namespace) {
   function* watcher() {
     yield takeLatest('INITIALIZE_FILTERS', initializeFilters)
     yield takeLatest('SET_FILTER', applyFilters)
+    yield takeLatest('SET_FILTERS', applyFilters)
     yield takeLatest('REMOVE_FILTER', applyFilters)
   }
 

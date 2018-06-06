@@ -27,7 +27,7 @@ class Api::NewsItemsController < ApiController
       end
       query[:id_in] << -1 if query[:id_in].empty? # Ransack returns all results if empty
     end
-    query[:title_or_summary_cont] = p[:search] if p[:search]
+    query[:title_or_summary_cont] = p[:keywords] if p[:keywords]
     query[:updated_at_gt] = p[:updatedSince].to_datetime if p[:updatedSince]
     query
   end

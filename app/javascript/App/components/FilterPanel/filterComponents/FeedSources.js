@@ -1,9 +1,13 @@
 import React from 'react'
 import Type from 'prop-types'
-import ItemSelector from '../../ItemSelector'
+import ItemSelector from '../../ItemSelectorAlt'
 
 const FeedSources = ({ feedSources, value, onChange }) => (
-  <ItemSelector items={feedSources} selectedItems={value} onChange={onChange} />
+  <ItemSelector
+    items={feedSources}
+    selectedItems={value}
+    onChange={onChange('feedSources')}
+  />
 )
 
 FeedSources.propTypes = {
