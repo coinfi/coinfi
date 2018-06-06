@@ -15,7 +15,8 @@ section.phr.bg-white.tiber
         .f4.lh-copy.black-60.mb4
           | CoinFi offers crowdsourced and professionally curated research, analysis, trading signals, trading algorithms, and market-moving news to give cryptocurrency traders the real-time market intelligence needed to gain an edge.
         .mb3.nh2.nt2
-          a.btn.btn-green.btn-lg.mh2.mt2 href=register_url Sign up for free
+          - unless current_user
+            a.btn.btn-green.btn-lg.mh2.mt2 href=register_url Sign up for free
           a.btn.btn-gray.btn-lg.mh2.mt2 href="/about" Learn More
 section#features.pv4.pv4-m.bg-light-gray.bg-img--tiber-1
   .container
