@@ -1,10 +1,9 @@
 class PagesController < ApplicationController
-
   def show
     @page = params[:id] || 'home'
     render_404 unless page_known?
-    redirect_to('/login') and return if member_page? && !current_user
-    @hide_subheader = true if @page == 'home'
+    redirect_to('/login') && return if member_page? && !current_user
+    @body_id = "#{@page}-page"
     render "pages/#{@page}"
   end
 
@@ -23,11 +22,11 @@ class PagesController < ApplicationController
   end
 
   def public_pages
-    ['home', 'about']
+    %w[home about news]
   end
 
   def member_pages
-    ['watchlist']
+    %w[watchlist]
   end
 
 end

@@ -9,6 +9,12 @@ class FeedSource < ApplicationRecord
   belongs_to :coin, optional: true
   has_many :news_items
 
+  scope :active, -> { where(is_active: true) }
+
+  def self.types
+    pluck(:feed_type).uniq.compact.reject { |t| t.length < 1 }
+  end
+
   def retrieve(before: nil)
     body = {
       'hub.mode' => 'retrieve', 
@@ -73,29 +79,6 @@ class FeedSource < ApplicationRecord
     "#{protocol}#{ENV.fetch('ROOT_DOMAIN')}/webhooks/#{ENV.fetch('SUPERFEEDR_CALLBACK_URL_SEGMENT_SECRET')}-superfeedr-ingest"
   end
 
-  def self.create_from_coins_reddit!(coin)
-    FeedSource.create( 
-      name: coin.name + " Reddit",
-      feed_url: coin.reddit + ".rss",
-      site_url: coin.reddit,
-      feed_type: 'reddit'
-    )
-  end
-
-  def self.create_from_coins_twitter!(coin)
-    #FIXME This isn't a reliable way to parse the twitter_user because some of them
-    #have twitter urls like "https://twitter.com/cardanostiftung?lang=en"
-    #not going to fix it now because not sure if we'll ever use this again
-    
-    twitter_user = coin.twitter.split("/").last
-    FeedSource.create( 
-      name: coin.name + " Twitter",
-      feed_url: "https://twitrss.me/twitter_user_to_rss/?user=#{twitter_user}",
-      site_url: coin.twitter,
-      feed_type: 'twitter'
-    )
-  end
-
   SUPERFEEDR_MAX_PER_PAGE = 500
   def self.fetch_subs(page = 1)
     #TODO change this now that we have > 500 subscriptions
@@ -132,7 +115,7 @@ class FeedSource < ApplicationRecord
   def self.ids_without_subs
     all_subs = fetch_all_subs
     fs_ids_missing_subs = []
-    FeedSource.find_each do |fs|
+    FeedSource.active.find_each do |fs|
       fs_ids_missing_subs << fs.id unless all_subs.any?{|sub| sub["feed"]["url"] == fs.feed_url and sub["endpoint"] == fs.callback_url}
     end
     fs_ids_missing_subs
@@ -155,5 +138,4 @@ class FeedSource < ApplicationRecord
     #subs_with_this_feed_url = HTTParty.get(debug_url, options)
     subs_with_this_feed_url.any?{|sub| sub["subscription"]["endpoint"] == callback_url}
   end
-
 end

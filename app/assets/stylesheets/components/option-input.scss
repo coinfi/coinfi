@@ -8,6 +8,7 @@
   }
   .oi-value {
     color: $aqua;
+    text-transform: capitalize;
   }
 }
 .oi-icon {
@@ -26,6 +27,7 @@
 .oi-pane {
   z-index: 2;
   .oi-pane-content {
+    color: $mid-gray;
     min-width: 220px;
     border-radius: 4px;
     header {
@@ -52,6 +54,7 @@
             text-align: left;
             white-space: nowrap;
             font-size: 0.8rem;
+            text-transform: capitalize;
           }
         }
       }

@@ -14,14 +14,13 @@
     <%= csrf_meta_tags %>
   </head>
 
-  <body>
+  <body id='<%= @body_id %>'>
     <%= render partial: "components/site_header" %>
-    <%= render partial: "components/site_subheader" unless @hide_subheader %>
     <main>
       <%= render partial: "components/flash" %>
       <%= yield %>
     </main>
-    <%= render partial: "components/footer" %>
+    <%= render partial: 'components/mobile_nav' %>
     <%= javascript_tag do %>
       window.pricesURL = '<%= ENV.fetch('COINFI_PRICES_URL') %>';
     <% end %>
@@ -30,6 +29,7 @@
     <script src="/fontawesome/fa-brands.min.js"></script>
     <script src="/fontawesome/fa-light.min.js"></script>
     <script src="/fontawesome/fa-regular.min.js"></script>
+    <script src="/fontawesome/fa-solid.min.js"></script>
     <script src="/fontawesome/fontawesome.min.js"></script>
   </body>
 </html>

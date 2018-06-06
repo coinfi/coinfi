@@ -4,22 +4,24 @@ import immutableTransform from 'redux-persist-transform-immutable'
 import storage from 'redux-persist/lib/storage'
 
 import uiReducer from './uiReducer'
-import watchlistPageReducer from '../watchlistPage/reducer'
+import watchlistReducer from '../watchlist/reducer'
 import coinSearchReducer from '../coinSearch/reducer'
 import icoFiltersReducer from '../icoFilters/reducer'
+import newsfeedReducer from '../newsfeed/reducer'
 
 const persistConfig = {
   transforms: [immutableTransform()],
   key: 'root',
   storage,
-  whitelist: ['icoFilters']
+  whitelist: ['icoFilters', 'newsfeed']
 }
 
 const appReducers = combineReducers({
   UI: uiReducer,
-  watchlist: watchlistPageReducer,
+  watchlist: watchlistReducer,
   coinSearch: coinSearchReducer,
-  icoFilters: icoFiltersReducer
+  icoFilters: icoFiltersReducer,
+  newsfeed: newsfeedReducer
 })
 
 export default persistReducer(persistConfig, appReducers)

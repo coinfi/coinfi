@@ -1,9 +1,10 @@
 class NewsItem < ApplicationRecord
+
   belongs_to :feed_source
   has_one :user # references the Admin user who tagged this NewsItem
   has_one :news_item_raw
-  has_many :news_coin_mentions
-  has_many :coins, through: :news_coin_mentions
+  has_many :mentions, class_name: 'NewsCoinMention'
+  has_many :coins, through: :mentions
 
   has_many :news_item_categorizations, dependent: :destroy
   has_many :news_categories, through: :news_item_categorizations
@@ -11,6 +12,11 @@ class NewsItem < ApplicationRecord
   default_scope -> { order(created_at: :desc) }
   scope :pending, -> { where(is_human_tagged: nil) }
   scope :tagged, -> { where(is_human_tagged: true) }
+
+  alias_method :categories, :news_categories
+  def coin_link_data
+    coins.map{ |c| c.as_json(only: [:symbol, :slug] ) }
+  end
 
   def coin_symbols
     coins.pluck(:symbol).join(', ')

@@ -1,16 +1,14 @@
 /*
- * Normally this file would just mount the app on the
- * document body, however this is not an SPA, so it
- * looks for <component> tags in the DOM and injects
- * React components there, optionally with the Redux
- * store.
+ * Normally this file would just mount the app on the document body, however
+ * this is not an SPA, so it looks for <component> tags in the DOM and injects
+ * React components there, optionally with the Redux store.
  */
 import 'babel-polyfill'
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { Provider } from 'react-redux'
 import configureStore from './configureStore'
-import getScreenSize from './utils/screenSize'
+import getScreenSize from './lib/screenSize'
 import { PersistGate } from 'redux-persist/integration/react'
 import debounce from 'debounce'
 
@@ -22,9 +20,9 @@ import GlobalCoinSearch from './components/GlobalCoinSearch'
 import TwitterFeed from './components/TwitterFeed'
 import RedditFeed from './components/RedditFeed'
 import IcoFilters from './components/IcoFilters'
+import NewsfeedPage from './components/NewsfeedPage'
 import Tabs from './components/Tabs'
-import PriceGraph from './components/PriceGraph'
-import TradingViewChart from './components/TradingViewChart'
+import CoinCharts from './components/CoinCharts'
 
 const injectableComponents = {
   WatchButton,
@@ -33,16 +31,16 @@ const injectableComponents = {
   TwitterFeed,
   RedditFeed,
   IcoFilters,
+  NewsfeedPage,
   Tabs,
-  PriceGraph,
-  TradingViewChart
+  CoinCharts
 }
 
 const injectComponents = () => {
   const hooks = document.getElementsByTagName('component')
   if (hooks) {
     const { store, persistor } = configureStore()
-    Array.from(hooks).forEach(hook => {
+    Array.from(hooks).forEach((hook) => {
       const name = hook.getAttribute('name')
       const Component = injectableComponents[name]
       if (!Component) return console.error(`Component "${name}" not found`)
@@ -67,6 +65,7 @@ const injectComponents = () => {
 const setScreenSize = () => {
   window.screenSize = getScreenSize()
   window.isMobile = !['m', 'l'].includes(window.screenSize)
+  window.isTablet = window.screenSize === 'm'
 }
 
 document.addEventListener('DOMContentLoaded', () => {

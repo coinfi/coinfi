@@ -128,7 +128,7 @@ ActiveRecord::Schema.define(version: 20180605005836) do
     t.index ["name"], name: "index_coin_industries_on_name", unique: true
   end
 
-  create_table "coin_industries_coins", id: false, force: :cascade do |t|
+  create_table "coin_industries_coins", force: :cascade do |t|
     t.bigint "coin_id", null: false
     t.bigint "coin_industry_id", null: false
     t.index ["coin_id"], name: "index_coin_industries_coins_on_coin_id"
@@ -234,6 +234,7 @@ ActiveRecord::Schema.define(version: 20180605005836) do
     t.boolean "is_subscribed", default: false
     t.datetime "last_received_data_at"
     t.bigint "coin_id"
+    t.boolean "is_active", default: true
     t.index ["coin_id"], name: "index_feed_sources_on_coin_id"
     t.index ["feed_url"], name: "index_feed_sources_on_feed_url", unique: true
     t.index ["name"], name: "index_feed_sources_on_name", unique: true
@@ -311,7 +312,7 @@ ActiveRecord::Schema.define(version: 20180605005836) do
     t.string "title", null: false
     t.text "summary"
     t.text "content"
-    t.string "actor_id", null: false
+    t.string "actor_id"
     t.datetime "feed_item_published_at", null: false
     t.datetime "feed_item_updated_at", null: false
     t.jsonb "feed_item_json"

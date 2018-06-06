@@ -1,14 +1,15 @@
 import { fork, all, takeLatest, select } from 'redux-saga/effects'
 import { currentUI } from './selectors'
 
-import watchlistPageSagas from '../watchlistPage/sagas'
+import watchlistSagas from '../watchlist/sagas'
 import coinSearchSagas from '../coinSearch/sagas'
 import icoFiltersSagas from '../icoFilters/sagas'
+import newsfeedSagas from '../newsfeed/sagas'
 
-const sagas = [watchlistPageSagas, coinSearchSagas, icoFiltersSagas]
+const sagas = [watchlistSagas, coinSearchSagas, icoFiltersSagas, newsfeedSagas]
 
 export default function* watcher() {
-  yield all(sagas.map(saga => fork(saga)))
+  yield all(sagas.map((saga) => fork(saga)))
   yield takeLatest('TOGGLE_UI', preventScrollOnMobile)
 }
 

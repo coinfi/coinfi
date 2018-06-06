@@ -5,7 +5,7 @@ import coinSearch from '../containers/coinSearch'
 import { toggleOverlay } from '../../modules/navigation/mobile-nav'
 
 class CoinSearch extends Component {
-  handleSearchInput = value => {
+  handleSearchInput = (value) => {
     this.props.searchCoins(value)
   }
   render() {
@@ -30,7 +30,7 @@ class CoinSearch extends Component {
               onChange={this.handleSearchInput}
               placeholder="Search"
               autoFocus
-              setRef={ref => (this.inputRef = ref)}
+              setRef={(ref) => (this.inputRef = ref)}
             />
             {searchText.length > 0 && (
               <Icon
@@ -71,4 +71,4 @@ class CoinSearch extends Component {
   }
 }
 
-export default coinSearch(CoinSearch)()
+export default coinSearch('global')(CoinSearch)

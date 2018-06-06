@@ -18,6 +18,8 @@ body {
     @extend .flex-column;
     background: $athens;
     > * {
+      @extend .flex;
+      @extend .flex-column;
       @extend .flex-auto;
     }
   }

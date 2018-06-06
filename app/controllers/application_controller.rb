@@ -1,19 +1,13 @@
 class ApplicationController < ActionController::Base
   include Responses
   protect_from_forgery with: :exception
-  before_action :set_hide_subheader, :set_locale
+  before_action :set_locale
 
   def after_sign_in_path_for(resource)
     '/watchlist'
   end
 
-protected
-
-  def set_hide_subheader
-    @hide_subheader = true
-  end
-
-private
+  private
 
   def set_locale
     I18n.locale = params[:locale] || I18n.default_locale

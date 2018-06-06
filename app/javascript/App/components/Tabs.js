@@ -5,7 +5,7 @@ export default class Tabs extends Component {
   componentDidMount() {
     this.showTab(0)
   }
-  showTab = tabKey => {
+  showTab = (tabKey) => {
     if (tabKey === this.state.tabKey) return
     const { items, target, onChange } = this.props
     this.setState({ tabKey })
@@ -20,7 +20,7 @@ export default class Tabs extends Component {
       }
     })
   }
-  tabClass = tabKey => {
+  tabClass = (tabKey) => {
     if (this.state.tabKey === tabKey) return 'tab active'
     return 'tab'
   }

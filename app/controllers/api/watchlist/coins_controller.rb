@@ -1,15 +1,10 @@
 class Api::Watchlist::CoinsController < ApiController
 
-  include Api::Watchlist::Concerns
+  before_action :set_watchlist
   before_action :authenticate_user!
 
   def index
     respond_success serialized(@watchlist.coins)
-  end
-
-  def show
-    @coin = @watchlist.coins.find_by_id(params[:id])
-    respond_success serialized(@coin) || {}
   end
 
   def create
@@ -41,6 +36,10 @@ class Api::Watchlist::CoinsController < ApiController
 
   private
 
+  def set_watchlist
+    @watchlist = current_user.watchlist || Watchlist.create(user: current_user)
+  end
+  
   def serialized coin
     coin.as_json(only: [
       :id, :name, :image_url, :symbol, :ico_usd_raised, :ico_fundraising_goal_usd, :ico_end_date,

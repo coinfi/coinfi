@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
-import API from '../utils/localAPI'
+import API from '../lib/localAPI'
+import Icon from './Icon'
 
 export default class WatchButton extends Component {
   state = { coin: null, watching: false }
@@ -8,18 +9,22 @@ export default class WatchButton extends Component {
     this.setState({ watching })
   }
   handleClick = () => {
-    const { coinID, onSuccess } = this.props
+    const { coinID: id, onWatch, onChange } = this.props
     const { watching } = this.state
     if (watching) {
-      API.delete(`/watchlist/coins/${coinID}.json`).then(({ type }) => {
-        if (type === 'success') this.setState({ coin: null, watching: false })
+      API.delete(`/watchlist/coins/${id}.json`).then(({ type }) => {
+        if (type === 'success') {
+          this.setState({ coin: null, watching: false })
+          if (onChange) onChange({ id, watching: false })
+        }
       })
     } else {
-      API.post('/watchlist/coins.json', { id: coinID }).then(
+      API.post('/watchlist/coins.json', { id }).then(
         ({ type, payload: coin }) => {
           if (type === 'success') {
             this.setState({ coin, watching: true })
-            if (onSuccess) onSuccess()
+            if (onWatch) onWatch()
+            if (onChange) onChange({ id, watching: true })
           }
         }
       )
@@ -27,16 +32,19 @@ export default class WatchButton extends Component {
   }
   render() {
     const { watching } = this.state
+    let btnClass = 'btn btn-xs'
+    if (watching) btnClass += ' btn-blue'
+    if (!watching) btnClass += ' btn-gray'
     return (
-      <button onClick={this.handleClick} className="btn btn-xs btn-gray">
+      <button onClick={this.handleClick} className={btnClass}>
         {watching ? (
           <span>
-            <i className="fal fa-eye mr1" />
+            <Icon name="star" solid className="mr1" />
             Watching
           </span>
         ) : (
           <span>
-            <i className="fal fa-plus mr1" />
+            <Icon name="star" regular className="mr1" />
             Watch
           </span>
         )}
