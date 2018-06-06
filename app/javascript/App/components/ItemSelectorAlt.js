@@ -16,8 +16,6 @@ export default class ItemSelectorAlt extends Component {
   remove = (item) => {
     let items = this.selectedItems()
     items = items.filter((c) => JSON.stringify(c) !== JSON.stringify(item))
-    console.log(items)
-    console.log(item)
     this.props.onChange(items)
   }
   itemLabel = (item) => {

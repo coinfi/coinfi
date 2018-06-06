@@ -16,17 +16,17 @@ const CoinDrawer = (props) => (
     </button>
     <Animate
       show={!!props.currentUI('coinDrawer')}
-      start={{ x: '-100%' }}
+      start={{ translateX: ['-100%'] }}
       enter={{
-        x: ['0%'],
+        translateX: ['0%'],
         timing: { duration: 700, ease: easeExpOut }
       }}
       leave={{
-        x: ['-100%'],
+        translateX: ['-100%'],
         timing: { duration: 200 }
       }}
     >
-      {({ x }) => <CoinDrawerList {...props} x={x} />}
+      {(animationProps) => <CoinDrawerList {...props} {...animationProps} />}
     </Animate>
   </div>
 )
@@ -40,7 +40,7 @@ class CoinDrawerList extends Component {
       <Swipeable onSwipingLeft={this.onSwipeLeft}>
         <div
           className="drawer"
-          style={{ transform: `translateX(${this.props.x})` }}
+          style={{ transform: `translateX(${this.props.translateX})` }}
         >
           <CoinList {...this.props} />
         </div>

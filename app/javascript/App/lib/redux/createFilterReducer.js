@@ -9,7 +9,13 @@ const createFilterReducer = ({ namespace, filterList }) => (
   if (namespace !== action.namespace) return state
   const { type, payload } = action
   const filterIndex = (key) => listIndex(state.get('activeFilters'), key)
+  const isEmpty = (value) => {
+    if (value instanceof Array || typeof value === 'string')
+      return value.length === 0
+    return false
+  }
   const setFilter = (s, { key, value }) => {
+    if (isEmpty(value)) return s.deleteIn(['activeFilters', filterIndex(key)])
     filter = filterList
       .find((o) => o.get('key') === key)
       .set('value', fromJS(value))
@@ -33,12 +39,15 @@ const createFilterReducer = ({ namespace, filterList }) => (
     case 'REMOVE_FILTER':
       return state.deleteIn(['activeFilters', filterIndex(payload.key)])
     case 'SET_FILTERS':
-      let newState = state
+      const filters = []
       Object.entries(payload).forEach(([key, value]) => {
-        console.log(key)
-        newState = setFilter(newState, { key, value })
+        if (!isEmpty(value))
+          filters.push({
+            key,
+            value
+          })
       })
-      return newState
+      return state.set('activeFilters', fromJS(filters))
     default:
       return state
   }
