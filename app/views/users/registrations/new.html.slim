@@ -1,0 +1,18 @@
+.phr.flex.items-center
+  .container-narrower
+    .pa4.pa5-ns.max-w28e.center.ba.b--light-gray.shadow-s1.bg-white
+      header.section-header
+        h2.mt0.tc Sign Up For The CoinFi Platform
+      .section-dialog.text-center
+        = form_for(:user, url: new_user_signup_path) do |f|
+          = devise_error_messages!
+          .mb3
+            = f.email_field :email, class: "form-control form-control-lg", autofocus: true, required: true, placeholder: "Email"
+          = f.submit "Sign Up", class: "btn btn-green w-100"
+javascript:
+  $(function() {
+    $('form').submit(function() {
+      $(this).find('input[type=submit]').prop('disabled', true).text('Processing...');
+    });
+  });
+
