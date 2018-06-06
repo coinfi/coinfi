@@ -28,3 +28,4 @@ yarn-debug.log*
 .yarn-integrity
 /config/database.yml
 .git-authors
+task_done.rb

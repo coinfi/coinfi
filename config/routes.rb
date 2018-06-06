@@ -11,6 +11,10 @@ Rails.application.routes.draw do
     post "/submit-password" => "users#submit_password", as: "new_user_submit_password"
     get "/join-telegram" => "users#join_telegram", as: "new_user_join_telegram"
   end
+  
+  authenticated :user do
+    root 'pages#watchlist', as: :authenticated_root
+  end
 
   devise_for :users,
     controllers: {
