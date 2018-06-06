@@ -4,7 +4,9 @@ class IcosController < ApplicationController
 
   def index
     @status = params[:status]
-    redirect_to "/icos/upcoming" && return unless Coin::ICO_STATUSES.include?(@status)
+
+   (redirect_to "/icos/upcoming" and return) unless Coin::ICO_STATUSES.include?(@status)
+
     @coins = Coin.icos.where(ico_status: @status)
     apply_filters
     @result_count_total = @coins.length
