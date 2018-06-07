@@ -1,3 +1,4 @@
+import _ from 'lodash'
 import { namespace, filterList } from './constants'
 import { createEntitySelectors, createFilterSelectors } from '../../lib/redux'
 
@@ -8,12 +9,20 @@ export default {
   activeEntity: select.activeEntity,
   isActiveEntity: select.isActiveEntity,
   isLoading: select.isLoading,
-  coinIDs: select.entityIDs('coins'),
   coins: select.entities('coins'),
   newsItems: select.entities('newsItems'),
   tags: select.entities('tags'),
   selectNewsItemFromList: select.entityFromList('newsItems'),
   selectCoinDetails: select.entityDetails('coin'),
   selectNewsCategories: select.entityChildren('newsItems', 'categories'),
+  coinIDs: (state) => {
+    const { user, UI, newsfeed } = state
+    let coinIDs = []
+    if (user && user.coin_ids) coinIDs = user.coin_ids
+    if (!UI.getIn(['newsfeed', 'watchingOnly'])) {
+      coinIDs = _.union(coinIDs, newsfeed.getIn(['entityIDs', 'coins']))
+    }
+    return coinIDs
+  },
   ...filterSelectors
 }

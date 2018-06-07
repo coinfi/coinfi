@@ -1,17 +1,23 @@
 import React, { Fragment } from 'react'
+import CoinListHeader from './CoinListHeader'
 import CoinListItem from './CoinListItem'
 import LoadingIndicator from '../LoadingIndicator'
 
 export default (props) => {
-  const { coins, isLoading, setActiveEntity } = props
+  const { isLoading, setActiveEntity, currentUI, isWatching } = props
   const onClick = (coin) =>
     setActiveEntity({
       type: 'coin',
       id: coin.get('id'),
       label: coin.get('name')
     })
+  let { coins } = props
+  if (currentUI('newsfeed', 'watchingOnly')) {
+    coins = props.coins.filter((coin) => isWatching(coin.get('id')))
+  }
   return (
     <Fragment>
+      <CoinListHeader {...props} />
       {isLoading('coins') && (
         <LoadingIndicator className="overlay bg-white-70" />
       )}

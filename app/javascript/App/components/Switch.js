@@ -7,7 +7,6 @@ export default class Switch extends Component {
     this.setState({ on: !!on })
   }
   handleChange = () => {
-    console.log(this.state)
     const { onChange } = this.props
     const { on } = this.state
     this.setState({ on: !on })

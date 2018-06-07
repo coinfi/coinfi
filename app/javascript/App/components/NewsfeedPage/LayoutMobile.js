@@ -1,14 +1,14 @@
 import React from 'react'
 import NewsList from './NewsList'
 import BodySection from './BodySection'
-import ActionBar from './ActionBar'
+import NewsListHeader from './NewsListHeader'
 
 export default function(props) {
   const { activeEntity, currentUI } = props
   return (
     <div>
       <div className="bg-white">
-        <ActionBar {...props} />
+        <NewsListHeader {...props} />
         <NewsList {...props} />
       </div>
       {activeEntity &&
