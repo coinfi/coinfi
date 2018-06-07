@@ -9,9 +9,6 @@ import ReviewedBy from './ReviewedBy'
 import SocialCounts from './SocialCounts'
 import StartingDate from './StartingDate'
 import TokenType from './TokenType'
-import Coins from './Coins'
-import FeedSources from './FeedSources'
-import Categories from './Categories'
 
 export default {
   search: Search,
@@ -24,8 +21,5 @@ export default {
   reviewedBy: ReviewedBy,
   socialCounts: SocialCounts,
   startingDate: StartingDate,
-  tokenType: TokenType,
-  coins: Coins,
-  feedSources: FeedSources,
-  categories: Categories
+  tokenType: TokenType
 }

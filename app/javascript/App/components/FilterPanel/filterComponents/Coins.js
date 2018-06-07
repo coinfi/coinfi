@@ -1,13 +1,13 @@
 import React from 'react'
 import Type from 'prop-types'
-import ItemSelector from '../../ItemSelector'
+import ItemSelector from '../../ItemSelectorAlt'
 
 const CoinSelector = ({ filterData, value, onChange }) => {
   return (
     <ItemSelector
       items={filterData.coins}
       selectedItems={value}
-      onChange={onChange}
+      onChange={onChange('coins')}
     />
   )
 }

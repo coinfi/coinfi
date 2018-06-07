@@ -12,3 +12,22 @@ export const buildFilterObject = (activeFilters) => {
     return n
   }, {})
 }
+
+export const normalizeFilterData = (filterData) => {
+  const data = {}
+  Object.entries(filterData).forEach(([key, values]) => {
+    data[key] = values.map((value) => {
+      let id, label
+      if (value instanceof Object) {
+        if (value.toJS) value = value.toJS()
+        id = value.id
+        label = value.label || value.title || value.name
+      } else {
+        id = value
+        label = value
+      }
+      return { id, label }
+    })
+  })
+  return data
+}

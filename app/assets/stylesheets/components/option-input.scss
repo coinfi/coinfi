@@ -64,7 +64,7 @@
 /*
  * Desktop only
  */
-@media #{$screen-min-m} {
+.oi-layout-desktop {
   .oi {
     position: relative;
     .oi-pane {
@@ -92,13 +92,17 @@
         line-height: 1;
         white-space: nowrap;
       }
+      .oi-meta {
+        display: none;
+      }
     }
   }
 }
 /*
  * Mobile only
  */
-@media #{$screen-max-m} {
+.oi-layout-mobile,
+.oi-layout-alt {
   .oi {
     .oi-btn,
     .oi-icon {
@@ -155,6 +159,15 @@
     }
     &:not(:first-child) {
       margin-top: $sp2;
+    }
+  }
+}
+@media #{$screen-min-m} {
+  .oi-layout-alt {
+    .oi {
+      .oi-pane {
+        position: absolute;
+      }
     }
   }
 }

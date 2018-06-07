@@ -31,7 +31,7 @@ export default (props) => {
         <div className="oi-value">
           <FilterButtonValue {...props} />
         </div>
-        <div className="dn-m">
+        <div className="oi-meta">
           <Icon
             className="slate"
             name="trash"
