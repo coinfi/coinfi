@@ -12,7 +12,7 @@ export default (props) => {
       label: coin.get('name')
     })
   let { coins } = props
-  if (currentUI('newsfeed', 'watchingOnly')) {
+  if (currentUI('watchingOnly')) {
     coins = props.coins.filter((coin) => isWatching(coin.get('id')))
   }
   return (

@@ -19,7 +19,7 @@ export default {
     const { user, UI, newsfeed } = state
     let coinIDs = []
     if (user && user.coin_ids) coinIDs = user.coin_ids
-    if (!UI.getIn(['newsfeed', 'watchingOnly'])) {
+    if (!UI.get('watchingOnly')) {
       coinIDs = _.union(coinIDs, newsfeed.getIn(['entityIDs', 'coins']))
     }
     return coinIDs

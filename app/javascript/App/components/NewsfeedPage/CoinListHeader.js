@@ -8,8 +8,8 @@ const CoinListHeader = (props) => {
     <SectionHeader>
       <div className="flex items-center">
         <Switch
-          on={currentUI(['newsfeed', 'watchingOnly'])}
-          onChange={() => toggleUI(['newsfeed', 'watchingOnly'])}
+          on={currentUI('watchingOnly')}
+          onChange={() => toggleUI('watchingOnly')}
         />
         <span className="ml2 f6 silver">Watching only</span>
       </div>

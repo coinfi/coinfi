@@ -15,6 +15,7 @@ export default function* watcher() {
   yield takeLatest('SET_ENTITY_LIST', onSetCoinList)
   yield takeLatest('SET_ACTIVE_ENTITY', onSetActiveCoin)
   yield takeLatest('ON_FILTER_CHANGE', fetchNewsItems)
+  yield takeLatest('TOGGLE_UI', onWatchingOnly)
   yield fork(filterSagas)
   yield fork(entitySagas)
 }
@@ -28,6 +29,12 @@ function* onSetCoinList(action) {
   // When we set the Coin list, then fetch the NewsItems
   if (action.entityType !== 'coins') return
   yield fetchNewsItems(action)
+}
+
+function* onWatchingOnly({ keyPath }) {
+  // When watchlist is toggled, refetch the NewsItems
+  if (keyPath !== 'watchingOnly') return
+  yield fetchNewsItems({ namespace })
 }
 
 function* fetchNewsItems(action) {
