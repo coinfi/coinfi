@@ -6,3 +6,7 @@ export const currentUI = createSelector(
     return (keyPath) => UI.getIn([].concat(keyPath))
   }
 )
+
+export const user = (state) => state.user
+export const isWatching = (state) => (coinID) =>
+  state.user && state.user.get('coin_ids').includes(coinID)

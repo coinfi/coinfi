@@ -1,5 +1,7 @@
 import { fork, all, takeLatest, select } from 'redux-saga/effects'
 import { currentUI } from './selectors'
+import { setUser } from './actions'
+import apiSagas from '../../lib/redux/apiSagas'
 
 import watchlistSagas from '../watchlist/sagas'
 import coinSearchSagas from '../coinSearch/sagas'
@@ -11,6 +13,8 @@ const sagas = [watchlistSagas, coinSearchSagas, icoFiltersSagas, newsfeedSagas]
 export default function* watcher() {
   yield all(sagas.map((saga) => fork(saga)))
   yield takeLatest('TOGGLE_UI', preventScrollOnMobile)
+  yield takeLatest('FETCH_USER', fetchUser)
+  yield takeLatest('UPDATE_USER', updateUser)
 }
 
 function* preventScrollOnMobile({ key, value }) {
@@ -21,4 +25,12 @@ function* preventScrollOnMobile({ key, value }) {
   const uiActive = cUI(key, value)
   const className = uiActive ? 'overflow-hidden' : ''
   document.body.className = className
+}
+
+function* fetchUser() {
+  yield apiSagas.get('/user', null, setUser)
+}
+
+function* updateUser({ payload }) {
+  yield apiSagas.patch('/user', payload, setUser)
 }

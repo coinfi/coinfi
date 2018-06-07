@@ -48,5 +48,5 @@
                 = display_percentage_change coin.change24h
               - if current_user
                 td.reveal-m
-                  = react_component "WatchButton", props: { coinID: coin.id, watching: user_is_watching?(coin) }
+                  = react_component "WatchButton", props: { coinID: coin.id, watching: user_is_watching?(coin), loggedIn: !!current_user }
       = paginate @coins, window: 6

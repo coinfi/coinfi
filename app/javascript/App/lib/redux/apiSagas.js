@@ -18,7 +18,7 @@ export function* get(url, params, callback, selector = false) {
     if (!response) {
       response = yield call(API.get, url, params)
     }
-    yield handleResponse(callback, response)
+    yield handleResponse(callback, response, url)
   } catch (e) {
     yield handleError(e)
   }
@@ -27,7 +27,7 @@ export function* get(url, params, callback, selector = false) {
 export function* patch(url, params, callback) {
   try {
     const response = yield call(API.patch, url, params)
-    yield handleResponse(callback, response)
+    yield handleResponse(callback, response, url)
   } catch (e) {
     yield handleError(e)
   }
@@ -36,7 +36,7 @@ export function* patch(url, params, callback) {
 export function* post(url, params, callback) {
   try {
     const response = yield call(API.post, url, params)
-    yield handleResponse(callback, response)
+    yield handleResponse(callback, response, url)
     return response
   } catch (e) {
     yield handleError(e)
@@ -47,7 +47,7 @@ export function* post(url, params, callback) {
 export function* destroy(url, params, callback) {
   try {
     const response = yield call(API.delete, url, params)
-    yield handleResponse(callback, response)
+    yield handleResponse(callback, response, url)
   } catch (e) {
     yield handleError(e)
   }
@@ -57,16 +57,15 @@ function handleError({ error }) {
   console.log(error)
 }
 
-function* handleResponse(callback, response) {
-  if (!response) return null
-  if (response.message) {
-    console.log(response.message)
-  }
-  let payload
-  if (response.payload) {
-    payload = response.payload
-  } else {
-    payload = response
+function* handleResponse(callback, response, url) {
+  const { type, payload, message } = response
+  if (!response) {
+    console.warn(`No response from: ${url}`)
+    return
+  } else if (type === 'warning') {
+    console.warn(`Warning from: ${url}\n${response.message}`)
+  } else if (message) {
+    console.log(message)
   }
   yield put(callback(payload))
 }

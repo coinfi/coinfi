@@ -6,15 +6,8 @@ import Tips from './Tips'
 const BodySection = (props) => {
   const { activeEntity } = props
   if (!activeEntity) return <Tips />
-  return (
-    <div>
-      {activeEntity.type === 'coin' ? (
-        <CoinBody {...props} />
-      ) : (
-        <NewsItemBody {...props} />
-      )}
-    </div>
-  )
+  if (activeEntity.type === 'coin') return <CoinBody {...props} />
+  return <NewsItemBody {...props} />
 }
 
 export default BodySection
