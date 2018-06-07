@@ -3,6 +3,10 @@ import timeago from 'timeago.js'
 import { stringHostname } from '../../lib/urlHelpers'
 import NewsItemCoinTags from './NewsItemCoinTags'
 
+const handleClick = () => {
+    setActiveEntity({ type: 'newsItem', id: newsItem.get('id') })
+}
+
 const NewsItemListItem = (props) => {
   const { activeEntity, newsItem, setActiveEntity, preRender } = props
   let className = 'bb b--light-gray tiber overflow-hidden'

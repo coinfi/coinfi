@@ -10,7 +10,9 @@ export default class NewsItemBody extends Component {
     const {
       selectNewsItemFromList,
       activeEntity,
-      selectNewsItemCategories
+      unsetActiveEntity,
+      selectNewsItemCategories,
+      mobileLayout
     } = this.props
     const { id } = activeEntity
     const newsItem = selectNewsItemFromList(id)
@@ -19,7 +21,8 @@ export default class NewsItemBody extends Component {
     const content =
       _.trim(newsItem.get('content')) || _.trim(newsItem.get('summary'))
     return (
-      <div className="pa4">
+      <div className="pa4" style={mobileLayout ? {background:'#fff'} : {}}>
+        <div onClick={unsetActiveEntity}>close</div>
         <NewsItemCoinTags newsItem={newsItem} />
         <h1>{newsItem.get('title')}</h1>
         <div className="mb3">

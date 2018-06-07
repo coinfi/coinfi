@@ -3,7 +3,8 @@ import NewsItemListItemAnimated from './NewsItemListItemAnimated'
 import LoadingIndicator from '../LoadingIndicator'
 
 const NewsItemList = (props) => {
-  const { newsItems, isLoading } = props
+  const { newsItems, isLoading, setMargin } = props
+
   return (
     <Fragment>
       {isLoading('newsItems') && (

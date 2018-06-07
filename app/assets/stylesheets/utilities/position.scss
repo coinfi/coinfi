@@ -3,3 +3,10 @@
   @extend .absolute--fill;
   @extend .z-2;
 }
+.overlay.mobile {
+  @extend .h-100-ns;
+  @extend .mt1-ns;
+  margin-top:50%;
+  height:100%;
+  background:#fff;
+}
