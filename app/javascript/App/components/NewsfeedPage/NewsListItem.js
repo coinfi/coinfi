@@ -1,9 +1,9 @@
 import React from 'react'
 import timeago from 'timeago.js'
 import { stringHostname } from '../../lib/urlHelpers'
-import NewsItemCoinTags from './NewsItemCoinTags'
+import NewsCoinTags from './NewsCoinTags'
 
-const NewsItemListItem = (props) => {
+const NewsListItem = (props) => {
   const { activeEntity, newsItem, setActiveEntity, preRender } = props
   let className = 'bb b--light-gray tiber overflow-hidden'
   if (activeEntity) {
@@ -36,11 +36,11 @@ const NewsItemListItem = (props) => {
               {stringHostname(newsItem.get('url'))}
             </a>
           </div>
-          <NewsItemCoinTags {...props} />
+          <NewsCoinTags {...props} />
         </div>
       </div>
     </div>
   )
 }
 
-export default NewsItemListItem
+export default NewsListItem

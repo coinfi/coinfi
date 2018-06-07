@@ -3,24 +3,24 @@ import timeago from 'timeago.js'
 import sanitizeHtml from 'sanitize-html'
 import { stringHostname } from '../../lib/urlHelpers'
 import _ from 'lodash'
-import NewsItemCoinTags from './NewsItemCoinTags'
+import NewsCoinTags from './NewsCoinTags'
 
-export default class NewsItemBody extends Component {
+export default class NewsBody extends Component {
   render() {
     const {
       selectNewsItemFromList,
       activeEntity,
-      selectNewsItemCategories
+      selectNewsCategories
     } = this.props
     const { id } = activeEntity
     const newsItem = selectNewsItemFromList(id)
-    const categories = selectNewsItemCategories(newsItem)
+    const categories = selectNewsCategories(newsItem)
     if (!newsItem) return null
     const content =
       _.trim(newsItem.get('content')) || _.trim(newsItem.get('summary'))
     return (
       <div className="pa4">
-        <NewsItemCoinTags newsItem={newsItem} />
+        <NewsCoinTags newsItem={newsItem} />
         <h1>{newsItem.get('title')}</h1>
         <div className="mb3">
           <span className="mr3">

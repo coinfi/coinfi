@@ -1,6 +1,6 @@
 import React from 'react'
 import CoinList from './CoinList'
-import NewsItemList from './NewsItemList'
+import NewsList from './NewsList'
 import ActionBar from './ActionBar'
 import BodySection from './BodySection'
 
@@ -14,7 +14,7 @@ export default function(props) {
           </div>
           <div className="col-xs-5 relative flex flex-column bl b--light-gray">
             <ActionBar {...props} />
-            <NewsItemList {...props} />
+            <NewsList {...props} />
           </div>
           <div className="col-xs-5 relative overflow-y-auto bl b--light-gray">
             <BodySection {...props} />

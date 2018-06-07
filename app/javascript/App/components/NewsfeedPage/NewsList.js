@@ -1,8 +1,8 @@
 import React, { Fragment } from 'react'
-import NewsItemListItemAnimated from './NewsItemListItemAnimated'
+import NewsListItemAnimated from './NewsListItemAnimated'
 import LoadingIndicator from '../LoadingIndicator'
 
-const NewsItemList = (props) => {
+const NewsList = (props) => {
   const { newsItems, isLoading } = props
   return (
     <Fragment>
@@ -13,7 +13,7 @@ const NewsItemList = (props) => {
         {newsItems
           .reverse()
           .map((newsItem) => (
-            <NewsItemListItemAnimated
+            <NewsListItemAnimated
               key={newsItem.get('id')}
               {...props}
               newsItem={newsItem}
@@ -24,4 +24,4 @@ const NewsItemList = (props) => {
   )
 }
 
-export default NewsItemList
+export default NewsList

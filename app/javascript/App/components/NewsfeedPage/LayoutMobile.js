@@ -1,5 +1,5 @@
 import React from 'react'
-import NewsItemList from './NewsItemList'
+import NewsList from './NewsList'
 import BodySection from './BodySection'
 import ActionBar from './ActionBar'
 
@@ -9,7 +9,7 @@ export default function(props) {
     <div>
       <div className="bg-white">
         <ActionBar {...props} />
-        <NewsItemList {...props} />
+        <NewsList {...props} />
       </div>
       {activeEntity &&
         currentUI('newsfeedModal') && (

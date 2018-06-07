@@ -2,9 +2,9 @@ import React from 'react'
 import Animate from 'react-move/Animate'
 import { easeExpOut } from 'd3-ease'
 import sizeMe from 'react-sizeme'
-import NewsItemListItem from './NewsItemListItem'
+import NewsListItem from './NewsListItem'
 
-class NewsItemListItemAnimated extends React.Component {
+class NewsListItemAnimated extends React.Component {
   state = { preRender: true, height: 0 }
   componentDidMount() {
     setTimeout(() => {
@@ -14,7 +14,7 @@ class NewsItemListItemAnimated extends React.Component {
   }
   render() {
     if (this.state.preRender)
-      return <NewsItemListItem {...this.props} preRender={true} />
+      return <NewsListItem {...this.props} preRender={true} />
     return (
       <Animate
         show={true}
@@ -24,10 +24,10 @@ class NewsItemListItemAnimated extends React.Component {
           timing: { duration: 1000, ease: easeExpOut }
         }}
       >
-        {({ height }) => <NewsItemListItem {...this.props} height={height} />}
+        {({ height }) => <NewsListItem {...this.props} height={height} />}
       </Animate>
     )
   }
 }
 
-export default sizeMe({ monitorHeight: true })(NewsItemListItemAnimated)
+export default sizeMe({ monitorHeight: true })(NewsListItemAnimated)
