@@ -3,8 +3,11 @@ import Icon from '../Icon'
 
 const FilterPanel = (props) => {
   const { toggleUI, children, applyFilters } = props
+  let containerClass = 'modal bg-athens'
+  if (!window.isMobile)
+    containerClass = 'overlay z-999 bg-athens overflow-y-auto'
   return (
-    <div className="overlay z-999 bg-athens oi-layout-alt overflow-y-auto">
+    <div className={containerClass}>
       <div className="pa3 bb b--geyser flex justify-between items-center">
         <h3 className="mb0">Filters</h3>
         <div>
@@ -12,7 +15,9 @@ const FilterPanel = (props) => {
             name="times"
             regular
             className="slate"
-            onClick={() => toggleUI('filters')}
+            onClick={() =>
+              toggleUI('filters', { toggleBodyScroll: window.isMobile })
+            }
           >
             Cancel
           </Icon>
