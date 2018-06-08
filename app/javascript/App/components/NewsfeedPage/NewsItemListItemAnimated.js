@@ -15,10 +15,11 @@ class NewsItemListItemAnimated extends React.Component {
   render() {
     if (this.state.preRender)
       return <NewsItemListItem {...this.props} preRender={true} />
+    const initialHeight = this.props.height || 0
     return (
       <Animate
         show={true}
-        start={{ height: 0 }}
+        start={{ height: initialHeight }}
         enter={{
           height: [this.state.height],
           timing: { duration: 1000, ease: easeExpOut }
