@@ -35,7 +35,8 @@ export default class LayoutMobile extends Component {
           <ActionBar {...this.props} />
           <NewsItemList {...this.props} setMargin={this.setMargin.bind(this)} />
         </div>
-        {activeEntity && (
+        {activeEntity &&
+          currentUI('newsfeedModal') && (
           <Fragment>
             <div className="overlay mobile" style={{marginTop: this.state.marginTopVal}}>
               <BodySection {...this.props} mobileLayout setMargin={this.setMargin} />

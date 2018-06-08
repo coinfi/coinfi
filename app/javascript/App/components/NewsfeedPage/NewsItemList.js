@@ -11,15 +11,13 @@ const NewsItemList = (props) => {
         <LoadingIndicator className="overlay bg-white-70" />
       )}
       <div className="flex-auto overflow-y-auto relative">
-        {newsItems
-          .reverse()
-          .map((newsItem) => (
-            <NewsItemListItemAnimated
-              key={newsItem.get('id')}
-              {...props}
-              newsItem={newsItem}
-            />
-          ))}
+        {newsItems.map((newsItem) => (
+          <NewsItemListItemAnimated
+            key={newsItem.get('id')}
+            {...props}
+            newsItem={newsItem}
+          />
+        ))}
       </div>
     </Fragment>
   )
