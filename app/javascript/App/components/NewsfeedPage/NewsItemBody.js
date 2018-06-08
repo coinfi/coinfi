@@ -1,9 +1,10 @@
 import React, { Component } from 'react'
 import timeago from 'timeago.js'
 import sanitizeHtml from 'sanitize-html'
-import { stringHostname } from '../../lib/urlHelpers'
 import _ from 'lodash'
+import { stringHostname } from '../../lib/urlHelpers'
 import NewsItemCoinTags from './NewsItemCoinTags'
+import Icon from '../Icon'
 
 export default class NewsItemBody extends Component {
   closeModal = (toggleUI) => {
@@ -26,7 +27,7 @@ export default class NewsItemBody extends Component {
       _.trim(newsItem.get('content')) || _.trim(newsItem.get('summary'))
     return (
       <div className="pa4" style={mobileLayout ? {background:'#fff'} : {}}>
-        <div onClick={this.closeModal.bind(this, toggleUI)} style={{float:'right'}}>X</div>
+        <Icon name="times" className="fr" onClick={this.closeModal.bind(this, toggleUI)} style={{float:'right'}} />
         <NewsItemCoinTags newsItem={newsItem} />
         <h1>{newsItem.get('title')}</h1>
         <div className="mb3">

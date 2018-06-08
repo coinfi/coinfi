@@ -11,7 +11,7 @@ const BodySection = (props) => {
       {activeEntity.type === 'coin' ? (
         <CoinBody {...props} />
       ) : (
-        <NewsItemBody {...props} mobileLayout setMargin={setMargin} />
+        <NewsItemBody {...props} mobileLayout />
       )}
     </div>
   )
