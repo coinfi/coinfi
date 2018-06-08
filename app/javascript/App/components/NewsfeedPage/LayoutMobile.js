@@ -27,7 +27,6 @@ export default class LayoutMobile extends Component {
       opacity: '.8',
       top: 0,
       position: 'absolute'
-
     }
     return (
       <div>
@@ -38,10 +37,10 @@ export default class LayoutMobile extends Component {
         {activeEntity &&
           currentUI('newsfeedModal') && (
           <Fragment>
-            <div className="overlay mobile" style={{marginTop: this.state.marginTopVal}}>
+            <div className="modal bg-black-70 pt5 vw100">
               <BodySection {...this.props} mobileLayout setMargin={this.setMargin} />
             </div>
-            <div style={modalStyle} />
+            <div />
           </Fragment>
         )}
       </div>

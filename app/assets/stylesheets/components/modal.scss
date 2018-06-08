@@ -5,11 +5,10 @@
   bottom: 0;
   left: 0;
   overflow-y: auto;
-  padding: $sp3;
   display: grid;
   z-index: 999;
   > div {
-    width: 100%;
+    width: 100vw;
     max-width: 60rem;
     align-self: center;
     justify-self: center;
