@@ -22,7 +22,7 @@ export default class NewsItemBody extends Component {
       _.trim(newsItem.get('content')) || _.trim(newsItem.get('summary'))
     return (
       <div className="pa4" style={mobileLayout ? {background:'#fff'} : {}}>
-        <div onClick={unsetActiveEntity}>close</div>
+        <div onClick={unsetActiveEntity} style={{float:'right'}}>X</div>
         <NewsItemCoinTags newsItem={newsItem} />
         <h1>{newsItem.get('title')}</h1>
         <div className="mb3">
