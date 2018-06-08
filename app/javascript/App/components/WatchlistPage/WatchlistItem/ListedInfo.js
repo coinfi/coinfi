@@ -7,7 +7,7 @@ export default ({ coin }) => {
   return (
     <Fragment>
       <PercentageChange
-        number={info.percent_change_24h}
+        value={info.percent_change_24h}
         className="smaller2 b mr2"
       />
       <Currency>{info.price_usd}</Currency>

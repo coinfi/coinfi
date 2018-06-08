@@ -1,8 +1,8 @@
 import React from 'react'
 import Icon from './Icon'
 
-export default ({ number, className, ...rest }) => {
-  const n = parseFloat(number)
+const PercentageChange = ({ value, className, ...rest }) => {
+  const n = parseFloat(value)
   let iconName = 'caret-up'
   let klass = 'green'
   if (n < 0) {
@@ -17,3 +17,5 @@ export default ({ number, className, ...rest }) => {
     </span>
   )
 }
+
+export default PercentageChange

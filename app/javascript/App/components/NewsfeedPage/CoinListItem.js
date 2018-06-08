@@ -18,7 +18,7 @@ export default (props) => {
         <div className="right-align">
           <Currency>{coin.getIn(['market_info', 'price_usd'])}</Currency>
           <PercentageChange
-            number={coin.getIn(['market_info', 'percent_change_24h'])}
+            value={coin.getIn(['market_info', 'percent_change_24h'])}
             className="smaller2 b db"
           />
         </div>

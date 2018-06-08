@@ -18,8 +18,6 @@ export default class WatchButton extends Component {
     let params = { watchCoin: id }
     if (watching) params = { unwatchCoin: id }
     API.patch('/user', params).then(({ type, payload }) => {
-      console.log(params)
-      console.log(payload)
       if (type === 'success') {
         if (setUser) setUser(payload)
         watching = payload.coin_ids.includes(id)

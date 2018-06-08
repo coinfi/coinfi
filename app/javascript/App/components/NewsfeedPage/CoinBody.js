@@ -35,14 +35,13 @@ const CoinBody = (props) => {
             </span>
             <span className="ml2">
               <PercentageChange
-                number={coin.getIn(['market_info', 'percent_change_24h'])}
+                value={coin.getIn(['market_info', 'percent_change_24h'])}
                 className="b db"
               />
             </span>
           </div>
           <div className="dib ph2 pv1 bg-light-gray f6 mt2">
-            Market:&nbsp;
-            {coin.getIn(['market_info', 'market_cap_usd'])}
+            {`Market: ${coin.getIn(['market_info', 'market_cap_usd'])}`}
           </div>
         </div>
       </div>
