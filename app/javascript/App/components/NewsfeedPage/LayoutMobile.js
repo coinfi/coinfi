@@ -12,18 +12,10 @@ export default class LayoutMobile extends Component {
     }
   }
 
-  componentDidMount() {
-    setTimeout(()=>{
-      // console.log(this.refs.test.offsetHeight) // 42
-      console.log(window.offsetHeight) // 42
-    },1)
-  }
-
   setMargin() {
-    console.log('setMargin', window.pageYOffset + 200)
-    // this.setState({
-    //   marginTopVal: window.pageYOffset + 200
-    // })
+    this.setState({
+      marginTopVal: window.pageYOffset + 200
+    })
   }
 
   render() {
@@ -32,7 +24,7 @@ export default class LayoutMobile extends Component {
       <div>
         <div className="bg-white">
           <ActionBar {...this.props} />
-          <NewsItemList {...this.props} />
+          <NewsItemList {...this.props} setMargin={this.setMargin.bind(this)} />
         </div>
         {activeEntity && (
           <div className="overlay mobile" style={{marginTop: this.state.marginTopVal}}>
