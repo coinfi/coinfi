@@ -1,0 +1,16 @@
+.modal {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  overflow-y: auto;
+  display: grid;
+  z-index: 999;
+  > div {
+    width: 100vw;
+    max-width: 60rem;
+    align-self: center;
+    justify-self: center;
+  }
+}

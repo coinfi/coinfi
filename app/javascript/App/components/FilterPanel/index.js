@@ -4,7 +4,7 @@ import Layout from './Layout'
 import FilterComponent from './FilterComponent'
 import { normalizeFilterData } from '../../lib/stateHelpers'
 
-class AltFilters extends Component {
+class FilterPanel extends Component {
   state = {}
   componentWillMount() {
     this.props.activeFilters.forEach((filter) => {
@@ -43,9 +43,9 @@ class AltFilters extends Component {
   }
 }
 
-export default AltFilters
+export default FilterPanel
 
-AltFilters.propTypes = {
+FilterPanel.propTypes = {
   activeFilters: Types.object.isRequired,
   setFilters: Types.func.isRequired
 }

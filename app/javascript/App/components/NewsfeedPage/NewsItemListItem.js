@@ -3,8 +3,14 @@ import timeago from 'timeago.js'
 import { stringHostname } from '../../lib/urlHelpers'
 import NewsItemCoinTags from './NewsItemCoinTags'
 
+const handleClick = (setActiveEntity, entity, setMargin, toggleUI) => {
+  setActiveEntity(entity)
+  toggleUI('newsfeedModal', {'toggleBodyScroll': window.isMobile})
+  setMargin && setMargin()
+}
+
 const NewsItemListItem = (props) => {
-  const { activeEntity, newsItem, setActiveEntity, preRender } = props
+  const { activeEntity, newsItem, setActiveEntity, preRender, setMargin, toggleUI } = props
   let className = 'bb b--light-gray tiber overflow-hidden'
   if (activeEntity) {
     const { type, id } = activeEntity
@@ -17,9 +23,7 @@ const NewsItemListItem = (props) => {
       <div className="pa3">
         <div
           className="pointer"
-          onClick={() =>
-            setActiveEntity({ type: 'newsItem', id: newsItem.get('id') })
-          }
+          onClick={handleClick.bind(this, setActiveEntity, { type: 'newsItem', id: newsItem.get('id') }, setMargin, toggleUI)}
         >
           <h4 className="fw6 mv3 f4">{newsItem.get('title')}</h4>
         </div>

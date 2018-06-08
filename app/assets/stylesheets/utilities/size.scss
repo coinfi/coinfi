@@ -44,3 +44,7 @@ $sizes_vh: 50, 75;
 }
 
 @include vh-setup('');
+
+.vw100 {
+  width:100vw;
+}
