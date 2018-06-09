@@ -1,16 +1,22 @@
 import React, { Component } from 'react'
 import timeago from 'timeago.js'
 import sanitizeHtml from 'sanitize-html'
-import { stringHostname } from '../../lib/urlHelpers'
 import _ from 'lodash'
+import { stringHostname } from '../../lib/urlHelpers'
 import NewsCoinTags from './NewsCoinTags'
+import Icon from '../Icon'
 
 export default class NewsBody extends Component {
+  closeModal = (toggleUI) => {
+    toggleUI('newsfeedModal', { toggleBodyScroll: window.isMobile })
+  }
   render() {
     const {
       selectNewsItemFromList,
       activeEntity,
-      selectNewsCategories
+      selectNewsCategories,
+      mobileLayout,
+      toggleUI
     } = this.props
     const { id } = activeEntity
     const newsItem = selectNewsItemFromList(id)
@@ -19,7 +25,12 @@ export default class NewsBody extends Component {
     const content =
       _.trim(newsItem.get('content')) || _.trim(newsItem.get('summary'))
     return (
-      <div className="pa4">
+      <div className="pa4" style={mobileLayout ? { background: '#fff' } : {}}>
+        <Icon
+          name="times"
+          className="fr"
+          onClick={this.closeModal.bind(this, toggleUI)}
+        />
         <NewsCoinTags newsItem={newsItem} />
         <h1>{newsItem.get('title')}</h1>
         <div className="mb3">

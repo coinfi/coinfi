@@ -21,6 +21,7 @@ export const currentURL = (opts) => {
 }
 
 export const stringHostname = (string) => {
+  if (!`${string}`.includes('http')) return ''
   const { hostname } = new URL(string)
   const parts = hostname.split('.')
   return `${parts[parts.length - 2]}.${parts[parts.length - 1]}`
