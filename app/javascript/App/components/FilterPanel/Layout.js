@@ -11,17 +11,17 @@ const FilterPanel = (props) => {
       <div className="pa3 bb b--geyser flex justify-between items-center">
         <h3 className="mb0">Filters</h3>
         <div>
-          <Icon
-            name="times"
-            regular
-            className="slate"
+          <button
+            className="btn btn-white btn-xs"
             onClick={() =>
               toggleUI('filters', { toggleBodyScroll: window.isMobile })
             }
           >
+            <Icon name="times" regular className="mr2" />
             Cancel
-          </Icon>
+          </button>
           <button className="btn btn-blue btn-xs ml3" onClick={applyFilters}>
+            <Icon name="check" className="mr2" regular />
             Apply filters
           </button>
         </div>
