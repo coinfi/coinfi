@@ -35,13 +35,15 @@ Rails.application.routes.draw do
     resources :countries
     resources :influencers
     get 'reddit' => 'articles#reddit'
-    root to: "coins#index"
+    root to: 'coins#index'
     namespace :paper_trail do
-      resources :versions, only: %i(index show)
+      resources :versions, only: %i[index show]
     end
   end
 
   namespace :api, constraints: { format: 'json' } do
+    get '/user', to: 'user#show'
+    patch '/user', to: 'user#update'
     resources :news_items, only: %i[index]
     namespace :watchlist do
       resources :coins, only: %i[index create destroy]
@@ -55,11 +57,11 @@ Rails.application.routes.draw do
     get '/social_feeds/tweets_by_user', to: 'social_feeds#tweets_by_user'
   end
 
-  resources :coins, only: [:index, :show]
+  resources :coins, only: %i[index show]
   get '/icos(/:status)', to: 'icos#index'
   resources :contributor_submissions, path: 'contributor-submissions'
   get '/profile', to: 'author_profiles#edit', as: 'edit_author_profile'
-  resources :author_profiles, only: [:index, :show, :create, :update], path: 'authors'
+  resources :author_profiles, only: %i[index show create update], path: 'authors'
 
   namespace :webhooks do
     post "#{ENV.fetch('SUPERFEEDR_CALLBACK_URL_SEGMENT_SECRET')}-superfeedr-ingest", to: 'websubs#superfeedr_ingest'

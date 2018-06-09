@@ -1,10 +1,9 @@
 import React, { Fragment } from 'react'
-import NewsItemListItemAnimated from './NewsItemListItemAnimated'
+import NewsListItemAnimated from './NewsListItemAnimated'
 import LoadingIndicator from '../LoadingIndicator'
 
-const NewsItemList = (props) => {
-  const { newsItems, isLoading, setMargin } = props
-
+const NewsList = (props) => {
+  const { newsItems, isLoading } = props
   return (
     <Fragment>
       {isLoading('newsItems') && (
@@ -12,7 +11,7 @@ const NewsItemList = (props) => {
       )}
       <div className="flex-auto overflow-y-auto relative">
         {newsItems.map((newsItem) => (
-          <NewsItemListItemAnimated
+          <NewsListItemAnimated
             key={newsItem.get('id')}
             {...props}
             newsItem={newsItem}
@@ -23,4 +22,4 @@ const NewsItemList = (props) => {
   )
 }
 
-export default NewsItemList
+export default NewsList

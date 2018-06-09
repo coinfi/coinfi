@@ -35,6 +35,7 @@ class CoinDrawerList extends Component {
   onSwipeLeft = () => {
     this.props.toggleUI('coinDrawer')
   }
+  //
   render() {
     return (
       <Swipeable onSwipingLeft={this.onSwipeLeft}>

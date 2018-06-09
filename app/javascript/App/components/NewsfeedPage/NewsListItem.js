@@ -1,16 +1,15 @@
 import React from 'react'
 import timeago from 'timeago.js'
 import { stringHostname } from '../../lib/urlHelpers'
-import NewsItemCoinTags from './NewsItemCoinTags'
+import NewsCoinTags from './NewsCoinTags'
 
-const handleClick = (setActiveEntity, entity, setMargin, toggleUI) => {
+const handleClick = (setActiveEntity, entity, toggleUI) => {
   setActiveEntity(entity)
-  toggleUI('newsfeedModal', {'toggleBodyScroll': window.isMobile})
-  setMargin && setMargin()
+  toggleUI('newsfeedModal', { toggleBodyScroll: window.isMobile })
 }
 
-const NewsItemListItem = (props) => {
-  const { activeEntity, newsItem, setActiveEntity, preRender, setMargin, toggleUI } = props
+const NewsListItem = (props) => {
+  const { activeEntity, newsItem, setActiveEntity, preRender, toggleUI } = props
   let className = 'bb b--light-gray tiber overflow-hidden'
   if (activeEntity) {
     const { type, id } = activeEntity
@@ -23,7 +22,12 @@ const NewsItemListItem = (props) => {
       <div className="pa3">
         <div
           className="pointer"
-          onClick={handleClick.bind(this, setActiveEntity, { type: 'newsItem', id: newsItem.get('id') }, setMargin, toggleUI)}
+          onClick={handleClick.bind(
+            this,
+            setActiveEntity,
+            { type: 'newsItem', id: newsItem.get('id') },
+            toggleUI
+          )}
         >
           <h4 className="fw6 mv3 f4">{newsItem.get('title')}</h4>
         </div>
@@ -40,11 +44,11 @@ const NewsItemListItem = (props) => {
               {stringHostname(newsItem.get('url'))}
             </a>
           </div>
-          <NewsItemCoinTags {...props} />
+          <NewsCoinTags {...props} />
         </div>
       </div>
     </div>
   )
 }
 
-export default NewsItemListItem
+export default NewsListItem

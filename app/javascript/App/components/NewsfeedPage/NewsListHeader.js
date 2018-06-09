@@ -1,15 +1,16 @@
 import React, { Fragment } from 'react'
 import Icon from '../Icon'
 import CoinDrawer from './CoinDrawer'
+import SectionHeader from './SectionHeader'
 import FilterPanel from '../FilterPanel'
 
-const ActionBar = (props) => {
+const NewsListHeader = (props) => {
   const { toggleUI, currentUI, coins, feedSources, activeFilters } = props
   const toggleFilters = () =>
     toggleUI('filters', { toggleBodyScroll: window.isMobile })
   return (
     <Fragment>
-      <div className="pa3 bb b--athens-dark flex justify-between items-center">
+      <SectionHeader>
         <div>
           <CoinDrawer {...props} />
         </div>
@@ -20,7 +21,7 @@ const ActionBar = (props) => {
             Filters
           </button>
         </div>
-      </div>
+      </SectionHeader>
       {currentUI('filters') && (
         <FilterPanel
           {...props}
@@ -32,4 +33,4 @@ const ActionBar = (props) => {
   )
 }
 
-export default ActionBar
+export default NewsListHeader

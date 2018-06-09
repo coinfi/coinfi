@@ -8,5 +8,5 @@ export default {
   coins: select.entities('coins'),
   newsItems: select.entities('newsItems'),
   tags: select.entities('tags'),
-  selectNewsItemCoins: select.entityChildren('newsItems', 'coins')
+  selectNewsCoins: select.entityChildren('newsItems', 'coins')
 }

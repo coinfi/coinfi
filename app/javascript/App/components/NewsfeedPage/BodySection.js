@@ -1,20 +1,13 @@
 import React from 'react'
-import NewsItemBody from './NewsItemBody'
+import NewsBody from './NewsBody'
 import CoinBody from './CoinBody'
 import Tips from './Tips'
 
 const BodySection = (props) => {
-  const { activeEntity, mobileLayout, setMargin } = props
+  const { activeEntity } = props
   if (!activeEntity) return <Tips />
-  return (
-    <div>
-      {activeEntity.type === 'coin' ? (
-        <CoinBody {...props} />
-      ) : (
-        <NewsItemBody {...props} mobileLayout />
-      )}
-    </div>
-  )
+  if (activeEntity.type === 'coin') return <CoinBody {...props} />
+  return <NewsBody {...props} />
 }
 
 export default BodySection

@@ -1,8 +1,8 @@
 import React from 'react'
 import dayjs from 'dayjs'
 
-export default ({ newsItem, selectNewsItemCoins }) => {
-  const coins = selectNewsItemCoins(newsItem)
+export default ({ newsItem, selectNewsCoins }) => {
+  const coins = selectNewsCoins(newsItem)
   return (
     <a
       className="box tiber mb1 mb4-l"

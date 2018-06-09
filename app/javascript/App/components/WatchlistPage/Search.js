@@ -9,7 +9,7 @@ class WatchlistSearch extends Component {
     searchCoins(value, searchOpts)
   }
   render() {
-    const { searchedCoins, addCoinSuccess, searchText } = this.props
+    const { searchedCoins, addCoinSuccess, searchText, user } = this.props
     return (
       <div>
         <Input
@@ -36,7 +36,11 @@ class WatchlistSearch extends Component {
                   {coin.get('name')}
                   <span className="b ml2 f7">{coin.get('symbol')}</span>
                 </div>
-                <WatchButton coinID={coin.get('id')} onWatch={addCoinSuccess} />
+                <WatchButton
+                  coinID={coin.get('id')}
+                  onWatch={addCoinSuccess}
+                  user={user}
+                />
               </div>
             ))}
           </div>
