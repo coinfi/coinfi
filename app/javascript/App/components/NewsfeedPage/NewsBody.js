@@ -3,32 +3,35 @@ import timeago from 'timeago.js'
 import sanitizeHtml from 'sanitize-html'
 import _ from 'lodash'
 import { stringHostname } from '../../lib/urlHelpers'
-import NewsItemCoinTags from './NewsItemCoinTags'
+import NewsCoinTags from './NewsCoinTags'
 import Icon from '../Icon'
 
-export default class NewsItemBody extends Component {
+export default class NewsBody extends Component {
   closeModal = (toggleUI) => {
-    toggleUI('newsfeedModal', {'toggleBodyScroll': window.isMobile})
+    toggleUI('newsfeedModal', { toggleBodyScroll: window.isMobile })
   }
   render() {
     const {
       selectNewsItemFromList,
       activeEntity,
-      unsetActiveEntity,
-      selectNewsItemCategories,
+      selectNewsCategories,
       mobileLayout,
       toggleUI
     } = this.props
     const { id } = activeEntity
     const newsItem = selectNewsItemFromList(id)
-    const categories = selectNewsItemCategories(newsItem)
+    const categories = selectNewsCategories(newsItem)
     if (!newsItem) return null
     const content =
       _.trim(newsItem.get('content')) || _.trim(newsItem.get('summary'))
     return (
-      <div className="pa4" style={mobileLayout ? {background:'#fff'} : {}}>
-        <Icon name="times" className="fr" onClick={this.closeModal.bind(this, toggleUI)} style={{float:'right'}} />
-        <NewsItemCoinTags newsItem={newsItem} />
+      <div className="pa4" style={mobileLayout ? { background: '#fff' } : {}}>
+        <Icon
+          name="times"
+          className="fr"
+          onClick={this.closeModal.bind(this, toggleUI)}
+        />
+        <NewsCoinTags newsItem={newsItem} />
         <h1>{newsItem.get('title')}</h1>
         <div className="mb3">
           <span className="mr3">

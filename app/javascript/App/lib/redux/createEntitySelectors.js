@@ -60,6 +60,12 @@ export default (namespace) => {
     activeEntity: createSelector(selectState, (state) =>
       state.get('activeEntity')
     ),
+    isActiveEntity: createSelector(selectState, (state) => {
+      const entity = state.get('activeEntity')
+      return ({ type, id }) => {
+        return entity && entity.type === type && entity.id === id
+      }
+    }),
     isLoading: createSelector(selectState, (state) => (entityType) =>
       [true, undefined].includes(state.getIn(['loadingEntities', entityType]))
     )

@@ -7,5 +7,8 @@ import * as selectors from './selectors'
 
 export default createHOC({
   actions,
-  selectors
+  selectors,
+  onMount({ props }) {
+    props.fetchUser()
+  }
 })

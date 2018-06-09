@@ -1,8 +1,8 @@
 import React, { Component, Fragment } from 'react'
-import NewsItemListItemAnimated from './NewsItemListItemAnimated'
+import NewsListItemAnimated from './NewsListItemAnimated'
 import LoadingIndicator from '../LoadingIndicator'
 
-class NewsItemList extends Component {
+class NewsList extends Component {
   state = { initialRender: true }
   componentDidMount() {
     setTimeout(() => {
@@ -19,7 +19,7 @@ class NewsItemList extends Component {
         )}
         <div className="flex-auto overflow-y-auto relative">
           {newsItems.map((newsItem) => (
-            <NewsItemListItemAnimated
+            <NewsListItemAnimated
               key={newsItem.get('id')}
               {...this.props}
               newsItem={newsItem}
@@ -32,4 +32,4 @@ class NewsItemList extends Component {
   }
 }
 
-export default NewsItemList
+export default NewsList

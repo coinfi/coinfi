@@ -1,6 +1,6 @@
 import React from 'react'
-import NewsItemFilters from './NewsItemFilters'
-import NewsItemListItem from './NewsItemListItem'
+import NewsFilters from './NewsFilters'
+import NewsListItem from './NewsListItem'
 import Tabs from '../Tabs'
 
 export default (props) => {
@@ -13,12 +13,12 @@ export default (props) => {
           items={['Trending News', 'Event Calendar']}
           className="flex-auto justify-center justify-start-l"
         />
-        <NewsItemFilters />
+        <NewsFilters />
       </div>
       <div id="news-items" className="pt1 ph1 bg-athens-dark bg-white-m">
         <div className="tab-content active">
           {newsItems.map((newsItem, index) => (
-            <NewsItemListItem {...props} newsItem={newsItem} key={index} />
+            <NewsListItem {...props} newsItem={newsItem} key={index} />
           ))}
           {(!newsItems || newsItems.size === 0) && (
             <div className="pt2 o-60">Add items to see news here</div>

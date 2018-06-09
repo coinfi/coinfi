@@ -1,7 +1,7 @@
 .bg-white.mb2
   .pa3.tr
     - if current_user
-      = react_component 'WatchButton', props: { coinID: @coin.id, watching: user_is_watching?(@coin) }
+      = react_component 'WatchButton', props: { coinID: @coin.id, watching: user_is_watching?(@coin), loggedIn: !!current_user }
   .pa4.pt0
     = render partial: 'coins/title'
     = render partial: 'icos/subheader'

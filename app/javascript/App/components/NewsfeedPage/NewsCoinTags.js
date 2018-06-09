@@ -1,6 +1,6 @@
 import React from 'react'
 
-const NewsItemCoinTags = ({ newsItem }) => {
+const NewsCoinTags = ({ newsItem }) => {
   return (
     <div>
       {newsItem.get('coin_link_data').map((data, index) => (
@@ -16,4 +16,4 @@ const NewsItemCoinTags = ({ newsItem }) => {
   )
 }
 
-export default NewsItemCoinTags
+export default NewsCoinTags
