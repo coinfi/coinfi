@@ -31,7 +31,7 @@ export default class NewsBody extends Component {
           className="fr"
           onClick={this.closeModal.bind(this, toggleUI)}
         />
-        <NewsCoinTags newsItem={newsItem} />
+        <NewsCoinTags newsItem={newsItem} {...this.props} />
         <h1 style={{ wordBreak:'break-word' }}>{newsItem.get('title')}</h1>
         <div className="mb3">
           <span className="mr3">

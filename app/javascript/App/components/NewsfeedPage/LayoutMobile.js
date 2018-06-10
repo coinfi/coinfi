@@ -2,9 +2,16 @@ import React, { Fragment } from 'react'
 import NewsList from './NewsList'
 import BodySection from './BodySection'
 import NewsListHeader from './NewsListHeader'
+import CoinDetail from './../CoinDetail'
 
 export default function(props) {
   const { activeEntity, currentUI } = props
+  if (props.coinDetailVisible) {
+    return (
+	  <CoinDetail {...props} />
+	)
+  }
+
   return (
     <div className="flex-auto flex flex-column">
       <div className="bg-white relative flex-auto">
