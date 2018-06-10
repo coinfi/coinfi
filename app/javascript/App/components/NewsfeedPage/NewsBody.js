@@ -32,7 +32,7 @@ export default class NewsBody extends Component {
           onClick={this.closeModal.bind(this, toggleUI)}
         />
         <NewsCoinTags newsItem={newsItem} />
-        <h1>{newsItem.get('title')}</h1>
+        <h1 style={{ wordBreak:'break-word' }}>{newsItem.get('title')}</h1>
         <div className="mb3">
           <span className="mr3">
             {timeago().format(newsItem.get('published_date'))}
