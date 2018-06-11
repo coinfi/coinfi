@@ -50,6 +50,7 @@ function* fetchNewsItems(action) {
 }
 
 function* pollNewsItems(action) {
+  if (action.namespace !== namespace) return
   while (true) {
     yield delay(60000)
     const newsItems = yield select(selectors.newsItems)

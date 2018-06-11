@@ -1,10 +1,18 @@
 import React, { Fragment } from 'react'
 import CoinListHeader from './CoinListHeader'
 import CoinListItem from './CoinListItem'
+import CoinListSearchItem from './CoinListSearchItem'
 import LoadingIndicator from '../LoadingIndicator'
+import coinSearchProvider from '../../containers/coinSearch'
 
-export default (props) => {
-  const { isLoading, setActiveEntity, currentUI, isWatching } = props
+const CoinList = (props) => {
+  const {
+    isLoading,
+    setActiveEntity,
+    currentUI,
+    isWatching,
+    searchedCoins
+  } = props
   const onClick = (coin) =>
     setActiveEntity({
       type: 'coin',
@@ -21,9 +29,15 @@ export default (props) => {
       {isLoading('coins') && (
         <LoadingIndicator className="overlay bg-white-70" />
       )}
+      {searchedCoins.size > 0 &&
+        searchedCoins.map((coin, key) => (
+          <CoinListSearchItem {...{ coin, key }} />
+        ))}
       {coins.map((coin, index) => (
         <CoinListItem key={index} coin={coin} {...props} onClick={onClick} />
       ))}
     </Fragment>
   )
 }
+
+export default coinSearchProvider('newsfeed')(CoinList)
