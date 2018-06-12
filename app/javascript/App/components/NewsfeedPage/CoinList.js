@@ -25,28 +25,30 @@ class CoinList extends Component {
     return (
       <Fragment>
         <CoinListHeader {...this.props} />
-        {isLoading('coins') && (
-          <LoadingIndicator className="overlay bg-white-70" />
-        )}
-        {searchedCoins.size > 0 && (
-          <div className="bb bw2 b--light-gray">
-            {searchedCoins.map((coin, key) => (
-              <CoinListItem
-                {...{ coin, key, ...this.props }}
-                onClick={this.onClickNewCoin}
-                onWatch={this.onClickNewCoin}
-              />
-            ))}
-          </div>
-        )}
-        {coins.map((coin, index) => (
-          <CoinListItem
-            key={index}
-            coin={coin}
-            {...this.props}
-            onClick={this.onClickCoin}
-          />
-        ))}
+        <div className="flex-auto relative overflow-y-auto">
+          {isLoading('coins') && (
+            <LoadingIndicator className="overlay bg-white-70" />
+          )}
+          {searchedCoins.size > 0 && (
+            <div className="bb bw2 b--light-gray">
+              {searchedCoins.map((coin, key) => (
+                <CoinListItem
+                  {...{ coin, key, ...this.props }}
+                  onClick={this.onClickNewCoin}
+                  onWatch={this.onClickNewCoin}
+                />
+              ))}
+            </div>
+          )}
+          {coins.map((coin, index) => (
+            <CoinListItem
+              key={index}
+              coin={coin}
+              {...this.props}
+              onClick={this.onClickCoin}
+            />
+          ))}
+        </div>
       </Fragment>
     )
   }
