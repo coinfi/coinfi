@@ -24,7 +24,7 @@ const createFilterReducer = ({ namespace, filterList }) => (
   let filter
   switch (type) {
     case 'RESET_FILTERS':
-      return initialState.set(
+      return state.set(
         'activeFilters',
         List(
           Object.entries(payload).map(([key, value]) =>

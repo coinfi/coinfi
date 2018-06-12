@@ -1,7 +1,7 @@
 import React from 'react'
 import Icon from '../Icon'
 
-const WatchButton = ({ isWatching, coin, updateUser, user }) => {
+const WatchButton = ({ isWatching, coin, updateUser, user, onWatch }) => {
   if (isWatching(coin.get('id')))
     return (
       <Icon
@@ -18,7 +18,10 @@ const WatchButton = ({ isWatching, coin, updateUser, user }) => {
         name="star"
         light
         className="light-silver"
-        onClick={() => updateUser({ watchCoin: coin.get('id') })}
+        onClick={() => {
+          if (onWatch) onWatch(coin)
+          updateUser({ watchCoin: coin.get('id') })
+        }}
       />
     </div>
   )

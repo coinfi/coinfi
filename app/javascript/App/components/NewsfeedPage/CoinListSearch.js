@@ -1,33 +1,23 @@
 import React, { Component } from 'react'
 import Input from '../Input'
-import Icon from '../Icon'
 
 class CoinListSearch extends Component {
+  onChange = (value) => {
+    let { searchCoins, coinIDs } = this.props
+    searchCoins(value, { q: { id_not_in: coinIDs }, limit: 4 })
+  }
   render() {
-    const { searchCoins, searchText, clearSearch } = this.props
+    const { searchText } = this.props
     return (
       <div className="relative">
-        <div className="icon-input tiber">
-          <Icon regular name="search" className="f4 reveal-m" />
-          <Input
-            value={searchText}
-            onChange={searchCoins}
-            placeholder="Search"
-            autoFocus
-            setRef={(ref) => (this.inputRef = ref)}
-          />
-          {searchText.length > 0 && (
-            <Icon
-              regular
-              name="times"
-              className="silver conceal-m"
-              onClick={() => {
-                clearSearch()
-                this.inputRef.focus()
-              }}
-            />
-          )}
-        </div>
+        <Input
+          value={searchText}
+          onChange={this.onChange}
+          placeholder="Search"
+          autoFocus
+          setRef={(ref) => (this.inputRef = ref)}
+          className="unstyled"
+        />
       </div>
     )
   }
