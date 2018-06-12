@@ -8,6 +8,7 @@
       display: inline-block;
       > * {
         @include btn-base();
+        padding: 1.5rem 2rem;
         display: block;
       }
     }
