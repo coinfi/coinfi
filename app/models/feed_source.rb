@@ -17,9 +17,9 @@ class FeedSource < ApplicationRecord
 
   def retrieve(before: nil)
     body = {
-      'hub.mode' => 'retrieve', 
-      'hub.topic' => feed_url, 
-      'format' => 'json', 
+      'hub.mode' => 'retrieve',
+      'hub.topic' => feed_url,
+      'format' => 'json',
       'count' => SUPERFEEDR_RETRIEVE_BATCH_SIZE
     }
 
@@ -50,9 +50,9 @@ class FeedSource < ApplicationRecord
 
   def subscribe!
     body = {
-      'hub.mode' => 'subscribe', 
-      'hub.topic' => feed_url, 
-      'format' => 'json', 
+      'hub.mode' => 'subscribe',
+      'hub.topic' => feed_url,
+      'format' => 'json',
       'hub.callback' => callback_url,
       'hub.secret' => ENV.fetch('SUPERFEEDR_SECRET')
     }
@@ -83,7 +83,7 @@ class FeedSource < ApplicationRecord
   def self.fetch_subs(page = 1)
     #TODO change this now that we have > 500 subscriptions
     body = {
-      'hub.mode' => 'list', 
+      'hub.mode' => 'list',
       'by_page' => SUPERFEEDR_MAX_PER_PAGE, # This is the max supported by SuperFeedr
       'page' => page
     }
@@ -123,9 +123,9 @@ class FeedSource < ApplicationRecord
 
   def subscribed?
     query = {
-      'hub.mode' => 'list', 
-      'search[feed][url]' => feed_url, 
-      'format' => 'json', 
+      'hub.mode' => 'list',
+      'search[feed][url]' => feed_url,
+      'format' => 'json',
     }
 
     options = {

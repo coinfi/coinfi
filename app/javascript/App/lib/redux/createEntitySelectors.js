@@ -1,6 +1,6 @@
 /*
  * Selector creators which use the following pattern:
- * 
+ *
  * {
  *   newsfeed: {
  *     activeEntity: { id, type },

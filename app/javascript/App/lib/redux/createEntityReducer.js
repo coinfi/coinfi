@@ -36,6 +36,7 @@ const createEntityReducer = (namespace) => (state = initialState, action) => {
         .setIn(['entityIDs', entityType], normalized.result)
         .setIn(['loadingEntities', entityType], false)
     case 'SET_ENTITY_LIST_UPDATES':
+    case 'SET_MORE_ENTITY_LIST':
       normalizer = normalizers[entityType]
       if (!normalizer) console.error(`No normalizer found for ${entityType}`)
       normalized = normalizer(response)

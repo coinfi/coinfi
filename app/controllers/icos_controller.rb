@@ -15,7 +15,7 @@ class IcosController < ApplicationController
     )
     render(layout: false) if params[:naked]
     @react_props = {
-      industries: CoinIndustry.pluck(:name), 
+      industries: CoinIndustry.pluck(:name),
       tokenTypes: Coin.token_types,
       influencers: Influencer.pluck(:name)
     }
@@ -48,7 +48,7 @@ class IcosController < ApplicationController
       end
       if ids[0] && ids[1]
         query[:id_in] = ids[0] & ids[1]
-      else 
+      else
         query[:id_in] = ids[0] || ids[1]
       end
       query[:id_in] << -1 if query[:id_in].empty? # Ransack returns all results if empty
@@ -74,7 +74,7 @@ class IcosController < ApplicationController
   end
 
   def filter_params
-    params.permit! 
+    params.permit!
     p = HashWithIndifferentAccess.new params[:q]
     return [] unless p
     if p[:hardCap]

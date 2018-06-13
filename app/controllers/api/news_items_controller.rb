@@ -3,6 +3,7 @@ class Api::NewsItemsController < ApiController
   def index
     @news_items = NewsItem.ransack(news_item_query).result(distinct: true)
     @news_items = @news_items.order('updated_at desc').limit(10)
+
     respond_success serialized(@news_items)
   end
 
@@ -29,6 +30,7 @@ class Api::NewsItemsController < ApiController
     end
     query[:title_or_summary_cont] = p[:keywords] if p[:keywords]
     query[:updated_at_gt] = p[:updatedSince].to_datetime if p[:updatedSince]
+    query[:updated_at_lt] = p[:lastUpdatedAt].to_datetime if p[:lastUpdatedAt]
     query
   end
 

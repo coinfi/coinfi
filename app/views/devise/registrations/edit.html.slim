@@ -1,5 +1,5 @@
 h2
-  | Edit 
+  | Edit
   = resource_name.to_s.humanize
 = form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f|
   = devise_error_messages!
@@ -9,7 +9,7 @@ h2
     = f.email_field :email, autofocus: true
   - if devise_mapping.confirmable? && resource.pending_reconfirmation?
     div
-      | Currently waiting confirmation for: 
+      | Currently waiting confirmation for:
       = resource.unconfirmed_email
   .field
     = f.label :password
@@ -37,6 +37,6 @@ h2
 h3
   | Cancel my account
 p
-  | Unhappy? 
+  | Unhappy?
   = button_to "Cancel my account", registration_path(resource_name), data: { confirm: "Are you sure?" }, method: :delete
 = link_to "Back", :back

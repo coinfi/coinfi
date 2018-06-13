@@ -16,6 +16,7 @@ export default function* watcher() {
   yield takeLatest('SET_ACTIVE_ENTITY', onSetActiveCoin)
   yield takeLatest('ON_FILTER_CHANGE', fetchNewsItems)
   yield takeLatest('TOGGLE_UI', onWatchingOnly)
+  yield takeLatest('FETCH_MORE_NEWS_FEED', onScrollingToBottom)
   yield fork(filterSagas)
   yield fork(entitySagas)
 }
@@ -105,4 +106,16 @@ function* newsitemParams() {
     params.coinIDs = yield select(selectors.coinIDs)
   }
   return params
+}
+
+function* onScrollingToBottom(action) {
+  const params = yield newsitemParams()
+  const newsItems = yield select(selectors.newsItems)
+
+  yield put(
+    actions.fetchMoreEntityList('newsItems', {
+      params: { ...params, lastUpdatedAt: newsItems.slice(-1)[0].get('updated_at') },
+      url: 'news_items'
+    })
+  )
 }

@@ -78,12 +78,12 @@ module ApplicationHelper
   end
 
   def react_component name, opts = {}
-    locals = { 
-      name: name, 
-      props: opts[:props] || {}, 
-      withStore: opts[:withStore] 
+    locals = {
+      name: name,
+      props: opts[:props] || {},
+      withStore: opts[:withStore]
     }
-    render partial: 'components/react_component', locals: locals 
+    render partial: 'components/react_component', locals: locals
   end
 
 end
