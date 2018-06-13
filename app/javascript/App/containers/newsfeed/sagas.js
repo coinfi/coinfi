@@ -55,7 +55,10 @@ function* pollNewsItems(action) {
     yield delay(60000)
     const newsItems = yield select(selectors.newsItems)
     const params = yield newsitemParams()
-    if (newsItems[0]) params.updatedSince = newsItems[0].get('updated_at')
+    if (newsItems[0])
+      params.publishedSince = newsItems[newsItems.length].get(
+        'feed_item_published_at'
+      )
     yield put(
       actions.fetchEntityListUpdates('newsItems', {
         params,
@@ -114,7 +117,10 @@ function* onScrollingToBottom(action) {
 
   yield put(
     actions.fetchMoreEntityList('newsItems', {
-      params: { ...params, lastUpdatedAt: newsItems.slice(-1)[0].get('updated_at') },
+      params: {
+        ...params,
+        publishedUntil: newsItems[0].get('feed_item_published_at')
+      },
       url: 'news_items'
     })
   )

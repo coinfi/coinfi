@@ -32,8 +32,8 @@ const NewsListItem = (props) => {
           <h4 className="fw6 mv3 f4">{newsItem.get('title')}</h4>
         </div>
         <div className="flex justify-between flex-wrap">
-          <div className="f6 silver" title={newsItem.get('published_date')}>
-            {timeago().format(newsItem.get('published_date'))}
+          <div className="f6 silver">
+            {timeago().format(newsItem.get('feed_item_published_at'))}
             <span className="ph2">~</span>
             <a
               href={newsItem.get('url')}

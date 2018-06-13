@@ -42,9 +42,11 @@ const createEntityReducer = (namespace) => (state = initialState, action) => {
       normalized = normalizer(response)
       entityLists = state.get('entityList').mergeDeep(normalized.entities)
       const ids = _.union(
-        normalized.result,
-        state.getIn(['entityIDs', entityType])
+        state.getIn(['entityIDs', entityType]),
+        normalized.result
       )
+      console.log(state.getIn(['entityIDs', entityType]))
+      console.log(normalized.result)
       return state
         .set('entityList', entityLists)
         .setIn(['entityIDs', entityType], ids)

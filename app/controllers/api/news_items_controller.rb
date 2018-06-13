@@ -1,44 +1,46 @@
 class Api::NewsItemsController < ApiController
 
+  PER_PAGE = 10
+
   def index
-    @news_items = NewsItem.ransack(news_item_query).result(distinct: true)
-    @news_items = @news_items.order('updated_at desc').limit(10)
+    q = params[:q] || {}
+
+    @news_items = NewsItem.all
+
+    if q[:coinIDs]
+      news_item_ids_for_coin_filter = NewsCoinMention.where(coin_id: q[:coinIDs]).pluck(:news_item_id)
+      @news_items = @news_items.where(id: news_item_ids_for_coin_filter)
+    end
+
+    category_ids = NewsCategory.where(name: q[:categories]).pluck(:id)
+    news_item_ids_for_category_filter = NewsItemCategorization.where(news_category_id: category_ids).pluck(:news_item_id)
+    @news_items = @news_items.where(id: news_item_ids_for_category_filter) if news_item_ids_for_category_filter.present?
+    
+    feed_source_ids = get_feed_source_ids(q[:feedSources])
+    @news_items = @news_items.where(feed_source_id: feed_source_ids) if feed_source_ids.present? 
+
+    @news_items = @news_items.where('title ILIKE ?', "%#{q[:keywords]}%") if q[:keywords].present?
+
+    @news_items = @news_items.where('feed_item_published_at > ?', q[:publishedSince].to_datetime) if q[:publishedSince].present?
+    @news_items = @news_items.where('feed_item_published_at < ?', q[:publishedUntil].to_datetime) if q[:publishedUntil].present?
+    @news_items = @news_items.limit(PER_PAGE)
 
     respond_success serialized(@news_items)
   end
 
   private
 
-  def news_item_query
-    p = news_params
-    query = {
-      id_in: NewsCoinMention.where(coin_id: p[:coinIDs]).pluck(:news_item_id)
-    }
-    if p[:feedSources] || p[:categories]
-      # TODO: find sane way of filtering by multiple associations
-      if p[:feedSources]
-        source_ids = FeedSource.where(feed_type: p[:feedSources]).pluck(:id)
-        query[:id_in] &= NewsItem.where(feed_source_id: source_ids).pluck(:id)
-      end
-      if p[:categories]
-        category_ids = NewsCategory.where(name: p[:categories]).pluck(:id)
-        query[:id_in] &= NewsItemCategorization.where(
-          news_category_id: category_ids
-        ).pluck(:news_item_id)
-      end
-      query[:id_in] << -1 if query[:id_in].empty? # Ransack returns all results if empty
+  def get_feed_source_ids(feed_source_names)
+    return [] unless feed_source_names.present?
+    feed_source_ids = []
+    special_sources = []
+    special_sources << feed_source_names.delete('twitter')
+    special_sources << feed_source_names.delete('reddit')
+    special_sources.each do |feed_type|
+      feed_source_ids += FeedSource.where(feed_type: feed_type).pluck(:id)
     end
-    query[:title_or_summary_cont] = p[:keywords] if p[:keywords]
-    query[:updated_at_gt] = p[:updatedSince].to_datetime if p[:updatedSince]
-    query[:updated_at_lt] = p[:lastUpdatedAt].to_datetime if p[:lastUpdatedAt]
-    query
-  end
-
-  def news_params
-    params.permit!
-    p = HashWithIndifferentAccess.new(params[:q]) || {}
-    p[:coinIDs] = [] unless p[:coinIDs]
-    p
+    feed_source_ids += FeedSource.where(name: feed_source_names).pluck(:id)
+    feed_source_ids
   end
 
   def serialized(obj)
