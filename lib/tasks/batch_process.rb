@@ -2,7 +2,7 @@ def batch_process(items)
   item_name = items.first.class.name
   puts "About to process #{items.count} #{item_name.pluralize}"
   puts "Nothing to do here. items was empty... bye." and return if items.none?
-  
+
   progress = ProgressBar.create(:title => item_name.pluralize, :total => items.count)
   items_with_errors = []
 
@@ -20,9 +20,9 @@ def batch_process(items)
   end
 
   if items.is_a? Array
-    item.each &process_item_proc 
+    item.each &process_item_proc
   else
-    items.find_each &process_item_proc 
+    items.find_each &process_item_proc
   end
 
   puts "Complete!"
