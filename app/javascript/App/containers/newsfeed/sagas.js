@@ -63,7 +63,8 @@ function* pollNewsItems(action) {
     yield delay(60000)
     const newsItems = yield select(selectors.newsItems)
     const params = yield newsitemParams()
-    if (newsItems[0]) params.updatedSince = newsItems[0].get('updated_at')
+    if (newsItems[0])
+      params.publishedSince = newsItems[0].get('feed_item_published_at')
     yield put(
       actions.fetchEntityListUpdates('newsItems', {
         params,

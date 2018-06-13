@@ -4,7 +4,7 @@ class Api::Newsfeed::CoinsController < ApiController
     if params[:q] && params[:q][:coinIDs]
       coin_ids = params[:q][:coinIDs]
     else
-      coin_ids = Coin.order(:ranking).limit(20).ids
+      coin_ids = Coin.order(:ranking).limit(20).pluck(:id)
     end
     if current_user 
       coin_ids = (coin_ids + current_user.coin_ids).uniq
