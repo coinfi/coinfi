@@ -7,7 +7,7 @@ class AuthorProfilesController < ApplicationController
   end
 
   def show
-    @profile = AuthorProfile.friendly.find(params[:id]) 
+    @profile = AuthorProfile.friendly.find(params[:id])
     @author = @profile.user
   end
 
@@ -46,7 +46,7 @@ class AuthorProfilesController < ApplicationController
 
   def profile_params
     params.require(:author_profile).permit(
-      :name, :company, :role, :website_url, :twitter_url, :linkedin_url, 
+      :name, :company, :role, :website_url, :twitter_url, :linkedin_url,
       :bio, :investing_style, :photo
     )
   end
