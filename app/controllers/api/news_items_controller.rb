@@ -38,7 +38,7 @@ class Api::NewsItemsController < ApiController
     special_sources.each do |feed_type|
       feed_source_ids += FeedSource.where(feed_type: feed_type).pluck(:id)
     end
-    feed_source_ids += FeedSource.where(name: feed_source_names).pluck(:id)
+    feed_source_ids += feed_source_names.map { |name| FeedSource.where("site_url ILIKE ?", "%#{name}%").try(:first).try(:id) }
     feed_source_ids
   end
 

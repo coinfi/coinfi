@@ -15,6 +15,14 @@ class FeedSource < ApplicationRecord
     pluck(:feed_type).uniq
   end
 
+  def site_host
+    URI.parse(site_url).host
+  end
+
+  def self.site_hosts
+    all.map(&:site_host)
+  end
+
   def retrieve(before: nil)
     body = {
       'hub.mode' => 'retrieve', 
