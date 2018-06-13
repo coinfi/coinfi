@@ -6,8 +6,6 @@ class Coin < ApplicationRecord
 
   ICO_STATUSES = %w(upcoming active ended listed).freeze
 
-  has_paper_trail
-
   has_many :articles
   has_many :influencer_reviews
   has_many :coin_excluded_countries

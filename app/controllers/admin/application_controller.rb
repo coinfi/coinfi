@@ -7,7 +7,6 @@
 module Admin
   class ApplicationController < Administrate::ApplicationController
     before_action :require_admin
-    before_action :set_paper_trail_whodunnit
 
     def require_admin
       redirect_to "/", alert: "Not authorized." unless current_user.try(:admin?)

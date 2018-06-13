@@ -35,10 +35,7 @@ Rails.application.routes.draw do
     resources :countries
     resources :influencers
     get 'reddit' => 'articles#reddit'
-    root to: "coins#index"
-    namespace :paper_trail do
-      resources :versions, only: %i(index show)
-    end
+    root to: 'coins#index'
   end
 
   namespace :api, constraints: { format: 'json' } do
