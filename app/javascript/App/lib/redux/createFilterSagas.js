@@ -9,6 +9,8 @@ export default function(namespace) {
     yield takeLatest('INITIALIZE_FILTERS', initializeFilters)
     yield takeLatest('SET_FILTER', applyFilters)
     yield takeLatest('SET_FILTERS', applyFilters)
+    yield takeLatest('RESET_FILTERS', applyFilters)
+    yield takeLatest('REMOVE_FILTER', applyFilters)
     yield takeLatest('REMOVE_FILTER', applyFilters)
   }
 
@@ -23,7 +25,7 @@ export default function(namespace) {
     let queryStringPresent = false
     let filterObject = getQueryObject().q
     if (filterObject) {
-      yield put(actions.resetFilters(filterObject))
+      yield put(actions.setFilters(filterObject))
       queryStringPresent = true
     } else {
       const activeFilters = yield select(selectors.activeFilters)
