@@ -27,10 +27,10 @@ export default (state = initialState, action) => {
   /*
    * If you want to update the UI state based on other action types, you can add
    * other reducers here as follows:
-   * 
-   *  const stateChange = otherReducer(state, action) 
+   *
+   *  const stateChange = otherReducer(state, action)
    *  if (stateChange) return stateChange
-   * 
+   *
    * Note: that reducer should not return an updated stated unless it was changed.
    */
   return state

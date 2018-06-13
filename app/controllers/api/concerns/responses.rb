@@ -1,5 +1,5 @@
 module Api::Concerns::Responses
-  
+
   extend ActiveSupport::Concern
 
   included do
