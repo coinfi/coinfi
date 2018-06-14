@@ -24,16 +24,7 @@ const createFilterReducer = ({ namespace, filterList }) => (
   let filter
   switch (type) {
     case 'RESET_FILTERS':
-      return state.set(
-        'activeFilters',
-        List(
-          Object.entries(payload).map(([key, value]) =>
-            filterList
-              .find((o) => o.get('key') === key)
-              .set('value', fromJS(value))
-          )
-        )
-      )
+      return state.set('activeFilters', fromJS([]))
     case 'SET_FILTER':
       return setFilter(state, payload)
     case 'REMOVE_FILTER':
