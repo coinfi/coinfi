@@ -25,7 +25,7 @@ export default class NewsBody extends Component {
     const content =
       _.trim(newsItem.get('content')) || _.trim(newsItem.get('summary'))
     return (
-      <div className="pa4" style={mobileLayout ? { background: '#fff' } : {}}>
+      <div className="pa4" style={mobileLayout ? { background: '#fff', alignSelf:'flex-start', minHeight:'100%' } : {}}>
         <Icon
           name="times"
           className="fr"
