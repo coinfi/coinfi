@@ -3,6 +3,7 @@ import Icon from '../Icon'
 import CoinDrawer from './CoinDrawer'
 import SectionHeader from './SectionHeader'
 import FilterPanel from '../FilterPanel'
+import FilterTags from '../FilterTags'
 
 const NewsListHeader = (props) => {
   const { toggleUI, currentUI, coins, feedSources, activeFilters } = props
@@ -21,6 +22,12 @@ const NewsListHeader = (props) => {
             Filters
           </button>
         </div>
+      </SectionHeader>
+      <SectionHeader>
+        <div>
+          <FilterTags {...props} />
+        </div>
+        <div />
       </SectionHeader>
       {currentUI('filters') && (
         <FilterPanel
