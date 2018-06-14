@@ -112,15 +112,18 @@ function* newsitemParams() {
 }
 
 function* onScrollingToBottom(action) {
+  const endFetchingMoreEntityList = yield select(selectors.endFetchingMoreEntityList)
+  if (endFetchingMoreEntityList) return
+
   const params = yield newsitemParams()
   const newsItems = yield select(selectors.newsItems)
 
+  if (newsItems.length) {
+    params.publishedUntil = newsItems[newsItems.length - 1].get('feed_item_published_at')
+  }
   yield put(
     actions.fetchMoreEntityList('newsItems', {
-      params: {
-        ...params,
-        publishedUntil: newsItems[newsItems.length - 1].get('feed_item_published_at')
-      },
+      params,
       url: 'news_items'
     })
   )

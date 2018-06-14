@@ -20,17 +20,30 @@ class NewsList extends Component {
     this.mountOnScrollHandler()
   }
 
+  componentDidUpdate() {
+    if (!window.isMobile && !window.isTablet) {
+      const $newsFeed = $('#news-feed')
+      const timer = setInterval(() => {
+        if ($newsFeed.height() < $newsFeed.find('> div').get(0).clientHeight) {
+          clearInterval(timer)
+        } else {
+          this.props.scrollBottomToReducer(true)
+        }
+      }, 1000)
+    }
+  }
+
   componentWillUnmount() {
     this.unmountOnScrollHandler()
   }
 
   mountOnScrollHandler() {
     if (window.isMobile || window.isTablet) {
-      const throttled = _.throttle(this.props.onScrollNewsFeedMobile, 1000);
-      $(window).scroll(throttled);
+      const throttled = _.throttle(this.props.onScrollNewsFeedMobile, 1000)
+      $(window).scroll(throttled)
     } else {
-      const throttled = _.throttle(this.props.onScrollNewsFeedDesktop, 1000);
-      $('#news-feed').scroll(throttled);
+      const throttled = _.throttle(this.props.onScrollNewsFeedDesktop, 1000)
+      $('#news-feed').scroll(throttled)
     }
   }
 

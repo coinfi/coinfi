@@ -4,7 +4,7 @@ import { namespace, filterList } from './constants'
 const initialState = {}
 
 const newsfeedReducer = (state, action) => {
-  const { type, entityType } = action
+  const { type } = action
 
   switch (type) {
     case 'FETCH_MORE_ENTITY_LIST':

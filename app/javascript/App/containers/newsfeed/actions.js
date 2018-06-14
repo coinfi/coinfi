@@ -32,6 +32,7 @@ const onScrollNewsFeedDesktop = (e) => {
 export default {
   ...entityActions,
   ...filterActions,
+  scrollBottomToReducer,
   onScrollNewsFeedMobile,
   onScrollNewsFeedDesktop
 }

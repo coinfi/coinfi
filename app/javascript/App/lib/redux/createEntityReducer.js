@@ -33,6 +33,7 @@ const createEntityReducer = (namespace) => (state = initialState, action) => {
       entityLists = state.get('entityList').mergeDeep(normalized.entities)
       return state
         .set('entityList', entityLists)
+        .set('endFetchingMoreEntityList', !response.length)
         .setIn(['entityIDs', entityType], normalized.result)
         .setIn(['loadingEntities', entityType], false)
     case 'SET_ENTITY_LIST_UPDATES':
@@ -49,6 +50,7 @@ const createEntityReducer = (namespace) => (state = initialState, action) => {
       console.log(normalized.result)
       return state
         .set('entityList', entityLists)
+        .set('endFetchingMoreEntityList', !response.length)
         .setIn(['entityIDs', entityType], ids)
     case 'SET_ACTIVE_ENTITY':
       return state.set('activeEntity', payload)
