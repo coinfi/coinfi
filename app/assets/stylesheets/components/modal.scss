@@ -12,10 +12,13 @@
     max-width: 60rem;
     align-self: center;
     justify-self: center;
+    overflow-wrap: break-word;
   }
-  a {
-    max-width: 320px;
-    display: block;
+}
+@media #{$screen-max-m} {
+  .modal {
+    > div {
+      max-width: 100vw;
+    }
   }
-
 }
