@@ -56,7 +56,7 @@ function* pollNewsItems(action) {
     const newsItems = yield select(selectors.newsItems)
     const params = yield newsitemParams()
     if (newsItems[0])
-      params.publishedSince = newsItems[newsItems.length].get(
+      params.publishedSince = newsItems[0].get(
         'feed_item_published_at'
       )
     yield put(
@@ -119,7 +119,7 @@ function* onScrollingToBottom(action) {
     actions.fetchMoreEntityList('newsItems', {
       params: {
         ...params,
-        publishedUntil: newsItems[0].get('feed_item_published_at')
+        publishedUntil: newsItems[newsItems.length - 1].get('feed_item_published_at')
       },
       url: 'news_items'
     })

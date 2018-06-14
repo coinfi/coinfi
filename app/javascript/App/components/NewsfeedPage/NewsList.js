@@ -8,7 +8,6 @@ class NewsList extends Component {
 
   constructor(props) {
     super(props)
-    this.sortedNewsItems = this.sortedNewsItems.bind(this)
     this.mountOnScrollHandler = this.mountOnScrollHandler.bind(this)
     this.unmountOnScrollHandler = this.unmountOnScrollHandler.bind(this)
   }
@@ -40,12 +39,6 @@ class NewsList extends Component {
     $('#news-feed').off('scroll', this.props.onScrollNewsFeedDesktop)
   }
 
-  sortedNewsItems() {
-    return this.props.newsItems.sort((y, x) => {
-      return x.get('id') - y.get('id')
-    })
-  }
-
   render() {
     const { isLoading } = this.props
     const isMobile = window.isMobile
@@ -59,7 +52,7 @@ class NewsList extends Component {
         <div id="news-feed"
           className={'flex-auto relative overflow-y-' + (isMobile ? 'hidden' : 'auto')}>
           <div>
-            {this.sortedNewsItems().map((newsItem) => (
+            {this.props.newsItems.map((newsItem) => (
               <NewsListItemAnimated
                 key={newsItem.get('id')}
                 {...this.props}
