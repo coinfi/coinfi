@@ -40,7 +40,7 @@ class CoinDrawerList extends Component {
     return (
       <Swipeable onSwipingLeft={this.onSwipeLeft}>
         <div
-          className="drawer"
+          className="drawer flex flex-column"
           style={{ transform: `translateX(${this.props.translateX})` }}
         >
           <CoinList {...this.props} />
