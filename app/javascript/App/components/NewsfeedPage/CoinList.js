@@ -5,14 +5,14 @@ import LoadingIndicator from '../LoadingIndicator'
 import coinSearchProvider from '../../containers/coinSearch'
 
 class CoinList extends Component {
-  onClickCoin = (coin) =>
+  setActiveCoin = (coin) =>
     this.props.setActiveEntity({
       type: 'coin',
       id: coin.get('id'),
       label: coin.get('name')
     })
-  onClickNewCoin = (coin) => {
-    this.onClickCoin(coin)
+  newCoinHandler = (coin) => {
+    this.setActiveCoin(coin)
     this.props.toggleUI('coinSearch')
     this.props.clearSearch()
   }
@@ -35,8 +35,8 @@ class CoinList extends Component {
                 {searchedCoins.map((coin, key) => (
                   <CoinListItem
                     {...{ coin, key, ...this.props }}
-                    onClick={this.onClickNewCoin}
-                    onWatch={this.onClickNewCoin}
+                    onClick={this.newCoinHandler}
+                    onWatch={this.newCoinHandler}
                   />
                 ))}
               </div>
@@ -46,7 +46,7 @@ class CoinList extends Component {
               key={index}
               coin={coin}
               {...this.props}
-              onClick={this.onClickCoin}
+              onClick={this.setActiveCoin}
             />
           ))}
         </div>
