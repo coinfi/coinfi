@@ -23,12 +23,11 @@ const NewsListHeader = (props) => {
           </button>
         </div>
       </SectionHeader>
-      <SectionHeader>
-        <div>
+      {activeFilters.size > 0 && (
+        <div className="pa3 bb b--light-gray">
           <FilterTags {...props} />
         </div>
-        <div />
-      </SectionHeader>
+      )}
       {currentUI('filters') && (
         <FilterPanel
           {...props}

@@ -45,6 +45,7 @@ const FilterButton = (props) => {
 
 export const FilterButtonLabel = ({ filter }) => {
   const { value, label } = filter.toObject()
+  if (!label) return ''
   if (value instanceof Immutable.List)
     if (value.size === 1) return singularize(label)
   return label || ''

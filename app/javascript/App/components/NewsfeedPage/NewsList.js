@@ -14,10 +14,10 @@ class NewsList extends Component {
     const itemHeight = this.state.initialRender ? 'auto' : 0
     return (
       <Fragment>
-        {isLoading('newsItems') && (
-          <LoadingIndicator className="overlay bg-white-70" />
-        )}
         <div className="flex-auto overflow-y-auto relative">
+          {isLoading('newsItems') && (
+            <LoadingIndicator className="overlay bg-white-70" />
+          )}
           {newsItems.map((newsItem) => (
             <NewsListItemAnimated
               key={newsItem.get('id')}
