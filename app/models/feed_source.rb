@@ -11,8 +11,8 @@ class FeedSource < ApplicationRecord
 
   scope :active, -> { where(is_active: true) }
 
-  def self.types
-    pluck(:feed_type).uniq.compact.reject { |t| t.length < 1 }
+  def self.feed_types
+    pluck(:feed_type).uniq
   end
 
   def retrieve(before: nil)
