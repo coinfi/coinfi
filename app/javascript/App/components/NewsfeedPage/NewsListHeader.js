@@ -1,6 +1,5 @@
 import React, { Fragment } from 'react'
 import Icon from '../Icon'
-import CoinDrawer from './CoinDrawer'
 import SectionHeader from './SectionHeader'
 import FilterPanel from '../FilterPanel'
 
@@ -12,7 +11,15 @@ const NewsListHeader = (props) => {
     <Fragment>
       <SectionHeader>
         <div>
-          <CoinDrawer {...props} />
+          {!window.isDesktop && (
+            <button
+              className="btn btn-blue btn-xs"
+              onClick={() => toggleUI('coinListDrawer')}
+            >
+              <Icon name="list" className="mr2" />
+              Coin list
+            </button>
+          )}
         </div>
         <div className="flex items-center">
           <span className="aqua fw6 pr2">{activeFilters.size}</span>

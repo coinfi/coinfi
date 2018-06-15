@@ -9,6 +9,12 @@ class NewsList extends Component {
       this.setState({ initialRender: false })
     }, 6000)
   }
+  setActiveNewsItem = (newsItem) => {
+    const { setActiveEntity, toggleUI } = this.props
+    setActiveEntity({ type: 'newsItem', id: newsItem.get('id') })
+    if (window.isMobile)
+      toggleUI('bodySectionDrawer', { toggleBodyScroll: window.isMobile })
+  }
   render() {
     const { newsItems, isLoading } = this.props
     const itemHeight = this.state.initialRender ? 'auto' : 0
@@ -24,6 +30,7 @@ class NewsList extends Component {
               {...this.props}
               newsItem={newsItem}
               height={itemHeight}
+              setActiveNewsItem={this.setActiveNewsItem}
             />
           ))}
         </div>

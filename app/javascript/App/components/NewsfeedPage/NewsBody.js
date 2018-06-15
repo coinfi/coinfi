@@ -4,19 +4,13 @@ import sanitizeHtml from 'sanitize-html'
 import _ from 'lodash'
 import { stringHostname } from '../../lib/urlHelpers'
 import NewsCoinTags from './NewsCoinTags'
-import Icon from '../Icon'
 
 export default class NewsBody extends Component {
-  closeModal = (toggleUI) => {
-    toggleUI('newsfeedModal', { toggleBodyScroll: window.isMobile })
-  }
   render() {
     const {
       selectNewsItemFromList,
       activeEntity,
-      selectNewsCategories,
-      mobileLayout,
-      toggleUI
+      selectNewsCategories
     } = this.props
     const { id } = activeEntity
     const newsItem = selectNewsItemFromList(id)
@@ -25,14 +19,9 @@ export default class NewsBody extends Component {
     const content =
       _.trim(newsItem.get('content')) || _.trim(newsItem.get('summary'))
     return (
-      <div className="pa4 bg-white min-h-100" style={mobileLayout ? { background: '#fff' } : {}}>
-        <Icon
-          name="times"
-          className="fr"
-          onClick={this.closeModal.bind(this, toggleUI)}
-        />
+      <div className="pa4 bg-white min-h-100">
         <NewsCoinTags newsItem={newsItem} />
-        <h1 style={{ wordBreak:'break-word' }}>{newsItem.get('title')}</h1>
+        <h1 style={{ wordBreak: 'break-word' }}>{newsItem.get('title')}</h1>
         <div className="mb3">
           <span className="mr3">
             {timeago().format(newsItem.get('published_date'))}
