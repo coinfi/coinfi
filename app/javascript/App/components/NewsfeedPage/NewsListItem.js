@@ -5,7 +5,7 @@ import NewsCoinTags from './NewsCoinTags'
 
 const NewsListItem = (props) => {
   const { activeEntity, newsItem, setActiveNewsItem, preRender } = props
-  let className = 'bb b--light-gray tiber overflow-hidden'
+  let className = 'b--b tiber overflow-hidden'
   if (activeEntity) {
     const { type, id } = activeEntity
     if (type === 'newsItem' && id === newsItem.get('id'))

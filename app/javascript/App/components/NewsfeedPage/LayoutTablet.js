@@ -9,11 +9,11 @@ export default function(props) {
     <Fragment>
       <div className="bg-white flex flex-column flex-auto">
         <div className="row no-gutter flex-auto">
-          <div className="col-xs-6 bl b--light-gray relative">
+          <div className="col-xs-6 b--l relative flex flex-column">
             <NewsListHeader {...props} />
             <NewsList {...props} />
           </div>
-          <div className="col-xs-6 bl b--light-gray relative">
+          <div className="col-xs-6 b--l relative overflow-y-auto">
             <BodySection {...props} />
           </div>
         </div>

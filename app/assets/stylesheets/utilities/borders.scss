@@ -1,0 +1,20 @@
+// Tachyons borders are nice, but lengthy (eg. bb b--light-gray)
+// Here I'm making some more concise defaults.
+.b--b,
+.b--t,
+.b--r,
+.b--l {
+  border-color: $athens-dark;
+}
+.b--b {
+  @extend .bb;
+}
+.b--t {
+  @extend .bb;
+}
+.b--r {
+  @extend .br;
+}
+.b--l {
+  @extend .bl;
+}

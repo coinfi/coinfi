@@ -19,7 +19,6 @@ const Drawer = (props) => {
     default:
       break
   }
-  console.log(uiKey, currentUI(uiKey))
   return (
     <Animate
       show={!!currentUI(uiKey)}
@@ -40,8 +39,14 @@ const Drawer = (props) => {
 
 class DrawerContent extends Component {
   handleClose = () => {
-    const { toggleUI, uiKey } = this.props
-    toggleUI(uiKey)
+    const { toggleUI, uiKey, position } = this.props
+    if (position === 'bottom') {
+      if (this.drawer.scrollTop === 0) {
+        toggleUI(uiKey)
+      }
+    } else {
+      toggleUI(uiKey)
+    }
   }
   render() {
     const { className, children, position } = this.props
@@ -65,6 +70,7 @@ class DrawerContent extends Component {
         <div
           className={`drawer${className ? ` ${className}` : ''}`}
           style={style}
+          ref={(ref) => (this.drawer = ref)}
         >
           {children}
         </div>

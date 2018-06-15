@@ -10,9 +10,16 @@ const BodySectionDrawer = (props) => {
     })
   }
   return (
-    <Drawer uiKey="bodySectionDrawer" {...props} position="bottom">
-      <div className="absolute top-0 left-0 bottom-0 right-0 bg-white">
-        <Icon name="times" className="fr" onClick={closeDrawer} />
+    <Drawer
+      uiKey="bodySectionDrawer"
+      {...props}
+      position="bottom"
+      className="overflow-y-auto flex flex-column"
+    >
+      <div className="flex-none pv4 tc" onClick={closeDrawer}>
+        <Icon name="times" className="f4 slate" regular />
+      </div>
+      <div className="flex-auto bg-white relative">
         <BodySection {...props} />
       </div>
     </Drawer>
