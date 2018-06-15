@@ -29,9 +29,30 @@ export default class WatchButton extends Component {
   }
   render() {
     const { watching } = this.state
-    let btnClass = 'btn btn-xs'
-    if (watching) btnClass += ' btn-blue'
-    if (!watching) btnClass += ' btn-gray'
+    let btnClass = 'btn'
+    if (!watching) btnClass += ' btn-blue'
+    if (watching) btnClass += ' btn-gray'
+
+    if (this.props.coinDetail) {
+      return (
+        <div className="dib tooltipped" style={{width: '100%', marginTop: 50}}>
+          {!this.userIsLoggedIn && <div className="tooltip">Login to watch</div>}
+          <button onClick={this.handleClick} className={btnClass} style={{width:'100%', textTransform:'none', padding:15}}>
+            {watching ? (
+              <span>
+                <Icon name="star" solid className="mr1" />
+                Watching coin
+              </span>
+            ) : (
+              <span>
+                <Icon name="star" regular className="mr1" />
+                Watch coin
+              </span>
+            )}
+          </button>
+        </div>
+      )
+    }
     return (
       <div className="dib tooltipped">
         {!this.userIsLoggedIn && <div className="tooltip">Login to watch</div>}
