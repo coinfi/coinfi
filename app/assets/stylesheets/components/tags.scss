@@ -1,5 +1,6 @@
 .tag,
-.tag-alt {
+.tag-alt,
+.tag-alt2 {
   display: inline-block;
   padding: $sp1;
   color: $aqua;
@@ -18,4 +19,12 @@
   background-color: $near-white;
   font-weight: normal;
   padding: $sp2;
+}
+.tag-alt2 {
+  color: $gray;
+  border: 1px solid $moon-gray;
+  background-color: $white;
+  font-weight: 600;
+  padding: $sp2 0.75rem;
+  text-transform: none;
 }
