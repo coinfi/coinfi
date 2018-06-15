@@ -2,7 +2,7 @@ import React from 'react'
 import Icon from '../Icon'
 
 const Layout = (props) => {
-  const { toggleUI, children, applyFilters, resetFilters } = props
+  const { disableUI, children, applyFilters, resetFilters } = props
   let containerClass = 'modal bg-athens'
   if (!window.isMobile)
     containerClass = 'overlay z-999 bg-athens overflow-y-auto'
@@ -19,7 +19,7 @@ const Layout = (props) => {
         <div>
           <button
             className="btn btn-white btn-xs"
-            onClick={() => toggleUI('filters', { fullScreen: window.isMobile })}
+            onClick={() => disableUI('filterPanel')}
           >
             <Icon name="times" regular className="mr2" />
             Cancel

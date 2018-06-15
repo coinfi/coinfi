@@ -13,7 +13,7 @@ import FilterComponent from './FilterComponent'
 import buttonLabels from './filterButtonLabels'
 import { singularize } from '../../lib/misc'
 
-export default (props) => {
+const FilterButton = (props) => {
   const { filter, toggleUI, currentUI, removeFilter } = props
   const uiKey = 'editFilter'
   return (
@@ -43,14 +43,15 @@ export default (props) => {
   )
 }
 
-const FilterButtonLabel = ({ filter }) => {
+export const FilterButtonLabel = ({ filter }) => {
   const { value, label } = filter.toObject()
+  if (!label) return ''
   if (value instanceof Immutable.List)
     if (value.size === 1) return singularize(label)
-  return label
+  return label || ''
 }
 
-const FilterButtonValue = ({ filter }) => {
+export const FilterButtonValue = ({ filter }) => {
   const { value, key } = filter.toObject()
   const Component = buttonLabels[key]
   if (Component) return <Component value={value} />
@@ -69,3 +70,5 @@ const FilterButtonValue = ({ filter }) => {
   if ([true, false].includes(value)) return value ? 'True' : 'False'
   return value
 }
+
+export default FilterButton

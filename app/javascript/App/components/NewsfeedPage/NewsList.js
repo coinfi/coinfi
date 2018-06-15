@@ -12,17 +12,17 @@ class NewsList extends Component {
   setActiveNewsItem = (newsItem) => {
     const { setActiveEntity, toggleUI } = this.props
     setActiveEntity({ type: 'newsItem', id: newsItem.get('id') })
-    if (window.isMobile) toggleUI('bodySectionDrawer', { fullScreen: true })
+    if (window.isMobile) toggleUI('bodySectionDrawer')
   }
   render() {
     const { newsItems, isLoading } = this.props
     const itemHeight = this.state.initialRender ? 'auto' : 0
     return (
       <Fragment>
-        {isLoading('newsItems') && (
-          <LoadingIndicator className="overlay bg-white-70" />
-        )}
         <div className="flex-auto overflow-y-auto relative">
+          {isLoading('newsItems') && (
+            <LoadingIndicator className="overlay bg-white-70" />
+          )}
           {newsItems.map((newsItem) => (
             <NewsListItemAnimated
               key={newsItem.get('id')}

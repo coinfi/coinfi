@@ -2,11 +2,12 @@ import React, { Fragment } from 'react'
 import Icon from '../Icon'
 import SectionHeader from './SectionHeader'
 import FilterPanel from '../FilterPanel'
+import FilterTags from '../FilterTags'
 
 const NewsListHeader = (props) => {
   const { enableUI, currentUI, coins, feedSources, activeFilters } = props
   const toggleFilters = () =>
-    enableUI('filters', { fullScreen: window.isMobile })
+    enableUI('filterPanel', { fullScreen: window.isMobile })
   return (
     <Fragment>
       <SectionHeader>
@@ -29,12 +30,13 @@ const NewsListHeader = (props) => {
           </button>
         </div>
       </SectionHeader>
-      {currentUI('filters') && (
-        <FilterPanel
-          {...props}
-          filterData={{ coins, feedSources }}
-          onChange={toggleFilters}
-        />
+      {activeFilters.size > 0 && (
+        <div className="pa3 b--b">
+          <FilterTags {...props} />
+        </div>
+      )}
+      {currentUI('filterPanel') && (
+        <FilterPanel {...props} filterData={{ coins, feedSources }} />
       )}
     </Fragment>
   )

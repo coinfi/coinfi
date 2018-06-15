@@ -18,9 +18,9 @@ class FilterPanel extends Component {
     this.setState({ filters })
   }
   applyFilters = () => {
-    const { setFilters, onChange } = this.props
+    const { setFilters, disableUI } = this.props
     setFilters(this.state.filters)
-    if (onChange) onChange()
+    disableUI('filterPanel')
   }
   resetFilters = () => {
     this.setState({ filters: {} })
