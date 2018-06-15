@@ -38,11 +38,14 @@ const Drawer = (props) => {
 }
 
 class DrawerContent extends Component {
+  state = { swipeAttempts: 0 }
   handleClose = () => {
     const { toggleUI, uiKey, position } = this.props
     if (position === 'bottom') {
       if (this.drawer.scrollTop === 0) {
-        toggleUI(uiKey)
+        const { swipeAttempts } = this.state
+        this.setState({ swipeAttempts: swipeAttempts + 1 })
+        if (swipeAttempts === 2) toggleUI(uiKey)
       }
     } else {
       toggleUI(uiKey)

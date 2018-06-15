@@ -6,15 +6,14 @@ import coinSearchProvider from '../../containers/coinSearch'
 
 class CoinList extends Component {
   setActiveCoin = (coin) => {
-    const { setActiveEntity, toggleUI } = this.props
+    const { setActiveEntity, disableUI, enableUI } = this.props
     setActiveEntity({
       type: 'coin',
       id: coin.get('id'),
       label: coin.get('name')
     })
-    if (!window.isDesktop) toggleUI('coinListDrawer')
-    if (window.isMobile)
-      toggleUI('bodySectionDrawer', { toggleBodyScroll: window.isMobile })
+    if (!window.isDesktop) disableUI('coinListDrawer')
+    if (window.isMobile) enableUI('bodySectionDrawer', { fullScreen: true })
   }
   newCoinHandler = (coin) => {
     this.setActiveCoin(coin)

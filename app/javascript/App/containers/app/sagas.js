@@ -14,15 +14,18 @@ export default function* watcher() {
   yield all(sagas.map((saga) => fork(saga)))
   yield takeLatest('FETCH_USER', fetchUser)
   yield takeLatest('UPDATE_USER', updateUser)
-  yield takeLatest('TOGGLE_UI', toggleBodyScroll)
+  yield takeLatest('TOGGLE_UI', handleFullScreen)
+  yield takeLatest('ENABLE_UI', handleFullScreen)
+  yield takeLatest('DISABLE_UI', handleFullScreen)
 }
 
-function* toggleBodyScroll({ keyPath, opts }) {
-  if (!opts.toggleBodyScroll) return
-  let className = ''
+function* handleFullScreen({ type, keyPath, opts }) {
   const currentUI = yield select(selectors.currentUI)
-  if (currentUI(keyPath)) className = 'overflow-hidden'
-  document.body.className = className
+  if (type === 'DISABLE_UI' || !currentUI(keyPath)) {
+    document.body.className = ''
+    return
+  }
+  if (opts.fullScreen) document.body.className = 'overflow-hidden'
 }
 
 function* fetchUser() {

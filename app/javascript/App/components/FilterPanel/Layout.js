@@ -19,9 +19,7 @@ const Layout = (props) => {
         <div>
           <button
             className="btn btn-white btn-xs"
-            onClick={() =>
-              toggleUI('filters', { toggleBodyScroll: window.isMobile })
-            }
+            onClick={() => toggleUI('filters', { fullScreen: window.isMobile })}
           >
             <Icon name="times" regular className="mr2" />
             Cancel

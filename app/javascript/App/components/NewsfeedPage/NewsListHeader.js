@@ -4,9 +4,9 @@ import SectionHeader from './SectionHeader'
 import FilterPanel from '../FilterPanel'
 
 const NewsListHeader = (props) => {
-  const { toggleUI, currentUI, coins, feedSources, activeFilters } = props
+  const { enableUI, currentUI, coins, feedSources, activeFilters } = props
   const toggleFilters = () =>
-    toggleUI('filters', { toggleBodyScroll: window.isMobile })
+    enableUI('filters', { fullScreen: window.isMobile })
   return (
     <Fragment>
       <SectionHeader>
@@ -14,7 +14,7 @@ const NewsListHeader = (props) => {
           {!window.isDesktop && (
             <button
               className="btn btn-blue btn-xs"
-              onClick={() => toggleUI('coinListDrawer')}
+              onClick={() => enableUI('coinListDrawer', { fullScreen: true })}
             >
               <Icon name="list" className="mr2" />
               Coin list

@@ -12,8 +12,7 @@ class NewsList extends Component {
   setActiveNewsItem = (newsItem) => {
     const { setActiveEntity, toggleUI } = this.props
     setActiveEntity({ type: 'newsItem', id: newsItem.get('id') })
-    if (window.isMobile)
-      toggleUI('bodySectionDrawer', { toggleBodyScroll: window.isMobile })
+    if (window.isMobile) toggleUI('bodySectionDrawer', { fullScreen: true })
   }
   render() {
     const { newsItems, isLoading } = this.props
