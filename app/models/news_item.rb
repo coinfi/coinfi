@@ -14,6 +14,9 @@ class NewsItem < ApplicationRecord
   scope :tagged, -> { where(is_human_tagged: true) }
 
   alias_method :categories, :news_categories
+
+  after_create :notify_news_tagger
+
   def coin_link_data
     coins.map{ |c| c.as_json(only: [:symbol, :slug] ) }
   end
@@ -28,5 +31,13 @@ class NewsItem < ApplicationRecord
 
   def feed_source_name
     feed_source.name
+  end
+
+  def notify_news_tagger
+    news_tagger_endpoint = ENV.fetch('NEWS_TAGGER_ENDPOINT')
+    return unless news_tagger_endpoint.present?
+
+    auth = {username: ENV.fetch('NEWS_TAGGER_BASIC_AUTH_USERNAME'), password: ENV.fetch('NEWS_TAGGER_BASIC_AUTH_PASSWORD')}
+    HTTParty.post "#{news_tagger_endpoint}/#{self.id}/assign_coins", basic_auth: auth
   end
 end
