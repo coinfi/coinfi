@@ -33,8 +33,8 @@ It renders the `_table` partial to display details about the resources.
   </h1>
 
   <div>
-    <%= link_to "Pending", pending_admin_news_items_path, class: "button" %>
-    <%= link_to "Tagged", tagged_admin_news_items_path, class: "button" %>
+    <%= link_to "Pending", admin_news_items_path(scope: :pending), class: "tab button #{'active' if @scope == 'pending' }" %>
+    <%= link_to "Tagged", admin_news_items_path(scope: :tagged), class: "tab button #{'active' if @scope == 'tagged' }" %>
   </div>
 
   <% if show_search_bar %>
