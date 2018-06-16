@@ -5,12 +5,16 @@ import LoadingIndicator from '../LoadingIndicator'
 import coinSearchProvider from '../../containers/coinSearch'
 
 class CoinList extends Component {
-  setActiveCoin = (coin) =>
-    this.props.setActiveEntity({
+  setActiveCoin = (coin) => {
+    const { setActiveEntity, disableUI, enableUI } = this.props
+    setActiveEntity({
       type: 'coin',
       id: coin.get('id'),
       label: coin.get('name')
     })
+    if (!window.isDesktop) disableUI('coinListDrawer')
+    if (window.isMobile) enableUI('bodySectionDrawer', { fullScreen: true })
+  }
   newCoinHandler = (coin) => {
     this.setActiveCoin(coin)
     this.props.toggleUI('coinSearch')
@@ -31,7 +35,7 @@ class CoinList extends Component {
           )}
           {currentUI('coinSearch') &&
             searchedCoins.size > 0 && (
-              <div className="bb bw2 b--light-gray">
+              <div className="b--b bw2">
                 {searchedCoins.map((coin, key) => (
                   <CoinListItem
                     {...{ coin, key, ...this.props }}

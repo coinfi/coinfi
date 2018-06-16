@@ -5,7 +5,7 @@ import WatchButton from './WatchButton'
 
 export default (props) => {
   const { coin, onClick, isActiveEntity } = props
-  let klass = 'pa3 bb b--light-gray flex items-center pointer'
+  let klass = 'pa3 b--b flex items-center pointer'
   if (isActiveEntity({ type: 'coin', id: coin.get('id') })) klass += ' bg-foam'
   return (
     <div className={klass}>

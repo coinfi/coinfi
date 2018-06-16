@@ -66,6 +66,7 @@ const setScreenSize = () => {
   window.screenSize = getScreenSize()
   window.isMobile = !['m', 'l'].includes(window.screenSize)
   window.isTablet = window.screenSize === 'm'
+  window.isDesktop = window.screenSize === 'l'
 }
 
 document.addEventListener('DOMContentLoaded', () => {
