@@ -31,7 +31,8 @@ const NewsListHeader = (props) => {
         </div>
       </SectionHeader>
       {activeFilters.size > 0 && (
-        <div className="pa3 b--b">
+        <div className="pa3 b--b bg-athens">
+          <div className="f6 mb1" style={{lineHeight: 1.33}}>Currently viewing by:</div>
           <FilterTags {...props} />
         </div>
       )}
