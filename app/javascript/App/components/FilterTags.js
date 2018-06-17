@@ -7,17 +7,22 @@ const FilterTags = (props) => {
   return (
     <div>
       {activeFilters.map((filter, i) => (
-        <button
+        <div
           key={i}
           className="tag-alt2"
-          onClick={() => removeFilter(filter.get('key'))}
+          style={{padding:'0 .25rem 0 .25rem'}}
         >
           <FilterButtonLabel filter={filter} />
           <span className="ml2 aqua">
             <FilterButtonValue filter={filter} />
           </span>
-          <Icon name="times" regular className="ml2" />
-        </button>
+          <Icon
+            name="times"
+            regular
+            className="ml2 pa2-ns"
+            onClick={() => removeFilter(filter.get('key'))}
+          />
+        </div>
       ))}
     </div>
   )
