@@ -23,6 +23,18 @@ class NewsList extends Component {
           {isLoading('newsItems') && (
             <LoadingIndicator className="overlay bg-white-70" />
           )}
+          {!newsItems.length && (
+            <div className="pa3 tc mt4">
+              <div className="pointer">
+                <h4 className="fw6 mv3 f4">No results found</h4>
+              </div>
+              <div className="flex justify-between flex-wrap">
+                <div className="f6 silver center">
+                  <span className="ph2">Try changing your search query or removing some filters</span>
+                </div>
+              </div>
+            </div>
+          )}
           {newsItems.map((newsItem) => (
             <NewsListItemAnimated
               key={newsItem.get('id')}
