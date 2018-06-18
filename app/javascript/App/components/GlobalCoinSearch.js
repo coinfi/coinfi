@@ -28,7 +28,7 @@ class CoinSearch extends Component {
             <Input
               value={searchText}
               onChange={this.handleSearchInput}
-              placeholder="Search"
+              placeholder="Search Coins/ICOs"
               autoFocus
               setRef={(ref) => (this.inputRef = ref)}
             />
