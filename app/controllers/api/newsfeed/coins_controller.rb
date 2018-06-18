@@ -1,7 +1,7 @@
 class Api::Newsfeed::CoinsController < ApiController
 
   def index
-    coin_ids = Coin.order(:ranking).limit(20).pluck(:id)
+    coin_ids = Coin.order(:ranking).limit(20).ids
     if current_user
       coin_ids = (coin_ids + current_user.coin_ids).uniq
     end

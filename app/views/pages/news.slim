@@ -1,2 +1,1 @@
-- feed_sources = FeedSource.where(feed_type: 'general').pluck(:name) + (FeedSource.feed_types - ['general'])
-= react_component "NewsfeedPage", withStore: true, props: { feedSources: feed_sources, categories: NewsCategory.pluck(:name) }
+= react_component "NewsfeedPage", withStore: true, props: { feedSources: FeedSource.types, categories: NewsCategory.pluck(:name) }

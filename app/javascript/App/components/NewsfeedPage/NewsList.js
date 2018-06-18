@@ -8,6 +8,7 @@ class NewsList extends Component {
 
   constructor(props) {
     super(props)
+    this.sortedNewsItems = this.sortedNewsItems.bind(this)
     this.mountOnScrollHandler = this.mountOnScrollHandler.bind(this)
     this.unmountOnScrollHandler = this.unmountOnScrollHandler.bind(this)
   }
@@ -20,36 +21,29 @@ class NewsList extends Component {
     this.mountOnScrollHandler()
   }
 
-  componentDidUpdate() {
-    if (!window.isMobile && !window.isTablet) {
-      const $newsFeed = $('#news-feed')
-      const timer = setInterval(() => {
-        if ($newsFeed.height() < $newsFeed.find('> div').get(0).clientHeight) {
-          clearInterval(timer)
-        } else {
-          this.props.scrollBottomToReducer(true)
-        }
-      }, 1000)
-    }
-  }
-
   componentWillUnmount() {
     this.unmountOnScrollHandler()
   }
 
   mountOnScrollHandler() {
     if (window.isMobile || window.isTablet) {
-      const throttled = _.throttle(this.props.onScrollNewsFeedMobile, 1000)
-      $(window).scroll(throttled)
+      const throttled = _.throttle(this.props.onScrollNewsFeedMobile, 1000);
+      $(window).scroll(throttled);
     } else {
-      const throttled = _.throttle(this.props.onScrollNewsFeedDesktop, 1000)
-      $('#news-feed').scroll(throttled)
+      const throttled = _.throttle(this.props.onScrollNewsFeedDesktop, 1000);
+      $('#news-feed').scroll(throttled);
     }
   }
 
   unmountOnScrollHandler() {
     $(window).off('scroll', this.props.onScrollNewsFeedMobile)
     $('#news-feed').off('scroll', this.props.onScrollNewsFeedDesktop)
+  }
+
+  sortedNewsItems() {
+    return this.props.newsItems.sort((y, x) => {
+      return x.get('id') - y.get('id')
+    })
   }
 
   render() {
@@ -65,7 +59,7 @@ class NewsList extends Component {
         <div id="news-feed"
           className={'flex-auto relative overflow-y-' + (isMobile ? 'hidden' : 'auto')}>
           <div>
-            {this.props.newsItems.map((newsItem) => (
+            {this.sortedNewsItems().map((newsItem) => (
               <NewsListItemAnimated
                 key={newsItem.get('id')}
                 {...this.props}

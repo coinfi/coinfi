@@ -24,8 +24,5 @@ export default {
     }
     return coinIDs
   },
-  endFetchingMoreEntityList: (state) => {
-    return state.newsfeed.get('endFetchingMoreEntityList')
-  },
   ...filterSelectors
 }
