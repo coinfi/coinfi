@@ -1,6 +1,7 @@
 .container-wide.ph4-l.pv2
   .row.narrow-gutter.flex
     .col-xs-12.col-md-4.flex.flex-column
+      .mb1= react_component "GlobalCoinSearch", withStore: true
       = render partial: 'header'
       = render partial: 'stats'
       = render partial: 'last_updated'
