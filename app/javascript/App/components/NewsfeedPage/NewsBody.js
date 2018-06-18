@@ -34,7 +34,7 @@ export default class NewsBody extends Component {
           </a>
         </div>
         <div
-          className="lh-copy tj-m"
+          className="lh-copy"
           dangerouslySetInnerHTML={{ __html: sanitizeHtml(content) }}
         />
         {categories.size > 0 && (

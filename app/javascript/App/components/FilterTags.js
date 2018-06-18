@@ -1,5 +1,5 @@
 import React from 'react'
-import { FilterButtonLabel, FilterButtonValue } from './Filters/FilterButton'
+import { FilterButtonValue } from './Filters/FilterButton'
 import Icon from './Icon'
 
 const FilterTags = (props) => {
@@ -12,8 +12,7 @@ const FilterTags = (props) => {
           className="tag-alt2"
           style={{padding:'0 .25rem 0 .25rem'}}
         >
-          <FilterButtonLabel filter={filter} />
-          <span className="ml2 aqua">
+          <span className="ml2">
             <FilterButtonValue filter={filter} />
           </span>
           <Icon
