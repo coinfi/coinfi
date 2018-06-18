@@ -70,7 +70,7 @@ class Coin < ApplicationRecord
 
   def news_data(currency = 'usd')
     # TODO: add caching
-    chart_data = articles.chart_data
+    chart_data = news_items.chart_data
     i = chart_data.length + 1
     chart_data.map { |item|
       i -= 1

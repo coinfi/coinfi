@@ -17,8 +17,7 @@ class CoinsController < ApplicationController
     @coin = Coin.find(params[:id])
     @data = @coin.market_info
     @coin_price = @data["price_usd"] # TODO: Consolidate price and volume from data warehouse and remove from coins table.
-    @latest_news = @coin.articles.latest_news
-    @upcoming_events = @coin.articles.upcoming_events
+    @latest_news = @coin.news_items
 
     if @coin.ico_status == 'listed'
       set_meta_tags(
