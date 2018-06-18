@@ -1,7 +1,7 @@
 <div class="<%= defined?(klass) ? klass : '' %>">
   <% if user_signed_in? %>
-    <%= button_to "Logout", destroy_user_session_path, method: :delete, class: "btn btn-sm btn-red" %>
+    <%= button_to "Logout", destroy_user_session_path, method: :delete, class: "btn btn-xs btn-red mr2" %>
   <% else %>
-    <%= link_to "Login", new_user_session_path, class: "btn btn-sm btn-green" %>
+    <%= link_to "Login", new_user_session_path, class: "btn btn-xs btn-green" %>
   <% end %>
 </div>
