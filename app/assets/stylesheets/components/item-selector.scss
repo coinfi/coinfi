@@ -3,13 +3,32 @@
     margin: 0;
     padding: 0;
     li {
-      display: inline-block;
+      list-style-type: none;
       button {
-        background: $white;
-        border: 1px solid $light-silver;
+        background: none;
+        border: 0;
         padding: 0.4rem 0.8rem;
         color: $light-silver;
         font-size: 0.9rem;
+      }
+    }
+  }
+  div {
+    margin: 0;
+    padding: 0;
+    div {
+      display: inline-block;
+      flex: 1;
+      justify-content: space-between;
+      padding: 1%;
+      max-width: 33%;
+      button {
+        background: $white;
+        border: 1px solid $light-silver;
+        padding: 0.5rem 0.8rem;
+        color: $light-silver;
+        font-size: 0.9rem;
+        width: 100%;
         &.selected {
           border-color: $aqua;
           color: $aqua;

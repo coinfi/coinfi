@@ -10,7 +10,6 @@ const FilterTags = (props) => {
         <div
           key={i}
           className="tag-alt2"
-          style={{padding:'0 .25rem 0 .25rem'}}
         >
           <span className="ml2">
             <FilterButtonValue filter={filter} />
