@@ -32,6 +32,7 @@ class FilterPanel extends Component {
     return (
       <Layout {...{ ...props, applyFilters, resetFilters }}>
         {filterList.map((filter, index) => {
+          if (filter.get('key') === 'coins') return null // Temp fix for hiding coins
           return (
             <FilterComponent
               key={index}
