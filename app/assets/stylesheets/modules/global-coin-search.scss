@@ -3,10 +3,9 @@
   min-width: 200px;
   .search-input {
     color: $elephant;
+    border: solid 1px $light-gray;
+    border-radius: 2px;
     input[type='text'] {
-      border: none;
-      box-shadow: 3px 3px 0 $tiber, -3px 3px 0 $tiber, 3px -3px 0 $tiber,
-        -3px -3px $tiber;
       max-width: none;
       padding: $sp3 $sp3 $sp3 3.5rem;
     }

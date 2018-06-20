@@ -1,5 +1,9 @@
 * {
   outline: none;
+  &::-webkit-scrollbar {
+    -webkit-appearance: none;
+    width: 0px;
+  }
 }
 a,
 a > * {
@@ -23,4 +27,8 @@ body {
       @extend .flex-auto;
     }
   }
+}
+// Default border color
+.bl {
+  border-color: $athens-darker;
 }

@@ -1,4 +1,4 @@
-import { fromJS, List } from 'immutable'
+import { fromJS } from 'immutable'
 import { listIndex } from '../stateHelpers'
 import initialState from './initialState'
 
@@ -9,45 +9,36 @@ const createFilterReducer = ({ namespace, filterList }) => (
   if (namespace !== action.namespace) return state
   const { type, payload } = action
   const filterIndex = (key) => listIndex(state.get('activeFilters'), key)
+  const filterObject = (key, value) =>
+    filterList.find((o) => o.get('key') === key).set('value', fromJS(value))
   const isEmpty = (value) => {
     if (value instanceof Array || typeof value === 'string')
       return value.length === 0
     return false
   }
-  const setFilter = (s, { key, value }) => {
-    if (isEmpty(value)) return s.deleteIn(['activeFilters', filterIndex(key)])
-    filter = filterList
-      .find((o) => o.get('key') === key)
-      .set('value', fromJS(value))
-    return s.setIn(['activeFilters', filterIndex(key)], filter)
+  const removeFilter = (key) =>
+    state.deleteIn(['activeFilters', filterIndex(key)])
+  const setFilter = (state, { key, value }) => {
+    if (isEmpty(value)) return removeFilter(key)
+    return state.setIn(
+      ['activeFilters', filterIndex(key)],
+      filterObject(key, value)
+    )
   }
-  let filter
   switch (type) {
-    case 'RESET_FILTERS':
-      return initialState.set(
-        'activeFilters',
-        List(
-          Object.entries(payload).map(([key, value]) =>
-            filterList
-              .find((o) => o.get('key') === key)
-              .set('value', fromJS(value))
-          )
-        )
-      )
     case 'SET_FILTER':
       return setFilter(state, payload)
     case 'REMOVE_FILTER':
-      return state.deleteIn(['activeFilters', filterIndex(payload.key)])
+      return removeFilter(payload.key)
     case 'SET_FILTERS':
-      const filters = []
-      Object.entries(payload).forEach(([key, value]) => {
+      let filters = fromJS([])
+      Object.entries(payload).forEach(([key, value], index) => {
         if (!isEmpty(value))
-          filters.push({
-            key,
-            value
-          })
+          filters = filters.set(index, filterObject(key, value))
       })
-      return state.set('activeFilters', fromJS(filters))
+      return state.set('activeFilters', filters)
+    case 'RESET_FILTERS':
+      return state.set('activeFilters', fromJS([]))
     default:
       return state
   }

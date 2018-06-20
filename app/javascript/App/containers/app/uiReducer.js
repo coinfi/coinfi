@@ -6,10 +6,11 @@ export default (state = initialState, action) => {
   const { type, keyPath } = action
   let value
   switch (type) {
-    case 'SET_UI':
-      if (typeof keyPath === 'string') {
-        return state.set(keyPath, true)
-      }
+    case 'DISABLE_UI':
+      if (typeof keyPath === 'string') return state.set(keyPath, false)
+      return state.deleteIn(keyPath)
+    case 'ENABLE_UI':
+      if (typeof keyPath === 'string') return state.set(keyPath, true)
       value = keyPath.pop()
       return state.setIn(keyPath, value)
     case 'TOGGLE_UI':

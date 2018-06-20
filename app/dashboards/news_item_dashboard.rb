@@ -27,6 +27,7 @@ class NewsItemDashboard < Administrate::BaseDashboard
     updated_at: Field::DateTime,
     coin_symbols: Field::String,
     news_category_names: Field::String,
+    feed_source_name: Field::String,
   }.freeze
 
   # COLLECTION_ATTRIBUTES
@@ -38,6 +39,7 @@ class NewsItemDashboard < Administrate::BaseDashboard
     :id,
     :coin_symbols,
     :news_category_names,
+    :feed_source_name,
     :user_id,
     :is_human_tagged,
     :title,

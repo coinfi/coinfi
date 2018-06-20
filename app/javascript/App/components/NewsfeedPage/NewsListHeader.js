@@ -1,18 +1,26 @@
 import React, { Fragment } from 'react'
 import Icon from '../Icon'
-import CoinDrawer from './CoinDrawer'
 import SectionHeader from './SectionHeader'
 import FilterPanel from '../FilterPanel'
+import FilterTags from '../FilterTags'
 
 const NewsListHeader = (props) => {
-  const { toggleUI, currentUI, coins, feedSources, activeFilters } = props
+  const { enableUI, currentUI, coins, feedSources, activeFilters } = props
   const toggleFilters = () =>
-    toggleUI('filters', { toggleBodyScroll: window.isMobile })
+    enableUI('filterPanel', { fullScreen: window.isMobile })
   return (
     <Fragment>
       <SectionHeader>
         <div>
-          <CoinDrawer {...props} />
+          {!window.isDesktop && (
+            <button
+              className="btn btn-blue btn-xs"
+              onClick={() => enableUI('coinListDrawer', { fullScreen: true })}
+            >
+              <Icon name="list" className="mr2" />
+              Coin list
+            </button>
+          )}
         </div>
         <div className="flex items-center">
           <span className="aqua fw6 pr2">{activeFilters.size}</span>
@@ -22,12 +30,14 @@ const NewsListHeader = (props) => {
           </button>
         </div>
       </SectionHeader>
-      {currentUI('filters') && (
-        <FilterPanel
-          {...props}
-          filterData={{ coins, feedSources }}
-          onChange={toggleFilters}
-        />
+      {activeFilters.size > 0 && (
+        <div className="pa3 b--b bg-athens">
+          <div className="f6 mb1" style={{lineHeight: 1.33}}>Currently viewing by:</div>
+          <FilterTags {...props} />
+        </div>
+      )}
+      {currentUI('filterPanel') && (
+        <FilterPanel {...props} filterData={{ coins, feedSources }} />
       )}
     </Fragment>
   )
