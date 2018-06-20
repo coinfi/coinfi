@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react'
 import Icon from '../Icon'
 import SectionHeader from './SectionHeader'
+import SearchCoins from './SearchCoins'
 import FilterPanel from '../FilterPanel'
 import FilterTags from '../FilterTags'
 
@@ -21,6 +22,7 @@ const NewsListHeader = (props) => {
               Coin list
             </button>
           )}
+          <SearchCoins {...props} />
         </div>
         <div className="flex items-center">
           <button onClick={toggleFilters} className="btn btn-xs btn-white">
@@ -31,7 +33,9 @@ const NewsListHeader = (props) => {
       </SectionHeader>
       {activeFilters.size > 0 && (
         <div className="pa3 b--b bg-athens">
-          <div className="f6 mb1" style={{lineHeight: 1.33}}>Currently viewing by:</div>
+          <div className="f6 mb1" style={{ lineHeight: 1.33 }}>
+            Currently viewing by:
+          </div>
           <FilterTags {...props} />
         </div>
       )}

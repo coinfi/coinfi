@@ -9,7 +9,6 @@ class Api::NewsItemsController < ApiController
     q = params[:q] || {}
 
     @news_items = NewsItem.all
-
     coin_ids = q[:coinIDs]
     coin_ids = Coin.where(name: q[:coins]).pluck(:id) if q[:coins]
     coin_ids = Coin.top(20).pluck(:id) unless coin_ids

@@ -1,0 +1,41 @@
+.search-field {
+  position: relative;
+  min-width: 200px;
+  ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    background: $white;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    z-index: 2;
+    @extend .shadow-s1;
+    border: 1px solid $light-gray;
+    border-radius: 2px;
+    min-width: 300px;
+    li {
+      display: block;
+      a,
+      button {
+        color: $elephant;
+        display: block;
+        padding: $sp2;
+        width: 100%;
+        border: none;
+        background: transparent;
+        &:hover {
+          background: $elephant;
+          color: white;
+        }
+      }
+      &:not(:last-child) {
+        a,
+        button {
+          border-bottom: 1px solid $light-gray;
+        }
+      }
+    }
+  }
+}

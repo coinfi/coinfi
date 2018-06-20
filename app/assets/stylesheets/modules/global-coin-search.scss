@@ -1,6 +1,5 @@
 #global-coin-search {
-  position: relative;
-  min-width: 200px;
+  @extend .search-field;
   .search-input {
     color: $elephant;
     border: solid 1px $light-gray;
@@ -8,38 +7,6 @@
     input[type='text'] {
       max-width: none;
       padding: $sp3 $sp3 $sp3 3.5rem;
-    }
-  }
-  ul {
-    margin: 0;
-    padding: 0;
-    list-style: none;
-    background: $white;
-    position: absolute;
-    top: 100%;
-    left: 0;
-    right: 0;
-    z-index: 2;
-    @extend .shadow-s1;
-    border: 1px solid $light-gray;
-    border-radius: 2px;
-    min-width: 300px;
-    li {
-      display: block;
-      a {
-        color: $elephant;
-        display: block;
-        padding: $sp2;
-        &:hover {
-          background: $elephant;
-          color: white;
-        }
-      }
-      &:not(:last-child) {
-        a {
-          border-bottom: 1px solid $light-gray;
-        }
-      }
     }
   }
 }
