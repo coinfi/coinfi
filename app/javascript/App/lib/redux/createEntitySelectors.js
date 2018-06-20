@@ -37,7 +37,7 @@ export default (namespace) => {
         if (!ids || !entities) return []
 
         const entitiesArray = ids.map((id) => entities.get(`${id}`))
-        return (callback ? callback(entitiesArray) : entitiesArray)
+        return callback ? callback(entitiesArray) : entitiesArray
       }),
     entityFromList: (entityType) =>
       createSelector(selectState, (state) => (id) =>

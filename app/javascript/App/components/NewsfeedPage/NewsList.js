@@ -60,7 +60,10 @@ class NewsList extends Component {
     const $this = $(e.currentTarget)
     const bufferSpace = $this.height() / 3 + 300
 
-    if ($this.scrollTop() + $this.height() + bufferSpace >= $(document).height()) {
+    if (
+      $this.scrollTop() + $this.height() + bufferSpace >=
+      $(document).height()
+    ) {
       this.props.fetchMoreNewsFeed()
     }
   }
@@ -69,7 +72,10 @@ class NewsList extends Component {
     const $this = $(e.currentTarget)
     const bufferSpace = $this.height() / 3 + 400
 
-    if ($this.scrollTop() + $this.innerHeight() + bufferSpace >= $this[0].scrollHeight) {
+    if (
+      $this.scrollTop() + $this.innerHeight() + bufferSpace >=
+      $this[0].scrollHeight
+    ) {
       this.props.fetchMoreNewsFeed()
     }
   }
@@ -89,8 +95,10 @@ class NewsList extends Component {
         {isLoading('newsItems') && (
           <LoadingIndicator className="overlay bg-white-70" />
         )}
-        <div id="news-feed"
-          className='flex-auto relative overflow-y-hidden overflow-y-auto-m'>
+        <div
+          id="news-feed"
+          className="flex-auto relative overflow-y-hidden overflow-y-auto-m"
+        >
           <div>
             {!sortedNewsItems.length && (
               <div className="pa3 tc mt4">
@@ -99,7 +107,9 @@ class NewsList extends Component {
                 </div>
                 <div className="flex justify-between flex-wrap">
                   <div className="f6 silver center">
-                    <span className="ph2">Try changing your search query or removing some filters</span>
+                    <span className="ph2">
+                      Try changing your search query or removing some filters
+                    </span>
                   </div>
                 </div>
               </div>
@@ -115,9 +125,8 @@ class NewsList extends Component {
             ))}
           </div>
           <div>
-            {!isLoading('newsItems') && isLoading('newsFeed') && (
-              <LoadingIndicator className="bg-white-70" />
-            )}
+            {!isLoading('newsItems') &&
+              isLoading('newsFeed') && <LoadingIndicator />}
           </div>
         </div>
       </Fragment>
