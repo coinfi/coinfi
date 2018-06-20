@@ -6,11 +6,12 @@ class Api::NewsItemsController < ApiController
     q = params[:q] || {}
 
     @news_items = NewsItem.all
-
-    if q[:coinIDs]
-      news_item_ids_for_coin_filter = NewsCoinMention.where(coin_id: q[:coinIDs]).pluck(:news_item_id)
-      @news_items = @news_items.where(id: news_item_ids_for_coin_filter)
-    end
+    
+    coin_ids = q[:coinIDs]
+    coin_ids = Coin.where(name: q[:coins]).pluck(:id) if q[:coins]
+    coin_ids = Coin.top(20).pluck(:id) unless coin_ids
+    news_item_ids_for_coin_filter = NewsCoinMention.where(coin_id: coin_ids).pluck(:news_item_id)
+    @news_items = @news_items.where(id: news_item_ids_for_coin_filter)
 
     category_ids = NewsCategory.where(name: q[:categories]).pluck(:id)
     news_item_ids_for_category_filter = NewsItemCategorization.where(news_category_id: category_ids).pluck(:news_item_id)
