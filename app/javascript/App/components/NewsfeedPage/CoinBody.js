@@ -49,6 +49,7 @@ const CoinBody = (props) => {
         symbol={coin.get('symbol')}
         priceData={coin.get('prices_data').toJS()}
         newsItems={coin.get('news_data').toJS()}
+        tradingViewInvisibility={activeEntity.type == 'coin'}
       />
     </div>
   )
