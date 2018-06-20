@@ -11,7 +11,7 @@ const CoinBody = (props) => {
   if (!coin && isLoading('coin'))
     return <LoadingIndicator className="overlay bg-white-70" />
   return (
-    <div className="pa4">
+    <div className="pa4 bg-white">
       <div className="flex justify-between items-center">
         <a
           href={`/coins/${coin.get('slug')}`}

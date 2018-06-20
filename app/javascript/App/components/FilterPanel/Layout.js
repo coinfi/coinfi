@@ -1,21 +1,25 @@
 import React from 'react'
 import Icon from '../Icon'
 
-const FilterPanel = (props) => {
-  const { toggleUI, children, applyFilters } = props
+const Layout = (props) => {
+  const { disableUI, children, applyFilters, resetFilters } = props
   let containerClass = 'modal bg-athens'
   if (!window.isMobile)
     containerClass = 'overlay z-999 bg-athens overflow-y-auto'
   return (
     <div className={containerClass}>
       <div className="pa3 bb b--geyser flex justify-between items-center">
-        <h3 className="mb0">Filters</h3>
+        <div className="flex items-center">
+          <h3 className="mb0 mr3">Filters</h3>
+          <button className="btn btn-white btn-xs" onClick={resetFilters}>
+            <Icon name="undo" regular className="mr2" />
+            Reset
+          </button>
+        </div>
         <div>
           <button
             className="btn btn-white btn-xs"
-            onClick={() =>
-              toggleUI('filters', { toggleBodyScroll: window.isMobile })
-            }
+            onClick={() => disableUI('filterPanel')}
           >
             <Icon name="times" regular className="mr2" />
             Cancel
@@ -31,4 +35,4 @@ const FilterPanel = (props) => {
   )
 }
 
-export default FilterPanel
+export default Layout

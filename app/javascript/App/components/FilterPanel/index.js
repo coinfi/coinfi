@@ -5,36 +5,41 @@ import FilterComponent from './FilterComponent'
 import { normalizeFilterData } from '../../lib/stateHelpers'
 
 class FilterPanel extends Component {
-  state = {}
+  state = { filters: {} }
   componentWillMount() {
     this.props.activeFilters.forEach((filter) => {
       this.onChange(filter.get('key'))(filter.get('value'))
     })
   }
   onChange = (key) => (value) => {
-    const s = {}
+    const filters = { ...this.state.filters }
     if (value.toJS) value = value.toJS()
-    s[key] = value
-    this.setState(s)
+    filters[key] = value
+    this.setState({ filters })
   }
   applyFilters = () => {
-    const { setFilters, onChange } = this.props
-    setFilters(this.state)
-    if (onChange) onChange()
+    const { setFilters, disableUI } = this.props
+    setFilters(this.state.filters)
+    disableUI('filterPanel')
+  }
+  resetFilters = () => {
+    this.setState({ filters: {} })
   }
   render() {
     const { filterList, filterData, ...props } = this.props
     const pProps = { ...props, filterData: normalizeFilterData(filterData) }
+    const { applyFilters, resetFilters } = this
     return (
-      <Layout applyFilters={this.applyFilters} {...props}>
+      <Layout {...{ ...props, applyFilters, resetFilters }}>
         {filterList.map((filter, index) => {
+          if (filter.get('key') === 'coins') return null // Temp fix for hiding coins
           return (
             <FilterComponent
               key={index}
               {...pProps}
               filter={filter}
               onChange={this.onChange}
-              value={this.state[filter.get('key')]}
+              value={this.state.filters[filter.get('key')]}
             />
           )
         })}

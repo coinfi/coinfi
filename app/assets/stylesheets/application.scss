@@ -32,6 +32,7 @@
 @import 'utilities/aliases';
 @import 'utilities/flex-stack';
 @import 'utilities/fa-svg-with-js';
+@import 'utilities/borders';
 
 @import 'base/general';
 @import 'base/typography';
@@ -62,4 +63,5 @@
 @import 'modules/site-subheader';
 @import 'modules/twitter';
 @import 'modules/global-coin-search';
+@import 'modules/highstock_chart';
 @import 'modules/news-page';

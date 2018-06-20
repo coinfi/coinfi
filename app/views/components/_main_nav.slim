@@ -8,17 +8,9 @@ nav class=("#{defined?(klass) ? klass : ''}")
       = nav_link 'Watchlist', '/watchlist'
     li
       = nav_link 'News', '/news'
-    - if user_signed_in?
-      li
-        a.coming-soon href="#" onclick="alert('Coming soon!')" Portfolio
-      li
-        a.coming-soon href="#" onclick="alert('Coming soon!')" Signals
-      li
-        a.coming-soon href="#" onclick="alert('Coming soon!')" Algos
-    - else
-      li
-        a href="https://blog.coinfi.com" Blog
-      li
-        a href="https://careers.coinfi.com" Careers
-      li
-        = nav_link 'About', '/about'
+    li
+      a href="https://blog.coinfi.com" Blog
+    li
+      a href="https://careers.coinfi.com" Careers
+    li
+      = nav_link 'About', '/about'

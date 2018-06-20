@@ -8,7 +8,9 @@ export const listIndex = (list, value, key = 'key') => {
 export const buildFilterObject = (activeFilters) => {
   if (!activeFilters || activeFilters.size === 0) return {}
   return activeFilters.toJS().reduce((n, o) => {
-    n[o.key] = o.value
+    let { value } = o
+    if (n.key === 'id') value = parseInt(o.value, 10)
+    n[o.key] = value
     return n
   }, {})
 }

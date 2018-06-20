@@ -1,8 +1,9 @@
 - currency = 'usd' # TODO: Allow user to select default currency.
 .container-wide
   .bg-white
-    .pt3.ph3.ph4-ns.pt4-ns.pt5-m.ph5-m
+    .flex.items-center.justify-between.w-100.pt3.ph3.ph4-ns.pt4-ns.pt5-m.ph5-m.w-100
       h1.ma0 Top Cryptocurrency Prices
+      = react_component "GlobalCoinSearch", withStore: true
     .ph4-s.ph5-m.pt4.pt5-m
       table
         thead

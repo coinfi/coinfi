@@ -67,6 +67,9 @@ a {
   .f2-m {
     font-size: $f2;
   }
+  .tj-m {
+    text-align: justify;
+  }
 }
 @media #{$screen-min-l} {
   .f-hero {
@@ -76,7 +79,9 @@ a {
     font-size: $f2;
   }
 }
-
+.break-word {
+  word-break: break-word;
+}
 /*
  * Font weights:
  * 100

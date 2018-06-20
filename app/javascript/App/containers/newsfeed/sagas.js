@@ -14,7 +14,7 @@ export default function* watcher() {
   yield takeLatest('ON_FILTER_INITIALIZE', pollNewsItems)
   yield takeLatest('SET_ENTITY_LIST', onSetCoinList)
   yield takeLatest('SET_ACTIVE_ENTITY', onSetActiveCoin)
-  yield takeLatest('ON_FILTER_CHANGE', fetchNewsItems)
+  yield takeLatest('ON_FILTER_CHANGE', onFilterChange)
   yield takeLatest('TOGGLE_UI', onWatchingOnly)
   yield fork(filterSagas)
   yield fork(entitySagas)
@@ -22,7 +22,10 @@ export default function* watcher() {
 
 function* fetchCoins(action) {
   if (action.namespace !== namespace) return
-  yield put(actions.fetchEntityList('coins', { url: 'newsfeed/coins' }))
+  const opts = { url: 'newsfeed/coins' }
+  let { coinIDs } = action
+  if (coinIDs) opts.params = { coinIDs }
+  yield put(actions.fetchEntityList('coins', opts))
 }
 
 function* onSetCoinList(action) {
@@ -37,6 +40,12 @@ function* onWatchingOnly({ keyPath }) {
   yield fetchNewsItems({ namespace })
 }
 
+function* onFilterChange(action) {
+  yield fetchNewsItems(action)
+  const params = yield newsitemParams()
+  yield activateFilteredCoin(params.coinIDs)
+}
+
 function* fetchNewsItems(action) {
   if (action.namespace !== namespace) return
   const params = yield newsitemParams()
@@ -46,15 +55,16 @@ function* fetchNewsItems(action) {
       url: 'news_items'
     })
   )
-  yield activateFilteredCoin(params.coinIDs)
 }
 
 function* pollNewsItems(action) {
+  if (action.namespace !== namespace) return
   while (true) {
     yield delay(60000)
     const newsItems = yield select(selectors.newsItems)
     const params = yield newsitemParams()
-    if (newsItems[0]) params.updatedSince = newsItems[0].get('updated_at')
+    if (newsItems[0])
+      params.publishedSince = newsItems[0].get('feed_item_published_at')
     yield put(
       actions.fetchEntityListUpdates('newsItems', {
         params,
@@ -67,19 +77,24 @@ function* pollNewsItems(action) {
 function* onSetActiveCoin(action) {
   /* On clicking a coin, this will do fetchEntityDetails for that coin, and set
   the filter. */
+  const {
+    payload: { type, id, label, preventSaga }
+  } = action
   if (action.namespace !== namespace) return
-  const { payload } = action
-  if (payload.type === 'coin') {
-    let { id, label } = payload
-    yield put(actions.fetchEntityDetails('coin', id))
-    if (payload.preventSaga) return
-    yield put(
-      actions.setFilter({
-        key: 'coins',
-        value: [{ id, label }]
-      })
-    )
+  if (type !== 'coin') return
+  yield put(actions.fetchEntityDetails('coin', id))
+  const coinIDs = yield select(selectors.coinIDs)
+  if (!coinIDs.includes(id)) {
+    coinIDs.push(id)
+    yield fetchCoins({ namespace, coinIDs })
   }
+  if (preventSaga) return
+  yield put(
+    actions.setFilter({
+      key: 'coins',
+      value: [{ id, label }]
+    })
+  )
 }
 
 function* activateFilteredCoin(coinIDs) {
