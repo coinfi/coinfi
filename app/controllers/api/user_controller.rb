@@ -4,7 +4,7 @@ class Api::UserController < ApiController
 
   def show
     respond_success(nil) and return unless current_user
-    respond_success(serialized(current_user))
+    respond_success(serialized(current_user)) 
   end
 
   def update

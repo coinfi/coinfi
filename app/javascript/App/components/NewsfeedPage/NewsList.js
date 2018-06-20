@@ -25,8 +25,8 @@ class NewsList extends Component {
   componentDidUpdate() {
     const timer = setInterval(() => {
       if (!window.isMobile && !window.isTablet) {
-        const $newsFeed = $('#news-feed')
-        if ($newsFeed.height() < $newsFeed.find('> div').get(0).clientHeight) {
+        const $newsfeed = $('#newsfeed')
+        if ($newsfeed.height() < $newsfeed.find('> div').get(0).clientHeight) {
           clearInterval(timer)
         } else {
           this.props.fetchMoreNewsFeed()
@@ -47,13 +47,13 @@ class NewsList extends Component {
       $(window).scroll(throttled)
     } else {
       const throttled = _.throttle(this.onScrollNewsFeedDesktop, 500)
-      $('#news-feed').scroll(throttled)
+      $('#newsfeed').scroll(throttled)
     }
   }
 
   unmountOnScrollHandler() {
     $(window).off('scroll', this.onScrollNewsFeedMobile)
-    $('#news-feed').off('scroll', this.onScrollNewsFeedDesktop)
+    $('#newsfeed').off('scroll', this.onScrollNewsFeedDesktop)
   }
 
   onScrollNewsFeedMobile(e) {
@@ -96,7 +96,7 @@ class NewsList extends Component {
           <LoadingIndicator className="overlay bg-white-70" />
         )}
         <div
-          id="news-feed"
+          id="newsfeed"
           className="flex-auto relative overflow-y-hidden overflow-y-auto-m"
         >
           <div>
@@ -126,7 +126,7 @@ class NewsList extends Component {
           </div>
           <div>
             {!isLoading('newsItems') &&
-              isLoading('newsFeed') && <LoadingIndicator />}
+              isLoading('newsfeed') && <LoadingIndicator />}
           </div>
         </div>
       </Fragment>

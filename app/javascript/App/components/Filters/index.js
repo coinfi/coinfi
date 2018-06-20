@@ -1,6 +1,6 @@
 /*
  * Renders a layout based on the screen's breakpoint; note that it doesn't
- * change on resize, only on page refresh.
+ * change on resize, only on page refresh. 
  */
 import React from 'react'
 import DesktopLayout from './DesktopLayout'

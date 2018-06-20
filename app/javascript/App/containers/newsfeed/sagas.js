@@ -97,7 +97,7 @@ function* onScrollingToBottom(action) {
     selectors.endFetchingMoreEntityList
   )
   const isLoading = yield select(selectors.isLoading)
-  if (endFetchingMoreEntityList || isLoading('newsFeed')) return
+  if (endFetchingMoreEntityList || isLoading('newsfeed')) return
 
   const params = yield newsitemParams()
   const sortedNewsItems = yield select(selectors.sortedNewsItems)

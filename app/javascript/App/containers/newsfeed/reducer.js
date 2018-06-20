@@ -3,7 +3,7 @@ import { namespace, filterList } from './constants'
 
 const initialState = {
   loadingEntities: {
-    newsFeed: false
+    newsfeed: false
   }
 }
 
@@ -12,9 +12,10 @@ const newsfeedReducer = (state, action) => {
 
   switch (type) {
     case 'FETCH_MORE_ENTITY_LIST':
-      return state.setIn(['loadingEntities', 'newsFeed'], true)
+      return state.setIn(['loadingEntities', 'newsfeed'], true)
+    case 'INITIALIZE_NEWSFEED_STATE':
     case 'SET_MORE_ENTITY_LIST':
-      return state.setIn(['loadingEntities', 'newsFeed'], false)
+      return state.setIn(['loadingEntities', 'newsfeed'], false)
     default:
       return state
   }

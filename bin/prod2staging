@@ -7,3 +7,4 @@ fi
 echo "Copying production database to Heroku app $APP..."
 heroku pg:backups:capture --app coinfi-eu
 heroku pg:backups:restore $(heroku pg:backups:public-url --app coinfi-eu) DATABASE_URL --app $APP
+

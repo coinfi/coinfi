@@ -15,9 +15,9 @@ class Api::NewsItemsController < ApiController
     category_ids = NewsCategory.where(name: q[:categories]).pluck(:id)
     news_item_ids_for_category_filter = NewsItemCategorization.where(news_category_id: category_ids).pluck(:news_item_id)
     @news_items = @news_items.where(id: news_item_ids_for_category_filter) if news_item_ids_for_category_filter.present?
-
+    
     feed_source_ids = get_feed_source_ids(q[:feedSources])
-    @news_items = @news_items.where(feed_source_id: feed_source_ids) if feed_source_ids.present?
+    @news_items = @news_items.where(feed_source_id: feed_source_ids) if feed_source_ids.present? 
 
     @news_items = @news_items.where('title ILIKE ?', "%#{q[:keywords]}%") if q[:keywords].present?
 

@@ -22,7 +22,7 @@ class Api::CoinsController < ApiController
       only: %i[id name image_url symbol slug price_usd]
     )
   end
-
+  
   def show_serializer(coin)
     coin.as_json(
       only: %i[id name image_url symbol slug price_usd],

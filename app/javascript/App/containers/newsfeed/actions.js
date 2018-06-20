@@ -8,8 +8,13 @@ const fetchMoreNewsFeed = () => {
   return { type: 'FETCH_MORE_NEWS_FEED' }
 }
 
+const initializeNewsfeedState = () => {
+  return { type: 'INITIALIZE_NEWSFEED_STATE' }
+}
+
 export default {
   ...entityActions,
   ...filterActions,
-  fetchMoreNewsFeed
+  fetchMoreNewsFeed,
+  initializeNewsfeedState
 }
