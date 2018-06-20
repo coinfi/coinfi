@@ -12,10 +12,10 @@ const NewsListHeader = (props) => {
   return (
     <Fragment>
       <SectionHeader>
-        <div>
+        <div className="flex-auto flex items-center">
           {!window.isDesktop && (
             <button
-              className="btn btn-blue btn-xs"
+              className="btn btn-blue btn-xs flex-none"
               onClick={() => enableUI('coinListDrawer', { fullScreen: true })}
             >
               <Icon name="list" className="mr2" />
@@ -33,9 +33,7 @@ const NewsListHeader = (props) => {
       </SectionHeader>
       {activeFilters.size > 0 && (
         <div className="pa3 b--b bg-athens">
-          <div className="f6 mb1" style={{ lineHeight: 1.33 }}>
-            Currently viewing by:
-          </div>
+          <div className="f6 mb1">Currently viewing by:</div>
           <FilterTags {...props} />
         </div>
       )}

@@ -1,6 +1,5 @@
 .search-field {
   position: relative;
-  min-width: 200px;
   ul {
     margin: 0;
     padding: 0;
@@ -10,7 +9,7 @@
     top: 100%;
     left: 0;
     right: 0;
-    z-index: 2;
+    z-index: 12;
     @extend .shadow-s1;
     border: 1px solid $light-gray;
     border-radius: 2px;
