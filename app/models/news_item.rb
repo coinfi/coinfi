@@ -34,7 +34,7 @@ class NewsItem < ApplicationRecord
   end
 
   def notify_news_tagger
-    news_tagger_endpoint = ENV.fetch('NEWS_TAGGER_ENDPOINT')
+    news_tagger_endpoint = ENV['NEWS_TAGGER_ENDPOINT']
     return unless news_tagger_endpoint.present?
 
     auth = {username: ENV.fetch('NEWS_TAGGER_BASIC_AUTH_USERNAME'), password: ENV.fetch('NEWS_TAGGER_BASIC_AUTH_PASSWORD')}
