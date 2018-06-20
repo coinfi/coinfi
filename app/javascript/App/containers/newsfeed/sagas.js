@@ -42,8 +42,6 @@ function* onWatchingOnly({ keyPath }) {
 
 function* onFilterChange(action) {
   yield fetchNewsItems(action)
-  const params = yield newsitemParams()
-  yield activateFilteredCoin(params.coinIDs)
 }
 
 function* fetchNewsItems(action) {
@@ -75,40 +73,10 @@ function* pollNewsItems(action) {
 }
 
 function* onSetActiveCoin(action) {
-  /* On clicking a coin, this will do fetchEntityDetails for that coin, and set
-  the filter. */
-  const {
-    payload: { type, id, label, preventSaga }
-  } = action
+  const { payload } = action
   if (action.namespace !== namespace) return
-  if (type !== 'coin') return
-  yield put(actions.fetchEntityDetails('coin', id))
-  const coinIDs = yield select(selectors.coinIDs)
-  if (!coinIDs.includes(id)) {
-    coinIDs.push(id)
-    yield fetchCoins({ namespace, coinIDs })
-  }
-  if (preventSaga) return
-  yield put(
-    actions.setFilter({
-      key: 'coins',
-      value: [{ id, label }]
-    })
-  )
-}
-
-function* activateFilteredCoin(coinIDs) {
-  if (coinIDs.length === 1) {
-    yield put(
-      actions.setActiveEntity({
-        preventSaga: true,
-        type: 'coin',
-        id: parseInt(coinIDs[0], 10)
-      })
-    )
-  } else {
-    yield put(actions.unsetActiveEntity())
-  }
+  if (payload.type !== 'coin') return
+  yield put(actions.fetchEntityDetails('coin', payload.id))
 }
 
 function* newsitemParams() {
