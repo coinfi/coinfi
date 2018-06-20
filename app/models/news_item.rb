@@ -12,6 +12,7 @@ class NewsItem < ApplicationRecord
   default_scope -> { order(feed_item_published_at: :desc) }
   scope :pending, -> { where(is_human_tagged: nil) }
   scope :tagged, -> { where(is_human_tagged: true) }
+  scope :chart_data, -> { select(:url, :title, :feed_item_published_at).order(:feed_item_published_at) }
 
   alias_method :categories, :news_categories
   def coin_link_data
@@ -28,5 +29,14 @@ class NewsItem < ApplicationRecord
 
   def feed_source_name
     feed_source.name
+  end
+
+  def published_date
+    feed_item_published_at
+  end
+
+  def published_epoch
+    # Use JS epoch for convenience.
+    feed_item_published_at.to_f * 1000
   end
 end
