@@ -2,7 +2,7 @@
 .tag-alt,
 .tag-alt2 {
   display: inline-block;
-  padding: $sp1;
+  // padding: $sp1;
   color: $aqua;
   text-transform: uppercase;
   font-size: 0.8rem;
@@ -25,6 +25,11 @@
   border: 1px solid $moon-gray;
   background-color: $white;
   font-weight: 600;
-  padding: $sp2 0.75rem;
+  // padding: $sp2 0.75rem;
   text-transform: none;
+}
+@media only screen and (min-width:768px) {
+  .tag-alt2 {
+    padding:0
+  }
 }

@@ -1,14 +1,14 @@
 /*
  * Tachyons config
- * 
- * Don't add new variables or change variable names, 
+ *
+ * Don't add new variables or change variable names,
  * but you can change the values.
- * 
+ *
  * I don't like the naming here, so for some of these
  * I'm using custom variables as the value (so that the
  * better-named ones can be used in the rest of the CSS
  * instead of these ones).
- * 
+ *
  * Eg. $spacing-extra-extra-extra-large: $sp7;
  */
 
@@ -104,7 +104,8 @@ $dark-gray: #333;
 $mid-gray: #555;
 $gray: #777;
 $silver: #999;
-$light-silver: #aaa;
+$light-silver: rgba(0, 0, 0, 0.12);
+
 $moon-gray: #ccc;
 $light-gray: #eee;
 $near-white: #fafafa;
