@@ -49,6 +49,7 @@ class NewsItemDashboard < Administrate::BaseDashboard
   SHOW_PAGE_ATTRIBUTES = [
     :id,
     :coin_symbols,
+    :news_category_names,
     :feed_item_id,
     :url,
     :title,
