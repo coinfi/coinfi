@@ -11,6 +11,13 @@ export default {
   isLoading: select.isLoading,
   coins: select.entities('coins'),
   newsItems: select.entities('newsItems'),
+  sortedNewsItems: select.entities('newsItems', (entities) => {
+    const sortBy = 'feed_item_published_at'
+
+    return entities.sort((x, y) => {
+      return Date.parse(y.get(sortBy)) - Date.parse(x.get(sortBy))
+    })
+  }),
   tags: select.entities('tags'),
   selectNewsItemFromList: select.entityFromList('newsItems'),
   selectCoinDetails: select.entityDetails('coin'),
@@ -23,6 +30,9 @@ export default {
       coinIDs = _.union(coinIDs, newsfeed.getIn(['entityIDs', 'coins']))
     }
     return coinIDs
+  },
+  endFetchingMoreEntityList: (state) => {
+    return state.newsfeed.get('endFetchingMoreEntityList')
   },
   ...filterSelectors
 }

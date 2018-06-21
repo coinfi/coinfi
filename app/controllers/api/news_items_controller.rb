@@ -22,6 +22,7 @@ class Api::NewsItemsController < ApiController
     @news_items = @news_items.where('title ILIKE ?', "%#{q[:keywords]}%") if q[:keywords].present?
 
     @news_items = @news_items.where('feed_item_published_at > ?', q[:publishedSince].to_datetime) if q[:publishedSince].present?
+    @news_items = @news_items.where('feed_item_published_at < ?', q[:publishedUntil].to_datetime) if q[:publishedUntil].present?
     @news_items = @news_items.limit(PER_PAGE)
 
     respond_success serialized(@news_items)
