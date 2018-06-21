@@ -32,3 +32,13 @@ body {
 .bl {
   border-color: $athens-darker;
 }
+
+ol.tips {
+  list-style-type:none;
+  padding:0;
+  li {margin:10px 0}
+  li > div {
+    display: inline-block;
+    font-size:.75rem;
+  }
+}

@@ -8,6 +8,19 @@ const titleStyle = {
   fontSize: '1.13rem'
 }
 
+const listTextNodeStyle = {width:'90%', marginLeft:10}
+
+const listNumberStyle = {
+  float: 'left',
+  background: 'rgb(47, 174, 237)',
+  borderRadius: 40,
+  color: '#fff',
+  width: 18,
+  paddingLeft: 6,
+  paddingTop: 2,
+  fontSize: 10
+}
+
 export default ({ closeTips }) => {
   return (
     <div className="lh-copy">
@@ -24,33 +37,36 @@ export default ({ closeTips }) => {
           <h2 className='tc mt0' style={titleStyle}>CoinFi News</h2>
         </div>
 
-        <div style={{margin:15, padding:15}}>
+        <div style={{margin:20}}>
 
           <div style={{fontSize:'.8rem'}}>
             CoinFi News gives crypto investors like you an informational advantage
             by filtering out the noise and showing you how news is impacting coin
             price.
           </div>
-          <h2>Tips</h2>
-          <ul>
-            <li>Add coins to your watchlist to customize your news feed.</li>
+          <h4 style={{fontSize:'.88rem'}}>Tips:</h4>
+          <ol className='tips'>
             <li>
-              Use filters to drill down on specific news categories, types, and
-              sources.
+              <div style={listNumberStyle}>1</div>
+              <div style={listTextNodeStyle}>Add coins to your watchlist to customize your news feed.</div>
             </li>
             <li>
-              Search or click on a coin ticker to view coin-specific news and coin
-              data.
+              <div style={listNumberStyle}>2</div>
+              <div style={listTextNodeStyle}> Use filters to drill down on specific news categories, types, and sources.  </div>
             </li>
             <li>
-              See how news historically impacts a coin's price using CoinFi's Price
-              Chart news annotations.
+              <div style={listNumberStyle}>3</div>
+              <div style={listTextNodeStyle}> Search or click on a coin ticker to view coin-specific news and coin data.  </div>
             </li>
             <li>
-              Enable email and browser notifications to stay up-to-date on the
-              latest market moving news.
+              <div style={listNumberStyle}>4</div>
+              <div style={listTextNodeStyle}> See how news historically impacts a coin's price using CoinFi's Price Chart news annotations.  </div>
             </li>
-          </ul>
+            <li>
+              <div style={listNumberStyle}>5</div>
+              <div style={listTextNodeStyle}> Enable email and browser notifications to stay up-to-date on the latest market moving news  </div>
+            </li>
+          </ol>
         </div>
 
 
