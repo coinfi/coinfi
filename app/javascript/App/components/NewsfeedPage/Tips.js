@@ -26,7 +26,8 @@ const listNumberStyle = {
   paddingLeft: 6,
   paddingTop: 2,
   fontSize: 10,
-  verticalAlign: 'top'
+  verticalAlign: 'top',
+  marginTop:2
 }
 
 export default ({ closeTips }) => {
@@ -89,6 +90,7 @@ export default ({ closeTips }) => {
                 textTransform: 'none',
                 fontWeight: 'bold'
               }}
+              onClick={() => window.location = '/sign_up'}
             >Sign up</button>
           </div>
         </div>
