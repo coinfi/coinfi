@@ -24,7 +24,7 @@ const CoinBody = (props) => {
           <span className="ml2">({coin.get('symbol')})</span>
         </a>
         <div>
-          <WatchButton {...props} coin={coin} hasText={true} />
+          <WatchButton {...props} coin={coin} hasText />
         </div>
       </div>
       <div className="min-h12e flex items-center justify-center">
