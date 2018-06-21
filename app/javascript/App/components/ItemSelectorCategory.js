@@ -41,8 +41,16 @@ export default class ItemSelectorCategory extends Component {
   render() {
     const { ItemButton } = this
 
+    let colSize = 0
+    if (window.isMobile) {
+      colSize = 2
+    }
+    else {
+      colSize = 3
+    }
+
     const itemGroups = this.props.items.map((x, i) => {
-      return i % 3 === 0 ? this.props.items.slice(i, i + 3) : null;
+      return i % colSize === 0 ? this.props.items.slice(i, i + colSize) : null;
     }).filter(x => x != null);
 
 

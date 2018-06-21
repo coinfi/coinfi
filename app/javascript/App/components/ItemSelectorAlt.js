@@ -32,9 +32,7 @@ export default class ItemSelectorAlt extends Component {
     if (this.isSelected(item)) {
       return (
         <button className="selected" onClick={() => this.remove(item)}>
-          <span className="mr2">
 			<input type="checkbox" style={inputStyle} defaultChecked />
-          </span>
           {this.itemLabel(item)}
         </button>
       )

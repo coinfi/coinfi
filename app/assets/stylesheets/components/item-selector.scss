@@ -22,7 +22,7 @@
       flex: 1;
       justify-content: space-between;
       padding: 1%;
-      max-width: 33%;
+      max-width: 50%;
       button {
         background: $white;
         border: 1px solid $light-silver;
@@ -38,3 +38,14 @@
     }
   }
 }
+
+@media only screen and (min-width:768px) {
+  .item-selector-alt {
+	div {
+	  div {
+		max-width: 33%;
+	  }
+	}
+  }
+}
+
