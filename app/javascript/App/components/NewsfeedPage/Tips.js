@@ -14,10 +14,7 @@ const bottomTitleStyle = Object.assign({}, titleStyle)
 titleStyle.borderBottom = '1px solid rgba(0, 0, 0, 0.12)',
 titleStyle.paddingLeft = 15
 titleStyle.paddingBottom = 10
-bottomTitleStyle.borderTop = '1px solid rgba(0, 0, 0, 0.12)'
-bottomTitleStyle.paddingTop = 15
-bottomTitleStyle.paddingBottom = 0
-bottomTitleStyle.marginBottom = 0
+
 
 const listTextNodeStyle = {width:'90%', marginLeft:10}
 
@@ -75,9 +72,9 @@ export default ({ closeTips }) => {
 
         </div>
 
-        <div style={{paddingTop:'15px'}}>
-          <h2 className='tc mt0' style={bottomTitleStyle}>Get the most out of CoinFi News</h2>
-          <div style={{margin:20, marginTop:0}}>
+        <div style={{paddingTop:'15px'}} className='signup-cta-wrap'>
+          <h2 className='tc mt0'>Get the most out of CoinFi News</h2>
+          <div style={{margin:'0 20px 20px', display:'grid'}}>
             <div style={{
               fontSize:'.8rem',
               textAlign: 'center',
@@ -91,7 +88,8 @@ export default ({ closeTips }) => {
               style={{
                 padding: '.8rem 2rem',
                 textTransform: 'none',
-                fontWeight: 'bold'
+                fontWeight: 'bold',
+                margin: 'auto'
               }}
               onClick={() => window.location = '/sign_up'}
             >Sign up</button>

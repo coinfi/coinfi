@@ -43,3 +43,40 @@ ol.tips {
   }
   img {margin:0 5px}
 }
+
+.signup-cta-wrap {
+  h2 {
+    border-top : 1px solid rgba(0, 0, 0, 0.12);
+    padding-top : 15px;
+    padding-bottom : 0;
+    margin-bottom : 0;
+    font-size: 1.13rem;
+    font-weight: bold;
+    padding-top: 15px;
+  }
+}
+
+@media only screen and (min-width:480px) {
+  .signup-cta-wrap {
+    button {
+      max-width:120px;
+    }
+  }
+}
+
+@media only screen and (min-width:768px) {
+  .signup-cta-wrap {
+    border: 1px solid rgba(0, 0, 0, 0.12);
+    width: 90%;
+    margin: auto;
+    padding-bottom:25px;
+    h2 {
+      border:0;
+    }
+    button {
+    }
+
+  }
+
+}
+
