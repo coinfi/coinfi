@@ -36,13 +36,14 @@ const Layout = (props) => {
               boxShadow: 'none',
               textTransform: 'none',
               fontSize: '14px',
+              color: 'rgba(0, 0, 0, 0.54)'
             }}>
             Cancel
           </button>
           <button
             className="btn btn-blue btn-xs ml3"
             onClick={applyFilters}
-            style={{textTransform: 'none', padding: '8px 20px'}}>
+            style={{textTransform: 'none', padding: '8px 20px', fontSize: '.88rem'}}>
             Apply
           </button>
         </div>

@@ -51,7 +51,7 @@ export default class ItemSelectorAlt extends Component {
     const { ItemButton } = this
     return (
       <div className="item-selector-alt nh1 nt1">
-        <ul>
+        <ul style={{marginLeft:'-1rem'}}>
           {this.props.items.map((item, i) => (
             <li key={i} className="pa1">
               <ItemButton item={item} />

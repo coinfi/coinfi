@@ -27,8 +27,6 @@ export default class ItemSelectorCategory extends Component {
     if (this.isSelected(item)) {
       return (
         <button className="selected" onClick={() => this.remove(item)}>
-          <span className="mr2">
-          </span>
           {this.itemLabel(item)}
         </button>
       )

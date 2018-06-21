@@ -9,7 +9,7 @@ const FilterTags = (props) => {
       {activeFilters.map((filter, i) => (
         <div
           key={i}
-          className="tag-alt2"
+          className="tag-alt2 pa2"
         >
           <span className="ml2">
             <FilterButtonValue filter={filter} />

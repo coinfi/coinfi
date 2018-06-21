@@ -22,7 +22,7 @@ const FilterComponent = (props) => {
         <Categories {...props} />
       </div>
       <div className="pv4 bb b--geyser" style={newsFeedStyle ? {paddingTop:'.5rem', paddingBottom:'1.5rem'}: ''}>
-        <h4 className="mb2" style={{margin:'15px 0'}}>Sources</h4>
+        <h4 className="mb2" style={{margin:'15px 0', fontWeight:'bold'}}>Sources</h4>
         <FeedSources {...props} />
       </div>
     </Fragment>
