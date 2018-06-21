@@ -1,5 +1,8 @@
 import React from 'react'
 import Icon from '../Icon'
+import chartIcon from '../../images/chartIcon.svg'
+import filterIcon from '../../images/filterIcon.svg'
+import listIcon from '../../images/listIcon.svg'
 
 const titleStyle = {
   fontSize: '1.13rem',
@@ -50,15 +53,15 @@ export default ({ closeTips }) => {
           <ol className='tips'>
             <li>
               <div style={listNumberStyle}>1</div>
-              <div style={listTextNodeStyle}>Add coins to your watchlist to customize your news feed.</div>
+              <div style={listTextNodeStyle}>Add coins to your watchlist <img src={listIcon} /> to customize your news feed.</div>
             </li>
             <li>
               <div style={listNumberStyle}>2</div>
-              <div style={listTextNodeStyle}> Use filters to drill down on specific news categories, types, and sources.  </div>
+              <div style={listTextNodeStyle}> Use filters <img src={filterIcon} /> to drill down on specific news categories, types, and sources.  </div>
             </li>
             <li>
               <div style={listNumberStyle}>3</div>
-              <div style={listTextNodeStyle}> Search or click on a coin ticker to view coin-specific news and coin data.  </div>
+              <div style={listTextNodeStyle}> Search or click on a coin ticker to view coin-specific news and coin data <img src={chartIcon} />  </div>
             </li>
             <li>
               <div style={listNumberStyle}>4</div>
