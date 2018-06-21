@@ -16,11 +16,11 @@ export default class CoinCharts extends React.Component {
   }
   render() {
     const { currentSymbol } = this.state
-    const { symbol, tradingViewInvisibility } = this.props
+    const { symbol, isTradingViewVisible } = this.props
     if (symbol !== currentSymbol) return null
     return (
       <div>
-        {!tradingViewInvisibility && (
+        {isTradingViewVisible && (
           <Tabs
             target="coin-charts"
             items={['News + Price Chart', 'TradingView Chart']}
@@ -32,7 +32,7 @@ export default class CoinCharts extends React.Component {
           <div className="tab-content active">
             <PriceGraph {...this.props} />
           </div>
-          {!tradingViewInvisibility && (
+          {isTradingViewVisible && (
             <div className="tab-content">
               <TradingViewChart {...this.props} />
             </div>
