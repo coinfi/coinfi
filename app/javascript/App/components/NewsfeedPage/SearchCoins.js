@@ -28,19 +28,16 @@ class SearchCoins extends Component {
     const { searchText, clearSearch, searchedCoins } = this.props
     return (
       <div className="search-field max-w15e">
-        <div className="flex items-center ph2 f5 tiber">
+        <div className="flex items-center f5 tiber">
           <Icon
             regular
             name="search"
-            className="silver mr1"
-            onClick={() => {
-              this.inputRef.focus()
-            }}
+            className="icon gray mr3"
           />
           <Input
             value={searchText}
             onChange={this.handleSearchInput}
-            placeholder="Coin/ICO Search"
+            placeholder="Search Coins/ICOs"
             setRef={(ref) => (this.inputRef = ref)}
             className="unstyled"
           />

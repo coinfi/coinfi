@@ -12,6 +12,7 @@ import Icon from '../Icon'
 import FilterComponent from './FilterComponent'
 import buttonLabels from './filterButtonLabels'
 import { singularize } from '../../lib/misc'
+import _ from 'lodash'
 
 const FilterButton = (props) => {
   const { filter, toggleUI, currentUI, removeFilter } = props
@@ -57,7 +58,7 @@ export const FilterButtonValue = ({ filter }) => {
   if (Component) return <Component value={value} />
   if (value instanceof Immutable.List) {
     if (value.size >= 2 || value.size === 0) {
-      return `${value.size} selected`
+      return `${_.startCase(key)} (${value.size})`
     } else {
       let val = value.get('0')
       if (val instanceof Object) {

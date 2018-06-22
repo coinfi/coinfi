@@ -1,6 +1,5 @@
 import React from 'react'
-import { FilterButtonLabel, FilterButtonValue } from './Filters/FilterButton'
-import Icon from './Icon'
+import { FilterButtonValue } from './Filters/FilterButton'
 
 const FilterTags = (props) => {
   const { removeFilter, activeFilters } = props
@@ -9,17 +8,12 @@ const FilterTags = (props) => {
       {activeFilters.map((filter, i) => (
         <div
           key={i}
-          className="tag-alt2 pa2"
+          className="coin-filter-tag pa1"
         >
-          <span className="ml2">
-            <FilterButtonValue filter={filter} />
-          </span>
-          <Icon
-            name="times"
-            regular
-            className="ml2"
-            onClick={() => removeFilter(filter.get('key'))}
-          />
+          <FilterButtonValue filter={filter} />
+          <a className="ml2 mr1 gray" onClick={() => removeFilter(filter.get('key'))}>
+            <i className="icon far fa-times" />
+          </a>
         </div>
       ))}
     </div>
