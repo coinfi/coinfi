@@ -13,7 +13,7 @@ class UsersController < DeviseController
         sign_in(:user, user)
         redirect_to '/set-password' and return
       elsif user == current_user
-        redirect_to '/watchlist', alert: 'You are already logged in!' and return
+        redirect_to '/news', alert: 'You are already logged in!' and return
       else
         redirect_to '/login', alert: 'Email already exists - please log in.' and return
       end

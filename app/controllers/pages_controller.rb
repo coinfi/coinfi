@@ -26,7 +26,7 @@ class PagesController < ApplicationController
   end
 
   def member_pages
-    %w[watchlist]
+    %w[]
   end
 
 end

@@ -45,10 +45,6 @@ Rails.application.routes.draw do
     get '/user', to: 'user#show'
     patch '/user', to: 'user#update'
     resources :news_items, only: %i[index]
-    namespace :watchlist do
-      resources :coins, only: %i[index create destroy]
-      patch '/coins', to: 'coins#reorder'
-    end
     namespace :newsfeed do
       resources :coins, only: %i[index]
     end
@@ -68,7 +64,6 @@ Rails.application.routes.draw do
   end
 
   root to: 'pages#show'
-  get '/dashboard', to: redirect('/watchlist')
   get '/:id', to: 'pages#show'
 
   mount Blazer::Engine, at: "blazer"
