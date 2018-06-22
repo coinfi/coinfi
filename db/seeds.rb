@@ -81,7 +81,7 @@ industries_names.each do |name|
   CoinIndustry.find_or_create_by!(name: name)
 end
 
-news_category_names = %(
+news_category_names = %( 
 Exchange Listing
 Regulatory
 Partnerships

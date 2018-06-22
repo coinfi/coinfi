@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180604063450) do
+ActiveRecord::Schema.define(version: 20180613155411) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -128,7 +128,7 @@ ActiveRecord::Schema.define(version: 20180604063450) do
     t.index ["name"], name: "index_coin_industries_on_name", unique: true
   end
 
-  create_table "coin_industries_coins", id: false, force: :cascade do |t|
+  create_table "coin_industries_coins", force: :cascade do |t|
     t.bigint "coin_id", null: false
     t.bigint "coin_industry_id", null: false
     t.index ["coin_id"], name: "index_coin_industries_coins_on_coin_id"
@@ -227,13 +227,14 @@ ActiveRecord::Schema.define(version: 20180604063450) do
     t.string "name", null: false
     t.string "slug", null: false
     t.string "feed_url", null: false
-    t.string "site_url", null: false
+    t.string "site_hostname", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "feed_type"
     t.boolean "is_subscribed", default: false
     t.datetime "last_received_data_at"
     t.bigint "coin_id"
+    t.boolean "is_active", default: true
     t.index ["coin_id"], name: "index_feed_sources_on_coin_id"
     t.index ["feed_url"], name: "index_feed_sources_on_feed_url", unique: true
     t.index ["name"], name: "index_feed_sources_on_name", unique: true
@@ -281,7 +282,9 @@ ActiveRecord::Schema.define(version: 20180604063450) do
   create_table "news_coin_mentions", force: :cascade do |t|
     t.bigint "coin_id"
     t.bigint "news_item_id"
+    t.boolean "is_machine_tagged", default: false
     t.index ["coin_id"], name: "index_news_coin_mentions_on_coin_id"
+    t.index ["is_machine_tagged"], name: "index_news_coin_mentions_on_is_machine_tagged"
     t.index ["news_item_id"], name: "index_news_coin_mentions_on_news_item_id"
   end
 
@@ -309,7 +312,7 @@ ActiveRecord::Schema.define(version: 20180604063450) do
     t.string "title", null: false
     t.text "summary"
     t.text "content"
-    t.string "actor_id", null: false
+    t.string "actor_id"
     t.datetime "feed_item_published_at", null: false
     t.datetime "feed_item_updated_at", null: false
     t.jsonb "feed_item_json"

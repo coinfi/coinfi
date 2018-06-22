@@ -16,7 +16,7 @@ namespace :feeds do
     subs.each do |res_item|
       sub = res_item["subscription"]
       body = {
-        'hub.mode' => 'unsubscribe',
+        'hub.mode' => 'unsubscribe', 
         'hub.topic' => sub["feed"]["url"],
         'hub.callback' => sub["endpoint"]
       }
@@ -67,7 +67,7 @@ namespace :feeds do
     #using batch_process here just for error_handling e.g. since we have manually created one of these already
     #we just want it to skip the unique constraint error that will be thrown and keep going to create the rest
     batch_process(Coin.where.not(reddit: nil).where.not(reddit: "")) do |coin|
-      FeedSource.create!(
+      FeedSource.create!( 
         name: coin.name + " Reddit",
         feed_url: coin.reddit + ".rss",
         site_url: coin.reddit,

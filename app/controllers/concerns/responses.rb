@@ -1,5 +1,5 @@
 module Responses
-
+  
   extend ActiveSupport::Concern
 
   included do
@@ -12,5 +12,5 @@ module Responses
   def render_403
     head :forbidden
   end
-
+  
 end

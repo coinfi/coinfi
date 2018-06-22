@@ -16,6 +16,7 @@ export default function* watcher() {
   yield takeLatest('SET_ACTIVE_ENTITY', onSetActiveCoin)
   yield takeLatest('ON_FILTER_CHANGE', onFilterChange)
   yield takeLatest('TOGGLE_UI', onWatchingOnly)
+  yield takeLatest('FETCH_MORE_NEWS_FEED', onScrollingToBottom)
   yield fork(filterSagas)
   yield fork(entitySagas)
 }
@@ -42,8 +43,6 @@ function* onWatchingOnly({ keyPath }) {
 
 function* onFilterChange(action) {
   yield fetchNewsItems(action)
-  const params = yield newsitemParams()
-  yield activateFilteredCoin(params.coinIDs)
 }
 
 function* fetchNewsItems(action) {
@@ -61,10 +60,10 @@ function* pollNewsItems(action) {
   if (action.namespace !== namespace) return
   while (true) {
     yield delay(60000)
-    const newsItems = yield select(selectors.newsItems)
+    const sortedNewsItems = yield select(selectors.sortedNewsItems)
     const params = yield newsitemParams()
-    if (newsItems[0])
-      params.publishedSince = newsItems[0].get('feed_item_published_at')
+    if (sortedNewsItems[0])
+      params.publishedSince = sortedNewsItems[0].get('feed_item_published_at')
     yield put(
       actions.fetchEntityListUpdates('newsItems', {
         params,
@@ -75,40 +74,11 @@ function* pollNewsItems(action) {
 }
 
 function* onSetActiveCoin(action) {
-  /* On clicking a coin, this will do fetchEntityDetails for that coin, and set
-  the filter. */
-  const {
-    payload: { type, id, label, preventSaga }
-  } = action
+  /* On clicking a coin, this will do fetchEntityDetails for that coin. */
+  const { payload } = action
   if (action.namespace !== namespace) return
-  if (type !== 'coin') return
-  yield put(actions.fetchEntityDetails('coin', id))
-  const coinIDs = yield select(selectors.coinIDs)
-  if (!coinIDs.includes(id)) {
-    coinIDs.push(id)
-    yield fetchCoins({ namespace, coinIDs })
-  }
-  if (preventSaga) return
-  yield put(
-    actions.setFilter({
-      key: 'coins',
-      value: [{ id, label }]
-    })
-  )
-}
-
-function* activateFilteredCoin(coinIDs) {
-  if (coinIDs.length === 1) {
-    yield put(
-      actions.setActiveEntity({
-        preventSaga: true,
-        type: 'coin',
-        id: parseInt(coinIDs[0], 10)
-      })
-    )
-  } else {
-    yield put(actions.unsetActiveEntity())
-  }
+  if (payload.type !== 'coin') return
+  yield put(actions.fetchEntityDetails('coin', payload.id))
 }
 
 function* newsitemParams() {
@@ -120,4 +90,26 @@ function* newsitemParams() {
     params.coinIDs = yield select(selectors.coinIDs)
   }
   return params
+}
+
+function* onScrollingToBottom(action) {
+  const endFetchingMoreEntityList = yield select(
+    selectors.endFetchingMoreEntityList
+  )
+  const isLoading = yield select(selectors.isLoading)
+  if (endFetchingMoreEntityList || isLoading('newsfeed')) return
+
+  const params = yield newsitemParams()
+  const sortedNewsItems = yield select(selectors.sortedNewsItems)
+
+  if (sortedNewsItems.length) {
+    const lastNewsItem = sortedNewsItems[sortedNewsItems.length - 1]
+    params.publishedUntil = lastNewsItem.get('feed_item_published_at')
+  }
+  yield put(
+    actions.fetchMoreEntityList('newsItems', {
+      params,
+      url: 'news_items'
+    })
+  )
 }

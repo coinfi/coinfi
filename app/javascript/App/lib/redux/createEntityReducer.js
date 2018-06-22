@@ -33,9 +33,11 @@ const createEntityReducer = (namespace) => (state = initialState, action) => {
       entityLists = state.get('entityList').mergeDeep(normalized.entities)
       return state
         .set('entityList', entityLists)
+        .set('endFetchingMoreEntityList', !response.length)
         .setIn(['entityIDs', entityType], normalized.result)
         .setIn(['loadingEntities', entityType], false)
     case 'SET_ENTITY_LIST_UPDATES':
+    case 'SET_MORE_ENTITY_LIST':
       normalizer = normalizers[entityType]
       if (!normalizer) console.error(`No normalizer found for ${entityType}`)
       normalized = normalizer(response)
@@ -44,8 +46,12 @@ const createEntityReducer = (namespace) => (state = initialState, action) => {
         normalized.result,
         state.getIn(['entityIDs', entityType])
       )
+      const endFetchingMoreEntityList = (
+        action.type === 'SET_MORE_ENTITY_LIST' && !response.length
+      )
       return state
         .set('entityList', entityLists)
+        .set('endFetchingMoreEntityList', endFetchingMoreEntityList)
         .setIn(['entityIDs', entityType], ids)
     case 'SET_ACTIVE_ENTITY':
       return state.set('activeEntity', payload)

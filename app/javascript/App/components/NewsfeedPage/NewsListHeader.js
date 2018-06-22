@@ -23,7 +23,6 @@ const NewsListHeader = (props) => {
           )}
         </div>
         <div className="flex items-center">
-          <span className="aqua fw6 pr2">{activeFilters.size}</span>
           <button onClick={toggleFilters} className="btn btn-xs btn-white">
             <Icon name="filter" className="mr2" />
             Filters
