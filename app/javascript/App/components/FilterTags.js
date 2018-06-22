@@ -5,9 +5,9 @@ const FilterTags = (props) => {
   const { removeFilter, activeFilters } = props
   return (
     <div>
-      {activeFilters.map((filter, i) => (
+      {activeFilters.map((filter) => (
         <div
-          key={i}
+          key={filter.get('key')}
           className="coin-filter-tag pa1"
         >
           <FilterButtonValue filter={filter} />
