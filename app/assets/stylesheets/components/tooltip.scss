@@ -48,7 +48,7 @@
     border-color: transparent transparent $bright-gray transparent;
   }
 }
-.tooltip.fl {
+.tooltip.from-right {
   bottom: auto;
   left: 90%;
   top: 50%;
@@ -77,7 +77,7 @@
     transform: translate(-50%, 10px);
     -webkit-transform: translate(-50%, 10px);
   }
-  .tooltip.fl {
+  .tooltip.from-right {
     transform: translate(10px, -50%);
     -webkit-transform: translate(10px, -50%);
   }
