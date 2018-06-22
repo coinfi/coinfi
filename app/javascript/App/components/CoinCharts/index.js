@@ -28,7 +28,7 @@ export default class CoinCharts extends React.Component {
           />
         )}
 
-        <div id="coin-charts" className="mt3 nl3 nr3 mh0-m">
+        <div id="coin-charts" className="nl3 nr3 mh0-m">
           <div className="tab-content active">
             <PriceGraph {...this.props} />
           </div>
