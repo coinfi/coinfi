@@ -1,6 +1,3 @@
-.topnav {
-  background: $dark-pine-green;
-}
 .nav-x {
   ul {
     list-style: none;
@@ -9,10 +6,9 @@
     text-align: center;
     li {
       display: inline-block;
-      margin: 0 8px;
       > * {
-        font-size: 14px;
-        font-weight: 600;
+        @include btn-base();
+        display: block;
       }
     }
   }

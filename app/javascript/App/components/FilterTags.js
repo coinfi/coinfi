@@ -1,5 +1,5 @@
 import React from 'react'
-import { FilterButtonValue } from './Filters/FilterButton'
+import { FilterButtonLabel, FilterButtonValue } from './Filters/FilterButton'
 import Icon from './Icon'
 
 const FilterTags = (props) => {
@@ -7,17 +7,18 @@ const FilterTags = (props) => {
   return (
     <div>
       {activeFilters.map((filter, i) => (
-        <div
-          key={i}
-          className="tag-alt2 pa2"
-        >
-          <span className="ml2">
-            <FilterButtonValue filter={filter} />
-          </span>
+        <div key={i} className="tag-alt2">
+          {filter.get('value') &&
+            filter.get('value').size > 1 && (
+              <span className="fw4 mr2">
+                <FilterButtonLabel filter={filter} />
+              </span>
+            )}
+          <FilterButtonValue filter={filter} />
           <Icon
             name="times"
             regular
-            className="ml2 pa2-ns"
+            className="ml2"
             onClick={() => removeFilter(filter.get('key'))}
           />
         </div>

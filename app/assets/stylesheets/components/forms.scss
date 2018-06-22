@@ -57,12 +57,13 @@ textarea {
     box-shadow: none;
     -webkit-box-shadow: none;
     background: transparent;
+    line-height: 1.5;
   }
 }
 .icon-input {
   position: relative;
   input {
-    padding-left: 3rem;
+    padding-left: 3rem !important;
   }
   .icon {
     position: absolute;
@@ -71,6 +72,7 @@ textarea {
     transform: translateY(-50%);
     -webkit-transform: translateY(-50%);
     z-index: 2;
+    padding: 0;
     &:last-child {
       left: initial;
       right: $sp3;

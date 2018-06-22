@@ -13,22 +13,23 @@ export default function* watcher() {
 }
 
 function* initializeResults(action) {
+  if (action.namespace !== namespace) return
   /* Here we're checking if the querystring is absent and the filter state is
   present before fetching the results, because for this page the results are
   initially server-rendered anyway, and we don't want to fetch the same thing
   twice. */
-  const { payload } = action
-  let { queryStringPresent, filterObject } = payload
+  let { queryStringPresent, filterObject } = action.payload
   let shouldUpdate = false
   if (!queryStringPresent && Object.keys(filterObject || {}).length > 0)
     shouldUpdate = true
   if (shouldUpdate) yield updateResults(action)
 }
 
-function* updateResults({ payload }) {
+function* updateResults(action) {
+  if (action.namespace !== namespace) return
   /* This fetches and injects the HTML for the ICOs index, but without the page
   layout by using &naked=true */
-  let { filterObject } = payload
+  let { filterObject } = action.payload
   yield axios
     .get(currentURL({ queryObject: { q: filterObject, naked: true } }))
     .then((response) => {

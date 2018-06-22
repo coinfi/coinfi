@@ -1,9 +1,9 @@
 import React from 'react'
 import Type from 'prop-types'
-import ItemSelectorCategory from '../../ItemSelectorCategory'
+import ItemSelector from '../../ItemSelectorAlt'
 
 const Categories = ({ categories, value, onChange }) => (
-  <ItemSelectorCategory
+  <ItemSelector
     items={categories}
     selectedItems={value}
     onChange={onChange('categories')}
@@ -11,7 +11,7 @@ const Categories = ({ categories, value, onChange }) => (
 )
 
 Categories.propTypes = {
-  value: Type.object,
+  value: Type.array,
   categories: Type.array.isRequired,
   onChange: Type.func
 }

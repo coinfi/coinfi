@@ -1,0 +1,43 @@
+.search-field {
+  position: relative;
+  width: 100%;
+
+  ul {
+    @extend .box-style-1;
+    @extend .shadow-3;
+    padding: 0;
+    list-style: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    z-index: 12;
+    width: calc(100% + 90px);
+
+    li {
+      position: relative;
+      display: block;
+      padding: 7px;
+
+      &:hover {
+        background-color: $athens;
+      }
+
+      a {
+        font-weight: 500;
+        color: $emperor;
+        display: block;
+        padding: $sp2;
+        width: 100%;
+        border: none;
+        background: transparent;
+      }
+
+      .watch-btn {
+        position: absolute;
+        top: 8px;
+        right: 10px;
+      }
+    }
+  }
+}

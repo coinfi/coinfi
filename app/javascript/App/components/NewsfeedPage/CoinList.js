@@ -59,4 +59,4 @@ class CoinList extends Component {
   }
 }
 
-export default coinSearchProvider('newsfeed')(CoinList)
+export default coinSearchProvider('coinList')(CoinList)
