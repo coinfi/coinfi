@@ -2,9 +2,9 @@ import React, { Component } from 'react'
 import timeago from 'timeago.js'
 import sanitizeHtml from 'sanitize-html'
 import _ from 'lodash'
-import { stringHostname } from '../../lib/urlHelpers'
 import NewsCoinTags from './NewsCoinTags'
 import Icon from '../Icon'
+import URL from 'url-parse'
 
 export default class NewsBody extends Component {
   render() {
@@ -15,10 +15,12 @@ export default class NewsBody extends Component {
     } = this.props
     const { id } = activeEntity
     const newsItem = selectNewsItemFromList(id)
+    if (!newsItem) {
+      return null
+    }
     const categories = selectNewsCategories(newsItem)
-    if (!newsItem) return null
-    const content =
-      _.trim(newsItem.get('content')) || _.trim(newsItem.get('summary'))
+    const content = _.trim(newsItem.get('content')) || _.trim(newsItem.get('summary'))
+    const url = new URL(newsItem.get('url'))
     return (
       <div className="pa4 bg-white min-h-100">
         <NewsCoinTags newsItem={newsItem} />
@@ -30,7 +32,7 @@ export default class NewsBody extends Component {
           </span>
           <a href={newsItem.get('url')} target="_blank" rel="nofollow">
             <Icon name="link" className="mr2 f7" regular />
-            {stringHostname(newsItem.get('url'))}
+            {url.hostname}
           </a>
         </div>
         <div

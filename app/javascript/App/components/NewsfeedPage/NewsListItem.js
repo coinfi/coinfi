@@ -1,6 +1,5 @@
 import React from 'react'
 import timeago from 'timeago.js'
-import { stringHostname } from '../../lib/urlHelpers'
 import NewsCoinTags from './NewsCoinTags'
 
 const NewsListItem = (props) => {
@@ -11,6 +10,7 @@ const NewsListItem = (props) => {
     if (type === 'newsItem' && id === newsItem.get('id'))
       className += ' bg-foam'
   }
+  const url = new URL(newsItem.get('url'))
   if (preRender) className += ' o-0 absolute'
   return (
     <div className={className} style={{ height: props.height || 'auto' }}>
@@ -28,7 +28,7 @@ const NewsListItem = (props) => {
               rel="nofollow"
               className="dib silver"
             >
-              {stringHostname(newsItem.get('url'))}
+              {url.hostname}
             </a>
           </div>
           <NewsCoinTags {...props} />
