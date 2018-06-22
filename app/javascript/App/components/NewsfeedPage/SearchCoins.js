@@ -13,8 +13,8 @@ class SearchCoins extends Component {
   }
   handleSearchInput = (value) => {
     let { searchCoins } = this.props
-    const name_not_in = this.selectedCoins()
-    searchCoins(value, { q: { name_not_in }, limit: 10 })
+    const nameNotIn = this.selectedCoins()
+    searchCoins(value, { q: { nameNotIn }, limit: 10 })
   }
   selectCoin = (coin) => {
     const { setFilter, clearSearch, setActiveEntity } = this.props
