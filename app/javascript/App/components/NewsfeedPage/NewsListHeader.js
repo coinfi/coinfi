@@ -33,7 +33,7 @@ const NewsListHeader = (props) => {
       </SectionHeader>
       {activeFilters.size > 0 && (
         <div className="pa3 b--b bg-athens">
-          <div className="f6 mb1">Currently viewing by:</div>
+          <div className="f6 mb2">Currently viewing by:</div>
           <FilterTags {...props} />
         </div>
       )}

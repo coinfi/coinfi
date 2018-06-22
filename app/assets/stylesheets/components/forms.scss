@@ -40,7 +40,7 @@ textarea {
   border-radius: 2px;
   -webkit-border-radius: 2px;
   color: $black-70;
-  font-family: $sans-alt;
+  font-family: $body-font;
   box-sizing: border-box;
   &:focus {
     @include highlight();

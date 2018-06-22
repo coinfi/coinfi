@@ -1,6 +1,5 @@
 import React from 'react'
-import { FilterButtonLabel, FilterButtonValue } from './Filters/FilterButton'
-import Icon from './Icon'
+import { FilterButtonValue } from './Filters/FilterButton'
 
 const FilterTags = (props) => {
   const { removeFilter, activeFilters } = props
