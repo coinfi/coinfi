@@ -13,8 +13,8 @@ class SearchCoins extends Component {
   }
   handleSearchInput = (value) => {
     let { searchCoins } = this.props
-    const nameNotIn = this.selectedCoins()
-    searchCoins(value, { q: { nameNotIn }, limit: 10 })
+    const name_not_in = this.selectedCoins()
+    searchCoins(value, { q: { name_not_in }, limit: 10 })
   }
   selectCoin = (coin) => {
     const { setFilter, clearSearch, setActiveEntity } = this.props
@@ -29,11 +29,7 @@ class SearchCoins extends Component {
     return (
       <div className="search-field max-w15e">
         <div className="flex items-center f5 tiber">
-          <Icon
-            regular
-            name="search"
-            className="icon gray mr3"
-          />
+          <Icon regular name="search" className="icon gray mr3" />
           <Input
             value={searchText}
             onChange={this.handleSearchInput}
