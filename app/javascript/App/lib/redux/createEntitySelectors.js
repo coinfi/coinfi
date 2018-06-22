@@ -30,12 +30,14 @@ export default (namespace) => {
       createSelector(selectState, (state) =>
         state.getIn(['entityIDs', entityType])
       ),
-    entities: (entityType) =>
+    entities: (entityType, callback = null) =>
       createSelector(selectState, (state) => {
         const ids = state.getIn(['entityIDs', entityType])
         const entities = state.getIn(['entityList', entityType])
         if (!ids || !entities) return []
-        return ids.map((id) => entities.get(`${id}`))
+
+        const entitiesArray = ids.map((id) => entities.get(`${id}`))
+        return callback ? callback(entitiesArray) : entitiesArray
       }),
     entityFromList: (entityType) =>
       createSelector(selectState, (state) => (id) =>

@@ -7,14 +7,13 @@ const FilterTags = (props) => {
   return (
     <div>
       {activeFilters.map((filter, i) => (
-        <div key={i} className="tag-alt2">
-          {filter.get('value') &&
-            filter.get('value').size > 1 && (
-              <span className="fw4 mr2">
-                <FilterButtonLabel filter={filter} />
-              </span>
-            )}
-          <FilterButtonValue filter={filter} />
+        <div
+          key={i}
+          className="tag-alt2 pa2"
+        >
+          <span className="ml2">
+            <FilterButtonValue filter={filter} />
+          </span>
           <Icon
             name="times"
             regular

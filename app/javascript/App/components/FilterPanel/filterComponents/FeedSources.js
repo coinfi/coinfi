@@ -11,7 +11,7 @@ const FeedSources = ({ feedSources, value, onChange }) => (
 )
 
 FeedSources.propTypes = {
-  value: Type.array,
+  value: Type.object,
   feedSources: Type.array.isRequired,
   onChange: Type.func
 }

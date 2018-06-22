@@ -3,13 +3,33 @@
     margin: 0;
     padding: 0;
     li {
+      list-style-type: none;
+      button {
+        background: none;
+        border: 0;
+        padding: 0.4rem 0.8rem;
+        color: $light-silver;
+        color: rgba(0, 0, 0, 0.87);
+        font-size: 0.9rem;
+      }
+    }
+  }
+  div {
+    margin: 0;
+    padding: 0;
+    div {
       display: inline-block;
+      flex: 1;
+      justify-content: space-between;
+      padding: 1%;
+      max-width: 50%;
       button {
         background: $white;
         border: 1px solid $light-silver;
-        padding: 0.4rem 0.8rem;
-        color: $light-silver;
-        font-size: 0.9rem;
+        padding: 0.5rem 0.8rem;
+        color: rgba(0, 0, 0, 0.38);
+        font-size: 0.88rem;
+        width: 100%;
         &.selected {
           border-color: $aqua;
           color: $aqua;
@@ -18,3 +38,14 @@
     }
   }
 }
+
+@media only screen and (min-width:768px) {
+  .item-selector-alt {
+	div {
+	  div {
+		max-width: 33%;
+	  }
+	}
+  }
+}
+

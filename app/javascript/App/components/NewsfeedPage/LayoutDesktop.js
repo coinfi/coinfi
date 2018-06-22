@@ -7,18 +7,16 @@ import BodySection from './BodySection'
 export default function(props) {
   return (
     <div className="flex flex-column flex-auto">
-      <div className="container-wide flex-auto flex flex-column">
-        <div className="row no-gutter flex-auto bg-white">
-          <div className="col-xs-2 relative flex flex-column b--l">
-            <CoinList {...props} />
-          </div>
-          <div className="col-xs-5 relative flex flex-column b--l">
-            <NewsListHeader {...props} />
-            <NewsList {...props} />
-          </div>
-          <div className="col-xs-5 relative overflow-y-auto b--l b--r">
-            <BodySection {...props} />
-          </div>
+      <div className="row no-gutter flex-auto bg-white">
+        <div className="col-xs-2 relative flex flex-column b--l">
+          <CoinList {...props} />
+        </div>
+        <div className="col-xs-5 relative flex flex-column b--l">
+          <NewsListHeader {...props} />
+          <NewsList {...props} />
+        </div>
+        <div className="col-xs-5 relative overflow-y-auto b--l b--r">
+          <BodySection {...props} />
         </div>
       </div>
     </div>

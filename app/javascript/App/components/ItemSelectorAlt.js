@@ -2,19 +2,25 @@ import React, { Component } from 'react'
 import Type from 'prop-types'
 import Icon from './Icon'
 
+const inputStyle = {
+  width: 'auto',
+  marginRight: '.5rem'
+}
+
 export default class ItemSelectorAlt extends Component {
   selectedItems = () => this.props.selectedItems || []
   isSelected = (item) => {
-    const selected = this.selectedItems().map((item) => JSON.stringify(item))
-    return selected.includes(JSON.stringify(item))
+    const selected = this.selectedItems().feedSources && this.selectedItems().feedSources.length && this.selectedItems().feedSources.map((item) => JSON.stringify(item))
+    if (selected) return selected.includes(JSON.stringify(item))
   }
   add = (item) => {
     let items = this.selectedItems()
-    items.push(item)
-    this.props.onChange(items)
+	if (!items.feedSources) items.feedSources = []
+    items.feedSources.push(item)
+    this.props.onChange(items.feedSources)
   }
   remove = (item) => {
-    let items = this.selectedItems()
+    let items = this.selectedItems().feedSources
     items = items.filter((c) => JSON.stringify(c) !== JSON.stringify(item))
     this.props.onChange(items)
   }
@@ -26,16 +32,14 @@ export default class ItemSelectorAlt extends Component {
     if (this.isSelected(item)) {
       return (
         <button className="selected" onClick={() => this.remove(item)}>
-          <span className="mr2">
-            <Icon name="check" regular />
-          </span>
+			<input type="checkbox" style={inputStyle} defaultChecked />
           {this.itemLabel(item)}
         </button>
       )
     } else {
       return (
         <button onClick={() => this.add(item)}>
-          <Icon name="times" regular className="mr2" />
+			<input type="checkbox" style={inputStyle} />
           {this.itemLabel(item)}
         </button>
       )
@@ -45,7 +49,7 @@ export default class ItemSelectorAlt extends Component {
     const { ItemButton } = this
     return (
       <div className="item-selector-alt nh1 nt1">
-        <ul>
+        <ul style={{marginLeft:'-1rem'}}>
           {this.props.items.map((item, i) => (
             <li key={i} className="pa1">
               <ItemButton item={item} />
@@ -59,6 +63,6 @@ export default class ItemSelectorAlt extends Component {
 
 ItemSelectorAlt.propTypes = {
   items: Type.array.isRequired,
-  selectedItems: Type.array,
+  selectedItems: Type.object,
   onChange: Type.func
 }

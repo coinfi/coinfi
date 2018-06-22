@@ -24,13 +24,12 @@ const NewsListHeader = (props) => {
           )}
           <SearchCoins {...props} />
         </div>
-        <button
-          onClick={toggleFilters}
-          className="btn btn-xs btn-white flex-none"
-        >
-          <Icon name="filter" className="mr2" />
-          Filters
-        </button>
+        <div className="flex items-center">
+          <button onClick={toggleFilters} className="btn btn-xs btn-white">
+            <Icon name="filter" className="mr2" />
+            Filters
+          </button>
+        </div>
       </SectionHeader>
       {activeFilters.size > 0 && (
         <div className="pa3 b--b bg-athens">
