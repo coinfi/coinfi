@@ -8,7 +8,6 @@ export default (namespace) => {
     yield takeLatest('FETCH_ENTITY_DETAILS', fetchEntityDetails)
     yield takeLatest('FETCH_ENTITY_LIST', fetchEntityList)
     yield takeLatest('FETCH_ENTITY_LIST_UPDATES', fetchEntityListUpdates)
-    yield takeLatest('FETCH_MORE_ENTITY_LIST', fetchMoreEntityList)
   }
 
   const actions = createEntityActions(namespace)
@@ -35,10 +34,6 @@ export default (namespace) => {
 
   function* fetchEntityListUpdates(action) {
     yield createFetchEntityList(action, actions.setEntityListUpdates)
-  }
-
-  function* fetchMoreEntityList(action) {
-    yield createFetchEntityList(action, actions.setMoreEntityList)
   }
 
   function* createFetchEntityList(action, callbackAction) {

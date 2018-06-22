@@ -30,18 +30,16 @@ class FilterPanel extends Component {
     const pProps = { ...props, filterData: normalizeFilterData(filterData) }
     const { applyFilters, resetFilters } = this
     return (
-      <Layout {...{ ...props, applyFilters, resetFilters }} newsFeedStyle>
+      <Layout {...{ ...props, applyFilters, resetFilters }}>
         {filterList.map((filter, index) => {
           if (filter.get('key') === 'coins') return null // Temp fix for hiding coins
-          if (filter.get('key') === 'keywords') return null
           return (
             <FilterComponent
               key={index}
               {...pProps}
               filter={filter}
               onChange={this.onChange}
-              value={this.state.filters}
-              newsFeedStyle
+              value={this.state.filters[filter.get('key')]}
             />
           )
         })}

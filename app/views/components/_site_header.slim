@@ -1,17 +1,18 @@
-header.topnav.ph1
-  .flex.items-center.justify-end.h2.mv2
-    a.flex-none href="/"
-      .pl2.flex.items-center
-        img.w5e src=image_path('logo.svg')
-        span.white-90.pt1.ml2
-          | beta
-    .flex-auto.w-15-m
-    .conceal-m
-      button.pa2.btn-icon.f3.white.search-toggle
-        i.fal.fa-search
-      button.pa2.pr3.btn-icon.f3.white.mobile-nav-toggle
-        i.fal.fa-bars
-    .flex-none.dn.db-m
-      .flex.items-center.justify-between
-        = render partial: 'components/main_nav', locals: { klass: 'nav-x dark small pr3' }
-        = render partial: 'components/user_actions'
+header.bg-elephant.flex-none.pl4.pr4-m
+  .container-wide
+    .flex-stack.items-center.justify-end.cozy
+      a.flex-none href="/"
+        .pr4-m.flex.items-center
+          img.w5e src=image_path('logo.svg')
+          span.white-90.pt1.ml2
+            | beta
+      .flex-auto.w-15-m
+      .conceal-m
+        button.pa3.btn-icon.f3.white.search-toggle.mr2
+          i.fal.fa-search
+        button.pa3.pr4.btn-icon.f3.white.mobile-nav-toggle
+          i.fal.fa-bars
+      .flex-none.dn.db-m
+        .flex.items-center.justify-between
+          = render partial: 'components/main_nav', locals: { klass: 'nav-x dark cozy small pr4' }
+          = render partial: 'components/user_actions', locals: { klass: '' }

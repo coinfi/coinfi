@@ -16,27 +16,22 @@ export default class CoinCharts extends React.Component {
   }
   render() {
     const { currentSymbol } = this.state
-    const { symbol, isTradingViewVisible } = this.props
+    const { symbol } = this.props
     if (symbol !== currentSymbol) return null
     return (
       <div>
-        {isTradingViewVisible && (
-          <Tabs
-            target="coin-charts"
-            items={['News + Price Chart', 'TradingView Chart']}
-            className="flex-auto justify-center justify-start-l"
-          />
-        )}
-
+        <Tabs
+          target="coin-charts"
+          items={['News + Price Chart', 'TradingView Chart']}
+          className="flex-auto justify-center justify-start-l"
+        />
         <div id="coin-charts" className="mt3 nl3 nr3 mh0-m">
           <div className="tab-content active">
             <PriceGraph {...this.props} />
           </div>
-          {isTradingViewVisible && (
-            <div className="tab-content">
-              <TradingViewChart {...this.props} />
-            </div>
-          )}
+          <div className="tab-content">
+            <TradingViewChart {...this.props} />
+          </div>
         </div>
       </div>
     )

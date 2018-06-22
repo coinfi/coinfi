@@ -9,6 +9,5 @@ export default createHOC({
   extraProps: { filterList },
   onMount: ({ props }) => {
     props.initializeFilters()
-    props.initializeNewsfeedState()
   }
 })

@@ -44,16 +44,6 @@ export default (namespace) => {
     unsetActiveEntity: () => ({
       type: 'UNSET_ACTIVE_ENTITY',
       namespace
-    }),
-    fetchMoreEntityList: (entityType, opts = {}) => ({
-      type: 'FETCH_MORE_ENTITY_LIST',
-      ...actionProps(entityType),
-      ...opts
-    }),
-    setMoreEntityList: (entityType, response) => ({
-      type: 'SET_MORE_ENTITY_LIST',
-      ...actionProps(entityType),
-      response
-    }),
+    })
   }
 }
