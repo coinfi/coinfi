@@ -94,7 +94,7 @@ class NewsList extends Component {
     })
   }
 
-  renderView(viewState, itemHeight, activeFilters) {
+  renderView(viewState, itemHeight, activeFilters, sortedNewsItems) {
     if (
       !viewState.activeEntity &&
       window.isMobile &&
@@ -103,7 +103,7 @@ class NewsList extends Component {
     ) {
       return <Tips closeTips={this.closeTips.bind(this)} />;
     }
-    else if (!viewState.newsItems.length) {
+    else if (!viewState.sortedNewsItems.length) {
       return (
         <div className="pa3 tc mt4">
           <div className="pointer">
@@ -122,7 +122,7 @@ class NewsList extends Component {
 
 
 
-    const mappedItems = viewState.newsItems.map((newsItem) => (
+    const mappedItems = viewState.sortedNewsItems.map((newsItem) => (
       <NewsListItemAnimated
       key={newsItem.get('id')}
       {...this.props}
@@ -144,14 +144,15 @@ class NewsList extends Component {
     const viewState = {
       activeEntity: activeEntity,
       newsItems: newsItems,
+      sortedNewsItems: sortedNewsItems
     }
 
 
     return (
       <Fragment>
-        {isLoading('newsItems') && (
-          <LoadingIndicator className="overlay bg-white-70" />
-        )}
+        {/* {isLoading('sortedNewsItems') && ( */}
+        {/*   <LoadingIndicator className="overlay bg-white-70" /> */}
+        {/* )} */}
         <div
           id="newsfeed"
           className="flex-auto relative overflow-y-hidden overflow-y-auto-m"
@@ -163,11 +164,11 @@ class NewsList extends Component {
 
           <div>
 
-          {this.renderView(viewState, itemHeight, activeFilters)}
+          {this.renderView(viewState, itemHeight, activeFilters, sortedNewsItems)}
 
           </div>
           <div>
-            {!isLoading('newsItems') &&
+            {!isLoading('sortedNewsItems') &&
               isLoading('newsfeed') && <LoadingIndicator />}
           </div>
         </div>
