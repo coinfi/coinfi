@@ -3,6 +3,9 @@ class Api::NewsItemsController < ApiController
   PER_PAGE = 10
 
   def index
+    # Ensure fresh response on every request
+    headers['Last-Modified'] = Time.now.httpdate
+
     q = params[:q] || {}
 
     @news_items = NewsItem.all
