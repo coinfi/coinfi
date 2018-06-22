@@ -7,22 +7,35 @@ class Api::NewsItemsController < ApiController
 
     @news_items = NewsItem.all
 
-    if q[:coinIDs]
-      news_item_ids_for_coin_filter = NewsCoinMention.where(coin_id: q[:coinIDs]).pluck(:news_item_id)
-      @news_items = @news_items.where(id: news_item_ids_for_coin_filter)
-    end
+    coin_ids = q[:coinIDs]
+    coin_ids = Coin.where(name: q[:coins]).pluck(:id) if q[:coins]
+    coin_ids = Coin.top(20).pluck(:id) unless coin_ids
+    news_item_ids_for_coin_filter = NewsCoinMention.where(coin_id: coin_ids).pluck(:news_item_id)
+    @news_items = @news_items.where(id: news_item_ids_for_coin_filter)
 
     category_ids = NewsCategory.where(name: q[:categories]).pluck(:id)
     news_item_ids_for_category_filter = NewsItemCategorization.where(news_category_id: category_ids).pluck(:news_item_id)
-    @news_items = @news_items.where(id: news_item_ids_for_category_filter) if news_item_ids_for_category_filter.present?
-    
+    if news_item_ids_for_category_filter.present?
+      @news_items = @news_items.where(id: news_item_ids_for_category_filter)
+    end
+
     feed_source_ids = get_feed_source_ids(q[:feedSources])
-    @news_items = @news_items.where(feed_source_id: feed_source_ids) if feed_source_ids.present? 
+    if feed_source_ids.present?
+      @news_items = @news_items.where(feed_source_id: feed_source_ids)
+    end
 
-    @news_items = @news_items.where('title ILIKE ?', "%#{q[:keywords]}%") if q[:keywords].present?
+    if q[:keywords].present?
+      @news_items = @news_items.where('title ILIKE ?', "%#{q[:keywords]}%")
+    end
 
-    @news_items = @news_items.where('feed_item_published_at > ?', q[:publishedSince].to_datetime) if q[:publishedSince].present?
-    @news_items = @news_items.where('feed_item_published_at < ?', q[:publishedUntil].to_datetime) if q[:publishedUntil].present?
+    if q[:publishedSince].present?
+      @news_items = @news_items.where('feed_item_published_at > ?', q[:publishedSince].to_datetime)
+    end
+
+    if q[:publishedUntil].present?
+      @news_items = @news_items.where('feed_item_published_at < ?', q[:publishedUntil].to_datetime)
+    end
+
     @news_items = @news_items.limit(PER_PAGE)
 
     respond_success serialized(@news_items)
