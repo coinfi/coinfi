@@ -5,14 +5,15 @@ import React from 'react'
  * Wrapping div/button required to prevent error on unmount.
  */
 
-export default ({ name, brand, regular, solid, ...rest }) => {
+export default ({ name, brand, regular, solid, children, ...rest }) => {
   let prefix = 'fal'
   if (regular) prefix = 'far'
   if (solid) prefix = 'fas'
   if (brand) prefix = 'fab'
   return (
     <IconWrapper {...rest}>
-      <i className={`${prefix} fa-${name}`} />
+      <i className={`pr1 ${prefix} fa-${name}`} />
+      {children}
     </IconWrapper>
   )
 }
