@@ -19,7 +19,6 @@ class NewsList extends Component {
     setTimeout(() => {
       this.setState({ initialRender: false })
     }, 6000)
-
     this.mountOnScrollHandler()
   }
 
@@ -72,7 +71,6 @@ class NewsList extends Component {
   onScrollNewsFeedDesktop(e) {
     const $this = $(e.currentTarget)
     const bufferSpace = $this.height() / 3 + 400
-
     if (
       $this.scrollTop() + $this.innerHeight() + bufferSpace >=
       $this[0].scrollHeight
@@ -118,10 +116,6 @@ class NewsList extends Component {
       )
     }
 
-
-
-
-
     const mappedItems = viewState.sortedNewsItems.map((newsItem) => (
       <NewsListItemAnimated
       key={newsItem.get('id')}
@@ -136,23 +130,15 @@ class NewsList extends Component {
 
 
   render() {
-    // const { isLoading, sortedNewsItems } = this.props
     const itemHeight = this.state.initialRender ? 'auto' : 0
-
     const { newsItems, isLoading, activeEntity, activeFilters, sortedNewsItems } = this.props
-    // const itemHeight = this.state.initialRenderTips ? 'auto' : 0
     const viewState = {
       activeEntity: activeEntity,
       newsItems: newsItems,
       sortedNewsItems: sortedNewsItems
     }
-
-
     return (
       <Fragment>
-        {/* {isLoading('sortedNewsItems') && ( */}
-        {/*   <LoadingIndicator className="overlay bg-white-70" /> */}
-        {/* )} */}
         <div
           id="newsfeed"
           className="flex-auto relative overflow-y-hidden overflow-y-auto-m"
@@ -161,15 +147,9 @@ class NewsList extends Component {
               ? {marginTop: '-155px', background: '#fff'}
               : {}
           }>
-
-          <div>
-
           {this.renderView(viewState, itemHeight, activeFilters, sortedNewsItems)}
-
-          </div>
           <div>
-            {!isLoading('sortedNewsItems') &&
-              isLoading('newsfeed') && <LoadingIndicator />}
+            {<LoadingIndicator />}
           </div>
         </div>
       </Fragment>
