@@ -16,7 +16,7 @@ titleStyle.paddingLeft = 15
 titleStyle.paddingBottom = 10
 
 
-const listTextNodeStyle = {width:'90%', marginLeft:10}
+const listTextNodeStyle = {width:'90%', marginLeft:10, fontSize:'.88rem'}
 
 const listNumberStyle = {
   background: 'rgb(47, 174, 237)',
