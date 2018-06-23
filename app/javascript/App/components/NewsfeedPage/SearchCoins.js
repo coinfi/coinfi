@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import coinSearchProvider from '../../containers/coinSearch'
 import Input from '../Input'
 import Icon from '../Icon'
+import WatchButton from './WatchButton'
 import { union } from 'lodash'
 
 class SearchCoins extends Component {
@@ -25,11 +26,25 @@ class SearchCoins extends Component {
     clearSearch()
   }
   render() {
-    const { searchText, clearSearch, searchedCoins } = this.props
+    const {
+      searchText,
+      clearSearch,
+      searchedCoins,
+      isWatching,
+      updateUser,
+      user,
+      onWatch,
+    } = this.props
+    debugger
     return (
-      <div className="search-field max-w15e">
-        <div className="flex items-center f5 tiber">
-          <Icon regular name="search" className="icon gray mr3" />
+      <div className="search-field">
+        <div className="flex items-center ph2 f5 tiber">
+          <Icon
+            regular
+            name="search"
+            className="silver mr1"
+            onClick={() => { this.inputRef.focus() }}
+          />
           <Input
             value={searchText}
             onChange={this.handleSearchInput}
@@ -53,12 +68,21 @@ class SearchCoins extends Component {
           <ul>
             {searchedCoins.map((coin) => (
               <li key={coin.get('id')}>
-                <button onClick={() => this.selectCoin(coin)}>
+                <a onClick={() => this.selectCoin(coin)}>
                   <div className="flex items-center">
-                    {coin.get('name')}
-                    <span className="b ml2 f7">{coin.get('symbol')}</span>
+                    {coin.get('name')} ({coin.get('symbol')})
                   </div>
-                </button>
+                </a>
+                <div className="watch-btn">
+                  <WatchButton
+                    isWatching={isWatching}
+                    coin={coin}
+                    updateUser={updateUser}
+                    user={user}
+                    onWatch={onWatch}
+                    hasText
+                  />
+                </div>
               </li>
             ))}
           </ul>
