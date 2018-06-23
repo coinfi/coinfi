@@ -149,7 +149,8 @@ class NewsList extends Component {
           }>
           {this.renderView(viewState, itemHeight, activeFilters, sortedNewsItems)}
           <div>
-            {<LoadingIndicator />}
+            {!isLoading('newsItems') &&
+              isLoading('newsfeed') && <LoadingIndicator />}
           </div>
         </div>
       </Fragment>
