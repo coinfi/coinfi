@@ -1,39 +1,42 @@
 .search-field {
   position: relative;
+  width: 100%;
+
   ul {
-    margin: 0;
+    @extend .box-style-1;
+    @extend .shadow-3;
     padding: 0;
     list-style: none;
-    background: $white;
     position: absolute;
     top: 100%;
     left: 0;
     right: 0;
     z-index: 12;
-    @extend .shadow-s1;
-    border: 1px solid $light-gray;
-    border-radius: 2px;
-    min-width: 300px;
+    width: calc(100% + 90px);
+
     li {
+      position: relative;
       display: block;
-      a,
-      button {
-        color: $elephant;
+      padding: 7px;
+
+      &:hover {
+        background-color: $athens;
+      }
+
+      a {
+        font-weight: 500;
+        color: $emperor;
         display: block;
         padding: $sp2;
         width: 100%;
         border: none;
         background: transparent;
-        &:hover {
-          background: $elephant;
-          color: white;
-        }
       }
-      &:not(:last-child) {
-        a,
-        button {
-          border-bottom: 1px solid $light-gray;
-        }
+
+      .watch-btn {
+        position: absolute;
+        top: 10px;
+        right: 10px;
       }
     }
   }
