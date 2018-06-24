@@ -2,9 +2,10 @@ import React, { Component, Fragment } from 'react'
 import _ from 'lodash'
 import NewsListItemAnimated from './NewsListItemAnimated'
 import LoadingIndicator from '../LoadingIndicator'
+import Tips from './Tips'
 
 class NewsList extends Component {
-  state = { initialRender: true }
+  state = { initialRender: true, initialRenderTips:true }
 
   constructor(props) {
     super(props)
@@ -18,7 +19,6 @@ class NewsList extends Component {
     setTimeout(() => {
       this.setState({ initialRender: false })
     }, 6000)
-
     this.mountOnScrollHandler()
   }
 
@@ -71,7 +71,6 @@ class NewsList extends Component {
   onScrollNewsFeedDesktop(e) {
     const $this = $(e.currentTarget)
     const bufferSpace = $this.height() / 3 + 400
-
     if (
       $this.scrollTop() + $this.innerHeight() + bufferSpace >=
       $this[0].scrollHeight
@@ -86,44 +85,69 @@ class NewsList extends Component {
     if (window.isMobile) enableUI('bodySectionDrawer', { fullScreen: true })
   }
 
-  render() {
-    const { isLoading, sortedNewsItems } = this.props
-    const itemHeight = this.state.initialRender ? 'auto' : 0
+  closeTips() {
+    this.props.setActiveEntity({ type: 'newsItem', id: '1' })
+    this.setState({
+      initialRenderTips: false
+    })
+  }
 
+  renderView(viewState, itemHeight, activeFilters, sortedNewsItems) {
+    if (
+      !viewState.activeEntity &&
+      window.isMobile &&
+      !activeFilters.size &&
+      this.state.initialRenderTips
+    ) {
+      return <Tips closeTips={this.closeTips.bind(this)} />;
+    }
+    else if (!viewState.sortedNewsItems.length) {
+      return (
+        <div className="pa3 tc mt4">
+          <div className="pointer">
+            <h4 className="fw6 mv3 f4">No results found</h4>
+          </div>
+          <div className="flex justify-between flex-wrap">
+            <div className="f6 silver center">
+              <span className="ph2">Try changing your search query or removing some filters</span>
+            </div>
+          </div>
+        </div>
+      )
+    }
+
+    const mappedItems = viewState.sortedNewsItems.map((newsItem) => (
+      <NewsListItemAnimated
+      key={newsItem.get('id')}
+      {...this.props}
+      newsItem={newsItem}
+      height={itemHeight}
+      setActiveNewsItem={this.setActiveNewsItem}
+      />
+    ))
+    return mappedItems
+  }
+
+
+  render() {
+    const itemHeight = this.state.initialRender ? 'auto' : 0
+    const { newsItems, isLoading, activeEntity, activeFilters, sortedNewsItems } = this.props
+    const viewState = {
+      activeEntity: activeEntity,
+      newsItems: newsItems,
+      sortedNewsItems: sortedNewsItems
+    }
     return (
       <Fragment>
-        {isLoading('newsItems') && (
-          <LoadingIndicator className="overlay bg-white-70" />
-        )}
         <div
           id="newsfeed"
           className="flex-auto relative overflow-y-hidden overflow-y-auto-m"
-        >
-          <div>
-            {!sortedNewsItems.length && (
-              <div className="pa3 tc mt4">
-                <div className="pointer">
-                  <h4 className="fw6 mv3 f4">No results found!</h4>
-                </div>
-                <div className="flex justify-between flex-wrap">
-                  <div className="f6 silver center">
-                    <span className="ph2">
-                      Try changing your search query or removing some filters.
-                    </span>
-                  </div>
-                </div>
-              </div>
-            )}
-            {sortedNewsItems.map((newsItem) => (
-              <NewsListItemAnimated
-                key={newsItem.get('id')}
-                {...this.props}
-                newsItem={newsItem}
-                height={itemHeight}
-                setActiveNewsItem={this.setActiveNewsItem}
-              />
-            ))}
-          </div>
+          style={
+            !activeEntity && window.isMobile && !activeFilters.size && this.state.initialRenderTips
+              ? {marginTop: '-110px', background: '#fff'}
+              : {}
+          }>
+          {this.renderView(viewState, itemHeight, activeFilters, sortedNewsItems)}
           <div>
             {!isLoading('newsItems') &&
               isLoading('newsfeed') && <LoadingIndicator />}
