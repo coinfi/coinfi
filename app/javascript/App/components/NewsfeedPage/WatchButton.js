@@ -11,7 +11,7 @@ const WatchButton = ({
 }) => {
   const hasTextClassNames = 'btn btn-xs btn-gray'
 
-  if (isWatching(coin.get('id')))
+  if (isWatching(coin.get('id'))) {
     return (
       <Icon
         name="star"

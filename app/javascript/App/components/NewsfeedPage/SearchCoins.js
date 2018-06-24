@@ -35,7 +35,6 @@ class SearchCoins extends Component {
       user,
       onWatch,
     } = this.props
-    debugger
     return (
       <div className="search-field">
         <div className="flex items-center ph2 f5 tiber">
