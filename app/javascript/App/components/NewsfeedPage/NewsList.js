@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react'
 import _ from 'lodash'
-import NewsListItemAnimated from './NewsListItemAnimated'
+import NewsListItem from './NewsListItem'
 import LoadingIndicator from '../LoadingIndicator'
 import Tips from './Tips'
 
@@ -117,12 +117,11 @@ class NewsList extends Component {
     }
 
     const mappedItems = viewState.sortedNewsItems.map((newsItem) => (
-      <NewsListItemAnimated
-      key={newsItem.get('id')}
-      {...this.props}
-      newsItem={newsItem}
-      height={itemHeight}
-      setActiveNewsItem={this.setActiveNewsItem}
+      <NewsListItem
+        key={newsItem.get('id')}
+        newsItem={newsItem}
+        {...this.props}
+        setActiveNewsItem={this.setActiveNewsItem}
       />
     ))
     return mappedItems
