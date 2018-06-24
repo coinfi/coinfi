@@ -1,25 +1,19 @@
 import React from 'react'
 import { FilterButtonValue } from './Filters/FilterButton'
-import Icon from './Icon'
 
 const FilterTags = (props) => {
   const { removeFilter, activeFilters } = props
   return (
     <div>
-      {activeFilters.map((filter, i) => (
+      {activeFilters.map((filter) => (
         <div
-          key={i}
-          className="tag-alt2 pa2"
+          key={filter.get('key')}
+          className="coin-filter-tag pa1"
         >
-          <span className="ml2">
-            <FilterButtonValue filter={filter} />
-          </span>
-          <Icon
-            name="times"
-            regular
-            className="ml2 pa2-ns"
-            onClick={() => removeFilter(filter.get('key'))}
-          />
+          <FilterButtonValue filter={filter} />
+          <a className="ml2 mr1 gray" onClick={() => removeFilter(filter.get('key'))}>
+            <i className="icon far fa-times" />
+          </a>
         </div>
       ))}
     </div>

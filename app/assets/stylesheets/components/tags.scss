@@ -1,6 +1,6 @@
 .tag,
 .tag-alt,
-.tag-alt2 {
+.coin-filter-tag {
   display: inline-block;
   // padding: $sp1;
   color: $aqua;
@@ -20,16 +20,16 @@
   font-weight: normal;
   padding: $sp2;
 }
-.tag-alt2 {
+.coin-filter-tag {
   color: $gray;
   border: 1px solid $moon-gray;
+  border-radius: 2px;
   background-color: $white;
-  font-weight: 600;
-  // padding: $sp2 0.75rem;
+  line-height: 1.33;
+  font-size: $f6;
+  font-weight: normal;
   text-transform: none;
 }
-@media only screen and (min-width:768px) {
-  .tag-alt2 {
-    padding:0
-  }
+.icon {
+  vertical-align: middle;
 }

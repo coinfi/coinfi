@@ -40,7 +40,7 @@ textarea {
   border-radius: 2px;
   -webkit-border-radius: 2px;
   color: $black-70;
-  font-family: $sans-alt;
+  font-family: $body-font;
   box-sizing: border-box;
   &:focus {
     @include highlight();
@@ -57,6 +57,7 @@ textarea {
     box-shadow: none;
     -webkit-box-shadow: none;
     background: transparent;
+    line-height: 1.5;
   }
 }
 .icon-input {
@@ -71,6 +72,7 @@ textarea {
     transform: translateY(-50%);
     -webkit-transform: translateY(-50%);
     z-index: 2;
+    padding: 0;
     &:last-child {
       left: initial;
       right: $sp3;

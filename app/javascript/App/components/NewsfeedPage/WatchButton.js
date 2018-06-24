@@ -11,17 +11,17 @@ const WatchButton = ({
 }) => {
   const hasTextClassNames = 'btn btn-xs btn-gray'
 
-  if (isWatching(coin.get('id')))
+  if (isWatching(coin.get('id'))) {
     return (
       <Icon
         name="star"
         solid
         className={`aqua ${hasText ? hasTextClassNames : ''}`}
-        onClick={() => updateUser({ unwatchCoin: coin.get('id') })}
-      >
-        {hasText && 'Watched'}
+        onClick={() => updateUser({ unwatchCoin: coin.get('id') })}>
+        {hasText && 'Watching'}
       </Icon>
     )
+  }
   return (
     <div className="div tooltipped">
       <Icon
