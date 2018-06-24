@@ -83,11 +83,10 @@ function* onSetActiveCoin(action) {
 
 function* newsitemParams() {
   const activeFilters = yield select(selectors.activeFilters)
-  let { coins, ...params } = buildFilterObject(activeFilters)
-  if (coins) {
-    params.coinIDs = coins.map((coin) => coin.id)
-  } else {
-    params.coinIDs = yield select(selectors.coinIDs)
+  let params = buildFilterObject(activeFilters)
+  if (!params.coins) {
+    const coins = yield select(selectors.coins)
+    params.coinIDs = coins.map((coin) => coin.get('id'))
   }
   return params
 }

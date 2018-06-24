@@ -23,9 +23,8 @@ const CoinBody = (props) => {
           {coin.get('name')}
           <span className="ml2">({coin.get('symbol')})</span>
         </a>
-        <div className="tooltipped">
-          <WatchButton {...props} coin={coin} hasText />
-          {!user && <div className="tooltip">Login to watch</div>}
+        <div>
+          <WatchButton {...props} coin={coin} />
         </div>
       </div>
       <div className="min-h12e flex items-center justify-center">
