@@ -1,17 +1,10 @@
 import React from 'react'
 import Icon from '../Icon'
 
-const WatchButton = ({
-  isWatching,
-  coin,
-  updateUser,
-  onWatch,
-  hasText,
-  user
-}) => {
-  const hasTextClassNames = 'btn btn-xs btn-gray'
+const WatchButton = ({ isWatching, coin, updateUser, user, onWatch, hasText }) => {
+  const hasTextClassNames = "btn btn-xs btn-gray"
 
-  if (isWatching(coin.get('id')))
+  if (isWatching(coin.get('id'))) {
     return (
       <Icon
         name="star"
@@ -24,12 +17,12 @@ const WatchButton = ({
   }
   return (
     <div className="div tooltipped">
+      {!user && <div className="tooltip fl">Login to watch</div>}
       <Icon
         name="star"
         light
         className={`light-silver ${hasText ? hasTextClassNames : ''}`}
         onClick={() => {
-          if (!user) return (window.location = '/login')
           if (onWatch) onWatch(coin)
           updateUser({ watchCoin: coin.get('id') })
         }}

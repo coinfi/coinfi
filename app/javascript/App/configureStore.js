@@ -17,7 +17,7 @@ export default function configureStore() {
     composeEnhancers(...enhancers)
   )
   const persistor = persistStore(store)
-  persistor.purge()
+  // persistor.purge()
   sagaMiddleware.run(appSagas)
   return { store, persistor }
 }
