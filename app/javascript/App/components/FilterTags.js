@@ -5,21 +5,15 @@ const FilterTags = (props) => {
   const { removeFilter, activeFilters } = props
   return (
     <div>
-      {activeFilters.map((filter, i) => (
-        <div key={i} className="tag-alt2">
-          {filter.get('value') &&
-            filter.get('value').size > 1 && (
-              <span className="fw4 mr2">
-                <FilterButtonLabel filter={filter} />
-              </span>
-            )}
+      {activeFilters.map((filter) => (
+        <div
+          key={filter.get('key')}
+          className="coin-filter-tag pa1"
+        >
           <FilterButtonValue filter={filter} />
-          <Icon
-            name="times"
-            regular
-            className="ml2"
-            onClick={() => removeFilter(filter.get('key'))}
-          />
+          <a className="ml2 mr1 gray" onClick={() => removeFilter(filter.get('key'))}>
+            <i className="icon far fa-times" />
+          </a>
         </div>
       ))}
     </div>
