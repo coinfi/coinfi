@@ -10,10 +10,8 @@ namespace :feeds do
 
   desc "Unsubscribe to all the feeds"
   task :unsubscribe_all => :environment do
-    subs = FeedSource.active.fetch_all_subscriptions
-
-    subs.each do |sub|
-      puts sub.unsubscribe!
+    batch_process(FeedSource.active.fetch_all_subscriptions) do |source|
+      source.unsubscribe!
     end
   end
 
@@ -66,9 +64,9 @@ namespace :feeds do
   task :check_all_feed_source_subscriptions => :environment do
     not_subscribed_ids = FeedSource.ids_without_subs
     if not_subscribed_ids.empty?
-      puts "All Feed Sources are subscribed"
+      puts "All FeedSources are subscribed!"
     else
-      puts "These feed sources are not subscribed #{not_subscribed_ids}"
+      puts "These FeedSources are not subscribed: #{not_subscribed_ids}"
     end
   end
 end
