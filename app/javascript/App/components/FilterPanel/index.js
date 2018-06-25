@@ -6,9 +6,12 @@ import { normalizeFilterData } from '../../lib/stateHelpers'
 
 class FilterPanel extends Component {
   state = { filters: {} }
-  componentWillMount() {
-    this.props.activeFilters.forEach((filter) => {
-      this.onChange(filter.get('key'))(filter.get('value'))
+  componentDidMount() {
+    const filters = { ...this.state.filters }
+    this.props.activeFilters.forEach((value) => {
+      if (value.toJS) value = value.toJS()
+      filters[value.key] = value.value
+      this.setState({ filters })
     })
   }
   onChange = (key) => (value) => {
