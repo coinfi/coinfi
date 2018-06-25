@@ -29,7 +29,7 @@ class FeedSource < ApplicationRecord
     # TODO: Change this now that we have > 500 subscriptions
     body = {
       'hub.mode' => 'list',
-      'by_page' => SUPERFEEDR_MAX_PER_PAGE, # This is the max supported by SuperFeedr
+      'by_page' => FeedSource::SUPERFEEDR_MAX_PER_PAGE, # This is the max supported by SuperFeedr
       'page' => page
     }
 
@@ -51,7 +51,7 @@ class FeedSource < ApplicationRecord
       page += 1
       new_subs = fetch_subs(page)
       subs += new_subs
-      break if new_subs.size < SUPERFEEDR_MAX_PER_PAGE
+      break if new_subs.size < FeedSource::SUPERFEEDR_MAX_PER_PAGE
     end
 
     subs
@@ -71,24 +71,24 @@ class FeedSource < ApplicationRecord
       'hub.mode' => 'retrieve',
       'hub.topic' => feed_url,
       'format' => 'json',
-      'count' => SUPERFEEDR_RETRIEVE_BATCH_SIZE
+      'count' => FeedSource::SUPERFEEDR_RETRIEVE_BATCH_SIZE
     }
 
     body.merge!('before' => before ) if before
 
     options = {
-      basic_auth: SUPERFEEDR_AUTH,
+      basic_auth: FeedSource::SUPERFEEDR_AUTH,
       body: body
     }
 
-    results = HTTParty.get(SUPERFEEDR_API_URL, options)
+    results = HTTParty.get(FeedSource::SUPERFEEDR_API_URL, options)
 
     items = results['items']
     puts "Fetched #{items.size} items"
     last_item_id = items.last.try(:[], "id") # using try in case 0 items
     puts "Last item fetched: #{last_item_id}"
 
-    items += retrieve(before: last_item_id) unless items.size < SUPERFEEDR_RETRIEVE_BATCH_SIZE
+    items += retrieve(before: last_item_id) unless items.size < FeedSource::SUPERFEEDR_RETRIEVE_BATCH_SIZE
     items
   end
 
@@ -108,11 +108,11 @@ class FeedSource < ApplicationRecord
     }
 
     options = {
-      basic_auth: SUPERFEEDR_AUTH,
+      basic_auth: FeedSource::SUPERFEEDR_AUTH,
       body: body
     }
 
-    HTTParty.post(SUPERFEEDR_API_URL, options)
+    HTTParty.post(FeedSource::SUPERFEEDR_API_URL, options)
 
     # If the line above fails it throws an error so if we got here,
     # we can assume this one has subscribed successfully.
@@ -127,11 +127,11 @@ class FeedSource < ApplicationRecord
     }
 
     options = {
-      basic_auth: SUPERFEEDR_AUTH,
+      basic_auth: FeedSource::SUPERFEEDR_AUTH,
       query: query
     }
 
-    subs_with_this_feed_url = HTTParty.get(SUPERFEEDR_API_URL, options)
+    subs_with_this_feed_url = HTTParty.get(FeedSource::SUPERFEEDR_API_URL, options)
     subs_with_this_feed_url.any?{|sub| sub["subscription"]["endpoint"] == callback_url}
   end
 
