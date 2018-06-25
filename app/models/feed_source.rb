@@ -61,7 +61,7 @@ class FeedSource < ApplicationRecord
     all_subs = fetch_all_subs
     fs_ids_missing_subs = []
     FeedSource.active.find_each do |fs|
-      fs_ids_missing_subs << fs.id unless all_subs.any?{|sub| sub["feed"]["url"] == fs.feed_url and sub["endpoint"] == fs.callback_url}
+      fs_ids_missing_subs << fs.id unless all_subs.any? { |sub| sub["feed"]["url"] == fs.feed_url and sub["endpoint"] == fs.callback_url }
     end
     fs_ids_missing_subs
   end
@@ -98,9 +98,9 @@ class FeedSource < ApplicationRecord
     items.each{|item| NewsItemRaw.ingest!(item, slug)}
   end
 
-  def subscribe!
+  def subscribe!(is_subscribe = true)
     body = {
-      'hub.mode' => 'subscribe',
+      'hub.mode' => is_subscribe ? 'subscribe' : 'unsubscribe',
       'hub.topic' => feed_url,
       'format' => 'json',
       'hub.callback' => callback_url,
@@ -116,7 +116,7 @@ class FeedSource < ApplicationRecord
 
     # If the line above fails it throws an error so if we got here,
     # we can assume this one has subscribed successfully.
-    update(is_subscribed: true)
+    update(is_subscribed: is_subscribe)
   end
 
   def subscribed?
@@ -133,6 +133,10 @@ class FeedSource < ApplicationRecord
 
     subs_with_this_feed_url = HTTParty.get(SUPERFEEDR_API_URL, options)
     subs_with_this_feed_url.any?{|sub| sub["subscription"]["endpoint"] == callback_url}
+  end
+
+  def unsubscribe!
+    subscribe!(false)
   end
 
   def callback_url
