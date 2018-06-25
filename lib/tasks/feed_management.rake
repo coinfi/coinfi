@@ -10,7 +10,7 @@ namespace :feeds do
 
   desc "Unsubscribe to all the feeds"
   task :unsubscribe_all => :environment do
-    batch_process(FeedSource.active.fetch_all_subscriptions) do |source|
+    batch_process(FeedSource.active.fetch_all_subs) do |source|
       source.unsubscribe!
     end
   end
