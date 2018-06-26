@@ -1,16 +1,10 @@
 header.topnav.ph1
-  .flex.items-center.justify-end.h2.mv2
+  button.pa2.pr3.btn-icon.f3.white.mobile-nav-toggle
+    img src=image_path('nav-trigger.svg')
+  .flex.items-center.justify-center.h2.mv2.nav-topbar
     a.flex-none href="/"
       .pl2.flex.items-center
-        img.w5e src=image_path('logo.svg')
-        span.white-90.pt1.ml2
-          | beta
-    .flex-auto.w-15-m
-    .conceal-m
-      button.pa2.btn-icon.f3.white.search-toggle
-        i.fal.fa-search
-      button.pa2.pr3.btn-icon.f3.white.mobile-nav-toggle
-        i.fal.fa-bars
+        img src=image_path('logo.svg')
     .flex-none.dn.db-m
       .flex.items-center.justify-between
         = render partial: 'components/main_nav', locals: { klass: 'nav-x dark small pr3' }
