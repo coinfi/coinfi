@@ -27,14 +27,14 @@ const NewsListHeader = (props) => {
             <button
             className="btn btn-blue btn-xs"
             onClick={() => enableUI('coinListDrawer', { fullScreen: true })}
-            style={{...btnStyle, ...{background: '#2495ce', flex: 1}}}
+            style={{...btnStyle, ...{background: '#2495ce', flex: 1, textTransform: 'none', fontSize: 14}}}
             >
             <Icon name="list" className="mr2" />
             <span>Coin list</span>
             </button>
             <button
               className="btn btn-blue btn-xs flex-auto"
-              style={{...btnStyle, ...{flex: 1}}}
+              style={{...btnStyle, ...{flex: 1, fontSize: 14, textTransform: 'none', padding:19}}}
               onClick={newsfeedTips}
             >
               <img style={{height:10}} src={bulbIcon} />
@@ -52,7 +52,7 @@ const NewsListHeader = (props) => {
             <button
               className="btn btn-blue btn-xs"
               onClick={() => enableUI('coinListDrawer', { fullScreen: true })}
-              style={window.isMobile ? {...btnStyle, ...{background: '#2495ce', flex: 1}} : {}}
+              style={window.isMobile ? {...btnStyle, ...{background: '#2495ce', flex: 1, textTransform: 'none'}} : {}}
             >
               <Icon name="list" className="mr2" />
               <span>Coin list</span>
