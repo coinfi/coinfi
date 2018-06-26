@@ -18,6 +18,7 @@ class FilterPanel extends Component {
     const filters = { ...this.state.filters }
     if (value.toJS) value = value.toJS()
     filters[key] = value
+    if (!value.length) delete filters[key]
     this.setState({ filters })
   }
   applyFilters = () => {
