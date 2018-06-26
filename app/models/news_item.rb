@@ -15,7 +15,7 @@ class NewsItem < ApplicationRecord
 
   alias_method :categories, :news_categories
 
-  after_create :notify_news_tagger
+  after_create_commit :notify_news_tagger
 
   def coin_link_data
     coins.map{ |c| c.as_json(only: [:symbol, :slug] ) }
@@ -38,6 +38,6 @@ class NewsItem < ApplicationRecord
     return unless news_tagger_endpoint.present?
 
     auth = {username: ENV.fetch('NEWS_TAGGER_BASIC_AUTH_USERNAME'), password: ENV.fetch('NEWS_TAGGER_BASIC_AUTH_PASSWORD')}
-    HTTParty.post "#{news_tagger_endpoint}/#{self.id}/assign_entities", basic_auth: auth
+    puts HTTParty.post "#{news_tagger_endpoint}/#{self.id}/assign_entities", basic_auth: auth
   end
 end
