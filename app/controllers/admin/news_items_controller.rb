@@ -9,11 +9,17 @@ module Admin
 
     def index
       @scope = params[:scope] 
-      @scope = 'pending' unless ['pending', 'tagged'].include? @scope #whitelist this since we use send later
+      @scope = 'pending' unless ['pending', 'tagged'].include?(@scope) # Whitelist since @scope we use send later
 
       page = Administrate::Page::Collection.new(dashboard)
+
       resources = NewsItem.send(@scope).page(params[:page]).per(records_per_page)
-      render :index, locals: { page: page, resources: resources, search_term: search_term, show_search_bar: show_search_bar? }
+      respond_to do |format|
+        format.html {
+          render :index, locals: { page: page, resources: resources, search_term: search_term, show_search_bar: show_search_bar? }
+        }
+        format.csv { send_data NewsItemCsvGenerator.to_csv(NewsItem.tagged) }
+      end
     end
 
     private
