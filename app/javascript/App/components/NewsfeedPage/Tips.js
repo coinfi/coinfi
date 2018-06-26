@@ -11,7 +11,6 @@ const titleStyle = {
 
 const bottomTitleStyle = Object.assign({}, titleStyle)
 
-titleStyle.borderBottom = '1px solid rgba(0, 0, 0, 0.12)',
 titleStyle.paddingLeft = 15
 titleStyle.paddingBottom = 10
 
@@ -34,7 +33,7 @@ export default ({ closeTips }) => {
   return (
     <div className="lh-copy">
       <div>
-        <div style={{paddingTop:'15px'}}>
+        <div style={{paddingTop:'15px', height:60, borderBottom: '1px solid rgba(0, 0, 0, 0.12)' }}>
           <div style={{float:'right', marginRight: '15px'}} >
             {closeTips && <Icon name="times" className="f4 slate" regular onClick={closeTips} />}
           </div>
