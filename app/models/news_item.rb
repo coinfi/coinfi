@@ -1,7 +1,6 @@
 class NewsItem < ApplicationRecord
-
   belongs_to :feed_source
-  has_one :user # references the Admin user who tagged this NewsItem
+  has_one :user # References the Admin user who tagged this NewsItem
   has_one :news_item_raw
   has_many :mentions, class_name: 'NewsCoinMention'
   has_many :coins, through: :mentions
@@ -18,7 +17,7 @@ class NewsItem < ApplicationRecord
   after_create_commit :notify_news_tagger
 
   def coin_link_data
-    coins.map{ |c| c.as_json(only: [:symbol, :slug] ) }
+    coins.map { |coin| coin.as_json(only: [:symbol, :slug] ) }
   end
 
   def coin_symbols
