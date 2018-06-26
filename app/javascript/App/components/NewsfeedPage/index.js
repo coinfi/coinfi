@@ -6,16 +6,24 @@ import LayoutTablet from './LayoutTablet'
 import LayoutMobile from './LayoutMobile'
 
 class NewsfeedPage extends Component {
+  state = {
+    initialRenderTips: false
+  }
   componentWillMount() {
     window.addEventListener('resize', debounce(() => this.forceUpdate()), 500)
   }
+
+  newsfeedTips() {
+    this.setState({initialRenderTips: !this.state.initialRenderTips})
+  }
+
   render() {
     if (window.isMobile) {
-      return <LayoutMobile {...this.props} />
+      return <LayoutMobile {...this.props} newsfeedTips={(event) => this.newsfeedTips(event)} initialRenderTips={this.state.initialRenderTips} />
     } else if (window.isTablet) {
-      return <LayoutTablet {...this.props} />
+      return <LayoutTablet {...this.props} newsfeedTips={this.newsfeedTips} initialRenderTips={this.state.initialRenderTips} />
     } else {
-      return <LayoutDesktop {...this.props} />
+      return <LayoutDesktop {...this.props} newsfeedTips={this.newsfeedTips} initialRenderTips={this.state.initialRenderTips} />
     }
   }
 }
