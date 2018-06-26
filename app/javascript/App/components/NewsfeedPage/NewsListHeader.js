@@ -59,7 +59,13 @@ const NewsListHeader = (props) => {
             </button>
           )}
           <SearchCoins {...props} />
-          <button onClick={toggleFilters} className="btn btn-xs btn-white">
+          <button onClick={toggleFilters} className="btn btn-xs btn-white"
+            style={{ marginLeft: 90,
+              width: 200,
+              textTransform: 'none',
+              fontSize: 14
+            }}
+          >
             <Icon name="filter" className="mr2" />
             Filters
           </button>
