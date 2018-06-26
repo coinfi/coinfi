@@ -21,9 +21,9 @@ class NewsfeedPage extends Component {
     if (window.isMobile) {
       return <LayoutMobile {...this.props} newsfeedTips={(event) => this.newsfeedTips(event)} initialRenderTips={this.state.initialRenderTips} />
     } else if (window.isTablet) {
-      return <LayoutTablet {...this.props} newsfeedTips={this.newsfeedTips} initialRenderTips={this.state.initialRenderTips} />
+      return <LayoutTablet {...this.props} initialRenderTips={this.state.initialRenderTips} />
     } else {
-      return <LayoutDesktop {...this.props} newsfeedTips={this.newsfeedTips} initialRenderTips={this.state.initialRenderTips} />
+      return <LayoutDesktop {...this.props} initialRenderTips={this.state.initialRenderTips} />
     }
   }
 }

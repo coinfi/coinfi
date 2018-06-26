@@ -19,32 +19,45 @@ const NewsListHeader = (props) => {
 
   return (
     <Fragment>
-      <SectionHeaderTight>
-        <div className="flex-auto flex items-center">
+      {window.isMobile && (
+          <SectionHeaderTight>
+          <div className="flex-auto flex items-center">
           {!window.isDesktop && (
             <Fragment>
-              <button
-                className="btn btn-blue btn-xs"
-                onClick={() => enableUI('coinListDrawer', { fullScreen: true })}
-                style={{...btnStyle, ...{background: '#2495ce', flex: 1}}}
-              >
-                <Icon name="list" className="mr2" />
-                <span>Coin list</span>
-              </button>
-              <button
-                className="btn btn-blue btn-xs flex-auto"
-                style={{...btnStyle, ...{flex: 1}}}
-                onClick={newsfeedTips}
-              >
-                <img style={{height:10}} src={bulbIcon} />
-                <span style={{marginLeft:5}}>Tips</span>
-              </button>
+            <button
+            className="btn btn-blue btn-xs"
+            onClick={() => enableUI('coinListDrawer', { fullScreen: true })}
+            style={{...btnStyle, ...{background: '#2495ce', flex: 1}}}
+            >
+            <Icon name="list" className="mr2" />
+            <span>Coin list</span>
+            </button>
+            <button
+              className="btn btn-blue btn-xs flex-auto"
+              style={{...btnStyle, ...{flex: 1}}}
+              onClick={newsfeedTips}
+            >
+              <img style={{height:10}} src={bulbIcon} />
+              <span style={{marginLeft:5}}>Tips</span>
+            </button>
             </Fragment>
           )}
-        </div>
-      </SectionHeaderTight>
+          </div>
+          </SectionHeaderTight>
+        )
+      }
       <SectionHeader>
         <div className="flex items-center">
+          {!window.isMobile && (
+            <button
+              className="btn btn-blue btn-xs"
+              onClick={() => enableUI('coinListDrawer', { fullScreen: true })}
+              style={window.isMobile ? {...btnStyle, ...{background: '#2495ce', flex: 1}} : {}}
+            >
+              <Icon name="list" className="mr2" />
+              <span>Coin list</span>
+            </button>
+          )}
           <SearchCoins {...props} />
           <button onClick={toggleFilters} className="btn btn-xs btn-white">
             <Icon name="filter" className="mr2" />
