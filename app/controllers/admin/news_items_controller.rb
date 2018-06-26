@@ -10,13 +10,23 @@ module Admin
     def pending
       page = Administrate::Page::Collection.new(dashboard)
       resources = NewsItem.pending.page(params[:page]).per(records_per_page)
-      render :index, locals: { page: page, resources: resources, search_term: search_term, show_search_bar: show_search_bar? }
+      respond_to do |format|
+        format.html {
+          render :index, locals: { page: page, resources: resources, search_term: search_term, show_search_bar: show_search_bar? }
+        }
+        format.csv { send_data NewsItemCsvGenerator.to_csv(NewsItem.pending) }
+      end
     end
 
     def tagged
       page = Administrate::Page::Collection.new(dashboard)
       resources = NewsItem.tagged.page(params[:page]).per(records_per_page)
-      render :index, locals: { page: page, resources: resources, search_term: search_term, show_search_bar: show_search_bar? }
+      respond_to do |format|
+        format.html {
+          render :index, locals: { page: page, resources: resources, search_term: search_term, show_search_bar: show_search_bar? }
+        }
+        format.csv { send_data NewsItemCsvGenerator.to_csv(NewsItem.tagged) }
+      end
     end
 
     private
