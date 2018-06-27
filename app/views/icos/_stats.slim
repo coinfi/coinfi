@@ -19,14 +19,14 @@
       = @coin.ico_personal_cap_max || '-'
     .stat-block.col-xs-6.col-sm-3.col-md-12.col-lg-6.mt4
       label Start Date
-      - if @coin.ico_start_date
-        = DateTime.strptime(@coin.ico_start_date.to_s, '%s').strftime('%B %e, %Y')
+      - if @coin.ico_start_epoch
+        = DateTime.strptime(@coin.ico_start_epoch.to_s, '%s').strftime('%B %e, %Y')
       - else
         | -
     .stat-block.col-xs-6.col-sm-3.col-md-12.col-lg-6.mt4
       label End Date
-      - if @coin.ico_end_date
-        = DateTime.strptime(@coin.ico_end_date.to_s, '%s').strftime('%B %e, %Y')
+      - if @coin.ico_end_epoch
+        = DateTime.strptime(@coin.ico_end_epoch.to_s, '%s').strftime('%B %e, %Y')
       - else
         | -
     .stat-block.col-xs-6.col-sm-3.col-md-12.col-lg-6.mt4

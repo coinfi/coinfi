@@ -15,7 +15,7 @@ class IcosController < ApplicationController
     )
     render(layout: false) if params[:naked]
     @react_props = {
-      industries: CoinIndustry.pluck(:name), 
+      industries: CoinIndustry.pluck(:name),
       tokenTypes: Coin.token_types,
       influencers: Influencer.pluck(:name)
     }
@@ -48,7 +48,7 @@ class IcosController < ApplicationController
       end
       if ids[0] && ids[1]
         query[:id_in] = ids[0] & ids[1]
-      else 
+      else
         query[:id_in] = ids[0] || ids[1]
       end
       query[:id_in] << -1 if query[:id_in].empty? # Ransack returns all results if empty
@@ -56,12 +56,12 @@ class IcosController < ApplicationController
     query
   end
 
-  def parse_param key, value
+  def parse_param(key, value)
     case key
     when :closingDate
-      [:ico_end_date_gteq, parse_date(value)]
+      [:ico_end_epoch_gteq, parse_date(value)]
     when :startingDate
-      [:ico_start_date_gteq, parse_date(value)]
+      [:ico_start_epoch_gteq, parse_date(value)]
     when :hardCapMin
       [:ico_fundraising_goal_usd_gteq, value.to_i * 1_000_000]
     when :hardCapMax
@@ -74,7 +74,7 @@ class IcosController < ApplicationController
   end
 
   def filter_params
-    params.permit! 
+    params.permit!
     p = HashWithIndifferentAccess.new params[:q]
     return [] unless p
     if p[:hardCap]
@@ -84,7 +84,7 @@ class IcosController < ApplicationController
     p
   end
 
-  def parse_date str
+  def parse_date(str)
     DateTime.parse(str).to_i
   end
 
