@@ -5,7 +5,7 @@ import LoadingIndicator from '../LoadingIndicator'
 import Tips from './Tips'
 
 class NewsList extends Component {
-  state = { initialRender: true, initialRenderTips:true }
+  state = { initialRender: true, initialRenderTips:false }
 
   constructor(props) {
     super(props)
@@ -86,18 +86,13 @@ class NewsList extends Component {
   }
 
   closeTips() {
-    this.props.setActiveEntity({ type: 'newsItem', id: '1' })
-    this.setState({
-      initialRenderTips: false
-    })
+    this.props.newsfeedTips()
   }
 
-  renderView(viewState, itemHeight, activeFilters, sortedNewsItems) {
+  renderView(viewState, itemHeight, activeFilters, sortedNewsItems, initialRenderTips) {
     if (
-      !viewState.activeEntity &&
-      window.isMobile &&
-      !activeFilters.size &&
-      this.state.initialRenderTips
+      initialRenderTips &&
+      window.isMobile
     ) {
       return <Tips closeTips={this.closeTips.bind(this)} />;
     }
@@ -130,7 +125,7 @@ class NewsList extends Component {
 
   render() {
     const itemHeight = this.state.initialRender ? 'auto' : 0
-    const { newsItems, isLoading, activeEntity, activeFilters, sortedNewsItems } = this.props
+    const { newsItems, isLoading, activeEntity, activeFilters, sortedNewsItems, initialRenderTips } = this.props
     const viewState = {
       activeEntity: activeEntity,
       newsItems: newsItems,
@@ -142,11 +137,11 @@ class NewsList extends Component {
           id="newsfeed"
           className="flex-auto relative overflow-y-hidden overflow-y-auto-m"
           style={
-            !activeEntity && window.isMobile && !activeFilters.size && this.state.initialRenderTips
-              ? {marginTop: '-110px', background: '#fff'}
+            !activeEntity && window.isMobile && !activeFilters.size && initialRenderTips
+              ? {marginTop: '-65px', background: '#fff', position:'absolute'}
               : {}
           }>
-          {this.renderView(viewState, itemHeight, activeFilters, sortedNewsItems)}
+          {this.renderView(viewState, itemHeight, activeFilters, sortedNewsItems, initialRenderTips)}
           <div>
             {!isLoading('newsItems') &&
               isLoading('newsfeed') && <LoadingIndicator />}

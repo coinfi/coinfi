@@ -84,6 +84,13 @@
   height:48px;
 }
 
+.filter-btn, .coins-btn {
+  margin-left: 90px;
+  width: 160px;
+  text-transform: none;
+  font-size: 14px;
+}
+
 @media only screen and (min-width:768px) {
   .mobile-nav-toggle {
     display:none;
@@ -100,6 +107,10 @@
       margin-right:20px;
       margin-top:8px;
     }
+  }
+
+  .filter-btn, .coins-btn {
+    margin-left:0;
   }
 
 }
