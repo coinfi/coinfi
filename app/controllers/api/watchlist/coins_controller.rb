@@ -39,11 +39,11 @@ class Api::Watchlist::CoinsController < ApiController
   def set_watchlist
     @watchlist = current_user.watchlist || Watchlist.create(user: current_user)
   end
-  
+
   def serialized coin
     coin.as_json(only: [
-      :id, :name, :image_url, :symbol, :ico_usd_raised, :ico_fundraising_goal_usd, :ico_end_date,
-      :max_supply, :ico_token_price_usd, :ico_start_date, :slug
+      :id, :name, :image_url, :symbol, :ico_usd_raised, :ico_fundraising_goal_usd, :ico_end_epoch,
+      :max_supply, :ico_token_price_usd, :ico_start_epoch, :slug
     ], methods: [:market_info, :category])
   end
 
