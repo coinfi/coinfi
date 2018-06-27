@@ -55,3 +55,51 @@
     }
   }
 }
+.header-logo {
+  width: 65px;
+}
+.mobile-nav-toggle {
+  position: absolute;
+  margin-left:5px;
+  margin-top:5px;
+  img {
+    height:16px;
+  }
+}
+
+#mobile-nav {
+  .mobile-nav-toggle {
+    margin:0;
+    margin-top:5px;
+    position:static;
+  }
+}
+
+.topnav {
+  width: 101%;
+}
+
+
+.nav-topbar{
+  height:48px;
+}
+
+@media only screen and (min-width:768px) {
+  .mobile-nav-toggle {
+    display:none;
+  }
+  .nav-topbar {
+    display:block;
+    > a {
+      float:left;
+      margin-left:10px;
+      margin-top:6px;
+    }
+    > div {
+      float:right;
+      margin-right:20px;
+      margin-top:8px;
+    }
+  }
+
+}
