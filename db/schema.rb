@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180613051226) do
+ActiveRecord::Schema.define(version: 20180626084917) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -173,8 +173,6 @@ ActiveRecord::Schema.define(version: 20180613051226) do
     t.datetime "updated_at", null: false
     t.string "ico_status"
     t.bigint "ico_usd_raised"
-    t.bigint "ico_start_date"
-    t.bigint "ico_end_date"
     t.decimal "ico_token_price_usd", precision: 10, scale: 2
     t.decimal "ico_token_price_btc", precision: 24, scale: 16
     t.decimal "ico_token_price_eth", precision: 24, scale: 16
@@ -193,6 +191,10 @@ ActiveRecord::Schema.define(version: 20180613051226) do
     t.jsonb "exchanges", array: true
     t.string "previous_name"
     t.integer "influencer_reviews_count"
+    t.bigint "ico_start_epoch"
+    t.bigint "ico_end_epoch"
+    t.datetime "ico_start_date"
+    t.datetime "ico_end_date"
     t.index ["category"], name: "index_coins_on_category"
     t.index ["influencer_reviews_count"], name: "index_coins_on_influencer_reviews_count"
     t.index ["market_cap"], name: "index_coins_on_market_cap", using: :gin
@@ -324,6 +326,7 @@ ActiveRecord::Schema.define(version: 20180613051226) do
     t.datetime "last_human_tagged_on"
     t.datetime "last_machine_tagged_on"
     t.bigint "user_id"
+    t.jsonb "coin_ids"
     t.index ["feed_source_id", "feed_item_id"], name: "index_news_items_on_feed_source_id_and_feed_item_id", unique: true
     t.index ["feed_source_id"], name: "index_news_items_on_feed_source_id"
     t.index ["user_id"], name: "index_news_items_on_user_id"

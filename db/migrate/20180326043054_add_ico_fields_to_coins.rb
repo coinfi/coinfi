@@ -30,37 +30,3 @@ class AddIcoFieldsToCoins < ActiveRecord::Migration[5.1]
     add_column :coins, :exchanges, :jsonb, array: true
   end
 end
-
-=begin
-ico_status string:("active", "upcoming", "ended")
-
-ico_usd_raised int
-ico_start_date int (epoch)
-ico_end_date int (epoch)
-
-ico_token_price_usd decimal(8,2)
-ico_token_price_btc decimal(8,16)
-ico_token_price_eth decimal(8, 16)
-
-ico_personal_cap_usd_min decimal(8,2)
-ico_personal_cap_usd_max decimal(8,2)
-
-ico_fundraising_goal_usd decimal(16,2)
-ico_fundraising_goal_eth decimal(8,16)
-ico_fundraising_status_usd decimal(16,2)
-ico_fundraising_status_eth decimal(8,16)
-
-ico_tokens_sold decimal(16,16)
-
-ico_returns_usd float
-ico_returns_btc float
-ico_returns_eth float
-
-influencer jsonb
-
-excluded_countries jsonb (array)
-
-blockchain_tech stringtoken_type string ("ERC-20", "NEP-5")
-
-exchanges jsonb (array)
-=end
