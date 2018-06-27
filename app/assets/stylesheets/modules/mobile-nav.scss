@@ -112,5 +112,11 @@
   .filter-btn, .coins-btn {
     margin-left:0;
   }
+}
 
+
+@media only screen and (min-width:1024px) {
+  .coins-btn: {
+    display:none;
+  }
 }
