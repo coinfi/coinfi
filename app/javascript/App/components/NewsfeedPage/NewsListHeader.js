@@ -20,37 +20,37 @@ const NewsListHeader = (props) => {
   return (
     <Fragment>
       {window.isMobile && (
-          <SectionHeaderTight>
+        <SectionHeaderTight>
           <div className="flex-auto flex items-center">
-          {!window.isDesktop && (
+
             <Fragment>
-            <button
-            className="btn btn-blue btn-xs"
-            onClick={() => enableUI('coinListDrawer', { fullScreen: true })}
-            style={{...btnStyle, ...{background: '#2495ce', flex: 1, textTransform: 'none', fontSize: 14}}}
-            >
-            <Icon name="list" className="mr2" />
-            <span>Coin list</span>
-            </button>
-            <button
-              className="btn btn-blue btn-xs flex-auto"
-              style={{...btnStyle, ...{flex: 1, fontSize: 14, textTransform: 'none', padding:19}}}
-              onClick={newsfeedTips}
-            >
-              <img style={{height:10}} src={bulbIcon} />
-              <span style={{marginLeft:5}}>Tips</span>
-            </button>
+              <button
+                className="btn btn-blue btn-xs"
+                onClick={() => enableUI('coinListDrawer', { fullScreen: true })}
+                style={{...btnStyle, ...{background: '#2495ce', flex: 1, textTransform: 'none', fontSize: 14}}}
+              >
+                <Icon name="list" className="mr2" />
+                <span>Coin list</span>
+              </button>
+              <button
+                className="btn btn-blue btn-xs flex-auto"
+                style={{...btnStyle, ...{flex: 1, fontSize: 14, textTransform: 'none', padding:19}}}
+                onClick={newsfeedTips}
+              >
+                <img style={{height:10}} src={bulbIcon} />
+                <span style={{marginLeft:5}}>Tips</span>
+              </button>
             </Fragment>
-          )}
+
           </div>
-          </SectionHeaderTight>
+        </SectionHeaderTight>
         )
       }
       <SectionHeader>
-        <div className="flex items-center">
+        <div className="flex items-center flex-auto">
           {!window.isMobile && (
             <button
-              className="btn btn-blue btn-xs"
+              className="btn btn-blue btn-xs coins-btn"
               onClick={() => enableUI('coinListDrawer', { fullScreen: true })}
               style={window.isMobile ? {...btnStyle, ...{background: '#2495ce', flex: 1, textTransform: 'none'}} : {}}
             >
@@ -59,13 +59,7 @@ const NewsListHeader = (props) => {
             </button>
           )}
           <SearchCoins {...props} />
-          <button onClick={toggleFilters} className="btn btn-xs btn-white"
-            style={{ marginLeft: 90,
-              width: 200,
-              textTransform: 'none',
-              fontSize: 14
-            }}
-          >
+          <button onClick={toggleFilters} className="btn btn-xs btn-white filter-btn">
             <Icon name="filter" className="mr2" />
             Filters
           </button>

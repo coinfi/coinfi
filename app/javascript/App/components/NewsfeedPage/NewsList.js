@@ -138,7 +138,7 @@ class NewsList extends Component {
           className="flex-auto relative overflow-y-hidden overflow-y-auto-m"
           style={
             !activeEntity && window.isMobile && !activeFilters.size && initialRenderTips
-              ? {marginTop: '-165px', background: '#fff'}
+              ? {marginTop: '-65px', background: '#fff', position:'absolute'}
               : {}
           }>
           {this.renderView(viewState, itemHeight, activeFilters, sortedNewsItems, initialRenderTips)}
