@@ -6,7 +6,7 @@ import Categories from './filterComponents/Categories'
 import FeedSources from './filterComponents/FeedSources'
 
 const FilterComponent = (props) => {
-  const { filter, newsFeedStyle } = props
+  const { filter, newsFeedStyle, onChange } = props
   const Component = components[filter.get('key')]
   if (!Component) {
     return null
@@ -18,13 +18,13 @@ const FilterComponent = (props) => {
         <MarketMoving {...props} />
       </div>
       <div className="pv4 bb b--geyser" style={newsFeedStyle ? {paddingTop:'.5rem', paddingBottom:'1.5rem'}: ''}>
-        <h4 className="mb2" style={{margin:'15px 0'}}>Date Range</h4>
-        <div className='ma3'>
-          <label>from</label>
+        <h4 className="mb2" style={{margin:'15px 0'}}>Date range</h4>
+        <div className='w-50 dib pa2'>
+          <label>From</label>
           <input type="date" onBlur={onChange} />
         </div>
-        <div className='ma3'>
-          <label>to</label>
+        <div className='w-50 dib pa2'>
+          <label>To</label>
           <input type="date" onBlur={onChange} />
         </div>
       </div>
