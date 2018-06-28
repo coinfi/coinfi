@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180626084917) do
+ActiveRecord::Schema.define(version: 20180628025816) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -128,7 +128,7 @@ ActiveRecord::Schema.define(version: 20180626084917) do
     t.index ["name"], name: "index_coin_industries_on_name", unique: true
   end
 
-  create_table "coin_industries_coins", id: false, force: :cascade do |t|
+  create_table "coin_industries_coins", force: :cascade do |t|
     t.bigint "coin_id", null: false
     t.bigint "coin_industry_id", null: false
     t.index ["coin_id"], name: "index_coin_industries_coins_on_coin_id"
@@ -195,6 +195,7 @@ ActiveRecord::Schema.define(version: 20180626084917) do
     t.bigint "ico_end_epoch"
     t.datetime "ico_start_date"
     t.datetime "ico_end_date"
+    t.string "website_domain"
     t.index ["category"], name: "index_coins_on_category"
     t.index ["influencer_reviews_count"], name: "index_coins_on_influencer_reviews_count"
     t.index ["market_cap"], name: "index_coins_on_market_cap", using: :gin
@@ -229,13 +230,14 @@ ActiveRecord::Schema.define(version: 20180626084917) do
     t.string "name", null: false
     t.string "slug", null: false
     t.string "feed_url", null: false
-    t.string "site_url", null: false
+    t.string "site_hostname", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "feed_type"
     t.boolean "is_subscribed", default: false
     t.datetime "last_received_data_at"
     t.bigint "coin_id"
+    t.boolean "is_active", default: true
     t.index ["coin_id"], name: "index_feed_sources_on_coin_id"
     t.index ["feed_url"], name: "index_feed_sources_on_feed_url", unique: true
     t.index ["name"], name: "index_feed_sources_on_name", unique: true
@@ -313,7 +315,7 @@ ActiveRecord::Schema.define(version: 20180626084917) do
     t.string "title", null: false
     t.text "summary"
     t.text "content"
-    t.string "actor_id", null: false
+    t.string "actor_id"
     t.datetime "feed_item_published_at", null: false
     t.datetime "feed_item_updated_at", null: false
     t.jsonb "feed_item_json"
