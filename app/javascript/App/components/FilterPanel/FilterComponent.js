@@ -18,6 +18,17 @@ const FilterComponent = (props) => {
         <MarketMoving {...props} />
       </div>
       <div className="pv4 bb b--geyser" style={newsFeedStyle ? {paddingTop:'.5rem', paddingBottom:'1.5rem'}: ''}>
+        <h4 className="mb2" style={{margin:'15px 0'}}>Date Range</h4>
+        <div className='ma3'>
+          <label>from</label>
+          <input type="date" onBlur={onChange} />
+        </div>
+        <div className='ma3'>
+          <label>to</label>
+          <input type="date" onBlur={onChange} />
+        </div>
+      </div>
+      <div className="pv4 bb b--geyser" style={newsFeedStyle ? {paddingTop:'.5rem', paddingBottom:'1.5rem'}: ''}>
         <h4 className="mb2" style={{margin:'15px 0'}}>Categories</h4>
         <Categories {...props} />
       </div>

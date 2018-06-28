@@ -15,6 +15,7 @@ class FilterPanel extends Component {
     })
   }
   onChange = (key) => (value) => {
+    console.log('changed')
     const filters = { ...this.state.filters }
     if (value.toJS) value = value.toJS()
     filters[key] = value
