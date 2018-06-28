@@ -18,23 +18,17 @@ class NewsList extends Component {
   componentDidMount() {
     setTimeout(() => {
       this.setState({ initialRender: false })
-    }, 6000)
+    }, 60000)
     this.mountOnScrollHandler()
   }
 
   componentDidUpdate() {
     const timer = setInterval(() => {
       if (!window.isMobile && !window.isTablet) {
-        const $newsfeed = $('#newsfeed')
-        if ($newsfeed.height() < $newsfeed.find('> div').get(0).clientHeight) {
-          clearInterval(timer)
-        } else {
-          this.props.fetchMoreNewsFeed()
-        }
-      } else {
-        clearInterval(timer)
+        this.props.fetchMoreNewsFeed()
       }
-    }, 1000)
+    }, 60000)
+    clearInterval(timer)
   }
 
   componentWillUnmount() {
