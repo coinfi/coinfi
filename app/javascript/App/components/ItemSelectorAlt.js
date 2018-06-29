@@ -25,6 +25,8 @@ export default class ItemSelectorAlt extends Component {
     this.props.onChange(items)
   }
   itemLabel = (item) => {
+    if (/www/.exec(item) !== null)
+      item = item.replace('www.', '')
     if (item instanceof Object) return item.name || item.title || item.label
     return item
   }
@@ -50,11 +52,17 @@ export default class ItemSelectorAlt extends Component {
     return (
       <div className="item-selector-alt nh1 nt1">
         <ul style={{marginLeft:'-1rem'}}>
-          {this.props.items.map((item, i) => (
+          {this.props.items.map((item, i) => {
+            if (/www/.exec(item) !== null) {
+              item = item.replace('.www','').replace(/^/, 'www.')
+            }
+            return (
             <li key={i} className="pa1">
               <ItemButton item={item} />
             </li>
-          ))}
+            )
+          }
+          )}
         </ul>
       </div>
     )
