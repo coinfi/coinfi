@@ -14,6 +14,7 @@ class NewsItem < ApplicationRecord
 
   alias_method :categories, :news_categories
 
+  after_create :link_coin_from_feedsource
   after_create_commit :notify_news_tagger
 
   def coin_link_data
@@ -30,6 +31,13 @@ class NewsItem < ApplicationRecord
 
   def feed_source_name
     feed_source.name
+  end
+
+  private
+
+  def link_coin_from_feedsource
+    feed_source.coin.news_items << self
+    save
   end
 
   def notify_news_tagger
