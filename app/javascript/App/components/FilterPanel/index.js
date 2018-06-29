@@ -3,6 +3,7 @@ import Types from 'prop-types'
 import Layout from './Layout'
 import FilterComponent from './FilterComponent'
 import { normalizeFilterData } from '../../lib/stateHelpers'
+import { DateTime } from 'luxon'
 
 class FilterPanel extends Component {
   state = { filters: {} }
@@ -14,12 +15,23 @@ class FilterPanel extends Component {
       this.setState({ filters })
     })
   }
-  onChange = (key) => (value) => {
-    console.log('changed')
+  onChange = (key, event) => (value) => {
     const filters = { ...this.state.filters }
+
+    if (value.target && value.target.type === 'date') {
+
+      // console.log(DateTime)
+      // console.log(date.toString)
+      const isoDate = DateTime.fromISO(value.target.value).toString()
+
+      // if (value.target.classList.value === 'from') filters['publishedSince'] = isoDate
+      // if (value.target.classList.value === 'to') filters['publishedUntil'] = isoDate
+    }
+
     if (value.toJS) value = value.toJS()
     filters[key] = value
     if (!value.length) delete filters[key]
+    console.log(filters)
     this.setState({ filters })
   }
   applyFilters = () => {
@@ -37,6 +49,7 @@ class FilterPanel extends Component {
     return (
       <Layout {...{ ...props, applyFilters, resetFilters }} newsFeedStyle>
         {filterList.map((filter, index) => {
+          // console.log(filter)
           if (filter.get('key') === 'coins') return null // Temp fix for hiding coins
           if (filter.get('key') === 'keywords') return null
           return (

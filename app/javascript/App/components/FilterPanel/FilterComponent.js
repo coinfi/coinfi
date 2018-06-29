@@ -3,6 +3,7 @@ import Types from 'prop-types'
 import components from './filterComponents'
 import MarketMoving from './filterComponents/MarketMoving'
 import Categories from './filterComponents/Categories'
+import Dates from './filterComponents/Dates'
 import FeedSources from './filterComponents/FeedSources'
 
 const FilterComponent = (props) => {
@@ -19,14 +20,7 @@ const FilterComponent = (props) => {
       </div>
       <div className="pv4 bb b--geyser" style={newsFeedStyle ? {paddingTop:'.5rem', paddingBottom:'1.5rem'}: ''}>
         <h4 className="mb2" style={{margin:'15px 0'}}>Date range</h4>
-        <div className='w-50 dib pa2'>
-          <label>From</label>
-          <input type="date" onBlur={onChange} />
-        </div>
-        <div className='w-50 dib pa2'>
-          <label>To</label>
-          <input type="date" onBlur={onChange} />
-        </div>
+        <Dates {...props} />
       </div>
       <div className="pv4 bb b--geyser" style={newsFeedStyle ? {paddingTop:'.5rem', paddingBottom:'1.5rem'}: ''}>
         <h4 className="mb2" style={{margin:'15px 0'}}>Categories</h4>

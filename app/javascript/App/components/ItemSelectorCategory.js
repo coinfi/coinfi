@@ -12,6 +12,7 @@ export default class ItemSelectorCategory extends Component {
     let items = this.selectedItems()
 	if (!items.categories) items.categories = []
     items.categories.push(item)
+    console.log('add', items.categories)
     this.props.onChange(items.categories)
   }
   remove = (item) => {
