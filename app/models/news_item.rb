@@ -4,7 +4,6 @@ class NewsItem < ApplicationRecord
   has_one :news_item_raw
   has_many :mentions, class_name: 'NewsCoinMention'
   has_many :coins, through: :mentions
-
   has_many :news_item_categorizations, dependent: :destroy
   has_many :news_categories, through: :news_item_categorizations
 
@@ -14,8 +13,7 @@ class NewsItem < ApplicationRecord
 
   alias_method :categories, :news_categories
 
-  after_create :link_coin_from_feedsource
-  after_create_commit :notify_news_tagger
+  after_create_commit :notify_news_tagger, :link_coin_from_feedsource
 
   def coin_link_data
     coins.map { |coin| coin.as_json(only: [:symbol, :slug] ) }
@@ -36,15 +34,19 @@ class NewsItem < ApplicationRecord
   private
 
   def link_coin_from_feedsource
-    feed_source.coin.news_items << self
-    save
+    if feed_source.coin.present?
+      feed_source.coin.news_items |= [self]
+    end
   end
 
   def notify_news_tagger
     news_tagger_endpoint = ENV['NEWS_TAGGER_ENDPOINT']
     return unless news_tagger_endpoint.present?
 
-    auth = {username: ENV.fetch('NEWS_TAGGER_BASIC_AUTH_USERNAME'), password: ENV.fetch('NEWS_TAGGER_BASIC_AUTH_PASSWORD')}
+    auth = {
+      username: ENV.fetch('NEWS_TAGGER_BASIC_AUTH_USERNAME'),
+      password: ENV.fetch('NEWS_TAGGER_BASIC_AUTH_PASSWORD')
+    }
     puts HTTParty.post "#{news_tagger_endpoint}/#{self.id}/assign_entities", basic_auth: auth
   end
 end
