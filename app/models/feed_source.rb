@@ -93,9 +93,10 @@ class FeedSource < ApplicationRecord
   end
 
   def retrieve!
-    items = retrieve
-    items.map!{|item| HashWithIndifferentAccess.new(item)} # since ingest is using symbols to access the hash
-    items.each{|item| NewsItemRaw.ingest!(item, slug)}
+    retrieve.each do |item|
+      # Since ingest is using symbols to access the hash.
+      NewsItemRaw.ingest!(HashWithIndifferentAccess.new(item), slug)
+    end
   end
 
   def subscribe!(is_subscribe = true)
@@ -137,6 +138,26 @@ class FeedSource < ApplicationRecord
 
   def unsubscribe!
     subscribe!(false)
+  end
+
+  def replay!(count = nil)
+    query = {
+      'hub.mode' => 'replay',
+      'hub.topic' => feed_url,
+      'hub.callback' => callback_url,
+      'async' => true
+    }
+
+    if count.present? && count.is_a?(Integer)
+      query.merge!('count' => count)
+    end
+
+    options = {
+      basic_auth: FeedSource::SUPERFEEDR_AUTH,
+      query: query
+    }
+
+    puts HTTParty.get(FeedSource::SUPERFEEDR_API_URL, options)
   end
 
   def callback_url
