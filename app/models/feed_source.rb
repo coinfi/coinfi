@@ -160,6 +160,13 @@ class FeedSource < ApplicationRecord
     puts HTTParty.get(FeedSource::SUPERFEEDR_API_URL, options)
   end
 
+  def set_active!(setting = true)
+    ApplicationRecord.transaction do
+      update(is_active: !!setting)
+      news_items.update_all(is_published: !!setting)
+    end
+  end
+
   def callback_url
     "#{self.class.callback_url_base}?source=#{slug}"
   end
