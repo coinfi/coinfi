@@ -7,15 +7,23 @@ module Admin
       redirect_to admin_news_items_path(scope: :pending)
     end
 
-    def index
-      @scope = params[:scope] 
-      @scope = 'pending' unless ['pending', 'tagged'].include?(@scope) # Whitelist since @scope we use send later
-
-      page = Administrate::Page::Collection.new(dashboard)
-
-      resources = NewsItem.send(@scope).page(params[:page]).per(records_per_page)
+    def pending
       respond_to do |format|
         format.html {
+          page = Administrate::Page::Collection.new(dashboard)
+          resources = NewsItem.pending.includes(:coins, :news_coin_mentions, :news_categories, :news_item_categorizations).page(params[:page]).per(records_per_page)
+          render :index, locals: { page: page, resources: resources, search_term: search_term, show_search_bar: show_search_bar? }
+        }
+        # TODO: Make this more performant - right now way too slow!
+        # format.csv { send_data NewsItemCsvGenerator.to_csv(NewsItem.pending) }
+      end
+    end
+
+    def tagged
+      respond_to do |format|
+        format.html {
+          page = Administrate::Page::Collection.new(dashboard)
+          resources = NewsItem.tagged.includes(:coins, :news_coin_mentions, :news_categories, :news_item_categorizations).page(params[:page]).per(records_per_page)
           render :index, locals: { page: page, resources: resources, search_term: search_term, show_search_bar: show_search_bar? }
         }
         format.csv { send_data NewsItemCsvGenerator.to_csv(NewsItem.tagged) }

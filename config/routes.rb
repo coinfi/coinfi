@@ -24,7 +24,10 @@ Rails.application.routes.draw do
     resources :coins do
       get 'influencers', on: :collection
     end
-    resources :news_items
+    resources :news_items do
+      get 'pending', on: :collection
+      get 'tagged', on: :collection
+    end
     resources :articles
     resources :users
     resources :submission_categories
