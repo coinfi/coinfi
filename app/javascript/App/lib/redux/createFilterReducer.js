@@ -13,8 +13,8 @@ const createFilterReducer = ({ namespace, filterList }) => (
   // if (payload && payload.publishedSince !== '') return payload
 
   const filterObject = (key, value) => {
-    console.log(key, value)
     if (value === 'undefined') return
+    var fromJSCopy = fromJS
     return filterList.find((o) => o.get('key') === key) && filterList.find((o) => o.get('key') === key).set('value', fromJS(value))
   }
   const isEmpty = (value) => {
@@ -22,7 +22,6 @@ const createFilterReducer = ({ namespace, filterList }) => (
       return value.length === 0
     return false
   }
-  // console.log(filterObject())
   const removeFilter = (key) =>
     state.deleteIn(['activeFilters', filterIndex(key)])
   const setFilter = (state, { key, value }) => {

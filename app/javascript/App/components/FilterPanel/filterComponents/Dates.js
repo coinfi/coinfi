@@ -9,7 +9,7 @@ const Dates = ({ dates, value, onChange }) => (
   <ItemSelectorDate
     items={dates}
     selectedItems={value}
-    onChange={onChange('categories')}
+    onChange={onChange('dates')}
   />
   </Fragment>
 )

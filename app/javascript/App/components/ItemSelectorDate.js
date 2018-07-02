@@ -8,13 +8,22 @@ export default class ItemSelectorDates extends Component {
     const selected = this.selectedItems().categories && this.selectedItems().categories.length && this.selectedItems().categories.map((item) => JSON.stringify(item))
     if (selected) return selected.includes(JSON.stringify(item))
   }
-  add = (event) => {
+  addFrom = (item) => {
+    let items = this.selectedItems()
+    items.publishedSince = item.currentTarget.value
+    this.props.onChange(items)
+  }
+  addTo = (item) => {
+    let items = this.selectedItems()
+    items.publishedUntil = item.currentTarget.value
+    this.props.onChange(items)
+  }
+  add = (item) => {
 
-    // let items = this.selectedItems()
-	// if (!items.categories) items.categories = []
-    // items.categories.push(item)
-    // console.log('add', items.categories)
-    // this.props.onChange(event.currentTarget.value)
+    let items = this.selectedItems()
+	if (!items.dates) items.dates = []
+    items.dates.push(item.currentTarget.value)
+    this.props.onChange(items)
   }
   remove = (item) => {
     let items = this.selectedItems().categories
@@ -57,42 +66,18 @@ export default class ItemSelectorDates extends Component {
 
 
     return (
-      <div className="item-selector-alt nh1 nt1">
-        {/* {itemGroups.map((itemGroups, index) => { */}
-        {/*   return (<div className="row" key={index}> */}
-        {/*     {itemGroups.map((item, innerIndex) => { */}
-        {/*       let itemLabel */}
-        {/*       if (item === 'Events - Conferences, Meetups, Launches, etc.') { */}
-        {/*         itemLabel = 'Events' */}
-        {/*       } */}
-        {/*       else if (item === 'Security (Vulnerabilities)') { */}
-        {/*         itemLabel = 'Security' */}
-        {/*       } */}
-        {/*       else { */}
-        {/*         itemLabel = item */}
-        {/*       } */}
-        {/*       return ( */}
-        {/*         <div className="col" span={8} key={innerIndex}> */}
-        {/*           <ItemButton item={itemLabel} style={{cursor:'pointer'}} /> */}
-        {/*         </div> */}
-        {/*       ) */}
-        {/*     })} */}
-        {/*   </div>); */}
-        {/* })} */}
-
-
-      <div className="pv4 bb b--geyser" >
-        <div className='w-50 dib pa2'>
-          <label>From</label>
-          <input type="date" className="from" onChange={this.add} />
-        </div>
-        <div className='w-50 dib pa2'>
-          <label>To</label>
-          <input type="date" className="to" />
-        </div>
-      </div>
-
-      </div>
+	  <div className="item-selector-alt nh1 nt1">
+		<div className="pv4 bb b--geyser" >
+		  <div className='w-50 dib pa2'>
+			<label>From</label>
+			<input type="date" className="from" onChange={this.addFrom.bind(this)} />
+		  </div>
+		  <div className='w-50 dib pa2'>
+			<label>To</label>
+			<input type="date" className="to" onChange={this.addTo.bind(this)} />
+		  </div>
+		</div>
+	  </div>
     )
   }
 }
