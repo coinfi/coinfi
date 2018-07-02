@@ -48,12 +48,12 @@ export default class ItemSelectorDates extends Component {
 
     return (
 	  <div className="item-selector-alt nh1 nt1">
-		<div className="pv4 bb b--geyser" >
-		  <div className='w-50 dib pa2'>
+		<div className="pv4" >
+		  <div className='w-50 dib pa2' style={!window.isMobile ? {maxWidth:'50%'} : {}} >
 			<label>From</label>
             <input type="date" className="from" onChange={this.addFrom.bind(this)} value={publishedSince} />
 		  </div>
-		  <div className='w-50 dib pa2'>
+		  <div className='w-50 dib pa2' style={!window.isMobile ? {maxWidth:'50%'} : {}} >
 			<label>To</label>
 			<input type="date" className="to" onChange={this.addTo.bind(this)} value={publishedUntil} />
 		  </div>
