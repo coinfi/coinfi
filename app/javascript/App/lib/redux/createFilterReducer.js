@@ -10,8 +10,6 @@ const createFilterReducer = ({ namespace, filterList }) => (
   const { type, payload } = action
   const filterIndex = (key) => listIndex(state.get('activeFilters'), key)
 
-  // if (payload && payload.publishedSince !== '') return payload
-
   const filterObject = (key, value) => {
     if (value === 'undefined') return
     var fromJSCopy = fromJS

@@ -14,10 +14,4 @@ const Dates = ({ dates, value, onChange }) => (
   </Fragment>
 )
 
-// Categories.propTypes = {
-//   value: Type.object,
-//   categories: Type.array.isRequired,
-//   onChange: Type.func
-// }
-
 export default Dates

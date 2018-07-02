@@ -60,11 +60,6 @@ export default class ItemSelectorDates extends Component {
       colSize = 3
     }
 
-    // const itemGroups = this.props.items.map((x, i) => {
-    //   return i % colSize === 0 ? this.props.items.slice(i, i + colSize) : null;
-    // }).filter(x => x != null);
-
-
     return (
 	  <div className="item-selector-alt nh1 nt1">
 		<div className="pv4 bb b--geyser" >
@@ -82,8 +77,3 @@ export default class ItemSelectorDates extends Component {
   }
 }
 
-// ItemSelectorCategory.propTypes = {
-//   items: Type.array.isRequired,
-//   selectedItems: Type.object,
-//   onChange: Type.func
-// }
