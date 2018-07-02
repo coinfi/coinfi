@@ -4,10 +4,7 @@ import Icon from './Icon'
 
 export default class ItemSelectorDates extends Component {
   selectedItems = () => this.props.selectedItems || []
-  isSelected = (item) => {
-    const selected = this.selectedItems().categories && this.selectedItems().categories.length && this.selectedItems().categories.map((item) => JSON.stringify(item))
-    if (selected) return selected.includes(JSON.stringify(item))
-  }
+
   addFrom = (item) => {
     let items = this.selectedItems()
     items.publishedSince = item.currentTarget.value
@@ -34,23 +31,9 @@ export default class ItemSelectorDates extends Component {
     if (item instanceof Object) return item.name || item.title || item.label
     return item
   }
-  ItemButton = ({ item }) => {
-    if (this.isSelected(item)) {
-      return (
-        <button className="selected" onClick={() => this.remove(item)}>
-          {this.itemLabel(item)}
-        </button>
-      )
-    } else {
-      return (
-        <button onClick={() => this.add(item)}>
-          {this.itemLabel(item)}
-        </button>
-      )
-    }
-  }
+
+
   render() {
-    const { ItemButton } = this
 
     let colSize = 0
     if (window.isMobile) {
@@ -60,16 +43,19 @@ export default class ItemSelectorDates extends Component {
       colSize = 3
     }
 
+    const publishedSince = this.props && this.props.selectedItems && this.props.selectedItems.publishedSince || ''
+    const publishedUntil = this.props && this.props.selectedItems && this.props.selectedItems.publishedUntil || ''
+
     return (
 	  <div className="item-selector-alt nh1 nt1">
 		<div className="pv4 bb b--geyser" >
 		  <div className='w-50 dib pa2'>
 			<label>From</label>
-			<input type="date" className="from" onChange={this.addFrom.bind(this)} />
+            <input type="date" className="from" onChange={this.addFrom.bind(this)} value={publishedSince} />
 		  </div>
 		  <div className='w-50 dib pa2'>
 			<label>To</label>
-			<input type="date" className="to" onChange={this.addTo.bind(this)} />
+			<input type="date" className="to" onChange={this.addTo.bind(this)} value={publishedUntil} />
 		  </div>
 		</div>
 	  </div>
