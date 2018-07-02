@@ -53,9 +53,9 @@ class Api::NewsItemsController < ApiController
     special_sources << feed_source_names.delete('twitter')
     special_sources << feed_source_names.delete('reddit')
     special_sources.each do |feed_type|
-      feed_source_ids += FeedSource.where(feed_type: feed_type).pluck(:id)
+      feed_source_ids += FeedSource.active.where(feed_type: feed_type).pluck(:id)
     end
-    feed_source_ids += FeedSource.where(site_hostname: feed_source_names).pluck(:id)
+    feed_source_ids += FeedSource.active.where(site_hostname: feed_source_names).pluck(:id)
     feed_source_ids
   end
 
