@@ -19,12 +19,6 @@ class FeedSource < ApplicationRecord
     pluck(:feed_type).uniq
   end
 
-  def self.callback_url_base
-    protocol = Rails.env.development? ? 'http://' : 'https://'
-
-    "#{protocol}#{ENV.fetch('ROOT_DOMAIN')}/webhooks/#{ENV.fetch('SUPERFEEDR_CALLBACK_URL_SEGMENT_SECRET')}-superfeedr-ingest"
-  end
-
   def self.fetch_subs(page = 1)
     # TODO: Change this now that we have > 500 subscriptions
     body = {
@@ -167,7 +161,15 @@ class FeedSource < ApplicationRecord
     end
   end
 
+  private
+
   def callback_url
     "#{self.class.callback_url_base}?source=#{slug}"
+  end
+
+  def self.callback_url_base
+    protocol = Rails.env.development? ? 'http://' : 'https://'
+
+    "#{protocol}#{ENV.fetch('ROOT_DOMAIN')}/webhooks/#{ENV.fetch('SUPERFEEDR_CALLBACK_URL_SEGMENT_SECRET')}-superfeedr-ingest"
   end
 end
