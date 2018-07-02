@@ -9,10 +9,12 @@ class NewsItem < ApplicationRecord
 
   default_scope -> { order(feed_item_published_at: :desc) }
   scope :pending, -> { where(is_human_tagged: nil) }
+  scope :published, -> { where(is_published: true) }
   scope :tagged, -> { where(is_human_tagged: true) }
 
   alias_method :categories, :news_categories
 
+  before_create :set_unpublished_if_feed_source_inactive
   after_create_commit :notify_news_tagger, :link_coin_from_feedsource
 
   def coin_link_data
@@ -32,6 +34,12 @@ class NewsItem < ApplicationRecord
   end
 
   private
+
+  def set_unpublished_if_feed_source_inactive
+    if !feed_source.is_active
+      self.is_published = false
+    end
+  end
 
   def link_coin_from_feedsource
     if feed_source.coin.present?
