@@ -1,5 +1,5 @@
 {
-  "feedSources": [
+  bodyProps: ["feedSources": [
     "twitter",
     "reddit",
     "bitcoinmagazine.com",
@@ -7255,4 +7255,5 @@
     }
   ],
   "initialRenderTips": false
+  ]
 }
