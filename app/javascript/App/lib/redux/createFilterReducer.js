@@ -12,7 +12,7 @@ const createFilterReducer = ({ namespace, filterList }) => (
 
   const filterObject = (key, value) => {
     if (value === 'undefined') return
-    var fromJSCopy = fromJS
+    const fromJSCopy = fromJS
     return filterList.find((o) => o.get('key') === key) && filterList.find((o) => o.get('key') === key).set('value', fromJS(value))
   }
   const isEmpty = (value) => {
