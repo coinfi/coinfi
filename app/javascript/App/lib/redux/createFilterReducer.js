@@ -9,8 +9,12 @@ const createFilterReducer = ({ namespace, filterList }) => (
   if (namespace !== action.namespace) return state
   const { type, payload } = action
   const filterIndex = (key) => listIndex(state.get('activeFilters'), key)
-  const filterObject = (key, value) =>
-    filterList.find((o) => o.get('key') === key).set('value', fromJS(value))
+
+  const filterObject = (key, value) => {
+    if (value === 'undefined') return
+    const fromJSCopy = fromJS
+    return filterList.find((o) => o.get('key') === key) && filterList.find((o) => o.get('key') === key).set('value', fromJS(value))
+  }
   const isEmpty = (value) => {
     if (value instanceof Array || typeof value === 'string')
       return value.length === 0

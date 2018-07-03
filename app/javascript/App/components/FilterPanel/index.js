@@ -1,30 +1,38 @@
-import React, { Component } from 'react'
-import Types from 'prop-types'
-import Layout from './Layout'
-import FilterComponent from './FilterComponent'
-import { normalizeFilterData } from '../../lib/stateHelpers'
+import React, { Component } from "react"
+import Types from "prop-types"
+import Layout from "./Layout"
+import FilterComponent from "./FilterComponent"
+import { normalizeFilterData } from "../../lib/stateHelpers"
 
 class FilterPanel extends Component {
   state = { filters: {} }
   componentDidMount() {
     const filters = { ...this.state.filters }
-    this.props.activeFilters.forEach((value) => {
+    this.props.activeFilters.forEach(value => {
       if (value.toJS) value = value.toJS()
       filters[value.key] = value.value
       this.setState({ filters })
     })
   }
-  onChange = (key) => (value) => {
+  onChange = (key, event) => value => {
     const filters = { ...this.state.filters }
+
     if (value.toJS) value = value.toJS()
     filters[key] = value
+    if (value && value.publishedSince) {
+      filters[key] = value.publishedSince
+    }
+    if (value && value.publishedUntil) {
+      filters[key] = value.publishedUntil
+    }
+
     if (!value.length) delete filters[key]
     this.setState({ filters })
   }
   applyFilters = () => {
     const { setFilters, disableUI } = this.props
     setFilters(this.state.filters)
-    disableUI('filterPanel')
+    disableUI("filterPanel")
   }
   resetFilters = () => {
     this.setState({ filters: {} })
@@ -36,8 +44,8 @@ class FilterPanel extends Component {
     return (
       <Layout {...{ ...props, applyFilters, resetFilters }} newsFeedStyle>
         {filterList.map((filter, index) => {
-          if (filter.get('key') === 'coins') return null // Temp fix for hiding coins
-          if (filter.get('key') === 'keywords') return null
+          if (filter.get("key") === "coins") return null // Temp fix for hiding coins
+          if (filter.get("key") === "keywords") return null
           return (
             <FilterComponent
               key={index}

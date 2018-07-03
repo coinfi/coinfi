@@ -3,10 +3,11 @@ import Types from 'prop-types'
 import components from './filterComponents'
 import MarketMoving from './filterComponents/MarketMoving'
 import Categories from './filterComponents/Categories'
+import Dates from './filterComponents/Dates'
 import FeedSources from './filterComponents/FeedSources'
 
 const FilterComponent = (props) => {
-  const { filter, newsFeedStyle } = props
+  const { filter, newsFeedStyle, onChange } = props
   const Component = components[filter.get('key')]
   if (!Component) {
     return null
@@ -16,6 +17,10 @@ const FilterComponent = (props) => {
       <div className="pv4 bb b--geyser" style={newsFeedStyle ? {paddingTop:'.5rem', paddingBottom:'1.5rem'}: ''}>
         <h4 className="mb2">Market moving</h4>
         <MarketMoving {...props} />
+      </div>
+      <div className="pv4 bb b--geyser" style={newsFeedStyle ? {paddingTop:'.5rem', paddingBottom:'1.5rem'}: ''}>
+        <h4 className="mb2" style={{margin:'15px 0'}}>Date range</h4>
+        <Dates {...props} />
       </div>
       <div className="pv4 bb b--geyser" style={newsFeedStyle ? {paddingTop:'.5rem', paddingBottom:'1.5rem'}: ''}>
         <h4 className="mb2" style={{margin:'15px 0'}}>Categories</h4>
