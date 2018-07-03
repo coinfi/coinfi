@@ -1,7 +1,7 @@
 import React from 'react'
 
 export default (props) => {
-  return <div>summary</div>
+  return <div>detail</div>
 }
 
 
