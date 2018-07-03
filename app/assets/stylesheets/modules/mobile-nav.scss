@@ -58,12 +58,16 @@
 .header-logo {
   width: 65px;
 }
+.main-logo {
+  width: 74px;
+}
 .mobile-nav-toggle {
   position: absolute;
-  margin-left:5px;
-  margin-top:5px;
   img {
-    height:16px;
+    height: 12px;
+    margin-top: 9px;
+    position: absolute;
+    margin-left: 6px;
   }
 }
 
@@ -76,12 +80,12 @@
 }
 
 .topnav {
-  width: 101%;
+  width: 102%;
 }
 
 
 .nav-topbar{
-  height:48px;
+  height:32px;
 }
 
 .filter-btn, .coins-btn {
@@ -101,11 +105,12 @@
       float:left;
       margin-left:10px;
       margin-top:6px;
+      width:80px;
     }
     > div {
       float:right;
       margin-right:20px;
-      margin-top:8px;
+      margin-top:3px;
     }
   }
 
