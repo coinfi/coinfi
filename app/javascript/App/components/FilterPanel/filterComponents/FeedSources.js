@@ -1,16 +1,20 @@
 import React from 'react'
 import Type from 'prop-types'
+import _ from 'lodash'
 import ItemSelector from '../../ItemSelectorAlt'
 
 const FeedSources = ({ feedSources, value, onChange }) => {
-  const sortedSources = _.sortBy(feedSources.map(item => {
+  const sortedSources = _.sortBy(feedSources.map((item) => {
     if (/www/.exec(item) !== null)
       return item.replace('www.', '').concat('.www')
     return item.replace('www.', '')
   }))
+  let surfaceSocial = sortedSources.filter((source) => source !== 'twitter' && source !== 'reddit')
+  surfaceSocial.unshift('reddit')
+  surfaceSocial.unshift('twitter')
   return (
     <ItemSelector
-      items={sortedSources}
+      items={surfaceSocial}
       selectedItems={value}
       onChange={onChange('feedSources')}
     />
