@@ -19,12 +19,6 @@ class FeedSource < ApplicationRecord
     pluck(:feed_type).uniq
   end
 
-  def self.callback_url_base
-    protocol = Rails.env.development? ? 'http://' : 'https://'
-
-    "#{protocol}#{ENV.fetch('ROOT_DOMAIN')}/webhooks/#{ENV.fetch('SUPERFEEDR_CALLBACK_URL_SEGMENT_SECRET')}-superfeedr-ingest"
-  end
-
   def self.fetch_subs(page = 1)
     # TODO: Change this now that we have > 500 subscriptions
     body = {
@@ -160,7 +154,22 @@ class FeedSource < ApplicationRecord
     puts HTTParty.get(FeedSource::SUPERFEEDR_API_URL, options)
   end
 
+  def set_active!(setting = true)
+    ApplicationRecord.transaction do
+      update(is_active: !!setting)
+      news_items.update_all(is_published: !!setting)
+    end
+  end
+
+  private
+
   def callback_url
     "#{self.class.callback_url_base}?source=#{slug}"
+  end
+
+  def self.callback_url_base
+    protocol = Rails.env.development? ? 'http://' : 'https://'
+
+    "#{protocol}#{ENV.fetch('ROOT_DOMAIN')}/webhooks/#{ENV.fetch('SUPERFEEDR_CALLBACK_URL_SEGMENT_SECRET')}-superfeedr-ingest"
   end
 end
