@@ -11,6 +11,8 @@ import { NewsCoinTags } from '../app/javascript/App/components/NewsfeedPage/News
 
 import { bodySectionProps } from './bodySectionProps'
 
+import styles from './tachy.css'
+
 
 storiesOf('Coin', module).add('summary', () => <CoinSummary  />);
 storiesOf('Coin', module).add('detail', () => <CoinDetail  />);
