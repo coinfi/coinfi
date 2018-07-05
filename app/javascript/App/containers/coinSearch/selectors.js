@@ -4,6 +4,7 @@ const selectState = (state) => state.coinSearch
 
 export const searchedCoins = (namespace) =>
   createSelector(selectState, (s) => {
+      console.log('new coin', s.getIn([namespace, 'searchedCoins']))
     return s.getIn([namespace, 'searchedCoins']) || []
   })
 
