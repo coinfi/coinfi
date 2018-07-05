@@ -29,7 +29,7 @@ class CoinListHeader extends Component {
                 on={currentUI('watchingOnly')}
                 onChange={() => toggleUI('watchingOnly')}
               />
-              <span className="ml2 f6 silver">Watching only</span>
+              <span className="ml2 f6 silver">Watchlist</span>
             </div>
           )}
         </div>
