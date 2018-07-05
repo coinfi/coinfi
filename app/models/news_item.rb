@@ -8,6 +8,7 @@ class NewsItem < ApplicationRecord
   has_many :news_categories, through: :news_item_categorizations
 
   default_scope -> { order(feed_item_published_at: :desc) }
+  scope :general, -> { where(feed_source: FeedSource.general) }
   scope :pending, -> { where(is_human_tagged: nil) }
   scope :published, -> { where(is_published: true) }
   scope :tagged, -> { where(is_human_tagged: true) }
