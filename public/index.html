@@ -243,6 +243,28 @@
       }
     }
     tryHook();
+
+    $(document).ready(function() {
+      $('video.product-video').each(function(index) {
+        var video = $(this);
+
+        video.on('error', function(e) {
+          console.log('error', e);
+        })
+
+        video.one('canplaythrough', function() {
+          $('body').on('click', function() {
+            $('video.product-video')[index].play();
+          });
+        });
+
+        video.on('ended', function() {
+          $('video.product-video')[index].play();
+        })
+
+        $('video.product-video')[index].load();
+      });
+    });
   </script>
   <button type="button" id="track-submit" style="display: none;"></button>
 </body>
