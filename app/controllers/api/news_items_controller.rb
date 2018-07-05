@@ -1,6 +1,5 @@
 class Api::NewsItemsController < ApiController
-
-  PER_PAGE = 10
+  PER_PAGE = 16
 
   def index
     # Ensure fresh response on every request
@@ -16,15 +15,24 @@ class Api::NewsItemsController < ApiController
     news_item_ids_for_coin_filter = NewsCoinMention.where(coin_id: coin_ids).pluck(:news_item_id)
     @news_items = @news_items.where(id: news_item_ids_for_coin_filter)
 
-    category_ids = NewsCategory.where(name: q[:categories]).pluck(:id)
-    news_item_ids_for_category_filter = NewsItemCategorization.where(news_category_id: category_ids).pluck(:news_item_id)
-    if news_item_ids_for_category_filter.present?
-      @news_items = @news_items.where(id: news_item_ids_for_category_filter)
+    if q[:coins].blank?
+      # Only show NewsItems from General FeedSources when no coins are specifically selected.
+      @news_items = NewsItem.general.published.or(@news_items)
     end
 
-    feed_source_ids = get_feed_source_ids(q[:feedSources])
-    if feed_source_ids.present?
-      @news_items = @news_items.where(feed_source_id: feed_source_ids)
+    if q[:categories].present?
+      category_ids = NewsCategory.where(name: q[:categories]).pluck(:id)
+      news_item_ids_for_category_filter = NewsItemCategorization.where(news_category_id: category_ids).pluck(:news_item_id)
+      if news_item_ids_for_category_filter.present?
+        @news_items = @news_items.where(id: news_item_ids_for_category_filter)
+      end
+    end
+
+    if q[:feedSources].present?
+      feed_source_ids = get_feed_source_ids(q[:feedSources])
+      if feed_source_ids.present?
+        @news_items = @news_items.where(feed_source_id: feed_source_ids)
+      end
     end
 
     if q[:keywords].present?
