@@ -14,6 +14,8 @@ class FeedSource < ApplicationRecord
   has_many :news_items
 
   scope :active, -> { where(is_active: true) }
+  scope :general, -> { where(feed_type: 'general') }
+
 
   def self.feed_types
     pluck(:feed_type).uniq
