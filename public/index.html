@@ -245,27 +245,26 @@
     tryHook();
 
     $(document).ready(function() {
-        $('video.product-video').each(function(index) {
-          var video = $(this);
-          
-          video.on('error', function(e) {
-            console.log('error', e);
-          })
+      $('video.product-video').each(function(index) {
+        var video = $(this);
 
-          video.one('canplaythrough', function() {
-            $('body').one('click', function() {
-              console.log("Play started for video " + index);
-              $('video.product-video')[index].play();
-            });
-          });
+        video.on('error', function(e) {
+          console.log('error', e);
+        })
 
-          video.on('ended', function() {
+        video.one('canplaythrough', function() {
+          $('body').on('click', function() {
             $('video.product-video')[index].play();
-          })
-
-          $('video.product-video')[index].load();
+          });
         });
+
+        video.on('ended', function() {
+          $('video.product-video')[index].play();
+        })
+
+        $('video.product-video')[index].load();
       });
+    });
   </script>
   <button type="button" id="track-submit" style="display: none;"></button>
 </body>
