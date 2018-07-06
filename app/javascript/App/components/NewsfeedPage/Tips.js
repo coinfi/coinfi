@@ -29,7 +29,8 @@ const listNumberStyle = {
   marginTop:2
 }
 
-export default ({ closeTips }) => {
+export default ({ closeTips, user, loggedIn }) => {
+  const userIsLoggedIn = !!(user || loggedIn)
   return (
     <div className="lh-copy">
       <div>
@@ -71,15 +72,16 @@ export default ({ closeTips }) => {
 
         </div>
 
-        <div style={{paddingTop:'15px'}} className='signup-cta-wrap'>
-          <h2 className='tc mt0'>Get the most out of CoinFi News</h2>
-          <div style={{margin:'0 20px 20px', display:'grid'}}>
-            <div style={{
-              fontSize:'.8rem',
-              textAlign: 'center',
-              marginBottom: 20,
-              marginTop: 10
-            }}>
+        {!userIsLoggedIn && (
+          <div style={{paddingTop:'15px'}} className='signup-cta-wrap'>
+            <h2 className='tc mt0'>Get the most out of CoinFi News</h2>
+            <div style={{margin:'0 20px 20px', display:'grid'}}>
+              <div style={{
+                fontSize:'.8rem',
+                textAlign: 'center',
+                marginBottom: 20,
+                marginTop: 10
+              }}>
               Be the first to know about the latest market moving news
             </div>
             <button
@@ -94,6 +96,7 @@ export default ({ closeTips }) => {
             >Sign up</button>
           </div>
         </div>
+        )}
 
 
       </div>
