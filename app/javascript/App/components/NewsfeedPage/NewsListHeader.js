@@ -6,6 +6,7 @@ import SearchCoins from './SearchCoins'
 import FilterPanel from '../FilterPanel'
 import FilterTags from '../FilterTags'
 import bulbIcon from '../../images/bulbIcon.svg'
+import filterBtn from '../../images/filter-btn.svg'
 
 const NewsListHeader = (props) => {
   const { enableUI, currentUI, coins, feedSources, activeFilters, activeEntity, newsfeedTips } = props
@@ -60,7 +61,7 @@ const NewsListHeader = (props) => {
           )}
           <SearchCoins {...props} />
           <button onClick={toggleFilters} className="btn btn-xs btn-white filter-btn">
-            <Icon name="filter" className="mr2" />
+			<img style={{height:10, marginRight: 10}} src={filterBtn} />
             Filters
           </button>
         </div>
