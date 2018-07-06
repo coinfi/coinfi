@@ -29,6 +29,7 @@ const WatchButton = ({
         light
         className={`light-silver ${hasText ? hasTextClassNames : ''}`}
         onClick={() => {
+          // TODO: Implement new onboarding signup flow.
           if (!user) return (window.location = '/login')
           if (onWatch) onWatch(coin)
           updateUser({ watchCoin: coin.get('id') })
