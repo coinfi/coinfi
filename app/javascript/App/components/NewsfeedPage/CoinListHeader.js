@@ -10,7 +10,7 @@ class CoinListHeader extends Component {
     searchCoins(value, { q: { id_not_in: coinIDs }, limit: 4 })
   }
   render() {
-    const { toggleUI, currentUI, searchText } = this.props
+    const { toggleUI, currentUI, searchText, user } = this.props
     return (
       <SectionHeader>
         <div className="pv1">
@@ -27,7 +27,11 @@ class CoinListHeader extends Component {
             <div className="flex items-center">
               <Switch
                 on={currentUI('watchingOnly')}
-                onChange={() => toggleUI('watchingOnly')}
+                onChange={() => {
+                  // TODO: Implement new onboarding signup flow.
+                  if (!user) return (window.location = '/login')
+                  toggleUI('watchingOnly')
+                }}
               />
               <span className="ml2 f6 silver">Watchlist</span>
             </div>
