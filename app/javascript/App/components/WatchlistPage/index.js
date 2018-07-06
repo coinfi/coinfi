@@ -4,6 +4,7 @@ import LoadingIndicator from '../LoadingIndicator'
 import Watchlist from './Watchlist'
 import Search from './Search'
 import NewsList from './NewsList'
+import watchlistStarIcon from '../../images/watch-list-star-icon.svg'
 
 class WatchlistPage extends Component {
   render() {

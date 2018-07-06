@@ -3,6 +3,7 @@ import CoinListHeader from './CoinListHeader'
 import CoinListItem from './CoinListItem'
 import LoadingIndicator from '../LoadingIndicator'
 import coinSearchProvider from '../../containers/coinSearch'
+import watchlistStarIcon from '../../images/watch-list-star-icon.svg'
 
 class CoinList extends Component {
   setActiveCoin = (coin) => {
@@ -31,9 +32,15 @@ class CoinList extends Component {
     return (
       <Fragment>
         <CoinListHeader {...this.props} />
-        <div className="flex-auto relative overflow-y-auto">
+        <div className="flex-auto relative overflow-y-auto" style={watchlistStarIcon && {textAlign:'center'}} >
 
-                {!coins.length && <h1>no coins</h1> }
+          { !coins.length && (
+            <Fragment>
+              <img style={{margin:'auto', marginTop: 60, marginBottom:20, display:'block'}} src={watchlistStarIcon} />
+              <strong style={{lineHeight:'1.5rem', color: 'rgba(0, 0, 0, 0.54)', fontSize:14}}>looks like you have not added <br />any coins to your watchlist page yet</strong>
+            </Fragment>
+            )
+          }
 
           {isLoading('coins') && (
             <LoadingIndicator className="overlay bg-white-70" />
