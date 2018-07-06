@@ -8,7 +8,7 @@ const Layout = (props) => {
     containerClass = 'overlay z-999 bg-athens overflow-y-auto'
   return (
     <div className={containerClass}>
-      <div className="pa3 bb b--geyser flex justify-between items-center">
+      <div className="pa3 bb b--geyser flex justify-between items-center filter-panel-header">
         <div className="flex items-center">
           <h3 className="mb0 mr1 b">Filters</h3>
           <button

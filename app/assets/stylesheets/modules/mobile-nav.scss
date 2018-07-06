@@ -90,10 +90,20 @@
 
 .filter-btn, .coins-btn {
   margin-left: 90px;
-  width: 160px;
+  width: 220px;
   text-transform: none;
   font-size: 14px;
 }
+
+.btn.filter-btn, .btn.coins-btn {
+  font-size: 14px;
+}
+
+.filter-panel-header {
+  height:60px;
+}
+
+
 
 @media only screen and (min-width:768px) {
   .mobile-nav-toggle {
@@ -109,7 +119,7 @@
     }
     > div {
       float:right;
-      margin-right:20px;
+      margin-right:50px;
       margin-top:3px;
     }
   }
