@@ -5,7 +5,7 @@ import Tips from './Tips'
 
 const BodySection = (props) => {
   const { activeEntity } = props
-  if (!activeEntity) return <Tips />
+  if (!activeEntity) return <Tips {...props} />
   if (activeEntity.type === 'coin') return <CoinBody {...props} />
   return <NewsBody {...props} />
 }
