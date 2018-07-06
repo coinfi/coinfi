@@ -32,6 +32,9 @@ class CoinList extends Component {
       <Fragment>
         <CoinListHeader {...this.props} />
         <div className="flex-auto relative overflow-y-auto">
+
+                {!coins.length && <h1>no coins</h1> }
+
           {isLoading('coins') && (
             <LoadingIndicator className="overlay bg-white-70" />
           )}
