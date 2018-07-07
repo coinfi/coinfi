@@ -5,9 +5,12 @@ const WatchButton = ({
   isWatching,
   coin,
   updateUser,
+  fetchUser,
+    newCoinHandler,
   onWatch,
   hasText,
-  user
+    user,
+    foo
 }) => {
   const hasTextClassNames = 'btn btn-xs btn-gray'
 
@@ -17,7 +20,12 @@ const WatchButton = ({
         name="star"
         solid
         className={`aqua ${hasText ? hasTextClassNames : ''}`}
-        onClick={() => updateUser({ unwatchCoin: coin.get('id') })}>
+        onClick={
+            () => {
+                updateUser({ unwatchCoin: coin.get('id') })
+                newCoinHandler()
+            }
+        }>
         {hasText && 'Watching'}
       </Icon>
     )
@@ -33,6 +41,8 @@ const WatchButton = ({
           if (!user) return (window.location = '/login')
           if (onWatch) onWatch(coin)
           updateUser({ watchCoin: coin.get('id') })
+          newCoinHandler()
+          // fetchUser()
         }}
       >
         {hasText && 'Watch'}

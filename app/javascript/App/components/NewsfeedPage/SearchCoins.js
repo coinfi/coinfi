@@ -32,6 +32,8 @@ class SearchCoins extends Component {
       searchedCoins,
       isWatching,
       updateUser,
+        fetchUser,
+        newCoinHandler,
       user,
       onWatch,
     } = this.props
@@ -80,6 +82,9 @@ class SearchCoins extends Component {
                     user={user}
                     onWatch={onWatch}
                     hasText
+                    foo={'foo'}
+                    newCoinHandler={() => newCoinHandler}
+                    fetchUser={fetchUser}
                   />
                 </div>
               </li>
