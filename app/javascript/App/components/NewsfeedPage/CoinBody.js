@@ -24,7 +24,7 @@ const CoinBody = (props) => {
           <span className="ml2">({coin.get('symbol')})</span>
         </a>
         <div className="tooltipped">
-          <WatchButton {...props} coin={coin} hasText />
+          <WatchButton {...props} coin={coin} hasText foo={'foo'} />
           {!user && <div className="tooltip">Login to watch</div>}
         </div>
       </div>

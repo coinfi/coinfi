@@ -4,7 +4,7 @@ import Currency from '../Currency'
 import WatchButton from './WatchButton'
 
 export default (props) => {
-  const { coin, onClick, isActiveEntity, user } = props
+  const { coin, onClick, isActiveEntity, user, newCoinHandler } = props
   let klass = 'pa3 b--b flex items-center pointer'
   if (isActiveEntity({ type: 'coin', id: coin.get('id') })) klass += ' bg-foam'
   return (

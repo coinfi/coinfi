@@ -40,6 +40,7 @@ class WatchlistSearch extends Component {
                   coinID={coin.get('id')}
                   onWatch={addCoinSuccess}
                   user={user}
+                  foo={'foo'}
                 />
               </div>
             ))}

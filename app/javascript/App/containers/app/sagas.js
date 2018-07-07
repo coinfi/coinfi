@@ -33,5 +33,7 @@ function* fetchUser() {
 }
 
 function* updateUser({ payload }) {
+    console.log('saga payload', payload)
   yield apiSagas.patch('/user', payload, setUser)
+  yield apiSagas.get('/user', null, setUser)
 }
