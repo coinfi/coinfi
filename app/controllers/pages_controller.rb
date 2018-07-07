@@ -22,7 +22,7 @@ class PagesController < ApplicationController
   end
 
   def public_pages
-    %w[home about news]
+    %w[home about news ambassadors win-cofi]
   end
 
   def member_pages
