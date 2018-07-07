@@ -9,20 +9,16 @@ import URL from 'url-parse'
 export default class NewsBody extends Component {
 
   componentDidMount() {
-    debugger
     twttr.widgets.createTweet(
       this.props.activeEntity.tweetId,
       document.getElementById('container'),
       {
         theme: 'light'
       }
-    );
+    )
   }
 
-
-
   render() {
-    debugger
     const {
       selectNewsItemFromList,
       activeEntity,
@@ -36,6 +32,17 @@ export default class NewsBody extends Component {
     const categories = selectNewsCategories(newsItem)
     const content = _.trim(newsItem.get('content')) || _.trim(newsItem.get('summary'))
     const url = new URL(newsItem.get('url'))
+
+    if ([].slice.call([document.getElementById('container')]).length) {
+      $('#container').empty()
+      twttr.widgets.createTweet(
+        this.props.activeEntity.tweetId,
+        document.getElementById('container'),
+        {
+          theme: 'light'
+        }
+      )
+    }
 
     return (
       <div className="pa4 bg-white min-h-100">

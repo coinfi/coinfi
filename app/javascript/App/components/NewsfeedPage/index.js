@@ -9,6 +9,7 @@ class NewsfeedPage extends Component {
   state = {
     initialRenderTips: false
   }
+
   componentWillMount() {
     window.addEventListener('resize', debounce(() => this.forceUpdate()), 500)
   }
