@@ -83,12 +83,22 @@ class NewsList extends Component {
     this.props.newsfeedTips()
   }
 
-  renderView(viewState, itemHeight, activeFilters, sortedNewsItems, initialRenderTips) {
+  renderView(viewState, itemHeight, activeFilters, sortedNewsItems, initialRenderTips, isLoading) {
     if (
       initialRenderTips &&
       window.isMobile
     ) {
       return <Tips closeTips={this.closeTips.bind(this)} />;
+    }
+    else if (isLoading('newsItems')) {
+      return (
+        <div className="pa3 tc mt4">
+          <div className="pointer">
+            <h4 className="fw6 mv3 f4">Loading..</h4>
+          </div>
+        </div>
+      )
+
     }
     else if (!viewState.sortedNewsItems.length) {
       return (
@@ -135,7 +145,7 @@ class NewsList extends Component {
               ? {marginTop: '-65px', background: '#fff', position:'absolute'}
               : {}
           }>
-          {this.renderView(viewState, itemHeight, activeFilters, sortedNewsItems, initialRenderTips)}
+          {this.renderView(viewState, itemHeight, activeFilters, sortedNewsItems, initialRenderTips, isLoading)}
           <div>
             {!isLoading('newsItems') &&
               isLoading('newsfeed') && <LoadingIndicator />}
