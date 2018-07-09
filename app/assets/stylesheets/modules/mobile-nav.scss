@@ -55,6 +55,9 @@
     }
   }
 }
+twitterwidget {
+  margin: auto;
+}
 .header-logo {
   width: 65px;
 }
@@ -93,6 +96,10 @@
   width: 220px;
   text-transform: none;
   font-size: 14px;
+}
+
+.filter-btn {
+  width: 130px;
 }
 
 .btn.filter-btn, .btn.coins-btn {

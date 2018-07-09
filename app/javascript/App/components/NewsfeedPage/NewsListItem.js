@@ -15,7 +15,9 @@ const NewsListItem = (props) => {
   return (
     <div className={className} style={{ height: props.height || 'auto' }}>
       <div className="pa3">
-        <div className="pointer" onClick={() => setActiveNewsItem(newsItem)}>
+        <div className="pointer" onClick={() => {
+          setActiveNewsItem(newsItem)
+        }}>
           <h4 className="fw6 mv3 f4">{newsItem.get('title')}</h4>
         </div>
         <div className="flex justify-between flex-wrap">

@@ -75,7 +75,13 @@ class NewsList extends Component {
 
   setActiveNewsItem = (newsItem) => {
     const { setActiveEntity, enableUI } = this.props
-    setActiveEntity({ type: 'newsItem', id: newsItem.get('id') })
+    const tweetId = newsItem.get('url').split('/')[newsItem.get('url').split('/').length - 1]
+      if (/twitter/.exec(newsItem.get('url')) !== null) {
+        setActiveEntity({ type: 'twitterNews', id: newsItem.get('id'), tweetId  })
+      }
+      else {
+        setActiveEntity({ type: 'newsItem', id: newsItem.get('id') })
+      }
     if (window.isMobile) enableUI('bodySectionDrawer', { fullScreen: true })
   }
 
