@@ -14,10 +14,12 @@ const request = (path, data = {}, remote = true, type = 'get') => {
       .querySelector('meta[name="csrf-token"]')
       .getAttribute('content')
   }
+  console.log('request')
   if (type === 'get') params = { params }
   if (remote) endpoint = window.pricesURL
   if (!remote) config = { headers }
   const url = `${endpoint}${path}`
+  console.log('url', url)
   return new Promise((resolve) => {
     if (type === 'delete') {
       axios
@@ -30,7 +32,22 @@ const request = (path, data = {}, remote = true, type = 'get') => {
         })
       return
     }
-    axios[type](url, params, config)
+
+    let queryString = ''
+    if (params) {
+      for (let key in params.params.q) {
+        if (params.params.q.hasOwnProperty(key)) {
+          if (queryString !== '') {
+            queryString += '&' + key + "=" + params.params.q[key]
+          }
+          else {
+            queryString = key + "=" + params.params.q[key]
+          }
+        }
+      }
+
+    }
+    axios[type](url + '?' + queryString, config)
       .then((response) => {
         resolve(response.data || response)
       })
