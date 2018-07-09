@@ -74,7 +74,6 @@ class NewsList extends Component {
   }
 
   setActiveNewsItem = (newsItem) => {
-      console.log('newsItem', newsItem)
     const { setActiveEntity, enableUI } = this.props
     const tweetId = newsItem.get('url').split('/')[newsItem.get('url').split('/').length - 1]
       if (/twitter/.exec(newsItem.get('url')) !== null) {
@@ -83,7 +82,6 @@ class NewsList extends Component {
       else {
         setActiveEntity({ type: 'newsItem', id: newsItem.get('id') })
       }
-    // setActiveEntity({ type: 'twitterNews', id: newsItem.get('id') })
     if (window.isMobile) enableUI('bodySectionDrawer', { fullScreen: true })
   }
 
