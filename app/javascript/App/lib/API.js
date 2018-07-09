@@ -1,5 +1,6 @@
 import axios from 'axios'
 import qs from 'qs'
+import { DateTime } from 'luxon'
 
 axios.defaults.paramsSerializer = (params) => {
   return qs.stringify(params, { arrayFormat: 'brackets' })
@@ -14,12 +15,10 @@ const request = (path, data = {}, remote = true, type = 'get') => {
       .querySelector('meta[name="csrf-token"]')
       .getAttribute('content')
   }
-  console.log('request')
   if (type === 'get') params = { params }
   if (remote) endpoint = window.pricesURL
   if (!remote) config = { headers }
   const url = `${endpoint}${path}`
-  console.log('url', url)
   return new Promise((resolve) => {
     if (type === 'delete') {
       axios
@@ -38,7 +37,13 @@ const request = (path, data = {}, remote = true, type = 'get') => {
       for (let key in params.params.q) {
         if (params.params.q.hasOwnProperty(key)) {
           if (queryString !== '') {
-            queryString += '&' + key + "=" + params.params.q[key]
+            if (key === 'publishedUntil') {
+              window.DateTime = DateTime
+              queryString += '&' + key + "=" + DateTime.fromISO(params.params.q.publishedUntil).ts
+            }
+            else {
+              queryString += '&' + key + "=" + params.params.q[key]
+            }
           }
           else {
             queryString = key + "=" + params.params.q[key]

@@ -21,6 +21,7 @@
     "jquery": "^3.3.1",
     "lodash": "^4.17.10",
     "lodash-inflection": "^1.5.0",
+    "luxon": "^1.3.1",
     "normalizr": "^3.2.4",
     "numeral": "^2.0.6",
     "prop-types": "^15.6.1",
