@@ -16,9 +16,12 @@ const FilterTags = (props) => {
           className="coin-filter-tag pa1"
         >
           {tagLabel} <FilterButtonValue filter={filter} />
-          <a className="ml2 mr1 gray" onClick={() => removeFilter(filter.get('key'))}>
-            <i className="icon far fa-times" />
-          </a>
+          {/* <a className="ml2 mr1 gray" onClick={ */}
+          {/*   () => removeFilter(filter.get('key')) */}
+          {/*   console.log('show pane') */}
+          {/* }> */}
+          {/*   <i className="icon far fa-times" /> */}
+          {/* </a> */}
         </div>
         )
       }
