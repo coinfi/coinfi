@@ -24,7 +24,19 @@ export const pushObjectToURL = (object) => {
   if (object.q) {
     object.q = escapeAmpersands(object.q)
   }
-  const queryString = qs.stringify(object, { encode: false })
+
+  let queryString = ''
+  for (let key in object.q) {
+    if (object.q.hasOwnProperty(key)) {
+      if (queryString !== '') {
+        queryString += '&' + key + "=" + object.q[key]
+      }
+      else {
+        queryString = key + "=" + object.q[key]
+      }
+    }
+  }
+
   window.history.pushState(object, document.title, `?${queryString}`)
 }
 

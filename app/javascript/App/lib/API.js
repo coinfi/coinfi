@@ -1,5 +1,6 @@
 import axios from 'axios'
 import qs from 'qs'
+import { DateTime } from 'luxon'
 
 axios.defaults.paramsSerializer = (params) => {
   return qs.stringify(params, { arrayFormat: 'brackets' })
@@ -30,7 +31,28 @@ const request = (path, data = {}, remote = true, type = 'get') => {
         })
       return
     }
-    axios[type](url, params, config)
+
+    let queryString = ''
+    if (params) {
+      for (let key in params.params.q) {
+        if (params.params.q.hasOwnProperty(key)) {
+          if (queryString !== '') {
+            if (key === 'publishedUntil') {
+              window.DateTime = DateTime
+              queryString += '&' + key + "=" + DateTime.fromISO(params.params.q.publishedUntil).ts
+            }
+            else {
+              queryString += '&' + key + "=" + params.params.q[key]
+            }
+          }
+          else {
+            queryString = key + "=" + params.params.q[key]
+          }
+        }
+      }
+
+    }
+    axios[type](url + '?' + queryString, config)
       .then((response) => {
         resolve(response.data || response)
       })
