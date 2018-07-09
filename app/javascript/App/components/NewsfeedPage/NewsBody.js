@@ -22,7 +22,7 @@ export default class NewsBody extends Component {
     const content = _.trim(newsItem.get('content')) || _.trim(newsItem.get('summary'))
     const url = new URL(newsItem.get('url'))
     return (
-      <div className="pa4 bg-white min-h-100">
+      <div className="pa4 bg-white min-h-100 selected-news-content">
         <NewsCoinTags newsItem={newsItem} />
         <h1 className="break-word f3">{newsItem.get('title')}</h1>
         <div className="pb4 mb4 b--b">
