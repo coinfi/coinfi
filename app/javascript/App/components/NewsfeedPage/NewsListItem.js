@@ -3,7 +3,7 @@ import timeago from 'timeago.js'
 import NewsCoinTags from './NewsCoinTags'
 
 const NewsListItem = (props) => {
-  const { activeEntity, newsItem, setActiveNewsItem, preRender } = props
+  const { activeEntity, newsItem, setActiveNewsItem, preRender, selectCoin } = props
   let className = 'b--b tiber overflow-hidden'
   if (activeEntity) {
     const { type, id } = activeEntity

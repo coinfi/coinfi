@@ -19,7 +19,7 @@ class NewsItem < ApplicationRecord
   after_create_commit :notify_news_tagger, :link_coin_from_feedsource
 
   def coin_link_data
-    coins.map { |coin| coin.as_json(only: [:symbol, :slug] ) }
+    coins.map { |coin| coin.as_json(only: [:symbol, :slug, :id] ) }
   end
 
   def coin_symbols
