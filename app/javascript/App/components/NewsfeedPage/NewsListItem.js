@@ -31,8 +31,8 @@ const NewsListItem = (props) => {
           <div className="f6 silver">
             {url.hostname === "twitter.com" && (
               <Fragment>
-                <span style={{ marginRight: 10 }}>
-                  <img src={redditLogo} />
+                <span style={{ marginRight: 5 }}>
+                  <img src={twitterLogo} style={{height:12}} />
                 </span>
                 <a
                   href={newsItem.get("url")}
@@ -48,8 +48,8 @@ const NewsListItem = (props) => {
             )}
             {url.hostname === "reddit.com" && (
               <Fragment>
-                <span style={{ marginRight: 10 }}>
-                  <img src={redditLogo} />
+                <span style={{ marginRight: 5, position: 'relative', top: 5 }}>
+                  <img src={redditLogo} style={{height:12}} />
                 </span>
                 <a
                   href={newsItem.get("url")}
@@ -63,10 +63,10 @@ const NewsListItem = (props) => {
                 {timeago().format(newsItem.get("feed_item_published_at"))}
               </Fragment>
             )}
-            {url.hostname !== "twitter.com" && url.hostname !== 'reddit' (
+            {url.hostname !== "twitter.com" && url.hostname !== 'reddit.com' && (
               <Fragment>
-                <span style={{ marginRight: 10 }}>
-                  <img src={linkLogo} />
+                <span style={{ marginRight: 5 }}>
+                  <img src={linkLogo} style={{height:12}} />
                 </span>
                 <a
                   href={newsItem.get("url")}
