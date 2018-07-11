@@ -1,0 +1,8 @@
+#!/bin/bash
+# Warning - this script takes ~15 minutes due to the size of the production database.
+# This script requires that your local coinfi_rails-development database not exist.
+# You can drop your local Rails database via `rails db:drop`.
+# You need to make sure to disconnect all PG connections to your local database prior.
+
+echo "Cloning production database into local database..."
+heroku pg:pull DATABASE_URL coinfi-rails_development --app coinfi-eu
