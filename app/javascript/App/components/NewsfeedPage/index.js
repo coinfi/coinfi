@@ -10,6 +10,10 @@ class NewsfeedPage extends Component {
     initialRenderTips: false
   }
 
+  addCoinsToWatchlist() {
+    console.log('added')
+  }
+
   componentWillMount() {
     window.addEventListener('resize', debounce(() => this.forceUpdate()), 500)
   }
@@ -24,7 +28,7 @@ class NewsfeedPage extends Component {
     } else if (window.isTablet) {
       return <LayoutTablet {...this.props} initialRenderTips={this.state.initialRenderTips} />
     } else {
-      return <LayoutDesktop {...this.props} initialRenderTips={this.state.initialRenderTips} />
+      return <LayoutDesktop {...this.props} initialRenderTips={this.state.initialRenderTips} addCoinsToWatchlist={this.addCoinsToWatchlist} />
     }
   }
 }

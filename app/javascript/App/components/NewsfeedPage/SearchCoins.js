@@ -34,6 +34,7 @@ class SearchCoins extends Component {
       updateUser,
       user,
       onWatch,
+      addCoinsToWatchlist
     } = this.props
     return (
       <div className="search-field">
@@ -80,6 +81,7 @@ class SearchCoins extends Component {
                     user={user}
                     onWatch={onWatch}
                     hasText
+                    addCoinsToWatchlist={addCoinsToWatchlist}
                   />
                 </div>
               </li>
