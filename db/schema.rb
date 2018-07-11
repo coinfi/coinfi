@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180628025816) do
+ActiveRecord::Schema.define(version: 20180711070016) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -239,6 +239,7 @@ ActiveRecord::Schema.define(version: 20180628025816) do
     t.bigint "coin_id"
     t.boolean "is_active", default: true
     t.index ["coin_id"], name: "index_feed_sources_on_coin_id"
+    t.index ["feed_type"], name: "index_feed_sources_on_feed_type"
     t.index ["feed_url"], name: "index_feed_sources_on_feed_url", unique: true
     t.index ["name"], name: "index_feed_sources_on_name", unique: true
   end
@@ -329,8 +330,10 @@ ActiveRecord::Schema.define(version: 20180628025816) do
     t.datetime "last_machine_tagged_on"
     t.bigint "user_id"
     t.jsonb "coin_ids"
+    t.index ["feed_item_published_at"], name: "index_news_items_on_feed_item_published_at"
     t.index ["feed_source_id", "feed_item_id"], name: "index_news_items_on_feed_source_id_and_feed_item_id", unique: true
     t.index ["feed_source_id"], name: "index_news_items_on_feed_source_id"
+    t.index ["is_published"], name: "index_news_items_on_is_published"
     t.index ["user_id"], name: "index_news_items_on_user_id"
   end
 
@@ -388,17 +391,6 @@ ActiveRecord::Schema.define(version: 20180628025816) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
     t.index ["uid"], name: "index_users_on_uid"
     t.index ["username"], name: "index_users_on_username"
-  end
-
-  create_table "versions", force: :cascade do |t|
-    t.string "item_type", null: false
-    t.integer "item_id", null: false
-    t.string "event", null: false
-    t.string "whodunnit"
-    t.text "object"
-    t.text "object_changes"
-    t.datetime "created_at"
-    t.index ["item_type", "item_id"], name: "index_versions_on_item_type_and_item_id"
   end
 
   create_table "visits", force: :cascade do |t|

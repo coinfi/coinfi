@@ -7,21 +7,19 @@ class Api::NewsItemsController < ApiController
 
     q = params[:q] || {}
 
-    @news_items = NewsItem.published.all
-
     coin_ids = q[:coinIDs]
     coin_ids = Coin.where(name: q[:coins]).pluck(:id) if q[:coins]
-    coin_ids = Coin.top(20).pluck(:id) unless coin_ids
-    news_item_ids_for_coin_filter = NewsCoinMention.where(coin_id: coin_ids).pluck(:news_item_id)
-    @news_items = @news_items.where(id: news_item_ids_for_coin_filter)
+    coin_ids = Coin.top(20).ids unless coin_ids
+
+    @news_items = NewsItem.published.joins(:news_coin_mentions).where(news_coin_mentions: { coin: coin_ids })
 
     if q[:coins].blank?
       # Only show NewsItems from General FeedSources when no coins are specifically selected.
-      @news_items = NewsItem.general.published.or(@news_items)
+      @news_items = NewsItem.general.published.union(@news_items)
     end
 
     if q[:categories].present?
-      category_ids = NewsCategory.where(name: q[:categories]).pluck(:id)
+      category_ids = NewsCategory.where(name: q[:categories]).ids
       news_item_ids_for_category_filter = NewsItemCategorization.where(news_category_id: category_ids).pluck(:news_item_id)
       if news_item_ids_for_category_filter.present?
         @news_items = @news_items.where(id: news_item_ids_for_category_filter)
@@ -47,7 +45,7 @@ class Api::NewsItemsController < ApiController
       @news_items = @news_items.where('feed_item_published_at < ?', q[:publishedUntil].to_datetime)
     end
 
-    @news_items = @news_items.limit(PER_PAGE)
+    @news_items = @news_items.order_by_published.limit(PER_PAGE)
 
     respond_success serialized(@news_items)
   end
