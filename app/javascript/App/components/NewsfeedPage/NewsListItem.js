@@ -31,8 +31,25 @@ const NewsListItem = (props) => {
           <div className="f6 silver">
             {url.hostname === "twitter.com" && (
               <Fragment>
-                <span style={{ marginRight: 5 }}>
-                  <img src={twitterLogo} style={{height:12}} />
+                <span className="mr2">
+                  <img src={twitterLogo} style={{height: 11}} />
+                </span>
+                <a
+                  href={newsItem.get("url")}
+                  target="_blank"
+                  rel="nofollow"
+                  className="dib silver"
+                >
+                  {url.hostname}
+                </a>
+                <span className="ph2" style={{fontSize: 35, position: 'relative', top: 6}}>&middot;</span>
+                {timeago().format(newsItem.get("feed_item_published_at"))}
+              </Fragment>
+            )}
+            {url.hostname === "www.reddit.com" && (
+              <Fragment>
+                <span className="mr2">
+                  <img src={redditLogo} style={{height: 12}} />
                 </span>
                 <a
                   href={newsItem.get("url")}
@@ -46,27 +63,10 @@ const NewsListItem = (props) => {
                 {timeago().format(newsItem.get("feed_item_published_at"))}
               </Fragment>
             )}
-            {url.hostname === "reddit.com" && (
+            {url.hostname !== "twitter.com" && url.hostname !== 'www.reddit.com' && (
               <Fragment>
-                <span style={{ marginRight: 5, position: 'relative', top: 5 }}>
-                  <img src={redditLogo} style={{height:12}} />
-                </span>
-                <a
-                  href={newsItem.get("url")}
-                  target="_blank"
-                  rel="nofollow"
-                  className="dib silver"
-                >
-                  {url.hostname}
-                </a>
-                <span className="ph2" style={{fontSize: 35, position:'relative', top: 6}}>&middot;</span>
-                {timeago().format(newsItem.get("feed_item_published_at"))}
-              </Fragment>
-            )}
-            {url.hostname !== "twitter.com" && url.hostname !== 'reddit.com' && (
-              <Fragment>
-                <span style={{ marginRight: 5 }}>
-                  <img src={linkLogo} style={{height:12}} />
+                <span className="mr2">
+                  <img src={linkLogo} style={{height: 9}} />
                 </span>
                 <a
                   href={newsItem.get("url")}

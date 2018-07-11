@@ -38,7 +38,6 @@ class NewsfeedPage extends Component {
   }
 
   render() {
-    // console.log('mount', this.props)
     if (window.isMobile) {
       return <LayoutMobile {...this.props} newsfeedTips={(event) => this.newsfeedTips(event)} initialRenderTips={this.state.initialRenderTips} />
     } else if (window.isTablet) {
