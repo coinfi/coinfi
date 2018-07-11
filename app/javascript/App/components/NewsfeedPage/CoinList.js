@@ -1,4 +1,5 @@
 import React, { Component, Fragment } from 'react'
+import axios from 'axios'
 import CoinListHeader from './CoinListHeader'
 import CoinListItem from './CoinListItem'
 import LoadingIndicator from '../LoadingIndicator'
@@ -6,6 +7,28 @@ import coinSearchProvider from '../../containers/coinSearch'
 import watchlistStarIcon from '../../images/watch-list-star-icon.svg'
 
 class CoinList extends Component {
+
+
+  componentDidMount() {
+    console.log('componentDidMount')
+  }
+  //
+  // componentWillUpdate() {
+  //   console.log('componentWillUpdate')
+  //
+  //   var req = '/api/coins.json?q%5Bsymbol_cont%5D=BAS'
+  //   axios
+  //     .get(req)
+  //     .then(({ data: { data: { children } } }) => {
+  //       console.log('ajax done')
+  //       // this.setState({ posts: children })
+  //     })
+  //     .catch(error => {
+  //       console.log(error)
+  //     })
+  //
+  // }
+
   setActiveCoin = (coin) => {
     const { setActiveEntity, setFilter, disableUI, enableUI } = this.props
     setActiveEntity({
@@ -24,6 +47,7 @@ class CoinList extends Component {
     this.props.clearSearch()
   }
   render() {
+    console.log('coin list props')
     const { isLoading, currentUI, isWatching, searchedCoins } = this.props
     let { coins } = this.props
     if (currentUI('watchingOnly')) {

@@ -5,6 +5,7 @@ const entityActions = createEntityActions(namespace)
 export default {
   ...entityActions,
   fetchCoins: () => {
+      console.log('watchlist action fetchCoin')
     return { type: 'FETCH_COINS' }
   },
   removeCoin: (id) => {

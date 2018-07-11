@@ -34,7 +34,7 @@ const WatchButton = ({
           if (!user) return (window.location = '/login')
           if (onWatch) onWatch(coin)
           updateUser({ watchCoin: coin.get('id') })
-          addCoinsToWatchlist()
+          addCoinsToWatchlist(coin.get('symbol'))
         }}
       >
         {hasText && 'Watch'}

@@ -6,6 +6,7 @@ export default createHOC({
   actions,
   selectors,
   onMount: (container) => {
+    console.log('container watchlist index', container)
     container.props.fetchCoins()
   }
 })

@@ -22,6 +22,7 @@ export default function* watcher() {
 }
 
 function* fetchCoins(action) {
+    console.log('container newsfeed saga')
   if (action.namespace !== namespace) return
   const opts = { url: 'newsfeed/coins' }
   let { coinIDs } = action
