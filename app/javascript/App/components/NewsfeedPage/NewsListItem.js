@@ -63,6 +63,7 @@ const NewsListItem = (props) => {
     selectCoin,
     hasRead,
   } = props
+
   let className = 'b--b tiber overflow-hidden'
   if (activeEntity) {
     const { type, id } = activeEntity
@@ -79,10 +80,17 @@ const NewsListItem = (props) => {
   return (
     <div className={className} style={{ height: props.height || 'auto' }}>
       <div className="pa-default">
-        <div
-          className="pointer"
-          onClick={() => {
+        <div className="pointer" onClick={
+          () => {
             readNewsHandler(newsItem, setActiveNewsItem)
+            setActiveNewsItem(newsItem)
+            if (
+              document.querySelector('.selected-news-content') &&
+              document.querySelector('.selected-news-content').parentNode
+            )
+              document.querySelector(
+                '.selected-news-content',
+              ).parentNode.scrollTop = 0
           }}
         >
           <h4 className="mb2 f5" style={hasRead ? { color: '#999' } : {}}>

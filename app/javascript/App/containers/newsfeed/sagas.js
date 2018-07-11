@@ -57,9 +57,10 @@ function* fetchNewsItems(action) {
 }
 
 function* pollNewsItems(action) {
+console.log('action')
   if (action.namespace !== namespace) return
   while (true) {
-    yield delay(60000)
+    yield delay(10000)
     const sortedNewsItems = yield select(selectors.sortedNewsItems)
     const params = yield newsitemParams()
     if (sortedNewsItems[0])
