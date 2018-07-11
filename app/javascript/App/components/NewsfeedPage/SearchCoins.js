@@ -15,7 +15,7 @@ class SearchCoins extends Component {
   handleSearchInput = (value) => {
     let { searchCoins } = this.props
     const name_not_in = this.selectedCoins()
-      console.log('handle search')
+	// todo: handle search input
     searchCoins(value, { q: { name_not_in }, limit: 10 })
   }
   selectCoin = (coin) => {
@@ -35,8 +35,10 @@ class SearchCoins extends Component {
       updateUser,
       user,
       onWatch,
-      addCoinsToWatchlist
+      addCoinsToWatchlist,
+	  searchCoins
     } = this.props
+
 
     return (
       <div className="search-field">
@@ -84,7 +86,9 @@ class SearchCoins extends Component {
                     onWatch={onWatch}
                     hasText
                     addCoinsToWatchlist={addCoinsToWatchlist()}
+                    searchCoins={searchCoins}
                   />
+				  {/* send searchCoins method to WatchButton */}
                 </div>
               </li>
             ))}

@@ -8,7 +8,8 @@ const WatchButton = ({
   onWatch,
   hasText,
   user,
-  addCoinsToWatchlist
+  addCoinsToWatchlist,
+  searchCoins
 }) => {
   const hasTextClassNames = 'btn btn-xs btn-gray'
 
@@ -35,6 +36,8 @@ const WatchButton = ({
           if (onWatch) onWatch(coin)
           updateUser({ watchCoin: coin.get('id') })
           addCoinsToWatchlist(coin.get('symbol'))
+          //todo: invoke searchCoins method passing symbol
+          searchCoins(coin.get('symbol'))
         }}
       >
         {hasText && 'Watch'}
