@@ -12,6 +12,7 @@ class NewsfeedPage extends Component {
 
   addCoinsToWatchlist() {
     console.log('added')
+    var req = '/api/coins.json?q%5Bsymbol_cont%5D=BAS'
   }
 
   componentWillMount() {
@@ -23,6 +24,7 @@ class NewsfeedPage extends Component {
   }
 
   render() {
+    console.log('newsfeedindex render')
     if (window.isMobile) {
       return <LayoutMobile {...this.props} newsfeedTips={(event) => this.newsfeedTips(event)} initialRenderTips={this.state.initialRenderTips} />
     } else if (window.isTablet) {
