@@ -1,19 +1,22 @@
-import React from 'react'
-import timeago from 'timeago.js'
-import NewsCoinTags from './NewsCoinTags'
+import React, { Fragment } from "react"
+import timeago from "timeago.js"
+import NewsCoinTags from "./NewsCoinTags"
+import twitterLogo from "../../images/logo-twitter.svg"
+import linkLogo from "../../images/logo-link.svg"
+import redditLogo from "../../images/logo-reddit.svg"
 
 const NewsListItem = (props) => {
   const { activeEntity, newsItem, setActiveNewsItem, preRender, selectCoin } = props
   let className = 'b--b tiber overflow-hidden'
   if (activeEntity) {
     const { type, id } = activeEntity
-    if (type === 'newsItem' && id === newsItem.get('id'))
-      className += ' bg-foam'
+    if (type === "newsItem" && id === newsItem.get("id"))
+      className += " bg-foam"
   }
-  const url = new URL(newsItem.get('url'))
-  if (preRender) className += ' o-0 absolute'
+  const url = new URL(newsItem.get("url"))
+  if (preRender) className += " o-0 absolute"
   return (
-    <div className={className} style={{ height: props.height || 'auto' }}>
+    <div className={className} style={{ height: props.height || "auto" }}>
       <div className="pa3">
         <div className="pointer" onClick={
           () => {
@@ -26,16 +29,57 @@ const NewsListItem = (props) => {
         </div>
         <div className="flex justify-between flex-wrap">
           <div className="f6 silver">
-            {timeago().format(newsItem.get('feed_item_published_at'))}
-            <span className="ph2">~</span>
-            <a
-              href={newsItem.get('url')}
-              target="_blank"
-              rel="nofollow"
-              className="dib silver"
-            >
-              {url.hostname}
-            </a>
+            {url.hostname === "twitter.com" && (
+              <Fragment>
+                <span className="mr2">
+                  <img src={twitterLogo} style={{height: 11}} />
+                </span>
+                <a
+                  href={newsItem.get("url")}
+                  target="_blank"
+                  rel="nofollow"
+                  className="dib silver"
+                >
+                  {url.hostname}
+                </a>
+                <span className="ph2" style={{fontSize: 35, position: 'relative', top: 6}}>&middot;</span>
+                {timeago().format(newsItem.get("feed_item_published_at"))}
+              </Fragment>
+            )}
+            {url.hostname === "www.reddit.com" && (
+              <Fragment>
+                <span className="mr2">
+                  <img src={redditLogo} style={{height: 12}} />
+                </span>
+                <a
+                  href={newsItem.get("url")}
+                  target="_blank"
+                  rel="nofollow"
+                  className="dib silver"
+                >
+                  {url.hostname}
+                </a>
+                <span className="ph2" style={{fontSize: 35, position:'relative', top: 6}}>&middot;</span>
+                {timeago().format(newsItem.get("feed_item_published_at"))}
+              </Fragment>
+            )}
+            {url.hostname !== "twitter.com" && url.hostname !== 'www.reddit.com' && (
+              <Fragment>
+                <span className="mr2">
+                  <img src={linkLogo} style={{height: 9}} />
+                </span>
+                <a
+                  href={newsItem.get("url")}
+                  target="_blank"
+                  rel="nofollow"
+                  className="dib silver"
+                >
+                  {url.hostname}
+                </a>
+                <span className="ph2" style={{fontSize: 35, position:'relative', top: 6}}>&middot;</span>
+                {timeago().format(newsItem.get("feed_item_published_at"))}
+              </Fragment>
+            )}
           </div>
           <NewsCoinTags {...props} />
         </div>

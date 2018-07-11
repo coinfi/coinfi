@@ -32,7 +32,7 @@ class CoinList extends Component {
     return (
       <Fragment>
         <CoinListHeader {...this.props} />
-        <div className="flex-auto relative overflow-y-auto" style={watchlistStarIcon && {textAlign:'center'}} >
+        <div className="flex-auto relative overflow-y-auto coin-watch-list" style={watchlistStarIcon && {textAlign:'center'}} >
 
           { !coins.length && (
             <Fragment>
@@ -48,23 +48,27 @@ class CoinList extends Component {
           {currentUI('coinSearch') &&
             searchedCoins.size > 0 && (
               <div className="b--b bw2">
-                {searchedCoins.map((coin, key) => (
-                  <CoinListItem
-                    {...{ coin, key, ...this.props }}
-                    onClick={this.newCoinHandler}
-                    onWatch={this.newCoinHandler}
-                  />
-                ))}
+                {searchedCoins.map((coin, key) => {
+                  return (
+                    <CoinListItem
+                      {...{ coin, key, ...this.props }}
+                      onClick={this.newCoinHandler}
+                      onWatch={this.newCoinHandler}
+                    />
+                  )}
+                )}
               </div>
             )}
-          {coins.map((coin, index) => (
-            <CoinListItem
-              key={index}
-              coin={coin}
-              {...this.props}
-              onClick={this.setActiveCoin}
-            />
-          ))}
+            {coins.map((coin, index) => {
+              return (
+                <CoinListItem
+                  key={index}
+                  coin={coin}
+                  {...this.props}
+                  onClick={this.setActiveCoin}
+                />
+              )}
+            )}
         </div>
       </Fragment>
     )
