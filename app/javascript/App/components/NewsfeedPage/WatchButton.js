@@ -9,7 +9,7 @@ const WatchButton = ({
   hasText,
   user,
   addCoinsToWatchlist,
-  searchCoins
+  searchCoinsHandler
 }) => {
   const hasTextClassNames = 'btn btn-xs btn-gray'
 
@@ -37,7 +37,7 @@ const WatchButton = ({
           updateUser({ watchCoin: coin.get('id') })
           addCoinsToWatchlist(coin.get('symbol'))
           //todo: invoke searchCoins method passing symbol
-          searchCoins(coin.get('symbol'))
+          searchCoinsHandler(coin.get('symbol'))
         }}
       >
         {hasText && 'Watch'}

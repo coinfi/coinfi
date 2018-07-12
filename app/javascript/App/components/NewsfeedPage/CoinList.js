@@ -9,9 +9,7 @@ import watchlistStarIcon from '../../images/watch-list-star-icon.svg'
 class CoinList extends Component {
 
 
-  componentDidMount() {
-    console.log('componentDidMount')
-  }
+
   //
   // componentWillUpdate() {
   //   console.log('componentWillUpdate')
@@ -47,7 +45,6 @@ class CoinList extends Component {
     this.props.clearSearch()
   }
   render() {
-    console.log('coin list props')
     const { isLoading, currentUI, isWatching, searchedCoins } = this.props
     let { coins } = this.props
     if (currentUI('watchingOnly')) {
