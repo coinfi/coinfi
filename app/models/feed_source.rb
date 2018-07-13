@@ -66,6 +66,25 @@ class FeedSource < ApplicationRecord
     fs_ids_missing_subs
   end
 
+  def self.create_from_coins_reddit!(coin)
+    FeedSource.create(
+      name: coin.name + " Reddit",
+      feed_url: coin.reddit + ".rss",
+      site_url: coin.reddit,
+      feed_type: 'reddit'
+    )
+  end
+
+  def self.create_from_coins_twitter!(coin)
+    twitter_user = coin.twitter.split("/").last
+    FeedSource.create(
+      name: coin.name + " Twitter",
+      feed_url: "https://twitrss.me/twitter_user_to_rss/?user=#{twitter_user}",
+      site_url: coin.twitter,
+      feed_type: 'twitter'
+    )
+  end
+
   def retrieve(before: nil)
     body = {
       'hub.mode' => 'retrieve',
