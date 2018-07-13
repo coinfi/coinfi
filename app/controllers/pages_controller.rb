@@ -4,7 +4,11 @@ class PagesController < ApplicationController
     render_404 unless page_known?
     redirect_to('/login') && return if member_page? && !current_user
     @body_id = "#{@page}-page"
-    render "pages/#{@page}"
+    if @page == 'news' && !has_news_feature?
+      render_404
+    else
+      render "pages/#{@page}"
+    end
   end
 
   private
@@ -27,6 +31,21 @@ class PagesController < ApplicationController
 
   def member_pages
     %w[]
+  end
+
+  def has_news_feature?
+    $ld_client.variation('news', get_ld_user, false)
+  end
+
+  def get_ld_user
+    {
+      key: current_user.id,
+      email: current_user.email,
+      anonymous: false,
+      custom: {
+        username: current_user.username
+      }
+    }
   end
 
 end
