@@ -56,21 +56,6 @@ class Api::NewsItemsController < ApiController
 
   private
 
-  def has_news_feature?
-    current_user && $ld_client.variation('news', get_ld_user, false)
-  end
-
-  def get_ld_user
-    {
-      key: current_user.id,
-      email: current_user.email,
-      anonymous: false,
-      custom: {
-        username: current_user.username
-      }
-    }
-  end
-
   def get_feed_source_ids(feed_source_names)
     return [] unless feed_source_names.present?
     feed_source_ids = []

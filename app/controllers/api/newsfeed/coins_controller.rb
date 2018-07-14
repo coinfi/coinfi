@@ -19,21 +19,6 @@ class Api::Newsfeed::CoinsController < ApiController
 
   private
 
-  def has_news_feature?
-    current_user && $ld_client.variation('news', get_ld_user, false)
-  end
-
-  def get_ld_user
-    {
-      key: current_user.id,
-      email: current_user.email,
-      anonymous: false,
-      custom: {
-        username: current_user.username
-      }
-    }
-  end
-
   def index_serializer(coins)
     coins.as_json(
       only: %i[id name image_url symbol slug price_usd],

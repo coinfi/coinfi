@@ -17,4 +17,19 @@ class ApplicationController < ActionController::Base
     return {} if I18n.locale == I18n.default_locale
     { locale: I18n.locale }
   end
+
+  def has_news_feature?
+    current_user && $ld_client.variation('news', get_ld_user, false)
+  end
+
+  def get_ld_user
+    {
+      key: current_user.id,
+      email: current_user.email,
+      anonymous: false,
+      custom: {
+        username: current_user.username
+      }
+    }
+  end
 end
