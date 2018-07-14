@@ -34,7 +34,7 @@ class PagesController < ApplicationController
   end
 
   def has_news_feature?
-    $ld_client.variation('news', get_ld_user, false)
+    current_user && $ld_client.variation('news', get_ld_user, false)
   end
 
   def get_ld_user
