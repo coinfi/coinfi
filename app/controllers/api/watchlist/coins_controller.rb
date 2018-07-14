@@ -4,26 +4,38 @@ class Api::Watchlist::CoinsController < ApiController
   before_action :authenticate_user!
 
   def index
-    respond_success serialized(@watchlist.coins)
+    if (!has_news_features?)
+      respond_unfound
+    else
+      respond_success serialized(@watchlist.coins)
+    end
   end
 
   def create
-    @coin = Coin.find(params[:id])
-    if @watchlist.coins.find_by_id(@coin.id)
-      respond_warning "Coin already added"
+    if (!has_news_features?)
+      respond_unfound
     else
-      @watchlist.items.create(coin: @coin)
-      @watchlist.save
-      respond_success "Coin added to watchlist"
+      @coin = Coin.find(params[:id])
+      if @watchlist.coins.find_by_id(@coin.id)
+        respond_warning "Coin already added"
+      else
+        @watchlist.items.create(coin: @coin)
+        @watchlist.save
+        respond_success "Coin added to watchlist"
+      end
     end
   end
 
   def destroy
-    if @item = @watchlist.items.find_by_coin_id(params[:id])
-      @item.destroy
-      respond_success({ id: @item.coin_id }, "Coin removed from watchlist")
+    if (!has_news_features?)
+      respond_unfound
     else
-      respond_warning "Coin already removed"
+      if @item = @watchlist.items.find_by_coin_id(params[:id])
+        @item.destroy
+        respond_success({ id: @item.coin_id }, "Coin removed from watchlist")
+      else
+        respond_warning "Coin already removed"
+      end
     end
   end
 
@@ -35,6 +47,21 @@ class Api::Watchlist::CoinsController < ApiController
   end
 
   private
+
+  def has_news_feature?
+    current_user && $ld_client.variation('news', get_ld_user, false)
+  end
+
+  def get_ld_user
+    {
+      key: current_user.id,
+      email: current_user.email,
+      anonymous: false,
+      custom: {
+        username: current_user.username
+      }
+    }
+  end
 
   def set_watchlist
     @watchlist = current_user.watchlist || Watchlist.create(user: current_user)
