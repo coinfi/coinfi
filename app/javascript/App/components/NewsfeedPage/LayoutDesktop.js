@@ -7,30 +7,9 @@ import BodySection from './BodySection'
 
 export default class LayoutDesktop extends React.Component {
 
-// export default function(props) {
-
-  componentDidUpdate() {
-    var req = '/api/coins.json?q%5Bsymbol_cont%5D=BAS'
-    axios
-      .get(req)
-      .then(({ data: { data: { children } } }) => {
-        console.log('add response')
-        // this.setState({ posts: children })
-      })
-      .catch(error => {
-        console.log(error)
-      })
-
-    console.log('layout desktop: did mount')
-  }
-
   render() {
 
-    console.log('layout render')
-
     const {props} = this
-
-
     return (
       <div className="flex flex-column flex-auto">
         <div className="row no-gutter flex-auto bg-white">

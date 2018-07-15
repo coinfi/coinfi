@@ -8,7 +8,6 @@ export default function* watcher() {
 }
 
 function* searchCoins({ searchText, searchOpts, namespace }) {
-    console.log('searchCoins')
   if (searchText.length < 2) return
   yield apiSagas.get(
     '/coins.json',

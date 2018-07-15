@@ -8,25 +8,6 @@ import watchlistStarIcon from '../../images/watch-list-star-icon.svg'
 
 class CoinList extends Component {
 
-
-
-  //
-  // componentWillUpdate() {
-  //   console.log('componentWillUpdate')
-  //
-  //   var req = '/api/coins.json?q%5Bsymbol_cont%5D=BAS'
-  //   axios
-  //     .get(req)
-  //     .then(({ data: { data: { children } } }) => {
-  //       console.log('ajax done')
-  //       // this.setState({ posts: children })
-  //     })
-  //     .catch(error => {
-  //       console.log(error)
-  //     })
-  //
-  // }
-
   setActiveCoin = (coin) => {
     const { setActiveEntity, setFilter, disableUI, enableUI } = this.props
     setActiveEntity({

@@ -36,21 +36,11 @@ class NewsfeedPage extends Component {
       return t
     })(document, "script", "twitter-wjs")
 
-    // var req = '/api/coins.json?q%5Bsymbol_cont%5D=BAS'
-    // console.log('componentDidMount')
-    // axios
-    //   .get(`req`)
-    //   .then(({ data: { data: { children } } }) => {
-    //     this.setState({ posts: children })
-    //   })
-    //   .catch(error => {
-    //     console.log(error)
-    //   })
   }
 
   addCoinsToWatchlist(symbol) {
     var req = "/api/coins.json?q%5Bsymbol_cont%5D=" + symbol
-    let liveCoinArrAdd = this.state.liveCoinArr
+    let liveCoinArrAdd = _.merge(this.state.liveCoinArr, this.props.coins)
 
     axios
       .get(req)
@@ -76,6 +66,14 @@ class NewsfeedPage extends Component {
   }
 
   render() {
+	let coinArr
+	if (this.state.liveCoinArr.length) {
+	  coinArr = this.state.liveCoinArr
+	}
+	else {
+	  coinArr = this.props.coins
+	}
+
     if (window.isMobile) {
       return (
         <LayoutMobile
@@ -92,7 +90,6 @@ class NewsfeedPage extends Component {
         />
       )
     } else {
-      console.log("newsfeedindex this.props.coins", this.props.coins)
       return (
         <LayoutDesktop
           {...this.props}

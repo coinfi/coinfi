@@ -17,7 +17,6 @@ export default function* watcher() {
 }
 
 function* fetchCoins(action) {
-    console.log('watchlist sagas')
   yield put(
     actions.fetchEntityList('coins', {
       entityType: 'coins',
