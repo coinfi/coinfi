@@ -33,19 +33,4 @@ class PagesController < ApplicationController
     %w[]
   end
 
-  def has_news_feature?
-    current_user && $ld_client.variation('news', get_ld_user, false)
-  end
-
-  def get_ld_user
-    {
-      key: current_user.id,
-      email: current_user.email,
-      anonymous: false,
-      custom: {
-        username: current_user.username
-      }
-    }
-  end
-
 end
