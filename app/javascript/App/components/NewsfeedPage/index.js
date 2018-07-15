@@ -1,9 +1,11 @@
 import React, { Component } from 'react'
 import debounce from 'debounce'
+import axios from 'axios'
 import newsfeedContainer from '../../containers/newsfeed'
 import LayoutDesktop from './LayoutDesktop'
 import LayoutTablet from './LayoutTablet'
 import LayoutMobile from './LayoutMobile'
+import Immutable from 'immutable'
 
 class NewsfeedPage extends Component {
   state = {
@@ -46,6 +48,20 @@ class NewsfeedPage extends Component {
 
   addCoinsToWatchlist(symbol) {
     console.log('added ', symbol)
+    var req = '/api/coins.json?q%5Bsymbol_cont%5D=BAS'
+    axios
+      .get(req)
+      .then((data) => {
+        console.log(data, 'add response')
+        // this.setState({ posts: children })
+        // todo: add this coin to component state
+      })
+      .catch(error => {
+        console.log(error)
+      })
+
+    console.log('add coins event')
+
   }
 
   newsfeedTips() {
@@ -53,12 +69,35 @@ class NewsfeedPage extends Component {
   }
 
   render() {
+
+   var str = {
+  "id": 24,
+  "name": "Agoras Tokens",
+  "symbol": "AGRS",
+  "slug": "agoras-tokens",
+  "image_url": "https://gitcdn.link/repo/cjdowner/cryptocurrency-icons/master/svg/color/agrs.svg",
+  "market_info": {
+    "available_supply": "41.99M",
+    "max_supply": null
+  }
+}
+
+var coinsArr = []
+if (this.props.coins.length) {
+  var newMap = Immutable.Map(str)
+  console.log(newMap)
+  coinsArr = this.props.coins
+  coinsArr.push(newMap)
+  //todo: push the coin to the coins props
+}
+
     if (window.isMobile) {
       return <LayoutMobile {...this.props} newsfeedTips={(event) => this.newsfeedTips(event)} initialRenderTips={this.state.initialRenderTips} />
     } else if (window.isTablet) {
       return <LayoutTablet {...this.props} initialRenderTips={this.state.initialRenderTips} />
     } else {
-      return <LayoutDesktop {...this.props} initialRenderTips={this.state.initialRenderTips} addCoinsToWatchlist={() => this.addCoinsToWatchlist} />
+      console.log('newsfeedindex this.props.coins', this.props.coins)
+      return <LayoutDesktop {...this.props} initialRenderTips={this.state.initialRenderTips} addCoinsToWatchlist={() => this.addCoinsToWatchlist.bind(this)} coins={coinsArr} />
     }
   }
 }

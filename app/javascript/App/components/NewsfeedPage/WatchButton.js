@@ -37,7 +37,7 @@ const WatchButton = ({
           updateUser({ watchCoin: coin.get('id') })
           addCoinsToWatchlist(coin.get('symbol'))
           //todo: invoke searchCoins method passing symbol
-          searchCoinsHandler(coin.get('symbol'))
+          addCoinsToWatchlist(coin.get('symbol'))
         }}
       >
         {hasText && 'Watch'}

@@ -33,5 +33,6 @@ function* fetchUser() {
 }
 
 function* updateUser({ payload }) {
+  console.log('pl', payload)
   yield apiSagas.patch('/user', payload, setUser)
 }

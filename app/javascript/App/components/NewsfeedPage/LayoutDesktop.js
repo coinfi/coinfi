@@ -9,7 +9,7 @@ export default class LayoutDesktop extends React.Component {
 
 // export default function(props) {
 
-  componentDidMount() {
+  componentDidUpdate() {
     var req = '/api/coins.json?q%5Bsymbol_cont%5D=BAS'
     axios
       .get(req)
@@ -21,12 +21,15 @@ export default class LayoutDesktop extends React.Component {
         console.log(error)
       })
 
-    // console.log('add desktop: did mount')
+    console.log('layout desktop: did mount')
   }
 
   render() {
 
+    console.log('layout render')
+
     const {props} = this
+
 
     return (
       <div className="flex flex-column flex-auto">
