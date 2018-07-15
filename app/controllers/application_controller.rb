@@ -18,8 +18,10 @@ class ApplicationController < ActionController::Base
     { locale: I18n.locale }
   end
 
+  protected
+
   def has_news_feature?
-    current_user && $ld_client.variation('news', get_ld_user, false)
+    current_user && $launch_darkly.variation('news', get_ld_user, false)
   end
 
   def get_ld_user

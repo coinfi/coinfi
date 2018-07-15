@@ -4,38 +4,38 @@ class Api::Watchlist::CoinsController < ApiController
   before_action :authenticate_user!
 
   def index
-    if (!has_news_features?)
-      respond_unfound
-    else
-      respond_success serialized(@watchlist.coins)
+    if (!has_news_feature?)
+      return respond_unfound
     end
+
+    respond_success serialized(@watchlist.coins)
   end
 
   def create
-    if (!has_news_features?)
-      respond_unfound
+    if (!has_news_feature?)
+      return respond_unfound
+    end
+
+    @coin = Coin.find(params[:id])
+    if @watchlist.coins.find_by_id(@coin.id)
+      respond_warning "Coin already added"
     else
-      @coin = Coin.find(params[:id])
-      if @watchlist.coins.find_by_id(@coin.id)
-        respond_warning "Coin already added"
-      else
-        @watchlist.items.create(coin: @coin)
-        @watchlist.save
-        respond_success "Coin added to watchlist"
-      end
+      @watchlist.items.create(coin: @coin)
+      @watchlist.save
+      respond_success "Coin added to watchlist"
     end
   end
 
   def destroy
-    if (!has_news_features?)
-      respond_unfound
+    if (!has_news_feature?)
+      return respond_unfound
+    end
+
+    if @item = @watchlist.items.find_by_coin_id(params[:id])
+      @item.destroy
+      respond_success({ id: @item.coin_id }, "Coin removed from watchlist")
     else
-      if @item = @watchlist.items.find_by_coin_id(params[:id])
-        @item.destroy
-        respond_success({ id: @item.coin_id }, "Coin removed from watchlist")
-      else
-        respond_warning "Coin already removed"
-      end
+      respond_warning "Coin already removed"
     end
   end
 

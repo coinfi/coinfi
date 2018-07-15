@@ -1,26 +1,26 @@
 class Api::CoinsController < ApiController
 
   def index
-    if (!has_news_features?)
-      respond_unfound
-    else
-      query = params[:q] || {}
-      if params[:exclude_watched]
-        query[:id_not_in] = current_user.watchlist.coin_ids
-      end
-      @coins = Coin.ransack(query).result(distinct: true).limit(params[:limit] || 10)
-      respond_success index_serializer(@coins)
+    if (!has_news_feature?)
+      return respond_unfound
     end
+
+    query = params[:q] || {}
+    if params[:exclude_watched]
+      query[:id_not_in] = current_user.watchlist.coin_ids
+    end
+    @coins = Coin.ransack(query).result(distinct: true).limit(params[:limit] || 10)
+    respond_success index_serializer(@coins)
   end
 
   def show
-    if (!has_news_features?)
-      respond_unfound
-    else
-      coin = Coin.find(params[:id])
-      coin.current_user = current_user
-      respond_success show_serializer(coin)
+    if (!has_news_feature?)
+      return respond_unfound
     end
+
+    coin = Coin.find(params[:id])
+    coin.current_user = current_user
+    respond_success show_serializer(coin)
   end
 
   private

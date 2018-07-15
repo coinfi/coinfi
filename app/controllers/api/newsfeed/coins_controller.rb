@@ -1,7 +1,7 @@
 class Api::Newsfeed::CoinsController < ApiController
 
   def index
-    if (!has_news_features?)
+    if (!has_news_feature?)
       respond_unfound
     else
       if params[:q] && params[:q][:coinIDs]
