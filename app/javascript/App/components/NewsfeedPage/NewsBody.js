@@ -32,7 +32,7 @@ export default class NewsBody extends Component {
           </span>
           <a href={newsItem.get('url')} target="_blank" rel="nofollow">
             <Icon name="link" className="mr2 f7" regular />
-            {url.hostname}
+            {newsItem.get('url')}
           </a>
         </div>
         <div
