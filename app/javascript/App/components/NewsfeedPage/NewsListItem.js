@@ -57,7 +57,7 @@ const NewsListItem = (props) => {
                   rel="nofollow"
                   className="dib silver"
                 >
-                  {url.hostname}
+                  {'/r/' + url.pathname.split('/')[2]}
                 </a>
                 <span className="ph2" style={{fontSize: 35, position:'relative', top: 6}}>&middot;</span>
                 {timeago().format(newsItem.get("feed_item_published_at"))}
