@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180711070016) do
+ActiveRecord::Schema.define(version: 20180715114637) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -111,6 +111,29 @@ ActiveRecord::Schema.define(version: 20180711070016) do
     t.index ["creator_id"], name: "index_blazer_queries_on_creator_id"
   end
 
+  create_table "calendar_event_categorizations", force: :cascade do |t|
+    t.bigint "event_id"
+    t.bigint "news_category_id"
+    t.index ["event_id"], name: "index_calendar_event_categorizations_on_event_id"
+    t.index ["news_category_id"], name: "index_calendar_event_categorizations_on_news_category_id"
+  end
+
+  create_table "calendar_events", force: :cascade do |t|
+    t.bigint "coin_id"
+    t.bigint "user_id"
+    t.string "name"
+    t.text "description"
+    t.datetime "date_event"
+    t.datetime "date_added"
+    t.string "source"
+    t.string "status"
+    t.bigint "approvals"
+    t.bigint "disapprovals"
+    t.integer "confidence"
+    t.index ["coin_id"], name: "index_calendar_events_on_coin_id"
+    t.index ["user_id"], name: "index_calendar_events_on_user_id"
+  end
+
   create_table "coin_excluded_countries", force: :cascade do |t|
     t.bigint "coin_id"
     t.bigint "country_id"
@@ -173,6 +196,8 @@ ActiveRecord::Schema.define(version: 20180711070016) do
     t.datetime "updated_at", null: false
     t.string "ico_status"
     t.bigint "ico_usd_raised"
+    t.bigint "ico_start_epoch"
+    t.bigint "ico_end_epoch"
     t.decimal "ico_token_price_usd", precision: 10, scale: 2
     t.decimal "ico_token_price_btc", precision: 24, scale: 16
     t.decimal "ico_token_price_eth", precision: 24, scale: 16
@@ -191,8 +216,6 @@ ActiveRecord::Schema.define(version: 20180711070016) do
     t.jsonb "exchanges", array: true
     t.string "previous_name"
     t.integer "influencer_reviews_count"
-    t.bigint "ico_start_epoch"
-    t.bigint "ico_end_epoch"
     t.datetime "ico_start_date"
     t.datetime "ico_end_date"
     t.string "website_domain"
@@ -316,7 +339,7 @@ ActiveRecord::Schema.define(version: 20180711070016) do
     t.string "title", null: false
     t.text "summary"
     t.text "content"
-    t.string "actor_id"
+    t.string "actor_id", null: false
     t.datetime "feed_item_published_at", null: false
     t.datetime "feed_item_updated_at", null: false
     t.jsonb "feed_item_json"
@@ -329,7 +352,6 @@ ActiveRecord::Schema.define(version: 20180711070016) do
     t.datetime "last_human_tagged_on"
     t.datetime "last_machine_tagged_on"
     t.bigint "user_id"
-    t.jsonb "coin_ids"
     t.index ["feed_item_published_at"], name: "index_news_items_on_feed_item_published_at"
     t.index ["feed_source_id", "feed_item_id"], name: "index_news_items_on_feed_source_id_and_feed_item_id", unique: true
     t.index ["feed_source_id"], name: "index_news_items_on_feed_source_id"
