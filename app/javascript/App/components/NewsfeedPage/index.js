@@ -35,11 +35,10 @@ class NewsfeedPage extends Component {
 
       return t
     })(document, "script", "twitter-wjs")
-
   }
 
   addCoinsToWatchlist(symbol) {
-    var req = "/api/coins.json?q%5Bsymbol_cont%5D=" + symbol
+    var req = "/api/coins.json?q[symbol_eq]=" + symbol
     let liveCoinArrAdd = _.merge(this.state.liveCoinArr, this.props.coins)
 
     axios
@@ -66,13 +65,12 @@ class NewsfeedPage extends Component {
   }
 
   render() {
-	let coinArr
-	if (this.state.liveCoinArr.length) {
-	  coinArr = this.state.liveCoinArr
-	}
-	else {
-	  coinArr = this.props.coins
-	}
+    let coinArr
+    if (this.state.liveCoinArr.length) {
+      coinArr = this.state.liveCoinArr
+    } else {
+      coinArr = this.props.coins
+    }
 
     if (window.isMobile) {
       return (
@@ -90,12 +88,22 @@ class NewsfeedPage extends Component {
         />
       )
     } else {
+      if (this.state.liveCoinArr.length) {
+        return (
+          <LayoutDesktop
+            {...this.props}
+            initialRenderTips={this.state.initialRenderTips}
+            addCoinsToWatchlist={() => this.addCoinsToWatchlist.bind(this)}
+            coins={this.state.liveCoinArr}
+          />
+        )
+      }
       return (
         <LayoutDesktop
           {...this.props}
           initialRenderTips={this.state.initialRenderTips}
           addCoinsToWatchlist={() => this.addCoinsToWatchlist.bind(this)}
-          coins={this.state.liveCoinArr}
+          coins={this.props.coins}
         />
       )
     }
