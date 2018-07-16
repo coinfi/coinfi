@@ -16,8 +16,7 @@ const NewsListHeader = (props) => {
     feedSources,
     activeFilters,
     activeEntity,
-    newsfeedTips,
-    addCoinsToWatchlist
+    newsfeedTips
   } = props
   const toggleFilters = () =>
     enableUI("filterPanel", { fullScreen: window.isMobile })
