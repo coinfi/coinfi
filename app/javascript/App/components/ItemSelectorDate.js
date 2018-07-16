@@ -51,7 +51,7 @@ export default class ItemSelectorDates extends Component {
             className="w-50 dib pa2"
             style={!window.isMobile ? { maxWidth: "50%" } : {}}
           >
-            <label>Start date</label>
+            <label class='f6'>Start date</label>
             <input
               type="date"
               className="from"
@@ -63,7 +63,7 @@ export default class ItemSelectorDates extends Component {
             className="w-50 dib pa2"
             style={!window.isMobile ? { maxWidth: "50%" } : {}}
           >
-            <label>End date</label>
+            <label class='f6'>End date</label>
             <input
               type="date"
               className="to"
