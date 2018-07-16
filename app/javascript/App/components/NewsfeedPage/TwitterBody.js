@@ -48,11 +48,6 @@ export default class NewsBody extends Component {
       <div className="pa4 bg-white min-h-100">
         <NewsCoinTags newsItem={newsItem} />
         <div id="container"></div>
-
-        <div
-          className="lh-copy"
-          dangerouslySetInnerHTML={{ __html: sanitizeHtml(content) }}
-        />
         {categories.size > 0 && (
           <div className="mt3">
             {categories.map((category, index) => (
