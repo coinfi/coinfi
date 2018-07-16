@@ -1,5 +1,4 @@
 import React, { Component, Fragment } from 'react'
-import axios from 'axios'
 import CoinListHeader from './CoinListHeader'
 import CoinListItem from './CoinListItem'
 import LoadingIndicator from '../LoadingIndicator'
@@ -7,7 +6,6 @@ import coinSearchProvider from '../../containers/coinSearch'
 import watchlistStarIcon from '../../images/watch-list-star-icon.svg'
 
 class CoinList extends Component {
-
   setActiveCoin = (coin) => {
     const { setActiveEntity, setFilter, disableUI, enableUI } = this.props
     setActiveEntity({

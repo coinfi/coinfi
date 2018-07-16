@@ -27,7 +27,6 @@ const NewsListHeader = (props) => {
     borderRadius: 0
   }
 
-
   return (
     <Fragment>
       {window.isMobile && (

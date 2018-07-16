@@ -1,5 +1,4 @@
 export const searchCoins = (namespace) => (searchText, searchOpts = {}) => {
-  // todo: define search coin action
   return { type: 'SEARCH_COINS', searchText, searchOpts, namespace }
 }
 
