@@ -4,8 +4,9 @@ nav class=("#{defined?(klass) ? klass : ''}")
       = nav_link 'Coins', '/coins'
     li
       = nav_link 'ICOs', '/icos/upcoming'
-    li
-      = nav_link 'News', '/news'
+    - if has_news_feature?
+      li
+        = nav_link 'News', '/news'
     li
       a href="https://blog.coinfi.com" Blog
     li
