@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180711070016) do
+ActiveRecord::Schema.define(version: 20180716123944) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -195,8 +195,9 @@ ActiveRecord::Schema.define(version: 20180711070016) do
     t.bigint "ico_end_epoch"
     t.datetime "ico_start_date"
     t.datetime "ico_end_date"
-    t.string "website_domain"
+    t.string "coin_key"
     t.index ["category"], name: "index_coins_on_category"
+    t.index ["coin_key"], name: "index_coins_on_coin_key"
     t.index ["influencer_reviews_count"], name: "index_coins_on_influencer_reviews_count"
     t.index ["market_cap"], name: "index_coins_on_market_cap", using: :gin
     t.index ["name"], name: "index_coins_on_name", unique: true
