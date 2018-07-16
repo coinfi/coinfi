@@ -35,12 +35,12 @@ const NewsListItem = (props) => {
                   <img src={twitterLogo} style={{height: 11}} />
                 </span>
                 <a
-                  href={newsItem.get("url")}
+                  href={'https://twitter.com/' + url.pathname.split('/')[1]}
                   target="_blank"
                   rel="nofollow"
                   className="dib silver"
                 >
-                  {url.hostname}
+                  {'@' + url.pathname.split('/')[1]}
                 </a>
                 <span className="ph2" style={{fontSize: 35, position: 'relative', top: 6}}>&middot;</span>
                 {timeago().format(newsItem.get("feed_item_published_at"))}
