@@ -1,1 +1,1 @@
-$ld_client = LaunchDarkly::LDClient.new(ENV.fetch("LAUNCHDARKLY_SDK_KEY"))
+$launch_darkly = LaunchDarkly::LDClient.new(ENV.fetch("LAUNCHDARKLY_SDK_KEY"))
