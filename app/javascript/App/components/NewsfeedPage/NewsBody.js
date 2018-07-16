@@ -35,10 +35,12 @@ export default class NewsBody extends Component {
             {url.hostname}
           </a>
         </div>
-        <div
-          className="lh-copy"
-          dangerouslySetInnerHTML={{ __html: sanitizeHtml(content) }}
-        />
+        {url.hostname !== 'twitter.com' && (
+          <div
+            className="lh-copy"
+            dangerouslySetInnerHTML={{ __html: sanitizeHtml(content) }}
+          />
+        )}
         {categories.size > 0 && (
           <div className="mt3">
             {categories.map((category, index) => (
