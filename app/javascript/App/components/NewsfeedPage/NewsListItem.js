@@ -42,7 +42,7 @@ const NewsListItem = (props) => {
                 >
                   {'@' + url.pathname.split('/')[1]}
                 </a>
-                <span className="ph2" style={{fontSize: 35, position: 'relative', top: 6}}>&middot;</span>
+                <span className="ph2" style={{fontSize: 8}}>&bull;</span>
                 {timeago().format(newsItem.get("feed_item_published_at"))}
               </Fragment>
             )}
@@ -59,7 +59,7 @@ const NewsListItem = (props) => {
                 >
                   {'/r/' + url.pathname.split('/')[2]}
                 </a>
-                <span className="ph2" style={{fontSize: 35, position:'relative', top: 6}}>&middot;</span>
+                <span className="ph2" style={{fontSize: 8}}>&bull;</span>
                 {timeago().format(newsItem.get("feed_item_published_at"))}
               </Fragment>
             )}
@@ -76,7 +76,7 @@ const NewsListItem = (props) => {
                 >
                   {url.hostname}
                 </a>
-                <span className="ph2" style={{fontSize: 35, position:'relative', top: 6}}>&middot;</span>
+                <span className="ph2" style={{fontSize: 8}}>&bull;</span>
                 {timeago().format(newsItem.get("feed_item_published_at"))}
               </Fragment>
             )}
