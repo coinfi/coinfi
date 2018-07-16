@@ -28,7 +28,7 @@ export default class NewsBody extends Component {
         <div className="pb4 mb4 b--b">
           <span className="mr4">
             <Icon name="clock" className="mr2 f7" regular />
-            {timeago().format(newsItem.get('published_date'))}
+            {timeago().format(newsItem.get('feed_item_published_at'))}
           </span>
           <a href={newsItem.get('url')} target="_blank" rel="nofollow">
             <Icon name="link" className="mr2 f7" regular />
