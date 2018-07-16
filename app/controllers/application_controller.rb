@@ -4,6 +4,10 @@ class ApplicationController < ActionController::Base
   before_action :set_locale
 
   def after_sign_in_path_for(resource)
+    if !has_news_feature?
+      return '/coins'
+    end
+    
     '/news'
   end
 

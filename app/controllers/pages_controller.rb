@@ -1,6 +1,7 @@
 class PagesController < ApplicationController
   def show
     @page = params[:id] || 'home'
+    puts @page
     render_404 unless page_known?
     redirect_to('/login') && return if member_page? && !current_user
     @body_id = "#{@page}-page"
