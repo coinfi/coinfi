@@ -1,0 +1,14 @@
+.flex.flex-auto.flex-column
+  .row.no-gutter.flex-auto.bg-white
+    #coins.flex.flex-column.col-xs-2.relative.b--l
+    #listings.flex.flex-column.col-xs-5.relative.b--l
+      .pa2.b--b.flex-none.flex.justify-between.items-center.bg-athens
+        .fl.w-third.pa2 Pair
+        .fl.w-third.pa2 Exchange
+        .fl.w-third.pa2 Date Detected
+      .flex-auto.relative.overflow-y-hidden.overflow-y-auto-m
+        - @listings.each do |listing|
+          = render 'listing', listing: listing
+        = paginate @listings
+    .flex.flex-column.col-xs-5.relative.b--l
+      #details

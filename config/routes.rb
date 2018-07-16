@@ -24,6 +24,9 @@ Rails.application.routes.draw do
   namespace :api, constraints: { format: 'json' } do
     get '/user', to: 'user#show'
     patch '/user', to: 'user#update'
+    resources :coins, only: %i[index show]
+    get '/coins/:id/news', to: 'coins#news'
+    resources :exchange_listings, only: %i[index show]
     resources :news_items, only: %i[index]
     namespace :newsfeed do
       resources :coins, only: %i[index]
@@ -40,6 +43,7 @@ Rails.application.routes.draw do
   resources :contributor_submissions, path: 'contributor-submissions'
   get '/profile', to: 'author_profiles#edit', as: 'edit_author_profile'
   resources :author_profiles, only: %i[index show create update], path: 'authors'
+  resources :exchange_listings, only: %i[index show]
 
   namespace :webhooks do
     post "#{ENV.fetch('SUPERFEEDR_CALLBACK_URL_SEGMENT_SECRET')}-superfeedr-ingest", to: 'websubs#superfeedr_ingest'
