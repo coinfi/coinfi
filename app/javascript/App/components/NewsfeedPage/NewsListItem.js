@@ -26,7 +26,7 @@ const NewsListItem = (props) => {
               document.querySelector('.selected-news-content').parentNode.scrollTop = 0
           }
         }>
-          <h4 className="fw6 mv3 f4">{newsItem.get('title')}</h4>
+          <h4 className="mb2 f5">{newsItem.get('title')}</h4>
         </div>
         <div className="flex justify-between flex-wrap">
           <div className="f6 silver">
