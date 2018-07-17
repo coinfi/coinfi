@@ -1,18 +1,8 @@
 import React, { Component } from 'react'
 import NewsCoinTags from './NewsCoinTags'
+import { Tweet } from 'react-twitter-widgets'
 
 export default class NewsBody extends Component {
-  componentDidMount() {
-    this.renderTweet(this.props.activeEntity.tweetId)
-  }
-
-  renderTweet(tweetId) {
-    twttr.widgets.createTweet(
-      tweetId,
-      document.getElementById('tweet-container'),
-      { theme: 'light' }
-    )
-  }
 
   render() {
     const {
@@ -26,11 +16,6 @@ export default class NewsBody extends Component {
     }
     const categories = selectNewsCategories(newsItem)
 
-    if ([].slice.call([document.getElementById('tweet-container')]).length) {
-      $('#tweet-container').empty()
-      this.renderTweet(this.props.activeEntity.tweetId)
-    }
-
     return (
       <div className="pa4 bg-white min-h-100">
         <NewsCoinTags newsItem={newsItem} />
@@ -43,7 +28,7 @@ export default class NewsBody extends Component {
             ))}
           </div>
         )}
-        <div id="tweet-container"></div>
+        <Tweet tweetId={this.props.activeEntity.tweetId} />
       </div>
     )
   }
