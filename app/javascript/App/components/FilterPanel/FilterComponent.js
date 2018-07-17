@@ -7,27 +7,27 @@ import Dates from './filterComponents/Dates'
 import FeedSources from './filterComponents/FeedSources'
 
 const FilterComponent = (props) => {
-  const { filter, newsFeedStyle, onChange } = props
+  const { filter } = props
   const Component = components[filter.get('key')]
   if (!Component) {
     return null
   }
   return (
     <Fragment>
-      <div className="pv4 bb b--geyser" style={newsFeedStyle ? {paddingTop:'.5rem', paddingBottom:'1.5rem'}: ''}>
-        <h4 className="mb2">Market moving</h4>
+      <div className="pb3">
+        <h4 className="mb2 f5">Market Moving</h4>
         <MarketMoving {...props} />
       </div>
-      <div className="pv4 bb b--geyser" style={newsFeedStyle ? {paddingTop:'.5rem', paddingBottom:'1.5rem'}: ''}>
-        <h4 className="mb2" style={{margin:'15px 0'}}>Date range</h4>
+      <div className="pv3">
+        <h4 className="mv2 f5">Date Range</h4>
         <Dates {...props} />
       </div>
-      <div className="pv4 bb b--geyser" style={newsFeedStyle ? {paddingTop:'.5rem', paddingBottom:'1.5rem'}: ''}>
-        <h4 className="mb2" style={{margin:'15px 0'}}>Categories</h4>
+      <div className="pv3">
+        <h4 className="mv2 f5">Categories</h4>
         <Categories {...props} />
       </div>
-      <div className="pv4 bb b--geyser" style={newsFeedStyle ? {paddingTop:'.5rem', paddingBottom:'1.5rem'}: ''}>
-        <h4 className="mb2" style={{margin:'15px 0', fontWeight:'bold'}}>Sources</h4>
+      <div className="pv3">
+        <h4 className="mv2 f5">Sources</h4>
         <FeedSources {...props} />
       </div>
     </Fragment>
