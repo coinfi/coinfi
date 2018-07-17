@@ -37,7 +37,7 @@ class SearchCoins extends Component {
     } = this.props
     return (
       <div className="search-field">
-        <div className="flex items-center ph2 f5 tiber">
+        <div className="flex items-center f5 tiber">
           <Icon
             regular
             name="search"
