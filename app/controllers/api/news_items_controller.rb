@@ -31,6 +31,8 @@ class Api::NewsItemsController < ApiController
       if feed_source_ids.present?
         @news_items = @news_items.where(feed_source_id: feed_source_ids)
       end
+    else
+      @news_items = @news_items.general
     end
 
     if q[:keywords].present?
