@@ -39,7 +39,7 @@ class NewsfeedPage extends Component {
 
   addCoinsToWatchlist(symbol) {
     var req = "/api/coins.json?q[symbol_eq]=" + symbol
-    let liveCoinArrAdd = _.merge(this.state.liveCoinArr, this.props.coins)
+    let liveCoinArrAdd = _.uniqBy(_.merge(this.state.liveCoinArr, this.props.coins), function(value){return value.get('symbol')})
 
     axios
       .get(req)
@@ -48,9 +48,10 @@ class NewsfeedPage extends Component {
         if (this.props.coins.length) {
           var newMap = Immutable.Map(str)
           liveCoinArrAdd.push(newMap)
+          liveCoinArrAdd = _.uniqBy(liveCoinArrAdd, function(value){return value.get('symbol')})
+
         }
       })
-      .bind(this)
       .catch(error => {
         console.log(error)
       })
@@ -71,6 +72,7 @@ class NewsfeedPage extends Component {
     } else {
       coinArr = this.props.coins
     }
+      // coinArr = _.uniqBy(coinArr, function(value){return value.get('id')})
 
     if (window.isMobile) {
       return (
