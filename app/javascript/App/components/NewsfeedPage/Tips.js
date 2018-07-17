@@ -9,11 +9,8 @@ const titleStyle = {
   fontWeight: 'bold'
 }
 
-const bottomTitleStyle = Object.assign({}, titleStyle)
-
 titleStyle.paddingLeft = 15
 titleStyle.paddingBottom = 10
-
 
 const listTextNodeStyle = {width:'90%', marginLeft:10, fontSize:'.88rem'}
 
@@ -38,7 +35,7 @@ export default ({ closeTips, user, loggedIn }) => {
           <div style={{float:'right', marginRight: '15px'}} >
             {closeTips && <Icon name="times" className="f4 slate" regular onClick={closeTips} />}
           </div>
-          <h2 className='tc mt0' style={titleStyle}>CoinFi News</h2>
+          <h2 className='mt0' style={titleStyle}>CoinFi News</h2>
         </div>
         <div style={{margin:20}}>
           <div style={{fontSize:'.8rem'}}>
@@ -50,23 +47,33 @@ export default ({ closeTips, user, loggedIn }) => {
           <ol className='tips'>
             <li>
               <div style={listNumberStyle}>1</div>
-              <div style={listTextNodeStyle}>Add coins to your watchlist <img src={listIcon} /> to customize your news feed.</div>
+              <div style={listTextNodeStyle}>
+                Add coins to your watchlist <img src={listIcon} /> to customize your news feed.
+              </div>
             </li>
             <li>
               <div style={listNumberStyle}>2</div>
-              <div style={listTextNodeStyle}> Use filters <img src={filterIcon} /> to drill down on specific news categories, types, and sources.  </div>
+              <div style={listTextNodeStyle}>
+                Use filters <img src={filterIcon} /> to drill down on specific news categories, types, and sources.
+              </div>
             </li>
             <li>
               <div style={listNumberStyle}>3</div>
-              <div style={listTextNodeStyle}> Search or click on a coin ticker to view coin-specific news and coin data <img src={chartIcon} />  </div>
+              <div style={listTextNodeStyle}>
+                Search or click on a coin ticker to view coin-specific news and coin data.<img src={chartIcon} />
+              </div>
             </li>
             <li>
               <div style={listNumberStyle}>4</div>
-              <div style={listTextNodeStyle}> See how news historically impacts a coin's price using CoinFi's Price Chart news annotations.  </div>
+              <div style={listTextNodeStyle}>
+                See how news historically impacts a coin's price using CoinFi's Price Chart news annotations.
+              </div>
             </li>
             <li>
               <div style={listNumberStyle}>5</div>
-              <div style={listTextNodeStyle}> Enable email and browser notifications to stay up-to-date on the latest market moving news  </div>
+              <div style={listTextNodeStyle}>
+                Enable email and browser notifications to stay up-to-date on the latest market moving news.
+              </div>
             </li>
           </ol>
 
