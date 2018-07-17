@@ -1,11 +1,5 @@
 import React, { Component } from 'react'
 import Type from 'prop-types'
-import Icon from './Icon'
-
-const inputStyle = {
-  width: 'auto',
-  marginRight: '.5rem'
-}
 
 export default class ItemSelectorAlt extends Component {
   selectedItems = () => this.props.selectedItems || []
@@ -30,35 +24,36 @@ export default class ItemSelectorAlt extends Component {
     if (item instanceof Object) return item.name || item.title || item.label
     return item
   }
-  ItemButton = ({ item }) => {
+
+  ItemLink = ({ item }) => {
     if (this.isSelected(item)) {
       return (
-        <button className="selected" onClick={() => this.remove(item)}>
-			<input type="checkbox" style={inputStyle} defaultChecked />
+        <a className="mid-gray selected" onClick={() => this.remove(item)}>
+          <input type="checkbox" className="mr2 w-auto" defaultChecked />
           {this.itemLabel(item)}
-        </button>
+        </a>
       )
     } else {
       return (
-        <button onClick={() => this.add(item)}>
-			<input type="checkbox" style={inputStyle} />
+        <a className="mid-gray" onClick={() => this.add(item)}>
+          <input type="checkbox" className="mr2 w-auto" />
           {this.itemLabel(item)}
-        </button>
+        </a>
       )
     }
   }
   render() {
-    const { ItemButton } = this
+    const { ItemLink } = this
     return (
-      <div className="item-selector-alt nh1 nt1">
-        <ul style={{marginLeft:'-1rem'}}>
+      <div className="item-selector-alt">
+        <ul>
           {this.props.items.map((item, i) => {
             if (/www/.exec(item) !== null) {
               item = item.replace('.www','').replace(/^/, 'www.')
             }
             return (
-            <li key={i} className="pa1">
-              <ItemButton item={item} />
+            <li className="mv2" key={i}>
+              <ItemLink item={item} />
             </li>
             )
           }

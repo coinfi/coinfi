@@ -27,13 +27,13 @@
     }
   }
 }
-input:not([type='submit']),
+input:not([type='checkbox']):not([type='submit']),
 select,
 textarea {
   width: 100%;
   max-width: 40em;
   display: inline-block;
-  padding: ($sp2 * 1.5) $sp3;
+  padding: 0.5rem;
   transition: all 0.5s;
   -webkit-transition: all 0.5s;
   border: 1px solid $moon-gray;
