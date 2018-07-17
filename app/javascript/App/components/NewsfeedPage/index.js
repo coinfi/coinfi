@@ -37,6 +37,13 @@ class NewsfeedPage extends Component {
     })(document, "script", "twitter-wjs")
   }
 
+  rmCoinsWatchlist(symbol) {
+    const liveCoinArrAdd = this.state.liveCoinArr.filter(item => item.symbol !== symbol)
+    this.setState({
+      liveCoinArr: liveCoinArrAdd
+    })
+  }
+
   addCoinsToWatchlist(symbol) {
     var req = "/api/coins.json?q[symbol_eq]=" + symbol
     let liveCoinArrAdd = _.uniqBy(_.merge(this.state.liveCoinArr, this.props.coins), function(value){return value.get('symbol')})
@@ -66,13 +73,6 @@ class NewsfeedPage extends Component {
   }
 
   render() {
-    let coinArr
-    if (this.state.liveCoinArr.length) {
-      coinArr = this.state.liveCoinArr
-    } else {
-      coinArr = this.props.coins
-    }
-      // coinArr = _.uniqBy(coinArr, function(value){return value.get('id')})
 
     if (window.isMobile) {
       return (
@@ -80,6 +80,8 @@ class NewsfeedPage extends Component {
           {...this.props}
           newsfeedTips={event => this.newsfeedTips(event)}
           initialRenderTips={this.state.initialRenderTips}
+          addCoinsToWatchlist={() => this.addCoinsToWatchlist.bind(this)}
+          rmCoinsWatchlist={() => this.rmCoinsWatchlist.bind(this)}
         />
       )
     } else if (window.isTablet) {
@@ -87,6 +89,8 @@ class NewsfeedPage extends Component {
         <LayoutTablet
           {...this.props}
           initialRenderTips={this.state.initialRenderTips}
+          addCoinsToWatchlist={() => this.addCoinsToWatchlist.bind(this)}
+          rmCoinsWatchlist={() => this.rmCoinsWatchlist.bind(this)}
         />
       )
     } else {
@@ -96,6 +100,7 @@ class NewsfeedPage extends Component {
             {...this.props}
             initialRenderTips={this.state.initialRenderTips}
             addCoinsToWatchlist={() => this.addCoinsToWatchlist.bind(this)}
+            rmCoinsWatchlist={() => this.rmCoinsWatchlist.bind(this)}
             coins={this.state.liveCoinArr}
           />
         )
@@ -105,6 +110,7 @@ class NewsfeedPage extends Component {
           {...this.props}
           initialRenderTips={this.state.initialRenderTips}
           addCoinsToWatchlist={() => this.addCoinsToWatchlist.bind(this)}
+          rmCoinsWatchlist={() => this.rmCoinsWatchlist.bind(this)}
           coins={this.props.coins}
         />
       )

@@ -9,6 +9,7 @@ const WatchButton = ({
   hasText,
   user,
   addCoinsToWatchlist,
+  rmCoinsWatchlist,
   searchCoinsHandler
 }) => {
   const hasTextClassNames = 'btn btn-xs btn-gray'
@@ -19,7 +20,10 @@ const WatchButton = ({
         name="star"
         solid
         className={`aqua ${hasText ? hasTextClassNames : ''}`}
-        onClick={() => updateUser({ unwatchCoin: coin.get('id') })}>
+        onClick={() => {
+          updateUser({ unwatchCoin: coin.get('id') })
+          rmCoinsWatchlist(coin.get('symbol'))
+        }}>
         {hasText && 'Watching'}
       </Icon>
     )

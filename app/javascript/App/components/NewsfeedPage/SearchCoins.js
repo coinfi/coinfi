@@ -35,6 +35,7 @@ class SearchCoins extends Component {
       user,
       onWatch,
       addCoinsToWatchlist,
+      rmCoinsWatchlist,
       searchCoins
     } = this.props
 
@@ -85,6 +86,7 @@ class SearchCoins extends Component {
                     user={user}
                     onWatch={onWatch}
                     hasText
+                    rmCoinsWatchlist={rmCoinsWatchlist()}
                     addCoinsToWatchlist={addCoinsToWatchlist()}
                     searchCoins={searchCoins}
                   />
