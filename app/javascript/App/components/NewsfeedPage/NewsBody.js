@@ -24,7 +24,7 @@ export default class NewsBody extends Component {
         <NewsCoinTags newsItem={newsItem} />
         <h1 className="break-word f3">{newsItem.get('title')}</h1>
         <div className="mb3">
-          <a href={newsItem.get('url')} target="_blank" rel="nofollow" style={{wordBreak: "break-all"}}>
+          <a href={newsItem.get('url')} target="_blank" rel="nofollow" className="break-all">
             <Icon name="link" className="mr1 f7" regular />
             {newsItem.get('url')}
           </a>
