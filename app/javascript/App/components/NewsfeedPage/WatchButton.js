@@ -36,7 +36,6 @@ const WatchButton = ({
           if (onWatch) onWatch(coin)
           updateUser({ watchCoin: coin.get('id') })
           addCoinsToWatchlist(coin.get('symbol'))
-          addCoinsToWatchlist(coin.get('symbol'))
         }}
       >
         {hasText && 'Watch'}
