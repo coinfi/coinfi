@@ -3,8 +3,8 @@ import timeago from 'timeago.js'
 import sanitizeHtml from 'sanitize-html'
 import _ from 'lodash'
 import NewsCoinTags from './NewsCoinTags'
+import BulletSpacer from '../BulletSpacer'
 import Icon from '../Icon'
-import URL from 'url-parse'
 
 export default class NewsBody extends Component {
   render() {
@@ -20,27 +20,24 @@ export default class NewsBody extends Component {
     }
     const categories = selectNewsCategories(newsItem)
     const content = _.trim(newsItem.get('content')) || _.trim(newsItem.get('summary'))
-    const url = new URL(newsItem.get('url'))
     return (
-      <div className="pa4 bg-white min-h-100 selected-news-content">
+      <div className="pa3 bg-white min-h-100 selected-news-content">
         <NewsCoinTags newsItem={newsItem} />
-        <h1 className="break-word f3">{newsItem.get('title')}</h1>
-        <div className="pb4 mb4 b--b">
-          <span className="mr4">
-            <Icon name="clock" className="mr2 f7" regular />
-            {timeago().format(newsItem.get('feed_item_published_at'))}
-          </span>
-          <a href={newsItem.get('url')} target="_blank" rel="nofollow">
-            <Icon name="link" className="mr2 f7" regular />
-            {url.hostname}
+        <h1 className="break-word f4">{newsItem.get('title')}</h1>
+        <div className="mb3 f6">
+          <a href={newsItem.get('url')} target="_blank" rel="nofollow" className="break-all">
+            <Icon name="link" className="mr1 f7" regular />
+            {newsItem.get('url')}
           </a>
         </div>
-        <div
-          className="lh-copy"
-          dangerouslySetInnerHTML={{ __html: sanitizeHtml(content) }}
-        />
+        <div className="mb3 f6">
+          <Icon name="clock" className="mr1 f7" regular />
+          {timeago().format(newsItem.get('feed_item_published_at'))}
+          <BulletSpacer />
+          <span>{new Date(newsItem.get('feed_item_published_at')).toLocaleString()}</span>
+        </div>
         {categories.size > 0 && (
-          <div className="mt3">
+          <div className="mv3">
             {categories.map((category, index) => (
               <div key={index} className="tag-alt">
                 {category.get('name')}
@@ -48,6 +45,15 @@ export default class NewsBody extends Component {
             ))}
           </div>
         )}
+        <div className="mv3 b--b"></div>
+        <div
+          className="lh-copy"
+          dangerouslySetInnerHTML={{
+            __html: sanitizeHtml(content, {
+              allowedTags: sanitizeHtml.defaults.allowedTags.concat(['img'])
+            })
+          }}
+        />
       </div>
     )
   }

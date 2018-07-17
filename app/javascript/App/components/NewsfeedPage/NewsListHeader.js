@@ -8,14 +8,13 @@ import FilterTags from "../FilterTags"
 import bulbIcon from "../../images/bulbIcon.svg"
 import filterBtn from "../../images/filter-btn.svg"
 
-const NewsListHeader = props => {
+const NewsListHeader = (props) => {
   const {
     enableUI,
     currentUI,
     coins,
     feedSources,
     activeFilters,
-    activeEntity,
     newsfeedTips
   } = props
   const toggleFilters = () =>
@@ -46,7 +45,7 @@ const NewsListHeader = props => {
                 }}
               >
                 <Icon name="list" className="mr2" />
-                <span>Coin list</span>
+                <span>Coins</span>
               </button>
               <button
                 className="btn btn-blue btn-xs flex-auto"
@@ -72,7 +71,7 @@ const NewsListHeader = props => {
         <div className="flex items-center flex-auto">
           {!window.isMobile && (
             <button
-              className="btn btn-blue btn-xs coins-btn"
+              className="btn btn-blue btn-xs coins-btn mr2"
               onClick={() => enableUI("coinListDrawer", { fullScreen: true })}
               style={
                 window.isMobile
@@ -88,13 +87,13 @@ const NewsListHeader = props => {
               }
             >
               <Icon name="list" className="mr2" />
-              <span>Coin list</span>
+              <span>Coins</span>
             </button>
           )}
           <SearchCoins {...props} />
           <button
             onClick={toggleFilters}
-            className="btn btn-xs btn-white filter-btn"
+            className="btn btn-xs btn-white filter-btn ml2"
           >
             <img style={{ height: 10, marginRight: 10 }} src={filterBtn} />
             Filters
@@ -102,8 +101,8 @@ const NewsListHeader = props => {
         </div>
       </SectionHeader>
       {activeFilters.size > 0 && (
-        <div className="pa3 b--b bg-athens">
-          <div className="f6 mb2">Currently viewing by:</div>
+        <div className="pa3 f6 b--b bg-athens flex items-center">
+          <span className="mr2">Viewing by:</span>
           <FilterTags {...props} />
         </div>
       )}

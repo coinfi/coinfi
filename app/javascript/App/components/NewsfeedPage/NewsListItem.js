@@ -1,6 +1,7 @@
 import React, { Fragment } from "react"
 import timeago from "timeago.js"
 import NewsCoinTags from "./NewsCoinTags"
+import BulletSpacer from '../BulletSpacer'
 import twitterLogo from "../../images/logo-twitter.svg"
 import linkLogo from "../../images/logo-link.svg"
 import redditLogo from "../../images/logo-reddit.svg"
@@ -17,7 +18,7 @@ const NewsListItem = (props) => {
   if (preRender) className += " o-0 absolute"
   return (
     <div className={className} style={{ height: props.height || "auto" }}>
-      <div className="pa3">
+      <div className="pa-default">
         <div className="pointer" onClick={
           () => {
             setActiveNewsItem(newsItem)
@@ -25,7 +26,7 @@ const NewsListItem = (props) => {
               document.querySelector('.selected-news-content').parentNode.scrollTop = 0
           }
         }>
-          <h4 className="fw6 mv3 f4">{newsItem.get('title')}</h4>
+          <h4 className="mb2 f5">{newsItem.get('title')}</h4>
         </div>
         <div className="flex justify-between flex-wrap">
           <div className="f6 silver">
@@ -42,7 +43,7 @@ const NewsListItem = (props) => {
                 >
                   {'@' + url.pathname.split('/')[1]}
                 </a>
-                <span className="ph2" style={{fontSize: 8}}>&bull;</span>
+                <BulletSpacer />
                 {timeago().format(newsItem.get("feed_item_published_at"))}
               </Fragment>
             )}
@@ -59,7 +60,7 @@ const NewsListItem = (props) => {
                 >
                   {'/r/' + url.pathname.split('/')[2]}
                 </a>
-                <span className="ph2" style={{fontSize: 8}}>&bull;</span>
+                <BulletSpacer />
                 {timeago().format(newsItem.get("feed_item_published_at"))}
               </Fragment>
             )}
@@ -76,7 +77,7 @@ const NewsListItem = (props) => {
                 >
                   {url.hostname}
                 </a>
-                <span className="ph2" style={{fontSize: 8}}>&bull;</span>
+                <BulletSpacer />
                 {timeago().format(newsItem.get("feed_item_published_at"))}
               </Fragment>
             )}
