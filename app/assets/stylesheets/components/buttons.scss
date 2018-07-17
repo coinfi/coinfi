@@ -11,7 +11,6 @@ button {
   padding: ($sp3 * 1.2) $sp4;
   border-radius: 2px;
   font-family: $sans-serif;
-  letter-spacing: 0.05rem;
   transition: all 0.2s;
   -webkit-transition: all 0.2s;
   cursor: pointer;
@@ -70,6 +69,7 @@ form.button_to {
   display: inline-block;
 }
 .btn-icon {
+  padding: 0;
   background: transparent;
   border: none;
 }
