@@ -38,7 +38,7 @@ class NewsfeedPage extends Component {
   }
 
   rmCoinsWatchlist(symbol) {
-    const liveCoinArrAdd = this.state.liveCoinArr.filter(item => item.symbol !== symbol)
+    const liveCoinArrAdd = this.state.liveCoinArr.filter(item => item.get('symbol') !== symbol)
     this.setState({
       liveCoinArr: liveCoinArrAdd
     })
