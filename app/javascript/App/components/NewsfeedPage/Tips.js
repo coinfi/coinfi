@@ -31,13 +31,13 @@ export default ({ closeTips, user, loggedIn }) => {
   return (
     <div className="lh-copy">
       <div>
-        <div style={{paddingTop:'15px', height:60, borderBottom: '1px solid rgba(0, 0, 0, 0.12)' }}>
+        <div style={{paddingTop:'18px', height: 60, borderBottom: '1px solid rgba(0, 0, 0, 0.12)' }}>
           <div style={{float:'right', marginRight: '15px'}} >
             {closeTips && <Icon name="times" className="f4 slate" regular onClick={closeTips} />}
           </div>
           <h2 className='mt0' style={titleStyle}>CoinFi News</h2>
         </div>
-        <div style={{margin:20}}>
+        <div className="pa3">
           <div style={{fontSize:'.8rem'}}>
             CoinFi News gives crypto investors like you an informational advantage
             by filtering out the noise and showing you how news is impacting coin

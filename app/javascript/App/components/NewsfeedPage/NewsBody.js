@@ -21,16 +21,16 @@ export default class NewsBody extends Component {
     const categories = selectNewsCategories(newsItem)
     const content = _.trim(newsItem.get('content')) || _.trim(newsItem.get('summary'))
     return (
-      <div className="pa4 bg-white min-h-100 selected-news-content">
+      <div className="pa3 bg-white min-h-100 selected-news-content">
         <NewsCoinTags newsItem={newsItem} />
-        <h1 className="break-word f3">{newsItem.get('title')}</h1>
-        <div className="mb3">
+        <h1 className="break-word f4">{newsItem.get('title')}</h1>
+        <div className="mb3 f6">
           <a href={newsItem.get('url')} target="_blank" rel="nofollow" className="break-all">
             <Icon name="link" className="mr1 f7" regular />
             {newsItem.get('url')}
           </a>
         </div>
-        <div className="mb3">
+        <div className="mb3 f6">
           <Icon name="clock" className="mr1 f7" regular />
           {timeago().format(newsItem.get('feed_item_published_at'))}
           <BulletSpacer />

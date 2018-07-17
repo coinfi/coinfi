@@ -18,7 +18,7 @@ const NewsListItem = (props) => {
   if (preRender) className += " o-0 absolute"
   return (
     <div className={className} style={{ height: props.height || "auto" }}>
-      <div className="pa3">
+      <div className="pa-default">
         <div className="pointer" onClick={
           () => {
             setActiveNewsItem(newsItem)
