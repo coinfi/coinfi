@@ -3,6 +3,7 @@ import timeago from 'timeago.js'
 import sanitizeHtml from 'sanitize-html'
 import _ from 'lodash'
 import NewsCoinTags from './NewsCoinTags'
+import BulletSpacer from '../BulletSpacer'
 import Icon from '../Icon'
 
 export default class NewsBody extends Component {
@@ -32,7 +33,7 @@ export default class NewsBody extends Component {
         <div className="mb3">
           <Icon name="clock" className="mr1 f7" regular />
           {timeago().format(newsItem.get('feed_item_published_at'))}
-          <span className="ph2" style={{fontSize: 8}}>&bull;</span>
+          <BulletSpacer />
           <span>{new Date(newsItem.get('feed_item_published_at')).toLocaleString()}</span>
         </div>
         {categories.size > 0 && (

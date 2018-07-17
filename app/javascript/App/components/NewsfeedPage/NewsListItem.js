@@ -1,6 +1,7 @@
 import React, { Fragment } from "react"
 import timeago from "timeago.js"
 import NewsCoinTags from "./NewsCoinTags"
+import BulletSpacer from '../BulletSpacer'
 import twitterLogo from "../../images/logo-twitter.svg"
 import linkLogo from "../../images/logo-link.svg"
 import redditLogo from "../../images/logo-reddit.svg"
@@ -42,7 +43,7 @@ const NewsListItem = (props) => {
                 >
                   {'@' + url.pathname.split('/')[1]}
                 </a>
-                <span className="ph2" style={{fontSize: 8}}>&bull;</span>
+                <BulletSpacer />
                 {timeago().format(newsItem.get("feed_item_published_at"))}
               </Fragment>
             )}
@@ -59,7 +60,7 @@ const NewsListItem = (props) => {
                 >
                   {'/r/' + url.pathname.split('/')[2]}
                 </a>
-                <span className="ph2" style={{fontSize: 8}}>&bull;</span>
+                <BulletSpacer />
                 {timeago().format(newsItem.get("feed_item_published_at"))}
               </Fragment>
             )}
@@ -76,7 +77,7 @@ const NewsListItem = (props) => {
                 >
                   {url.hostname}
                 </a>
-                <span className="ph2" style={{fontSize: 8}}>&bull;</span>
+                <BulletSpacer />
                 {timeago().format(newsItem.get("feed_item_published_at"))}
               </Fragment>
             )}
