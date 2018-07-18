@@ -89,5 +89,4 @@ class Coin < ApplicationRecord
     # Only use this for serialization
     current_user && current_user.coins.include?(self)
   end
-
 end

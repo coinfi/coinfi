@@ -7,6 +7,10 @@ class NewsItem < ApplicationRecord
   has_many :news_item_categorizations, dependent: :destroy
   has_many :news_categories, through: :news_item_categorizations
 
+  scope :categorized, -> {
+    where("EXISTS(SELECT 1 FROM news_item_categorizations WHERE news_items.id = news_item_categorizations.news_item_id)")
+  }
+  scope :chart_data, -> { select(:url, :title, :feed_item_published_at).general.published.categorized.order_by_published }
   scope :general, -> { where(feed_source: FeedSource.general) }
   scope :pending, -> { where(is_human_tagged: nil) }
   scope :published, -> { where(is_published: true) }
