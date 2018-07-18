@@ -73,6 +73,13 @@ class NewsfeedPage extends Component {
   }
 
   render() {
+    let coinsCollection
+    if (this.state.liveCoinArr.length) {
+      coinsCollection = this.state.liveCoinArr
+    }
+    else {
+      coinsCollection = this.props.coins
+    }
 
     if (window.isMobile) {
       return (
@@ -82,6 +89,7 @@ class NewsfeedPage extends Component {
           initialRenderTips={this.state.initialRenderTips}
           addCoinsToWatchlist={() => this.addCoinsToWatchlist.bind(this)}
           rmCoinsWatchlist={() => this.rmCoinsWatchlist.bind(this)}
+          coins={coinsCollection}
         />
       )
     } else if (window.isTablet) {
@@ -91,27 +99,17 @@ class NewsfeedPage extends Component {
           initialRenderTips={this.state.initialRenderTips}
           addCoinsToWatchlist={() => this.addCoinsToWatchlist.bind(this)}
           rmCoinsWatchlist={() => this.rmCoinsWatchlist.bind(this)}
+          coins={coinsCollection}
         />
       )
     } else {
-      if (this.state.liveCoinArr.length) {
-        return (
-          <LayoutDesktop
-            {...this.props}
-            initialRenderTips={this.state.initialRenderTips}
-            addCoinsToWatchlist={() => this.addCoinsToWatchlist.bind(this)}
-            rmCoinsWatchlist={() => this.rmCoinsWatchlist.bind(this)}
-            coins={this.state.liveCoinArr}
-          />
-        )
-      }
       return (
         <LayoutDesktop
           {...this.props}
           initialRenderTips={this.state.initialRenderTips}
           addCoinsToWatchlist={() => this.addCoinsToWatchlist.bind(this)}
           rmCoinsWatchlist={() => this.rmCoinsWatchlist.bind(this)}
-          coins={this.props.coins}
+          coins={coinsCollection}
         />
       )
     }
