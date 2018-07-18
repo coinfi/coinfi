@@ -1,14 +1,13 @@
 import React, { Component } from 'react'
 import Highcharts from 'highcharts/highstock'
 import Switch from '../../Switch'
-import fixOverlap from './fixOverlap'
 import options from './options'
 import chartOptions from './chartOptions'
 window.Highcharts = Highcharts
 
 const containerID = 'highcharts'
 
-export default class PriceGraph extends Component {
+class PriceGraph extends Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -17,49 +16,49 @@ export default class PriceGraph extends Component {
   }
 
   componentDidMount() {
-    let { priceData, newsItems } = this.props
+    let { priceData, annotations } = this.props
     window.Highcharts.setOptions(options)
     const chart = window.Highcharts.stockChart(
       containerID,
-      chartOptions({ priceData, newsItems })
+      chartOptions({ priceData, annotations })
     )
     this.setState({ chart: chart })
 
-    const newsChart = this.getNewsChart(chart)
-    newsChart.hide()
+    const annotatedChart = this.getAnnotatedChart(chart)
+    annotatedChart.hide()
   }
 
-  getNewsChart(stockChart = null) {
+  getAnnotatedChart(stockChart = null) {
     if (stockChart) return stockChart.series[1]
 
     const { chart } = this.state
     return chart && chart.series[1]
   }
 
-  handleSwitchChange() {
-    const newsChart = this.getNewsChart()
-    newsChart.visible ? newsChart.hide() : newsChart.show()
+  handleAnnotationToggle() {
+    const annotatedChart = this.getAnnotatedChart()
+    annotatedChart.visible ? annotatedChart.hide() : annotatedChart.show()
   }
 
-  isNewsChartVisible() {
-    const newsChart = this.getNewsChart()
-    return newsChart && newsChart.visible
+  isAnnotatedChartVisible() {
+    const annotatedChart = this.getAnnotatedChart()
+    return annotatedChart && annotatedChart.visible
   }
 
   render() {
     return (
       <div>
-        {this.props.isTradingViewVisible &&
-          <div className="flex items-center fr mr4">
-            <span className="mr2 f6 silver">Show news</span>
-            <Switch
-              on={this.isNewsChartVisible()}
-              onChange={() => this.handleSwitchChange()}
-            />
-          </div>
-        }
+        <div className="flex items-center fr mr4">
+          <span className="mr2 f6 silver">Show Annotations</span>
+          <Switch
+            on={this.isAnnotatedChartVisible()}
+            onChange={() => this.handleAnnotationToggle()}
+          />
+        </div>
         <div id={containerID} />
       </div>
     )
   }
 }
+
+export default PriceGraph
