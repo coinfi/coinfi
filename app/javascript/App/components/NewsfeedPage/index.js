@@ -15,7 +15,7 @@ class NewsfeedPage extends Component {
   }
 
   componentWillMount() {
-    window.addEventListener('resize', debounce(() => this.forceUpdate()), 500)
+    window.addEventListener("resize", debounce(() => this.forceUpdate()), 500)
   }
 
   removeCoinsWatchlist(symbol) {
