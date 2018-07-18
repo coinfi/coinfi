@@ -1,0 +1,18 @@
+#!/bin/bash
+
+APP="coinfi-develop-eu"
+if [ "$1" != "" ]; then
+  APP=$1
+fi
+
+echo "Enabling maintenance mode on $APP..."
+heroku maintenance:on --app $APP
+
+echo "Using pg:copy to clone production database to Heroku app $APP..."
+heroku pg:copy coinfi-eu::DATABASE_URL DATABASE_URL --app $APP
+
+echo "Disabling maintenance mode on $APP..."
+heroku maintenance:off --app $APP
+
+echo "Done!"
+
