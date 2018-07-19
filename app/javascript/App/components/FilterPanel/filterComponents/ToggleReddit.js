@@ -3,17 +3,37 @@ import Switch from '../../Switch'
 import RedditLogo from '../../../images/logo-reddit.svg'
 
 class ToggleReddit extends Component {
-  handleToggleReddit() {
+  add() {
+    const selectedItems = () => this.props.selectedItems || []
+    let items = selectedItems()
+    if (!items.feedSources) {
+      items.feedSources = []
+    }
+    items.feedSources.push('reddit')
+    this.props.onChange(items.feedSources)
+  }
+  remove() {
+    const items = this.selectedItems().feedSources
+    const filterItems = items.filter((item) => item !== 'reddit')
+    this.props.onChange(filterItems)
   }
 
   render() {
+    const filterSelected =
+      this.props.selectedItems &&
+      this.props.selectedItems.feedSources &&
+      this.props.selectedItems.feedSources.includes('reddit')
+
     return (
       <div className="pv2">
         <span className="mr2">
           <img src={RedditLogo} className="mr2 v-top" />
           Reddit
         </span>
-        <Switch onChange={() => this.handleToggleReddit()} />
+        <Switch
+          on={true}
+          onChange={(event) => (event ? this.add() : this.remove())}
+        />
       </div>
     )
   }
