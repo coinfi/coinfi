@@ -158,6 +158,12 @@ class NewsList extends Component {
   }
 
   newsAlertTitle() {
+
+    window.onblur = function() {
+      document.querySelector('title').text = 'foo'
+    }
+
+
     document.querySelector('title').text = 'foo ' + this.state.newNewsCount
   }
 
