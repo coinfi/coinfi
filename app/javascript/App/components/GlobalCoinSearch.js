@@ -1,15 +1,15 @@
-import React, {Component} from 'react'
+import React, { Component } from 'react'
 import Input from './Input'
 import Icon from './Icon'
 import coinSearch from '../containers/coinSearch'
-import {toggleOverlay} from '../../modules/navigation/mobile-nav'
+import { toggleOverlay } from '../../modules/navigation/mobile-nav'
 
 class CoinSearch extends Component {
-  handleSearchInput = value => {
+  handleSearchInput = (value) => {
     this.props.searchCoins(value)
   }
   render() {
-    const {searchedCoins, searchText, clearSearch} = this.props
+    const { searchedCoins, searchText, clearSearch } = this.props
     return (
       <div id="global-coin-search">
         <div className="relative">
@@ -30,7 +30,7 @@ class CoinSearch extends Component {
               onChange={this.handleSearchInput}
               placeholder="Search Coins/ICOs"
               autoFocus
-              setRef={ref => (this.inputRef = ref)}
+              setRef={(ref) => (this.inputRef = ref)}
             />
             {searchText.length > 0 && (
               <Icon

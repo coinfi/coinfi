@@ -1,5 +1,5 @@
 import React from 'react'
-import {SortableElement} from 'react-sortable-hoc'
+import { SortableElement } from 'react-sortable-hoc'
 import ListedData from './ListedData'
 import ListedInfo from './ListedInfo'
 import IcoData from './IcoData'
@@ -9,7 +9,7 @@ import Actions from './Actions'
 
 class WatchlistItem extends React.Component {
   render() {
-    const {coin, isEditing} = this.props
+    const { coin, isEditing } = this.props
     let ribbonClass = 'corner-ribbon corner-ribbon-'
     ribbonClass += coin.category === 'listed' ? 'green' : 'blue'
 

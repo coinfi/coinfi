@@ -1,16 +1,16 @@
-import React, {Component} from 'react'
+import React, { Component } from 'react'
 import AddFilter from './AddFilter'
 import FilterButton from './FilterButton'
 import Icon from '../Icon'
 
 export default class MobileLayout extends Component {
   toggleFilters = () => {
-    const {toggleUI, activeFilters} = this.props
+    const { toggleUI, activeFilters } = this.props
     toggleUI('mobileFilters')
     if (activeFilters.size === 0) toggleUI(['newFilter', 'selectFilter'])
   }
   render() {
-    const {activeFilters, currentUI} = this.props
+    const { activeFilters, currentUI } = this.props
     const isOpen = currentUI('mobileFilters')
     return (
       <div className="oi-layout-mobile">

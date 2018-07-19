@@ -6,10 +6,10 @@
 import 'babel-polyfill'
 import React from 'react'
 import ReactDOM from 'react-dom'
-import {Provider} from 'react-redux'
+import { Provider } from 'react-redux'
 import configureStore from './configureStore'
 import getScreenSize from './lib/screenSize'
-import {PersistGate} from 'redux-persist/integration/react'
+import { PersistGate } from 'redux-persist/integration/react'
 import debounce from 'debounce'
 
 import appContainer from './containers/app'
@@ -33,14 +33,14 @@ const injectableComponents = {
   IcoFilters,
   NewsfeedPage,
   Tabs,
-  CoinCharts,
+  CoinCharts
 }
 
 const injectComponents = () => {
   const hooks = document.getElementsByTagName('component')
   if (hooks) {
-    const {store, persistor} = configureStore()
-    Array.from(hooks).forEach(hook => {
+    const { store, persistor } = configureStore()
+    Array.from(hooks).forEach((hook) => {
       const name = hook.getAttribute('name')
       const Component = injectableComponents[name]
       if (!Component) return console.error(`Component "${name}" not found`)
@@ -54,7 +54,7 @@ const injectComponents = () => {
               <AppComponent {...props} />
             </PersistGate>
           </Provider>,
-          hook,
+          hook
         )
       } else {
         ReactDOM.render(<Component {...props} />, hook)

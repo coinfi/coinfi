@@ -1,8 +1,8 @@
-import {takeLatest, select, put} from 'redux-saga/effects'
-import {pushObjectToURL} from '..//urlHelpers'
-import {getQueryObject} from '../urlHelpers'
-import {createFilterActions, createFilterSelectors} from './index'
-import {buildFilterObject} from '../stateHelpers'
+import { takeLatest, select, put } from 'redux-saga/effects'
+import { pushObjectToURL } from '..//urlHelpers'
+import { getQueryObject } from '../urlHelpers'
+import { createFilterActions, createFilterSelectors } from './index'
+import { buildFilterObject } from '../stateHelpers'
 
 export default function(namespace) {
   function* watcher() {
@@ -31,10 +31,10 @@ export default function(namespace) {
       const activeFilters = yield select(selectors.activeFilters)
       if (activeFilters.size > 0) {
         filterObject = buildFilterObject(activeFilters)
-        pushObjectToURL({q: filterObject})
+        pushObjectToURL({ q: filterObject })
       }
     }
-    yield put(actions.onFilterInitialize({filterObject, queryStringPresent}))
+    yield put(actions.onFilterInitialize({ filterObject, queryStringPresent }))
   }
 
   function* applyFilters(action) {
@@ -42,8 +42,8 @@ export default function(namespace) {
     if (action.namespace !== namespace) return
     const activeFilters = yield select(selectors.activeFilters)
     const filterObject = buildFilterObject(activeFilters)
-    pushObjectToURL({q: filterObject})
-    yield put(actions.onFilterChange({filterObject, payload: action.payload}))
+    pushObjectToURL({ q: filterObject })
+    yield put(actions.onFilterChange({ filterObject, payload: action.payload }))
   }
 
   return watcher

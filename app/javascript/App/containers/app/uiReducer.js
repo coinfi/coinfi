@@ -1,9 +1,9 @@
-import {fromJS} from 'immutable'
+import { fromJS } from 'immutable'
 
 const initialState = fromJS({})
 
 export default (state = initialState, action) => {
-  const {type, keyPath} = action
+  const { type, keyPath } = action
   let value
   switch (type) {
     case 'DISABLE_UI':

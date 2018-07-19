@@ -1,35 +1,32 @@
-import {fromJS} from 'immutable'
-import {listIndex} from '../stateHelpers'
+import { fromJS } from 'immutable'
+import { listIndex } from '../stateHelpers'
 import initialState from './initialState'
 
-const createFilterReducer = ({namespace, filterList}) => (
+const createFilterReducer = ({ namespace, filterList }) => (
   state = initialState,
-  action,
+  action
 ) => {
   if (namespace !== action.namespace) return state
-  const {type, payload} = action
-  const filterIndex = key => listIndex(state.get('activeFilters'), key)
+  const { type, payload } = action
+  const filterIndex = (key) => listIndex(state.get('activeFilters'), key)
 
   const filterObject = (key, value) => {
     if (value === 'undefined') return
     const fromJSCopy = fromJS
-    return (
-      filterList.find(o => o.get('key') === key) &&
-      filterList.find(o => o.get('key') === key).set('value', fromJS(value))
-    )
+    return filterList.find((o) => o.get('key') === key) && filterList.find((o) => o.get('key') === key).set('value', fromJS(value))
   }
-  const isEmpty = value => {
+  const isEmpty = (value) => {
     if (value instanceof Array || typeof value === 'string')
       return value.length === 0
     return false
   }
-  const removeFilter = key =>
+  const removeFilter = (key) =>
     state.deleteIn(['activeFilters', filterIndex(key)])
-  const setFilter = (state, {key, value}) => {
+  const setFilter = (state, { key, value }) => {
     if (isEmpty(value)) return removeFilter(key)
     return state.setIn(
       ['activeFilters', filterIndex(key)],
-      filterObject(key, value),
+      filterObject(key, value)
     )
   }
   switch (type) {

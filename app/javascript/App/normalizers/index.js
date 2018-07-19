@@ -3,5 +3,5 @@ import coins from './coins'
 
 export default {
   newsItems,
-  coins,
+  coins
 }

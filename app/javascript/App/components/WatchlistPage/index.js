@@ -1,4 +1,4 @@
-import React, {Component} from 'react'
+import React, { Component } from 'react'
 import watchlistContainer from '../../containers/watchlist'
 import LoadingIndicator from '../LoadingIndicator'
 import Watchlist from './Watchlist'
@@ -8,7 +8,7 @@ import watchlistStarIcon from '../../images/watch-list-star-icon.svg'
 
 class WatchlistPage extends Component {
   render() {
-    const {currentUI, toggleUI} = this.props
+    const { currentUI, toggleUI } = this.props
     const toggleEditing = () => toggleUI(['watchlist', 'editing', true])
     const isEditing = currentUI(['watchlist', 'editing'])
     return (
@@ -30,7 +30,7 @@ class WatchlistPage extends Component {
               <Search
                 {...{
                   ...this.props,
-                  searchOpts: {exclude_watched: true, limit: 4},
+                  searchOpts: { exclude_watched: true, limit: 4 }
                 }}
               />
             </div>

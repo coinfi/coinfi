@@ -1,10 +1,10 @@
-import {takeLatest, select, put, fork} from 'redux-saga/effects'
-import {delay} from 'redux-saga'
-import {createEntitySagas, createFilterSagas} from '../../lib/redux'
+import { takeLatest, select, put, fork } from 'redux-saga/effects'
+import { delay } from 'redux-saga'
+import { createEntitySagas, createFilterSagas } from '../../lib/redux'
 import selectors from './selectors'
 import actions from './actions'
-import {namespace} from './constants'
-import {buildFilterObject} from '../../lib/stateHelpers'
+import { namespace } from './constants'
+import { buildFilterObject } from '../../lib/stateHelpers'
 
 const entitySagas = createEntitySagas(namespace)
 const filterSagas = createFilterSagas(namespace)
@@ -23,9 +23,9 @@ export default function* watcher() {
 
 function* fetchCoins(action) {
   if (action.namespace !== namespace) return
-  const opts = {url: 'newsfeed/coins'}
-  let {coinIDs} = action
-  if (coinIDs) opts.params = {coinIDs}
+  const opts = { url: 'newsfeed/coins' }
+  let { coinIDs } = action
+  if (coinIDs) opts.params = { coinIDs }
   yield put(actions.fetchEntityList('coins', opts))
 }
 
@@ -35,10 +35,10 @@ function* onSetCoinList(action) {
   yield fetchNewsItems(action)
 }
 
-function* onWatchingOnly({keyPath}) {
+function* onWatchingOnly({ keyPath }) {
   // When watchlist is toggled, refetch the NewsItems
   if (keyPath !== 'watchingOnly') return
-  yield fetchNewsItems({namespace})
+  yield fetchNewsItems({ namespace })
 }
 
 function* onFilterChange(action) {
@@ -51,8 +51,8 @@ function* fetchNewsItems(action) {
   yield put(
     actions.fetchEntityList('newsItems', {
       params,
-      url: 'news_items',
-    }),
+      url: 'news_items'
+    })
   )
 }
 
@@ -67,15 +67,15 @@ function* pollNewsItems(action) {
     yield put(
       actions.fetchEntityListUpdates('newsItems', {
         params,
-        url: 'news_items',
-      }),
+        url: 'news_items'
+      })
     )
   }
 }
 
 function* onSetActiveCoin(action) {
   /* On clicking a coin, this will do fetchEntityDetails for that coin. */
-  const {payload} = action
+  const { payload } = action
   if (action.namespace !== namespace) return
   if (payload.type !== 'coin') return
   yield put(actions.fetchEntityDetails('coin', payload.id))
@@ -86,14 +86,14 @@ function* newsitemParams() {
   let params = buildFilterObject(activeFilters)
   if (!params.coins) {
     const coins = yield select(selectors.coins)
-    params.coinIDs = coins.map(coin => coin.get('id'))
+    params.coinIDs = coins.map((coin) => coin.get('id'))
   }
   return params
 }
 
 function* onScrollingToBottom(action) {
   const endFetchingMoreEntityList = yield select(
-    selectors.endFetchingMoreEntityList,
+    selectors.endFetchingMoreEntityList
   )
   const isLoading = yield select(selectors.isLoading)
   if (endFetchingMoreEntityList || isLoading('newsfeed')) return
@@ -108,7 +108,7 @@ function* onScrollingToBottom(action) {
   yield put(
     actions.fetchMoreEntityList('newsItems', {
       params,
-      url: 'news_items',
-    }),
+      url: 'news_items'
+    })
   )
 }

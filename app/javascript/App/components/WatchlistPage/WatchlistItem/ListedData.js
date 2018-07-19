@@ -1,7 +1,7 @@
 import React from 'react'
 
-export default ({coin}) => {
-  const {market_info: info, symbol} = coin
+export default ({ coin }) => {
+  const { market_info: info, symbol } = coin
   return (
     <div className="row nt4 tc tr-l o-90">
       <div className="stat-block col-xs-6 col-sm-3 col-md-6 col-lg-3 mt4">

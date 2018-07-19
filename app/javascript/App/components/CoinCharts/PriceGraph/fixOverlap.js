@@ -1,5 +1,5 @@
 export default () => {
-  const {Highcharts} = window
+  const { Highcharts } = window
   // Prevent flag overlap issues
   // https://github.com/highcharts/highcharts/issues/4674
   // http://jsfiddle.net/p037jdyj/
@@ -37,7 +37,7 @@ export default () => {
               x: currentPoint.graphic.translateX,
               y: currentPoint.graphic.translateY,
               width: currentPoint.graphic.width,
-              height: currentPoint.graphic.height,
+              height: currentPoint.graphic.height
             }
 
             // compare only with previous series
@@ -61,7 +61,7 @@ export default () => {
                       x: comparePoint.graphic.translateX,
                       y: comparePoint.graphic.translateY,
                       width: comparePoint.graphic.width,
-                      height: comparePoint.graphic.height,
+                      height: comparePoint.graphic.height
                     }
 
                     // when collide, move current label to top
@@ -69,7 +69,7 @@ export default () => {
                       overlap = true
                       currentPoint.graphic.attr({
                         y: currentPoint.graphic.attr('y') - offset,
-                        anchorY: currentPoint.plotY,
+                        anchorY: currentPoint.plotY
                       })
                       currentPoint.tooltipPos[1] -= offset
                     }

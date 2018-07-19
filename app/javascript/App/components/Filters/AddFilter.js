@@ -9,8 +9,8 @@ import SelectFilter from './SelectFilter'
 import FilterComponent from './FilterComponent'
 import Icon from '../Icon'
 
-const AddFilters = props => {
-  const {currentUI, toggleUI, availableFilters, activeFilters} = props
+const AddFilters = (props) => {
+  const { currentUI, toggleUI, availableFilters, activeFilters } = props
   if (availableFilters.size === 0) return null
   const uiKey = 'newFilter'
   const filterKey = currentUI(uiKey)
@@ -37,14 +37,14 @@ const AddFilters = props => {
   } else if (filterKey === 'selectFilter') {
     return (
       <div className="oi">
-        <SelectFilter {...{...props, uiKey}} />
+        <SelectFilter {...{ ...props, uiKey }} />
       </div>
     )
   } else {
-    const filter = availableFilters.find(o => o.get('key') === filterKey)
+    const filter = availableFilters.find((o) => o.get('key') === filterKey)
     return (
       <div className="oi">
-        <FilterComponent {...{...props, filter, uiKey}} />
+        <FilterComponent {...{ ...props, filter, uiKey }} />
       </div>
     )
   }

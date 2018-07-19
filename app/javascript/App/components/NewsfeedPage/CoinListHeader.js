@@ -1,25 +1,17 @@
-import React, {Component} from 'react'
+import React, { Component } from 'react'
 import SectionHeader from './SectionHeader'
 import Switch from '../Switch'
 import Icon from '../Icon'
 import Input from '../Input'
 
 class CoinListHeader extends Component {
-  onSearchInput = value => {
-    let {searchCoins, coinIDs} = this.props
-    searchCoins(value, {q: {id_not_in: coinIDs}, limit: 4})
+  onSearchInput = (value) => {
+    let { searchCoins, coinIDs } = this.props
+    searchCoins(value, { q: { id_not_in: coinIDs }, limit: 4 })
   }
   render() {
-    const {
-      toggleUI,
-      currentUI,
-      searchText,
-      isWatching,
-      setFilter,
-      removeFilter,
-      user,
-    } = this.props
-    let {coins} = this.props
+    const { toggleUI, currentUI, searchText, isWatching, setFilter, removeFilter, user } = this.props
+    let { coins } = this.props
     return (
       <SectionHeader>
         <div className="pv1">
@@ -29,7 +21,7 @@ class CoinListHeader extends Component {
               onChange={this.onSearchInput}
               placeholder="Search"
               autoFocus
-              setRef={ref => (this.inputRef = ref)}
+              setRef={(ref) => (this.inputRef = ref)}
               className="unstyled"
             />
           ) : (
@@ -41,10 +33,8 @@ class CoinListHeader extends Component {
                   if (!user) return (window.location = '/login')
                   toggleUI('watchingOnly')
                   if (!currentUI('watchingOnly')) {
-                    let value = coins
-                      .filter(coin => isWatching(coin.get('id')))
-                      .map(coin => coin.get('name'))
-                    setFilter({key: 'coins', value})
+                    let value = coins.filter((coin) => isWatching(coin.get('id'))).map((coin) => coin.get('name'))
+                    setFilter({ key: 'coins', value })
                   } else {
                     removeFilter('coins')
                   }

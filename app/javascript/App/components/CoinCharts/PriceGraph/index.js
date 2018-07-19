@@ -1,4 +1,4 @@
-import React, {Component} from 'react'
+import React, { Component } from 'react'
 import Highcharts from 'highcharts/highstock'
 import Switch from '../../Switch'
 import fixOverlap from './fixOverlap'
@@ -12,18 +12,18 @@ export default class PriceGraph extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      chart: null,
+      chart: null
     }
   }
 
   componentDidMount() {
-    let {priceData, newsItems} = this.props
+    let { priceData, newsItems } = this.props
     window.Highcharts.setOptions(options)
     const chart = window.Highcharts.stockChart(
       containerID,
-      chartOptions({priceData, newsItems}),
+      chartOptions({ priceData, newsItems })
     )
-    this.setState({chart: chart})
+    this.setState({ chart: chart })
 
     const newsChart = this.getNewsChart(chart)
     newsChart.hide()
@@ -32,7 +32,7 @@ export default class PriceGraph extends Component {
   getNewsChart(stockChart = null) {
     if (stockChart) return stockChart.series[1]
 
-    const {chart} = this.state
+    const { chart } = this.state
     return chart && chart.series[1]
   }
 
@@ -49,7 +49,7 @@ export default class PriceGraph extends Component {
   render() {
     return (
       <div>
-        {this.props.isTradingViewVisible && (
+        {this.props.isTradingViewVisible &&
           <div className="flex items-center fr mr4">
             <span className="mr2 f6 silver">Show news</span>
             <Switch
@@ -57,7 +57,7 @@ export default class PriceGraph extends Component {
               onChange={() => this.handleSwitchChange()}
             />
           </div>
-        )}
+        }
         <div id={containerID} />
       </div>
     )

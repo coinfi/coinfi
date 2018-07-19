@@ -1,59 +1,59 @@
-import {pluralize} from '../misc'
+import { pluralize } from '../misc'
 
-export default namespace => {
-  const actionProps = entityType => ({
+export default (namespace) => {
+  const actionProps = (entityType) => ({
     namespace,
-    entityType: entityType ? pluralize(entityType) : null,
+    entityType: entityType ? pluralize(entityType) : null
   })
   return {
     fetchEntityDetails: (entityType, entityID) => ({
       type: 'FETCH_ENTITY_DETAILS',
       ...actionProps(entityType),
-      entityID,
+      entityID
     }),
     setEntityDetails: (entityType, response) => ({
       type: 'SET_ENTITY_DETAILS',
       ...actionProps(entityType),
-      response,
+      response
     }),
     fetchEntityList: (entityType, opts = {}) => ({
       type: 'FETCH_ENTITY_LIST',
       ...actionProps(entityType),
-      ...opts,
+      ...opts
     }),
     setEntityList: (entityType, response) => ({
       type: 'SET_ENTITY_LIST',
       ...actionProps(entityType),
-      response,
+      response
     }),
     fetchEntityListUpdates: (entityType, opts = {}) => ({
       type: 'FETCH_ENTITY_LIST_UPDATES',
       ...actionProps(entityType),
-      ...opts,
+      ...opts
     }),
     setEntityListUpdates: (entityType, response) => ({
       type: 'SET_ENTITY_LIST_UPDATES',
       ...actionProps(entityType),
-      response,
+      response
     }),
-    setActiveEntity: payload => ({
+    setActiveEntity: (payload) => ({
       type: 'SET_ACTIVE_ENTITY',
       namespace,
-      payload,
+      payload
     }),
     unsetActiveEntity: () => ({
       type: 'UNSET_ACTIVE_ENTITY',
-      namespace,
+      namespace
     }),
     fetchMoreEntityList: (entityType, opts = {}) => ({
       type: 'FETCH_MORE_ENTITY_LIST',
       ...actionProps(entityType),
-      ...opts,
+      ...opts
     }),
     setMoreEntityList: (entityType, response) => ({
       type: 'SET_MORE_ENTITY_LIST',
       ...actionProps(entityType),
-      response,
+      response
     }),
   }
 }

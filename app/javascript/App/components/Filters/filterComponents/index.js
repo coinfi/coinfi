@@ -21,5 +21,5 @@ export default {
   reviewedBy: ReviewedBy,
   socialCounts: SocialCounts,
   startingDate: StartingDate,
-  tokenType: TokenType,
+  tokenType: TokenType
 }

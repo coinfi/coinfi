@@ -1,13 +1,13 @@
 // Generic, reusable sagas
 
-import {call, put, select} from 'redux-saga/effects'
+import { call, put, select } from 'redux-saga/effects'
 import API from '../localAPI'
 
 export default {
   get,
   patch,
   post,
-  destroy,
+  destroy
 }
 export function* get(url, params, callback, selector = false) {
   try {
@@ -53,12 +53,12 @@ export function* destroy(url, params, callback) {
   }
 }
 
-function handleError({error}) {
+function handleError({ error }) {
   console.log(error)
 }
 
 function* handleResponse(callback, response, url) {
-  const {type, payload, message} = response
+  const { type, payload, message } = response
   if (!response) {
     console.warn(`No response from: ${url}`)
     return

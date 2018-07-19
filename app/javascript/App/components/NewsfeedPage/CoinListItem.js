@@ -3,10 +3,10 @@ import PercentageChange from '../PercentageChange'
 import Currency from '../Currency'
 import WatchButton from './WatchButton'
 
-export default props => {
-  const {coin, onClick, isActiveEntity, user} = props
+export default (props) => {
+  const { coin, onClick, isActiveEntity, user } = props
   let klass = 'pa-default b--b flex items-center pointer'
-  if (isActiveEntity({type: 'coin', id: coin.get('id')})) klass += ' bg-foam'
+  if (isActiveEntity({ type: 'coin', id: coin.get('id') })) klass += ' bg-foam'
   return (
     <div className={klass}>
       <div className="tooltipped">

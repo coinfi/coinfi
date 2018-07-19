@@ -1,7 +1,7 @@
 import React from 'react'
 
-export default ({coin}) => {
-  const {name, image_url, symbol, slug} = coin
+export default ({ coin }) => {
+  const { name, image_url, symbol, slug } = coin
   return (
     <a href={`/coins/${slug}`} className="flex items-center">
       {image_url && <img className="w2e h2e mr3" src={image_url} alt="" />}

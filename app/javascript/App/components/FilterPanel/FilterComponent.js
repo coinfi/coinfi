@@ -1,4 +1,4 @@
-import React, {Fragment} from 'react'
+import React, { Fragment } from 'react'
 import Types from 'prop-types'
 import components from './filterComponents'
 import MarketMoving from './filterComponents/MarketMoving'
@@ -6,8 +6,8 @@ import Categories from './filterComponents/Categories'
 import Dates from './filterComponents/Dates'
 import FeedSources from './filterComponents/FeedSources'
 
-const FilterComponent = props => {
-  const {filter} = props
+const FilterComponent = (props) => {
+  const { filter } = props
   const Component = components[filter.get('key')]
   if (!Component) {
     return null
@@ -40,5 +40,5 @@ FilterComponent.propTypes = {
   activeFilters: Types.object.isRequired,
   filter: Types.object.isRequired,
   setFilter: Types.func.isRequired,
-  removeFilter: Types.func.isRequired,
+  removeFilter: Types.func.isRequired
 }

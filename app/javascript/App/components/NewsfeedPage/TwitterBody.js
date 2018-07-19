@@ -1,13 +1,14 @@
-import React, {Component} from 'react'
+import React, { Component } from 'react'
 import NewsCoinTags from './NewsCoinTags'
-import {Tweet} from 'react-twitter-widgets'
+import { Tweet } from 'react-twitter-widgets'
 
 export default class NewsBody extends Component {
+
   render() {
     const {
       selectNewsItemFromList,
       activeEntity,
-      selectNewsCategories,
+      selectNewsCategories
     } = this.props
     const newsItem = selectNewsItemFromList(activeEntity.id)
     if (!newsItem) {

@@ -1,7 +1,7 @@
 import React from 'react'
 import dayjs from 'dayjs'
 
-export default ({newsItem, selectNewsCoins}) => {
+export default ({ newsItem, selectNewsCoins }) => {
   const coins = selectNewsCoins(newsItem)
   return (
     <a

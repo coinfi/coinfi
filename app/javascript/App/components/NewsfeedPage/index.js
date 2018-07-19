@@ -1,4 +1,4 @@
-import React, {Component} from 'react'
+import React, { Component } from 'react'
 import debounce from 'debounce'
 import newsfeedContainer from '../../containers/newsfeed'
 import LayoutDesktop from './LayoutDesktop'
@@ -7,7 +7,7 @@ import LayoutMobile from './LayoutMobile'
 
 class NewsfeedPage extends Component {
   state = {
-    initialRenderTips: false,
+    initialRenderTips: false
   }
 
   componentWillMount() {
@@ -20,27 +20,11 @@ class NewsfeedPage extends Component {
 
   render() {
     if (window.isMobile) {
-      return (
-        <LayoutMobile
-          {...this.props}
-          newsfeedTips={event => this.newsfeedTips(event)}
-          initialRenderTips={this.state.initialRenderTips}
-        />
-      )
+      return <LayoutMobile {...this.props} newsfeedTips={(event) => this.newsfeedTips(event)} initialRenderTips={this.state.initialRenderTips} />
     } else if (window.isTablet) {
-      return (
-        <LayoutTablet
-          {...this.props}
-          initialRenderTips={this.state.initialRenderTips}
-        />
-      )
+      return <LayoutTablet {...this.props} initialRenderTips={this.state.initialRenderTips} />
     } else {
-      return (
-        <LayoutDesktop
-          {...this.props}
-          initialRenderTips={this.state.initialRenderTips}
-        />
-      )
+      return <LayoutDesktop {...this.props} initialRenderTips={this.state.initialRenderTips} />
     }
   }
 }

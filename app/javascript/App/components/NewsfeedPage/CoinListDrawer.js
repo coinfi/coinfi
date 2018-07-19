@@ -3,7 +3,7 @@ import Drawer from '../Drawer'
 import CoinList from './CoinList'
 import Icon from '../Icon'
 
-const CoinListDrawer = props => (
+const CoinListDrawer = (props) => (
   <Drawer uiKey="coinListDrawer" {...props} position="left" className="flex">
     <div className="flex-auto flex flex-column w-100 max-w20e bg-white">
       <CoinList {...props} />

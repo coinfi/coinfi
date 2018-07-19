@@ -1,7 +1,7 @@
 import React from 'react'
 import Icon from '../../Icon'
 
-export default ({value}) => (
+export default ({ value }) => (
   <div>
     <span className="mr3">
       <Icon brand name="twitter" className="mr2" />

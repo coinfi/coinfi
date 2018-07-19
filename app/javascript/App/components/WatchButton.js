@@ -1,34 +1,34 @@
-import React, {Component} from 'react'
+import React, { Component } from 'react'
 import API from '../lib/localAPI'
 import Icon from './Icon'
 
 export default class WatchButton extends Component {
-  state = {watching: false}
+  state = { watching: false }
   componentDidMount() {
     const watching = !!this.props.watching
-    this.setState({watching})
+    this.setState({ watching })
   }
   userIsLoggedIn = !!(this.props.user || this.props.loggedIn)
   handleClick = () => {
     if (!this.userIsLoggedIn) return
     /* This component does its own API request & state management since it's
     sometimes used on its own, and doesn't have access to Redux */
-    const {coinID: id, onWatch, onChange, setUser} = this.props
-    let {watching} = this.state
-    let params = {watchCoin: id}
-    if (watching) params = {unwatchCoin: id}
-    API.patch('/user', params).then(({type, payload}) => {
+    const { coinID: id, onWatch, onChange, setUser } = this.props
+    let { watching } = this.state
+    let params = { watchCoin: id }
+    if (watching) params = { unwatchCoin: id }
+    API.patch('/user', params).then(({ type, payload }) => {
       if (type === 'success') {
         if (setUser) setUser(payload)
         watching = payload.coin_ids.includes(id)
-        this.setState({watching})
+        this.setState({ watching })
         if (watching && onWatch) onWatch()
         if (onChange) onChange(watching)
       }
     })
   }
   render() {
-    const {watching} = this.state
+    const { watching } = this.state
     let btnClass = 'btn btn-xs'
     if (watching) btnClass += ' btn-blue'
     if (!watching) btnClass += ' btn-gray'

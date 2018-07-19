@@ -1,19 +1,19 @@
-import React, {Component} from 'react'
+import React, { Component } from 'react'
 import Type from 'prop-types'
 import Input from '../../Input'
-import {Range} from 'rc-slider'
+import { Range } from 'rc-slider'
 
-const scale = {min: 1, max: 100}
+const scale = { min: 1, max: 100 }
 
 export default class HardCap extends Component {
-  setVal = name => value => {
-    const {value: v, onChange} = this.props
+  setVal = (name) => (value) => {
+    const { value: v, onChange } = this.props
     v[name] = parseInt(value, 10)
     onChange(v)
   }
-  onSlide = ([min, max]) => this.props.onChange({min, max})
+  onSlide = ([min, max]) => this.props.onChange({ min, max })
   render() {
-    const {value} = this.props
+    const { value } = this.props
     return (
       <div className="pa3">
         <div className="row">
@@ -49,5 +49,5 @@ export default class HardCap extends Component {
 }
 
 HardCap.propTypes = {
-  value: Type.object, // { min: 1, max: 100 }
+  value: Type.object // { min: 1, max: 100 }
 }

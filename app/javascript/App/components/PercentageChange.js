@@ -1,7 +1,7 @@
 import React from 'react'
 import Icon from './Icon'
 
-const PercentageChange = ({value, className, ...rest}) => {
+const PercentageChange = ({ value, className, ...rest }) => {
   const n = parseFloat(value)
   let iconName = 'caret-up'
   let klass = 'green'

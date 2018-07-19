@@ -1,15 +1,15 @@
-import React, {Component} from 'react'
+import React, { Component } from 'react'
 import WatchButton from '../WatchButton'
 import Input from '../Input'
 import coinSearch from '../../containers/coinSearch'
 
 class WatchlistSearch extends Component {
-  handleSearchInput = value => {
-    let {searchOpts, searchCoins} = this.props
+  handleSearchInput = (value) => {
+    let { searchOpts, searchCoins } = this.props
     searchCoins(value, searchOpts)
   }
   render() {
-    const {searchedCoins, addCoinSuccess, searchText, user} = this.props
+    const { searchedCoins, addCoinSuccess, searchText, user } = this.props
     return (
       <div>
         <Input
@@ -20,7 +20,7 @@ class WatchlistSearch extends Component {
         />
         {searchedCoins.size > 0 && (
           <div>
-            {searchedCoins.map(coin => (
+            {searchedCoins.map((coin) => (
               <div
                 key={coin.get('id')}
                 className="pb3 mt3 bb b--athens-dark flex"
