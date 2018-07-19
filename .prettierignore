@@ -1,2 +1,4 @@
-# Don't tidy legacy JS
-app/assets/**/*.js
+dist
+node_modules
+coverage
+build
