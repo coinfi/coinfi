@@ -19,7 +19,8 @@ Rails.application.configure do
   if Rails.root.join('tmp/caching-dev.txt').exist?
     config.action_controller.perform_caching = true
 
-    config.cache_store = :memory_store
+    # TODO: Switch to standard Rails 5.2 redis_cache_store once upgraded.
+    config.cache_store = :redis_store, ENV['REDIS_URL']
     config.public_file_server.headers = {
       'Cache-Control' => "public, max-age=#{2.days.seconds.to_i}"
     }
