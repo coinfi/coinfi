@@ -5,6 +5,8 @@ import MarketMoving from './filterComponents/MarketMoving'
 import Categories from './filterComponents/Categories'
 import Dates from './filterComponents/Dates'
 import FeedSources from './filterComponents/FeedSources'
+import ToggleReddit from './filterComponents/ToggleReddit'
+import ToggleTwitter from './filterComponents/ToggleTwitter'
 
 const FilterComponent = (props) => {
   const { filter } = props
@@ -27,7 +29,13 @@ const FilterComponent = (props) => {
         <Categories {...props} />
       </div>
       <div className="pv3">
-        <h4 className="mv2 f5">Sources</h4>
+        <h4 className="mv2 f5">Social Sources</h4>
+        <div className="pv2 f6">Reddit and Twitter often has more noise than signal so we've disabled them by default, but you can enable them here.</div>
+        <ToggleReddit {...props} />
+        <ToggleTwitter {...props} />
+      </div>
+      <div className="pv3">
+        <h4 className="mv2 f5">General Sources</h4>
         <FeedSources {...props} />
       </div>
     </Fragment>
