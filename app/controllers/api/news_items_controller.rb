@@ -11,11 +11,23 @@ class Api::NewsItemsController < ApiController
     coin_ids = Coin.where(name: q[:coins]).pluck(:id) if q[:coins]
     coin_ids = Coin.top(20).ids unless coin_ids
 
-    @news_items = NewsItem.published.joins(:news_coin_mentions).where(news_coin_mentions: { coin: coin_ids })
+    @news_items = NewsItem.all
 
-    if q[:coins].blank? && q[:feedSources].blank?
-      # Only show NewsItems from General FeedSources when no coins are specifically selected.
-      @news_items = NewsItem.general.published.joins(:news_coin_mentions).where(news_coin_mentions: { coin: coin_ids })
+    if q[:coins].present?
+      @news_items = @news_items.published.joins(:news_coin_mentions).where(news_coin_mentions: { coin: coin_ids })
+    end
+
+    # Showing default coins
+    if coin_ids == q[:coinIDs]
+      coin_news_item_ids = NewsCoinMention.where(coin_id: coin_ids).pluck(:news_item_id)
+      @news_items = @news_items.general.published.or @news_items.general.published.where(id: coin_news_item_ids)
+    end
+
+    if q[:feedSources].present?
+      feed_source_ids = get_feed_source_ids(q[:feedSources])
+      if feed_source_ids.present?
+        @news_items = @news_items.where(feed_source_id: feed_source_ids)
+      end
     end
 
     if q[:categories].present?
@@ -23,13 +35,6 @@ class Api::NewsItemsController < ApiController
       news_item_ids_for_category_filter = NewsItemCategorization.where(news_category_id: category_ids).pluck(:news_item_id)
       if news_item_ids_for_category_filter.present?
         @news_items = @news_items.where(id: news_item_ids_for_category_filter)
-      end
-    end
-
-    if q[:feedSources].present?
-      feed_source_ids = get_feed_source_ids(q[:feedSources])
-      if feed_source_ids.present?
-        @news_items = @news_items.where(feed_source_id: feed_source_ids)
       end
     end
 
