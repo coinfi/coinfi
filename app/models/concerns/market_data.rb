@@ -5,10 +5,7 @@ module MarketData
 
   def live_market_data
     return default_market_data unless ico_listed?
-    Rails.cache.fetch(
-      "/coins/#{symbol}/market_data",
-      { expires_in: 1.minute }
-    ) do
+    Rails.cache.fetch("coins/#{id}/market_data", expires_in: 1.minute) do
       url = "https://api.coinmarketcap.com/v1/ticker/#{slug}/?convert=BTC"
       response = HTTParty.get(url)
       data = JSON.parse(response.body)[0] || {}
