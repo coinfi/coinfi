@@ -58,10 +58,10 @@ class Coin < ApplicationRecord
   def price_by_currency(currency)
     price.try(:[], currency)
   end
-  
+
   def prices_data
-    # TODO: expires_in should probably be at midnight 
-    Rails.cache.fetch("#{symbol}_prices_data", expires_in: 1.day) do
+    # TODO: expires_in should probably be at midnight
+    Rails.cache.fetch("coins/#{id}/prices_data", expires_in: 1.day) do
       url = "#{ENV.fetch('COINFI_PRICES_URL')}api/v1/coins/#{symbol}/daily_history.json"
       response = HTTParty.get(url)
       JSON.parse(response.body)
@@ -87,5 +87,5 @@ class Coin < ApplicationRecord
     # Only use this for serialization
     current_user && current_user.coins.include?(self)
   end
-  
+
 end
