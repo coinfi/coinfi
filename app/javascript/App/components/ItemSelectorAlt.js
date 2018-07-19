@@ -4,12 +4,18 @@ import Type from 'prop-types'
 export default class ItemSelectorAlt extends Component {
   selectedItems = () => this.props.selectedItems || []
   isSelected = (item) => {
-    const selected = this.selectedItems().feedSources && this.selectedItems().feedSources.length && this.selectedItems().feedSources.map((item) => JSON.stringify(item))
-    if (selected) return selected.includes(JSON.stringify(item))
+    const selected = this.selectedItems().feedSources
+                  && this.selectedItems().feedSources.length
+                  && this.selectedItems().feedSources.map((item) => JSON.stringify(item))
+    if (selected) {
+      return selected.includes(JSON.stringify(item))
+    }
   }
   add = (item) => {
     let items = this.selectedItems()
-	if (!items.feedSources) items.feedSources = []
+    if (!items.feedSources) {
+      items.feedSources = []
+    }
     items.feedSources.push(item)
     this.props.onChange(items.feedSources)
   }
@@ -19,9 +25,12 @@ export default class ItemSelectorAlt extends Component {
     this.props.onChange(items)
   }
   itemLabel = (item) => {
-    if (/www/.exec(item) !== null)
+    if (/www/.exec(item) !== null) {
       item = item.replace('www.', '')
-    if (item instanceof Object) return item.name || item.title || item.label
+    }
+    if (item instanceof Object) {
+      return item.name || item.title || item.label
+    }
     return item
   }
 
