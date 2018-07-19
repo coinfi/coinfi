@@ -83,6 +83,7 @@ class Coin < ApplicationRecord
         }
       end
     end
+    results
   end
 
   def is_being_watched
