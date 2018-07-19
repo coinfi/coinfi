@@ -25,7 +25,7 @@ class PriceGraph extends Component {
     this.setState({ chart: chart })
 
     const annotatedChart = this.getAnnotatedChart(chart)
-    annotatedChart.hide()
+    annotatedChart.show()
   }
 
   getAnnotatedChart(stockChart = null) {
@@ -51,7 +51,7 @@ class PriceGraph extends Component {
         <div className="flex items-center fr mr4">
           <span className="mr2 f6 silver">Show Annotations</span>
           <Switch
-            on={this.isAnnotatedChartVisible()}
+            on={() => this.isAnnotatedChartVisible()}
             onChange={() => this.handleAnnotationToggle()}
           />
         </div>
