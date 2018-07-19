@@ -13,16 +13,18 @@ class ToggleReddit extends Component {
     this.props.onChange(items.feedSources)
   }
   remove() {
-    const items = this.selectedItems().feedSources
+    const selectedItems = () => this.props.selectedItems || []
+    const items = selectedItems().feedSources
     const filterItems = items.filter((item) => item !== 'reddit')
     this.props.onChange(filterItems)
   }
 
   render() {
     const filterSelected =
-      this.props.selectedItems &&
-      this.props.selectedItems.feedSources &&
-      this.props.selectedItems.feedSources.includes('reddit')
+      (this.props.selectedItems &&
+        this.props.selectedItems.feedSources &&
+        this.props.selectedItems.feedSources.includes('reddit')) ||
+      false
 
     return (
       <div className="pv2">
@@ -30,10 +32,18 @@ class ToggleReddit extends Component {
           <img src={RedditLogo} className="mr2 v-top" />
           Reddit
         </span>
-        <Switch
-          on={true}
-          onChange={(event) => (event ? this.add() : this.remove())}
-        />
+        {filterSelected && (
+          <Switch
+            on={true}
+            onChange={(event) => (event ? this.add() : this.remove())}
+          />
+        )}
+        {!filterSelected && (
+          <Switch
+            on={false}
+            onChange={(event) => (event ? this.add() : this.remove())}
+          />
+        )}
       </div>
     )
   }
