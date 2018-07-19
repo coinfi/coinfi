@@ -1,11 +1,16 @@
-import React, { Component, Fragment } from "react"
-import _ from "lodash"
-import NewsListItem from "./NewsListItem"
-import LoadingIndicator from "../LoadingIndicator"
-import Tips from "./Tips"
+import React, { Component, Fragment } from 'react'
+import _ from 'lodash'
+import NewsListItem from './NewsListItem'
+import LoadingIndicator from '../LoadingIndicator'
+import Tips from './Tips'
 
 class NewsList extends Component {
-  state = { initialRender: true, initialRenderTips: false, latestNewsTime: 0, newNewsCount: 0 }
+  state = {
+    initialRender: true,
+    initialRenderTips: false,
+    latestNewsTime: 0,
+    newNewsCount: 0,
+  }
 
   constructor(props) {
     super(props)
@@ -26,14 +31,14 @@ class NewsList extends Component {
   componentDidUpdate() {
     if (
       this.props.sortedNewsItems.length &&
-      this.props.sortedNewsItems[0].get("feed_item_published_at") !==
+      this.props.sortedNewsItems[0].get('feed_item_published_at') !==
         this.state.latestNewsTime
     ) {
       this.setState({
         latestNewsTime: this.props.sortedNewsItems[0].get(
-          "feed_item_published_at"
+          'feed_item_published_at',
         ),
-        newNewsCount: ++this.state.newNewsCount
+        newNewsCount: ++this.state.newNewsCount,
       })
     }
     const timer = setInterval(() => {
@@ -54,13 +59,13 @@ class NewsList extends Component {
       $(window).scroll(throttled)
     } else {
       const throttled = _.throttle(this.onScrollNewsFeedDesktop, 500)
-      $("#newsfeed").scroll(throttled)
+      $('#newsfeed').scroll(throttled)
     }
   }
 
   unmountOnScrollHandler() {
-    $(window).off("scroll", this.onScrollNewsFeedMobile)
-    $("#newsfeed").off("scroll", this.onScrollNewsFeedDesktop)
+    $(window).off('scroll', this.onScrollNewsFeedMobile)
+    $('#newsfeed').off('scroll', this.onScrollNewsFeedDesktop)
   }
 
   onScrollNewsFeedMobile(e) {
@@ -86,17 +91,17 @@ class NewsList extends Component {
     }
   }
 
-  setActiveNewsItem = newsItem => {
+  setActiveNewsItem = (newsItem) => {
     const { setActiveEntity, enableUI } = this.props
-    const tweetId = newsItem.get("url").split("/")[
-      newsItem.get("url").split("/").length - 1
+    const tweetId = newsItem.get('url').split('/')[
+      newsItem.get('url').split('/').length - 1
     ]
-    if (/twitter/.exec(newsItem.get("url")) !== null) {
-      setActiveEntity({ type: "twitterNews", id: newsItem.get("id"), tweetId })
+    if (/twitter/.exec(newsItem.get('url')) !== null) {
+      setActiveEntity({ type: 'twitterNews', id: newsItem.get('id'), tweetId })
     } else {
-      setActiveEntity({ type: "newsItem", id: newsItem.get("id") })
+      setActiveEntity({ type: 'newsItem', id: newsItem.get('id') })
     }
-    if (window.isMobile) enableUI("bodySectionDrawer", { fullScreen: true })
+    if (window.isMobile) enableUI('bodySectionDrawer', { fullScreen: true })
   }
 
   closeTips() {
@@ -109,11 +114,11 @@ class NewsList extends Component {
     activeFilters,
     sortedNewsItems,
     initialRenderTips,
-    isLoading
+    isLoading,
   ) {
     if (initialRenderTips && window.isMobile) {
       return <Tips closeTips={this.closeTips.bind(this)} />
-    } else if (isLoading("newsItems")) {
+    } else if (isLoading('newsItems')) {
       return (
         <div className="pa3 tc mt4">
           <LoadingIndicator />
@@ -136,13 +141,13 @@ class NewsList extends Component {
       )
     }
 
-    const mappedItems = viewState.sortedNewsItems.map(newsItem => (
+    const mappedItems = viewState.sortedNewsItems.map((newsItem) => (
       <NewsListItem
-        key={newsItem.get("id")}
+        key={newsItem.get('id')}
         newsItem={newsItem}
         {...this.props}
         setActiveNewsItem={this.setActiveNewsItem}
-        selectCoin={symbol => this.selectCoin(symbol)}
+        selectCoin={(symbol) => this.selectCoin(symbol)}
       />
     ))
     return mappedItems
@@ -150,39 +155,37 @@ class NewsList extends Component {
 
   selectCoin(coinData) {
     const { setFilter, clearSearch, setActiveEntity } = this.props
-    setActiveEntity({ type: "coin", id: coinData.get("id") })
+    setActiveEntity({ type: 'coin', id: coinData.get('id') })
     let value = this.selectedCoins()
-    value = union(value, [coinData.get("name")])
-    setFilter({ key: "coins", value })
+    value = union(value, [coinData.get('name')]) // eslint-disable-line no-undef
+    setFilter({ key: 'coins', value })
     clearSearch()
   }
 
   newsAlertTitle() {
-
     window.onblur = function() {
       document.querySelector('title').text = 'foo'
     }
 
-
-    document.querySelector('title').text = 'foo ' + this.state.newNewsCount
+    document.querySelector('title').text = `foo ${this.state.newNewsCount}`
   }
 
   render() {
-    const itemHeight = this.state.initialRender ? "auto" : 0
+    const itemHeight = this.state.initialRender ? 'auto' : 0
     const {
       newsItems,
       isLoading,
       activeEntity,
       activeFilters,
       sortedNewsItems,
-      initialRenderTips
+      initialRenderTips,
     } = this.props
     const viewState = {
       activeEntity: activeEntity,
       newsItems: newsItems,
-      sortedNewsItems: sortedNewsItems
+      sortedNewsItems: sortedNewsItems,
     }
-    console.log("last news", this.state.newNewsCount)
+    console.log('last news', this.state.newNewsCount)
     this.newsAlertTitle()
     return (
       <Fragment>
@@ -194,7 +197,7 @@ class NewsList extends Component {
             window.isMobile &&
             !activeFilters.size &&
             initialRenderTips
-              ? { marginTop: "-65px", background: "#fff", position: "absolute" }
+              ? { marginTop: '-65px', background: '#fff', position: 'absolute' }
               : {}
           }
         >
@@ -204,11 +207,11 @@ class NewsList extends Component {
             activeFilters,
             sortedNewsItems,
             initialRenderTips,
-            isLoading
+            isLoading,
           )}
           <div>
-            {!isLoading("newsItems") &&
-              isLoading("newsfeed") && <LoadingIndicator />}
+            {!isLoading('newsItems') &&
+              isLoading('newsfeed') && <LoadingIndicator />}
           </div>
         </div>
       </Fragment>
