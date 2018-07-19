@@ -31,6 +31,9 @@
     "ROLLBAR_ENDPOINT": { "required": true },
     "ROOT_DOMAIN": { "required": true },
     "S3_BUCKET": { "required": true },
+    "SCOUT_KEY": { "required": true },
+    "SCOUT_LOG_LEVEL": { "required": true },
+    "SCOUT_MONITOR": { "required": true },
     "SECRET_KEY_BASE": { "required": true },
     "STAGING_DATABASE_URL": { "required": true },
     "SUPERFEEDR_CALLBACK_URL_SEGMENT_SECRET": { "required": true },
@@ -48,7 +51,8 @@
   "addons": [
     "heroku-postgresql:hobby-basic",
     "papertrail",
-    "rollbar"
+    "rollbar",
+    "scout"
   ],
   "buildpacks": [
     { "url": "heroku/nodejs" },
