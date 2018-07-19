@@ -51,6 +51,7 @@
   "formation": {},
   "addons": [
     "heroku-postgresql:hobby-basic",
+    "heroku-redis:hobby-dev",
     "papertrail",
     "rollbar",
     "scout"
