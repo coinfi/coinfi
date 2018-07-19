@@ -68,19 +68,21 @@ class Coin < ApplicationRecord
     end
   end
 
-  def news_data(currency = 'usd')
-    # TODO: add caching
-    chart_data = articles.chart_data
-    i = chart_data.length + 1
-    chart_data.map { |item|
-      i -= 1
-      {
-        x: item.published_epoch,
-        title: i,
-        text: item.title,
-        url: item.url
-      }
-    }
+  def news_data
+    # TODO: Reduce cache time from 1 day to 1 hour once hourly price data comes in.
+    Rails.cache.fetch("coins/#{id}/news_data", expires_in: 1.day) do
+      chart_data = articles.chart_data
+      i = chart_data.length + 1
+      chart_data.map do |item|
+        i -= 1
+        {
+          x: item.published_epoch,
+          title: i,
+          text: item.title,
+          url: item.url
+        }
+      end
+    end
   end
 
   def is_being_watched
