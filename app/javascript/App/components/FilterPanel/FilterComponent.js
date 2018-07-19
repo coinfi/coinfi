@@ -39,7 +39,11 @@ const FilterComponent = (props) => {
           selectedItems={value}
           onChange={onChange('feedSources')}
         />
-        <ToggleTwitter {...props} />
+        <ToggleTwitter
+          {...props}
+          selectedItems={value}
+          onChange={onChange('feedSources')}
+        />
       </div>
       <div className="pv3">
         <h4 className="mv2 f5">General Sources</h4>
