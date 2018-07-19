@@ -77,7 +77,7 @@
   "scripts": {
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook",
-    "precommit": "lint-staged",
+    "precommit": "lint-staged"
 
   }
 }
