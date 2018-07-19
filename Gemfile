@@ -32,6 +32,7 @@ gem 'jbuilder', '~> 2.5'
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
+gem 'active_hash'
 gem 'acts-as-taggable-on'
 gem 'administrate'
 gem 'administrate-field-belongs_to_search'
@@ -57,22 +58,21 @@ gem 'pony'
 gem 'rack-affiliates'
 gem 'rack-cors'
 gem 'rack-rewrite'
+gem 'ransack'
 gem 'rest-client'
 gem 'rollbar'
+gem 'ruby-progressbar'
 gem 'simple_form'
 gem 'slim-rails'
 gem 'unidecoder'
 gem 'wombat'
 gem 'twitter'
 gem 'webpacker', '~> 3.3'
-gem 'ransack'
-gem 'active_hash'
 
 # Devise needs to be in front of Ahoy in the Gemfile to have Ahoy automatically update Visit with User ID:
 # https://github.com/ankane/ahoy/issues/12
 gem 'ahoy_matey'
 gem 'blazer'
-gem 'ruby-progressbar'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
@@ -99,6 +99,7 @@ end
 
 group :production do
   gem 'rails_12factor'
+  gem 'scout_apm'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
