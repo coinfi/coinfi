@@ -1,9 +1,9 @@
-import { fromJS } from 'immutable'
+import {fromJS} from 'immutable'
 
 const initialState = false
 
 export default (state = initialState, action) => {
-  const { type, response } = action
+  const {type, response} = action
   switch (type) {
     case 'SET_USER':
       if (response) return fromJS(response)

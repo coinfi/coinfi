@@ -1,31 +1,33 @@
-import React, { Component } from 'react'
+import React, {Component} from 'react'
 import Type from 'prop-types'
 
 export default class ItemSelectorAlt extends Component {
   selectedItems = () => this.props.selectedItems || []
-  isSelected = (item) => {
-    const selected = this.selectedItems().feedSources && this.selectedItems().feedSources.length && this.selectedItems().feedSources.map((item) => JSON.stringify(item))
+  isSelected = item => {
+    const selected =
+      this.selectedItems().feedSources &&
+      this.selectedItems().feedSources.length &&
+      this.selectedItems().feedSources.map(item => JSON.stringify(item))
     if (selected) return selected.includes(JSON.stringify(item))
   }
-  add = (item) => {
+  add = item => {
     let items = this.selectedItems()
-	if (!items.feedSources) items.feedSources = []
+    if (!items.feedSources) items.feedSources = []
     items.feedSources.push(item)
     this.props.onChange(items.feedSources)
   }
-  remove = (item) => {
+  remove = item => {
     let items = this.selectedItems().feedSources
-    items = items.filter((c) => JSON.stringify(c) !== JSON.stringify(item))
+    items = items.filter(c => JSON.stringify(c) !== JSON.stringify(item))
     this.props.onChange(items)
   }
-  itemLabel = (item) => {
-    if (/www/.exec(item) !== null)
-      item = item.replace('www.', '')
+  itemLabel = item => {
+    if (/www/.exec(item) !== null) item = item.replace('www.', '')
     if (item instanceof Object) return item.name || item.title || item.label
     return item
   }
 
-  ItemLink = ({ item }) => {
+  ItemLink = ({item}) => {
     if (this.isSelected(item)) {
       return (
         <a className="mid-gray selected" onClick={() => this.remove(item)}>
@@ -43,21 +45,20 @@ export default class ItemSelectorAlt extends Component {
     }
   }
   render() {
-    const { ItemLink } = this
+    const {ItemLink} = this
     return (
       <div className="item-selector-alt">
         <ul>
           {this.props.items.map((item, i) => {
             if (/www/.exec(item) !== null) {
-              item = item.replace('.www','').replace(/^/, 'www.')
+              item = item.replace('.www', '').replace(/^/, 'www.')
             }
             return (
-            <li className="mv2" key={i}>
-              <ItemLink item={item} />
-            </li>
+              <li className="mv2" key={i}>
+                <ItemLink item={item} />
+              </li>
             )
-          }
-          )}
+          })}
         </ul>
       </div>
     )
@@ -67,5 +68,5 @@ export default class ItemSelectorAlt extends Component {
 ItemSelectorAlt.propTypes = {
   items: Type.array.isRequired,
   selectedItems: Type.object,
-  onChange: Type.func
+  onChange: Type.func,
 }

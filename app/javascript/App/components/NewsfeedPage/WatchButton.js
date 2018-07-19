@@ -7,7 +7,7 @@ const WatchButton = ({
   updateUser,
   onWatch,
   hasText,
-  user
+  user,
 }) => {
   const hasTextClassNames = 'btn btn-xs btn-gray'
 
@@ -17,7 +17,8 @@ const WatchButton = ({
         name="star"
         solid
         className={`aqua ${hasText ? hasTextClassNames : ''}`}
-        onClick={() => updateUser({ unwatchCoin: coin.get('id') })}>
+        onClick={() => updateUser({unwatchCoin: coin.get('id')})}
+      >
         {hasText && 'Watching'}
       </Icon>
     )
@@ -32,7 +33,7 @@ const WatchButton = ({
           // TODO: Implement new onboarding signup flow.
           if (!user) return (window.location = '/login')
           if (onWatch) onWatch(coin)
-          updateUser({ watchCoin: coin.get('id') })
+          updateUser({watchCoin: coin.get('id')})
         }}
       >
         {hasText && 'Watch'}

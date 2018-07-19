@@ -1,19 +1,19 @@
-import React, { Component } from 'react'
+import React, {Component} from 'react'
 
 export default class Switch extends Component {
-  state = { on: false }
+  state = {on: false}
   componentWillMount() {
-    const { on } = this.props
-    this.setState({ on: !!on })
+    const {on} = this.props
+    this.setState({on: !!on})
   }
   handleChange = () => {
-    const { onChange } = this.props
-    const { on } = this.state
-    this.setState({ on: !on })
+    const {onChange} = this.props
+    const {on} = this.state
+    this.setState({on: !on})
     onChange(!on)
   }
   render() {
-    const { on } = this.state
+    const {on} = this.state
     return (
       <button
         className={`switch ${on ? 'on' : ''}`}

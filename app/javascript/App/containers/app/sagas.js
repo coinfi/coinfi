@@ -1,5 +1,5 @@
-import { fork, all, takeLatest, select } from 'redux-saga/effects'
-import { setUser } from './actions'
+import {fork, all, takeLatest, select} from 'redux-saga/effects'
+import {setUser} from './actions'
 import apiSagas from '../../lib/redux/apiSagas'
 import * as selectors from './selectors'
 
@@ -11,7 +11,7 @@ import newsfeedSagas from '../newsfeed/sagas'
 const sagas = [watchlistSagas, coinSearchSagas, icoFiltersSagas, newsfeedSagas]
 
 export default function* watcher() {
-  yield all(sagas.map((saga) => fork(saga)))
+  yield all(sagas.map(saga => fork(saga)))
   yield takeLatest('FETCH_USER', fetchUser)
   yield takeLatest('UPDATE_USER', updateUser)
   yield takeLatest('TOGGLE_UI', handleFullScreen)
@@ -19,7 +19,7 @@ export default function* watcher() {
   yield takeLatest('DISABLE_UI', handleFullScreen)
 }
 
-function* handleFullScreen({ type, keyPath, opts }) {
+function* handleFullScreen({type, keyPath, opts}) {
   const currentUI = yield select(selectors.currentUI)
   if (type === 'DISABLE_UI' || !currentUI(keyPath)) {
     document.body.className = ''
@@ -32,6 +32,6 @@ function* fetchUser() {
   yield apiSagas.get('/user', null, setUser)
 }
 
-function* updateUser({ payload }) {
+function* updateUser({payload}) {
   yield apiSagas.patch('/user', payload, setUser)
 }

@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react'
+import React, {Fragment} from 'react'
 import NewsList from './NewsList'
 import CoinListDrawer from './CoinListDrawer'
 import NewsListHeader from './NewsListHeader'

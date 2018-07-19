@@ -1,9 +1,9 @@
-import React, { Fragment } from 'react'
+import React, {Fragment} from 'react'
 import PercentageChange from '../../PercentageChange'
 import Currency from '../../Currency'
 
-export default ({ coin }) => {
-  const { market_info: info } = coin
+export default ({coin}) => {
+  const {market_info: info} = coin
   return (
     <Fragment>
       <PercentageChange

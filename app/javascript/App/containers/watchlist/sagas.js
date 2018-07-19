@@ -1,8 +1,8 @@
-import { takeLatest, select, put, fork } from 'redux-saga/effects'
-import { apiSagas, createEntitySagas } from '../../lib/redux'
+import {takeLatest, select, put, fork} from 'redux-saga/effects'
+import {apiSagas, createEntitySagas} from '../../lib/redux'
 import selectors from './selectors'
 import actions from './actions'
-import { namespace } from './constants'
+import {namespace} from './constants'
 
 const entitySagas = createEntitySagas(namespace)
 
@@ -20,8 +20,8 @@ function* fetchCoins(action) {
   yield put(
     actions.fetchEntityList('coins', {
       entityType: 'coins',
-      url: 'watchlist/coins'
-    })
+      url: 'watchlist/coins',
+    }),
   )
 }
 
@@ -30,27 +30,27 @@ function* fetchNewsItems(action) {
   if (action.entityType !== 'coins') return
   const coinIDs = yield select(selectors.coinIDs)
   if (coinIDs.length === 0) return
-  const params = { coinIDs }
+  const params = {coinIDs}
   yield put(
     actions.fetchEntityList('newsItems', {
       url: 'news_items',
-      params
-    })
+      params,
+    }),
   )
 }
 
-function* removeCoin({ id }) {
+function* removeCoin({id}) {
   yield apiSagas.destroy(
     `/watchlist/coins/${id}.json`,
     null,
-    actions.removeCoinSuccess
+    actions.removeCoinSuccess,
   )
 }
 
-function* reorderCoins({ payload }) {
+function* reorderCoins({payload}) {
   yield apiSagas.patch(
     '/watchlist/coins.json',
-    { order: payload },
-    actions.reorderCoinsSuccess
+    {order: payload},
+    actions.reorderCoinsSuccess,
   )
 }

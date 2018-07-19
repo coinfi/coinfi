@@ -3,8 +3,8 @@ import NewsFilters from './NewsFilters'
 import NewsListItem from './NewsListItem'
 import Tabs from '../Tabs'
 
-export default (props) => {
-  const { newsItems } = props
+export default props => {
+  const {newsItems} = props
   return (
     <div>
       <div className="flex justify-between items-end flex-wrap mb4 ph3 ph0-l">

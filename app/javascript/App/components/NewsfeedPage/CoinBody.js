@@ -5,8 +5,8 @@ import PercentageChange from '../PercentageChange'
 import WatchButton from './WatchButton'
 import LoadingIndicator from '../LoadingIndicator'
 
-const CoinBody = (props) => {
-  const { selectCoinDetails, activeEntity, isLoading, user } = props
+const CoinBody = props => {
+  const {selectCoinDetails, activeEntity, isLoading, user} = props
   let coin = selectCoinDetails(activeEntity.id)
   if (!coin && isLoading('coin'))
     return <LoadingIndicator className="overlay bg-white-70" />

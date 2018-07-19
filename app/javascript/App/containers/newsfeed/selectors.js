@@ -1,6 +1,6 @@
 import _ from 'lodash'
-import { namespace, filterList } from './constants'
-import { createEntitySelectors, createFilterSelectors } from '../../lib/redux'
+import {namespace, filterList} from './constants'
+import {createEntitySelectors, createFilterSelectors} from '../../lib/redux'
 
 const select = createEntitySelectors(namespace)
 const filterSelectors = createFilterSelectors(namespace, filterList)
@@ -11,7 +11,7 @@ export default {
   isLoading: select.isLoading,
   coins: select.entities('coins'),
   newsItems: select.entities('newsItems'),
-  sortedNewsItems: select.entities('newsItems', (entities) => {
+  sortedNewsItems: select.entities('newsItems', entities => {
     const sortBy = 'feed_item_published_at'
 
     return entities.sort((x, y) => {
@@ -22,8 +22,8 @@ export default {
   selectNewsItemFromList: select.entityFromList('newsItems'),
   selectCoinDetails: select.entityDetails('coin'),
   selectNewsCategories: select.entityChildren('newsItems', 'categories'),
-  coinIDs: (state) => {
-    const { user, UI, newsfeed } = state
+  coinIDs: state => {
+    const {user, UI, newsfeed} = state
     let coinIDs = []
     if (user && user.coin_ids) coinIDs = user.coin_ids
     if (!UI.get('watchingOnly')) {
@@ -31,8 +31,8 @@ export default {
     }
     return coinIDs
   },
-  endFetchingMoreEntityList: (state) => {
+  endFetchingMoreEntityList: state => {
     return state.newsfeed.get('endFetchingMoreEntityList')
   },
-  ...filterSelectors
+  ...filterSelectors,
 }

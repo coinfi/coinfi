@@ -1,14 +1,14 @@
 import parseData from './parseData'
-export default (data) => {
-  const { newsItems } = data
-  const { prices, volume } = parseData(data)
-  const { Highcharts } = window
+export default data => {
+  const {newsItems} = data
+  const {prices, volume} = parseData(data)
+  const {Highcharts} = window
   return {
     rangeSelector: {
-      selected: 1
+      selected: 1,
     },
     navigator: {
-      enabled: false
+      enabled: false,
     },
 
     legend: {
@@ -18,45 +18,45 @@ export default (data) => {
       verticalAlign: 'top',
       backgroundColor:
         (Highcharts.theme && Highcharts.theme.legendBackgroundColor) ||
-        '#FFFFFF'
+        '#FFFFFF',
     },
 
     yAxis: [
       {
         labels: {
           align: 'right',
-          x: -3
+          x: -3,
         },
         title: {
-          text: 'USD Price'
+          text: 'USD Price',
         },
         height: '60%',
-        lineWidth: 2
+        lineWidth: 2,
       },
       {
         labels: {
           align: 'right',
-          x: -3
+          x: -3,
         },
         title: {
-          text: 'Volume'
+          text: 'Volume',
         },
         top: '65%',
         height: '35%',
         offset: 0,
-        lineWidth: 2
-      }
+        lineWidth: 2,
+      },
     ],
 
     tooltip: {
       style: {
-        width: '200px'
+        width: '200px',
       },
       valueDecimals: 4,
       xDateFormat: '%A, %b %e, %Y',
       useHTML: true,
       hideDelay: 1000,
-      shared: true
+      shared: true,
     },
     plotOptions: {
       flags: {
@@ -65,27 +65,27 @@ export default (data) => {
           events: {
             click: function() {
               window.open(this.url, '_blank')
-            }
-          }
-        }
-      }
+            },
+          },
+        },
+      },
     },
     series: [
       {
         id: 'price',
         name: 'USD Price',
-        data: prices
+        data: prices,
       },
       {
         type: 'flags',
         name: 'News',
         useHTML: true,
         dataLabels: {
-          useHTML: true
+          useHTML: true,
         },
         data: newsItems,
         onSeries: 'price',
-        shape: 'circlepin'
+        shape: 'circlepin',
       },
       {
         id: 'volume',
@@ -93,8 +93,8 @@ export default (data) => {
         name: 'Volume',
         data: volume,
         color: Highcharts.getOptions().colors[2],
-        yAxis: 1
-      }
-    ]
+        yAxis: 1,
+      },
+    ],
   }
 }

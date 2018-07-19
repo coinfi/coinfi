@@ -1,10 +1,10 @@
-import React, { Component } from 'react'
+import React, {Component} from 'react'
 import Type from 'prop-types'
 import Input from '../../Input'
 import Icon from '../../Icon'
 import Slider from 'rc-slider'
 
-const scale = { min: 0, max: 1000, step: 50 }
+const scale = {min: 0, max: 1000, step: 50}
 
 const SocialCounts = props => (
   <div className="pa3 pt0">
@@ -14,18 +14,18 @@ const SocialCounts = props => (
 )
 
 SocialCounts.propTypes = {
-  value: Type.object.isRequired
+  value: Type.object.isRequired,
 }
 
 export default SocialCounts
 class SocialCount extends Component {
   setVal = network => value => {
-    const { onChange, value: v } = this.props
+    const {onChange, value: v} = this.props
     v[network] = value
     onChange(v)
   }
   render() {
-    const { value, network, className } = this.props
+    const {value, network, className} = this.props
     return (
       <div className={className || ''}>
         <div className="flex justify-between items-center mb2">

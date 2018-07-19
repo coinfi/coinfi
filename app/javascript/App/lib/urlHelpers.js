@@ -6,13 +6,13 @@ export const getQueryObject = () => {
   return {}
 }
 
-export const currentURL = (opts) => {
+export const currentURL = opts => {
   opts = opts || {}
-  let { withQuery, queryObject } = opts
+  let {withQuery, queryObject} = opts
   withQuery = withQuery === false ? false : true
   let href = window.location.href
   if (queryObject) {
-    const queryString = qs.stringify(queryObject, { encode: false })
+    const queryString = qs.stringify(queryObject, {encode: false})
     href = href.split('?')[0]
     return `${href}?${queryString}`
   } else {
@@ -20,11 +20,11 @@ export const currentURL = (opts) => {
   }
 }
 
-export const pushObjectToURL = (object) => {
+export const pushObjectToURL = object => {
   if (object.q) {
     object.q = escapeAmpersands(object.q)
   }
-  const queryString = qs.stringify(object, { encode: false })
+  const queryString = qs.stringify(object, {encode: false})
   window.history.pushState(object, document.title, `?${queryString}`)
 }
 

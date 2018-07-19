@@ -1,12 +1,12 @@
-import React, { Component } from 'react'
+import React, {Component} from 'react'
 import Swipeable from 'react-swipeable'
 import Animate from 'react-move/Animate'
-import { easeExpOut } from 'd3-ease'
+import {easeExpOut} from 'd3-ease'
 
-const Drawer = (props) => {
-  const { currentUI, uiKey } = props
-  const start = { opacity: [0] }
-  const enter = { opacity: [1] }
+const Drawer = props => {
+  const {currentUI, uiKey} = props
+  const start = {opacity: [0]}
+  const enter = {opacity: [1]}
   switch (props.position) {
     case 'left':
       start.translateX = ['-100%']
@@ -25,26 +25,26 @@ const Drawer = (props) => {
       start={start}
       enter={{
         ...enter,
-        timing: { duration: 700, ease: easeExpOut }
+        timing: {duration: 700, ease: easeExpOut},
       }}
       leave={{
         ...start,
-        timing: { duration: 200 }
+        timing: {duration: 200},
       }}
     >
-      {(animationProps) => <DrawerContent {...props} {...animationProps} />}
+      {animationProps => <DrawerContent {...props} {...animationProps} />}
     </Animate>
   )
 }
 
 class DrawerContent extends Component {
-  state = { swipeAttempts: 0 }
+  state = {swipeAttempts: 0}
   handleClose = () => {
-    const { toggleUI, uiKey, position } = this.props
+    const {toggleUI, uiKey, position} = this.props
     if (position === 'bottom') {
       if (this.drawer.scrollTop === 0) {
-        const { swipeAttempts } = this.state
-        this.setState({ swipeAttempts: swipeAttempts + 1 })
+        const {swipeAttempts} = this.state
+        this.setState({swipeAttempts: swipeAttempts + 1})
         if (swipeAttempts === 2) toggleUI(uiKey)
       }
     } else {
@@ -52,28 +52,28 @@ class DrawerContent extends Component {
     }
   }
   render() {
-    const { className, children, position } = this.props
+    const {className, children, position} = this.props
     const swipeProps = {}
     let style = {}
     switch (position) {
       case 'left':
         swipeProps.onSwipedLeft = this.handleClose
-        style = { transform: `translateX(${this.props.translateX})` }
+        style = {transform: `translateX(${this.props.translateX})`}
         break
       case 'bottom':
         swipeProps.onSwipedDown = this.handleClose
-        style = { transform: `translateY(${this.props.translateY})` }
+        style = {transform: `translateY(${this.props.translateY})`}
         break
       default:
         break
     }
     return (
       <Swipeable {...swipeProps}>
-        <div className="drawer-bg" style={{ opacity: this.props.opacity }} />
+        <div className="drawer-bg" style={{opacity: this.props.opacity}} />
         <div
           className={`drawer${className ? ` ${className}` : ''}`}
           style={style}
-          ref={(ref) => (this.drawer = ref)}
+          ref={ref => (this.drawer = ref)}
         >
           {children}
         </div>

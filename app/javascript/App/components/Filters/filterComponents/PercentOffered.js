@@ -1,12 +1,12 @@
-import React, { Component } from 'react'
+import React, {Component} from 'react'
 import Icon from '../../Icon'
 import Input from '../../Input'
 import Slider from 'rc-slider'
 
-const scale = { min: 1, max: 100 }
+const scale = {min: 1, max: 100}
 export default class PercentOffered extends Component {
   render() {
-    const { onChange } = this.props
+    const {onChange} = this.props
     const value = this.props.value || scale.min
     return (
       <div className="pa3 pt0">
@@ -16,7 +16,7 @@ export default class PercentOffered extends Component {
             className="small mr2"
             value={value}
             onChange={onChange}
-            style={{ width: '60px' }}
+            style={{width: '60px'}}
             {...scale}
           />
           <Icon name="percent" />

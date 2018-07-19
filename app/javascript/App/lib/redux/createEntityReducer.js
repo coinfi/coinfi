@@ -4,15 +4,15 @@
  * match. If nothing happened, it proceeds by executing the containerReducer
  * which listens for more specific actions.
  */
-import { fromJS } from 'immutable'
+import {fromJS} from 'immutable'
 import normalizers from '../../normalizers'
-import { pluralize, singularize } from '../misc'
+import {pluralize, singularize} from '../misc'
 import initialState from './initialState'
 import _ from 'lodash'
 
-const createEntityReducer = (namespace) => (state = initialState, action) => {
+const createEntityReducer = namespace => (state = initialState, action) => {
   if (namespace !== action.namespace) return state
-  const { entityType, response, payload } = action
+  const {entityType, response, payload} = action
   let normalizer, normalized, entityLists
   switch (action.type) {
     case 'FETCH_ENTITY_DETAILS':
@@ -44,11 +44,10 @@ const createEntityReducer = (namespace) => (state = initialState, action) => {
       entityLists = state.get('entityList').mergeDeep(normalized.entities)
       const ids = _.union(
         normalized.result,
-        state.getIn(['entityIDs', entityType])
+        state.getIn(['entityIDs', entityType]),
       )
-      const endFetchingMoreEntityList = (
+      const endFetchingMoreEntityList =
         action.type === 'SET_MORE_ENTITY_LIST' && !response.length
-      )
       return state
         .set('entityList', entityLists)
         .set('endFetchingMoreEntityList', endFetchingMoreEntityList)

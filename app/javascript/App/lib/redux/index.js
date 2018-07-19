@@ -21,5 +21,5 @@ export {
   createFilterActions,
   createFilterSagas,
   createFilterSelectors,
-  mergeReducers
+  mergeReducers,
 }

@@ -3,7 +3,7 @@ import Drawer from '../Drawer'
 import Icon from '../Icon'
 import BodySection from './BodySection'
 
-const BodySectionDrawer = (props) => (
+const BodySectionDrawer = props => (
   <Drawer
     uiKey="bodySectionDrawer"
     {...props}

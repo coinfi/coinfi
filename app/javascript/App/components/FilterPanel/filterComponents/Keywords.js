@@ -1,9 +1,9 @@
-import React, { Component } from 'react'
+import React, {Component} from 'react'
 import Input from '../../Input'
 
 export default class Keywords extends Component {
   render() {
-    const { value, onChange } = this.props
+    const {value, onChange} = this.props
     return (
       <Input
         onChange={onChange('keywords')}

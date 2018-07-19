@@ -1,14 +1,14 @@
-import React, { Component } from 'react'
+import React, {Component} from 'react'
 import AddFilter from './AddFilter'
 import FilterButton from './FilterButton'
 import SearchButton from './SearchButton'
 
 export default class DesktopLayout extends Component {
   render() {
-    const { activeFilters } = this.props
+    const {activeFilters} = this.props
     return (
       <div className="flex-stack items-start oi-layout-desktop">
-        {!activeFilters.find((f) => f.get('key') === 'search') && (
+        {!activeFilters.find(f => f.get('key') === 'search') && (
           <div>
             <SearchButton {...this.props} />
           </div>

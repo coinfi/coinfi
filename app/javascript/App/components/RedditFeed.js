@@ -1,16 +1,16 @@
-import React, { Component } from 'react'
+import React, {Component} from 'react'
 import axios from 'axios'
 import RedditPost from './RedditPost'
 
 class RedditFeed extends Component {
-  state = { posts: [] }
+  state = {posts: []}
   componentDidMount() {
     // Fetch posts and update state
-    const { subreddit } = this.props
+    const {subreddit} = this.props
     axios
       .get(`https://www.reddit.com/r/${subreddit}/top/.json?sort=top&t=day`)
-      .then(({ data: { data: { children } } }) => {
-        this.setState({ posts: children })
+      .then(({data: {data: {children}}}) => {
+        this.setState({posts: children})
       })
       .catch(error => {
         console.log(error)
@@ -19,9 +19,7 @@ class RedditFeed extends Component {
   render() {
     return (
       <div id="reddit-feed" className="nt4">
-        {this.state.posts.map(({ data }, k) => (
-          <RedditPost key={k} {...data} />
-        ))}
+        {this.state.posts.map(({data}, k) => <RedditPost key={k} {...data} />)}
       </div>
     )
   }

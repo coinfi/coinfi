@@ -1,11 +1,11 @@
-import React, { Component, Fragment } from 'react'
+import React, {Component, Fragment} from 'react'
 import _ from 'lodash'
 import NewsListItem from './NewsListItem'
 import LoadingIndicator from '../LoadingIndicator'
 import Tips from './Tips'
 
 class NewsList extends Component {
-  state = { initialRender: true, initialRenderTips:false }
+  state = {initialRender: true, initialRenderTips: false}
 
   constructor(props) {
     super(props)
@@ -17,7 +17,7 @@ class NewsList extends Component {
 
   componentDidMount() {
     setTimeout(() => {
-      this.setState({ initialRender: false })
+      this.setState({initialRender: false})
     }, 60000)
     this.mountOnScrollHandler()
   }
@@ -73,38 +73,40 @@ class NewsList extends Component {
     }
   }
 
-  setActiveNewsItem = (newsItem) => {
-    const { setActiveEntity, enableUI } = this.props
-    const tweetId = newsItem.get('url').split('/')[newsItem.get('url').split('/').length - 1]
-      if (/twitter/.exec(newsItem.get('url')) !== null) {
-        setActiveEntity({ type: 'twitterNews', id: newsItem.get('id'), tweetId  })
-      }
-      else {
-        setActiveEntity({ type: 'newsItem', id: newsItem.get('id') })
-      }
-    if (window.isMobile) enableUI('bodySectionDrawer', { fullScreen: true })
+  setActiveNewsItem = newsItem => {
+    const {setActiveEntity, enableUI} = this.props
+    const tweetId = newsItem.get('url').split('/')[
+      newsItem.get('url').split('/').length - 1
+    ]
+    if (/twitter/.exec(newsItem.get('url')) !== null) {
+      setActiveEntity({type: 'twitterNews', id: newsItem.get('id'), tweetId})
+    } else {
+      setActiveEntity({type: 'newsItem', id: newsItem.get('id')})
+    }
+    if (window.isMobile) enableUI('bodySectionDrawer', {fullScreen: true})
   }
 
   closeTips() {
     this.props.newsfeedTips()
   }
 
-  renderView(viewState, itemHeight, activeFilters, sortedNewsItems, initialRenderTips, isLoading) {
-    if (
-      initialRenderTips &&
-      window.isMobile
-    ) {
-      return <Tips closeTips={this.closeTips.bind(this)} />;
-    }
-    else if (isLoading('newsItems')) {
+  renderView(
+    viewState,
+    itemHeight,
+    activeFilters,
+    sortedNewsItems,
+    initialRenderTips,
+    isLoading,
+  ) {
+    if (initialRenderTips && window.isMobile) {
+      return <Tips closeTips={this.closeTips.bind(this)} />
+    } else if (isLoading('newsItems')) {
       return (
         <div className="pa3 tc mt4">
           <LoadingIndicator />
         </div>
       )
-
-    }
-    else if (!viewState.sortedNewsItems.length) {
+    } else if (!viewState.sortedNewsItems.length) {
       return (
         <div className="pa3 tc mt4">
           <div className="pointer">
@@ -112,42 +114,50 @@ class NewsList extends Component {
           </div>
           <div className="flex justify-between flex-wrap">
             <div className="f6 silver center">
-              <span className="ph2">Try changing your search query or removing some filters.</span>
+              <span className="ph2">
+                Try changing your search query or removing some filters.
+              </span>
             </div>
           </div>
         </div>
       )
     }
 
-    const mappedItems = viewState.sortedNewsItems.map((newsItem) => (
+    const mappedItems = viewState.sortedNewsItems.map(newsItem => (
       <NewsListItem
         key={newsItem.get('id')}
         newsItem={newsItem}
         {...this.props}
         setActiveNewsItem={this.setActiveNewsItem}
-        selectCoin={(symbol) => this.selectCoin(symbol)}
+        selectCoin={symbol => this.selectCoin(symbol)}
       />
     ))
     return mappedItems
   }
 
   selectCoin(coinData) {
-    const { setFilter, clearSearch, setActiveEntity } = this.props
-    setActiveEntity({ type: 'coin', id: coinData.get('id') })
+    const {setFilter, clearSearch, setActiveEntity} = this.props
+    setActiveEntity({type: 'coin', id: coinData.get('id')})
     let value = this.selectedCoins()
     value = union(value, [coinData.get('name')])
-    setFilter({ key: 'coins', value })
+    setFilter({key: 'coins', value})
     clearSearch()
   }
 
-
   render() {
     const itemHeight = this.state.initialRender ? 'auto' : 0
-    const { newsItems, isLoading, activeEntity, activeFilters, sortedNewsItems, initialRenderTips } = this.props
+    const {
+      newsItems,
+      isLoading,
+      activeEntity,
+      activeFilters,
+      sortedNewsItems,
+      initialRenderTips,
+    } = this.props
     const viewState = {
       activeEntity: activeEntity,
       newsItems: newsItems,
-      sortedNewsItems: sortedNewsItems
+      sortedNewsItems: sortedNewsItems,
     }
     return (
       <Fragment>
@@ -155,11 +165,22 @@ class NewsList extends Component {
           id="newsfeed"
           className="flex-auto relative overflow-y-hidden overflow-y-auto-m"
           style={
-            !activeEntity && window.isMobile && !activeFilters.size && initialRenderTips
-              ? {marginTop: '-65px', background: '#fff', position:'absolute'}
+            !activeEntity &&
+            window.isMobile &&
+            !activeFilters.size &&
+            initialRenderTips
+              ? {marginTop: '-65px', background: '#fff', position: 'absolute'}
               : {}
-          }>
-          {this.renderView(viewState, itemHeight, activeFilters, sortedNewsItems, initialRenderTips, isLoading)}
+          }
+        >
+          {this.renderView(
+            viewState,
+            itemHeight,
+            activeFilters,
+            sortedNewsItems,
+            initialRenderTips,
+            isLoading,
+          )}
           <div>
             {!isLoading('newsItems') &&
               isLoading('newsfeed') && <LoadingIndicator />}

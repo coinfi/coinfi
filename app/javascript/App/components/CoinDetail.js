@@ -1,6 +1,6 @@
 import React from 'react'
 
-export default (props) => {
+export default props => {
   return (
     <div>
       <div>Fundamentals</div>
@@ -9,5 +9,3 @@ export default (props) => {
     </div>
   )
 }
-
-

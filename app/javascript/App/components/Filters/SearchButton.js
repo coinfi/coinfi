@@ -1,10 +1,10 @@
-import React, { Component } from 'react'
+import React, {Component} from 'react'
 import Icon from '../Icon'
 import FilterComponent from './FilterComponent'
 
 export default class Search extends Component {
   render() {
-    const { filterList, toggleUI, currentUI } = this.props
+    const {filterList, toggleUI, currentUI} = this.props
     const uiKey = 'editFilter'
     return (
       <div className="oi">

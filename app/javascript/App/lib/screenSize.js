@@ -5,13 +5,13 @@
 const getScreenSize = () => {
   let screenSize = 's'
   const breakpoints = ['ns', 'm', 'l']
-  breakpoints.forEach((breakpoint) => {
+  breakpoints.forEach(breakpoint => {
     if (isVisible(breakpoint)) screenSize = breakpoint
   })
   return screenSize
 }
 
-const isVisible = (breakpoint) => {
+const isVisible = breakpoint => {
   const div = document.createElement('div')
   div.className = `dn-${breakpoint}`
   document.body.appendChild(div)

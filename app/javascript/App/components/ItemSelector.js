@@ -1,24 +1,24 @@
-import React, { Component } from 'react'
+import React, {Component} from 'react'
 import Type from 'prop-types'
 
 export default class ItemSelector extends Component {
   selectedItems = () => this.props.selectedItems || []
   unselectedItems = () => {
-    const { items } = this.props
-    const selected = this.selectedItems().map((item) => JSON.stringify(item))
-    return items.filter((item) => !selected.includes(JSON.stringify(item)))
+    const {items} = this.props
+    const selected = this.selectedItems().map(item => JSON.stringify(item))
+    return items.filter(item => !selected.includes(JSON.stringify(item)))
   }
-  add = (item) => {
+  add = item => {
     let items = this.selectedItems()
     items.push(item)
     this.props.onChange(items)
   }
-  remove = (item) => {
+  remove = item => {
     let items = this.selectedItems()
-    items = items.filter((c) => c !== item)
+    items = items.filter(c => c !== item)
     this.props.onChange(items)
   }
-  itemLabel = (item) => {
+  itemLabel = item => {
     if (item instanceof Object) return item.name || item.title || item.label
     return item
   }
@@ -57,5 +57,5 @@ export default class ItemSelector extends Component {
 ItemSelector.propTypes = {
   items: Type.array.isRequired,
   selectedItems: Type.array,
-  onChange: Type.func
+  onChange: Type.func,
 }

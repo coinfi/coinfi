@@ -1,5 +1,5 @@
-import { namespace } from './constants'
-import { createEntitySelectors } from '../../lib/redux'
+import {namespace} from './constants'
+import {createEntitySelectors} from '../../lib/redux'
 
 const select = createEntitySelectors(namespace)
 
@@ -8,5 +8,5 @@ export default {
   coins: select.entities('coins'),
   newsItems: select.entities('newsItems'),
   tags: select.entities('tags'),
-  selectNewsCoins: select.entityChildren('newsItems', 'coins')
+  selectNewsCoins: select.entityChildren('newsItems', 'coins'),
 }

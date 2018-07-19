@@ -1,4 +1,4 @@
-import { fromJS } from 'immutable'
+import {fromJS} from 'immutable'
 
 export default fromJS({
   activeEntity: null,
@@ -6,5 +6,5 @@ export default fromJS({
   entityDetails: {},
   entityIDs: {},
   entityList: {},
-  loadingEntities: {}
+  loadingEntities: {},
 })
