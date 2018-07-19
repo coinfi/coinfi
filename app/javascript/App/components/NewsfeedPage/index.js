@@ -1,70 +1,59 @@
-import React, { Component } from "react"
-import debounce from "debounce"
-import axios from "axios"
-import newsfeedContainer from "../../containers/newsfeed"
-import LayoutDesktop from "./LayoutDesktop"
-import LayoutTablet from "./LayoutTablet"
-import LayoutMobile from "./LayoutMobile"
-import Immutable from "immutable"
+import React, { Component } from 'react'
+import debounce from 'debounce'
+import axios from 'axios'
+import newsfeedContainer from '../../containers/newsfeed'
+import LayoutDesktop from './LayoutDesktop'
+import LayoutTablet from './LayoutTablet'
+import LayoutMobile from './LayoutMobile'
+import Immutable from 'immutable'
+import _ from 'lodash'
 
 class NewsfeedPage extends Component {
   state = {
     initialRenderTips: false,
-    liveCoinArr: []
+    liveCoinArr: [],
   }
 
   componentWillMount() {
-    window.addEventListener("resize", debounce(() => this.forceUpdate()), 500)
+    window.addEventListener('resize', debounce(() => this.forceUpdate()), 500)
   }
 
-  componentDidMount() {
-    window.twttr = (function(d, s, id) {
-      var js,
-        fjs = d.getElementsByTagName(s)[0],
-        t = window.twttr || {}
-      if (d.getElementById(id)) return t
-      js = d.createElement(s)
-      js.id = id
-      js.src = "https://platform.twitter.com/widgets.js"
-      fjs.parentNode.insertBefore(js, fjs)
-
-      t._e = []
-      t.ready = function(f) {
-        t._e.push(f)
-      }
-
-      return t
-    })(document, "script", "twitter-wjs")
-  }
-
-  rmCoinsWatchlist(symbol) {
-    const liveCoinArrAdd = this.state.liveCoinArr.filter(item => item.get('symbol') !== symbol)
+  removeCoinsWatchlist(symbol) {
+    const liveCoinArrAdd = this.state.liveCoinArr.filter(
+      (item) => item.get('symbol') !== symbol,
+    )
     this.setState({
-      liveCoinArr: liveCoinArrAdd
+      liveCoinArr: liveCoinArrAdd,
     })
   }
 
   addCoinsToWatchlist(symbol) {
-    var req = "/api/coins.json?q[symbol_eq]=" + symbol
-    let liveCoinArrAdd = _.uniqBy(_.merge(this.state.liveCoinArr, this.props.coins), function(value){return value.get('symbol')})
+    let req = `/api/coins.json?q[symbol_eq]=${symbol}`
+    let liveCoinArrAdd = _.uniqBy(
+      _.merge(this.state.liveCoinArr, this.props.coins),
+      (value) => {
+        return value.get('symbol')
+      },
+    )
 
     axios
       .get(req)
-      .then(data => {
+      .then((data) => {
         const str = data.data.payload[0]
         if (this.props.coins.length) {
-          var newMap = Immutable.Map(str)
+          let newMap = Immutable.Map(str)
           liveCoinArrAdd.push(newMap)
-          liveCoinArrAdd = _.uniqBy(liveCoinArrAdd, function(value){return value.get('symbol')})
-
+          liveCoinArrAdd = _.uniqBy(liveCoinArrAdd, (value) => {
+            return value.get('symbol')
+          })
         }
       })
-      .catch(error => {
+      .catch((error) => {
         console.log(error)
       })
 
     this.setState({
-      liveCoinArr: liveCoinArrAdd
+      liveCoinArr: liveCoinArrAdd,
     })
   }
 
@@ -76,8 +65,7 @@ class NewsfeedPage extends Component {
     let coinsCollection
     if (this.state.liveCoinArr.length) {
       coinsCollection = this.state.liveCoinArr
-    }
-    else {
+    } else {
       coinsCollection = this.props.coins
     }
 
@@ -85,10 +73,10 @@ class NewsfeedPage extends Component {
       return (
         <LayoutMobile
           {...this.props}
-          newsfeedTips={event => this.newsfeedTips(event)}
+          newsfeedTips={(event) => this.newsfeedTips(event)}
           initialRenderTips={this.state.initialRenderTips}
           addCoinsToWatchlist={() => this.addCoinsToWatchlist.bind(this)}
-          rmCoinsWatchlist={() => this.rmCoinsWatchlist.bind(this)}
+          removeCoinsWatchlist={() => this.removeCoinsWatchlist.bind(this)}
           coins={coinsCollection}
         />
       )
@@ -98,7 +86,7 @@ class NewsfeedPage extends Component {
           {...this.props}
           initialRenderTips={this.state.initialRenderTips}
           addCoinsToWatchlist={() => this.addCoinsToWatchlist.bind(this)}
-          rmCoinsWatchlist={() => this.rmCoinsWatchlist.bind(this)}
+          removeCoinsWatchlist={() => this.removeCoinsWatchlist.bind(this)}
           coins={coinsCollection}
         />
       )
@@ -108,7 +96,7 @@ class NewsfeedPage extends Component {
           {...this.props}
           initialRenderTips={this.state.initialRenderTips}
           addCoinsToWatchlist={() => this.addCoinsToWatchlist.bind(this)}
-          rmCoinsWatchlist={() => this.rmCoinsWatchlist.bind(this)}
+          removeCoinsWatchlist={() => this.removeCoinsWatchlist.bind(this)}
           coins={coinsCollection}
         />
       )
