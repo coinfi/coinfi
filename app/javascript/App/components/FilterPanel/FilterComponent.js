@@ -31,8 +31,8 @@ const FilterComponent = (props) => {
       <div className="pv3">
         <h4 className="mv2 f5">Social Sources</h4>
         <div className="pv2 f6">
-          Reddit and Twitter often has more noise than signal so we've disabled
-          them by default, but you can enable them here.
+          Reddit and Twitter often has more noise than signal so we&apos;ve
+          disabled them by default, but you can enable them here.
         </div>
         <ToggleReddit
           {...props}
