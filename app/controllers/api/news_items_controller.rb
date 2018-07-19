@@ -1,5 +1,5 @@
 class Api::NewsItemsController < ApiController
-  PER_PAGE = 16
+  PER_PAGE = 20
 
   def index
     # Ensure fresh response on every request
@@ -13,9 +13,9 @@ class Api::NewsItemsController < ApiController
 
     @news_items = NewsItem.published.joins(:news_coin_mentions).where(news_coin_mentions: { coin: coin_ids })
 
-    if q[:coins].blank?
+    if q[:coins].blank? && q[:feedSources].blank?
       # Only show NewsItems from General FeedSources when no coins are specifically selected.
-      @news_items = NewsItem.general.published.union(@news_items)
+      @news_items = NewsItem.general.published.joins(:news_coin_mentions).where(news_coin_mentions: { coin: coin_ids })
     end
 
     if q[:categories].present?
@@ -31,8 +31,6 @@ class Api::NewsItemsController < ApiController
       if feed_source_ids.present?
         @news_items = @news_items.where(feed_source_id: feed_source_ids)
       end
-    else
-      @news_items = @news_items.general
     end
 
     if q[:keywords].present?
@@ -47,7 +45,7 @@ class Api::NewsItemsController < ApiController
       @news_items = @news_items.where('feed_item_published_at < ?', q[:publishedUntil].to_datetime)
     end
 
-    @news_items = @news_items.order_by_published.limit(PER_PAGE)
+    @news_items = @news_items.includes(:coins, :news_categories).order_by_published.limit(PER_PAGE)
 
     respond_success serialized(@news_items)
   end

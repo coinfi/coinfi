@@ -32,7 +32,6 @@ gem 'jbuilder', '~> 2.5'
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
-gem 'active_record_union'
 gem 'acts-as-taggable-on'
 gem 'administrate'
 gem 'administrate-field-belongs_to_search'
