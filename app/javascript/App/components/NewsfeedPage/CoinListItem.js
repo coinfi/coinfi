@@ -7,7 +7,8 @@ export default (props) => {
   const { coin, onClick, isActiveEntity, user } = props
   let klass = 'pa-default b--b flex items-center pointer'
   if (isActiveEntity({ type: 'coin', id: coin.get('id') })) klass += ' bg-foam'
-  const coinPrice = coin.getIn(['market_info', 'price_usd'])
+  const coinPrice = coin.toJS().market_info.price_usd
+  const percentChange = coin.toJS().market_info.percent_change_24h
   return (
     <div className={klass}>
       <div className="tooltipped">
@@ -24,7 +25,7 @@ export default (props) => {
             {coinPrice && <Currency>{coinPrice}</Currency>}
             {!coinPrice && <div style={{fontSize:'.75rem'}}>UNLISTED</div>}
             {coinPrice && <PercentageChange
-              value={coin.getIn(['market_info', 'percent_change_24h'])}
+              value={percentChange}
               className="smaller2 b db"
             />}
           </div>
