@@ -205,9 +205,11 @@ class NewsList extends Component {
 
     function handleVisibilityChange() {
       if (document[hidden]) {
-        document.querySelector('title').text = `(${
-          this.state.newNewsCount
-        }) CoinFi News`
+        if (this.state.newNewsCount > 0) {
+          document.querySelector('title').text = `(${
+            this.state.newNewsCount
+          }) CoinFi News`
+        }
       } else {
         const pageTitle =
           'CoinFi News - Cryptocurrency News Aggregation Platform For Traders'
