@@ -1,4 +1,5 @@
 class Api::CoinsController < ApiController
+  before_action :detect_news_feature
 
   def index
     query = params[:q] || {}
@@ -30,5 +31,4 @@ class Api::CoinsController < ApiController
       methods: %i[prices_data news_data market_info is_being_watched]
     )
   end
-
 end

@@ -1,7 +1,6 @@
 class Api::Watchlist::CoinsController < ApiController
-
-  before_action :set_watchlist
-  before_action :authenticate_user!
+  prepend_before_action :authenticate_user!
+  before_action :set_watchlist, :detect_news_feature
 
   def index
     respond_success serialized(@watchlist.coins)
@@ -46,5 +45,4 @@ class Api::Watchlist::CoinsController < ApiController
       :max_supply, :ico_token_price_usd, :ico_start_epoch, :slug
     ], methods: [:market_info, :category])
   end
-
 end

@@ -13,6 +13,9 @@ class UsersController < DeviseController
         sign_in(:user, user)
         redirect_to '/set-password' and return
       elsif user == current_user
+        if !has_news_feature?
+          redirect_to '/coins', alert: 'You are already logged in!' and return
+        end
         redirect_to '/news', alert: 'You are already logged in!' and return
       else
         redirect_to '/login', alert: 'Email already exists - please log in.' and return

@@ -50,6 +50,7 @@ gem 'feedjira'
 gem 'friendly_id', '~> 5.2.1'
 gem 'httparty'
 gem 'kaminari'
+gem 'ldclient-rb', '5.0.1'
 gem 'lograge'
 gem 'meta-tags'
 gem 'nokogiri', '~> 1.8.1'
@@ -106,3 +107,4 @@ end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 # gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
+

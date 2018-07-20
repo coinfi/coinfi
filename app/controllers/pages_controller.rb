@@ -4,7 +4,11 @@ class PagesController < ApplicationController
     render_404 unless page_known?
     redirect_to('/login') && return if member_page? && !current_user
     @body_id = "#{@page}-page"
-    render "pages/#{@page}"
+    if @page == 'news' && !has_news_feature?
+      render_404
+    else
+      render "pages/#{@page}"
+    end
   end
 
   private
