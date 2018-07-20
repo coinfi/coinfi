@@ -24,7 +24,7 @@ class NewsList extends Component {
   componentDidMount() {
     setTimeout(() => {
       this.setState({ initialRender: false })
-    }, 5000)
+    }, 60000)
     this.mountOnScrollHandler()
     window.newsIndex = 1
     window.onblur = function() {
