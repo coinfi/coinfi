@@ -54,6 +54,7 @@ Rails.application.routes.draw do
   end
 
   resources :coins, only: %i[index show]
+  get '/icos', to: redirect('/icos/upcoming')
   get '/icos(/:status)', to: 'icos#index'
   resources :contributor_submissions, path: 'contributor-submissions'
   get '/profile', to: 'author_profiles#edit', as: 'edit_author_profile'
