@@ -1,10 +1,7 @@
 class Api::CoinsController < ApiController
+  before_action :detect_news_feature
 
   def index
-    if (!has_news_feature?)
-      return respond_unfound
-    end
-
     query = params[:q] || {}
     if params[:exclude_watched]
       query[:id_not_in] = current_user.watchlist.coin_ids
@@ -14,10 +11,6 @@ class Api::CoinsController < ApiController
   end
 
   def show
-    if (!has_news_feature?)
-      return respond_unfound
-    end
-
     coin = Coin.find(params[:id])
     coin.current_user = current_user
     respond_success show_serializer(coin)
@@ -38,5 +31,4 @@ class Api::CoinsController < ApiController
       methods: %i[prices_data news_data market_info is_being_watched]
     )
   end
-
 end

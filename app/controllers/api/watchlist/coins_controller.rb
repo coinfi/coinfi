@@ -1,21 +1,12 @@
 class Api::Watchlist::CoinsController < ApiController
-
-  before_action :set_watchlist
-  before_action :authenticate_user!
+  prepend_before_action :authenticate_user!
+  before_action :set_watchlist, :detect_news_feature
 
   def index
-    if (!has_news_feature?)
-      return respond_unfound
-    end
-
     respond_success serialized(@watchlist.coins)
   end
 
   def create
-    if (!has_news_feature?)
-      return respond_unfound
-    end
-
     @coin = Coin.find(params[:id])
     if @watchlist.coins.find_by_id(@coin.id)
       respond_warning "Coin already added"
@@ -27,10 +18,6 @@ class Api::Watchlist::CoinsController < ApiController
   end
 
   def destroy
-    if (!has_news_feature?)
-      return respond_unfound
-    end
-
     if @item = @watchlist.items.find_by_coin_id(params[:id])
       @item.destroy
       respond_success({ id: @item.coin_id }, "Coin removed from watchlist")
@@ -58,5 +45,4 @@ class Api::Watchlist::CoinsController < ApiController
       :max_supply, :ico_token_price_usd, :ico_start_epoch, :slug
     ], methods: [:market_info, :category])
   end
-
 end
