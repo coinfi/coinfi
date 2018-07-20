@@ -54,6 +54,7 @@ Rails.application.routes.draw do
   end
 
   resources :coins, only: %i[index show]
+  get '/icos', to: redirect('/icos/upcoming')
   get '/icos(/:status)', to: 'icos#index'
   resources :contributor_submissions, path: 'contributor-submissions'
   get '/profile', to: 'author_profiles#edit', as: 'edit_author_profile'
@@ -64,6 +65,7 @@ Rails.application.routes.draw do
   end
 
   get '/podcast', to: redirect('https://blog.coinfi.com/topics/podcast/', status: 302)
+  get '/news-beta', to: redirect('/', status: 302)
 
   root to: 'pages#show'
   get '/:id', to: 'pages#show'

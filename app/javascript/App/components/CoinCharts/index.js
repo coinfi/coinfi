@@ -1,9 +1,9 @@
-import React from 'react'
+import React, { Component } from 'react'
 import Tabs from '../Tabs'
 import PriceGraph from './PriceGraph'
 import TradingViewChart from './TradingViewChart'
 
-export default class CoinCharts extends React.Component {
+class CoinCharts extends Component {
   state = { currentSymbol: null }
   componentWillMount = () => this.updateCharts()
   componentDidUpdate = () => this.updateCharts()
@@ -42,3 +42,5 @@ export default class CoinCharts extends React.Component {
     )
   }
 }
+
+export default CoinCharts
