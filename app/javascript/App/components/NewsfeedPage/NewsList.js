@@ -21,7 +21,6 @@ class NewsList extends Component {
   }
 
   componentDidMount() {
-    // sortedNewsItems[0].toJS().feed_item_published_at
     setTimeout(() => {
       this.setState({ initialRender: false })
     }, 60000)
@@ -163,11 +162,15 @@ class NewsList extends Component {
   }
 
   newsAlertTitle() {
+    window.newsIndex = 1
     window.onblur = function() {
-      document.querySelector('title').text = 'foo'
-    }
-
-    document.querySelector('title').text = `foo ${this.state.newNewsCount}`
+      document.querySelector('title').text = `Unread ${this.state.newNewsCount}`
+      // ;window.setInterval(function(){document.querySelector(('title').text = 'foo '}, 1000)
+    }.bind(this)
+    window.onfocus = function() {
+      document.querySelector('title').text = 'News'
+      this.setState({ newNewsCount: 0 })
+    }.bind(this)
   }
 
   render() {
