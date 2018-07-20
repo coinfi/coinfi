@@ -10,7 +10,9 @@ class NewsItem < ApplicationRecord
   scope :general, -> { where(feed_source: FeedSource.general) }
   scope :pending, -> { where(is_human_tagged: nil) }
   scope :published, -> { where(is_published: true) }
+  scope :reddit, -> { where(feed_source: FeedSource.reddit) }
   scope :tagged, -> { where(is_human_tagged: true) }
+  scope :twitter, -> { where(feed_source: FeedSource.twitter) }
   scope :order_by_published, -> { order(feed_item_published_at: :desc) }
 
   alias_method :categories, :news_categories
