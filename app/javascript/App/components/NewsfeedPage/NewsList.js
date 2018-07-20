@@ -10,6 +10,7 @@ class NewsList extends Component {
     initialRenderTips: false,
     latestNewsTime: 0,
     newNewsCount: 0,
+    pageVisibilityChange: false,
   }
 
   constructor(props) {
@@ -23,8 +24,21 @@ class NewsList extends Component {
   componentDidMount() {
     setTimeout(() => {
       this.setState({ initialRender: false })
-    }, 60000)
+    }, 5000)
     this.mountOnScrollHandler()
+    window.newsIndex = 1
+    window.onblur = function() {
+      this.setState({ pageVisibilityChange: !this.state.pageVisibilityChange })
+    }.bind(this)
+
+    window.onfocus = function() {
+      this.setState({
+        pageVisibilityChange: !this.state.pageVisibilityChange,
+        newNewsCount: 0,
+      })
+    }.bind(this)
+    const pageTitle =
+      'CoinFi News - Cryptocurrency News Aggregation Platform For Traders'
   }
 
   componentDidUpdate() {
@@ -161,18 +175,6 @@ class NewsList extends Component {
     clearSearch()
   }
 
-  newsAlertTitle() {
-    window.newsIndex = 1
-    window.onblur = function() {
-      document.querySelector('title').text = `Unread ${this.state.newNewsCount}`
-      // ;window.setInterval(function(){document.querySelector(('title').text = 'foo '}, 1000)
-    }.bind(this)
-    window.onfocus = function() {
-      document.querySelector('title').text = 'News'
-      this.setState({ newNewsCount: 0 })
-    }.bind(this)
-  }
-
   render() {
     const itemHeight = this.state.initialRender ? 'auto' : 0
     const {
@@ -188,8 +190,33 @@ class NewsList extends Component {
       newsItems: newsItems,
       sortedNewsItems: sortedNewsItems,
     }
-    console.log('last news', this.state.newNewsCount)
-    this.newsAlertTitle()
+
+    let hidden, visibilityChange
+    if (typeof document.hidden !== 'undefined') {
+      hidden = 'hidden'
+      visibilityChange = 'visibilitychange'
+    } else if (typeof document.msHidden !== 'undefined') {
+      hidden = 'msHidden'
+      visibilityChange = 'msvisibilitychange'
+    } else if (typeof document.webkitHidden !== 'undefined') {
+      hidden = 'webkitHidden'
+      visibilityChange = 'webkitvisibilitychange'
+    }
+
+    function handleVisibilityChange() {
+      if (document[hidden]) {
+        document.querySelector('title').text = `(${
+          this.state.newNewsCount
+        }) CoinFi News`
+      } else {
+        const pageTitle =
+          'CoinFi News - Cryptocurrency News Aggregation Platform For Traders'
+        document.querySelector('title').text = pageTitle
+      }
+    }
+
+    handleVisibilityChange.call(this)
+
     return (
       <Fragment>
         <div
