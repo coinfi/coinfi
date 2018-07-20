@@ -16,7 +16,7 @@ class NewsItem < ApplicationRecord
   alias_method :categories, :news_categories
   alias_method :mentions, :news_coin_mentions
 
-  before_create :set_unpublished_if_feed_source_inactive
+  before_create :set_unpublished_if_feed_source_inactive, :set_unpublished_if_duplicate
   after_create_commit :notify_news_tagger, :link_coin_from_feedsource
 
   def coin_link_data
@@ -39,6 +39,17 @@ class NewsItem < ApplicationRecord
 
   def set_unpublished_if_feed_source_inactive
     if !feed_source.is_active
+      self.is_published = false
+    end
+  end
+
+  def set_unpublished_if_duplicate
+    if !self.is_published
+      return
+    end
+
+    duplicate_exists = NewsItem.exists?(title: self.title)
+    if duplicate_exists
       self.is_published = false
     end
   end
