@@ -64,6 +64,7 @@ Rails.application.routes.draw do
   end
 
   get '/podcast', to: redirect('https://blog.coinfi.com/topics/podcast/', status: 302)
+  get '/news-beta', to: redirect('/', status: 302)
 
   root to: 'pages#show'
   get '/:id', to: 'pages#show'
