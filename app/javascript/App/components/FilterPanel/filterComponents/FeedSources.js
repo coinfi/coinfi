@@ -9,12 +9,10 @@ const FeedSources = ({ feedSources, value, onChange }) => {
       return item.replace('www.', '').concat('.www')
     return item.replace('www.', '')
   }))
-  let surfaceSocial = sortedSources.filter((source) => source !== 'twitter' && source !== 'reddit')
-  surfaceSocial.unshift('reddit')
-  surfaceSocial.unshift('twitter')
+  let sourcesSansSocial = sortedSources.filter((source) => source !== 'twitter' && source !== 'reddit')
   return (
     <ItemSelector
-      items={surfaceSocial}
+      items={sourcesSansSocial}
       selectedItems={value}
       onChange={onChange('feedSources')}
     />

@@ -11,23 +11,30 @@ class Api::NewsItemsController < ApiController
     coin_ids = Coin.where(name: q[:coins]).pluck(:id) if q[:coins]
     coin_ids = Coin.top(20).ids unless coin_ids
 
-    @news_items = NewsItem.all
+    @news_items = NewsItem.published.all
+    feed_sources = FeedSource.active.all
 
     if q[:coins].present?
-      @news_items = @news_items.published.joins(:news_coin_mentions).where(news_coin_mentions: { coin: coin_ids })
+      @news_items = @news_items.joins(:news_coin_mentions).where(news_coin_mentions: { coin: coin_ids })
     end
 
     # Showing default coins
     if coin_ids == q[:coinIDs]
-      coin_news_item_ids = NewsCoinMention.where(coin_id: coin_ids).pluck(:news_item_id)
-      @news_items = @news_items.general.published.or @news_items.general.published.where(id: coin_news_item_ids)
+      mention_ids = NewsCoinMention.where(coin_id: coin_ids).pluck(:news_item_id)
+      feed_sources = FeedSource.general
+      @news_items = @news_items.or(@news_items.where(id: mention_ids))
     end
 
     if q[:feedSources].present?
-      feed_source_ids = get_feed_source_ids(q[:feedSources])
-      if feed_source_ids.present?
-        @news_items = @news_items.where(feed_source_id: feed_source_ids)
+      reddit = q[:feedSources].delete('reddit')
+      twitter = q[:feedSources].delete('twitter')
+
+      if q[:feedSources].present? # Still remaining feedsource params after removing twitter and reddit
+        feed_sources = FeedSource.where(site_hostname: q[:feedSources])
       end
+
+      feed_sources = feed_sources.or(FeedSource.active.reddit) if reddit
+      feed_sources = feed_sources.or(FeedSource.active.twitter) if twitter
     end
 
     if q[:categories].present?
@@ -50,25 +57,12 @@ class Api::NewsItemsController < ApiController
       @news_items = @news_items.where('feed_item_published_at < ?', q[:publishedUntil].to_datetime)
     end
 
-    @news_items = @news_items.includes(:coins, :news_categories).order_by_published.limit(PER_PAGE)
+    @news_items = @news_items.includes(:coins, :news_categories).where(feed_source: feed_sources).order_by_published.limit(PER_PAGE)
 
     respond_success serialized(@news_items)
   end
 
   private
-
-  def get_feed_source_ids(feed_source_names)
-    return [] unless feed_source_names.present?
-    feed_source_ids = []
-    special_sources = []
-    special_sources << feed_source_names.delete('twitter')
-    special_sources << feed_source_names.delete('reddit')
-    special_sources.each do |feed_type|
-      feed_source_ids += FeedSource.active.where(feed_type: feed_type).pluck(:id)
-    end
-    feed_source_ids += FeedSource.active.where(site_hostname: feed_source_names).pluck(:id)
-    feed_source_ids
-  end
 
   def serialized(obj)
     obj.as_json(
@@ -76,5 +70,4 @@ class Api::NewsItemsController < ApiController
       methods: %i[coin_link_data categories]
     )
   end
-
 end
