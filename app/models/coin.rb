@@ -71,7 +71,7 @@ class Coin < ApplicationRecord
   def news_data
     # TODO: Reduce cache time from 1 day to 1 hour once hourly price data comes in.
     Rails.cache.fetch("coins/#{id}/news_data", expires_in: 1.day) do
-      chart_data = articles.chart_data
+      chart_data = news_items.chart_data(self.name == "Bitcoin" || self.name == "Ethereum")
       i = chart_data.length + 1
       chart_data.map do |item|
         i -= 1
@@ -89,5 +89,4 @@ class Coin < ApplicationRecord
     # Only use this for serialization
     current_user && current_user.coins.include?(self)
   end
-
 end
