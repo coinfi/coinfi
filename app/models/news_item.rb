@@ -57,6 +57,14 @@ class NewsItem < ApplicationRecord
     feed_source.name
   end
 
+  def published_date
+    feed_item_published_at
+  end
+
+  def published_epoch
+    feed_item_published_at.to_i * 1000
+  end
+
   private
 
   def set_unpublished_if_feed_source_inactive
