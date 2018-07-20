@@ -9,5 +9,5 @@
     .col-xs-12.col-md-8.flex
       .bg-white.w-100
         section.pa3.pa4-l.pb0
-          = react_component "CoinCharts", props: { symbol: @coin.symbol, priceData: @coin.prices_data, newsItems: @coin.news_data, isTradingViewVisible: true }
+          = react_component "CoinCharts", props: { symbol: @coin.symbol, priceData: @coin.prices_data, annotations: @coin.news_data, isTradingViewVisible: true }
         = render partial: 'relevant_content'

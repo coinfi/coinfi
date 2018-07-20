@@ -55,9 +55,6 @@
     }
   }
 }
-twitterwidget {
-  margin: auto;
-}
 .header-logo {
   width: 65px;
 }
@@ -86,31 +83,29 @@ twitterwidget {
   width: 102%;
 }
 
-
-.nav-topbar{
-  height:32px;
+.nav-topbar {
+  height: 32px;
 }
 
 .filter-btn, .coins-btn {
   margin-left: 90px;
-  width: 220px;
+  width: 180px;
   text-transform: none;
-  font-size: 14px;
-}
-
-.filter-btn {
-  width: 130px;
 }
 
 .btn.filter-btn, .btn.coins-btn {
   font-size: 14px;
+  font-weight: 600;
 }
 
 .filter-panel-header {
   height:60px;
 }
 
-
+.item-selector-alt label {
+  margin-bottom: 10px;
+  display: block;
+}
 
 @media only screen and (min-width:768px) {
   .mobile-nav-toggle {
@@ -136,10 +131,8 @@ twitterwidget {
   }
 }
 
-
 @media only screen and (min-width:1200px) {
   .coins-btn {
     display:none;
   }
 }
-

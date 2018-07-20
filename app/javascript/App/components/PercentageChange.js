@@ -10,10 +10,12 @@ const PercentageChange = ({ value, className, ...rest }) => {
     klass = 'sunset'
   }
   if (className) klass = `${className} ${klass}`
+  let percentage = `${Math.abs(n)}%`
+  if (isNaN(n)) return (<div />)
   return (
     <span className={klass} {...rest}>
       <Icon name={iconName} solid className="mr1" />
-      {`${Math.abs(n)}%`}
+      {percentage}
     </span>
   )
 }

@@ -34,15 +34,21 @@ class SearchCoins extends Component {
       updateUser,
       user,
       onWatch,
+      addCoinsToWatchlist,
+      removeCoinsWatchlist,
+      searchCoins,
     } = this.props
+
     return (
       <div className="search-field">
-        <div className="flex items-center ph2 f5 tiber">
+        <div className="flex items-center f5 tiber">
           <Icon
             regular
             name="search"
             className="silver mr1"
-            onClick={() => { this.inputRef.focus() }}
+            onClick={() => {
+              this.inputRef.focus()
+            }}
           />
           <Input
             value={searchText}
@@ -80,6 +86,9 @@ class SearchCoins extends Component {
                     user={user}
                     onWatch={onWatch}
                     hasText
+                    removeCoinsWatchlist={removeCoinsWatchlist()}
+                    addCoinsToWatchlist={addCoinsToWatchlist()}
+                    searchCoins={searchCoins}
                   />
                 </div>
               </li>

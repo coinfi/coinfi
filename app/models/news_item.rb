@@ -10,14 +10,38 @@ class NewsItem < ApplicationRecord
   scope :general, -> { where(feed_source: FeedSource.general) }
   scope :pending, -> { where(is_human_tagged: nil) }
   scope :published, -> { where(is_published: true) }
+  scope :reddit, -> { where(feed_source: FeedSource.reddit) }
   scope :tagged, -> { where(is_human_tagged: true) }
-  scope :order_by_published, -> { order(feed_item_published_at: :desc) }
+  scope :twitter, -> { where(feed_source: FeedSource.twitter) }
+  scope :order_by_published, -> (order = nil) { order(feed_item_published_at: order || :desc) }
 
   alias_method :categories, :news_categories
   alias_method :mentions, :news_coin_mentions
 
-  before_create :set_unpublished_if_feed_source_inactive
+  before_create :set_unpublished_if_feed_source_inactive, :set_unpublished_if_duplicate
   after_create_commit :notify_news_tagger, :link_coin_from_feedsource
+
+  def self.categorized(categories = nil)
+    if categories
+      joins(:news_categories).where(news_categories: { name: categories })
+    else
+      where("EXISTS(SELECT 1 FROM news_item_categorizations WHERE news_items.id = news_item_categorizations.news_item_id)")
+    end
+  end
+
+  def self.chart_data(is_topcoin = false)
+    if is_topcoin
+      categories = ["Exchange Listing", "Regulatory", "Security (Vulnerabilities)", "Product Release", "Token Supply Changes", "Forks"]
+    else
+      categories = nil
+    end
+
+    select(:url, :title, :feed_item_published_at)
+      .general
+      .published
+      .categorized(categories)
+      .order_by_published(:asc)
+  end
 
   def coin_link_data
     coins.map { |coin| coin.as_json(only: [:symbol, :slug, :id] ) }
@@ -35,10 +59,29 @@ class NewsItem < ApplicationRecord
     feed_source.name
   end
 
+  def published_date
+    feed_item_published_at
+  end
+
+  def published_epoch
+    feed_item_published_at.to_i * 1000
+  end
+
   private
 
   def set_unpublished_if_feed_source_inactive
     if !feed_source.is_active
+      self.is_published = false
+    end
+  end
+
+  def set_unpublished_if_duplicate
+    if !self.is_published
+      return
+    end
+
+    duplicate_exists = NewsItem.exists?(title: self.title)
+    if duplicate_exists
       self.is_published = false
     end
   end
