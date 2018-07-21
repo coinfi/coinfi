@@ -23,6 +23,7 @@ import IcoFilters from './components/IcoFilters'
 import NewsfeedPage from './components/NewsfeedPage'
 import Tabs from './components/Tabs'
 import CoinCharts from './components/CoinCharts'
+import CoinShow from './components/CoinShow'
 
 const injectableComponents = {
   WatchButton,
@@ -33,10 +34,12 @@ const injectableComponents = {
   IcoFilters,
   NewsfeedPage,
   Tabs,
-  CoinCharts
+  CoinCharts,
+  CoinShow,
 }
 
 const injectComponents = () => {
+  ReactDOM.render(<CoinShow />, document.querySelector('.container-coin-show'))
   const hooks = document.getElementsByTagName('component')
   if (hooks) {
     const { store, persistor } = configureStore()
@@ -54,7 +57,7 @@ const injectComponents = () => {
               <AppComponent {...props} />
             </PersistGate>
           </Provider>,
-          hook
+          hook,
         )
       } else {
         ReactDOM.render(<Component {...props} />, hook)
