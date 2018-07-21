@@ -8,6 +8,7 @@
   },
   "dependencies": {
     "@rails/webpacker": "^3.3.1",
+    "antd": "^3.7.0",
     "axios": "^0.18.0",
     "babel-core": "^6.26.0",
     "babel-loader": "^7.1.4",
@@ -78,6 +79,5 @@
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook",
     "precommit": "lint-staged"
-
   }
 }
