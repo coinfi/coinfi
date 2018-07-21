@@ -24,6 +24,7 @@ import NewsfeedPage from './components/NewsfeedPage'
 import Tabs from './components/Tabs'
 import CoinCharts from './components/CoinCharts'
 import CalendarPage from './components/CalendarPage'
+import CoinShow from './components/CoinShow'
 
 const injectableComponents = {
   WatchButton,
@@ -36,9 +37,11 @@ const injectableComponents = {
   Tabs,
   CoinCharts,
   CalendarPage,
+  CoinShow,
 }
 
 const injectComponents = () => {
+  ReactDOM.render(<CoinShow />, document.querySelector('.container-coin-show'))
   const hooks = document.getElementsByTagName('component')
   if (hooks) {
     const { store, persistor } = configureStore()
