@@ -6,42 +6,41 @@ import CoinTags from '../CoinTags'
 import BulletSpacer from '../BulletSpacer'
 import Icon from '../Icon'
 
-export default class NewsBody extends Component {
+export default class CalendarBody extends Component {
   render() {
     const {
-      selectNewsItemFromList,
+      selectCalendarEventFromList,
       activeEntity,
       selectNewsCategories,
     } = this.props
     const { id } = activeEntity
-    const newsItem = selectNewsItemFromList(id)
-    if (!newsItem) {
+    const calendarEvent = selectCalendarEventFromList(id)
+    if (!calendarEvent) {
       return null
     }
-    const categories = selectNewsCategories(newsItem)
-    const content =
-      _.trim(newsItem.get('content')) || _.trim(newsItem.get('summary'))
+    const categories = selectNewsCategories(calendarEvent)
+    const content = _.trim(calendarEvent.get('description'))
     return (
-      <div className="pa3 bg-white min-h-100 selected-news-content">
-        <CoinTags itemWithCoinLinkData={newsItem} />
-        <h1 className="break-word f4">{newsItem.get('title')}</h1>
+      <div className="pa3 bg-white min-h-100 selected-calendar-content">
+        <CoinTags itemWithCoinLinkData={calendarEvent} />
+        <h1 className="break-word f4">{calendarEvent.get('title')}</h1>
         <div className="mb3 f6">
           <a
-            href={newsItem.get('url')}
+            href={calendarEvent.get('url')}
             target="_blank"
             rel="nofollow"
             className="break-all"
           >
             <Icon name="link" className="mr1 f7" regular />
-            {newsItem.get('url')}
+            {calendarEvent.get('url')}
           </a>
         </div>
         <div className="mb3 f6">
           <Icon name="clock" className="mr1 f7" regular />
-          {timeago().format(newsItem.get('feed_item_published_at'))}
+          {timeago().format(calendarEvent.get('date_event'))}
           <BulletSpacer />
           <span>
-            {new Date(newsItem.get('feed_item_published_at')).toLocaleString()}
+            {new Date(calendarEvent.get('date_event')).toLocaleString()}
           </span>
         </div>
         {categories.size > 0 && (

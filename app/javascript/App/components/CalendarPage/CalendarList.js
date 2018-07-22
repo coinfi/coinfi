@@ -1,18 +1,18 @@
 import React, { Component, Fragment } from 'react'
 import _ from 'lodash'
-import NewsListItem from './NewsListItem'
+import CalendarListEvent from './CalendarListEvent'
 import LoadingIndicator from '../LoadingIndicator'
 import Tips from './Tips'
 
-class NewsList extends Component {
+class CalendarList extends Component {
   state = { initialRender: true, initialRenderTips: false }
 
   constructor(props) {
     super(props)
     this.mountOnScrollHandler = this.mountOnScrollHandler.bind(this)
     this.unmountOnScrollHandler = this.unmountOnScrollHandler.bind(this)
-    this.onScrollNewsFeedMobile = this.onScrollNewsFeedMobile.bind(this)
-    this.onScrollNewsFeedDesktop = this.onScrollNewsFeedDesktop.bind(this)
+    this.onScrollCalendarMobile = this.onScrollCalendarMobile.bind(this)
+    this.onScrollCalendarDesktop = this.onScrollCalendarDesktop.bind(this)
   }
 
   componentDidMount() {
@@ -25,7 +25,7 @@ class NewsList extends Component {
   componentDidUpdate() {
     const timer = setInterval(() => {
       if (!window.isMobile && !window.isTablet) {
-        this.props.fetchMoreNewsFeed()
+        this.props.fetchMoreCalendarEvents()
       }
     }, 60000)
     clearInterval(timer)
@@ -37,20 +37,20 @@ class NewsList extends Component {
 
   mountOnScrollHandler() {
     if (window.isMobile) {
-      const throttled = _.throttle(this.onScrollNewsFeedMobile, 500)
+      const throttled = _.throttle(this.onScrollCalendarMobile, 500)
       $(window).scroll(throttled)
     } else {
-      const throttled = _.throttle(this.onScrollNewsFeedDesktop, 500)
-      $('#newsfeed').scroll(throttled)
+      const throttled = _.throttle(this.onScrollCalendarDesktop, 500)
+      $('#calendar').scroll(throttled)
     }
   }
 
   unmountOnScrollHandler() {
-    $(window).off('scroll', this.onScrollNewsFeedMobile)
-    $('#newsfeed').off('scroll', this.onScrollNewsFeedDesktop)
+    $(window).off('scroll', this.onScrollCalendarMobile)
+    $('#calendar').off('scroll', this.onScrollCalendarDesktop)
   }
 
-  onScrollNewsFeedMobile(e) {
+  onScrollCalendarMobile(e) {
     const $this = $(e.currentTarget)
     const bufferSpace = $this.height() / 3 + 300
 
@@ -62,7 +62,7 @@ class NewsList extends Component {
     }
   }
 
-  onScrollNewsFeedDesktop(e) {
+  onScrollCalendarDesktop(e) {
     const $this = $(e.currentTarget)
     const bufferSpace = $this.height() / 3 + 400
     if (
@@ -73,40 +73,33 @@ class NewsList extends Component {
     }
   }
 
-  setActiveNewsItem = (newsItem) => {
+  setActiveCalendarEvent = (calendarEvent) => {
     const { setActiveEntity, enableUI } = this.props
-    const tweetId = newsItem.get('url').split('/')[
-      newsItem.get('url').split('/').length - 1
-    ]
-    if (/twitter/.exec(newsItem.get('url')) !== null) {
-      setActiveEntity({ type: 'twitterNews', id: newsItem.get('id'), tweetId })
-    } else {
-      setActiveEntity({ type: 'newsItem', id: newsItem.get('id') })
-    }
+    setActiveEntity({ type: 'calendarEvent', id: calendarEvent.get('id') })
     if (window.isMobile) enableUI('bodySectionDrawer', { fullScreen: true })
   }
 
   closeTips() {
-    this.props.newsfeedTips()
+    this.props.calendarTips()
   }
 
   renderView(
     viewState,
     itemHeight,
     activeFilters,
-    sortedNewsItems,
+    sortedCalendarEvents,
     initialRenderTips,
     isLoading,
   ) {
     if (initialRenderTips && window.isMobile) {
       return <Tips closeTips={this.closeTips.bind(this)} />
-    } else if (isLoading('newsItems')) {
+    } else if (isLoading('calendarEvents')) {
       return (
         <div className="pa3 tc mt4">
           <LoadingIndicator />
         </div>
       )
-    } else if (!viewState.sortedNewsItems.length) {
+    } else if (!viewState.sortedCalendarEvents.length) {
       return (
         <div className="pa3 tc mt4">
           <div className="pointer">
@@ -123,12 +116,12 @@ class NewsList extends Component {
       )
     }
 
-    const mappedItems = viewState.sortedNewsItems.map((newsItem) => (
-      <NewsListItem
-        key={newsItem.get('id')}
-        newsItem={newsItem}
+    const mappedItems = viewState.sortedCalendarEvents.map((calendarEvent) => (
+      <CalendarListEvent
+        key={calendarEvent.get('id')}
+        calendarEvent={calendarEvent}
         {...this.props}
-        setActiveNewsItem={this.setActiveNewsItem}
+        setActiveCalendarEvent={this.setActiveCalendarEvent}
         selectCoin={(symbol) => this.selectCoin(symbol)}
       />
     ))
@@ -147,7 +140,7 @@ class NewsList extends Component {
   render() {
     const itemHeight = this.state.initialRender ? 'auto' : 0
     const {
-      newsItems,
+      calendarEvents,
       isLoading,
       activeEntity,
       activeFilters,
@@ -156,13 +149,13 @@ class NewsList extends Component {
     } = this.props
     const viewState = {
       activeEntity: activeEntity,
-      newsItems: newsItems,
+      calendarEvents: calendarEvents,
       sortedNewsItems: sortedNewsItems,
     }
     return (
       <Fragment>
         <div
-          id="newsfeed"
+          id="calendar"
           className="flex-auto relative overflow-y-hidden overflow-y-auto-m"
           style={
             !activeEntity &&
@@ -182,8 +175,8 @@ class NewsList extends Component {
             isLoading,
           )}
           <div>
-            {!isLoading('newsItems') &&
-              isLoading('newsfeed') && <LoadingIndicator />}
+            {!isLoading('calendarEvents') &&
+              isLoading('calendar') && <LoadingIndicator />}
           </div>
         </div>
       </Fragment>
@@ -191,4 +184,4 @@ class NewsList extends Component {
   }
 }
 
-export default NewsList
+export default CalendarList

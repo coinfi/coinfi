@@ -8,14 +8,14 @@ import FilterTags from '../FilterTags'
 import bulbIcon from '../../images/bulbIcon.svg'
 import filterBtn from '../../images/filter-btn.svg'
 
-const NewsListHeader = (props) => {
+const CalendarListHeader = (props) => {
   const {
     enableUI,
     currentUI,
     coins,
     feedSources,
     activeFilters,
-    newsfeedTips,
+    calendarTips,
   } = props
   const toggleFilters = () =>
     enableUI('filterPanel', { fullScreen: window.isMobile })
@@ -58,7 +58,7 @@ const NewsListHeader = (props) => {
                     padding: 19,
                   },
                 }}
-                onClick={newsfeedTips}
+                onClick={calendarTips}
               >
                 <img style={{ height: 10 }} src={bulbIcon} />
                 <span style={{ marginLeft: 5 }}>Tips</span>
@@ -113,4 +113,4 @@ const NewsListHeader = (props) => {
   )
 }
 
-export default NewsListHeader
+export default CalendarListHeader

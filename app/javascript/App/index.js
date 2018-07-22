@@ -23,6 +23,7 @@ import IcoFilters from './components/IcoFilters'
 import NewsfeedPage from './components/NewsfeedPage'
 import Tabs from './components/Tabs'
 import CoinCharts from './components/CoinCharts'
+import CalendarPage from './components/CalendarPage'
 
 const injectableComponents = {
   WatchButton,
@@ -33,7 +34,8 @@ const injectableComponents = {
   IcoFilters,
   NewsfeedPage,
   Tabs,
-  CoinCharts
+  CoinCharts,
+  CalendarPage,
 }
 
 const injectComponents = () => {
@@ -54,7 +56,7 @@ const injectComponents = () => {
               <AppComponent {...props} />
             </PersistGate>
           </Provider>,
-          hook
+          hook,
         )
       } else {
         ReactDOM.render(<Component {...props} />, hook)

@@ -9,12 +9,13 @@ import watchlistReducer from '../watchlist/reducer'
 import coinSearchReducer from '../coinSearch/reducer'
 import icoFiltersReducer from '../icoFilters/reducer'
 import newsfeedReducer from '../newsfeed/reducer'
+import calendarReducer from '../calendar/reducer'
 
 const persistConfig = {
   transforms: [immutableTransform()],
   key: 'root',
   storage,
-  whitelist: ['icoFilters', 'newsfeed']
+  whitelist: ['icoFilters', 'newsfeed'],
 }
 
 const appReducers = combineReducers({
@@ -23,7 +24,8 @@ const appReducers = combineReducers({
   watchlist: watchlistReducer,
   coinSearch: coinSearchReducer,
   icoFilters: icoFiltersReducer,
-  newsfeed: newsfeedReducer
+  newsfeed: newsfeedReducer,
+  calendar: calendarReducer,
 })
 
 export default persistReducer(persistConfig, appReducers)

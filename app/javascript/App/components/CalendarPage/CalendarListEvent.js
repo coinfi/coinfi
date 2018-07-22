@@ -6,21 +6,15 @@ import twitterLogo from '../../images/logo-twitter.svg'
 import linkLogo from '../../images/logo-link.svg'
 import redditLogo from '../../images/logo-reddit.svg'
 
-const NewsListItem = (props) => {
-  const {
-    activeEntity,
-    newsItem,
-    setActiveNewsItem,
-    preRender,
-    selectCoin,
-  } = props
+const CalendarListEvent = (props) => {
+  const { activeEntity, calendarEvent, setActiveNewsItem, preRender } = props
   let className = 'b--b tiber overflow-hidden'
   if (activeEntity) {
     const { type, id } = activeEntity
-    if (type === 'newsItem' && id === newsItem.get('id'))
+    if (type === 'calendarEvent' && id === calendarEvent.get('id'))
       className += ' bg-foam'
   }
-  const url = new URL(newsItem.get('url'))
+  const url = new URL(calendarEvent.get('url'))
   if (preRender) className += ' o-0 absolute'
   return (
     <div className={className} style={{ height: props.height || 'auto' }}>
@@ -28,17 +22,17 @@ const NewsListItem = (props) => {
         <div
           className="pointer"
           onClick={() => {
-            setActiveNewsItem(newsItem)
+            setActiveNewsItem(calendarEvent)
             if (
-              document.querySelector('.selected-news-content') &&
-              document.querySelector('.selected-news-content').parentNode
+              document.querySelector('.selected-calendar-content') &&
+              document.querySelector('.selected-calendar-content').parentNode
             )
               document.querySelector(
-                '.selected-news-content',
+                '.selected-calendar-content',
               ).parentNode.scrollTop = 0
           }}
         >
-          <h4 className="mb2 f5">{newsItem.get('title')}</h4>
+          <h4 className="mb2 f5">{calendarEvent.get('title')}</h4>
         </div>
         <div className="flex justify-between flex-wrap">
           <div className="f6 silver">
@@ -56,7 +50,7 @@ const NewsListItem = (props) => {
                   {`@${url.pathname.split('/')[1]}`}
                 </a>
                 <BulletSpacer />
-                {timeago().format(newsItem.get('feed_item_published_at'))}
+                {timeago().format(calendarEvent.get('feed_item_published_at'))}
               </Fragment>
             )}
             {url.hostname === 'www.reddit.com' && (
@@ -65,7 +59,7 @@ const NewsListItem = (props) => {
                   <img src={redditLogo} style={{ height: 12 }} />
                 </span>
                 <a
-                  href={newsItem.get('url')}
+                  href={calendarEvent.get('url')}
                   target="_blank"
                   rel="nofollow"
                   className="dib silver"
@@ -73,7 +67,7 @@ const NewsListItem = (props) => {
                   {`/r/${url.pathname.split('/')[2]}`}
                 </a>
                 <BulletSpacer />
-                {timeago().format(newsItem.get('feed_item_published_at'))}
+                {timeago().format(calendarEvent.get('feed_item_published_at'))}
               </Fragment>
             )}
             {url.hostname !== 'twitter.com' &&
@@ -83,7 +77,7 @@ const NewsListItem = (props) => {
                     <img src={linkLogo} style={{ height: 9 }} />
                   </span>
                   <a
-                    href={newsItem.get('url')}
+                    href={calendarEvent.get('url')}
                     target="_blank"
                     rel="nofollow"
                     className="dib silver"
@@ -91,15 +85,17 @@ const NewsListItem = (props) => {
                     {url.hostname}
                   </a>
                   <BulletSpacer />
-                  {timeago().format(newsItem.get('feed_item_published_at'))}
+                  {timeago().format(
+                    calendarEvent.get('feed_item_published_at'),
+                  )}
                 </Fragment>
               )}
           </div>
-          <CoinTags {...props} itemWithCoinLinkData={newsItem} />
+          <CoinTags {...props} itemWithCoinLinkData={calendarEvent} />
         </div>
       </div>
     </div>
   )
 }
 
-export default NewsListItem
+export default CalendarListEvent

@@ -1,15 +1,14 @@
 import React from 'react'
-import NewsBody from './NewsBody'
+import CalendarBody from './CalendarBody'
 import CoinBody from '../CoinBody'
-import TwitterBody from './TwitterBody'
 import Tips from './Tips'
 
+// TODO: Refactor this to be on the same level as BodySectionDrawer and CoinBody if possible
 const BodySection = (props) => {
   const { activeEntity } = props
   if (!activeEntity) return <Tips {...props} />
   if (activeEntity.type === 'coin') return <CoinBody {...props} />
-  if (activeEntity.type === 'twitterNews') return <TwitterBody {...props} />
-  return <NewsBody {...props} />
+  return <CalendarBody {...props} />
 }
 
 export default BodySection
