@@ -8,11 +8,6 @@ const TabPane = Tabs.TabPane
 const { Header, Footer, Content } = Layout
 
 export default class CoinShow extends Component {
-  componentDidMount() {
-    document.querySelector('.container-wide').style.visibility = 'hidden'
-    document.querySelector('.container-wide').style.marginTop = '200px'
-    document.querySelector('.container-wide').style.display = 'none'
-  }
   render() {
     return (
       <Fragment>
