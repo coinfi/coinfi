@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react'
-import { Layout, Card, Button, Tabs, Menu, Dropdown, Icon } from 'antd'
+import { Layout, Card, Button, Tabs, Menu, Dropdown, Icon, List } from 'antd'
 import styled from 'styled-components'
 import FlexGrid from './FlexGrid'
 import FlexGridItem from './FlexGridItem'
@@ -10,7 +10,22 @@ const { Header, Footer, Content } = Layout
 
 export default class CoinShow extends Component {
   render() {
-    const { coin, priceData, annotations, isTradingViewVisible } = this.props
+    const {
+      symbol,
+      priceData,
+      annotations,
+      isTradingViewVisible,
+      coinObj,
+    } = this.props
+    const data = [
+      {
+        'Market cap': coinObj.market_cap.usd,
+      },
+      {
+        'Circulating supply': coinObj.available_supply,
+      },
+    ]
+
     return (
       <Fragment>
         <Layout>
@@ -26,18 +41,18 @@ export default class CoinShow extends Component {
             <Section>
               <Div>
                 <img
-                  alt="Bitcoin"
+                  alt={coinObj.name}
                   height="32"
-                  src="https://gitcdn.link/repo/cjdowner/cryptocurrency-icons/master/svg/color/btc.svg"
+                  src={coinObj.image_url}
                   width="32"
                 />
               </Div>
               <Div>
-                <span>Bitcoin</span> <span>BTC</span>
+                <span>{coinObj.name}</span> <span>{symbol}</span>
               </Div>
               <Div>
-                <span>$7,370.86</span>
-                <span>-1.34%</span>
+                <span>{coinObj.price.usd}</span>
+                <span>{coinObj.change1h}</span>
               </Div>
             </Section>
 
@@ -47,7 +62,7 @@ export default class CoinShow extends Component {
                   <FlexGridItem colWidth={2}>
                     <Card title="Price chart" style={cardStyle}>
                       <CoinCharts
-                        symbol={coin}
+                        symbol={symbol}
                         priceData={priceData}
                         annotations={annotations}
                         isTradingViewVisible={isTradingViewVisible}
@@ -56,7 +71,21 @@ export default class CoinShow extends Component {
                   </FlexGridItem>
                   <FlexGridItem>
                     <Card title="Fundamentals" style={cardStyle}>
-                      bar
+                      <List
+                        itemLayout="horizontal"
+                        dataSource={data}
+                        renderItem={(item) => {
+                          console.log(item)
+                          return (
+                            <List.Item>
+                              <List.Item.Meta
+                                title={Object.keys(item)[0]}
+                                description={item[Object.keys(item)[0]]}
+                              />
+                            </List.Item>
+                          )
+                        }}
+                      />
                     </Card>
                   </FlexGridItem>
                   <FlexGridItem>
