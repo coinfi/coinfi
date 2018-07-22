@@ -1,7 +1,10 @@
 class ExchangeListingsController < ApplicationController
   def index
     @body_id = 'news-page' # TODO: Refactor the CSS to something more universal.
-    @listings = ExchangeListing.centralized.order_by_detected.page(params[:page]).per(20)
+    @listings = ExchangeListing.order_by_detected.page(params[:page]).per(20).as_json(
+      only: %i[id symbol quote_symbol exchange_id exchange_name detected_at],
+      methods: %i[exchange_id exchange_name]
+    )
   end
 
   def show

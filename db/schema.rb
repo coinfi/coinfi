@@ -10,11 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-<<<<<<< 2ad16eace58e2a4b1406feb96f0aa1d914b6cdd9
 ActiveRecord::Schema.define(version: 20180731185629) do
-=======
-ActiveRecord::Schema.define(version: 20180715011401) do
->>>>>>> Backend for exchange listings page
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
