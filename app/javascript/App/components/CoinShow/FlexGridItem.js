@@ -6,7 +6,6 @@ class FlexGridItemElem extends React.Component {
     const flexBasisWidth = 300
     const colGridWidth = this.props.colWidth * flexBasisWidth || flexBasisWidth
     const FlexGridItem = styled.div`
-      height: 80px;
       flex-grow: 1;
       flex-shrink: 0;
       flex-basis: 33.3333%;
