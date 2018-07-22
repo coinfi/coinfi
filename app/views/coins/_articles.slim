@@ -4,7 +4,7 @@
   - articles.each do |article|
     .box.tiber.mb4 data-item-id=article.id
       .f7= pretty_date(article.published_date)
-      h4.fw6.mv3.f4
+      .fw6.mt3.f4
         = link_to article.title, article.url, class: 'black'
-      - article.coins.each do |coin|
+      - article.try(:coins).try(:each) do |coin|
         = link_to coin.symbol, coin, class: "tag pointer"
