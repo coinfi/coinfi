@@ -75,29 +75,24 @@ class NewsList extends Component {
 
   setActiveNewsItem = (newsItem) => {
     const { setActiveEntity, enableUI } = this.props
-    const tweetId = newsItem.get('url').split('/')[
-      newsItem.get('url').split('/').length - 1
-    ]
-    if (/twitter/.exec(newsItem.get('url')) !== null) {
+    const url = newsItem.get('url')
+    const urlFragments = url.split('/')
+    const tweetId = urlFragments[urlFragments.length - 1]
+    if (/twitter/.exec(url) !== null) {
       setActiveEntity({ type: 'twitterNews', id: newsItem.get('id'), tweetId })
     } else {
       setActiveEntity({ type: 'newsItem', id: newsItem.get('id') })
     }
-    if (window.isMobile) enableUI('bodySectionDrawer', { fullScreen: true })
+    if (window.isMobile) {
+      enableUI('bodySectionDrawer', { fullScreen: true })
+    }
   }
 
   closeTips() {
     this.props.newsfeedTips()
   }
 
-  renderView(
-    viewState,
-    itemHeight,
-    activeFilters,
-    sortedNewsItems,
-    initialRenderTips,
-    isLoading,
-  ) {
+  renderView(viewState, initialRenderTips, isLoading) {
     if (initialRenderTips && window.isMobile) {
       return <Tips closeTips={this.closeTips.bind(this)} />
     } else if (isLoading('newsItems')) {
@@ -147,7 +142,6 @@ class NewsList extends Component {
   }
 
   render() {
-    const itemHeight = this.state.initialRender ? 'auto' : 0
     const {
       newsItems,
       isLoading,
@@ -175,14 +169,7 @@ class NewsList extends Component {
               : {}
           }
         >
-          {this.renderView(
-            viewState,
-            itemHeight,
-            activeFilters,
-            sortedNewsItems,
-            initialRenderTips,
-            isLoading,
-          )}
+          {this.renderView(viewState, initialRenderTips, isLoading)}
           <div>
             {!isLoading('newsItems') &&
               isLoading('newsfeed') && <LoadingIndicator />}
