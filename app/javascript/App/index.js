@@ -39,7 +39,6 @@ const injectableComponents = {
 }
 
 const injectComponents = () => {
-  ReactDOM.render(<CoinShow />, document.querySelector('.container-coin-show'))
   const hooks = document.getElementsByTagName('component')
   if (hooks) {
     const { store, persistor } = configureStore()

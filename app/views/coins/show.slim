@@ -1,14 +1,1 @@
-.container-coin-show
-.container-wide.ph4-l.pv2
-  .row.narrow-gutter.flex
-    .col-xs-12.col-md-4.flex.flex-column
-      .mb1= react_component "GlobalCoinSearch", withStore: true
-      = render partial: 'header'
-      = render partial: 'stats'
-      = render partial: 'last_updated'
-      = render partial: 'links'
-    .col-xs-12.col-md-8.flex
-      .bg-white.w-100
-        section.pa3.pa4-l.pb0
-          = react_component "CoinCharts", props: { symbol: @coin.symbol, priceData: @coin.prices_data, annotations: @coin.news_data, isTradingViewVisible: true }
-        = render partial: 'relevant_content'
+= react_component "CoinShow", withStore: true
