@@ -4,6 +4,7 @@ import styled from 'styled-components'
 import FlexGrid from './FlexGrid'
 import FlexGridItem from './FlexGridItem'
 import CoinCharts from './../CoinCharts'
+import SearchCoins from './../NewsfeedPage/SearchCoins'
 
 const TabPane = Tabs.TabPane
 const { Header, Footer, Content } = Layout
@@ -19,10 +20,12 @@ export default class CoinShow extends Component {
     } = this.props
     const fundamentalsData = [
       {
-        'Market cap': coinObj.market_cap.usd,
+        title: 'Market cap',
+        value: coinObj.market_cap.usd,
       },
       {
-        'Circulating supply': coinObj.available_supply,
+        title: 'Circulating supply',
+        value: coinObj.available_supply,
       },
     ]
     const linksData = [
@@ -47,6 +50,8 @@ export default class CoinShow extends Component {
       <Fragment>
         <Layout>
           <Content>
+            {/* <SearchCoins {...this.props} /> */}
+
             <ButtonWrap>
               <Dropdown overlay={menu}>
                 <Button style={{ marginLeft: 8, margin: 10 }}>
@@ -95,8 +100,8 @@ export default class CoinShow extends Component {
                           return (
                             <List.Item>
                               <List.Item.Meta
-                                title={Object.keys(item)[0]}
-                                description={item[Object.keys(item)[0]]}
+                                title={item.title}
+                                description={item.value}
                               />
                             </List.Item>
                           )
