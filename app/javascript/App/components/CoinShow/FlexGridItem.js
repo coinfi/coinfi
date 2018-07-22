@@ -18,6 +18,7 @@ class FlexGridItemElem extends React.Component {
       }
       @media (min-width: 900px) {
         flex-basis: ${colGridWidth}px;
+        align-self: flex-start;
       }
     `
     return <FlexGridItem>{this.props.children}</FlexGridItem>
