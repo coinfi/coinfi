@@ -1,6 +1,9 @@
 import React, { Component, Fragment } from 'react'
 import { Layout, Card, Button, Tabs, Menu, Dropdown, Icon } from 'antd'
 import styled from 'styled-components'
+import FlexGrid from './FlexGrid'
+import FlexGridItem from './FlexGridItem'
+import CoinCharts from './../CoinCharts'
 
 const TabPane = Tabs.TabPane
 const { Header, Footer, Content } = Layout
@@ -10,26 +13,10 @@ const menu = (
     <Menu.Item key="2">BTC</Menu.Item>
   </Menu>
 )
-const FlexGrid = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-`
-const FlexGridItem = styled.div`
-  height: 80px;
-  flex-grow: 1;
-  flex-shrink: 0;
-  flex-basis: 33.3333%;
-  flex-basis: 300px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  @media (min-width: 600px) {
-    flex-basis: 450px;
-  }
-  @media (min-width: 900px) {
-    flex-basis: 300px;
-  }
-`
+
+const cardStyle = {
+  flexGrow: 1,
+}
 
 export default class CoinShow extends Component {
   componentDidMount() {
@@ -41,14 +28,14 @@ export default class CoinShow extends Component {
       <Fragment>
         <Layout>
           <Content>
-            <section>
+            <ButtonWrap>
               <Dropdown overlay={menu}>
-                <Button style={{ marginLeft: 8 }}>
+                <Button style={{ marginLeft: 8, margin: 10 }}>
                   USD <Icon type="down" />
                 </Button>
               </Dropdown>
               <Button>Watch coin</Button>
-            </section>
+            </ButtonWrap>
             <section>
               <FlexGrid>
                 <FlexGridItem>
@@ -71,9 +58,28 @@ export default class CoinShow extends Component {
 
             <Tabs defaultActiveKey="1">
               <TabPane tab="Overview" key="1">
-                <Card title="Price chart" />
-                <Card title="Fundamentals" />
-                <Card title="Links" />
+                <FlexGrid>
+                  <FlexGridItem colWidth={2}>
+                    <Card title="Price chart" style={cardStyle}>
+                      <CoinCharts
+                        symbol="BTC"
+                        priceData={{}}
+                        annotations={{}}
+                        isTradingViewVisible={true}
+                      />
+                    </Card>
+                  </FlexGridItem>
+                  <FlexGridItem>
+                    <Card title="Fundamentals" style={cardStyle}>
+                      bar
+                    </Card>
+                  </FlexGridItem>
+                  <FlexGridItem>
+                    <Card title="Links" style={cardStyle}>
+                      baz
+                    </Card>
+                  </FlexGridItem>
+                </FlexGrid>
               </TabPane>
               <TabPane tab="Markets" key="2">
                 <Card title="Funds raised" />
@@ -89,3 +95,8 @@ export default class CoinShow extends Component {
     )
   }
 }
+
+const ButtonWrap = styled.div`
+  text-align: right;
+  margin: 1rem;
+`
