@@ -17,12 +17,29 @@ export default class CoinShow extends Component {
       isTradingViewVisible,
       coinObj,
     } = this.props
-    const data = [
+    const fundamentalsData = [
       {
         'Market cap': coinObj.market_cap.usd,
       },
       {
         'Circulating supply': coinObj.available_supply,
+      },
+    ]
+    const linksData = [
+      {
+        Website: coinObj.website,
+      },
+      {
+        Whitepaper: coinObj.Whitepaper,
+      },
+      {
+        Explorer: coinObj.explorer,
+      },
+      {
+        Twitter: coinObj.twitter,
+      },
+      {
+        Github: coinObj.github,
       },
     ]
 
@@ -73,9 +90,8 @@ export default class CoinShow extends Component {
                     <Card title="Fundamentals" style={cardStyle}>
                       <List
                         itemLayout="horizontal"
-                        dataSource={data}
+                        dataSource={fundamentalsData}
                         renderItem={(item) => {
-                          console.log(item)
                           return (
                             <List.Item>
                               <List.Item.Meta
@@ -90,7 +106,20 @@ export default class CoinShow extends Component {
                   </FlexGridItem>
                   <FlexGridItem>
                     <Card title="Links" style={cardStyle}>
-                      baz
+                      <List
+                        itemLayout="horizontal"
+                        dataSource={linksData}
+                        renderItem={(item) => {
+                          return (
+                            <List.Item>
+                              <List.Item.Meta
+                                title={Object.keys(item)[0]}
+                                description={item[Object.keys(item)[0]]}
+                              />
+                            </List.Item>
+                          )
+                        }}
+                      />
                     </Card>
                   </FlexGridItem>
                 </FlexGrid>
