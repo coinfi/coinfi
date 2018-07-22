@@ -3,12 +3,14 @@ import { Layout, Card, Button, Tabs, Menu, Dropdown, Icon } from 'antd'
 import styled from 'styled-components'
 import FlexGrid from './FlexGrid'
 import FlexGridItem from './FlexGridItem'
+import CoinCharts from './../CoinCharts'
 
 const TabPane = Tabs.TabPane
 const { Header, Footer, Content } = Layout
 
 export default class CoinShow extends Component {
   render() {
+    const { coin, priceData, annotations, isTradingViewVisible } = this.props
     return (
       <Fragment>
         <Layout>
@@ -44,7 +46,12 @@ export default class CoinShow extends Component {
                 <FlexGrid>
                   <FlexGridItem colWidth={2}>
                     <Card title="Price chart" style={cardStyle}>
-                      [CoinChart]
+                      <CoinCharts
+                        symbol={coin}
+                        priceData={priceData}
+                        annotations={annotations}
+                        isTradingViewVisible={isTradingViewVisible}
+                      />
                     </Card>
                   </FlexGridItem>
                   <FlexGridItem>

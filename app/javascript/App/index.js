@@ -76,4 +76,4 @@ document.addEventListener('DOMContentLoaded', () => {
   injectComponents()
 })
 
-window.addEventListener('resize', debounce(setScreenSize), 400)
+// window.addEventListener('resize', debounce(setScreenSize), 400)
