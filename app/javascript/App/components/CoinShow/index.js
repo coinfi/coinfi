@@ -4,7 +4,10 @@ import styled from 'styled-components'
 import FlexGrid from './FlexGrid'
 import FlexGridItem from './FlexGridItem'
 import CoinCharts from './../CoinCharts'
-import SearchCoins from './../NewsfeedPage/SearchCoins'
+import SearchCoins from './SearchCoins'
+import SectionHeader from './../NewsfeedPage/SectionHeader'
+import SectionHeaderTight from './../NewsfeedPage/SectionHeaderTight'
+import CustomIcon from '../Icon'
 
 const TabPane = Tabs.TabPane
 const { Header, Footer, Content } = Layout
@@ -50,7 +53,11 @@ export default class CoinShow extends Component {
       <Fragment>
         <Layout>
           <Content>
-            {/* <SearchCoins {...this.props} /> */}
+            <SectionHeader>
+              <div className="flex items-center flex-auto">
+                <SearchCoins {...this.props} />
+              </div>
+            </SectionHeader>
 
             <ButtonWrap>
               <Dropdown overlay={menu}>

@@ -1,1 +1,1 @@
-= react_component "CoinShow", props: { symbol: @coin.symbol, priceData: @coin.prices_data, annotations: @coin.news_data, isTradingViewVisible: true, coinObj: @coin }
+= react_component "CoinShow", withStore: true, props: { symbol: @coin.symbol, priceData: @coin.prices_data, annotations: @coin.news_data, isTradingViewVisible: true, coinObj: @coin, loggedIn: !!current_user }
