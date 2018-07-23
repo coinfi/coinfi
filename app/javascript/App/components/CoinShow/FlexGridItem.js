@@ -14,7 +14,7 @@ class FlexGridItemElem extends React.Component {
       align-items: center;
       justify-content: center;
       @media (min-width: 600px) {
-        flex-basis: ${flexBasisWidth}px;
+        flex-basis: ${flexBasisWidth + 150}px;
       }
       @media (min-width: 900px) {
         flex-basis: ${colGridWidth}px;
