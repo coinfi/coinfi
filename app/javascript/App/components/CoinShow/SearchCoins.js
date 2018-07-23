@@ -26,8 +26,14 @@ class SearchCoins extends Component {
       searchCoins,
     } = this.props
 
+    const styleObj = {
+      marginLeft: 10,
+      borderLeft: '1px solid #bbb',
+      paddingLeft: 10,
+    }
+
     return (
-      <div className="search-field">
+      <div className="search-field" style={this.props.coinShow ? styleObj : {}}>
         <div className="flex items-center f5 tiber">
           <Icon
             regular
