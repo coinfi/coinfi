@@ -35,20 +35,35 @@ class CoinList extends Component {
           className="flex-auto relative overflow-y-auto coin-watch-list"
           style={watchlistStarIcon && { textAlign: 'center' }}
         >
-          {!coins.length &&
-            !isLoading('coins') && (
-              <Fragment>
-                <img className="db mt7 mb3 center" src={watchlistStarIcon} />
-                <strong className="lh-copy fw3">
-                  Looks like you have not added <br />
-                  any coins to your watchlist page yet!
-                </strong>
-              </Fragment>
-            )}
-
-          {isLoading('coins') && (
-            <LoadingIndicator className="overlay bg-white-70" />
+          {!coins.length && (
+            // !isLoading('coins') && (
+            <Fragment>
+              <img className="db mt7 mb3 center" src={watchlistStarIcon} />
+              <strong className="lh-copy fw3">
+                Looks like you have not added <br />
+                any coins to your watchlist page yet!
+              </strong>
+            </Fragment>
+            // )
           )}
+
+          {/* {isLoading('coins') && ( */}
+          {/*   <LoadingIndicator className="overlay bg-white-70" /> */}
+          {/* )} */}
+          {currentUI('coinSearch') &&
+            searchedCoins.size > 0 && (
+              <div className="b--b bw2">
+                {searchedCoins.map((coin, key) => {
+                  return (
+                    <CoinListItem
+                      {...{ coin, key, ...this.props }}
+                      onClick={this.newCoinHandler}
+                      onWatch={this.newCoinHandler}
+                    />
+                  )
+                })}
+              </div>
+            )}
           {coins.map((coin, index) => {
             return (
               <CoinListItem
