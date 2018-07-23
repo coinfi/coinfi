@@ -60,12 +60,12 @@ export default class CoinShow extends Component {
             </SectionHeader>
 
             <ButtonWrap>
-              <Dropdown overlay={menu}>
+              <Dropdown overlay={currencyMenu}>
                 <Button style={{ marginLeft: 8, margin: 10 }}>
                   USD <Icon type="down" />
                 </Button>
               </Dropdown>
-              <Button>Watch coin</Button>
+              <Button icon="star">Watch coin</Button>
             </ButtonWrap>
             <Section>
               <Div>
@@ -169,7 +169,7 @@ const Div = styled.div`
   }
 `
 
-const menu = (
+const currencyMenu = (
   <Menu>
     <Menu.Item key="1">USD</Menu.Item>
     <Menu.Item key="2">BTC</Menu.Item>
