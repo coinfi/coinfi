@@ -89,17 +89,18 @@ export default class CoinShow extends Component {
               <Div>
                 <img
                   alt={coinObj.name}
-                  height="32"
+                  height="56"
                   src={coinObj.image_url}
-                  width="32"
+                  width="56"
                 />
               </Div>
               <Div>
-                <span>{coinObj.name}</span> <span>{symbol}</span>
+                <Span style={{ fontSize: 20 }}>{coinObj.name}</Span>
+                <Span style={{ fontSize: 16 }}>{symbol}</Span>
               </Div>
               <Div>
-                <span>{coinObj.price.usd}</span>
-                <span>{coinObj.change1h}</span>
+                <Span style={{ fontSize: 18 }}>${coinObj.price.usd}</Span>
+                <Span style={{ fontSize: 14 }}>{coinObj.change1h}%</Span>
               </Div>
             </Section>
 
@@ -163,20 +164,26 @@ export default class CoinShow extends Component {
 
 const ButtonWrap = styled.div`
   text-align: right;
-  margin: 1rem;
+  margin: 0 1rem;
 `
 
 const Section = styled.section`
   text-align: center;
+  margin: 3rem 0;
   @media (min-width: 900px) {
     text-align: left;
   }
 `
 
 const Div = styled.div`
+  margin-bottom: 2rem;
   @media (min-width: 900px) {
     display: inline-block;
   }
+`
+
+const Span = styled.span`
+  margin: 0 0.5rem;
 `
 
 const currencyMenu = (
