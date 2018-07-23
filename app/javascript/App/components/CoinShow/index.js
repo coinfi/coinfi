@@ -66,11 +66,12 @@ export default class CoinShow extends Component {
             <SectionHeader>
               <div className="flex items-center flex-auto">
                 <Button
+                  icon="bars"
                   onClick={() =>
                     this.props.enableUI('coinListDrawer', { fullScreen: true })
                   }
                 >
-                  coin list
+                  Coin List
                 </Button>
 
                 <SearchCoins {...this.props} coinShow />
