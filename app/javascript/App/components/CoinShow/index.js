@@ -173,6 +173,10 @@ export default class CoinShow extends Component {
 const ButtonWrap = styled.div`
   text-align: right;
   margin: 0 1rem;
+  @media (min-width: 900px) {
+    float: right;
+    margin-top: 2.5rem;
+  }
 `
 
 const Section = styled.section`
@@ -181,6 +185,7 @@ const Section = styled.section`
   @media (min-width: 900px) {
     text-align: left;
     margin: 0 0 0 1rem;
+    padding-top: 1rem;
   }
 `
 
