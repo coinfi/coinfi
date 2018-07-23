@@ -5,22 +5,13 @@ import Input from '../Input'
 import Icon from '../Icon'
 
 class SearchCoins extends Component {
-  selectedCoins = () => {
-    const { activeFilters } = this.props
-    const filter = activeFilters.find((filter) => filter.get('key') === 'coins')
-    if (!filter) return []
-    return filter.get('value').toJS()
-  }
   handleSearchInput = (value) => {
     let { searchCoins } = this.props
-    // const name_not_in = this.selectedCoins()
     searchCoins(value, { limit: 10 })
   }
   selectCoin = (coin) => {
     const { setFilter, clearSearch, setActiveEntity } = this.props
-    // let value = this.selectedCoins()
-    // value = union(value, [coin.get('name')])
-    // setFilter({ key: 'coins', value })
+    window.location = `/coins/${coin.get('name').toLowerCase()}`
     clearSearch()
   }
   render() {
