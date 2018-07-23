@@ -8,10 +8,14 @@ import SearchCoins from './SearchCoins'
 import SectionHeader from './../NewsfeedPage/SectionHeader'
 import SectionHeaderTight from './../NewsfeedPage/SectionHeaderTight'
 import CustomIcon from '../Icon'
+import CoinListDrawer from './../NewsfeedPage/CoinListDrawer'
 
 const { Header, Footer, Content } = Layout
 
 export default class CoinShow extends Component {
+  state = {
+    liveCoinArr: [],
+  }
   render() {
     const {
       symbol,
@@ -47,6 +51,13 @@ export default class CoinShow extends Component {
         Github: coinObj.github,
       },
     ]
+    let coinsCollection
+    if (this.state.liveCoinArr.length) {
+      coinsCollection = this.state.liveCoinArr
+    } else {
+      coinsCollection = []
+      // coinsCollection = this.props.coins
+    }
 
     return (
       <Fragment>
@@ -54,6 +65,14 @@ export default class CoinShow extends Component {
           <Content>
             <SectionHeader>
               <div className="flex items-center flex-auto">
+                <Button
+                  onClick={() =>
+                    this.props.enableUI('coinListDrawer', { fullScreen: true })
+                  }
+                >
+                  coin list
+                </Button>
+
                 <SearchCoins {...this.props} />
               </div>
             </SectionHeader>
@@ -132,6 +151,8 @@ export default class CoinShow extends Component {
                 </Card>
               </FlexGridItem>
             </FlexGrid>
+
+            <CoinListDrawer {...this.props} coins={coinsCollection} />
           </Content>
           <Footer />
         </Layout>
