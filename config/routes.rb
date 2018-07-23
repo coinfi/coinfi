@@ -61,6 +61,8 @@ Rails.application.routes.draw do
     post "#{ENV.fetch('SUPERFEEDR_CALLBACK_URL_SEGMENT_SECRET')}-superfeedr-ingest", to: 'websubs#superfeedr_ingest'
   end
 
+  get '/calculators/:id', to: 'calculators#show'
+
   get '/podcast', to: redirect('https://blog.coinfi.com/topics/podcast/', status: 302)
   get '/news-beta', to: redirect('/', status: 302)
 
