@@ -66,6 +66,7 @@ export default class CoinShow extends Component {
             <SectionHeader>
               <div className="flex items-center flex-auto">
                 <Button
+                  type="primary"
                   icon="bars"
                   onClick={() =>
                     this.props.enableUI('coinListDrawer', { fullScreen: true })
@@ -78,81 +79,87 @@ export default class CoinShow extends Component {
               </div>
             </SectionHeader>
 
-            <ButtonWrap>
-              <Dropdown overlay={currencyMenu}>
-                <Button style={{ marginLeft: 8, margin: 10 }}>
-                  USD <Icon type="down" />
-                </Button>
-              </Dropdown>
-              <Button icon="star">Watch coin</Button>
-            </ButtonWrap>
-            <Section>
-              <Div>
-                <img
-                  alt={coinObj.name}
-                  height="56"
-                  src={coinObj.image_url}
-                  width="56"
-                />
-              </Div>
-              <Div>
-                <Span style={{ fontSize: 20 }}>{coinObj.name}</Span>
-                <Span style={{ fontSize: 16 }}>{symbol}</Span>
-              </Div>
-              <Div>
-                <Span style={{ fontSize: 18 }}>${coinObj.price.usd}</Span>
-                <Span style={{ fontSize: 14 }}>{coinObj.change1h}%</Span>
-              </Div>
-            </Section>
+            <div style={{ background: '#fff' }}>
+              <ButtonWrap>
+                <Dropdown overlay={currencyMenu}>
+                  <Button style={{ marginLeft: 8, margin: 10 }}>
+                    USD <Icon type="down" />
+                  </Button>
+                </Dropdown>
+                <Button icon="star">Watch coin</Button>
+              </ButtonWrap>
+              <Section>
+                <Div>
+                  <img
+                    alt={coinObj.name}
+                    height="56"
+                    src={coinObj.image_url}
+                    width="56"
+                  />
+                </Div>
+                <Div>
+                  <Span style={{ fontSize: 20, fontWeight: 'bold' }}>
+                    {coinObj.name}
+                  </Span>
+                  <Span style={{ fontSize: 16 }}>{symbol}</Span>
+                </Div>
+                <Div>
+                  <Span style={{ fontSize: 18, fontWeight: 'bold' }}>
+                    ${coinObj.price.usd}
+                  </Span>
+                  <Span style={{ fontSize: 14 }}>{coinObj.change1h}%</Span>
+                </Div>
+              </Section>
 
-            <FlexGrid>
-              <FlexGridItem colWidth={2}>
-                <Card title="Price chart" style={cardStyle}>
-                  <CoinCharts
-                    symbol={symbol}
-                    priceData={priceData}
-                    annotations={annotations}
-                    isTradingViewVisible={isTradingViewVisible}
-                  />
-                </Card>
-              </FlexGridItem>
-              <FlexGridItem>
-                <Card title="Fundamentals" style={cardStyle}>
-                  <List
-                    itemLayout="horizontal"
-                    dataSource={fundamentalsData}
-                    renderItem={(item) => {
-                      return (
-                        <List.Item>
-                          <List.Item.Meta
-                            title={item.title}
-                            description={item.value}
-                          />
-                        </List.Item>
-                      )
-                    }}
-                  />
-                </Card>
-              </FlexGridItem>
-              <FlexGridItem>
-                <Card title="Links" style={cardStyle}>
-                  <List
-                    itemLayout="horizontal"
-                    dataSource={linksData}
-                    renderItem={(item) => {
-                      return (
-                        <List.Item>
-                          <List.Item.Meta
-                            title={Object.keys(item)[0]}
-                            description={item[Object.keys(item)[0]]}
-                          />
-                        </List.Item>
-                      )
-                    }}
-                  />
-                </Card>
-              </FlexGridItem>
-            </FlexGrid>
+              <FlexGrid>
+                <FlexGridItem colWidth={2}>
+                  <Card title="Price chart" style={cardStyle}>
+                    <CoinCharts
+                      symbol={symbol}
+                      priceData={priceData}
+                      annotations={annotations}
+                      isTradingViewVisible={isTradingViewVisible}
+                    />
+                  </Card>
+                </FlexGridItem>
+                <FlexGridItem>
+                  <Card title="Fundamentals" style={cardStyle}>
+                    <List
+                      itemLayout="horizontal"
+                      dataSource={fundamentalsData}
+                      renderItem={(item) => {
+                        return (
+                          <List.Item>
+                            <List.Item.Meta
+                              title={item.title}
+                              description={item.value}
+                            />
+                          </List.Item>
+                        )
+                      }}
+                    />
+                  </Card>
+                </FlexGridItem>
+                <FlexGridItem>
+                  <Card title="Links" style={cardStyle}>
+                    <List
+                      itemLayout="horizontal"
+                      dataSource={linksData}
+                      renderItem={(item) => {
+                        return (
+                          <List.Item>
+                            <List.Item.Meta
+                              title={Object.keys(item)[0]}
+                              description={item[Object.keys(item)[0]]}
+                            />
+                          </List.Item>
+                        )
+                      }}
+                    />
+                  </Card>
+                </FlexGridItem>
+              </FlexGrid>
+            </div>
 
             <CoinListDrawer {...this.props} coins={coinsCollection} />
           </Content>
