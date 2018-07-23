@@ -73,7 +73,7 @@ export default class CoinShow extends Component {
                   coin list
                 </Button>
 
-                <SearchCoins {...this.props} />
+                <SearchCoins {...this.props} coinShow />
               </div>
             </SectionHeader>
 
