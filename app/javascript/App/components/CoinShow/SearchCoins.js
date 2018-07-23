@@ -28,7 +28,7 @@ class SearchCoins extends Component {
 
     const styleObj = {
       marginLeft: 10,
-      borderLeft: '1px solid #bbb',
+      borderLeft: '1px solid #e5e8ed',
       paddingLeft: 10,
     }
 
