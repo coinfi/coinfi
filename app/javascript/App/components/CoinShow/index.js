@@ -180,6 +180,7 @@ const Section = styled.section`
   margin: 3rem 0;
   @media (min-width: 900px) {
     text-align: left;
+    margin: 0 0 0 1rem;
   }
 `
 
@@ -187,6 +188,7 @@ const Div = styled.div`
   margin-bottom: 2rem;
   @media (min-width: 900px) {
     display: inline-block;
+    margin-right: 1rem;
   }
 `
 
