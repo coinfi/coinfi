@@ -1,6 +1,6 @@
 class Api::Watchlist::CoinsController < ApiController
   prepend_before_action :authenticate_user!
-  before_action :set_watchlist, :detect_news_feature
+  before_action :set_watchlist
 
   def index
     respond_success serialized(@watchlist.coins)

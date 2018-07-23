@@ -1,6 +1,4 @@
 class Api::Newsfeed::CoinsController < ApiController
-  before_action :detect_news_feature
-
   def index
     if params[:q] && params[:q][:coinIDs]
       coin_ids = params[:q][:coinIDs]
