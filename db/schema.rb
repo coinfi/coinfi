@@ -173,6 +173,8 @@ ActiveRecord::Schema.define(version: 20180716123944) do
     t.datetime "updated_at", null: false
     t.string "ico_status"
     t.bigint "ico_usd_raised"
+    t.bigint "ico_start_epoch"
+    t.bigint "ico_end_epoch"
     t.decimal "ico_token_price_usd", precision: 10, scale: 2
     t.decimal "ico_token_price_btc", precision: 24, scale: 16
     t.decimal "ico_token_price_eth", precision: 24, scale: 16
@@ -191,13 +193,12 @@ ActiveRecord::Schema.define(version: 20180716123944) do
     t.jsonb "exchanges", array: true
     t.string "previous_name"
     t.integer "influencer_reviews_count"
-    t.bigint "ico_start_epoch"
-    t.bigint "ico_end_epoch"
     t.datetime "ico_start_date"
     t.datetime "ico_end_date"
     t.string "coin_key"
     t.index ["category"], name: "index_coins_on_category"
     t.index ["coin_key"], name: "index_coins_on_coin_key"
+    t.index ["coin_key"], name: "uq_coins_website_domain", unique: true
     t.index ["influencer_reviews_count"], name: "index_coins_on_influencer_reviews_count"
     t.index ["market_cap"], name: "index_coins_on_market_cap", using: :gin
     t.index ["name"], name: "index_coins_on_name", unique: true
