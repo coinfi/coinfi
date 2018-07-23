@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react'
-import { Layout, Card, Button, Tabs, Menu, Dropdown, Icon, List } from 'antd'
+import { Layout, Card, Button, Menu, Dropdown, Icon, List } from 'antd'
 import styled from 'styled-components'
 import FlexGrid from './FlexGrid'
 import FlexGridItem from './FlexGridItem'
@@ -9,7 +9,6 @@ import SectionHeader from './../NewsfeedPage/SectionHeader'
 import SectionHeaderTight from './../NewsfeedPage/SectionHeaderTight'
 import CustomIcon from '../Icon'
 
-const TabPane = Tabs.TabPane
 const { Header, Footer, Content } = Layout
 
 export default class CoinShow extends Component {
@@ -85,64 +84,54 @@ export default class CoinShow extends Component {
               </Div>
             </Section>
 
-            <Tabs defaultActiveKey="1">
-              <TabPane tab="Overview" key="1">
-                <FlexGrid>
-                  <FlexGridItem colWidth={2}>
-                    <Card title="Price chart" style={cardStyle}>
-                      <CoinCharts
-                        symbol={symbol}
-                        priceData={priceData}
-                        annotations={annotations}
-                        isTradingViewVisible={isTradingViewVisible}
-                      />
-                    </Card>
-                  </FlexGridItem>
-                  <FlexGridItem>
-                    <Card title="Fundamentals" style={cardStyle}>
-                      <List
-                        itemLayout="horizontal"
-                        dataSource={fundamentalsData}
-                        renderItem={(item) => {
-                          return (
-                            <List.Item>
-                              <List.Item.Meta
-                                title={item.title}
-                                description={item.value}
-                              />
-                            </List.Item>
-                          )
-                        }}
-                      />
-                    </Card>
-                  </FlexGridItem>
-                  <FlexGridItem>
-                    <Card title="Links" style={cardStyle}>
-                      <List
-                        itemLayout="horizontal"
-                        dataSource={linksData}
-                        renderItem={(item) => {
-                          return (
-                            <List.Item>
-                              <List.Item.Meta
-                                title={Object.keys(item)[0]}
-                                description={item[Object.keys(item)[0]]}
-                              />
-                            </List.Item>
-                          )
-                        }}
-                      />
-                    </Card>
-                  </FlexGridItem>
-                </FlexGrid>
-              </TabPane>
-              <TabPane tab="Markets" key="2">
-                <Card title="Funds raised" />
-                <Card title="Summary" />
-                <Card title="Ratings" />
-                <Card title="Links" />
-              </TabPane>
-            </Tabs>
+            <FlexGrid>
+              <FlexGridItem colWidth={2}>
+                <Card title="Price chart" style={cardStyle}>
+                  <CoinCharts
+                    symbol={symbol}
+                    priceData={priceData}
+                    annotations={annotations}
+                    isTradingViewVisible={isTradingViewVisible}
+                  />
+                </Card>
+              </FlexGridItem>
+              <FlexGridItem>
+                <Card title="Fundamentals" style={cardStyle}>
+                  <List
+                    itemLayout="horizontal"
+                    dataSource={fundamentalsData}
+                    renderItem={(item) => {
+                      return (
+                        <List.Item>
+                          <List.Item.Meta
+                            title={item.title}
+                            description={item.value}
+                          />
+                        </List.Item>
+                      )
+                    }}
+                  />
+                </Card>
+              </FlexGridItem>
+              <FlexGridItem>
+                <Card title="Links" style={cardStyle}>
+                  <List
+                    itemLayout="horizontal"
+                    dataSource={linksData}
+                    renderItem={(item) => {
+                      return (
+                        <List.Item>
+                          <List.Item.Meta
+                            title={Object.keys(item)[0]}
+                            description={item[Object.keys(item)[0]]}
+                          />
+                        </List.Item>
+                      )
+                    }}
+                  />
+                </Card>
+              </FlexGridItem>
+            </FlexGrid>
           </Content>
           <Footer />
         </Layout>
