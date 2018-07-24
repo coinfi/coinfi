@@ -1,16 +1,5 @@
 import React, { Component, Fragment } from 'react'
-import {
-  Layout,
-  Card,
-  Button,
-  Menu,
-  Dropdown,
-  Icon,
-  List,
-  Col,
-  Row,
-  Table,
-} from 'antd'
+import { Layout, Card, Button, Menu, Dropdown, Icon, Table } from 'antd'
 import styled from 'styled-components'
 
 const { Header, Footer, Content } = Layout
@@ -101,8 +90,8 @@ class CoinIndex extends Component {
 
     let colVar = []
     if (window.isDesktop) colVar = columnNames
-    if (window.isTablet) colVar = columnNames.slice(0, 6)
-    if (window.isMobile) colVar = columnNames.slice(0, 3)
+    if (window.isTablet) colVar = columnNames.slice(0, 7)
+    if (window.isMobile) colVar = columnNames.slice(0, 4)
 
     return (
       <Fragment>
@@ -110,7 +99,9 @@ class CoinIndex extends Component {
           <Content>
             <div>
               <div style={{ background: '#fff' }}>
-                <h1>Coins</h1>
+                <Section style={{ float: 'left' }}>
+                  <h1>Coins</h1>
+                </Section>
                 <ButtonWrap>
                   <Dropdown overlay={currencyMenu}>
                     <Button style={{ marginLeft: 8, margin: 10 }}>
@@ -122,16 +113,6 @@ class CoinIndex extends Component {
                   <Div />
                   <Div />
                 </Section>
-
-                <div
-                  style={{
-                    background: '#f6f8fa',
-                    padding: '0 .5rem',
-                    border: '1px solid #e5e6e6',
-                  }}
-                >
-                  [Overview]
-                </div>
                 <Table
                   columns={colVar}
                   dataSource={this.props.coins}
@@ -154,7 +135,6 @@ const ButtonWrap = styled.div`
   margin: 0 1rem;
   @media (min-width: 900px) {
     float: right;
-    margin-top: 2.5rem;
   }
 `
 
