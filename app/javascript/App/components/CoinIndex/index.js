@@ -19,7 +19,7 @@ class CoinIndex extends Component {
   render() {
     const { symbol } = this.props
 
-    const columns = [
+    const columnNames = [
       {
         title: 'Name',
         dataIndex: 'name',
@@ -35,7 +35,37 @@ class CoinIndex extends Component {
         dataIndex: 'market_cap.usd',
         key: 'market_cap.usd',
       },
+      {
+        title: '% Move 1H',
+        dataIndex: 'change1h',
+        key: 'change1h',
+      },
+      {
+        title: '% Move 1D',
+        dataIndex: 'change24h',
+        key: 'change24h',
+      },
+      {
+        title: '% Move 1W',
+        dataIndex: 'change7d',
+        key: 'change7d',
+      },
+      {
+        title: 'Volume (24hr)',
+        dataIndex: 'volume24.usd',
+        key: 'volume24.usd',
+      },
+      {
+        title: '7D Chart',
+        dataIndex: '',
+        key: '',
+      },
     ]
+
+    let colVar = []
+    if (window.isDesktop) colVar = columnNames
+    if (window.isTablet) colVar = columnNames.slice(0, 6)
+    if (window.isMobile) colVar = columnNames.slice(0, 3)
 
     return (
       <Fragment>
@@ -66,7 +96,7 @@ class CoinIndex extends Component {
                   [Overview]
                 </div>
 
-                <Table columns={columns} dataSource={this.props.coins} />
+                <Table columns={colVar} dataSource={this.props.coins} />
                 {/*
                   rowKey={record => record.login.uuid}
                   pagination={this.state.pagination}
