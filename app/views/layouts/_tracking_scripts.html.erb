@@ -150,7 +150,7 @@ var x = document.getElementsByTagName('script')[0]; x.parentNode.insertBefore(s,
     appID: '5b0d1194d5be9f110e4ba0c5',
     user: {
       email: "<%= current_user.email %>",
-      name: "<%= current_user.username %>",
+      name: "<%= current_user.username || current_user.email.split('@').first %>",
       id: <%= current_user.id %>,
     },
   });
