@@ -1,5 +1,15 @@
 import React, { Component, Fragment } from 'react'
-import { Layout, Card, Button, Menu, Dropdown, Icon, List } from 'antd'
+import {
+  Layout,
+  Card,
+  Button,
+  Menu,
+  Dropdown,
+  Icon,
+  List,
+  Col,
+  Row,
+} from 'antd'
 import styled from 'styled-components'
 import FlexGrid from './FlexGrid'
 import FlexGridItem from './FlexGridItem'
@@ -111,54 +121,62 @@ export default class CoinShow extends Component {
                 </Div>
               </Section>
 
-              <FlexGrid>
-                <FlexGridItem colWidth={2}>
-                  <Card title="Price chart" style={cardStyle}>
-                    <CoinCharts
-                      symbol={symbol}
-                      priceData={priceData}
-                      annotations={annotations}
-                      isTradingViewVisible={isTradingViewVisible}
-                    />
-                  </Card>
-                </FlexGridItem>
-                <FlexGridItem>
-                  <Card title="Fundamentals" style={cardStyle}>
-                    <List
-                      itemLayout="horizontal"
-                      dataSource={fundamentalsData}
-                      renderItem={(item) => {
-                        return (
-                          <List.Item>
-                            <List.Item.Meta
-                              title={item.title}
-                              description={item.value}
-                            />
-                          </List.Item>
-                        )
-                      }}
-                    />
-                  </Card>
-                </FlexGridItem>
-                <FlexGridItem>
-                  <Card title="Links" style={cardStyle}>
-                    <List
-                      itemLayout="horizontal"
-                      dataSource={linksData}
-                      renderItem={(item) => {
-                        return (
-                          <List.Item>
-                            <List.Item.Meta
-                              title={Object.keys(item)[0]}
-                              description={item[Object.keys(item)[0]]}
-                            />
-                          </List.Item>
-                        )
-                      }}
-                    />
-                  </Card>
-                </FlexGridItem>
-              </FlexGrid>
+              <div
+                style={{
+                  background: '#f6f8fa',
+                  padding: '0 .5rem',
+                  border: '1px solid #e5e6e6',
+                }}
+              >
+                <FlexGrid>
+                  <FlexGridItem colWidth={2}>
+                    <Card title="Price chart" style={cardStyle}>
+                      <CoinCharts
+                        symbol={symbol}
+                        priceData={priceData}
+                        annotations={annotations}
+                        isTradingViewVisible={isTradingViewVisible}
+                      />
+                    </Card>
+                  </FlexGridItem>
+                  <FlexGridItem>
+                    <Card title="Fundamentals" style={cardStyle}>
+                      <List
+                        itemLayout="horizontal"
+                        dataSource={fundamentalsData}
+                        renderItem={(item) => {
+                          return (
+                            <List.Item>
+                              <List.Item.Meta
+                                title={item.title}
+                                description={item.value}
+                              />
+                            </List.Item>
+                          )
+                        }}
+                      />
+                    </Card>
+                  </FlexGridItem>
+                  <FlexGridItem>
+                    <Card title="Links" style={cardStyle}>
+                      <List
+                        itemLayout="horizontal"
+                        dataSource={linksData}
+                        renderItem={(item) => {
+                          return (
+                            <List.Item>
+                              <List.Item.Meta
+                                title={Object.keys(item)[0]}
+                                description={item[Object.keys(item)[0]]}
+                              />
+                            </List.Item>
+                          )
+                        }}
+                      />
+                    </Card>
+                  </FlexGridItem>
+                </FlexGrid>
+              </div>
             </div>
 
             <CoinListDrawer {...this.props} coins={coinsCollection} />
@@ -210,4 +228,5 @@ const currencyMenu = (
 
 const cardStyle = {
   flexGrow: 1,
+  margin: '1rem .5rem 0 .5rem',
 }
