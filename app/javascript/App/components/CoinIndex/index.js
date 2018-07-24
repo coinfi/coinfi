@@ -9,6 +9,7 @@ import {
   List,
   Col,
   Row,
+  Table,
 } from 'antd'
 import styled from 'styled-components'
 
@@ -18,7 +19,23 @@ class CoinIndex extends Component {
   render() {
     const { symbol } = this.props
 
-    console.log('coins', this.props.coins)
+    const columns = [
+      {
+        title: 'Name',
+        dataIndex: 'name',
+        key: 'name',
+      },
+      {
+        title: 'Price',
+        dataIndex: 'price.usd',
+        key: 'price.usd',
+      },
+      {
+        title: 'Market Cap',
+        dataIndex: 'market_cap.usd',
+        key: 'market_cap.usd',
+      },
+    ]
 
     return (
       <Fragment>
@@ -49,9 +66,13 @@ class CoinIndex extends Component {
                   [Overview]
                 </div>
 
-                {this.props.coins.map((coin, index) => (
-                  <div key={index}>{coin.name}</div>
-                ))}
+                <Table columns={columns} dataSource={this.props.coins} />
+                {/*
+                  rowKey={record => record.login.uuid}
+                  pagination={this.state.pagination}
+                  loading={this.state.loading}
+                  onChange={this.handleTableChange}
+                  */}
               </div>
             </div>
           </Content>
