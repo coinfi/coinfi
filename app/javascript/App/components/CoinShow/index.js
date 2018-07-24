@@ -11,10 +11,10 @@ import {
   Row,
 } from 'antd'
 import styled from 'styled-components'
-import FlexGrid from './FlexGrid'
-import FlexGridItem from './FlexGridItem'
+import FlexGrid from './../shared/FlexGrid'
+import FlexGridItem from './../shared/FlexGridItem'
+import SearchCoins from './../shared/SearchCoins'
 import CoinCharts from './../CoinCharts'
-import SearchCoins from './SearchCoins'
 import SectionHeader from './../NewsfeedPage/SectionHeader'
 import SectionHeaderTight from './../NewsfeedPage/SectionHeaderTight'
 import CustomIcon from '../Icon'
