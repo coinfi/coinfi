@@ -1,6 +1,7 @@
 .flash {
   @extend .container;
   padding: $sp3;
+  padding-right: calc(#{$sp3} + #{$sp3});
   border: 1px solid $aqua;
   color: $aqua;
   background-color: $white;
@@ -12,8 +13,20 @@
     color: inherit;
     text-decoration: underline;
   }
+  position: relative;
 }
 .flash-alert {
   border-color: $orange;
   color: $orange;
+}
+.flash > span:last-child {
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: $sp3;
+}
+
+.flash > span:last-child > a {
+  text-decoration: none;
+  font-weight: bold;
 }

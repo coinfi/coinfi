@@ -1,29 +1,28 @@
-import React, { Fragment } from "react"
-import Icon from "../Icon"
-import SectionHeader from "./SectionHeader"
-import SectionHeaderTight from "./SectionHeaderTight"
-import SearchCoins from "./SearchCoins"
-import FilterPanel from "../FilterPanel"
-import FilterTags from "../FilterTags"
-import bulbIcon from "../../images/bulbIcon.svg"
-import filterBtn from "../../images/filter-btn.svg"
+import React, { Fragment } from 'react'
+import Icon from '../Icon'
+import SectionHeader from './SectionHeader'
+import SectionHeaderTight from './SectionHeaderTight'
+import SearchCoins from './SearchCoins'
+import FilterPanel from '../FilterPanel'
+import FilterTags from '../FilterTags'
+import bulbIcon from '../../images/bulbIcon.svg'
+import filterBtn from '../../images/filter-btn.svg'
 
-const NewsListHeader = props => {
+const NewsListHeader = (props) => {
   const {
     enableUI,
     currentUI,
     coins,
     feedSources,
     activeFilters,
-    activeEntity,
-    newsfeedTips
+    newsfeedTips,
   } = props
   const toggleFilters = () =>
-    enableUI("filterPanel", { fullScreen: window.isMobile })
+    enableUI('filterPanel', { fullScreen: window.isMobile })
 
   const btnStyle = {
-    padding: "18px",
-    borderRadius: 0
+    padding: '18px',
+    borderRadius: 0,
   }
 
   return (
@@ -34,19 +33,19 @@ const NewsListHeader = props => {
             <Fragment>
               <button
                 className="btn btn-blue btn-xs"
-                onClick={() => enableUI("coinListDrawer", { fullScreen: true })}
+                onClick={() => enableUI('coinListDrawer', { fullScreen: true })}
                 style={{
                   ...btnStyle,
                   ...{
-                    background: "#2495ce",
+                    background: '#2495ce',
                     flex: 1,
-                    textTransform: "none",
-                    fontSize: 14
-                  }
+                    textTransform: 'none',
+                    fontSize: 14,
+                  },
                 }}
               >
                 <Icon name="list" className="mr2" />
-                <span>Coin list</span>
+                <span>Coins</span>
               </button>
               <button
                 className="btn btn-blue btn-xs flex-auto"
@@ -55,9 +54,9 @@ const NewsListHeader = props => {
                   ...{
                     flex: 1,
                     fontSize: 14,
-                    textTransform: "none",
-                    padding: 19
-                  }
+                    textTransform: 'none',
+                    padding: 19,
+                  },
                 }}
                 onClick={newsfeedTips}
               >
@@ -72,29 +71,29 @@ const NewsListHeader = props => {
         <div className="flex items-center flex-auto">
           {!window.isMobile && (
             <button
-              className="btn btn-blue btn-xs coins-btn"
-              onClick={() => enableUI("coinListDrawer", { fullScreen: true })}
+              className="btn btn-blue btn-xs coins-btn mr2"
+              onClick={() => enableUI('coinListDrawer', { fullScreen: true })}
               style={
                 window.isMobile
                   ? {
                       ...btnStyle,
                       ...{
-                        background: "#2495ce",
+                        background: '#2495ce',
                         flex: 1,
-                        textTransform: "none"
-                      }
+                        textTransform: 'none',
+                      },
                     }
                   : {}
               }
             >
               <Icon name="list" className="mr2" />
-              <span>Coin list</span>
+              <span>Coins</span>
             </button>
           )}
           <SearchCoins {...props} />
           <button
             onClick={toggleFilters}
-            className="btn btn-xs btn-white filter-btn"
+            className="btn btn-xs btn-white filter-btn ml2"
           >
             <img style={{ height: 10, marginRight: 10 }} src={filterBtn} />
             Filters
@@ -102,12 +101,12 @@ const NewsListHeader = props => {
         </div>
       </SectionHeader>
       {activeFilters.size > 0 && (
-        <div className="pa3 b--b bg-athens">
-          <div className="f6 mb2">Currently viewing by:</div>
+        <div className="pa3 f6 b--b bg-athens flex items-center">
+          <span className="mr2">Viewing by:</span>
           <FilterTags {...props} />
         </div>
       )}
-      {currentUI("filterPanel") && (
+      {currentUI('filterPanel') && (
         <FilterPanel {...props} filterData={{ coins, feedSources }} />
       )}
     </Fragment>

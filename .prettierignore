@@ -1,2 +1,11 @@
-# Don't tidy legacy JS
-app/assets/**/*.js
+-# Don't tidy legacy JS
+-app/assets/**/*.js
+
+# Ignore pre-compiled files
+public/js/calculators/bitcoin-investment-calculator.js
+public/css/calculators/bitcoin-investment-calculator.css
+
+dist
+node_modules
+coverage
+build

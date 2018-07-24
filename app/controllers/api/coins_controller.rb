@@ -1,5 +1,4 @@
 class Api::CoinsController < ApiController
-
   def index
     query = params[:q] || {}
     if params[:exclude_watched]
@@ -19,15 +18,15 @@ class Api::CoinsController < ApiController
 
   def index_serializer(coins)
     coins.as_json(
-      only: %i[id name image_url symbol slug price_usd]
+      only: %i[id name image_url symbol slug price_usd],
+      methods: %i[market_info]
     )
   end
-  
+
   def show_serializer(coin)
     coin.as_json(
       only: %i[id name image_url symbol slug price_usd],
       methods: %i[prices_data news_data market_info is_being_watched]
     )
   end
-
 end

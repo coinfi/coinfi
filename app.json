@@ -18,6 +18,8 @@
     "COUNTER_TELEGRAM": { "required": true },
     "HEAP_APP_ID": { "required": true },
     "LANG": { "required": true },
+    "LAUNCHDARKLY_SDK_KEY": { "required": true },
+    "LAUNCHDARKLY_CLIENT_KEY": { "required": true },
     "MAILGUN_SMTP_PORT": { "required": true },
     "NEWS_TAGGER_ENDPOINT": { "required": true },
     "NEWS_TAGGER_BASIC_AUTH_PASSWORD": { "required": true },
@@ -26,11 +28,15 @@
     "RAILS_ENV": { "required": true },
     "RAILS_LOG_TO_STDOUT": { "required": true },
     "RAILS_SERVE_STATIC_FILES": { "required": true },
+    "REDIS_URL": { "required": true },
     "ROLLBAR_ACCESS_TOKEN": { "required": true },
     "ROLLBAR_CLIENT_ACCESS_TOKEN": { "required": true },
     "ROLLBAR_ENDPOINT": { "required": true },
     "ROOT_DOMAIN": { "required": true },
     "S3_BUCKET": { "required": true },
+    "SCOUT_KEY": { "required": true },
+    "SCOUT_LOG_LEVEL": { "required": true },
+    "SCOUT_MONITOR": { "required": true },
     "SECRET_KEY_BASE": { "required": true },
     "STAGING_DATABASE_URL": { "required": true },
     "SUPERFEEDR_CALLBACK_URL_SEGMENT_SECRET": { "required": true },
@@ -47,8 +53,10 @@
   "formation": {},
   "addons": [
     "heroku-postgresql:hobby-basic",
+    "heroku-redis:hobby-dev",
     "papertrail",
-    "rollbar"
+    "rollbar",
+    "scout"
   ],
   "buildpacks": [
     { "url": "heroku/nodejs" },

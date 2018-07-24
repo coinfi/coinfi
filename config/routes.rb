@@ -36,9 +36,6 @@ Rails.application.routes.draw do
     resources :influencers
     get 'reddit' => 'articles#reddit'
     root to: 'coins#index'
-    namespace :paper_trail do
-      resources :versions, only: %i[index show]
-    end
   end
 
   namespace :api, constraints: { format: 'json' } do
@@ -54,6 +51,7 @@ Rails.application.routes.draw do
   end
 
   resources :coins, only: %i[index show]
+  get '/icos', to: redirect('/icos/upcoming')
   get '/icos(/:status)', to: 'icos#index'
   resources :contributor_submissions, path: 'contributor-submissions'
   get '/profile', to: 'author_profiles#edit', as: 'edit_author_profile'
@@ -63,7 +61,10 @@ Rails.application.routes.draw do
     post "#{ENV.fetch('SUPERFEEDR_CALLBACK_URL_SEGMENT_SECRET')}-superfeedr-ingest", to: 'websubs#superfeedr_ingest'
   end
 
+  get '/calculators/:id', to: 'calculators#show'
+
   get '/podcast', to: redirect('https://blog.coinfi.com/topics/podcast/', status: 302)
+  get '/news-beta', to: redirect('/', status: 302)
 
   root to: 'pages#show'
   get '/:id', to: 'pages#show'

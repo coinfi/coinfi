@@ -15,7 +15,8 @@ class FeedSource < ApplicationRecord
 
   scope :active, -> { where(is_active: true) }
   scope :general, -> { where(feed_type: 'general') }
-
+  scope :reddit , -> { where(feed_type: 'reddit') }
+  scope :twitter, -> { where(feed_type: 'twitter') }
 
   def self.feed_types
     pluck(:feed_type).uniq

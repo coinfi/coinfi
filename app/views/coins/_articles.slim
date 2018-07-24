@@ -1,13 +1,10 @@
 - if articles.empty?
   | No news yet, check back soon.
 - else
-  - articles.each_with_index do |item, index|
-    a.box.tiber.mb4 href=item.url
-      .f7= pretty_date(item.published_date)
-      h4.fw6.mv3.f3.f2-l= item.title
-      .pt1.lh-copy
-        = item.summary.html_safe if item.summary.present?
-      - if item.tag_list.any?
-        .mt3
-          - item.tag_list.each do |tag|
-            .tag= tag
+  - articles.each do |article|
+    .box.tiber.mb4 data-item-id=article.id
+      .f7= pretty_date(article.published_date)
+      .fw6.mt3.f4
+        = link_to article.title, article.url, class: 'black'
+      - article.try(:coins).try(:each) do |coin|
+        = link_to coin.symbol, coin, class: "tag pointer"

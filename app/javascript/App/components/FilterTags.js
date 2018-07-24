@@ -5,7 +5,7 @@ const FilterTags = (props) => {
   const { removeFilter, activeFilters } = props
   let tagLabel = ''
   return (
-    <div>
+    <div className="self-center">
       {activeFilters.map((filter) => {
         if (filter.get('key') === 'publishedSince') tagLabel = 'from'
         if (filter.get('key') === 'publishedUntil') tagLabel = 'to'

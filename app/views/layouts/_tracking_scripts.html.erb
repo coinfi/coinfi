@@ -120,7 +120,7 @@ f=false,d=document;return{use_existing_jquery:function(){return use_existing_jqu
   })();
 </script>
 
-<!-- UserFlow -->
+<!-- UserSnap -->
 <script type="text/javascript">
 (function() { var s = document.createElement("script"); s.type = "text/javascript"; s.async = true; s.src = '//api.usersnap.com/load/566ea3b0-5719-4a7c-999f-b7f6604930c2.js';
 var x = document.getElementsByTagName('script')[0]; x.parentNode.insertBefore(s, x); })();
@@ -141,4 +141,19 @@ var x = document.getElementsByTagName('script')[0]; x.parentNode.insertBefore(s,
     }
   }]);
 </script>
+
+<% if user_signed_in? %>
+  <!-- Canny -->
+  <script>!function(w,d,i,s){function l(){if(!d.getElementById(i)){var f=d.getElementsByTagName(s)[0],e=d.createElement(s);e.type="text/javascript",e.async=!0,e.src="https://canny.io/sdk.js",f.parentNode.insertBefore(e,f)}}if("function"!=typeof w.Canny){var c=function(){c.q.push(arguments)};c.q=[],w.Canny=c,"complete"===d.readyState?l():w.attachEvent?w.attachEvent("onload",l):w.addEventListener("load",l,!1)}}(window,document,"canny-jssdk","script");</script>
+  <script>
+  Canny('identify', {
+    appID: '5b0d1194d5be9f110e4ba0c5',
+    user: {
+      email: "<%= current_user.email %>",
+      name: "<%= current_user.username || current_user.email.split('@').first %>",
+      id: <%= current_user.id %>,
+    },
+  });
+  </script>
+<% end %>
 <% end %>

@@ -29,10 +29,10 @@ export default class ItemSelector extends Component {
           <ul>
             {this.selectedItems().map((item, i) => (
               <li key={i}>
-                <button onClick={() => this.remove(item)}>
+                <a onClick={() => this.remove(item)}>
                   <span className="aqua">{this.itemLabel(item)}</span>
                   <i className="fal fa-minus ml3" />
-                </button>
+                </a>
               </li>
             ))}
           </ul>
@@ -41,10 +41,10 @@ export default class ItemSelector extends Component {
           <ul>
             {this.unselectedItems().map((item, i) => (
               <li key={i}>
-                <button onClick={() => this.add(item)}>
+                <a onClick={() => this.add(item)}>
                   {this.itemLabel(item)}
                   <i className="fal fa-plus ml3" />
-                </button>
+                </a>
               </li>
             ))}
           </ul>
@@ -57,5 +57,5 @@ export default class ItemSelector extends Component {
 ItemSelector.propTypes = {
   items: Type.array.isRequired,
   selectedItems: Type.array,
-  onChange: Type.func
+  onChange: Type.func,
 }
