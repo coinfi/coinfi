@@ -74,10 +74,12 @@ class CoinShow extends Component {
       <Fragment>
         <Layout>
           <Content>
-            <div style={{ width: 200, float: 'left', background: '#fff' }}>
-              <CoinList {...this.props} />
-            </div>
-            <div style={{ marginLeft: 210 }}>
+            {window.isDesktop && (
+              <div style={{ width: 200, float: 'left', background: '#fff' }}>
+                <CoinList {...this.props} />
+              </div>
+            )}
+            <div style={window.isDesktop ? { marginLeft: 210 } : {}}>
               <SectionHeader>
                 <Button
                   type="primary"
@@ -184,6 +186,7 @@ class CoinShow extends Component {
                 </div>
               </div>
             </div>
+            <CoinListDrawer {...this.props} coins={coinsCollection} />
           </Content>
           <Footer />
         </Layout>
