@@ -16,7 +16,70 @@ import styled from 'styled-components'
 const { Header, Footer, Content } = Layout
 
 class CoinIndex extends Component {
+  state = {
+    filteredInfo: null,
+    sortedInfo: null,
+  }
+  handleChange = (pagination, filters, sorter) => {
+    this.setState({
+      filteredInfo: filters,
+      sortedInfo: sorter,
+    })
+  }
+
+  clearFilters = () => {
+    this.setState({ filteredInfo: null })
+  }
+
+  clearAll = () => {
+    this.setState({
+      filteredInfo: null,
+      sortedInfo: null,
+    })
+  }
+
+  setAgeSort = () => {
+    this.setState({
+      sortedInfo: {
+        order: 'descend',
+        columnKey: 'age',
+      },
+    })
+  }
   render() {
+    let { sortedInfo, filteredInfo } = this.state
+    sortedInfo = sortedInfo || {}
+    filteredInfo = filteredInfo || {}
+    const columns = [
+      {
+        title: 'Name',
+        dataIndex: 'name',
+        key: 'name',
+        sorter: (a, b) => a.name.length - b.name.length,
+        sortOrder: sortedInfo.columnKey === 'name' && sortedInfo.order,
+      },
+      {
+        title: 'Age',
+        dataIndex: 'age',
+        key: 'age',
+        sorter: (a, b) => a.age - b.age,
+        sortOrder: sortedInfo.columnKey === 'age' && sortedInfo.order,
+      },
+      {
+        title: 'Address',
+        dataIndex: 'address',
+        key: 'address',
+        filters: [
+          { text: 'London', value: 'London' },
+          { text: 'New York', value: 'New York' },
+        ],
+        filteredValue: filteredInfo.address || null,
+        onFilter: (value, record) => record.address.includes(value),
+        sorter: (a, b) => a.address.length - b.address.length,
+        sortOrder: sortedInfo.columnKey === 'address' && sortedInfo.order,
+      },
+    ]
+
     const { symbol } = this.props
 
     const columnNames = [
@@ -29,31 +92,44 @@ class CoinIndex extends Component {
         title: 'Price',
         dataIndex: 'price.usd',
         key: 'price.usd',
+        sorter: (a, b) => a.price.usd - b.price.usd,
+        sortOrder: sortedInfo.columnKey === 'price.usd' && sortedInfo.order,
       },
       {
         title: 'Market Cap',
         dataIndex: 'market_cap.usd',
         key: 'market_cap.usd',
+        sorter: (a, b) => a.market_cap.usd - b.market_cap.usd,
+        sortOrder:
+          sortedInfo.columnKey === 'market_cap.usd' && sortedInfo.order,
       },
       {
         title: '% Move 1H',
         dataIndex: 'change1h',
         key: 'change1h',
+        sorter: (a, b) => a.change1h.usd - b.change1h.usd,
+        sortOrder: sortedInfo.columnKey === 'change1h.usd' && sortedInfo.order,
       },
       {
         title: '% Move 1D',
         dataIndex: 'change24h',
         key: 'change24h',
+        sorter: (a, b) => a.change1h.usd - b.change1h.usd,
+        sortOrder: sortedInfo.columnKey === 'change1h.usd' && sortedInfo.order,
       },
       {
         title: '% Move 1W',
         dataIndex: 'change7d',
         key: 'change7d',
+        sorter: (a, b) => a.change7d.usd - b.change7d.usd,
+        sortOrder: sortedInfo.columnKey === 'change7d.usd' && sortedInfo.order,
       },
       {
         title: 'Volume (24hr)',
         dataIndex: 'volume24.usd',
         key: 'volume24.usd',
+        sorter: (a, b) => a.volume24.usd - b.volume24.usd,
+        sortOrder: sortedInfo.columnKey === 'volume24.usd' && sortedInfo.order,
       },
       {
         title: '7D Chart',
@@ -95,14 +171,11 @@ class CoinIndex extends Component {
                 >
                   [Overview]
                 </div>
-
-                <Table columns={colVar} dataSource={this.props.coins} />
-                {/*
-                  rowKey={record => record.login.uuid}
-                  pagination={this.state.pagination}
-                  loading={this.state.loading}
-                  onChange={this.handleTableChange}
-                  */}
+                <Table
+                  columns={colVar}
+                  dataSource={this.props.coins}
+                  onChange={this.handleChange}
+                />
               </div>
             </div>
           </Content>
