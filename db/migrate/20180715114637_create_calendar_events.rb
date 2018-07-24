@@ -6,7 +6,8 @@ class CreateCalendarEvents < ActiveRecord::Migration[5.1]
       t.text :description
       t.datetime :date_event
       t.datetime :date_added
-      t.string :source
+      t.string :source_url
+      t.string :screenshot_url
       t.string :status
       t.bigint :approvals
       t.bigint :disapprovals
