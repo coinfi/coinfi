@@ -19,10 +19,11 @@ import SectionHeader from './../NewsfeedPage/SectionHeader'
 import SectionHeaderTight from './../NewsfeedPage/SectionHeaderTight'
 import CustomIcon from '../Icon'
 import CoinListDrawer from './../NewsfeedPage/CoinListDrawer'
+import newsfeedContainer from './../../containers/newsfeed'
 
 const { Header, Footer, Content } = Layout
 
-export default class CoinShow extends Component {
+class CoinShow extends Component {
   state = {
     liveCoinArr: [],
   }
@@ -65,8 +66,7 @@ export default class CoinShow extends Component {
     if (this.state.liveCoinArr.length) {
       coinsCollection = this.state.liveCoinArr
     } else {
-      coinsCollection = []
-      // coinsCollection = this.props.coins
+      coinsCollection = this.props.coins
     }
 
     return (
@@ -187,6 +187,8 @@ export default class CoinShow extends Component {
     )
   }
 }
+
+export default newsfeedContainer(CoinShow)
 
 const ButtonWrap = styled.div`
   text-align: right;
