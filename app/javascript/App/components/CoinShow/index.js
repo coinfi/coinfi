@@ -81,17 +81,19 @@ class CoinShow extends Component {
             )}
             <div style={window.isDesktop ? { marginLeft: 210 } : {}}>
               <SectionHeader>
-                <Button
-                  type="primary"
-                  icon="bars"
-                  onClick={() =>
-                    this.props.enableUI('coinListDrawer', {
-                      fullScreen: true,
-                    })
-                  }
-                >
-                  Coin List
-                </Button>
+                <HideLarge>
+                  <Button
+                    type="primary"
+                    icon="bars"
+                    onClick={() =>
+                      this.props.enableUI('coinListDrawer', {
+                        fullScreen: true,
+                      })
+                    }
+                  >
+                    Coin List
+                  </Button>
+                </HideLarge>
 
                 <SearchCoins {...this.props} coinShow />
               </SectionHeader>
@@ -226,6 +228,12 @@ const Div = styled.div`
 
 const Span = styled.span`
   margin: 0 0.5rem;
+`
+
+const HideLarge = styled.div`
+  @media (min-width: 900px) {
+    display: none;
+  }
 `
 
 const currencyMenu = (
