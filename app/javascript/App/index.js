@@ -13,7 +13,6 @@ import { PersistGate } from 'redux-persist/integration/react'
 import debounce from 'debounce'
 
 import appContainer from './containers/app'
-
 import WatchButton from './components/WatchButton'
 import WatchlistPage from './components/WatchlistPage'
 import GlobalCoinSearch from './components/GlobalCoinSearch'
@@ -33,7 +32,7 @@ const injectableComponents = {
   IcoFilters,
   NewsfeedPage,
   Tabs,
-  CoinCharts
+  CoinCharts,
 }
 
 const injectComponents = () => {
@@ -54,7 +53,7 @@ const injectComponents = () => {
               <AppComponent {...props} />
             </PersistGate>
           </Provider>,
-          hook
+          hook,
         )
       } else {
         ReactDOM.render(<Component {...props} />, hook)

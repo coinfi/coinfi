@@ -1,0 +1,36 @@
+#signup-modal.micromodal aria-hidden="true"
+  .micromodal-overlay(tabindex="-1" data-micromodal-close)
+    .micromodal-container(role="dialog" aria-modal="true" aria-labelledby="signup-modal-title")
+      header.micromodal-header
+        h2#signup-modal-title.micromodal-title.mt0 Sign Up
+        button.micromodal-close(aria-label="Close modal" data-micromodal-close)
+      main.micromodal-content
+        = form_for(:user, url: new_user_signup_path, html: { id: "signup-form" }) do |f|
+          .field
+            = f.label :email
+            = f.email_field :email, autofocus: true, class: "form-control"
+          .actions
+            = f.submit "Sign Up", class: "btn btn-blue w-100", id: "signup-button"
+
+javascript:
+  document.addEventListener("DOMContentLoaded", function() {
+    $(document).on('submit', '#signup-form', function() {
+      var $form, $btn;
+
+      $form = $(this);
+      $btn = $form.find('input[type="submit"]');
+      $form.find('.errors').remove();
+
+      $.post({
+        url: this.action,
+        data: $form.serialize()
+      }).error(function(jqXHR, textStatus, errorThrown) {
+        $form.prepend('<div class="errors">Invalid email or password</div>');
+        // Unlocks the UI button
+        $btn.prop("disabled", false);
+      });
+
+      // prevent default submission
+      return false;
+    });
+  })

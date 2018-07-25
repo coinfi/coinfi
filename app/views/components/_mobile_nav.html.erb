@@ -9,7 +9,7 @@
       <% if user_signed_in? %>
         <%= button_to "Logout", destroy_user_session_path, method: :delete, class: "btn btn-sm btn-red" %>
       <% else %>
-        <%= link_to "Login", new_user_session_path, class: "btn btn-sm btn-green" %>
+        <%= link_to "Login", new_user_session_path, class: "btn btn-sm btn-green", data: { micromodal_trigger: "login-modal" } %>
       <% end %>
     </div>
     <button class="btn-icon mobile-nav-toggle mt4 silver">

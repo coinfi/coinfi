@@ -9,7 +9,6 @@ Rails.application.routes.draw do
     get "/register" => "users/registrations#new", as: "register"
     get "/set-password" => "users#set_password", as: "new_user_set_password"
     post "/submit-password" => "users#submit_password", as: "new_user_submit_password"
-    get "/join-telegram" => "users#join_telegram", as: "new_user_join_telegram"
   end
 
   devise_for :users,

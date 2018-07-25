@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
@@ -23,9 +22,11 @@
     <%= javascript_tag do %>
       window.pricesURL = '<%= ENV.fetch('COINFI_PRICES_URL') %>';
     <% end %>
+    <%= render partial: 'components/modals/index' unless user_signed_in? %>
     <script src="/tradingview/charting_library.min.js"></script>
     <%= javascript_pack_tag 'application' %>
     <%= render 'layouts/tracking_scripts' %>
+    <script src="https://unpkg.com/micromodal/dist/micromodal.min.js"></script>
     <script src="/fontawesome/fa-brands.min.js"></script>
     <script src="/fontawesome/fa-light.min.js"></script>
     <script src="/fontawesome/fa-regular.min.js"></script>

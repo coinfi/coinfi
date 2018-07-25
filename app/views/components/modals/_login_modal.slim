@@ -1,0 +1,42 @@
+#login-modal.micromodal aria-hidden="true"
+  .micromodal-overlay(tabindex="-1" data-micromodal-close)
+    .micromodal-container(role="dialog" aria-modal="true" aria-labelledby="login-modal-title")
+      header.micromodal-header
+        h2#login-modal-title.micromodal-title.mt0 Login
+        button.micromodal-close(aria-label="Close modal" data-micromodal-close)
+      main.micromodal-content
+        = form_for(:user, url: session_path(:user), html: { id: "login-form" }) do |f|
+          .field
+            = f.label :email
+            = f.email_field :email, autofocus: true, class: "form-control"
+          .field
+            = f.label :password
+            = f.password_field :password, autocomplete: "off", class: "form-control"
+          .actions
+            = f.submit "Login", class: "btn btn-blue btn-sm w-100", id: "login-button"
+
+javascript:
+  document.addEventListener("DOMContentLoaded", function() {
+    $(document).on('submit', '#login-form', function() {
+      var $form, $btn;
+
+      $form = $(this);
+      $btn = $form.find('input[type="submit"]');
+      $form.find('.errors').remove();
+
+      $.ajax({
+        type: 'POST',
+        url: this.action,
+        data: $form.serialize()
+      }).fail(function(jqXHR, textStatus, errorThrown) {
+        $form.prepend('<div class="errors">Invalid email or password</div>');
+        // Unlocks the UI button
+        $btn.prop("disabled", false);
+      }).done(function() {
+        //$(this).
+      });
+
+      // prevent default submission
+      return false;
+    });
+  })
