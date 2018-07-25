@@ -40,14 +40,14 @@ class CoinIndex extends Component {
       },
       {
         title: 'Price',
-        dataIndex: 'price.usd',
+        dataIndex: 'price.usdFmt',
         key: 'price.usd',
         sorter: (a, b) => a.price.usd - b.price.usd,
         sortOrder: sortedInfo.columnKey === 'price.usd' && sortedInfo.order,
       },
       {
         title: 'Market Cap',
-        dataIndex: 'market_cap.usd',
+        dataIndex: 'market_cap.usdFmt',
         key: 'market_cap.usd',
         sorter: (a, b) => a.market_cap.usd - b.market_cap.usd,
         sortOrder:
@@ -92,6 +92,19 @@ class CoinIndex extends Component {
     if (window.isDesktop) colVar = columnNames
     if (window.isTablet) colVar = columnNames.slice(0, 7)
     if (window.isMobile) colVar = columnNames.slice(0, 4)
+
+    const coinsLocale = this.props.coins.map((item) => {
+      const formattedNum = item.market_cap.usd.toLocaleString('en-US', {
+        maximumFractionDigits: 0,
+      })
+      const formattedPrice = item.price.usd.toLocaleString('en-US', {
+        style: 'currency',
+        currency: 'USD',
+      })
+      item.market_cap.usdFmt = formattedNum
+      item.price.usdFmt = formattedPrice
+      return item
+    })
 
     return (
       <Fragment>
