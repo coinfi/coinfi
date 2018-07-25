@@ -1,21 +1,36 @@
-<style>
+<style style="display: none;">
 p {
   margin-top: 0 !important;
+  line-height: 1.4em;
 }
-
 ul {
   margin-top: 0 !important;
 }
-
 p + ul {
-  margin-top: -1em !important;
+  margin-top: -0.75em !important;
 }
-
-table + p {
+li + li {
+  margin-top: 0.25em !important;
+}
+table + p, img + p {
   margin-top: 1em !important;
 }
+img {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+img + img, a + img {
+  margin-top: 1em !important;
+}
+#root {
+  margin-bottom: 0.5em !important;
+}
+main {
+  display: block !important;
+}
 </style>
-<div class="section phr bg-white tiber">
+<section class="phr bg-white tiber">
   <div class="container">
     <div class="row pv5 items-center">
       <div class="col-xs-12 col-lg-8 col-lg-offset-2">
@@ -24,14 +39,34 @@ table + p {
             title "Bitcoin Calculator: Bitcoin Investment Calculator - What If I bought Bitcoin?", 
             "Bitcoin Investment Calculator: How Does Bitcoin Impact Your Traditional Portfolio?" 
           %></h1>
-          <p>Use the Bitcoin investment calculator below to find out how your traditional stock/bond portfolio would have performed (on a risk-adjusted basis) if you had invested in Bitcoin.</p>
+          <p>Use the Bitcoin investment calculator below to find out how your traditional stock/bond portfolio would have performed (on a risk-adjusted basis) if you had invested in Bitcoin. For the traditional portfolio we use SPY and AGG ETFs as proxies.</p>
           <div id="root" style="width: 100% !important;"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="features phr pv4 bg-tiber white-90">
+  <div class="container">
+    <div class="row">
+      <div class="col-xs-12 col-lg-8 col-lg-offset-2">
+        <div class="items-center">
+          <p style="font-style: italic">Following piece was written on July 17th 2018.</p>
           <p>Crypto investing is not for the faint of heart. In 2017 HODLers were taken on a rollercoaster ride, seeing BTC price start at around $1,000 in January 2017 surge rapidly towards the $20,000 level by December, and then fall sharply to $6,500 just two months later.</p>
           <p>For those who got in late, the drawdown in BTC price was painful, and this sell-off has left many out there licking their wounds. On the flip side, those who got in just over a year ago when BTC was trading $2057 and <a href="https://en.wikipedia.org/wiki/Hodl" target="_blank">HODLed</a> were rewarded with a +227% return on their investment, with BTC trading $6,727 today.</p>
           <p>In both cases, stomaching price swings has been no joke, and this ultimately leads us to ask: <b><u>How much of my money should I allocate to Crypto?</u></b></p>
           <p>There are already some similar research reports out there that walk potential investors through the scenarios of adding a % allocation of crypto to their portfolio, but here at CoinFi we decided to take it to the next level and built out a calculator for readers to experiment with.</p>
           <p>In this research piece, we will go through in detail on how to use this nifty tool and also highlight some scenarios for discussion. (Written on July 17, 2018. SPY and AGG etfs are used for the 60/40 portfolio below.)</p>
-
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="features phr pv4 bg-white tiber">
+  <div class="container">
+    <div class="row">
+      <div class="col-xs-12 col-lg-8 col-lg-offset-2">
+        <div class="items-center">
           <h1>Starting With The 60/40 Portfolio</h1>
           <p>In traditional finance, an allocation of 60% to stocks and 40% to interest bearing securities such as bonds (60/40 portfolio) is the defacto standard.</p>
           <p>A portfolio that holds both stocks and bonds has historically shown to provide better risk-adjusted returns than a pure stock portfolio, both from <a href="#definitions">a Sharpe Ratio and a Max Drawdown perspective</a>.</p>
@@ -40,7 +75,7 @@ table + p {
             <li>SPY SPDR S&P500 ETF as proxy for stock allocation - One of the most liquid ETFs that mimics the performance of the S&P 500; largely considered the equity index benchmark.</li>
           </ul>
           <p>AGG iShares Core U.S. Aggregate Bond ETF as proxy for bond allocation - ETF that tracks a broad market weighted portfolio of US denominated investment grade bonds.</p>
-          <img src="https://res.cloudinary.com/coinfi/image/upload/v1532356994/calculators/bitcoin-investment-calculator-1.png" style="margin-left: auto; margin-right: auto;" />
+          <img src="https://res.cloudinary.com/coinfi/image/upload/v1532356994/calculators/bitcoin-investment-calculator-1.png" />
           <p>From Oct 2012 (the start date in our calculator i.e. when we get reliable Bitcoin price data), the traditional 60/40 portfolio on an initial investment of $10,000 had the following stats:</p>
 
           <h1>Adding 10% Bitcoin to the 60/40 Portfolio</h1>
@@ -50,8 +85,8 @@ table + p {
             <li>Bitcoin is the most traded and original cryptocurrency.</li>
           </ul>
           <p>In this scenario, we adjust our portfolio to include 10% Bitcoin. This means that the other 90% is split 60/40 between stock and bonds (54% and 36% respectively). Furthermore, we changed the starting date to Jan 2014. Prior to this date, Bitcoin was extremely niche and hence price then has less relevance in conducting back tests.</p>
-          <a href="?startingAmount=10000&startingDate=2014-01-03&stockAllocation=60&bitcoinPercentage=10&withRebalancing=0"><img src="https://res.cloudinary.com/coinfi/image/upload/v1532356994/calculators/bitcoin-investment-calculator-2.png" style="margin-left: auto; margin-right: auto;" /></a>
-          <img src="https://res.cloudinary.com/coinfi/image/upload/v1532356994/calculators/bitcoin-investment-calculator-3.png" style="margin-left: auto; margin-right: auto;" />
+          <a href="?startingAmount=10000&startingDate=2014-01-03&stockAllocation=60&bitcoinPercentage=10&withRebalancing=0"><img src="https://res.cloudinary.com/coinfi/image/upload/v1532356994/calculators/bitcoin-investment-calculator-2.png" /></a>
+          <img src="https://res.cloudinary.com/coinfi/image/upload/v1532356994/calculators/bitcoin-investment-calculator-3.png" />
           <p>As you can see, adding 10% Bitcoin to the traditional 60/40 has drastically improved returns, but unfortunately at the cost of some nasty price swings:</p>
           <ul>
             <li>Annualized return improved to 15.43% from 6.27%</li>
@@ -65,15 +100,16 @@ table + p {
           <ul>
             <li>Let’s say we start with $100, we allocate 10% to Bitcoin and the rest to our 60/40 portfolio.</li>
             <li>This gives us $10 worth of Bitcoin, $54 in equities and $36 in bonds. A total portfolio value of $100.</li>
+            <li>Let’s say Bitcoin price triples, while the price of our stocks and bonds remain unchanged. You now have $30 in Bitcoin and $90 in stocks and bonds. A total portfolio value of $120.</li>
             <li>So what was initially a 10% Bitcoin allocation grew to 25% of our portfolio ($30 out of $120), which leads to higher risk at a different point in time, and ultimately is not the diversification that was intended.</li>
             <li>For an asset like Bitcoin, the price jump was at one point more than 20-fold, and a portfolio that was only slightly exposed to crypto would eventually have crypto as its dominant position.</li>
           </ul>
           <p>This is where <b><u>‘tolerance based rebalancing’</u></b> comes in. In our calculator there is a setting where you can toggle on/off ‘50% tolerance based rebalancing.</p>
-          <img src="https://res.cloudinary.com/coinfi/image/upload/v1532356994/calculators/bitcoin-investment-calculator-4.png" style="margin-left: auto; margin-right: auto;" />
+          <img src="https://res.cloudinary.com/coinfi/image/upload/v1532356994/calculators/bitcoin-investment-calculator-4.png" />
           <p>What this does for a portfolio that invests 10% in Bitcoin, is that everytime the allocation goes above 15% due to price increases, it will sell out the excess Bitcoin to bring it back to 10% and vice versa when the price drops and allocation falls below 5%.</p>
           <p>Let’s see how implementing tolerance based rebalancing affects our 10% Bitcoin-enhanced portfolio:</p>
-          <a href="?startingAmount=10000&startingDate=2014-01-03&stockAllocation=60&bitcoinPercentage=10&withRebalancing=1"><img src="https://res.cloudinary.com/coinfi/image/upload/v1532356994/calculators/bitcoin-investment-calculator-5.png" style="margin-left: auto; margin-right: auto;" /></a>
-          <img src="https://res.cloudinary.com/coinfi/image/upload/v1532356994/calculators/bitcoin-investment-calculator-6.png" style="margin-left: auto; margin-right: auto;" />
+          <a href="?startingAmount=10000&startingDate=2014-01-03&stockAllocation=60&bitcoinPercentage=10&withRebalancing=1"><img src="https://res.cloudinary.com/coinfi/image/upload/v1532356994/calculators/bitcoin-investment-calculator-5.png" /></a>
+          <img src="https://res.cloudinary.com/coinfi/image/upload/v1532356994/calculators/bitcoin-investment-calculator-6.png" />
           <p>As we can see, using Tolerance Based Rebalancing has had a very positive effect, as evidenced by the improved Drawdown and Sharpe Ratio numbers.</p>
           <ul>
             <li>Max Drawdown which was previously -45% has improved substantially to -10.02%</li>
@@ -140,8 +176,8 @@ table + p {
           <p>To smooth out the effect from the huge surge in price in BTC, we can use the calculator starting from a different point in time when BTC was higher and the net change in price till now is not so large.</p>
           <p>For this example we start at Sep 2017 when Bitcoin price was already at $4,700. From the previous table, it shows that a Bitcoin holding of roughly 5% with Tolerance Based Rebalancing looks to be most optimal on a risk-adjusted basis.</p>
           <p>This is how the portfolio performs with a 5% allocation to Bitcoin from Sep 2017:</p>
-          <a href="?startingAmount=10000&startingDate=2017-09-01&stockAllocation=60&bitcoinPercentage=5&withRebalancing=1"><img src="https://res.cloudinary.com/coinfi/image/upload/v1532356994/calculators/bitcoin-investment-calculator-7.png" style="margin-left: auto; margin-right: auto;" /></a>
-          <img src="https://res.cloudinary.com/coinfi/image/upload/v1532356994/calculators/bitcoin-investment-calculator-8.png" style="margin-left: auto; margin-right: auto;" />
+          <a href="?startingAmount=10000&startingDate=2017-09-01&stockAllocation=60&bitcoinPercentage=5&withRebalancing=1"><img src="https://res.cloudinary.com/coinfi/image/upload/v1532356994/calculators/bitcoin-investment-calculator-7.png" /></a>
+          <img src="https://res.cloudinary.com/coinfi/image/upload/v1532356994/calculators/bitcoin-investment-calculator-8.png" />
           <p>Even with a later start date at a higher Bitcoin price, including Bitcoin in our portfolio actually showed a significant improvement in our risk profile.</p>
           <p>The Sharpe Ratio of our enhanced portfolio is above 1, and there is only a minimal trade off in Max Drawdown.</p>
           <p>A large part of this has to do with the low correlation of Bitcoin to stocks and bonds (more on this another time), which ultimately means that having even a small portion of Bitcoin in a portfolio can be very advantageous. On the flip side, be wary of allocating too much - ultimately you have to be able to stomach the downside should anything catastrophic happen!</p>
@@ -150,12 +186,12 @@ table + p {
           
           <h1><a name="definitions"></a>Definitions</h1>
           <p><b>Sharpe Ratio:</b> A measure of risk adjusted returns. More specifically it is the excess returns over the risk free rate per unit of volatility. Formula is as follows:</p>
-          <img src="https://res.cloudinary.com/coinfi/image/upload/v1532356994/calculators/bitcoin-investment-calculator-9.png" style="margin-left: auto; margin-right: auto;" />
-          <p><b>Max Drawdown:</b> The maximum % loss from the peak to trough of a portfolio. </p>
+          <img src="https://res.cloudinary.com/coinfi/image/upload/v1532356994/calculators/bitcoin-investment-calculator-9.png" style="max-width: 50%; max-height: 50%;" />
+          <p style="display: block !important;"><b>Max Drawdown:</b> The maximum % loss from the peak to trough of a portfolio. </p>
         </div>
       </div>
     </div>
   </div>
-</div>
+</section>
 <link href="/css/calculators/bitcoin-investment-calculator.css" rel="stylesheet"></link>
 <script type="text/javascript" src="/js/calculators/bitcoin-investment-calculator.js"></script>
