@@ -29,7 +29,10 @@ class CoinShow extends Component {
     liveCoinArr: [],
   }
   watchlistHandler(coin) {
-    window.location = `/coins/${coin.get('name').toLowerCase()}`
+    window.location = `/coins/${coin
+      .get('name')
+      .replace(/ /, '-')
+      .toLowerCase()}`
   }
   render() {
     const {
