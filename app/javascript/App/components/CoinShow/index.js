@@ -39,11 +39,14 @@ class CoinShow extends Component {
     const fundamentalsData = [
       {
         title: 'Market cap',
-        value: coinObj.market_cap.usd,
+        value: coinObj.market_cap.usd.toLocaleString('en-US', {
+          style: 'currency',
+          currency: 'USD',
+        }),
       },
       {
         title: 'Circulating supply',
-        value: coinObj.available_supply,
+        value: coinObj.available_supply.toLocaleString('en-US'),
       },
     ]
     const linksData = [
