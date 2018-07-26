@@ -70,6 +70,11 @@ class CoinShow extends Component {
       coinsCollection = this.props.coins
     }
 
+    const percentChange1h = {
+      positive: coinObj.change1h > 0,
+      value: coinObj.change1h,
+    }
+
     return (
       <Fragment>
         <Layout>
@@ -126,7 +131,16 @@ class CoinShow extends Component {
                     <Span style={{ fontSize: 18, fontWeight: 'bold' }}>
                       ${coinObj.price.usd}
                     </Span>
-                    <Span style={{ fontSize: 14 }}>{coinObj.change1h}%</Span>
+                    <Span
+                      style={
+                        ({ fontSize: 14 },
+                        percentChange1h.positive
+                          ? { color: '#12d8b8' }
+                          : { color: '#ff6161' })
+                      }
+                    >
+                      {percentChange1h.value}%
+                    </Span>
                   </Div>
                 </Section>
 
