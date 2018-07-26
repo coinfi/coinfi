@@ -23,6 +23,7 @@ import IcoFilters from './components/IcoFilters'
 import NewsfeedPage from './components/NewsfeedPage'
 import Tabs from './components/Tabs'
 import CoinCharts from './components/CoinCharts'
+import CoinShow from './components/CoinShow'
 
 const injectableComponents = {
   WatchButton,
@@ -33,7 +34,8 @@ const injectableComponents = {
   IcoFilters,
   NewsfeedPage,
   Tabs,
-  CoinCharts
+  CoinCharts,
+  CoinShow,
 }
 
 const injectComponents = () => {
@@ -54,7 +56,7 @@ const injectComponents = () => {
               <AppComponent {...props} />
             </PersistGate>
           </Provider>,
-          hook
+          hook,
         )
       } else {
         ReactDOM.render(<Component {...props} />, hook)
@@ -74,4 +76,4 @@ document.addEventListener('DOMContentLoaded', () => {
   injectComponents()
 })
 
-window.addEventListener('resize', debounce(setScreenSize), 400)
+// window.addEventListener('resize', debounce(setScreenSize), 400)

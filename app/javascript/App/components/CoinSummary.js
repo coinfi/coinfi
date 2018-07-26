@@ -1,22 +1,4 @@
 import React from "react"
-import styled, { injectGlobal } from 'styled-components'
-
-const Button = styled.button`
-background: palevioletred;
-border-radius: 3px;
-border: none;
-color: white;
-`;
-
-const TomatoButton = styled(Button)`
-background: tomato;
-`;
-
-injectGlobal`
-  svg {
-    height:10px;
-  }
-`;
 
 export default props => {
   return (
