@@ -36,9 +36,6 @@ Rails.application.routes.draw do
     resources :influencers
     get 'reddit' => 'articles#reddit'
     root to: 'coins#index'
-    namespace :paper_trail do
-      resources :versions, only: %i[index show]
-    end
   end
 
   namespace :api, constraints: { format: 'json' } do
@@ -63,6 +60,8 @@ Rails.application.routes.draw do
   namespace :webhooks do
     post "#{ENV.fetch('SUPERFEEDR_CALLBACK_URL_SEGMENT_SECRET')}-superfeedr-ingest", to: 'websubs#superfeedr_ingest'
   end
+
+  get '/calculators/:id', to: 'calculators#show'
 
   get '/podcast', to: redirect('https://blog.coinfi.com/topics/podcast/', status: 302)
   get '/news-beta', to: redirect('/', status: 302)

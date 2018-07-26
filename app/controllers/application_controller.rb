@@ -32,9 +32,6 @@ class ApplicationController < ActionController::Base
       key: current_user.id,
       email: current_user.email,
       anonymous: false,
-      custom: {
-        username: current_user.username
-      }
     }
   end
 end

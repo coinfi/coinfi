@@ -7,7 +7,7 @@
         <h2 class="f2 mt1">Sign Up For The CoinFi Platform</h2>
       </header>
 
-      <div class="section-dialog text-center">
+      <div class="section-dialog text-center registration-form-wrapper">
         <%= form_for(:user, url: new_user_signup_path) do |f| %>
           <%= devise_error_messages! %>
           <div class="mb3">
@@ -20,11 +20,3 @@
     </div>
   </div>
 </div>
-
-<script>
-  $(function() {
-    $('form').submit(function() {
-      $(this).find('input[type=submit]').prop('disabled', true).text('Processing...');
-    });
-  });
-</script>

@@ -22,6 +22,10 @@ const NewsListItem = (props) => {
   }
   const url = new URL(newsItem.get('url'))
   if (preRender) className += ' o-0 absolute'
+  const newsItemTitle = newsItem
+    .get('title')
+    .replace(/<h1>/g, '')
+    .replace(/<\/h1>/g, '')
   return (
     <div className={className} style={{ height: props.height || 'auto' }}>
       <div className="pa-default">
@@ -38,7 +42,7 @@ const NewsListItem = (props) => {
               ).parentNode.scrollTop = 0
           }}
         >
-          <h4 className="mb2 f5">{newsItem.get('title')}</h4>
+          <h4 className="mb2 f5">{newsItemTitle}</h4>
         </div>
         <div className="flex justify-between flex-wrap">
           <div className="f6 silver">

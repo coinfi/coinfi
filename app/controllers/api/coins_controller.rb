@@ -1,6 +1,4 @@
 class Api::CoinsController < ApiController
-  before_action :detect_news_feature
-
   def index
     query = params[:q] || {}
     if params[:exclude_watched]

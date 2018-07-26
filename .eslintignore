@@ -1,2 +1,6 @@
 # Don't lint legacy JS
 app/assets/**/*.js
+
+# Ignore pre-compiled files
+public/js/calculators/bitcoin-investment-calculator.js
+public/css/calculators/bitcoin-investment-calculator.css
