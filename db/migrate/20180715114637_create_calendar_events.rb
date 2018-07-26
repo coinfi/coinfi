@@ -1,7 +1,7 @@
 class CreateCalendarEvents < ActiveRecord::Migration[5.1]
   def change
     create_table :calendar_events do |t|
-      t.references :creator
+      t.references :user
       t.string :name
       t.text :description
       t.datetime :date_event
@@ -13,15 +13,15 @@ class CreateCalendarEvents < ActiveRecord::Migration[5.1]
       t.bigint :disapprovals
       t.integer :confidence 
     end
-    add_foreign_key :calendar_events, :users, column: :creator_id
+    add_foreign_key :calendar_events, :users
 
     create_table :calendar_event_coins do |t|
-      t.references :event
+      t.references :calendar_event
       t.references :coin
     end
 
     create_table :calendar_event_categorizations do |t|
-      t.references :event
+      t.references :calendar_event
       t.references :news_category
     end
   end

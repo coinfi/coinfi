@@ -112,21 +112,21 @@ ActiveRecord::Schema.define(version: 20180716123944) do
   end
 
   create_table "calendar_event_categorizations", force: :cascade do |t|
-    t.bigint "event_id"
+    t.bigint "calendar_event_id"
     t.bigint "news_category_id"
-    t.index ["event_id"], name: "index_calendar_event_categorizations_on_event_id"
+    t.index ["calendar_event_id"], name: "index_calendar_event_categorizations_on_calendar_event_id"
     t.index ["news_category_id"], name: "index_calendar_event_categorizations_on_news_category_id"
   end
 
   create_table "calendar_event_coins", force: :cascade do |t|
-    t.bigint "event_id"
+    t.bigint "calendar_event_id"
     t.bigint "coin_id"
+    t.index ["calendar_event_id"], name: "index_calendar_event_coins_on_calendar_event_id"
     t.index ["coin_id"], name: "index_calendar_event_coins_on_coin_id"
-    t.index ["event_id"], name: "index_calendar_event_coins_on_event_id"
   end
 
   create_table "calendar_events", force: :cascade do |t|
-    t.bigint "creator_id"
+    t.bigint "user_id"
     t.string "name"
     t.text "description"
     t.datetime "date_event"
@@ -137,7 +137,7 @@ ActiveRecord::Schema.define(version: 20180716123944) do
     t.bigint "approvals"
     t.bigint "disapprovals"
     t.integer "confidence"
-    t.index ["creator_id"], name: "index_calendar_events_on_creator_id"
+    t.index ["user_id"], name: "index_calendar_events_on_user_id"
   end
 
   create_table "coin_excluded_countries", force: :cascade do |t|
@@ -468,7 +468,7 @@ ActiveRecord::Schema.define(version: 20180716123944) do
   end
 
   add_foreign_key "articles", "coins"
-  add_foreign_key "calendar_events", "users", column: "creator_id"
+  add_foreign_key "calendar_events", "users"
   add_foreign_key "coin_excluded_countries", "coins", on_delete: :cascade
   add_foreign_key "coin_excluded_countries", "countries", on_delete: :cascade
   add_foreign_key "contributor_submissions", "submission_categories"
