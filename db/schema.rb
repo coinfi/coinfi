@@ -111,6 +111,35 @@ ActiveRecord::Schema.define(version: 20180716123944) do
     t.index ["creator_id"], name: "index_blazer_queries_on_creator_id"
   end
 
+  create_table "calendar_event_categorizations", force: :cascade do |t|
+    t.bigint "calendar_event_id"
+    t.bigint "news_category_id"
+    t.index ["calendar_event_id"], name: "index_calendar_event_categorizations_on_calendar_event_id"
+    t.index ["news_category_id"], name: "index_calendar_event_categorizations_on_news_category_id"
+  end
+
+  create_table "calendar_event_coins", force: :cascade do |t|
+    t.bigint "calendar_event_id"
+    t.bigint "coin_id"
+    t.index ["calendar_event_id"], name: "index_calendar_event_coins_on_calendar_event_id"
+    t.index ["coin_id"], name: "index_calendar_event_coins_on_coin_id"
+  end
+
+  create_table "calendar_events", force: :cascade do |t|
+    t.bigint "user_id"
+    t.string "name"
+    t.text "description"
+    t.datetime "date_event"
+    t.datetime "date_added"
+    t.string "source_url"
+    t.string "screenshot_url"
+    t.string "status"
+    t.bigint "approvals"
+    t.bigint "disapprovals"
+    t.integer "confidence"
+    t.index ["user_id"], name: "index_calendar_events_on_user_id"
+  end
+
   create_table "coin_excluded_countries", force: :cascade do |t|
     t.bigint "coin_id"
     t.bigint "country_id"
@@ -198,7 +227,6 @@ ActiveRecord::Schema.define(version: 20180716123944) do
     t.string "coin_key"
     t.index ["category"], name: "index_coins_on_category"
     t.index ["coin_key"], name: "index_coins_on_coin_key"
-    t.index ["coin_key"], name: "uq_coins_website_domain", unique: true
     t.index ["influencer_reviews_count"], name: "index_coins_on_influencer_reviews_count"
     t.index ["market_cap"], name: "index_coins_on_market_cap", using: :gin
     t.index ["name"], name: "index_coins_on_name", unique: true
@@ -318,7 +346,7 @@ ActiveRecord::Schema.define(version: 20180716123944) do
     t.string "title", null: false
     t.text "summary"
     t.text "content"
-    t.string "actor_id"
+    t.string "actor_id", null: false
     t.datetime "feed_item_published_at", null: false
     t.datetime "feed_item_updated_at", null: false
     t.jsonb "feed_item_json"
@@ -331,7 +359,6 @@ ActiveRecord::Schema.define(version: 20180716123944) do
     t.datetime "last_human_tagged_on"
     t.datetime "last_machine_tagged_on"
     t.bigint "user_id"
-    t.jsonb "coin_ids"
     t.index ["feed_item_published_at"], name: "index_news_items_on_feed_item_published_at"
     t.index ["feed_source_id", "feed_item_id"], name: "index_news_items_on_feed_source_id_and_feed_item_id", unique: true
     t.index ["feed_source_id"], name: "index_news_items_on_feed_source_id"
@@ -441,6 +468,7 @@ ActiveRecord::Schema.define(version: 20180716123944) do
   end
 
   add_foreign_key "articles", "coins"
+  add_foreign_key "calendar_events", "users"
   add_foreign_key "coin_excluded_countries", "coins", on_delete: :cascade
   add_foreign_key "coin_excluded_countries", "countries", on_delete: :cascade
   add_foreign_key "contributor_submissions", "submission_categories"
