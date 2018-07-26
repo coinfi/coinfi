@@ -33,7 +33,10 @@ class SearchCoins extends Component {
     }
 
     return (
-      <div className="search-field" style={this.props.coinShow ? styleObj : {}}>
+      <div
+        className="search-field"
+        style={this.props.coinShow && window.isMobile ? styleObj : {}}
+      >
         <div className="flex items-center f5 tiber">
           <Icon
             regular
