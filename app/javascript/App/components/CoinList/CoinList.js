@@ -18,9 +18,10 @@ class CoinList extends Component {
     if (window.isMobile) enableUI('bodySectionDrawer', { fullScreen: true })
   }
   newCoinHandler = (coin) => {
-    this.setActiveCoin(coin)
-    this.props.toggleUI('coinSearch')
-    this.props.clearSearch()
+    this.props.watchlistHandler(coin)
+    // this.setActiveCoin(coin)
+    // this.props.toggleUI('coinSearch')
+    // this.props.clearSearch()
   }
   render() {
     const { isLoading, currentUI, isWatching } = this.props
@@ -70,7 +71,7 @@ class CoinList extends Component {
                 key={index}
                 coin={coin}
                 {...this.props}
-                onClick={this.setActiveCoin}
+                onClick={this.newCoinHandler}
               />
             )
           })}

@@ -28,6 +28,9 @@ class CoinShow extends Component {
   state = {
     liveCoinArr: [],
   }
+  watchlistHandler(coin) {
+    window.location = `/coins/${coin.get('name').toLowerCase()}`
+  }
   render() {
     const {
       symbol,
@@ -84,7 +87,10 @@ class CoinShow extends Component {
           <Content>
             {window.isDesktop && (
               <div style={{ width: 200, float: 'left', background: '#fff' }}>
-                <CoinList {...this.props} />
+                <CoinList
+                  {...this.props}
+                  watchlistHandler={this.watchlistHandler}
+                />
               </div>
             )}
             <div style={window.isDesktop ? { marginLeft: 210 } : {}}>
