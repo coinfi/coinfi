@@ -51,6 +51,14 @@ class CoinShow extends Component {
         }),
       },
       {
+        title: '24HR',
+        value: `${coinObj.change24h.toLocaleString('en-US')}%`,
+      },
+      {
+        title: '7D',
+        value: `${coinObj.change7d.toLocaleString('en-US')}%`,
+      },
+      {
         title: 'Circulating supply',
         value: coinObj.available_supply.toLocaleString('en-US'),
       },
