@@ -274,6 +274,7 @@ const FlexGridItemWrap = styled.div`
   width: 100%;
   @media (min-width: 900px) {
     width: auto;
+    width: 32%;
   }
 `
 
