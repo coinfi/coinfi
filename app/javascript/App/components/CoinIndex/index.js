@@ -40,33 +40,77 @@ class CoinIndex extends Component {
       },
       {
         title: 'Price',
-        dataIndex: 'price.usdFmt',
+        dataIndex: 'price.usd',
         key: 'price.usd',
+        render: (text, row, index) => {
+          return (
+            <span>
+              {text.toLocaleString('en-US', {
+                style: 'currency',
+                currency: 'USD',
+              })}
+            </span>
+          )
+        },
       },
       {
         title: 'Market Cap',
-        dataIndex: 'market_cap.usdFmt',
+        dataIndex: 'market_cap.usd',
         key: 'market_cap.usd',
+        render: (text, row, index) => {
+          return (
+            <span>
+              {text.toLocaleString('en-US', {
+                maximumFractionDigits: 0,
+              })}
+            </span>
+          )
+        },
       },
       {
         title: '% Move 1H',
         dataIndex: 'change1h',
         key: 'change1h',
+        render: (text, row, index) => {
+          if (text > 0) {
+            return <span style={{ color: '#12d8b8' }}>{text}%</span>
+          }
+          return <span style={{ color: '#ff6161' }}>{text}%</span>
+        },
       },
       {
         title: '% Move 1D',
         dataIndex: 'change24h',
         key: 'change24h',
+        render: (text, row, index) => {
+          if (text > 0) {
+            return <span style={{ color: '#12d8b8' }}>{text}%</span>
+          }
+          return <span style={{ color: '#ff6161' }}>{text}%</span>
+        },
       },
       {
         title: '% Move 1W',
         dataIndex: 'change7d',
         key: 'change7d',
+        render: (text, row, index) => {
+          if (text > 0) {
+            return <span style={{ color: '#12d8b8' }}>{text}%</span>
+          }
+          return <span style={{ color: '#ff6161' }}>{text}%</span>
+        },
       },
       {
         title: 'Volume (24hr)',
         dataIndex: 'volume24.usd',
         key: 'volume24.usd',
+        render: (text, row, index) => {
+          return (
+            <span>
+              {text.toLocaleString('en-US', { maximumFractionDigits: 0 })}
+            </span>
+          )
+        },
       },
       {
         title: '7D Chart',
@@ -79,19 +123,6 @@ class CoinIndex extends Component {
     if (window.isDesktop) colVar = columnNames
     if (window.isTablet) colVar = columnNames.slice(0, 7)
     if (window.isMobile) colVar = columnNames.slice(0, 4)
-
-    const coinsLocale = this.props.coins.map((item) => {
-      const formattedNum = item.market_cap.usd.toLocaleString('en-US', {
-        maximumFractionDigits: 0,
-      })
-      const formattedPrice = item.price.usd.toLocaleString('en-US', {
-        style: 'currency',
-        currency: 'USD',
-      })
-      item.market_cap.usdFmt = formattedNum
-      item.price.usdFmt = formattedPrice
-      return item
-    })
 
     return (
       <Fragment>
