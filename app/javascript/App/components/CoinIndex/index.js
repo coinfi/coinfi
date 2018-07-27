@@ -37,6 +37,21 @@ class CoinIndex extends Component {
         title: 'Name',
         dataIndex: 'name',
         key: 'name',
+        render: (text, row, index) => {
+          return (
+            <div style={{ display: 'flex', alignItems: 'left' }}>
+              <img
+                alt={text}
+                src={`https://gitcdn.link/repo/cjdowner/cryptocurrency-icons/master/svg/color/${row.symbol.toLowerCase()}.svg`}
+                style={{ width: 35, marginRight: 10 }}
+              />
+              <div style={{ flexGrow: 1 }}>
+                <a href={`/coins/${text.toLowerCase()}`}>{row.symbol}</a>
+                <div>{text}</div>
+              </div>
+            </div>
+          )
+        },
       },
       {
         title: 'Price',
