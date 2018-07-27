@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from 'react'
 import { Layout, Card, Button, Menu, Dropdown, Icon, Table } from 'antd'
 import styled from 'styled-components'
+import SparkLineTable from './../SparkLineTable.jsx'
 
 const { Header, Footer, Content } = Layout
 
@@ -131,6 +132,17 @@ class CoinIndex extends Component {
         title: '7D Chart',
         dataIndex: '',
         key: '',
+        render: (text, row, index) => {
+          return (
+            <SparkLineTable>
+              <tbody>
+                <tr key={index}>
+                  <td data-sparkline="71, 78, 39, 66" key={index} />
+                </tr>
+              </tbody>
+            </SparkLineTable>
+          )
+        },
       },
     ]
 
