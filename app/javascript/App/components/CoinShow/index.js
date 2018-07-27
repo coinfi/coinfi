@@ -174,42 +174,44 @@ class CoinShow extends Component {
                         />
                       </Card>
                     </FlexGridItem>
-                    <FlexGridItem>
-                      <Card title="Fundamentals" style={cardStyle}>
-                        <List
-                          itemLayout="horizontal"
-                          dataSource={fundamentalsData}
-                          renderItem={(item) => {
-                            return (
-                              <List.Item>
-                                <List.Item.Meta
-                                  title={item.title}
-                                  description={item.value}
-                                />
-                              </List.Item>
-                            )
-                          }}
-                        />
-                      </Card>
-                    </FlexGridItem>
-                    <FlexGridItem>
-                      <Card title="Links" style={cardStyle}>
-                        <List
-                          itemLayout="horizontal"
-                          dataSource={linksData}
-                          renderItem={(item) => {
-                            return (
-                              <List.Item>
-                                <List.Item.Meta
-                                  title={Object.keys(item)[0]}
-                                  description={item[Object.keys(item)[0]]}
-                                />
-                              </List.Item>
-                            )
-                          }}
-                        />
-                      </Card>
-                    </FlexGridItem>
+                    <FlexGridItemWrap>
+                      <FlexGridItem>
+                        <Card title="Fundamentals" style={cardStyle}>
+                          <List
+                            itemLayout="horizontal"
+                            dataSource={fundamentalsData}
+                            renderItem={(item) => {
+                              return (
+                                <List.Item>
+                                  <List.Item.Meta
+                                    title={item.title}
+                                    description={item.value}
+                                  />
+                                </List.Item>
+                              )
+                            }}
+                          />
+                        </Card>
+                      </FlexGridItem>
+                      <FlexGridItem>
+                        <Card title="Links" style={cardStyle}>
+                          <List
+                            itemLayout="horizontal"
+                            dataSource={linksData}
+                            renderItem={(item) => {
+                              return (
+                                <List.Item>
+                                  <List.Item.Meta
+                                    title={Object.keys(item)[0]}
+                                    description={item[Object.keys(item)[0]]}
+                                  />
+                                </List.Item>
+                              )
+                            }}
+                          />
+                        </Card>
+                      </FlexGridItem>
+                    </FlexGridItemWrap>
                   </FlexGrid>
                 </div>
               </div>
@@ -259,6 +261,12 @@ const Span = styled.span`
 const HideLarge = styled.div`
   @media (min-width: 900px) {
     display: none;
+  }
+`
+const FlexGridItemWrap = styled.div`
+  width: 100%;
+  @media (min-width: 900px) {
+    width: auto;
   }
 `
 
