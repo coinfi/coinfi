@@ -89,14 +89,21 @@ class CoinShow extends Component {
         <Layout>
           <Content>
             {window.isDesktop && (
-              <div style={{ width: 200, float: 'left', background: '#fff' }}>
+              <div
+                style={{
+                  width: 200,
+                  float: 'left',
+                  background: '#fff',
+                  borderRight: '1px solid #e8e8e8',
+                }}
+              >
                 <CoinList
                   {...this.props}
                   watchlistHandler={this.watchlistHandler}
                 />
               </div>
             )}
-            <div style={window.isDesktop ? { marginLeft: 210 } : {}}>
+            <div style={window.isDesktop ? { marginLeft: 200 } : {}}>
               <SectionHeader>
                 <HideLarge>
                   <Button
