@@ -1,0 +1,18 @@
+@media #{$screen-min-ns} {
+  #calendar-page {
+    height: 100vh;
+    overflow: hidden;
+  }
+}
+
+.truncate {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.sticky {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0px;
+}

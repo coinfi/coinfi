@@ -1,6 +1,8 @@
 import React, { Component, Fragment } from 'react'
 import _ from 'lodash'
+import moment from 'moment'
 import CalendarListEvent from './CalendarListEvent'
+import CalendarListEventHeader from './CalendarListEventHeader'
 import LoadingIndicator from '../LoadingIndicator'
 import Tips from './Tips'
 
@@ -38,6 +40,7 @@ class CalendarList extends Component {
   mountOnScrollHandler() {
     if (window.isMobile) {
       const throttled = _.throttle(this.onScrollCalendarMobile, 500)
+      console.log('mounting mobile scroll')
       $(window).scroll(throttled)
     } else {
       const throttled = _.throttle(this.onScrollCalendarDesktop, 500)
@@ -46,6 +49,7 @@ class CalendarList extends Component {
   }
 
   unmountOnScrollHandler() {
+    console.log('unmounting scroll handlers')
     $(window).off('scroll', this.onScrollCalendarMobile)
     $('#calendar').off('scroll', this.onScrollCalendarDesktop)
   }
@@ -58,7 +62,7 @@ class CalendarList extends Component {
       $this.scrollTop() + $this.height() + bufferSpace >=
       $(document).height()
     ) {
-      this.props.fetchMoreNewsFeed()
+      this.props.fetchMoreCalendarEvents()
     }
   }
 
@@ -69,14 +73,16 @@ class CalendarList extends Component {
       $this.scrollTop() + $this.innerHeight() + bufferSpace >=
       $this[0].scrollHeight
     ) {
-      this.props.fetchMoreNewsFeed()
+      this.props.fetchMoreCalendarEvents()
     }
   }
 
   setActiveCalendarEvent = (calendarEvent) => {
     const { setActiveEntity, enableUI } = this.props
     setActiveEntity({ type: 'calendarEvent', id: calendarEvent.get('id') })
-    if (window.isMobile) enableUI('bodySectionDrawer', { fullScreen: true })
+    if (window.isMobile) {
+      enableUI('bodySectionDrawer', { fullScreen: true })
+    }
   }
 
   closeTips() {
@@ -116,15 +122,39 @@ class CalendarList extends Component {
       )
     }
 
-    const mappedItems = viewState.sortedCalendarEvents.map((calendarEvent) => (
-      <CalendarListEvent
-        key={calendarEvent.get('id')}
-        calendarEvent={calendarEvent}
-        {...this.props}
-        setActiveCalendarEvent={this.setActiveCalendarEvent}
-        selectCoin={(symbol) => this.selectCoin(symbol)}
-      />
-    ))
+    const reducedItems = viewState.sortedCalendarEvents.reduce(
+      (data, calendarEvent) => {
+        let date = moment(calendarEvent.get('date_event')).format(
+          'MMMM DD, YYYY',
+        )
+        let newDate = date !== data.date
+
+        let events = [...data.events, ...(newDate ? [date] : []), calendarEvent]
+
+        return {
+          events,
+          date,
+        }
+      },
+      { events: [], date: null },
+    )
+
+    const mappedItems = reducedItems.events.map(
+      (eventOrDate) =>
+        _.isString(eventOrDate) ? (
+          <CalendarListEventHeader key={eventOrDate}>
+            {eventOrDate}
+          </CalendarListEventHeader>
+        ) : (
+          <CalendarListEvent
+            key={eventOrDate.get('id')}
+            calendarEvent={eventOrDate}
+            {...this.props}
+            setActiveCalendarEvent={this.setActiveCalendarEvent}
+            selectCoin={(symbol) => this.selectCoin(symbol)}
+          />
+        ),
+    )
     return mappedItems
   }
 
@@ -144,19 +174,20 @@ class CalendarList extends Component {
       isLoading,
       activeEntity,
       activeFilters,
-      sortedNewsItems,
+      sortedCalendarEvents,
       initialRenderTips,
     } = this.props
     const viewState = {
       activeEntity: activeEntity,
       calendarEvents: calendarEvents,
-      sortedNewsItems: sortedNewsItems,
+      sortedCalendarEvents: sortedCalendarEvents,
     }
     return (
       <Fragment>
         <div
           id="calendar"
-          className="flex-auto relative overflow-y-hidden overflow-y-auto-m"
+          ref={(node) => (this.calendar = node)}
+          className="flex-auto relative overflow-y-auto-m"
           style={
             !activeEntity &&
             window.isMobile &&
@@ -170,7 +201,7 @@ class CalendarList extends Component {
             viewState,
             itemHeight,
             activeFilters,
-            sortedNewsItems,
+            sortedCalendarEvents,
             initialRenderTips,
             isLoading,
           )}

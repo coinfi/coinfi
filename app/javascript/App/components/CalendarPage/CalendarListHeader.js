@@ -9,14 +9,7 @@ import bulbIcon from '../../images/bulbIcon.svg'
 import filterBtn from '../../images/filter-btn.svg'
 
 const CalendarListHeader = (props) => {
-  const {
-    enableUI,
-    currentUI,
-    coins,
-    feedSources,
-    activeFilters,
-    calendarTips,
-  } = props
+  const { enableUI, currentUI, coins, activeFilters, calendarTips } = props
   const toggleFilters = () =>
     enableUI('filterPanel', { fullScreen: window.isMobile })
 
@@ -90,14 +83,14 @@ const CalendarListHeader = (props) => {
               <span>Coins</span>
             </button>
           )}
-          <SearchCoins {...props} />
           <button
             onClick={toggleFilters}
-            className="btn btn-xs btn-white filter-btn ml2"
+            className="btn btn-xs btn-white filter-btn ml2 mr1"
           >
             <img style={{ height: 10, marginRight: 10 }} src={filterBtn} />
             Filters
           </button>
+          <SearchCoins {...props} classProps="ml1 pl2 bl" />
         </div>
       </SectionHeader>
       {activeFilters.size > 0 && (
@@ -107,7 +100,7 @@ const CalendarListHeader = (props) => {
         </div>
       )}
       {currentUI('filterPanel') && (
-        <FilterPanel {...props} filterData={{ coins, feedSources }} />
+        <FilterPanel {...props} filterData={{ coins }} />
       )}
     </Fragment>
   )

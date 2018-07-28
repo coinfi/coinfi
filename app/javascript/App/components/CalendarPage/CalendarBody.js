@@ -20,21 +20,24 @@ export default class CalendarBody extends Component {
     }
     const categories = selectNewsCategories(calendarEvent)
     const content = _.trim(calendarEvent.get('description'))
+    const source_url = calendarEvent.get('source_url')
     return (
       <div className="pa3 bg-white min-h-100 selected-calendar-content">
         <CoinTags itemWithCoinLinkData={calendarEvent} />
-        <h1 className="break-word f4">{calendarEvent.get('title')}</h1>
-        <div className="mb3 f6">
-          <a
-            href={calendarEvent.get('url')}
-            target="_blank"
-            rel="nofollow"
-            className="break-all"
-          >
-            <Icon name="link" className="mr1 f7" regular />
-            {calendarEvent.get('url')}
-          </a>
-        </div>
+        <h1 className="break-word f4">{calendarEvent.get('name')}</h1>
+        {source_url && (
+          <div className="mb3 f6">
+            <a
+              href={calendarEvent.get('source_url')}
+              target="_blank"
+              rel="nofollow"
+              className="break-all"
+            >
+              <Icon name="link" className="mr1 f7" regular />
+              {calendarEvent.get('source_url')}
+            </a>
+          </div>
+        )}
         <div className="mb3 f6">
           <Icon name="clock" className="mr1 f7" regular />
           {timeago().format(calendarEvent.get('date_event'))}

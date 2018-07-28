@@ -27,6 +27,7 @@ class SearchCoins extends Component {
   }
   render() {
     const {
+      classProps,
       searchText,
       clearSearch,
       searchedCoins,
@@ -40,7 +41,7 @@ class SearchCoins extends Component {
     } = this.props
 
     return (
-      <div className="search-field">
+      <div className={`${classProps ? classProps : ''} search-field`}>
         <div className="flex items-center f5 tiber">
           <Icon
             regular
