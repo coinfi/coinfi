@@ -1,5 +1,6 @@
 class User < ApplicationRecord
-  attr_accessor :skip_password_validation
+  after_create :identify_in_launch_darkly
+
   has_many :news_items
   has_many :visits
   has_many :contributor_submissions
@@ -8,18 +9,14 @@ class User < ApplicationRecord
   has_one :watchlist, inverse_of: :user
   has_many :coins, through: :watchlist
 
+  attr_accessor :skip_password_validation
+
+  alias_method :submissions, :contributor_submissions
+
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable
   devise :database_authenticatable, :registerable,
   :recoverable, :rememberable, :trackable, :validatable, :omniauthable
-
-  def admin?
-    role == 'admin'
-  end
-
-  def get_referrals
-    User.where("token_sale ->> 'referred_by' = ?", self.id.to_s).order(created_at: :desc).select(:email, :created_at)
-  end
 
   def self.find_for_oauth(auth)
     user = User.where(uid: auth.uid, provider: auth.provider).first
@@ -42,6 +39,14 @@ class User < ApplicationRecord
         user.email = data["email"] if user.email.blank?
       end
     end
+  end
+
+  def admin?
+    role == 'admin'
+  end
+
+  def get_referrals
+    User.where("token_sale ->> 'referred_by' = ?", self.id.to_s).order(created_at: :desc).select(:email, :created_at)
   end
 
   def in_referral_program?
@@ -80,7 +85,13 @@ class User < ApplicationRecord
     token_sale["ethereum_address"] if token_sale && token_sale["ethereum_address"]
   end
 
-  alias_method :submissions, :contributor_submissions
+  def launch_darkly_hash
+    {
+      key: id,
+      email: email,
+      anonymous: false,
+    }
+  end
 
 protected
 
@@ -90,6 +101,10 @@ protected
   end
 
 private
+
+  def identify_in_launch_darkly
+    $launch_darkly.identify(launch_darkly_hash)
+  end
 
   def self.dummy_email(auth)
     "#{auth.uid}-#{auth.provider}@example.com"
