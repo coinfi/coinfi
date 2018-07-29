@@ -10,13 +10,13 @@ export default (namespace, filterList) => {
       const active = s.get('activeFilters')
       return filterList.filter((item) => {
         if (item.get('disabled') || item.get('unlisted')) return false
-        return !active.find((o) => o.get('key') === item.get('key'))
+        return !active.find((o) => o && o.get('key') === item.get('key'))
       })
     }),
     disabledFilters: createSelector(selectState, (s) => {
       return filterList.filter((item) => {
         return !!item.get('disabled')
       })
-    })
+    }),
   }
 }

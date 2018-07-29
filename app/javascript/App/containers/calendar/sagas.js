@@ -63,9 +63,7 @@ function* pollCalendarEvents(action) {
     const sortedCalendarEvents = yield select(selectors.sortedCalendarEvents)
     const params = yield calendarEventParams()
     if (sortedCalendarEvents[0])
-      params.publishedSince = sortedCalendarEvents[0].get(
-        'feed_item_published_at',
-      )
+      params.publishedSince = sortedCalendarEvents[0].get('date_created')
     yield put(
       actions.fetchEntityListUpdates('calendarEvents', {
         params,
