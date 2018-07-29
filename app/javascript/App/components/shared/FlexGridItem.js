@@ -4,7 +4,7 @@ import styled from 'styled-components'
 class FlexGridItemElem extends React.Component {
   render() {
     const flexBasisWidth = 300
-    const colGridWidth = this.props.colWidth == 2 ? '68%' : '50%'
+    const colGridWidth = this.props.colWidth == 2 ? '67%' : '50%'
     const FlexGridItem = styled.div`
       flex-grow: 1;
       flex-shrink: 0;

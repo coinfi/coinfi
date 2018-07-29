@@ -23,8 +23,7 @@ class ApplicationController < ActionController::Base
   protected
 
   def has_news_feature?
-    true
-    # current_user && $launch_darkly.variation('news', get_ld_user, false)
+    current_user && $launch_darkly.variation('news', get_ld_user, false)
   end
   helper_method :has_news_feature?
 

@@ -164,13 +164,13 @@ class CoinIndex extends Component {
       },
       {
         title: 'Volume (24hr)',
-        dataIndex: 'volume24.usd',
-        key: 'volume24.usd',
+        dataIndex: '24h_volume_usd',
+        key: '24h_volume_usd',
         render: (text, row, index) => {
           return (
             <span>
-              {row.market_info.volume24 &&
-                row.market_info.volume24.usd.toLocaleString('en-US', {
+              {row.market_info['24h_volume_usd'] &&
+                row.market_info['24h_volume_usd'].toLocaleString('en-US', {
                   maximumFractionDigits: 0,
                 })}
             </span>
@@ -228,11 +228,6 @@ class CoinIndex extends Component {
                   loading={this.state.loading}
                   onChange={this.handleTableChange}
                 />
-                {/* <Table */}
-                {/*   columns={colVar} */}
-                {/*   dataSource={this.props.coins} */}
-                {/*   onChange={this.handleChange} */}
-                {/* /> */}
               </div>
             </div>
           </Content>
