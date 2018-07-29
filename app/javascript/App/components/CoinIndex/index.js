@@ -1,25 +1,67 @@
 import React, { Component, Fragment } from 'react'
 import { Layout, Card, Button, Menu, Dropdown, Icon, Table } from 'antd'
 import styled from 'styled-components'
+import reqwest from 'reqwest'
 import SparkLineTable from './../SparkLineTable.jsx'
 
 const { Header, Footer, Content } = Layout
 
+const columns = [
+  {
+    title: 'Name',
+    dataIndex: 'name',
+    render: (name) => `${name}`,
+    width: '20%',
+  },
+]
+
 class CoinIndex extends Component {
   state = {
-    sortedInfo: null,
+    data: [],
+    pagination: {},
+    loading: false,
   }
 
-  handleChange = (pagination, filters, sorter) => {
+  handleTableChange = (pagination, filters, sorter) => {
+    const pager = { ...this.state.pagination }
+    pager.current = pagination.current
     this.setState({
-      sortedInfo: sorter,
+      pagination: pager,
+    })
+    this.fetch({
+      results: pagination.pageSize,
+      page: pagination.current,
+      sortField: sorter.field,
+      sortOrder: sorter.order,
+      ...filters,
     })
   }
 
-  clearAll = () => {
-    this.setState({
-      sortedInfo: null,
+  fetch = (params = {}) => {
+    this.setState({ loading: true })
+    reqwest({
+      url: '/api/coins.json',
+      method: 'get',
+      data: {
+        results: 10,
+        ...params,
+      },
+      type: 'json',
+    }).then((data) => {
+      const pagination = { ...this.state.pagination }
+      // Read total count from server
+      // pagination.total = data.totalCount;
+      pagination.total = 100 //490
+      this.setState({
+        loading: false,
+        data: data.payload,
+        pagination,
+      })
     })
+  }
+
+  componentDidMount() {
+    this.fetch()
   }
 
   render() {
@@ -61,24 +103,26 @@ class CoinIndex extends Component {
         render: (text, row, index) => {
           return (
             <span>
-              {text.toLocaleString('en-US', {
-                style: 'currency',
-                currency: 'USD',
-              })}
+              {row.market_info.price_usd &&
+                row.market_info.price_usd.toLocaleString('en-US', {
+                  style: 'currency',
+                  currency: 'USD',
+                })}
             </span>
           )
         },
       },
       {
         title: 'Market Cap',
-        dataIndex: 'market_cap.usd',
-        key: 'market_cap.usd',
+        dataIndex: 'market_cap_usd',
+        key: 'market_cap_usd',
         render: (text, row, index) => {
           return (
             <span>
-              {text.toLocaleString('en-US', {
-                maximumFractionDigits: 0,
-              })}
+              {row.market_info.market_cap_usd &&
+                row.market_info.market_cap_usd.toLocaleString('en-US', {
+                  maximumFractionDigits: 0,
+                })}
             </span>
           )
         },
@@ -88,10 +132,11 @@ class CoinIndex extends Component {
         dataIndex: 'change1h',
         key: 'change1h',
         render: (text, row, index) => {
-          if (text > 0) {
-            return <span style={{ color: '#12d8b8' }}>{text}%</span>
+          const percentChange1h = row.market_info.percent_change_1h
+          if (percentChange1h > 0) {
+            return <span style={{ color: '#12d8b8' }}>{percentChange1h}%</span>
           }
-          return <span style={{ color: '#ff6161' }}>{text}%</span>
+          return <span style={{ color: '#ff6161' }}>{percentChange1h}%</span>
         },
       },
       {
@@ -99,10 +144,11 @@ class CoinIndex extends Component {
         dataIndex: 'change24h',
         key: 'change24h',
         render: (text, row, index) => {
-          if (text > 0) {
-            return <span style={{ color: '#12d8b8' }}>{text}%</span>
+          const percent24h = row.market_info.percent_change_24h
+          if (percent24h > 0) {
+            return <span style={{ color: '#12d8b8' }}>{percent24h}%</span>
           }
-          return <span style={{ color: '#ff6161' }}>{text}%</span>
+          return <span style={{ color: '#ff6161' }}>{percent24h}%</span>
         },
       },
       {
@@ -110,10 +156,11 @@ class CoinIndex extends Component {
         dataIndex: 'change7d',
         key: 'change7d',
         render: (text, row, index) => {
-          if (text > 0) {
-            return <span style={{ color: '#12d8b8' }}>{text}%</span>
+          const percent7d = row.market_info.percent_change_7d
+          if (percent7d > 0) {
+            return <span style={{ color: '#12d8b8' }}>{percent7d}%</span>
           }
-          return <span style={{ color: '#ff6161' }}>{text}%</span>
+          return <span style={{ color: '#ff6161' }}>{percent7d}%</span>
         },
       },
       {
@@ -123,7 +170,10 @@ class CoinIndex extends Component {
         render: (text, row, index) => {
           return (
             <span>
-              {text.toLocaleString('en-US', { maximumFractionDigits: 0 })}
+              {row.market_info.volume24 &&
+                row.market_info.volume24.usd.toLocaleString('en-US', {
+                  maximumFractionDigits: 0,
+                })}
             </span>
           )
         },
@@ -173,9 +223,17 @@ class CoinIndex extends Component {
                 </Section>
                 <Table
                   columns={colVar}
-                  dataSource={this.props.coins}
-                  onChange={this.handleChange}
+                  rowKey={(record) => record.id}
+                  dataSource={this.state.data}
+                  pagination={this.state.pagination}
+                  loading={this.state.loading}
+                  onChange={this.handleTableChange}
                 />
+                {/* <Table */}
+                {/*   columns={colVar} */}
+                {/*   dataSource={this.props.coins} */}
+                {/*   onChange={this.handleChange} */}
+                {/* /> */}
               </div>
             </div>
           </Content>

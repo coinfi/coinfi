@@ -4,7 +4,7 @@ class Api::CoinsController < ApiController
     if params[:exclude_watched]
       query[:id_not_in] = current_user.watchlist.coin_ids
     end
-    @coins = Coin.ransack(query).result(distinct: true).limit(params[:limit] || 10)
+    @coins = Coin.order(:ranking).ransack(query).result(distinct: true).page(params[:page]).limit(params[:limit] || 10)
     respond_success index_serializer(@coins)
   end
 
