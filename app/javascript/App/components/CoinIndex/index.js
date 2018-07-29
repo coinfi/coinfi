@@ -49,9 +49,8 @@ class CoinIndex extends Component {
       type: 'json',
     }).then((data) => {
       const pagination = { ...this.state.pagination }
-      // Read total count from server
-      // pagination.total = data.totalCount;
-      pagination.total = 100 //490
+      // todo: Read total count from server
+      pagination.total = 100
       this.setState({
         loading: false,
         data: data.payload,
