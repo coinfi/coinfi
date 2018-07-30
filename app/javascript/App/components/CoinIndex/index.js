@@ -39,24 +39,20 @@ class CoinIndex extends Component {
 
   fetch = (params = {}) => {
     this.setState({ loading: true })
-    reqwest({
-      url: '/api/coins.json',
-      method: 'get',
-      data: {
-        results: 10,
-        ...params,
-      },
-      type: 'json',
-    }).then((data) => {
+    const coinRequest = new XMLHttpRequest()
+    coinRequest.open('GET', '/api/coins.json', true)
+    coinRequest.onload = () => {
+      var totalPages = parseInt(request.getResponseHeader('Total'))
+      const data = JSON.parse(request.response).payload
       const pagination = { ...this.state.pagination }
-      // todo: Read total count from server
-      pagination.total = 100
+      pagination.total = totalPages
       this.setState({
         loading: false,
-        data: data.payload,
+        data: data,
         pagination,
       })
-    })
+    }
+    request.send()
   }
 
   componentDidMount() {

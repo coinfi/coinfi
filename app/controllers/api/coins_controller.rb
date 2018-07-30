@@ -1,13 +1,10 @@
 class Api::CoinsController < ApiController
-
-  include Rails::Pagination
-
   def index
     query = params[:q] || {}
     if params[:exclude_watched]
       query[:id_not_in] = current_user.watchlist.coin_ids
     end
-    @coins = paginate Coin.order(:ranking).ransack(query).result(distinct: true).limit(params[:limit] || 10)
+    @coins = Coin.ransack(query).result(distinct: true).limit(params[:limit] || 10)
     respond_success index_serializer(@coins)
   end
 
