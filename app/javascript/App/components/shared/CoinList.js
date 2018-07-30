@@ -18,9 +18,7 @@ class CoinList extends Component {
     if (window.isMobile) enableUI('bodySectionDrawer', { fullScreen: true })
   }
   newCoinHandler = (coin) => {
-    this.setActiveCoin(coin)
-    this.props.toggleUI('coinSearch')
-    this.props.clearSearch()
+    this.props.watchlistHandler(coin)
   }
   render() {
     const { isLoading, currentUI, isWatching } = this.props
@@ -35,27 +33,37 @@ class CoinList extends Component {
           className="flex-auto relative overflow-y-auto coin-watch-list"
           style={watchlistStarIcon && { textAlign: 'center' }}
         >
-          {!coins.length &&
-            !isLoading('coins') && (
-              <Fragment>
-                <img className="db mt7 mb3 center" src={watchlistStarIcon} />
-                <strong className="lh-copy fw3">
-                  Looks like you have not added <br />
-                  any coins to your watchlist page yet!
-                </strong>
-              </Fragment>
-            )}
-
-          {isLoading('coins') && (
-            <LoadingIndicator className="overlay bg-white-70" />
+          {!coins.length && (
+            <Fragment>
+              <img className="db mt7 mb3 center" src={watchlistStarIcon} />
+              <strong className="lh-copy fw3">
+                Looks like you have not added <br />
+                any coins to your watchlist page yet!
+              </strong>
+            </Fragment>
           )}
+
+          {currentUI('coinSearch') &&
+            searchedCoins.size > 0 && (
+              <div className="b--b bw2">
+                {searchedCoins.map((coin, key) => {
+                  return (
+                    <CoinListItem
+                      {...{ coin, key, ...this.props }}
+                      onClick={this.newCoinHandler}
+                      onWatch={this.newCoinHandler}
+                    />
+                  )
+                })}
+              </div>
+            )}
           {coins.map((coin, index) => {
             return (
               <CoinListItem
                 key={index}
                 coin={coin}
                 {...this.props}
-                onClick={this.setActiveCoin}
+                onClick={this.newCoinHandler}
               />
             )
           })}

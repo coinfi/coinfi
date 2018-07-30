@@ -15,11 +15,11 @@ import FlexGrid from './../shared/FlexGrid'
 import FlexGridItem from './../shared/FlexGridItem'
 import SearchCoins from './../shared/SearchCoins'
 import CoinCharts from './../CoinCharts'
-import SectionHeader from './../NewsfeedPage/SectionHeader'
-import SectionHeaderTight from './../NewsfeedPage/SectionHeaderTight'
+import SectionHeader from './../shared/SectionHeader'
+import SectionHeaderTight from './../shared/SectionHeaderTight'
 import CustomIcon from '../Icon'
-import CoinListDrawer from './../NewsfeedPage/CoinListDrawer'
-import CoinList from './../NewsfeedPage/CoinList'
+import CoinListDrawer from './../shared/CoinListDrawer'
+import CoinList from './../shared/CoinList'
 import newsfeedContainer from './../../containers/newsfeed'
 
 const { Header, Footer, Content } = Layout
@@ -69,9 +69,7 @@ class CoinShow extends Component {
         value: (
           <span
             style={
-              coinObj.change7d > 0
-                ? { color: '#12d8b8' }
-                : { color: '#ff6161' }
+              coinObj.change7d > 0 ? { color: '#12d8b8' } : { color: '#ff6161' }
             }
           >
             {coinObj.change7d.toLocaleString('en-US')}%

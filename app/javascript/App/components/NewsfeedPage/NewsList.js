@@ -132,6 +132,7 @@ class NewsList extends Component {
 
   selectCoin(coinData) {
     const { setFilter, clearSearch, setActiveEntity } = this.props
+    setActiveEntity({ type: 'coin', id: coinData.get('id') })
     if (this.selectedCoins) {
       let value = this.selectedCoins()
       value = union(value, [coinData.get('name')]) // eslint-disable-line no-undef
