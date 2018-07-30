@@ -1,8 +1,8 @@
-import React from "react"
-import CoinList from "./CoinList"
-import NewsList from "./NewsList"
-import NewsListHeader from "./NewsListHeader"
-import BodySection from "./BodySection"
+import React from 'react'
+import CoinList from './../CoinListWidget'
+import NewsList from './NewsList'
+import NewsListHeader from './NewsListHeader'
+import BodySection from './BodySection'
 
 export default function(props) {
   return (
