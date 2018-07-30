@@ -74,6 +74,9 @@ class CoinIndex extends Component {
         title: '#',
         dataIndex: 'ranking',
         key: 'ranking',
+        render: (text, row, index) => {
+          return <div>{row.market_info.rank}</div>
+        },
       },
       {
         title: 'Name',
