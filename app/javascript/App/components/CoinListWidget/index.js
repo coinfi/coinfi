@@ -4,8 +4,6 @@ import CoinListItem from './CoinListItem'
 import LoadingIndicator from '../LoadingIndicator'
 import watchlistStarIcon from '../../images/watch-list-star-icon.svg'
 
-const topCoinList = ['BTC']
-
 class CoinList extends Component {
   setActiveCoin = (coin) => {
     const { setActiveEntity, setFilter, disableUI, enableUI } = this.props
@@ -29,8 +27,6 @@ class CoinList extends Component {
     let { coins } = this.props
     if (currentUI('watchingOnly')) {
       coins = coins.filter((coin) => isWatching(coin.get('id')))
-    } else {
-      coins = coins.filter((coin) => topCoinList.includes(coin.get('symbol')))
     }
     return (
       <Fragment>
