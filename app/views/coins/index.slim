@@ -1,1 +1,53 @@
-= react_component "CoinIndex", withStore: true, props: { loggedIn: !!current_user, coins: @coins }
+- currency = 'usd' # TODO: Allow user to select default currency.
+.container-wide
+  .bg-white
+    .flex.items-center.justify-between.w-100.pt3.ph3.ph4-ns.pt4-ns.pt5-m.ph5-m.w-100
+      h1.ma0 Top Cryptocurrency Prices
+      = react_component "GlobalCoinSearch", withStore: true
+    .ph4-s.ph5-m.pt4.pt5-m
+      table
+        thead
+          tr.right-align
+            th.left-align.pr0.o-30 #
+            th.left-align Name
+            th Market Cap
+            th Price
+            th.reveal-l Supply
+            th Volume (24h)
+            th.reveal-l % Change (24h)
+            - if current_user
+              th.reveal-m
+        tbody
+          - @coins.each_with_index do |coin, idx|
+            tr.right-align
+              td.pr0.left-align
+                = paged_index(@coins.current_page, @coins.limit_value, idx)
+              td.left-align
+                .flex.items-center
+                  = image_tag coin.image_url, class: 'w2e mr2', alt: coin.name if coin.image_url.present?
+                  a.db.b href=coin_url(coin)
+                    = coin.name
+                    .f7.mt1
+                      = coin.symbol
+              td
+                .reveal-l
+                  = number_to_currency coin.market_cap_by_currency(currency)
+                .conceal-l
+                  = coin.stored_market_info['market_cap_usd']
+              td
+                = custom_number_to_currency coin.price_by_currency(currency)
+                .conceal-l
+                  = display_percentage_change coin.change24h
+              td.reveal-l
+                = display_available_supply(coin)
+              td
+                .reveal-l
+                  = custom_number_to_currency coin.volume24_by_currency(currency)
+                .conceal-l
+                  = coin.stored_market_info['24h_volume_usd']
+              td.reveal-l
+                = display_percentage_change coin.change24h
+              - if current_user
+                td.reveal-m
+                  = react_component "WatchButton", props: { coinID: coin.id, watching: user_is_watching?(coin), loggedIn: !!current_user }
+      = paginate @coins, window: 6

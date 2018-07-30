@@ -1,0 +1,7 @@
+section.phr.pv4
+  h3 Relevant Content
+  - tab_items = ["#{@coin.name} News"]
+  = react_component "Tabs", props: { target: 'relevant-content', items: tab_items }
+  #relevant-content.mt3
+    .tab-content.active
+      = render partial: 'articles', locals: { articles: @coin.articles.order(published_date: :desc) }
