@@ -1,17 +1,15 @@
 import React from 'react'
 import SparkLine from './SparkLine.jsx'
 
-
-
 class SparkLineTable extends React.Component {
   constructor(props) {
     super(props)
   }
 
   toSparkLine(children, params) {
-   let header
+    let header
 
-    return React.Children.map(children, child => {
+    return React.Children.map(children, (child) => {
       if (!React.isValidElement(child)) return child
 
       if (child.type === 'th') header = child.props.children
@@ -22,7 +20,7 @@ class SparkLineTable extends React.Component {
 
       if (child.props.children) {
         child = React.cloneElement(child, {
-          children: this.toSparkLine(child.props.children)
+          children: this.toSparkLine(child.props.children),
         })
       }
 
@@ -35,34 +33,32 @@ class SparkLineTable extends React.Component {
 
     const data = dataAttr[0].split(', ').map(Number)
     const options = {
-      series: [{
-        data,
-        pointStart: 1
-      }],
+      series: [
+        {
+          data,
+          pointStart: 1,
+        },
+      ],
 
       tooltip: {
         headerFormat: `<span style="font-sze:10px">${header}, Q{point.x}: </span><br/>`,
-        pointFormat: '<b>{point.y}.000</b> USD'
+        pointFormat: '<b>{point.y}.000</b> USD',
       },
       chart: {
-        type: dataAttr[1] || 'area'
-      }
+        type: dataAttr[1] || 'area',
+      },
     }
 
     return <SparkLine options={options} />
   }
 
-  render () {
+  render() {
     const style = {
       margin: '0 auto',
-      borderCollapse: 'collapse'
+      borderCollapse: 'collapse',
     }
 
-    return (
-      <table style={style}>
-        {this.toSparkLine(this.props.children)}
-      </table>
-    )
+    return <table style={style}>{this.toSparkLine(this.props.children)}</table>
   }
 }
 

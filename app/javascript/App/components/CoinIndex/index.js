@@ -1,68 +1,13 @@
 import React, { Component, Fragment } from 'react'
 import { Layout, Card, Button, Menu, Dropdown, Icon, Table } from 'antd'
 import styled from 'styled-components'
-import reqwest from 'reqwest'
 import SparkLineTable from './../SparkLineTable.jsx'
+import CoinIndexPageNav from './CoinIndexPageNav'
 
 const { Header, Footer, Content } = Layout
 
-const columns = [
-  {
-    title: 'Name',
-    dataIndex: 'name',
-    render: (name) => `${name}`,
-    width: '20%',
-  },
-]
-
 class CoinIndex extends Component {
-  state = {
-    data: [],
-    pagination: {},
-    loading: false,
-  }
-
-  handleTableChange = (pagination, filters, sorter) => {
-    const pager = { ...this.state.pagination }
-    pager.current = pagination.current
-    this.setState({
-      pagination: pager,
-    })
-    this.fetch({
-      results: pagination.pageSize,
-      page: pagination.current,
-      sortField: sorter.field,
-      sortOrder: sorter.order,
-      ...filters,
-    })
-  }
-
-  fetch = (params = {}) => {
-    this.setState({ loading: true })
-    const coinRequest = new XMLHttpRequest()
-    coinRequest.open('GET', '/api/coins.json', true)
-    coinRequest.onload = () => {
-      var totalPages = parseInt(request.getResponseHeader('Total'))
-      const data = JSON.parse(request.response).payload
-      const pagination = { ...this.state.pagination }
-      pagination.total = totalPages
-      this.setState({
-        loading: false,
-        data: data,
-        pagination,
-      })
-    }
-    request.send()
-  }
-
-  componentDidMount() {
-    this.fetch()
-  }
-
   render() {
-    let { sortedInfo } = this.state
-    sortedInfo = sortedInfo || {}
-
     const { symbol } = this.props
 
     const columnNames = [
@@ -70,9 +15,6 @@ class CoinIndex extends Component {
         title: '#',
         dataIndex: 'ranking',
         key: 'ranking',
-        render: (text, row, index) => {
-          return <div>{row.market_info.rank}</div>
-        },
       },
       {
         title: 'Name',
@@ -87,7 +29,7 @@ class CoinIndex extends Component {
                 style={{ width: 35, marginRight: 10 }}
               />
               <div style={{ flexGrow: 1 }}>
-                <a href={`/coinsnew/${text.toLowerCase()}`}>{row.symbol}</a>
+                <a href={`/coins/${text.toLowerCase()}`}>{row.symbol}</a>
                 <div>{text}</div>
               </div>
             </div>
@@ -101,26 +43,24 @@ class CoinIndex extends Component {
         render: (text, row, index) => {
           return (
             <span>
-              {row.market_info.price_usd &&
-                row.market_info.price_usd.toLocaleString('en-US', {
-                  style: 'currency',
-                  currency: 'USD',
-                })}
+              {text.toLocaleString('en-US', {
+                style: 'currency',
+                currency: 'USD',
+              })}
             </span>
           )
         },
       },
       {
         title: 'Market Cap',
-        dataIndex: 'market_cap_usd',
-        key: 'market_cap_usd',
+        dataIndex: 'market_cap.usd',
+        key: 'market_cap.usd',
         render: (text, row, index) => {
           return (
             <span>
-              {row.market_info.market_cap_usd &&
-                row.market_info.market_cap_usd.toLocaleString('en-US', {
-                  maximumFractionDigits: 0,
-                })}
+              {text.toLocaleString('en-US', {
+                maximumFractionDigits: 0,
+              })}
             </span>
           )
         },
@@ -130,11 +70,10 @@ class CoinIndex extends Component {
         dataIndex: 'change1h',
         key: 'change1h',
         render: (text, row, index) => {
-          const percentChange1h = row.market_info.percent_change_1h
-          if (percentChange1h > 0) {
-            return <span style={{ color: '#12d8b8' }}>{percentChange1h}%</span>
+          if (text > 0) {
+            return <span style={{ color: '#12d8b8' }}>{text}%</span>
           }
-          return <span style={{ color: '#ff6161' }}>{percentChange1h}%</span>
+          return <span style={{ color: '#ff6161' }}>{text}%</span>
         },
       },
       {
@@ -142,11 +81,10 @@ class CoinIndex extends Component {
         dataIndex: 'change24h',
         key: 'change24h',
         render: (text, row, index) => {
-          const percent24h = row.market_info.percent_change_24h
-          if (percent24h > 0) {
-            return <span style={{ color: '#12d8b8' }}>{percent24h}%</span>
+          if (text > 0) {
+            return <span style={{ color: '#12d8b8' }}>{text}%</span>
           }
-          return <span style={{ color: '#ff6161' }}>{percent24h}%</span>
+          return <span style={{ color: '#ff6161' }}>{text}%</span>
         },
       },
       {
@@ -154,24 +92,20 @@ class CoinIndex extends Component {
         dataIndex: 'change7d',
         key: 'change7d',
         render: (text, row, index) => {
-          const percent7d = row.market_info.percent_change_7d
-          if (percent7d > 0) {
-            return <span style={{ color: '#12d8b8' }}>{percent7d}%</span>
+          if (text > 0) {
+            return <span style={{ color: '#12d8b8' }}>{text}%</span>
           }
-          return <span style={{ color: '#ff6161' }}>{percent7d}%</span>
+          return <span style={{ color: '#ff6161' }}>{text}%</span>
         },
       },
       {
         title: 'Volume (24hr)',
-        dataIndex: '24h_volume_usd',
-        key: '24h_volume_usd',
+        dataIndex: 'volume24.usd',
+        key: 'volume24.usd',
         render: (text, row, index) => {
           return (
             <span>
-              {row.market_info['24h_volume_usd'] &&
-                row.market_info['24h_volume_usd'].toLocaleString('en-US', {
-                  maximumFractionDigits: 0,
-                })}
+              {text.toLocaleString('en-US', { maximumFractionDigits: 0 })}
             </span>
           )
         },
@@ -221,14 +155,12 @@ class CoinIndex extends Component {
                 </Section>
                 <Table
                   columns={colVar}
-                  rowKey={(record) => record.id}
-                  dataSource={this.state.data}
-                  pagination={this.state.pagination}
-                  loading={this.state.loading}
-                  onChange={this.handleTableChange}
+                  dataSource={this.props.coins}
+                  pagination={false}
                 />
               </div>
             </div>
+            <CoinIndexPageNav />
           </Content>
           <Footer />
         </Layout>
