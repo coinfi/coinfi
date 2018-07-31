@@ -2,6 +2,7 @@ import { fromJS } from 'immutable'
 
 export const namespace = 'calendar'
 
+export const defaultEvent = 'Upcoming events'
 export const filterList = fromJS([
   { key: 'events', label: 'Show only' },
   { key: 'status', label: 'Event Status' },

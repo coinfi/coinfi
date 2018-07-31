@@ -16,7 +16,6 @@ class FilterPanel extends Component {
   }
   onChange = (key, event) => (value) => {
     const filters = { ...this.state.filters }
-
     if (value.toJS) value = value.toJS()
     filters[key] = value
     if (value && value.publishedSince) {
