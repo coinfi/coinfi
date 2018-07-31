@@ -33,6 +33,7 @@ en:
   administrate:
     actions:
       new: New
+      show: ''
   helpers:
     label:
       coin:
