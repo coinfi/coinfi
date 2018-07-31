@@ -87,10 +87,14 @@ class User < ApplicationRecord
 
   def launch_darkly_hash
     {
-      key: id,
+      key: email,
       email: email,
       anonymous: false,
     }
+  end
+
+  def identify_in_launch_darkly
+    $launch_darkly.identify(launch_darkly_hash)
   end
 
 protected
@@ -101,10 +105,6 @@ protected
   end
 
 private
-
-  def identify_in_launch_darkly
-    $launch_darkly.identify(launch_darkly_hash)
-  end
 
   def self.dummy_email(auth)
     "#{auth.uid}-#{auth.provider}@example.com"
