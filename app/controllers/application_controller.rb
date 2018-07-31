@@ -9,7 +9,7 @@ class ApplicationController < ActionController::Base
     '/news'
   end
 
-  private
+private
 
   def set_locale
     I18n.locale = params[:locale] || I18n.default_locale
@@ -20,23 +20,15 @@ class ApplicationController < ActionController::Base
     { locale: I18n.locale }
   end
 
-  protected
+protected
 
   def has_news_feature?
-    current_user && $launch_darkly.variation('news', get_ld_user, false)
+    current_user && $launch_darkly.variation('news', current_user.launch_darkly_hash, false)
   end
   helper_method :has_news_feature?
 
   def has_calendar_feature?
-    current_user && $launch_darkly.variation('calendar', get_ld_user, false)
+    current_user && $launch_darkly.variation('calendar', current_user.launch_darkly_hash, false)
   end
   helper_method :has_calendar_feature?
-
-  def get_ld_user
-    {
-      key: current_user.id,
-      email: current_user.email,
-      anonymous: false,
-    }
-  end
 end
