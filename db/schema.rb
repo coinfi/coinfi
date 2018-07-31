@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180716123944) do
+ActiveRecord::Schema.define(version: 20180730054335) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -111,6 +111,35 @@ ActiveRecord::Schema.define(version: 20180716123944) do
     t.index ["creator_id"], name: "index_blazer_queries_on_creator_id"
   end
 
+  create_table "calendar_event_categorizations", force: :cascade do |t|
+    t.bigint "calendar_event_id"
+    t.bigint "news_category_id"
+    t.index ["calendar_event_id"], name: "index_calendar_event_categorizations_on_calendar_event_id"
+    t.index ["news_category_id"], name: "index_calendar_event_categorizations_on_news_category_id"
+  end
+
+  create_table "calendar_event_coins", force: :cascade do |t|
+    t.bigint "calendar_event_id"
+    t.bigint "coin_id"
+    t.index ["calendar_event_id"], name: "index_calendar_event_coins_on_calendar_event_id"
+    t.index ["coin_id"], name: "index_calendar_event_coins_on_coin_id"
+  end
+
+  create_table "calendar_events", force: :cascade do |t|
+    t.bigint "user_id"
+    t.string "name"
+    t.text "description"
+    t.datetime "date_event"
+    t.datetime "date_added"
+    t.string "source_url"
+    t.string "screenshot_url"
+    t.string "status"
+    t.bigint "approvals"
+    t.bigint "disapprovals"
+    t.integer "confidence"
+    t.index ["user_id"], name: "index_calendar_events_on_user_id"
+  end
+
   create_table "coin_excluded_countries", force: :cascade do |t|
     t.bigint "coin_id"
     t.bigint "country_id"
@@ -198,7 +227,6 @@ ActiveRecord::Schema.define(version: 20180716123944) do
     t.string "coin_key"
     t.index ["category"], name: "index_coins_on_category"
     t.index ["coin_key"], name: "index_coins_on_coin_key"
-    t.index ["coin_key"], name: "uq_coins_website_domain", unique: true
     t.index ["influencer_reviews_count"], name: "index_coins_on_influencer_reviews_count"
     t.index ["market_cap"], name: "index_coins_on_market_cap", using: :gin
     t.index ["name"], name: "index_coins_on_name", unique: true
@@ -226,6 +254,35 @@ ActiveRecord::Schema.define(version: 20180716123944) do
     t.string "alpha2"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "exchange_listings", force: :cascade do |t|
+    t.bigint "exchange_id"
+    t.string "ccxt_exchange_id"
+    t.string "symbol"
+    t.string "quote_symbol"
+    t.bigint "quote_symbol_id"
+    t.string "base_symbol"
+    t.bigint "base_symbol_id"
+    t.datetime "detected_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["base_symbol_id"], name: "index_exchange_listings_on_base_symbol_id"
+    t.index ["detected_at"], name: "index_exchange_listings_on_detected_at"
+    t.index ["exchange_id"], name: "index_exchange_listings_on_exchange_id"
+    t.index ["quote_symbol"], name: "index_exchange_listings_on_quote_symbol"
+    t.index ["quote_symbol_id"], name: "index_exchange_listings_on_quote_symbol_id"
+  end
+
+  create_table "exchanges", force: :cascade do |t|
+    t.string "ccxt_id"
+    t.string "name"
+    t.string "slug"
+    t.string "www_url"
+    t.string "logo_url"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["ccxt_id"], name: "index_exchanges_on_ccxt_id", unique: true
   end
 
   create_table "feed_sources", force: :cascade do |t|
@@ -388,6 +445,11 @@ ActiveRecord::Schema.define(version: 20180716123944) do
     t.jsonb "token_sale"
     t.string "username"
     t.string "role"
+    t.string "confirmation_token"
+    t.datetime "confirmed_at"
+    t.datetime "confirmation_sent_at"
+    t.string "unconfirmed_email"
+    t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["provider"], name: "index_users_on_provider"
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
@@ -441,10 +503,14 @@ ActiveRecord::Schema.define(version: 20180716123944) do
   end
 
   add_foreign_key "articles", "coins"
+  add_foreign_key "calendar_events", "users"
   add_foreign_key "coin_excluded_countries", "coins", on_delete: :cascade
   add_foreign_key "coin_excluded_countries", "countries", on_delete: :cascade
   add_foreign_key "contributor_submissions", "submission_categories"
   add_foreign_key "contributor_submissions", "users", on_delete: :cascade
+  add_foreign_key "exchange_listings", "coins", column: "base_symbol_id"
+  add_foreign_key "exchange_listings", "coins", column: "quote_symbol_id"
+  add_foreign_key "exchange_listings", "exchanges"
   add_foreign_key "feed_sources", "coins"
   add_foreign_key "influencer_reviews", "coins", on_delete: :cascade
   add_foreign_key "influencer_reviews", "influencers", on_delete: :cascade

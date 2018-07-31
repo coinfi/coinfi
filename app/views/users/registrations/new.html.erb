@@ -8,7 +8,7 @@
       </header>
 
       <div class="section-dialog text-center registration-form-wrapper">
-        <%= form_for(:user, url: new_user_signup_path) do |f| %>
+        <%= form_for(:user, url: user_registration_path) do |f| %>
           <%= devise_error_messages! %>
           <div class="mb3">
             <%= f.email_field :email, class: "form-control form-control-lg", autofocus: true, required: true, placeholder: "Email" %>

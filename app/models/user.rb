@@ -9,9 +9,8 @@ class User < ApplicationRecord
   has_many :coins, through: :watchlist
 
   # Include default devise modules. Others available are:
-  # :confirmable, :lockable, :timeoutable
-  devise :database_authenticatable, :registerable,
-  :recoverable, :rememberable, :trackable, :validatable, :omniauthable
+  # :lockable, :timeoutable
+  devise :database_authenticatable, :registerable, :recoverable, :rememberable, :trackable, :validatable, :omniauthable, :confirmable
 
   def admin?
     role == 'admin'
@@ -82,16 +81,32 @@ class User < ApplicationRecord
 
   alias_method :submissions, :contributor_submissions
 
-protected
-
-  def password_required?
-    return false if skip_password_validation
-    super
+  def identify_in_launch_darkly
+    $launch_darkly.identify(launch_darkly_hash)
   end
 
-private
+  def password_match?
+    self.errors[:password] << I18n.t('errors.messages.blank') if password.blank?
+    self.errors[:password_confirmation] << I18n.t('errors.messages.blank') if password_confirmation.blank?
+    self.errors[:password_confirmation] << I18n.translate("errors.messages.confirmation", attribute: "password") if password != password_confirmation
+    password == password_confirmation && !password.blank?
+  end
+
+  # new function to set the password without knowing the current
+  # password used in our confirmation controller.
+  def attempt_set_password(params)
+    p = {}
+    p[:password] = params[:password]
+    p[:password_confirmation] = params[:password_confirmation]
+    update_attributes(p)
+  end
 
   def self.dummy_email(auth)
     "#{auth.uid}-#{auth.provider}@example.com"
+  end
+
+  def confirmation_required?
+    binding.pry
+    super
   end
 end
