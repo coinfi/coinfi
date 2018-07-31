@@ -85,24 +85,31 @@ class User < ApplicationRecord
 
   def launch_darkly_hash
     {
-      key: id,
+      key: email,
       email: email,
       anonymous: false,
     }
   end
 
-private
-
   def identify_in_launch_darkly
     $launch_darkly.identify(launch_darkly_hash)
   end
+
+protected
+
+  def password_required?
+    return false if skip_password_validation
+    super
+  end
+
+private
 
   def add_to_convertkit
     if Rails.env.production?
       Convertkit::Client.new.add_subscriber_to_form('267531', email)
     end
   end
-
+  
   def self.dummy_email(auth)
     "#{auth.uid}-#{auth.provider}@example.com"
   end
