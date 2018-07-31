@@ -51,7 +51,7 @@ class CoinIndex extends Component {
                 }}
               />
               <div style={{ flexGrow: 1 }}>
-                <a href={`/coins/${text.toLowerCase()}`}>{row.symbol}</a>
+                <a href={`/coinsnew/${text.toLowerCase().replace(/ /, '-')}`}>{row.symbol}</a>
                 <div>{text}</div>
               </div>
             </div>
