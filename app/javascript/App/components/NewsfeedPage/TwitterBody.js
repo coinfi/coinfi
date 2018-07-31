@@ -1,14 +1,13 @@
 import React, { Component } from 'react'
-import NewsCoinTags from './NewsCoinTags'
+import CoinTags from '../CoinTags'
 import { Tweet } from 'react-twitter-widgets'
 
 export default class NewsBody extends Component {
-
   render() {
     const {
       selectNewsItemFromList,
       activeEntity,
-      selectNewsCategories
+      selectNewsCategories,
     } = this.props
     const newsItem = selectNewsItemFromList(activeEntity.id)
     if (!newsItem) {
@@ -18,7 +17,7 @@ export default class NewsBody extends Component {
 
     return (
       <div className="pa4 bg-white min-h-100">
-        <NewsCoinTags newsItem={newsItem} />
+        <CoinTags itemWithCoinLinkData={newsItem} />
         {categories.size > 0 && (
           <div className="mt3">
             {categories.map((category, index) => (

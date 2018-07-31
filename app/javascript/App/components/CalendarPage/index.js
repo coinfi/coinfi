@@ -1,20 +1,20 @@
 import React, { Component, Fragment } from 'react'
 import debounce from 'debounce'
 import axios from 'axios'
-import newsfeedContainer from '../../containers/newsfeed'
+import calendarContainer from '../../containers/calendar'
 import LayoutDesktop from '../LayoutDesktop'
 import LayoutTablet from '../LayoutTablet'
 import LayoutMobile from '../LayoutMobile'
 import CoinList from '../CoinList/CoinList'
 import CoinListDrawer from '../CoinList/CoinListDrawer'
-import NewsList from './NewsList'
-import NewsListHeader from './NewsListHeader'
+import CalendarList from './CalendarList'
+import CalendarListHeader from './CalendarListHeader'
 import BodySection from './BodySection'
 import BodySectionDrawer from '../BodySectionDrawer'
 import Immutable from 'immutable'
 import _ from 'lodash'
 
-class NewsfeedPage extends Component {
+class CalendarPage extends Component {
   state = {
     initialRenderTips: false,
     liveCoinArr: [],
@@ -63,7 +63,7 @@ class NewsfeedPage extends Component {
     })
   }
 
-  newsfeedTips() {
+  calendarTips() {
     this.setState({ initialRenderTips: !this.state.initialRenderTips })
   }
 
@@ -77,7 +77,7 @@ class NewsfeedPage extends Component {
 
     let enhancedProps = {
       ...this.props,
-      newsfeedTips: (event) => this.newsfeedTips(event),
+      calendarTips: (event) => this.calendarTips(event),
       initialRenderTips: this.state.initialRenderTips,
       addCoinsToWatchlist: () => this.addCoinsToWatchlist.bind(this),
       removeCoinsWatchlist: () => this.removeCoinsWatchlist.bind(this),
@@ -90,11 +90,11 @@ class NewsfeedPage extends Component {
           {...enhancedProps}
           mainSection={
             <Fragment>
-              <NewsListHeader {...enhancedProps} />
-              <NewsList {...enhancedProps} />
+              <CalendarListHeader {...enhancedProps} />
+              <CalendarList {...enhancedProps} />
             </Fragment>
           }
-          modalName="newsfeedModal"
+          modalName="calendarModal"
           modalSection={<BodySection {...enhancedProps} mobileLayout />}
           drawerSection={
             <Fragment>
@@ -111,10 +111,11 @@ class NewsfeedPage extends Component {
       return (
         <LayoutTablet
           {...enhancedProps}
+          initialRenderTips={this.state.initialRenderTips}
           leftSection={
             <Fragment>
-              <NewsListHeader {...enhancedProps} />
-              <NewsList {...enhancedProps} />
+              <CalendarListHeader {...enhancedProps} />
+              <CalendarList {...enhancedProps} />
             </Fragment>
           }
           rightSection={<BodySection {...enhancedProps} />}
@@ -125,11 +126,12 @@ class NewsfeedPage extends Component {
       return (
         <LayoutDesktop
           {...enhancedProps}
+          initialRenderTips={this.state.initialRenderTips}
           leftSection={<CoinList {...enhancedProps} />}
           centerSection={
             <Fragment>
-              <NewsListHeader {...enhancedProps} />
-              <NewsList {...enhancedProps} />
+              <CalendarListHeader {...enhancedProps} />
+              <CalendarList {...enhancedProps} />
             </Fragment>
           }
           rightSection={<BodySection {...enhancedProps} />}
@@ -139,4 +141,4 @@ class NewsfeedPage extends Component {
   }
 }
 
-export default newsfeedContainer(NewsfeedPage)
+export default calendarContainer(CalendarPage)

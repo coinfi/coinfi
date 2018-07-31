@@ -1,9 +1,9 @@
 import React from 'react'
-import CoinCharts from '../CoinCharts'
-import Currency from '../Currency'
-import PercentageChange from '../PercentageChange'
-import WatchButton from './WatchButton'
-import LoadingIndicator from '../LoadingIndicator'
+import CoinCharts from './CoinCharts'
+import Currency from './Currency'
+import PercentageChange from './PercentageChange'
+import WatchButton from './CoinList/WatchButton'
+import LoadingIndicator from './LoadingIndicator'
 
 const CoinBody = (props) => {
   const { selectCoinDetails, activeEntity, isLoading, user } = props

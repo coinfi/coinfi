@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react'
 import timeago from 'timeago.js'
-import NewsCoinTags from './NewsCoinTags'
+import CoinTags from '../CoinTags'
 import BulletSpacer from '../BulletSpacer'
 import twitterLogo from '../../images/logo-twitter.svg'
 import linkLogo from '../../images/logo-link.svg'
@@ -99,7 +99,7 @@ const NewsListItem = (props) => {
                 </Fragment>
               )}
           </div>
-          <NewsCoinTags {...props} />
+          <CoinTags {...props} itemWithCoinLinkData={newsItem} />
         </div>
       </div>
     </div>

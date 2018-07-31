@@ -1,9 +1,8 @@
 import React from 'react'
-import Drawer from '../Drawer'
-import Icon from '../Icon'
-import BodySection from './BodySection'
+import Drawer from './Drawer'
+import Icon from './Icon'
 
-const BodySectionDrawer = (props) => (
+const BodySectionDrawer = ({ bodySection, ...props }) => (
   <Drawer
     uiKey="bodySectionDrawer"
     {...props}
@@ -16,9 +15,7 @@ const BodySectionDrawer = (props) => (
     >
       <Icon name="times" className="f4 slate" regular />
     </div>
-    <div className="flex-auto bg-white relative">
-      <BodySection {...props} />
-    </div>
+    <div className="flex-auto bg-white relative">{bodySection}</div>
   </Drawer>
 )
 

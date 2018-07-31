@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import SectionHeader from './SectionHeader'
+import SectionHeader from '../SectionHeader'
 import Switch from '../Switch'
 
 class CoinListHeader extends Component {

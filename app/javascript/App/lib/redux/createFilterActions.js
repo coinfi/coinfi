@@ -19,5 +19,5 @@ export default (namespace) => ({
   },
   setFilters: (payload) => {
     return { namespace, type: 'SET_FILTERS', payload }
-  }
+  },
 })

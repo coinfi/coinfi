@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
-import coinSearchProvider from '../../containers/coinSearch'
-import Input from '../Input'
-import Icon from '../Icon'
-import WatchButton from './WatchButton'
+import coinSearchProvider from '../containers/coinSearch'
+import Input from './Input'
+import Icon from './Icon'
+import WatchButton from './CoinList/WatchButton'
 import { union } from 'lodash'
 
 class SearchCoins extends Component {
@@ -27,6 +27,7 @@ class SearchCoins extends Component {
   }
   render() {
     const {
+      classProps,
       searchText,
       clearSearch,
       searchedCoins,
@@ -40,7 +41,7 @@ class SearchCoins extends Component {
     } = this.props
 
     return (
-      <div className="search-field">
+      <div className={`${classProps ? classProps : ''} search-field`}>
         <div className="flex items-center f5 tiber">
           <Icon
             regular

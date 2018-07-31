@@ -8,15 +8,8 @@ import FilterTags from '../FilterTags'
 import bulbIcon from '../../images/bulbIcon.svg'
 import filterBtn from '../../images/filter-btn.svg'
 
-const NewsListHeader = (props) => {
-  const {
-    enableUI,
-    currentUI,
-    coins,
-    feedSources,
-    activeFilters,
-    newsfeedTips,
-  } = props
+const CalendarListHeader = (props) => {
+  const { enableUI, currentUI, coins, activeFilters, calendarTips } = props
   const toggleFilters = () =>
     enableUI('filterPanel', { fullScreen: window.isMobile })
 
@@ -58,7 +51,7 @@ const NewsListHeader = (props) => {
                     padding: 19,
                   },
                 }}
-                onClick={newsfeedTips}
+                onClick={calendarTips}
               >
                 <img style={{ height: 10 }} src={bulbIcon} />
                 <span style={{ marginLeft: 5 }}>Tips</span>
@@ -90,14 +83,14 @@ const NewsListHeader = (props) => {
               <span>Coins</span>
             </button>
           )}
-          <SearchCoins {...props} />
           <button
             onClick={toggleFilters}
-            className="btn btn-xs btn-white filter-btn ml2"
+            className="btn btn-xs btn-white filter-btn ml2 mr1"
           >
             <img style={{ height: 10, marginRight: 10 }} src={filterBtn} />
             Filters
           </button>
+          <SearchCoins {...props} classProps="ml1 pl2 bl" />
         </div>
       </SectionHeader>
       {activeFilters.size > 0 && (
@@ -107,10 +100,10 @@ const NewsListHeader = (props) => {
         </div>
       )}
       {currentUI('filterPanel') && (
-        <FilterPanel {...props} filterData={{ coins, feedSources }} />
+        <FilterPanel {...props} filterData={{ coins }} />
       )}
     </Fragment>
   )
 }
 
-export default NewsListHeader
+export default CalendarListHeader
