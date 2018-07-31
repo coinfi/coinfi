@@ -7,7 +7,7 @@ import LayoutDesktop from './LayoutDesktop'
 
 class ExchangeListingsPage extends Component {
   state = {
-    initialRenderTips: false
+    initialRenderTips: false,
   }
 
   componentWillMount() {
@@ -15,7 +15,7 @@ class ExchangeListingsPage extends Component {
   }
 
   exchangeListingTips() {
-    this.setState({initialRenderTips: !this.state.initialRenderTips})
+    this.setState({ initialRenderTips: !this.state.initialRenderTips })
   }
 
   render() {
@@ -28,7 +28,12 @@ class ExchangeListingsPage extends Component {
       return <LayoutDesktop {...this.props} initialRenderTips={this.state.initialRenderTips} />
     }
     */
-    return <LayoutDesktop {...this.props} initialRenderTips={this.state.initialRenderTips} />
+    return (
+      <LayoutDesktop
+        {...this.props}
+        initialRenderTips={this.state.initialRenderTips}
+      />
+    )
   }
 }
 

@@ -1,6 +1,6 @@
 import React from 'react'
 import ListingBody from './ListingBody'
-import CoinBody from '../CoinBody'
+import CoinBody from '../../../components/CoinBody'
 import Tips from './Tips'
 
 const BodySection = (props) => {
