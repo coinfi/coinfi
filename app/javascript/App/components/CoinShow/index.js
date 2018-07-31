@@ -83,19 +83,24 @@ class CoinShow extends Component {
     ]
     const linksData = [
       {
-        Website: coinObj.website,
+        linkType: 'Website',
+        value: coinObj.website,
       },
       {
-        Whitepaper: coinObj.Whitepaper,
+        linkType: 'Whitepaper',
+        value: coinObj.Whitepaper,
       },
       {
-        Explorer: coinObj.explorer,
+        linkType: 'Explorer',
+        value: coinObj.explorer,
       },
       {
-        Twitter: coinObj.twitter,
+        linkType: 'Twitter',
+        value: coinObj.twitter,
       },
       {
-        Github: coinObj.github,
+        linkType: 'Github',
+        value: coinObj.github,
       },
     ]
     let coinsCollection
@@ -232,14 +237,14 @@ class CoinShow extends Component {
                             itemLayout="horizontal"
                             dataSource={linksData}
                             renderItem={(item) => {
-                              return (
-                                <List.Item>
-                                  <List.Item.Meta
-                                    title={Object.keys(item)[0]}
-                                    description={item[Object.keys(item)[0]]}
-                                  />
-                                </List.Item>
-                              )
+                              if (item.value) {
+                                return (
+                                  <List.Item>
+                                    <a href={item.value}>{item.linkType}</a>
+                                  </List.Item>
+                                )
+                              }
+                              return <Fragment />
                             }}
                           />
                         </Card>
