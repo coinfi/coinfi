@@ -1,6 +1,8 @@
 class Api::CalendarEventsController < ApiController
   PER_PAGE = 20
 
+  before_action :detect_calendar_feature
+
   def index
     @calendar_events = CalendarEvent.all
 
