@@ -22,3 +22,68 @@
     }
   }
 }
+
+.micromodal {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: none;
+}
+
+.micromodal.is-open {
+  display: block;
+}
+
+.micromodal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.micromodal-container {
+  background-color: #fff;
+  padding: 30px;
+  max-width: 500px;
+  max-height: 100vh;
+  border-radius: 4px;
+  overflow-y: auto;
+  box-sizing: border-box;
+}
+
+.micromodal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.micromodal-title {
+  margin-top: 0;
+  margin-bottom: 0;
+  font-weight: 600;
+  font-size: 1.25rem;
+  line-height: 1.25;
+  box-sizing: border-box;
+}
+
+.micromodal-content {
+  margin-top: 2rem;
+  line-height: 1.5;
+  color: rgba(0, 0, 0, 0.8);
+}
+
+.micromodal-close {
+  background: transparent;
+  border: 0;
+}
+
+.micromodal-header .micromodal-close:before {
+  content: '\2715';
+}

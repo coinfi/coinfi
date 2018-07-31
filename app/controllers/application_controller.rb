@@ -23,7 +23,7 @@ private
 protected
 
   def has_news_feature?
-    current_user && $launch_darkly.variation('news', current_user.launch_darkly_hash, false)
+    true#current_user && $launch_darkly.variation('news', current_user.launch_darkly_hash, false)
   end
   helper_method :has_news_feature?
 
