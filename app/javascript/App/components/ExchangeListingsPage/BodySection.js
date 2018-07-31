@@ -1,6 +1,6 @@
 import React from 'react'
 import ListingBody from './ListingBody'
-import CoinBody from '../NewsfeedPage/CoinBody'
+import CoinBody from '../CoinBody'
 import Tips from './Tips'
 
 const BodySection = (props) => {
