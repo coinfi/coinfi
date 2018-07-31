@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180716123944) do
+ActiveRecord::Schema.define(version: 20180731185629) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -225,11 +225,13 @@ ActiveRecord::Schema.define(version: 20180716123944) do
     t.datetime "ico_start_date"
     t.datetime "ico_end_date"
     t.string "coin_key"
+    t.boolean "is_listed"
+    t.jsonb "external_url"
     t.index ["category"], name: "index_coins_on_category"
     t.index ["coin_key"], name: "index_coins_on_coin_key"
     t.index ["influencer_reviews_count"], name: "index_coins_on_influencer_reviews_count"
     t.index ["market_cap"], name: "index_coins_on_market_cap", using: :gin
-    t.index ["name"], name: "index_coins_on_name", unique: true
+    t.index ["name"], name: "index_coins_on_name"
     t.index ["price"], name: "index_coins_on_price", using: :gin
     t.index ["slug"], name: "index_coins_on_slug"
     t.index ["volume24"], name: "index_coins_on_volume24", using: :gin
@@ -346,7 +348,7 @@ ActiveRecord::Schema.define(version: 20180716123944) do
     t.string "title", null: false
     t.text "summary"
     t.text "content"
-    t.string "actor_id", null: false
+    t.string "actor_id"
     t.datetime "feed_item_published_at", null: false
     t.datetime "feed_item_updated_at", null: false
     t.jsonb "feed_item_json"
