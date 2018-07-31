@@ -154,6 +154,7 @@ class CoinIndex extends Component {
                   <Div />
                 </Section>
                 <Table
+                  rowKey={record => record.symbol + record.name}
                   columns={colVar}
                   dataSource={this.props.coins}
                   pagination={false}
