@@ -1,5 +1,5 @@
 class User < ApplicationRecord
-  after_create :identify_in_launch_darkly
+  after_create :add_to_convertkit, :identify_in_launch_darkly
 
   has_many :news_items
   has_many :visits
@@ -8,8 +8,6 @@ class User < ApplicationRecord
   accepts_nested_attributes_for :author_profile
   has_one :watchlist, inverse_of: :user
   has_many :coins, through: :watchlist
-
-  attr_accessor :skip_password_validation
 
   alias_method :submissions, :contributor_submissions
 
@@ -93,17 +91,16 @@ class User < ApplicationRecord
     }
   end
 
-protected
-
-  def password_required?
-    return false if skip_password_validation
-    super
-  end
-
 private
 
   def identify_in_launch_darkly
     $launch_darkly.identify(launch_darkly_hash)
+  end
+
+  def add_to_convertkit
+    if Rails.env.production?
+      Convertkit::Client.new.add_subscriber_to_form('267531', email)
+    end
   end
 
   def self.dummy_email(auth)
