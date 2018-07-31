@@ -2,7 +2,6 @@ import React, { Component, Fragment } from 'react'
 import CoinListHeader from './CoinListHeader'
 import CoinListItem from './CoinListItem'
 import LoadingIndicator from '../LoadingIndicator'
-import coinSearchProvider from '../../containers/coinSearch'
 import watchlistStarIcon from '../../images/watch-list-star-icon.svg'
 
 class CoinList extends Component {
@@ -24,7 +23,7 @@ class CoinList extends Component {
     this.props.clearSearch()
   }
   render() {
-    const { isLoading, currentUI, isWatching, searchedCoins } = this.props
+    const { isLoading, currentUI, isWatching } = this.props
     let { coins } = this.props
     if (currentUI('watchingOnly')) {
       coins = coins.filter((coin) => isWatching(coin.get('id')))
@@ -36,47 +35,20 @@ class CoinList extends Component {
           className="flex-auto relative overflow-y-auto coin-watch-list"
           style={watchlistStarIcon && { textAlign: 'center' }}
         >
-          {!coins.length && (
-            <Fragment>
-              <img
-                style={{
-                  margin: 'auto',
-                  marginTop: 60,
-                  marginBottom: 20,
-                  display: 'block',
-                }}
-                src={watchlistStarIcon}
-              />
-              <strong
-                style={{
-                  lineHeight: '1.5rem',
-                  color: 'rgba(0, 0, 0, 0.54)',
-                  fontSize: 14,
-                }}
-              >
-                looks like you have not added <br />any coins to your watchlist
-                page yet
-              </strong>
-            </Fragment>
-          )}
+          {!coins.length &&
+            !isLoading('coins') && (
+              <Fragment>
+                <img className="db mt7 mb3 center" src={watchlistStarIcon} />
+                <strong className="lh-copy fw3">
+                  Looks like you have not added <br />
+                  any coins to your watchlist page yet!
+                </strong>
+              </Fragment>
+            )}
 
           {isLoading('coins') && (
             <LoadingIndicator className="overlay bg-white-70" />
           )}
-          {currentUI('coinSearch') &&
-            searchedCoins.size > 0 && (
-              <div className="b--b bw2">
-                {searchedCoins.map((coin, key) => {
-                  return (
-                    <CoinListItem
-                      {...{ coin, key, ...this.props }}
-                      onClick={this.newCoinHandler}
-                      onWatch={this.newCoinHandler}
-                    />
-                  )
-                })}
-              </div>
-            )}
           {coins.map((coin, index) => {
             return (
               <CoinListItem
@@ -93,4 +65,4 @@ class CoinList extends Component {
   }
 }
 
-export default coinSearchProvider('coinList')(CoinList)
+export default CoinList
