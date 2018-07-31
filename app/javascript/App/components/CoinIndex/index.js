@@ -19,6 +19,9 @@ class CoinIndex extends Component {
     //todo: get total page count from header
     return 160
   }
+  jumpPage(data) {
+    window.location = `/coinsnew?page=${data}`
+  }
   render() {
     const { symbol } = this.props
 
@@ -173,7 +176,12 @@ class CoinIndex extends Component {
                 />
               </div>
             </div>
-            <Pagination defaultCurrent={1} total={this.getPageTotal()} />
+            <Pagination
+              defaultCurrent={1}
+              total={this.getPageTotal()}
+              style={{ textAlign: 'center', margin: '1rem' }}
+              onChange={this.jumpPage}
+            />
           </Content>
           <Footer />
         </Layout>
