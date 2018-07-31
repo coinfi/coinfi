@@ -5,4 +5,8 @@ class ApiController < ApplicationController
   def detect_news_feature
     return respond_unfound if !has_news_feature?
   end
+
+  def detect_calendar_feature
+    return respond_unfound if !has_calendar_feature?
+  end
 end

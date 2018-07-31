@@ -4,7 +4,7 @@ class PagesController < ApplicationController
     render_404 unless page_known?
     redirect_to('/login') && return if member_page? && !current_user
     @body_id = "#{@page}-page"
-    if @page == 'news' && !has_news_feature?
+    if !has_feature?
       render_404
     else
       render "pages/#{@page}"
@@ -19,6 +19,17 @@ class PagesController < ApplicationController
 
   def member_page?
     member_pages.include? @page
+  end
+
+  def has_feature?
+    case @page
+    when 'news'
+      has_news_feature?
+    when 'calendar'
+      has_calendar_feature?
+    else
+      true
+    end
   end
 
   def pages

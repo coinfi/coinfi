@@ -27,6 +27,11 @@ class ApplicationController < ActionController::Base
   end
   helper_method :has_news_feature?
 
+  def has_calendar_feature?
+    current_user && $launch_darkly.variation('calendar', get_ld_user, false)
+  end
+  helper_method :has_calendar_feature?
+
   def get_ld_user
     {
       key: current_user.id,
