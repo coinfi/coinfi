@@ -1,79 +1,48 @@
 import React from 'react'
 
-export default class CoinIndexPageNav extends React.Component {
+class CoinIndexPageNav extends React.Component {
   selectedPage() {
     console.log(window.location.search)
   }
   render() {
     this.selectedPage()
+    const { pageArr } = this.props
     return (
-      <div className="pagination">
-        <div className="pb3 f6 gray">100 of 1674 results</div>
-        <ul>
-          <li>
-            <a href="/coinsnew">« First</a>
-          </li>
-          <li>
-            <a rel="prev" href="/">
-              ‹ Prev
-            </a>
-          </li>
-          <li>
-            <a href="/coinsnew">1</a>
-          </li>
-          <li>
-            <a href="/coinsnew?page=2">2</a>
-          </li>
-          <li>
-            <a href="/coinsnew?page=3">3</a>
-          </li>
-          <li>
-            <a href="/coinsnew?page=4">4</a>
-          </li>
-          <li>
-            <a href="/coinsnew?page=5">5</a>
-          </li>
-          <li>
-            <a rel="prev" href="/coinsnew?page=6">
-              6
-            </a>
-          </li>
-          <li>
-            <a href="#">7</a>
-          </li>
-          <li>
-            <a rel="next" href="/coinsnew?page=8">
-              8
-            </a>
-          </li>
-          <li>
-            <a href="/coinsnew?page=9">9</a>
-          </li>
-          <li>
-            <a href="/coinsnew?page=10">10</a>
-          </li>
-          <li>
-            <a href="/coinsnew?page=11">11</a>
-          </li>
-          <li>
-            <a href="/coinsnew?page=12">12</a>
-          </li>
-          <li>
-            <a href="/coinsnew?page=13">13</a>
-          </li>
-          <li className="disabled">
-            <a href="#">…</a>
-          </li>
-          <li>
-            <a rel="next" href="/coinsnew?page=8">
-              Next ›
-            </a>
-          </li>
-          <li>
-            <a href="/coinsnew?page=17">Last »</a>
-          </li>
-        </ul>
-      </div>
+      <ul
+        className="ant-pagination ant-table-pagination"
+        unselectable="unselectable"
+        style={{ textAlign: 'center', float: 'none' }}
+      >
+        <li
+          title="Previous Page"
+          className="ant-pagination-disabled ant-pagination-prev"
+          aria-disabled="true"
+        >
+          <a className="ant-pagination-item-link" />
+        </li>
+        {pageArr &&
+          this.props.pageArr.map((item) => {
+            return (
+              <li
+                title={item}
+                className={`ant-pagination-item ant-pagination-item-${item} ant-pagination-item-active`}
+                tabIndex="0"
+                key={item}
+              >
+                <a>{item + 1}</a>
+              </li>
+            )
+          })}
+        <li
+          title="Next Page"
+          className="ant-pagination-disabled ant-pagination-next"
+          aria-disabled="true"
+        >
+          <a className="ant-pagination-item-link" />
+        </li>
+      </ul>
     )
   }
 }
+
+export default CoinIndexPageNav

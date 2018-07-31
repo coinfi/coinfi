@@ -1,12 +1,24 @@
 import React, { Component, Fragment } from 'react'
-import { Layout, Card, Button, Menu, Dropdown, Icon, Table } from 'antd'
+import {
+  Layout,
+  Card,
+  Button,
+  Menu,
+  Dropdown,
+  Icon,
+  Table,
+  Pagination,
+} from 'antd'
 import styled from 'styled-components'
 import SparkLineTable from './../SparkLineTable.jsx'
-import CoinIndexPageNav from './CoinIndexPageNav'
 
 const { Header, Footer, Content } = Layout
 
 class CoinIndex extends Component {
+  getPageTotal() {
+    //todo: get total page count from header
+    return 160
+  }
   render() {
     const { symbol } = this.props
 
@@ -154,14 +166,14 @@ class CoinIndex extends Component {
                   <Div />
                 </Section>
                 <Table
-                  rowKey={record => record.symbol + record.name}
+                  rowKey={(record) => record.symbol + record.name}
                   columns={colVar}
                   dataSource={this.props.coins}
                   pagination={false}
                 />
               </div>
             </div>
-            <CoinIndexPageNav />
+            <Pagination defaultCurrent={1} total={this.getPageTotal()} />
           </Content>
           <Footer />
         </Layout>
