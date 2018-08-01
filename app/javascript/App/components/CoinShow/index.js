@@ -166,9 +166,9 @@ class CoinShow extends Component {
                   <Div>
                     <img
                       alt={coinObj.name}
-                      height="56"
                       src={coinObj.image_url}
-                      width="56"
+                      height={window.isDesktop ? '35' : '55'}
+                      width={window.isDesktop ? '35' : '55'}
                     />
                   </Div>
                   <Div>
