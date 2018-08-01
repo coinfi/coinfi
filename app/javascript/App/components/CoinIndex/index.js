@@ -162,14 +162,10 @@ class CoinIndex extends Component {
         <Layout>
           <Content>
             <div style={{ marginTop: -17 }}>
-              <div style={{ background: '#fff' }}>
-                <div
-                  style={{
-                    margin: '1rem',
-                    paddingTop: 10,
-                    marginBottom: '.5rem',
-                  }}
-                >
+              <ContentWrap>
+
+                <DivHeader>
+
                   <h1 style={{ float: 'left', marginTop: 4 }}>Coins</h1>
                   <ButtonWrap>
                     <Dropdown overlay={currencyMenu}>
@@ -178,14 +174,18 @@ class CoinIndex extends Component {
                       </Button>
                     </Dropdown>
                   </ButtonWrap>
-                </div>
+
+                </DivHeader>
+
                 <Table
                   rowKey={(record) => record.symbol + record.name}
                   columns={colVar}
                   dataSource={this.props.coins}
                   pagination={false}
                 />
-              </div>
+
+              </ContentWrap>
+
             </div>
             <Pagination
               defaultCurrent={1}
@@ -244,3 +244,18 @@ const cardStyle = {
   flexGrow: 1,
   margin: '1rem .5rem 0 .5rem',
 }
+
+const DivHeader = styled.div`
+  margin: 1rem;
+  padding-top: 10px;
+  margin-bottom: .5rem;
+  @media (min-width: 900px) {
+  padding-top: 20px;
+  margin-bottom: 4rem;
+  padding-left:1rem;
+  }
+`
+
+const ContentWrap = styled.div`
+  background:#fff;
+`
