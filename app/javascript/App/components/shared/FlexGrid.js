@@ -6,6 +6,7 @@ const FlexGrid = styled.div`
   flex-wrap: wrap;
   @media (min-width: 900px) {
     display: block;
+    width: 100%;
   }
 `
 

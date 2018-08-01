@@ -201,6 +201,8 @@ class CoinShow extends Component {
                     background: '#f6f8fa',
                     padding: '0 .5rem',
                     border: '1px solid #e5e6e6',
+                    width: '100%',
+                    overflow: 'auto',
                   }}
                 >
                   <FlexGrid>
@@ -332,7 +334,7 @@ const Section = styled.section`
     text-align: left;
     margin: 0 0 0 1rem;
     padding-top: 1rem;
-    padding-left:1rem;
+    padding-left: 1rem;
   }
 `
 
