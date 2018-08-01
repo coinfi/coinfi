@@ -11,6 +11,7 @@ import {
   Row,
 } from 'antd'
 import styled from 'styled-components'
+import axios from 'axios'
 import FlexGrid from './../shared/FlexGrid'
 import FlexGridItem from './../shared/FlexGridItem'
 import SearchCoins from './../shared/SearchCoins'
@@ -22,6 +23,7 @@ import CoinListDrawer from './../shared/CoinListDrawer'
 import CoinList from './../shared/CoinList'
 import newsfeedContainer from './../../containers/newsfeed'
 import FundamentalsData from './FundamentalsData'
+import LinksData from './LinksData'
 
 const { Header, Footer, Content } = Layout
 
@@ -29,12 +31,28 @@ class CoinShow extends Component {
   state = {
     liveCoinArr: [],
     currency: 'USD',
+    watched: false,
   }
+
   watchlistHandler(coin) {
     window.location = `/coins/${coin
       .get('name')
       .replace(/ /, '-')
       .toLowerCase()}`
+  }
+
+  watchCoinHandler = () => {
+    this.setState({
+      watched: !this.state.watched,
+    })
+    axios
+      .patch('/api/user', { watchCoin: this.props.coinObj.id })
+      .then((data) => {
+        console.log(data)
+      })
+      .catch((error) => {
+        console.log(error)
+      })
   }
 
   changeCurrencyHandler = ({ key }) => {
@@ -70,34 +88,6 @@ class CoinShow extends Component {
         <Menu.Item key="BTC">BTC</Menu.Item>
       </Menu>
     )
-
-    const linksData = [
-      {
-        linkType: 'Website',
-        value: coinObj.website,
-        icon: 'link',
-      },
-      {
-        linkType: 'Whitepaper',
-        value: coinObj.Whitepaper,
-        icon: 'file-text',
-      },
-      {
-        linkType: 'Explorer',
-        value: coinObj.explorer,
-        icon: 'search',
-      },
-      {
-        linkType: 'Twitter',
-        value: coinObj.twitter,
-        icon: 'twitter',
-      },
-      {
-        linkType: 'Github',
-        value: coinObj.github,
-        icon: 'github',
-      },
-    ]
 
     return (
       <Fragment>
@@ -145,7 +135,14 @@ class CoinShow extends Component {
                       USD <Icon type="down" />
                     </Button>
                   </Dropdown>
-                  <Button icon="star" size="small" type="primary" ghost>
+                  <Button
+                    icon="star"
+                    size="small"
+                    type="primary"
+                    onClick={this.watchCoinHandler}
+                    ghost={this.state.watched}
+                    loading={false}
+                  >
                     Watch coin
                   </Button>
                 </ButtonWrap>
@@ -277,7 +274,7 @@ class CoinShow extends Component {
                       <Card title="Links" style={cardStyle}>
                         <List
                           itemLayout="horizontal"
-                          dataSource={linksData}
+                          dataSource={LinksData(coinObj)}
                           renderItem={(item) => {
                             if (item.value) {
                               return (
