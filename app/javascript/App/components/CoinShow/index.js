@@ -85,22 +85,27 @@ class CoinShow extends Component {
       {
         linkType: 'Website',
         value: coinObj.website,
+        icon: 'link',
       },
       {
         linkType: 'Whitepaper',
         value: coinObj.Whitepaper,
+        icon: 'file-text'
       },
       {
         linkType: 'Explorer',
         value: coinObj.explorer,
+        icon: 'search'
       },
       {
         linkType: 'Twitter',
         value: coinObj.twitter,
+        icon: 'twitter'
       },
       {
         linkType: 'Github',
         value: coinObj.github,
+        icon: 'github'
       },
     ]
     let coinsCollection
@@ -295,7 +300,8 @@ class CoinShow extends Component {
                             if (item.value) {
                               return (
                                 <List.Item>
-                                  <a href={item.value} target="_blank">
+                                  <Icon type={item.icon} />
+                                  <a href={item.value} target="_blank" style={{color:'#000', marginLeft:'.5rem', marginTop:'-.25rem'}}>
                                     {item.linkType}
                                   </a>
                                 </List.Item>
