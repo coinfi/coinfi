@@ -208,6 +208,28 @@ class CoinShow extends Component {
                           itemLayout="horizontal"
                           dataSource={fundamentalsData}
                           renderItem={(item) => {
+                            if (item.title === '24HR') {
+                              return (
+                                <Fragment>
+                                  <span style={{ marginRight: '.4rem' }}>
+                                    {item.title}
+                                  </span>
+                                  <span style={{ marginRight: '1.5rem' }}>
+                                    {item.value}
+                                  </span>
+                                </Fragment>
+                              )
+                            }
+                            if (item.title === '7D') {
+                              return (
+                                <Fragment>
+                                  <span style={{ marginRight: '.4rem' }}>
+                                    {item.title}
+                                  </span>
+                                  <span>{item.value}</span>
+                                </Fragment>
+                              )
+                            }
                             return (
                               <List.Item>
                                 <List.Item.Meta
