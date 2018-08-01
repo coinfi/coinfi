@@ -33,35 +33,31 @@ class CoinIndex extends Component {
     return (
       <Fragment>
         <Layout>
+          <Header style={{ background: '#fff' }} className="coin-index-header">
+            <h1 style={{ float: 'left' }}>Coins</h1>
+            <Dropdown overlay={currencyMenu}>
+              <Button style={{ float: 'right', marginTop: 15 }}>
+                USD <Icon type="down" />
+              </Button>
+            </Dropdown>
+          </Header>
+
           <Content>
-            <div style={{ marginTop: -17 }}>
-              <ContentWrap>
-                <DivHeader>
-                  <h1 style={{ float: 'left', marginTop: 4 }}>Coins</h1>
-                  <ButtonWrap>
-                    <Dropdown overlay={currencyMenu}>
-                      <Button style={{ marginLeft: 8, margin: 10 }}>
-                        USD <Icon type="down" />
-                      </Button>
-                    </Dropdown>
-                  </ButtonWrap>
-                </DivHeader>
-                <Table
-                  rowKey={(record) => record.symbol + record.name}
-                  columns={colVar}
-                  dataSource={this.props.coins}
-                  pagination={false}
-                />
-              </ContentWrap>
-            </div>
+            <Table
+              rowKey={(record) => record.symbol + record.name}
+              columns={colVar}
+              dataSource={this.props.coins}
+              pagination={false}
+            />
+          </Content>
+          <Footer>
             <Pagination
               defaultCurrent={1}
               total={this.getPageTotal()}
-              style={{ textAlign: 'center', margin: '1rem' }}
+              style={{ textAlign: 'center' }}
               onChange={this.jumpPage}
             />
-          </Content>
-          <Footer />
+          </Footer>
         </Layout>
       </Fragment>
     )
