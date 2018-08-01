@@ -21,12 +21,14 @@ import CustomIcon from '../Icon'
 import CoinListDrawer from './../shared/CoinListDrawer'
 import CoinList from './../shared/CoinList'
 import newsfeedContainer from './../../containers/newsfeed'
+import FundamentalsData from './FundamentalsData'
 
 const { Header, Footer, Content } = Layout
 
 class CoinShow extends Component {
   state = {
     liveCoinArr: [],
+    currency: 'USD',
   }
   watchlistHandler(coin) {
     window.location = `/coins/${coin
@@ -34,6 +36,13 @@ class CoinShow extends Component {
       .replace(/ /, '-')
       .toLowerCase()}`
   }
+
+  changeCurrencyHandler = ({ key }) => {
+    this.setState({
+      currency: key,
+    })
+  }
+
   render() {
     const {
       symbol,
@@ -42,72 +51,7 @@ class CoinShow extends Component {
       isTradingViewVisible,
       coinObj,
     } = this.props
-    const fundamentalsData = [
-      {
-        title: 'Market cap',
-        value: coinObj.market_cap.usd.toLocaleString('en-US', {
-          style: 'currency',
-          currency: 'USD',
-        }),
-      },
-      {
-        title: '24HR',
-        value: (
-          <span
-            style={
-              coinObj.change24h > 0
-                ? { color: '#12d8b8' }
-                : { color: '#ff6161' }
-            }
-          >
-            {coinObj.change24h.toLocaleString('en-US')}%
-          </span>
-        ),
-      },
-      {
-        title: '7D',
-        value: (
-          <span
-            style={
-              coinObj.change7d > 0 ? { color: '#12d8b8' } : { color: '#ff6161' }
-            }
-          >
-            {coinObj.change7d.toLocaleString('en-US')}%
-          </span>
-        ),
-      },
-      {
-        title: 'Circulating supply',
-        value: coinObj.available_supply.toLocaleString('en-US'),
-      },
-    ]
-    const linksData = [
-      {
-        linkType: 'Website',
-        value: coinObj.website,
-        icon: 'link',
-      },
-      {
-        linkType: 'Whitepaper',
-        value: coinObj.Whitepaper,
-        icon: 'file-text'
-      },
-      {
-        linkType: 'Explorer',
-        value: coinObj.explorer,
-        icon: 'search'
-      },
-      {
-        linkType: 'Twitter',
-        value: coinObj.twitter,
-        icon: 'twitter'
-      },
-      {
-        linkType: 'Github',
-        value: coinObj.github,
-        icon: 'github'
-      },
-    ]
+
     let coinsCollection
     if (this.state.liveCoinArr.length) {
       coinsCollection = this.state.liveCoinArr
@@ -119,6 +63,41 @@ class CoinShow extends Component {
       positive: coinObj.change1h > 0,
       value: coinObj.change1h,
     }
+
+    const currencyMenu = (
+      <Menu onClick={this.changeCurrencyHandler}>
+        <Menu.Item key="USD">USD</Menu.Item>
+        <Menu.Item key="BTC">BTC</Menu.Item>
+      </Menu>
+    )
+
+    const linksData = [
+      {
+        linkType: 'Website',
+        value: coinObj.website,
+        icon: 'link',
+      },
+      {
+        linkType: 'Whitepaper',
+        value: coinObj.Whitepaper,
+        icon: 'file-text',
+      },
+      {
+        linkType: 'Explorer',
+        value: coinObj.explorer,
+        icon: 'search',
+      },
+      {
+        linkType: 'Twitter',
+        value: coinObj.twitter,
+        icon: 'twitter',
+      },
+      {
+        linkType: 'Github',
+        value: coinObj.github,
+        icon: 'github',
+      },
+    ]
 
     return (
       <Fragment>
@@ -187,7 +166,7 @@ class CoinShow extends Component {
                   </Div>
                   <Div>
                     <Span style={{ fontSize: 18, fontWeight: 'bold' }}>
-                      ${coinObj.price.usd}
+                      {coinObj.price[this.state.currency.toLowerCase()]}
                     </Span>
                     <Span
                       style={
@@ -216,7 +195,10 @@ class CoinShow extends Component {
                       <Card title="Fundamentals" style={cardStyle}>
                         <List
                           itemLayout="horizontal"
-                          dataSource={fundamentalsData}
+                          dataSource={FundamentalsData(
+                            coinObj,
+                            this.state.currency,
+                          )}
                           renderItem={(item) => {
                             if (item.title === '24HR') {
                               return (
@@ -301,7 +283,15 @@ class CoinShow extends Component {
                               return (
                                 <List.Item>
                                   <Icon type={item.icon} />
-                                  <a href={item.value} target="_blank" style={{color:'#000', marginLeft:'.5rem', marginTop:'-.25rem'}}>
+                                  <a
+                                    href={item.value}
+                                    target="_blank"
+                                    style={{
+                                      color: '#000',
+                                      marginLeft: '.5rem',
+                                      marginTop: '-.25rem',
+                                    }}
+                                  >
                                     {item.linkType}
                                   </a>
                                 </List.Item>
@@ -375,13 +365,6 @@ const FlexGridItemWrap = styled.div`
     width: 32%;
   }
 `
-
-const currencyMenu = (
-  <Menu>
-    <Menu.Item key="1">USD</Menu.Item>
-    <Menu.Item key="2">BTC</Menu.Item>
-  </Menu>
-)
 
 const cardStyle = {
   flexGrow: 1,
