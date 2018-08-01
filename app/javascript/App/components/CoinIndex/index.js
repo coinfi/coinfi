@@ -153,7 +153,7 @@ class CoinIndex extends Component {
     let colVar = []
     if (window.isDesktop) colVar = columnNames
     if (window.isTablet) colVar = columnNames.slice(0, 7)
-    if (window.isMobile) colVar = columnNames.slice(0, 4)
+    if (window.isMobile) colVar = columnNames.slice(0, 3)
 
     return (
       <Fragment>
