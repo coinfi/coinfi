@@ -145,7 +145,7 @@ class CoinShow extends Component {
                         fullScreen: true,
                       })
                     }
-                    style={{marginRight:'1rem'}}
+                    style={{ marginRight: '1rem' }}
                   >
                     Coin List
                   </Button>
@@ -222,6 +222,7 @@ class CoinShow extends Component {
                                       top: -6,
                                       position: 'relative',
                                     }}
+                                    className="ant-list-item-meta-title"
                                   >
                                     {item.title}
                                   </span>
@@ -246,6 +247,7 @@ class CoinShow extends Component {
                                       top: -6,
                                       position: 'relative',
                                     }}
+                                    className="ant-list-item-meta-title"
                                   >
                                     {item.title}
                                   </span>

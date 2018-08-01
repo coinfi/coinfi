@@ -171,10 +171,6 @@ class CoinIndex extends Component {
                     </Button>
                   </Dropdown>
                 </ButtonWrap>
-                <Section>
-                  <Div />
-                  <Div />
-                </Section>
                 <Table
                   rowKey={(record) => record.symbol + record.name}
                   columns={colVar}
