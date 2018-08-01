@@ -156,19 +156,21 @@ class CoinShow extends Component {
               <div style={{ background: '#fff' }}>
                 <ButtonWrap>
                   <Dropdown overlay={currencyMenu}>
-                    <Button style={{ marginLeft: 8, margin: 10 }}>
+                    <Button size="small" style={{ marginLeft: 8, margin: 10 }}>
                       USD <Icon type="down" />
                     </Button>
                   </Dropdown>
-                  <Button icon="star">Watch coin</Button>
+                  <Button icon="star" size="small">
+                    Watch coin
+                  </Button>
                 </ButtonWrap>
                 <Section>
                   <Div>
                     <img
                       alt={coinObj.name}
                       src={coinObj.image_url}
-                      height={window.isDesktop ? '35' : '55'}
-                      width={window.isDesktop ? '35' : '55'}
+                      height={!window.isMobile ? '35' : '55'}
+                      width={!window.isMobile ? '35' : '55'}
                     />
                   </Div>
                   <Div marginBottom>
@@ -211,10 +213,22 @@ class CoinShow extends Component {
                             if (item.title === '24HR') {
                               return (
                                 <Fragment>
-                                  <span style={{ marginRight: '.4rem' }}>
+                                  <span
+                                    style={{
+                                      marginRight: '.4rem',
+                                      top: -6,
+                                      position: 'relative',
+                                    }}
+                                  >
                                     {item.title}
                                   </span>
-                                  <span style={{ marginRight: '1.5rem' }}>
+                                  <span
+                                    style={{
+                                      marginRight: '1.5rem',
+                                      top: -6,
+                                      position: 'relative',
+                                    }}
+                                  >
                                     {item.value}
                                   </span>
                                 </Fragment>
@@ -223,10 +237,24 @@ class CoinShow extends Component {
                             if (item.title === '7D') {
                               return (
                                 <Fragment>
-                                  <span style={{ marginRight: '.4rem' }}>
+                                  <span
+                                    style={{
+                                      marginRight: '.4rem',
+                                      top: -6,
+                                      position: 'relative',
+                                    }}
+                                  >
                                     {item.title}
                                   </span>
-                                  <span>{item.value}</span>
+                                  <span
+                                    style={{
+                                      marginRight: '1.5rem',
+                                      top: -6,
+                                      position: 'relative',
+                                    }}
+                                  >
+                                    {item.value}
+                                  </span>
                                 </Fragment>
                               )
                             }
@@ -304,6 +332,7 @@ const Section = styled.section`
     text-align: left;
     margin: 0 0 0 1rem;
     padding-top: 1rem;
+    padding-left:1rem;
   }
 `
 
