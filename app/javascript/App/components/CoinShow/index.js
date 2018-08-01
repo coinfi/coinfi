@@ -145,6 +145,7 @@ class CoinShow extends Component {
                         fullScreen: true,
                       })
                     }
+                    style={{marginRight:'1rem'}}
                   >
                     Coin List
                   </Button>
@@ -354,7 +355,8 @@ const Span = styled.span`
 `
 
 const HideLarge = styled.div`
-  @media (min-width: 900px) {
+  display: block;
+  @media (min-width: 1100px) {
     display: none;
   }
 `
