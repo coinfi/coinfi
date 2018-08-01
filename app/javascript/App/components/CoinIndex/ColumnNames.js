@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react'
 import SparkLineTable from './../SparkLineTable'
 
-export default () => {
+export default (currency) => {
   return [
     {
       title: '#',
@@ -39,17 +39,22 @@ export default () => {
     },
     {
       title: 'Price',
-      dataIndex: 'price.usd',
-      key: 'price.usd',
+      dataIndex: 'price[currency]',
+      key: 'price[currency]',
       render: (text, row, index) => {
-        return (
-          <span>
-            {text.toLocaleString('en-US', {
-              style: 'currency',
-              currency: 'USD',
-            })}
-          </span>
-        )
+        if (currency === 'USD') {
+          return (
+            <span>
+              {row.price[currency.toLowerCase()].toLocaleString('en-US', {
+                style: 'currency',
+                currency: currency,
+              })}
+            </span>
+          )
+        }
+        if (currency === 'BTC') {
+          return <span>{row.price[currency.toLowerCase()]}</span>
+        }
       },
     },
     {

@@ -15,20 +15,38 @@ import ColumnNames from './ColumnNames'
 const { Header, Footer, Content } = Layout
 
 class CoinIndex extends Component {
+  state = {
+    currency: 'USD',
+  }
+
   getPageTotal() {
     //todo: get total page count from header
     return 160
   }
+
   jumpPage(data) {
     window.location = `/coinsnew?page=${data}`
   }
+
+  changeCurrencyHandler = ({ key }) => {
+    this.setState({
+      currency: key,
+    })
+  }
+
   render() {
     const { symbol } = this.props
-
     let colVar = []
-    if (window.isDesktop) colVar = ColumnNames()
-    if (window.isTablet) colVar = ColumnNames().slice(0, 7)
-    if (window.isMobile) colVar = ColumnNames().slice(0, 3)
+    if (window.isDesktop) colVar = ColumnNames(this.state.currency)
+    if (window.isTablet) colVar = ColumnNames(this.state.currency).slice(0, 7)
+    if (window.isMobile) colVar = ColumnNames(this.state.currency).slice(0, 3)
+
+    const currencyMenu = (
+      <Menu onClick={this.changeCurrencyHandler}>
+        <Menu.Item key="USD">USD</Menu.Item>
+        <Menu.Item key="BTC">BTC</Menu.Item>
+      </Menu>
+    )
 
     return (
       <Fragment>
@@ -95,13 +113,6 @@ const Div = styled.div`
 const Span = styled.span`
   margin: 0 0.5rem;
 `
-
-const currencyMenu = (
-  <Menu>
-    <Menu.Item key="1">USD</Menu.Item>
-    <Menu.Item key="2">BTC</Menu.Item>
-  </Menu>
-)
 
 const cardStyle = {
   flexGrow: 1,
