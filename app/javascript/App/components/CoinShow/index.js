@@ -240,7 +240,9 @@ class CoinShow extends Component {
                             if (item.value) {
                               return (
                                 <List.Item>
-                                  <a href={item.value} target='_blank'>{item.linkType}</a>
+                                  <a href={item.value} target="_blank">
+                                    {item.linkType}
+                                  </a>
                                 </List.Item>
                               )
                             }
