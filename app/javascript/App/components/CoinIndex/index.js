@@ -10,7 +10,7 @@ import {
   Pagination,
 } from 'antd'
 import styled from 'styled-components'
-import SparkLineTable from './../SparkLineTable.jsx'
+import ColumnNames from './ColumnNames'
 
 const { Header, Footer, Content } = Layout
 
@@ -25,137 +25,10 @@ class CoinIndex extends Component {
   render() {
     const { symbol } = this.props
 
-    const columnNames = [
-      {
-        title: '#',
-        dataIndex: 'ranking',
-        key: 'ranking',
-      },
-      {
-        title: 'Name',
-        dataIndex: 'name',
-        key: 'name',
-        render: (text, row, index) => {
-          return (
-            <div style={{ display: 'flex', alignItems: 'left' }}>
-              <div
-                alt={text}
-                style={{
-                  ...{
-                    width: 35,
-                    marginRight: 10,
-                  },
-                  ...{
-                    background: `url('https://gitcdn.link/repo/cjdowner/cryptocurrency-icons/master/svg/color/${row.symbol.toLowerCase()}.svg') no-repeat`,
-                  },
-                }}
-              />
-              <div style={{ flexGrow: 1 }}>
-                <a href={`/coinsnew/${text.toLowerCase().replace(/ /, '-')}`}>
-                  {row.symbol}
-                </a>
-                <div>{text}</div>
-              </div>
-            </div>
-          )
-        },
-      },
-      {
-        title: 'Price',
-        dataIndex: 'price.usd',
-        key: 'price.usd',
-        render: (text, row, index) => {
-          return (
-            <span>
-              {text.toLocaleString('en-US', {
-                style: 'currency',
-                currency: 'USD',
-              })}
-            </span>
-          )
-        },
-      },
-      {
-        title: 'Market Cap',
-        dataIndex: 'market_cap.usd',
-        key: 'market_cap.usd',
-        render: (text, row, index) => {
-          return (
-            <span>
-              {text.toLocaleString('en-US', {
-                maximumFractionDigits: 0,
-              })}
-            </span>
-          )
-        },
-      },
-      {
-        title: '% Move 1H',
-        dataIndex: 'change1h',
-        key: 'change1h',
-        render: (text, row, index) => {
-          if (text > 0) {
-            return <span style={{ color: '#12d8b8' }}>{text}%</span>
-          }
-          return <span style={{ color: '#ff6161' }}>{text}%</span>
-        },
-      },
-      {
-        title: '% Move 1D',
-        dataIndex: 'change24h',
-        key: 'change24h',
-        render: (text, row, index) => {
-          if (text > 0) {
-            return <span style={{ color: '#12d8b8' }}>{text}%</span>
-          }
-          return <span style={{ color: '#ff6161' }}>{text}%</span>
-        },
-      },
-      {
-        title: '% Move 1W',
-        dataIndex: 'change7d',
-        key: 'change7d',
-        render: (text, row, index) => {
-          if (text > 0) {
-            return <span style={{ color: '#12d8b8' }}>{text}%</span>
-          }
-          return <span style={{ color: '#ff6161' }}>{text}%</span>
-        },
-      },
-      {
-        title: 'Volume (24hr)',
-        dataIndex: 'volume24.usd',
-        key: 'volume24.usd',
-        render: (text, row, index) => {
-          return (
-            <span>
-              {text.toLocaleString('en-US', { maximumFractionDigits: 0 })}
-            </span>
-          )
-        },
-      },
-      {
-        title: '7D Chart',
-        dataIndex: '',
-        key: '',
-        render: (text, row, index) => {
-          return (
-            <SparkLineTable>
-              <tbody>
-                <tr key={index}>
-                  <td data-sparkline="71, 78, 39, 66" key={index} />
-                </tr>
-              </tbody>
-            </SparkLineTable>
-          )
-        },
-      },
-    ]
-
     let colVar = []
-    if (window.isDesktop) colVar = columnNames
-    if (window.isTablet) colVar = columnNames.slice(0, 7)
-    if (window.isMobile) colVar = columnNames.slice(0, 3)
+    if (window.isDesktop) colVar = ColumnNames()
+    if (window.isTablet) colVar = ColumnNames().slice(0, 7)
+    if (window.isMobile) colVar = ColumnNames().slice(0, 3)
 
     return (
       <Fragment>
@@ -163,9 +36,7 @@ class CoinIndex extends Component {
           <Content>
             <div style={{ marginTop: -17 }}>
               <ContentWrap>
-
                 <DivHeader>
-
                   <h1 style={{ float: 'left', marginTop: 4 }}>Coins</h1>
                   <ButtonWrap>
                     <Dropdown overlay={currencyMenu}>
@@ -174,18 +45,14 @@ class CoinIndex extends Component {
                       </Button>
                     </Dropdown>
                   </ButtonWrap>
-
                 </DivHeader>
-
                 <Table
                   rowKey={(record) => record.symbol + record.name}
                   columns={colVar}
                   dataSource={this.props.coins}
                   pagination={false}
                 />
-
               </ContentWrap>
-
             </div>
             <Pagination
               defaultCurrent={1}
@@ -248,14 +115,14 @@ const cardStyle = {
 const DivHeader = styled.div`
   margin: 1rem;
   padding-top: 10px;
-  margin-bottom: .5rem;
+  margin-bottom: 0.5rem;
   @media (min-width: 900px) {
-  padding-top: 20px;
-  margin-bottom: 4rem;
-  padding-left:1rem;
+    padding-top: 20px;
+    margin-bottom: 4rem;
+    padding-left: 1rem;
   }
 `
 
 const ContentWrap = styled.div`
-  background:#fff;
+  background: #fff;
 `

@@ -1,0 +1,131 @@
+import React, { Component, Fragment } from 'react'
+import SparkLineTable from './../SparkLineTable'
+
+export default () => {
+  return [
+    {
+      title: '#',
+      dataIndex: 'ranking',
+      key: 'ranking',
+    },
+    {
+      title: 'Name',
+      dataIndex: 'name',
+      key: 'name',
+      render: (text, row, index) => {
+        return (
+          <div style={{ display: 'flex', alignItems: 'left' }}>
+            <div
+              alt={text}
+              style={{
+                ...{
+                  width: 35,
+                  marginRight: 10,
+                },
+                ...{
+                  background: `url('https://gitcdn.link/repo/cjdowner/cryptocurrency-icons/master/svg/color/${row.symbol.toLowerCase()}.svg') no-repeat`,
+                },
+              }}
+            />
+            <div style={{ flexGrow: 1 }}>
+              <a href={`/coinsnew/${text.toLowerCase().replace(/ /, '-')}`}>
+                {row.symbol}
+              </a>
+              <div>{text}</div>
+            </div>
+          </div>
+        )
+      },
+    },
+    {
+      title: 'Price',
+      dataIndex: 'price.usd',
+      key: 'price.usd',
+      render: (text, row, index) => {
+        return (
+          <span>
+            {text.toLocaleString('en-US', {
+              style: 'currency',
+              currency: 'USD',
+            })}
+          </span>
+        )
+      },
+    },
+    {
+      title: 'Market Cap',
+      dataIndex: 'market_cap.usd',
+      key: 'market_cap.usd',
+      render: (text, row, index) => {
+        return (
+          <span>
+            {text.toLocaleString('en-US', {
+              maximumFractionDigits: 0,
+            })}
+          </span>
+        )
+      },
+    },
+    {
+      title: '% Move 1H',
+      dataIndex: 'change1h',
+      key: 'change1h',
+      render: (text, row, index) => {
+        if (text > 0) {
+          return <span style={{ color: '#12d8b8' }}>{text}%</span>
+        }
+        return <span style={{ color: '#ff6161' }}>{text}%</span>
+      },
+    },
+    {
+      title: '% Move 1D',
+      dataIndex: 'change24h',
+      key: 'change24h',
+      render: (text, row, index) => {
+        if (text > 0) {
+          return <span style={{ color: '#12d8b8' }}>{text}%</span>
+        }
+        return <span style={{ color: '#ff6161' }}>{text}%</span>
+      },
+    },
+    {
+      title: '% Move 1W',
+      dataIndex: 'change7d',
+      key: 'change7d',
+      render: (text, row, index) => {
+        if (text > 0) {
+          return <span style={{ color: '#12d8b8' }}>{text}%</span>
+        }
+        return <span style={{ color: '#ff6161' }}>{text}%</span>
+      },
+    },
+    {
+      title: 'Volume (24hr)',
+      dataIndex: 'volume24.usd',
+      key: 'volume24.usd',
+      render: (text, row, index) => {
+        return (
+          <span>
+            {text.toLocaleString('en-US', { maximumFractionDigits: 0 })}
+          </span>
+        )
+      },
+    },
+    {
+      title: '7D Chart',
+      dataIndex: '',
+      key: '',
+      render: (text, row, index) => {
+        return (
+          <SparkLineTable>
+            <tbody>
+              <tr key={index}>
+                <td data-sparkline="71, 78, 39, 66" key={index} />
+              </tr>
+            </tbody>
+          </SparkLineTable>
+        )
+      },
+    },
+  ]
+}
