@@ -51,7 +51,9 @@ class CoinIndex extends Component {
                 }}
               />
               <div style={{ flexGrow: 1 }}>
-                <a href={`/coinsnew/${text.toLowerCase().replace(/ /, '-')}`}>{row.symbol}</a>
+                <a href={`/coinsnew/${text.toLowerCase().replace(/ /, '-')}`}>
+                  {row.symbol}
+                </a>
                 <div>{text}</div>
               </div>
             </div>
@@ -159,18 +161,24 @@ class CoinIndex extends Component {
       <Fragment>
         <Layout>
           <Content>
-            <div>
+            <div style={{ marginTop: -17 }}>
               <div style={{ background: '#fff' }}>
-                <Section style={{ float: 'left' }}>
-                  <h1>Coins</h1>
-                </Section>
-                <ButtonWrap>
-                  <Dropdown overlay={currencyMenu}>
-                    <Button style={{ marginLeft: 8, margin: 10 }}>
-                      USD <Icon type="down" />
-                    </Button>
-                  </Dropdown>
-                </ButtonWrap>
+                <div
+                  style={{
+                    margin: '1rem',
+                    paddingTop: 10,
+                    marginBottom: '.5rem',
+                  }}
+                >
+                  <h1 style={{ float: 'left', marginTop: 4 }}>Coins</h1>
+                  <ButtonWrap>
+                    <Dropdown overlay={currencyMenu}>
+                      <Button style={{ marginLeft: 8, margin: 10 }}>
+                        USD <Icon type="down" />
+                      </Button>
+                    </Dropdown>
+                  </ButtonWrap>
+                </div>
                 <Table
                   rowKey={(record) => record.symbol + record.name}
                   columns={colVar}
