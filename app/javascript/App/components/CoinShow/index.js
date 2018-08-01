@@ -171,7 +171,7 @@ class CoinShow extends Component {
                       width={window.isDesktop ? '35' : '55'}
                     />
                   </Div>
-                  <Div>
+                  <Div marginBottom>
                     <Span style={{ fontSize: 20, fontWeight: 'bold' }}>
                       {coinObj.name}
                     </Span>
@@ -285,13 +285,16 @@ const Section = styled.section`
   }
 `
 
-const Div = styled.div`
-  margin-bottom: 2rem;
-  @media (min-width: 900px) {
-    display: inline-block;
-    margin-right: 1rem;
-  }
-`
+const Div = (props) => {
+  const InDiv = styled.div`
+    margin-bottom: ${props.marginBottom ? '1rem' : '2rem'};
+    @media (min-width: 900px) {
+      display: inline-block;
+      margin-right: 1rem;
+    }
+  `
+  return <InDiv>{props.children}</InDiv>
+}
 
 const Span = styled.span`
   margin: 0 0.5rem;
