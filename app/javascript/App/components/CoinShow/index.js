@@ -231,7 +231,6 @@ class CoinShow extends Component {
                         />
                       </Card>
                     </FlexGridItem>
-                    {/* <FlexGridItemWrap> */}
                     <FlexGridItem>
                       <Card title="Links" style={cardStyle}>
                         <List
@@ -241,7 +240,7 @@ class CoinShow extends Component {
                             if (item.value) {
                               return (
                                 <List.Item>
-                                  <a href={item.value}>{item.linkType}</a>
+                                  <a href={item.value} target='_blank'>{item.linkType}</a>
                                 </List.Item>
                               )
                             }
@@ -250,7 +249,6 @@ class CoinShow extends Component {
                         />
                       </Card>
                     </FlexGridItem>
-                    {/* </FlexGridItemWrap> */}
                   </FlexGrid>
                 </div>
               </div>
