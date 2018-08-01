@@ -160,7 +160,7 @@ class CoinShow extends Component {
                       USD <Icon type="down" />
                     </Button>
                   </Dropdown>
-                  <Button icon="star" size="small">
+                  <Button icon="star" size="small" type="primary" ghost>
                     Watch coin
                   </Button>
                 </ButtonWrap>
