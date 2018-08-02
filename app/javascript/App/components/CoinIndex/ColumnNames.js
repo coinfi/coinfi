@@ -11,11 +11,11 @@ export default (currency) => {
       title: '#',
       dataIndex: 'ranking',
       key: 'ranking',
-      width: 50,
+      width: 55,
       fixed,
     },
     {
-      title: 'Name',
+      title: 'Coin',
       dataIndex: 'name',
       key: 'name',
       width: 220,

@@ -151,7 +151,7 @@ class CoinShow extends Component {
                     ghost={this.state.watched}
                     loading={this.state.iconLoading}
                   >
-                    Watch coin
+                    {!this.state.watched ? 'Unwatch coin' : 'Watch coin'}
                   </Button>
                 </ButtonWrap>
                 <Section>
