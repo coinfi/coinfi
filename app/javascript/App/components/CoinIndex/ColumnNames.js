@@ -2,6 +2,10 @@ import React, { Component, Fragment } from 'react'
 import SparkLineTable from './../SparkLineTable'
 
 export default (currency) => {
+  let fixed = false
+  if (window.innerWidth < 1000) {
+    fixed = true
+  }
   return [
     {
       title: '#',
@@ -13,7 +17,7 @@ export default (currency) => {
       dataIndex: 'name',
       key: 'name',
       width: 210,
-      fixed: 'left',
+      fixed,
       render: (text, row, index) => {
         return (
           <div style={{ display: 'flex', alignItems: 'left' }}>
@@ -64,7 +68,7 @@ export default (currency) => {
       title: 'Market Cap',
       dataIndex: 'market_cap.usd',
       key: 'market_cap.usd',
-      width: 130,
+      width: 140,
       render: (text, row, index) => {
         return (
           <span>
@@ -115,7 +119,7 @@ export default (currency) => {
       title: 'Volume (24hr)',
       dataIndex: 'volume24.usd',
       key: 'volume24.usd',
-      width: 100,
+      width: 125,
       render: (text, row, index) => {
         return (
           <span>
