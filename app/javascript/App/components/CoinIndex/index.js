@@ -36,10 +36,7 @@ class CoinIndex extends Component {
 
   render() {
     const { symbol } = this.props
-    let colVar = []
-    if (window.isDesktop) colVar = ColumnNames(this.state.currency)
-    if (window.isTablet) colVar = ColumnNames(this.state.currency).slice(0, 7)
-    if (window.isMobile) colVar = ColumnNames(this.state.currency).slice(0, 3)
+    const colVar = ColumnNames(this.state.currency)
 
     const currencyMenu = (
       <Menu onClick={this.changeCurrencyHandler}>
@@ -66,6 +63,7 @@ class CoinIndex extends Component {
               columns={colVar}
               dataSource={this.props.coins}
               pagination={false}
+              scroll={{ x: 1100 }}
             />
           </Content>
           <Footer>

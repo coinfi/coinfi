@@ -12,6 +12,7 @@ export default (currency) => {
       title: 'Name',
       dataIndex: 'name',
       key: 'name',
+      fixed: 'left',
       render: (text, row, index) => {
         return (
           <div style={{ display: 'flex', alignItems: 'left' }}>
