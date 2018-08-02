@@ -11,7 +11,7 @@ export default (currency) => {
       title: '#',
       dataIndex: 'ranking',
       key: 'ranking',
-      width: 55,
+      width: 60,
       fixed,
     },
     {
