@@ -12,6 +12,7 @@ export default (currency) => {
       title: 'Name',
       dataIndex: 'name',
       key: 'name',
+      width: 210,
       fixed: 'left',
       render: (text, row, index) => {
         return (
@@ -42,6 +43,7 @@ export default (currency) => {
       title: 'Price',
       dataIndex: 'price[currency]',
       key: 'price[currency]',
+      width: 100,
       render: (text, row, index) => {
         if (currency === 'USD') {
           return (
@@ -62,6 +64,7 @@ export default (currency) => {
       title: 'Market Cap',
       dataIndex: 'market_cap.usd',
       key: 'market_cap.usd',
+      width: 130,
       render: (text, row, index) => {
         return (
           <span>
@@ -76,6 +79,7 @@ export default (currency) => {
       title: '% Move 1H',
       dataIndex: 'change1h',
       key: 'change1h',
+      width: 100,
       render: (text, row, index) => {
         if (text > 0) {
           return <span style={{ color: '#12d8b8' }}>{text}%</span>
@@ -87,6 +91,7 @@ export default (currency) => {
       title: '% Move 1D',
       dataIndex: 'change24h',
       key: 'change24h',
+      width: 100,
       render: (text, row, index) => {
         if (text > 0) {
           return <span style={{ color: '#12d8b8' }}>{text}%</span>
@@ -98,6 +103,7 @@ export default (currency) => {
       title: '% Move 1W',
       dataIndex: 'change7d',
       key: 'change7d',
+      width: 100,
       render: (text, row, index) => {
         if (text > 0) {
           return <span style={{ color: '#12d8b8' }}>{text}%</span>
@@ -109,6 +115,7 @@ export default (currency) => {
       title: 'Volume (24hr)',
       dataIndex: 'volume24.usd',
       key: 'volume24.usd',
+      width: 100,
       render: (text, row, index) => {
         return (
           <span>
