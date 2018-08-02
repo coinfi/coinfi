@@ -39,10 +39,8 @@ class SparkLineTable extends React.Component {
           pointStart: 1,
         },
       ],
-
       tooltip: {
-        headerFormat: `<span style="font-sze:10px">${header}, Q{point.x}: </span><br/>`,
-        pointFormat: '<b>{point.y}.000</b> USD',
+        enabled: false,
       },
       chart: {
         type: dataAttr[1] || 'area',
