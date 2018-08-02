@@ -1,6 +1,7 @@
 ul.list.pl0
   - if controller_name != 'sessions'
     li.pb2
+      ' Already have an account?
       = link_to "Login", new_session_path(resource_name)
   - if devise_mapping.registerable? && controller_name != 'registrations'
     li.pb2

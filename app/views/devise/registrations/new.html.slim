@@ -1,24 +1,15 @@
-h2
-  | Sign up
-= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f|
-  = devise_error_messages!
-  .field
-    = f.label :email
-    br
-    = f.email_field :email, autofocus: true
-  .field
-    = f.label :password
-    - if @minimum_password_length
-      em
-        | (
-        = @minimum_password_length
-        |  characters minimum)
-    br
-    = f.password_field :password, autocomplete: "off"
-  .field
-    = f.label :password_confirmation
-    br
-    = f.password_field :password_confirmation, autocomplete: "off"
-  .actions
-    = f.submit "Sign up"
-= render "devise/shared/links"
+.phr-ns.pv4-ns.flex.items-center
+  .container-narrower
+    .pa4.pa5-ns.max-w28e.center.ba.b--light-gray.shadow-s1.bg-white
+      h2.mt0.tc Register
+      = form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f|
+        = devise_error_messages!
+        .field
+          = f.label :email
+          = f.email_field :email, autofocus: true
+        .field
+          = f.label :password
+          = f.password_field :password, autocomplete: "off"
+        .actions
+          = f.submit "Sign Up", class: 'btn btn-blue w-100'
+      = render "devise/shared/links"
