@@ -32,6 +32,7 @@ class CoinShow extends Component {
     liveCoinArr: [],
     currency: 'USD',
     watched: false,
+    iconLoading: false,
   }
 
   watchlistHandler(coin) {
@@ -44,11 +45,18 @@ class CoinShow extends Component {
   watchCoinHandler = () => {
     this.setState({
       watched: !this.state.watched,
+      iconLoading: true,
     })
+
+    let params
+    if (this.state.watched) params = { watchCoin: this.props.coinObj.id }
+    if (!this.state.watched) params = { unwatchCoin: this.props.coinObj.id }
     axios
-      .patch('/api/user', { watchCoin: this.props.coinObj.id })
+      .patch('/api/user', params)
       .then((data) => {
-        console.log(data)
+        this.setState({
+          iconLoading: false,
+        })
       })
       .catch((error) => {
         console.log(error)
@@ -141,7 +149,7 @@ class CoinShow extends Component {
                     type="primary"
                     onClick={this.watchCoinHandler}
                     ghost={this.state.watched}
-                    loading={false}
+                    loading={this.state.iconLoading}
                   >
                     Watch coin
                   </Button>
