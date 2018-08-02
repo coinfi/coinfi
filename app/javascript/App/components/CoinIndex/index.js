@@ -63,7 +63,7 @@ class CoinIndex extends Component {
               columns={colVar}
               dataSource={this.props.coins}
               pagination={false}
-              scroll={{ x: 1020 }}
+              scroll={{ x: 1080 }}
             />
           </Content>
           <Footer>
