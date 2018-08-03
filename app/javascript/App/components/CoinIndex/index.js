@@ -52,7 +52,9 @@ class CoinIndex extends Component {
             <h1 style={{ float: 'left' }}>Coins</h1>
             <Dropdown overlay={currencyMenu}>
               <Button style={{ float: 'right', marginTop: 15 }}>
-                USD <Icon type="down" />
+                {this.state.currency === 'USD' && 'USD'}{' '}
+                {this.state.currency === 'BTC' && 'BTC'}
+                <Icon type="down" />
               </Button>
             </Dropdown>
           </Header>
