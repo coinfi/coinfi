@@ -19,6 +19,7 @@ class FlexGridItemElem extends React.Component {
         @media (min-width: 900px) {
           float: left;
           width: 66%;
+          margin-left:.5rem;
         }
       `
       return <FlexGridItem>{this.props.children}</FlexGridItem>
