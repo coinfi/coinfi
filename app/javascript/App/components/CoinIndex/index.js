@@ -47,7 +47,7 @@ class CoinIndex extends Component {
 
     return (
       <Fragment>
-        <Layout style={{ maxWidth: 1200, margin: 'auto' }}>
+        <Layout>
           <Header style={{ background: '#fff' }} className="coin-index-header">
             <h1 style={{ float: 'left' }}>Coins</h1>
             <Dropdown overlay={currencyMenu}>

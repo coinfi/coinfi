@@ -2,23 +2,19 @@ import React, { Component, Fragment } from 'react'
 import SparkLineTable from './../SparkLineTable'
 
 export default (currency) => {
-  let fixed = false
-  if (window.innerWidth < 1000) {
-    fixed = true
-  }
+  let fixed = true
   return [
     {
       title: '#',
       dataIndex: 'ranking',
       key: 'ranking',
-      width: 60,
       fixed,
+      align: 'right',
     },
     {
       title: 'Coin',
       dataIndex: 'name',
       key: 'name',
-      width: 220,
       fixed,
       align: 'left',
       render: (text, row, index) => {
@@ -50,7 +46,6 @@ export default (currency) => {
       title: 'Price',
       dataIndex: 'price[currency]',
       key: 'price[currency]',
-      width: 100,
       align: 'right',
       render: (text, row, index) => {
         if (currency === 'USD') {
@@ -72,7 +67,6 @@ export default (currency) => {
       title: 'Market Cap',
       dataIndex: 'market_cap.usd',
       key: 'market_cap.usd',
-      width: 140,
       align: 'right',
       render: (text, row, index) => {
         return (
@@ -88,7 +82,6 @@ export default (currency) => {
       title: '% Move 1H',
       dataIndex: 'change1h',
       key: 'change1h',
-      width: 110,
       align: 'right',
       render: (text, row, index) => {
         if (text > 0) {
@@ -101,7 +94,6 @@ export default (currency) => {
       title: '% Move 1D',
       dataIndex: 'change24h',
       key: 'change24h',
-      width: 110,
       align: 'right',
       render: (text, row, index) => {
         if (text > 0) {
@@ -114,7 +106,6 @@ export default (currency) => {
       title: '% Move 1W',
       dataIndex: 'change7d',
       key: 'change7d',
-      width: 115,
       align: 'right',
       render: (text, row, index) => {
         if (text > 0) {
@@ -127,7 +118,6 @@ export default (currency) => {
       title: 'Volume (24hr)',
       dataIndex: 'volume24.usd',
       key: 'volume24.usd',
-      width: 140,
       align: 'right',
       render: (text, row, index) => {
         return (

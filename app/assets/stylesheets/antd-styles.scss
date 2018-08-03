@@ -27,3 +27,7 @@
 .ant-pagination-item {
   margin: 2px;
 }
+.ant-table-thead > tr > th,
+.ant-table-thead > tr > td {
+  white-space: nowrap;
+}
