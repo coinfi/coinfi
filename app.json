@@ -1,7 +1,8 @@
 {
   "name": "coinfi-rails",
   "scripts": {
-    "postdeploy": "pg_dump $STAGING_DATABASE_URL | psql $DATABASE_URL && bundle exec rake db:migrate"
+    "postdeploy":
+      "pg_dump $STAGING_DATABASE_URL | psql $DATABASE_URL && bundle exec rake db:migrate"
   },
   "env": {
     "ADMINISTRATE_PASSWORD": { "required": true },
@@ -28,6 +29,11 @@
     "RAILS_ENV": { "required": true },
     "RAILS_LOG_TO_STDOUT": { "required": true },
     "RAILS_SERVE_STATIC_FILES": { "required": true },
+    "RDS_NAME": { "required": true },
+    "RDS_HOST": { "required": true },
+    "RDS_PORT": { "required": true },
+    "RDS_USER": { "required": true },
+    "RDS_PASSWORD": { "required": true },
     "REDIS_URL": { "required": true },
     "ROLLBAR_ACCESS_TOKEN": { "required": true },
     "ROLLBAR_CLIENT_ACCESS_TOKEN": { "required": true },
@@ -56,10 +62,8 @@
     "heroku-redis:hobby-dev",
     "papertrail",
     "rollbar",
-    "scout"
+    "scout",
+    "scheduler"
   ],
-  "buildpacks": [
-    { "url": "heroku/nodejs" },
-    { "url": "heroku/ruby" }
-  ]
+  "buildpacks": [{ "url": "heroku/nodejs" }, { "url": "heroku/ruby" }]
 }
