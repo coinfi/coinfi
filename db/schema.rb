@@ -140,6 +140,7 @@ ActiveRecord::Schema.define(version: 20180803130417) do
     t.bigint "disapprovals"
     t.integer "confidence"
     t.bigint "import_id"
+    t.index ["import_id"], name: "index_calendar_events_on_import_id"
     t.index ["user_id"], name: "index_calendar_events_on_user_id"
   end
 

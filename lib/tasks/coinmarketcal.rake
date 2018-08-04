@@ -13,7 +13,7 @@ namespace :coinmarketcal do
 
     @connection.execute("CREATE OR REPLACE VIEW coinmarketcal_event_view AS
     SELECT *
-    FROM dblink('dbname=#{ENV['RDS_NAME']} port=#{ENV['RDS_PORT']} host=#{ENV['RDS_HOST']} user=#{ENV['RDS_USER']} password=#{ENV['RDS_PASSWORD']}',
+    FROM dblink('dbname=#{ENV['CALENDAR_DB_NAME']} port=#{ENV['CALENDAR_DB_PORT']} host=#{ENV['CALENDAR_DB_HOST']} user=#{ENV['CALENDAR_DB_USER']} password=#{ENV['CALENDAR_DB_PASSWORD']}',
                 'select id, title, description, date_event, source, related_coins from staging.coinmarketcal_event')
     AS t1(id bigint, title varchar, description varchar, date_event timestamp, source varchar, related_coins json);")
 
