@@ -42,13 +42,13 @@ const createEntityReducer = (namespace) => (state = initialState, action) => {
       if (!normalizer) console.error(`No normalizer found for ${entityType}`)
       normalized = normalizer(response)
       entityLists = state.get('entityList').mergeDeep(normalized.entities)
-      const ids = _.union(
-        normalized.result,
-        state.getIn(['entityIDs', entityType])
-      )
-      const endFetchingMoreEntityList = (
+      // since we're relying on server-side ordering, simply insert IDs as received
+      const ids = _.uniq([
+        ...state.getIn(['entityIDs', entityType]),
+        ...normalized.result,
+      ])
+      const endFetchingMoreEntityList =
         action.type === 'SET_MORE_ENTITY_LIST' && !response.length
-      )
       return state
         .set('entityList', entityLists)
         .set('endFetchingMoreEntityList', endFetchingMoreEntityList)

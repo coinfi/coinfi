@@ -11,6 +11,7 @@ Rails.application.routes.draw do
       get 'pending', on: :collection
       get 'tagged', on: :collection
     end
+    resources :calendar_events
     resources :articles
     resources :users
     resources :submission_categories

@@ -100,7 +100,11 @@ const CalendarListHeader = (props) => {
         </div>
       )}
       {currentUI('filterPanel') && (
-        <FilterPanel {...props} filterData={{ coins }} />
+        <FilterPanel
+          {...props}
+          filterData={{ coins }}
+          defaultFilters={{ events: props.defaultEvent }}
+        />
       )}
     </Fragment>
   )

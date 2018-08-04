@@ -4,7 +4,7 @@ import Type from 'prop-types'
 export default class Events extends Component {
   constructor(props) {
     super(props)
-    this.events = ['Upcoming events', 'Past events']
+    this.events = props.events || []
   }
 
   onChange = (item) => this.props.onChange('events')(item)
@@ -38,9 +38,7 @@ export default class Events extends Component {
     return (
       <div className="item-segment-alt">
         <div className="pv4">
-          {this.events.map((event) => (
-            <ItemButton key={this.itemLabel(event)} item={event} />
-          ))}
+          {this.events.map((event, i) => <ItemButton key={i} item={event} />)}
         </div>
       </div>
     )

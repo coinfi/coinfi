@@ -1,0 +1,29 @@
+.ant-list-item-meta-description {
+  font-weight: bold;
+  color: #555;
+}
+.ant-card-head {
+  border-bottom: none;
+}
+.ant-card-body {
+  padding-top: 0;
+}
+.ant-list-split .ant-list-item {
+  border-bottom: none;
+}
+.ant-list-item-meta-title {
+  color: rgba(0, 0, 0, 0.38);
+}
+.coin-index-header {
+  padding-left: 1rem;
+  padding-right: 1.5rem;
+  @media (min-width: 600px) {
+    padding: 0 1rem;
+  }
+}
+.ant-pagination-prev,
+.ant-pagination-jump-prev,
+.ant-pagination-jump-next,
+.ant-pagination-item {
+  margin: 2px;
+}

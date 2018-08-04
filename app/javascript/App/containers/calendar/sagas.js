@@ -17,7 +17,7 @@ export default function* watcher() {
   yield takeLatest('SET_ACTIVE_ENTITY', onSetActiveCoin)
   yield takeLatest('ON_FILTER_CHANGE', onFilterChange)
   yield takeLatest('TOGGLE_UI', onWatchingOnly)
-  yield takeLatest('FETCH_MORE_CALENDAR', onScrollingToBottom)
+  yield takeLatest('FETCH_MORE_CALENDAR_EVENTS', onScrollingToBottom)
   yield fork(filterSagas)
   yield fork(entitySagas)
 }
@@ -27,6 +27,7 @@ export default function* watcher() {
 function* addDefaultFilters(action) {
   if (action.namespace !== namespace) return
   let { filterObject } = action.payload
+  filterObject = filterObject || {}
   let { events } = filterObject
 
   if (!events) {
@@ -120,8 +121,14 @@ function* onScrollingToBottom(action) {
   if (sortedCalendarEvents.length) {
     const lastCalendarEvent =
       sortedCalendarEvents[sortedCalendarEvents.length - 1]
-    params.publishedUntil = lastCalendarEvent.get('feed_item_published_at')
+
+    if (params.events === 'Past events')
+      params.publishedUntil = lastCalendarEvent.get('date_event')
+    else params.publishedSince = lastCalendarEvent.get('date_event')
+
+    params.id = lastCalendarEvent.get('id')
   }
+
   yield put(
     actions.fetchMoreEntityList('calendarEvents', {
       params,
