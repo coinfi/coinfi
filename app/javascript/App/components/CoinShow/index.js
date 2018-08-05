@@ -31,7 +31,7 @@ class CoinShow extends Component {
   state = {
     liveCoinArr: [],
     currency: 'USD',
-    watched: false,
+    watched: this.props.watching,
     iconLoading: false,
   }
 
@@ -49,8 +49,9 @@ class CoinShow extends Component {
     })
 
     let params
-    if (this.state.watched) params = { watchCoin: this.props.coinObj.id }
-    if (!this.state.watched) params = { unwatchCoin: this.props.coinObj.id }
+    !this.state.watched
+      ? (params = { watchCoin: this.props.coinObj.id })
+      : (params = { unwatchCoin: this.props.coinObj.id })
     axios
       .patch('/api/user', params)
       .then((data) => {
@@ -76,6 +77,7 @@ class CoinShow extends Component {
       annotations,
       isTradingViewVisible,
       coinObj,
+      watching,
     } = this.props
 
     let coinsCollection
@@ -148,10 +150,10 @@ class CoinShow extends Component {
                     size="small"
                     type="primary"
                     onClick={this.watchCoinHandler}
-                    ghost={this.state.watched}
+                    ghost={!this.state.watched}
                     loading={this.state.iconLoading}
                   >
-                    {!this.state.watched ? 'Unwatch coin' : 'Watch coin'}
+                    {this.state.watched ? 'Unwatch coin' : 'Watch coin'}
                   </Button>
                 </ButtonWrap>
                 <Section>
