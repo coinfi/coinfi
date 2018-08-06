@@ -9,6 +9,7 @@ import {
   List,
   Col,
   Row,
+  Avatar,
 } from 'antd'
 import styled from 'styled-components'
 import axios from 'axios'
@@ -198,17 +199,28 @@ class CoinShow extends Component {
                 <FlexGridWrapper>
                   <FlexGrid>
                     <FlexGridItem component={'fundamentals'}>
-                      <Card title="Ratings" style={{ ...cardStyle, ...{} }}>
-                        <RatingsDiv style={{ marginLeft: 0 }}>
-                          <strong>4.0</strong>
-                          <span>
-                            ICO bench <br />expert rating
-                          </span>
-                        </RatingsDiv>
-                        <RatingsDiv>
-                          <strong>Very High</strong>
-                          <span>ICO drops score (interest)</span>
-                        </RatingsDiv>
+                      <Card
+                        title="Team"
+                        style={{ ...cardStyle, ...{ display: 'none' } }}
+                      >
+                        <TeamDiv style={{ marginLeft: 0 }}>
+                          <Avatar
+                            size={64}
+                            src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
+                            style={{ marginBottom: 20 }}
+                          />
+                          <strong>Name</strong>
+                          <p>title</p>
+                        </TeamDiv>
+                        <TeamDiv style={{ marginRight: 0 }}>
+                          <Avatar
+                            size={64}
+                            src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
+                            style={{ marginBottom: 20 }}
+                          />
+                          <strong>Name</strong>
+                          <p>title</p>
+                        </TeamDiv>
                       </Card>
                     </FlexGridItem>
 
@@ -217,15 +229,17 @@ class CoinShow extends Component {
                         title="Ratings"
                         style={{ ...cardStyle, ...{ display: 'none' } }}
                       >
-                        <RatingsDiv>
+                        <RatingsDiv style={{ marginLeft: 0 }}>
                           <strong>4.0</strong>
                           <span>
                             ICO bench <br />expert rating
                           </span>
                         </RatingsDiv>
-                        <RatingsDiv>
+                        <RatingsDiv style={{ marginRight: 0 }}>
                           <strong>Very High</strong>
-                          <span>ICO drops score (interest)</span>
+                          <span>
+                            ICO drops<br /> score (interest)
+                          </span>
                         </RatingsDiv>
                       </Card>
                     </FlexGridItem>
@@ -432,7 +446,7 @@ const FlexGridItemWrap = styled.div`
 
 const RatingsDiv = styled.div`
   display: inline-block;
-  width: 45%;
+  width: 47%;
   background: #f6f8fa;
   margin: 0.5rem;
   padding: 0.5rem;
@@ -440,12 +454,9 @@ const RatingsDiv = styled.div`
   padding-bottom: 20px;
   text-align: center;
   font-size: 12px;
-  margin-left: (props) => {
-    console.log('styled props', props)
-    return props
-  }
   > strong {
     display: block;
+    margin-bottom: 0.4rem;
   }
 `
 
@@ -467,4 +478,20 @@ const FlexGridWrapper = styled.div`
   border: 1px solid #e5e6e6;
   width: 100%;
   overflow: auto;
+`
+
+const TeamDiv = styled.div`
+  display: inline-block;
+  width: 47%;
+  margin: 0.5rem;
+  padding: 0.5rem;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  text-align: center;
+  font-size: 12px;
+  border: 1px solid #e5e6e6;
+  > strong {
+    display: block;
+    font-size: 14px;
+  }
 `
