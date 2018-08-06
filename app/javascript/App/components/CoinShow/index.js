@@ -158,11 +158,7 @@ class CoinShow extends Component {
                 </ButtonWrap>
                 <Section>
                   <Div>
-                    <img
-                      alt={coinObj.name}
-                      src={coinObj.image_url}
-                      style={{ height: '100%', width: 'auto', marginTop: -5 }}
-                    />
+                    <img alt={coinObj.name} src={coinObj.image_url} />
                   </Div>
                   <Div marginBottom>
                     <Span style={{ fontSize: 20, fontWeight: 'bold' }}>
@@ -350,6 +346,11 @@ const Div = (props) => {
       display: inline-block;
       margin-right: 0.5rem;
       height: 25px;
+    }
+    > img {
+      height: 100%;
+      width: auto;
+      margin-top: -5px;
     }
   `
   return <InDiv>{props.children}</InDiv>
