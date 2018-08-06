@@ -167,8 +167,14 @@ class CoinShow extends Component {
                     <Span style={{ fontSize: 16 }}>{symbol}</Span>
                   </Div>
                   <Div>
-                    <Span style={{ fontSize: 18, fontWeight: 'bold' }}>
-                      {coinObj.price[this.state.currency.toLowerCase()]}
+                    <Span
+                      style={{
+                        fontSize: 18,
+                        fontWeight: 'bold',
+                        marginRight: '.75rem',
+                      }}
+                    >
+                      ${coinObj.price[this.state.currency.toLowerCase()]}
                     </Span>
                     <Span
                       style={
@@ -178,7 +184,18 @@ class CoinShow extends Component {
                           : { color: '#ff6161' })
                       }
                     >
-                      {percentChange1h.value}%
+                      {percentChange1h.value > 0 ? (
+                        <Icon
+                          type="caret-up"
+                          style={{ marginRight: '.25rem' }}
+                        />
+                      ) : (
+                        <Icon
+                          type="caret-down"
+                          style={{ marginRight: '.25rem' }}
+                        />
+                      )}
+                      <span>{percentChange1h.value}%</span>
                     </Span>
                   </Div>
                 </Section>
