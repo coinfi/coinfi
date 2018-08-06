@@ -142,7 +142,7 @@ class CoinShow extends Component {
                 <ButtonWrap>
                   <Dropdown overlay={currencyMenu}>
                     <Button size="small" style={{ marginLeft: 8, margin: 10 }}>
-                      USD <Icon type="down" />
+                      {this.state.currency} <Icon type="down" />
                     </Button>
                   </Dropdown>
                   <Button
