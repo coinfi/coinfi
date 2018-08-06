@@ -211,6 +211,44 @@ class CoinShow extends Component {
                 >
                   <FlexGrid>
                     <FlexGridItem component={'fundamentals'}>
+                      <Card
+                        title="Ratings"
+                        style={{ ...cardStyle, ...{ display: 'none' } }}
+                      >
+                        <RatingsDiv>
+                          <strong>4.0</strong>
+                          <span>
+                            ICO bench <br />expert rating
+                          </span>
+                        </RatingsDiv>
+                        <RatingsDiv>
+                          <strong>Very High</strong>
+                          <span>ICO drops score (interest)</span>
+                        </RatingsDiv>
+                      </Card>
+                    </FlexGridItem>
+
+                    <FlexGridItem component={'fundamentals'}>
+                      <Card
+                        title="Summary"
+                        style={{ ...cardStyle, ...{ display: 'none' } }}
+                      >
+                        <p>
+                          {' '}
+                          Lorem ipsum dolor sit amet, consectetur adipiscing
+                          elit. Integer nec odio. Praesent libero. Sed cursus
+                          ante dapibus diam. Sed nisi. Nulla quis sem at nibh
+                          elementum imperdiet. Duis sagittis ipsum. Praesent
+                          mauris. Fusce nec tellus sed augue semper porta.
+                          Mauris massa. Vestibulum lacinia arcu eget nulla.
+                          Class aptent taciti sociosqu ad litora torquent per
+                          conubia nostra, per inceptos himenaeos. Curabitur
+                          sodales ligula in libero.{' '}
+                        </p>
+                      </Card>
+                    </FlexGridItem>
+
+                    <FlexGridItem component={'fundamentals'}>
                       <Card title="Fundamentals" style={cardStyle}>
                         <List
                           itemLayout="horizontal"
@@ -389,6 +427,21 @@ const FlexGridItemWrap = styled.div`
   @media (min-width: 900px) {
     width: auto;
     width: 32%;
+  }
+`
+
+const RatingsDiv = styled.div`
+  display: inline-block;
+  width: 45%;
+  background: #f6f8fa;
+  margin: 0.5rem;
+  padding: 0.5rem;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  text-align: center;
+  font-size: 12px;
+  > strong {
+    display: block;
   }
 `
 
