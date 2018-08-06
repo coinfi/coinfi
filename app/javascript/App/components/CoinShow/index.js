@@ -358,7 +358,7 @@ const Section = styled.section`
 
 const Div = (props) => {
   const InDiv = styled.div`
-    margin-bottom: ${props.marginBottom ? '1rem' : '2rem'};
+    margin-bottom: ${props.marginBottom ? '0' : '2rem'};
     height: 50px;
     @media (min-width: 900px) {
       display: inline-block;

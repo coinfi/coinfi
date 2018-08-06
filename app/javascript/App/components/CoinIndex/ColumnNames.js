@@ -129,14 +129,16 @@ export default (currency) => {
     },
     {
       title: '7D Chart',
-      dataIndex: '',
-      key: '',
+      dataIndex: 'priceData',
+      key: 'priceData',
       render: (text, row, index) => {
+        const num =
+          row.priceData && row.priceData.toString().replace(/,/g, ', ')
         return (
           <SparkLineTable>
             <tbody>
               <tr key={index}>
-                <td data-sparkline="71, 78, 39, 66" key={index} />
+                <td data-sparkline={num} key={index} />
               </tr>
             </tbody>
           </SparkLineTable>

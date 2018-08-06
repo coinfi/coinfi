@@ -10,6 +10,7 @@ import {
   Pagination,
 } from 'antd'
 import styled from 'styled-components'
+import axios from 'axios'
 import ColumnNames from './ColumnNames'
 
 const { Header, Footer, Content } = Layout
@@ -17,6 +18,20 @@ const { Header, Footer, Content } = Layout
 class CoinIndex extends Component {
   state = {
     currency: 'USD',
+    priceData: [],
+  }
+
+  componentDidMount() {
+    axios
+      .get('/api/coins?limit=100')
+      .then((response) => {
+        this.setState({
+          priceData: response.data.payload,
+        })
+      })
+      .catch((error) => {
+        console.log(error)
+      })
   }
 
   getPageTotal() {
@@ -37,6 +52,19 @@ class CoinIndex extends Component {
   render() {
     const { symbol } = this.props
     const colVar = ColumnNames(this.state.currency)
+
+    let coinPriceData
+    if (this.state.priceData.length) {
+      coinPriceData = this.props.coins.map((coin, index) => {
+        const priceArr =
+          (this.state.priceData[index] &&
+            this.state.priceData[index].prices_data.slice(-7)) ||
+          []
+        const pricePlucked = priceArr.map((item) => parseInt(item.close))
+        coin.priceData = pricePlucked
+        return coin
+      })
+    }
 
     const currencyMenu = (
       <Menu onClick={this.changeCurrencyHandler}>
