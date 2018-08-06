@@ -36,10 +36,12 @@ class CoinShow extends Component {
   }
 
   watchlistHandler(coin) {
-    window.location = `/coins/${coin
-      .get('name')
-      .replace(/ /, '-')
-      .toLowerCase()}`
+    if (window.location == `/coins/${coin.get('name')}`) {
+      window.location = `/coins/${coin
+        .get('name')
+        .replace(/ /, '-')
+        .toLowerCase()}`
+    }
   }
 
   watchCoinHandler = () => {
@@ -104,19 +106,12 @@ class CoinShow extends Component {
         <Layout>
           <Content>
             {window.isDesktop && (
-              <div
-                style={{
-                  width: 200,
-                  float: 'left',
-                  background: '#fff',
-                  borderRight: '1px solid #e8e8e8',
-                }}
-              >
+              <Wrapper>
                 <CoinList
                   {...this.props}
                   watchlistHandler={this.watchlistHandler}
                 />
-              </div>
+              </Wrapper>
             )}
             <div style={window.isDesktop ? { marginLeft: 200 } : {}}>
               <SectionHeader>
@@ -200,16 +195,23 @@ class CoinShow extends Component {
                   </Div>
                 </Section>
 
-                <div
-                  style={{
-                    background: '#f6f8fa',
-                    padding: '0 .5rem',
-                    border: '1px solid #e5e6e6',
-                    width: '100%',
-                    overflow: 'auto',
-                  }}
-                >
+                <FlexGridWrapper>
                   <FlexGrid>
+                    <FlexGridItem component={'fundamentals'}>
+                      <Card title="Ratings" style={{ ...cardStyle, ...{} }}>
+                        <RatingsDiv style={{ marginLeft: 0 }}>
+                          <strong>4.0</strong>
+                          <span>
+                            ICO bench <br />expert rating
+                          </span>
+                        </RatingsDiv>
+                        <RatingsDiv>
+                          <strong>Very High</strong>
+                          <span>ICO drops score (interest)</span>
+                        </RatingsDiv>
+                      </Card>
+                    </FlexGridItem>
+
                     <FlexGridItem component={'fundamentals'}>
                       <Card
                         title="Ratings"
@@ -262,9 +264,8 @@ class CoinShow extends Component {
                                 <Fragment>
                                   <span
                                     style={{
-                                      marginRight: '.4rem',
-                                      top: -6,
-                                      position: 'relative',
+                                      ...{ marginRight: '.4rem' },
+                                      ...{ top: -6, position: 'relative' },
                                     }}
                                     className="ant-list-item-meta-title"
                                   >
@@ -272,9 +273,8 @@ class CoinShow extends Component {
                                   </span>
                                   <span
                                     style={{
-                                      marginRight: '1.5rem',
-                                      top: -6,
-                                      position: 'relative',
+                                      ...{ marginRight: '1.5rem' },
+                                      ...{ top: -6, position: 'relative' },
                                     }}
                                   >
                                     {item.value}
@@ -360,7 +360,7 @@ class CoinShow extends Component {
                       </Card>
                     </FlexGridItem>
                   </FlexGrid>
-                </div>
+                </FlexGridWrapper>
               </div>
             </div>
             <CoinListDrawer {...this.props} coins={coinsCollection} />
@@ -440,6 +440,10 @@ const RatingsDiv = styled.div`
   padding-bottom: 20px;
   text-align: center;
   font-size: 12px;
+  margin-left: (props) => {
+    console.log('styled props', props)
+    return props
+  }
   > strong {
     display: block;
   }
@@ -449,3 +453,18 @@ const cardStyle = {
   flexGrow: 1,
   margin: '1rem .5rem 0 .5rem',
 }
+
+const Wrapper = styled.div`
+  width: 200px;
+  float: left;
+  background: #fff;
+  border-right: 1px solid #e8e8e8;
+`
+
+const FlexGridWrapper = styled.div`
+  background: #f6f8fa;
+  padding: 0 0.5rem;
+  border: 1px solid #e5e6e6;
+  width: 100%;
+  overflow: auto;
+`
