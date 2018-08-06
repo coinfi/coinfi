@@ -161,8 +161,7 @@ class CoinShow extends Component {
                     <img
                       alt={coinObj.name}
                       src={coinObj.image_url}
-                      height={!window.isMobile ? '35' : '55'}
-                      width={!window.isMobile ? '35' : '55'}
+                      style={{ height: '100%', width: 'auto', marginTop: -5 }}
                     />
                   </Div>
                   <Div marginBottom>
@@ -349,14 +348,15 @@ const Div = (props) => {
     margin-bottom: ${props.marginBottom ? '1rem' : '2rem'};
     @media (min-width: 900px) {
       display: inline-block;
-      margin-right: 1rem;
+      margin-right: 0.5rem;
+      height: 25px;
     }
   `
   return <InDiv>{props.children}</InDiv>
 }
 
 const Span = styled.span`
-  margin: 0 0.5rem;
+  margin: 0 0.5rem 0 0;
 `
 
 const HideLarge = styled.div`
