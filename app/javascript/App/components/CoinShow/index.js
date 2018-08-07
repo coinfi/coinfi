@@ -157,9 +157,7 @@ class CoinShow extends Component {
                     <img alt={coinObj.name} src={coinObj.image_url} />
                   </Div>
                   <Div marginBottom>
-                    <Span style={{ fontSize: 20, fontWeight: 'bold' }}>
-                      {coinObj.name}
-                    </Span>
+                    <SpanTitle>{coinObj.name}</SpanTitle>
                     <Span style={{ fontSize: 16 }}>{symbol}</Span>
                   </Div>
                   <Div>
@@ -170,7 +168,9 @@ class CoinShow extends Component {
                         marginRight: '.75rem',
                       }}
                     >
-                      ${coinObj.price[this.state.currency.toLowerCase()]}
+                      {this.state.currency === 'USD' ? '$' : ''}
+                      {coinObj.price[this.state.currency.toLowerCase()]}{' '}
+                      {this.state.currency}
                     </Span>
                     <Span
                       style={
@@ -412,17 +412,17 @@ const Section = styled.section`
 
 const Div = (props) => {
   const InDiv = styled.div`
-    margin-bottom: ${props.marginBottom ? '0' : '2rem'};
-    height: 50px;
+    margin-bottom: ${props.marginBottom ? '0' : '1.5rem'};
+    height: 56px;
     @media (min-width: 900px) {
       display: inline-block;
-      margin-right: 0.5rem;
-      height: 25px;
+      margin-right: 0.75rem;
+      height: 32px;
     }
     > img {
       height: 100%;
       width: auto;
-      margin-top: -5px;
+      margin-top: -7px;
     }
   `
   return <InDiv>{props.children}</InDiv>
@@ -430,6 +430,12 @@ const Div = (props) => {
 
 const Span = styled.span`
   margin: 0 0.5rem 0 0;
+`
+
+const SpanTitle = styled.span`
+  margin: 0 0.5rem 0 0;
+  font-size: 24px;
+  font-weight: bold;
 `
 
 const HideLarge = styled.div`
