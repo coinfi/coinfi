@@ -13,8 +13,6 @@ import {
 } from 'antd'
 import styled from 'styled-components'
 import axios from 'axios'
-import FlexGrid from './../shared/FlexGrid'
-import FlexGridItem from './../shared/FlexGridItem'
 import SearchCoins from './../shared/SearchCoins'
 import CoinCharts from './../CoinCharts'
 import SectionHeader from './../shared/SectionHeader'
@@ -117,292 +115,292 @@ class CoinShow extends Component {
 
               {/* Coin List Button */}
               <Col xs={24} sm={24} m={20} l={20} xl={20}>
-                  <SectionHeader>
-                    {' '}
-                    <HideLarge>
+                <SectionHeader>
+                  {' '}
+                  <HideLarge>
+                    <Button
+                      type="primary"
+                      icon="bars"
+                      onClick={() =>
+                        this.props.enableUI('coinListDrawer', {
+                          fullScreen: true,
+                        })
+                      }
+                      style={{ marginRight: '1rem' }}
+                    >
+                      Coin List
+                    </Button>
+                  </HideLarge>
+                  <SearchCoins {...this.props} coinShow />
+                </SectionHeader>
+                {/* main content */}{' '}
+                <Row>
+                  {/* currency button and watchlist */}
+                  <Col xs={24} s={24} m={6}>
+                    <ButtonWrap>
+                      <Dropdown overlay={currencyMenu}>
+                        <Button
+                          size="small"
+                          style={{ marginLeft: 8, margin: 10 }}
+                        >
+                          {this.state.currency} <Icon type="down" />
+                        </Button>
+                      </Dropdown>
                       <Button
+                        icon="star"
+                        size="small"
                         type="primary"
-                        icon="bars"
-                        onClick={() =>
-                          this.props.enableUI('coinListDrawer', {
-                            fullScreen: true,
-                          })
-                        }
-                        style={{ marginRight: '1rem' }}
+                        onClick={this.watchCoinHandler}
+                        ghost={!this.state.watched}
+                        loading={this.state.iconLoading}
                       >
-                        Coin List
+                        {this.state.watched ? 'Unwatch coin' : 'Watch coin'}
                       </Button>
-                    </HideLarge>
-                    <SearchCoins {...this.props} coinShow />
-                  </SectionHeader>
+                    </ButtonWrap>
+                  </Col>
 
-                  {/* main content */}
-                    {' '}
-                    <Row>
-                      {/* logo and title */}
-                      <Col xl={18}>
-                        <Section>
-                          {' '}
-                          <Div style={{ marginBottom: '1.5rem' }}>
-                            <img alt={coinObj.name} src={coinObj.image_url} />
-                          </Div>
-                          <Div marginBottom>
-                            <SpanTitle>{coinObj.name}</SpanTitle>
-                            <Span style={{ fontSize: 16 }}>{symbol}</Span>
-                          </Div>
-                          <Div>
-                            <Span
-                              style={{
-                                fontSize: 18,
-                                fontWeight: 'bold',
-                                marginRight: '.75rem',
-                              }}
-                            >
-                              {this.state.currency === 'USD' ? '$' : ''}
-                              {
-                                coinObj.price[this.state.currency.toLowerCase()]
-                              }{' '}
-                              {this.state.currency}
-                            </Span>
-                            <Span
-                              style={
-                                ({ fontSize: 14 },
-                                percentChange1h.positive
-                                  ? { color: '#12d8b8' }
-                                  : { color: '#ff6161' })
-                              }
-                            >
-                              {percentChange1h.value > 0 ? (
-                                <Icon
-                                  type="caret-up"
-                                  style={{ marginRight: '.25rem' }}
-                                />
-                              ) : (
-                                <Icon
-                                  type="caret-down"
-                                  style={{ marginRight: '.25rem' }}
-                                />
-                              )}
-                              <span>{percentChange1h.value}%</span>
-                            </Span>
-                          </Div>
-                        </Section>
-                      </Col>
-
-                      {/* currency button and watchlist */}
-                      <Col span={6}>
-                        <ButtonWrap>
-                          <Dropdown overlay={currencyMenu}>
-                            <Button
-                              size="small"
-                              style={{ marginLeft: 8, margin: 10 }}
-                            >
-                              {this.state.currency} <Icon type="down" />
-                            </Button>
-                          </Dropdown>
-                          <Button
-                            icon="star"
-                            size="small"
-                            type="primary"
-                            onClick={this.watchCoinHandler}
-                            ghost={!this.state.watched}
-                            loading={this.state.iconLoading}
-                          >
-                            {this.state.watched ? 'Unwatch coin' : 'Watch coin'}
-                          </Button>
-                        </ButtonWrap>
-                      </Col>
-                    </Row>
-                    <Row>
-                      {/* chart */}
-                      <Col xs={24} sm={16} m={16} l={16} xl={16}>
-                        <Card title="Price chart" style={cardStyle}>
-                          <CoinCharts
-                            symbol={symbol}
-                            priceData={priceData}
-                            annotations={annotations}
-                            isTradingViewVisible={isTradingViewVisible}
-                          />
-                        </Card>
-                      </Col>
-
-                      {/* fundamentals */}
-                      <Col xs={24} sm={8} m={8} l={8} xl={8}>
-                        <Card title="Fundamentals" style={cardStyle}>
-                          <List
-                            itemLayout="horizontal"
-                            dataSource={FundamentalsData(
-                              coinObj,
-                              this.state.currency,
-                            )}
-                            renderItem={(item) => {
-                              if (item.title === '24HR') {
-                                return (
-                                  <Fragment>
-                                    <span
-                                      style={{
-                                        ...{ marginRight: '.4rem' },
-                                        ...{
-                                          top: -6,
-                                          position: 'relative',
-                                        },
-                                      }}
-                                      className="ant-list-item-meta-title"
-                                    >
-                                      {item.title}
-                                    </span>
-                                    <span
-                                      style={{
-                                        ...{ marginRight: '1.5rem' },
-                                        ...{
-                                          top: -6,
-                                          position: 'relative',
-                                        },
-                                      }}
-                                    >
-                                      {item.value}
-                                    </span>
-                                  </Fragment>
-                                )
-                              }
-                              if (item.title === '7D') {
-                                return (
-                                  <Fragment>
-                                    <span
-                                      style={{
-                                        marginRight: '.4rem',
-                                        top: -6,
-                                        position: 'relative',
-                                      }}
-                                      className="ant-list-item-meta-title"
-                                    >
-                                      {item.title}
-                                    </span>
-                                    <span
-                                      style={{
-                                        marginRight: '1.5rem',
-                                        top: -6,
-                                        position: 'relative',
-                                      }}
-                                    >
-                                      {item.value}
-                                    </span>
-                                  </Fragment>
-                                )
-                              }
-                              return (
-                                <List.Item>
-                                  <List.Item.Meta
-                                    title={item.title}
-                                    description={item.value}
-                                  />
-                                </List.Item>
-                              )
-                            }}
-                          />
-                        </Card>
-                      </Col>
-
-                      {/* links */}
-                      <Col xs={24} sm={8} m={8} l={8} xl={8}>
-                        <Card title="Links" style={cardStyle}>
-                          <List
-                            itemLayout="horizontal"
-                            dataSource={LinksData(coinObj)}
-                            renderItem={(item) => {
-                              if (item.value) {
-                                return (
-                                  <List.Item>
-                                    <Icon type={item.icon} />
-                                    <a
-                                      href={item.value}
-                                      target="_blank"
-                                      style={{
-                                        color: '#000',
-                                        marginLeft: '.5rem',
-                                        marginTop: '-.25rem',
-                                      }}
-                                    >
-                                      {item.linkType}
-                                    </a>
-                                  </List.Item>
-                                )
-                              }
-                              return <Fragment />
-                            }}
-                          />
-                        </Card>
-                      </Col>
-
-                      {/* summary */}
-                      <Col xs={24} sm={24} l={16} xl={16}>
-                        <Card
-                          title="Summary"
-                          style={{ ...cardStyle, ...{ display: 'none' } }}
+                  {/* logo and title */}
+                  <Col s={24} m={24} xl={24}>
+                    <Section>
+                      {' '}
+                      <Div style={{ marginBottom: '1.5rem' }}>
+                        <img alt={coinObj.name} src={coinObj.image_url} />
+                      </Div>
+                      <Div style={{ marginTop: 120 }}>
+                        <SpanTitle>{coinObj.name}</SpanTitle>
+                        <Span style={{ fontSize: 16 }}>{symbol}</Span>
+                      </Div>
+                      <Div>
+                        <Span
+                          style={{
+                            fontSize: 18,
+                            fontWeight: 'bold',
+                            marginRight: '.75rem',
+                          }}
                         >
-                          <p>
-                            {' '}
-                            Lorem ipsum dolor sit amet, consectetur adipiscing
-                            elit. Integer nec odio. Praesent libero. Sed cursus
-                            ante dapibus diam. Sed nisi. Nulla quis sem at nibh
-                            elementum imperdiet. Duis sagittis ipsum. Praesent
-                            mauris. Fusce nec tellus sed augue semper porta.
-                            Mauris massa. Vestibulum lacinia arcu eget nulla.
-                            Class aptent taciti sociosqu ad litora torquent per
-                            conubia nostra, per inceptos himenaeos. Curabitur
-                            sodales ligula in libero.{' '}
-                          </p>
-                        </Card>
-                      </Col>
-
-                      {/* ratings */}
-                      <Col xs={24} sm={24} l={8} xl={8}>
-                        <Card
-                          title="Ratings"
-                          style={{ ...cardStyle, ...{ display: 'none' } }}
+                          {this.state.currency === 'USD' ? '$' : ''}
+                          {
+                            coinObj.price[this.state.currency.toLowerCase()]
+                          }{' '}
+                          {this.state.currency}
+                        </Span>
+                        <Span
+                          style={
+                            ({ fontSize: 14 },
+                            percentChange1h.positive
+                              ? { color: '#12d8b8' }
+                              : { color: '#ff6161' })
+                          }
                         >
-                          <RatingsDiv style={{ marginLeft: 0 }}>
-                            <strong>4.0</strong>
-                            <span>
-                              ICO bench <br />expert rating
-                            </span>
-                          </RatingsDiv>
-                          <RatingsDiv style={{ marginRight: 0 }}>
-                            <strong>Very High</strong>
-                            <span>
-                              ICO drops<br /> score (interest)
-                            </span>
-                          </RatingsDiv>
-                        </Card>
-                      </Col>
-
-                      {/* team */}
-                      <Col xs={24} sm={24} xl={16}>
-                        <Card
-                          title="Team"
-                          style={{ ...cardStyle, ...{ display: 'none' } }}
-                        >
-                          <TeamDiv style={{ marginLeft: 0 }}>
-                            <Avatar
-                              size={64}
-                              src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
-                              style={{ marginBottom: 20 }}
+                          {percentChange1h.value > 0 ? (
+                            <Icon
+                              type="caret-up"
+                              style={{ marginRight: '.25rem' }}
                             />
-                            <strong>Name</strong>
-                            <p>title</p>
-                          </TeamDiv>
-                          <TeamDiv style={{ marginRight: 0 }}>
-                            <Avatar
-                              size={64}
-                              src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
-                              style={{ marginBottom: 20 }}
+                          ) : (
+                            <Icon
+                              type="caret-down"
+                              style={{ marginRight: '.25rem' }}
                             />
-                            <strong>Name</strong>
-                            <p>title</p>
-                          </TeamDiv>
-                        </Card>
-                      </Col>
-                    </Row>
+                          )}
+                          <span>{percentChange1h.value}%</span>
+                        </Span>
+                      </Div>
+                    </Section>
+                  </Col>
+                </Row>
+                <Row>
+                  {/* chart */}
+                  <Col xs={24} sm={16} m={16} l={16} xl={16}>
+                    <Card
+                      title="Price chart"
+                      style={{ ...cardStyle, ...{ padding: 1 } }}
+                    >
+                      <CoinCharts
+                        symbol={symbol}
+                        priceData={priceData}
+                        annotations={annotations}
+                        isTradingViewVisible={isTradingViewVisible}
+                      />
+                    </Card>
+                  </Col>
+
+                  {/* fundamentals */}
+                  <Col xs={24} sm={8} m={8} l={8} xl={8}>
+                    <Card title="Fundamentals" style={cardStyle}>
+                      <List
+                        itemLayout="horizontal"
+                        dataSource={FundamentalsData(
+                          coinObj,
+                          this.state.currency,
+                        )}
+                        renderItem={(item) => {
+                          if (item.title === '24HR') {
+                            return (
+                              <Fragment>
+                                <span
+                                  style={{
+                                    ...{ marginRight: '.4rem' },
+                                    ...{
+                                      top: -6,
+                                      position: 'relative',
+                                    },
+                                  }}
+                                  className="ant-list-item-meta-title"
+                                >
+                                  {item.title}
+                                </span>
+                                <span
+                                  style={{
+                                    ...{ marginRight: '1.5rem' },
+                                    ...{
+                                      top: -6,
+                                      position: 'relative',
+                                    },
+                                  }}
+                                >
+                                  {item.value}
+                                </span>
+                              </Fragment>
+                            )
+                          }
+                          if (item.title === '7D') {
+                            return (
+                              <Fragment>
+                                <span
+                                  style={{
+                                    marginRight: '.4rem',
+                                    top: -6,
+                                    position: 'relative',
+                                  }}
+                                  className="ant-list-item-meta-title"
+                                >
+                                  {item.title}
+                                </span>
+                                <span
+                                  style={{
+                                    marginRight: '1.5rem',
+                                    top: -6,
+                                    position: 'relative',
+                                  }}
+                                >
+                                  {item.value}
+                                </span>
+                              </Fragment>
+                            )
+                          }
+                          return (
+                            <List.Item>
+                              <List.Item.Meta
+                                title={item.title}
+                                description={item.value}
+                              />
+                            </List.Item>
+                          )
+                        }}
+                      />
+                    </Card>
+                  </Col>
+
+                  {/* links */}
+                  <Col xs={24} sm={8} m={8} l={8} xl={8}>
+                    <Card title="Links" style={cardStyle}>
+                      <List
+                        itemLayout="horizontal"
+                        dataSource={LinksData(coinObj)}
+                        renderItem={(item) => {
+                          if (item.value) {
+                            return (
+                              <List.Item>
+                                <Icon type={item.icon} />
+                                <a
+                                  href={item.value}
+                                  target="_blank"
+                                  style={{
+                                    color: '#000',
+                                    marginLeft: '.5rem',
+                                    marginTop: '-.25rem',
+                                  }}
+                                >
+                                  {item.linkType}
+                                </a>
+                              </List.Item>
+                            )
+                          }
+                          return <Fragment />
+                        }}
+                      />
+                    </Card>
+                  </Col>
+
+                  {/* summary */}
+                  <Col xs={24} sm={24} l={16} xl={16}>
+                    <Card
+                      title="Summary"
+                      style={{ ...cardStyle, ...{ display: 'none' } }}
+                    >
+                      <p>
+                        {' '}
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                        Integer nec odio. Praesent libero. Sed cursus ante
+                        dapibus diam. Sed nisi. Nulla quis sem at nibh elementum
+                        imperdiet. Duis sagittis ipsum. Praesent mauris. Fusce
+                        nec tellus sed augue semper porta. Mauris massa.
+                        Vestibulum lacinia arcu eget nulla. Class aptent taciti
+                        sociosqu ad litora torquent per conubia nostra, per
+                        inceptos himenaeos. Curabitur sodales ligula in libero.{' '}
+                      </p>
+                    </Card>
+                  </Col>
+
+                  {/* ratings */}
+                  <Col xs={24} sm={24} l={8} xl={8}>
+                    <Card
+                      title="Ratings"
+                      style={{ ...cardStyle, ...{ display: 'none' } }}
+                    >
+                      <RatingsDiv style={{ marginLeft: 0 }}>
+                        <strong>4.0</strong>
+                        <span>
+                          ICO bench <br />expert rating
+                        </span>
+                      </RatingsDiv>
+                      <RatingsDiv style={{ marginRight: 0 }}>
+                        <strong>Very High</strong>
+                        <span>
+                          ICO drops<br /> score (interest)
+                        </span>
+                      </RatingsDiv>
+                    </Card>
+                  </Col>
+
+                  {/* team */}
+                  <Col xs={24} sm={24} xl={16}>
+                    <Card
+                      title="Team"
+                      style={{ ...cardStyle, ...{ display: 'none' } }}
+                    >
+                      <TeamDiv style={{ marginLeft: 0 }}>
+                        <Avatar
+                          size={64}
+                          src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
+                          style={{ marginBottom: 20 }}
+                        />
+                        <strong>Name</strong>
+                        <p>title</p>
+                      </TeamDiv>
+                      <TeamDiv style={{ marginRight: 0 }}>
+                        <Avatar
+                          size={64}
+                          src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
+                          style={{ marginBottom: 20 }}
+                        />
+                        <strong>Name</strong>
+                        <p>title</p>
+                      </TeamDiv>
+                    </Card>
+                  </Col>
+                </Row>
               </Col>
             </Row>
           </Content>
@@ -418,44 +416,47 @@ class CoinShow extends Component {
 export default newsfeedContainer(CoinShow)
 
 const ButtonWrap = styled.div`
-  /* text-align: right; */
-  /* margin: 0 1rem; */
-  /* margin-right: 1.2rem; */
+  text-align: right;
+  margin: 0 1rem;
+  margin-right: 1.2rem;
   /* padding-top: 0.5rem; */
-  /* @media (min-width: 900px) { */
-  /*   float: right; */
-  /*   margin-top: 2.5rem; */
-  /* } */
+  @media (min-width: 900px) {
+    float: right;
+    position: absolute;
+    top: 40px;
+    right: 0;
+  }
 `
 
 const Section = styled.section`
-  /* text-align: center; */
-  /* margin: 3rem 0; */
-  /* @media (min-width: 900px) { */
-  /*   text-align: left; */
-  /*   margin: 0 0 0 1rem; */
-  /*   padding-top: 1rem; */
-  /*   padding-left: 1rem; */
-  /* } */
+  text-align: center;
+  margin: 3rem 0;
+  background: #fff;
+  margin-top: 0;
+  height: 100%;
+  padding-bottom: 53px;
+  @media (min-width: 900px) {
+    text-align: left;
+    margin: 0;
+    padding-top: 1rem;
+    padding-left: 1rem;
+  }
 `
 
-const Div = (props) => {
-  const InDiv = styled.div`
-    margin-bottom: ${props.marginBottom ? '0' : '1.5rem'};
-    height: 56px;
-    @media (min-width: 900px) {
-      display: inline-block;
-      margin-right: 0.75rem;
-      height: 32px;
-    }
-    > img {
-      height: 100%;
-      width: auto;
-      margin-top: -7px;
-    }
-  `
-  return <InDiv>{props.children}</InDiv>
-}
+const Div = styled.div`
+  margin-bottom: 4.5rem;
+  height: 56px;
+  @media (min-width: 900px) {
+    display: inline-block;
+    margin-right: 0.75rem;
+    height: 32px;
+  }
+  > img {
+    height: 100%;
+    width: auto;
+    margin-top: 40px;
+  }
+`
 
 const Span = styled.span`
   margin: 0 0.5rem 0 0;
@@ -471,14 +472,6 @@ const HideLarge = styled.div`
   display: block;
   @media (min-width: 1100px) {
     display: none;
-  }
-`
-
-const FlexGridItemWrap = styled.div`
-  width: 100%;
-  @media (min-width: 900px) {
-    width: auto;
-    width: 32%;
   }
 `
 
@@ -502,21 +495,6 @@ const cardStyle = {
   flexGrow: 1,
   margin: '1rem .5rem 0 .5rem',
 }
-
-const Wrapper = styled.div`
-  width: 200px;
-  float: left;
-  background: #fff;
-  border-right: 1px solid #e8e8e8;
-`
-
-const FlexGridWrapper = styled.div`
-  background: #f6f8fa;
-  padding: 0 0.5rem;
-  border: 1px solid #e5e6e6;
-  width: 100%;
-  overflow: auto;
-`
 
 const TeamDiv = styled.div`
   display: inline-block;
