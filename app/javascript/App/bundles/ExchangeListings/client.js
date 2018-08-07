@@ -16,8 +16,8 @@ const ExchangeListingsPage = (props, context) => {
 
   //sagaMiddleware.run(rootSaga)
 
-  console.log(props)
-  return <LayoutDesktop />
+  //console.log(props)
+  return <LayoutDesktop {...props} />
 }
 
 export default ExchangeListingsPage

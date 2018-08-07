@@ -11,29 +11,9 @@ class ListingsList extends Component {
     }
   }
 
-  /*
-  setActiveCoin = coin => {
-    const { setActiveEntity, setFilter, disableUI, enableUI } = this.props;
-    setActiveEntity({
-      type: "coin",
-      id: coin.get("id"),
-      label: coin.get("name")
-    });
-    const value = [coin.get("name")];
-    setFilter({ key: "coins", value });
-    if (!window.isDesktop) disableUI("coinListDrawer");
-    if (window.isMobile) enableUI("bodySectionDrawer", { fullScreen: true });
-  };
-  */
-
   onComponentMount() {
     this.fetchListings()
   }
-
-  fetchListings = () =>
-    fetch('http://localhost:3000/api/exchange_listings.json')
-      .then((response) => response.json())
-      .then((result) => this.onSetResult(result))
 
   onSetResult = (result) => {
     console.log(result)
