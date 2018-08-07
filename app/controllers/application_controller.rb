@@ -23,11 +23,7 @@ private
 protected
 
   def has_news_feature?
-<<<<<<< 5b33dde08d125d3177eb5d735caf4470ba940132
     current_user && $launch_darkly.variation('news', current_user.launch_darkly_hash, false)
-=======
-    current_user# && $launch_darkly.variation('news', get_ld_user, false)
->>>>>>> WIP
   end
   helper_method :has_news_feature?
 
@@ -35,4 +31,9 @@ protected
     current_user && $launch_darkly.variation('calendar', current_user.launch_darkly_hash, false)
   end
   helper_method :has_calendar_feature?
+
+  def has_listings_feature?
+    current_user && $launch_darkly.variation('listings', current_user.launch_darkly_hash, false)
+  end
+  helper_method :has_listings_feature?
 end

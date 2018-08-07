@@ -7,6 +7,9 @@ nav class=("#{defined?(klass) ? klass : ''}")
     - if has_news_feature?
       li
         = nav_link 'News', '/news'
+    - if has_listings_feature?
+      li
+        = nav_link 'Listings', '/listings'
     li
       a href="https://blog.coinfi.com" target="_blank" Blog
     li

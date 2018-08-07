@@ -1,4 +1,6 @@
 class ExchangeListingsController < ApplicationController
+  before_action :apply_feature_flag
+
   def index
     @body_id = 'pane-layout'
     @listings = ExchangeListing.includes(:exchange).order_by_detected.page(params[:page]).per(20).as_json(
@@ -14,5 +16,11 @@ class ExchangeListingsController < ApplicationController
     respond_to do |format|
       format.js { render layout: false }
     end
+  end
+
+protected
+
+  def apply_feature_flag
+    return render_404 if !has_listings_feature?
   end
 end
