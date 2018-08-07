@@ -166,10 +166,10 @@ class CoinShow extends Component {
                       <Div style={{ marginBottom: '1.5rem' }}>
                         <img alt={coinObj.name} src={coinObj.image_url} />
                       </Div>
-                      <Div style={{ marginTop: 120 }}>
+                      <DivTitle>
                         <SpanTitle>{coinObj.name}</SpanTitle>
                         <Span style={{ fontSize: 16 }}>{symbol}</Span>
-                      </Div>
+                      </DivTitle>
                       <Div>
                         <Span
                           style={{
@@ -440,21 +440,37 @@ const Section = styled.section`
     margin: 0;
     padding-top: 1rem;
     padding-left: 1rem;
+    padding-bottom: 0;
   }
 `
 
 const Div = styled.div`
   margin-bottom: 4.5rem;
   height: 56px;
-  @media (min-width: 900px) {
-    display: inline-block;
-    margin-right: 0.75rem;
-    height: 32px;
-  }
   > img {
     height: 100%;
     width: auto;
     margin-top: 40px;
+  }
+  @media (min-width: 900px) {
+    display: inline-block;
+    margin-right: 0.75rem;
+    height: 32px;
+    > img {
+      margin-top: 0;
+    }
+  }
+`
+
+const DivTitle = styled.div`
+  height: 56px;
+  margin-top: 120px;
+  margin-bottom: 0;
+  @media (min-width: 900px) {
+    display: inline-block;
+    margin-right: 0.75rem;
+    height: 32px;
+    margin-top: 0;
   }
 `
 
