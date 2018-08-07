@@ -38,3 +38,6 @@
 .ant-table-thead > tr > td {
   white-space: nowrap;
 }
+.ant-table-fixed-columns-in-body > div {
+  visibility: hidden;
+}
