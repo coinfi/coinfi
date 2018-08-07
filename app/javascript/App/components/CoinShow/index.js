@@ -153,7 +153,7 @@ class CoinShow extends Component {
                   </Button>
                 </ButtonWrap>
                 <Section>
-                  <Div>
+                  <Div style={{ marginBottom: '1.5rem' }}>
                     <img alt={coinObj.name} src={coinObj.image_url} />
                   </Div>
                   <Div marginBottom>
@@ -391,6 +391,8 @@ export default newsfeedContainer(CoinShow)
 const ButtonWrap = styled.div`
   text-align: right;
   margin: 0 1rem;
+  margin-right: 1.2rem;
+  padding-top: 0.5rem;
   @media (min-width: 900px) {
     float: right;
     margin-top: 2.5rem;
