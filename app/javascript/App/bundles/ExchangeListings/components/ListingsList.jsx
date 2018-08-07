@@ -26,7 +26,7 @@ class ListingsList extends Component {
     const { listings } = this.state
     console.log(listings)
     return (
-      <div>
+      <div className="overflow-y-hidden overflow-y-auto-m">
         {listings ? (
           listings.map((listing) => {
             return <ListingItem key={listing.id} listing={listing} />
