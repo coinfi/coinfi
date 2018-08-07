@@ -106,427 +106,310 @@ class CoinShow extends Component {
       <Fragment>
         <Layout>
           <Content>
-            <div className="gutter-example">
-              <Row gutter={24}>
-                {/* watchlist */}
-                <Col className="gutter-row" sm={0} l={4}>
-                  <div className="gutter-box">
-                    <HideSmall>
-                      <CoinList
-                        {...this.props}
-                        watchlistHandler={this.watchlistHandler}
-                      />
-                    </HideSmall>
-                  </div>
-                </Col>
+            <Row>
+              {/* watchlist */}
+              <Col xs={0} sm={0} m={4} l={4} xl={4}>
+                <CoinList
+                  {...this.props}
+                  watchlistHandler={this.watchlistHandler}
+                />
+              </Col>
 
-                {/* Coin List Button */}
-                <Col className="gutter-row" sm={24} l={20}>
-                  <div className="gutter-box">
-                    <SectionHeader>
-                      {' '}
-                      <HideLarge>
-                        <Button
-                          type="primary"
-                          icon="bars"
-                          onClick={() =>
-                            this.props.enableUI('coinListDrawer', {
-                              fullScreen: true,
-                            })
-                          }
-                          style={{ marginRight: '1rem' }}
-                        >
-                          Coin List
-                        </Button>
-                      </HideLarge>
-                      <SearchCoins {...this.props} coinShow />
-                    </SectionHeader>
+              {/* Coin List Button */}
+              <Col xs={24} sm={24} m={20} l={20} xl={20}>
+                  <SectionHeader>
+                    {' '}
+                    <HideLarge>
+                      <Button
+                        type="primary"
+                        icon="bars"
+                        onClick={() =>
+                          this.props.enableUI('coinListDrawer', {
+                            fullScreen: true,
+                          })
+                        }
+                        style={{ marginRight: '1rem' }}
+                      >
+                        Coin List
+                      </Button>
+                    </HideLarge>
+                    <SearchCoins {...this.props} coinShow />
+                  </SectionHeader>
 
-                    {/* main content */}
-                    <div className="gutter-example">
-                      {' '}
-                      <Row gutter={24}>
-                        {/* logo and title */}
-                        <Col className="gutter-row" xl={18}>
-                          <div className="gutter-box">
-                            <Section>
-                              {' '}
-                              <Div style={{ marginBottom: '1.5rem' }}>
-                                <img
-                                  alt={coinObj.name}
-                                  src={coinObj.image_url}
+                  {/* main content */}
+                    {' '}
+                    <Row>
+                      {/* logo and title */}
+                      <Col xl={18}>
+                        <Section>
+                          {' '}
+                          <Div style={{ marginBottom: '1.5rem' }}>
+                            <img alt={coinObj.name} src={coinObj.image_url} />
+                          </Div>
+                          <Div marginBottom>
+                            <SpanTitle>{coinObj.name}</SpanTitle>
+                            <Span style={{ fontSize: 16 }}>{symbol}</Span>
+                          </Div>
+                          <Div>
+                            <Span
+                              style={{
+                                fontSize: 18,
+                                fontWeight: 'bold',
+                                marginRight: '.75rem',
+                              }}
+                            >
+                              {this.state.currency === 'USD' ? '$' : ''}
+                              {
+                                coinObj.price[this.state.currency.toLowerCase()]
+                              }{' '}
+                              {this.state.currency}
+                            </Span>
+                            <Span
+                              style={
+                                ({ fontSize: 14 },
+                                percentChange1h.positive
+                                  ? { color: '#12d8b8' }
+                                  : { color: '#ff6161' })
+                              }
+                            >
+                              {percentChange1h.value > 0 ? (
+                                <Icon
+                                  type="caret-up"
+                                  style={{ marginRight: '.25rem' }}
                                 />
-                              </Div>
-                              <Div marginBottom>
-                                <SpanTitle>{coinObj.name}</SpanTitle>
-                                <Span style={{ fontSize: 16 }}>{symbol}</Span>
-                              </Div>
-                              <Div>
-                                <Span
-                                  style={{
-                                    fontSize: 18,
-                                    fontWeight: 'bold',
-                                    marginRight: '.75rem',
-                                  }}
-                                >
-                                  {this.state.currency === 'USD' ? '$' : ''}
-                                  {
-                                    coinObj.price[
-                                      this.state.currency.toLowerCase()
-                                    ]
-                                  }{' '}
-                                  {this.state.currency}
-                                </Span>
-                                <Span
-                                  style={
-                                    ({ fontSize: 14 },
-                                    percentChange1h.positive
-                                      ? { color: '#12d8b8' }
-                                      : { color: '#ff6161' })
-                                  }
-                                >
-                                  {percentChange1h.value > 0 ? (
-                                    <Icon
-                                      type="caret-up"
-                                      style={{ marginRight: '.25rem' }}
-                                    />
-                                  ) : (
-                                    <Icon
-                                      type="caret-down"
-                                      style={{ marginRight: '.25rem' }}
-                                    />
-                                  )}
-                                  <span>{percentChange1h.value}%</span>
-                                </Span>
-                              </Div>
-                            </Section>
-                          </div>
-                        </Col>
+                              ) : (
+                                <Icon
+                                  type="caret-down"
+                                  style={{ marginRight: '.25rem' }}
+                                />
+                              )}
+                              <span>{percentChange1h.value}%</span>
+                            </Span>
+                          </Div>
+                        </Section>
+                      </Col>
 
-                        {/* currency button and watchlist */}
-                        <Col className="gutter-row" span={6}>
-                          <div className="gutter-box">
+                      {/* currency button and watchlist */}
+                      <Col span={6}>
+                        <ButtonWrap>
+                          <Dropdown overlay={currencyMenu}>
+                            <Button
+                              size="small"
+                              style={{ marginLeft: 8, margin: 10 }}
+                            >
+                              {this.state.currency} <Icon type="down" />
+                            </Button>
+                          </Dropdown>
+                          <Button
+                            icon="star"
+                            size="small"
+                            type="primary"
+                            onClick={this.watchCoinHandler}
+                            ghost={!this.state.watched}
+                            loading={this.state.iconLoading}
+                          >
+                            {this.state.watched ? 'Unwatch coin' : 'Watch coin'}
+                          </Button>
+                        </ButtonWrap>
+                      </Col>
+                    </Row>
+                    <Row>
+                      {/* chart */}
+                      <Col xs={24} sm={16} m={16} l={16} xl={16}>
+                        <Card title="Price chart" style={cardStyle}>
+                          <CoinCharts
+                            symbol={symbol}
+                            priceData={priceData}
+                            annotations={annotations}
+                            isTradingViewVisible={isTradingViewVisible}
+                          />
+                        </Card>
+                      </Col>
+
+                      {/* fundamentals */}
+                      <Col xs={24} sm={8} m={8} l={8} xl={8}>
+                        <Card title="Fundamentals" style={cardStyle}>
+                          <List
+                            itemLayout="horizontal"
+                            dataSource={FundamentalsData(
+                              coinObj,
+                              this.state.currency,
+                            )}
+                            renderItem={(item) => {
+                              if (item.title === '24HR') {
+                                return (
+                                  <Fragment>
+                                    <span
+                                      style={{
+                                        ...{ marginRight: '.4rem' },
+                                        ...{
+                                          top: -6,
+                                          position: 'relative',
+                                        },
+                                      }}
+                                      className="ant-list-item-meta-title"
+                                    >
+                                      {item.title}
+                                    </span>
+                                    <span
+                                      style={{
+                                        ...{ marginRight: '1.5rem' },
+                                        ...{
+                                          top: -6,
+                                          position: 'relative',
+                                        },
+                                      }}
+                                    >
+                                      {item.value}
+                                    </span>
+                                  </Fragment>
+                                )
+                              }
+                              if (item.title === '7D') {
+                                return (
+                                  <Fragment>
+                                    <span
+                                      style={{
+                                        marginRight: '.4rem',
+                                        top: -6,
+                                        position: 'relative',
+                                      }}
+                                      className="ant-list-item-meta-title"
+                                    >
+                                      {item.title}
+                                    </span>
+                                    <span
+                                      style={{
+                                        marginRight: '1.5rem',
+                                        top: -6,
+                                        position: 'relative',
+                                      }}
+                                    >
+                                      {item.value}
+                                    </span>
+                                  </Fragment>
+                                )
+                              }
+                              return (
+                                <List.Item>
+                                  <List.Item.Meta
+                                    title={item.title}
+                                    description={item.value}
+                                  />
+                                </List.Item>
+                              )
+                            }}
+                          />
+                        </Card>
+                      </Col>
+
+                      {/* links */}
+                      <Col xs={24} sm={8} m={8} l={8} xl={8}>
+                        <Card title="Links" style={cardStyle}>
+                          <List
+                            itemLayout="horizontal"
+                            dataSource={LinksData(coinObj)}
+                            renderItem={(item) => {
+                              if (item.value) {
+                                return (
+                                  <List.Item>
+                                    <Icon type={item.icon} />
+                                    <a
+                                      href={item.value}
+                                      target="_blank"
+                                      style={{
+                                        color: '#000',
+                                        marginLeft: '.5rem',
+                                        marginTop: '-.25rem',
+                                      }}
+                                    >
+                                      {item.linkType}
+                                    </a>
+                                  </List.Item>
+                                )
+                              }
+                              return <Fragment />
+                            }}
+                          />
+                        </Card>
+                      </Col>
+
+                      {/* summary */}
+                      <Col xs={24} sm={24} l={16} xl={16}>
+                        <Card
+                          title="Summary"
+                          style={{ ...cardStyle, ...{ display: 'none' } }}
+                        >
+                          <p>
                             {' '}
-                            <ButtonWrap>
-                              <Dropdown overlay={currencyMenu}>
-                                <Button
-                                  size="small"
-                                  style={{ marginLeft: 8, margin: 10 }}
-                                >
-                                  {this.state.currency} <Icon type="down" />
-                                </Button>
-                              </Dropdown>
-                              <Button
-                                icon="star"
-                                size="small"
-                                type="primary"
-                                onClick={this.watchCoinHandler}
-                                ghost={!this.state.watched}
-                                loading={this.state.iconLoading}
-                              >
-                                {this.state.watched
-                                  ? 'Unwatch coin'
-                                  : 'Watch coin'}
-                              </Button>
-                            </ButtonWrap>
-                          </div>
-                        </Col>
-                      </Row>
-                      <Row gutter={24}>
-                        {/* chart */}
-                        <Col
-                          className="gutter-row"
-                          xs={24}
-                          sm={16}
-                          m={16}
-                          l={16}
-                          xl={16}
-                        >
-                          <div
-                            className="gutter-box"
-                            style={{ background: '#eee' }}
-                          >
-                            <Card title="Price chart" style={cardStyle}>
-                              <CoinCharts
-                                symbol={symbol}
-                                priceData={priceData}
-                                annotations={annotations}
-                                isTradingViewVisible={isTradingViewVisible}
-                              />
-                            </Card>
-                          </div>
-                        </Col>
+                            Lorem ipsum dolor sit amet, consectetur adipiscing
+                            elit. Integer nec odio. Praesent libero. Sed cursus
+                            ante dapibus diam. Sed nisi. Nulla quis sem at nibh
+                            elementum imperdiet. Duis sagittis ipsum. Praesent
+                            mauris. Fusce nec tellus sed augue semper porta.
+                            Mauris massa. Vestibulum lacinia arcu eget nulla.
+                            Class aptent taciti sociosqu ad litora torquent per
+                            conubia nostra, per inceptos himenaeos. Curabitur
+                            sodales ligula in libero.{' '}
+                          </p>
+                        </Card>
+                      </Col>
 
-                        {/* fundamentals */}
-                        <Col
-                          className="gutter-row"
-                          xs={24}
-                          sm={8}
-                          m={8}
-                          l={8}
-                          xl={8}
+                      {/* ratings */}
+                      <Col xs={24} sm={24} l={8} xl={8}>
+                        <Card
+                          title="Ratings"
+                          style={{ ...cardStyle, ...{ display: 'none' } }}
                         >
-                          <div
-                            className="gutter-box"
-                            style={{ background: '#eee' }}
-                          >
-                            <Card title="Fundamentals" style={cardStyle}>
-                              <List
-                                itemLayout="horizontal"
-                                dataSource={FundamentalsData(
-                                  coinObj,
-                                  this.state.currency,
-                                )}
-                                renderItem={(item) => {
-                                  if (item.title === '24HR') {
-                                    return (
-                                      <Fragment>
-                                        <span
-                                          style={{
-                                            ...{ marginRight: '.4rem' },
-                                            ...{
-                                              top: -6,
-                                              position: 'relative',
-                                            },
-                                          }}
-                                          className="ant-list-item-meta-title"
-                                        >
-                                          {item.title}
-                                        </span>
-                                        <span
-                                          style={{
-                                            ...{ marginRight: '1.5rem' },
-                                            ...{
-                                              top: -6,
-                                              position: 'relative',
-                                            },
-                                          }}
-                                        >
-                                          {item.value}
-                                        </span>
-                                      </Fragment>
-                                    )
-                                  }
-                                  if (item.title === '7D') {
-                                    return (
-                                      <Fragment>
-                                        <span
-                                          style={{
-                                            marginRight: '.4rem',
-                                            top: -6,
-                                            position: 'relative',
-                                          }}
-                                          className="ant-list-item-meta-title"
-                                        >
-                                          {item.title}
-                                        </span>
-                                        <span
-                                          style={{
-                                            marginRight: '1.5rem',
-                                            top: -6,
-                                            position: 'relative',
-                                          }}
-                                        >
-                                          {item.value}
-                                        </span>
-                                      </Fragment>
-                                    )
-                                  }
-                                  return (
-                                    <List.Item>
-                                      <List.Item.Meta
-                                        title={item.title}
-                                        description={item.value}
-                                      />
-                                    </List.Item>
-                                  )
-                                }}
-                              />
-                            </Card>
-                          </div>
-                        </Col>
+                          <RatingsDiv style={{ marginLeft: 0 }}>
+                            <strong>4.0</strong>
+                            <span>
+                              ICO bench <br />expert rating
+                            </span>
+                          </RatingsDiv>
+                          <RatingsDiv style={{ marginRight: 0 }}>
+                            <strong>Very High</strong>
+                            <span>
+                              ICO drops<br /> score (interest)
+                            </span>
+                          </RatingsDiv>
+                        </Card>
+                      </Col>
 
-                        {/* links */}
-                        <Col
-                          className="gutter-row"
-                          xs={24}
-                          sm={8}
-                          m={8}
-                          l={8}
-                          xl={8}
+                      {/* team */}
+                      <Col xs={24} sm={24} xl={16}>
+                        <Card
+                          title="Team"
+                          style={{ ...cardStyle, ...{ display: 'none' } }}
                         >
-                          <div
-                            className="gutter-box"
-                            style={{ background: '#eee' }}
-                          >
-                            <Card title="Links" style={cardStyle}>
-                              <List
-                                itemLayout="horizontal"
-                                dataSource={LinksData(coinObj)}
-                                renderItem={(item) => {
-                                  if (item.value) {
-                                    return (
-                                      <List.Item>
-                                        <Icon type={item.icon} />
-                                        <a
-                                          href={item.value}
-                                          target="_blank"
-                                          style={{
-                                            color: '#000',
-                                            marginLeft: '.5rem',
-                                            marginTop: '-.25rem',
-                                          }}
-                                        >
-                                          {item.linkType}
-                                        </a>
-                                      </List.Item>
-                                    )
-                                  }
-                                  return <Fragment />
-                                }}
-                              />
-                            </Card>
-                          </div>
-                        </Col>
-
-                        {/* summary */}
-                        <Col
-                          className="gutter-row"
-                          xs={24}
-                          sm={24}
-                          l={16}
-                          xl={16}
-                        >
-                          <div
-                            className="gutter-box"
-                            style={{ background: '#eee' }}
-                          >
-                            <Card
-                              title="Summary"
-                              style={{ ...cardStyle, ...{ display: 'none' } }}
-                            >
-                              <p>
-                                {' '}
-                                Lorem ipsum dolor sit amet, consectetur
-                                adipiscing elit. Integer nec odio. Praesent
-                                libero. Sed cursus ante dapibus diam. Sed nisi.
-                                Nulla quis sem at nibh elementum imperdiet. Duis
-                                sagittis ipsum. Praesent mauris. Fusce nec
-                                tellus sed augue semper porta. Mauris massa.
-                                Vestibulum lacinia arcu eget nulla. Class aptent
-                                taciti sociosqu ad litora torquent per conubia
-                                nostra, per inceptos himenaeos. Curabitur
-                                sodales ligula in libero.{' '}
-                              </p>
-                            </Card>
-                          </div>
-                        </Col>
-
-                        {/* ratings */}
-                        <Col
-                          className="gutter-row"
-                          xs={24}
-                          sm={24}
-                          l={8}
-                          xl={8}
-                        >
-                          <div
-                            className="gutter-box"
-                            style={{ background: '#eee' }}
-                          >
-                            <Card
-                              title="Ratings"
-                              style={{ ...cardStyle, ...{ display: 'none' } }}
-                            >
-                              <RatingsDiv style={{ marginLeft: 0 }}>
-                                <strong>4.0</strong>
-                                <span>
-                                  ICO bench <br />expert rating
-                                </span>
-                              </RatingsDiv>
-                              <RatingsDiv style={{ marginRight: 0 }}>
-                                <strong>Very High</strong>
-                                <span>
-                                  ICO drops<br /> score (interest)
-                                </span>
-                              </RatingsDiv>
-                            </Card>
-                          </div>
-                        </Col>
-
-                        {/* team */}
-                        <Col className="gutter-row" xs={24} sm={24} xl={16}>
-                          <div
-                            className="gutter-box"
-                            style={{ background: '#eee' }}
-                          >
-                            <Card
-                              title="Team"
-                              style={{ ...cardStyle, ...{ display: 'none' } }}
-                            >
-                              <TeamDiv style={{ marginLeft: 0 }}>
-                                <Avatar
-                                  size={64}
-                                  src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
-                                  style={{ marginBottom: 20 }}
-                                />
-                                <strong>Name</strong>
-                                <p>title</p>
-                              </TeamDiv>
-                              <TeamDiv style={{ marginRight: 0 }}>
-                                <Avatar
-                                  size={64}
-                                  src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
-                                  style={{ marginBottom: 20 }}
-                                />
-                                <strong>Name</strong>
-                                <p>title</p>
-                              </TeamDiv>
-                            </Card>
-                          </div>
-                        </Col>
-                      </Row>
-                    </div>
-                  </div>
-                </Col>
-              </Row>
-            </div>
+                          <TeamDiv style={{ marginLeft: 0 }}>
+                            <Avatar
+                              size={64}
+                              src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
+                              style={{ marginBottom: 20 }}
+                            />
+                            <strong>Name</strong>
+                            <p>title</p>
+                          </TeamDiv>
+                          <TeamDiv style={{ marginRight: 0 }}>
+                            <Avatar
+                              size={64}
+                              src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
+                              style={{ marginBottom: 20 }}
+                            />
+                            <strong>Name</strong>
+                            <p>title</p>
+                          </TeamDiv>
+                        </Card>
+                      </Col>
+                    </Row>
+              </Col>
+            </Row>
           </Content>
           <Footer>
             <CoinListDrawer {...this.props} coins={coinsCollection} />
           </Footer>
         </Layout>
-        {/* <Layout> */}
-        {/*   <Content> */}
-        {/*     {/* {window.isDesktop && ( */} */}
-        {/*     {/*   <Wrapper> */} */}
-        {/*     {/*     <CoinList */} */}
-        {/*     {/*       {...this.props} */} */}
-        {/*     {/*       watchlistHandler={this.watchlistHandler} */} */}
-        {/*     {/*     /> */} */}
-        {/*     {/*   </Wrapper> */} */}
-        {/*     {/* )} */} */}
-        {/*     <div style={window.isDesktop ? { marginLeft: 200 } : {}}> */}
-        {/*       <div style={{ background: '#fff' }}> */}
-        {/*         <FlexGridWrapper> */}
-        {/*           <FlexGrid> */}
-        {/*             <FlexGridItem component={'fundamentals'} /> */}
-        {/*  */}
-        {/*             <FlexGridItem component={'fundamentals'} /> */}
-        {/*  */}
-        {/*             <FlexGridItem component={'fundamentals'} /> */}
-        {/*  */}
-        {/*             <FlexGridItem colWidth={2} component={'chart'} /> */}
-        {/*  */}
-        {/*             <FlexGridItem /> */}
-        {/*           </FlexGrid> */}
-        {/*         </FlexGridWrapper> */}
-        {/*       </div> */}
-        {/*     </div> */}
-        {/*     <CoinListDrawer {...this.props} coins={coinsCollection} /> */}
-        {/*   </Content> */}
-        {/*   <Footer /> */}
-        {/* </Layout> */}
       </Fragment>
     )
   }
@@ -591,12 +474,6 @@ const HideLarge = styled.div`
   }
 `
 
-const HideSmall = styled.div`
-  display: none;
-  @media (min-width: 1100px) {
-    display: block;
-  }
-`
 const FlexGridItemWrap = styled.div`
   width: 100%;
   @media (min-width: 900px) {
