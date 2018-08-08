@@ -1,10 +1,7 @@
 import React from 'react'
 import Icon from '../Icon'
-import chartIcon from '../../images/chartIcon.svg'
 import filterIcon from '../../images/filterIcon.svg'
-import listIcon from '../../images/listIcon.svg'
-
-// TODO: Replace with calendar tips (curretly duplicate of newsfeed tips)
+import bellIcon from '../../images/bellIcon.svg'
 
 const titleStyle = {
   fontSize: '1.13rem',
@@ -26,6 +23,11 @@ const listNumberStyle = {
   fontSize: 10,
   verticalAlign: 'top',
   marginTop: 2,
+}
+
+const btcIcon = {
+  color: 'rgb(47, 174, 237)',
+  fontWeight: 500,
 }
 
 export default ({ closeTips, user, loggedIn }) => {
@@ -51,50 +53,31 @@ export default ({ closeTips, user, loggedIn }) => {
             )}
           </div>
           <h2 className="mt0" style={titleStyle}>
-            CoinFi Calendar
+            CoinFi Events
           </h2>
         </div>
         <div className="pa3">
-          <div style={{ fontSize: '.8rem' }}>
-            CoinFi Calendar gives crypto investors like you an informational
-            advantage by filtering out the noise and showing you how news is
-            impacting coin price.
-          </div>
           <h4 style={{ fontSize: '.88rem' }}>Tips:</h4>
           <ol className="tips">
             <li>
               <div style={listNumberStyle}>1</div>
               <div style={listTextNodeStyle}>
-                Add coins to your watchlist <img src={listIcon} /> to customize
-                your news feed.
+                Use filters <img src={filterIcon} /> to drill down on specific
+                events by coin, date, category or trending events.
               </div>
             </li>
             <li>
               <div style={listNumberStyle}>2</div>
               <div style={listTextNodeStyle}>
-                Use filters <img src={filterIcon} /> to drill down on specific
-                news categories, types, and sources.
-              </div>
-            </li>
-            <li>
-              <div style={listNumberStyle}>3</div>
-              <div style={listTextNodeStyle}>
-                Search or click on a coin ticker to view coin-specific news and
-                coin data.<img src={chartIcon} />
+                Search or click on coin ticker <span style={btcIcon}>BTC</span>{' '}
+                to view coin-specific events and information.
               </div>
             </li>
             <li>
               <div style={listNumberStyle}>4</div>
               <div style={listTextNodeStyle}>
-                See how news historically impacts a coin's price using CoinFi's
-                Price Chart news annotations.
-              </div>
-            </li>
-            <li>
-              <div style={listNumberStyle}>5</div>
-              <div style={listTextNodeStyle}>
-                Enable email and browser notifications to stay up-to-date on the
-                latest market moving news.
+                Enable email and browser notifications <img src={bellIcon} /> to
+                stay up to date on new events for your coins.
               </div>
             </li>
           </ol>
@@ -102,7 +85,7 @@ export default ({ closeTips, user, loggedIn }) => {
 
         {!userIsLoggedIn && (
           <div style={{ paddingTop: '15px' }} className="signup-cta-wrap">
-            <h2 className="tc mt0">Get the most out of CoinFi Calendar</h2>
+            <h2 className="tc mt0">Get the most out of CoinFi Events</h2>
             <div style={{ margin: '0 20px 20px', display: 'grid' }}>
               <div
                 style={{
@@ -112,7 +95,7 @@ export default ({ closeTips, user, loggedIn }) => {
                   marginTop: 10,
                 }}
               >
-                Be the first to know about the latest market moving news
+                Be the first to know about the latest events
               </div>
               <button
                 className="btn btn-blue btn-l w-100"

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import moment from 'moment'
 import CoinTags from '../CoinTags'
 import BulletSpacer from '../BulletSpacer'
@@ -36,11 +36,15 @@ const CalendarListEvent = (props) => {
           <h2 className="mb2 f4 fw6-m">{calendarEvent.get('name')}</h2>
           <div className="truncate">{calendarEvent.get('description')}</div>
         </div>
-        <div className="flex justify-between flex-wrap">
-          <div className="f6 silver">
+        <div className="mt2 flex justify-between flex-wrap">
+          <div className="f7">
             {moment(calendarEvent.get('date_event')).format('MMM DD, YYYY')}
-            <BulletSpacer />
-            {calendarEvent.get('status')}
+            {calendarEvent.get('status') && (
+              <Fragment>
+                <BulletSpacer />
+                {calendarEvent.get('status')}
+              </Fragment>
+            )}
           </div>
           <CoinTags {...props} itemWithCoinLinkData={calendarEvent} />
         </div>

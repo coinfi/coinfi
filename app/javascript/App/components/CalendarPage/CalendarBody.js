@@ -1,10 +1,11 @@
-import React, { Component } from 'react'
-import timeago from 'timeago.js'
-import sanitizeHtml from 'sanitize-html'
+import React, { Component, Fragment } from 'react'
+import moment from 'moment'
 import _ from 'lodash'
 import CoinTags from '../CoinTags'
 import BulletSpacer from '../BulletSpacer'
 import Icon from '../Icon'
+import Countdown from '../Countdown'
+import cornerArrowIcon from '../../images/cornerArrowIcon.svg'
 
 export default class CalendarBody extends Component {
   render() {
@@ -22,49 +23,54 @@ export default class CalendarBody extends Component {
     const content = _.trim(calendarEvent.get('description'))
     const source_url = calendarEvent.get('source_url')
     return (
-      <div className="pa3 bg-white min-h-100 selected-calendar-content">
-        <CoinTags itemWithCoinLinkData={calendarEvent} />
-        <h1 className="break-word f4">{calendarEvent.get('name')}</h1>
-        {source_url && (
+      <Fragment>
+        <div className="pa3 b--b bg-white selected-calendar-content">
+          {/* <CoinTags itemWithCoinLinkData={calendarEvent} /> */}
+          <h1 className="break-word f4">{calendarEvent.get('name')}</h1>
           <div className="mb3 f6">
-            <a
-              href={calendarEvent.get('source_url')}
-              target="_blank"
-              rel="nofollow"
-              className="break-all"
-            >
-              <Icon name="link" className="mr1 f7" regular />
-              {calendarEvent.get('source_url')}
-            </a>
+            <div className="f7">
+              {moment(calendarEvent.get('date_event')).format('MMM DD, YYYY')}
+              {calendarEvent.get('status') && (
+                <Fragment>
+                  <BulletSpacer />
+                  {calendarEvent.get('status')}
+                </Fragment>
+              )}
+            </div>
           </div>
-        )}
-        <div className="mb3 f6">
-          <Icon name="clock" className="mr1 f7" regular />
-          {timeago().format(calendarEvent.get('date_event'))}
-          <BulletSpacer />
-          <span>
-            {new Date(calendarEvent.get('date_event')).toLocaleString()}
-          </span>
+          <div className="mv3 b--b" />
+          <div className="mb3 black">{content}</div>
+          {source_url && (
+            <div className="mb3 f6">
+              <a
+                href={calendarEvent.get('source_url')}
+                target="_blank"
+                rel="nofollow"
+                className="break-all"
+              >
+                See source{' '}
+                <img
+                  src={cornerArrowIcon}
+                  style={{ width: '12px', height: '12px' }}
+                />
+              </a>
+            </div>
+          )}
+          {categories.size > 0 && (
+            <div className="mv3">
+              {categories.map((category, index) => (
+                <div key={index} className="tag-alt">
+                  {category.get('name')}
+                </div>
+              ))}
+            </div>
+          )}
         </div>
-        {categories.size > 0 && (
-          <div className="mv3">
-            {categories.map((category, index) => (
-              <div key={index} className="tag-alt">
-                {category.get('name')}
-              </div>
-            ))}
-          </div>
-        )}
-        <div className="mv3 b--b" />
-        <div
-          className="lh-copy"
-          dangerouslySetInnerHTML={{
-            __html: sanitizeHtml(content, {
-              allowedTags: sanitizeHtml.defaults.allowedTags.concat(['img']),
-            }),
-          }}
-        />
-      </div>
+        <div className="pa3 b--b bg-white">
+          <h3 className="break-word f5">Time to event</h3>
+          <Countdown time={calendarEvent.get('date_event')} />
+        </div>
+      </Fragment>
     )
   }
 }

@@ -6,7 +6,7 @@ const key = 'eventStatuses'
 export default class EventStatuses extends Component {
   constructor(props) {
     super(props)
-    this.eventStatuses = ['All', 'Confirmed only', 'Trending']
+    this.eventStatuses = this.props.eventStatuses || []
   }
 
   onChange = (item) => this.props.onChange(key)(item)

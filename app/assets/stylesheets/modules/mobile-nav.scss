@@ -62,8 +62,8 @@
   width: 74px;
 }
 .mobile-nav-toggle {
-  float:left;
-  margin-top:8px;
+  float: left;
+  margin-top: 8px;
   img {
     height: 12px;
     margin-top: 9px;
@@ -74,10 +74,10 @@
 
 #mobile-nav {
   .mobile-nav-toggle {
-    margin:0;
-    margin-top:16px;
-    position:static;
-    float:none;
+    margin: 0;
+    margin-top: 16px;
+    position: static;
+    float: none;
   }
 }
 
@@ -89,19 +89,25 @@
   height: 32px;
 }
 
-.filter-btn, .coins-btn {
+body:not(#calendar-page) .filter-btn,
+.coins-btn {
   margin-left: 90px;
+}
+
+.filter-btn,
+.coins-btn {
   width: 180px;
   text-transform: none;
 }
 
-.btn.filter-btn, .btn.coins-btn {
+.btn.filter-btn,
+.btn.coins-btn {
   font-size: 14px;
   font-weight: 600;
 }
 
 .filter-panel-header {
-  height:60px;
+  height: 60px;
 }
 
 .item-selector-alt label {
@@ -109,32 +115,33 @@
   display: block;
 }
 
-@media only screen and (min-width:768px) {
+@media only screen and (min-width: 768px) {
   .mobile-nav-toggle {
-    display:none;
+    display: none;
   }
   .nav-topbar {
-    display:block;
+    display: block;
     > a {
-      float:left;
-      margin-left:10px;
-      margin-top:6px;
-      width:80px;
+      float: left;
+      margin-left: 10px;
+      margin-top: 6px;
+      width: 80px;
     }
     > div {
-      float:right;
-      margin-right:50px;
-      margin-top:3px;
+      float: right;
+      margin-right: 50px;
+      margin-top: 3px;
     }
   }
 
-  .filter-btn, .coins-btn {
-    margin-left:0;
+  .filter-btn,
+  .coins-btn {
+    margin-left: 0;
   }
 }
 
-@media only screen and (min-width:1200px) {
+@media only screen and (min-width: 1200px) {
   .coins-btn {
-    display:none;
+    display: none;
   }
 }
