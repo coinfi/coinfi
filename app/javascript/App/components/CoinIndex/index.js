@@ -1,16 +1,6 @@
 import React, { Component, Fragment } from 'react'
-import {
-  Layout,
-  Card,
-  Button,
-  Menu,
-  Dropdown,
-  Icon,
-  Table,
-  Pagination,
-} from 'antd'
+import { Layout, Button, Menu, Dropdown, Icon, Table, Pagination } from 'antd'
 import styled from 'styled-components'
-import axios from 'axios'
 import ColumnNames from './ColumnNames'
 
 const { Header, Footer, Content } = Layout
@@ -21,22 +11,8 @@ class CoinIndex extends Component {
     priceData: [],
   }
 
-  componentDidMount() {
-    axios
-      .get('/api/coins?limit=100')
-      .then((response) => {
-        this.setState({
-          priceData: response.data.payload,
-        })
-      })
-      .catch((error) => {
-        console.log(error)
-      })
-  }
-
   getPageTotal() {
-    //todo: get total page count from header
-    return 160
+    return this.props.coinCount
   }
 
   jumpPage(data) {
@@ -50,22 +26,6 @@ class CoinIndex extends Component {
   }
 
   render() {
-    const { symbol } = this.props
-    const colVar = ColumnNames(this.state.currency)
-
-    let coinPriceData
-    if (this.state.priceData.length) {
-      coinPriceData = this.props.coins.map((coin, index) => {
-        const priceArr =
-          (this.state.priceData[index] &&
-            this.state.priceData[index].prices_data.slice(-7)) ||
-          []
-        const pricePlucked = priceArr.map((item) => parseInt(item.close))
-        coin.priceData = pricePlucked
-        return coin
-      })
-    }
-
     const currencyMenu = (
       <Menu onClick={this.changeCurrencyHandler}>
         <Menu.Item key="USD">USD</Menu.Item>
@@ -77,10 +37,10 @@ class CoinIndex extends Component {
       <Fragment>
         <Layout>
           <Header style={{ background: '#fff' }} className="coin-index-header">
-            <h1 style={{ float: 'left' }}>Coins</h1>
+            <h1 className="fl">Coins</h1>
             <Dropdown overlay={currencyMenu}>
-              <Button style={{ float: 'right', marginTop: 15 }}>
-                {this.state.currency === 'USD' && 'USD'}{' '}
+              <Button className="fr mt3">
+                {this.state.currency === 'USD' && 'USD'}
                 {this.state.currency === 'BTC' && 'BTC'}
                 <Icon type="down" />
               </Button>
@@ -90,7 +50,7 @@ class CoinIndex extends Component {
           <Content>
             <Table
               rowKey={(record) => record.symbol + record.name}
-              columns={colVar}
+              columns={ColumnNames(this.state.currency)}
               dataSource={this.props.coins}
               pagination={false}
               scroll={{ x: 1080 }}

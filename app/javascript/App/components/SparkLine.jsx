@@ -1,7 +1,5 @@
-
 import React from 'react'
-// import Highcharts from 'highcharts'
-
+//import Highcharts from 'highcharts'
 
 const defaultOptions = {
   chart: {
@@ -92,25 +90,20 @@ const defaultOptions = {
   }]
 };
 
-
 class SparkLine extends React.Component {
-  constructor (props) {
-    super(props)
-  }
-
-  componentDidMount () {
+  componentDidMount() {
     const options = Highcharts.merge(defaultOptions, this.props.options)
     this.chart = Highcharts.chart(this.container, options)
   }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     this.chart.destroy()
   }
 
-  render () {
+  render() {
     return (
         <td
-          ref={container => this.container = container}
+          ref={(container) => this.container = container}
         >
         </td>
     )

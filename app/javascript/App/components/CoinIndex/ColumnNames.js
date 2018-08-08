@@ -1,5 +1,5 @@
-import React, { Component, Fragment } from 'react'
-import SparkLineTable from './../SparkLineTable'
+import React from 'react'
+//import SparkLineTable from './../SparkLineTable'
 
 export default (currency) => {
   let fixed = true
@@ -134,7 +134,12 @@ export default (currency) => {
       render: (text, row, index) => {
         const num =
           row.priceData && row.priceData.toString().replace(/,/g, ', ')
-        return (
+        return <div />
+      },
+    },
+  ]
+}
+/*
           <SparkLineTable>
             <tbody>
               <tr key={index}>
@@ -142,8 +147,4 @@ export default (currency) => {
               </tr>
             </tbody>
           </SparkLineTable>
-        )
-      },
-    },
-  ]
-}
+*/
