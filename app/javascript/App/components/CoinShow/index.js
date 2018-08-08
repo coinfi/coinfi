@@ -16,15 +16,13 @@ import axios from 'axios'
 import SearchCoins from './../shared/SearchCoins'
 import CoinCharts from './../CoinCharts'
 import SectionHeader from './../shared/SectionHeader'
-import SectionHeaderTight from './../shared/SectionHeaderTight'
-import CustomIcon from '../Icon'
 import CoinListDrawer from './../shared/CoinListDrawer'
 import CoinList from './../shared/CoinList'
 import newsfeedContainer from './../../containers/newsfeed'
 import FundamentalsData from './FundamentalsData'
 import LinksData from './LinksData'
 
-const { Header, Footer, Content } = Layout
+const { Footer, Content } = Layout
 
 class CoinShow extends Component {
   state = {
@@ -35,7 +33,7 @@ class CoinShow extends Component {
   }
 
   watchlistHandler(coin) {
-    if (window.location == `/coins/${coin.get('name')}`) {
+    if (window.location === `/coins/${coin.get('name')}`) {
       window.location = `/coins/${coin
         .get('name')
         .replace(/ /, '-')
@@ -78,7 +76,6 @@ class CoinShow extends Component {
       annotations,
       isTradingViewVisible,
       coinObj,
-      watching,
     } = this.props
 
     let coinsCollection
@@ -102,15 +99,23 @@ class CoinShow extends Component {
 
     return (
       <Fragment>
-        <Layout>
+        <Layout style={{ overflow: 'auto' }}>
           <Content>
             <Row>
               {/* watchlist */}
               <Col xs={0} sm={0} m={4} l={4} xl={4}>
-                <CoinList
-                  {...this.props}
-                  watchlistHandler={this.watchlistHandler}
-                />
+                <div
+                  style={{
+                    border: '1px solid rgba(0, 0, 0, 0.12)',
+                    borderTop: 0,
+                    background: '#fff',
+                  }}
+                >
+                  <CoinList
+                    {...this.props}
+                    watchlistHandler={this.watchlistHandler}
+                  />
+                </div>
               </Col>
 
               {/* Coin List Button */}
@@ -170,7 +175,7 @@ class CoinShow extends Component {
                         <SpanTitle>{coinObj.name}</SpanTitle>
                         <Span style={{ fontSize: 16 }}>{symbol}</Span>
                       </DivTitle>
-                      <Div>
+                      <Div style={{ marginBottom: 0 }}>
                         <Span
                           style={{
                             fontSize: 18,
@@ -212,133 +217,133 @@ class CoinShow extends Component {
                 <Row>
                   {/* chart */}
                   <Col xs={24} sm={16} m={16} l={16} xl={16}>
-                    <Card
-                      title="Price chart"
-                      style={{ ...cardStyle, ...{ padding: 1 } }}
-                    >
-                      <CoinCharts
-                        symbol={symbol}
-                        priceData={priceData}
-                        annotations={annotations}
-                        isTradingViewVisible={isTradingViewVisible}
-                      />
-                    </Card>
+                    <CardWrap>
+                      <Card title="Price chart" style={{ padding: 1 }}>
+                        <CoinCharts
+                          symbol={symbol}
+                          priceData={priceData}
+                          annotations={annotations}
+                          isTradingViewVisible={isTradingViewVisible}
+                        />
+                      </Card>
+                    </CardWrap>
                   </Col>
 
                   {/* fundamentals */}
                   <Col xs={24} sm={8} m={8} l={8} xl={8}>
-                    <Card title="Fundamentals" style={cardStyle}>
-                      <List
-                        itemLayout="horizontal"
-                        dataSource={FundamentalsData(
-                          coinObj,
-                          this.state.currency,
-                        )}
-                        renderItem={(item) => {
-                          if (item.title === '24HR') {
-                            return (
-                              <Fragment>
-                                <span
-                                  style={{
-                                    ...{ marginRight: '.4rem' },
-                                    ...{
+                    <CardWrapLast>
+                      <Card title="Fundamentals">
+                        <List
+                          itemLayout="horizontal"
+                          dataSource={FundamentalsData(
+                            coinObj,
+                            this.state.currency,
+                          )}
+                          renderItem={(item) => {
+                            if (item.title === '24HR') {
+                              return (
+                                <Fragment>
+                                  <span
+                                    style={{
+                                      ...{ marginRight: '.4rem' },
+                                      ...{
+                                        top: -6,
+                                        position: 'relative',
+                                      },
+                                    }}
+                                    className="ant-list-item-meta-title"
+                                  >
+                                    {item.title}
+                                  </span>
+                                  <span
+                                    style={{
+                                      ...{ marginRight: '1.5rem' },
+                                      ...{
+                                        top: -6,
+                                        position: 'relative',
+                                      },
+                                    }}
+                                  >
+                                    {item.value}
+                                  </span>
+                                </Fragment>
+                              )
+                            }
+                            if (item.title === '7D') {
+                              return (
+                                <Fragment>
+                                  <span
+                                    style={{
+                                      marginRight: '.4rem',
                                       top: -6,
                                       position: 'relative',
-                                    },
-                                  }}
-                                  className="ant-list-item-meta-title"
-                                >
-                                  {item.title}
-                                </span>
-                                <span
-                                  style={{
-                                    ...{ marginRight: '1.5rem' },
-                                    ...{
+                                    }}
+                                    className="ant-list-item-meta-title"
+                                  >
+                                    {item.title}
+                                  </span>
+                                  <span
+                                    style={{
+                                      marginRight: '1.5rem',
                                       top: -6,
                                       position: 'relative',
-                                    },
-                                  }}
-                                >
-                                  {item.value}
-                                </span>
-                              </Fragment>
-                            )
-                          }
-                          if (item.title === '7D') {
+                                    }}
+                                  >
+                                    {item.value}
+                                  </span>
+                                </Fragment>
+                              )
+                            }
                             return (
-                              <Fragment>
-                                <span
-                                  style={{
-                                    marginRight: '.4rem',
-                                    top: -6,
-                                    position: 'relative',
-                                  }}
-                                  className="ant-list-item-meta-title"
-                                >
-                                  {item.title}
-                                </span>
-                                <span
-                                  style={{
-                                    marginRight: '1.5rem',
-                                    top: -6,
-                                    position: 'relative',
-                                  }}
-                                >
-                                  {item.value}
-                                </span>
-                              </Fragment>
+                              <List.Item>
+                                <List.Item.Meta
+                                  title={item.title}
+                                  description={item.value}
+                                />
+                              </List.Item>
                             )
-                          }
-                          return (
-                            <List.Item>
-                              <List.Item.Meta
-                                title={item.title}
-                                description={item.value}
-                              />
-                            </List.Item>
-                          )
-                        }}
-                      />
-                    </Card>
+                          }}
+                        />
+                      </Card>
+                    </CardWrapLast>
                   </Col>
 
                   {/* links */}
                   <Col xs={24} sm={8} m={8} l={8} xl={8}>
-                    <Card title="Links" style={cardStyle}>
-                      <List
-                        itemLayout="horizontal"
-                        dataSource={LinksData(coinObj)}
-                        renderItem={(item) => {
-                          if (item.value) {
-                            return (
-                              <List.Item>
-                                <Icon type={item.icon} />
-                                <a
-                                  href={item.value}
-                                  target="_blank"
-                                  style={{
-                                    color: '#000',
-                                    marginLeft: '.5rem',
-                                    marginTop: '-.25rem',
-                                  }}
-                                >
-                                  {item.linkType}
-                                </a>
-                              </List.Item>
-                            )
-                          }
-                          return <Fragment />
-                        }}
-                      />
-                    </Card>
+                    <CardWrapLast>
+                      <Card title="Links">
+                        <List
+                          itemLayout="horizontal"
+                          dataSource={LinksData(coinObj)}
+                          renderItem={(item) => {
+                            if (item.value) {
+                              return (
+                                <List.Item>
+                                  <Icon type={item.icon} />
+                                  <a
+                                    href={item.value}
+                                    target="_blank"
+                                    style={{
+                                      color: '#000',
+                                      marginLeft: '.5rem',
+                                      marginTop: '-.25rem',
+                                    }}
+                                  >
+                                    {item.linkType}
+                                  </a>
+                                </List.Item>
+                              )
+                            }
+                            return <Fragment />
+                          }}
+                        />
+                      </Card>
+                    </CardWrapLast>
                   </Col>
 
                   {/* summary */}
                   <Col xs={24} sm={24} l={16} xl={16}>
-                    <Card
-                      title="Summary"
-                      style={{ ...cardStyle, ...{ display: 'none' } }}
-                    >
+                    <Card title="Summary" style={{ display: 'none' }}>
                       <p>
                         {' '}
                         Lorem ipsum dolor sit amet, consectetur adipiscing elit.
@@ -355,10 +360,7 @@ class CoinShow extends Component {
 
                   {/* ratings */}
                   <Col xs={24} sm={24} l={8} xl={8}>
-                    <Card
-                      title="Ratings"
-                      style={{ ...cardStyle, ...{ display: 'none' } }}
-                    >
+                    <Card title="Ratings" style={{ display: 'none' }}>
                       <RatingsDiv style={{ marginLeft: 0 }}>
                         <strong>4.0</strong>
                         <span>
@@ -376,10 +378,7 @@ class CoinShow extends Component {
 
                   {/* team */}
                   <Col xs={24} sm={24} xl={16}>
-                    <Card
-                      title="Team"
-                      style={{ ...cardStyle, ...{ display: 'none' } }}
-                    >
+                    <Card title="Team" style={{ display: 'none' }}>
                       <TeamDiv style={{ marginLeft: 0 }}>
                         <Avatar
                           size={64}
@@ -419,11 +418,10 @@ const ButtonWrap = styled.div`
   text-align: right;
   margin: 0 1rem;
   margin-right: 1.2rem;
-  /* padding-top: 0.5rem; */
   @media (min-width: 900px) {
     float: right;
     position: absolute;
-    top: 40px;
+    top: 60px;
     right: 0;
   }
 `
@@ -434,13 +432,14 @@ const Section = styled.section`
   background: #fff;
   margin-top: 0;
   height: 100%;
-  padding-bottom: 53px;
+  padding-top: 1.5rem;
+  padding-bottom: 1.5rem;
+  margin-bottom: 0;
   @media (min-width: 900px) {
     text-align: left;
     margin: 0;
     padding-top: 1rem;
     padding-left: 1rem;
-    padding-bottom: 0;
   }
 `
 
@@ -457,7 +456,7 @@ const Div = styled.div`
     margin-right: 0.75rem;
     height: 32px;
     > img {
-      margin-top: 0;
+      margin-top: -9px;
     }
   }
 `
@@ -507,11 +506,6 @@ const RatingsDiv = styled.div`
   }
 `
 
-const cardStyle = {
-  flexGrow: 1,
-  margin: '1rem .5rem 0 .5rem',
-}
-
 const TeamDiv = styled.div`
   display: inline-block;
   width: 47%;
@@ -525,5 +519,23 @@ const TeamDiv = styled.div`
   > strong {
     display: block;
     font-size: 14px;
+  }
+`
+
+const CardWrap = styled.div`
+  padding: 16px;
+  padding-bottom: 0;
+  @media (min-width: 600px) {
+    padding: 16px;
+    padding-right: 0;
+  }
+`
+
+const CardWrapLast = styled.div`
+  padding: 16px;
+  padding-bottom: 0;
+  @media (min-width: 600px) {
+    padding: 16px;
+    padding-bottom: 0;
   }
 `
