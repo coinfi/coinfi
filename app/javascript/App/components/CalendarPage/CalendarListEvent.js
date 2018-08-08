@@ -18,7 +18,7 @@ const CalendarListEvent = (props) => {
   }
   if (preRender) className += ' o-0 absolute'
   return (
-    <div className={className} style={{ height: props.height || 'auto' }}>
+    <div className={className} style={{ height: props.height || 100 }}>
       <div className="pa-default">
         <div
           className="pointer"

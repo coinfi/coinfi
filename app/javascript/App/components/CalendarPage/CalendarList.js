@@ -22,6 +22,7 @@ class CalendarList extends Component {
       this.setState({ initialRender: false })
     }, 60000)
     this.mountOnScrollHandler()
+    document.querySelector('#calendar').style.height = `${window.outerHeight}px`
   }
 
   componentDidUpdate() {
