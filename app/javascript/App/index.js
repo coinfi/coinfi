@@ -24,6 +24,8 @@ import NewsfeedPage from './components/NewsfeedPage'
 import Tabs from './components/Tabs'
 import CoinCharts from './components/CoinCharts'
 import CalendarPage from './components/CalendarPage'
+import CoinIndex from './components/CoinIndex'
+import CoinShow from './components/CoinShow'
 
 const injectableComponents = {
   WatchButton,
@@ -36,6 +38,8 @@ const injectableComponents = {
   Tabs,
   CoinCharts,
   CalendarPage,
+  CoinIndex,
+  CoinShow,
 }
 
 const injectComponents = () => {

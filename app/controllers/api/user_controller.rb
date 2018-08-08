@@ -1,10 +1,11 @@
 class Api::UserController < ApiController
 
+  skip_before_action :verify_authenticity_token
   before_action :set_watchlist
 
   def show
     respond_success(nil) and return unless current_user
-    respond_success(serialized(current_user)) 
+    respond_success(serialized(current_user))
   end
 
   def update

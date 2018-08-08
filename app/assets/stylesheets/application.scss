@@ -4,7 +4,7 @@
  * - Base: global/base styling
  * - Components: elements such as tables or inputs
  * - Modules: unique elements (use ID selector here)
- * 
+ *
  * Tachyons:
  * - https://github.com/dwyl/learn-tachyons
  * - http://tachyons.io/docs/layout/widths/
@@ -15,6 +15,7 @@
 @import 'variables';
 @import 'flexboxgrid';
 @import 'tachyons';
+@import 'antd';
 @import 'rc-slider/assets/index';
 
 @import 'utilities/conceal';
@@ -66,3 +67,4 @@
 @import 'modules/global-coin-search';
 @import 'modules/news-page';
 @import 'modules/calendar-page';
+@import 'antd-styles';

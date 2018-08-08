@@ -10,6 +10,7 @@ export default class WatchButton extends Component {
   }
   userIsLoggedIn = !!(this.props.user || this.props.loggedIn)
   handleClick = () => {
+    console.log('click')
     if (!this.userIsLoggedIn) return
     /* This component does its own API request & state management since it's
     sometimes used on its own, and doesn't have access to Redux */
@@ -17,6 +18,7 @@ export default class WatchButton extends Component {
     let { watching } = this.state
     let params = { watchCoin: id }
     if (watching) params = { unwatchCoin: id }
+    // console.log('params', params, payload)
     API.patch('/user', params).then(({ type, payload }) => {
       if (type === 'success') {
         if (setUser) setUser(payload)
