@@ -15,7 +15,6 @@ ActiveRecord::Schema.define(version: 20180803130417) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "pg_stat_statements"
-  enable_extension "pgcrypto"
   enable_extension "dblink"
 
   create_table "ahoy_events", force: :cascade do |t|
