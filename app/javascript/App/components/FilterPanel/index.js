@@ -5,7 +5,7 @@ import FilterComponent from './FilterComponent'
 import { normalizeFilterData } from '../../lib/stateHelpers'
 
 class FilterPanel extends Component {
-  state = { filters: {} }
+  state = { filters: this.props.defaultFilters || {} }
   componentDidMount() {
     const filters = { ...this.state.filters }
     this.props.activeFilters.forEach((value) => {
@@ -16,7 +16,6 @@ class FilterPanel extends Component {
   }
   onChange = (key, event) => (value) => {
     const filters = { ...this.state.filters }
-
     if (value.toJS) value = value.toJS()
     filters[key] = value
     if (value && value.publishedSince) {
@@ -35,7 +34,7 @@ class FilterPanel extends Component {
     disableUI('filterPanel')
   }
   resetFilters = () => {
-    this.setState({ filters: {} })
+    this.setState({ filters: this.props.defaultFilters || {} })
   }
   render() {
     const { filterList, filterData, ...props } = this.props

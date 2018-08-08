@@ -12,6 +12,9 @@
         color: rgba(0, 0, 0, 0.87);
         font-size: 0.9rem;
       }
+      input[type='radio'] {
+        width: inherit;
+      }
     }
   }
   div {
@@ -39,13 +42,12 @@
   }
 }
 
-@media only screen and (min-width:768px) {
+@media only screen and (min-width: 768px) {
   .item-selector-alt {
-	div {
-	  div {
-		max-width: 33%;
-	  }
-	}
+    div {
+      div {
+        max-width: 33%;
+      }
+    }
   }
 }
-

@@ -1,0 +1,36 @@
+.item-segment-alt {
+  div {
+    display: flex;
+    justify-content: center;
+
+    button {
+      background: $white;
+      flex: 1 1;
+      border: 1px solid $light-silver;
+      padding: 0.5rem 0.8rem;
+      color: rgba(0, 0, 0, 0.38);
+      font-size: 0.88rem;
+      width: 100%;
+      &.selected {
+        border-color: $aqua;
+        color: $aqua;
+      }
+      &:not(:first-child):not(.selected) {
+        border-left: none;
+      }
+      &:not(:last-child):not(.selected) {
+        border-right: none;
+      }
+    }
+  }
+}
+
+@media only screen and (min-width: 768px) {
+  .item-segment-alt {
+    div {
+      div {
+        max-width: 33%;
+      }
+    }
+  }
+}

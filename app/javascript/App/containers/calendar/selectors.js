@@ -12,11 +12,13 @@ export default {
   coins: select.entities('coins'),
   calendarEvents: select.entities('calendarEvents'),
   sortedCalendarEvents: select.entities('calendarEvents', (entities) => {
-    const sortBy = 'date_event'
+    // const sortBy = 'date_event'
 
-    return entities.sort((x, y) => {
-      return Date.parse(y.get(sortBy)) - Date.parse(x.get(sortBy))
-    })
+    // rely on server side sorting
+    return entities
+    // return entities.sort((x, y) => {
+    //   return Date.parse(y.get(sortBy)) - Date.parse(x.get(sortBy))
+    // })
   }),
   tags: select.entities('tags'),
   selectCalendarEventFromList: select.entityFromList('calendarEvents'),

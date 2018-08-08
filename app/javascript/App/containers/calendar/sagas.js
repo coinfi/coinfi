@@ -3,22 +3,39 @@ import { delay } from 'redux-saga'
 import { createEntitySagas, createFilterSagas } from '../../lib/redux'
 import selectors from './selectors'
 import actions from './actions'
-import { namespace } from './constants'
+import { namespace, defaultEvent } from './constants'
 import { buildFilterObject } from '../../lib/stateHelpers'
 
 const entitySagas = createEntitySagas(namespace)
 const filterSagas = createFilterSagas(namespace)
 
 export default function* watcher() {
+  yield takeLatest('ON_FILTER_INITIALIZE', addDefaultFilters)
   yield takeLatest('ON_FILTER_INITIALIZE', fetchCoins)
   yield takeLatest('ON_FILTER_INITIALIZE', pollCalendarEvents)
   yield takeLatest('SET_ENTITY_LIST', onSetCoinList)
   yield takeLatest('SET_ACTIVE_ENTITY', onSetActiveCoin)
   yield takeLatest('ON_FILTER_CHANGE', onFilterChange)
   yield takeLatest('TOGGLE_UI', onWatchingOnly)
-  yield takeLatest('FETCH_MORE_CALENDAR', onScrollingToBottom)
+  yield takeLatest('FETCH_MORE_CALENDAR_EVENTS', onScrollingToBottom)
   yield fork(filterSagas)
   yield fork(entitySagas)
+}
+
+// this is a bit of a hacky loop to avoid adding component-specific code to initializer
+// if it doesn't properly set the property it's looking for it will probably cause an infinite loop
+function* addDefaultFilters(action) {
+  if (action.namespace !== namespace) return
+  let { filterObject } = action.payload
+  filterObject = filterObject || {}
+  let { events } = filterObject
+
+  if (!events) {
+    filterObject.events = defaultEvent
+    yield put(actions.setFilters(filterObject))
+  }
+
+  return
 }
 
 function* fetchCoins(action) {
@@ -104,8 +121,14 @@ function* onScrollingToBottom(action) {
   if (sortedCalendarEvents.length) {
     const lastCalendarEvent =
       sortedCalendarEvents[sortedCalendarEvents.length - 1]
-    params.publishedUntil = lastCalendarEvent.get('feed_item_published_at')
+
+    if (params.events === 'Past events')
+      params.publishedUntil = lastCalendarEvent.get('date_event')
+    else params.publishedSince = lastCalendarEvent.get('date_event')
+
+    params.id = lastCalendarEvent.get('id')
   }
+
   yield put(
     actions.fetchMoreEntityList('calendarEvents', {
       params,
