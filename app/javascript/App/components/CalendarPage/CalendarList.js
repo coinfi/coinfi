@@ -22,6 +22,7 @@ class CalendarList extends Component {
       this.setState({ initialRender: false })
     }, 60000)
     this.mountOnScrollHandler()
+    document.querySelector('#calendar').style.height = `${window.outerHeight}px`
   }
 
   componentDidUpdate() {
@@ -40,7 +41,6 @@ class CalendarList extends Component {
   mountOnScrollHandler() {
     if (window.isMobile) {
       const throttled = _.throttle(this.onScrollCalendarMobile, 500)
-      console.log('mounting mobile scroll')
       $(window).scroll(throttled)
     } else {
       const throttled = _.throttle(this.onScrollCalendarDesktop, 500)
@@ -49,7 +49,6 @@ class CalendarList extends Component {
   }
 
   unmountOnScrollHandler() {
-    console.log('unmounting scroll handlers')
     $(window).off('scroll', this.onScrollCalendarMobile)
     $('#calendar').off('scroll', this.onScrollCalendarDesktop)
   }

@@ -17,6 +17,8 @@ class Coin < ApplicationRecord
   has_many :feed_sources
   has_many :mentions, class_name: 'NewsCoinMention'
   has_many :news_items, through: :mentions
+  has_many :calendar_event_coins
+  has_many :calendar_events, through: :calendar_event_coins
 
   validates :name, uniqueness: true, presence: true
 

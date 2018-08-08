@@ -28,7 +28,6 @@ const Social = (props) => {
 
 Social.propTypes = {
   value: Type.object,
-  categories: Type.array.isRequired,
   onChange: Type.func,
 }
 
