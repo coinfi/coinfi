@@ -10,11 +10,12 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180731185629) do
+ActiveRecord::Schema.define(version: 20180803130417) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "pg_stat_statements"
+  enable_extension "dblink"
 
   create_table "ahoy_events", force: :cascade do |t|
     t.integer "visit_id"
@@ -137,6 +138,8 @@ ActiveRecord::Schema.define(version: 20180731185629) do
     t.bigint "approvals"
     t.bigint "disapprovals"
     t.integer "confidence"
+    t.bigint "import_id"
+    t.index ["import_id"], name: "index_calendar_events_on_import_id"
     t.index ["user_id"], name: "index_calendar_events_on_user_id"
   end
 
@@ -377,7 +380,7 @@ ActiveRecord::Schema.define(version: 20180731185629) do
     t.string "title", null: false
     t.text "summary"
     t.text "content"
-    t.string "actor_id"
+    t.string "actor_id", null: false
     t.datetime "feed_item_published_at", null: false
     t.datetime "feed_item_updated_at", null: false
     t.jsonb "feed_item_json"
