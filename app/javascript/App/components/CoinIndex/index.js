@@ -94,6 +94,7 @@ class CoinIndex extends Component {
               dataSource={this.props.coins}
               pagination={false}
               scroll={{ x: 1080 }}
+              style={{ background: '#fff' }}
             />
           </Content>
           <Footer>
