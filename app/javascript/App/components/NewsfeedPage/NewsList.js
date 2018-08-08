@@ -20,7 +20,8 @@ class NewsList extends Component {
       this.setState({ initialRender: false })
     }, 60000)
     this.mountOnScrollHandler()
-    document.querySelector('#newsfeed').style.height = `${window.outerHeight}px`
+    const newsfeedElem = document.querySelector('#newsfeed')
+    newsfeedElem.style.height = `${newsfeedElem.offsetHeight}px`
   }
 
   componentDidUpdate() {
