@@ -95,6 +95,7 @@ GEM
       safely_block (>= 0.1.1)
       user_agent_parser
       uuidtools
+    api-pagination (4.8.1)
     arel (8.0.0)
     ast (2.4.0)
     autoprefixer-rails (8.4.1)
@@ -529,6 +530,7 @@ DEPENDENCIES
   administrate-field-json!
   administrate-field-nested_has_many!
   ahoy_matey
+  api-pagination
   aws-sdk (~> 2)
   blazer
   bullet

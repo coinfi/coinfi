@@ -15,7 +15,6 @@ import debounce from 'debounce'
 import appContainer from './containers/app'
 
 import WatchButton from './components/WatchButton'
-import WatchlistPage from './components/WatchlistPage'
 import GlobalCoinSearch from './components/GlobalCoinSearch'
 import TwitterFeed from './components/TwitterFeed'
 import RedditFeed from './components/RedditFeed'
@@ -24,10 +23,11 @@ import NewsfeedPage from './components/NewsfeedPage'
 import Tabs from './components/Tabs'
 import CoinCharts from './components/CoinCharts'
 import CalendarPage from './components/CalendarPage'
+import CoinIndex from './components/CoinIndex'
+import CoinShow from './components/CoinShow'
 
 const injectableComponents = {
   WatchButton,
-  WatchlistPage,
   GlobalCoinSearch,
   TwitterFeed,
   RedditFeed,
@@ -36,6 +36,8 @@ const injectableComponents = {
   Tabs,
   CoinCharts,
   CalendarPage,
+  CoinIndex,
+  CoinShow,
 }
 
 const injectComponents = () => {

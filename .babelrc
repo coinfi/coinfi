@@ -14,12 +14,7 @@
     "react"
   ],
   "plugins": [
-    [
-      "import", 
-      {
-        "libraryName": "antd"
-      }
-    ],
+    "babel-plugin-styled-components",
     "syntax-dynamic-import",
     "transform-object-rest-spread",
     [

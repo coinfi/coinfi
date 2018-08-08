@@ -4,7 +4,7 @@ class Api::CoinsController < ApiController
     if params[:exclude_watched]
       query[:id_not_in] = current_user.watchlist.coin_ids
     end
-    @coins = Coin.ransack(query).result(distinct: true).limit(params[:limit] || 10)
+    @coins = Coin.ransack(query).result(distinct: true).limit(params[:limit] || 10).order(:ranking)
     respond_success index_serializer(@coins)
   end
 
@@ -19,7 +19,7 @@ class Api::CoinsController < ApiController
   def index_serializer(coins)
     coins.as_json(
       only: %i[id name image_url symbol slug price_usd],
-      methods: %i[market_info]
+      methods: %i[market_info prices_data]
     )
   end
 

@@ -3,9 +3,16 @@
   color: #555;
 }
 .ant-card-head {
+  padding: 15px;
+  padding-top: 0;
+  padding-bottom: 0;
   border-bottom: none;
 }
+.ant-card-head-title {
+  padding-bottom: 8px;
+}
 .ant-card-body {
+  padding: 15px;
   padding-top: 0;
 }
 .ant-list-split .ant-list-item {
@@ -26,4 +33,15 @@
 .ant-pagination-jump-next,
 .ant-pagination-item {
   margin: 2px;
+}
+.ant-table-thead > tr > th,
+.ant-table-thead > tr > td {
+  white-space: nowrap;
+}
+.ant-table-fixed-columns-in-body > div {
+  visibility: hidden;
+}
+
+.ant-table {
+  font-family: 'Avenir', sans-serif;
 }
