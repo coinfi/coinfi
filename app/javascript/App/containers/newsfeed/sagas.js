@@ -51,8 +51,8 @@ function* fetchNewsItems(action) {
   yield put(
     actions.fetchEntityList('newsItems', {
       params,
-      url: 'news_items'
-    })
+      url: 'news_items',
+    }),
   )
 }
 
@@ -67,8 +67,8 @@ function* pollNewsItems(action) {
     yield put(
       actions.fetchEntityListUpdates('newsItems', {
         params,
-        url: 'news_items'
-      })
+        url: 'news_items',
+      }),
     )
   }
 }
@@ -93,7 +93,7 @@ function* newsitemParams() {
 
 function* onScrollingToBottom(action) {
   const endFetchingMoreEntityList = yield select(
-    selectors.endFetchingMoreEntityList
+    selectors.endFetchingMoreEntityList,
   )
   const isLoading = yield select(selectors.isLoading)
   if (endFetchingMoreEntityList || isLoading('newsfeed')) return
@@ -108,7 +108,7 @@ function* onScrollingToBottom(action) {
   yield put(
     actions.fetchMoreEntityList('newsItems', {
       params,
-      url: 'news_items'
-    })
+      url: 'news_items',
+    }),
   )
 }

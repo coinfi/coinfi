@@ -5,6 +5,7 @@ import newsfeedContainer from '../../containers/newsfeed'
 import LayoutDesktop from '../LayoutDesktop'
 import LayoutTablet from '../LayoutTablet'
 import LayoutMobile from '../LayoutMobile'
+import CoinListContext from '../CoinList/CoinListContext'
 import CoinList from '../CoinList/CoinList'
 import CoinListDrawer from '../CoinList/CoinListDrawer'
 import NewsList from './NewsList'
@@ -20,7 +21,7 @@ class NewsfeedPage extends Component {
     liveCoinArr: [],
   }
 
-  componentWillMount() {
+  componentDidMount() {
     window.addEventListener('resize', debounce(() => this.forceUpdate()), 500)
   }
 
@@ -122,6 +123,13 @@ class NewsfeedPage extends Component {
         />
       )
     } else {
+      /*
+          leftSection={
+            <CoinListContext.Consumer>
+              {(payload) => <CoinList {...enhancedProps} list={payload} />}
+            </CoinListContext.Consumer>
+          }
+          */
       return (
         <LayoutDesktop
           {...enhancedProps}
