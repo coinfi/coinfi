@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
-import API from '../../lib/API'
-import normalizers from '../../normalizers'
-import CoinListContext from './CoinListContext'
+import API from '../../../lib/API'
+import normalizers from '../../../normalizers'
+import CoinListContext from '../../../contexts/CoinListContext'
 
 const STATUSES = {
   INITIALIZING: 'Initializing',
@@ -12,7 +12,7 @@ const STATUSES = {
   // TODO: Add API failure statuses.
 }
 
-class NewCoinList extends Component {
+class CoinListContainer extends Component {
   state = {
     status: STATUSES.INITIALIZING,
     isWatchlist: false,
@@ -31,11 +31,12 @@ class NewCoinList extends Component {
   }
 
   getToplistOnMount = () => {
-    this.fetchToplist().then(({ result, entities }) => {
+    this.fetchToplist().then((res) => {
+      console.log(res)
       this.setState({
         status: STATUSES.READY,
-        toplistIndex: result,
-        toplist: entities.coins,
+        toplistIndex: res.result,
+        toplist: res.entities.coins,
       })
     })
   }
@@ -64,14 +65,15 @@ class NewCoinList extends Component {
   }
 
   fetchToplist = () =>
-    API.get('/newsfeed/coins', {}, false).then((response) => {
-      Promise.resolve(normalizers.coins(response.payload))
-    })
+    API.get('/newsfeed/coins', {}, false).then((response) =>
+      Promise.resolve(normalizers.coins(response.payload)),
+    )
 
   fetchWatchlist = () =>
-    API.get('/watchlist/coins', {}, false).then((response) => {
-      Promise.resolve(normalizers.coins(response.payload))
-    })
+    // TODO: Write Watchlist endpoint.
+    API.get('/newsfeed/coins', {}, false).then((response) =>
+      Promise.resolve(normalizers.coins(response.payload)),
+    )
 
   // TODO: Figure out what
   persistCoinToWatchlist = (coinId) =>
@@ -92,7 +94,12 @@ class NewCoinList extends Component {
 
   isCoinInWatchlist = (coinId) => this.state.watchlistIndex.includes(coinId)
 
-  render = () => (
+  render = () => this.props.children
+}
+
+export default CoinListContainer
+
+/*
     <CoinListContext.Provider
       value={{
         status: this.state.status,
@@ -104,12 +111,6 @@ class NewCoinList extends Component {
     >
       {this.props.children}
     </CoinListContext.Provider>
-  )
-}
-
-export default NewCoinList
-
-/*
 <CoinListContext.Consumer>
   {(payload) => payload.watchlist.map}
 </CoinListContext.Consumer>

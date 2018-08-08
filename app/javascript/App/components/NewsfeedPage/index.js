@@ -5,8 +5,9 @@ import newsfeedContainer from '../../containers/newsfeed'
 import LayoutDesktop from '../LayoutDesktop'
 import LayoutTablet from '../LayoutTablet'
 import LayoutMobile from '../LayoutMobile'
-import CoinListContext from '../CoinList/CoinListContext'
-import CoinList from '../CoinList/CoinList'
+import CoinListContainer from '../../bundles/common/containers/CoinListContainer'
+import CoinListContext from '../../contexts/CoinListContext'
+import CoinList from '../../bundles/common/components/CoinList'
 import CoinListDrawer from '../CoinList/CoinListDrawer'
 import NewsList from './NewsList'
 import NewsListHeader from './NewsListHeader'
@@ -124,12 +125,10 @@ class NewsfeedPage extends Component {
       )
     } else {
       /*
-          leftSection={
-            <CoinListContext.Consumer>
-              {(payload) => <CoinList {...enhancedProps} list={payload} />}
-            </CoinListContext.Consumer>
-          }
-          */
+        <CoinListContext.Consumer>
+          {(payload) => <CoinList {...enhancedProps} list={payload} />}
+        </CoinListContext.Consumer>
+      */
       return (
         <LayoutDesktop
           {...enhancedProps}

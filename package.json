@@ -28,7 +28,7 @@
     "moment": "^2.22.2",
     "normalizr": "^3.2.4",
     "numeral": "^2.0.6",
-    "prop-types": "^15.6.1",
+    "prop-types": "15.6.2",
     "qs": "^6.5.1",
     "rc-slider": "^8.6.1",
     "react": "^16.4.0",

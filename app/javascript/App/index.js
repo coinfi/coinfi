@@ -26,6 +26,7 @@ import CalendarPage from './components/CalendarPage'
 import CoinIndex from './components/CoinIndex'
 import CoinShow from './components/CoinShow'
 import scrollHelper from './scrollHelper'
+import CoinListContainer from './bundles/common/containers/CoinListContainer'
 
 const injectableComponents = {
   WatchButton,
@@ -54,11 +55,13 @@ const injectComponents = () => {
       if (withStore) {
         const AppComponent = appContainer(Component)
         ReactDOM.render(
-          <Provider store={store}>
-            <PersistGate loading={null} persistor={persistor}>
-              <AppComponent {...props} />
-            </PersistGate>
-          </Provider>,
+          <CoinListContainer>
+            <Provider store={store}>
+              <PersistGate loading={null} persistor={persistor}>
+                <AppComponent {...props} />
+              </PersistGate>
+            </Provider>
+          </CoinListContainer>,
           hook,
         )
       } else {
