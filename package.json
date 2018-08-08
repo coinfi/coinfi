@@ -12,6 +12,7 @@
     "axios": "^0.18.0",
     "babel-core": "^6.26.0",
     "babel-loader": "^7.1.4",
+    "babel-plugin-styled-components": "^1.5.1",
     "babel-preset-react": "^6.24.1",
     "d3-ease": "^1.0.3",
     "dayjs": "^1.6.2",
