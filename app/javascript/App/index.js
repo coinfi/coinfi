@@ -55,7 +55,7 @@ const injectComponents = () => {
       if (withStore) {
         const AppComponent = appContainer(Component)
         ReactDOM.render(
-          <CoinListContainer>
+          <CoinListContainer user={props.user}>
             <Provider store={store}>
               <PersistGate loading={null} persistor={persistor}>
                 <AppComponent {...props} />
