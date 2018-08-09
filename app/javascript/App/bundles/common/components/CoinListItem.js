@@ -18,7 +18,8 @@ export default (props) => {
   const coinPriceFixed = parseFloat(coinPrice).toFixed(fixedCount)
   const percentChange = coin.market_info.percent_change_24h
   return (
-    <div className={klass} style={{ minHeight: 57 }}>
+    // TODO: Change to "Control" component for accessibility.
+    <div className={klass} onClick={onClick} style={{ minHeight: 57 }}>
       <div className="tooltipped">
         {!user && <div className="tooltip from-right">Login to watch</div>}
         {/*<WatchButton {...props} />*/}

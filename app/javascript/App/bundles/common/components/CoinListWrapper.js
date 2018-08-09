@@ -11,13 +11,7 @@ export default () => (
       ) : (
         <Fragment>
           <CoinListHeader />
-          <CoinList
-            list={
-              payload.isWatchlist
-                ? payload.getWatchlist()
-                : payload.getToplist()
-            }
-          />
+          <CoinList list={payload.coinlist} />
         </Fragment>
       )
     }}

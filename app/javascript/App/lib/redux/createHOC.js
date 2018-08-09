@@ -9,9 +9,6 @@ export default (args) => (Component) => {
     componentDidMount() {
       if (onMount) onMount(this)
     }
-    componentWillMount() {
-      this.thing = () => console.log('woot')
-    }
     render() {
       let props = { ...this.props }
 
@@ -26,5 +23,8 @@ export default (args) => (Component) => {
   }
   const mapDispatch = (dispatch) => bindActionCreators(actions, dispatch)
   const mapState = createStructuredSelector(selectors)
-  return connect(mapState, mapDispatch)(HOC)
+  return connect(
+    mapState,
+    mapDispatch,
+  )(HOC)
 }

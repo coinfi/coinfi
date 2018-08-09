@@ -7,10 +7,12 @@ import LayoutTablet from '../LayoutTablet'
 import LayoutMobile from '../LayoutMobile'
 import CoinListWrapper from '../../bundles/common/components/CoinListWrapper'
 import CoinListDrawer from '../CoinList/CoinListDrawer'
+import NewsListContainer from './NewsListContainer'
 import NewsList from './NewsList'
 import NewsListHeader from './NewsListHeader'
 import BodySection from './BodySection'
 import BodySectionDrawer from '../BodySectionDrawer'
+import CoinListContext from '../../contexts/CoinListContext'
 import Immutable from 'immutable'
 import _ from 'lodash'
 
@@ -127,10 +129,15 @@ class NewsfeedPage extends Component {
           {...enhancedProps}
           leftSection={<CoinListWrapper {...enhancedProps} />}
           centerSection={
-            <Fragment>
-              <NewsListHeader {...enhancedProps} />
-              <NewsList {...enhancedProps} />
-            </Fragment>
+            <CoinListContext.Consumer>
+              {(payload) => (
+                <NewsListContainer
+                  coins={payload.coinlist}
+                  feedSources={this.props.feedSources}
+                  sortedNewsItems={this.props.sortedNewsItems}
+                />
+              )}
+            </CoinListContext.Consumer>
           }
           rightSection={<BodySection {...enhancedProps} />}
         />

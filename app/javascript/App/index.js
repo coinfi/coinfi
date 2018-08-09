@@ -7,6 +7,7 @@ import 'babel-polyfill'
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { Provider } from 'react-redux'
+import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
 import configureStore from './configureStore'
 import getScreenSize from './lib/screenSize'
 import { PersistGate } from 'redux-persist/integration/react'
@@ -53,15 +54,22 @@ const injectComponents = () => {
       const props = JSON.parse(hook.getAttribute('props'))
       const withStore = hook.getAttribute('withStore') !== null
       if (withStore) {
-        const AppComponent = appContainer(Component)
         ReactDOM.render(
-          <CoinListContainer user={props.user}>
-            <Provider store={store}>
-              <PersistGate loading={null} persistor={persistor}>
-                <AppComponent {...props} />
-              </PersistGate>
-            </Provider>
-          </CoinListContainer>,
+          <Provider store={store}>
+            <Router>
+              <div>
+                <Route
+                  path="/news/:id?/:slug?"
+                  render={() => (
+                    <CoinListContainer user={props.user}>
+                      <NewsfeedPage />
+                    </CoinListContainer>
+                  )}
+                />
+                <Route path="/events" component={CalendarPage} />
+              </div>
+            </Router>
+          </Provider>,
           hook,
         )
       } else {

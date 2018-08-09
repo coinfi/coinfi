@@ -102,6 +102,17 @@ class CoinListContainer extends Component {
   getWatchlistArray = () =>
     this.state.watchlistIndex.map((id) => this.state.watchlist[id])
 
+  getCoinList = () => {
+    switch (this.state.status) {
+      case STATUSES.INITIALIZING:
+        return null
+      default:
+        return this.state.isWatchlist
+          ? this.getWatchlistArray()
+          : this.getToplistArray()
+    }
+  }
+
   render = () => (
     <CoinListContext.Provider
       value={{
@@ -116,6 +127,7 @@ class CoinListContainer extends Component {
         showToplist: this.showToplist,
         isCoinInWatchlist: this.isCoinInWatchlist,
         addCoinToWatchlist: this.addCoinToWatchlist,
+        coinlist: this.getCoinList(),
       }}
     >
       {this.props.children}
