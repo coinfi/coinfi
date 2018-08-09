@@ -6,7 +6,7 @@ namespace :data_migrations do
       name: 'Old Coinfi Articles',
       is_active: false,
       feed_url: '',
-      site_url: '',
+      site_hostname: '',
     )
 
     batch_process(Article.all) do |article|
