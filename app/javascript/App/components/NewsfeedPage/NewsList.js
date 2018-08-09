@@ -20,6 +20,8 @@ class NewsList extends Component {
       this.setState({ initialRender: false })
     }, 60000)
     this.mountOnScrollHandler()
+    const newsfeedElem = document.querySelector('#newsfeed')
+    newsfeedElem.style.maxHeight = `${newsfeedElem.offsetHeight}px`
   }
 
   componentDidUpdate() {
