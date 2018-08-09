@@ -5,7 +5,6 @@ import TradingViewChart from './TradingViewChart'
 
 class CoinCharts extends Component {
   state = { currentSymbol: null }
-  componentWillMount = () => this.updateCharts()
   componentDidUpdate = () => this.updateCharts()
   updateCharts = () => {
     const { currentSymbol } = this.state
