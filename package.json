@@ -38,6 +38,7 @@
     "react-redux": "^5.0.7",
     "react-sizeme": "^2.4.4",
     "react-sortable-hoc": "^0.6.8",
+    "react-sparklines": "^1.7.0",
     "react-swipeable": "^4.3.0",
     "react-tweet": "^1.7.0",
     "react-twitter-widgets": "^1.7.1",

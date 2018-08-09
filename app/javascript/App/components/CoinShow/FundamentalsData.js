@@ -1,5 +1,4 @@
-import React, { Component, Fragment } from 'react'
-import SparkLineTable from './../SparkLineTable'
+import React from 'react'
 
 export default (coinObj, currency) => {
   return [
