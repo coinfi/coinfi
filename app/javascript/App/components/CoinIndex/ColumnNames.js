@@ -2,37 +2,27 @@ import React from 'react'
 //import SparkLineTable from './../SparkLineTable'
 
 export default (currency) => {
-  let fixed = true
   return [
     {
       title: '#',
       dataIndex: 'ranking',
-      key: 'ranking',
-      fixed,
+      fixed: true,
       align: 'right',
     },
     {
       title: 'Coin',
       dataIndex: 'name',
-      key: 'name',
-      fixed,
-      align: 'left',
+      fixed: true,
       render: (text, row, index) => {
+        const symbol = row.symbol.toLowerCase()
         return (
-          <div style={{ display: 'flex', alignItems: 'left' }}>
-            <div
+          <div className="b--r">
+            <img
               alt={text}
-              style={{
-                ...{
-                  width: 35,
-                  marginRight: 10,
-                },
-                ...{
-                  background: `url('https://gitcdn.link/repo/cjdowner/cryptocurrency-icons/master/svg/color/${row.symbol.toLowerCase()}.svg') no-repeat`,
-                },
-              }}
+              src={`https://gitcdn.link/repo/cjdowner/cryptocurrency-icons/master/svg/color/${symbol}.svg`}
+              className="fl mr2"
             />
-            <div style={{ flexGrow: 1 }}>
+            <div className="fl">
               <a href={`/coinsnew/${text.toLowerCase().replace(/ /, '-')}`}>
                 {row.symbol}
               </a>
@@ -44,34 +34,26 @@ export default (currency) => {
     },
     {
       title: 'Price',
-      dataIndex: 'price[currency]',
-      key: 'price[currency]',
+      dataIndex: 'price',
       align: 'right',
       render: (text, row, index) => {
+        const currencyKey = currency.toLowerCase()
         if (currency === 'USD') {
-          return (
-            <span>
-              {row.price[currency.toLowerCase()].toLocaleString('en-US', {
-                style: 'currency',
-                currency: currency,
-              })}
-            </span>
-          )
+          return <span>${row.price[currencyKey]}</span>
         }
         if (currency === 'BTC') {
-          return <span>{row.price[currency.toLowerCase()]}</span>
+          return <span>{row.price[currencyKey]} &#579;</span>
         }
       },
     },
     {
       title: 'Market Cap',
       dataIndex: 'market_cap.usd',
-      key: 'market_cap.usd',
       align: 'right',
       render: (text, row, index) => {
         return (
           <span>
-            {text.toLocaleString('en-US', {
+            ${text.toLocaleString('en-US', {
               maximumFractionDigits: 0,
             })}
           </span>
@@ -81,7 +63,6 @@ export default (currency) => {
     {
       title: '% Move 1H',
       dataIndex: 'change1h',
-      key: 'change1h',
       align: 'right',
       render: (text, row, index) => {
         if (text > 0) {
@@ -93,7 +74,6 @@ export default (currency) => {
     {
       title: '% Move 1D',
       dataIndex: 'change24h',
-      key: 'change24h',
       align: 'right',
       render: (text, row, index) => {
         if (text > 0) {
@@ -105,7 +85,6 @@ export default (currency) => {
     {
       title: '% Move 1W',
       dataIndex: 'change7d',
-      key: 'change7d',
       align: 'right',
       render: (text, row, index) => {
         if (text > 0) {
@@ -117,7 +96,6 @@ export default (currency) => {
     {
       title: 'Volume (24hr)',
       dataIndex: 'volume24.usd',
-      key: 'volume24.usd',
       align: 'right',
       render: (text, row, index) => {
         return (
@@ -129,22 +107,13 @@ export default (currency) => {
     },
     {
       title: '7D Chart',
-      dataIndex: 'priceData',
-      key: 'priceData',
+      dataIndex: 'sparkline',
+      align: 'right',
       render: (text, row, index) => {
-        const num =
-          row.priceData && row.priceData.toString().replace(/,/g, ', ')
-        return <div />
+        const data = 0
+        //row.sparkline && row.sparkline.toString().replace(/,/g, ', ')
+        return <div data-sparkline={data} />
       },
     },
   ]
 }
-/*
-          <SparkLineTable>
-            <tbody>
-              <tr key={index}>
-                <td data-sparkline={num} key={index} />
-              </tr>
-            </tbody>
-          </SparkLineTable>
-*/

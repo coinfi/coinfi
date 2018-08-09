@@ -3,8 +3,13 @@ class CoinsnewController < ApplicationController
   COINS_PER_PAGE = 100
 
   def index
-    @coins = Coin.page(params[:page]).per(COINS_PER_PAGE).order(:ranking)
-    @sparklines = @coins.map { |coin| coin.sparkline }
+    @current_page = params[:page] || 1
+    @coins = Coin.page(@current_page).per(COINS_PER_PAGE).order(:ranking)
+=begin
+    @coins = Coin.select(:id, :ranking, :name, :symbol, :price, :market_cap, :change1h, :change24h, :change7d, :volume24)
+      .page(@current_page).per(COINS_PER_PAGE).order(:ranking)
+    @coins = @coins.map(&:attributes).each { |coin| coin["sparkline"] = coin.sparkline }
+=end
     @coin_count = @coins.length
     set_meta_tags(
       title: "Top Cryptocurrency Prices Live, Cryptocurrency Market Cap, Best Cryptocurrency Charts",

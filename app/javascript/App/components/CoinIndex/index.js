@@ -1,9 +1,6 @@
 import React, { Component, Fragment } from 'react'
-import { Layout, Button, Menu, Dropdown, Icon, Table, Pagination } from 'antd'
-import styled from 'styled-components'
+import { Button, Menu, Dropdown, Icon, Table, Pagination } from 'antd'
 import ColumnNames from './ColumnNames'
-
-const { Header, Footer, Content } = Layout
 
 class CoinIndex extends Component {
   state = {
@@ -33,91 +30,38 @@ class CoinIndex extends Component {
       </Menu>
     )
 
+    const currentPage = Number(this.props.currentPage)
+
     return (
       <Fragment>
-        <Layout>
-          <Header style={{ background: '#fff' }} className="coin-index-header">
-            <h1 className="fl">Coins</h1>
-            <Dropdown overlay={currencyMenu}>
-              <Button className="fr mt3">
-                {this.state.currency === 'USD' && 'USD'}
-                {this.state.currency === 'BTC' && 'BTC'}
-                <Icon type="down" />
-              </Button>
-            </Dropdown>
-          </Header>
+        <h1 className="pt3 pl3">
+          Coins
+          <Dropdown className="fr" overlay={currencyMenu}>
+            <Button className="mr3">
+              {this.state.currency === 'USD' && 'USD'}
+              {this.state.currency === 'BTC' && 'BTC'}
+              <Icon type="down" />
+            </Button>
+          </Dropdown>
+        </h1>
 
-          <Content>
-            <Table
-              rowKey={(record) => record.symbol + record.name}
-              columns={ColumnNames(this.state.currency)}
-              dataSource={this.props.coins}
-              pagination={false}
-              scroll={{ x: 1080 }}
-            />
-          </Content>
-          <Footer>
-            <Pagination
-              defaultCurrent={1}
-              total={this.getPageTotal()}
-              style={{ textAlign: 'center' }}
-              onChange={this.jumpPage}
-            />
-          </Footer>
-        </Layout>
+        <Table
+          rowKey={(record) => record.symbol + record.name}
+          columns={ColumnNames(this.state.currency)}
+          dataSource={this.props.coins}
+          pagination={false}
+          scroll={{ x: 1080 }}
+          style={{ background: '#fff' }}
+        />
+        <Pagination
+          className="tc"
+          defaultCurrent={currentPage}
+          total={this.getPageTotal()}
+          onChange={this.jumpPage}
+        />
       </Fragment>
     )
   }
 }
 
 export default CoinIndex
-
-const ButtonWrap = styled.div`
-  text-align: right;
-  margin: 0 1rem;
-  @media (min-width: 900px) {
-    float: right;
-  }
-`
-
-const Section = styled.section`
-  text-align: center;
-  margin: 3rem 0;
-  @media (min-width: 900px) {
-    text-align: left;
-    margin: 0 0 0 1rem;
-    padding-top: 1rem;
-  }
-`
-
-const Div = styled.div`
-  margin-bottom: 2rem;
-  @media (min-width: 900px) {
-    display: inline-block;
-    margin-right: 1rem;
-  }
-`
-
-const Span = styled.span`
-  margin: 0 0.5rem;
-`
-
-const cardStyle = {
-  flexGrow: 1,
-  margin: '1rem .5rem 0 .5rem',
-}
-
-const DivHeader = styled.div`
-  margin: 1rem;
-  padding-top: 10px;
-  margin-bottom: 0.5rem;
-  @media (min-width: 900px) {
-    padding-top: 20px;
-    margin-bottom: 4rem;
-    padding-left: 1rem;
-  }
-`
-
-const ContentWrap = styled.div`
-  background: #fff;
-`
