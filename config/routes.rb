@@ -47,6 +47,7 @@ Rails.application.routes.draw do
   resources :contributor_submissions, path: 'contributor-submissions'
   get '/profile', to: 'author_profiles#edit', as: 'edit_author_profile'
   resources :author_profiles, only: %i[index show create update], path: 'authors'
+  get '/news(/*others)', to: 'news#index'
 
   namespace :webhooks do
     post "#{ENV.fetch('SUPERFEEDR_CALLBACK_URL_SEGMENT_SECRET')}-superfeedr-ingest", to: 'websubs#superfeedr_ingest'
