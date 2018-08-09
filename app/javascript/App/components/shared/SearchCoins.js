@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import { union } from 'lodash'
 import coinSearchProvider from '../../containers/coinSearch'
 import Input from '../Input'
 import Icon from '../Icon'
@@ -10,21 +9,12 @@ class SearchCoins extends Component {
     searchCoins(value, { limit: 10 })
   }
   selectCoin = (coin) => {
-    const { setFilter, clearSearch, setActiveEntity } = this.props
+    const { clearSearch } = this.props
     window.location = `/coins/${coin.get('name').toLowerCase()}`
     clearSearch()
   }
   render() {
-    const {
-      searchText,
-      clearSearch,
-      searchedCoins,
-      isWatching,
-      updateUser,
-      user,
-      onWatch,
-      searchCoins,
-    } = this.props
+    const { searchText, clearSearch, searchedCoins } = this.props
 
     const styleObj = {
       marginLeft: 10,

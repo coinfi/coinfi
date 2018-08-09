@@ -69,6 +69,15 @@ class Coin < ApplicationRecord
     end
   end
 
+  def sparkline
+    Rails.cache.fetch("coins/#{id}/sparkline", expires_in: 1.day) do
+      url = "#{ENV.fetch('COINFI_PRICES_URL')}api/v1/coins/#{symbol}/daily_history.json?limit=7"
+      response = HTTParty.get(url)
+      results = JSON.parse(response.body)
+      results.map { |result| result["close"] }
+    end
+  end
+
   def news_data
     # TODO: Reduce cache time from 1 day to 1 hour once hourly price data comes in.
     Rails.cache.fetch("coins/#{id}/news_data", expires_in: 1.day) do
