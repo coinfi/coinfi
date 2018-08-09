@@ -1,5 +1,5 @@
 import React from 'react'
-//import SparkLineTable from './../SparkLineTable'
+import { Sparklines, SparklinesLine } from 'react-sparklines'
 
 export default (currency) => {
   return [
@@ -110,9 +110,11 @@ export default (currency) => {
       dataIndex: 'sparkline',
       align: 'right',
       render: (text, row, index) => {
-        const data = 0
-        //row.sparkline && row.sparkline.toString().replace(/,/g, ', ')
-        return <div data-sparkline={data} />
+        return (
+          <Sparklines data={text}>
+            <SparklinesLine />
+          </Sparklines>
+        )
       },
     },
   ]

@@ -31,6 +31,7 @@ Rails.application.routes.draw do
     end
     resources :calendar_events, only: %i[index]
     resources :coins, only: %i[index show]
+    resources :coinsnew, only: %i[index show]
     get '/coins/:id/news', to: 'coins#news'
     get '/social_feeds/tweets_by_user', to: 'social_feeds#tweets_by_user'
   end

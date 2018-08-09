@@ -1,19 +1,43 @@
 import React, { Component, Fragment } from 'react'
 import { Button, Menu, Dropdown, Icon, Table, Pagination } from 'antd'
 import ColumnNames from './ColumnNames'
+import API from '../../lib/localAPI'
 
 class CoinIndex extends Component {
   state = {
+    coins: [],
+    pagination: {
+      defaultPageSize: 10,
+      total: this.props.coinCount,
+    },
+    loading: false,
     currency: 'USD',
-    priceData: [],
   }
 
-  getPageTotal() {
-    return this.props.coinCount
+  handleTableChange = (pagination) => {
+    const pager = { ...this.state.pagination }
+    pager.current = pagination.current
+    this.setState({
+      pagination: pager,
+    })
+    this.fetchCoins({
+      per: pagination.pageSize,
+      page: pagination.current,
+    })
   }
 
-  jumpPage(data) {
-    window.location = `/coinsnew?page=${data}`
+  fetchCoins = (params = {}) => {
+    this.setState({ loading: true })
+    API.get('/coinsnew', params).then((response) => {
+      this.setState({
+        loading: false,
+        coins: response,
+      })
+    })
+  }
+
+  componentDidMount() {
+    this.fetchCoins()
   }
 
   changeCurrencyHandler = ({ key }) => {
@@ -29,8 +53,6 @@ class CoinIndex extends Component {
         <Menu.Item key="BTC">BTC</Menu.Item>
       </Menu>
     )
-
-    const currentPage = Number(this.props.currentPage)
 
     return (
       <Fragment>
@@ -48,16 +70,11 @@ class CoinIndex extends Component {
         <Table
           rowKey={(record) => record.symbol + record.name}
           columns={ColumnNames(this.state.currency)}
-          dataSource={this.props.coins}
-          pagination={false}
+          dataSource={this.state.coins}
+          pagination={this.state.pagination}
+          onChange={this.handleTableChange}
           scroll={{ x: 1080 }}
           style={{ background: '#fff' }}
-        />
-        <Pagination
-          className="tc"
-          defaultCurrent={currentPage}
-          total={this.getPageTotal()}
-          onChange={this.jumpPage}
         />
       </Fragment>
     )
