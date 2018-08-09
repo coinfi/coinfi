@@ -14,6 +14,16 @@ class Api::CoinsController < ApiController
     respond_success show_serializer(coin)
   end
 
+  def toplist
+    coins = Coin.order(:ranking).limit(20)
+    respond_success index_serializer(coins)
+  end
+
+  def watchlist
+    coins = current_user.watchlist.coins.order(:ranking)
+    respond_success index_serializer(coins)
+  end
+
   private
 
   def index_serializer(coins)
