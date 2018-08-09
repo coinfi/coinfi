@@ -6,13 +6,15 @@ export default (currency) => {
     {
       title: '#',
       dataIndex: 'ranking',
-      fixed: true,
+      fixed: 'left',
       align: 'right',
+      width: 50,
     },
     {
       title: 'Coin',
       dataIndex: 'name',
-      fixed: true,
+      fixed: 'left',
+      width: 240,
       render: (text, row, index) => {
         const symbol = row.symbol.toLowerCase()
         return (
