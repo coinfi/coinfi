@@ -1,11 +1,5 @@
 import React from 'react'
-import CoinListContext from '../../../contexts/CoinListContext'
+import CoinListItem from './CoinListItem'
 
-export default () => (
-  <CoinListContext.Consumer>
-    {(payload) => {
-      console.log(payload)
-      return <div>Payload here</div>
-    }}
-  </CoinListContext.Consumer>
-)
+export default ({ list }) =>
+  list.map((coin) => <CoinListItem key={coin.id} coin={coin} />)

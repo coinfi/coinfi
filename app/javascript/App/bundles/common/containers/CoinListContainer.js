@@ -23,16 +23,17 @@ class CoinListContainer extends Component {
   }
 
   componentDidMount = () => {
-    if (this.props.user) {
-      this.getToplistAndWatchlistOnMount()
+    //if (this.props.user) {
+    this.getToplistAndWatchlistOnMount()
+    /*
     } else {
       this.getToplistOnMount()
     }
+    */
   }
 
   getToplistOnMount = () => {
     this.fetchToplist().then((res) => {
-      console.log(res)
       this.setState({
         status: STATUSES.READY,
         toplistIndex: res.result,
@@ -43,7 +44,7 @@ class CoinListContainer extends Component {
 
   getToplistAndWatchlistOnMount = () =>
     Promise.all([this.fetchToplist(), this.fetchWatchlist()]).then(
-      (toplist, watchlist) => {
+      ([toplist, watchlist]) => {
         this.setState({
           status: STATUSES.READY,
           toplistIndex: toplist.result,
@@ -65,13 +66,13 @@ class CoinListContainer extends Component {
   }
 
   fetchToplist = () =>
-    API.get('/newsfeed/coins', {}, false).then((response) =>
+    API.get('/coins/toplist', {}, false).then((response) =>
       Promise.resolve(normalizers.coins(response.payload)),
     )
 
   fetchWatchlist = () =>
     // TODO: Write Watchlist endpoint.
-    API.get('/newsfeed/coins', {}, false).then((response) =>
+    API.get('/coins/watchlist', {}, false).then((response) =>
       Promise.resolve(normalizers.coins(response.payload)),
     )
 
@@ -94,24 +95,33 @@ class CoinListContainer extends Component {
 
   isCoinInWatchlist = (coinId) => this.state.watchlistIndex.includes(coinId)
 
-  render = () => this.props.children
-}
+  isInitializing = () => this.state.status === STATUSES.INITIALIZING
 
-export default CoinListContainer
+  getToplistArray = () =>
+    this.state.toplistIndex.map((id) => this.state.toplist[id])
 
-/*
+  getWatchlistArray = () =>
+    this.state.watchlistIndex.map((id) => this.state.watchlist[id])
+
+  render = () => (
     <CoinListContext.Provider
       value={{
         status: this.state.status,
         watchlist: this.state.watchlist,
         toplist: this.state.toplist,
+        isInitializing: this.isInitializing,
+        isWatchlist: this.state.isWatchlist,
+        getWatchlist: this.getWatchlistArray,
+        getToplist: this.getToplistArray,
+        showWatchlist: this.showWatchlist,
+        showToplist: this.showToplist,
         isCoinInWatchlist: this.isCoinInWatchlist,
         addCoinToWatchlist: this.addCoinToWatchlist,
       }}
     >
       {this.props.children}
     </CoinListContext.Provider>
-<CoinListContext.Consumer>
-  {(payload) => payload.watchlist.map}
-</CoinListContext.Consumer>
-*/
+  )
+}
+
+export default CoinListContainer
