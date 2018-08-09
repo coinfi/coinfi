@@ -30,6 +30,7 @@ Rails.application.routes.draw do
       resources :coins, only: %i[index]
     end
     resources :calendar_events, only: %i[index]
+    get '/coins/search', to: 'coinsnew#search'
     resources :coins, only: %i[index show]
     resources :coinsnew, only: %i[index show]
     get '/coins/:id/news', to: 'coins#news'

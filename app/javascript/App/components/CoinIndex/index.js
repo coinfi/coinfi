@@ -1,6 +1,8 @@
 import React, { Component, Fragment } from 'react'
-import { Button, Menu, Dropdown, Icon, Table, Pagination } from 'antd'
+import { Table } from 'antd'
 import ColumnNames from './ColumnNames'
+import CurrencySelector from '../CurrencySelector'
+import SearchCoins from '../shared/SearchCoins'
 import API from '../../lib/localAPI'
 
 class CoinIndex extends Component {
@@ -47,25 +49,20 @@ class CoinIndex extends Component {
   }
 
   render() {
-    const currencyMenu = (
-      <Menu onClick={this.changeCurrencyHandler}>
-        <Menu.Item key="USD">USD</Menu.Item>
-        <Menu.Item key="BTC">BTC</Menu.Item>
-      </Menu>
-    )
-
     return (
       <Fragment>
-        <h1 className="pt3 pl3">
-          Coins
-          <Dropdown className="fr" overlay={currencyMenu}>
-            <Button className="mr3">
-              {this.state.currency === 'USD' && 'USD'}
-              {this.state.currency === 'BTC' && 'BTC'}
-              <Icon type="down" />
-            </Button>
-          </Dropdown>
-        </h1>
+        <div>
+          <h1 className="pt3 pl3 fl">Coins</h1>
+          <div className="flex fr pt3 pr3">
+            <div className="ma2">
+              <SearchCoins {...this.props} />
+            </div>
+            <CurrencySelector
+              currency={this.state.currency}
+              changeCurrencyHandler={this.changeCurrencyHandler}
+            />
+          </div>
+        </div>
 
         <Table
           rowKey={(record) => record.symbol + record.name}

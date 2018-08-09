@@ -6,4 +6,16 @@ class Api::CoinsnewController < ApiController
 
     render json: @coins, methods: :sparkline
   end
+
+  def search
+    query = params[:q] || {}
+    @coins = Coin.ransack(query).result(distinct: true).limit(params[:limit] || 10).order(:ranking)
+    respond_success search_serializer(@coins)
+  end
+
+private
+
+  def search_serializer(coins)
+    coins.as_json(only: %i[id name symbol slug])
+  end
 end

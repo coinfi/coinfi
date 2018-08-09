@@ -10,8 +10,8 @@ export default function* watcher() {
 function* searchCoins({ searchText, searchOpts, namespace }) {
   if (searchText.length < 2) return
   yield apiSagas.get(
-    '/coins.json',
+    '/coins/search.json',
     _.merge({ q: { name_or_symbol_cont: searchText } }, searchOpts),
-    actions.searchCoinsSuccess(namespace)
+    actions.searchCoinsSuccess(namespace),
   )
 }
