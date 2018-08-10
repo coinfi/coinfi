@@ -1,0 +1,112 @@
+table {
+  width: 100%;
+  @extend .collapse;
+  font-size: 0.9em;
+  thead {
+    tr {
+      th,
+      td {
+        text-align: inherit;
+        padding: $sp2;
+      }
+    }
+  }
+  tbody {
+    tr {
+      @extend .striped--near-white;
+      td {
+        padding: $sp2;
+        border-top: 1px solid $light-gray;
+      }
+    }
+  }
+  &.responsive-table {
+    tbody {
+      tr {
+        td {
+          label {
+            display: none;
+          }
+        }
+      }
+    }
+  }
+  &.stats {
+    tbody {
+      tr {
+        background-color: transparent;
+        td {
+          border: none;
+          padding: 0;
+          &:first-child {
+            font-size: 0.8rem;
+          }
+          &:nth-child(2) {
+            text-align: right;
+            font-weight: bold;
+            font-size: 1.1rem;
+          }
+        }
+        &:not(:last-child) {
+          td {
+            padding-bottom: $sp3;
+          }
+        }
+      }
+    }
+  }
+}
+@media (max-width: $screen-m) {
+  table.responsive-table {
+    display: block;
+    width: 100%;
+    thead {
+      display: none;
+    }
+    tbody {
+      display: block;
+      width: 100%;
+      tr {
+        display: block;
+        width: 100%;
+        border-bottom: 1px solid $moon-gray;
+        padding: $sp3 0;
+        td {
+          &:first-child {
+            border-top: 0;
+          }
+          display: flex;
+          flex-wrap: wrap;
+          width: 100%;
+          padding: 0.75rem;
+          > label {
+            display: block !important;
+            text-align: right;
+            text-transform: uppercase;
+            font-size: 0.8em;
+          }
+          > div {
+            text-align: left;
+            font-weight: 600;
+          }
+          > div,
+          > label {
+            width: 45%;
+            flex: 1 1 auto;
+            padding: 0 $sp2;
+            &:only-child {
+              text-align: center;
+              width: 100%;
+            }
+          }
+          > header,
+          > footer {
+            width: 100%;
+            flex: 1 1 auto;
+            text-align: center;
+          }
+        }
+      }
+    }
+  }
+}
