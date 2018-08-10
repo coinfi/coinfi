@@ -11,7 +11,7 @@ class PriceGraph extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      chart: null
+      chart: null,
     }
   }
 
@@ -20,8 +20,9 @@ class PriceGraph extends Component {
     window.Highcharts.setOptions(options)
     const chart = window.Highcharts.stockChart(
       containerID,
-      chartOptions({ priceData, annotations })
+      chartOptions({ priceData, annotations }),
     )
+    window.priceChart = chart
     this.setState({ chart: chart })
 
     const annotatedChart = this.getAnnotatedChart(chart)

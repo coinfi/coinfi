@@ -69,6 +69,12 @@ class CoinShow extends Component {
     })
   }
 
+  componentDidMount() {
+    setTimeout(() => {
+      window.priceChart.setSize()
+    }, 1000)
+  }
+
   render() {
     const {
       symbol,
