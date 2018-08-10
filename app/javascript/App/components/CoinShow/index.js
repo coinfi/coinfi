@@ -137,8 +137,24 @@ class CoinShow extends Component {
                       }
                       style={{ marginRight: '1rem' }}
                     >
-                      <i className="material-icons">list</i>
-                      Coin List
+                      <i
+                        className="material-icons"
+                        style={{
+                          marginLeft: -10,
+                          marginRight: 7,
+                          marginTop: 2,
+                        }}
+                      >
+                        list
+                      </i>
+                      <span
+                        style={{
+                          position: 'relative',
+                          top: -7,
+                        }}
+                      >
+                        Coin List
+                      </span>
                     </Button>
                   </HideLarge>
                   <SearchCoins {...this.props} coinShow />
@@ -396,7 +412,6 @@ class CoinShow extends Component {
                                     </i>
                                   )}
 
-                                  {/* <Icon type={item.icon} /> */}
                                   <a
                                     href={item.value}
                                     target="_blank"
