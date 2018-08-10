@@ -156,7 +156,17 @@ class CoinShow extends Component {
                           <span style={{ position: 'relative', top: -8 }}>
                             {this.state.currency}
                           </span>
-                          <i className="material-icons">expand_more</i>
+                          <i
+                            className="material-icons"
+                            style={{
+                              position: 'relative',
+                              top: -1,
+                              marginLeft: 0,
+                              left: 5,
+                            }}
+                          >
+                            expand_more
+                          </i>
                         </Button>
                       </Dropdown>
                       <Button
@@ -165,12 +175,26 @@ class CoinShow extends Component {
                         onClick={this.watchCoinHandler}
                         ghost={!this.state.watched}
                         loading={this.state.iconLoading}
-                        style={{ position: 'relative', top: -7 }}
+                        style={{ position: 'relative', top: -9 }}
                       >
-                        <i className="material-icons" style={{ fontSize: 17 }}>
+                        <i
+                          className="material-icons"
+                          style={{
+                            fontSize: 15,
+                            position: 'relative',
+                            top: 3,
+                            left: -3,
+                          }}
+                        >
                           star
                         </i>
-                        <span style={{ position: 'relative', top: -3 }}>
+                        <span
+                          style={{
+                            position: 'relative',
+                            top: 0,
+                            marginLeft: 4,
+                          }}
+                        >
                           {this.state.watched ? 'Unwatch coin' : 'Watch coin'}
                         </span>
                       </Button>
@@ -363,7 +387,8 @@ class CoinShow extends Component {
                                       className="material-icons"
                                       style={{
                                         position: 'relative',
-                                        top: -5,
+                                        top: 0,
+                                        fontSize: 15,
                                       }}
                                     >
                                       {item.icon}
