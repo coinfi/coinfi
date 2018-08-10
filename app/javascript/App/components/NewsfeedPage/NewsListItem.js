@@ -27,7 +27,7 @@ const NewsListItem = (props) => {
     .replace(/<h1>/g, '')
     .replace(/<\/h1>/g, '')
   return (
-    <div className={className} style={{ height: props.height || 70 }}>
+    <div className={className} style={{ height: props.height || 'auto' }}>
       <div className="pa-default">
         <div
           className="pointer"
