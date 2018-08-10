@@ -13,7 +13,7 @@ const CurrencySelector = ({ currency, changeCurrencyHandler }) => (
     <Button>
       {currency === 'USD' && 'USD'}
       {currency === 'BTC' && 'BTC'}
-      <Icon type="down" />
+      <i className="material-icons">expand_more</i>
     </Button>
   </Dropdown>
 )

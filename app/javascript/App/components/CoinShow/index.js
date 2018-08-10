@@ -5,7 +5,6 @@ import {
   Button,
   Menu,
   Dropdown,
-  Icon,
   List,
   Col,
   Row,
@@ -131,7 +130,6 @@ class CoinShow extends Component {
                   <HideLarge>
                     <Button
                       type="primary"
-                      icon="bars"
                       onClick={() =>
                         this.props.enableUI('coinListDrawer', {
                           fullScreen: true,
@@ -139,6 +137,7 @@ class CoinShow extends Component {
                       }
                       style={{ marginRight: '1rem' }}
                     >
+                      <i className="material-icons">list</i>
                       Coin List
                     </Button>
                   </HideLarge>
@@ -154,18 +153,26 @@ class CoinShow extends Component {
                           size="small"
                           style={{ marginLeft: 8, margin: 10 }}
                         >
-                          {this.state.currency} <Icon type="down" />
+                          <span style={{ position: 'relative', top: -8 }}>
+                            {this.state.currency}
+                          </span>
+                          <i className="material-icons">expand_more</i>
                         </Button>
                       </Dropdown>
                       <Button
-                        icon="star"
                         size="small"
                         type="primary"
                         onClick={this.watchCoinHandler}
                         ghost={!this.state.watched}
                         loading={this.state.iconLoading}
+                        style={{ position: 'relative', top: -7 }}
                       >
-                        {this.state.watched ? 'Unwatch coin' : 'Watch coin'}
+                        <i className="material-icons" style={{ fontSize: 17 }}>
+                          star
+                        </i>
+                        <span style={{ position: 'relative', top: -3 }}>
+                          {this.state.watched ? 'Unwatch coin' : 'Watch coin'}
+                        </span>
                       </Button>
                     </ButtonWrap>
                   </Col>
@@ -204,15 +211,19 @@ class CoinShow extends Component {
                           }
                         >
                           {percentChange1h.value > 0 ? (
-                            <Icon
-                              type="caret-up"
-                              style={{ marginRight: '.25rem' }}
-                            />
+                            <i
+                              className="material-icons"
+                              style={{ position: 'relative', top: 7 }}
+                            >
+                              arrow_drop_up
+                            </i>
                           ) : (
-                            <Icon
-                              type="caret-down"
-                              style={{ marginRight: '.25rem' }}
-                            />
+                            <i
+                              className="material-icons"
+                              style={{ position: 'relative', top: 7 }}
+                            >
+                              arrow_drop_down
+                            </i>
                           )}
                           <span>{percentChange1h.value}%</span>
                         </Span>
@@ -325,7 +336,41 @@ class CoinShow extends Component {
                             if (item.value) {
                               return (
                                 <List.Item>
-                                  <Icon type={item.icon} />
+                                  {item.icon === 'twitter' && (
+                                    <svg
+                                      xmlns="http://www.w3.org/2000/svg"
+                                      width="13"
+                                      height="11"
+                                      viewBox="0 0 13 11"
+                                      style={{
+                                        position: 'relative',
+                                        top: 1,
+                                        left: 5,
+                                        marginRight: 9,
+                                      }}
+                                    >
+                                      {' '}
+                                      <path
+                                        fill="#000"
+                                        fillOpacity=".54"
+                                        d="M12.292 1.531a4.92 4.92 0 0 1-1.25 1.302v.313c0 1.823-.656 3.476-1.966 4.96-1.311 1.485-3.052 2.227-5.222 2.227A6.956 6.956 0 0 1 0 9.187c.278.035.477.053.599.053a4.899 4.899 0 0 0 3.125-1.094 2.535 2.535 0 0 1-1.458-.508 2.386 2.386 0 0 1-.886-1.237c.209.035.365.052.469.052.174 0 .4-.035.677-.104a2.546 2.546 0 0 1-1.445-.872 2.4 2.4 0 0 1-.586-1.602v-.026c.382.208.764.312 1.146.312C.894 3.675.52 2.972.52 2.052c0-.434.113-.85.338-1.25 1.337 1.65 3.065 2.526 5.183 2.63-.035-.121-.052-.312-.052-.573 0-.711.243-1.31.729-1.796.486-.487 1.085-.73 1.797-.73.711 0 1.32.27 1.823.808.52-.087 1.059-.296 1.614-.625-.173.607-.547 1.076-1.12 1.406a4.3 4.3 0 0 0 1.459-.39z"
+                                      />{' '}
+                                      <path d="M-2-3h16v16H-2z" />{' '}
+                                    </svg>
+                                  )}
+                                  {item.icon !== 'twitter' && (
+                                    <i
+                                      className="material-icons"
+                                      style={{
+                                        position: 'relative',
+                                        top: -5,
+                                      }}
+                                    >
+                                      {item.icon}
+                                    </i>
+                                  )}
+
+                                  {/* <Icon type={item.icon} /> */}
                                   <a
                                     href={item.value}
                                     target="_blank"
