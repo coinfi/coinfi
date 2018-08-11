@@ -38,6 +38,7 @@ class NewsList extends Component {
     this.props.newsfeedTips()
   }
 
+  /*
   renderView(
     viewState,
     initialRenderTips,
@@ -45,6 +46,9 @@ class NewsList extends Component {
     isLoading,
     fetchMoreNewsFeed,
   ) {
+  */
+  renderView() {
+    /*
     if (initialRenderTips && window.isMobile) {
       return <Tips closeTips={this.closeTips.bind(this)} />
     } else if (isLoading('newsItems')) {
@@ -95,6 +99,17 @@ class NewsList extends Component {
         {mappedItems}
       </InfiniteScroll>
     )
+    */
+    const mappedItems = this.props.newsItems.map((newsItem) => (
+      <NewsListItem
+        key={newsItem.id}
+        newsItem={newsItem}
+        {...this.props}
+        setActiveNewsItem={this.setActiveNewsItem}
+        selectCoin={(symbol) => this.selectCoin(symbol)}
+      />
+    ))
+    return mappedItems
   }
 
   selectCoin(coinData) {
@@ -138,13 +153,16 @@ class NewsList extends Component {
             : {}
         }
       >
-        {this.renderView(
+        {this.renderView()}
+        {
+          /*
           viewState,
           initialRenderTips,
           readNewsIds,
           isLoading,
           fetchMoreNewsFeed,
-        )}
+          */
+        }}
       </div>
     )
   }

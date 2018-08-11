@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react'
 import debounce from 'debounce'
 import axios from 'axios'
-import newsfeedContainer from '../../containers/newsfeed'
+//import newsfeedContainer from '../../containers/newsfeed'
 import LayoutDesktop from '../LayoutDesktop'
 import LayoutTablet from '../LayoutTablet'
 import LayoutMobile from '../LayoutMobile'
@@ -146,4 +146,4 @@ class NewsfeedPage extends Component {
   }
 }
 
-export default newsfeedContainer(NewsfeedPage)
+export default NewsfeedPage

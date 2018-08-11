@@ -59,7 +59,15 @@ const injectComponents = () => {
             <Router>
               <div>
                 <Route
-                  path="/news/:id?/:slug?"
+                  path="/news/:coinSlug?"
+                  render={() => (
+                    <CoinListContainer user={props.user}>
+                      <NewsfeedPage />
+                    </CoinListContainer>
+                  )}
+                />
+                <Route
+                  path="/news/:newsItemId/:newsItemSlug"
                   render={() => (
                     <CoinListContainer user={props.user}>
                       <NewsfeedPage />

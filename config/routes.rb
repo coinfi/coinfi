@@ -25,7 +25,8 @@ Rails.application.routes.draw do
   namespace :api, constraints: { format: 'json' } do
     get '/user', to: 'user#show'
     patch '/user', to: 'user#update'
-    resources :news_items, only: %i[index]
+    resources :news, only: :index
+    resources :news_items, only: :index
     namespace :newsfeed do
       resources :coins, only: %i[index]
     end

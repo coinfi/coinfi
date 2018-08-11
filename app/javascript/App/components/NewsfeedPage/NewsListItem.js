@@ -34,13 +34,11 @@ const NewsListItem = (props) => {
   let className = 'b--b tiber overflow-hidden'
   if (activeEntity) {
     const { type, id } = activeEntity
-    if (type === 'newsItem' && id === newsItem.get('id'))
-      className += ' bg-foam'
+    if (type === 'newsItem' && id === newsItem.id) className += ' bg-foam'
   }
-  const url = new URL(newsItem.get('url'))
+  const url = new URL(newsItem.url)
   if (preRender) className += ' o-0 absolute'
-  const newsItemTitle = newsItem
-    .get('title')
+  const newsItemTitle = newsItem.title
     .replace(/<h1>/g, '')
     .replace(/<\/h1>/g, '')
 
@@ -72,7 +70,7 @@ const NewsListItem = (props) => {
                   {`@${url.pathname.split('/')[1]}`}
                 </a>
                 <BulletSpacer />
-                {timeago().format(newsItem.get('feed_item_published_at'))}
+                {timeago().format(newsItem.feed_item_published_at)}
               </Fragment>
             )}
             {url.hostname === 'www.reddit.com' && (
@@ -81,7 +79,7 @@ const NewsListItem = (props) => {
                   <img src={redditLogo} style={{ height: 12 }} />
                 </span>
                 <a
-                  href={newsItem.get('url')}
+                  href={newsItem.url}
                   target="_blank noopener noreferrer"
                   rel="nofollow"
                   className="dib silver"
@@ -89,7 +87,7 @@ const NewsListItem = (props) => {
                   {`/r/${url.pathname.split('/')[2]}`}
                 </a>
                 <BulletSpacer />
-                {timeago().format(newsItem.get('feed_item_published_at'))}
+                {timeago().format(newsItem.feed_item_published_at)}
               </Fragment>
             )}
             {url.hostname !== 'twitter.com' &&
@@ -99,7 +97,7 @@ const NewsListItem = (props) => {
                     <img src={linkLogo} style={{ height: 9 }} />
                   </span>
                   <a
-                    href={newsItem.get('url')}
+                    href={newsItem.url}
                     target="_blank noopener noreferrer"
                     rel="nofollow"
                     className="dib silver"
@@ -107,7 +105,7 @@ const NewsListItem = (props) => {
                     {url.hostname}
                   </a>
                   <BulletSpacer />
-                  {timeago().format(newsItem.get('feed_item_published_at'))}
+                  {timeago().format(newsItem.feed_item_published_at)}
                 </Fragment>
               )}
           </div>

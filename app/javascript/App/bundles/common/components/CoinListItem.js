@@ -1,6 +1,7 @@
 import React from 'react'
-import PercentageChange from '../../../components/PercentageChange'
-import WatchButton from '../../../components/WatchButton'
+import { Link } from 'react-router-dom'
+//import PercentageChange from '../../../components/PercentageChange'
+//import WatchButton from '../../../components/WatchButton'
 
 export default (props) => {
   const { coin, user, onClick } = props
@@ -19,15 +20,12 @@ export default (props) => {
   const percentChange = coin.market_info.percent_change_24h
   return (
     // TODO: Change to "Control" component for accessibility.
-    <div className={klass} onClick={onClick} style={{ minHeight: 57 }}>
+    <Link className={klass} to={`/news/${coin.slug}`} style={{ minHeight: 57 }}>
       <div className="tooltipped">
         {!user && <div className="tooltip from-right">Login to watch</div>}
         {/*<WatchButton {...props} />*/}
       </div>
-      <div
-        onClick={() => onClick(coin)}
-        className="flex-auto flex justify-between items-center"
-      >
+      <div className="flex-auto flex justify-between items-center">
         <div className="b f5 pl2">{coin.symbol}</div>
         {coin.market_info && (
           <div className="right-align">
@@ -46,6 +44,6 @@ export default (props) => {
           </div>
         )}
       </div>
-    </div>
+    </Link>
   )
 }

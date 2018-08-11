@@ -2,6 +2,7 @@ import React, { Component, Fragment } from 'react'
 import { withRouter } from 'react-router'
 import NewsListHeader from './NewsListHeader'
 import NewsList from './NewsList'
+import localAPI from '../../lib/localAPI'
 
 const STATUSES = {
   LOADING: 'Loading',
@@ -17,12 +18,12 @@ class NewsListContainer extends Component {
     newsfeedTips: true,
     initialRenderTips: true,
     newsItems: [],
+    coinSlug: this.props.match.params.coinSlug,
   }
 
   componentDidMount() {
-    const { match, location, history } = this.props
-    console.log(this.props)
-    const id = match.params.id
+    //console.log(this.props)
+    const id = this.state.coinSlug
     if (id) {
       this.fetchNewsItemsForCoin(id)
     } else {
@@ -30,9 +31,49 @@ class NewsListContainer extends Component {
     }
   }
 
-  fetchAllNewsItems() {}
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    if (this.state.coinSlug !== prevState.coinSlug) {
+      this.setState(
+        {
+          status: STATUSES.LOADING,
+        },
+        () =>
+          this.state.coinSlug === null
+            ? this.fetchAllNewsItems()
+            : this.fetchNewsItemsForCoin(this.state.coinSlug),
+      )
+    }
+  }
 
-  fetchNewsItemsForCoin(coinName) {}
+  static getDerivedStateFromProps(props, state) {
+    const { match, location, history } = props
+    if (state.coinSlug === match.params.coinSlug) {
+      return null
+    } else {
+      return { coinSlug: match.params.coinSlug }
+    }
+  }
+
+  fetchAllNewsItems() {
+    localAPI.get('/news').then((response) => {
+      //console.log(response)
+      this.setState({
+        status: STATUSES.READY,
+        newsItems: response.payload,
+      })
+    })
+  }
+
+  fetchNewsItemsForCoin(coinSlug) {
+    // TODO: Retrieve correct NewsItems.
+    localAPI.get(`/news?coinSlugs=${coinSlug}`).then((response) => {
+      //console.log(response)
+      this.setState({
+        status: STATUSES.READY,
+        newsItems: response.payload,
+      })
+    })
+  }
 
   render() {
     const { coins, feedSources, sortedNewsItems } = this.props
@@ -49,7 +90,7 @@ class NewsListContainer extends Component {
         />
         <NewsList
           newsItems={this.state.newsItems}
-          isLoading={this.state.isLoading}
+          isLoading={() => this.state.status === STATUSES.LOADING}
           activeEntity={this.state.activeEntity}
           activeFilters={this.state.activeFilters}
           sortedNewsItems={sortedNewsItems}
