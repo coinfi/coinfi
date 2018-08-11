@@ -65,13 +65,6 @@ class CoinShow extends Component {
       coinObj,
     } = this.props
 
-    let coinsCollection
-    if (this.state.liveCoinArr.length) {
-      coinsCollection = this.state.liveCoinArr
-    } else {
-      coinsCollection = this.props.coins
-    }
-
     const percentChange1h = {
       positive: coinObj.change1h > 0,
       value: coinObj.change1h,
@@ -115,10 +108,9 @@ class CoinShow extends Component {
                         </Span>
                         <Span
                           style={
-                            ({ fontSize: 14 },
                             percentChange1h.positive
                               ? { color: '#12d8b8' }
-                              : { color: '#ff6161' })
+                              : { color: '#ff6161' }
                           }
                         >
                           {percentChange1h.value > 0 ? (
@@ -138,43 +130,35 @@ class CoinShow extends Component {
                           )}
                           <span>{percentChange1h.value}%</span>
                         </Span>
-                        <ButtonWrap>
-                          <Button
-                            size="small"
-                            type="primary"
-                            onClick={this.watchCoinHandler}
-                            ghost={!this.state.watched}
-                            loading={this.state.iconLoading}
+                        <Button
+                          size="small"
+                          type="primary"
+                          onClick={this.watchCoinHandler}
+                          ghost={!this.state.watched}
+                          loading={this.state.iconLoading}
+                          style={{ height: 32, marginLeft: '0.75rem' }}
+                        >
+                          <i
+                            className="material-icons"
                             style={{
+                              fontSize: 15,
                               position: 'relative',
-                              top: -28,
-                              height: 32,
+                              top: 3,
+                              left: -3,
                             }}
                           >
-                            <i
-                              className="material-icons"
-                              style={{
-                                fontSize: 15,
-                                position: 'relative',
-                                top: 3,
-                                left: -3,
-                              }}
-                            >
-                              star
-                            </i>
-                            <span
-                              style={{
-                                position: 'relative',
-                                top: 0,
-                                marginLeft: 4,
-                              }}
-                            >
-                              {this.state.watched
-                                ? 'Unwatch Coin'
-                                : 'Watch Coin'}
-                            </span>
-                          </Button>
-                        </ButtonWrap>
+                            star
+                          </i>
+                          <span
+                            style={{
+                              position: 'relative',
+                              top: 0,
+                              marginLeft: 4,
+                            }}
+                          >
+                            {this.state.watched ? 'Unwatch Coin' : 'Watch Coin'}
+                          </span>
+                        </Button>
                       </Div>
                     </Section>
                   </Col>
@@ -183,7 +167,7 @@ class CoinShow extends Component {
                   {/* chart */}
                   <Col xs={24} sm={16} m={16} l={16} xl={16}>
                     <CardWrap>
-                      <Card title="Price chart" style={{ padding: 1 }}>
+                      <Card title="Price Chart" style={{ padding: 1 }}>
                         <CoinCharts
                           symbol={symbol}
                           priceData={priceData}
@@ -411,23 +395,11 @@ class CoinShow extends Component {
 
 export default newsfeedContainer(CoinShow)
 
-const ButtonWrap = styled.div`
-  text-align: right;
-  margin: 0 1rem;
-  margin-right: 1.2rem;
-  @media (min-width: 900px) {
-    float: right;
-    position: absolute;
-    right: 0;
-  }
-`
-
 const Section = styled.section`
   text-align: center;
-  margin: 3rem 0;
   background: #fff;
-  margin-top: 0;
   height: 100%;
+  margin-top: 0;
   padding-top: 1.5rem;
   @media (min-width: 900px) {
     text-align: left;
@@ -456,8 +428,8 @@ const Div = styled.div`
 `
 
 const DivTitle = styled.div`
-  height: 56px;
-  margin-top: 120px;
+  height: 32px;
+  margin-top: 64px;
   margin-bottom: 0;
   @media (min-width: 900px) {
     display: inline-block;
