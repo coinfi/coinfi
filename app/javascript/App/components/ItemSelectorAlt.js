@@ -38,10 +38,14 @@ export default class ItemSelectorAlt extends Component {
   ItemLink = ({ item }) => {
     if (this.isSelected(item)) {
       return (
-        <a className="mid-gray selected" onClick={() => this.remove(item)}>
+        <label
+          htmlFor={item}
+          className="mid-gray"
+          onClick={() => this.remove(item)}
+        >
           <input type="checkbox" className="mr2 w-auto" defaultChecked />
           {this.itemLabel(item)}
-        </a>
+        </label>
       )
     } else {
       return (
