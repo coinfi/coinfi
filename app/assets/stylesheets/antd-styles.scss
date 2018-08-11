@@ -32,6 +32,12 @@
   .ant-pagination {
     padding: 1rem 1rem 2rem;
   }
+  .ant-pagination-prev .ant-pagination-item-link:after {
+    content: '<';
+  }
+  .ant-pagination-next .ant-pagination-item-link:after {
+    content: '>';
+  }
   .ant-pagination-prev,
   .ant-pagination-jump-prev,
   .ant-pagination-jump-next,
