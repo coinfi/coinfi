@@ -1,27 +1,15 @@
 import React, { Component, Fragment } from 'react'
-import {
-  Layout,
-  Card,
-  Button,
-  Menu,
-  Dropdown,
-  List,
-  Col,
-  Row,
-  Avatar,
-} from 'antd'
+import { Layout, Card, Button, List, Col, Row, Avatar } from 'antd'
 import styled from 'styled-components'
 import axios from 'axios'
 import SearchCoins from './../shared/SearchCoins'
 import CoinCharts from './../CoinCharts'
 import SectionHeader from './../shared/SectionHeader'
-import CoinListDrawer from './../shared/CoinListDrawer'
-import CoinList from './../shared/CoinList'
 import newsfeedContainer from './../../containers/newsfeed'
 import FundamentalsData from './FundamentalsData'
 import LinksData from './LinksData'
 
-const { Footer, Content } = Layout
+const { Content } = Layout
 
 class CoinShow extends Component {
   state = {
@@ -62,16 +50,10 @@ class CoinShow extends Component {
       })
   }
 
-  changeCurrencyHandler = ({ key }) => {
-    this.setState({
-      currency: key,
-    })
-  }
-
   componentDidMount() {
     setTimeout(() => {
       window.priceChart.setSize()
-    }, 1000)
+    }, 100)
   }
 
   render() {
@@ -100,100 +82,17 @@ class CoinShow extends Component {
         <Layout style={{ overflow: 'auto' }}>
           <Content>
             <Row>
-              {/* watchlist */}
-              <Col xs={0} sm={0} m={4} l={4} xl={4}>
-                <div
-                  style={{
-                    border: '1px solid rgba(0, 0, 0, 0.12)',
-                    borderTop: 0,
-                    background: '#fff',
-                  }}
-                >
-                  <CoinList
-                    {...this.props}
-                    watchlistHandler={this.watchlistHandler}
-                  />
-                </div>
-              </Col>
-
               {/* Coin List Button */}
-              <Col xs={24} sm={24} m={20} l={20} xl={20}>
+              <Col xs={24} sm={24} m={24} l={24} xl={24}>
                 <SectionHeader>
-                  {' '}
-                  <HideLarge>
-                    <Button
-                      type="primary"
-                      onClick={() =>
-                        this.props.enableUI('coinListDrawer', {
-                          fullScreen: true,
-                        })
-                      }
-                      style={{ marginRight: '1rem' }}
-                    >
-                      <i
-                        className="material-icons"
-                        style={{
-                          marginLeft: -10,
-                          marginRight: 7,
-                          marginTop: 2,
-                        }}
-                      >
-                        list
-                      </i>
-                      <span
-                        style={{
-                          position: 'relative',
-                          top: -7,
-                        }}
-                      >
-                        Coin List
-                      </span>
-                    </Button>
-                  </HideLarge>
                   <SearchCoins {...this.props} coinShow />
                 </SectionHeader>
                 {/* main content */}{' '}
                 <Row>
-                  {/* currency button and watchlist */}
-                  <Col xs={24} s={24} m={6}>
-                    <ButtonWrap>
-                      <Button
-                        size="small"
-                        type="primary"
-                        onClick={this.watchCoinHandler}
-                        ghost={!this.state.watched}
-                        loading={this.state.iconLoading}
-                        style={{ position: 'relative', top: -9 }}
-                      >
-                        <i
-                          className="material-icons"
-                          style={{
-                            fontSize: 15,
-                            position: 'relative',
-                            top: 3,
-                            left: -3,
-                          }}
-                        >
-                          star
-                        </i>
-                        <span
-                          style={{
-                            position: 'relative',
-                            top: 0,
-                            marginLeft: 4,
-                          }}
-                        >
-                          {this.state.watched ? 'Unwatch coin' : 'Watch coin'}
-                        </span>
-                      </Button>
-                    </ButtonWrap>
-                  </Col>
-
                   {/* logo and title */}
                   <Col s={24} m={24} xl={24}>
                     <Section>
-                      {' '}
-                      <Div style={{ marginBottom: '1.5rem' }}>
+                      <Div style={{ marginBottom: '1rem' }}>
                         <img alt={coinObj.name} src={coinObj.image_url} />
                       </Div>
                       <DivTitle>
@@ -239,6 +138,43 @@ class CoinShow extends Component {
                           )}
                           <span>{percentChange1h.value}%</span>
                         </Span>
+                        <ButtonWrap>
+                          <Button
+                            size="small"
+                            type="primary"
+                            onClick={this.watchCoinHandler}
+                            ghost={!this.state.watched}
+                            loading={this.state.iconLoading}
+                            style={{
+                              position: 'relative',
+                              top: -28,
+                              height: 32,
+                            }}
+                          >
+                            <i
+                              className="material-icons"
+                              style={{
+                                fontSize: 15,
+                                position: 'relative',
+                                top: 3,
+                                left: -3,
+                              }}
+                            >
+                              star
+                            </i>
+                            <span
+                              style={{
+                                position: 'relative',
+                                top: 0,
+                                marginLeft: 4,
+                              }}
+                            >
+                              {this.state.watched
+                                ? 'Unwatch Coin'
+                                : 'Watch Coin'}
+                            </span>
+                          </Button>
+                        </ButtonWrap>
                       </Div>
                     </Section>
                   </Col>
@@ -467,9 +403,6 @@ class CoinShow extends Component {
               </Col>
             </Row>
           </Content>
-          <Footer>
-            <CoinListDrawer {...this.props} coins={coinsCollection} />
-          </Footer>
         </Layout>
       </Fragment>
     )
@@ -485,7 +418,6 @@ const ButtonWrap = styled.div`
   @media (min-width: 900px) {
     float: right;
     position: absolute;
-    top: 60px;
     right: 0;
   }
 `
@@ -497,8 +429,6 @@ const Section = styled.section`
   margin-top: 0;
   height: 100%;
   padding-top: 1.5rem;
-  padding-bottom: 1.5rem;
-  margin-bottom: 0;
   @media (min-width: 900px) {
     text-align: left;
     margin: 0;
