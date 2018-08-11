@@ -95,13 +95,6 @@ class CoinShow extends Component {
       value: coinObj.change1h,
     }
 
-    const currencyMenu = (
-      <Menu onClick={this.changeCurrencyHandler}>
-        <Menu.Item key="USD">USD</Menu.Item>
-        <Menu.Item key="BTC">BTC</Menu.Item>
-      </Menu>
-    )
-
     return (
       <Fragment>
         <Layout style={{ overflow: 'auto' }}>
@@ -164,27 +157,6 @@ class CoinShow extends Component {
                   {/* currency button and watchlist */}
                   <Col xs={24} s={24} m={6}>
                     <ButtonWrap>
-                      <Dropdown overlay={currencyMenu}>
-                        <Button
-                          size="small"
-                          style={{ marginLeft: 8, margin: 10 }}
-                        >
-                          <span style={{ position: 'relative', top: -8 }}>
-                            {this.state.currency}
-                          </span>
-                          <i
-                            className="material-icons"
-                            style={{
-                              position: 'relative',
-                              top: -1,
-                              marginLeft: 0,
-                              left: 5,
-                            }}
-                          >
-                            expand_more
-                          </i>
-                        </Button>
-                      </Dropdown>
                       <Button
                         size="small"
                         type="primary"
