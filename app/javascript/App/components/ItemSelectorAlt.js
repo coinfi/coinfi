@@ -4,9 +4,10 @@ import Type from 'prop-types'
 export default class ItemSelectorAlt extends Component {
   selectedItems = () => this.props.selectedItems || []
   isSelected = (item) => {
-    const selected = this.selectedItems().feedSources
-                  && this.selectedItems().feedSources.length
-                  && this.selectedItems().feedSources.map((item) => JSON.stringify(item))
+    const selected =
+      this.selectedItems().feedSources &&
+      this.selectedItems().feedSources.length &&
+      this.selectedItems().feedSources.map((item) => JSON.stringify(item))
     if (selected) {
       return selected.includes(JSON.stringify(item))
     }
@@ -37,17 +38,25 @@ export default class ItemSelectorAlt extends Component {
   ItemLink = ({ item }) => {
     if (this.isSelected(item)) {
       return (
-        <a className="mid-gray selected" onClick={() => this.remove(item)}>
+        <label
+          htmlFor={item}
+          className="mid-gray"
+          onClick={() => this.remove(item)}
+        >
           <input type="checkbox" className="mr2 w-auto" defaultChecked />
           {this.itemLabel(item)}
-        </a>
+        </label>
       )
     } else {
       return (
-        <a className="mid-gray" onClick={() => this.add(item)}>
-          <input type="checkbox" className="mr2 w-auto" />
+        <label
+          htmlFor={item}
+          className="mid-gray"
+          onClick={() => this.add(item)}
+        >
+          <input id={item} type="checkbox" className="mr2 w-auto" />
           {this.itemLabel(item)}
-        </a>
+        </label>
       )
     }
   }
@@ -58,15 +67,14 @@ export default class ItemSelectorAlt extends Component {
         <ul>
           {this.props.items.map((item, i) => {
             if (/www/.exec(item) !== null) {
-              item = item.replace('.www','').replace(/^/, 'www.')
+              item = item.replace('.www', '').replace(/^/, 'www.')
             }
             return (
-            <li className="mv2" key={i}>
-              <ItemLink item={item} />
-            </li>
+              <li className="mv2" key={i}>
+                <ItemLink item={item} />
+              </li>
             )
-          }
-          )}
+          })}
         </ul>
       </div>
     )
@@ -76,5 +84,5 @@ export default class ItemSelectorAlt extends Component {
 ItemSelectorAlt.propTypes = {
   items: Type.array.isRequired,
   selectedItems: Type.object,
-  onChange: Type.func
+  onChange: Type.func,
 }
