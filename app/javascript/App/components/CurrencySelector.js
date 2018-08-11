@@ -1,5 +1,7 @@
 import React from 'react'
-import { Button, Menu, Dropdown, Icon } from 'antd'
+import { Button, Menu, Dropdown } from 'antd'
+// TODO: Remove or replace with non-AntD component,
+// since the current component has styling issues.
 
 const currencyMenu = (changeCurrencyHandler) => (
   <Menu onClick={changeCurrencyHandler}>

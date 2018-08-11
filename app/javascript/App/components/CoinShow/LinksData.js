@@ -7,7 +7,7 @@ export default (coinObj, currency) => {
     },
     {
       linkType: 'Whitepaper',
-      value: coinObj.Whitepaper,
+      value: coinObj.whitepaper,
       icon: 'file-text',
     },
     {

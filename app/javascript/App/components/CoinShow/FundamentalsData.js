@@ -3,11 +3,11 @@ import React from 'react'
 export default (coinObj, currency) => {
   return [
     {
-      title: 'Market cap',
-      value: coinObj.market_cap.usd.toLocaleString('en-US', {
+      title: 'Market Cap',
+      value: `${coinObj.market_cap.usd.toLocaleString('en-US', {
         style: 'currency',
         currency: 'USD',
-      }),
+      })} USD`,
     },
     {
       title: '24HR',
@@ -34,8 +34,10 @@ export default (coinObj, currency) => {
       ),
     },
     {
-      title: 'Circulating supply',
-      value: coinObj.available_supply.toLocaleString('en-US'),
+      title: 'Circulating Supply',
+      value: `${coinObj.available_supply.toLocaleString('en-US')} ${
+        coinObj.symbol
+      }`,
     },
   ]
 }
