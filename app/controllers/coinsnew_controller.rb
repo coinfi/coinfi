@@ -1,6 +1,6 @@
 class CoinsnewController < ApplicationController
   def index
-    @coin_count = Coin.listed.count
+    @coin_count = Coin.legit.listed.count
     set_meta_tags(
       title: "Top Cryptocurrency Prices Live, Cryptocurrency Market Cap, Best Cryptocurrency Charts",
       keywords: "cryptocurrency, cryptocurrency news, cryptocurrency market, cryptocurrency prices, cryptocurrency charts, top cryptocurrency, best cryptocurrency"

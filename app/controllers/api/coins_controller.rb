@@ -43,14 +43,14 @@ class Api::CoinsController < ApiController
 
   def index_serializer(coins)
     coins.as_json(
-      only: %i[id name image_url symbol slug price_usd],
+      only: %i[id coin_key name image_url symbol slug price_usd],
       methods: %i[market_info prices_data]
     )
   end
 
   def show_serializer(coin)
     coin.as_json(
-      only: %i[id name image_url symbol slug price_usd],
+      only: %i[id coin_key name image_url symbol slug price_usd],
       methods: %i[prices_data news_data market_info is_being_watched]
     )
   end
