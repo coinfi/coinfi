@@ -66,6 +66,7 @@ class CoinIndex extends Component {
           dataSource={this.state.coins}
           pagination={this.state.pagination}
           onChange={this.handleTableChange}
+          loading={{ spinning: this.state.loading }}
           scroll={{ x: 1080 }}
           style={{ background: '#fff' }}
         />
