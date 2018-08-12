@@ -76,6 +76,12 @@ class CoinShow extends Component {
       value: coinObj.change1h,
     }
 
+    const currency = this.state.currency
+    const prepend = currency === 'USD' ? '$' : ''
+    const price = `${prepend}${Number.parseFloat(
+      coinObj.price[currency.toLowerCase()],
+    ).toPrecision(6)} ${currency}`
+
     return (
       <Fragment>
         <Layout style={{ overflow: 'auto' }}>
@@ -106,11 +112,7 @@ class CoinShow extends Component {
                             marginRight: '.75rem',
                           }}
                         >
-                          {this.state.currency === 'USD' ? '$' : ''}
-                          {
-                            coinObj.price[this.state.currency.toLowerCase()]
-                          }{' '}
-                          {this.state.currency}
+                          {price}
                         </Span>
                         <Span
                           style={
