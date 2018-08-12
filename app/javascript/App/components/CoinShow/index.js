@@ -67,7 +67,7 @@ class CoinShow extends Component {
     } = this.props
 
     const epochPrices = priceData.map((datum) => {
-      datum.timestamp = new Date(datum.time).getTime() / 1000
+      datum.timestamp = new Date(datum.time).getTime()
       return datum
     })
 

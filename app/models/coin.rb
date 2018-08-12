@@ -103,7 +103,7 @@ class Coin < ApplicationRecord
   def prices_data
     # TODO: expires_in should probably be at midnight
     Rails.cache.fetch("coins/#{id}/prices", expires_in: 1.day) do
-      url = "#{ENV.fetch('COINFI_PRICES_URL')}?coin_key=eq.#{coin_key}"
+      url = "#{ENV.fetch('COINFI_PRICES_URL')}?coin_key=eq.#{coin_key}&to_currency=eq.USD&order=time.asc"
       response = HTTParty.get(url)
       JSON.parse(response.body)
     end
@@ -111,7 +111,7 @@ class Coin < ApplicationRecord
 
   def sparkline
     Rails.cache.fetch("coins/#{id}/sparkline", expires_in: 1.day) do
-      url = "#{ENV.fetch('COINFI_PRICES_URL')}?coin_key=eq.#{coin_key}&limit=7"
+      url = "#{ENV.fetch('COINFI_PRICES_URL')}?coin_key=eq.#{coin_key}&to_currency=eq.USD&limit=7&order=time.desc"
       response = HTTParty.get(url)
       results = JSON.parse(response.body)
       results.map { |result| result["close"] }
