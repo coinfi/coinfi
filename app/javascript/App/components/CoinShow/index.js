@@ -66,6 +66,11 @@ class CoinShow extends Component {
       coinObj,
     } = this.props
 
+    const epochPrices = priceData.map((datum) => {
+      datum.timestamp = new Date(datum.time).getTime() / 1000
+      return datum
+    })
+
     const percentChange1h = {
       positive: coinObj.change1h > 0,
       value: coinObj.change1h,
@@ -171,7 +176,7 @@ class CoinShow extends Component {
                       <Card title="Price Chart" style={{ padding: 1 }}>
                         <CoinCharts
                           symbol={symbol}
-                          priceData={priceData}
+                          priceData={epochPrices}
                           annotations={annotations}
                           isTradingViewVisible={isTradingViewVisible}
                         />
