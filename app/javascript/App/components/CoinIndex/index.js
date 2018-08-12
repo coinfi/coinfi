@@ -32,7 +32,7 @@ class CoinIndex extends Component {
     API.get('/coinsnew', params).then((response) => {
       this.setState({
         loading: false,
-        coins: response,
+        coins: response.payload,
       })
     })
   }

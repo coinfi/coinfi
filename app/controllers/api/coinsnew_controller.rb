@@ -1,10 +1,8 @@
 class Api::CoinsnewController < ApiController
   def index
     @current_page = params[:page] || 1
-    @coins = Coin.select(:id, :coin_key, :ranking, :image_url, :name, :symbol, :price, :market_cap, :change1h, :change24h, :change7d, :volume24)
-      .legit.listed.page(@current_page).per(params[:per]).order(:ranking)
-
-    render json: @coins, methods: :sparkline
+    @coins = Coin.legit.listed.page(@current_page).per(params[:per]).order(:ranking)
+    respond_success index_serializer(@coins)
   end
 
   def search
@@ -16,6 +14,13 @@ class Api::CoinsnewController < ApiController
   # TODO: Move toplist and watchlist methods here when refactoring.
 
 private
+
+  def index_serializer(coins)
+    coins.as_json(
+      only: %i[id name symbol slug coin_key ranking image_url price market_cap change1h change24h change7d volume24],
+      methods: %i[sparkline]
+    )
+  end
 
   def search_serializer(coins)
     coins.as_json(only: %i[id name symbol slug])

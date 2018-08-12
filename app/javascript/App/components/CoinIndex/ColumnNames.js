@@ -17,12 +17,11 @@ export default (currency) => {
       fixed: 'left',
       width: 240,
       render: (text, row, index) => {
-        const slug = row.symbol.toLowerCase().replace(/ /, '-')
         return (
           <div className="b--r">
             <img alt={text} src={row.image_url} className="fl mr2" />
             <div className="fl">
-              <a href={`/coinsnew/${slug}`}>{row.symbol}</a>
+              <a href={`/coinsnew/${row.slug}`}>{row.symbol}</a>
               <div>{text}</div>
             </div>
           </div>
