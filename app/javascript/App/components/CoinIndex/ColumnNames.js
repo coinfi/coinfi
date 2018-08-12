@@ -36,10 +36,22 @@ export default (currency) => {
       render: (text, row, index) => {
         const currencyKey = currency.toLowerCase()
         if (currency === 'USD' && row.price) {
-          return <span>${row.price[currencyKey]} USD</span>
+          const formattedPrice = row.price[currencyKey].toLocaleString(
+            'en-US',
+            {
+              maximumFractionDigits: 4,
+            },
+          )
+          return <span>${formattedPrice} USD</span>
         }
         if (currency === 'BTC' && row.price) {
-          return <span>{row.price[currencyKey]} &#579;</span>
+          const formattedPrice = row.price[currencyKey].toLocaleString(
+            'en-US',
+            {
+              maximumFractionDigits: 8,
+            },
+          )
+          return <span>{formattedPrice} &#579;</span>
         }
       },
     },
