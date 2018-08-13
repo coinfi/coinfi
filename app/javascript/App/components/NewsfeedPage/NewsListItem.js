@@ -32,6 +32,10 @@ const NewsListItem = (props) => {
         <div
           className="pointer"
           onClick={() => {
+            const newsId = newsItem.get('id')
+            const readNewsData = JSON.parse(localStorage.getItem('readNews')) || []
+            readNewsData.push(newsId)
+            localStorage.setItem('readNews', JSON.stringify(readNewsData))
             setActiveNewsItem(newsItem)
             if (
               document.querySelector('.selected-news-content') &&
