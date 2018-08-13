@@ -8,6 +8,8 @@
   },
   "dependencies": {
     "@rails/webpacker": "^3.3.1",
+    "@types/react": "^16.4.9",
+    "@types/react-dom": "^16.0.7",
     "antd": "^3.7.3",
     "axios": "^0.18.0",
     "babel-core": "^6.26.0",
@@ -56,6 +58,8 @@
     "styled-components": "^3.3.3",
     "tachyons-sass": "^4.9.2",
     "timeago.js": "^3.0.2",
+    "ts-loader": "3.5.0",
+    "typescript": "^3.0.1",
     "url-parse": "^1.4.1",
     "webpack-merge": "^4.1.2"
   },
