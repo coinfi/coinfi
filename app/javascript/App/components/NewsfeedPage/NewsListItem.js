@@ -13,6 +13,7 @@ const NewsListItem = (props) => {
     setActiveNewsItem,
     preRender,
     selectCoin,
+    hasRead,
   } = props
   let className = 'b--b tiber overflow-hidden'
   if (activeEntity) {
@@ -26,6 +27,7 @@ const NewsListItem = (props) => {
     .get('title')
     .replace(/<h1>/g, '')
     .replace(/<\/h1>/g, '')
+
   return (
     <div className={className} style={{ height: props.height || 'auto' }}>
       <div className="pa-default">
@@ -33,7 +35,8 @@ const NewsListItem = (props) => {
           className="pointer"
           onClick={() => {
             const newsId = newsItem.get('id')
-            const readNewsData = JSON.parse(localStorage.getItem('readNews')) || []
+            const readNewsData =
+              JSON.parse(localStorage.getItem('readNews')) || []
             readNewsData.push(newsId)
             localStorage.setItem('readNews', JSON.stringify(readNewsData))
             setActiveNewsItem(newsItem)
@@ -46,7 +49,9 @@ const NewsListItem = (props) => {
               ).parentNode.scrollTop = 0
           }}
         >
-          <h4 className="mb2 f5">{newsItemTitle}</h4>
+          <h4 className="mb2 f5" style={hasRead ? { color: '#bbb' } : {}}>
+            {newsItemTitle}
+          </h4>
         </div>
         <div className="flex justify-between flex-wrap">
           <div className="f6 silver">

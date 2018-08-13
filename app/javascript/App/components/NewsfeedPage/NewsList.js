@@ -94,7 +94,7 @@ class NewsList extends Component {
     this.props.newsfeedTips()
   }
 
-  renderView(viewState, initialRenderTips, isLoading) {
+  renderView(viewState, initialRenderTips, readNewsIds, isLoading) {
     if (initialRenderTips && window.isMobile) {
       return <Tips closeTips={this.closeTips.bind(this)} />
     } else if (isLoading('newsItems')) {
@@ -120,15 +120,19 @@ class NewsList extends Component {
       )
     }
 
-    const mappedItems = viewState.sortedNewsItems.map((newsItem) => (
-      <NewsListItem
-        key={newsItem.get('id')}
-        newsItem={newsItem}
-        {...this.props}
-        setActiveNewsItem={this.setActiveNewsItem}
-        selectCoin={(symbol) => this.selectCoin(symbol)}
-      />
-    ))
+    const mappedItems = viewState.sortedNewsItems.map((newsItem) => {
+      const hasRead = readNewsIds.includes(newsItem.get('id'))
+      return (
+        <NewsListItem
+          key={newsItem.get('id')}
+          newsItem={newsItem}
+          {...this.props}
+          setActiveNewsItem={this.setActiveNewsItem}
+          selectCoin={(symbol) => this.selectCoin(symbol)}
+          hasRead={hasRead}
+        />
+      )
+    })
     return mappedItems
   }
 
@@ -157,6 +161,8 @@ class NewsList extends Component {
       newsItems: newsItems,
       sortedNewsItems: sortedNewsItems,
     }
+    const readNewsIds = JSON.parse(localStorage.getItem('readNews'))
+
     return (
       <Fragment>
         <div
@@ -171,7 +177,12 @@ class NewsList extends Component {
               : {}
           }
         >
-          {this.renderView(viewState, initialRenderTips, isLoading)}
+          {this.renderView(
+            viewState,
+            initialRenderTips,
+            readNewsIds,
+            isLoading,
+          )}
           <div>
             {!isLoading('newsItems') &&
               isLoading('newsfeed') && <LoadingIndicator />}
