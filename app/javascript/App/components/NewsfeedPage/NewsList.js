@@ -20,6 +20,8 @@ class NewsList extends Component {
       this.setState({ initialRender: false })
     }, 60000)
     this.mountOnScrollHandler()
+
+    // set max height to enable scroll in ff
     const newsfeedElem = document.querySelector('#newsfeed')
     newsfeedElem.style.maxHeight = `${newsfeedElem.offsetHeight}px`
   }
@@ -88,6 +90,11 @@ class NewsList extends Component {
     if (window.isMobile) {
       enableUI('bodySectionDrawer', { fullScreen: true })
     }
+    setTimeout(function() {
+      const colWrap = document.querySelector('.column-wrap')
+      const newsContent = document.querySelector('.selected-news-content')
+      newsContent.style.maxHeight = `${colWrap.offsetHeight}px`
+    }, 500)
   }
 
   closeTips() {

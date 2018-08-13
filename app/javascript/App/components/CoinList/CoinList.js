@@ -24,6 +24,7 @@ class CoinList extends Component {
   }
 
   componentDidMount() {
+    // set max height to enable scroll in ff
     const coinDrawerList = document.querySelector('.coin-watch-list')
     coinDrawerList.style.maxHeight = `${coinDrawerList.offsetHeight}px`
   }

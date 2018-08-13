@@ -7,7 +7,7 @@ export default function({
   ...props
 }) {
   return (
-    <div className="flex flex-column flex-auto">
+    <div className="flex flex-column flex-auto column-wrap">
       <div className="row no-gutter flex-auto bg-white">
         <div className="col-xs-2 relative flex flex-column b--l">
           {leftSection}
