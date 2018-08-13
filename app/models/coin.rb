@@ -2,7 +2,8 @@ class Coin < ApplicationRecord
   attr_accessor :current_user
 
   include ICO
-  include MarketData
+  include CoinsHelper
+  include ActionView::Helpers::NumberHelper
   extend FriendlyId
   friendly_id :name, use: [:slugged, :finders]
 
@@ -27,6 +28,7 @@ class Coin < ApplicationRecord
 
   before_save :update_previous_name
 
+  scope :legit, -> { where.not(market_cap: nil).where.not(price: nil).where.not(image_url: nil) }
   scope :top, -> (limit) { order(ranking: :asc).limit(limit) }
   scope :icos, -> { where(ico_status: ICO_STATUSES).order(:ico_end_date) }
 
@@ -57,6 +59,41 @@ class Coin < ApplicationRecord
 
   def price_by_currency(currency)
     price.try(:[], currency)
+  end
+
+  def live_market_data
+    return default_market_data unless ico_listed?
+    Rails.cache.fetch("coins/#{id}/market_data", expires_in: 1.minute) do
+      url = "https://api.coinmarketcap.com/v1/ticker/#{slug}/?convert=BTC"
+      response = HTTParty.get(url)
+      data = JSON.parse(response.body)[0] || {}
+      default_market_data.merge(data)
+    end
+  end
+
+  def market_info market_data = nil
+    data = market_data || live_market_data.dup
+    data["24h_volume_usd"] = humanize(data["24h_volume_usd"], '$') if data["24h_volume_usd"]
+    data["available_supply"] = humanize(data["available_supply"]) if data["available_supply"]
+    data["market_cap_usd"] = humanize(data["market_cap_usd"], '$') if data["market_cap_usd"]
+    data["total_supply"] = humanize(data["total_supply"]) if data["total_supply"]
+    data["max_supply"] = humanize(data["max_supply"]) if data["max_supply"]
+    data
+  end
+
+  def stored_market_info
+    market_info({
+      "24h_volume_usd": self.volume24_by_currency('usd'),
+      "available_supply": display_available_supply(self),
+      "market_cap_usd": self.market_cap_by_currency('usd'),
+      "price_usd": "$#{self.price_by_currency('usd')}"
+    }.stringify_keys)
+  end
+
+  private
+
+  def default_market_data
+    {'available_supply' => available_supply, 'max_supply' => max_supply}
   end
 
   def prices_data
