@@ -25,10 +25,36 @@ $(document).ready(() => {
   })
 
   $('.registration-form-wrapper form').on('submit', function() {
-    $(this).find('input[type=submit]').prop('disabled', true).text('Processing...');
+    $(this)
+      .find('input[type=submit]')
+      .prop('disabled', true)
+      .text('Processing...')
   })
 
   if (document.querySelector('.register-set-password') !== null)
-    fbq('track', 'Lead', {});
-
+    fbq('track', 'Lead', {})
 })
+
+export const darkModeFeature = () => {
+  const darkModeBtn = document.querySelector('.trigger-dark-mode')
+  darkModeBtn.addEventListener('click', function(event) {
+    window.darkModeEnabled = !window.darkModeEnabled
+    console.log('add syle')
+    var head = document.head
+    var link = document.createElement('link')
+
+    link.type = 'text/css'
+    link.rel = 'stylesheet'
+    link.className = 'mobile-nav-css'
+    link.href = '/assets/dark-mode.css'
+
+    if (darkModeEnabled) {
+      head.appendChild(link)
+    } else {
+      const darkStylesheet = document.querySelector('.mobile-nav-css')
+      document.getElementsByTagName('head')[0].removeChild(darkStylesheet)
+    }
+  })
+}
+
+darkModeFeature()
