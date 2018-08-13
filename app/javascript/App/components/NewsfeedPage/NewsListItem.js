@@ -37,7 +37,42 @@ const NewsListItem = (props) => {
             const newsId = newsItem.get('id')
             const readNewsData =
               JSON.parse(localStorage.getItem('readNews')) || []
+
+            try {
+              localStorage.setItem(key, value)
+            } catch (e) {
+              if (isQuotaExceeded(e)) {
+                const data = JSON.parse(localStorage.getItem('readNews'))
+                data.pop()
+                localStorage.setItem('readNews', data)
+              }
+            }
+
+            function isQuotaExceeded(e) {
+              var quotaExceeded = false
+              if (e) {
+                if (e.code) {
+                  switch (e.code) {
+                    case 22:
+                      quotaExceeded = true
+                      break
+                    case 1014:
+                      // Firefox
+                      if (e.name === 'NS_ERROR_DOM_QUOTA_REACHED') {
+                        quotaExceeded = true
+                      }
+                      break
+                  }
+                } else if (e.number === -2147024882) {
+                  // Internet Explorer 8
+                  quotaExceeded = true
+                }
+              }
+              return quotaExceeded
+            }
+
             readNewsData.push(newsId)
+
             localStorage.setItem('readNews', JSON.stringify(readNewsData))
             setActiveNewsItem(newsItem)
             if (
