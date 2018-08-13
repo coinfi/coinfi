@@ -28,6 +28,7 @@
     "lodash": "^4.17.10",
     "lodash-inflection": "^1.5.0",
     "moment": "^2.22.2",
+    "nightly.js": "^1.1.0",
     "normalizr": "^3.2.4",
     "numeral": "^2.0.6",
     "prop-types": "15.6.2",
