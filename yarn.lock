@@ -7779,7 +7779,7 @@ rc-select@~8.1.1:
     react-lifecycles-compat "^3.0.2"
     warning "^3.0.0"
 
-rc-slider@~8.6.0:
+rc-slider@^8.6.1, rc-slider@~8.6.0:
   version "8.6.1"
   resolved "https://registry.yarnpkg.com/rc-slider/-/rc-slider-8.6.1.tgz#ee5e0380dbdf4b5de6955a265b0d4ff6196405d1"
   dependencies:
@@ -8020,6 +8020,10 @@ react-icons@^2.2.7:
   resolved "https://registry.yarnpkg.com/react-icons/-/react-icons-2.2.7.tgz#d7860826b258557510dac10680abea5ca23cf650"
   dependencies:
     react-icon-base "2.1.0"
+
+react-infinite-scroll-component@^4.2.0:
+  version "4.2.0"
+  resolved "https://registry.yarnpkg.com/react-infinite-scroll-component/-/react-infinite-scroll-component-4.2.0.tgz#605227dd213987c8d785157a87178acc26d465e1"
 
 react-inspector@^2.2.2:
   version "2.3.0"

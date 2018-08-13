@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { Provider } from 'react-redux'
+//import { Provider } from 'react-redux'
 //import { Router } from 'react-router-dom';
 //import { stringify, parse as parseQueryString } from 'qs'
 //import createBrowserHistory from 'history/createBrowserHistory'; // eslint-disable-line import/no-extraneous-dependencies
@@ -7,7 +7,7 @@ import { Provider } from 'react-redux'
 import LayoutDesktop from './components/LayoutDesktop'
 //import routes from 'listings-index/routes';
 
-import { initStore, sagaMiddleware, rootSaga } from './store'
+//import { initStore, sagaMiddleware, rootSaga } from './store'
 
 //const stringifyQuery = (query) => stringify(query, { arrayFormat: 'brackets' })
 

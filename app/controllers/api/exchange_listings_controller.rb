@@ -15,7 +15,7 @@ class Api::ExchangeListingsController < ApiController
       @listings = @listings.where('detected_at < ?', q[:detectedUntil].to_datetime)
     end
 
-    @listings = @listings.order_by_detected.limit(20)
+    @listings = @listings.order_by_detected.page(params[:page]).per(10).limit(20)
 
     respond_success index_serializer(@listings)
   end

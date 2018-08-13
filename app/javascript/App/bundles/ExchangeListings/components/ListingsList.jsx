@@ -1,4 +1,7 @@
 import React, { Component } from 'react'
+import localAPI from '../../../lib/localAPI'
+import InfiniteScroll from 'react-infinite-scroll-component'
+
 import ListingItem from './ListingItem'
 
 class ListingsList extends Component {
@@ -8,18 +11,26 @@ class ListingsList extends Component {
     this.state = {
       listings: props.initialListings,
       detectedSince: null,
+      hasMore: true,
+      currentPage: 2,
     }
   }
 
-  onComponentMount() {
-    this.fetchListings()
-  }
-
-  onSetResult = (result) => {
-    console.log(result)
-    this.setState({
-      listings: result,
-    })
+  fetchMoreData = () => {
+    localAPI
+      .get(`/exchange_listings?page=${this.state.currentPage}&per=10`)
+      .then((response) => {
+        console.log(response)
+        this.setState({
+          listings: this.state.listings.concat(response.payload),
+          currentPage: parseInt(this.state.currentPage, 10) + 1,
+        })
+        console.log(
+          `the current page we are when we increment by 1: ${
+            this.state.currentPage
+          }`,
+        )
+      })
   }
 
   render() {
@@ -27,13 +38,22 @@ class ListingsList extends Component {
     console.log(listings)
     return (
       <div className="overflow-y-hidden overflow-y-auto-m">
-        {listings ? (
-          listings.map((listing) => {
+        <InfiniteScroll
+          dataLength={this.state.listings.length}
+          loader={<h4>Loading...</h4>}
+          next={this.fetchMoreData}
+          hasMore={this.state.hasMore}
+          height={400}
+          endMessage={
+            <p style={{ textAlign: 'center' }}>
+              <b>No more exchange listings present in the database.</b>
+            </p>
+          }
+        >
+          {listings.map((listing) => {
             return <ListingItem key={listing.id} listing={listing} />
-          })
-        ) : (
-          <div>Loading...</div>
-        )}
+          })};
+        </InfiniteScroll>
       </div>
     )
   }
