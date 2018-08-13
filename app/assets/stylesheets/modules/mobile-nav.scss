@@ -121,7 +121,7 @@ body:not(#calendar-page) .filter-btn,
   display: block;
 }
 
-@media only screen and (min-width: 922px) {
+@media only screen and (min-width: $screen-m) {
   .mobile-nav-toggle {
     display: none;
   }
