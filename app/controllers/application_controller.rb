@@ -31,4 +31,9 @@ protected
     current_user && $launch_darkly.variation('calendar', current_user.launch_darkly_hash, false)
   end
   helper_method :has_calendar_feature?
+
+  def has_listings_feature?
+    current_user && $launch_darkly.variation('listings', current_user.launch_darkly_hash, false)
+  end
+  helper_method :has_listings_feature?
 end
