@@ -15,6 +15,12 @@
   z-index: 98;
   transition: all 0.5s;
   opacity: 0;
+  overflow-y: scroll;
+  > div {
+    @media only screen and (min-width: 500px) {
+      padding-top: 300px;
+    }
+  }
   > * {
     transform: scale(0.95);
     -webkit-transform: scale(0.95);
@@ -115,7 +121,7 @@ body:not(#calendar-page) .filter-btn,
   display: block;
 }
 
-@media only screen and (min-width: 768px) {
+@media only screen and (min-width: $screen-m) {
   .mobile-nav-toggle {
     display: none;
   }

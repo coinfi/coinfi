@@ -1,19 +1,17 @@
 nav class=("#{defined?(klass) ? klass : ''}")
   ul
-    li
-      = nav_link 'Coins', '/coins'
-    li
-      = nav_link 'ICOs', '/icos/upcoming'
+    li= nav_link 'Coins', '/coins'
+    li= nav_link 'ICOs', '/icos/upcoming'
     - if has_news_feature?
-      li
-        = nav_link 'News', '/news'
-    li
-      a href="https://blog.coinfi.com" target="_blank" Blog
+      li= nav_link 'News', '/news'
+    - if has_calendar_feature?
+      li= nav_link 'Events', '/calendar'
+    - if has_listings_feature?
+      li= nav_link 'Listings', '/listings'
     li
       a href="https://blog.coinfi.com/topics/podcast/" target="_blank" Podcast
     li
+      a href="https://blog.coinfi.com" target="_blank" Blog
+    li
       a href="https://careers.coinfi.com" target="_blank" Careers
-    li
-      a href="https://feedback.coinfi.com/feature-requests" target="_blank" Feedback
-    li
-      = nav_link 'About', '/about'
+    li= nav_link 'About', '/about'
