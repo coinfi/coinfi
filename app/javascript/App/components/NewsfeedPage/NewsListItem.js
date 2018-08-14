@@ -6,6 +6,54 @@ import twitterLogo from '../../images/logo-twitter.svg'
 import linkLogo from '../../images/logo-link.svg'
 import redditLogo from '../../images/logo-reddit.svg'
 
+const readNewsHandler = (newsItem, setActiveNewsItem) => {
+  const newsId = newsItem.get('id')
+  const readNewsData = JSON.parse(localStorage.getItem('readNews')) || []
+
+  try {
+    localStorage.setItem(key, value)
+  } catch (e) {
+    if (isQuotaExceeded(e)) {
+      const data = JSON.parse(localStorage.getItem('readNews'))
+      data.pop()
+      localStorage.setItem('readNews', data)
+    }
+  }
+
+  function isQuotaExceeded(e) {
+    var quotaExceeded = false
+    if (e) {
+      if (e.code) {
+        switch (e.code) {
+          case 22:
+            quotaExceeded = true
+            break
+          case 1014:
+            // Firefox
+            if (e.name === 'NS_ERROR_DOM_QUOTA_REACHED') {
+              quotaExceeded = true
+            }
+            break
+        }
+      } else if (e.number === -2147024882) {
+        // Internet Explorer 8
+        quotaExceeded = true
+      }
+    }
+    return quotaExceeded
+  }
+
+  readNewsData.push(newsId)
+
+  localStorage.setItem('readNews', JSON.stringify(readNewsData))
+  setActiveNewsItem(newsItem)
+  if (
+    document.querySelector('.selected-news-content') &&
+    document.querySelector('.selected-news-content').parentNode
+  )
+    document.querySelector('.selected-news-content').parentNode.scrollTop = 0
+}
+
 const NewsListItem = (props) => {
   const {
     activeEntity,
@@ -13,6 +61,7 @@ const NewsListItem = (props) => {
     setActiveNewsItem,
     preRender,
     selectCoin,
+    hasRead,
   } = props
   let className = 'b--b tiber overflow-hidden'
   if (activeEntity) {
@@ -26,23 +75,19 @@ const NewsListItem = (props) => {
     .get('title')
     .replace(/<h1>/g, '')
     .replace(/<\/h1>/g, '')
+
   return (
     <div className={className} style={{ height: props.height || 'auto' }}>
       <div className="pa-default">
         <div
           className="pointer"
           onClick={() => {
-            setActiveNewsItem(newsItem)
-            if (
-              document.querySelector('.selected-news-content') &&
-              document.querySelector('.selected-news-content').parentNode
-            )
-              document.querySelector(
-                '.selected-news-content',
-              ).parentNode.scrollTop = 0
+            readNewsHandler(newsItem, setActiveNewsItem)
           }}
         >
-          <h4 className="mb2 f5">{newsItemTitle}</h4>
+          <h4 className="mb2 f5" style={hasRead ? { color: '#999' } : {}}>
+            {newsItemTitle}
+          </h4>
         </div>
         <div className="flex justify-between flex-wrap">
           <div className="f6 silver">
