@@ -22,6 +22,13 @@ class CoinList extends Component {
     this.props.toggleUI('coinSearch')
     this.props.clearSearch()
   }
+
+  componentDidMount() {
+    // set max height to enable scroll in ff
+    const coinDrawerList = document.querySelector('.coin-watch-list')
+    coinDrawerList.style.maxHeight = `${coinDrawerList.offsetHeight}px`
+  }
+
   render() {
     const { isLoading, currentUI, isWatching } = this.props
     let { coins } = this.props
