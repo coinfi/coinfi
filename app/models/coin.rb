@@ -90,8 +90,6 @@ class Coin < ApplicationRecord
     }.stringify_keys)
   end
 
-  private
-
   def default_market_data
     {'available_supply' => available_supply, 'max_supply' => max_supply}
   end
