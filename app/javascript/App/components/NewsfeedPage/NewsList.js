@@ -161,7 +161,7 @@ class NewsList extends Component {
       newsItems: newsItems,
       sortedNewsItems: sortedNewsItems,
     }
-    const readNewsIds = JSON.parse(localStorage.getItem('readNews'))
+    const readNewsIds = JSON.parse(localStorage.getItem('readNews')) || []
 
     return (
       <Fragment>
