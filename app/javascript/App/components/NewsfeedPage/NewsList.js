@@ -24,6 +24,7 @@ class NewsList extends Component {
     // set max height to enable scroll in ff
     const newsfeedElem = document.querySelector('#newsfeed')
     newsfeedElem.style.maxHeight = `${newsfeedElem.offsetHeight}px`
+    newsfeedElem.style.overflowY = 'auto'
   }
 
   componentDidUpdate() {
