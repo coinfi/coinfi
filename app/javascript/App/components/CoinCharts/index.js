@@ -4,19 +4,8 @@ import PriceGraph from './PriceGraph'
 import TradingViewChart from './TradingViewChart'
 
 class CoinCharts extends Component {
-  state = { currentSymbol: null }
-  componentDidUpdate = () => this.updateCharts()
-  updateCharts = () => {
-    const { currentSymbol } = this.state
-    const { symbol } = this.props
-    if (symbol !== currentSymbol) {
-      this.setState({ currentSymbol: symbol })
-    }
-  }
   render() {
-    const { currentSymbol } = this.state
-    const { symbol, isTradingViewVisible } = this.props
-    if (symbol !== currentSymbol) return null
+    const { isTradingViewVisible } = this.props
     return (
       <div>
         {isTradingViewVisible && (
