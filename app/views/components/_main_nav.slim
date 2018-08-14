@@ -7,10 +7,12 @@ nav class=("#{defined?(klass) ? klass : ''}")
     - if has_news_feature?
       li
         = nav_link 'News', '/news'
-    li
-      = nav_link 'Events', '/events'
-    li
-      = nav_link 'Listings', '/listings'
+      - if has_calendar_feature?
+      li
+        = nav_link 'Events', '/calendar'
+      /- if has_listings_feature? // doesn't exist yet
+      /li
+      /  = nav_link 'Listings', '/listings'
     li
       a href="https://blog.coinfi.com/topics/podcast/" target="_blank" Podcast
     li
