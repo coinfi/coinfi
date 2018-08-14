@@ -1,4 +1,5 @@
 import React, { Fragment } from 'react'
+import { Link } from 'react-router-dom'
 import timeago from 'timeago.js'
 import CoinTags from '../CoinTags'
 import BulletSpacer from '../BulletSpacer'
@@ -42,6 +43,10 @@ const NewsListItem = (props) => {
     .replace(/<h1>/g, '')
     .replace(/<\/h1>/g, '')
 
+  const linkData = newsItem.coin_link_data[0]
+
+  if (typeof linkData === 'undefined') return null
+
   return (
     <div
       className={className}
@@ -51,9 +56,22 @@ const NewsListItem = (props) => {
       }}
     >
       <div className="pa-default">
-        <h4 className="pointer mb2 f5" style={hasRead ? { color: '#999' } : {}}>
-          {newsItemTitle}
-        </h4>
+        <Link
+          to={`/news/${linkData.id}/${linkData.slug}`}
+          onClick={() => {
+            if (
+              document.querySelector('.selected-news-content') &&
+              document.querySelector('.selected-news-content').parentNode
+            )
+              document.querySelector(
+                '.selected-news-content',
+              ).parentNode.scrollTop = 0
+          }}
+        >
+          <h4 className="pointer mb2 f5" style={hasRead ? { color: '#999' } : {}}>
+            {newsItemTitle}
+          </h4>
+        </Link>
         <div className="flex justify-between flex-wrap">
           <div className="f6 silver">
             {url.hostname === 'twitter.com' && (

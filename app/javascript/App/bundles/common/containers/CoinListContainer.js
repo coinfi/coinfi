@@ -92,6 +92,23 @@ class CoinListContainer extends Component {
       ),
     )
 
+  // TODO: check this because of comment above `persist...`
+  deleteCoinFromWatchlist = (coinId) =>
+    API.delete('/watchlist/coins', { coinId }, false)
+
+  removeCoinFromWatchlist = (coinId) =>
+    this.setState({ status: STATUSES.REMOVING_COIN_FROM_WATCHLIST }, () =>
+      this.deleteCoinFromWatchlist(coinId).then(() =>
+        this.fetchWatchlist().then(({ result, entities }) =>
+          this.setState({
+            status: STATUSES.READY,
+            watchlistIndex: result,
+            watchlist: entities.coins,
+          }),
+        ),
+      ),
+    )
+
   isCoinInWatchlist = (coinId) => this.state.watchlistIndex.includes(coinId)
 
   isInitializing = () => this.state.status === STATUSES.INITIALIZING
@@ -127,6 +144,7 @@ class CoinListContainer extends Component {
         showToplist: this.showToplist,
         isCoinInWatchlist: this.isCoinInWatchlist,
         addCoinToWatchlist: this.addCoinToWatchlist,
+        removeCoinFromWatchlist: this.removeCoinFromWatchlist,
         coinlist: this.getCoinList(),
       }}
     >

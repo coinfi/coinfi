@@ -14,14 +14,16 @@ class NewsList extends Component {
   }
 
   setActiveNewsItem = (newsItem) => {
+    // console.log(newsItem);
     const { setActiveEntity, enableUI } = this.props
-    const url = newsItem.get('url')
+    // console.log(this.props);
+    const url = newsItem.url
     const urlFragments = url.split('/')
     const tweetId = urlFragments[urlFragments.length - 1]
     if (/twitter/.exec(url) !== null) {
-      setActiveEntity({ type: 'twitterNews', id: newsItem.get('id'), tweetId })
+      setActiveEntity({ type: 'twitterNews', id: newsItem.id, tweetId })
     } else {
-      setActiveEntity({ type: 'newsItem', id: newsItem.get('id') })
+      setActiveEntity({ type: 'newsItem', id: newsItem.id })
     }
     if (window.isMobile) {
       enableUI('bodySectionDrawer', { fullScreen: true })

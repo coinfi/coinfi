@@ -1,8 +1,9 @@
-import React from 'react'
+import * as React from 'react'
 import Icon from '../Icon'
 import chartIcon from '../../images/chartIcon.svg'
 import filterIcon from '../../images/filterIcon.svg'
-import listIcon from '../../images/listIcon.svg'
+import listIcon from './../../images/listIcon.svg'
+
 
 const titleStyle = {
   fontSize: '1.13rem',
@@ -26,7 +27,13 @@ const listNumberStyle = {
   marginTop:2
 }
 
-export default ({ closeTips, user, loggedIn }) => {
+interface Props {
+  closeTips: Function,
+  user: any,
+  loggedIn: boolean,
+};
+
+export default ({ closeTips, user, loggedIn }: Props) => {
   const userIsLoggedIn = !!(user || loggedIn)
   return (
     <div className="lh-copy">

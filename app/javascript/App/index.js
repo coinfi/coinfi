@@ -68,11 +68,17 @@ const injectComponents = () => {
                 />
                 <Route
                   path="/news/:newsItemId/:newsItemSlug"
-                  render={() => (
-                    <CoinListContainer user={props.user}>
-                      <NewsfeedPage />
-                    </CoinListContainer>
-                  )}
+                  render={(routeProps) => {
+                    console.log(routeProps)
+                    return (
+                      <CoinListContainer user={props.user}>
+                        <NewsfeedPage
+                          newsItemSlug={routeProps.match.params.newsItemSlug}
+                          newsItemId={routeProps.match.params.newsItemId}
+                        />
+                      </CoinListContainer>
+                    )
+                  }}
                 />
                 <Route path="/events" component={CalendarPage} />
               </div>
