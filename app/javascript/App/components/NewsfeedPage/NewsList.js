@@ -187,11 +187,9 @@ class NewsList extends Component {
     const readNewsIds = JSON.parse(localStorage.getItem('readNews')) || []
 
     const newItems = viewState.sortedNewsItems.filter((item) => {
-      return item.get('updated_at') === '2018-07-20T02:30:23.036Z'
-      // return
-      // ;('2018-07-19T23:30:10.275Z')
+      return item.get('updated_at') > this.state.latestNewsTime
     })
-    console.log('new items', newItems, sortedNewsItems)
+    // console.log('new items', newItems, sortedNewsItems)
 
     return (
       <Fragment>
@@ -207,7 +205,6 @@ class NewsList extends Component {
               : {}
           }
         >
-
           {/* {this.renderView( */}
           {/*   viewState, */}
           {/*   initialRenderTips, */}
@@ -243,7 +240,7 @@ class NewsList extends Component {
                 <div style={{ margin: 10, position: 'relative' }}>
                   {nodes.map(
                     ({ key, data, state: { x, opacity, backgroundColor } }) => {
-                    // ({ key, data, state: { opacity, backgroundColor } }) => {
+                      // ({ key, data, state: { opacity, backgroundColor } }) => {
                       // debugger
                       return (
                         <div

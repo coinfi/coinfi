@@ -57,7 +57,6 @@ function* fetchNewsItems(action) {
 }
 
 function* pollNewsItems(action) {
-console.log('action')
   if (action.namespace !== namespace) return
   while (true) {
     yield delay(10000)
