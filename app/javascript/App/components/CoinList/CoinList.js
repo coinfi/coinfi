@@ -1,4 +1,5 @@
 import React, { Component, Fragment } from 'react'
+import CustomScroll from 'react-custom-scroll'
 import CoinListHeader from './CoinListHeader'
 import CoinListItem from './CoinListItem'
 import LoadingIndicator from '../LoadingIndicator'
@@ -38,22 +39,22 @@ class CoinList extends Component {
     return (
       <Fragment>
         <CoinListHeader {...this.props} />
-        <CustomScroll>
-          <div
-            className="flex-auto relative overflow-y-auto coin-watch-list"
-            style={watchlistStarIcon && { textAlign: 'center' }}
-          >
-            {!coins.length &&
-              !isLoading('coins') && (
-                <Fragment>
-                  <img className="db mt7 mb3 center" src={watchlistStarIcon} />
-                  <strong className="lh-copy fw3">
-                    Looks like you have not added <br />
-                    any coins to your watchlist page yet!
-                  </strong>
-                </Fragment>
-              )}
+        {/* <div */}
+        {/*   className="flex-auto relative coin-watch-list" */}
+        {/*   style={watchlistStarIcon && { textAlign: 'center', minHeight:0, minWidth:0 }} */}
+        {/* > */}
+          {!coins.length &&
+            !isLoading('coins') && (
+              <Fragment>
+                <img className="db mt7 mb3 center" src={watchlistStarIcon} />
+                <strong className="lh-copy fw3">
+                  Looks like you have not added <br />
+                  any coins to your watchlist page yet!
+                </strong>
+              </Fragment>
+            )}
 
+          <CustomScroll  flex="1">
             {isLoading('coins') && (
               <LoadingIndicator className="overlay bg-white-70" />
             )}
@@ -67,8 +68,8 @@ class CoinList extends Component {
                 />
               )
             })}
-          </div>
-        </CustomScroll>
+          </CustomScroll>
+        {/* </div> */}
       </Fragment>
     )
   }
