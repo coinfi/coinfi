@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import CustomScroll from 'react-custom-scroll'
 import InfiniteScroll from 'react-infinite-scroll-component'
 import NewsListItem from './NewsListItem'
 import LoadingIndicator from '../LoadingIndicator'

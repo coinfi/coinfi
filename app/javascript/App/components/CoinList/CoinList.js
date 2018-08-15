@@ -49,7 +49,6 @@ class CoinList extends Component {
             overflowY: 'scroll',
           }}
         >
-          {/* <CustomScroll flex='1'> */}
           {!coins.length &&
             !isLoading('coins') && (
               <Fragment>
@@ -75,7 +74,6 @@ class CoinList extends Component {
             )
           })}
         </div>
-        {/* </CustomScroll> */}
       </div>
     )
   }

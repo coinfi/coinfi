@@ -9,19 +9,36 @@ a > * {
 .coin-list-drawer::-webkit-scrollbar {
   -webkit-appearance: none;
 }
+.coin-list-drawer::-moz-scrollbar {
+  -webkit-appearance: none;
+}
 
 .coin-list-drawer::-webkit-scrollbar:vertical {
+  width: 11px;
+}
+.coin-list-drawer::-moz-scrollbar:vertical {
   width: 11px;
 }
 
 .coin-list-drawer:hover::-webkit-scrollbar-thumb {
   border-radius: 8px;
   border: 2px solid white; /* should match background, can't be transparent */
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: #071d29;
+}
+.coin-list-drawer:hover::-moz-scrollbar-thumb {
+  border-radius: 8px;
+  border: 2px solid white; /* should match background, can't be transparent */
+  background-color: #071d29;
 }
 
 .coin-list-drawer::-webkit-scrollbar-track {
-  background-color: #fff;
+  -moz-transition: background-color 1000ms;
+  transition: background-color 1000ms;
+  border-radius: 8px;
+}
+
+.coin-list-drawer::-moz-scrollbar-track {
+  transition: background-color 1000ms;
   border-radius: 8px;
 }
 
@@ -36,11 +53,11 @@ a > * {
 #newsfeed:hover::-webkit-scrollbar-thumb {
   border-radius: 8px;
   border: 2px solid white; /* should match background, can't be transparent */
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: #071d29;
 }
 
 #newsfeed::-webkit-scrollbar-track {
-  background-color: #fff;
+  transition: background-color 1000ms;
   border-radius: 8px;
 }
 
@@ -58,11 +75,11 @@ a > * {
 .selected-news-wrap:hover::-webkit-scrollbar-thumb {
   border-radius: 8px;
   border: 2px solid white; /* should match background, can't be transparent */
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: #071d29;
 }
 
 .selected-news-wrap::-webkit-scrollbar-track {
-  background-color: #fff;
+  transition: background-color 1000ms;
   border-radius: 8px;
 }
 
