@@ -93,24 +93,24 @@ const showScrollbars = () => {
   link.href = '/assets/scroll-style.css'
   head.appendChild(link)
 
-  document
-    .querySelector('.coin-watch-list')
-    .addEventListener('mouseover', () => {
-      document.querySelector('#scroll-style').setAttribute('rel', 'stylesheet')
-    })
-  document
-    .querySelector('.coin-watch-list')
-    .addEventListener('mouseleave', () => {
-      document
-        .querySelector('#scroll-style')
-        .setAttribute('rel', 'alternate stylesheet')
-    })
-  document.querySelector('#newsfeed').addEventListener('mouseover', () => {
-    document.querySelector('#scroll-style').setAttribute('rel', 'stylesheet')
-  })
-  document.querySelector('#newsfeed').addEventListener('mouseleave', () => {
-    document
-      .querySelector('#scroll-style')
-      .setAttribute('rel', 'alternate stylesheet')
-  })
+  // document
+  //   .querySelector('.coin-watch-list')
+  //   .addEventListener('mouseover', () => {
+  //     document.querySelector('#scroll-style').setAttribute('rel', 'stylesheet')
+  //   })
+  // document
+  //   .querySelector('.coin-watch-list')
+  //   .addEventListener('mouseleave', () => {
+  //     document
+  //       .querySelector('#scroll-style')
+  //       .setAttribute('rel', 'alternate stylesheet')
+  //   })
+  // document.querySelector('#newsfeed').addEventListener('mouseover', () => {
+  //   document.querySelector('#scroll-style').setAttribute('rel', 'stylesheet')
+  // })
+  // document.querySelector('#newsfeed').addEventListener('mouseleave', () => {
+  //   document
+  //     .querySelector('#scroll-style')
+  //     .setAttribute('rel', 'alternate stylesheet')
+  // })
 }

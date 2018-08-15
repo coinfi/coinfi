@@ -38,35 +38,37 @@ class CoinList extends Component {
     return (
       <Fragment>
         <CoinListHeader {...this.props} />
-        <div
-          className="flex-auto relative overflow-y-auto coin-watch-list"
-          style={watchlistStarIcon && { textAlign: 'center' }}
-        >
-          {!coins.length &&
-            !isLoading('coins') && (
-              <Fragment>
-                <img className="db mt7 mb3 center" src={watchlistStarIcon} />
-                <strong className="lh-copy fw3">
-                  Looks like you have not added <br />
-                  any coins to your watchlist page yet!
-                </strong>
-              </Fragment>
-            )}
+        <CustomScroll>
+          <div
+            className="flex-auto relative overflow-y-auto coin-watch-list"
+            style={watchlistStarIcon && { textAlign: 'center' }}
+          >
+            {!coins.length &&
+              !isLoading('coins') && (
+                <Fragment>
+                  <img className="db mt7 mb3 center" src={watchlistStarIcon} />
+                  <strong className="lh-copy fw3">
+                    Looks like you have not added <br />
+                    any coins to your watchlist page yet!
+                  </strong>
+                </Fragment>
+              )}
 
-          {isLoading('coins') && (
-            <LoadingIndicator className="overlay bg-white-70" />
-          )}
-          {coins.map((coin, index) => {
-            return (
-              <CoinListItem
-                key={index}
-                coin={coin}
-                {...this.props}
-                onClick={this.setActiveCoin}
-              />
-            )
-          })}
-        </div>
+            {isLoading('coins') && (
+              <LoadingIndicator className="overlay bg-white-70" />
+            )}
+            {coins.map((coin, index) => {
+              return (
+                <CoinListItem
+                  key={index}
+                  coin={coin}
+                  {...this.props}
+                  onClick={this.setActiveCoin}
+                />
+              )
+            })}
+          </div>
+        </CustomScroll>
       </Fragment>
     )
   }
