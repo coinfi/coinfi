@@ -11,9 +11,10 @@ const readNewsHandler = (newsItem, setActiveNewsItem) => {
   const readNewsData = JSON.parse(localStorage.getItem('readNews')) || []
 
   readNewsData.push(newsId)
+  localStorage.setItem('readNews', JSON.stringify(readNewsData))
 
   setActiveNewsItem(newsItem)
-  localStorage.setItem('readNews', JSON.stringify(readNewsData))
+
   if (
     document.querySelector('.selected-news-content') &&
     document.querySelector('.selected-news-content').parentNode
