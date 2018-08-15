@@ -14,10 +14,6 @@ a > * {
   width: 11px;
 }
 
-.coin-list-drawer::-webkit-scrollbar:horizontal {
-  height: 11px;
-}
-
 .coin-list-drawer:hover::-webkit-scrollbar-thumb {
   border-radius: 8px;
   border: 2px solid white; /* should match background, can't be transparent */
@@ -29,17 +25,12 @@ a > * {
   border-radius: 8px;
 }
 
-
 #newsfeed::-webkit-scrollbar {
   -webkit-appearance: none;
 }
 
 #newsfeed::-webkit-scrollbar:vertical {
   width: 11px;
-}
-
-#newsfeed::-webkit-scrollbar:horizontal {
-  height: 11px;
 }
 
 #newsfeed:hover::-webkit-scrollbar-thumb {
@@ -49,6 +40,28 @@ a > * {
 }
 
 #newsfeed::-webkit-scrollbar-track {
+  background-color: #fff;
+  border-radius: 8px;
+}
+
+.selected-news-wrap {
+  overflow: auto;
+}
+.selected-news-wrap::-webkit-scrollbar {
+  -webkit-appearance: none;
+}
+
+.selected-news-wrap::-webkit-scrollbar:vertical {
+  width: 11px;
+}
+
+.selected-news-wrap:hover::-webkit-scrollbar-thumb {
+  border-radius: 8px;
+  border: 2px solid white; /* should match background, can't be transparent */
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.selected-news-wrap::-webkit-scrollbar-track {
   background-color: #fff;
   border-radius: 8px;
 }
