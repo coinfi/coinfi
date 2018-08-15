@@ -20,7 +20,7 @@ const NewsListHeader = (props) => {
     enableUI('filterPanel', { fullScreen: window.isMobile })
 
   const btnStyle = {
-    padding: '18px',
+    padding: '16px',
     borderRadius: 0,
     display: 'inline-flex',
     textTransform: 'none',
