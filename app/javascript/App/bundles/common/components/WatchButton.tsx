@@ -5,7 +5,7 @@ import { Coin } from '../types';
 
 interface Props {
   coin: Coin,
-  hasText: Function,
+  hasText: boolean,
   loggedIn: boolean,
 }
 

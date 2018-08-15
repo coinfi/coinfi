@@ -33,7 +33,7 @@ class NewsList extends React.Component<Props, State> {
 
   componentDidMount() {
     // set max height to enable scroll in ff
-    scrollHelper()
+    // scrollHelper() // TODO: check, it not working
   }
 
   setActiveNewsItem = (newsItem) => {

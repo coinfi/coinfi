@@ -9,14 +9,12 @@ const twitterLogo = require('../../images/logo-twitter.svg');
 const linkLogo = require('../../images/logo-link.svg');
 const redditLogo = require('../../images/logo-reddit.svg');
 
-const readNewsHandler = (newsItem, setActiveNewsItem) => {
-  const newsId = newsItem.get('id')
+const readNewsHandler = (newsItem) => {
+  const newsId = newsItem.id;
   const readNewsData = JSON.parse(localStorage.getItem('readNews')) || []
 
   readNewsData.push(newsId)
   localStorage.setItem('readNews', JSON.stringify(readNewsData))
-
-  setActiveNewsItem(newsItem)
 
   if (
     document.querySelector('.selected-news-content') &&
@@ -46,22 +44,16 @@ const NewsListItem = (props) => {
     .replace(/<h1>/g, '')
     .replace(/<\/h1>/g, '')
 
-  const linkData = newsItem.coin_link_data[0]
-
-  if (typeof linkData === 'undefined') return null
-
   return (
     <div
       className={className}
       style={{ height: props.height || 'auto' }}
-      onClick={() => {
-        readNewsHandler(newsItem, setActiveNewsItem)
-      }}
     >
       <div className="pa-default">
         <Link
-          to={`/news/${linkData.id}/${linkData.slug}`}
+          to={`/news/${newsItem.id}/${slugify(newsItem.title)}`}
           onClick={() => {
+            readNewsHandler(newsItem)
             if (
               document.querySelector('.selected-news-content') &&
               document.querySelector('.selected-news-content').parentNode
