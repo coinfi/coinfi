@@ -56,7 +56,7 @@ const NewsListHeader = (props) => {
         </SectionHeaderTight>
       )}
       <SectionHeader>
-        <div className="flex items-center flex-auto">
+        <div className="flex items-center flex-auto search-coin-wrapper">
           {!window.isMobile && (
             <button
               className="btn btn-blue btn-xs coins-btn mr2"
