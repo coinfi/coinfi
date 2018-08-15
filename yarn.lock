@@ -7908,6 +7908,10 @@ react-currency-formatter@^1.1.0:
   dependencies:
     prop-types "^15.6.0"
 
+react-custom-scroll@^3.2.2:
+  version "3.2.2"
+  resolved "https://registry.yarnpkg.com/react-custom-scroll/-/react-custom-scroll-3.2.2.tgz#c22dab0c3eab0138cb8d8afd1565c835feb01b6a"
+
 react-dev-utils@^5.0.0:
   version "5.0.1"
   resolved "https://registry.yarnpkg.com/react-dev-utils/-/react-dev-utils-5.0.1.tgz#1f396e161fe44b595db1b186a40067289bf06613"
