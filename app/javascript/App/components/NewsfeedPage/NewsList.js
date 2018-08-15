@@ -3,15 +3,14 @@ import InfiniteScroll from 'react-infinite-scroll-component'
 import NewsListItem from './NewsListItem'
 import LoadingIndicator from '../LoadingIndicator'
 import Tips from './Tips'
+import scrollHelper from './../../scrollHelper'
 
 class NewsList extends Component {
   state = { initialRender: true, initialRenderTips: false }
 
   componentDidMount() {
     // set max height to enable scroll in ff
-    const newsfeedElem = document.querySelector('#newsfeed')
-    newsfeedElem.style.maxHeight = `${newsfeedElem.offsetHeight}px`
-    newsfeedElem.style.overflowY = 'auto'
+    scrollHelper()
   }
 
   setActiveNewsItem = (newsItem) => {
