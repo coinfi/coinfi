@@ -64,7 +64,7 @@ const NewsListItem = (props) => {
                 </span>
                 <a
                   href={`https://twitter.com/${url.pathname.split('/')[1]}`}
-                  target="_blank"
+                  target="_blank noopener noreferrer"
                   rel="nofollow"
                   className="dib silver"
                 >
@@ -81,7 +81,7 @@ const NewsListItem = (props) => {
                 </span>
                 <a
                   href={newsItem.get('url')}
-                  target="_blank"
+                  target="_blank noopener noreferrer"
                   rel="nofollow"
                   className="dib silver"
                 >
@@ -99,7 +99,7 @@ const NewsListItem = (props) => {
                   </span>
                   <a
                     href={newsItem.get('url')}
-                    target="_blank"
+                    target="_blank noopener noreferrer"
                     rel="nofollow"
                     className="dib silver"
                   >
