@@ -37,9 +37,18 @@ class CoinList extends Component {
       coins = coins.filter((coin) => isWatching(coin.get('id')))
     }
     return (
-      <div style={{height:780}}>
+      <div style={{ height: 780 }}>
         <CoinListHeader {...this.props} />
-        <div className="coin-list-drawer" style={{ flex: 1, minHeight: 0, minWidth: 0, height:'90%', overflowY:'scroll' }}>
+        <div
+          className="coin-list-drawer"
+          style={{
+            flex: 1,
+            minHeight: 0,
+            minWidth: 0,
+            height: '90%',
+            overflowY: 'scroll',
+          }}
+        >
           {/* <CustomScroll flex='1'> */}
           {!coins.length &&
             !isLoading('coins') && (
@@ -55,18 +64,18 @@ class CoinList extends Component {
           {isLoading('coins') && (
             <LoadingIndicator className="overlay bg-white-70" />
           )}
-            {coins.map((coin, index) => {
-              return (
-                <CoinListItem
-                  key={index}
-                  coin={coin}
-                  {...this.props}
-                  onClick={this.setActiveCoin}
-                />
-              )
-            })}
+          {coins.map((coin, index) => {
+            return (
+              <CoinListItem
+                key={index}
+                coin={coin}
+                {...this.props}
+                onClick={this.setActiveCoin}
+              />
+            )
+          })}
         </div>
-          {/* </CustomScroll> */}
+        {/* </CustomScroll> */}
       </div>
     )
   }
