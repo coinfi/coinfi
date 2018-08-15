@@ -5,6 +5,54 @@ a,
 a > * {
   cursor: pointer;
 }
+
+.coin-list-drawer::-webkit-scrollbar {
+  -webkit-appearance: none;
+}
+
+.coin-list-drawer::-webkit-scrollbar:vertical {
+  width: 11px;
+}
+
+.coin-list-drawer::-webkit-scrollbar:horizontal {
+  height: 11px;
+}
+
+.coin-list-drawer:hover::-webkit-scrollbar-thumb {
+  border-radius: 8px;
+  border: 2px solid white; /* should match background, can't be transparent */
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.coin-list-drawer::-webkit-scrollbar-track {
+  background-color: #fff;
+  border-radius: 8px;
+}
+
+
+#newsfeed::-webkit-scrollbar {
+  -webkit-appearance: none;
+}
+
+#newsfeed::-webkit-scrollbar:vertical {
+  width: 11px;
+}
+
+#newsfeed::-webkit-scrollbar:horizontal {
+  height: 11px;
+}
+
+#newsfeed:hover::-webkit-scrollbar-thumb {
+  border-radius: 8px;
+  border: 2px solid white; /* should match background, can't be transparent */
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+#newsfeed::-webkit-scrollbar-track {
+  background-color: #fff;
+  border-radius: 8px;
+}
+
 body {
   font-family: $sans-serif;
   @extend .min-vh-100;
@@ -30,49 +78,50 @@ body {
 }
 
 ol.tips {
-  list-style-type:none;
-  padding:0;
-  li {margin:10px 0}
+  list-style-type: none;
+  padding: 0;
+  li {
+    margin: 10px 0;
+  }
   li > div {
     display: inline-block;
-    font-size:.75rem;
+    font-size: 0.75rem;
   }
-  img {margin:0 5px}
+  img {
+    margin: 0 5px;
+  }
 }
 
 .signup-cta-wrap {
   h2 {
-    border-top : 1px solid rgba(0, 0, 0, 0.12);
-    padding-top : 15px;
-    padding-bottom : 0;
-    margin-bottom : 0;
+    border-top: 1px solid rgba(0, 0, 0, 0.12);
+    padding-top: 15px;
+    padding-bottom: 0;
+    margin-bottom: 0;
     font-size: 1.13rem;
     font-weight: bold;
     padding-top: 15px;
   }
 }
 
-@media only screen and (min-width:480px) {
+@media only screen and (min-width: 480px) {
   .signup-cta-wrap {
     button {
-      max-width:120px;
+      max-width: 120px;
     }
   }
 }
 
-@media only screen and (min-width:768px) {
+@media only screen and (min-width: 768px) {
   .signup-cta-wrap {
     border: 1px solid rgba(0, 0, 0, 0.12);
     width: 90%;
     margin: auto;
-    padding-bottom:25px;
+    padding-bottom: 25px;
     h2 {
-      border:0;
+      border: 0;
     }
     button {
     }
-
   }
-
 }
-

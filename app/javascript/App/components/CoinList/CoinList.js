@@ -39,7 +39,7 @@ class CoinList extends Component {
     return (
       <div style={{height:780}}>
         <CoinListHeader {...this.props} />
-        <div className="" style={{ flex: 1, minHeight: 0, minWidth: 0, height:'90%', overflowY:'scroll' }}>
+        <div className="coin-list-drawer" style={{ flex: 1, minHeight: 0, minWidth: 0, height:'90%', overflowY:'scroll' }}>
           {/* <CustomScroll flex='1'> */}
           {!coins.length &&
             !isLoading('coins') && (

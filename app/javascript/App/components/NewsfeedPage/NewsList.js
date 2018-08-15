@@ -93,7 +93,7 @@ class NewsList extends Component {
         hasMore={true} // TODO: Actually determine when there are no more NewsItems...
         loader={<LoadingIndicator />}
       >
-        <CustomScroll heightRelativeToParent="100%">{mappedItems}</CustomScroll>
+        {mappedItems}
       </InfiniteScroll>
     )
   }
