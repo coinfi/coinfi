@@ -37,12 +37,10 @@ class CoinList extends Component {
       coins = coins.filter((coin) => isWatching(coin.get('id')))
     }
     return (
-      <Fragment>
+      <div style={{height:780}}>
         <CoinListHeader {...this.props} />
-        {/* <div */}
-        {/*   className="flex-auto relative coin-watch-list" */}
-        {/*   style={watchlistStarIcon && { textAlign: 'center', minHeight:0, minWidth:0 }} */}
-        {/* > */}
+        <div className="" style={{ flex: 1, minHeight: 0, minWidth: 0, height:'90%', overflowY:'scroll' }}>
+          {/* <CustomScroll flex='1'> */}
           {!coins.length &&
             !isLoading('coins') && (
               <Fragment>
@@ -54,10 +52,9 @@ class CoinList extends Component {
               </Fragment>
             )}
 
-          <CustomScroll  flex="1">
-            {isLoading('coins') && (
-              <LoadingIndicator className="overlay bg-white-70" />
-            )}
+          {isLoading('coins') && (
+            <LoadingIndicator className="overlay bg-white-70" />
+          )}
             {coins.map((coin, index) => {
               return (
                 <CoinListItem
@@ -68,9 +65,9 @@ class CoinList extends Component {
                 />
               )
             })}
-          </CustomScroll>
-        {/* </div> */}
-      </Fragment>
+        </div>
+          {/* </CustomScroll> */}
+      </div>
     )
   }
 }

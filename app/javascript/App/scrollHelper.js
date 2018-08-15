@@ -12,16 +12,16 @@ export default (element) => {
   const calculatedNewsListHeight = bodyTag - topNav - coinSearchHeight - 30
   console.log(calculatedNewsListHeight)
 
-  if (!!newsfeedElem) {
-    newsfeedElem.style.maxHeight = `${calculatedNewsListHeight}px`
-    newsfeedElem.style.overflowY = `auto`
-  }
-
-  if (!!newsBodyElem)
-    newsBodyElem.style.maxHeight = `${calculatedNewsListHeight}px`
-
-  if (!!coinDrawerElem)
-    coinDrawerElem.style.maxHeight = `${calculatedNewsListHeight}px`
-
-  if (!!element) element.style.maxHeight = `${calculatedNewsListHeight}px`
+  // if (!!newsfeedElem) {
+  //   newsfeedElem.style.maxHeight = `${calculatedNewsListHeight}px`
+  //   newsfeedElem.style.overflowY = `auto`
+  // }
+  //
+  // if (!!newsBodyElem)
+  //   newsBodyElem.style.maxHeight = `${calculatedNewsListHeight}px`
+  //
+  // if (!!coinDrawerElem)
+  //   coinDrawerElem.style.maxHeight = `${calculatedNewsListHeight}px`
+  //
+  // if (!!element) element.style.maxHeight = `${calculatedNewsListHeight}px`
 }

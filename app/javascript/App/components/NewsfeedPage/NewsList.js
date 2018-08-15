@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import CustomScroll from 'react-custom-scroll'
 import InfiniteScroll from 'react-infinite-scroll-component'
 import NewsListItem from './NewsListItem'
 import LoadingIndicator from '../LoadingIndicator'
@@ -92,7 +93,7 @@ class NewsList extends Component {
         hasMore={true} // TODO: Actually determine when there are no more NewsItems...
         loader={<LoadingIndicator />}
       >
-        {mappedItems}
+        <CustomScroll heightRelativeToParent="100%">{mappedItems}</CustomScroll>
       </InfiniteScroll>
     )
   }
