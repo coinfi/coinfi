@@ -1,5 +1,5 @@
-import React, { Component, Fragment } from 'react'
-import _ from 'lodash'
+import React, { Component } from 'react'
+import InfiniteScroll from 'react-infinite-scroll-component'
 import NewsListItem from './NewsListItem'
 import LoadingIndicator from '../LoadingIndicator'
 import Tips from './Tips'
@@ -7,74 +7,11 @@ import Tips from './Tips'
 class NewsList extends Component {
   state = { initialRender: true, initialRenderTips: false }
 
-  constructor(props) {
-    super(props)
-    this.mountOnScrollHandler = this.mountOnScrollHandler.bind(this)
-    this.unmountOnScrollHandler = this.unmountOnScrollHandler.bind(this)
-    this.onScrollNewsFeedMobile = this.onScrollNewsFeedMobile.bind(this)
-    this.onScrollNewsFeedDesktop = this.onScrollNewsFeedDesktop.bind(this)
-  }
-
   componentDidMount() {
-    setTimeout(() => {
-      this.setState({ initialRender: false })
-    }, 60000)
-    this.mountOnScrollHandler()
-
     // set max height to enable scroll in ff
     const newsfeedElem = document.querySelector('#newsfeed')
     newsfeedElem.style.maxHeight = `${newsfeedElem.offsetHeight}px`
-  }
-
-  componentDidUpdate() {
-    const timer = setInterval(() => {
-      if (!window.isMobile && !window.isTablet) {
-        this.props.fetchMoreNewsFeed()
-      }
-    }, 60000)
-    clearInterval(timer)
-  }
-
-  componentWillUnmount() {
-    this.unmountOnScrollHandler()
-  }
-
-  mountOnScrollHandler() {
-    if (window.isMobile) {
-      const throttled = _.throttle(this.onScrollNewsFeedMobile, 500)
-      $(window).scroll(throttled)
-    } else {
-      const throttled = _.throttle(this.onScrollNewsFeedDesktop, 500)
-      $('#newsfeed').scroll(throttled)
-    }
-  }
-
-  unmountOnScrollHandler() {
-    $(window).off('scroll', this.onScrollNewsFeedMobile)
-    $('#newsfeed').off('scroll', this.onScrollNewsFeedDesktop)
-  }
-
-  onScrollNewsFeedMobile(e) {
-    const $this = $(e.currentTarget)
-    const bufferSpace = $this.height() / 3 + 300
-
-    if (
-      $this.scrollTop() + $this.height() + bufferSpace >=
-      $(document).height()
-    ) {
-      this.props.fetchMoreNewsFeed()
-    }
-  }
-
-  onScrollNewsFeedDesktop(e) {
-    const $this = $(e.currentTarget)
-    const bufferSpace = $this.height() / 3 + 400
-    if (
-      $this.scrollTop() + $this.innerHeight() + bufferSpace >=
-      $this[0].scrollHeight
-    ) {
-      this.props.fetchMoreNewsFeed()
-    }
+    newsfeedElem.style.overflowY = 'auto'
   }
 
   setActiveNewsItem = (newsItem) => {
@@ -90,7 +27,7 @@ class NewsList extends Component {
     if (window.isMobile) {
       enableUI('bodySectionDrawer', { fullScreen: true })
     }
-    setTimeout(function() {
+    setTimeout(() => {
       const colWrap = document.querySelector('.column-wrap')
       const newsContent = document.querySelector('.selected-news-content')
       newsContent.style.maxHeight = `${colWrap.offsetHeight}px`
@@ -101,7 +38,13 @@ class NewsList extends Component {
     this.props.newsfeedTips()
   }
 
-  renderView(viewState, initialRenderTips, readNewsIds, isLoading) {
+  renderView(
+    viewState,
+    initialRenderTips,
+    readNewsIds,
+    isLoading,
+    fetchMoreNewsFeed,
+  ) {
     if (initialRenderTips && window.isMobile) {
       return <Tips closeTips={this.closeTips.bind(this)} />
     } else if (isLoading('newsItems')) {
@@ -140,7 +83,18 @@ class NewsList extends Component {
         />
       )
     })
-    return mappedItems
+
+    return (
+      <InfiniteScroll
+        dataLength={mappedItems.length}
+        scrollableTarget={document.getElementById('newsfeed')}
+        next={fetchMoreNewsFeed}
+        hasMore={true} // TODO: Actually determine when there are no more NewsItems...
+        loader={<LoadingIndicator />}
+      >
+        {mappedItems}
+      </InfiniteScroll>
+    )
   }
 
   selectCoin(coinData) {
@@ -162,6 +116,7 @@ class NewsList extends Component {
       activeFilters,
       sortedNewsItems,
       initialRenderTips,
+      fetchMoreNewsFeed,
     } = this.props
     const viewState = {
       activeEntity: activeEntity,
@@ -171,31 +126,26 @@ class NewsList extends Component {
     const readNewsIds = JSON.parse(localStorage.getItem('readNews')) || []
 
     return (
-      <Fragment>
-        <div
-          id="newsfeed"
-          className="flex-auto relative overflow-y-hidden overflow-y-auto-m"
-          style={
-            !activeEntity &&
-            window.isMobile &&
-            !activeFilters.size &&
-            initialRenderTips
-              ? { marginTop: '-65px', background: '#fff', position: 'absolute' }
-              : {}
-          }
-        >
-          {this.renderView(
-            viewState,
-            initialRenderTips,
-            readNewsIds,
-            isLoading,
-          )}
-          <div>
-            {!isLoading('newsItems') &&
-              isLoading('newsfeed') && <LoadingIndicator />}
-          </div>
-        </div>
-      </Fragment>
+      <div
+        id="newsfeed"
+        className="flex-auto relative overflow-y-hidden overflow-y-auto-m"
+        style={
+          !activeEntity &&
+          window.isMobile &&
+          !activeFilters.size &&
+          initialRenderTips
+            ? { marginTop: '-65px', background: '#fff', position: 'absolute' }
+            : {}
+        }
+      >
+        {this.renderView(
+          viewState,
+          initialRenderTips,
+          readNewsIds,
+          isLoading,
+          fetchMoreNewsFeed,
+        )}
+      </div>
     )
   }
 }
