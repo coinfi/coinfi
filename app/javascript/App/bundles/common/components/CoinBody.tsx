@@ -1,0 +1,70 @@
+import * as React from 'react'
+import CoinCharts from '../../../components/CoinCharts'
+import Currency from '../../../components/Currency'
+import PercentageChange from '../../../components/PercentageChange'
+import WatchButton from '../../../components/CoinList/WatchButton'
+import LoadingIndicator from '../../../components/LoadingIndicator'
+
+import { Coin, User } from '../types';
+
+interface Props {
+  coin?: Coin,
+  user?: User,
+};
+
+const CoinBody = (props: Props) => {
+
+  const { user, coin } = props
+
+  let loggedIn = !!user;
+
+  if (!coin)
+    return <LoadingIndicator className="overlay bg-white-70" />
+  return (
+    <div className="pa4 bg-white">
+      <div className="flex justify-between items-center">
+        <a
+          href={`/coins/${coin.slug}`}
+          className="f4 fw6 flex items-center color-inherit"
+        >
+          {coin.image_url && (
+            <img className="w2e h2e mr3" src={coin.image_url} alt="" />
+          )}
+          {coin.name}
+          <span className="ml2">({coin.symbol})</span>
+        </a>
+        <div className="tooltipped">
+          <WatchButton coin={coin} loggedIn={props.loggedIn} hasText />
+          {!loggedIn && <div className="tooltip">Login to watch</div>}
+        </div>
+      </div>
+      <div className="min-h12e flex items-center justify-center">
+        <div className="tc">
+          <div className="flex items-center">
+            <span className="f2">
+              <Currency>{coin.market_info.price_usd}</Currency>
+            </span>
+            <span className="ml2">
+              <PercentageChange
+                value={coin.market_info.percent_change_24h}
+                className="b db"
+              />
+            </span>
+          </div>
+          <div className="dib ph2 pv1 bg-light-gray f6 mt2">
+            {`Market: ${coin.market_info.market_cap_usd}`}
+          </div>
+        </div>
+      </div>
+      <CoinCharts
+        symbol={coin.symbol}
+        priceData={coin.prices_data}
+        annotations={coin.news_data}
+        // isTradingViewVisible={activeEntity.type !== 'coin'} // Quesion Andrey: why checking type == coin here if is this component is used only with .type=coin ?
+        isTradingViewVisible={true}
+      />
+    </div>
+  )
+}
+
+export default CoinBody

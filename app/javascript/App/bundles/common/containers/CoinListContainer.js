@@ -79,6 +79,7 @@ class CoinListContainer extends Component {
   persistCoinToWatchlist = (coinId) =>
     API.put('/watchlist/coins', { coinId }, false)
 
+  // FIXME: nested promises
   addCoinToWatchlist = (coinId) =>
     this.setState({ status: STATUSES.ADDING_NEW_COIN_TO_WATCHLIST }, () =>
       this.persistCoinToWatchlist(coinId).then(() =>
@@ -96,6 +97,7 @@ class CoinListContainer extends Component {
   deleteCoinFromWatchlist = (coinId) =>
     API.delete('/watchlist/coins', { coinId }, false)
 
+  // FIXME: nested promises
   removeCoinFromWatchlist = (coinId) =>
     this.setState({ status: STATUSES.REMOVING_COIN_FROM_WATCHLIST }, () =>
       this.deleteCoinFromWatchlist(coinId).then(() =>

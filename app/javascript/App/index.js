@@ -20,7 +20,7 @@ import GlobalCoinSearch from './components/GlobalCoinSearch'
 import TwitterFeed from './components/TwitterFeed'
 import RedditFeed from './components/RedditFeed'
 import IcoFilters from './components/IcoFilters'
-import NewsfeedPage from './components/NewsfeedPage'
+import NewsfeedPage from './bundles/NewsfeedPage'
 import Tabs from './components/Tabs'
 import CoinCharts from './components/CoinCharts'
 import CalendarPage from './components/CalendarPage'
@@ -54,36 +54,32 @@ const injectComponents = () => {
       const props = JSON.parse(hook.getAttribute('props'))
       const withStore = hook.getAttribute('withStore') !== null
       if (withStore) {
+        console.log('---- user -----');
+        console.log(props.user);
         ReactDOM.render(
-          <Provider store={store}>
-            <Router>
-              <div>
-                <Route
-                  path="/news/:coinSlug?"
-                  render={() => (
-                    <CoinListContainer user={props.user}>
-                      <NewsfeedPage />
-                    </CoinListContainer>
-                  )}
-                />
-                <Route
-                  path="/news/:newsItemId/:newsItemSlug"
-                  render={(routeProps) => {
-                    console.log(routeProps)
-                    return (
-                      <CoinListContainer user={props.user}>
-                        <NewsfeedPage
-                          newsItemSlug={routeProps.match.params.newsItemSlug}
-                          newsItemId={routeProps.match.params.newsItemId}
-                        />
-                      </CoinListContainer>
-                    )
-                  }}
-                />
-                <Route path="/events" component={CalendarPage} />
-              </div>
-            </Router>
-          </Provider>,
+          <CoinListContainer user={props.user}>
+            <Provider store={store}>
+              <Router>
+                <div>
+                  <Route
+                    exact
+                    path="/news/:coinSlug?"
+                    render={(routeProps) => (
+                        <NewsfeedPage coinSlug={routeProps.match.params.coinSlug} />
+                    )}
+                  />
+                  <Route
+                    exact
+                    path="/news/:newsItemId/:newsItemSlug"
+                    render={(routeProps) => (
+                        <NewsfeedPage newsItemId={routeProps.match.params.newsItemId} />
+                    )}
+                  />
+                  <Route path="/events" component={CalendarPage} />
+                </div>
+              </Router>
+            </Provider>
+          </CoinListContainer>,
           hook,
         )
       } else {

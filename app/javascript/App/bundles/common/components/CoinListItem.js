@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 //import PercentageChange from '../../../components/PercentageChange'
-//import WatchButton from '../../../components/WatchButton'
+import WatchButton from './WatchButton'
 
 export default (props) => {
   const { coin, user, onClick } = props
@@ -23,7 +23,7 @@ export default (props) => {
     <Link className={klass} to={`/news/${coin.slug}`} style={{ minHeight: 57 }}>
       <div className="tooltipped">
         {!user && <div className="tooltip from-right">Login to watch</div>}
-        {/*<WatchButton {...props} />*/}
+        <WatchButton {...props} />
       </div>
       <div className="flex-auto flex justify-between items-center">
         <div className="b f5 pl2">{coin.symbol}</div>
