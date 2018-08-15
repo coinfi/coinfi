@@ -3,9 +3,16 @@ import _ from 'lodash'
 import NewsListItem from './NewsListItem'
 import LoadingIndicator from '../LoadingIndicator'
 import Tips from './Tips'
+import { easeBackOut, easeBackInOut } from 'd3-ease'
+import NodeGroup from 'react-move/NodeGroup'
 
 class NewsList extends Component {
-  state = { initialRender: true, initialRenderTips: false }
+  state = {
+    initialRender: true,
+    initialRenderTips: false,
+    latestNewsTime: null,
+    open: false,
+  }
 
   constructor(props) {
     super(props)
@@ -29,10 +36,27 @@ class NewsList extends Component {
   componentDidUpdate() {
     const timer = setInterval(() => {
       if (!window.isMobile && !window.isTablet) {
-        this.props.fetchMoreNewsFeed()
+        // this.props.fetchMoreNewsFeed()
       }
     }, 60000)
     clearInterval(timer)
+    // console.log(
+    //   'set latest',
+    //   this.props.sortedNewsItems[0] &&
+    //     this.props.sortedNewsItems[0].get('updated_at'),
+    // )
+
+    if (
+      this.props.sortedNewsItems[0] &&
+      this.props.sortedNewsItems[0].get('updated_at') !==
+        this.state.latestNewsTime
+    ) {
+      this.setState({
+        latestNewsTime: this.props.sortedNewsItems[0].get('updated_at'),
+      })
+    }
+
+    // console.log('update props', this.props)
   }
 
   componentWillUnmount() {
@@ -79,10 +103,10 @@ class NewsList extends Component {
 
   setActiveNewsItem = (newsItem) => {
     const { setActiveEntity, enableUI } = this.props
-    const url = newsItem.get('url')
-    const urlFragments = url.split('/')
-    const tweetId = urlFragments[urlFragments.length - 1]
-    if (/twitter/.exec(url) !== null) {
+    const tweetId = newsItem.get('url').split('/')[
+      newsItem.get('url').split('/').length - 1
+    ]
+    if (/twitter/.exec(newsItem.get('url')) !== null) {
       setActiveEntity({ type: 'twitterNews', id: newsItem.get('id'), tweetId })
     } else {
       setActiveEntity({ type: 'newsItem', id: newsItem.get('id') })
@@ -101,7 +125,14 @@ class NewsList extends Component {
     this.props.newsfeedTips()
   }
 
-  renderView(viewState, initialRenderTips, readNewsIds, isLoading) {
+  renderView(
+    viewState,
+    itemHeight,
+    activeFilters,
+    sortedNewsItems,
+    initialRenderTips,
+    isLoading,
+  ) {
     if (initialRenderTips && window.isMobile) {
       return <Tips closeTips={this.closeTips.bind(this)} />
     } else if (isLoading('newsItems')) {
@@ -126,35 +157,19 @@ class NewsList extends Component {
         </div>
       )
     }
-
-    const mappedItems = viewState.sortedNewsItems.map((newsItem) => {
-      const hasRead = readNewsIds.includes(newsItem.get('id'))
-      return (
-        <NewsListItem
-          key={newsItem.get('id')}
-          newsItem={newsItem}
-          {...this.props}
-          setActiveNewsItem={this.setActiveNewsItem}
-          selectCoin={(symbol) => this.selectCoin(symbol)}
-          hasRead={hasRead}
-        />
-      )
-    })
-    return mappedItems
   }
 
   selectCoin(coinData) {
     const { setFilter, clearSearch, setActiveEntity } = this.props
     setActiveEntity({ type: 'coin', id: coinData.get('id') })
-    if (this.selectedCoins) {
-      let value = this.selectedCoins()
-      value = union(value, [coinData.get('name')]) // eslint-disable-line no-undef
-      setFilter({ key: 'coins', value })
-      clearSearch()
-    }
+    let value = this.selectedCoins()
+    value = union(value, [coinData.get('name')])
+    setFilter({ key: 'coins', value })
+    clearSearch()
   }
 
   render() {
+    const itemHeight = this.state.initialRender ? 'auto' : 0
     const {
       newsItems,
       isLoading,
@@ -163,12 +178,17 @@ class NewsList extends Component {
       sortedNewsItems,
       initialRenderTips,
     } = this.props
+
     const viewState = {
       activeEntity: activeEntity,
       newsItems: newsItems,
       sortedNewsItems: sortedNewsItems,
     }
     const readNewsIds = JSON.parse(localStorage.getItem('readNews')) || []
+
+    const newItems = viewState.sortedNewsItems.filter((item) => {
+      return item.get('updated_at') > this.state.latestNewsTime
+    })
 
     return (
       <Fragment>
@@ -184,12 +204,75 @@ class NewsList extends Component {
               : {}
           }
         >
-          {this.renderView(
-            viewState,
-            initialRenderTips,
-            readNewsIds,
-            isLoading,
-          )}
+          <NodeGroup
+            data={newItems}
+            keyAccessor={(d) => {
+              return d.get('id')
+            }}
+            start={() => ({
+              opacity: 0,
+              backgroundColor: '#fff',
+            })}
+            enter={() => {
+              return [
+                {
+                  timing: { delay: 500, duration: 500, ease: easeBackOut },
+                },
+                {
+                  opacity: [1],
+                  timing: { duration: 2000 },
+                  backgroundColor: ['#fff', '#eff9fe'],
+                },
+              ]
+            }}
+          >
+            {(nodes, index) => {
+              return (
+                <div style={{ margin: 10, position: 'relative' }} key={index}>
+                  {nodes.map(
+                    (
+                      { key, data, state: { x, opacity, backgroundColor } },
+                      index,
+                    ) => {
+                      return (
+                        <div
+                          key={index}
+                          style={{
+                            opacity,
+                            backgroundColor,
+                          }}
+                        >
+                          <NewsListItem
+                            key={key}
+                            newsItem={data}
+                            {...this.props}
+                            setActiveNewsItem={this.setActiveNewsItem}
+                            selectCoin={(symbol) => this.selectCoin(symbol)}
+                          />
+                        </div>
+                      )
+                    },
+                  )}
+                </div>
+              )
+            }}
+          </NodeGroup>
+
+          <div style={{ margin: 10, position: 'relative' }}>
+            {viewState.sortedNewsItems.map((data) => {
+              return (
+                <div key={data.get('id')}>
+                  <NewsListItem
+                    newsItem={data}
+                    {...this.props}
+                    setActiveNewsItem={this.setActiveNewsItem}
+                    selectCoin={(symbol) => this.selectCoin(symbol)}
+                  />
+                </div>
+              )
+            })}
+          </div>
+
           <div>
             {!isLoading('newsItems') &&
               isLoading('newsfeed') && <LoadingIndicator />}
