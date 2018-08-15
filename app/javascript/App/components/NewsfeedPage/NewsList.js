@@ -27,6 +27,7 @@ class NewsList extends Component {
       enableUI('bodySectionDrawer', { fullScreen: true })
     }
     setTimeout(() => {
+      // set max height to enable scroll in ff
       const colWrap = document.querySelector('.column-wrap')
       const newsContent = document.querySelector('.selected-news-content')
       newsContent.style.maxHeight = `${colWrap.offsetHeight}px`
