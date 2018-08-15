@@ -86,16 +86,11 @@ class NewsList extends Component {
 
     return (
       <InfiniteScroll
-        dataLength={mappedItems.length} //This is important field to render the next data
+        dataLength={mappedItems.length}
         scrollableTarget={document.getElementById('newsfeed')}
         next={fetchMoreNewsFeed}
-        hasMore={true}
+        hasMore={true} // TODO: Actually determine when there are no more NewsItems...
         loader={<LoadingIndicator />}
-        endMessage={
-          <p style={{ textAlign: 'center' }}>
-            <b>Somehow, you have read ALL of the news.</b>
-          </p>
-        }
       >
         {mappedItems}
       </InfiniteScroll>
