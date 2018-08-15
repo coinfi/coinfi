@@ -92,6 +92,7 @@ Events - Conferences, Meetups, Launches, etc.
 Airdrops
 Release
 ICO
+Market Research
 ).split("\n").reject!(&:blank?)
 
 news_category_names.each do |name|
