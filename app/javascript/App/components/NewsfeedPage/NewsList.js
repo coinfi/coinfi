@@ -189,7 +189,6 @@ class NewsList extends Component {
     const newItems = viewState.sortedNewsItems.filter((item) => {
       return item.get('updated_at') > this.state.latestNewsTime
     })
-    // console.log('new items', newItems, sortedNewsItems)
 
     return (
       <Fragment>
@@ -205,7 +204,6 @@ class NewsList extends Component {
               : {}
           }
         >
-
           <NodeGroup
             data={newItems}
             keyAccessor={(d) => {
@@ -222,19 +220,23 @@ class NewsList extends Component {
                 },
                 {
                   opacity: [1],
-                  timing: { duration: 500 },
+                  timing: { duration: 2000 },
                   backgroundColor: ['#fff', '#eff9fe'],
                 },
               ]
             }}
           >
-            {(nodes) => {
+            {(nodes, index) => {
               return (
-                <div style={{ margin: 10, position: 'relative' }}>
+                <div style={{ margin: 10, position: 'relative' }} key={index}>
                   {nodes.map(
-                    ({ key, data, state: { x, opacity, backgroundColor } }) => {
+                    (
+                      { key, data, state: { x, opacity, backgroundColor } },
+                      index,
+                    ) => {
                       return (
                         <div
+                          key={index}
                           style={{
                             opacity,
                             backgroundColor,
@@ -246,7 +248,6 @@ class NewsList extends Component {
                             {...this.props}
                             setActiveNewsItem={this.setActiveNewsItem}
                             selectCoin={(symbol) => this.selectCoin(symbol)}
-                            bgColor={backgroundColor}
                           />
                         </div>
                       )
@@ -260,9 +261,8 @@ class NewsList extends Component {
           <div style={{ margin: 10, position: 'relative' }}>
             {viewState.sortedNewsItems.map((data) => {
               return (
-                <div>
+                <div key={data.get('id')}>
                   <NewsListItem
-                    key={data.get('id')}
                     newsItem={data}
                     {...this.props}
                     setActiveNewsItem={this.setActiveNewsItem}
