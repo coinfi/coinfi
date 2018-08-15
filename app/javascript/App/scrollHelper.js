@@ -1,4 +1,5 @@
 export default (element) => {
+  // fixes issue in firefox where users are unable to scroll
   const newsfeedElem = document.querySelector('#newsfeed')
   const newsBodyElem = document.querySelector('.selected-news-content')
   const coinDrawerElem = document.querySelector('.coin-watch-list')
