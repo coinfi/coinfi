@@ -205,21 +205,6 @@ class NewsList extends Component {
               : {}
           }
         >
-          {/* {this.renderView( */}
-          {/*   viewState, */}
-          {/*   initialRenderTips, */}
-          {/*   readNewsIds, */}
-          {/*   isLoading, */}
-          {/* )} */}
-
-          {/* {this.renderView( */}
-          {/*   viewState, */}
-          {/*   itemHeight, */}
-          {/*   activeFilters, */}
-          {/*   sortedNewsItems, */}
-          {/*   initialRenderTips, */}
-          {/*   isLoading, */}
-          {/* )} */}
 
           <NodeGroup
             data={newItems}
@@ -227,27 +212,32 @@ class NewsList extends Component {
               return d.get('id')
             }}
             start={() => ({
-              y: '-120px',
+              opacity: 0,
+              backgroundColor: '#fff',
             })}
-            enter={() => ({
-              x: [this.state.open ? 200 : 100],
-              timing: { duration: 750, ease: easeBackOut },
-            })}
+            enter={() => {
+              return [
+                {
+                  timing: { delay: 500, duration: 500, ease: easeBackOut },
+                },
+                {
+                  opacity: [1],
+                  timing: { duration: 500 },
+                  backgroundColor: ['#fff', '#eff9fe'],
+                },
+              ]
+            }}
           >
             {(nodes) => {
-              // console.log('nodes ', nodes)
               return (
                 <div style={{ margin: 10, position: 'relative' }}>
                   {nodes.map(
                     ({ key, data, state: { x, opacity, backgroundColor } }) => {
-                      // ({ key, data, state: { opacity, backgroundColor } }) => {
-                      // debugger
                       return (
                         <div
                           style={{
-                            backgroundColor: 'rgb(0, 207, 119)',
-                            transition: 'all 500ms ease-in-out',
-                            transform: `translateY(${x})`,
+                            opacity,
+                            backgroundColor,
                           }}
                         >
                           <NewsListItem
@@ -269,9 +259,6 @@ class NewsList extends Component {
 
           <div style={{ margin: 10, position: 'relative' }}>
             {viewState.sortedNewsItems.map((data) => {
-              // ({ key, state: { x, opacity, backgroundColor } }) => {
-              // debugger
-              // console.log('data ', data)
               return (
                 <div>
                   <NewsListItem
