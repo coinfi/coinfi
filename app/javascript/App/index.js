@@ -68,7 +68,6 @@ const injectComponents = () => {
   }
 }
 
-
 const setScreenSize = () => {
   window.screenSize = getScreenSize()
   window.isMobile = !['m', 'l'].includes(window.screenSize)

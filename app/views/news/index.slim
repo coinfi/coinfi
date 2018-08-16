@@ -1,0 +1,2 @@
+- feed_sources = (FeedSource.feed_types - ['general']) + FeedSource.where(feed_type: 'general').pluck(:site_hostname)
+= react_component "NewsfeedPage", withStore: true, props: { user: current_user, feedSources: feed_sources, categories: NewsCategory.pluck(:name), loggedIn: !!current_user }

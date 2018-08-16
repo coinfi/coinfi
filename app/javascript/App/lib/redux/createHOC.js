@@ -26,5 +26,8 @@ export default (args) => (Component) => {
   }
   const mapDispatch = (dispatch) => bindActionCreators(actions, dispatch)
   const mapState = createStructuredSelector(selectors)
-  return connect(mapState, mapDispatch)(HOC)
+  return connect(
+    mapState,
+    mapDispatch,
+  )(HOC)
 }
