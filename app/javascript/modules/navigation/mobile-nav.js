@@ -37,11 +37,15 @@ $(document).ready(() => {
 
 export const darkModeFeature = () => {
   const darkModeBtn = document.querySelector('.trigger-dark-mode')
-  const nightly = new Nightly()
+  const options = {
+    inputs: {
+      backgroundColor: 'inherit',
+    },
+  }
+  const nightly = new Nightly(options)
 
   darkModeBtn.addEventListener('click', function(event) {
     window.darkModeEnabled = !window.darkModeEnabled
-
 
     const bodyElem = document.querySelector('body')
     Array.from(bodyElem.classList).includes('dark-mode')
@@ -53,12 +57,11 @@ export const darkModeFeature = () => {
       : (document.querySelector('.trigger-dark-mode>span').innerText = 'dark')
 
     nightly.toggle()
-    !function removeIconBg() {
+    !(function removeIconBg() {
       document.querySelectorAll('button.btn-icon').forEach((item) => {
         item.style.backgroundColor = 'inherit'
       })
-    }()
-
+    })()
   })
 }
 
