@@ -1,4 +1,3 @@
-
 export const toggleOverlay = (element) => {
   $('body').toggleClass('overflow-hidden')
   const e = $(element)
@@ -38,17 +37,22 @@ $(document).ready(() => {
 
 export const darkModeFeature = () => {
   const darkModeBtn = document.querySelector('.trigger-dark-mode')
+
+  var nightly = new Nightly({
+    body: '#222',
+  })
+
   darkModeBtn.addEventListener('click', function(event) {
     window.darkModeEnabled = !window.darkModeEnabled
-    console.log('add syle')
-    var head = document.head
-    var link = document.createElement('link')
+    const head = document.head
+    const link = document.createElement('link')
 
     link.type = 'text/css'
     link.rel = 'stylesheet'
     link.className = 'mobile-nav-css'
     link.href = '/assets/dark-mode.css'
 
+    nightly.toggle()
     if (darkModeEnabled) {
       head.appendChild(link)
     } else {
@@ -56,6 +60,7 @@ export const darkModeFeature = () => {
       document.getElementsByTagName('head')[0].removeChild(darkStylesheet)
     }
   })
+
 }
 
 darkModeFeature()
