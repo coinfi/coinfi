@@ -38,29 +38,15 @@ $(document).ready(() => {
 export const darkModeFeature = () => {
   const darkModeBtn = document.querySelector('.trigger-dark-mode')
 
-  var nightly = new Nightly({
-    body: '#222',
-  })
+  var nightly = new Nightly()
 
   darkModeBtn.addEventListener('click', function(event) {
-    window.darkModeEnabled = !window.darkModeEnabled
-    const head = document.head
-    const link = document.createElement('link')
-
-    link.type = 'text/css'
-    link.rel = 'stylesheet'
-    link.className = 'mobile-nav-css'
-    link.href = '/assets/dark-mode.css'
-
+    const bodyElem = document.querySelector('body')
+    Array.from(bodyElem.classList).includes('dark-mode')
+      ? bodyElem.classList.remove('dark-mode')
+      : bodyElem.classList.add('dark-mode')
     nightly.toggle()
-    if (darkModeEnabled) {
-      head.appendChild(link)
-    } else {
-      const darkStylesheet = document.querySelector('.mobile-nav-css')
-      document.getElementsByTagName('head')[0].removeChild(darkStylesheet)
-    }
   })
-
 }
 
 darkModeFeature()

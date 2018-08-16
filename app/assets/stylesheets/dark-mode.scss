@@ -1,0 +1,16 @@
+body.dark-mode {
+  > main,
+  .bg-white,
+  .bg-athens {
+    background: inherit;
+  }
+  .bg-foam {
+    background: #333;
+  }
+  h1,
+  h2,
+  h3,
+  h4 {
+    color: #eee;
+  }
+}
