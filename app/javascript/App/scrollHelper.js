@@ -28,8 +28,8 @@ export default (element) => {
 
   if (coinListWrap) coinListWrap.style.height = bodyTag + 'px'
 
-  // TODO: figure out how to calculate the height because the percentage evaluates to different amts on chrome and ff
-  // if (coinListDrawer) coinListDrawer.style.height = coinListWrap.offsetHeight + 'px'
+  if (coinListDrawer)
+    coinListDrawer.style.height = calculatedNewsListHeight + 'px'
 
   if (!!element) element.style.maxHeight = `${calculatedNewsListHeight}px`
 }
