@@ -37,7 +37,7 @@ class CoinList extends Component {
       coins = coins.filter((coin) => isWatching(coin.get('id')))
     }
     return (
-      <div style={{ height: 780 }}>
+      <div className="coin-list-wrap">
         <CoinListHeader {...this.props} />
         <div
           className="coin-list-drawer"
@@ -45,7 +45,7 @@ class CoinList extends Component {
             flex: 1,
             minHeight: 0,
             minWidth: 0,
-            height: '90%',
+            height: '92%',
             overflowY: 'scroll',
           }}
         >
