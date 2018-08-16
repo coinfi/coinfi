@@ -31,8 +31,10 @@ class CoinList extends Component {
 
   render() {
     const { isLoading, currentUI, isWatching } = this.props
-    return <CoinListHeader {...this.props} />
-    /*
+    let { coins } = this.props
+    if (currentUI('watchingOnly')) {
+      coins = coins.filter((coin) => isWatching(coin.get('id')))
+    }
     return (
       <Fragment>
         <CoinListHeader {...this.props} />
@@ -67,7 +69,6 @@ class CoinList extends Component {
         </div>
       </Fragment>
     )
-    */
   }
 }
 

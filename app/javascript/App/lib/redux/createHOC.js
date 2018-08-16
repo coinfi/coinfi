@@ -9,6 +9,9 @@ export default (args) => (Component) => {
     componentDidMount() {
       if (onMount) onMount(this)
     }
+    componentWillMount() {
+      this.thing = () => console.log('woot')
+    }
     render() {
       let props = { ...this.props }
 

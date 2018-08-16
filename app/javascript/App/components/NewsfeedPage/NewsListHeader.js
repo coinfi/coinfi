@@ -8,12 +8,16 @@ import FilterTags from '../FilterTags'
 import filterBtn from '../../images/filter-btn.svg'
 
 const NewsListHeader = (props) => {
-  const { coins, feedSources, showFilters, activeFilters, newsfeedTips } = props
-
-  const toggleFilters = () => null
-  //enableUI('filterPanel', { fullScreen: window.isMobile })
-
-  const showCoinListDrawer = () => null
+  const {
+    enableUI,
+    currentUI,
+    coins,
+    feedSources,
+    activeFilters,
+    newsfeedTips,
+  } = props
+  const toggleFilters = () =>
+    enableUI('filterPanel', { fullScreen: window.isMobile })
 
   const btnStyle = {
     padding: '16px',
@@ -29,7 +33,7 @@ const NewsListHeader = (props) => {
           <div className="flex-auto flex items-center">
             <button
               className="btn btn-blue btn-xs flex-auto justify-center"
-              onClick={() => showCoinListDrawer()}
+              onClick={() => enableUI('coinListDrawer', { fullScreen: true })}
               style={{
                 ...btnStyle,
                 ...{
@@ -56,7 +60,7 @@ const NewsListHeader = (props) => {
           {!window.isMobile && (
             <button
               className="btn btn-blue btn-xs coins-btn mr2"
-              onClick={() => showCoinListDrawer()}
+              onClick={() => enableUI('coinListDrawer', { fullScreen: true })}
               style={
                 window.isMobile
                   ? {
@@ -84,14 +88,13 @@ const NewsListHeader = (props) => {
           </button>
         </div>
       </SectionHeader>
-      {activeFilters &&
-        activeFilters.size > 0 && (
-          <div className="pa3 f6 b--b bg-athens flex items-center">
-            <span className="mr2">Viewing by:</span>
-            <FilterTags {...props} />
-          </div>
-        )}
-      {showFilters && (
+      {activeFilters.size > 0 && (
+        <div className="pa3 f6 b--b bg-athens flex items-center">
+          <span className="mr2">Viewing by:</span>
+          <FilterTags {...props} />
+        </div>
+      )}
+      {currentUI('filterPanel') && (
         <FilterPanel {...props} filterData={{ coins, feedSources }} />
       )}
     </Fragment>

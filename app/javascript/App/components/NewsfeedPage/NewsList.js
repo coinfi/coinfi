@@ -14,16 +14,14 @@ class NewsList extends Component {
   }
 
   setActiveNewsItem = (newsItem) => {
-    // console.log(newsItem);
     const { setActiveEntity, enableUI } = this.props
-    // console.log(this.props);
-    const url = newsItem.url
+    const url = newsItem.get('url')
     const urlFragments = url.split('/')
     const tweetId = urlFragments[urlFragments.length - 1]
     if (/twitter/.exec(url) !== null) {
-      setActiveEntity({ type: 'twitterNews', id: newsItem.id, tweetId })
+      setActiveEntity({ type: 'twitterNews', id: newsItem.get('id'), tweetId })
     } else {
-      setActiveEntity({ type: 'newsItem', id: newsItem.id })
+      setActiveEntity({ type: 'newsItem', id: newsItem.get('id') })
     }
     if (window.isMobile) {
       enableUI('bodySectionDrawer', { fullScreen: true })
@@ -40,7 +38,6 @@ class NewsList extends Component {
     this.props.newsfeedTips()
   }
 
-  /*
   renderView(
     viewState,
     initialRenderTips,
@@ -48,9 +45,6 @@ class NewsList extends Component {
     isLoading,
     fetchMoreNewsFeed,
   ) {
-  */
-  renderView() {
-    /*
     if (initialRenderTips && window.isMobile) {
       return <Tips closeTips={this.closeTips.bind(this)} />
     } else if (isLoading('newsItems')) {
@@ -101,17 +95,6 @@ class NewsList extends Component {
         {mappedItems}
       </InfiniteScroll>
     )
-    */
-    const mappedItems = this.props.newsItems.map((newsItem) => (
-      <NewsListItem
-        key={newsItem.id}
-        newsItem={newsItem}
-        {...this.props}
-        setActiveNewsItem={this.setActiveNewsItem}
-        selectCoin={(symbol) => this.selectCoin(symbol)}
-      />
-    ))
-    return mappedItems
   }
 
   selectCoin(coinData) {
@@ -155,16 +138,13 @@ class NewsList extends Component {
             : {}
         }
       >
-        {this.renderView()}
-        {
-          /*
+        {this.renderView(
           viewState,
           initialRenderTips,
           readNewsIds,
           isLoading,
           fetchMoreNewsFeed,
-          */
-        }}
+        )}
       </div>
     )
   }

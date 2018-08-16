@@ -20,7 +20,8 @@ import GlobalCoinSearch from './components/GlobalCoinSearch'
 import TwitterFeed from './components/TwitterFeed'
 import RedditFeed from './components/RedditFeed'
 import IcoFilters from './components/IcoFilters'
-import NewsfeedPage from './bundles/NewsfeedPage'
+import NewsfeedPageNew from './bundles/NewsfeedPage'
+import NewsfeedPage from './components/NewsfeedPage'
 import Tabs from './components/Tabs'
 import CoinCharts from './components/CoinCharts'
 import CalendarPage from './components/CalendarPage'
@@ -54,41 +55,55 @@ const injectComponents = () => {
       const props = JSON.parse(hook.getAttribute('props'))
       const withStore = hook.getAttribute('withStore') !== null
       if (withStore) {
-        console.log('---- user -----');
-        console.log(props.user);
-        ReactDOM.render(
-          <CoinListContainer user={props.user}>
+        // This is the custom flag for `feature/toplist-watchlist` branch
+        if (false) {
+          ReactDOM.render(
+            <CoinListContainer user={props.user}>
+              <Provider store={store}>
+                <Router>
+                  <div>
+                    <Route
+                      exact
+                      path="/news/:coinSlug?"
+                      render={(routeProps) => (
+                        <NewsfeedPageNew
+                          coinSlug={routeProps.match.params.coinSlug}
+                        />
+                      )}
+                    />
+                    <Route
+                      exact
+                      path="/news/:newsItemId/:newsItemSlug"
+                      render={(routeProps) => (
+                        <NewsfeedPageNew
+                          newsItemId={routeProps.match.params.newsItemId}
+                        />
+                      )}
+                    />
+                    <Route path="/events" component={CalendarPage} />
+                  </div>
+                </Router>
+              </Provider>
+            </CoinListContainer>,
+            hook,
+          )
+        } else {
+          const AppComponent = appContainer(Component)
+          ReactDOM.render(
             <Provider store={store}>
-              <Router>
-                <div>
-                  <Route
-                    exact
-                    path="/news/:coinSlug?"
-                    render={(routeProps) => (
-                        <NewsfeedPage coinSlug={routeProps.match.params.coinSlug} />
-                    )}
-                  />
-                  <Route
-                    exact
-                    path="/news/:newsItemId/:newsItemSlug"
-                    render={(routeProps) => (
-                        <NewsfeedPage newsItemId={routeProps.match.params.newsItemId} />
-                    )}
-                  />
-                  <Route path="/events" component={CalendarPage} />
-                </div>
-              </Router>
-            </Provider>
-          </CoinListContainer>,
-          hook,
-        )
+              <PersistGate loading={null} persistor={persistor}>
+                <AppComponent {...props} />
+              </PersistGate>
+            </Provider>,
+            hook,
+          )
+        }
       } else {
         ReactDOM.render(<Component {...props} />, hook)
       }
     })
   }
 }
-
 
 const setScreenSize = () => {
   window.screenSize = getScreenSize()

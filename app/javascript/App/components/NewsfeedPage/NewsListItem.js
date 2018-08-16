@@ -1,5 +1,4 @@
 import React, { Fragment } from 'react'
-import { Link } from 'react-router-dom'
 import timeago from 'timeago.js'
 import CoinTags from '../CoinTags'
 import BulletSpacer from '../BulletSpacer'
@@ -35,17 +34,15 @@ const NewsListItem = (props) => {
   let className = 'b--b tiber overflow-hidden'
   if (activeEntity) {
     const { type, id } = activeEntity
-    if (type === 'newsItem' && id === newsItem.id) className += ' bg-foam'
+    if (type === 'newsItem' && id === newsItem.get('id'))
+      className += ' bg-foam'
   }
-  const url = new URL(newsItem.url)
+  const url = new URL(newsItem.get('url'))
   if (preRender) className += ' o-0 absolute'
-  const newsItemTitle = newsItem.title
+  const newsItemTitle = newsItem
+    .get('title')
     .replace(/<h1>/g, '')
     .replace(/<\/h1>/g, '')
-
-  const linkData = newsItem.coin_link_data[0]
-
-  if (typeof linkData === 'undefined') return null
 
   return (
     <div
@@ -56,22 +53,9 @@ const NewsListItem = (props) => {
       }}
     >
       <div className="pa-default">
-        <Link
-          to={`/news/${linkData.id}/${linkData.slug}`}
-          onClick={() => {
-            if (
-              document.querySelector('.selected-news-content') &&
-              document.querySelector('.selected-news-content').parentNode
-            )
-              document.querySelector(
-                '.selected-news-content',
-              ).parentNode.scrollTop = 0
-          }}
-        >
-          <h4 className="pointer mb2 f5" style={hasRead ? { color: '#999' } : {}}>
-            {newsItemTitle}
-          </h4>
-        </Link>
+        <h4 className="pointer mb2 f5" style={hasRead ? { color: '#999' } : {}}>
+          {newsItemTitle}
+        </h4>
         <div className="flex justify-between flex-wrap">
           <div className="f6 silver">
             {url.hostname === 'twitter.com' && (
@@ -88,7 +72,7 @@ const NewsListItem = (props) => {
                   {`@${url.pathname.split('/')[1]}`}
                 </a>
                 <BulletSpacer />
-                {timeago().format(newsItem.feed_item_published_at)}
+                {timeago().format(newsItem.get('feed_item_published_at'))}
               </Fragment>
             )}
             {url.hostname === 'www.reddit.com' && (
@@ -97,7 +81,7 @@ const NewsListItem = (props) => {
                   <img src={redditLogo} style={{ height: 12 }} />
                 </span>
                 <a
-                  href={newsItem.url}
+                  href={newsItem.get('url')}
                   target="_blank noopener noreferrer"
                   rel="nofollow"
                   className="dib silver"
@@ -105,7 +89,7 @@ const NewsListItem = (props) => {
                   {`/r/${url.pathname.split('/')[2]}`}
                 </a>
                 <BulletSpacer />
-                {timeago().format(newsItem.feed_item_published_at)}
+                {timeago().format(newsItem.get('feed_item_published_at'))}
               </Fragment>
             )}
             {url.hostname !== 'twitter.com' &&
@@ -115,7 +99,7 @@ const NewsListItem = (props) => {
                     <img src={linkLogo} style={{ height: 9 }} />
                   </span>
                   <a
-                    href={newsItem.url}
+                    href={newsItem.get('url')}
                     target="_blank noopener noreferrer"
                     rel="nofollow"
                     className="dib silver"
@@ -123,7 +107,7 @@ const NewsListItem = (props) => {
                     {url.hostname}
                   </a>
                   <BulletSpacer />
-                  {timeago().format(newsItem.feed_item_published_at)}
+                  {timeago().format(newsItem.get('feed_item_published_at'))}
                 </Fragment>
               )}
           </div>
