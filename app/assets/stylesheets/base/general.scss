@@ -6,81 +6,35 @@ a > * {
   cursor: pointer;
 }
 
-.coin-list-drawer::-webkit-scrollbar {
-  -webkit-appearance: none;
-}
-.coin-list-drawer::-moz-scrollbar {
-  -webkit-appearance: none;
-}
-
-.coin-list-drawer::-webkit-scrollbar:vertical {
-  width: 11px;
-}
-.coin-list-drawer::-moz-scrollbar:vertical {
-  width: 11px;
-}
-
-.coin-list-drawer:hover::-webkit-scrollbar-thumb {
-  border-radius: 8px;
-  border: 2px solid white; /* should match background, can't be transparent */
-  background-color: #071d29;
-}
-.coin-list-drawer:hover::-moz-scrollbar-thumb {
-  border-radius: 8px;
-  border: 2px solid white; /* should match background, can't be transparent */
-  background-color: #071d29;
-}
-
-.coin-list-drawer::-webkit-scrollbar-track {
-  -moz-transition: background-color 1000ms;
-  transition: background-color 1000ms;
-  border-radius: 8px;
-}
-
-.coin-list-drawer::-moz-scrollbar-track {
-  transition: background-color 1000ms;
-  border-radius: 8px;
-}
-
-#newsfeed::-webkit-scrollbar {
-  -webkit-appearance: none;
-}
-
-#newsfeed::-webkit-scrollbar:vertical {
-  width: 11px;
-}
-
-#newsfeed:hover::-webkit-scrollbar-thumb {
-  border-radius: 8px;
-  border: 2px solid white; /* should match background, can't be transparent */
-  background-color: #071d29;
-}
-
-#newsfeed::-webkit-scrollbar-track {
-  transition: background-color 1000ms;
-  border-radius: 8px;
-}
-
-.selected-news-wrap {
-  overflow: auto;
-}
+.coin-list-drawer::-webkit-scrollbar,
+#newsfeed::-webkit-scrollbar,
 .selected-news-wrap::-webkit-scrollbar {
   -webkit-appearance: none;
 }
 
+.coin-list-drawer::-webkit-scrollbar:vertical,
+#newsfeed::-webkit-scrollbar:vertical,
 .selected-news-wrap::-webkit-scrollbar:vertical {
   width: 11px;
 }
 
+.coin-list-drawer:hover::-webkit-scrollbar-thumb,
+#newsfeed:hover::-webkit-scrollbar-thumb,
 .selected-news-wrap:hover::-webkit-scrollbar-thumb {
   border-radius: 8px;
   border: 2px solid white; /* should match background, can't be transparent */
   background-color: #071d29;
 }
 
+.coin-list-drawer::-webkit-scrollbar-track,
+#newsfeed::-webkit-scrollbar-track,
 .selected-news-wrap::-webkit-scrollbar-track {
   transition: background-color 1000ms;
   border-radius: 8px;
+}
+
+.selected-news-wrap {
+  overflow: auto;
 }
 
 body {

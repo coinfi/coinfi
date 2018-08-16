@@ -6,6 +6,7 @@ export default (element) => {
   const newsBodyElem = document.querySelector('.selected-news-content')
   const coinDrawerElem = document.querySelector('.coin-watch-list')
   const coinListWrap = document.querySelector('.coin-list-wrap')
+  const coinListDrawer = document.querySelector('.coin-list-drawer')
 
   const elemArr = [newsfeedElem, newsBodyElem, coinDrawerElem, element]
 
@@ -26,6 +27,9 @@ export default (element) => {
   }
 
   if (coinListWrap) coinListWrap.style.height = bodyTag + 'px'
+
+  // TODO: figure out how to calculate the height because the percentage evaluates to different amts on chrome and ff
+  // if (coinListDrawer) coinListDrawer.style.height = coinListWrap.offsetHeight + 'px'
 
   if (!!element) element.style.maxHeight = `${calculatedNewsListHeight}px`
 }

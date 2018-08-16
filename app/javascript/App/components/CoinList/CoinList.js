@@ -1,5 +1,4 @@
 import React, { Component, Fragment } from 'react'
-import CustomScroll from 'react-custom-scroll'
 import CoinListHeader from './CoinListHeader'
 import CoinListItem from './CoinListItem'
 import LoadingIndicator from '../LoadingIndicator'
@@ -45,7 +44,7 @@ class CoinList extends Component {
             flex: 1,
             minHeight: 0,
             minWidth: 0,
-            height: '92%',
+            height: '91%',
             overflowY: 'scroll',
           }}
         >
