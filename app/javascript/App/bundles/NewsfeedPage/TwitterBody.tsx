@@ -1,5 +1,5 @@
 import * as React from 'react'
-import CoinTags from '../../components/CoinTags'
+import CoinTags from '../common/components/CoinTags'
 import { Tweet } from 'react-twitter-widgets'
 
 import { NewsItem } from './types';

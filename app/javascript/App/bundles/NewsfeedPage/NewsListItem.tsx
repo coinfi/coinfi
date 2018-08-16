@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { Link } from 'react-router-dom'
 import timeago from 'timeago.js'
-import CoinTags from '../../components/CoinTags'
+import CoinTags from '../common/components/CoinTags'
 import BulletSpacer from '../../components/BulletSpacer'
 import { slugify } from '../../lib/utils/slugify';
 

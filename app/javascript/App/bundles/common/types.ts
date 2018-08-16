@@ -6,6 +6,16 @@ export interface Coin {
   symbol: string
 }
 
+export interface CoinLinkData {
+  id: number,
+  symbol: string,
+  slug: string,
+};
+
+export interface ItemWithCoinLinkData {
+  coin_link_data: Array<CoinLinkData>,
+}
+
 export type CoinList = Array<Coin>
 
 export interface User {
