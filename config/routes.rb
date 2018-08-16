@@ -45,6 +45,8 @@ Rails.application.routes.draw do
   get '/profile', to: 'author_profiles#edit', as: 'edit_author_profile'
   resources :author_profiles, only: %i[index show create update], path: 'authors'
 
+  get '/data/exchange-wallets', to: 'dataviz#exchange_wallets'
+
   namespace :webhooks do
     post "#{ENV.fetch('SUPERFEEDR_CALLBACK_URL_SEGMENT_SECRET')}-superfeedr-ingest", to: 'websubs#superfeedr_ingest'
   end
