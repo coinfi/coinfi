@@ -1,21 +1,21 @@
 class Api::ExchangeListingsController < ApiController
+  PER_PAGE = 25
+
   def index
     # Ensure fresh response on every request
     headers['Last-Modified'] = Time.now.httpdate
 
-    q = params[:q] || {}
+    @listings = ExchangeListing.includes(:exchange).all
 
-    @listings = ExchangeListing.all
-
-    if q[:detectedSince].present?
-      @listings = @listings.where('detected_at > ?', q[:detectedSince].to_datetime)
+    if params[:detectedSince].present?
+      @listings = @listings.where('detected_at > ?', params[:detectedSince].to_datetime)
     end
 
-    if q[:detectedUntil].present?
-      @listings = @listings.where('detected_at < ?', q[:detectedUntil].to_datetime)
+    if params[:detectedUntil].present?
+      @listings = @listings.where('detected_at < ?', params[:detectedUntil].to_datetime)
     end
 
-    @listings = @listings.order_by_detected.page(params[:page]).per(10).limit(20)
+    @listings = @listings.order_by_detected.limit(PER_PAGE)
 
     respond_success index_serializer(@listings)
   end
