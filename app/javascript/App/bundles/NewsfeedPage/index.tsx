@@ -6,7 +6,6 @@ declare const window: WindowScreenType;
 import * as React from 'react'
 import { withRouter } from 'react-router'
 import debounce from 'debounce'
-//import newsfeedContainer from '../../containers/newsfeed'
 import LayoutDesktop from '../../components/LayoutDesktop'
 import LayoutTablet from '../../components/LayoutTablet'
 import LayoutMobile from '../../components/LayoutMobile'
@@ -111,7 +110,6 @@ class NewsfeedPage extends React.Component<Props, State> {
 
   fetchAllNewsItems() {
     localAPI.get('/news').then((response) => {
-      //console.log(response)
       this.setState({
         status: STATUSES.READY,
         newsItems: response.payload,
@@ -122,7 +120,6 @@ class NewsfeedPage extends React.Component<Props, State> {
   fetchNewsItemsForCoin(coinSlug) {
     // TODO: Retrieve correct NewsItems.
     localAPI.get(`/news?coinSlugs=${coinSlug}`).then((response) => {
-      //console.log(response)
       this.setState({
         status: STATUSES.READY,
         newsItems: response.payload,
@@ -133,7 +130,6 @@ class NewsfeedPage extends React.Component<Props, State> {
   render() {
     let enhancedProps = {
       ...this.props,
-      // newsfeedTips: (event) => this.newsfeedTips(event),
       initialRenderTips: this.state.initialRenderTips,
     }
 
@@ -204,7 +200,6 @@ class NewsfeedPage extends React.Component<Props, State> {
             </CoinListContext.Consumer>
           }
           rightSection={
-            // Question Andrey: maybe wrap whole render function into CoinListContext ?
             <CoinListContext.Consumer>
               {
                 (payload) => (

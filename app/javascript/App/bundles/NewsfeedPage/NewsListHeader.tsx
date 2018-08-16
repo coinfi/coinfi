@@ -16,7 +16,6 @@ const NewsListHeader = (props) => {
   const { coins, feedSources, showFilters, activeFilters, newsfeedTips } = props
 
   const toggleFilters = () => null
-  //enableUI('filterPanel', { fullScreen: window.isMobile })
 
   const showCoinListDrawer = () => null
 

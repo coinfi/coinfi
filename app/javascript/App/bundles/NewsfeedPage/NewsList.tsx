@@ -33,13 +33,11 @@ class NewsList extends React.Component<Props, State> {
 
   componentDidMount() {
     // set max height to enable scroll in ff
-    // scrollHelper() // TODO: check, it not working
+    scrollHelper();
   }
 
   setActiveNewsItem = (newsItem) => {
-    // console.log(newsItem);
     const { setActiveEntity, enableUI } = this.props
-    // console.log(this.props);
     const url = newsItem.url
     const urlFragments = url.split('/')
     const tweetId = urlFragments[urlFragments.length - 1]
@@ -63,6 +61,7 @@ class NewsList extends React.Component<Props, State> {
     this.props.newsfeedTips()
   }
 
+  // TODO: this commented out code will be uncommented and merged with existing functionality
   /*
   renderView(
     viewState,
@@ -137,6 +136,7 @@ class NewsList extends React.Component<Props, State> {
     return mappedItems
   }
 
+  // TODO: this commented out code will be uncommented and merged with existing functionality
   // selectCoin(coinData) {
   //   const { setFilter, clearSearch, setActiveEntity } = this.props
   //   setActiveEntity({ type: 'coin', id: coinData.get('id') })
