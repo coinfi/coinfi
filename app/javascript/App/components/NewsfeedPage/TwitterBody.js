@@ -27,7 +27,7 @@ export default class NewsBody extends Component {
             ))}
           </div>
         )}
-        <Tweet tweetId={this.props.activeEntity.tweetId} />
+        <Tweet tweetId={this.props.activeEntity.tweetId} options={window.darkModeEnabled ? {theme:'dark'} : {}} />
       </div>
     )
   }

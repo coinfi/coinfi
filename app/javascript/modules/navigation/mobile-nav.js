@@ -41,10 +41,15 @@ export const darkModeFeature = () => {
   var nightly = new Nightly()
 
   darkModeBtn.addEventListener('click', function(event) {
+    window.darkModeEnabled = !window.darkModeEnabled
     const bodyElem = document.querySelector('body')
     Array.from(bodyElem.classList).includes('dark-mode')
       ? bodyElem.classList.remove('dark-mode')
       : bodyElem.classList.add('dark-mode')
+
+    Array.from(bodyElem.classList).includes('dark-mode')
+      ? (document.querySelector('.trigger-dark-mode>span').innerText = 'light')
+      : (document.querySelector('.trigger-dark-mode>span').innerText = 'dark')
     nightly.toggle()
   })
 }
