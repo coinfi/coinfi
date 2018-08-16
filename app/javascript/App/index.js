@@ -82,3 +82,34 @@ document.addEventListener('DOMContentLoaded', () => {
 
 window.addEventListener('resize', debounce(setScreenSize), 400)
 window.addEventListener('resize', debounce(scrollHelper), 400)
+
+const showScrollbars = () => {
+  var head = document.head
+  var link = document.createElement('link')
+  link.type = 'text/css'
+  link.rel = 'stylesheet'
+  link.id = 'scroll-style'
+  link.href = '/assets/scroll-style.css'
+  head.appendChild(link)
+
+  document
+    .querySelector('.coin-watch-list')
+    .addEventListener('mouseover', () => {
+      document.querySelector('#scroll-style').setAttribute('rel', 'stylesheet')
+    })
+  document
+    .querySelector('.coin-watch-list')
+    .addEventListener('mouseleave', () => {
+      document
+        .querySelector('#scroll-style')
+        .setAttribute('rel', 'alternate stylesheet')
+    })
+  document.querySelector('#newsfeed').addEventListener('mouseover', () => {
+    document.querySelector('#scroll-style').setAttribute('rel', 'stylesheet')
+  })
+  document.querySelector('#newsfeed').addEventListener('mouseleave', () => {
+    document
+      .querySelector('#scroll-style')
+      .setAttribute('rel', 'alternate stylesheet')
+  })
+}

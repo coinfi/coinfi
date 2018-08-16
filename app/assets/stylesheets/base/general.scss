@@ -1,14 +1,42 @@
 * {
   outline: none;
-  &::-webkit-scrollbar {
-    -webkit-appearance: none;
-    width: 0px;
-  }
 }
 a,
 a > * {
   cursor: pointer;
 }
+
+.coin-list-drawer::-webkit-scrollbar,
+#newsfeed::-webkit-scrollbar,
+.selected-news-wrap::-webkit-scrollbar {
+  -webkit-appearance: none;
+}
+
+.coin-list-drawer::-webkit-scrollbar:vertical,
+#newsfeed::-webkit-scrollbar:vertical,
+.selected-news-wrap::-webkit-scrollbar:vertical {
+  width: 11px;
+}
+
+.coin-list-drawer:hover::-webkit-scrollbar-thumb,
+#newsfeed:hover::-webkit-scrollbar-thumb,
+.selected-news-wrap:hover::-webkit-scrollbar-thumb {
+  border-radius: 8px;
+  border: 2px solid white; /* should match background, can't be transparent */
+  background-color: #071d29;
+}
+
+.coin-list-drawer::-webkit-scrollbar-track,
+#newsfeed::-webkit-scrollbar-track,
+.selected-news-wrap::-webkit-scrollbar-track {
+  transition: background-color 1000ms;
+  border-radius: 8px;
+}
+
+.selected-news-wrap {
+  overflow: auto;
+}
+
 body {
   font-family: $sans-serif;
   @extend .min-vh-100;
@@ -34,49 +62,50 @@ body {
 }
 
 ol.tips {
-  list-style-type:none;
-  padding:0;
-  li {margin:10px 0}
+  list-style-type: none;
+  padding: 0;
+  li {
+    margin: 10px 0;
+  }
   li > div {
     display: inline-block;
-    font-size:.75rem;
+    font-size: 0.75rem;
   }
-  img {margin:0 5px}
+  img {
+    margin: 0 5px;
+  }
 }
 
 .signup-cta-wrap {
   h2 {
-    border-top : 1px solid rgba(0, 0, 0, 0.12);
-    padding-top : 15px;
-    padding-bottom : 0;
-    margin-bottom : 0;
+    border-top: 1px solid rgba(0, 0, 0, 0.12);
+    padding-top: 15px;
+    padding-bottom: 0;
+    margin-bottom: 0;
     font-size: 1.13rem;
     font-weight: bold;
     padding-top: 15px;
   }
 }
 
-@media only screen and (min-width:480px) {
+@media only screen and (min-width: 480px) {
   .signup-cta-wrap {
     button {
-      max-width:120px;
+      max-width: 120px;
     }
   }
 }
 
-@media only screen and (min-width:768px) {
+@media only screen and (min-width: 768px) {
   .signup-cta-wrap {
     border: 1px solid rgba(0, 0, 0, 0.12);
     width: 90%;
     margin: auto;
-    padding-bottom:25px;
+    padding-bottom: 25px;
     h2 {
-      border:0;
+      border: 0;
     }
     button {
     }
-
   }
-
 }
-

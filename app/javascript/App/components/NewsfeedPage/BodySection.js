@@ -9,7 +9,7 @@ const BodySection = (props) => {
   if (!activeEntity) return <Tips {...props} />
   if (activeEntity.type === 'coin') return <CoinBody {...props} />
   if (activeEntity.type === 'twitterNews') return <TwitterBody {...props} />
-  return <NewsBody {...props} />
+  return <div className='selected-news-wrap'><NewsBody {...props} /></div>
 }
 
 export default BodySection

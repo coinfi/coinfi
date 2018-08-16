@@ -36,11 +36,17 @@ class CoinList extends Component {
       coins = coins.filter((coin) => isWatching(coin.get('id')))
     }
     return (
-      <Fragment>
+      <div className="coin-list-wrap">
         <CoinListHeader {...this.props} />
         <div
-          className="flex-auto relative overflow-y-auto coin-watch-list"
-          style={watchlistStarIcon && { textAlign: 'center' }}
+          className="coin-list-drawer"
+          style={{
+            flex: 1,
+            minHeight: 0,
+            minWidth: 0,
+            height: '91%',
+            overflowY: 'scroll',
+          }}
         >
           {!coins.length &&
             !isLoading('coins') && (
@@ -67,7 +73,7 @@ class CoinList extends Component {
             )
           })}
         </div>
-      </Fragment>
+      </div>
     )
   }
 }
