@@ -136,15 +136,14 @@ class NewsfeedPage extends React.Component<Props, State> {
   fetchMoreNewsItems = () => {
     const lastNews = this.state.sortedNewsItems[this.state.sortedNewsItems.length - 1];
     this.setState({
-      status: STATUSES.INFINITE_SCROLL_LOADING
-    });
-
-    localAPI.get(`/news`, { publishedUntil: lastNews.publishedUntil }).then(response => {
-        this.setState({
-          status: STATUSES.READY,
-          sortedNewsItems: [...this.state.sortedNewsItems, ...response.payload.sort(this.sortNewsFunc)]
-        })
-    });
+        status: STATUSES.INFINITE_SCROLL_LOADING
+      }, () => localAPI.get(`/news`, { publishedUntil: lastNews.publishedUntil }).then(response => {
+          this.setState({
+            status: STATUSES.READY,
+            sortedNewsItems: [...this.state.sortedNewsItems, ...response.payload.sort(this.sortNewsFunc)]
+          })
+      })
+    );
   }
 
   render() {
