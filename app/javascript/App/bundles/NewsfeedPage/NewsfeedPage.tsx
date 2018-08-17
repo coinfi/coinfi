@@ -204,8 +204,8 @@ class NewsfeedPage extends React.Component<Props, State> {
                   newsfeedTips={this.state.newsfeedTips}
                 />
                 <NewsList
-                  isLoading={() => this.state.status === STATUSES.LOADING}
-                  isInfiniteScrollLoading={() => this.state.status === STATUSES.INFINITE_SCROLL_LOADING}
+                  isLoading={this.state.status === STATUSES.LOADING}
+                  isInfiniteScrollLoading={this.state.status === STATUSES.INFINITE_SCROLL_LOADING}
                   activeFilters={this.state.activeFilters}
                   sortedNewsItems={this.state.sortedNewsItems}
                   initialRenderTips={this.state.initialRenderTips}
