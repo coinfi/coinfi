@@ -18,7 +18,7 @@ const ListingsHeader = (props) => {
     <React.Fragment>
       {/* coins/tips - mobile - section header */}
 
-      <div className="b--b flex-none flex justify-between items-center bg-athens">
+      <div className="b--b flex-none flex justify-between items-center bg-athens listing-header-coins-tips-tabs">
         <div className="flex-auto flex items-center">
           <button
             className="btn btn-blue btn-xs"
