@@ -56,7 +56,7 @@ const ListingsHeader = (props) => {
         className="pa3 b--b flex-none flex justify-between items-center bg-athens"
         style={{ height: 60 }}
       >
-        <div className="flex items-center flex-auto">
+          <div className="flex items-center flex-auto" style={{justifyContent:'flex-end'}}>
           {!window.isMobile && (
             <button
               className="btn btn-blue btn-xs coins-btn mr2"
