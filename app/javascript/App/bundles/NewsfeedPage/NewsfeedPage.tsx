@@ -47,7 +47,7 @@ class NewsfeedPage extends React.Component<Props, State> {
   state = {
     initialRenderTips: false,
     liveCoinArr: [],
-    status: STATUSES.READY,
+    status: STATUSES.LOADING,
     newsfeedTips: true,
     sortedNewsItems: [],
   }
@@ -65,16 +65,11 @@ class NewsfeedPage extends React.Component<Props, State> {
   }
 
   componentDidMount() {
-    this.setState({
-      status: STATUSES.LOADING
-    },
-    () => {
     if (this.getContentType() === "coin") {
         this.fetchNewsItemsForCoin(this.props.coinSlug);
     } else {
       this.fetchAllNewsItems()
     }
-    })
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
