@@ -1,11 +1,20 @@
-import React, { Component } from 'react'
+import * as React from 'react'
 
-class FilterPanel extends Component {
+declare global {
+  interface Window {
+    isMobile?: any
+  }
+}
 
+interface PanelProps {
+  filterList?: any
+  filterData?: any
+  toggleFilterPanel?: Function
+}
+
+class FilterPanel extends React.Component<PanelProps> {
   render() {
-    const { filterList, filterData, ...props } = this.props
-    const pProps = { ...props }
-    const { applyFilters, resetFilters } = this
+    const { filterList, filterData } = this.props
 
     let containerClass = 'modal bg-athens'
     if (!window.isMobile)
@@ -19,7 +28,6 @@ class FilterPanel extends Component {
               <h3 className="mb0 mr1 b">Filters</h3>
               <button
                 className="btn btn-white btn-xs"
-                onClick={resetFilters}
                 style={{
                   background: 'none',
                   border: 'none',
@@ -35,7 +43,7 @@ class FilterPanel extends Component {
             <div>
               <button
                 className="btn btn-white btn-xs"
-                onClick={this.props.toggleFilterPanel}
+                onClick={() => this.props.toggleFilterPanel()}
                 style={{
                   background: 'none',
                   border: 'none',
@@ -49,7 +57,6 @@ class FilterPanel extends Component {
               </button>
               <button
                 className="btn btn-blue btn-xs ml3"
-                onClick={applyFilters}
                 style={{
                   textTransform: 'none',
                   padding: '8px 20px',

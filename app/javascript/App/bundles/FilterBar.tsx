@@ -1,8 +1,24 @@
-import React from 'react'
+import * as React from 'react'
 import Icon from './Icon'
-import filterBtn from '../images/filter-btn.svg'
+// TODO: define svg as component
+// import filterBtn from '../images/filter-btn.svg'
 
-export default function(props) {
+declare global {
+  interface Window {
+    isMobile?: any
+  }
+}
+
+interface Props {
+  toggleFilterPanel: any
+}
+
+const btnStyle = {
+  padding: '18px',
+  borderRadius: 0,
+}
+
+export default function(props: Props) {
   return (
     <div
       className="pa3 b--b flex-none flex justify-between items-center bg-athens"
@@ -36,7 +52,8 @@ export default function(props) {
           className="btn btn-xs btn-white filter-btn ml2"
           onClick={props.toggleFilterPanel}
         >
-          <img style={{ height: 10, marginRight: 10 }} src={filterBtn} />
+          {/* TODO: define svg as component */}
+          {/*    <img style={{ height: 10, marginRight: 10 }} src={filterBtn} /> */}
           Filters
         </button>
       </div>

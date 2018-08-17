@@ -1,9 +1,17 @@
-import React from 'react'
+import * as React from 'react'
 import FilterPanel from '../../FilterPanel'
 import FilterBar from '../../FilterBar'
 import CoinTipsTab from '../../CoinTipsTab'
 
-const ListingsHeader = (props) => {
+interface Props {
+  initialListings?: Array<string>
+  loggedIn?: Boolean
+  user: Boolean
+  showFilterPanel: Boolean
+  toggleFilterPanel: Function
+}
+
+const ListingsHeader = (props: Props) => {
   return (
     <React.Fragment>
       <CoinTipsTab />

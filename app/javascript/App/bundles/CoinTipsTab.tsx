@@ -1,13 +1,16 @@
-import React from 'react'
+import * as React from 'react'
 import Icon from './Icon'
-import bulbIcon from '../images/bulbIcon.svg'
+// TODO: define svg as component
+// import bulbIcon from '../images/bulbIcon.svg'
+
+interface Props {}
 
 const btnStyle = {
   padding: '18px',
   borderRadius: 0,
 }
 
-export default function(props) {
+export default function(props: Props) {
   return (
     <div className="b--b flex-none flex justify-between items-center bg-athens listing-header-coins-tips-tabs">
       <div className="flex-auto flex items-center">
@@ -38,7 +41,8 @@ export default function(props) {
             },
           }}
         >
-          <img style={{ height: 10 }} src={bulbIcon} />
+          {/*  TODO: define svg as component */}
+          {/* <img style={{ height: 10 }} src={bulbIcon} /> */}
           <span style={{ marginLeft: 5 }}>Tips</span>
         </button>
       </div>
