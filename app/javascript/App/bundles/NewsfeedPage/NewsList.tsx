@@ -20,7 +20,7 @@ interface Props {
   sortedNewsItems: Array<NewsItem>,
   initialRenderTips: boolean,
   fetchMoreNewsFeed: () => void,
-  toggleNewsfeedTips: () => void,
+  closeTips: () => void,
 };
 
 interface State {
@@ -57,14 +57,10 @@ class NewsList extends React.Component<Props, State> {
     }, 500)
   }
 
-  closeTips() {
-    this.props.toggleNewsfeedTips()
-  }
-
   renderView() {
     
     if (this.props.initialRenderTips && window.isMobile) {
-      return <Tips closeTips={this.closeTips.bind(this)} />
+      return <Tips closeTips={this.props.closeTips} />
     } else if (this.props.isLoading()) {
       return (
         <div className="pa3 tc mt4">

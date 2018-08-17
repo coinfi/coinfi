@@ -93,8 +93,8 @@ class NewsfeedPage extends React.Component<Props, State> {
     }
   }
 
-  toggleNewsfeedTips() {
-    this.setState({ initialRenderTips: !this.state.initialRenderTips })
+  closeTips = () => {
+    this.setState({ initialRenderTips: false })
   }
 
   getNewsItem(): NewsItem | undefined {
@@ -216,7 +216,7 @@ class NewsfeedPage extends React.Component<Props, State> {
                   sortedNewsItems={this.state.sortedNewsItems}
                   initialRenderTips={this.state.initialRenderTips}
                   fetchMoreNewsFeed={this.fetchMoreNewsItems}
-                  toggleNewsfeedTips={this.toggleNewsfeedTips}
+                  closeTips={this.closeTips}
                 />
             </>
           }
@@ -225,7 +225,7 @@ class NewsfeedPage extends React.Component<Props, State> {
               coinInfo={this.getCoinInfo()}
               newsItem={this.getNewsItem()}
               contentType={this.getContentType()}
-              closeTips={this.newsfeedTips} 
+              closeTips={this.closeTips} 
             />
           }
         />
