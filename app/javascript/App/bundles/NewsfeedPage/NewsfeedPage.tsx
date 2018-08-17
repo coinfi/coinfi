@@ -204,7 +204,7 @@ class NewsfeedPage extends React.Component<Props, State> {
               <>
                 <NewsListHeader
                   coins={this.props.coinList}
-                  feedSources={this.props.feedSources} // TODO: what is that?
+                  feedSources={this.props.feedSources}
                   showFilters={this.state.showFilters}
                   activeFilters={this.state.activeFilters}
                   newsfeedTips={this.state.newsfeedTips}
@@ -213,9 +213,9 @@ class NewsfeedPage extends React.Component<Props, State> {
                   isLoading={() => this.state.status === STATUSES.LOADING}
                   isInfiniteScrollLoading={() => this.state.status === STATUSES.INFINITE_SCROLL_LOADING}
                   activeFilters={this.state.activeFilters}
-                  sortedNewsItems={this.state.sortedNewsItems} // TODO: where they come from?
+                  sortedNewsItems={this.state.sortedNewsItems}
                   initialRenderTips={this.state.initialRenderTips}
-                  fetchMoreNewsFeed={this.fetchMoreNewsItems} //TODO
+                  fetchMoreNewsFeed={this.fetchMoreNewsItems}
                   toggleNewsfeedTips={this.toggleNewsfeedTips}
                 />
             </>
