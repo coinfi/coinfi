@@ -2,10 +2,10 @@ import React from 'react'
 import Icon from '../../Icon'
 import bulbIcon from '../../../images/bulbIcon.svg'
 import filterBtn from '../../../images/filter-btn.svg'
+import FilterPanel from '../../FilterPanel'
 // import SectionHeader from '../SectionHeader'
 // import SectionHeaderTight from '../SectionHeaderTight'
 // import SearchCoins from '../SearchCoins'
-// import FilterPanel from '../FilterPanel'
 // import FilterTags from '../FilterTags'
 
 const ListingsHeader = (props) => {
@@ -81,15 +81,15 @@ const ListingsHeader = (props) => {
               <span>Coins</span>
             </button>
           )}
-          <button
-            className="btn btn-xs btn-white filter-btn ml2"
-          >
+          <button className="btn btn-xs btn-white filter-btn ml2">
             <img style={{ height: 10, marginRight: 10 }} src={filterBtn} />
             Filters
           </button>
         </div>
       </div>
       {/* end - coins/tips - section header */}
+
+        {/* <FilterPanel /> */}
 
       <div className="flex f6 bg-athens">
         <div className="fl w-third pa2">Pair</div>
