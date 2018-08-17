@@ -27,9 +27,7 @@ import CoinCharts from './components/CoinCharts'
 import CalendarPage from './components/CalendarPage'
 import CoinIndex from './components/CoinIndex'
 import CoinShow from './components/CoinShow'
-
-import Rails from 'rails-ujs'
-Rails.start()
+import scrollHelper from './scrollHelper'
 
 const injectableComponents = {
   WatchButton,
@@ -72,6 +70,7 @@ const injectComponents = () => {
     })
   }
 }
+
 const setScreenSize = () => {
   window.screenSize = getScreenSize()
   window.isMobile = !['m', 'l'].includes(window.screenSize)
@@ -85,3 +84,4 @@ document.addEventListener('DOMContentLoaded', () => {
 })
 
 window.addEventListener('resize', debounce(setScreenSize), 400)
+window.addEventListener('resize', debounce(scrollHelper), 400)

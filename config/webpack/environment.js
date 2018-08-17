@@ -5,6 +5,7 @@
 */
 
 const { environment } = require('@rails/webpacker')
+const typescript = require('./loaders/typescript')
 const merge = require('webpack-merge')
 const webpack = require('webpack')
 const dotenv = require('dotenv')
@@ -17,15 +18,15 @@ const dotenvFiles = [
   `.env.${process.env.NODE_ENV}.local`,
   '.env.local',
   `.env.${process.env.NODE_ENV}`,
-  '.env'
+  '.env',
 ]
-dotenvFiles.forEach(dotenvFile => {
+dotenvFiles.forEach((dotenvFile) => {
   dotenv.config({ path: dotenvFile, silent: true })
 })
 
 environment.plugins.prepend(
   'Environment',
-  new webpack.EnvironmentPlugin(JSON.parse(JSON.stringify(process.env)))
+  new webpack.EnvironmentPlugin(JSON.parse(JSON.stringify(process.env))),
 )
 
 /*
@@ -37,18 +38,19 @@ environment.plugins.prepend(
   new webpack.ProvidePlugin({
     $: 'jquery',
     JQuery: 'jquery',
-    jquery: 'jquery'
+    jquery: 'jquery',
     // ActionCable: 'actioncable', // Could be useful
-  })
+  }),
 )
 
-const envConfig = (module.exports = environment)
-const aliasConfig = (module.exports = {
+environment.loaders.append('typescript', typescript)
+
+const aliasConfig = {
   resolve: {
     alias: {
-      jquery: 'jquery/src/jquery'
-    }
-  }
-})
+      jquery: 'jquery/src/jquery',
+    },
+  },
+}
 
-module.exports = merge(envConfig.toWebpackConfig(), aliasConfig)
+module.exports = merge(environment.toWebpackConfig(), aliasConfig)

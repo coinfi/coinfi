@@ -5,7 +5,6 @@ import SectionHeaderTight from '../SectionHeaderTight'
 import SearchCoins from '../SearchCoins'
 import FilterPanel from '../FilterPanel'
 import FilterTags from '../FilterTags'
-import bulbIcon from '../../images/bulbIcon.svg'
 import filterBtn from '../../images/filter-btn.svg'
 
 const NewsListHeader = (props) => {
@@ -21,8 +20,10 @@ const NewsListHeader = (props) => {
     enableUI('filterPanel', { fullScreen: window.isMobile })
 
   const btnStyle = {
-    padding: '18px',
+    padding: '16px',
     borderRadius: 0,
+    display: 'inline-flex',
+    textTransform: 'none',
   }
 
   return (
@@ -30,45 +31,32 @@ const NewsListHeader = (props) => {
       {window.isMobile && (
         <SectionHeaderTight>
           <div className="flex-auto flex items-center">
-            <Fragment>
-              <button
-                className="btn btn-blue btn-xs"
-                onClick={() => enableUI('coinListDrawer', { fullScreen: true })}
-                style={{
-                  ...btnStyle,
-                  ...{
-                    background: '#2495ce',
-                    flex: 1,
-                    textTransform: 'none',
-                    fontSize: 14,
-                  },
-                }}
-              >
-                <Icon name="list" className="mr2" />
-                <span>Coins</span>
-              </button>
-              <button
-                className="btn btn-blue btn-xs flex-auto"
-                style={{
-                  ...btnStyle,
-                  ...{
-                    flex: 1,
-                    fontSize: 14,
-                    textTransform: 'none',
-                    padding: 19,
-                  },
-                }}
-                onClick={newsfeedTips}
-              >
-                <img style={{ height: 10 }} src={bulbIcon} />
-                <span style={{ marginLeft: 5 }}>Tips</span>
-              </button>
-            </Fragment>
+            <button
+              className="btn btn-blue btn-xs flex-auto justify-center"
+              onClick={() => enableUI('coinListDrawer', { fullScreen: true })}
+              style={{
+                ...btnStyle,
+                ...{
+                  background: '#2495ce',
+                },
+              }}
+            >
+              <i class="material-icons f6 mr1">list</i>
+              <span class="f6">Coins</span>
+            </button>
+            <button
+              className="btn btn-blue btn-xs flex-auto justify-center"
+              onClick={newsfeedTips}
+              style={btnStyle}
+            >
+              <i class="material-icons f6 mr1">announcement</i>
+              <span class="f6">Tips</span>
+            </button>
           </div>
         </SectionHeaderTight>
       )}
       <SectionHeader>
-        <div className="flex items-center flex-auto">
+        <div className="flex items-center flex-auto search-coin-wrapper">
           {!window.isMobile && (
             <button
               className="btn btn-blue btn-xs coins-btn mr2"

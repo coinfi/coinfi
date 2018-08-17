@@ -1,7 +1,6 @@
 import React, { Component, Fragment } from 'react'
 import { Table } from 'antd'
 import ColumnNames from './ColumnNames'
-import CurrencySelector from '../CurrencySelector'
 import SearchCoins from '../shared/SearchCoins'
 import API from '../../lib/localAPI'
 
@@ -51,16 +50,13 @@ class CoinIndex extends Component {
   render() {
     return (
       <Fragment>
-        <div>
-          <h1 className="pt3 pl3 fl">Coins</h1>
-          <div className="flex fr pt3 pr3">
+        <div className="flex">
+          <h1 className="pt3 pl3">Coins</h1>
+          <span style={{ flexGrow: 1 }} />
+          <div className="flex pt3">
             <div className="ma2">
               <SearchCoins {...this.props} />
             </div>
-            <CurrencySelector
-              currency={this.state.currency}
-              changeCurrencyHandler={this.changeCurrencyHandler}
-            />
           </div>
         </div>
 

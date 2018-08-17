@@ -8,7 +8,7 @@ export default (currency) => {
       dataIndex: 'ranking',
       fixed: 'left',
       align: 'right',
-      width: 50,
+      width: 64,
     },
     {
       title: 'Coin',
@@ -16,14 +16,9 @@ export default (currency) => {
       fixed: 'left',
       width: 240,
       render: (text, row, index) => {
-        const symbol = row.symbol.toLowerCase()
         return (
           <div className="b--r">
-            <img
-              alt={text}
-              src={`https://gitcdn.link/repo/cjdowner/cryptocurrency-icons/master/svg/color/${symbol}.svg`}
-              className="fl mr2"
-            />
+            <img alt={text} src={row.image_url} className="fl mr2" />
             <div className="fl">
               <a href={`/coinsnew/${text.toLowerCase().replace(/ /, '-')}`}>
                 {row.symbol}

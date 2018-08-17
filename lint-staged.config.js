@@ -1,9 +1,6 @@
 module.exports = {
   linters: {
-    '**/*.+(js|jsx|ts|vue)': ['eslint --fix', 'prettier --write', 'git add'],
-    '**/*.+(css|sass|less|scss|json|yml|yaml|md|graphql)': [
-      'prettier --write',
-      'git add',
-    ],
+    '**/*.+(js|jsx|vue)': ['eslint --fix', 'prettier --write', 'git add'],
+    '**/*.+(css|sass|less|scss|json|graphql)': ['prettier --write', 'git add'],
   },
 }

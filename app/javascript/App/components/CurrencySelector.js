@@ -1,5 +1,7 @@
 import React from 'react'
-import { Button, Menu, Dropdown, Icon } from 'antd'
+import { Button, Menu, Dropdown } from 'antd'
+// TODO: Remove or replace with non-AntD component,
+// since the current component has styling issues.
 
 const currencyMenu = (changeCurrencyHandler) => (
   <Menu onClick={changeCurrencyHandler}>
@@ -11,9 +13,16 @@ const currencyMenu = (changeCurrencyHandler) => (
 const CurrencySelector = ({ currency, changeCurrencyHandler }) => (
   <Dropdown overlay={currencyMenu(changeCurrencyHandler)}>
     <Button>
-      {currency === 'USD' && 'USD'}
-      {currency === 'BTC' && 'BTC'}
-      <Icon type="down" />
+      <span style={{ position: 'relative', top: -5, left: -8 }}>
+        {currency === 'USD' && 'USD'}
+        {currency === 'BTC' && 'BTC'}
+      </span>
+      <i
+        className="material-icons"
+        style={{ top: 2, marginLeft: -15, position: 'relative', left: 12 }}
+      >
+        expand_more
+      </i>
     </Button>
   </Dropdown>
 )

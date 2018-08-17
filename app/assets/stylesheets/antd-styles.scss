@@ -1,4 +1,7 @@
 .antd {
+  .ant-list-item {
+    padding: 10px 0;
+  }
   .ant-list-item-meta-description {
     font-weight: bold;
     color: #555;
@@ -31,6 +34,12 @@
   }
   .ant-pagination {
     padding: 1rem 1rem 2rem;
+  }
+  .ant-pagination-prev .ant-pagination-item-link:after {
+    content: '<';
+  }
+  .ant-pagination-next .ant-pagination-item-link:after {
+    content: '>';
   }
   .ant-pagination-prev,
   .ant-pagination-jump-prev,

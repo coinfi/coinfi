@@ -14,7 +14,26 @@ class Api::CoinsController < ApiController
     respond_success show_serializer(coin)
   end
 
+  def toplist
+    coins = Rails.cache.fetch("coins/toplist", expires_in: 1.hour) do
+      Coin.order(:ranking).limit(20)
+    end
+    respond_success coinlist_serializer(coins)
+  end
+
+  def watchlist
+    coins = current_user.watchlist.coins.order(:ranking)
+    respond_success coinlist_serializer(coins)
+  end
+
   private
+
+  def coinlist_serializer(coins)
+    coins.as_json(
+      only: %i[id name symbol slug price_usd],
+      methods: %i[market_info]
+    )
+  end
 
   def index_serializer(coins)
     coins.as_json(

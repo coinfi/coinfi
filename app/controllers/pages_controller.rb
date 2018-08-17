@@ -23,8 +23,6 @@ class PagesController < ApplicationController
 
   def has_feature?
     case @page
-    when 'news'
-      has_news_feature?
     when 'calendar'
       has_calendar_feature?
     else
@@ -37,7 +35,7 @@ class PagesController < ApplicationController
   end
 
   def public_pages
-    %w[home about news calendar listings ambassadors win-cofi]
+    %w[home about calendar ambassadors win-cofi]
   end
 
   def member_pages

@@ -49,7 +49,8 @@ $f7: 0.7rem;
 // Breakpoints
 
 $screen-ns: 480px;
-$screen-m: 768px;
+$screen-m: 922px;
+/* screen size changed from 768 to allow for nav items to fit in one row */
 $screen-l: 1184px;
 
 $screen-min-ns: 'screen and (min-width: #{$screen-ns})';

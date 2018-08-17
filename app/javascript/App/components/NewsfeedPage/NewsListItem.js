@@ -6,13 +6,30 @@ import twitterLogo from '../../images/logo-twitter.svg'
 import linkLogo from '../../images/logo-link.svg'
 import redditLogo from '../../images/logo-reddit.svg'
 
+const readNewsHandler = (newsItem, setActiveNewsItem) => {
+  const newsId = newsItem.get('id')
+  const readNewsData = JSON.parse(localStorage.getItem('readNews')) || []
+
+  readNewsData.push(newsId)
+  localStorage.setItem('readNews', JSON.stringify(readNewsData))
+
+  setActiveNewsItem(newsItem)
+
+  if (
+    document.querySelector('.selected-news-content') &&
+    document.querySelector('.selected-news-content').parentNode
+  ) {
+    document.querySelector('.selected-news-content').parentNode.scrollTop = 0
+  }
+}
+
 const NewsListItem = (props) => {
   const {
     activeEntity,
     newsItem,
     setActiveNewsItem,
     preRender,
-    selectCoin,
+    hasRead,
   } = props
   let className = 'b--b tiber overflow-hidden'
   if (activeEntity) {
@@ -26,24 +43,19 @@ const NewsListItem = (props) => {
     .get('title')
     .replace(/<h1>/g, '')
     .replace(/<\/h1>/g, '')
+
   return (
-    <div className={className} style={{ height: props.height || 'auto' }}>
+    <div
+      className={className}
+      style={{ height: props.height || 'auto' }}
+      onClick={() => {
+        readNewsHandler(newsItem, setActiveNewsItem)
+      }}
+    >
       <div className="pa-default">
-        <div
-          className="pointer"
-          onClick={() => {
-            setActiveNewsItem(newsItem)
-            if (
-              document.querySelector('.selected-news-content') &&
-              document.querySelector('.selected-news-content').parentNode
-            )
-              document.querySelector(
-                '.selected-news-content',
-              ).parentNode.scrollTop = 0
-          }}
-        >
-          <h4 className="mb2 f5">{newsItemTitle}</h4>
-        </div>
+        <h4 className="pointer mb2 f5" style={hasRead ? { color: '#999' } : {}}>
+          {newsItemTitle}
+        </h4>
         <div className="flex justify-between flex-wrap">
           <div className="f6 silver">
             {url.hostname === 'twitter.com' && (
@@ -53,7 +65,7 @@ const NewsListItem = (props) => {
                 </span>
                 <a
                   href={`https://twitter.com/${url.pathname.split('/')[1]}`}
-                  target="_blank"
+                  target="_blank noopener noreferrer"
                   rel="nofollow"
                   className="dib silver"
                 >
@@ -70,7 +82,7 @@ const NewsListItem = (props) => {
                 </span>
                 <a
                   href={newsItem.get('url')}
-                  target="_blank"
+                  target="_blank noopener noreferrer"
                   rel="nofollow"
                   className="dib silver"
                 >
@@ -88,7 +100,7 @@ const NewsListItem = (props) => {
                   </span>
                   <a
                     href={newsItem.get('url')}
-                    target="_blank"
+                    target="_blank noopener noreferrer"
                     rel="nofollow"
                     className="dib silver"
                   >

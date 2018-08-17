@@ -3,6 +3,7 @@ import CoinListHeader from './CoinListHeader'
 import CoinListItem from './CoinListItem'
 import LoadingIndicator from '../LoadingIndicator'
 import watchlistStarIcon from '../../images/watch-list-star-icon.svg'
+import scrollHelper from './../../scrollHelper'
 
 class CoinList extends Component {
   setActiveCoin = (coin) => {
@@ -22,6 +23,12 @@ class CoinList extends Component {
     this.props.toggleUI('coinSearch')
     this.props.clearSearch()
   }
+
+  componentDidMount() {
+    // set max height to enable scroll in ff
+    scrollHelper()
+  }
+
   render() {
     const { isLoading, currentUI, isWatching } = this.props
     let { coins } = this.props

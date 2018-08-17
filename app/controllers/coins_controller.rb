@@ -3,10 +3,12 @@ class CoinsController < ApplicationController
   COINS_PER_PAGE = 100
 
   def index
-    @coins = Coin.order(:ranking)
+    @coins = Coin.listed.legit.order(:ranking)
     @result_count_total = @coins.length
+
     @coins = @coins.page(params[:page]).per(COINS_PER_PAGE)
     @result_count = @coins.length
+
     set_meta_tags(
       title: "Top Cryptocurrency Prices Live, Cryptocurrency Market Cap, Best Cryptocurrency Charts",
       keywords: "cryptocurrency, cryptocurrency news, cryptocurrency market, cryptocurrency prices, cryptocurrency charts, top cryptocurrency, best cryptocurrency"
