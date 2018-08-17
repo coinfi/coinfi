@@ -14,10 +14,10 @@ import scrollHelper from './../../scrollHelper'
 import { NewsItem } from './types';
 
 interface Props {
-  newsItems: Array<NewsItem>,
   isLoading: () => boolean,
+  isInfiniteScrollLoading: () => boolean,
   activeFilters: any,
-  sortedNewsItems: any,
+  sortedNewsItems: Array<NewsItem>,
   initialRenderTips: boolean,
   fetchMoreNewsFeed: () => void,
   toggleNewsfeedTips: () => void,
@@ -58,30 +58,20 @@ class NewsList extends React.Component<Props, State> {
   }
 
   closeTips() {
-    this.props.newsfeedTips()
+    this.props.toggleNewsfeedTips()
   }
 
-  // TODO: this commented out code will be uncommented and merged with existing functionality
-  /*
-  renderView(
-    viewState,
-    initialRenderTips,
-    readNewsIds,
-    isLoading,
-    fetchMoreNewsFeed,
-  ) {
-    */
   renderView() {
-    /*
-    if (initialRenderTips && window.isMobile) {
+    
+    if (this.props.initialRenderTips && window.isMobile) {
       return <Tips closeTips={this.closeTips.bind(this)} />
-    } else if (isLoading('newsItems')) {
+    } else if (this.props.isLoading()) {
       return (
         <div className="pa3 tc mt4">
           <LoadingIndicator />
         </div>
       )
-    } else if (!viewState.sortedNewsItems.length) {
+    } else if (!this.props.sortedNewsItems.length) {
       return (
         <div className="pa3 tc mt4">
           <div className="pointer">
@@ -98,11 +88,13 @@ class NewsList extends React.Component<Props, State> {
       )
     }
 
-    const mappedItems = viewState.sortedNewsItems.map((newsItem) => {
-      const hasRead = readNewsIds.includes(newsItem.get('id'))
+    const readNewsIds = JSON.parse(localStorage.getItem('readNews')) || []
+
+    const mappedItems = this.props.sortedNewsItems.map((newsItem) => {
+      const hasRead = readNewsIds.includes(newsItem.id)
       return (
         <NewsListItem
-          key={newsItem.get('id')}
+          key={newsItem.id}
           newsItem={newsItem}
           {...this.props}
           setActiveNewsItem={this.setActiveNewsItem}
@@ -116,24 +108,13 @@ class NewsList extends React.Component<Props, State> {
       <InfiniteScroll
         dataLength={mappedItems.length}
         scrollableTarget={document.getElementById('newsfeed')}
-        next={fetchMoreNewsFeed}
+        next={this.props.fetchMoreNewsFeed}
         hasMore={true} // TODO: Actually determine when there are no more NewsItems...
         loader={<LoadingIndicator />}
       >
         {mappedItems}
       </InfiniteScroll>
     )
-    */
-    const mappedItems = this.props.newsItems.map((newsItem) => (
-      <NewsListItem
-        key={newsItem.id}
-        newsItem={newsItem}
-        {...this.props}
-        setActiveNewsItem={this.setActiveNewsItem}
-        selectCoin={(symbol) => this.selectCoin(symbol)}
-      />
-    ))
-    return mappedItems
   }
 
   // TODO: this commented out code will be uncommented and merged with existing functionality
@@ -150,20 +131,10 @@ class NewsList extends React.Component<Props, State> {
 
   render() {
     const {
-      newsItems,
-      isLoading,
       activeEntity,
       activeFilters,
-      sortedNewsItems,
       initialRenderTips,
-      fetchMoreNewsFeed,
     } = this.props
-    const viewState = {
-      activeEntity: activeEntity,
-      newsItems: newsItems,
-      sortedNewsItems: sortedNewsItems,
-    }
-    const readNewsIds = JSON.parse(localStorage.getItem('readNews')) || []
 
     return (
       <div
@@ -178,7 +149,7 @@ class NewsList extends React.Component<Props, State> {
             : {}
         }
       >
-        {this.renderView() /* viewState, initialRenderTips, readNewsIds, isLoading, fetchMoreNewsFeed */}
+        {this.renderView()}
       </div>
     )
   }

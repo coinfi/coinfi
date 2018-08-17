@@ -25,6 +25,7 @@ import { CoinList, Coin } from '../common/types';
 
 const STATUSES = {
   LOADING: 'Loading',
+  INFINITE_SCROLL_LOADING: 'InfiniteScrollLoading',
   READY: 'Ready',
 }
 
@@ -137,6 +138,20 @@ class NewsfeedPage extends React.Component<Props, State> {
     })
   }
 
+  fetchMoreNewsItems = () => {
+    const lastNews = this.state.sortedNewsItems[this.state.sortedNewsItems.length - 1];
+    this.setState({
+      status: STATUSES.INFINITE_SCROLL_LOADING
+    });
+
+    localAPI.get(`/news`, { publishedUntil: lastNews.publishedUntil }).then(response => {
+        this.setState({
+          status: STATUSES.READY,
+          sortedNewsItems: [...this.state.sortedNewsItems, ...response.payload.sort(this.sortNewsFunc)]
+        })
+    });
+  }
+
   render() {
     let enhancedProps = {
       ...this.props,
@@ -186,31 +201,32 @@ class NewsfeedPage extends React.Component<Props, State> {
           {...enhancedProps}
           leftSection={<CoinListWrapper {...enhancedProps} />}
           centerSection={
-                <>
-                  <NewsListHeader
-                    coins={this.props.coinList}
-                    feedSources={this.props.feedSources} // TODO: what is that?
-                    showFilters={this.state.showFilters}
-                    activeFilters={this.state.activeFilters}
-                    newsfeedTips={this.state.newsfeedTips}
-                  />
-                  <NewsList
-                    isLoading={() => this.state.status === STATUSES.LOADING}
-                    activeFilters={this.state.activeFilters}
-                    sortedNewsItems={this.state.sortedNewsItems} // TODO: where they come from?
-                    initialRenderTips={this.state.initialRenderTips}
-                    fetchMoreNewsFeed={() => undefined} //TODO
-                    toggleNewsfeedTips={this.toggleNewsfeedTips}
-                  />
-              </>
+              <>
+                <NewsListHeader
+                  coins={this.props.coinList}
+                  feedSources={this.props.feedSources} // TODO: what is that?
+                  showFilters={this.state.showFilters}
+                  activeFilters={this.state.activeFilters}
+                  newsfeedTips={this.state.newsfeedTips}
+                />
+                <NewsList
+                  isLoading={() => this.state.status === STATUSES.LOADING}
+                  isInfiniteScrollLoading={() => this.state.status === STATUSES.INFINITE_SCROLL_LOADING}
+                  activeFilters={this.state.activeFilters}
+                  sortedNewsItems={this.state.sortedNewsItems} // TODO: where they come from?
+                  initialRenderTips={this.state.initialRenderTips}
+                  fetchMoreNewsFeed={this.fetchMoreNewsItems} //TODO
+                  toggleNewsfeedTips={this.toggleNewsfeedTips}
+                />
+            </>
           }
           rightSection={
-                  <BodySection
-                    coinInfo={this.getCoinInfo()}
-                    newsItem={this.getNewsItem()}
-                    contentType={this.getContentType()}
-                    closeTips={this.newsfeedTips} 
-                  />
+            <BodySection
+              coinInfo={this.getCoinInfo()}
+              newsItem={this.getNewsItem()}
+              contentType={this.getContentType()}
+              closeTips={this.newsfeedTips} 
+            />
           }
         />
       )
