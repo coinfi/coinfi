@@ -1,7 +1,6 @@
 import * as React from 'react'
 import Icon from './Icon'
-// TODO: define svg as component
-// import filterBtn from '../images/filter-btn.svg'
+import { FilterList } from 'styled-icons/material'
 
 declare global {
   interface Window {
@@ -52,8 +51,7 @@ export default function(props: Props) {
           className="btn btn-xs btn-white filter-btn ml2"
           onClick={props.toggleFilterPanel}
         >
-          {/* TODO: define svg as component */}
-          {/*    <img style={{ height: 10, marginRight: 10 }} src={filterBtn} /> */}
+          <FilterList size="20" css="margin-right:5px;" />
           Filters
         </button>
       </div>

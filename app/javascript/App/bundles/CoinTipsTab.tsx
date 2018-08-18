@@ -1,7 +1,6 @@
 import * as React from 'react'
 import Icon from './Icon'
-// TODO: define svg as component
-// import bulbIcon from '../images/bulbIcon.svg'
+import { List, LightbulbOutline } from 'styled-icons/material'
 
 interface Props {}
 
@@ -26,7 +25,7 @@ export default function(props: Props) {
             },
           }}
         >
-          <Icon name="list" className="mr2" />
+          <List size='20' />
           <span>Coins</span>
         </button>
         <button
@@ -41,8 +40,7 @@ export default function(props: Props) {
             },
           }}
         >
-          {/*  TODO: define svg as component */}
-          {/* <img style={{ height: 10 }} src={bulbIcon} /> */}
+          <LightbulbOutline size="20" />
           <span style={{ marginLeft: 5 }}>Tips</span>
         </button>
       </div>
