@@ -24,7 +24,6 @@ class ExchangeListingsPage extends Component {
     const props = this.props
 
     if (window.isMobile) {
-      console.log('mobile')
       return (
         <LayoutMobile
           {...props}
@@ -44,7 +43,6 @@ class ExchangeListingsPage extends Component {
         />
       )
     } else if (window.isTablet) {
-      console.log('tablet')
       return (
         <LayoutTablet
           {...props}
@@ -63,7 +61,6 @@ class ExchangeListingsPage extends Component {
         />
       )
     } else {
-      console.log('desktop')
       return (
         <LayoutDesktop
           leftSection={null}
