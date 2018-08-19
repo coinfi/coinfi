@@ -1,15 +1,14 @@
 import React from 'react'
+import FilterButton from './FilterButton'
 
 export default function(props) {
   return (
     <div
+      id="panel-header"
       className="pa3 b--b flex-none flex justify-between items-center bg-athens"
       style={{ height: 60 }}
     >
-      <div
-        className="flex items-center flex-auto"
-        style={{ justifyContent: 'flex-end' }}
-      >
+      <div className="flex items-center flex-auto">
         {!window.isMobile && (
           <button
             className="btn btn-blue btn-xs coins-btn mr2"
@@ -29,13 +28,8 @@ export default function(props) {
             Coins
           </button>
         )}
-        <button
-          className="btn btn-xs btn-white filter-btn ml2"
-          onClick={props.toggleFilterPanel}
-        >
-          <i className="material-icons f6 mr2">filter_list</i>
-          Filters
-        </button>
+        <FilterButton onClick={props.toggleFilterPanel} />
+        {props.children}
       </div>
     </div>
   )

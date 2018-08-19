@@ -1,8 +1,10 @@
 import React from 'react'
 
 const btnStyle = {
-  padding: '18px',
+  padding: '16px',
   borderRadius: 0,
+  textTransform: 'none',
+  fontSize: 14,
 }
 
 export default function(props) {
@@ -10,34 +12,25 @@ export default function(props) {
     <div className="b--b flex-none flex justify-between items-center bg-athens listing-header-coins-tips-tabs">
       <div className="flex-auto flex items-center">
         <button
-          className="btn btn-blue btn-xs"
+          className="btn btn-blue btn-xs flex-auto justify-center"
+          onClick={props.showCoinListDrawer}
           style={{
             ...btnStyle,
             ...{
               background: '#2495ce',
-              flex: 1,
-              textTransform: 'none',
-              fontSize: 14,
             },
           }}
         >
-          <i className="material-icons mr2">list</i>
-          <span>Coins</span>
+          <i className="material-icons f6 mr1">list</i>
+          <span className="f6">Coins</span>
         </button>
         <button
-          className="btn btn-blue btn-xs flex-auto"
-          style={{
-            ...btnStyle,
-            ...{
-              flex: 1,
-              fontSize: 14,
-              textTransform: 'none',
-              padding: 19,
-            },
-          }}
+          className="btn btn-blue btn-xs flex-auto justify-center"
+          onClick={props.showTips}
+          style={btnStyle}
         >
-          <i className="material-icons mr2">info</i>
-          <span style={{ marginLeft: 5 }}>Tips</span>
+          <i className="material-icons f6 mr1">announcement</i>
+          <span className="f6">Tips</span>
         </button>
       </div>
     </div>

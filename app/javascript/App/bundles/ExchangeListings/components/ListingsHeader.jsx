@@ -1,11 +1,11 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import FilterPanel from '../../common/components/FilterPanel'
 import FilterBar from '../../common/components/FilterPanel/FilterBar'
 import CoinTipsTab from '../../common/components/CoinTipsTab'
 
 const ListingsHeader = (props) => {
   return (
-    <React.Fragment>
+    <Fragment>
       <CoinTipsTab />
       <FilterBar toggleFilterPanel={props.toggleFilterPanel} />
 
@@ -18,7 +18,7 @@ const ListingsHeader = (props) => {
         <div className="fl w-third pa2">Exchange</div>
         <div className="fl w-third pa2">Date Detected</div>
       </div>
-    </React.Fragment>
+    </Fragment>
   )
 }
 
