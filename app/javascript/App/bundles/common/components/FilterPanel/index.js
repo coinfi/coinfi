@@ -1,10 +1,7 @@
 import React, { Component } from 'react'
 
 class FilterPanel extends Component {
-
   render() {
-    const { filterList, filterData, ...props } = this.props
-    const pProps = { ...props }
     const { applyFilters, resetFilters } = this
 
     let containerClass = 'modal bg-athens'

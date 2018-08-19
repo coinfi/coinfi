@@ -1,6 +1,4 @@
 import React from 'react'
-import Icon from './Icon'
-import filterBtn from '../images/filter-btn.svg'
 
 export default function(props) {
   return (
@@ -18,7 +16,6 @@ export default function(props) {
             style={
               window.isMobile
                 ? {
-                    ...btnStyle,
                     ...{
                       background: '#2495ce',
                       flex: 1,
@@ -28,15 +25,15 @@ export default function(props) {
                 : {}
             }
           >
-            <Icon name="list" className="mr2" />
-            <span>Coins</span>
+            <i className="material-icons f6 mr2">list</i>
+            Coins
           </button>
         )}
         <button
           className="btn btn-xs btn-white filter-btn ml2"
           onClick={props.toggleFilterPanel}
         >
-          <img style={{ height: 10, marginRight: 10 }} src={filterBtn} />
+          <i className="material-icons f6 mr2">filter_list</i>
           Filters
         </button>
       </div>

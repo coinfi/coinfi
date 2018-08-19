@@ -1,6 +1,4 @@
 import React from 'react'
-import Icon from './Icon'
-import bulbIcon from '../images/bulbIcon.svg'
 
 const btnStyle = {
   padding: '18px',
@@ -23,7 +21,7 @@ export default function(props) {
             },
           }}
         >
-          <List size='20' />
+          <i className="material-icons mr2">list</i>
           <span>Coins</span>
         </button>
         <button
@@ -38,7 +36,7 @@ export default function(props) {
             },
           }}
         >
-          <img style={{ height: 10 }} src={bulbIcon} />
+          <i className="material-icons mr2">info</i>
           <span style={{ marginLeft: 5 }}>Tips</span>
         </button>
       </div>

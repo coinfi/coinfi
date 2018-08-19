@@ -1,7 +1,7 @@
 import React from 'react'
-import FilterPanel from '../../FilterPanel'
-import FilterBar from '../../FilterBar'
-import CoinTipsTab from '../../CoinTipsTab'
+import FilterPanel from '../../common/components/FilterPanel'
+import FilterBar from '../../common/components/FilterPanel/FilterBar'
+import CoinTipsTab from '../../common/components/CoinTipsTab'
 
 const ListingsHeader = (props) => {
   return (
