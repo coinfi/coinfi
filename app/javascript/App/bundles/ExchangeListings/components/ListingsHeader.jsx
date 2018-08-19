@@ -13,7 +13,7 @@ const ListingsHeader = (props) => {
         <FilterPanel toggleFilterPanel={props.toggleFilterPanel} />
       )}
 
-      <div className="flex f6 bg-athens">
+      <div className="b--b f6 bg-athens" style={{ height: 60 }}>
         <div className="fl w-third pa2">Pair</div>
         <div className="fl w-third pa2">Exchange</div>
         <div className="fl w-third pa2">Date Detected</div>
