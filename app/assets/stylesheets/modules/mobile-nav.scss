@@ -95,9 +95,13 @@
   height: 32px;
 }
 
+#news-page .filter-btn,
+.coins-btn {
+  margin-left: 90px;
+}
+
 .filter-btn,
 .coins-btn {
-  width: 180px;
   text-transform: none;
 }
 
@@ -138,6 +142,9 @@
   .filter-btn,
   .coins-btn {
     margin-left: 0;
+  }
+  .listing-header-coins-tips-tabs {
+    display: none;
   }
 }
 

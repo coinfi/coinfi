@@ -1,0 +1,6 @@
+@media #{$screen-min-ns} {
+  #pane-layout {
+    height: 100vh;
+    overflow: hidden;
+  }
+}

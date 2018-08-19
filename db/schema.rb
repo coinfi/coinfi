@@ -263,6 +263,35 @@ ActiveRecord::Schema.define(version: 20180812155516) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "exchange_listings", force: :cascade do |t|
+    t.bigint "exchange_id"
+    t.string "ccxt_exchange_id"
+    t.string "symbol"
+    t.string "quote_symbol"
+    t.bigint "quote_symbol_id"
+    t.string "base_symbol"
+    t.bigint "base_symbol_id"
+    t.datetime "detected_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["base_symbol_id"], name: "index_exchange_listings_on_base_symbol_id"
+    t.index ["detected_at"], name: "index_exchange_listings_on_detected_at"
+    t.index ["exchange_id"], name: "index_exchange_listings_on_exchange_id"
+    t.index ["quote_symbol"], name: "index_exchange_listings_on_quote_symbol"
+    t.index ["quote_symbol_id"], name: "index_exchange_listings_on_quote_symbol_id"
+  end
+
+  create_table "exchanges", force: :cascade do |t|
+    t.string "ccxt_id"
+    t.string "name"
+    t.string "slug"
+    t.string "www_url"
+    t.string "logo_url"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["ccxt_id"], name: "index_exchanges_on_ccxt_id", unique: true
+  end
+
   create_table "feed_sources", force: :cascade do |t|
     t.string "name", null: false
     t.string "slug", null: false
@@ -353,7 +382,7 @@ ActiveRecord::Schema.define(version: 20180812155516) do
     t.string "title", null: false
     t.text "summary"
     t.text "content"
-    t.string "actor_id"
+    t.string "actor_id", null: false
     t.datetime "feed_item_published_at", null: false
     t.datetime "feed_item_updated_at", null: false
     t.jsonb "feed_item_json"
@@ -481,6 +510,9 @@ ActiveRecord::Schema.define(version: 20180812155516) do
   add_foreign_key "coin_excluded_countries", "countries", on_delete: :cascade
   add_foreign_key "contributor_submissions", "submission_categories"
   add_foreign_key "contributor_submissions", "users", on_delete: :cascade
+  add_foreign_key "exchange_listings", "coins", column: "base_symbol_id"
+  add_foreign_key "exchange_listings", "coins", column: "quote_symbol_id"
+  add_foreign_key "exchange_listings", "exchanges"
   add_foreign_key "feed_sources", "coins"
   add_foreign_key "influencer_reviews", "coins", on_delete: :cascade
   add_foreign_key "influencer_reviews", "influencers", on_delete: :cascade

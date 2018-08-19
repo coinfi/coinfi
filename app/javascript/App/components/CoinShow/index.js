@@ -449,13 +449,6 @@ const SpanTitle = styled.span`
   font-weight: bold;
 `
 
-const HideLarge = styled.div`
-  display: block;
-  @media (min-width: 1100px) {
-    display: none;
-  }
-`
-
 const RatingsDiv = styled.div`
   display: inline-block;
   width: 47%;

@@ -10,12 +10,13 @@ class Coin < ApplicationRecord
   ICO_STATUSES = %w(upcoming active ended listed).freeze
 
   has_many :articles
-  has_many :influencer_reviews
   has_many :coin_excluded_countries
-  has_many :excluded_countries, through: :coin_excluded_countries, source: :country
   has_many :coin_industries_coins
   has_many :coin_industries, through: :coin_industries_coins
+  has_many :exchange_listings, foreign_key: 'quote_symbol_id'
+  has_many :excluded_countries, through: :coin_excluded_countries, source: :country
   has_many :feed_sources
+  has_many :influencer_reviews
   has_many :mentions, class_name: 'NewsCoinMention'
   has_many :news_items, through: :mentions
   has_many :calendar_event_coins
@@ -126,6 +127,19 @@ class Coin < ApplicationRecord
           url: item.url
         }
       end
+    end
+  end
+
+  def listings_data
+    i = exchange_listings.length + 1
+    exchange_listings.order_by_detected.map do |listing|
+      i -= 1
+      {
+        x: listing.detected_at,
+        title: i,
+        text: listing.headline,
+        url: listing.exchange.www_url
+      }
     end
   end
 
