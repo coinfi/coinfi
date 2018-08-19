@@ -1,15 +1,13 @@
-import * as React from 'react'
+import React from 'react'
 import Icon from './Icon'
-import { List, LightbulbOutline } from 'styled-icons/material'
-
-interface Props {}
+import bulbIcon from '../images/bulbIcon.svg'
 
 const btnStyle = {
   padding: '18px',
   borderRadius: 0,
 }
 
-export default function(props: Props) {
+export default function(props) {
   return (
     <div className="b--b flex-none flex justify-between items-center bg-athens listing-header-coins-tips-tabs">
       <div className="flex-auto flex items-center">
@@ -40,7 +38,7 @@ export default function(props: Props) {
             },
           }}
         >
-          <LightbulbOutline size="20" />
+          <img style={{ height: 10 }} src={bulbIcon} />
           <span style={{ marginLeft: 5 }}>Tips</span>
         </button>
       </div>

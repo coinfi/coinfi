@@ -1,16 +1,10 @@
-import * as React from 'react'
+import React from 'react'
 //import CoinList from '../NewsfeedPage/CoinList'
 import ListingsHeader from './ListingsHeader'
 import ListingsList from './ListingsList'
 import BodySection from './BodySection'
 
-export interface LayoutProps {
-  showFilterPanel: Boolean
-  toggleFilterPanel: Function
-  user: Boolean
-}
-
-class LayoutDesktop extends React.Component<LayoutProps> {
+export default class LayoutDesktop extends React.Component {
   state = { showFilterPanel: false }
   toggleFilterPanel() {
     this.setState({
@@ -38,5 +32,3 @@ class LayoutDesktop extends React.Component<LayoutProps> {
     )
   }
 }
-
-export default LayoutDesktop
