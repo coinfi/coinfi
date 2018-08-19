@@ -1,12 +1,24 @@
-import React from 'react'
+import React, { Fragment } from 'react'
+import FilterPanel from '../../common/components/FilterPanel'
+import FilterBar from '../../common/components/FilterPanel/FilterBar'
+import CoinTipsTab from '../../common/components/CoinTipsTab'
 
 const ListingsHeader = (props) => {
   return (
-    <div className="flex flex-auto f6 bg-athens b--b">
-      <div className="w-third pb3 ma3">Pair</div>
-      <div className="w-third pb3 ma3">Exchange</div>
-      <div className="w-third pb3 ma3">Date Detected</div>
-    </div>
+    <Fragment>
+      <CoinTipsTab />
+      <FilterBar toggleFilterPanel={props.toggleFilterPanel} />
+
+      {props.showFilterPanel && (
+        <FilterPanel toggleFilterPanel={props.toggleFilterPanel} />
+      )}
+
+      <div className="flex f6 bg-athens">
+        <div className="fl w-third pa2">Pair</div>
+        <div className="fl w-third pa2">Exchange</div>
+        <div className="fl w-third pa2">Date Detected</div>
+      </div>
+    </Fragment>
   )
 }
 
