@@ -647,3 +647,7 @@
   border-left-color: #e6e6e6;
   cursor: default;
 }
+/* properties needed to get the input to span full width in news filter panel */
+.react-datepicker-wrapper, .react-datepicker__input-container {
+  width:100%;
+}

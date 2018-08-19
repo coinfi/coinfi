@@ -1,26 +1,24 @@
 import React, { Component } from 'react'
 import DatePicker from 'react-datepicker'
 import moment from 'moment'
-// import 'react-datepicker/dist/react-datepicker.css'
 import 'react-datepicker/dist/react-datepicker-cssmodules.css'
 
 export default class ItemSelectorDates extends Component {
-
   state = {
-      startDate: moment()
+    startDate: moment(),
   }
 
   selectedItems = () => this.props.selectedItems || []
 
   addFrom = (item) => {
     let items = this.selectedItems()
-    items.publishedSince = item.currentTarget.value
+    items.publishedSince = item.format('YYYY-MM-DD')
     this.props.onChange(items)
   }
 
   addTo = (item) => {
     let items = this.selectedItems()
-    items.publishedUntil = item.currentTarget.value
+    items.publishedUntil = item.format('YYYY-MM-DD')
     this.props.onChange(items)
   }
 
@@ -37,15 +35,17 @@ export default class ItemSelectorDates extends Component {
   }
 
   render() {
-    const publishedSince =
-      (this.props &&
+    const publishedSince = () => {
+      return (
+        this.props &&
         this.props.selectedItems &&
-        this.props.selectedItems.publishedSince) ||
-      ''
+        moment(this.props.selectedItems.publishedSince)
+      )
+    }
     const publishedUntil =
       (this.props &&
         this.props.selectedItems &&
-        this.props.selectedItems.publishedUntil) ||
+        moment(this.props.selectedItems.publishedUntil)) ||
       ''
 
     return (
@@ -59,14 +59,8 @@ export default class ItemSelectorDates extends Component {
             <DatePicker
               className="from"
               onChange={this.addFrom.bind(this)}
-              selected={this.state.startDate}
+              selected={publishedSince()}
             />
-            {/* <input */}
-            {/*   type="date" */}
-            {/*   className="from" */}
-            {/*   onChange={this.addFrom.bind(this)} */}
-            {/*   value={publishedSince} */}
-            {/* /> */}
           </div>
           <div
             className="w-50 dib"
@@ -78,12 +72,6 @@ export default class ItemSelectorDates extends Component {
               onChange={this.addTo.bind(this)}
               selected={this.state.startDate}
             />
-            {/* <input */}
-            {/*   type="date" */}
-            {/*   className="to" */}
-            {/*   onChange={this.addTo.bind(this)} */}
-            {/*   value={publishedUntil} */}
-            {/* /> */}
           </div>
         </div>
       </div>
