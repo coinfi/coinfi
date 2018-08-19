@@ -25,6 +25,8 @@ Rails.application.routes.draw do
   namespace :api, constraints: { format: 'json' } do
     get '/user', to: 'user#show'
     patch '/user', to: 'user#update'
+    resources :exchange_listings, only: %i[index show]
+    resources :news_items, only: %i[index]
     resources :news, only: :index
     resources :news_items, only: :index
     namespace :newsfeed do
@@ -32,12 +34,12 @@ Rails.application.routes.draw do
     end
     resources :calendar_events, only: %i[index]
     get '/coins/search', to: 'coinsnew#search'
-    resources :coinsnew, only: %i[index show]
+    get '/coins/:id/news', to: 'coins#news'
     resources :coins, only: %i[index show toplist watchlist] do
       get 'toplist', on: :collection
       get 'watchlist', on: :collection
     end
-    get '/coins/:id/news', to: 'coins#news'
+    resources :coinsnew, only: %i[index show]
     get '/social_feeds/tweets_by_user', to: 'social_feeds#tweets_by_user'
   end
 
@@ -48,6 +50,7 @@ Rails.application.routes.draw do
   resources :contributor_submissions, path: 'contributor-submissions'
   get '/profile', to: 'author_profiles#edit', as: 'edit_author_profile'
   resources :author_profiles, only: %i[index show create update], path: 'authors'
+  resources :exchange_listings, only: %i[index show], path: 'listings'
   get '/news(/*others)', to: 'news#index'
 
   namespace :webhooks do

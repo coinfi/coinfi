@@ -72,7 +72,15 @@ function* pollNewsItems(action) {
     )
   }
 }
-
+/*
+function* onSetActiveListing(action) {
+  // On clicking a listing, this will do fetchEntityDetails for that listing.
+  const { payload } = action
+  if (action.namespace !== namespace) return
+  if (payload.type !== 'listing') return
+  yield put(actions.fetchEntityDetails('exchange_listing', payload.id))
+}
+*/
 function* onSetActiveCoin(action) {
   /* On clicking a coin, this will do fetchEntityDetails for that coin. */
   const { payload } = action

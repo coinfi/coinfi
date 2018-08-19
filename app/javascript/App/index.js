@@ -4,6 +4,7 @@
  * React components there, optionally with the Redux store.
  */
 import 'babel-polyfill'
+
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { Provider } from 'react-redux'
@@ -19,6 +20,7 @@ import GlobalCoinSearch from './components/GlobalCoinSearch'
 import TwitterFeed from './components/TwitterFeed'
 import RedditFeed from './components/RedditFeed'
 import IcoFilters from './components/IcoFilters'
+import ExchangeListingsPage from './bundles/ExchangeListings/client'
 import NewsfeedPage from './components/NewsfeedPage'
 import Tabs from './components/Tabs'
 import CoinCharts from './components/CoinCharts'
@@ -33,6 +35,7 @@ const injectableComponents = {
   TwitterFeed,
   RedditFeed,
   IcoFilters,
+  ExchangeListingsPage,
   NewsfeedPage,
   Tabs,
   CoinCharts,

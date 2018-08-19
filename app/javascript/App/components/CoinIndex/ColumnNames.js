@@ -16,7 +16,6 @@ export default (currency) => {
       fixed: 'left',
       width: 240,
       render: (text, row, index) => {
-        const symbol = row.symbol.toLowerCase()
         return (
           <div className="b--r">
             <img alt={text} src={row.image_url} className="fl mr2" />

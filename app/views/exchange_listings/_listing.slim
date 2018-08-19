@@ -1,0 +1,8 @@
+= link_to exchange_listing_path(listing), remote: true do
+  .flex.flex-auto.b--b.tiber.overflow-hidden.pa3
+    .fl.w-third
+      h3.mv0= listing.symbol
+    .fl.w-third
+      = listing.exchange_name
+    .fl.w-third
+      = listing.detected_at

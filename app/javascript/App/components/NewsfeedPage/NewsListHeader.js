@@ -1,11 +1,9 @@
 import React, { Fragment } from 'react'
-import Icon from '../Icon'
-import SectionHeader from '../SectionHeader'
-import SectionHeaderTight from '../SectionHeaderTight'
 import SearchCoins from '../SearchCoins'
 import FilterPanel from '../FilterPanel'
 import FilterTags from '../FilterTags'
-import filterBtn from '../../images/filter-btn.svg'
+import FilterBar from '../../bundles/common/components/FilterPanel/FilterBar'
+import CoinTipsTab from '../../bundles/common/components/CoinTipsTab'
 
 const NewsListHeader = (props) => {
   const {
@@ -16,82 +14,28 @@ const NewsListHeader = (props) => {
     activeFilters,
     newsfeedTips,
   } = props
+
   const toggleFilters = () =>
     enableUI('filterPanel', { fullScreen: window.isMobile })
 
-  const btnStyle = {
-    padding: '16px',
-    borderRadius: 0,
-    display: 'inline-flex',
-    textTransform: 'none',
-  }
+  const showCoinListDrawer = () =>
+    enableUI('coinListDrawer', { fullScreen: true })
 
   return (
     <Fragment>
       {window.isMobile && (
-        <SectionHeaderTight>
-          <div className="flex-auto flex items-center">
-            <button
-              className="btn btn-blue btn-xs flex-auto justify-center"
-              onClick={() => enableUI('coinListDrawer', { fullScreen: true })}
-              style={{
-                ...btnStyle,
-                ...{
-                  background: '#2495ce',
-                },
-              }}
-            >
-              <i class="material-icons f6 mr1">list</i>
-              <span class="f6">Coins</span>
-            </button>
-            <button
-              className="btn btn-blue btn-xs flex-auto justify-center"
-              onClick={newsfeedTips}
-              style={btnStyle}
-            >
-              <i class="material-icons f6 mr1">announcement</i>
-              <span class="f6">Tips</span>
-            </button>
-          </div>
-        </SectionHeaderTight>
+        <CoinTipsTab
+          showCoinListDrawer={showCoinListDrawer}
+          showTips={newsfeedTips}
+        />
       )}
-      <SectionHeader>
-        <div className="flex items-center flex-auto search-coin-wrapper">
-          {!window.isMobile && (
-            <button
-              className="btn btn-blue btn-xs coins-btn mr2"
-              onClick={() => enableUI('coinListDrawer', { fullScreen: true })}
-              style={
-                window.isMobile
-                  ? {
-                      ...btnStyle,
-                      ...{
-                        background: '#2495ce',
-                        flex: 1,
-                        textTransform: 'none',
-                      },
-                    }
-                  : {}
-              }
-            >
-              <Icon name="list" className="mr2" />
-              <span>Coins</span>
-            </button>
-          )}
-          <SearchCoins {...props} />
-          <button
-            onClick={toggleFilters}
-            className="btn btn-xs btn-white filter-btn ml2"
-          >
-            <img style={{ height: 10, marginRight: 10 }} src={filterBtn} />
-            Filters
-          </button>
-        </div>
-      </SectionHeader>
+      <FilterBar {...props} toggleFilterPanel={toggleFilters}>
+        <SearchCoins {...props} />
+      </FilterBar>
       {activeFilters.size > 0 && (
         <div className="pa3 f6 b--b bg-athens flex items-center">
           <span className="mr2">Viewing by:</span>
-          <FilterTags {...props} />
+          <FilterTags {...props} toggleFilterPanel={toggleFilters} />
         </div>
       )}
       {currentUI('filterPanel') && (
