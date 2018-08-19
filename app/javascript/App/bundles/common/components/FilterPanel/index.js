@@ -1,4 +1,7 @@
 import React, { Component } from 'react'
+import FilterApplyButton from './FilterApplyButton'
+import FilterCancelButton from './FilterCancelButton'
+import FilterResetLink from './FilterResetLink'
 
 class FilterPanel extends Component {
   render() {
@@ -9,54 +12,21 @@ class FilterPanel extends Component {
       containerClass = 'overlay z-999 bg-athens overflow-y-auto'
 
     return (
-      <div className="ph3 ph4-l" style={{ padding: '1rem' }}>
+      <div className="ph3 ph4-l">
         <div className={containerClass}>
           <div className="pa3 bb b--geyser flex justify-between items-center filter-panel-header">
             <div className="flex items-center">
               <h3 className="mb0 mr1 b">Filters</h3>
-              <button
-                className="btn btn-white btn-xs"
-                onClick={resetFilters}
-                style={{
-                  background: 'none',
-                  border: 'none',
-                  boxShadow: 'none',
-                  textTransform: 'none',
-                  fontSize: '12px',
-                  color: '#2faeed',
-                }}
-              >
-                Reset
-              </button>
+              <FilterResetLink applyFilters={resetFilters} />
             </div>
             <div>
-              <button
-                className="btn btn-white btn-xs"
-                onClick={this.props.toggleFilterPanel}
-                style={{
-                  background: 'none',
-                  border: 'none',
-                  boxShadow: 'none',
-                  textTransform: 'none',
-                  fontSize: '14px',
-                  color: 'rgba(0, 0, 0, 0.54)',
-                }}
-              >
-                Cancel
-              </button>
-              <button
-                className="btn btn-blue btn-xs ml3"
-                onClick={applyFilters}
-                style={{
-                  textTransform: 'none',
-                  padding: '8px 20px',
-                  fontSize: '.88rem',
-                }}
-              >
-                Apply
-              </button>
+              <FilterCancelButton
+                toggleFilterPanel={this.props.toggleFilterPanel}
+              />
+              <FilterApplyButton applyFilters={applyFilters} />
             </div>
           </div>
+          {this.props.children}
         </div>
       </div>
     )
