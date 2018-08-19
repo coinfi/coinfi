@@ -9,7 +9,7 @@ import debounce from 'debounce'
 import LayoutDesktop from '../../components/LayoutDesktop'
 import LayoutTablet from '../../components/LayoutTablet'
 import LayoutMobile from '../../components/LayoutMobile'
-import CoinListWrapper from '../../bundles/common/components/CoinListWrapper'
+import CoinListWrapper from '../common/components/CoinListWrapper'
 import CoinListDrawer from '../../components/CoinList/CoinListDrawer'
 import NewsList from './NewsList'
 import NewsListHeader from './NewsListHeader'
@@ -25,12 +25,14 @@ import { CoinList, Coin } from '../common/types';
 
 const STATUSES = {
   LOADING: 'Loading',
+  INFINITE_SCROLL_LOADING: 'InfiniteScrollLoading',
   READY: 'Ready',
 }
 
 interface Props {
   coinSlug?: string,
   newsItemId?: string,
+  coinList: CoinList,
 };
 
 interface State {
@@ -38,16 +40,16 @@ interface State {
   liveCoinArr: Array<any>,
   status: string,
   newsfeedTips: boolean,
-  newsItems: Array<NewsItem>,
+  sortedNewsItems: Array<NewsItem>,
 };
 
 class NewsfeedPage extends React.Component<Props, State> {
   state = {
     initialRenderTips: false,
     liveCoinArr: [],
-    status: STATUSES.READY,
+    status: STATUSES.LOADING,
     newsfeedTips: true,
-    newsItems: [],
+    sortedNewsItems: [],
   }
 
   getContentType(): ContentType {
@@ -64,7 +66,7 @@ class NewsfeedPage extends React.Component<Props, State> {
 
   componentDidMount() {
     if (this.getContentType() === "coin") {
-      this.fetchNewsItemsForCoin(this.props.coinSlug);
+        this.fetchNewsItemsForCoin(this.props.coinSlug);
     } else {
       this.fetchAllNewsItems()
     }
@@ -86,16 +88,16 @@ class NewsfeedPage extends React.Component<Props, State> {
     }
   }
 
-  toggleNewsfeedTips() {
-    this.setState({ initialRenderTips: !this.state.initialRenderTips })
+  closeTips = () => {
+    this.setState({ initialRenderTips: false })
   }
 
   getNewsItem(): NewsItem | undefined {
-    return _.find(this.state.newsItems, ['id', parseInt(this.props.newsItemId)]);
+    return _.find(this.state.sortedNewsItems, ['id', parseInt(this.props.newsItemId)]);
   }
 
-  getCoinInfo(coinList: CoinList): Coin {
-    return _.find(coinList, ['slug', this.props.coinSlug]);
+  getCoinInfo(): Coin {
+    return _.find(this.props.coinList, ['slug', this.props.coinSlug]);
   }
 
   static getDerivedStateFromProps(props, state) {
@@ -108,11 +110,15 @@ class NewsfeedPage extends React.Component<Props, State> {
     }
   }
 
+  sortNewsFunc(x: NewsItem, y: NewsItem) {
+    return Date.parse(y.feed_item_published_at) - Date.parse(x.feed_item_published_at)
+  }
+
   fetchAllNewsItems() {
     localAPI.get('/news').then((response) => {
       this.setState({
         status: STATUSES.READY,
-        newsItems: response.payload,
+        sortedNewsItems: response.payload.sort(this.sortNewsFunc),
       })
     })
   }
@@ -122,9 +128,22 @@ class NewsfeedPage extends React.Component<Props, State> {
     localAPI.get(`/news?coinSlugs=${coinSlug}`).then((response) => {
       this.setState({
         status: STATUSES.READY,
-        newsItems: response.payload,
+        sortedNewsItems: response.payload.sort(this.sortNewsFunc),
       })
     })
+  }
+
+  fetchMoreNewsItems = () => {
+    const lastNews = this.state.sortedNewsItems[this.state.sortedNewsItems.length - 1];
+    this.setState({
+        status: STATUSES.INFINITE_SCROLL_LOADING
+      }, () => localAPI.get(`/news`, { publishedUntil: lastNews.publishedUntil }).then(response => {
+          this.setState({
+            status: STATUSES.READY,
+            sortedNewsItems: [...this.state.sortedNewsItems, ...response.payload.sort(this.sortNewsFunc)]
+          })
+      })
+    );
   }
 
   render() {
@@ -176,42 +195,32 @@ class NewsfeedPage extends React.Component<Props, State> {
           {...enhancedProps}
           leftSection={<CoinListWrapper {...enhancedProps} />}
           centerSection={
-            <CoinListContext.Consumer>
-              {(payload) => (
-                <>
-                  <NewsListHeader
-                    coins={payload.coinlist}
-                    feedSources={this.props.feedSources}
-                    showFilters={this.state.showFilters}
-                    activeFilters={this.state.activeFilters}
-                    newsfeedTips={this.state.newsfeedTips}
-                  />
-                  <NewsList
-                    newsItems={this.state.newsItems}
-                    isLoading={() => this.state.status === STATUSES.LOADING}
-                    activeFilters={this.state.activeFilters}
-                    sortedNewsItems={this.props.sortedNewsItems}
-                    initialRenderTips={this.state.initialRenderTips}
-                    fetchMoreNewsFeed={() => undefined} //TODO
-                    toggleNewsfeedTips={this.toggleNewsfeedTips}
-                  />
-              </>
-              )}
-            </CoinListContext.Consumer>
+              <>
+                <NewsListHeader
+                  coins={this.props.coinList}
+                  feedSources={this.props.feedSources}
+                  showFilters={this.state.showFilters}
+                  activeFilters={this.state.activeFilters}
+                  newsfeedTips={this.state.newsfeedTips}
+                />
+                <NewsList
+                  isLoading={this.state.status === STATUSES.LOADING}
+                  isInfiniteScrollLoading={this.state.status === STATUSES.INFINITE_SCROLL_LOADING}
+                  activeFilters={this.state.activeFilters}
+                  sortedNewsItems={this.state.sortedNewsItems}
+                  initialRenderTips={this.state.initialRenderTips}
+                  fetchMoreNewsFeed={this.fetchMoreNewsItems}
+                  closeTips={this.closeTips}
+                />
+            </>
           }
           rightSection={
-            <CoinListContext.Consumer>
-              {
-                (payload) => (
-                  <BodySection
-                    coinInfo={this.getCoinInfo(payload.coinlist)}
-                    newsItem={this.getNewsItem()}
-                    contentType={this.getContentType()}
-                    closeTips={this.newsfeedTips} 
-                  />
-                )
-              }
-            </CoinListContext.Consumer>
+            <BodySection
+              coinInfo={this.getCoinInfo()}
+              newsItem={this.getNewsItem()}
+              contentType={this.getContentType()}
+              closeTips={this.closeTips} 
+            />
           }
         />
       )

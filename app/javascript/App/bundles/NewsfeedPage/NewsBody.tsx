@@ -2,7 +2,7 @@ import * as React from 'react'
 import timeago from 'timeago.js'
 import sanitizeHtml from 'sanitize-html'
 import _ from 'lodash'
-import CoinTags from '../../components/CoinTags'
+import CoinTags from '../common/components/CoinTags'
 import BulletSpacer from '../../components/BulletSpacer'
 import Icon from '../../components/Icon'
 

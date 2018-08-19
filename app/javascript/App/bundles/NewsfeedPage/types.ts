@@ -1,14 +1,10 @@
-interface CoinLinkData {
-  id: number,
-  symbol: string,
-  slug: string,
-};
+import { ItemWithCoinLinkData } from '../common/types';
 
 interface Category {
   name: string,
 };
 
-export interface NewsItem {
+export interface NewsItem extends ItemWithCoinLinkData {
   id: number,
   title: string
   summary: string
@@ -16,7 +12,6 @@ export interface NewsItem {
   url: string
   feed_item_published_at: string,
   categories: Array<Category>,
-  coin_link_data: Array<CoinLinkData>,
 };
 
 export type ContentType = "none" | "coin" | "news";
