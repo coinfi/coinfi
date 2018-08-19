@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
+import ListingItem from './ListingItem'
+import LoadingIndicator from '../../../../App/components/LoadingIndicator'
 import localAPI from '../../../lib/localAPI'
 import InfiniteScroll from 'react-infinite-scroll-component'
-
-import ListingItem from './ListingItem'
 
 class ListingsList extends Component {
   constructor(props) {
@@ -55,15 +55,14 @@ class ListingsList extends Component {
 
   render() {
     const { listings } = this.state
-    const calculatedHeight = 500 // TODO: Calculate this dynamically.
     return (
-      <div className="overflow-y-hidden overflow-y-auto-m">
+      <div id="listings-feed" className="overflow-y-hidden overflow-y-auto-m">
         <InfiniteScroll
           dataLength={listings.length}
-          loader={<h4>Loading...</h4>}
+          loader={<LoadingIndicator />}
           next={this.fetchOlderExchangeListings}
           hasMore={this.state.hasMore}
-          height={calculatedHeight}
+          scrollableTarget="listings-feed"
           endMessage={
             <p className="tc">
               <b>No more exchange listings present in the database.</b>
