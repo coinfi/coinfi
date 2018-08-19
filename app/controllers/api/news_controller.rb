@@ -13,12 +13,8 @@ class Api::NewsController < ApiController
     coin_ids = Coin.where(slug: coin_slugs).pluck(:id) if coin_slugs
     coin_ids = Coin.top(20).ids unless coin_ids
 
-    @news_items = NewsItem.published.all
     feed_sources = FeedSource.active.all
-
-    if params[:coins].present?
-      @news_items = @news_items.joins(:news_coin_mentions).where(news_coin_mentions: { coin: coin_ids })
-    end
+    @news_items = NewsItem.published.joins(:news_coin_mentions).where(news_coin_mentions: { coin: coin_ids })
 
     # Showing default coins
     if coin_ids == params[:coinIDs]
