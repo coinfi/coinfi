@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+
+    <title>CoinFi Data - Ethereum Blockchain Analysis</title>
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="/fonts/font.css">
+    <link href="assets/css/core.min.css" rel="stylesheet">
+    <link href="assets/css/thesaas.css" rel="stylesheet">
+    <link href="assets/css/style.css" rel="stylesheet">
+
+    <!-- Favicons -->
+    <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
+    <link rel="icon" href="/favicon.ico">
+
+    <script>
+      (function (i, s, o, g, r, a, m) {
+        i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
+          (i[r].q = i[r].q || []).push(arguments)
+        }, i[r].l = 1 * new Date(); a = s.createElement(o),
+        m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+      })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+
+      ga('create', 'UA-105378428-1', 'auto');
+      ga('send', 'pageview');
+    </script>
+    <script type='text/javascript'>
+      var _vwo_code = (function () {
+        var account_id = 323413,
+        settings_tolerance = 2000,
+        library_tolerance = 2500,
+        use_existing_jquery = true,
+        /* DO NOT EDIT BELOW THIS LINE */
+        f = false, d = document; return { use_existing_jquery: function () { return use_existing_jquery; }, library_tolerance: function () { return library_tolerance; }, finish: function () { if (!f) { f = true; var a = d.getElementById('_vis_opt_path_hides'); if (a) a.parentNode.removeChild(a); } }, finished: function () { return f; }, load: function (a) { var b = d.createElement('script'); b.src = a; b.type = 'text/javascript'; b.innerText; b.onerror = function () { _vwo_code.finish(); }; d.getElementsByTagName('head')[0].appendChild(b); }, init: function () { settings_timer = setTimeout('_vwo_code.finish()', settings_tolerance); var a = d.createElement('style'), b = 'body{opacity:0 !important;filter:alpha(opacity=0) !important;background:none !important;}', h = d.getElementsByTagName('head')[0]; a.setAttribute('id', '_vis_opt_path_hides'); a.setAttribute('type', 'text/css'); if (a.styleSheet) a.styleSheet.cssText = b; else a.appendChild(d.createTextNode(b)); h.appendChild(a); this.load('//dev.visualwebsiteoptimizer.com/j.php?a=' + account_id + '&u=' + encodeURIComponent(d.URL) + '&r=' + Math.random()); return settings_timer; } };
+      }()); _vwo_settings_timer = _vwo_code.init();
+    </script>
+    <script type="text/javascript">
+      window.heap = window.heap || [], heap.load = function (e, t) { window.heap.appid = e, window.heap.config = t = t || {}; var r = t.forceSSL || "https:" === document.location.protocol, a = document.createElement("script"); a.type = "text/javascript", a.async = !0, a.src = (r ? "https:" : "http:") + "//cdn.heapanalytics.com/js/heap-" + e + ".js"; var n = document.getElementsByTagName("script")[0]; n.parentNode.insertBefore(a, n); for (var o = function (e) { return function () { heap.push([e].concat(Array.prototype.slice.call(arguments, 0))) } }, p = ["addEventProperties", "addUserProperties", "clearEventProperties", "identify", "resetIdentity", "removeEventProperty", "setEventProperties", "track", "unsetEventProperty"], c = 0; c < p.length; c++)heap[p[c]] = o(p[c]) };
+      heap.load("3291221357");
+    </script>
+  </head>
+
+  <body>
+
+
+    <!-- Topbar -->
+    <nav class="topbar topbar-inverse topbar-expand-sm">
+      <div class="container">
+        <div class="topbar-left">
+          <a class="topbar-brand" href="/">
+            <img class="logo-default" src="/img/logo.svg" alt="logo">
+            <img class="logo-inverse" src="/img/logo.svg" alt="logo">
+          </a>
+        </div>
+
+        <div class="topbar-right">
+          <ul class="topbar-nav nav">
+            <li class="nav-item">
+              <a class="nav-link" data-scroll href="#contact">Contact</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <!-- END Topbar -->
+
+
+
+
+    <!-- Header -->
+    <header class="header header-inverse h-fullscreen p-0 bg-primary overflow-hidden" style="background-image: linear-gradient(to right, #434343 0%, black 100%);">
+      <canvas class="constellation"></canvas>
+
+      <div class="container text-center">
+
+        <div class="row h-full align-items-center">
+          <div class="col-12 col-md-8 offset-md-2">
+
+            <h1 class="display-4 fw-500">Use blockchain analytics to spot market movements before they happen.</h1>
+            <br>
+            <p class="lead text-white fs-20">
+              2017 was the year of pricing arbitrage. 2018 is the year of information arbitrage. CoinFi leverages on-chain and proprietary off-chain data to provide our clients with the next generation of market intelligence they need to gain an edge.
+            </p>
+            <br>
+            <a class="btn btn-xl btn-round btn-primary" data-scroll href="#main">Learn More</a>
+
+          </div>
+        </div>
+
+      </div>
+    </header>
+    <!-- END Header -->
+
+
+
+
+    <!-- Main container -->
+    <main id="main" class="main-content">
+
+      <!-- Exchange Assets -->
+      <section class="section overflow-hidden bg-gray">
+        <div class="container">
+          <header class="section-header">
+            <h2>Exchange Assets Held on Ethereum Blockchain</h2>
+            <hr>
+            <p class="lead">Real time visual representation of all exchange wallets and their corresponding USD notional value.</p>
+            <p class="lead"><em>Breakdown by token available on request.</em></p>
+          </header>
+
+          <div class="row">
+            <div class="offset-md-2 col-md-8" style="text-align: center">
+              <div class="video-btn-wrapper" data-aos="fade-up">
+                <img class="shadow-2 rounded" src="assets/img/exchange-assets.png" alt="Exchange Assets on Ethereum Blockchain">
+                <!--
+                <iframe src="https://modeanalytics.com/coinfi/reports/d6a0ee45c6c8/embed" width="100%" height="300" frameborder="0"></iframe>
+              -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Top Ethereum Transactions -->
+      <section class="section">
+        <div class="container">
+          <header class="section-header">
+            <h2>Recent Ethereum Transactions of Interest</h2>
+            <hr>
+            <p class="lead">Below is a list of recent large Ethereum transactions of interest.</p>
+          </header>
+
+          <div class="row">
+            <div class="col-lg-12 mx-auto">
+
+              <ol class="timeline">
+                <li class="timeline-item">
+                  <span class="small"><time datetime="2017-08-14"></time>[Aug-19-2018 11:05:38 PM +UTC]</span>
+                  <h5>Binance Token (BNB): $4,991,365.54 USD</h5>
+                  <span>
+                    500,001.38 Binance Tokens (BNB) transferred
+                    <br> from
+                    <code>0x27438cfb31bb65c9172ebcbeb32501f135ba902a</code>
+                    <br> to
+                    <code>0x115635b91717c4d96d092e3f0b72155283ef400f</code>
+                  </span>
+                  <code class="small"><a target="_blank" rel="nofollow noopener noreferrer" href="https://etherscan.io/tx/0xf00ef51261766c3edd8c5ca76a23e392f72ba5863f082f609f22d5d3862a0d36">0xf00ef51261766c3edd8c5ca76a23e392f72ba5863f082f609f22d5d3862a0d36</a></code>
+                </li>
+
+                <li class="timeline-item">
+                  <span class="small"><time datetime="2017-08-18">[Aug-18-2018 08:43:31 PM +UTC]</time></span>
+                  <h5>Ethereum (ETH): $5,478,607.85 USD</h5>
+                  <span>
+                    18,581 Ether (ETH) transferred
+                    <br> from Binance_1
+                    <code>0x3f5ce5fbfe3e9af3971dd833d26ba9b5c936f0be</code>
+                    <br> to Binance_2
+                    <code>0xd551234ae421e3bcba99a0da6d736074f22192ff</code>
+                  </span>
+                  <code class="small"><a target="_blank" rel="nofollow noopener noreferrer" href="https://etherscan.io/tx/0x50ea5d693ac0478c59e7fe8bca201c7ad891f351f94c394521f9986d34728b08">0x50ea5d693ac0478c59e7fe8bca201c7ad891f351f94c394521f9986d34728b08</a></code>
+                </li>
+
+                <li class="timeline-item">
+                  <span class="small"><time datetime="2017-08-18">[Aug-18-2018 03:11:18 AM +UTC]</time></span>
+                  <h5>Belance (ERC20): $38,175,008.22 USD</h5>
+                  <span>
+                    69,132,765 Belance (ERC20) Tokens transferred
+                    <br> from
+                    <code>0x8d12a197cb00d4747a1fe03395095ce2a5cc6819</code>
+                    <br> to
+                    <code>0x9aabc792478ca988c45d2c762c5e4265cb5be39c</code>
+                  </span>
+                  <code class="small"><a target="_blank" rel="nofollow noopener noreferrer" href="https://etherscan.io/tx/0xf4560831ac12f6e9a558478acdddfb9649ca4a4c02e3223f12f0f66e8a817885">0xf4560831ac12f6e9a558478acdddfb9649ca4a4c02e3223f12f0f66e8a817885</a></code>
+                </li>
+
+                <li class="timeline-item">
+                  <span class="small"><time datetime="2017-08-18">[Aug-17-2018 02:18:50 PM +UTC]</time></span>
+                  <h5>Ethereum (ETH): $29,772,186.84 USD</h5>
+                  <span>
+                    93,749.997921 Ether (ETH) transferred
+                    <br> from
+                    <code>0x0a0fed0ff3495fe93749cde2b692b7e217dc739c</code>
+                    <br> to
+                    <code>0x976fd26bc177542c3ade3aa28b374f866e7dde4b0x9</code>
+                  </span>
+                  <code class="small"><a target="_blank" rel="nofollow noopener noreferrer" href="https://etherscan.io/tx/0x774c9d252049a95e0348a76afff3f7203fb934f148ef90c6c8d2f25dc1177a1c">0x774c9d252049a95e0348a76afff3f7203fb934f148ef90c6c8d2f25dc1177a1c</a></code>
+                </li>
+
+                <li class="timeline-item">
+                  <span class="small"><time datetime="2017-08-17">[Aug-17-2018 10:20:39 AM +UTC]</time></span>
+                  <h5>WAB Network (WAB): $5,491,920.00 USD</h5>
+                  <span>
+                    4,000,000,000 WAB Network (WAB) tokens transferred
+                    <br> from
+                    <code>0x72bcfa6932feacd91cb2ea44b0731ed8ae04d0d3</code>
+                    <br> to
+                    <code>0x7951de819acd64bc2c97f887a8f53600ccaacab3</code>
+                  </span>
+                  <code class="small"><a target="_blank" rel="nofollow noopener noreferrer" href="https://etherscan.io/tx/0xe9aedb1d8661a336be49a0a4e2a68a76edfe6488c00c4b826c835a11657f988d">0xe9aedb1d8661a336be49a0a4e2a68a76edfe6488c00c4b826c835a11657f988d</a></code>
+                </li>
+
+                <li class="timeline-item">
+                  <span class="small"><time datetime="2017-08-14"></time>[Aug-15-2018 09:21:03 PM +UTC]</span>
+                  <h5>OmiseGo (OMG): $4,991,365.54 USD</h5>
+                  <span>
+                    1,000,000 OmiseGo (OMG) transferred
+                    <br> from
+                    <code>0x876eabf441b2ee5b5b0554fd502a8e0600950cfa</code>
+                    <br> to
+                    <code>0xd007058e9b58e74c33c6bf6fbcd38baab813cbb6</code>
+                  </span>
+                  <code class="small"><a target="_blank" rel="nofollow noopener noreferrer" href="https://etherscan.io/tx/0x0ffdb2f12360af94744ca487d69b3969eac59c1337e93c0ed21257d32d8994db">0x0ffdb2f12360af94744ca487d69b3969eac59c1337e93c0ed21257d32d8994db</a></code>
+                </li>
+
+                <li class="timeline-item">
+                  <span class="small"><time datetime="2017-08-14">[Aug-14-2018 02:21:34 PM +UTC]</time></span>
+                  <h5>Bancor (BNT): $6,534,850.53 USD</h5>
+                  <span>
+                    3,966,198.9 Bancor (BNT) tokens transferred
+                    <br> from
+                    <code>0x3504885517a7046af0bf08f3816e1cb3179cced6</code>
+                    <br> to
+                    <code>0x6a7a72cb261f2b1b7c773cf34bd7892383cbba7a</code>
+                  </span>
+                  <code class="small"><a target="_blank" rel="nofollow noopener noreferrer" href="https://etherscan.io/tx/0x47dd76bf07676415601b6fbf246ed0d9f9d9703b752c6cd2df6bea6109b24111">0x47dd76bf07676415601b6fbf246ed0d9f9d9703b752c6cd2df6bea6109b24111</a></code>
+                </li>
+              </ol>
+            </div>
+          </div>
+
+          <br>
+          <br>
+
+          <div class="row">
+            <div class="offset-md-2 col-md-8" style="text-align: center">
+              <div class="video-btn-wrapper" data-aos="fade-up">
+                <img class="shadow-2 rounded" src="assets/img/large-ethereum-transactions.png" alt="Large Ethereum Transactions">
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Contact Us -->
+      <section id="contact" class="section section-inverse bg-primary">
+        <div class="container text-center">
+          <header class="section-header">
+            <h2>Contact Us</h2>
+            <hr>
+            <p class="lead">Reach out to learn how you can can gain an edge with CoinFi’s blockchain market intelligence.</p>
+            <h3>data@coinfi.com</h3>
+          </header>
+        </div>
+      </section>
+
+
+    </main>
+    <!-- END Main container -->
+
+
+    <!-- Footer -->
+    <footer class="site-footer">
+      <div class="container">
+        <div class="row gap-y align-items-center">
+          <div class="col-12 col-lg-3">
+            <p class="text-center text-lg-left">
+              <a href="/"><img src="/img/logo.svg" alt="logo"></a>
+            </p>
+          </div>
+
+          <div class="col-12 col-lg-6">
+            <ul class="nav nav-primary nav-hero">
+              <li class="nav-item">
+                <a class="nav-link" href="/register">Register</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="https://blog.coinfi.com">Blog</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="https://careers.coinfi.com">Careers</a>
+              </li>
+              <li class="nav-item hidden-sm-down">
+                <a class="nav-link" href="https://www.coinfi.com/about">About</a>
+              </li>
+            </ul>
+          </div>
+
+          <div class="col-12 col-lg-3">
+            <div class="social text-center text-lg-right">
+              <a class="social-facebook" href="https://www.facebook.com/CoinFiProject"><i class="fa fa-facebook"></i></a>
+              <a class="social-medium" href="https://medium.com/coinfi"><i class="fa fa-medium"></i></a>
+              <a class="social-twitter" href="https://twitter.com/coin_fi"><i class="fa fa-twitter"></i></a>
+              <a class="social-reddit" href="https://reddit.com/r/coinfi"><i class="fa fa-reddit"></i></a>
+              <a class="social-telegram" href="https://t.me/coinfi"><i class="fa fa-telegram"></i></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
+    <!-- END Footer -->
+
+
+
+    <!-- Scripts -->
+    <script src="assets/js/core.min.js"></script>
+    <script src="assets/js/thesaas.min.js"></script>
+    <script src="assets/js/script.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/cferdinandi/smooth-scroll@14.0.0/dist/smooth-scroll.polyfills.min.js"></script>
+    <script>
+      var scroll = new SmoothScroll('a[href*="#"]');
+    </script>
+  </body>
+</html>
