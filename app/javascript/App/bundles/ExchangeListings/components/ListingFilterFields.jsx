@@ -1,13 +1,13 @@
 import React from 'react'
 import ListingFilterQuoteSymbolField from './ListingFilterQuoteSymbolField'
-//import ListingFilterDateRangeField from './ListingFilterDateRangeField'
+import ItemSelectorDate from './../../../components/ItemSelectorDate'
 //import ListingFilterExchangesField from './ListingFilterExchangeField'
 
 export default (props) => (
   <div className="pa3">
     <ListingFilterQuoteSymbolField />
+    <ItemSelectorDate />
     {/*
-    <ListingFilterDateRangeField />
     <ListingFilterExchangesField />
     */}
   </div>
