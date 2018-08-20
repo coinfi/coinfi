@@ -1,7 +1,7 @@
 import * as React from 'react'
-
 import AsyncSelect from 'react-select/lib/Async'
 import { colourOptions } from './docs/data'
+import _ from 'lodash'
 
 type State = {
   inputValue: string
@@ -13,7 +13,7 @@ const filterSymbols = (inputValue: string, data: any) => {
     item.value = item.quote_symbol
     return item
   })
-  return formatData
+  return _.uniqBy(formatData, 'quote_symbol')
 }
 
 const promiseOptions = (inputValue) => {
