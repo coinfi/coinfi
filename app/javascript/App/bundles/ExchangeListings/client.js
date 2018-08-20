@@ -10,11 +10,10 @@ import BodySection from './components/BodySection'
 class ExchangeListingsPage extends Component {
   state = { showFilterPanel: false }
 
-  toggleFilterPanel() {
+  toggleFilterPanel = () =>
     this.setState({
       showFilterPanel: !this.state.showFilterPanel,
     })
-  }
 
   componentDidUpdate() {
     window.addEventListener('resize', debounce(() => this.forceUpdate(), 500))
@@ -32,7 +31,7 @@ class ExchangeListingsPage extends Component {
               <ListingsHeader
                 {...props}
                 showFilterPanel={this.state.showFilterPanel}
-                toggleFilterPanel={this.toggleFilterPanel.bind(this)}
+                toggleFilterPanel={this.toggleFilterPanel}
               />
               <ListingsList {...props} />
             </Fragment>
@@ -51,7 +50,7 @@ class ExchangeListingsPage extends Component {
               <ListingsHeader
                 {...props}
                 showFilterPanel={this.state.showFilterPanel}
-                toggleFilterPanel={this.toggleFilterPanel.bind(this)}
+                toggleFilterPanel={this.toggleFilterPanel}
               />
               <ListingsList {...props} />
             </Fragment>
@@ -69,7 +68,7 @@ class ExchangeListingsPage extends Component {
               <ListingsHeader
                 {...props}
                 showFilterPanel={this.state.showFilterPanel}
-                toggleFilterPanel={this.toggleFilterPanel.bind(this)}
+                toggleFilterPanel={this.toggleFilterPanel}
               />
               <ListingsList {...props} />
             </Fragment>
