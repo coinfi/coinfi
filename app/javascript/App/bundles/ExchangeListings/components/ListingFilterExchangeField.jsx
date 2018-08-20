@@ -4,15 +4,16 @@ import AsyncSelect from 'react-select/lib/Async'
 import { colourOptions } from './docs/data'
 
 type State = {
-  inputValue: string
+  inputValue: string,
 }
 
 const url = '/api/exchange_listings'
 
-const filterSymbols = (inputValue: string, data: any) => {
+const filterExchanges = (inputValue: string, data: any) => {
+  console.log(data.payload)
   const formatData = data.payload.map((item) => {
-    item.label = item.quote_symbol
-    item.value = item.quote_symbol
+    item.label = item.exchange_name
+    item.value = item.exchange_name
     return item
   })
   return formatData
@@ -34,7 +35,7 @@ const promiseOptions = (inputValue) =>
         },
       )
       .then((data) => {
-        resolve(filterSymbols(inputValue, data))
+        resolve(filterExchanges(inputValue, data))
       })
   })
 
@@ -47,8 +48,8 @@ export default class WithCallbacks extends React.Component {
   }
   render() {
     return (
-      <div>
-        <h4>Quote Symbol</h4>
+      <div className='pt3'>
+        <h4>Exchanges</h4>
         <AsyncSelect
           isMulti
           cacheOptions
