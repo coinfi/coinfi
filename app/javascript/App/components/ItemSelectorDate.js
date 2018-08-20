@@ -70,7 +70,7 @@ export default class ItemSelectorDates extends Component {
             <DatePicker
               className="to"
               onChange={this.addTo.bind(this)}
-              selected={this.state.startDate}
+              selected={publishedUntil()}
             />
           </div>
         </div>
