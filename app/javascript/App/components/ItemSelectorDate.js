@@ -4,9 +4,6 @@ import moment from 'moment'
 import 'react-datepicker/dist/react-datepicker-cssmodules.css'
 
 export default class ItemSelectorDates extends Component {
-  state = {
-    startDate: moment(),
-  }
 
   selectedItems = () => this.props.selectedItems || []
 
@@ -42,11 +39,13 @@ export default class ItemSelectorDates extends Component {
         moment(this.props.selectedItems.publishedSince)
       )
     }
-    const publishedUntil =
-      (this.props &&
+    const publishedUntil = () => {
+      return (
+        this.props &&
         this.props.selectedItems &&
-        moment(this.props.selectedItems.publishedUntil)) ||
-      ''
+        moment(this.props.selectedItems.publishedUntil)
+      )
+    }
 
     return (
       <div className="item-selector-alt nh1 nt1">
@@ -57,9 +56,12 @@ export default class ItemSelectorDates extends Component {
           >
             <label className="f6">Start Date</label>
             <DatePicker
-              className="from"
-              onChange={this.addFrom.bind(this)}
               selected={publishedSince()}
+              selectsStart
+              startDate={publishedSince()}
+              endDate={publishedUntil()}
+              onChange={this.addFrom.bind(this)}
+              className="from"
             />
           </div>
           <div
@@ -68,9 +70,12 @@ export default class ItemSelectorDates extends Component {
           >
             <label className="f6">End Date</label>
             <DatePicker
-              className="to"
-              onChange={this.addTo.bind(this)}
               selected={publishedUntil()}
+              selectsEnd
+              startDate={publishedSince()}
+              endDate={publishedUntil()}
+              onChange={this.addTo.bind(this)}
+              className="to"
             />
           </div>
         </div>
