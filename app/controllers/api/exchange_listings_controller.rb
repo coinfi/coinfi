@@ -6,7 +6,15 @@ class Api::ExchangeListingsController < ApiController
     headers['Last-Modified'] = Time.now.httpdate
 
     @listings = ExchangeListing.includes(:exchange).all
+=begin
+    if params[:quoteSymbols].present?
+      @listings = @listings.where()
+    end
 
+    if params[:exchangeSlugs].present?
+      @listings = @listings.where()
+    end
+=end
     if params[:detectedSince].present?
       @listings = @listings.where('detected_at > ?', params[:detectedSince].to_datetime)
     end
