@@ -7,10 +7,7 @@ type State = {
   inputValue: string,
 }
 
-const url = '/api/exchange_listings'
-
 const filterExchanges = (inputValue: string, data: any) => {
-  console.log(data.payload)
   const formatData = data.payload.map((item) => {
     item.label = item.exchange_name
     item.value = item.exchange_name
@@ -19,8 +16,9 @@ const filterExchanges = (inputValue: string, data: any) => {
   return formatData
 }
 
-const promiseOptions = (inputValue) =>
-  new Promise((resolve, reject) => {
+const promiseOptions = (inputValue) => {
+  const url = `/api/exchange_listings?exchangeSlugs=${inputValue}`
+  return new Promise((resolve, reject) => {
     return fetch(url)
       .then(
         (response) => {
@@ -38,6 +36,7 @@ const promiseOptions = (inputValue) =>
         resolve(filterExchanges(inputValue, data))
       })
   })
+}
 
 export default class WithCallbacks extends React.Component {
   state = { inputValue: '' }
@@ -48,7 +47,7 @@ export default class WithCallbacks extends React.Component {
   }
   render() {
     return (
-      <div className='pt3'>
+      <div className="pt3">
         <h4>Exchanges</h4>
         <AsyncSelect
           isMulti

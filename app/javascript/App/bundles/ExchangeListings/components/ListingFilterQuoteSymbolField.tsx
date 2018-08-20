@@ -7,8 +7,6 @@ type State = {
   inputValue: string
 }
 
-const url = '/api/exchange_listings'
-
 const filterSymbols = (inputValue: string, data: any) => {
   const formatData = data.payload.map((item) => {
     item.label = item.quote_symbol
@@ -18,8 +16,9 @@ const filterSymbols = (inputValue: string, data: any) => {
   return formatData
 }
 
-const promiseOptions = (inputValue) =>
-  new Promise((resolve, reject) => {
+const promiseOptions = (inputValue) => {
+  const url = `/api/exchange_listings?quoteSymbols=${inputValue}`
+  return new Promise((resolve, reject) => {
     return fetch(url)
       .then(
         (response) => {
@@ -37,6 +36,7 @@ const promiseOptions = (inputValue) =>
         resolve(filterSymbols(inputValue, data))
       })
   })
+}
 
 export default class WithCallbacks extends React.Component {
   state = { inputValue: '' }
