@@ -4,7 +4,7 @@ import { WindowScreenType } from '../common/types';
 declare const window: WindowScreenType;
 
 import * as React from 'react'
-import { withRouter } from 'react-router'
+import { withRouter, RouteComponentProps } from 'react-router'
 import debounce from 'debounce'
 import LayoutDesktop from '../../components/LayoutDesktop'
 import LayoutTablet from '../../components/LayoutTablet'
@@ -23,33 +23,32 @@ import localAPI from '../../lib/localAPI'
 import { NewsItem, ContentType } from './types';
 import { CoinList, Coin } from '../common/types';
 
-const STATUSES = {
-  LOADING: 'Loading',
-  INFINITE_SCROLL_LOADING: 'InfiniteScrollLoading',
-  READY: 'Ready',
-}
-
-interface Props {
+interface Props extends RouteComponentProps<any> {
   coinSlug?: string,
   newsItemId?: string,
-  coinList: CoinList,
+  coinlist: CoinList,
+  newslist: Array<NewsItem>,
+  isNewsfeedLoading: boolean,
+  isNewsfeedLoadingMoreItems: boolean,
+  isNewsfeedReady: boolean,
+  isCoinlistLoading: boolean,
+  isCoinlistReady: boolean,
+  fetchNewsItemsForCoin: (coinSlug: string) => void,
+  fetchAllNewsItems: () => void, 
+  fetchMoreNewsItems: () => any, 
 };
 
 interface State {
   initialRenderTips: boolean,
-  liveCoinArr: Array<any>,
-  status: string,
   newsfeedTips: boolean,
-  sortedNewsItems: Array<NewsItem>,
+  coinInfo: Coin,
 };
 
 class NewsfeedPage extends React.Component<Props, State> {
   state = {
     initialRenderTips: false,
-    liveCoinArr: [],
-    status: STATUSES.LOADING,
     newsfeedTips: true,
-    sortedNewsItems: [],
+    coinInfo: null,
   }
 
   getContentType(): ContentType {
@@ -65,26 +64,21 @@ class NewsfeedPage extends React.Component<Props, State> {
   }
 
   componentDidMount() {
+    window.addEventListener('resize', debounce(() => this.forceUpdate(), 500))
+
     if (this.getContentType() === "coin") {
-        this.fetchNewsItemsForCoin(this.props.coinSlug);
+        this.props.fetchNewsItemsForCoin(this.props.coinSlug)
     } else {
-      this.fetchAllNewsItems()
+      if (this.props.newslist.length > 0) {
+        return;
+      }
+      this.props.fetchAllNewsItems();
     }
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
-    window.addEventListener('resize', debounce(() => this.forceUpdate(), 500))
-
     if (this.props.coinSlug !== prevProps.coinSlug) {
-      this.setState(
-        {
-          status: STATUSES.LOADING,
-        },
-        () =>
-          this.props.coinSlug === undefined
-            ? this.fetchAllNewsItems()
-            : this.fetchNewsItemsForCoin(this.props.coinSlug),
-      )
+      this.props.fetchNewsItemsForCoin(this.props.coinSlug)
     }
   }
 
@@ -92,58 +86,10 @@ class NewsfeedPage extends React.Component<Props, State> {
     this.setState({ initialRenderTips: false })
   }
 
-  getNewsItem(): NewsItem | undefined {
-    return _.find(this.state.sortedNewsItems, ['id', parseInt(this.props.newsItemId)]);
-  }
-
-  getCoinInfo(): Coin {
-    return _.find(this.props.coinList, ['slug', this.props.coinSlug]);
-  }
-
   static getDerivedStateFromProps(props, state) {
-    const { match, location, history } = props
-    if (state.coinSlug === match.params.coinSlug 
-      && state.newsItemId === props.newsItemId) {
-      return null
-    } else {
-      return { coinSlug: match.params.coinSlug, newsItemId: props.newsItemId }
+    return {
+      coinInfo: _.find(props.coinlist, ['slug', props.coinSlug]) 
     }
-  }
-
-  sortNewsFunc(x: NewsItem, y: NewsItem) {
-    return Date.parse(y.feed_item_published_at) - Date.parse(x.feed_item_published_at)
-  }
-
-  fetchAllNewsItems() {
-    localAPI.get('/news').then((response) => {
-      this.setState({
-        status: STATUSES.READY,
-        sortedNewsItems: response.payload.sort(this.sortNewsFunc),
-      })
-    })
-  }
-
-  fetchNewsItemsForCoin(coinSlug) {
-    // TODO: Retrieve correct NewsItems.
-    localAPI.get(`/news?coinSlugs=${coinSlug}`).then((response) => {
-      this.setState({
-        status: STATUSES.READY,
-        sortedNewsItems: response.payload.sort(this.sortNewsFunc),
-      })
-    })
-  }
-
-  fetchMoreNewsItems = () => {
-    const lastNews = this.state.sortedNewsItems[this.state.sortedNewsItems.length - 1];
-    this.setState({
-        status: STATUSES.INFINITE_SCROLL_LOADING
-      }, () => localAPI.get(`/news`, { publishedUntil: lastNews.publishedUntil }).then(response => {
-          this.setState({
-            status: STATUSES.READY,
-            sortedNewsItems: [...this.state.sortedNewsItems, ...response.payload.sort(this.sortNewsFunc)]
-          })
-      })
-    );
   }
 
   render() {
@@ -197,27 +143,27 @@ class NewsfeedPage extends React.Component<Props, State> {
           centerSection={
               <>
                 <NewsListHeader
-                  coins={this.props.coinList}
+                  coins={this.props.coinlist}
                   feedSources={this.props.feedSources}
                   showFilters={this.state.showFilters}
                   activeFilters={this.state.activeFilters}
                   newsfeedTips={this.state.newsfeedTips}
                 />
                 <NewsList
-                  isLoading={this.state.status === STATUSES.LOADING}
-                  isInfiniteScrollLoading={this.state.status === STATUSES.INFINITE_SCROLL_LOADING}
+                  isLoading={this.props.isNewsfeedLoading}
+                  isInfiniteScrollLoading={this.props.isNewsfeedLoadingMoreItems}
                   activeFilters={this.state.activeFilters}
-                  sortedNewsItems={this.state.sortedNewsItems}
+                  sortedNewsItems={this.props.newslist}
                   initialRenderTips={this.state.initialRenderTips}
-                  fetchMoreNewsFeed={this.fetchMoreNewsItems}
+                  fetchMoreNewsFeed={this.props.fetchMoreNewsItems}
                   closeTips={this.closeTips}
                 />
             </>
           }
           rightSection={
             <BodySection
-              coinInfo={this.getCoinInfo()}
-              newsItem={this.getNewsItem()}
+              coinInfo={this.state.coinInfo}
+              newsItemId={this.props.newsItemId}
               contentType={this.getContentType()}
               closeTips={this.closeTips} 
             />
@@ -228,4 +174,4 @@ class NewsfeedPage extends React.Component<Props, State> {
   }
 }
 
-export default withRouter(NewsfeedPage);
+export default withRouter<Props>(NewsfeedPage);
