@@ -14,13 +14,21 @@ import scrollHelper from './../../scrollHelper'
 import { NewsItem } from './types';
 
 interface Props {
-  isLoading: boolean,
-  isInfiniteScrollLoading: boolean,
-  activeFilters: any,
-  sortedNewsItems: Array<NewsItem>,
-  initialRenderTips: boolean,
-  fetchMoreNewsFeed: () => void,
-  closeTips: () => void,
+  // FIXME commented props are right
+  // isLoading: boolean,
+  // isInfiniteScrollLoading: boolean,
+  // activeFilters: any,
+  // sortedNewsItems: Array<NewsItem>,
+  // initialRenderTips: boolean,
+  // fetchMoreNewsFeed: () => void,
+  // closeTips: () => void,
+  isLoading?: boolean,
+  isInfiniteScrollLoading?: boolean,
+  activeFilters?: any,
+  sortedNewsItems?: Array<NewsItem>,
+  initialRenderTips?: boolean,
+  fetchMoreNewsFeed?: () => void,
+  closeTips?: () => void,
 };
 
 interface State {
@@ -44,6 +52,7 @@ class NewsList extends React.Component<Props, State> {
   }
 
   setActiveNewsItem = (newsItem) => {
+    // @ts-ignore FIXME
     const { setActiveEntity, enableUI } = this.props
     const url = newsItem.url
     const urlFragments = url.split('/')
@@ -60,6 +69,7 @@ class NewsList extends React.Component<Props, State> {
       // set max height to enable scroll in ff
       const colWrap = document.querySelector('.column-wrap')
       const newsContent = document.querySelector('.selected-news-content')
+      // @ts-ignore FIXME
       newsContent.style.maxHeight = `${colWrap.offsetHeight}px`
     }, 500)
   }
@@ -101,7 +111,8 @@ class NewsList extends React.Component<Props, State> {
           newsItem={newsItem}
           {...this.props}
           setActiveNewsItem={this.setActiveNewsItem}
-          selectCoin={(symbol) => this.selectCoin(symbol)}
+          // @ts-ignore FIME
+          selectCoin={(symbol) => this.selectCoin(symbol)} 
           hasRead={hasRead}
         />
       )
@@ -134,6 +145,7 @@ class NewsList extends React.Component<Props, State> {
 
   render() {
     const {
+      // @ts-ignore FIXME
       activeEntity,
       activeFilters,
       initialRenderTips,

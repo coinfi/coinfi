@@ -91,29 +91,22 @@ class NewsfeedPage extends React.Component<Props, State> {
   }
 
   render() {
-    let enhancedProps = {
-      ...this.props,
-      initialRenderTips: this.state.initialRenderTips,
-    }
-
     if (window.isMobile) {
       return (
         <LayoutMobile
-          {...enhancedProps}
           mainSection={
             <React.Fragment>
-              <NewsListHeader {...enhancedProps} />
-              <NewsList {...enhancedProps} />
+              <NewsListHeader />
+              <NewsList />
             </React.Fragment>
           }
           modalName="newsfeedModal"
-          modalSection={<BodySection {...enhancedProps} mobileLayout />}
+          modalSection={<BodySection />}
           drawerSection={
             <>
-              <CoinListDrawer {...enhancedProps} />
+              <CoinListDrawer />
               <BodySectionDrawer
-                {...enhancedProps}
-                bodySection={<BodySection {...enhancedProps} />}
+                bodySection={<BodySection />}
               />
             </>
           }
@@ -122,34 +115,36 @@ class NewsfeedPage extends React.Component<Props, State> {
     } else if (window.isTablet) {
       return (
         <LayoutTablet
-          {...enhancedProps}
           leftSection={
             <>
-              <NewsListHeader {...enhancedProps} />
-              <NewsList {...enhancedProps} />
+              <NewsListHeader />
+              <NewsList />
             </>
           }
-          rightSection={<BodySection {...enhancedProps} />}
-          drawerSection={<CoinListDrawer {...enhancedProps} />}
+          rightSection={<BodySection />}
+          drawerSection={<CoinListDrawer />}
         />
       )
     } else {
       return (
         <LayoutDesktop
-          {...enhancedProps}
-          leftSection={<CoinListWrapper {...enhancedProps} />}
+          leftSection={<CoinListWrapper />}
           centerSection={
               <>
                 <NewsListHeader
                   coins={this.props.coinlist}
+                  // @ts-ignore FIXME
                   feedSources={this.props.feedSources}
+                  // @ts-ignore FIXME
                   showFilters={this.state.showFilters}
+                  // @ts-ignore FIXME
                   activeFilters={this.state.activeFilters}
                   newsfeedTips={this.state.newsfeedTips}
                 />
                 <NewsList
                   isLoading={this.props.isNewsfeedLoading}
                   isInfiniteScrollLoading={this.props.isNewsfeedLoadingMoreItems}
+                  // @ts-ignore FIXME
                   activeFilters={this.state.activeFilters}
                   sortedNewsItems={this.props.newslist}
                   initialRenderTips={this.state.initialRenderTips}

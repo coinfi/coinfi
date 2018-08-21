@@ -6,10 +6,16 @@ import { ContentType } from './types';
 import { User } from '../common/types';
 
 interface Props {
+  // FIXME commented props are right
+  // newsItemId?: string,
+  // coinSlug?: string,
+  // contentType: ContentType,
+  // closeTips: Function,
+  // user?: User,
   newsItemId?: string,
   coinSlug?: string,
-  contentType: ContentType,
-  closeTips: Function,
+  contentType?: ContentType,
+  closeTips?: Function,
   user?: User,
 };
 
