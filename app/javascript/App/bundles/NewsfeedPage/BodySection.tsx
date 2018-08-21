@@ -3,11 +3,11 @@ import NewsBody from './NewsBody'
 import CoinBody from '../common/components/CoinBody'
 import Tips from './Tips'
 import { ContentType } from './types';
-import { Coin, User } from '../common/types';
+import { User } from '../common/types';
 
 interface Props {
   newsItemId?: string,
-  coinInfo?: Coin,
+  coinSlug?: string,
   contentType: ContentType,
   closeTips: Function,
   user?: User,
@@ -22,7 +22,7 @@ const BodySection = (props: Props) => {
     return <NewsBody newsItemId={props.newsItemId} />;
   }
 
-  if (props.contentType === 'coin') return <CoinBody coin={props.coinInfo} user={props.user} />
+  if (props.contentType === 'coin') return <CoinBody coinSlug={props.coinSlug} user={props.user} />
 
   return null;
 }

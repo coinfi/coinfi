@@ -41,14 +41,12 @@ interface Props extends RouteComponentProps<any> {
 interface State {
   initialRenderTips: boolean,
   newsfeedTips: boolean,
-  coinInfo: Coin,
 };
 
 class NewsfeedPage extends React.Component<Props, State> {
   state = {
     initialRenderTips: false,
     newsfeedTips: true,
-    coinInfo: null,
   }
 
   getContentType(): ContentType {
@@ -84,12 +82,6 @@ class NewsfeedPage extends React.Component<Props, State> {
 
   closeTips = () => {
     this.setState({ initialRenderTips: false })
-  }
-
-  static getDerivedStateFromProps(props, state) {
-    return {
-      coinInfo: _.find(props.coinlist, ['slug', props.coinSlug]) 
-    }
   }
 
   render() {
@@ -162,7 +154,7 @@ class NewsfeedPage extends React.Component<Props, State> {
           }
           rightSection={
             <BodySection
-              coinInfo={this.state.coinInfo}
+              coinSlug={this.props.coinSlug}
               newsItemId={this.props.newsItemId}
               contentType={this.getContentType()}
               closeTips={this.closeTips} 
