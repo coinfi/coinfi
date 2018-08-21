@@ -6,7 +6,7 @@ export default (props) => (
   <div className="pa3">
     <div className="mb4">
       <h4 className="mb2">Quote Symbol</h4>
-      <Select isMulti name="quote_symbols" options={props.quoteSymbols} />
+      <Select isMulti name="quote_symbols" options={props.quoteSymbols} onChange={props.changeSymbol} />
     </div>
 
     <div className="mb4">

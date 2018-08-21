@@ -17,6 +17,7 @@ export default (props) => (
         <ListingFilterFields
           quoteSymbols={props.quoteSymbols}
           exchanges={props.exchanges}
+          changeSymbol={props.changeSymbol}
         />
       </FilterPanel>
     )}
