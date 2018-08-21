@@ -1,6 +1,7 @@
+
 // TODO: find more convenient way to extend window declaration
-import { WindowScreenType } from '../common/types'
-declare const window: WindowScreenType
+import { WindowScreenType } from '../common/types';
+declare const window: WindowScreenType;
 
 import * as React from 'react'
 import { withRouter } from 'react-router'
@@ -18,8 +19,9 @@ import CoinListContext from '../../contexts/CoinListContext'
 import _ from 'lodash'
 import localAPI from '../../lib/localAPI'
 
-import { NewsItem, ContentType } from './types'
-import { CoinList, Coin } from '../common/types'
+
+import { NewsItem, ContentType } from './types';
+import { CoinList, Coin } from '../common/types';
 
 const STATUSES = {
   LOADING: 'Loading',
@@ -28,18 +30,18 @@ const STATUSES = {
 }
 
 interface Props {
-  coinSlug?: string
-  newsItemId?: string
-  coinList: CoinList
-}
+  coinSlug?: string,
+  newsItemId?: string,
+  coinList: CoinList,
+};
 
 interface State {
-  initialRenderTips: boolean
-  liveCoinArr: Array<any>
-  status: string
-  newsfeedTips: boolean
-  sortedNewsItems: Array<NewsItem>
-}
+  initialRenderTips: boolean,
+  liveCoinArr: Array<any>,
+  status: string,
+  newsfeedTips: boolean,
+  sortedNewsItems: Array<NewsItem>,
+};
 
 class NewsfeedPage extends React.Component<Props, State> {
   state = {
@@ -52,19 +54,19 @@ class NewsfeedPage extends React.Component<Props, State> {
 
   getContentType(): ContentType {
     if (typeof this.props.coinSlug !== 'undefined') {
-      return 'coin'
+      return "coin";
     }
 
     if (typeof this.props.newsItemId !== 'undefined') {
-      return 'news'
+      return "news";
     }
 
-    return 'none'
+    return "none";
   }
 
   componentDidMount() {
-    if (this.getContentType() === 'coin') {
-      this.fetchNewsItemsForCoin(this.props.coinSlug)
+    if (this.getContentType() === "coin") {
+        this.fetchNewsItemsForCoin(this.props.coinSlug);
     } else {
       this.fetchAllNewsItems()
     }
@@ -91,22 +93,17 @@ class NewsfeedPage extends React.Component<Props, State> {
   }
 
   getNewsItem(): NewsItem | undefined {
-    return _.find(this.state.sortedNewsItems, [
-      'id',
-      parseInt(this.props.newsItemId),
-    ])
+    return _.find(this.state.sortedNewsItems, ['id', parseInt(this.props.newsItemId)]);
   }
 
   getCoinInfo(): Coin {
-    return _.find(this.props.coinList, ['slug', this.props.coinSlug])
+    return _.find(this.props.coinList, ['slug', this.props.coinSlug]);
   }
 
   static getDerivedStateFromProps(props, state) {
     const { match, location, history } = props
-    if (
-      state.coinSlug === match.params.coinSlug &&
-      state.newsItemId === props.newsItemId
-    ) {
+    if (state.coinSlug === match.params.coinSlug 
+      && state.newsItemId === props.newsItemId) {
       return null
     } else {
       return { coinSlug: match.params.coinSlug, newsItemId: props.newsItemId }
@@ -114,10 +111,7 @@ class NewsfeedPage extends React.Component<Props, State> {
   }
 
   sortNewsFunc(x: NewsItem, y: NewsItem) {
-    return (
-      Date.parse(y.feed_item_published_at) -
-      Date.parse(x.feed_item_published_at)
-    )
+    return Date.parse(y.feed_item_published_at) - Date.parse(x.feed_item_published_at)
   }
 
   fetchAllNewsItems() {
@@ -140,26 +134,16 @@ class NewsfeedPage extends React.Component<Props, State> {
   }
 
   fetchMoreNewsItems = () => {
-    const lastNews = this.state.sortedNewsItems[
-      this.state.sortedNewsItems.length - 1
-    ]
-    this.setState(
-      {
-        status: STATUSES.INFINITE_SCROLL_LOADING,
-      },
-      () =>
-        localAPI
-          .get(`/news`, { publishedUntil: lastNews.publishedUntil })
-          .then((response) => {
-            this.setState({
-              status: STATUSES.READY,
-              sortedNewsItems: [
-                ...this.state.sortedNewsItems,
-                ...response.payload.sort(this.sortNewsFunc),
-              ],
-            })
-          }),
-    )
+    const lastNews = this.state.sortedNewsItems[this.state.sortedNewsItems.length - 1];
+    this.setState({
+        status: STATUSES.INFINITE_SCROLL_LOADING
+      }, () => localAPI.get(`/news`, { publishedUntil: lastNews.publishedUntil }).then(response => {
+          this.setState({
+            status: STATUSES.READY,
+            sortedNewsItems: [...this.state.sortedNewsItems, ...response.payload.sort(this.sortNewsFunc)]
+          })
+      })
+    );
   }
 
   render() {
@@ -211,25 +195,23 @@ class NewsfeedPage extends React.Component<Props, State> {
           {...enhancedProps}
           leftSection={<CoinListWrapper {...enhancedProps} />}
           centerSection={
-            <>
-              <NewsListHeader
-                coins={this.props.coinList}
-                feedSources={this.props.feedSources}
-                showFilters={this.state.showFilters}
-                activeFilters={this.state.activeFilters}
-                newsfeedTips={this.state.newsfeedTips}
-              />
-              <NewsList
-                isLoading={this.state.status === STATUSES.LOADING}
-                isInfiniteScrollLoading={
-                  this.state.status === STATUSES.INFINITE_SCROLL_LOADING
-                }
-                activeFilters={this.state.activeFilters}
-                sortedNewsItems={this.state.sortedNewsItems}
-                initialRenderTips={this.state.initialRenderTips}
-                fetchMoreNewsFeed={this.fetchMoreNewsItems}
-                closeTips={this.closeTips}
-              />
+              <>
+                <NewsListHeader
+                  coins={this.props.coinList}
+                  feedSources={this.props.feedSources}
+                  showFilters={this.state.showFilters}
+                  activeFilters={this.state.activeFilters}
+                  newsfeedTips={this.state.newsfeedTips}
+                />
+                <NewsList
+                  isLoading={this.state.status === STATUSES.LOADING}
+                  isInfiniteScrollLoading={this.state.status === STATUSES.INFINITE_SCROLL_LOADING}
+                  activeFilters={this.state.activeFilters}
+                  sortedNewsItems={this.state.sortedNewsItems}
+                  initialRenderTips={this.state.initialRenderTips}
+                  fetchMoreNewsFeed={this.fetchMoreNewsItems}
+                  closeTips={this.closeTips}
+                />
             </>
           }
           rightSection={
@@ -237,7 +219,7 @@ class NewsfeedPage extends React.Component<Props, State> {
               coinInfo={this.getCoinInfo()}
               newsItem={this.getNewsItem()}
               contentType={this.getContentType()}
-              closeTips={this.closeTips}
+              closeTips={this.closeTips} 
             />
           }
         />
@@ -246,4 +228,4 @@ class NewsfeedPage extends React.Component<Props, State> {
   }
 }
 
-export default withRouter(NewsfeedPage)
+export default withRouter(NewsfeedPage);

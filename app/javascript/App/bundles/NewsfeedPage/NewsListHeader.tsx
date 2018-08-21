@@ -1,6 +1,6 @@
 declare var window: {
-  isMobile?: boolean
-}
+  isMobile?: boolean,
+};
 
 import * as React from 'react'
 import Icon from '../../components/Icon'
@@ -10,7 +10,7 @@ import SearchCoins from '../../components/SearchCoins'
 import FilterPanel from '../../components/FilterPanel'
 import FilterTags from '../../components/FilterTags'
 
-const filterBtn = require('../../images/filter-btn.svg')
+const filterBtn = require('../../images/filter-btn.svg');
 
 const NewsListHeader = (props) => {
   const { coins, feedSources, showFilters, activeFilters, newsfeedTips } = props

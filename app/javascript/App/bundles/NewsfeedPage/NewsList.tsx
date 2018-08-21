@@ -1,7 +1,7 @@
 declare var window: {
-  isMobile?: boolean
-  isTablet?: boolean
-}
+  isMobile?: boolean,
+  isTablet?: boolean,
+};
 
 import * as React from 'react'
 import InfiniteScroll from 'react-infinite-scroll-component'
@@ -11,29 +11,29 @@ import LoadingIndicator from '../../components/LoadingIndicator'
 import Tips from './Tips'
 import scrollHelper from './../../scrollHelper'
 
-import { NewsItem } from './types'
+import { NewsItem } from './types';
 
 interface Props {
-  isLoading: boolean
-  isInfiniteScrollLoading: boolean
-  activeFilters: any
-  sortedNewsItems: Array<NewsItem>
-  initialRenderTips: boolean
-  fetchMoreNewsFeed: () => void
-  closeTips: () => void
-}
+  isLoading: boolean,
+  isInfiniteScrollLoading: boolean,
+  activeFilters: any,
+  sortedNewsItems: Array<NewsItem>,
+  initialRenderTips: boolean,
+  fetchMoreNewsFeed: () => void,
+  closeTips: () => void,
+};
 
 interface State {
-  initialRender: boolean
-  initialRenderTips: boolean
-}
+  initialRender: boolean,
+  initialRenderTips: boolean,
+};
 
 class NewsList extends React.Component<Props, State> {
   state = { initialRender: true, initialRenderTips: false }
 
   componentDidMount() {
     // set max height to enable scroll in ff
-    scrollHelper()
+    scrollHelper();
   }
 
   setActiveNewsItem = (newsItem) => {
@@ -58,6 +58,7 @@ class NewsList extends React.Component<Props, State> {
   }
 
   renderView() {
+    
     if (this.props.initialRenderTips && window.isMobile) {
       return <Tips closeTips={this.props.closeTips} />
     } else if (this.props.isLoading) {
@@ -125,7 +126,11 @@ class NewsList extends React.Component<Props, State> {
   // }
 
   render() {
-    const { activeEntity, activeFilters, initialRenderTips } = this.props
+    const {
+      activeEntity,
+      activeFilters,
+      initialRenderTips,
+    } = this.props
 
     return (
       <div
