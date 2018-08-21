@@ -31,11 +31,11 @@ interface State {
 class NewsList extends React.Component<Props, State> {
   state = { initialRender: true, initialRenderTips: false }
   
-  private newsfeedDiv: HTMLDivElement;
+  private newsfeedDiv: React.RefObject<HTMLDivElement>;
 
   constructor(props) {
     super(props);
-    this.newsfeedDiv = null;
+    this.newsfeedDiv = React.createRef();
   }
 
   componentDidMount() {
@@ -141,7 +141,7 @@ class NewsList extends React.Component<Props, State> {
 
     return (
       <div
-        ref={(element) => this.newsfeedDiv = element}
+        ref={this.newsfeedDiv}
         id="newsfeed"
         className="flex-auto relative overflow-y-hidden overflow-y-auto-m"
         style={
