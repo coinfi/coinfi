@@ -10,6 +10,15 @@
     "target": "es5",
     "jsx": "react"
   },
+  "rulesDirectory": [
+    "tslint:latest",
+    "tslint-react",
+    "tslint-eslint-rules",
+    "tslint-config-prettier"
+  ],
+  "rules": {
+    "prettier": true
+  },
   "exclude": ["**/*.spec.ts", "node_modules", "vendor", "public"],
   "compileOnSave": false
 }

@@ -60,6 +60,7 @@
     "tachyons-sass": "^4.9.2",
     "timeago.js": "^3.0.2",
     "ts-loader": "3.5.0",
+    "tslint": "^5.11.0",
     "typescript": "^3.0.1",
     "url-parse": "^1.4.1",
     "webpack-merge": "^4.1.2"
@@ -92,6 +93,7 @@
   "scripts": {
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook",
+    "tslint-check": "tslint-config-prettier-check ./tslint.json",
     "precommit": "lint-staged"
   }
 }
