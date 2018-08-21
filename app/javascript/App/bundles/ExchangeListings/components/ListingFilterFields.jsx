@@ -1,15 +1,22 @@
 import React from 'react'
-import ListingFilterQuoteSymbolField from './ListingFilterQuoteSymbolField'
+import Select from 'react-select'
 import ItemSelectorDate from './../../../components/ItemSelectorDate'
-import ListingFilterExchangeField from './ListingFilterExchangeField'
 
 export default (props) => (
   <div className="pa3">
-    <ListingFilterQuoteSymbolField />
-    <h4>Date Range</h4>
-    <ItemSelectorDate />
-    <ListingFilterExchangeField />
-    {/*
-    */}
+    <div className="mb4">
+      <h4 className="mb2">Quote Symbol</h4>
+      <Select isMulti name="quote_symbols" options={props.quoteSymbols} />
+    </div>
+
+    <div className="mb4">
+      <h4 className="mb2">Date Range</h4>
+      <ItemSelectorDate />
+    </div>
+
+    <div>
+      <h4 className="mb2">Exchanges</h4>
+      <Select isMulti name="exchanges" options={props.exchanges} />
+    </div>
   </div>
 )

@@ -46,6 +46,11 @@ class Coin < ApplicationRecord
     pluck(:token_type).uniq.compact.reject { |t| t.length < 1 }
   end
 
+  def self.symbols
+    # Reject any symbols that are nil or not all uppercase.
+    pluck(:symbol).uniq.compact.sort.reject { |symbol| /[[:lower:]]/.match(symbol) }
+  end
+
   def update_previous_name
     self.previous_name = name_was if name_changed?
   end

@@ -4,29 +4,28 @@ import FilterBar from '../../common/components/FilterPanel/FilterBar'
 import CoinTipsTab from '../../common/components/CoinTipsTab'
 import ListingFilterFields from './ListingFilterFields'
 
-const ListingsHeader = (props) => {
-  return (
-    <Fragment>
-      <CoinTipsTab />
-      <FilterBar toggleFilterPanel={props.toggleFilterPanel} />
+export default (props) => (
+  <Fragment>
+    <CoinTipsTab />
+    <FilterBar toggleFilterPanel={props.toggleFilterPanel} />
 
-      {props.showFilterPanel && (
-        <FilterPanel toggleFilterPanel={props.toggleFilterPanel}>
-          <ListingFilterFields />
-        </FilterPanel>
-      )}
+    {props.showFilterPanel && (
+      <FilterPanel toggleFilterPanel={props.toggleFilterPanel}>
+        <ListingFilterFields
+          quoteSymbols={props.quoteSymbols}
+          exchanges={props.exchanges}
+        />
+      </FilterPanel>
+    )}
 
-      <div
-        id="listings-column-headers"
-        className="b--b f6 bg-athens"
-        style={{ height: 60 }}
-      >
-        <div className="fl w-third pa2 pl3">Pair</div>
-        <div className="fl w-third pa2">Exchange</div>
-        <div className="fl w-third pa2">Date Detected</div>
-      </div>
-    </Fragment>
-  )
-}
-
-export default ListingsHeader
+    <div
+      id="listings-column-headers"
+      className="b--b f6 bg-athens"
+      style={{ height: 60 }}
+    >
+      <div className="fl w-third pa2 pl3">Pair</div>
+      <div className="fl w-third pa2">Exchange</div>
+      <div className="fl w-third pa2">Date Detected</div>
+    </div>
+  </Fragment>
+)

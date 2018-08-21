@@ -13,6 +13,8 @@ class Api::CoinsnewController < ApiController
     respond_success search_serializer(@coins)
   end
 
+  # TODO: Move toplist and watchlist methods here when refactoring.
+
 private
 
   def search_serializer(coins)
