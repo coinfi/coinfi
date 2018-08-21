@@ -27,7 +27,7 @@ Rails.application.routes.draw do
     patch '/user', to: 'user#update'
     resources :exchange_listings, only: %i[index show]
     resources :news_items, only: %i[index]
-    resources :news, only: :index
+    resources :news, only: %i[index show]
     resources :news_items, only: :index
     namespace :newsfeed do
       resources :coins, only: %i[index]

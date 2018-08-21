@@ -60,6 +60,16 @@ class Api::NewsController < ApiController
     respond_success serialized(@news_items)
   end
 
+
+  def show
+    # Ensure fresh response on every request
+    headers['Last-Modified'] = Time.now.httpdate
+
+    @news_item = NewsItem.published.find(params[:id])
+
+    respond_success serialized(@news_item)
+  end
+
   private
 
   def serialized(obj)
