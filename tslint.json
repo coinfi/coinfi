@@ -1,0 +1,21 @@
+{
+  "defaultSeverity": "error",
+  "extends": [
+    "tslint:recommended",
+    "tslint-config-standard",
+    "tslint-react",
+    "tslint-config-prettier"
+  ],
+  "jsRules": {},
+  "rules": {
+    "semi": false,
+    "singleQuote": true,
+    "trailing-comma": "es5",
+    "no-var": 1,
+    "prefer-arrow-callback": 1,
+    "prefer-template": 1,
+    "arrow-parens": ["error", "always"],
+    "jsx-a11y/href-no-hash": [0]
+  },
+  "rulesDirectory": []
+}
