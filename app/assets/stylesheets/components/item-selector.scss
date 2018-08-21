@@ -20,7 +20,7 @@
   div {
     margin: 0;
     padding: 0;
-    div {
+    .category-btn {
       display: inline-block;
       flex: 1;
       justify-content: space-between;
@@ -45,7 +45,7 @@
 @media only screen and (min-width: 768px) {
   .item-selector-alt {
     div {
-      div {
+      .category-btn {
         max-width: 33%;
       }
     }

@@ -70,7 +70,7 @@ export default class ItemSelectorCategory extends Component {
                 itemLabel = item
               }
               return (
-                <div className="col" span={8} key={innerIndex}>
+                <div className="col category-btn" span={8} key={innerIndex}>
                   <ItemButton item={itemLabel} style={{cursor:'pointer'}} />
                 </div>
               )
