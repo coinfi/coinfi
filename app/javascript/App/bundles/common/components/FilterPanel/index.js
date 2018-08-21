@@ -4,6 +4,7 @@ import FilterCancelButton from './FilterCancelButton'
 import FilterResetLink from './FilterResetLink'
 
 export default (props) => {
+  // TODO: make this shared component work with other components using FilterPanel
   const { applyFilters, resetFilters } = this
 
   let containerClass = 'modal bg-athens'
@@ -20,7 +21,7 @@ export default (props) => {
           </div>
           <div>
             <FilterCancelButton toggleFilterPanel={props.toggleFilterPanel} />
-            <FilterApplyButton applyFilters={applyFilters} />
+            <FilterApplyButton applyFilters={props.applyFilters} />
           </div>
         </div>
         {props.children}
