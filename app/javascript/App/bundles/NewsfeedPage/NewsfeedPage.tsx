@@ -49,6 +49,8 @@ class NewsfeedPage extends React.Component<Props, State> {
     newsfeedTips: true,
   }
 
+  handleResize = debounce(() => this.forceUpdate(), 500)
+
   getContentType(): ContentType {
     if (typeof this.props.coinSlug !== 'undefined') {
       return "coin";
@@ -62,7 +64,7 @@ class NewsfeedPage extends React.Component<Props, State> {
   }
 
   componentDidMount() {
-    window.addEventListener('resize', debounce(() => this.forceUpdate(), 500))
+    window.addEventListener('resize', this.handleResize)
 
     if (this.getContentType() === "coin") {
         this.props.fetchNewsItemsForCoin(this.props.coinSlug)
@@ -72,6 +74,10 @@ class NewsfeedPage extends React.Component<Props, State> {
       }
       this.props.fetchAllNewsItems();
     }
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.handleResize);
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
