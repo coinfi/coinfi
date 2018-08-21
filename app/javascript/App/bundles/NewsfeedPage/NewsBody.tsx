@@ -6,23 +6,23 @@ import CoinTags from '../common/components/CoinTags'
 import BulletSpacer from '../../components/BulletSpacer'
 import Icon from '../../components/Icon'
 
-import { NewsItem } from './types';
+import { NewsItem } from './types'
 
 interface NewsBodyProps {
-  newsItem: NewsItem,
-};
+  newsItem: NewsItem
+}
 
-export default class NewsBody extends React.Component<NewsBodyProps, {}>  {
+export default class NewsBody extends React.Component<NewsBodyProps, {}> {
   render() {
-    const { newsItem } = this.props;
-  
+    const { newsItem } = this.props
+
     if (!newsItem) {
       return null
     }
 
-    const categories = newsItem.categories;
+    const categories = newsItem.categories
 
-    const content = _.trim(newsItem.content) || _.trim(newsItem.summary);
+    const content = _.trim(newsItem.content) || _.trim(newsItem.summary)
 
     return (
       <div className="pa3 bg-white min-h-100 selected-news-content">
