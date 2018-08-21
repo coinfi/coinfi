@@ -1,7 +1,12 @@
-import React from 'react'
-import Icon from './Icon'
+import * as React from 'react'
+import Icon from '../../../components/Icon'
 
-const PercentageChange = ({ value, className, ...rest }) => {
+interface Props {
+  value: string,
+  className: string,
+};
+
+const PercentageChange = ({ value, className }: Props) => {
   const n = parseFloat(value)
   let iconName = 'caret-up'
   let klass = 'green'
@@ -13,7 +18,7 @@ const PercentageChange = ({ value, className, ...rest }) => {
   let percentage = `${Math.abs(n)}%`
   if (isNaN(n)) return (<div />)
   return (
-    <span className={klass} {...rest}>
+    <span className={klass}>
       <Icon name={iconName} solid className="mr1" />
       {percentage}
     </span>

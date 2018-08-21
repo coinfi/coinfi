@@ -1,5 +1,5 @@
 import React from 'react'
-import PercentageChange from '../PercentageChange'
+import PercentageChange from '../../bundles/common/components/PercentageChange'
 import Currency from '../Currency'
 import WatchButton from './WatchButton'
 

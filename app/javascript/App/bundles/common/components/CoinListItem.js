@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-//import PercentageChange from '../../../components/PercentageChange'
+import PercentageChange from './PercentageChange'
 import WatchButton from './WatchButton'
 
 export default (props) => {
@@ -35,12 +35,7 @@ export default (props) => {
               </div>
             )}
             {coinPrice ? null : <div className="smaller3">UNLISTED</div>}
-            {/*
-              <PercentageChange
-                value={percentChange}
-                className="smaller2 b db"
-              />
-            */}
+            <PercentageChange value={percentChange} className="smaller2 b db" />
           </div>
         )}
       </div>

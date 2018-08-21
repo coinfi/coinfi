@@ -1,7 +1,7 @@
 import * as React from 'react'
 import CoinCharts from '../../../components/CoinCharts'
 import Currency from '../../../components/Currency'
-import PercentageChange from '../../../components/PercentageChange'
+import PercentageChange from './PercentageChange'
 import WatchButton from './WatchButton'
 import LoadingIndicator from '../../../components/LoadingIndicator'
 import localAPI from '../../../lib/localAPI'
