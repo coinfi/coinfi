@@ -18,6 +18,7 @@ export default (props) => (
           quoteSymbols={props.quoteSymbols}
           exchanges={props.exchanges}
           changeSymbol={props.changeSymbol}
+          changeExchange={props.changeExchange}
         />
       </FilterPanel>
     )}

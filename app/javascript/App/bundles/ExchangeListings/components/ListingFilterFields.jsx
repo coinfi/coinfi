@@ -16,7 +16,7 @@ export default (props) => (
 
     <div>
       <h4 className="mb2">Exchanges</h4>
-      <Select isMulti name="exchanges" options={props.exchanges} />
+      <Select isMulti name="exchanges" options={props.exchanges} onChange={props.changeExchange} />
     </div>
   </div>
 )

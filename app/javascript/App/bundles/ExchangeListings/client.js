@@ -50,6 +50,7 @@ class ExchangeListingsPage extends Component {
       hasMore: true,
       showFilterPanel: false,
       selectedSymbols: [],
+      exchangeSlugs: [],
     }
   }
 
@@ -72,9 +73,20 @@ class ExchangeListingsPage extends Component {
     })
   }
 
+  changeExchange = (data) => {
+    const selectedExchanges = data.map((item) => item.label.toLowerCase()) // TODO: api should return value but its empty
+    this.setState({
+      selectedExchanges: selectedExchanges,
+    })
+  }
+
   fetchListingsBySymbol = () => {
+    const quoteSymbolArg = this.state.selectedSymbols
+    const exchangeSlugArgs = this.state.selectedExchanges
     localAPI
-      .get(`/exchange_listings?quoteSymbols=${this.state.selectedSymbols}`)
+      .get(
+        `/exchange_listings?quoteSymbols=${quoteSymbolArg}&exchangeSlugs=${exchangeSlugArgs}`,
+      )
       .then((response) => {
         this.setState({
           listings: response.payload,
@@ -89,7 +101,6 @@ class ExchangeListingsPage extends Component {
     })
 
   applyFilters = () => {
-    console.log('apply')
     this.fetchListingsBySymbol()
   }
 
@@ -147,6 +158,7 @@ class ExchangeListingsPage extends Component {
                 toggleFilterPanel={this.toggleFilterPanel}
                 applyFilters={() => this.applyFilters()}
                 changeSymbol={this.changeSymbol.bind(this)}
+                changeExchange={this.changeExchange.bind(this)}
               />
               <ListingsList {...props} listings={listings} hasMore={hasMore} />
             </Fragment>

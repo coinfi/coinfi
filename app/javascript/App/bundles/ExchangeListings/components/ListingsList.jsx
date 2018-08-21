@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import ListingItem from './ListingItem'
 import LoadingIndicator from '../../../../App/components/LoadingIndicator'
-import localAPI from '../../../lib/localAPI'
 import InfiniteScroll from 'react-infinite-scroll-component'
 
 class ListingsList extends Component {
