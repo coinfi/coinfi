@@ -1,10 +1,9 @@
-import React, { Fragment } from 'react'
-import Type from 'prop-types'
-import ItemSelectorDate from '../../ItemSelectorDate'
+import React from 'react'
+import DateRange from '../../DateRange'
 
 const Dates = ({ dates, value, onChange }) => {
   return (
-    <ItemSelectorDate
+    <DateRange
       items={dates}
       selectedItems={value}
       onChange={onChange('dates')}
