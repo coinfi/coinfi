@@ -19,6 +19,7 @@ export default (props) => (
           exchanges={props.exchanges}
           changeSymbol={props.changeSymbol}
           changeExchange={props.changeExchange}
+          filterDates={props.filterDates}
         />
       </FilterPanel>
     )}

@@ -51,6 +51,8 @@ class ExchangeListingsPage extends Component {
       showFilterPanel: false,
       selectedSymbols: [],
       exchangeSlugs: [],
+      publishedSince: null,
+      publishedUntil: null,
     }
   }
 
@@ -64,6 +66,19 @@ class ExchangeListingsPage extends Component {
       this.fetchNewerExchangeListings()
     }, 6000)
     clearInterval(timer)
+  }
+
+  filterDates = (data) => {
+    if (data.publishedSince) {
+      this.setState({
+        publishedSince: data.publishedSince,
+      })
+    }
+    if (data.publishedUntil) {
+      this.setState({
+        publishedUntil: data.publishedUntil,
+      })
+    }
   }
 
   changeSymbol = (data) => {
@@ -159,6 +174,7 @@ class ExchangeListingsPage extends Component {
                 applyFilters={() => this.applyFilters()}
                 changeSymbol={this.changeSymbol.bind(this)}
                 changeExchange={this.changeExchange.bind(this)}
+                filterDates={this.filterDates}
               />
               <ListingsList {...props} listings={listings} hasMore={hasMore} />
             </Fragment>
