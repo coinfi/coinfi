@@ -5,19 +5,67 @@ import _ from 'lodash'
 import CoinTags from '../common/components/CoinTags'
 import BulletSpacer from '../../components/BulletSpacer'
 import Icon from '../../components/Icon'
+import localAPI from '../../lib/localAPI'
+
+import TwitterBody from './TwitterBody'
+import LoadingIndicator from '../../components/LoadingIndicator';
+import { getDomainType } from '../../lib/utils/url';
 
 import { NewsItem } from './types';
 
-interface NewsBodyProps {
+interface Props {
+  newsItemId: string,
+};
+
+interface State {
   newsItem: NewsItem,
 };
 
-export default class NewsBody extends React.Component<NewsBodyProps, {}>  {
+export default class NewsBody extends React.Component<Props, State>  {
+
+  state = {
+    newsItem: null,
+  };
+
+  componentDidMount() {
+    if (!!this.props.newsItemId) {
+      this.fetchNewsItemDetails();
+    }
+  }
+
+  componentDidUpdate(prevProps: Props, prevState: State, snapshot) {
+    if (!this.props.newsItemId) {
+      if (!!prevState.newsItem) {
+        this.setState({ newsItem: null });
+      }
+    } else {
+      if (!prevProps.newsItemId || prevProps.newsItemId !== this.props.newsItemId) {
+        this.setState({ newsItem: null }, () => this.fetchNewsItemDetails());
+      }
+    }
+  }
+
+  fetchNewsItemDetails() {
+    localAPI.get(`/news/${this.props.newsItemId}`).then((response) => {
+      this.setState({
+        newsItem: response.payload,
+      })
+    })
+  }
+
   render() {
-    const { newsItem } = this.props;
+    const { newsItem } = this.state;
   
-    if (!newsItem) {
-      return null
+    if(!newsItem) {
+      return (
+        <div className="pa3 tc mt4">
+          <LoadingIndicator />
+        </div>
+      ) 
+    }
+
+    if (getDomainType(newsItem.url) === "twitter") {
+      return <TwitterBody newsItem={newsItem} />
     }
 
     const categories = newsItem.categories;

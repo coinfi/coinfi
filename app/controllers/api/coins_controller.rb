@@ -14,6 +14,12 @@ class Api::CoinsController < ApiController
     respond_success show_serializer(coin)
   end
 
+  def by_slug
+    coin = Coin.find_by(slug: params[:slug])
+    coin.current_user = current_user
+    respond_success show_serializer(coin)
+  end
+
   def toplist
     coins = Rails.cache.fetch("coins/toplist", expires_in: 1.hour) do
       Coin.order(:ranking).limit(20)

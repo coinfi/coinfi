@@ -30,6 +30,13 @@ interface State {
 
 class NewsList extends React.Component<Props, State> {
   state = { initialRender: true, initialRenderTips: false }
+  
+  private newsfeedDiv: React.RefObject<HTMLDivElement>;
+
+  constructor(props) {
+    super(props);
+    this.newsfeedDiv = React.createRef();
+  }
 
   componentDidMount() {
     // set max height to enable scroll in ff
@@ -103,7 +110,7 @@ class NewsList extends React.Component<Props, State> {
     return (
       <InfiniteScroll
         dataLength={mappedItems.length}
-        scrollableTarget={document.getElementById('newsfeed')}
+        scrollableTarget={this.newsfeedDiv}
         next={this.props.fetchMoreNewsFeed}
         hasMore={true} // TODO: Actually determine when there are no more NewsItems...
         loader={<LoadingIndicator />}
@@ -134,6 +141,7 @@ class NewsList extends React.Component<Props, State> {
 
     return (
       <div
+        ref={this.newsfeedDiv}
         id="newsfeed"
         className="flex-auto relative overflow-y-hidden overflow-y-auto-m"
         style={
