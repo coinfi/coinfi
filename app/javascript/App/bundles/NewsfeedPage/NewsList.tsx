@@ -6,6 +6,7 @@ declare var window: {
 
 import * as React from 'react'
 import InfiniteScroll from 'react-infinite-scroll-component'
+import VisibilitySensor from 'react-visibility-sensor';
 import _ from 'lodash'
 import NewsListItem from './NewsListItem'
 import LoadingIndicator from '../../components/LoadingIndicator'
@@ -30,6 +31,9 @@ interface IProps {
   initialRenderTips?: boolean
   fetchMoreNewsFeed?: any // () => void
   closeTips?: any // () => void
+  onNewsItemShown?: (id) => void,
+  isNewsSeen?: (id) => boolean,
+  unseenNews: number[],
 }
 
 interface IState {
@@ -103,18 +107,29 @@ class NewsList extends React.Component<IProps, IState> {
 
     const readNewsIds = JSON.parse(localStorage.getItem('readNews')) || []
 
-    const mappedItems = this.props.sortedNewsItems.map((newsItem) => {
+    const mappedItems = this.props.sortedNewsItems.map((newsItem, index) => {
       const hasRead = readNewsIds.includes(newsItem.id)
       return (
-        <NewsListItem
+        <VisibilitySensor 
           key={newsItem.id}
-          newsItem={newsItem}
-          {...this.props}
-          setActiveNewsItem={this.setActiveNewsItem}
-          // @ts-ignore FIME
-          selectCoin={(symbol) => this.selectCoin(symbol)}
-          hasRead={hasRead}
-        />
+          onChange={(isVisible) => {
+            if (isVisible) {
+                this.props.onNewsItemShown(newsItem.id);
+            }
+          }}
+          active={this.props.isWindowFocused}
+        >
+          <NewsListItem
+            key={newsItem.id}
+            newsItem={newsItem}
+            {...this.props}
+            setActiveNewsItem={this.setActiveNewsItem}
+            // @ts-ignore FIME
+            selectCoin={(symbol) => this.selectCoin(symbol)} 
+            hasRead={hasRead}
+            isUnseen={!hasRead && this.props.unseenNews.includes(newsItem.id)}
+          />
+        </VisibilitySensor>
       )
     })
 

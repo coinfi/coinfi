@@ -50,6 +50,7 @@
     "react-swipeable": "^4.3.0",
     "react-tweet": "^1.7.0",
     "react-twitter-widgets": "^1.7.1",
+    "react-visibility-sensor": "^3.11.1",
     "redux": "^3.7.2",
     "redux-devtools": "^3.4.1",
     "redux-persist": "^5.9.1",

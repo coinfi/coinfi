@@ -10,6 +10,7 @@ export interface NewsfeedContextType {
   fetchNewsItemsForCoin: (coinSlug: string) => void,
   fetchMoreNewsItems: () => void,
   fetchAllNewsItems: () => void, 
+  fetchNewNewsItems: () => Promise<any>,
 }
 
 const NewsfeedContext = React.createContext(null)

@@ -32,8 +32,9 @@ const NewsListItem = (props) => {
     setActiveNewsItem,
     preRender,
     hasRead,
+    isUnseen,
   } = props
-  let className = 'b--b tiber overflow-hidden'
+  let className = 'b--b tiber overflow-hidden news-list-item'
   if (activeEntity) {
     const { type, id } = activeEntity
     if (type === 'newsItem' && id === newsItem.id) { className += ' bg-foam' }
@@ -44,8 +45,19 @@ const NewsListItem = (props) => {
     .replace(/<h1>/g, '')
     .replace(/<\/h1>/g, '')
 
+
+  let titleStyle = {};
+  if (hasRead) {
+    titleStyle.color = '#999';
+  }
+
+  let cn = className;
+  if (isUnseen) {
+    cn += ' unseen';
+  }
+
   return (
-    <div className={className} style={{ height: props.height || 'auto' }}>
+    <div className={cn} style={{ height: props.height || 'auto' }}>
       <div data-heap="news-click-on-news-item" className="pa-default">
         <Link
           to={`/news/${newsItem.id}/${slugify(newsItem.title)}`}
@@ -62,10 +74,7 @@ const NewsListItem = (props) => {
             }
           }}
         >
-          <h4
-            className="pointer mb2 f5"
-            style={hasRead ? { color: '#999' } : {}}
-          >
+          <h4 className="pointer mb2 f5" style={titleStyle}>
             {newsItemTitle}
           </h4>
         </Link>

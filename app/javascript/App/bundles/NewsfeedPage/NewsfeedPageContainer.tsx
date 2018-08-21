@@ -28,6 +28,7 @@ const NewsfeedPageContainer = (props: Props) => (
                 fetchNewsItemsForCoin={newsfeedPayload.fetchNewsItemsForCoin}
                 fetchMoreNewsItems={newsfeedPayload.fetchMoreNewsItems}
                 fetchAllNewsItems={newsfeedPayload.fetchAllNewsItems}
+                fetchNewNewsItems={newsfeedPayload.fetchNewNewsItems}
               />
             )
           }
