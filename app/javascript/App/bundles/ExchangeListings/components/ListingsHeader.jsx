@@ -10,7 +10,10 @@ export default (props) => (
     <FilterBar toggleFilterPanel={props.toggleFilterPanel} />
 
     {props.showFilterPanel && (
-      <FilterPanel toggleFilterPanel={props.toggleFilterPanel}>
+      <FilterPanel
+        toggleFilterPanel={props.toggleFilterPanel}
+        applyFilters={props.applyFilters}
+      >
         <ListingFilterFields
           quoteSymbols={props.quoteSymbols}
           exchanges={props.exchanges}

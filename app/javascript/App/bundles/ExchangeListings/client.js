@@ -6,6 +6,7 @@ import LayoutMobile from '../../components/LayoutMobile'
 import ListingsHeader from './components/ListingsHeader'
 import ListingsList from './components/ListingsList'
 import BodySection from './components/BodySection'
+import localAPI from '../../lib/localAPI'
 
 class ExchangeListingsPage extends Component {
   constructor(props) {
@@ -13,10 +14,8 @@ class ExchangeListingsPage extends Component {
 
     this.state = {
       listings: props.initialListings,
-      newestDetectedAt:
-        props.initialListings[0] && props.initialListings[0].detected_at,
+      newestDetectedAt: props.initialListings[0].detected_at,
       oldestDetectedAt:
-        props.initialListings[props.initialListings.length - 1] &&
         props.initialListings[props.initialListings.length - 1].detected_at,
       hasMore: true,
       showFilterPanel: false,
@@ -35,6 +34,7 @@ class ExchangeListingsPage extends Component {
     clearInterval(timer)
   }
 
+  /*  TODO: implement these methods
   fetchNewerExchangeListings = () => {
     console.log('Fetching newer exchange listings...')
     localAPI
@@ -51,7 +51,7 @@ class ExchangeListingsPage extends Component {
 
   fetchOlderExchangeListings = () => {
     localAPI
-      .get(`/exchange_listings?detectedUntil=${this.state.oldestDetectedAt}`)
+      .get(`/exchange_listigs?detectedUntil=${this.state.oldestDetectedAt}`)
       .then((response) => {
         response.payload.length
           ? this.setState({
@@ -62,6 +62,20 @@ class ExchangeListingsPage extends Component {
           : this.setState({ hasMore: false })
       })
   }
+  */
+
+  fetchListingsBySymbol = () => {
+    localAPI.get(`/exchange_listings?quoteSymbols=BTC`).then((response) => {
+      console.log(response.payload)
+      response.payload.length
+      // ? this.setState({
+      //     listings: this.state.listings.concat(response.payload),
+      //     oldestDetectedAt:
+      //       response.payload[response.payload.length - 1].detected_at,
+      //   })
+      // : this.setState({ hasMore: false })
+    })
+  }
 
   toggleFilterPanel = () =>
     this.setState({
@@ -70,6 +84,7 @@ class ExchangeListingsPage extends Component {
 
   applyFilters = () => {
     console.log('apply')
+    this.fetchListingsBySymbol()
   }
 
   render() {
@@ -124,7 +139,7 @@ class ExchangeListingsPage extends Component {
                 {...props}
                 showFilterPanel={this.state.showFilterPanel}
                 toggleFilterPanel={this.toggleFilterPanel}
-                applyFilters={this.applyFilters}
+                applyFilters={() => this.applyFilters()}
               />
               <ListingsList {...props} listings={listings} hasMore={hasMore} />
             </Fragment>
