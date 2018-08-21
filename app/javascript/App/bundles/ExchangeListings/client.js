@@ -8,19 +8,73 @@ import ListingsList from './components/ListingsList'
 import BodySection from './components/BodySection'
 
 class ExchangeListingsPage extends Component {
-  state = { showFilterPanel: false }
+  constructor(props) {
+    super(props)
+
+    this.state = {
+      listings: props.initialListings,
+      newestDetectedAt:
+        props.initialListings[0] && props.initialListings[0].detected_at,
+      oldestDetectedAt:
+        props.initialListings[props.initialListings.length - 1] &&
+        props.initialListings[props.initialListings.length - 1].detected_at,
+      hasMore: true,
+      showFilterPanel: false,
+    }
+  }
+
+  componentDidUpdate() {
+    window.addEventListener('resize', debounce(() => this.forceUpdate(), 500))
+  }
+
+  componentDidUpdate() {
+    // TODO: Get this working!
+    const timer = setInterval(() => {
+      this.fetchNewerExchangeListings()
+    }, 6000)
+    clearInterval(timer)
+  }
+
+  fetchNewerExchangeListings = () => {
+    console.log('Fetching newer exchange listings...')
+    localAPI
+      .get(`/exchange_listings?detectedSince=${this.state.newestDetectedAt}`)
+      .then((response) => {
+        if (response.payload.length) {
+          this.setState({
+            listings: response.payload.concat(this.state.listings),
+            newestDetectedAt: response.payload[0].detected_at,
+          })
+        }
+      })
+  }
+
+  fetchOlderExchangeListings = () => {
+    localAPI
+      .get(`/exchange_listings?detectedUntil=${this.state.oldestDetectedAt}`)
+      .then((response) => {
+        response.payload.length
+          ? this.setState({
+              listings: this.state.listings.concat(response.payload),
+              oldestDetectedAt:
+                response.payload[response.payload.length - 1].detected_at,
+            })
+          : this.setState({ hasMore: false })
+      })
+  }
 
   toggleFilterPanel = () =>
     this.setState({
       showFilterPanel: !this.state.showFilterPanel,
     })
 
-  componentDidUpdate() {
-    window.addEventListener('resize', debounce(() => this.forceUpdate(), 500))
+  applyFilters = () => {
+    console.log('apply')
   }
 
   render() {
     const props = this.props
+    const { listings, hasMore } = this.state
 
     if (window.isMobile) {
       return (
@@ -51,6 +105,7 @@ class ExchangeListingsPage extends Component {
                 {...props}
                 showFilterPanel={this.state.showFilterPanel}
                 toggleFilterPanel={this.toggleFilterPanel}
+                applyFilters={this.applyFilters}
               />
               <ListingsList {...props} />
             </Fragment>
@@ -69,8 +124,9 @@ class ExchangeListingsPage extends Component {
                 {...props}
                 showFilterPanel={this.state.showFilterPanel}
                 toggleFilterPanel={this.toggleFilterPanel}
+                applyFilters={this.applyFilters}
               />
-              <ListingsList {...props} />
+              <ListingsList {...props} listings={listings} hasMore={hasMore} />
             </Fragment>
           }
           rightSection={<BodySection {...props} />}
