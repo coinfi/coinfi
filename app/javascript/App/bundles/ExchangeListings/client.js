@@ -116,6 +116,11 @@ class ExchangeListingsPage extends Component {
       this.setState({
         listings: response.payload,
       })
+      if (!response.payload.length) {
+        this.setState({
+          hasMore: false,
+        })
+      }
       this.toggleFilterPanel()
     })
   }
