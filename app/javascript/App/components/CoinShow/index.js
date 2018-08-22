@@ -62,6 +62,7 @@ class CoinShow extends Component {
       priceData,
       annotations,
       isTradingViewVisible,
+      modeAnalyticsUrl,
       coinObj,
     } = this.props
 
@@ -324,6 +325,27 @@ class CoinShow extends Component {
                       </Card>
                     </CardWrapLast>
                   </Col>
+
+                  {modeAnalyticsUrl ? (
+                    <Col xs={24} sm={24} m={24} l={24} xl={24}>
+                      <CardWrapLast>
+                        <Card title="Token Metrics">
+                          <a href={modeAnalyticsUrl} className="mode-embed">
+                            Token Metrics
+                          </a>
+                          {/*
+                          <iframe
+                            title="Token Metrics"
+                            src={modeAnalyticsUrl}
+                            width="100%"
+                            height="2048"
+                            frameBorder="0"
+                          />
+                        */}
+                        </Card>
+                      </CardWrapLast>
+                    </Col>
+                  ) : null}
 
                   {/* summary */}
                   <Col xs={24} sm={24} l={16} xl={16}>
