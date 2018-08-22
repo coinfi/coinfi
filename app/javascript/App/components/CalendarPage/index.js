@@ -64,7 +64,9 @@ class CalendarPage extends Component {
   }
 
   calendarTips() {
-    this.setState({ initialRenderTips: !this.state.initialRenderTips })
+    this.setState((state) => ({
+      initialRenderTips: !this.state.initialRenderTips,
+    }))
   }
 
   render() {

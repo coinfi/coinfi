@@ -125,10 +125,11 @@ class ExchangeListingsPage extends Component {
     })
   }
 
-  toggleFilterPanel = () =>
-    this.setState({
+  toggleFilterPanel() {
+    this.setState((state) => ({
       showFilterPanel: !this.state.showFilterPanel,
-    })
+    }))
+  }
 
   applyFilters = () => {
     this.fetchListingsBySymbol()
