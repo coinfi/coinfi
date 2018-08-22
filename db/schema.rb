@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180812155516) do
+ActiveRecord::Schema.define(version: 20180822034415) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -231,7 +231,6 @@ ActiveRecord::Schema.define(version: 20180812155516) do
     t.boolean "is_listed"
     t.jsonb "external_url"
     t.index ["category"], name: "index_coins_on_category"
-    t.index ["coin_key"], name: "coin_key_unique", unique: true
     t.index ["coin_key"], name: "index_coins_on_coin_key"
     t.index ["influencer_reviews_count"], name: "index_coins_on_influencer_reviews_count"
     t.index ["market_cap"], name: "index_coins_on_market_cap", using: :gin
@@ -276,6 +275,7 @@ ActiveRecord::Schema.define(version: 20180812155516) do
     t.datetime "updated_at", null: false
     t.index ["base_symbol_id"], name: "index_exchange_listings_on_base_symbol_id"
     t.index ["detected_at"], name: "index_exchange_listings_on_detected_at"
+    t.index ["exchange_id", "symbol"], name: "index_exchange_listings_on_exchange_id_and_symbol", unique: true
     t.index ["exchange_id"], name: "index_exchange_listings_on_exchange_id"
     t.index ["quote_symbol"], name: "index_exchange_listings_on_quote_symbol"
     t.index ["quote_symbol_id"], name: "index_exchange_listings_on_quote_symbol_id"
@@ -382,7 +382,7 @@ ActiveRecord::Schema.define(version: 20180812155516) do
     t.string "title", null: false
     t.text "summary"
     t.text "content"
-    t.string "actor_id", null: false
+    t.string "actor_id"
     t.datetime "feed_item_published_at", null: false
     t.datetime "feed_item_updated_at", null: false
     t.jsonb "feed_item_json"
