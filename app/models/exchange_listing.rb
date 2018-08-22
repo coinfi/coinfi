@@ -1,7 +1,8 @@
 class ExchangeListing < ApplicationRecord
   belongs_to :exchange
-  belongs_to :quote_coin, class_name: 'Coin', foreign_key: 'quote_symbol_id'
-  belongs_to :base_coin, class_name: 'Coin', foreign_key: 'base_symbol_id'
+  # Disabling temporarily since we don't map quote_symbol or base_symbol to Coin#id yet.
+  #belongs_to :quote_coin, class_name: 'Coin', foreign_key: 'quote_symbol_id'
+  #belongs_to :base_coin, class_name: 'Coin', foreign_key: 'base_symbol_id'
 
   scope :centralized, -> { where.not(ccxt_exchange_id: ['coinmarketcap', 'idex', 'etherdelta', 'forkdelta']) }
   scope :order_by_detected, -> { order(detected_at: :desc) }
