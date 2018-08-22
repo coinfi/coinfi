@@ -136,7 +136,7 @@ class ExchangeListingsPage extends Component {
   updateOnResize = () => debounce(() => this.forceUpdate(), 500)
 
   toggleFilterPanel = () => {
-    this.setState((state) => ({
+    this.setState((prevState) => ({
       showFilterPanel: !this.state.showFilterPanel,
     }))
   }
