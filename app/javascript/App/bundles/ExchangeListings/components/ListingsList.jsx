@@ -6,13 +6,13 @@ import InfiniteScroll from 'react-infinite-scroll-component'
 class ListingsList extends Component {
 
   render() {
-    const { listings, hasMore } = this.props
+    const { listings, hasMore, fetchOlderExchangeListings } = this.props
     return (
       <div id="listings-feed" className="overflow-y-hidden overflow-y-auto-m">
         <InfiniteScroll
           dataLength={listings.length}
           loader={<LoadingIndicator />}
-          next={this.fetchOlderExchangeListings}
+          next={fetchOlderExchangeListings}
           hasMore={hasMore}
           scrollableTarget="listings-feed"
           endMessage={

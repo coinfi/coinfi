@@ -9,7 +9,36 @@ import BodySection from './components/BodySection'
 import localAPI from '../../lib/localAPI'
 
 class ExchangeListingsPage extends Component {
-  /*  TODO: implement these methods
+  constructor(props) {
+    super(props)
+
+    this.state = {
+      listings: props.initialListings,
+      newestDetectedAt: props.initialListings[0].detected_at,
+      oldestDetectedAt:
+        props.initialListings[props.initialListings.length - 1].detected_at,
+      hasMore: true,
+      showFilterPanel: false,
+      selectedSymbols: [],
+      exchangeSlugs: [],
+      detectedSince: null,
+      detectedUntil: null,
+    }
+  }
+
+  componentDidMount() {
+    window.addEventListener('resize', debounce(() => this.forceUpdate(), 500))
+  }
+
+  componentDidUpdate() {
+    // TODO: Get this working!
+    const timer = setInterval(() => {
+      this.fetchNewerExchangeListings()
+    }, 6000)
+    clearInterval(timer)
+  }
+
+  // TODO: implement these methods
   fetchNewerExchangeListings = () => {
     console.log('Fetching newer exchange listings...')
     localAPI
@@ -26,7 +55,7 @@ class ExchangeListingsPage extends Component {
 
   fetchOlderExchangeListings = () => {
     localAPI
-      .get(`/exchange_listigs?detectedUntil=${this.state.oldestDetectedAt}`)
+      .get(`/exchange_listings?detectedUntil=${this.state.oldestDetectedAt}`)
       .then((response) => {
         response.payload.length
           ? this.setState({
@@ -37,46 +66,16 @@ class ExchangeListingsPage extends Component {
           : this.setState({ hasMore: false })
       })
   }
-  */
-
-  constructor(props) {
-    super(props)
-
-    this.state = {
-      listings: props.initialListings,
-      newestDetectedAt: props.initialListings[0].detected_at,
-      oldestDetectedAt:
-        props.initialListings[props.initialListings.length - 1].detected_at,
-      hasMore: true,
-      showFilterPanel: false,
-      selectedSymbols: [],
-      exchangeSlugs: [],
-      publishedSince: null,
-      publishedUntil: null,
-    }
-  }
-
-  componentDidUpdate() {
-    window.addEventListener('resize', debounce(() => this.forceUpdate(), 500))
-  }
-
-  componentDidUpdate() {
-    // TODO: Get this working!
-    const timer = setInterval(() => {
-      this.fetchNewerExchangeListings()
-    }, 6000)
-    clearInterval(timer)
-  }
 
   filterDates = (data) => {
-    if (data.publishedSince) {
+    if (data.detectedSince) {
       this.setState({
-        publishedSince: data.publishedSince,
+        detectedSince: data.detectedSince,
       })
     }
-    if (data.publishedUntil) {
+    if (data.detectedUntil) {
       this.setState({
-        publishedUntil: data.publishedUntil,
+        detectedUntil: data.detectedUntil,
       })
     }
   }
@@ -89,7 +88,7 @@ class ExchangeListingsPage extends Component {
   }
 
   changeExchange = (data) => {
-    const selectedExchanges = data.map((item) => item.label.toLowerCase()) // TODO: api should return value but its empty
+    const selectedExchanges = data.map((item) => item.value)
     this.setState({
       selectedExchanges: selectedExchanges,
     })
@@ -98,13 +97,20 @@ class ExchangeListingsPage extends Component {
   fetchListingsBySymbol = () => {
     const quoteSymbolArg = this.state.selectedSymbols
     const exchangeSlugArgs = this.state.selectedExchanges
-    const publishedSince = this.state.publishedSince
-    const publishedUntil = this.state.publishedUntil
+    const detectedSinceStr =
+      this.state.detectedSince !== null
+        ? '&detectedSince=' + this.state.detectedSince
+        : ''
+    const detectedUntilStr =
+      this.state.detectedUntil !== null
+        ? '&detectedUntil=' + this.state.detectedUntil
+        : ''
     const urlParams =
       `/exchange_listings?` +
       `quoteSymbols=${quoteSymbolArg}&` +
       `exchangeSlugs=${exchangeSlugArgs || ''}&` +
-      `q[publishedSince]=${publishedSince}&q[publishedUntil]=${publishedUntil}`
+      detectedSinceStr +
+      detectedUntilStr
 
     localAPI.get(urlParams).then((response) => {
       this.setState({
@@ -127,8 +133,8 @@ class ExchangeListingsPage extends Component {
     const props = this.props
     const { listings, hasMore } = this.state
     const selectedItems = {
-      publishedSince: this.state.publishedSince,
-      publishedUntil: this.state.publishedUntil,
+      detectedSince: this.state.detectedSince,
+      detectedUntil: this.state.detectedUntil,
     }
 
     if (window.isMobile) {
@@ -141,8 +147,18 @@ class ExchangeListingsPage extends Component {
                 {...props}
                 showFilterPanel={this.state.showFilterPanel}
                 toggleFilterPanel={this.toggleFilterPanel}
+                applyFilters={() => this.applyFilters()}
+                changeSymbol={this.changeSymbol}
+                changeExchange={this.changeExchange}
+                filterDates={this.filterDates}
+                selectedItems={selectedItems}
               />
-              <ListingsList {...props} />
+              <ListingsList
+                {...props}
+                listings={listings}
+                hasMore={hasMore}
+                fetchOlderExchangeListings={this.fetchOlderExchangeListings}
+              />
             </Fragment>
           }
           modalName="listingsModal"
@@ -160,9 +176,18 @@ class ExchangeListingsPage extends Component {
                 {...props}
                 showFilterPanel={this.state.showFilterPanel}
                 toggleFilterPanel={this.toggleFilterPanel}
-                applyFilters={this.applyFilters}
+                applyFilters={() => this.applyFilters()}
+                changeSymbol={this.changeSymbol}
+                changeExchange={this.changeExchange}
+                filterDates={this.filterDates}
+                selectedItems={selectedItems}
               />
-              <ListingsList {...props} />
+              <ListingsList
+                {...props}
+                listings={listings}
+                hasMore={hasMore}
+                fetchOlderExchangeListings={this.fetchOlderExchangeListings}
+              />
             </Fragment>
           }
           rightSection={<BodySection {...props} />}
@@ -180,12 +205,17 @@ class ExchangeListingsPage extends Component {
                 showFilterPanel={this.state.showFilterPanel}
                 toggleFilterPanel={this.toggleFilterPanel}
                 applyFilters={() => this.applyFilters()}
-                changeSymbol={this.changeSymbol.bind(this)}
-                changeExchange={this.changeExchange.bind(this)}
+                changeSymbol={this.changeSymbol}
+                changeExchange={this.changeExchange}
                 filterDates={this.filterDates}
                 selectedItems={selectedItems}
               />
-              <ListingsList {...props} listings={listings} hasMore={hasMore} />
+              <ListingsList
+                {...props}
+                listings={listings}
+                hasMore={hasMore}
+                fetchOlderExchangeListings={this.fetchOlderExchangeListings}
+              />
             </Fragment>
           }
           rightSection={<BodySection {...props} />}

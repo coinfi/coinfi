@@ -1,6 +1,6 @@
 import React from 'react'
 import Select from 'react-select'
-import DateRange from './../../../components/DateRange'
+import DateRangeListing from './../../../components/DateRangeListing'
 
 export default (props) => (
   <div className="pa3">
@@ -16,7 +16,7 @@ export default (props) => (
 
     <div className="mb4">
       <h4 className="mb2">Date Range</h4>
-      <DateRange
+      <DateRangeListing
         onChange={props.filterDates}
         selectedItems={props.selectedItems}
       />
