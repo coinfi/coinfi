@@ -125,7 +125,17 @@ class ExchangeListingsPage extends Component {
     })
   }
 
-  toggleFilterPanel() {
+  componentDidMount() {
+    window.addEventListener('resize', this.updateOnResize)
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.updateOnResize)
+  }
+
+  updateOnResize = () => debounce(() => this.forceUpdate(), 500)
+
+  toggleFilterPanel = () => {
     this.setState((state) => ({
       showFilterPanel: !this.state.showFilterPanel,
     }))
