@@ -18,6 +18,7 @@ export default (props) => (
       <h4 className="mb2">Date Range</h4>
       <DateRange
         onChange={props.filterDates}
+        selectedItems={props.selectedItems}
       />
     </div>
 

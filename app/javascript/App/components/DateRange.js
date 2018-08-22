@@ -4,11 +4,9 @@ import moment from 'moment'
 import 'react-datepicker/dist/react-datepicker-cssmodules.css'
 
 export default class DateRange extends Component {
-
   selectedItems = () => this.props.selectedItems || []
 
   addFrom = (item) => {
-    console.log(this)
     let items = this.selectedItems()
     items.publishedSince = item.format('YYYY-MM-DD')
     this.props.onChange(items)
@@ -34,22 +32,17 @@ export default class DateRange extends Component {
   }
 
   render() {
-    const publishedSince = () => {
-      return (
-        this.props &&
-        this.props.selectedItems &&
-        this.props.selectedItems.publishedSince &&
-        moment(this.props.selectedItems.publishedSince)
-      )
-    }
-    const publishedUntil = () => {
-      return (
-        this.props &&
-        this.props.selectedItems &&
-        this.props.selectedItems.publishedUntil &&
-        moment(this.props.selectedItems.publishedUntil)
-      )
-    }
+    const publishedSince = () =>
+      this.props &&
+      this.props.selectedItems &&
+      this.props.selectedItems.publishedSince &&
+      moment(this.props.selectedItems.publishedSince)
+
+    const publishedUntil = () =>
+      this.props &&
+      this.props.selectedItems &&
+      this.props.selectedItems.publishedUntil &&
+      moment(this.props.selectedItems.publishedUntil)
 
     return (
       <div className="item-selector-alt nh1 nt1">
@@ -60,7 +53,7 @@ export default class DateRange extends Component {
           >
             <DatePicker
               selected={publishedSince()}
-              placeholderText='Start Date'
+              placeholderText="Start Date"
               selectsStart
               startDate={publishedSince()}
               endDate={publishedUntil()}
@@ -74,7 +67,7 @@ export default class DateRange extends Component {
           >
             <DatePicker
               selected={publishedUntil()}
-              placeholderText='End Date'
+              placeholderText="End Date"
               selectsEnd
               startDate={publishedSince()}
               endDate={publishedUntil()}

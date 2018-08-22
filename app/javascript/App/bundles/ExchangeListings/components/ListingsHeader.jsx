@@ -20,6 +20,7 @@ export default (props) => (
           changeSymbol={props.changeSymbol}
           changeExchange={props.changeExchange}
           filterDates={props.filterDates}
+          selectedItems={props.selectedItems}
         />
       </FilterPanel>
     )}

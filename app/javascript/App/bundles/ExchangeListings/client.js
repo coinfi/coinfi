@@ -98,16 +98,20 @@ class ExchangeListingsPage extends Component {
   fetchListingsBySymbol = () => {
     const quoteSymbolArg = this.state.selectedSymbols
     const exchangeSlugArgs = this.state.selectedExchanges
-    localAPI
-      .get(
-        `/exchange_listings?quoteSymbols=${quoteSymbolArg}&exchangeSlugs=${exchangeSlugArgs}`,
-      )
-      .then((response) => {
-        this.setState({
-          listings: response.payload,
-        })
-        this.toggleFilterPanel()
+    const publishedSince = this.state.publishedSince
+    const publishedUntil = this.state.publishedUntil
+    const urlParams =
+      `/exchange_listings?` +
+      `quoteSymbols=${quoteSymbolArg}&` +
+      `exchangeSlugs=${exchangeSlugArgs || ''}&` +
+      `q[publishedSince]=${publishedSince}&q[publishedUntil]=${publishedUntil}`
+
+    localAPI.get(urlParams).then((response) => {
+      this.setState({
+        listings: response.payload,
       })
+      this.toggleFilterPanel()
+    })
   }
 
   toggleFilterPanel = () =>
@@ -122,6 +126,10 @@ class ExchangeListingsPage extends Component {
   render() {
     const props = this.props
     const { listings, hasMore } = this.state
+    const selectedItems = {
+      publishedSince: this.state.publishedSince,
+      publishedUntil: this.state.publishedUntil,
+    }
 
     if (window.isMobile) {
       return (
@@ -175,6 +183,7 @@ class ExchangeListingsPage extends Component {
                 changeSymbol={this.changeSymbol.bind(this)}
                 changeExchange={this.changeExchange.bind(this)}
                 filterDates={this.filterDates}
+                selectedItems={selectedItems}
               />
               <ListingsList {...props} listings={listings} hasMore={hasMore} />
             </Fragment>
