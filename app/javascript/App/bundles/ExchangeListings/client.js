@@ -3,9 +3,9 @@ import debounce from 'debounce'
 import LayoutDesktop from '~/components/LayoutDesktop'
 import LayoutTablet from '~/components/LayoutTablet'
 import LayoutMobile from '~/components/LayoutMobile'
-import ListingsHeader from '~/bundles/ExchangeListings/components/ListingsHeader'
-import ListingsList from '~/bundles/ExchangeListings/components/ListingsList'
-import BodySection from '~/bundles/ExchangeListings/components/BodySection'
+import ListingsHeader from './components/ListingsHeader'
+import ListingsList from './components/ListingsList'
+import BodySection from './components/BodySection'
 import localAPI from '~/lib/localAPI'
 
 class ExchangeListingsPage extends Component {
