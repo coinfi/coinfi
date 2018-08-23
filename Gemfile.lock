@@ -153,6 +153,8 @@ GEM
       railties (>= 4.1.0, < 5.2)
       responders
       warden (~> 1.2.3)
+    distribute_reads (0.2.3)
+      makara
     domain_name (0.5.20170404)
       unf (>= 0.0.5, < 1.0.0)
     dotenv (2.2.1)
@@ -247,6 +249,8 @@ GEM
       nokogiri (>= 1.5.9)
     mail (2.6.6)
       mime-types (>= 1.16, < 4)
+    makara (0.4.0)
+      activerecord (>= 3.0.0)
     mechanize (2.7.5)
       domain_name (~> 0.5, >= 0.5.1)
       http-cookie (~> 1.0)
@@ -524,6 +528,7 @@ DEPENDENCIES
   convertkit-ruby!
   cryptocompare
   devise
+  distribute_reads
   dotenv-rails
   email_address
   feedjira
