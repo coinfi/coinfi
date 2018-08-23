@@ -20,6 +20,7 @@ class ExchangeListingsPage extends Component {
       hasMore: true,
       showFilterPanel: false,
       selectedSymbols: [],
+      selectedExchanges: [],
       exchangeSlugs: [],
       detectedSince: null,
       detectedUntil: null,
@@ -157,6 +158,9 @@ class ExchangeListingsPage extends Component {
                 changeExchange={this.changeExchange}
                 filterDates={this.filterDates}
                 selectedItems={selectedItems}
+                selectedSymbols={this.state.selectedSymbols}
+                selectedExchanges={this.state.selectedExchanges}
+                exchangeSlugs={this.state.exchangeSlugs}
               />
               <ListingsList
                 {...props}
@@ -186,6 +190,9 @@ class ExchangeListingsPage extends Component {
                 changeExchange={this.changeExchange}
                 filterDates={this.filterDates}
                 selectedItems={selectedItems}
+                selectedSymbols={this.state.selectedSymbols}
+                selectedExchanges={this.state.selectedExchanges}
+                exchangeSlugs={this.state.exchangeSlugs}
               />
               <ListingsList
                 {...props}
@@ -214,6 +221,9 @@ class ExchangeListingsPage extends Component {
                 changeExchange={this.changeExchange}
                 filterDates={this.filterDates}
                 selectedItems={selectedItems}
+                selectedSymbols={this.state.selectedSymbols}
+                selectedExchanges={this.state.selectedExchanges}
+                exchangeSlugs={this.state.exchangeSlugs}
               />
               <ListingsList
                 {...props}
