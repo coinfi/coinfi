@@ -217,6 +217,7 @@ class ExchangeListingsPage extends Component {
           centerSection={
             <Fragment>
               <ListingsHeader
+                {...props}
                 showFilterPanel={this.state.showFilterPanel}
                 toggleFilterPanel={this.toggleFilterPanel}
                 applyFilters={() => this.applyFilters()}
