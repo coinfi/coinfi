@@ -31,7 +31,7 @@ class NewsList extends Component {
       const colWrap = document.querySelector('.column-wrap')
       const newsContent = document.querySelector('.selected-news-content')
       newsContent.style.maxHeight = `${colWrap.offsetHeight}px`
-    }, 500)
+    }, 2000)
   }
 
   closeTips() {
