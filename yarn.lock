@@ -1349,6 +1349,12 @@ babel-plugin-react-docgen@^1.9.0:
     lodash "^4.17.0"
     react-docgen "^3.0.0-beta11"
 
+babel-plugin-root-import@^6.1.0:
+  version "6.1.0"
+  resolved "https://registry.yarnpkg.com/babel-plugin-root-import/-/babel-plugin-root-import-6.1.0.tgz#ea27407df1e920750fc247b2702e322a19f8a14f"
+  dependencies:
+    slash "^1.0.0"
+
 babel-plugin-styled-components@^1.5.1:
   version "1.5.1"
   resolved "https://registry.yarnpkg.com/babel-plugin-styled-components/-/babel-plugin-styled-components-1.5.1.tgz#31dbeb696d1354d1585e60d66c7905f5e474afcd"
@@ -2274,6 +2280,10 @@ builtin-modules@^1.0.0, builtin-modules@^1.1.1:
 builtin-status-codes@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/builtin-status-codes/-/builtin-status-codes-3.0.0.tgz#85982878e21b98e1c66425e03d0174788f569ee8"
+
+byots@2.7.0-dev.20171209.9.18:
+  version "2.7.0-dev.20171209.9.18"
+  resolved "https://registry.yarnpkg.com/byots/-/byots-2.7.0-dev.20171209.9.18.tgz#57bd06989a3916d466a38c21f194fcc49b250e02"
 
 bytes@3.0.0:
   version "3.0.0"
@@ -5996,7 +6006,7 @@ log-update@^1.0.2:
     ansi-escapes "^1.0.0"
     cli-cursor "^1.0.2"
 
-loglevel@^1.4.1:
+loglevel@^1.4.1, loglevel@^1.6.1:
   version "1.6.1"
   resolved "https://registry.yarnpkg.com/loglevel/-/loglevel-1.6.1.tgz#e0fc95133b6ef276cdc8887cdaf24aa6f156f8fa"
 
@@ -10261,6 +10271,10 @@ typedarray@^0.0.6:
   version "0.0.6"
   resolved "https://registry.yarnpkg.com/typedarray/-/typedarray-0.0.6.tgz#867ac74e3864187b1d3d47d996a78ec5c8830777"
 
+typescript@^2.3.0:
+  version "2.9.2"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-2.9.2.tgz#1cbf61d05d6b96269244eb6a3bce4bd914e0f00c"
+
 typescript@^3.0.1:
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/typescript/-/typescript-3.0.1.tgz#43738f29585d3a87575520a4b93ab6026ef11fdb"
@@ -10709,6 +10723,17 @@ webpack-sources@^1.0.1, webpack-sources@^1.1.0:
   dependencies:
     source-list-map "^2.0.0"
     source-map "~0.6.1"
+
+webpack-strip-log-loader@^0.1.5:
+  version "0.1.5"
+  resolved "https://registry.yarnpkg.com/webpack-strip-log-loader/-/webpack-strip-log-loader-0.1.5.tgz#debcb3f8961ed0e5d42179c38dd8463a94ce34a6"
+  dependencies:
+    array.prototype.flatmap "^1.2.1"
+    byots "2.7.0-dev.20171209.9.18"
+    loader-utils "^1.1.0"
+    loglevel "^1.6.1"
+    tmp "^0.0.33"
+    typescript "^2.3.0"
 
 webpack@^3.10.0:
   version "3.11.0"
