@@ -4,23 +4,33 @@ import FilterBar from '../../common/components/FilterPanel/FilterBar'
 import CoinTipsTab from '../../common/components/CoinTipsTab'
 import ListingFilterFields from './ListingFilterFields'
 
-export default (props) => (
+export default ({
+  toggleFilterPanel,
+  showFilterPanel,
+  applyFilters,
+  quoteSymbols,
+  exchanges,
+  changeSymbol,
+  changeExchange,
+  filterDates,
+  selectedItems,
+}) => (
   <Fragment>
     <CoinTipsTab />
-    <FilterBar toggleFilterPanel={props.toggleFilterPanel} />
+    <FilterBar toggleFilterPanel={toggleFilterPanel} />
 
-    {props.showFilterPanel && (
+    {showFilterPanel && (
       <FilterPanel
-        toggleFilterPanel={props.toggleFilterPanel}
-        applyFilters={props.applyFilters}
+        toggleFilterPanel={toggleFilterPanel}
+        applyFilters={applyFilters}
       >
         <ListingFilterFields
-          quoteSymbols={props.quoteSymbols}
-          exchanges={props.exchanges}
-          changeSymbol={props.changeSymbol}
-          changeExchange={props.changeExchange}
-          filterDates={props.filterDates}
-          selectedItems={props.selectedItems}
+          quoteSymbols={quoteSymbols}
+          exchanges={exchanges}
+          changeSymbol={changeSymbol}
+          changeExchange={changeExchange}
+          filterDates={filterDates}
+          selectedItems={selectedItems}
         />
       </FilterPanel>
     )}
