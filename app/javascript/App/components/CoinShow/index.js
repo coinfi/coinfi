@@ -30,7 +30,7 @@ class CoinShow extends Component {
 
   watchCoinHandler = () => {
     this.setState((prevState) => ({
-      watched: !this.state.watched,
+      watched: !prevState.watched,
       iconLoading: true,
     }))
 

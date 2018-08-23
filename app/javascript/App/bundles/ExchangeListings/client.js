@@ -137,7 +137,7 @@ class ExchangeListingsPage extends Component {
 
   toggleFilterPanel = () => {
     this.setState((prevState) => ({
-      showFilterPanel: !this.state.showFilterPanel,
+      showFilterPanel: !prevState.showFilterPanel,
     }))
   }
 
