@@ -28,18 +28,15 @@ class ExchangeListingsPage extends Component {
   }
 
   componentDidMount() {
-    window.addEventListener('resize', debounce(() => this.forceUpdate(), 500))
-  }
-
-  componentDidUpdate() {
-    // TODO: Get this working!
-    const timer = setInterval(() => {
+    this.interval = setInterval(() => {
       this.fetchNewerExchangeListings()
-    }, 6000)
-    clearInterval(timer)
+    }, 60000)
   }
 
-  // TODO: implement these methods
+  componentWillUnmount() {
+    clearInterval(this.interval)
+  }
+
   fetchNewerExchangeListings = () => {
     console.log('Fetching newer exchange listings...')
     localAPI
