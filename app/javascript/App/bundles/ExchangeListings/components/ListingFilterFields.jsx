@@ -2,7 +2,20 @@ import React from 'react'
 import Select from 'react-select'
 import DateRangeListing from './../../../components/DateRangeListing'
 
-export default (props) => (
+export default (props) => {
+  const selectedSymbolData = props.selectedSymbols.map(item => {
+    return {
+      label: item,
+      value: item
+    }
+  })
+  const selectedExchangeSlugs = props.selectedExchanges.map(slug => {
+    return {
+      label: slug,
+      value: slug
+    }
+  })
+return (
   <div className="pa3">
     <div className="mb4">
       <h4 className="mb2">Quote Symbol</h4>
@@ -11,6 +24,7 @@ export default (props) => (
         name="quote_symbols"
         options={props.quoteSymbols}
         onChange={props.changeSymbol}
+        value={selectedSymbolData}
       />
     </div>
 
@@ -29,7 +43,10 @@ export default (props) => (
         name="exchanges"
         options={props.exchanges}
         onChange={props.changeExchange}
+        value={selectedExchangeSlugs}
       />
     </div>
   </div>
 )
+
+}

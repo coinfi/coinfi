@@ -8,14 +8,14 @@ export default class DateRange extends Component {
 
   addFrom = (item) => {
     let items = this.selectedItems()
-    items.detectedSince = item.format('YYYY-MM-DD')
-    this.props.onChange(items)
+    if (item !== null) items.detectedSince = item.format('YYYY-MM-DD')
+    this.props && this.props.onChange(items)
   }
 
   addTo = (item) => {
     let items = this.selectedItems()
-    items.detectedUntil = item.format('YYYY-MM-DD')
-    this.props.onChange(items)
+    if (item !== null) items.detectedUntil = item.format('YYYY-MM-DD')
+    this.props && this.props.onChange(items)
   }
 
   remove = (item) => {
