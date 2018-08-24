@@ -80,6 +80,7 @@ class ExchangeListingsPage extends Component {
 
   changeSymbol = (data) => {
     const selectedSymbols = data.map((item) => item.value)
+
     this.setState({
       selectedSymbols: selectedSymbols,
     })
@@ -123,14 +124,6 @@ class ExchangeListingsPage extends Component {
     })
   }
 
-  componentDidMount() {
-    window.addEventListener('resize', this.updateOnResize)
-  }
-
-  componentWillUnmount() {
-    window.removeEventListener('resize', this.updateOnResize)
-  }
-
   updateOnResize = () => debounce(() => this.forceUpdate(), 500)
 
   toggleFilterPanel = () => {
@@ -168,9 +161,10 @@ class ExchangeListingsPage extends Component {
               <ListingsHeader
                 toggleFilterPanel={this.toggleFilterPanel}
                 showFilterPanel={this.state.showFilterPanel}
-                applyFilters={() => this.applyFilters()}
                 quoteSymbols={this.props.quoteSymbols}
                 exchanges={this.props.exchanges}
+                toggleFilterPanel={this.toggleFilterPanel}
+                applyFilters={() => this.applyFilters()}
                 changeSymbol={this.changeSymbol}
                 changeExchange={this.changeExchange}
                 filterDates={this.filterDates}
@@ -201,9 +195,10 @@ class ExchangeListingsPage extends Component {
               <ListingsHeader
                 toggleFilterPanel={this.toggleFilterPanel}
                 showFilterPanel={this.state.showFilterPanel}
-                applyFilters={() => this.applyFilters()}
                 quoteSymbols={this.props.quoteSymbols}
                 exchanges={this.props.exchanges}
+                toggleFilterPanel={this.toggleFilterPanel}
+                applyFilters={() => this.applyFilters()}
                 changeSymbol={this.changeSymbol}
                 changeExchange={this.changeExchange}
                 filterDates={this.filterDates}
@@ -233,9 +228,10 @@ class ExchangeListingsPage extends Component {
               <ListingsHeader
                 toggleFilterPanel={this.toggleFilterPanel}
                 showFilterPanel={this.state.showFilterPanel}
-                applyFilters={() => this.applyFilters()}
                 quoteSymbols={this.props.quoteSymbols}
                 exchanges={this.props.exchanges}
+                toggleFilterPanel={this.toggleFilterPanel}
+                applyFilters={() => this.applyFilters()}
                 changeSymbol={this.changeSymbol}
                 changeExchange={this.changeExchange}
                 filterDates={this.filterDates}
