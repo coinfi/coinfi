@@ -1,12 +1,12 @@
 import React, { Component, Fragment } from 'react'
 import debounce from 'debounce'
-import LayoutDesktop from '../../components/LayoutDesktop'
-import LayoutTablet from '../../components/LayoutTablet'
-import LayoutMobile from '../../components/LayoutMobile'
+import LayoutDesktop from '~/components/LayoutDesktop'
+import LayoutTablet from '~/components/LayoutTablet'
+import LayoutMobile from '~/components/LayoutMobile'
 import ListingsHeader from './components/ListingsHeader'
 import ListingsList from './components/ListingsList'
 import BodySection from './components/BodySection'
-import localAPI from '../../lib/localAPI'
+import localAPI from '~/lib/localAPI'
 
 class ExchangeListingsPage extends Component {
   constructor(props) {
@@ -123,10 +123,21 @@ class ExchangeListingsPage extends Component {
     })
   }
 
-  toggleFilterPanel = () =>
-    this.setState({
-      showFilterPanel: !this.state.showFilterPanel,
-    })
+  componentDidMount() {
+    window.addEventListener('resize', this.updateOnResize)
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.updateOnResize)
+  }
+
+  updateOnResize = () => debounce(() => this.forceUpdate(), 500)
+
+  toggleFilterPanel = () => {
+    this.setState((prevState) => ({
+      showFilterPanel: !prevState.showFilterPanel,
+    }))
+  }
 
   applyFilters = () => {
     this.fetchListingsBySymbol()
@@ -152,14 +163,14 @@ class ExchangeListingsPage extends Component {
     if (window.isMobile) {
       return (
         <LayoutMobile
-          {...props}
           mainSection={
             <Fragment>
               <ListingsHeader
-                {...props}
-                showFilterPanel={this.state.showFilterPanel}
                 toggleFilterPanel={this.toggleFilterPanel}
+                showFilterPanel={this.state.showFilterPanel}
                 applyFilters={() => this.applyFilters()}
+                quoteSymbols={this.props.quoteSymbols}
+                exchanges={this.props.exchanges}
                 changeSymbol={this.changeSymbol}
                 changeExchange={this.changeExchange}
                 filterDates={this.filterDates}
@@ -170,7 +181,6 @@ class ExchangeListingsPage extends Component {
                 resetFilters={this.resetFilters}
               />
               <ListingsList
-                {...props}
                 listings={listings}
                 hasMore={hasMore}
                 fetchOlderExchangeListings={this.fetchOlderExchangeListings}
@@ -178,7 +188,7 @@ class ExchangeListingsPage extends Component {
             </Fragment>
           }
           modalName="listingsModal"
-          modalSection={<BodySection {...props} mobileLayout />}
+          modalSection={<BodySection mobileLayout />}
           drawerSection={null}
         />
       )
@@ -189,10 +199,11 @@ class ExchangeListingsPage extends Component {
           leftSection={
             <Fragment>
               <ListingsHeader
-                {...props}
-                showFilterPanel={this.state.showFilterPanel}
                 toggleFilterPanel={this.toggleFilterPanel}
+                showFilterPanel={this.state.showFilterPanel}
                 applyFilters={() => this.applyFilters()}
+                quoteSymbols={this.props.quoteSymbols}
+                exchanges={this.props.exchanges}
                 changeSymbol={this.changeSymbol}
                 changeExchange={this.changeExchange}
                 filterDates={this.filterDates}
@@ -203,14 +214,13 @@ class ExchangeListingsPage extends Component {
                 resetFilters={this.resetFilters}
               />
               <ListingsList
-                {...props}
                 listings={listings}
                 hasMore={hasMore}
                 fetchOlderExchangeListings={this.fetchOlderExchangeListings}
               />
             </Fragment>
           }
-          rightSection={<BodySection {...props} />}
+          rightSection={<BodySection />}
           drawerSection={null}
         />
       )
@@ -221,10 +231,11 @@ class ExchangeListingsPage extends Component {
           centerSection={
             <Fragment>
               <ListingsHeader
-                {...props}
-                showFilterPanel={this.state.showFilterPanel}
                 toggleFilterPanel={this.toggleFilterPanel}
+                showFilterPanel={this.state.showFilterPanel}
                 applyFilters={() => this.applyFilters()}
+                quoteSymbols={this.props.quoteSymbols}
+                exchanges={this.props.exchanges}
                 changeSymbol={this.changeSymbol}
                 changeExchange={this.changeExchange}
                 filterDates={this.filterDates}
@@ -235,15 +246,13 @@ class ExchangeListingsPage extends Component {
                 resetFilters={this.resetFilters}
               />
               <ListingsList
-                {...props}
                 listings={listings}
                 hasMore={hasMore}
                 fetchOlderExchangeListings={this.fetchOlderExchangeListings}
               />
             </Fragment>
           }
-          rightSection={<BodySection {...props} />}
-          {...props}
+          rightSection={<BodySection />}
         />
       )
     }
