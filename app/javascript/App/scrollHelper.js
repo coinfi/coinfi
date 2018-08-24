@@ -9,10 +9,14 @@ export default () => {
     const coinDrawerElem = document.querySelector('.coin-watch-list')
     const topNavHeight = document.querySelector('.topnav').offsetHeight
     const filterTagWrap = document.querySelector('.filter-tag-wrap')
+    const flashContainer = document.querySelector('.flash-container')
     const windowHeight = window.innerHeight
     const panelHeaderHeight = panelHeader.offsetHeight
+    const flashCointainerHeight =
+      flashContainer !== null ? flashContainer.offsetHeight : 0
 
-    const calculatedHeight = windowHeight - topNavHeight - panelHeaderHeight
+    const calculatedHeight =
+      windowHeight - topNavHeight - panelHeaderHeight - flashCointainerHeight
     if (!!newsfeedElem) {
       newsfeedElem.style.maxHeight = `${calculatedHeight}px`
       if (filterTagWrap !== null) {
