@@ -36,13 +36,15 @@ class NewsList extends Component {
       // let maxHeight = 0
       // maxHeight = window.outerHeight - topNav.offsetHeight
       // if (!!filterTagWrapper)
-      //   maxHeight =
-      //     window.outerHeight -
-      //     filterTagWrapper.offsetHeight -
-      //     topNav.offsetHeight -
-      //     100 // padding
+      // maxHeight =
+      //   window.outerHeight -
+      //   filterTagWrapper.offsetHeight -
+      //   topNav.offsetHeight -
+      //   200 // padding
+
       let maxHeight = 400
-      newsContent.style.maxHeight = `${maxHeight}px`
+
+      if (window.isDesktop) newsContent.style.maxHeight = `${maxHeight}px`
     }, 500)
   }
 
