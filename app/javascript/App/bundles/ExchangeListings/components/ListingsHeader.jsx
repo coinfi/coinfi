@@ -14,6 +14,7 @@ export default (props) => {
         <FilterPanel
           toggleFilterPanel={props.toggleFilterPanel}
           applyFilters={props.applyFilters}
+          resetFilters={props.resetFilters}
         >
           <ListingFilterFields
             quoteSymbols={props.quoteSymbols}

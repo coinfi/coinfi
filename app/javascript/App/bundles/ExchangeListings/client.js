@@ -132,6 +132,15 @@ class ExchangeListingsPage extends Component {
     this.fetchListingsBySymbol()
   }
 
+  resetFilters = () => {
+    this.setState({
+      detectedSince: null,
+      detectedUntil: null,
+      selectedSymbols: [],
+      selectedExchanges: [],
+    })
+  }
+
   render() {
     const props = this.props
     const { listings, hasMore } = this.state
@@ -158,6 +167,7 @@ class ExchangeListingsPage extends Component {
                 selectedSymbols={this.state.selectedSymbols}
                 selectedExchanges={this.state.selectedExchanges}
                 exchangeSlugs={this.state.exchangeSlugs}
+                resetFilters={this.resetFilters}
               />
               <ListingsList
                 {...props}
@@ -190,6 +200,7 @@ class ExchangeListingsPage extends Component {
                 selectedSymbols={this.state.selectedSymbols}
                 selectedExchanges={this.state.selectedExchanges}
                 exchangeSlugs={this.state.exchangeSlugs}
+                resetFilters={this.resetFilters}
               />
               <ListingsList
                 {...props}
@@ -221,6 +232,7 @@ class ExchangeListingsPage extends Component {
                 selectedSymbols={this.state.selectedSymbols}
                 selectedExchanges={this.state.selectedExchanges}
                 exchangeSlugs={this.state.exchangeSlugs}
+                resetFilters={this.resetFilters}
               />
               <ListingsList
                 {...props}

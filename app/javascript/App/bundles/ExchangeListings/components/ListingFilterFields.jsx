@@ -24,7 +24,7 @@ return (
         name="quote_symbols"
         options={props.quoteSymbols}
         onChange={props.changeSymbol}
-        defaultValue={selectedSymbolData}
+        value={selectedSymbolData}
       />
     </div>
 
@@ -43,7 +43,7 @@ return (
         name="exchanges"
         options={props.exchanges}
         onChange={props.changeExchange}
-        defaultValue={selectedExchangeSlugs}
+        value={selectedExchangeSlugs}
       />
     </div>
   </div>
