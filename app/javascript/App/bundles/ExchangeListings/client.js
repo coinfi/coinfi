@@ -20,6 +20,7 @@ class ExchangeListingsPage extends Component {
       hasMore: true,
       showFilterPanel: false,
       selectedSymbols: [],
+      selectedExchanges: [],
       exchangeSlugs: [],
       detectedSince: null,
       detectedUntil: null,
@@ -27,18 +28,15 @@ class ExchangeListingsPage extends Component {
   }
 
   componentDidMount() {
-    window.addEventListener('resize', debounce(() => this.forceUpdate(), 500))
-  }
-
-  componentDidUpdate() {
-    // TODO: Get this working!
-    const timer = setInterval(() => {
+    this.interval = setInterval(() => {
       this.fetchNewerExchangeListings()
-    }, 6000)
-    clearInterval(timer)
+    }, 60000)
   }
 
-  // TODO: implement these methods
+  componentWillUnmount() {
+    clearInterval(this.interval)
+  }
+
   fetchNewerExchangeListings = () => {
     console.log('Fetching newer exchange listings...')
     localAPI
@@ -134,6 +132,15 @@ class ExchangeListingsPage extends Component {
     this.fetchListingsBySymbol()
   }
 
+  resetFilters = () => {
+    this.setState({
+      detectedSince: null,
+      detectedUntil: null,
+      selectedSymbols: [],
+      selectedExchanges: [],
+    })
+  }
+
   render() {
     const props = this.props
     const { listings, hasMore } = this.state
@@ -157,6 +164,10 @@ class ExchangeListingsPage extends Component {
                 changeExchange={this.changeExchange}
                 filterDates={this.filterDates}
                 selectedItems={selectedItems}
+                selectedSymbols={this.state.selectedSymbols}
+                selectedExchanges={this.state.selectedExchanges}
+                exchangeSlugs={this.state.exchangeSlugs}
+                resetFilters={this.resetFilters}
               />
               <ListingsList
                 {...props}
@@ -186,6 +197,10 @@ class ExchangeListingsPage extends Component {
                 changeExchange={this.changeExchange}
                 filterDates={this.filterDates}
                 selectedItems={selectedItems}
+                selectedSymbols={this.state.selectedSymbols}
+                selectedExchanges={this.state.selectedExchanges}
+                exchangeSlugs={this.state.exchangeSlugs}
+                resetFilters={this.resetFilters}
               />
               <ListingsList
                 {...props}
@@ -214,6 +229,10 @@ class ExchangeListingsPage extends Component {
                 changeExchange={this.changeExchange}
                 filterDates={this.filterDates}
                 selectedItems={selectedItems}
+                selectedSymbols={this.state.selectedSymbols}
+                selectedExchanges={this.state.selectedExchanges}
+                exchangeSlugs={this.state.exchangeSlugs}
+                resetFilters={this.resetFilters}
               />
               <ListingsList
                 {...props}

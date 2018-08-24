@@ -17,7 +17,7 @@ export default (props) => {
         <div className="pa3 bb b--geyser flex justify-between items-center filter-panel-header">
           <div className="flex items-center">
             <h3 className="mb0 mr1 b">Filters</h3>
-            <FilterResetLink applyFilters={resetFilters} />
+            <FilterResetLink resetFilters={props.resetFilters} />
           </div>
           <div>
             <FilterCancelButton toggleFilterPanel={props.toggleFilterPanel} />
