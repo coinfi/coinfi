@@ -11,7 +11,8 @@ export default () => {
     const topNavHeight = document.querySelector('.topnav').offsetHeight
     const panelHeaderHeight = panelHeader.offsetHeight
 
-    const calculatedHeight = windowHeight - topNavHeight - panelHeaderHeight
+    const calculatedHeight =
+      windowHeight - topNavHeight - panelHeaderHeight - 60 // this is needed to account for padding
 
     if (!!newsfeedElem) {
       newsfeedElem.style.maxHeight = `${calculatedHeight}px`
@@ -23,7 +24,7 @@ export default () => {
     }
 
     if (!!coinDrawerElem) {
-      coinDrawerElem.style.maxHeight = `${calculatedHeight}px`
+      coinDrawerElem.style.maxHeight = `${calculatedHeight + 60}px`
     }
   }
 }
