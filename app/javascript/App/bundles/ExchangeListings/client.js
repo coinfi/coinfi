@@ -7,6 +7,7 @@ import ListingsHeader from './components/ListingsHeader'
 import ListingsList from './components/ListingsList'
 import BodySection from './components/BodySection'
 import localAPI from '~/lib/localAPI'
+import { Provider } from '~/bundles/common/context'
 
 class ExchangeListingsPage extends Component {
   constructor(props) {
@@ -124,61 +125,6 @@ class ExchangeListingsPage extends Component {
     })
   }
 
-  toggleFilterPanel = () =>
-    this.setState({
-      selectedSymbols: selectedSymbols,
-    })
-  }
-
-  changeExchange = (data) => {
-    const selectedExchanges = data.map((item) => item.value)
-    this.setState({
-      selectedExchanges: selectedExchanges,
-    })
-  }
-
-  fetchListingsBySymbol = () => {
-    const quoteSymbolArg = this.state.selectedSymbols
-    const exchangeSlugArgs = this.state.selectedExchanges
-    const detectedSinceStr =
-      this.state.detectedSince !== null
-        ? '&detectedSince=' + this.state.detectedSince
-        : ''
-    const detectedUntilStr =
-      this.state.detectedUntil !== null
-        ? '&detectedUntil=' + this.state.detectedUntil
-        : ''
-    const urlParams =
-      `/exchange_listings?` +
-      `quoteSymbols=${quoteSymbolArg}&` +
-      `exchangeSlugs=${exchangeSlugArgs || ''}&` +
-      detectedSinceStr +
-      detectedUntilStr
-
-    localAPI.get(urlParams).then((response) => {
-      this.setState({
-        listings: response.payload,
-      })
-      if (!response.payload.length) {
-        this.setState({
-          hasMore: false,
-        })
-      }
-      this.toggleFilterPanel()
-    })
-
-  applyFilters = () => {
-    this.fetchListingsBySymbol()
-  }
-
-  componentDidMount() {
-    window.addEventListener('resize', this.updateOnResize)
-  }
-
-  componentWillUnmount() {
-    window.removeEventListener('resize', this.updateOnResize)
-  }
-
   updateOnResize = () => debounce(() => this.forceUpdate(), 500)
 
   toggleFilterPanel = () => {
@@ -208,27 +154,36 @@ class ExchangeListingsPage extends Component {
       detectedUntil: this.state.detectedUntil,
     }
 
+    const context = {
+      toggleFilterPanel: this.toggleFilterPanel,
+      showFilterPanel: this.state.showFilterPanel,
+      applyFilters: () => this.applyFilters(),
+      quoteSymbols: this.props.quoteSymbols,
+      exchanges: this.props.exchanges,
+      changeSymbol: this.changeSymbol,
+      changeExchange: this.changeExchange,
+      filterDates: this.filterDates,
+      selectedItems: selectedItems,
+      selectedSymbols: this.state.selectedSymbols,
+      selectedExchanges: this.state.selectedExchanges,
+      exchangeSlugs: this.state.exchangeSlugs,
+      resetFilters: this.resetFilters,
+    }
+
     if (window.isMobile) {
       return (
         <LayoutMobile
           mainSection={
             <Fragment>
-              <ListingsHeader
-                toggleFilterPanel={this.toggleFilterPanel}
-                showFilterPanel={this.state.showFilterPanel}
-                quoteSymbols={this.props.quoteSymbols}
-                exchanges={this.props.exchanges}
-                toggleFilterPanel={this.toggleFilterPanel}
-                applyFilters={() => this.applyFilters()}
-                changeSymbol={this.changeSymbol}
-                changeExchange={this.changeExchange}
-                filterDates={this.filterDates}
-                selectedItems={selectedItems}
-                selectedSymbols={this.state.selectedSymbols}
-                selectedExchanges={this.state.selectedExchanges}
-                exchangeSlugs={this.state.exchangeSlugs}
-                resetFilters={this.resetFilters}
-              />
+              <Provider value={context}>
+                <ListingsHeader
+                  toggleFilterPanel={this.toggleFilterPanel}
+                  showFilterPanel={this.state.showFilterPanel}
+                  applyFilters={() => this.applyFilters()}
+                  exchangeSlugs={this.state.exchangeSlugs}
+                  resetFilters={this.resetFilters}
+                />
+              </Provider>
               <ListingsList
                 listings={listings}
                 hasMore={hasMore}
@@ -247,22 +202,15 @@ class ExchangeListingsPage extends Component {
           {...props}
           leftSection={
             <Fragment>
-              <ListingsHeader
-                toggleFilterPanel={this.toggleFilterPanel}
-                showFilterPanel={this.state.showFilterPanel}
-                quoteSymbols={this.props.quoteSymbols}
-                exchanges={this.props.exchanges}
-                toggleFilterPanel={this.toggleFilterPanel}
-                applyFilters={() => this.applyFilters()}
-                changeSymbol={this.changeSymbol}
-                changeExchange={this.changeExchange}
-                filterDates={this.filterDates}
-                selectedItems={selectedItems}
-                selectedSymbols={this.state.selectedSymbols}
-                selectedExchanges={this.state.selectedExchanges}
-                exchangeSlugs={this.state.exchangeSlugs}
-                resetFilters={this.resetFilters}
-              />
+              <Provider value={context}>
+                <ListingsHeader
+                  toggleFilterPanel={this.toggleFilterPanel}
+                  showFilterPanel={this.state.showFilterPanel}
+                  applyFilters={() => this.applyFilters()}
+                  exchangeSlugs={this.state.exchangeSlugs}
+                  resetFilters={this.resetFilters}
+                />
+              </Provider>
               <ListingsList
                 listings={listings}
                 hasMore={hasMore}
@@ -280,20 +228,16 @@ class ExchangeListingsPage extends Component {
           leftSection={null}
           centerSection={
             <Fragment>
-              <ListingsHeader
-                toggleFilterPanel={this.toggleFilterPanel}
-                showFilterPanel={this.state.showFilterPanel}
-                quoteSymbols={this.props.quoteSymbols}
-                exchanges={this.props.exchanges}
-                changeSymbol={this.changeSymbol}
-                changeExchange={this.changeExchange}
-                filterDates={this.filterDates}
-                selectedItems={selectedItems}
-                selectedSymbols={this.state.selectedSymbols}
-                selectedExchanges={this.state.selectedExchanges}
-                exchangeSlugs={this.state.exchangeSlugs}
-                resetFilters={this.resetFilters}
-              />
+              <Provider value={context}>
+                <ListingsHeader
+                  toggleFilterPanel={this.toggleFilterPanel}
+                  showFilterPanel={this.state.showFilterPanel}
+                  applyFilters={() => this.applyFilters()}
+                  exchangeSlugs={this.state.exchangeSlugs}
+                  resetFilters={this.resetFilters}
+                />
+              </Provider>
+              .{' '}
               <ListingsList
                 listings={listings}
                 hasMore={hasMore}

@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react'
-import FilterPanel from '../../common/components/FilterPanel'
-import FilterBar from '../../common/components/FilterPanel/FilterBar'
-import CoinTipsTab from '../../common/components/CoinTipsTab'
+import FilterPanel from '~/bundles/common/components/FilterPanel'
+import FilterBar from '~/bundles/common/components/FilterPanel/FilterBar'
+import CoinTipsTab from '~/bundles/common/components/CoinTipsTab'
 import ListingFilterFields from './ListingFilterFields'
 
 export default (props) => {
@@ -16,17 +16,7 @@ export default (props) => {
           applyFilters={props.applyFilters}
           resetFilters={props.resetFilters}
         >
-          <ListingFilterFields
-            quoteSymbols={props.quoteSymbols}
-            exchanges={props.exchanges}
-            changeSymbol={props.changeSymbol}
-            changeExchange={props.changeExchange}
-            filterDates={props.filterDates}
-            selectedItems={props.selectedItems}
-            selectedSymbols={props.selectedSymbols}
-            selectedExchanges={props.selectedExchanges}
-            exchangeSlugs={props.exchangeSlugs}
-          />
+          <ListingFilterFields />
         </FilterPanel>
       )}
 
