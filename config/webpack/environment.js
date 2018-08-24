@@ -9,6 +9,7 @@ const typescript = require('./loaders/typescript')
 const merge = require('webpack-merge')
 const webpack = require('webpack')
 const dotenv = require('dotenv')
+const path = require('path')
 
 /*
  * Provide dotenv

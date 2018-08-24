@@ -3,6 +3,12 @@ class ExchangeListingsController < ApplicationController
 
   def index
     @body_id = 'pane-layout'
+
+    # These fields are used to populate the filters;
+    # needs to be of the format { value, label }
+    @quote_symbols = Coin.symbols.map { |symbol| { "value" => symbol, "label" => symbol }}
+    @exchanges = Exchange.order(:name).select("name as label", "slug as value").as_json(except: :id)
+
     @listings = ExchangeListing.includes(:exchange).order_by_detected.limit(25).as_json(
       only: %i[id symbol quote_symbol exchange_id exchange_name detected_at],
       methods: %i[exchange_id exchange_name]

@@ -8,14 +8,14 @@ export default class DateRange extends Component {
 
   addFrom = (item) => {
     let items = this.selectedItems()
-    items.publishedSince = item.format('YYYY-MM-DD')
-    this.props.onChange(items)
+    if (item !== null) items.detectedSince = item.format('YYYY-MM-DD')
+    this.props && this.props.onChange(items)
   }
 
   addTo = (item) => {
     let items = this.selectedItems()
-    items.publishedUntil = item.format('YYYY-MM-DD')
-    this.props.onChange(items)
+    if (item !== null) items.detectedUntil = item.format('YYYY-MM-DD')
+    this.props && this.props.onChange(items)
   }
 
   remove = (item) => {
@@ -32,17 +32,17 @@ export default class DateRange extends Component {
   }
 
   render() {
-    const publishedSince = () =>
+    const detectedSince = () =>
       this.props &&
       this.props.selectedItems &&
-      this.props.selectedItems.publishedSince &&
-      moment(this.props.selectedItems.publishedSince)
+      this.props.selectedItems.detectedSince &&
+      moment(this.props.selectedItems.detectedSince)
 
-    const publishedUntil = () =>
+    const detectedUntil = () =>
       this.props &&
       this.props.selectedItems &&
-      this.props.selectedItems.publishedUntil &&
-      moment(this.props.selectedItems.publishedUntil)
+      this.props.selectedItems.detectedUntil &&
+      moment(this.props.selectedItems.detectedUntil)
 
     return (
       <div className="item-selector-alt nh1 nt1">
@@ -52,11 +52,11 @@ export default class DateRange extends Component {
             style={!window.isMobile ? { maxWidth: '50%' } : {}}
           >
             <DatePicker
-              selected={publishedSince()}
+              selected={detectedSince()}
               placeholderText="Start Date"
               selectsStart
-              startDate={publishedSince()}
-              endDate={publishedUntil()}
+              startDate={detectedSince()}
+              endDate={detectedUntil()}
               onChange={this.addFrom}
               className="from"
             />
@@ -66,11 +66,11 @@ export default class DateRange extends Component {
             style={!window.isMobile ? { maxWidth: '50%' } : {}}
           >
             <DatePicker
-              selected={publishedUntil()}
+              selected={detectedUntil()}
               placeholderText="End Date"
               selectsEnd
-              startDate={publishedSince()}
-              endDate={publishedUntil()}
+              startDate={detectedSince()}
+              endDate={detectedUntil()}
               onChange={this.addTo}
               className="to"
             />

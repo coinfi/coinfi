@@ -1,5 +1,4 @@
 import React from 'react'
-import Icon from '../Icon'
 
 const Layout = (props) => {
   const {

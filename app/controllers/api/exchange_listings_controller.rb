@@ -7,6 +7,16 @@ class Api::ExchangeListingsController < ApiController
 
     @listings = ExchangeListing.includes(:exchange).all
 
+    if params[:quoteSymbols].present?
+      quote_symbols = params[:quoteSymbols].split(',')
+      @listings = @listings.where(quote_symbol: quote_symbols)
+    end
+
+    if params[:exchangeSlugs].present?
+      exchange_slugs = params[:exchangeSlugs].split(',')
+      @listings = @listings.where(exchanges: { slug: exchange_slugs })
+    end
+
     if params[:detectedSince].present?
       @listings = @listings.where('detected_at > ?', params[:detectedSince].to_datetime)
     end

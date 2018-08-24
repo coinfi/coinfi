@@ -18,10 +18,18 @@
     "syntax-dynamic-import",
     "transform-object-rest-spread",
     [
+      "babel-plugin-root-import",
+      {
+        "rootPathSuffix": "./app/javascript/App/",
+        "rootPathPrefix": "~"
+      }
+    ],
+    [
       "transform-class-properties",
       {
         "spec": true
       }
     ]
   ]
+  
 }
