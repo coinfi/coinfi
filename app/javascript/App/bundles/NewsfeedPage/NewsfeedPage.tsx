@@ -15,19 +15,10 @@ import NewsList from './NewsList'
 import NewsListHeader from './NewsListHeader'
 import BodySection from './BodySection'
 import BodySectionDrawer from '../../components/BodySectionDrawer'
-import CoinListContext from '../../contexts/CoinListContext'
 import _ from 'lodash'
-import localAPI from '../../lib/localAPI'
-
 
 import { NewsItem, ContentType } from './types';
 import { CoinList, Coin } from '../common/types';
-
-const STATUSES = {
-  LOADING: 'LOADING',
-  INFINITE_SCROLL_LOADING: 'INFINITE_SCROLL_LOADING',
-  READY: 'READY',
-}
 
 const POLLING_TIMEOUT = 6000;
 
