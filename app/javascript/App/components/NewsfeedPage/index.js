@@ -64,8 +64,8 @@ class NewsfeedPage extends Component {
   }
 
   newsfeedTips() {
-    this.setState((state) => ({
-      initialRenderTips: !this.state.initialRenderTips,
+    this.setState((prevState) => ({
+      initialRenderTips: !prevState.initialRenderTips,
     }))
   }
 
