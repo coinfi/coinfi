@@ -1,7 +1,7 @@
 import React from 'react'
 import CoinCharts from './CoinCharts'
 import Currency from './Currency'
-import PercentageChange from './PercentageChange'
+import PercentageChange from '../bundles/common/components/PercentageChange'
 import WatchButton from './CoinList/WatchButton'
 import LoadingIndicator from './LoadingIndicator'
 
