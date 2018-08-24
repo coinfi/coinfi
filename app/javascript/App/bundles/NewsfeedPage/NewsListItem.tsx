@@ -46,7 +46,7 @@ const NewsListItem = (props) => {
     .replace(/<\/h1>/g, '')
 
 
-  let titleStyle = {};
+  let titleStyle: React.CSSProperties  = {};
   if (hasRead) {
     titleStyle.color = '#999';
   }

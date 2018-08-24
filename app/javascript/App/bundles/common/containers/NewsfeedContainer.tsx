@@ -1,10 +1,8 @@
 import * as React from 'react'
 import _ from 'lodash';
 import localAPI from '../../../lib/localAPI'
-import normalizers from '../../../normalizers'
 import NewsfeedContext, { NewsfeedContextType } from '../../../contexts/NewsfeedContext'
-import { NewsItem, ContentType } from '../../NewsfeedPage/types';
-import NewsListItem from '../../NewsfeedPage/NewsListItem';
+import { NewsItem } from '../../NewsfeedPage/types';
 
 const STATUSES = {
   INITIALIZING: 'INITIALIZING',
@@ -38,8 +36,8 @@ class NewsfeedContainer extends React.Component<Props, State> {
     return _.uniqBy(arr, elem => elem.id);
   }
 
-  fetchNewNewsItems = () => {
-    if (this.state.sortedNewsItems.length === 0) return Promise.resolve();
+  fetchNewNewsItems = (): Promise<NewsItem[]> => {
+    if (this.state.sortedNewsItems.length === 0) return Promise.resolve([]);
 
     const firstNewsItem = this.state.sortedNewsItems[0];
 
@@ -49,7 +47,7 @@ class NewsfeedContainer extends React.Component<Props, State> {
       }, () => {
         localAPI.get('/news', { publishedSince: firstNewsItem.feed_item_published_at }).then((response) => {
           const existingNewsIds = this.state.sortedNewsItems.map(elem => elem.id);
-          const newNews = response.payload.filter((newsItem: NewsItem) => !existingNewsIds.includes(newsItem.id));
+          const newNews = response.payload.filter((newsItem: NewsItem) => existingNewsIds.indexOf(newsItem.id) === -1);
           this.setState({
             status: STATUSES.READY,
             sortedNewsItems: this.uniqNews([...newNews.sort(this.sortNewsFunc), ...this.state.sortedNewsItems]),
@@ -59,7 +57,7 @@ class NewsfeedContainer extends React.Component<Props, State> {
     });
   }
 
-  fetchAllNewsItems = () => {
+  fetchAllNewsItems = (): Promise<NewsItem[]> => {
     return new Promise((resolve, _reject) => {
       this.setState({
         status: STATUSES.LOADING,
@@ -76,7 +74,7 @@ class NewsfeedContainer extends React.Component<Props, State> {
     })
   }
 
-  fetchNewsItemsForCoin = (coinSlug) => {
+  fetchNewsItemsForCoin = (coinSlug): Promise<NewsItem[]> => {
     return new Promise((resolve, _reject) => {
       this.setState({
         status: STATUSES.LOADING,
@@ -92,7 +90,7 @@ class NewsfeedContainer extends React.Component<Props, State> {
     })
   }
 
-  fetchMoreNewsItems = () => {
+  fetchMoreNewsItems = (): Promise<NewsItem[]> => {
     return new Promise((resolve, _reject) => {
       const lastNews = this.state.sortedNewsItems[this.state.sortedNewsItems.length - 1];
       this.setState({

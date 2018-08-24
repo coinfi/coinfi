@@ -41,16 +41,17 @@ interface Props extends RouteComponentProps<any> {
   isNewsfeedReady: boolean,
   isCoinlistLoading: boolean,
   isCoinlistReady: boolean,
-  fetchNewsItemsForCoin: (coinSlug: string) => Promise<any>,
-  fetchAllNewsItems: () => Promise<any>, 
-  fetchMoreNewsItems: () => Promise<any>,
-  fetchNewNewsItems: () => Promise<any>,
+  fetchNewsItemsForCoin: (coinSlug: string) => Promise<NewsItem[]>,
+  fetchAllNewsItems: () => Promise<NewsItem[]>, 
+  fetchMoreNewsItems: () => Promise<NewsItem[]>,
+  fetchNewNewsItems: () => Promise<NewsItem[]>,
 };
 
 interface State {
   initialRenderTips: boolean,
   newsfeedTips: boolean,
   unseenNews: number[],
+  isWindowFocused: boolean,
 };
 
 class NewsfeedPage extends React.Component<Props, State> {
@@ -81,7 +82,9 @@ class NewsfeedPage extends React.Component<Props, State> {
   }
 
   onNewsItemShown = (id) => {
-    this.setState(state => ({ unseenNews: state.unseenNews.filter(_id => _id !== id) }), this.updateTitle);
+    setTimeout(() => {
+      this.setState(state => ({ unseenNews: state.unseenNews.filter(_id => _id !== id) }), this.updateTitle);
+    }, 500)
   }
 
   fetchNewNewsItems = () => {
@@ -129,15 +132,17 @@ class NewsfeedPage extends React.Component<Props, State> {
       this.setState({ isWindowFocused: false })
     }
 
-    this.startPollingNews();
-
     if (this.getContentType() === "coin") {
-        this.props.fetchNewsItemsForCoin(this.props.coinSlug);
+        this.props.fetchNewsItemsForCoin(this.props.coinSlug).then(() => {
+          this.startPollingNews();
+        });
     } else {
       if (this.props.newslist.length > 0) {
         return;
       }
-      this.props.fetchAllNewsItems();
+      this.props.fetchAllNewsItems().then(() => {
+        this.startPollingNews();
+      });
     }
   }
   
