@@ -80,21 +80,25 @@ class NewsfeedPage extends React.Component<Props, State> {
     }
   }
 
+  // onNewsItemShown = (id) => {
+  //   // Question: is there way to accumulate/debounce function calls to do one function call with merged arguments?
+  //   // this timout way looks dirty
+  //   if(this.timoutVar !== null) clearTimeout(this.timoutVar);
+  //   if(this.tmpVar === null) this.tmpVar = [];
+
+  //   this.tmpVar.push(id);
+
+  //   this.timoutVar = setTimeout(() => {
+  //     this.setState({
+  //       unseenNews: this.state.unseenNews.filter(_id => !this.tmpVar.includes(_id))
+  //     }, () => this.updateTitle())
+  //     this.timoutVar = null;
+  //     this.tmpVar = null;
+  //   }, 250);
+  // }
+
   onNewsItemShown = (id) => {
-    // Question: is there way to accumulate/debounce function calls to do one function call with merged arguments?
-    // this timout way looks dirty
-    if(this.timoutVar !== null) clearTimeout(this.timoutVar);
-    if(this.tmpVar === null) this.tmpVar = [];
-
-    this.tmpVar.push(id);
-
-    this.timoutVar = setTimeout(() => {
-      this.setState({
-        unseenNews: this.state.unseenNews.filter(_id => !this.tmpVar.includes(_id))
-      }, () => this.updateTitle())
-      this.timoutVar = null;
-      this.tmpVar = null;
-    }, 250);
+    this.setState(state => ({ unseenNews: state.unseenNews.filter(_id => _id !== id) }), this.updateTitle);
   }
 
   fetchNewNewsItems = () => {
