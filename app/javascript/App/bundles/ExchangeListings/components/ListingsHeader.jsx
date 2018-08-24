@@ -29,11 +29,7 @@ export default (props) => {
         </FilterPanel>
       )}
 
-      <div
-        id="listings-column-headers"
-        className="b--b f6 bg-athens"
-        style={{ height: 60 }}
-      >
+      <div id="listings-column-headers" className="b--b f6 bg-athens">
         <div className="fl w-third pa2 pl3">Pair</div>
         <div className="fl w-third pa2">Exchange</div>
         <div className="fl w-third pa2">Date Detected</div>
