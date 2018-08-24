@@ -4,45 +4,37 @@ import FilterBar from '../../common/components/FilterPanel/FilterBar'
 import CoinTipsTab from '../../common/components/CoinTipsTab'
 import ListingFilterFields from './ListingFilterFields'
 
-export default ({
-  toggleFilterPanel,
-  showFilterPanel,
-  applyFilters,
-  quoteSymbols,
-  exchanges,
-  changeSymbol,
-  changeExchange,
-  filterDates,
-  selectedItems,
-}) => (
-  <Fragment>
-    <CoinTipsTab />
-    <FilterBar toggleFilterPanel={toggleFilterPanel} />
+export default (props) => {
+  return (
+    <Fragment>
+      <CoinTipsTab />
+      <FilterBar toggleFilterPanel={props.toggleFilterPanel} />
 
-    {showFilterPanel && (
-      <FilterPanel
-        toggleFilterPanel={toggleFilterPanel}
-        applyFilters={applyFilters}
-      >
-        <ListingFilterFields
-          quoteSymbols={quoteSymbols}
-          exchanges={exchanges}
-          changeSymbol={changeSymbol}
-          changeExchange={changeExchange}
-          filterDates={filterDates}
-          selectedItems={selectedItems}
-        />
-      </FilterPanel>
-    )}
+      {props.showFilterPanel && (
+        <FilterPanel
+          toggleFilterPanel={props.toggleFilterPanel}
+          applyFilters={props.applyFilters}
+          resetFilters={props.resetFilters}
+        >
+          <ListingFilterFields
+            quoteSymbols={props.quoteSymbols}
+            exchanges={props.exchanges}
+            changeSymbol={props.changeSymbol}
+            changeExchange={props.changeExchange}
+            filterDates={props.filterDates}
+            selectedItems={props.selectedItems}
+            selectedSymbols={props.selectedSymbols}
+            selectedExchanges={props.selectedExchanges}
+            exchangeSlugs={props.exchangeSlugs}
+          />
+        </FilterPanel>
+      )}
 
-    <div
-      id="listings-column-headers"
-      className="b--b f6 bg-athens"
-      style={{ height: 60 }}
-    >
-      <div className="fl w-third pa2 pl3">Pair</div>
-      <div className="fl w-third pa2">Exchange</div>
-      <div className="fl w-third pa2">Date Detected</div>
-    </div>
-  </Fragment>
-)
+      <div id="listings-column-headers" className="b--b f6 bg-athens">
+        <div className="fl w-third pa2 pl3">Pair</div>
+        <div className="fl w-third pa2">Exchange</div>
+        <div className="fl w-third pa2">Date Detected</div>
+      </div>
+    </Fragment>
+  )
+}
