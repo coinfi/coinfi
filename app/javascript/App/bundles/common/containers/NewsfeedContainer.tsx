@@ -62,8 +62,7 @@ class NewsfeedContainer extends React.Component<Props, State> {
       this.setState({
         status: STATUSES.LOADING,
       },() => {
-        localAPI.get('/news', { publishedUntil: '2018-08-10T06:42:54.000Z' }).then((response) => {
-          // There is duplicated news coming from the backend. So, I use uniq function to filter them
+        localAPI.get('/news').then((response) => {
           const sortedNewsItems = this.uniqNews(response.payload.sort(this.sortNewsFunc));
           this.setState({
             status: STATUSES.READY,
