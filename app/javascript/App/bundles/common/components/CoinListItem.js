@@ -20,7 +20,7 @@ export default (props) => {
   const percentChange = coin.market_info.percent_change_24h
   return (
     // TODO: Change to "Control" component for accessibility.
-    <Link className={klass} to={`/news/${coin.slug}`} style={{ minHeight: 57 }}>
+    <Link className={klass} to={`/news/${coin.slug}`} style={{ minHeight: 57, color: '#555' }}>
       <div className="tooltipped">
         {!user && <div className="tooltip from-right">Login to watch</div>}
         <WatchButton {...props} />

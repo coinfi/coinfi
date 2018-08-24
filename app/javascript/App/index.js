@@ -8,6 +8,7 @@ import 'babel-polyfill'
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { Provider } from 'react-redux'
+// import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
 import configureStore from './configureStore'
 import getScreenSize from './lib/screenSize'
 import { PersistGate } from 'redux-persist/integration/react'
@@ -22,12 +23,15 @@ import RedditFeed from './components/RedditFeed'
 import IcoFilters from './components/IcoFilters'
 import ExchangeListingsPage from './bundles/ExchangeListings/client'
 import NewsfeedPage from './components/NewsfeedPage'
+// import NewsfeedPageNew from './bundles/NewsfeedPage/NewsfeedPageContainer'
 import Tabs from './components/Tabs'
 import CoinCharts from './components/CoinCharts'
 import CalendarPage from './components/CalendarPage'
 import CoinIndex from './components/CoinIndex'
 import CoinShow from './components/CoinShow'
 import scrollHelper from './scrollHelper'
+// import CoinListContainer from './bundles/common/containers/CoinListContainer'
+// import NewsfeedContainer from './bundles/common/containers/NewsfeedContainer'
 
 const injectableComponents = {
   WatchButton,
@@ -55,15 +59,51 @@ const injectComponents = () => {
       const props = JSON.parse(hook.getAttribute('props'))
       const withStore = hook.getAttribute('withStore') !== null
       if (withStore) {
-        const AppComponent = appContainer(Component)
-        ReactDOM.render(
-          <Provider store={store}>
-            <PersistGate loading={null} persistor={persistor}>
-              <AppComponent {...props} />
-            </PersistGate>
-          </Provider>,
-          hook,
-        )
+        // This is the custom flag for `feature/toplist-watchlist` branch
+        if (false) {
+          // ReactDOM.render(
+          //   <NewsfeedContainer>
+          //     <CoinListContainer user={props.user}>
+          //       <Provider store={store}>
+          //         <Router>
+          //           <div>
+          //             <Route
+          //               exact
+          //               path="/news/:coinSlug?"
+          //               render={(routeProps) => (
+          //                 <NewsfeedPageNew
+          //                   coinSlug={routeProps.match.params.coinSlug}
+          //                 />
+          //               )}
+          //             />
+          //             <Route
+          //               exact
+          //               path="/news/:newsItemId/:newsItemSlug"
+          //               render={(routeProps) => (
+          //                 <NewsfeedPageNew
+          //                   newsItemId={routeProps.match.params.newsItemId}
+          //                 />
+          //               )}
+          //             />
+          //             <Route path="/events" component={CalendarPage} />
+          //           </div>
+          //         </Router>
+          //       </Provider>
+          //     </CoinListContainer>
+          //   </NewsfeedContainer>,
+          //   hook,
+          // )
+        } else {
+          const AppComponent = appContainer(Component)
+          ReactDOM.render(
+            <Provider store={store}>
+              <PersistGate loading={null} persistor={persistor}>
+                <AppComponent {...props} />
+              </PersistGate>
+            </Provider>,
+            hook,
+          )
+        }
       } else {
         ReactDOM.render(<Component {...props} />, hook)
       }

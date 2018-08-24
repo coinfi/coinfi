@@ -27,7 +27,7 @@ Rails.application.routes.draw do
     patch '/user', to: 'user#update'
     resources :exchange_listings, only: %i[index show]
     resources :news_items, only: %i[index]
-    resources :news, only: :index
+    resources :news, only: %i[index show]
     resources :news_items, only: :index
     namespace :newsfeed do
       resources :coins, only: %i[index]
@@ -35,6 +35,7 @@ Rails.application.routes.draw do
     resources :calendar_events, only: %i[index]
     get '/coins/search', to: 'coinsnew#search'
     get '/coins/:id/news', to: 'coins#news'
+    get '/coins/by-slug/:slug', to: 'coins#by_slug'
     resources :coins, only: %i[index show toplist watchlist] do
       get 'toplist', on: :collection
       get 'watchlist', on: :collection

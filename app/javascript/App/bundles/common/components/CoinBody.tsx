@@ -6,10 +6,10 @@ import WatchButton from './WatchButton'
 import LoadingIndicator from '../../../components/LoadingIndicator'
 import localAPI from '../../../lib/localAPI'
 
-import { Coin, CoinWithDetails, User } from '../types';
+import { CoinWithDetails, User } from '../types';
 
 interface Props {
-  coin?: Coin,
+  coinSlug?: string,
   user?: User,
 };
 
@@ -23,20 +23,20 @@ class CoinBody extends React.Component<Props, State> {
   };
 
   componentDidMount() {
-    if (!!this.props.coin) {
+    if (!!this.props.coinSlug) {
       this.fetchCoinDetails();
     }
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
-    if (!this.props.coin) {
+    if (!this.props.coinSlug) {
       if (!!prevState.coinWithDetails) {
-        // coin prop turns null
+        // coinSlug prop turns null
         this.setState({ coinWithDetails: null });
       }
     } else {
-      if (!prevProps.coin || prevProps.coin.slug !== this.props.coin.slug) {
-        // coin prop changed
+      if (!prevProps.coinSlug || prevProps.coinSlug !== this.props.coinSlug) {
+        // coinSlug prop changed
         this.setState({ coinWithDetails: null }, () => this.fetchCoinDetails());
       }
     }
@@ -44,8 +44,7 @@ class CoinBody extends React.Component<Props, State> {
 
 
   fetchCoinDetails() {
-    localAPI.get(`/coins/${this.props.coin.id}`).then((response) => {
-      console.log(response)
+    localAPI.get(`/coins/by-slug/${this.props.coinSlug}`).then((response) => {
       this.setState({
         coinWithDetails: response.payload,
       })
