@@ -10,11 +10,12 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180822034415) do
+ActiveRecord::Schema.define(version: 20180823212100) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "pg_stat_statements"
+  enable_extension "pgcrypto"
   enable_extension "dblink"
 
   create_table "ahoy_events", force: :cascade do |t|
@@ -262,6 +263,24 @@ ActiveRecord::Schema.define(version: 20180822034415) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "curators", force: :cascade do |t|
+    t.bigint "user_id"
+    t.decimal "trust_score", precision: 13, scale: 10
+    t.integer "tokens_staked"
+    t.index ["user_id"], name: "index_curators_on_user_id"
+  end
+
+  create_table "curators_calendar_events", force: :cascade do |t|
+    t.bigint "curator_id"
+    t.bigint "calendar_event_id"
+    t.decimal "confidence_score", precision: 13, scale: 10
+    t.boolean "voted_confirm"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["calendar_event_id"], name: "index_curators_calendar_events_on_calendar_event_id"
+    t.index ["curator_id"], name: "index_curators_calendar_events_on_curator_id"
+  end
+
   create_table "exchange_listings", force: :cascade do |t|
     t.bigint "exchange_id"
     t.string "ccxt_exchange_id"
@@ -382,7 +401,7 @@ ActiveRecord::Schema.define(version: 20180822034415) do
     t.string "title", null: false
     t.text "summary"
     t.text "content"
-    t.string "actor_id"
+    t.string "actor_id", null: false
     t.datetime "feed_item_published_at", null: false
     t.datetime "feed_item_updated_at", null: false
     t.jsonb "feed_item_json"
@@ -395,7 +414,6 @@ ActiveRecord::Schema.define(version: 20180822034415) do
     t.datetime "last_human_tagged_on"
     t.datetime "last_machine_tagged_on"
     t.bigint "user_id"
-    t.jsonb "coin_ids"
     t.index ["feed_item_published_at"], name: "index_news_items_on_feed_item_published_at"
     t.index ["feed_source_id", "feed_item_id"], name: "index_news_items_on_feed_source_id_and_feed_item_id", unique: true
     t.index ["feed_source_id"], name: "index_news_items_on_feed_source_id"
@@ -510,6 +528,7 @@ ActiveRecord::Schema.define(version: 20180822034415) do
   add_foreign_key "coin_excluded_countries", "countries", on_delete: :cascade
   add_foreign_key "contributor_submissions", "submission_categories"
   add_foreign_key "contributor_submissions", "users", on_delete: :cascade
+  add_foreign_key "curators", "users"
   add_foreign_key "exchange_listings", "coins", column: "base_symbol_id"
   add_foreign_key "exchange_listings", "coins", column: "quote_symbol_id"
   add_foreign_key "exchange_listings", "exchanges"
