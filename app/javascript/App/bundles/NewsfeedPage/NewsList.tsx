@@ -118,6 +118,7 @@ class NewsList extends React.Component<IProps, IState> {
             }
           }}
           active={this.props.isWindowFocused}
+          intervalDelay={1000}
         >
           <NewsListItem
             key={newsItem.id}

@@ -29,6 +29,8 @@ const STATUSES = {
   READY: 'READY',
 }
 
+const POLLING_TIMEOUT = 6000;
+
 interface Props extends RouteComponentProps<any> {
   coinSlug?: string,
   newsItemId?: string,
@@ -53,10 +55,7 @@ interface State {
 
 class NewsfeedPage extends React.Component<Props, State> {
 
-  private newNewsItemsLoadingTimout = null;
   private documentTitle = document.title;
-  private tmpVar = [];
-  private timoutVar = null;
 
   state = {
     initialRenderTips: false,
@@ -65,12 +64,13 @@ class NewsfeedPage extends React.Component<Props, State> {
     isWindowFocused: true,
   }
 
-  // resetFetchNewNewsItems = () => {
-  //   clearTimeout(this.newNewsItemsLoadingTimout);
-  //   this.newNewsItemsLoadingTimout = setTimeout(() => {
-  //     this.props.fetchNewNewsItems().then(() => this.resetFetchNewNewsItems())
-  //   });
-  // }
+  startPollingNews = () => {
+    setTimeout(() => {
+      this.fetchNewNewsItems().then(() => {
+        this.startPollingNews();
+      })
+    }, POLLING_TIMEOUT)
+  }
 
   updateTitle = () => {
     if (this.state.unseenNews.length === 0) {
@@ -80,35 +80,25 @@ class NewsfeedPage extends React.Component<Props, State> {
     }
   }
 
-  // onNewsItemShown = (id) => {
-  //   // Question: is there way to accumulate/debounce function calls to do one function call with merged arguments?
-  //   // this timout way looks dirty
-  //   if(this.timoutVar !== null) clearTimeout(this.timoutVar);
-  //   if(this.tmpVar === null) this.tmpVar = [];
-
-  //   this.tmpVar.push(id);
-
-  //   this.timoutVar = setTimeout(() => {
-  //     this.setState({
-  //       unseenNews: this.state.unseenNews.filter(_id => !this.tmpVar.includes(_id))
-  //     }, () => this.updateTitle())
-  //     this.timoutVar = null;
-  //     this.tmpVar = null;
-  //   }, 250);
-  // }
-
   onNewsItemShown = (id) => {
     this.setState(state => ({ unseenNews: state.unseenNews.filter(_id => _id !== id) }), this.updateTitle);
   }
 
   fetchNewNewsItems = () => {
-    this.props.fetchNewNewsItems().then(news => {
-      if (!this.state.isWindowFocused) {
-        const ids = news.map(elem => elem.id)
-        this.setState({
-          unseenNews: _.uniq(this.state.unseenNews.concat(ids))
-        }, this.updateTitle)
-      }
+    return this.props.fetchNewNewsItems().then(news => {
+      return new Promise((resolve, _reject) => {
+        if (!this.state.isWindowFocused) {
+          const ids = news.map(elem => elem.id)
+          this.setState({
+            unseenNews: _.uniq(this.state.unseenNews.concat(ids))
+            }, () => {
+              this.updateTitle();
+              resolve();
+            })
+          } else {
+            resolve();
+        }
+      })
     })
   }
 
@@ -135,13 +125,11 @@ class NewsfeedPage extends React.Component<Props, State> {
     window.addEventListener('blur', this.handleOnBlur);
     window.addEventListener('focus', this.handleOnFocus);
 
-    window.fetchNewNewsItems = () => { 
-      setTimeout(() => {
-        this.fetchNewNewsItems()
-      }, 2000);
+    if (!document.hasFocus()) {
+      this.setState({ isWindowFocused: false })
     }
 
-    // this.newNewsItemsLoadingTimout = setTimeout(this.resetFetchNewNewsItems, 6000);
+    this.startPollingNews();
 
     if (this.getContentType() === "coin") {
         this.props.fetchNewsItemsForCoin(this.props.coinSlug);
