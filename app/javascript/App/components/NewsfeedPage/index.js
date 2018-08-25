@@ -4,8 +4,10 @@ import axios from 'axios'
 import Immutable from 'immutable'
 import _ from 'lodash'
 import Snackbar from '@material-ui/core/Snackbar'
+import SnackbarContent from '@material-ui/core/SnackbarContent'
 import IconButton from '@material-ui/core/IconButton'
 import green from '@material-ui/core/colors/green'
+import { withStyles } from '@material-ui/core/styles'
 
 import newsfeedContainer from '../../containers/newsfeed'
 import LayoutDesktop from '../LayoutDesktop'
@@ -17,6 +19,12 @@ import NewsList from './NewsList'
 import NewsListHeader from './NewsListHeader'
 import BodySection from './BodySection'
 import BodySectionDrawer from '../BodySectionDrawer'
+
+const styles = {
+  root: {
+    backgroundColor: green[600],
+  },
+}
 
 class NewsfeedPage extends Component {
   state = {
@@ -87,18 +95,19 @@ class NewsfeedPage extends Component {
     console.log('IT SHOULD BE CLOSED NOW')
   }
 
-  renderNotifications() {
-    console.log('we are displaying notification')
+  renderNotifications(classes) {
     return (
       <div>
         <Snackbar
           anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
           open={this.props.loggedIn && this.state.showLoginNotification}
-          autoHideDuration={6000}
+          classes={{ root: classes.root }}
           onClose={this.closeNotification.bind(this)}
           ContentProps={{ 'aria-describedby': 'message-id' }}
           message={<span id="message-id">User is logged in</span>}
-        />
+        >
+          <SnackbarContent>aaaa</SnackbarContent>
+        </Snackbar>
       </div>
     )
   }
@@ -120,6 +129,8 @@ class NewsfeedPage extends Component {
       coins: coinsCollection,
     }
 
+    const { classes } = this.props
+
     if (window.isMobile) {
       return (
         <LayoutMobile
@@ -128,7 +139,7 @@ class NewsfeedPage extends Component {
             <Fragment>
               <NewsListHeader {...enhancedProps} />
               <NewsList {...enhancedProps} />
-              {this.renderNotifications()}
+              {this.renderNotifications(classes)}
             </Fragment>
           }
           modalName="newsfeedModal"
@@ -152,7 +163,7 @@ class NewsfeedPage extends Component {
             <Fragment>
               <NewsListHeader {...enhancedProps} />
               <NewsList {...enhancedProps} />
-              {this.renderNotifications()}
+              {this.renderNotifications(classes)}
             </Fragment>
           }
           rightSection={<BodySection {...enhancedProps} />}
@@ -168,7 +179,7 @@ class NewsfeedPage extends Component {
             <Fragment>
               <NewsListHeader {...enhancedProps} />
               <NewsList {...enhancedProps} />
-              {this.renderNotifications()}
+              {this.renderNotifications(classes)}
             </Fragment>
           }
           rightSection={<BodySection {...enhancedProps} />}
@@ -178,4 +189,4 @@ class NewsfeedPage extends Component {
   }
 }
 
-export default newsfeedContainer(NewsfeedPage)
+export default newsfeedContainer(withStyles(styles)(NewsfeedPage))
