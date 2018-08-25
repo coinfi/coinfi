@@ -60,9 +60,16 @@ Rails.application.routes.draw do
 
     get '/social_feeds/tweets_by_user', to: 'social_feeds#tweets_by_user'
 
-    get '/user', to: 'user#show'
-    patch '/user', to: 'user#update'
-  end
+  resources :coins, only: %i[index show]
+  resources :coinsnew, only: %i[index show]
+  get '/icos', to: redirect('/icos/upcoming')
+  get '/icos(/:status)', to: 'icos#index'
+  resources :contributor_submissions, path: 'contributor-submissions'
+  resources :author_profiles, only: %i[index show create update], path: 'authors'
+  resources :exchange_listings, only: %i[index show], path: 'listings'
+  get '/profile', to: 'users#edit'
+  put '/profile', to: 'users#update'
+  get '/news(/*others)', to: 'news#index'
 
   namespace :webhooks do
     post "#{ENV.fetch('SUPERFEEDR_CALLBACK_URL_SEGMENT_SECRET')}-superfeedr-ingest", to: 'websubs#superfeedr_ingest'
