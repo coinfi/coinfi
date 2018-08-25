@@ -16,11 +16,19 @@
 #
 
 default: &default
-  adapter: postgresql
+  adapter: postgresql_makara
   encoding: unicode
   # For details on connection pooling, see Rails configuration guide
   # http://guides.rubyonrails.org/configuring.html#database-pooling
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  makara:
+    sticky: true
+    connections:
+      - role: master
+        name: primary
+        url: <%= ENV['DATABASE_URL'] %>
+      - name: replica
+        url: <%= ENV['REPLICA_DATABASE_URL'] %>
 
 development:
   <<: *default
@@ -71,13 +79,3 @@ test:
 #
 # You can use this database configuration with:
 #
-production:
-  url: <%= ENV['DATABASE_URL'] %>
-  makara:
-    sticky: true
-    connections:
-      - role: master
-        name: primary
-        url: <%= ENV['DATABASE_URL'] %>
-      - name: replica
-        url: <%= ENV['REPLICA_DATABASE_URL'] %>
