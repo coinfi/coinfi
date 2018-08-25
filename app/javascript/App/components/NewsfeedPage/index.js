@@ -8,6 +8,7 @@ import SnackbarContent from '@material-ui/core/SnackbarContent'
 import IconButton from '@material-ui/core/IconButton'
 import green from '@material-ui/core/colors/green'
 import { withStyles } from '@material-ui/core/styles'
+import PropTypes from 'prop-types'
 
 import newsfeedContainer from '../../containers/newsfeed'
 import LayoutDesktop from '../LayoutDesktop'
@@ -35,14 +36,6 @@ class NewsfeedPage extends Component {
 
   componentWillMount() {
     window.addEventListener('resize', debounce(() => this.forceUpdate()), 500)
-  }
-
-  componentDidMount() {
-    if (this.props.loggedIn) {
-      console.log('////////////// CONGRATS USER IS LOGGED IN!!!')
-    } else {
-      console.log('////////////// OH NO, THE USER IS NOT LOGGED IN!!!')
-    }
   }
 
   removeCoinsWatchlist(symbol) {
@@ -92,7 +85,6 @@ class NewsfeedPage extends Component {
 
   closeNotification() {
     this.setState({ showLoginNotification: false })
-    console.log('IT SHOULD BE CLOSED NOW')
   }
 
   renderNotifications(classes) {
@@ -100,14 +92,12 @@ class NewsfeedPage extends Component {
       <div>
         <Snackbar
           anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+          autoHideDuration={6000}
           open={this.props.loggedIn && this.state.showLoginNotification}
-          classes={{ root: classes.root }}
           onClose={this.closeNotification.bind(this)}
           ContentProps={{ 'aria-describedby': 'message-id' }}
-          message={<span id="message-id">User is logged in</span>}
-        >
-          <SnackbarContent>aaaa</SnackbarContent>
-        </Snackbar>
+          message={<span id="message-id">Signed in successfully.</span>}
+        />
       </div>
     )
   }
@@ -190,3 +180,13 @@ class NewsfeedPage extends Component {
 }
 
 export default newsfeedContainer(withStyles(styles)(NewsfeedPage))
+
+NewsfeedPage.propTypes = {
+  loggedIn: PropTypes.bool,
+  coins: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
+  classes: PropTypes.shape({}),
+  renderNotifications: PropTypes.func,
+  closeNotification: PropTypes.func,
+  newsfeedTips: PropTypes.func,
+  removeCoinsWatchlist: PropTypes.func,
+}
