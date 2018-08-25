@@ -64,7 +64,13 @@ class NewsfeedPage extends React.Component<Props, State> {
     }, POLLING_TIMEOUT)
   }
 
-  updateTitle = () => {
+  updateTitle = (news?: NewsItem[]) => {
+    if(typeof news !== 'undefined') {
+      if (news.length === 0) return;
+      document.title = news.length + ' | ' + this.documentTitle;
+      return;
+    }
+
     if (this.state.unseenNews.length === 0) {
       document.title = this.documentTitle;
     } else {
@@ -83,10 +89,11 @@ class NewsfeedPage extends React.Component<Props, State> {
       return new Promise((resolve, _reject) => {
         if (!this.state.isWindowFocused) {
           const ids = news.map(elem => elem.id)
+          const unseenNews = _.uniq(this.state.unseenNews.concat(ids))
+          this.updateTitle(unseenNews);
           this.setState({
-            unseenNews: _.uniq(this.state.unseenNews.concat(ids))
+            unseenNews,
             }, () => {
-              this.updateTitle();
               resolve();
             })
           } else {
