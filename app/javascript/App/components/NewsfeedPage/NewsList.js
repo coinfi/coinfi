@@ -28,9 +28,23 @@ class NewsList extends Component {
     }
     setTimeout(() => {
       // set max height to enable scroll in ff
-      const colWrap = document.querySelector('.column-wrap')
       const newsContent = document.querySelector('.selected-news-content')
-      newsContent.style.maxHeight = `${colWrap.offsetHeight}px`
+      const colWrap = document.querySelector('.column-wrap')
+      const filterTagWrapper = document.querySelector('.filter-tag-wrapper')
+      const topNav = document.querySelector('.topnav')
+
+      // let maxHeight = 0
+      // maxHeight = window.outerHeight - topNav.offsetHeight
+      // if (!!filterTagWrapper)
+      // maxHeight =
+      //   window.outerHeight -
+      //   filterTagWrapper.offsetHeight -
+      //   topNav.offsetHeight -
+      //   200 // padding
+
+      let maxHeight = 400
+
+      if (window.isDesktop) newsContent.style.maxHeight = `${maxHeight}px`
     }, 500)
   }
 

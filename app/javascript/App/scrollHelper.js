@@ -7,19 +7,29 @@ export default () => {
     const newsfeedElem = document.querySelector('#newsfeed')
     const newsBodyElem = document.querySelector('.selected-news-content')
     const coinDrawerElem = document.querySelector('.coin-watch-list')
-    const windowHeight = window.innerHeight
     const topNavHeight = document.querySelector('.topnav').offsetHeight
+    const filterTagWrap = document.querySelector('.filter-tag-wrap')
+    const flashContainer = document.querySelector('.flash-container')
+    const windowHeight = window.innerHeight
     const panelHeaderHeight = panelHeader.offsetHeight
+    const flashCointainerHeight =
+      flashContainer !== null ? flashContainer.offsetHeight : 0
 
-    const calculatedHeight = windowHeight - topNavHeight - panelHeaderHeight
-
+    const calculatedHeight =
+      windowHeight - topNavHeight - panelHeaderHeight - flashCointainerHeight
     if (!!newsfeedElem) {
       newsfeedElem.style.maxHeight = `${calculatedHeight}px`
+      if (filterTagWrap !== null) {
+        // TODO: get this to work, because this elem doesnt exist
+        newsfeedElem.style.maxHeight = `${calculatedHeight +
+          filterTagWrap.offsetHeight -
+          128}px`
+      }
       newsfeedElem.style.overflowY = `auto`
     }
 
     if (!!newsBodyElem) {
-      newsBodyElem.style.maxHeight = `${calculatedHeight}px`
+      newsBodyElem.style.maxHeight = `${calculatedHeight - 32}px` // magic number for padding
     }
 
     if (!!coinDrawerElem) {

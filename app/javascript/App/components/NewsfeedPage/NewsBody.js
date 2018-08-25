@@ -22,7 +22,12 @@ export default class NewsBody extends Component {
     const content =
       _.trim(newsItem.get('content')) || _.trim(newsItem.get('summary'))
     return (
-      <div className="pa3 bg-white min-h-100 selected-news-content">
+      <div
+        className="bg-white min-h-100 selected-news-content"
+        style={{ padding: 16 }}
+      >
+        {' '}
+        {/* inline padding becaause we need a fixed value to calc height */}
         <CoinTags itemWithCoinLinkData={newsItem} />
         <h1 className="break-word f4">{newsItem.get('title')}</h1>
         <div className="mb3 f6">

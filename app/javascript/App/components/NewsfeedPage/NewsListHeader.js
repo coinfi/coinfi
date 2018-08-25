@@ -33,7 +33,7 @@ const NewsListHeader = (props) => {
         <SearchCoins {...props} />
       </FilterBar>
       {activeFilters.size > 0 && (
-        <div className="pa3 f6 b--b bg-athens flex items-center">
+        <div className="pa3 f6 b--b bg-athens flex items-center filter-tag-wrap">
           <span className="mr2">Viewing by:</span>
           <FilterTags {...props} toggleFilterPanel={toggleFilters} />
         </div>
