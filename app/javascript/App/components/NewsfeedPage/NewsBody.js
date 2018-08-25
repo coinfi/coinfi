@@ -7,6 +7,11 @@ import BulletSpacer from '../BulletSpacer'
 import Icon from '../Icon'
 
 export default class NewsBody extends Component {
+  selectCoin = (coin) => {
+    const { setActiveEntity } = this.props
+    setActiveEntity({ type: 'coin', id: coin.get('id') })
+  }
+
   render() {
     const {
       selectNewsItemFromList,
@@ -23,7 +28,10 @@ export default class NewsBody extends Component {
       _.trim(newsItem.get('content')) || _.trim(newsItem.get('summary'))
     return (
       <div className="pa3 bg-white min-h-100 selected-news-content">
-        <CoinTags itemWithCoinLinkData={newsItem} />
+        <CoinTags
+          itemWithCoinLinkData={newsItem}
+          selectCoin={this.selectCoin}
+        />
         <h1 className="break-word f4">{newsItem.get('title')}</h1>
         <div className="mb3 f6">
           <a
