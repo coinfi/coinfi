@@ -333,15 +333,6 @@ class CoinShow extends Component {
                           <a href={modeAnalyticsUrl} className="mode-embed">
                             Token Metrics
                           </a>
-                          {/*
-                          <iframe
-                            title="Token Metrics"
-                            src={modeAnalyticsUrl}
-                            width="100%"
-                            height="2048"
-                            frameBorder="0"
-                          />
-                        */}
                         </Card>
                       </CardWrapLast>
                     </Col>

@@ -14,11 +14,11 @@ class CoinsnewController < ApplicationController
     @latest_news = @coin.articles.latest_news
     @upcoming_events = @coin.articles.upcoming_events
 
-    if @coin.symbol
+    if @coin.symbol && ENV['MODE_ACCESS_KEY']
       base_mode_analytics_url = "https://modeanalytics.com/coinfi/reports/ab6bace449d6/runs/7eeda840fac5/embed?"
       # Keys need to be in alphabetical order!
       mode_params = {
-        access_key: ENV.fetch('MODE_ACCESS_KEY'),
+        access_key: ENV['MODE_ACCESS_KEY'],
         max_age: 60 * 60 * 12, # in seconds; equivalent to 12 hours
         param_token_symbol: @coin.symbol,
         timestamp: Time.now.to_i
