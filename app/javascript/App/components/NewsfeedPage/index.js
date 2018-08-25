@@ -1,6 +1,12 @@
 import React, { Component, Fragment } from 'react'
 import debounce from 'debounce'
 import axios from 'axios'
+import Immutable from 'immutable'
+import _ from 'lodash'
+import Snackbar from '@material-ui/core/Snackbar'
+import IconButton from '@material-ui/core/IconButton'
+import green from '@material-ui/core/colors/green'
+
 import newsfeedContainer from '../../containers/newsfeed'
 import LayoutDesktop from '../LayoutDesktop'
 import LayoutTablet from '../LayoutTablet'
@@ -11,17 +17,24 @@ import NewsList from './NewsList'
 import NewsListHeader from './NewsListHeader'
 import BodySection from './BodySection'
 import BodySectionDrawer from '../BodySectionDrawer'
-import Immutable from 'immutable'
-import _ from 'lodash'
 
 class NewsfeedPage extends Component {
   state = {
     initialRenderTips: false,
     liveCoinArr: [],
+    showLoginNotification: true,
   }
 
   componentWillMount() {
     window.addEventListener('resize', debounce(() => this.forceUpdate()), 500)
+  }
+
+  componentDidMount() {
+    if (this.props.loggedIn) {
+      console.log('////////////// CONGRATS USER IS LOGGED IN!!!')
+    } else {
+      console.log('////////////// OH NO, THE USER IS NOT LOGGED IN!!!')
+    }
   }
 
   removeCoinsWatchlist(symbol) {
@@ -69,6 +82,27 @@ class NewsfeedPage extends Component {
     }))
   }
 
+  closeNotification() {
+    this.setState({ showLoginNotification: false })
+    console.log('IT SHOULD BE CLOSED NOW')
+  }
+
+  renderNotifications() {
+    console.log('we are displaying notification')
+    return (
+      <div>
+        <Snackbar
+          anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+          open={this.props.loggedIn && this.state.showLoginNotification}
+          autoHideDuration={6000}
+          onClose={this.closeNotification.bind(this)}
+          ContentProps={{ 'aria-describedby': 'message-id' }}
+          message={<span id="message-id">User is logged in</span>}
+        />
+      </div>
+    )
+  }
+
   render() {
     let coinsCollection
     if (this.state.liveCoinArr.length) {
@@ -94,6 +128,7 @@ class NewsfeedPage extends Component {
             <Fragment>
               <NewsListHeader {...enhancedProps} />
               <NewsList {...enhancedProps} />
+              {this.renderNotifications()}
             </Fragment>
           }
           modalName="newsfeedModal"
@@ -117,6 +152,7 @@ class NewsfeedPage extends Component {
             <Fragment>
               <NewsListHeader {...enhancedProps} />
               <NewsList {...enhancedProps} />
+              {this.renderNotifications()}
             </Fragment>
           }
           rightSection={<BodySection {...enhancedProps} />}
@@ -132,6 +168,7 @@ class NewsfeedPage extends Component {
             <Fragment>
               <NewsListHeader {...enhancedProps} />
               <NewsList {...enhancedProps} />
+              {this.renderNotifications()}
             </Fragment>
           }
           rightSection={<BodySection {...enhancedProps} />}
