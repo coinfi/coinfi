@@ -8,7 +8,7 @@ import 'babel-polyfill'
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { Provider } from 'react-redux'
-// import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
+import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
 import configureStore from './configureStore'
 import getScreenSize from './lib/screenSize'
 import { PersistGate } from 'redux-persist/integration/react'
@@ -23,15 +23,14 @@ import RedditFeed from './components/RedditFeed'
 import IcoFilters from './components/IcoFilters'
 import ExchangeListingsPage from './bundles/ExchangeListings/client'
 import NewsfeedPage from './components/NewsfeedPage'
-// import NewsfeedPageNew from './bundles/NewsfeedPage/NewsfeedPageContainer'
+import NewsfeedPageNew from './bundles/NewsfeedPage/NewsfeedPageContainer'
 import Tabs from './components/Tabs'
 import CoinCharts from './components/CoinCharts'
 import CalendarPage from './components/CalendarPage'
 import CoinIndex from './components/CoinIndex'
 import CoinShow from './components/CoinShow'
 import scrollHelper from './scrollHelper'
-// import CoinListContainer from './bundles/common/containers/CoinListContainer'
-// import NewsfeedContainer from './bundles/common/containers/NewsfeedContainer'
+import CoinListContainer from './bundles/common/containers/CoinListContainer'
 
 const injectableComponents = {
   WatchButton,
@@ -60,39 +59,43 @@ const injectComponents = () => {
       const withStore = hook.getAttribute('withStore') !== null
       if (withStore) {
         // This is the custom flag for `feature/toplist-watchlist` branch
-        if (false) {
-          // ReactDOM.render(
-          //   <NewsfeedContainer>
-          //     <CoinListContainer user={props.user}>
-          //       <Provider store={store}>
-          //         <Router>
-          //           <div>
-          //             <Route
-          //               exact
-          //               path="/news/:coinSlug?"
-          //               render={(routeProps) => (
-          //                 <NewsfeedPageNew
-          //                   coinSlug={routeProps.match.params.coinSlug}
-          //                 />
-          //               )}
-          //             />
-          //             <Route
-          //               exact
-          //               path="/news/:newsItemId/:newsItemSlug"
-          //               render={(routeProps) => (
-          //                 <NewsfeedPageNew
-          //                   newsItemId={routeProps.match.params.newsItemId}
-          //                 />
-          //               )}
-          //             />
-          //             <Route path="/events" component={CalendarPage} />
-          //           </div>
-          //         </Router>
-          //       </Provider>
-          //     </CoinListContainer>
-          //   </NewsfeedContainer>,
-          //   hook,
-          // )
+        if (true) {
+          console.log('use new method to show')
+          ReactDOM.render(
+            <CoinListContainer user={props.user}>
+              <Provider store={store}>
+                <Router>
+                  <div>
+                    {/* <Route exact path="/news/:coinSlug?" render={(routeProps) => <NewsfeedPageNew coinSlug={routeProps.match.params.coinSlug} />} /> */}
+                    {/* <Route
+                          exact
+                          path="/news/:coinSlug?"
+                          render={(routeProps) => (
+                            <NewsfeedPageNew
+                              coinSlug={routeProps.match.params.coinSlug}
+                            />
+                          )}
+                        />
+                        <Route
+                          exact
+                          path="/news/:newsItemId/:newsItemSlug"
+                          render={(routeProps) => (
+                            <NewsfeedPageNew
+                              newsItemId={routeProps.match.params.newsItemId}
+                            />
+                          )}
+                        /> */}
+                    <Route
+                      path="/listings"
+                      render={() => <ExchangeListingsPage {...props} />}
+                    />
+                    <Route path="/events" component={CalendarPage} />
+                  </div>
+                </Router>
+              </Provider>
+            </CoinListContainer>,
+            hook,
+          )
         } else {
           const AppComponent = appContainer(Component)
           ReactDOM.render(
