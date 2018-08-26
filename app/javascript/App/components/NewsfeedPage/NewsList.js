@@ -3,7 +3,7 @@ import InfiniteScroll from 'react-infinite-scroll-component'
 import NewsListItem from './NewsListItem'
 import LoadingIndicator from '../LoadingIndicator'
 import Tips from './Tips'
-import scrollHelper from './../../scrollHelper'
+import scrollHelper from '../../scrollHelper'
 
 class NewsList extends Component {
   state = { initialRender: true, initialRenderTips: false }
@@ -26,12 +26,6 @@ class NewsList extends Component {
     if (window.isMobile) {
       enableUI('bodySectionDrawer', { fullScreen: true })
     }
-    setTimeout(() => {
-      // set max height to enable scroll in ff
-      const colWrap = document.querySelector('.column-wrap')
-      const newsContent = document.querySelector('.selected-news-content')
-      newsContent.style.maxHeight = `${colWrap.offsetHeight}px`
-    }, 500)
   }
 
   closeTips() {

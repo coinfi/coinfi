@@ -15,7 +15,6 @@ export default () => {
 
     if (!!newsfeedElem) {
       newsfeedElem.style.maxHeight = `${calculatedHeight}px`
-      newsfeedElem.style.overflowY = `auto`
     }
 
     if (!!newsBodyElem) {
