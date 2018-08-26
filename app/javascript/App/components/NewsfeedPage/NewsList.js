@@ -81,7 +81,7 @@ class NewsList extends Component {
     return (
       <InfiniteScroll
         dataLength={mappedItems.length}
-        scrollableTarget={document.getElementById('newsfeed')}
+        scrollableTarget="newsfeed"
         next={fetchMoreNewsFeed}
         hasMore={true} // TODO: Actually determine when there are no more NewsItems...
         loader={<LoadingIndicator />}
@@ -122,7 +122,7 @@ class NewsList extends Component {
     return (
       <div
         id="newsfeed"
-        className="flex-auto relative overflow-y-hidden overflow-y-auto-m"
+        className="flex-auto relative overflow-y-scroll"
         style={
           !activeEntity &&
           window.isMobile &&

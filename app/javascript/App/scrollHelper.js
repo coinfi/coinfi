@@ -3,12 +3,29 @@ export default () => {
   // https://app.nuclino.com/CoinFi/Engineering/Handle-Firefox-Scrolling-Issues-724ec6e6-3d06-453b-b8fb-62582f796833
 
   const panelHeader = document.querySelector('#panel-header')
-  if (panelHeader) {
+  const topNavHeight = document.querySelector('.topnav').offsetHeight
+
+  if (window.isMobile) {
+    const newsfeedElem = document.querySelector('#newsfeed')
+    const coinsTipsTab = document.querySelector(
+      '.listing-header-coins-tips-tabs',
+    )
+    const calculatedHeight =
+      window.innerHeight -
+      panelHeader.offsetHeight -
+      coinsTipsTab.offsetHeight -
+      topNavHeight
+
+    if (!!newsfeedElem) {
+      newsfeedElem.style.maxHeight = `${calculatedHeight}px`
+    }
+  }
+
+  if (panelHeader && window.isDesktop) {
     const newsfeedElem = document.querySelector('#newsfeed')
     const newsBodyElem = document.querySelector('.selected-news-content')
     const coinDrawerElem = document.querySelector('.coin-watch-list')
     const windowHeight = window.innerHeight
-    const topNavHeight = document.querySelector('.topnav').offsetHeight
     const panelHeaderHeight = panelHeader.offsetHeight
 
     const calculatedHeight = windowHeight - topNavHeight - panelHeaderHeight
