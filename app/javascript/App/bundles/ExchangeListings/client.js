@@ -163,7 +163,6 @@ class ExchangeListingsPage extends Component {
                 showFilterPanel={this.state.showFilterPanel}
                 quoteSymbols={this.props.quoteSymbols}
                 exchanges={this.props.exchanges}
-                toggleFilterPanel={this.toggleFilterPanel}
                 applyFilters={() => this.applyFilters()}
                 changeSymbol={this.changeSymbol}
                 changeExchange={this.changeExchange}
@@ -197,7 +196,6 @@ class ExchangeListingsPage extends Component {
                 showFilterPanel={this.state.showFilterPanel}
                 quoteSymbols={this.props.quoteSymbols}
                 exchanges={this.props.exchanges}
-                toggleFilterPanel={this.toggleFilterPanel}
                 applyFilters={() => this.applyFilters()}
                 changeSymbol={this.changeSymbol}
                 changeExchange={this.changeExchange}
@@ -222,7 +220,7 @@ class ExchangeListingsPage extends Component {
     } else {
       return (
         <CoinListContext.Consumer>
-          {(payload) => {
+          {() => {
             return (
               <LayoutDesktop
                 leftSection={<CoinListWrapper />}
@@ -233,7 +231,6 @@ class ExchangeListingsPage extends Component {
                       showFilterPanel={this.state.showFilterPanel}
                       quoteSymbols={this.props.quoteSymbols}
                       exchanges={this.props.exchanges}
-                      toggleFilterPanel={this.toggleFilterPanel}
                       applyFilters={() => this.applyFilters()}
                       changeSymbol={this.changeSymbol}
                       changeExchange={this.changeExchange}

@@ -1,14 +1,13 @@
 import React from 'react'
 import CoinListItem from './CoinListItem'
+import _ from 'lodash'
 
 const CoinList = (props) => {
-  if (props.coins.length)
+  if (!_.isEmpty(props.coins))
     return props.coins.map((coin) => <CoinListItem key={coin.id} coin={coin} />)
 
   return (
-    <span style={{ margin: 10, textAlign: 'center' }}>
-      No coins data available
-    </span>
+    <p style={{ margin: 10, textAlign: 'center' }}>No coins data available</p>
   )
 }
 

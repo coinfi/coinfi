@@ -9,20 +9,29 @@ class CalendarPage extends Component {
   render() {
     return (
       <CoinListContext.Consumer>
-        {(payload) => {
-          let enhancedProps = { ...this.props, coins: payload.coinlist }
-          return (
-            <Fragment>
-              <LayoutDesktop
-                leftSection={<CoinListWrapper {...enhancedProps} />}
-                centerSection={
-                  <div style={{ margin: 20, textAlign: 'center' }}>
-                    {' '}
-                    The new calendar page is in construction
-                  </div>
-                }
+        {() => {
+          if (window.isMobile)
+            return (
+              <LayoutMobile
+                mainSection={<Fragment>This is a mobile site</Fragment>}
               />
-            </Fragment>
+            )
+          if (window.isTablet)
+            return (
+              <LayoutTablet
+                mainSection={<Fragment>This is a tablet site</Fragment>}
+              />
+            )
+
+          return (
+            <LayoutDesktop
+              leftSection={<CoinListWrapper />}
+              centerSection={
+                <div style={{ margin: 20, textAlign: 'center' }}>
+                  The new calendar page is in construction
+                </div>
+              }
+            />
           )
         }}
       </CoinListContext.Consumer>
