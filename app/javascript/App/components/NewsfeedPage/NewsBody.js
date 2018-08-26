@@ -5,8 +5,14 @@ import _ from 'lodash'
 import CoinTags from '../CoinTags'
 import BulletSpacer from '../BulletSpacer'
 import Icon from '../Icon'
+import scrollHelper from '../../scrollHelper'
 
 export default class NewsBody extends Component {
+  componentDidMount() {
+    // set max height to enable scroll in ff
+    scrollHelper()
+  }
+
   selectCoin = (coin) => {
     const { setActiveEntity } = this.props
     setActiveEntity({ type: 'coin', id: coin.get('id') })
