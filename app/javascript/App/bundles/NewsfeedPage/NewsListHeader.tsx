@@ -1,6 +1,6 @@
 declare var window: {
-  isMobile?: boolean,
-};
+  isMobile?: boolean
+}
 
 import * as React from 'react'
 import Icon from '../../components/Icon'
@@ -8,9 +8,9 @@ import SectionHeader from '../../components/SectionHeader'
 import SectionHeaderTight from '../../components/SectionHeaderTight'
 import SearchCoins from '../../components/SearchCoins'
 import FilterPanel from '../../components/FilterPanel'
-import FilterTags from '../../components/FilterTags'
 
-const filterBtn = require('../../images/filter-btn.svg');
+// tslint:disable-next-line
+const filterBtn = require('../../images/filter-btn.svg')
 
 const NewsListHeader = (props) => {
   const { coins, feedSources, showFilters, activeFilters, newsfeedTips } = props
@@ -20,9 +20,9 @@ const NewsListHeader = (props) => {
   const showCoinListDrawer = () => null
 
   const btnStyle: React.CSSProperties = {
-    padding: '16px',
     borderRadius: 0,
     display: 'inline-flex',
+    padding: '16px',
     textTransform: 'none',
   }
 
@@ -88,13 +88,6 @@ const NewsListHeader = (props) => {
           </button>
         </div>
       </SectionHeader>
-      {activeFilters &&
-        activeFilters.size > 0 && (
-          <div className="pa3 f6 b--b bg-athens flex items-center">
-            <span className="mr2">Viewing by:</span>
-            <FilterTags {...props} />
-          </div>
-        )}
       {showFilters && (
         <FilterPanel {...props} filterData={{ coins, feedSources }} />
       )}
