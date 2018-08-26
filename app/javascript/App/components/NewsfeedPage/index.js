@@ -3,11 +3,6 @@ import debounce from 'debounce'
 import axios from 'axios'
 import Immutable from 'immutable'
 import _ from 'lodash'
-import Snackbar from '@material-ui/core/Snackbar'
-import SnackbarContent from '@material-ui/core/SnackbarContent'
-import IconButton from '@material-ui/core/IconButton'
-import green from '@material-ui/core/colors/green'
-import { withStyles } from '@material-ui/core/styles'
 import PropTypes from 'prop-types'
 
 import newsfeedContainer from '../../containers/newsfeed'
@@ -18,14 +13,9 @@ import CoinList from '../CoinList/CoinList'
 import CoinListDrawer from '../CoinList/CoinListDrawer'
 import NewsList from './NewsList'
 import NewsListHeader from './NewsListHeader'
+import Notification from '../shared/Notification'
 import BodySection from './BodySection'
 import BodySectionDrawer from '../BodySectionDrawer'
-
-const styles = {
-  root: {
-    backgroundColor: green[600],
-  },
-}
 
 class NewsfeedPage extends Component {
   state = {
@@ -34,7 +24,7 @@ class NewsfeedPage extends Component {
     showLoginNotification: true,
   }
 
-  componentWillMount() {
+  componentDidMount() {
     window.addEventListener('resize', debounce(() => this.forceUpdate()), 500)
   }
 
@@ -87,21 +77,6 @@ class NewsfeedPage extends Component {
     this.setState({ showLoginNotification: false })
   }
 
-  renderNotifications(classes) {
-    return (
-      <div>
-        <Snackbar
-          anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-          autoHideDuration={6000}
-          open={this.props.loggedIn && this.state.showLoginNotification}
-          onClose={this.closeNotification.bind(this)}
-          ContentProps={{ 'aria-describedby': 'message-id' }}
-          message={<span id="message-id">Signed in successfully.</span>}
-        />
-      </div>
-    )
-  }
-
   render() {
     let coinsCollection
     if (this.state.liveCoinArr.length) {
@@ -119,7 +94,8 @@ class NewsfeedPage extends Component {
       coins: coinsCollection,
     }
 
-    const { classes } = this.props
+    const notificationIsShown =
+      this.props.loggedIn && this.state.showLoginNotification
 
     if (window.isMobile) {
       return (
@@ -129,7 +105,10 @@ class NewsfeedPage extends Component {
             <Fragment>
               <NewsListHeader {...enhancedProps} />
               <NewsList {...enhancedProps} />
-              {this.renderNotifications(classes)}
+              <Notification
+                closeNotification={this.closeNotification.bind(this)}
+                opened={notificationIsShown}
+              />
             </Fragment>
           }
           modalName="newsfeedModal"
@@ -153,7 +132,10 @@ class NewsfeedPage extends Component {
             <Fragment>
               <NewsListHeader {...enhancedProps} />
               <NewsList {...enhancedProps} />
-              {this.renderNotifications(classes)}
+              <Notification
+                closeNotification={this.closeNotification.bind(this)}
+                opened={notificationIsShown}
+              />
             </Fragment>
           }
           rightSection={<BodySection {...enhancedProps} />}
@@ -169,7 +151,10 @@ class NewsfeedPage extends Component {
             <Fragment>
               <NewsListHeader {...enhancedProps} />
               <NewsList {...enhancedProps} />
-              {this.renderNotifications(classes)}
+              <Notification
+                closeNotification={this.closeNotification.bind(this)}
+                opened={notificationIsShown}
+              />
             </Fragment>
           }
           rightSection={<BodySection {...enhancedProps} />}
@@ -179,14 +164,13 @@ class NewsfeedPage extends Component {
   }
 }
 
-export default newsfeedContainer(withStyles(styles)(NewsfeedPage))
+export default newsfeedContainer(NewsfeedPage)
 
 NewsfeedPage.propTypes = {
-  loggedIn: PropTypes.bool,
-  coins: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
-  classes: PropTypes.shape({}),
-  renderNotifications: PropTypes.func,
   closeNotification: PropTypes.func,
+  coins: PropTypes.arrayOf(PropTypes.shape({})),
+  loggedIn: PropTypes.bool,
   newsfeedTips: PropTypes.func,
   removeCoinsWatchlist: PropTypes.func,
+  renderNotifications: PropTypes.func,
 }
