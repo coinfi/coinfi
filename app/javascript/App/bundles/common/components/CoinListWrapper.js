@@ -7,11 +7,11 @@ export default () => (
   <CoinListContext.Consumer>
     {(payload) => {
       return payload.isInitializing() ? (
-        <div>Loading...</div>
+        <div style={{ margin: 10, textAlign: 'center' }}>Loading...</div>
       ) : (
         <Fragment>
           <CoinListHeader />
-          <CoinList list={payload.coinlist} />
+          <CoinList coins={payload.coinlist} />
         </Fragment>
       )
     }}

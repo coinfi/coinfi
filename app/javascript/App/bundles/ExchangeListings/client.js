@@ -7,9 +7,7 @@ import ListingsHeader from './components/ListingsHeader'
 import ListingsList from './components/ListingsList'
 import BodySection from './components/BodySection'
 import localAPI from '~/lib/localAPI'
-import CoinList from '../common/components/CoinList'
-import CoinListDrawer from '../../components/CoinList/CoinListDrawer'
-import CoinListContainer from '../common/containers/CoinListContainer'
+import CoinListWrapper from '../common/components/CoinListWrapper'
 import CoinListContext from '../../contexts/CoinListContext'
 
 class ExchangeListingsPage extends Component {
@@ -225,15 +223,9 @@ class ExchangeListingsPage extends Component {
       return (
         <CoinListContext.Consumer>
           {(payload) => {
-            console.log('payload is: ', payload)
-
-            let enhancedProps = { ...this.props, coins: payload.coinlist }
-            console.log('enhanced props are ', enhancedProps)
             return (
               <LayoutDesktop
-                leftSection={
-                  enhancedProps.coins && <CoinList {...enhancedProps} />
-                }
+                leftSection={<CoinListWrapper />}
                 centerSection={
                   <Fragment>
                     <ListingsHeader

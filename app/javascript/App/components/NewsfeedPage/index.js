@@ -127,7 +127,7 @@ class NewsfeedPage extends Component {
       return (
         <LayoutDesktop
           {...enhancedProps}
-          leftSection={<CoinList {...enhancedProps} />}
+          leftSection={enhancedProps.coins && <CoinList {...enhancedProps} />}
           centerSection={
             <Fragment>
               <NewsListHeader {...enhancedProps} />
