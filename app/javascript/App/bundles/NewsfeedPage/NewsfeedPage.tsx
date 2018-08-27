@@ -41,7 +41,7 @@ interface Props extends RouteComponentProps<any> {
 interface State {
   initialRenderTips: boolean,
   newsfeedTips: boolean,
-  unseenNews: number[],
+  unseenNewsIds: number[],
   isWindowFocused: boolean,
 };
 
@@ -52,7 +52,7 @@ class NewsfeedPage extends React.Component<Props, State> {
   state = {
     initialRenderTips: false,
     newsfeedTips: true,
-    unseenNews: [],
+    unseenNewsIds: [],
     isWindowFocused: true,
   }
 
@@ -71,16 +71,16 @@ class NewsfeedPage extends React.Component<Props, State> {
       return;
     }
 
-    if (this.state.unseenNews.length === 0) {
+    if (!this.state.unseenNewsIds.length) {
       document.title = this.documentTitle;
     } else {
-      document.title = this.state.unseenNews.length + ' | ' + this.documentTitle;
+      document.title = this.state.unseenNewsIds.length + ' | ' + this.documentTitle;
     }
   }
 
   onNewsItemShown = (id) => {
     setTimeout(() => {
-      this.setState(state => ({ unseenNews: state.unseenNews.filter(_id => _id !== id) }), this.updateTitle);
+      this.setState(state => ({ unseenNewsIds: state.unseenNewsIds.filter(_id => _id !== id) }), this.updateTitle);
     }, 500)
   }
 
@@ -89,10 +89,10 @@ class NewsfeedPage extends React.Component<Props, State> {
       return new Promise((resolve, _reject) => {
         if (!this.state.isWindowFocused) {
           const ids = news.map(elem => elem.id)
-          const unseenNews = _.uniq(this.state.unseenNews.concat(ids))
-          this.updateTitle(unseenNews);
+          const unseenNewsIds = _.uniq(this.state.unseenNewsIds.concat(ids))
+          this.updateTitle(unseenNewsIds);
           this.setState({
-            unseenNews,
+            unseenNewsIds,
             }, () => {
               resolve();
             })
@@ -222,7 +222,7 @@ class NewsfeedPage extends React.Component<Props, State> {
                   fetchMoreNewsFeed={this.props.fetchMoreNewsItems}
                   closeTips={this.closeTips}
                   onNewsItemShown={(id) => this.onNewsItemShown(id)}
-                  unseenNews={this.state.unseenNews}
+                  unseenNewsIds={this.state.unseenNewsIds}
                 />
             </>
           }

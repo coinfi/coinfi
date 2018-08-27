@@ -26,7 +26,7 @@ interface IProps {
   closeTips?: any // () => void
   onNewsItemShown?: (id) => void,
   isNewsSeen?: (id) => boolean,
-  unseenNews?: number[],
+  unseenNewsIds?: number[],
   isWindowFocused?: boolean,
 }
 
@@ -106,11 +106,7 @@ class NewsList extends React.Component<IProps, IState> {
       return (
         <VisibilitySensor 
           key={newsItem.id}
-          onChange={(isVisible) => {
-            if (isVisible) {
-                this.props.onNewsItemShown(newsItem.id);
-            }
-          }}
+          onChange={(isVisible) => isVisible && this.props.onNewsItemShown(newsItem.id)}
           active={this.props.isWindowFocused}
         >
           <NewsListItem
@@ -121,7 +117,7 @@ class NewsList extends React.Component<IProps, IState> {
             // @ts-ignore FIME
             selectCoin={(symbol) => this.selectCoin(symbol)} 
             hasRead={hasRead}
-            isUnseen={!hasRead && this.props.unseenNews.indexOf(newsItem.id) !== -1}
+            isUnseen={!hasRead && this.props.unseenNewsIds.indexOf(newsItem.id) !== -1}
           />
         </VisibilitySensor>
       )

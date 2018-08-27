@@ -47,11 +47,14 @@ class NewsfeedContainer extends React.Component<Props, State> {
       }, () => {
         localAPI.get('/news', { publishedSince: firstNewsItem.feed_item_published_at }).then((response) => {
           const existingNewsIds = this.state.sortedNewsItems.map(elem => elem.id);
-          const newNews = response.payload.filter((newsItem: NewsItem) => existingNewsIds.indexOf(newsItem.id) === -1);
+          const newNews = response
+                            .payload
+                            .filter((newsItem: NewsItem) => !existingNewsIds.includes(newsItem.id))
+                            .sort(this.sortNewsFunc);
           this.setState({
             status: STATUSES.READY,
-            sortedNewsItems: this.uniqNews([...newNews.sort(this.sortNewsFunc), ...this.state.sortedNewsItems]),
-          }, () => resolve(newNews.sort(this.sortNewsFunc)))
+            sortedNewsItems: this.uniqNews([...newNews, ...this.state.sortedNewsItems]),
+          }, () => resolve(newNews));
         })
       })
     });
@@ -83,7 +86,7 @@ class NewsfeedContainer extends React.Component<Props, State> {
           this.setState({
             status: STATUSES.READY,
             sortedNewsItems
-          }, () => resolve(sortedNewsItems))
+          }, () => resolve(sortedNewsItems));
         })
       })
     })
@@ -95,10 +98,11 @@ class NewsfeedContainer extends React.Component<Props, State> {
       this.setState({
           status: STATUSES.LOADING_MORE_ITEMS
         }, () => localAPI.get(`/news`, { publishedUntil: lastNews.feed_item_published_at }).then(response => {
+            const moreNewsItems = response.payload.sort(this.sortNewsFunc);
             this.setState({
               status: STATUSES.READY,
-              sortedNewsItems: this.uniqNews([...this.state.sortedNewsItems, ...response.payload.sort(this.sortNewsFunc)]),
-            }, () => resolve(response.payload.sort(this.sortNewsFunc)))
+              sortedNewsItems: this.uniqNews([...this.state.sortedNewsItems, ...moreNewsItems]),
+            }, () => resolve(moreNewsItems));
         })
       );
     })
