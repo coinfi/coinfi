@@ -46,6 +46,12 @@ class NewsfeedContainer extends React.Component<Props, State> {
         status: STATUSES.NEW_NEWS_ITEMS_LOADING
       }, () => {
         localAPI.get('/news', { publishedSince: firstNewsItem.feed_item_published_at }).then((response) => {
+          if (!response.payload) {
+            this.setState({
+              status: STATUSES.READY,
+            });
+            return;
+          }
           const existingNewsIds = this.state.sortedNewsItems.map(elem => elem.id);
           const newNews = response
                             .payload
@@ -98,6 +104,12 @@ class NewsfeedContainer extends React.Component<Props, State> {
       this.setState({
           status: STATUSES.LOADING_MORE_ITEMS
         }, () => localAPI.get(`/news`, { publishedUntil: lastNews.feed_item_published_at }).then(response => {
+            if (!response.payload) {
+              this.setState({
+                status: STATUSES.READY,
+              });
+              return;
+            }
             const moreNewsItems = response.payload.sort(this.sortNewsFunc);
             this.setState({
               status: STATUSES.READY,
