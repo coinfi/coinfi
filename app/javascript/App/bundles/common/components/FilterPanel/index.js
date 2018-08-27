@@ -16,8 +16,8 @@ export default (props) => {
     <div className="ph3 ph4-l">
       <div className={containerClass}>
         <Consumer>
-          {({ resetFilters, toggleFilterPanel, applyFilters }) => {
-            ;<div className="pa3 bb b--geyser flex justify-between items-center filter-panel-header">
+          {({ resetFilters, toggleFilterPanel, applyFilters }) => (
+            <div className="pa3 bb b--geyser flex justify-between items-center filter-panel-header">
               <div className="flex items-center">
                 <h3 className="mb0 mr1 b">Filters</h3>
                 <FilterResetLink resetFilters={resetFilters} />
@@ -27,7 +27,7 @@ export default (props) => {
                 <FilterApplyButton applyFilters={applyFilters} />
               </div>
             </div>
-          }}
+          )}
         </Consumer>
         {props.children}
       </div>

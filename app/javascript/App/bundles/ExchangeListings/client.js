@@ -179,9 +179,7 @@ class ExchangeListingsPage extends Component {
                 <ListingsHeader
                   toggleFilterPanel={this.toggleFilterPanel}
                   showFilterPanel={this.state.showFilterPanel}
-                  applyFilters={() => this.applyFilters()}
                   exchangeSlugs={this.state.exchangeSlugs}
-                  resetFilters={this.resetFilters}
                 />
               </Provider>
               <ListingsList
@@ -206,9 +204,7 @@ class ExchangeListingsPage extends Component {
                 <ListingsHeader
                   toggleFilterPanel={this.toggleFilterPanel}
                   showFilterPanel={this.state.showFilterPanel}
-                  applyFilters={() => this.applyFilters()}
                   exchangeSlugs={this.state.exchangeSlugs}
-                  resetFilters={this.resetFilters}
                 />
               </Provider>
               <ListingsList
@@ -232,9 +228,7 @@ class ExchangeListingsPage extends Component {
                 <ListingsHeader
                   toggleFilterPanel={this.toggleFilterPanel}
                   showFilterPanel={this.state.showFilterPanel}
-                  applyFilters={() => this.applyFilters()}
                   exchangeSlugs={this.state.exchangeSlugs}
-                  resetFilters={this.resetFilters}
                 />
               </Provider>
               .{' '}

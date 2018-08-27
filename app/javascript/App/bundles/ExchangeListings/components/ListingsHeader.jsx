@@ -8,7 +8,7 @@ export default (props) => {
   return (
     <Fragment>
       <CoinTipsTab />
-      <FilterBar toggleFilterPanel={props.toggleFilterPanel} />
+      <FilterBar />
 
       {props.showFilterPanel && (
         <FilterPanel>
