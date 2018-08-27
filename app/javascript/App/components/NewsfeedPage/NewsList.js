@@ -118,6 +118,7 @@ class NewsList extends Component {
       sortedNewsItems: sortedNewsItems,
     }
     const readNewsIds = JSON.parse(localStorage.getItem('readNews')) || []
+    const marginTopVal = document.querySelector('.topnav').offsetHeight * -1
 
     return (
       <div
@@ -128,7 +129,11 @@ class NewsList extends Component {
           window.isMobile &&
           !activeFilters.size &&
           initialRenderTips
-            ? { marginTop: '-65px', background: '#fff', position: 'absolute' }
+            ? {
+                marginTop: marginTopVal,
+                background: '#fff',
+                position: 'absolute',
+              }
             : {}
         }
       >

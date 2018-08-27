@@ -7,10 +7,9 @@ import listIcon from '../../images/listIcon.svg'
 const titleStyle = {
   fontSize: '1.13rem',
   fontWeight: 'bold',
+  paddingLeft: 15,
+  paddingBottom: 10,
 }
-
-titleStyle.paddingLeft = 15
-titleStyle.paddingBottom = 10
 
 const listTextNodeStyle = { width: '90%', marginLeft: 10, fontSize: '.88rem' }
 
