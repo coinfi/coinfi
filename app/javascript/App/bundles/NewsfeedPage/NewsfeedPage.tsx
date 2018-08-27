@@ -1,7 +1,6 @@
-
 // TODO: find more convenient way to extend window declaration
-import { WindowScreenType } from '../common/types';
-declare const window: WindowScreenType;
+import { WindowScreenType } from '../common/types'
+declare const window: WindowScreenType
 
 import * as React from 'react'
 import { withRouter, RouteComponentProps } from 'react-router'
@@ -19,78 +18,77 @@ import CoinListContext from '../../contexts/CoinListContext'
 import _ from 'lodash'
 import localAPI from '../../lib/localAPI'
 
-
-import { NewsItem, ContentType } from './types';
-import { CoinList, Coin } from '../common/types';
+import { NewsItem, ContentType } from './types'
+import { CoinList, Coin } from '../common/types'
 
 interface Props extends RouteComponentProps<any> {
-  coinSlug?: string,
-  newsItemId?: string,
-  coinlist: CoinList,
-  newslist: Array<NewsItem>,
-  isNewsfeedLoading: boolean,
-  isNewsfeedLoadingMoreItems: boolean,
-  isNewsfeedReady: boolean,
-  isCoinlistLoading: boolean,
-  isCoinlistReady: boolean,
-  fetchNewsItemsForCoin: (coinSlug: string) => void,
-  fetchAllNewsItems: () => void, 
-  fetchMoreNewsItems: () => any, 
-};
+  coinSlug?: string
+  newsItemId?: string
+  coinlist: CoinList
+  newslist: NewsItem[]
+  isNewsfeedLoading: boolean
+  isNewsfeedLoadingMoreItems: boolean
+  isNewsfeedReady: boolean
+  isCoinlistLoading: boolean
+  isCoinlistReady: boolean
+  fetchNewsItemsForCoin: (coinSlug: string) => void
+  fetchAllNewsItems: () => void
+  fetchMoreNewsItems: () => any
+}
 
 interface State {
-  initialRenderTips: boolean,
-  newsfeedTips: boolean,
-};
+  initialRenderTips: boolean
+  newsfeedTips: boolean
+}
 
 class NewsfeedPage extends React.Component<Props, State> {
-  state = {
+  public state = {
     initialRenderTips: false,
     newsfeedTips: true,
   }
 
-  handleResize = debounce(() => this.forceUpdate(), 500)
+  public handleResize = debounce(() => this.forceUpdate(), 500)
 
-  getContentType(): ContentType {
+  public getContentType(): ContentType {
     if (typeof this.props.coinSlug !== 'undefined') {
-      return "coin";
+      return 'coin'
     }
 
     if (typeof this.props.newsItemId !== 'undefined') {
-      return "news";
+      return 'news'
     }
 
-    return "none";
+    return 'none'
   }
 
-  componentDidMount() {
+  public componentDidMount() {
     window.addEventListener('resize', this.handleResize)
 
-    if (this.getContentType() === "coin") {
-        this.props.fetchNewsItemsForCoin(this.props.coinSlug)
+    if (this.getContentType() === 'coin') {
+      this.props.fetchNewsItemsForCoin(this.props.coinSlug)
     } else {
       if (this.props.newslist.length > 0) {
-        return;
+        return
       }
-      this.props.fetchAllNewsItems();
+      this.props.fetchAllNewsItems()
     }
   }
 
-  componentWillUnmount() {
-    window.removeEventListener('resize', this.handleResize);
+  public componentWillUnmount() {
+    window.removeEventListener('resize', this.handleResize)
   }
 
-  componentDidUpdate(prevProps, prevState, snapshot) {
+  public componentDidUpdate(prevProps, prevState, snapshot) {
     if (this.props.coinSlug !== prevProps.coinSlug) {
       this.props.fetchNewsItemsForCoin(this.props.coinSlug)
     }
   }
 
-  closeTips = () => {
+  public closeTips = () => {
     this.setState({ initialRenderTips: false })
   }
 
-  render() {
+  public render() {
     if (window.isMobile) {
       return (
         <LayoutMobile
@@ -102,14 +100,6 @@ class NewsfeedPage extends React.Component<Props, State> {
           }
           modalName="newsfeedModal"
           modalSection={<BodySection />}
-          drawerSection={
-            <>
-              <CoinListDrawer />
-              <BodySectionDrawer
-                bodySection={<BodySection />}
-              />
-            </>
-          }
         />
       )
     } else if (window.isTablet) {
@@ -122,7 +112,6 @@ class NewsfeedPage extends React.Component<Props, State> {
             </>
           }
           rightSection={<BodySection />}
-          drawerSection={<CoinListDrawer />}
         />
       )
     } else {
@@ -130,27 +119,27 @@ class NewsfeedPage extends React.Component<Props, State> {
         <LayoutDesktop
           leftSection={<CoinListWrapper />}
           centerSection={
-              <>
-                <NewsListHeader
-                  coins={this.props.coinlist}
-                  // @ts-ignore FIXME
-                  feedSources={this.props.feedSources}
-                  // @ts-ignore FIXME
-                  showFilters={this.state.showFilters}
-                  // @ts-ignore FIXME
-                  activeFilters={this.state.activeFilters}
-                  newsfeedTips={this.state.newsfeedTips}
-                />
-                <NewsList
-                  isLoading={this.props.isNewsfeedLoading}
-                  isInfiniteScrollLoading={this.props.isNewsfeedLoadingMoreItems}
-                  // @ts-ignore FIXME
-                  activeFilters={this.state.activeFilters}
-                  sortedNewsItems={this.props.newslist}
-                  initialRenderTips={this.state.initialRenderTips}
-                  fetchMoreNewsFeed={this.props.fetchMoreNewsItems}
-                  closeTips={this.closeTips}
-                />
+            <>
+              <NewsListHeader
+                coins={this.props.coinlist}
+                // @ts-ignore FIXME
+                feedSources={this.props.feedSources}
+                // @ts-ignore FIXME
+                showFilters={this.state.showFilters}
+                // @ts-ignore FIXME
+                activeFilters={this.state.activeFilters}
+                newsfeedTips={this.state.newsfeedTips}
+              />
+              <NewsList
+                isLoading={this.props.isNewsfeedLoading}
+                isInfiniteScrollLoading={this.props.isNewsfeedLoadingMoreItems}
+                // @ts-ignore FIXME
+                activeFilters={this.state.activeFilters}
+                sortedNewsItems={this.props.newslist}
+                initialRenderTips={this.state.initialRenderTips}
+                fetchMoreNewsFeed={this.props.fetchMoreNewsItems}
+                closeTips={this.closeTips}
+              />
             </>
           }
           rightSection={
@@ -158,7 +147,7 @@ class NewsfeedPage extends React.Component<Props, State> {
               coinSlug={this.props.coinSlug}
               newsItemId={this.props.newsItemId}
               contentType={this.getContentType()}
-              closeTips={this.closeTips} 
+              closeTips={this.closeTips}
             />
           }
         />
@@ -167,4 +156,4 @@ class NewsfeedPage extends React.Component<Props, State> {
   }
 }
 
-export default withRouter<Props>(NewsfeedPage);
+export default withRouter<Props>(NewsfeedPage)

@@ -1,7 +1,7 @@
 declare var window: {
-  isMobile?: boolean,
-  isTablet?: boolean,
-};
+  isMobile?: boolean
+  isTablet?: boolean
+}
 
 import * as React from 'react'
 import InfiniteScroll from 'react-infinite-scroll-component'
@@ -11,7 +11,7 @@ import LoadingIndicator from '../../components/LoadingIndicator'
 import Tips from './Tips'
 import scrollHelper from './../../scrollHelper'
 
-import { NewsItem } from './types';
+import { NewsItem } from './types'
 
 interface Props {
   // FIXME commented props are right
@@ -22,36 +22,36 @@ interface Props {
   // initialRenderTips: boolean,
   // fetchMoreNewsFeed: () => void,
   // closeTips: () => void,
-  isLoading?: boolean,
-  isInfiniteScrollLoading?: boolean,
-  activeFilters?: any,
-  sortedNewsItems?: Array<NewsItem>,
-  initialRenderTips?: boolean,
-  fetchMoreNewsFeed?: () => void,
-  closeTips?: () => void,
-};
+  isLoading?: boolean
+  isInfiniteScrollLoading?: boolean
+  activeFilters?: any
+  sortedNewsItems?: NewsItem[]
+  initialRenderTips?: boolean
+  fetchMoreNewsFeed?: () => void
+  closeTips?: () => void
+}
 
 interface State {
-  initialRender: boolean,
-  initialRenderTips: boolean,
-};
+  initialRender: boolean
+  initialRenderTips: boolean
+}
 
 class NewsList extends React.Component<Props, State> {
-  state = { initialRender: true, initialRenderTips: false }
-  
-  private newsfeedDiv: React.RefObject<HTMLDivElement>;
+  public state = { initialRender: true, initialRenderTips: false }
+
+  private newsfeedDiv: React.RefObject<HTMLDivElement>
 
   constructor(props) {
-    super(props);
-    this.newsfeedDiv = React.createRef();
+    super(props)
+    this.newsfeedDiv = React.createRef()
   }
 
-  componentDidMount() {
+  public componentDidMount() {
     // set max height to enable scroll in ff
-    scrollHelper();
+    scrollHelper()
   }
 
-  setActiveNewsItem = (newsItem) => {
+  public setActiveNewsItem = (newsItem) => {
     // @ts-ignore FIXME
     const { setActiveEntity, enableUI } = this.props
     const url = newsItem.url
@@ -74,9 +74,12 @@ class NewsList extends React.Component<Props, State> {
     }, 500)
   }
 
-  renderView() {
-    
-    if (this.props.initialRenderTips && window.isMobile) {
+  public renderView() {
+    if (
+      this.props.initialRenderTips &&
+      window.isMobile &&
+      this.props.closeTips
+    ) {
       return <Tips closeTips={this.props.closeTips} />
     } else if (this.props.isLoading) {
       return (
@@ -84,7 +87,7 @@ class NewsList extends React.Component<Props, State> {
           <LoadingIndicator />
         </div>
       )
-    } else if (!this.props.sortedNewsItems.length) {
+    } else if (!_.get(this.props, 'sortedNewsItems.length')) {
       return (
         <div className="pa3 tc mt4">
           <div className="pointer">
@@ -112,7 +115,7 @@ class NewsList extends React.Component<Props, State> {
           {...this.props}
           setActiveNewsItem={this.setActiveNewsItem}
           // @ts-ignore FIME
-          selectCoin={(symbol) => this.selectCoin(symbol)} 
+          selectCoin={(symbol) => this.selectCoin(symbol)}
           hasRead={hasRead}
         />
       )
@@ -143,7 +146,7 @@ class NewsList extends React.Component<Props, State> {
   //   }
   // }
 
-  render() {
+  public render() {
     const {
       // @ts-ignore FIXME
       activeEntity,
@@ -159,13 +162,17 @@ class NewsList extends React.Component<Props, State> {
         style={
           !activeEntity &&
           window.isMobile &&
-          !activeFilters.size &&
+          !_.get(activeFilters, 'size') &&
           initialRenderTips
             ? { marginTop: '-65px', background: '#fff', position: 'absolute' }
             : {}
         }
       >
-        {this.renderView()}
+        {!_.isEmpty(this.props) ? (
+          this.renderView()
+        ) : (
+          <span>Did not recieve any data</span>
+        )}
       </div>
     )
   }

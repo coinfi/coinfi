@@ -10,7 +10,8 @@
     "arrow-parens": ["error", "always"],
     "ordered-imports": false,
     "jsx-no-lambda": false,
-    "jsx-a11y/href-no-hash": [0]
+    "jsx-a11y/href-no-hash": [0],
+    "interface-name": [false, "always-prefix"]
   },
   "rulesDirectory": []
 }

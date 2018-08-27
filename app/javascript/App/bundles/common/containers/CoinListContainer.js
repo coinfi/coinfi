@@ -24,7 +24,6 @@ class CoinListContainer extends Component {
 
   componentDidMount = () => {
     if (this.props.user) {
-      console.log(this.props)
       this.getToplistAndWatchlistOnMount()
     } else {
       this.getToplistOnMount()

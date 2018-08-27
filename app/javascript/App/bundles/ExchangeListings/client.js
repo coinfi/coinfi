@@ -7,6 +7,8 @@ import ListingsHeader from './components/ListingsHeader'
 import ListingsList from './components/ListingsList'
 import BodySection from './components/BodySection'
 import localAPI from '~/lib/localAPI'
+import CoinListWrapper from '../common/components/CoinListWrapper'
+import CoinListContext from '../../contexts/CoinListContext'
 
 class ExchangeListingsPage extends Component {
   constructor(props) {
@@ -98,18 +100,16 @@ class ExchangeListingsPage extends Component {
     const exchangeSlugArgs = this.state.selectedExchanges
     const detectedSinceStr =
       this.state.detectedSince !== null
-        ? '&detectedSince=' + this.state.detectedSince
+        ? `&detectedSince=${this.state.detectedSince}`
         : ''
     const detectedUntilStr =
       this.state.detectedUntil !== null
-        ? '&detectedUntil=' + this.state.detectedUntil
+        ? `&detectedUntil=${this.state.detectedUntil}`
         : ''
-    const urlParams =
-      `/exchange_listings?` +
+    const urlParams = `${`/exchange_listings?` +
       `quoteSymbols=${quoteSymbolArg}&` +
-      `exchangeSlugs=${exchangeSlugArgs || ''}&` +
-      detectedSinceStr +
-      detectedUntilStr
+      `exchangeSlugs=${exchangeSlugArgs ||
+        ''}&`}${detectedSinceStr}${detectedUntilStr}`
 
     localAPI.get(urlParams).then((response) => {
       this.setState({
@@ -163,7 +163,6 @@ class ExchangeListingsPage extends Component {
                 showFilterPanel={this.state.showFilterPanel}
                 quoteSymbols={this.props.quoteSymbols}
                 exchanges={this.props.exchanges}
-                toggleFilterPanel={this.toggleFilterPanel}
                 applyFilters={() => this.applyFilters()}
                 changeSymbol={this.changeSymbol}
                 changeExchange={this.changeExchange}
@@ -197,7 +196,6 @@ class ExchangeListingsPage extends Component {
                 showFilterPanel={this.state.showFilterPanel}
                 quoteSymbols={this.props.quoteSymbols}
                 exchanges={this.props.exchanges}
-                toggleFilterPanel={this.toggleFilterPanel}
                 applyFilters={() => this.applyFilters()}
                 changeSymbol={this.changeSymbol}
                 changeExchange={this.changeExchange}
@@ -221,35 +219,42 @@ class ExchangeListingsPage extends Component {
       )
     } else {
       return (
-        <LayoutDesktop
-          leftSection={null}
-          centerSection={
-            <Fragment>
-              <ListingsHeader
-                toggleFilterPanel={this.toggleFilterPanel}
-                showFilterPanel={this.state.showFilterPanel}
-                quoteSymbols={this.props.quoteSymbols}
-                exchanges={this.props.exchanges}
-                toggleFilterPanel={this.toggleFilterPanel}
-                applyFilters={() => this.applyFilters()}
-                changeSymbol={this.changeSymbol}
-                changeExchange={this.changeExchange}
-                filterDates={this.filterDates}
-                selectedItems={selectedItems}
-                selectedSymbols={this.state.selectedSymbols}
-                selectedExchanges={this.state.selectedExchanges}
-                exchangeSlugs={this.state.exchangeSlugs}
-                resetFilters={this.resetFilters}
+        <CoinListContext.Consumer>
+          {() => {
+            return (
+              <LayoutDesktop
+                leftSection={<CoinListWrapper />}
+                centerSection={
+                  <Fragment>
+                    <ListingsHeader
+                      toggleFilterPanel={this.toggleFilterPanel}
+                      showFilterPanel={this.state.showFilterPanel}
+                      quoteSymbols={this.props.quoteSymbols}
+                      exchanges={this.props.exchanges}
+                      applyFilters={() => this.applyFilters()}
+                      changeSymbol={this.changeSymbol}
+                      changeExchange={this.changeExchange}
+                      filterDates={this.filterDates}
+                      selectedItems={selectedItems}
+                      selectedSymbols={this.state.selectedSymbols}
+                      selectedExchanges={this.state.selectedExchanges}
+                      exchangeSlugs={this.state.exchangeSlugs}
+                      resetFilters={this.resetFilters}
+                    />
+                    <ListingsList
+                      listings={listings}
+                      hasMore={hasMore}
+                      fetchOlderExchangeListings={
+                        this.fetchOlderExchangeListings
+                      }
+                    />
+                  </Fragment>
+                }
+                rightSection={<BodySection />}
               />
-              <ListingsList
-                listings={listings}
-                hasMore={hasMore}
-                fetchOlderExchangeListings={this.fetchOlderExchangeListings}
-              />
-            </Fragment>
-          }
-          rightSection={<BodySection />}
-        />
+            )
+          }}
+        </CoinListContext.Consumer>
       )
     }
   }
