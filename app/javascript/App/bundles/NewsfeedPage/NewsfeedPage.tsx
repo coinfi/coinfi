@@ -17,7 +17,7 @@ import BodySection from './BodySection'
 import BodySectionDrawer from '../../components/BodySectionDrawer'
 import _ from 'lodash'
 
-import { NewsItem, ContentType } from './types';
+import { NewsItem, ContentType, Filters } from './types';
 import { CoinList, Coin } from '../common/types';
 
 const POLLING_TIMEOUT = 6000;
@@ -32,10 +32,9 @@ interface Props extends RouteComponentProps<any> {
   isNewsfeedReady: boolean,
   isCoinlistLoading: boolean,
   isCoinlistReady: boolean,
-  fetchNewsItemsForCoin: (coinSlug: string) => Promise<NewsItem[]>,
-  fetchAllNewsItems: () => Promise<NewsItem[]>, 
-  fetchMoreNewsItems: () => Promise<NewsItem[]>,
-  fetchNewNewsItems: () => Promise<NewsItem[]>,
+  fetchNewsItems: (filters: Filters) => Promise<NewsItem[]>, 
+  fetchMoreNewsItems: (filters: Filters) => Promise<NewsItem[]>,
+  fetchNewNewsItems: (filters: Filters) => Promise<NewsItem[]>,
 };
 
 interface State {
@@ -43,6 +42,7 @@ interface State {
   newsfeedTips: boolean,
   unseenNewsIds: number[],
   isWindowFocused: boolean,
+  filters: Filters,
 };
 
 class NewsfeedPage extends React.Component<Props, State> {
@@ -54,6 +54,9 @@ class NewsfeedPage extends React.Component<Props, State> {
     newsfeedTips: true,
     unseenNewsIds: [],
     isWindowFocused: true,
+    filters: {
+      coinSlugs: [],
+    }
   }
 
   startPollingNews = () => {
@@ -79,7 +82,7 @@ class NewsfeedPage extends React.Component<Props, State> {
   }
 
   fetchNewNewsItems = () => {
-    return this.props.fetchNewNewsItems().then(news => {
+    return this.props.fetchNewNewsItems(this.state.filters).then(news => {
       return new Promise((resolve, _reject) => {
         if (!this.state.isWindowFocused) {
           const ids = news.map(elem => elem.id)
@@ -125,14 +128,18 @@ class NewsfeedPage extends React.Component<Props, State> {
     }
 
     if (this.getContentType() === "coin") {
-        this.props.fetchNewsItemsForCoin(this.props.coinSlug).then(() => {
+      this.setState((state, props) => {
+        state.filters.coinSlugs.push(props.coinSlug)
+        this.props.fetchNewsItems(state.filters).then(() => {
           this.startPollingNews();
         });
+        return state;
+      })
     } else {
       if (this.props.newslist.length > 0) {
         return;
       }
-      this.props.fetchAllNewsItems().then(() => {
+      this.props.fetchNewsItems(this.state.filters).then(() => {
         this.startPollingNews();
       });
     }
@@ -145,8 +152,14 @@ class NewsfeedPage extends React.Component<Props, State> {
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
-    if (this.props.coinSlug !== prevProps.coinSlug) {
-      this.props.fetchNewsItemsForCoin(this.props.coinSlug)
+    if (this.getContentType() === "coin") {
+      if (this.props.coinSlug !== prevProps.coinSlug && !!this.props.coinSlug) {
+        this.setState(state => {
+          state.filters.coinSlugs = [this.props.coinSlug]
+          this.props.fetchNewsItems(state.filters)
+          return state;
+        });
+      }
     }
   }
 
@@ -213,7 +226,7 @@ class NewsfeedPage extends React.Component<Props, State> {
                   activeFilters={this.state.activeFilters}
                   sortedNewsItems={this.props.newslist}
                   initialRenderTips={this.state.initialRenderTips}
-                  fetchMoreNewsFeed={this.props.fetchMoreNewsItems}
+                  fetchMoreNewsFeed={() => this.props.fetchMoreNewsItems(this.state.filters)}
                   closeTips={this.closeTips}
                 />
             </>

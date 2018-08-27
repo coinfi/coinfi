@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { NewsItem } from '../bundles/NewsfeedPage/types';
+import { NewsItem, Filters } from '../bundles/NewsfeedPage/types';
 
 export interface NewsfeedContextType {
   status: string,
@@ -7,10 +7,9 @@ export interface NewsfeedContextType {
   isLoading: boolean,
   isLoadingMoreItems: boolean,
   isReady: boolean,
-  fetchNewsItemsForCoin: (coinSlug: string) => Promise<NewsItem[]>,
-  fetchMoreNewsItems: () => Promise<NewsItem[]>,
-  fetchAllNewsItems: () => Promise<NewsItem[]>, 
-  fetchNewNewsItems: () => Promise<NewsItem[]>,
+  fetchNewNewsItems: (filters: Filters) => Promise<NewsItem[]>,
+  fetchNewsItems: (filters: Filters) => Promise<NewsItem[]>, 
+  fetchMoreNewsItems: (filters: Filters) => Promise<NewsItem[]>,
 }
 
 const NewsfeedContext = React.createContext(null)

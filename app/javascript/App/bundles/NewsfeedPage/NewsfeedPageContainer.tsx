@@ -25,9 +25,8 @@ const NewsfeedPageContainer = (props: Props) => (
                 isNewsfeedReady={newsfeedPayload.isReady}
                 isCoinlistLoading={coinlistPayload.isLoading}
                 isCoinlistReady={coinlistPayload.isReady}
-                fetchNewsItemsForCoin={newsfeedPayload.fetchNewsItemsForCoin}
+                fetchNewsItems={newsfeedPayload.fetchNewsItems}
                 fetchMoreNewsItems={newsfeedPayload.fetchMoreNewsItems}
-                fetchAllNewsItems={newsfeedPayload.fetchAllNewsItems}
                 fetchNewNewsItems={newsfeedPayload.fetchNewNewsItems}
               />
             )

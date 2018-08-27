@@ -1,4 +1,4 @@
-import { ItemWithCoinLinkData } from '../common/types';
+import { ItemWithCoinLinkData, Coin } from '../common/types';
 
 interface Category {
   name: string,
@@ -15,3 +15,9 @@ export interface NewsItem extends ItemWithCoinLinkData {
 };
 
 export type ContentType = "none" | "coin" | "news";
+
+type CoinSlug = string
+
+export type Filters = {
+  coinSlugs: CoinSlug[],
+}
