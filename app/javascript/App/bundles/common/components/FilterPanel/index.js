@@ -2,6 +2,7 @@ import React from 'react'
 import FilterApplyButton from './FilterApplyButton'
 import FilterCancelButton from './FilterCancelButton'
 import FilterResetLink from './FilterResetLink'
+import { Consumer } from '~/bundles/common/context'
 
 export default (props) => {
   // TODO: make this shared component work with other components using FilterPanel
@@ -14,16 +15,20 @@ export default (props) => {
   return (
     <div className="ph3 ph4-l">
       <div className={containerClass}>
-        <div className="pa3 bb b--geyser flex justify-between items-center filter-panel-header">
-          <div className="flex items-center">
-            <h3 className="mb0 mr1 b">Filters</h3>
-            <FilterResetLink resetFilters={props.resetFilters} />
-          </div>
-          <div>
-            <FilterCancelButton toggleFilterPanel={props.toggleFilterPanel} />
-            <FilterApplyButton applyFilters={props.applyFilters} />
-          </div>
-        </div>
+        <Consumer>
+          {({ resetFilters, toggleFilterPanel, applyFilters }) => {
+            ;<div className="pa3 bb b--geyser flex justify-between items-center filter-panel-header">
+              <div className="flex items-center">
+                <h3 className="mb0 mr1 b">Filters</h3>
+                <FilterResetLink resetFilters={resetFilters} />
+              </div>
+              <div>
+                <FilterCancelButton toggleFilterPanel={toggleFilterPanel} />
+                <FilterApplyButton applyFilters={applyFilters} />
+              </div>
+            </div>
+          }}
+        </Consumer>
         {props.children}
       </div>
     </div>
