@@ -4,7 +4,7 @@ import FilterCancelButton from './FilterCancelButton'
 import FilterResetLink from './FilterResetLink'
 import { Consumer } from '~/bundles/common/context'
 
-export default (props) => {
+export default ({ children }) => {
   // TODO: make this shared component work with other components using FilterPanel
   const { applyFilters, resetFilters } = this
 
@@ -29,7 +29,7 @@ export default (props) => {
             </div>
           )}
         </Consumer>
-        {props.children}
+        {children}
       </div>
     </div>
   )

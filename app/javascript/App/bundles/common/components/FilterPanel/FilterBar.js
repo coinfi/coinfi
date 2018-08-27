@@ -1,7 +1,8 @@
 import React from 'react'
 import FilterButton from './FilterButton'
+import { Consumer } from '~/bundles/common/context'
 
-export default (props) => (
+export default ({ children }) => (
   <div
     id="panel-header"
     className="pa3 b--b flex-none flex justify-between items-center bg-athens"
@@ -27,8 +28,12 @@ export default (props) => (
           Coins
         </button>
       )}
-      <FilterButton onClick={props.toggleFilterPanel} />
-      {props.children}
+      <Consumer>
+        {({ toggleFilterPanel }) => (
+          <FilterButton onClick={toggleFilterPanel} />
+        )}
+      </Consumer>
+      {children}
     </div>
   </div>
 )

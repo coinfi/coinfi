@@ -176,11 +176,7 @@ class ExchangeListingsPage extends Component {
           mainSection={
             <Fragment>
               <Provider value={context}>
-                <ListingsHeader
-                  toggleFilterPanel={this.toggleFilterPanel}
-                  showFilterPanel={this.state.showFilterPanel}
-                  exchangeSlugs={this.state.exchangeSlugs}
-                />
+                <ListingsHeader showFilterPanel={this.state.showFilterPanel} />
               </Provider>
               <ListingsList
                 listings={listings}
@@ -201,11 +197,7 @@ class ExchangeListingsPage extends Component {
           leftSection={
             <Fragment>
               <Provider value={context}>
-                <ListingsHeader
-                  toggleFilterPanel={this.toggleFilterPanel}
-                  showFilterPanel={this.state.showFilterPanel}
-                  exchangeSlugs={this.state.exchangeSlugs}
-                />
+                <ListingsHeader showFilterPanel={this.state.showFilterPanel} />
               </Provider>
               <ListingsList
                 listings={listings}
@@ -225,13 +217,8 @@ class ExchangeListingsPage extends Component {
           centerSection={
             <Fragment>
               <Provider value={context}>
-                <ListingsHeader
-                  toggleFilterPanel={this.toggleFilterPanel}
-                  showFilterPanel={this.state.showFilterPanel}
-                  exchangeSlugs={this.state.exchangeSlugs}
-                />
+                <ListingsHeader showFilterPanel={this.state.showFilterPanel} />
               </Provider>
-              .{' '}
               <ListingsList
                 listings={listings}
                 hasMore={hasMore}
