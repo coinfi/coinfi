@@ -464,6 +464,8 @@ GEM
       actionpack (>= 4.0)
       activesupport (>= 4.0)
       sprockets (>= 3.0.0)
+    strong_migrations (0.2.3)
+      activerecord (>= 3.2.0)
     temple (0.7.7)
     thor (0.20.0)
     thread_safe (0.3.6)
@@ -581,6 +583,7 @@ DEPENDENCIES
   slim-rails
   spring
   spring-watcher-listen (~> 2.0.0)
+  strong_migrations
   twitter
   uglifier (>= 1.3.0)
   unidecoder
@@ -592,4 +595,4 @@ RUBY VERSION
    ruby 2.4.1p111
 
 BUNDLED WITH
-   1.16.2
+   1.16.4

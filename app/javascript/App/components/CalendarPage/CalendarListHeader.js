@@ -4,7 +4,6 @@ import SectionHeader from '../SectionHeader'
 import SectionHeaderTight from '../SectionHeaderTight'
 import SearchCoins from '../SearchCoins'
 import FilterPanel from '../FilterPanel'
-import FilterTags from '../FilterTags'
 import bulbIcon from '../../images/bulbIcon.svg'
 import filterBtn from '../../images/filter-btn.svg'
 
@@ -93,12 +92,6 @@ const CalendarListHeader = (props) => {
           <SearchCoins {...props} classProps="ml1 pl2 bl" />
         </div>
       </SectionHeader>
-      {activeFilters.size > 0 && (
-        <div className="pa3 f6 b--b bg-athens flex items-center">
-          <span className="mr2">Viewing by:</span>
-          <FilterTags {...props} />
-        </div>
-      )}
       {currentUI('filterPanel') && (
         <FilterPanel
           {...props}
