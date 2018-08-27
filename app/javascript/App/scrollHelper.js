@@ -5,18 +5,16 @@ export default () => {
   const panelHeader = document.querySelector('#panel-header')
   const topNavHeight = document.querySelector('.topnav').offsetHeight
 
-  if (window.isMobile) {
+  if (panelHeader && window.isMobile) {
     const newsfeedElem = document.querySelector('#newsfeed')
-    const coinsTipsTab = document.querySelector(
-      '.listing-header-coins-tips-tabs',
-    )
-    const calculatedHeight =
-      window.innerHeight -
-      panelHeader.offsetHeight -
-      coinsTipsTab.offsetHeight -
-      topNavHeight
 
     if (!!newsfeedElem) {
+      const coinTipsTab = document.querySelector('#coin-tips-tab')
+      const calculatedHeight =
+        window.innerHeight -
+        panelHeader.offsetHeight -
+        coinTipsTab.offsetHeight -
+        topNavHeight
       newsfeedElem.style.maxHeight = `${calculatedHeight}px`
     }
   }

@@ -61,12 +61,15 @@
     }
   }
 }
+
 .header-logo {
   width: 65px;
 }
+
 .main-logo {
   width: 74px;
 }
+
 .mobile-nav-toggle {
   float: left;
   margin-top: 8px;
@@ -138,12 +141,11 @@
       margin-top: 3px;
     }
   }
-
   .filter-btn,
   .coins-btn {
     margin-left: 0;
   }
-  .listing-header-coins-tips-tabs {
+  #coin-tips-tab {
     display: none;
   }
 }
