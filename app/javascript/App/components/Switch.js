@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 
 export default class Switch extends Component {
   state = { on: false }
-  componentWillMount() {
+  componentDidMount() {
     const { on } = this.props
     this.setState({ on: !!on })
   }

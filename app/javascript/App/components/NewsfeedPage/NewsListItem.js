@@ -52,7 +52,7 @@ const NewsListItem = (props) => {
         readNewsHandler(newsItem, setActiveNewsItem)
       }}
     >
-      <div className="pa-default">
+      <div data-heap="news-click-on-news-item" className="pa-default">
         <h4 className="pointer mb2 f5" style={hasRead ? { color: '#999' } : {}}>
           {newsItemTitle}
         </h4>

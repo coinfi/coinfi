@@ -22,7 +22,11 @@ const IconWrapper = ({ onClick, children, className }) => {
   const klass = className || ''
   if (onClick) {
     return (
-      <button className={`btn-icon icon ${klass}`} onClick={onClick}>
+      <button
+        data-heap="news-add-coin-to-watchlist-button"
+        className={`btn-icon icon ${klass}`}
+        onClick={onClick}
+      >
         {children}
       </button>
     )
