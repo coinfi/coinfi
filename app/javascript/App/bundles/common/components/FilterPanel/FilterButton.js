@@ -2,7 +2,7 @@ import React from 'react'
 
 export default ({ onClick }) => (
   <button
-    data-heap="news-clicked-filter-button"
+    data-heap="news-click-filter-button"
     className="btn btn-xs btn-white filter-btn mr2"
     onClick={onClick}
   >

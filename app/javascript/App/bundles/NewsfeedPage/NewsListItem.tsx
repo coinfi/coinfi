@@ -3,14 +3,14 @@ import { Link } from 'react-router-dom'
 import timeago from 'timeago.js'
 import CoinTags from '../common/components/CoinTags'
 import BulletSpacer from '../../components/BulletSpacer'
-import { slugify } from '../../lib/utils/slugify';
+import { slugify } from '../../lib/utils/slugify'
 
-const twitterLogo = require('../../images/logo-twitter.svg');
-const linkLogo = require('../../images/logo-link.svg');
-const redditLogo = require('../../images/logo-reddit.svg');
+const twitterLogo = require('../../images/logo-twitter.svg')
+const linkLogo = require('../../images/logo-link.svg')
+const redditLogo = require('../../images/logo-reddit.svg')
 
 const readNewsHandler = (newsItem) => {
-  const newsId = newsItem.id;
+  const newsId = newsItem.id
   const readNewsData = JSON.parse(localStorage.getItem('readNews')) || []
 
   readNewsData.push(newsId)
@@ -45,12 +45,8 @@ const NewsListItem = (props) => {
     .replace(/<\/h1>/g, '')
 
   return (
-    <div
-      data-heap="newsitem-headline"
-      className={className}
-      style={{ height: props.height || 'auto' }}
-    >
-      <div className="pa-default">
+    <div className={className} style={{ height: props.height || 'auto' }}>
+      <div data-heap="news-click-on-news-item" className="pa-default">
         <Link
           to={`/news/${newsItem.id}/${slugify(newsItem.title)}`}
           onClick={() => {
@@ -65,7 +61,10 @@ const NewsListItem = (props) => {
               ).parentNode.scrollTop = 0
           }}
         >
-          <h4 className="pointer mb2 f5" style={hasRead ? { color: '#999' } : {}}>
+          <h4
+            className="pointer mb2 f5"
+            style={hasRead ? { color: '#999' } : {}}
+          >
             {newsItemTitle}
           </h4>
         </Link>
