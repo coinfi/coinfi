@@ -25,10 +25,44 @@ $(document).ready(() => {
   })
 
   $('.registration-form-wrapper form').on('submit', function() {
-    $(this).find('input[type=submit]').prop('disabled', true).text('Processing...');
+    $(this)
+      .find('input[type=submit]')
+      .prop('disabled', true)
+      .text('Processing...')
   })
 
   if (document.querySelector('.register-set-password') !== null)
-    fbq('track', 'Lead', {});
-
+    fbq('track', 'Lead', {})
 })
+
+export const darkModeFeature = () => {
+  const darkModeBtn = document.querySelector('.trigger-dark-mode')
+  const options = {
+    inputs: {
+      backgroundColor: 'inherit',
+    },
+  }
+  const nightly = new Nightly(options)
+
+  darkModeBtn.addEventListener('click', function(event) {
+    window.darkModeEnabled = !window.darkModeEnabled
+
+    const bodyElem = document.querySelector('body')
+    Array.from(bodyElem.classList).includes('dark-mode')
+      ? bodyElem.classList.remove('dark-mode')
+      : bodyElem.classList.add('dark-mode')
+
+    Array.from(bodyElem.classList).includes('dark-mode')
+      ? (document.querySelector('.trigger-dark-mode>span').innerText = 'light')
+      : (document.querySelector('.trigger-dark-mode>span').innerText = 'dark')
+
+    nightly.toggle()
+    !(function removeIconBg() {
+      document.querySelectorAll('button.btn-icon').forEach((item) => {
+        item.style.backgroundColor = 'inherit'
+      })
+    })()
+  })
+}
+
+darkModeFeature()
