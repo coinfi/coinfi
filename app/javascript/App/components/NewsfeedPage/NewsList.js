@@ -144,6 +144,7 @@ class NewsList extends Component {
                 background: '#fff',
                 position: 'absolute',
                 maxHeight: 'none',
+                overflow: 'hidden',
               }
             : {}
         }
