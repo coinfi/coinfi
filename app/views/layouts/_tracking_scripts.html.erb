@@ -1,4 +1,4 @@
-<% if not Rails.env.production? %>
+<% if Rails.env.production? %>
 <script>
 var _rollbarConfig = {
     accessToken: "<%= ENV['ROLLBAR_CLIENT_ACCESS_TOKEN'] %>",
