@@ -78,12 +78,6 @@ class NewsfeedPage extends React.Component<Props, State> {
     }
   }
 
-  onNewsItemShown = (id) => {
-    setTimeout(() => {
-      this.setState(state => ({ unseenNewsIds: state.unseenNewsIds.filter(_id => _id !== id) }), this.updateTitle);
-    }, 500)
-  }
-
   fetchNewNewsItems = () => {
     return this.props.fetchNewNewsItems().then(news => {
       return new Promise((resolve, _reject) => {
@@ -107,7 +101,7 @@ class NewsfeedPage extends React.Component<Props, State> {
 
   handleOnBlur = () => this.setState({ isWindowFocused: false })
   
-  handleOnFocus = () => this.setState({ isWindowFocused: true }, () => this.updateTitle())
+  handleOnFocus = () => this.setState({ isWindowFocused: true, unseenNewsIds: [] }, () => this.updateTitle())
 
   getContentType(): ContentType {
     if (typeof this.props.coinSlug !== 'undefined') {
@@ -221,8 +215,6 @@ class NewsfeedPage extends React.Component<Props, State> {
                   initialRenderTips={this.state.initialRenderTips}
                   fetchMoreNewsFeed={this.props.fetchMoreNewsItems}
                   closeTips={this.closeTips}
-                  onNewsItemShown={(id) => this.onNewsItemShown(id)}
-                  unseenNewsIds={this.state.unseenNewsIds}
                 />
             </>
           }

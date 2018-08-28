@@ -6,9 +6,8 @@ declare var window: {
 
 import * as React from 'react'
 import InfiniteScroll from 'react-infinite-scroll-component'
-import VisibilitySensor from 'react-visibility-sensor';
 import _ from 'lodash'
-import NewsListItem from './NewsListItem'
+import NewsListItem from './NewsListItem/NewsListItem'
 import LoadingIndicator from '../../components/LoadingIndicator'
 import Tips from './Tips'
 import scrollHelper from './../../scrollHelper'
@@ -26,7 +25,6 @@ interface IProps {
   closeTips?: any // () => void
   onNewsItemShown?: (id) => void,
   isNewsSeen?: (id) => boolean,
-  unseenNewsIds?: number[],
   isWindowFocused?: boolean,
 }
 
@@ -104,22 +102,15 @@ class NewsList extends React.Component<IProps, IState> {
     const mappedItems = this.props.sortedNewsItems.map((newsItem, index) => {
       const hasRead = readNewsIds.includes(newsItem.id)
       return (
-        <VisibilitySensor 
+        <NewsListItem
           key={newsItem.id}
-          onChange={(isVisible) => isVisible && this.props.onNewsItemShown(newsItem.id)}
-          active={this.props.isWindowFocused}
-        >
-          <NewsListItem
-            key={newsItem.id}
-            newsItem={newsItem}
-            {...this.props}
-            setActiveNewsItem={this.setActiveNewsItem}
-            // @ts-ignore FIME
-            selectCoin={(symbol) => this.selectCoin(symbol)} 
-            hasRead={hasRead}
-            isUnseen={!hasRead && this.props.unseenNewsIds.indexOf(newsItem.id) !== -1}
-          />
-        </VisibilitySensor>
+          newsItem={newsItem}
+          {...this.props}
+          setActiveNewsItem={this.setActiveNewsItem}
+          // @ts-ignore FIME
+          selectCoin={(symbol) => this.selectCoin(symbol)} 
+          hasRead={hasRead}
+        />
       )
     })
 

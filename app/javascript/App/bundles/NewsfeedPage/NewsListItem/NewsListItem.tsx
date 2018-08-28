@@ -1,13 +1,13 @@
 import * as React from 'react'
 import { Link } from 'react-router-dom'
 import timeago from 'timeago.js'
-import CoinTags from '../common/components/CoinTags'
-import BulletSpacer from '../../components/BulletSpacer'
-import { slugify } from '../../lib/utils/slugify'
+import CoinTags from '../../common/components/CoinTags'
+import BulletSpacer from '../../../components/BulletSpacer'
+import { slugify } from '../../../lib/utils/slugify';
 
-const twitterLogo = require('../../images/logo-twitter.svg')
-const linkLogo = require('../../images/logo-link.svg')
-const redditLogo = require('../../images/logo-reddit.svg')
+const twitterLogo = require('../../../images/logo-twitter.svg');
+const linkLogo = require('../../../images/logo-link.svg');
+const redditLogo = require('../../../images/logo-reddit.svg');
 
 import classNames from 'classnames';
 const css = require('./NewsListItem.module.scss');
@@ -35,7 +35,6 @@ const NewsListItem = (props) => {
     setActiveNewsItem,
     preRender,
     hasRead,
-    isUnseen,
   } = props
 
   let bgFoam = false;
@@ -59,9 +58,6 @@ const NewsListItem = (props) => {
       )}
       style={{ height: props.height || 'auto' }}
     >
-      <div className={classNames({
-        [css.cornerWrapper]: isUnseen
-      })}>
         <div data-heap="news-click-on-news-item" className="pa-default">
           <Link
             to={`/news/${newsItem.id}/${slugify(newsItem.title)}`}
@@ -142,7 +138,6 @@ const NewsListItem = (props) => {
             <CoinTags {...props} itemWithCoinLinkData={newsItem} />
           </div>
         </div>
-      </div>
     </div>
   )
 }

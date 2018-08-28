@@ -77,19 +77,3 @@ ol.tips {
     }
   }
 }
-
-
-// TODO: move another place
-.news-list-item {
-  position: relative;
-  &.unseen::after {
-    width: 0;
-    height: 0;
-    border-top: 15px solid red;
-    border-right: 15px solid transparent;
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-  }
-}
