@@ -46,6 +46,7 @@ const NewsListItem = (props) => {
 
   return (
     <div
+      data-heap="newsitem-headline"
       className={className}
       style={{ height: props.height || 'auto' }}
     >

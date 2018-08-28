@@ -37,7 +37,11 @@ export default class WatchButton extends Component {
     return (
       <div className="dib tooltipped">
         {!this.userIsLoggedIn && <div className="tooltip">Login to watch</div>}
-        <button onClick={this.handleClick} className={btnClass}>
+        <button
+          data-heap="coin-details-add-coin-to-watchlist-button"
+          onClick={this.handleClick}
+          className={btnClass}
+        >
           {watching ? (
             <span>
               <Icon name="star" solid className="mr1" />

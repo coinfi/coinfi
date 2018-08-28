@@ -20,7 +20,7 @@ class NewsfeedPage extends Component {
     liveCoinArr: [],
   }
 
-  componentWillMount() {
+  componentDidMount() {
     window.addEventListener('resize', debounce(() => this.forceUpdate()), 500)
   }
 

@@ -52,6 +52,7 @@ class SearchCoins extends Component {
             }}
           />
           <Input
+            data-heap="news-click-search-bar"
             value={searchText}
             onChange={this.handleSearchInput}
             placeholder="Search Coins/ICOs"

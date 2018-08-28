@@ -18,6 +18,7 @@ class CoinListHeader extends Component {
         <div className="pv1">
           <div className="flex justify-center items-center">
             <Switch
+              data-heap="watchlist-toggle-switch"
               on={currentUI('watchingOnly')}
               onChange={() => {
                 // TODO: Implement new onboarding signup flow.

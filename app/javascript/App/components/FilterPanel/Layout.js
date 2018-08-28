@@ -47,6 +47,7 @@ const Layout = (props) => {
             Cancel
           </button>
           <button
+            data-heap="news-clicked-apply-filter-button"
             className="btn btn-blue btn-xs ml3"
             onClick={applyFilters}
             style={{

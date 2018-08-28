@@ -46,6 +46,7 @@ const NewsListItem = (props) => {
 
   return (
     <div
+      data-heap="news-click-on-news-item"
       className={className}
       style={{ height: props.height || 'auto' }}
       onClick={() => {

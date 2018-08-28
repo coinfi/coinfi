@@ -10,10 +10,18 @@ class CoinListHeader extends Component {
             className="pa3 b--b flex-none flex justify-between items-center bg-athens"
             style={{ height: 60 }}
           >
-            <a onClick={payload.showToplist} className="f5">
+            <a
+              onClick={payload.showToplist}
+              className="f5"
+              data-heap="toplist-toggle"
+            >
               Toplist
             </a>
-            <a onClick={payload.showWatchlist} className="f5">
+            <a
+              onClick={payload.showWatchlist}
+              className="f5"
+              data-heap="watchlist-toggle"
+            >
               Watchlist
             </a>
           </div>
