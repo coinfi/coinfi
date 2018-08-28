@@ -8,44 +8,44 @@ import Icon from '../../components/Icon'
 import localAPI from '../../lib/localAPI'
 
 import TwitterBody from './TwitterBody'
-import LoadingIndicator from '../../components/LoadingIndicator';
-import { getDomainType } from '../../lib/utils/url';
+import LoadingIndicator from '../../components/LoadingIndicator'
+import { getDomainType } from '../../lib/utils/url'
 
-import { NewsItem } from './types';
+import { INewsItem } from './types'
 
-interface Props {
+interface IProps {
   newsItemId: string,
-};
+}
 
-interface State {
-  newsItem: NewsItem,
-};
+interface IState {
+  newsItem: INewsItem,
+}
 
-export default class NewsBody extends React.Component<Props, State>  {
+export default class NewsBody extends React.Component<IProps, IState>  {
 
-  state = {
+  public state = {
     newsItem: null,
-  };
+  }
 
-  componentDidMount() {
+  public componentDidMount() {
     if (!!this.props.newsItemId) {
-      this.fetchNewsItemDetails();
+      this.fetchNewsItemDetails()
     }
   }
 
-  componentDidUpdate(prevProps: Props, prevState: State, snapshot) {
+  public componentDidUpdate(prevProps: IProps, prevState: IState, snapshot) {
     if (!this.props.newsItemId) {
       if (!!prevState.newsItem) {
-        this.setState({ newsItem: null });
+        this.setState({ newsItem: null })
       }
     } else {
       if (!prevProps.newsItemId || prevProps.newsItemId !== this.props.newsItemId) {
-        this.setState({ newsItem: null }, () => this.fetchNewsItemDetails());
+        this.setState({ newsItem: null }, () => this.fetchNewsItemDetails())
       }
     }
   }
 
-  fetchNewsItemDetails() {
+  public fetchNewsItemDetails() {
     localAPI.get(`/news/${this.props.newsItemId}`).then((response) => {
       this.setState({
         newsItem: response.payload,
@@ -53,8 +53,8 @@ export default class NewsBody extends React.Component<Props, State>  {
     })
   }
 
-  render() {
-    const { newsItem } = this.state;
+  public render() {
+    const { newsItem } = this.state
   
     if(!newsItem) {
       return (
@@ -64,13 +64,13 @@ export default class NewsBody extends React.Component<Props, State>  {
       ) 
     }
 
-    if (getDomainType(newsItem.url) === "twitter") {
+    if (getDomainType(newsItem.url) === 'twitter') {
       return <TwitterBody newsItem={newsItem} />
     }
 
-    const categories = newsItem.categories;
+    const categories = newsItem.categories
 
-    const content = _.trim(newsItem.content) || _.trim(newsItem.summary);
+    const content = _.trim(newsItem.content) || _.trim(newsItem.summary)
 
     return (
       <div className="pa3 bg-white min-h-100 selected-news-content">
@@ -83,12 +83,12 @@ export default class NewsBody extends React.Component<Props, State>  {
             rel="nofollow"
             className="break-all"
           >
-            <Icon name="link" className="mr1 f7" regular />
+            <Icon name="link" className="mr1 f7" regular={true} />
             {newsItem.url}
           </a>
         </div>
         <div className="mb3 f6">
-          <Icon name="clock" className="mr1 f7" regular />
+          <Icon name="clock" className="mr1 f7" regular={true} />
           {timeago().format(newsItem.feed_item_published_at)}
           <BulletSpacer />
           <span>

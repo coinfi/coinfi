@@ -2,16 +2,16 @@ import * as React from 'react'
 import CoinTags from '../common/components/CoinTags'
 import { Tweet } from 'react-twitter-widgets'
 
-import { NewsItem } from './types';
+import { INewsItem } from './types'
 
-import { getTweetId } from '../../lib/utils/url';
+import { getTweetId } from '../../lib/utils/url'
 
-interface Props {
-  newsItem: NewsItem,
-};
+interface IProps {
+  newsItem: INewsItem,
+}
 
-export default class NewsBody extends React.Component<Props, {}> {
-  render() {
+export default class NewsBody extends React.Component<IProps, {}> {
+  public render() {
 
     const { newsItem } = this.props
 
@@ -19,9 +19,9 @@ export default class NewsBody extends React.Component<Props, {}> {
       return null
     }
 
-    const tweetId = getTweetId(newsItem.url);
+    const tweetId = getTweetId(newsItem.url)
 
-    const categories = newsItem.categories; // TODO: check if that's right
+    const categories = newsItem.categories // TODO: check if that's right
 
     return (
       <div className="pa4 bg-white min-h-100">

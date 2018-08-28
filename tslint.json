@@ -5,13 +5,16 @@
   "rules": {
     "semi": false,
     "quotemark": [true, "single", "jsx-double"],
-    "trailing-comma": "es5",
     "prefer-template": true,
     "arrow-parens": ["error", "always"],
     "ordered-imports": false,
     "jsx-no-lambda": false,
     "jsx-a11y/href-no-hash": [0],
-    "no-var-requires": false
+    "no-var-requires": false,
+    "semicolon": [true, "never"],
+    "trailing-comma": [true,  { "esSpecCompliant": {
+      "type": true
+    }}]
   },
   "rulesDirectory": []
 }
