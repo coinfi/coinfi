@@ -36,10 +36,10 @@ const NewsListItem = (props) => {
   let className = 'b--b tiber overflow-hidden'
   if (activeEntity) {
     const { type, id } = activeEntity
-    if (type === 'newsItem' && id === newsItem.id) className += ' bg-foam'
+    if (type === 'newsItem' && id === newsItem.id) { className += ' bg-foam' }
   }
   const url = new URL(newsItem.url)
-  if (preRender) className += ' o-0 absolute'
+  if (preRender) { className += ' o-0 absolute' }
   const newsItemTitle = newsItem.title
     .replace(/<h1>/g, '')
     .replace(/<\/h1>/g, '')
@@ -54,11 +54,12 @@ const NewsListItem = (props) => {
             if (
               document.querySelector('.selected-news-content') &&
               document.querySelector('.selected-news-content').parentNode
-            )
+            ) {
               document.querySelector(
                 '.selected-news-content',
                 // @ts-ignore
               ).parentNode.scrollTop = 0
+            }
           }}
         >
           <h4
