@@ -1,4 +1,5 @@
 import React from 'react'
+import nightModeHelper from '~/nightModeHelper'
 
 const Layout = (props) => {
   const {
@@ -34,7 +35,10 @@ const Layout = (props) => {
         <div>
           <button
             className="btn btn-white btn-xs"
-            onClick={() => disableUI('filterPanel')}
+            onClick={() => {
+              disableUI('filterPanel')
+              nightModeHelper()
+            }}
             style={{
               background: 'none',
               border: 'none',

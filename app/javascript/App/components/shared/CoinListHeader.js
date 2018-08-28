@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import SectionHeader from './SectionHeader'
 import Switch from '../Switch'
+import nightModeHelper from '~/nightModeHelper'
 
 class CoinListHeader extends Component {
   render() {
@@ -32,6 +33,7 @@ class CoinListHeader extends Component {
                 } else {
                   removeFilter('coins')
                 }
+                nightModeHelper()
               }}
             />
             <div className="ml2 f5 silver">Watchlist</div>
