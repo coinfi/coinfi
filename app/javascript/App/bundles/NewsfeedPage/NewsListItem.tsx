@@ -1,9 +1,10 @@
 import * as React from 'react'
+import styled from 'styled-components';
 import { Link } from 'react-router-dom'
 import timeago from 'timeago.js'
-import CoinTags from '../../common/components/CoinTags'
-import BulletSpacer from '../../../components/BulletSpacer'
-import { slugify } from '../../../lib/utils/slugify';
+import CoinTags from '../common/components/CoinTags'
+import BulletSpacer from '../../components/BulletSpacer'
+import { slugify } from '../../lib/utils/slugify';
 
 const twitterLogo = require('../../../images/logo-twitter.svg');
 const linkLogo = require('../../../images/logo-link.svg');
@@ -27,6 +28,12 @@ const readNewsHandler = (newsItem) => {
     document.querySelector('.selected-news-content').parentNode.scrollTop = 0
   }
 }
+
+const Title = styled.h4`
+  ${({ hasRead }: any) => hasRead && `
+    color: #999;
+  `}
+`;
 
 const NewsListItem = (props) => {
   const {
@@ -54,7 +61,6 @@ const NewsListItem = (props) => {
         'b--b tiber overflow-hidden',
         { 'bg-foam': bgFoam },
         { 'o-0 absolute': preRender },
-        css.newsListItem,
       )}
       style={{ height: props.height || 'auto' }}
     >
@@ -73,12 +79,9 @@ const NewsListItem = (props) => {
                 ).parentNode.scrollTop = 0
             }}
           >
-            <h4 className={classNames(
-              'pointer mb2 f5',
-              { [css[`title--hasRead`]]: hasRead },
-            )}>
+            <Title hasRead={hasRead}>
               {newsItemTitle}
-            </h4>
+            </Title>
           </Link>
           <div className="flex justify-between flex-wrap">
             <div className="f6 silver">

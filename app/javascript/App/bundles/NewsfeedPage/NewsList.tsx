@@ -7,7 +7,7 @@ declare var window: {
 import * as React from 'react'
 import InfiniteScroll from 'react-infinite-scroll-component'
 import _ from 'lodash'
-import NewsListItem from './NewsListItem/NewsListItem'
+import NewsListItem from './NewsListItem'
 import LoadingIndicator from '../../components/LoadingIndicator'
 import Tips from './Tips'
 import scrollHelper from './../../scrollHelper'
