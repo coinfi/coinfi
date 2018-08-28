@@ -22,6 +22,7 @@ export default (props) => (
                 }
               : {}
           }
+          onClick={props.showCoinListDrawer}
         >
           <i className="material-icons f6 mr2">list</i>
           Coins
