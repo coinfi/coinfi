@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180826015433) do
+ActiveRecord::Schema.define(version: 20180828071045) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -230,6 +230,16 @@ ActiveRecord::Schema.define(version: 20180826015433) do
     t.string "coin_key"
     t.boolean "is_listed"
     t.jsonb "external_url"
+    t.string "eth_address"
+    t.string "country"
+    t.float "share_of_tokens_for_sale"
+    t.jsonb "external_key"
+    t.string "facebook"
+    t.string "telegram"
+    t.bigint "total_supply"
+    t.text "description"
+    t.jsonb "team"
+    t.jsonb "external_rating"
     t.index ["category"], name: "index_coins_on_category"
     t.index ["coin_key"], name: "index_coins_on_coin_key", unique: true
     t.index ["influencer_reviews_count"], name: "index_coins_on_influencer_reviews_count"
