@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import nightModeHelper from '~/nightModeHelper'
 
 export default class Switch extends Component {
   state = { on: false }
@@ -11,6 +12,7 @@ export default class Switch extends Component {
     const { on } = this.state
     this.setState({ on: !on })
     onChange(!on)
+    nightModeHelper()
   }
   render() {
     const { on } = this.state
