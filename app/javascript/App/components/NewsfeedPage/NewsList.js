@@ -38,9 +38,17 @@ class NewsList extends Component {
     readNewsIds,
     isLoading,
     fetchMoreNewsFeed,
+    user,
+    loggedIn,
   ) {
     if (initialRenderTips && window.isMobile) {
-      return <Tips closeTips={this.closeTips.bind(this)} />
+      return (
+        <Tips
+          closeTips={this.closeTips.bind(this)}
+          user={user}
+          loggedIn={loggedIn}
+        />
+      )
     } else if (isLoading('newsItems')) {
       return (
         <div className="pa3 tc mt4">
@@ -111,6 +119,8 @@ class NewsList extends Component {
       sortedNewsItems,
       initialRenderTips,
       fetchMoreNewsFeed,
+      user,
+      loggedIn,
     } = this.props
     const viewState = {
       activeEntity: activeEntity,
@@ -118,6 +128,7 @@ class NewsList extends Component {
       sortedNewsItems: sortedNewsItems,
     }
     const readNewsIds = JSON.parse(localStorage.getItem('readNews')) || []
+    const marginTopVal = document.querySelector('.topnav').offsetHeight * -1
 
     return (
       <div
@@ -128,7 +139,13 @@ class NewsList extends Component {
           window.isMobile &&
           !activeFilters.size &&
           initialRenderTips
-            ? { marginTop: '-65px', background: '#fff', position: 'absolute' }
+            ? {
+                marginTop: marginTopVal,
+                background: '#fff',
+                position: 'absolute',
+                maxHeight: 'none',
+                overflow: 'hidden',
+              }
             : {}
         }
       >
@@ -138,6 +155,8 @@ class NewsList extends Component {
           readNewsIds,
           isLoading,
           fetchMoreNewsFeed,
+          user,
+          loggedIn,
         )}
       </div>
     )
