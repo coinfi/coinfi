@@ -4,11 +4,11 @@ import FilterBar from '~/bundles/common/components/FilterPanel/FilterBar'
 import CoinTipsTab from '~/bundles/common/components/CoinTipsTab'
 import ListingFilterFields from './ListingFilterFields'
 
-export default ({showFilterPanel}) => {
+export default ({showFilterPanel, toggleFilterPanel}) => {
   return (
     <Fragment>
       <CoinTipsTab />
-      <FilterBar />
+      <FilterBar toggleFilterPanel={toggleFilterPanel} />
 
       {showFilterPanel && (
         <FilterPanel>
