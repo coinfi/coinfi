@@ -1,13 +1,13 @@
 import React from 'react'
 import Select from 'react-select'
 import DateRangeListing from '~/components/DateRangeListing'
-import { ExchangeListingContextConsumer } from '~/bundles/ExchangeListings/context'
+import ExchangeListingsContext from '~/bundles/ExchangeListings/context'
 
 export default () => (
   <div className="pa3">
     <div className="mb4">
       <h4 className="mb2">Quote Symbol</h4>
-      <ExchangeListingContextConsumer>
+      <ExchangeListingsContext.Consumer>
         {({ quoteSymbols, changeSymbol, selectedSymbols }) => {
           const selectedSymbolData = selectedSymbols.map((item) => {
             return {
@@ -25,23 +25,23 @@ export default () => (
             />
           )
         }}
-      </ExchangeListingContextConsumer>
+      </ExchangeListingsContext.Consumer>
     </div>
     <div className="mb4">
       <h4 className="mb2">Date Range</h4>
-      <ExchangeListingContextConsumer>
+      <ExchangeListingsContext.Consumer>
         {({ filterDates, selectedItems }) => (
           <DateRangeListing
             onChange={filterDates}
             selectedItems={selectedItems}
           />
         )}
-      </ExchangeListingContextConsumer>
+      </ExchangeListingsContext.Consumer>
     </div>
 
     <div>
       <h4 className="mb2">Exchanges</h4>
-      <ExchangeListingContextConsumer>
+      <ExchangeListingsContext.Consumer>
         {({ exchanges, changeExchange, selectedExchanges }) => {
           const selectedExchangeSlugs = selectedExchanges.map((slug) => {
             return {
@@ -59,7 +59,7 @@ export default () => (
             />
           )
         }}
-      </ExchangeListingContextConsumer>
+      </ExchangeListingsContext.Consumer>
     </div>
   </div>
 )

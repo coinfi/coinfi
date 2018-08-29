@@ -1,6 +1,5 @@
 import { createContext } from 'react'
 
-const Context = createContext({})
+const ExchangeListingsContext = createContext()
 
-export const ExchangeListingsContextProvider = Context.Provider
-export const ExchangeListingContextConsumer = Context.Consumer
+export default ExchangeListingsContext

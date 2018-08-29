@@ -7,7 +7,7 @@ import ListingsHeader from './components/ListingsHeader'
 import ListingsList from './components/ListingsList'
 import BodySection from './components/BodySection'
 import localAPI from '~/lib/localAPI'
-import { ExchangeListingsContextProvider } from '~/bundles/ExchangeListings/context'
+import ExchangeListingsContext from '~/bundles/ExchangeListings/context'
 
 class ExchangeListingsPage extends Component {
   constructor(props) {
@@ -99,18 +99,16 @@ class ExchangeListingsPage extends Component {
     const exchangeSlugArgs = this.state.selectedExchanges
     const detectedSinceStr =
       this.state.detectedSince !== null
-        ? '&detectedSince=' + this.state.detectedSince
+        ? `&detectedSince=${this.state.detectedSince}`
         : ''
     const detectedUntilStr =
       this.state.detectedUntil !== null
-        ? '&detectedUntil=' + this.state.detectedUntil
+        ? `&detectedUntil=${this.state.detectedUntil}`
         : ''
-    const urlParams =
-      `/exchange_listings?` +
+    const urlParams = `${`/exchange_listings?` +
       `quoteSymbols=${quoteSymbolArg}&` +
-      `exchangeSlugs=${exchangeSlugArgs || ''}&` +
-      detectedSinceStr +
-      detectedUntilStr
+      `exchangeSlugs=${exchangeSlugArgs ||
+        ''}&`}${detectedSinceStr}${detectedUntilStr}`
 
     localAPI.get(urlParams).then((response) => {
       this.setState({
@@ -175,9 +173,9 @@ class ExchangeListingsPage extends Component {
         <LayoutMobile
           mainSection={
             <Fragment>
-              <ExchangeListingsContextProvider value={context}>
+              <ExchangeListingsContext.Provider value={context}>
                 <ListingsHeader showFilterPanel={this.state.showFilterPanel} />
-              </ExchangeListingsContextProvider>
+              </ExchangeListingsContext.Provider>
               <ListingsList
                 listings={listings}
                 hasMore={hasMore}
@@ -196,9 +194,9 @@ class ExchangeListingsPage extends Component {
           {...props}
           leftSection={
             <Fragment>
-              <ExchangeListingsContextProvider value={context}>
+              <ExchangeListingsContext.Provider value={context}>
                 <ListingsHeader showFilterPanel={this.state.showFilterPanel} />
-              </ExchangeListingsContextProvider>
+              </ExchangeListingsContext.Provider>
               <ListingsList
                 listings={listings}
                 hasMore={hasMore}
@@ -216,9 +214,9 @@ class ExchangeListingsPage extends Component {
           leftSection={null}
           centerSection={
             <Fragment>
-              <ExchangeListingsContextProvider value={context}>
+              <ExchangeListingsContext.Provider value={context}>
                 <ListingsHeader showFilterPanel={this.state.showFilterPanel} />
-              </ExchangeListingsContextProvider>
+              </ExchangeListingsContext.Provider>
               <ListingsList
                 listings={listings}
                 hasMore={hasMore}
