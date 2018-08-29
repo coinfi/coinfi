@@ -32,7 +32,7 @@ const listNumberStyle = {
 }
 
 interface IProps {
-  closeTips: () => boolean
+  closeTips: any // () => boolean
   user?: User
 }
 
