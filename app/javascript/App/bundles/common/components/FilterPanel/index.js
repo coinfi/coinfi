@@ -2,8 +2,9 @@ import React from 'react'
 import FilterApplyButton from './FilterApplyButton'
 import FilterCancelButton from './FilterCancelButton'
 import FilterResetLink from './FilterResetLink'
+import ExchangeListingContext from '~/bundles/ExchangeListings/context'
 
-export default (props) => {
+export default ({ children }) => {
   // TODO: make this shared component work with other components using FilterPanel
   const { applyFilters, resetFilters } = this
 
@@ -14,17 +15,21 @@ export default (props) => {
   return (
     <div className="ph3 ph4-l">
       <div className={containerClass}>
-        <div className="pa3 bb b--geyser flex justify-between items-center filter-panel-header">
-          <div className="flex items-center">
-            <h3 className="mb0 mr1 b">Filters</h3>
-            <FilterResetLink resetFilters={props.resetFilters} />
-          </div>
-          <div>
-            <FilterCancelButton toggleFilterPanel={props.toggleFilterPanel} />
-            <FilterApplyButton applyFilters={props.applyFilters} />
-          </div>
-        </div>
-        {props.children}
+        <ExchangeListingContext.Consumer>
+          {({ resetFilters, toggleFilterPanel, applyFilters }) => (
+            <div className="pa3 bb b--geyser flex justify-between items-center filter-panel-header">
+              <div className="flex items-center">
+                <h3 className="mb0 mr1 b">Filters</h3>
+                <FilterResetLink resetFilters={resetFilters} />
+              </div>
+              <div>
+                <FilterCancelButton toggleFilterPanel={toggleFilterPanel} />
+                <FilterApplyButton applyFilters={applyFilters} />
+              </div>
+            </div>
+          )}
+        </ExchangeListingContext.Consumer>
+        {children}
       </div>
     </div>
   )
