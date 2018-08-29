@@ -11,7 +11,6 @@ const linkLogo = require('../../../images/logo-link.svg');
 const redditLogo = require('../../../images/logo-reddit.svg');
 
 import classNames from 'classnames';
-const css = require('./NewsListItem.module.scss');
 
 const readNewsHandler = (newsItem) => {
   const newsId = newsItem.id
