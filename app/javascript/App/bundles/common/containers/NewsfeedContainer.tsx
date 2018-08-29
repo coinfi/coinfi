@@ -1,7 +1,9 @@
 import * as React from 'react'
 import _ from 'lodash'
 import localAPI from '../../../lib/localAPI'
-import NewsfeedContext, { NewsfeedContextType } from '../../../contexts/NewsfeedContext'
+import NewsfeedContext, {
+  NewsfeedContextType,
+} from '../../../contexts/NewsfeedContext'
 import { INewsItem, IFilters } from '../../NewsfeedPage/types'
 
 const STATUSES = {
@@ -12,103 +14,146 @@ const STATUSES = {
   READY: 'READY',
 }
 
-interface IProps {
-  coinSlug?: string,
-  newsItemId?: string,
-}
-
 interface IState {
-  sortedNewsItems: INewsItem[], 
-  status: string,
+  sortedNewsItems: INewsItem[]
+  status: string
 }
 
-class NewsfeedContainer extends React.Component<IProps, IState> {
+class NewsfeedContainer extends React.Component<{}, IState> {
   public state = {
     sortedNewsItems: [],
     status: STATUSES.INITIALIZING,
   }
 
   public sortNewsFunc(x: INewsItem, y: INewsItem) {
-    return Date.parse(y.feed_item_published_at) - Date.parse(x.feed_item_published_at)
+    return (
+      Date.parse(y.feed_item_published_at) -
+      Date.parse(x.feed_item_published_at)
+    )
   }
 
   public uniqNews = (arr) => {
-    return _.uniqBy(arr, elem => elem.id)
+    return _.uniqBy(arr, (elem) => elem.id)
   }
 
   public fetchNewNewsItems = (filters: IFilters): Promise<INewsItem[]> => {
-    if (this.state.sortedNewsItems.length === 0) { return Promise.resolve([]) }
+    if (this.state.sortedNewsItems.length === 0) {
+      return Promise.resolve([])
+    }
 
     const firstNewsItem = this.state.sortedNewsItems[0]
 
     return new Promise((resolve, reject) => {
-      this.setState({
-        status: STATUSES.NEW_NEWS_ITEMS_LOADING
-      }, () => {
-        localAPI.get('/news', { publishedSince: firstNewsItem.feed_item_published_at, ...filters }).then((response) => {
-          if (!response.payload) {
-            this.setState({
-              status: STATUSES.READY,
+      this.setState(
+        {
+          status: STATUSES.NEW_NEWS_ITEMS_LOADING,
+        },
+        () => {
+          localAPI
+            .get('/news', {
+              publishedSince: firstNewsItem.feed_item_published_at,
+              ...filters,
             })
-            return Promise.resolve([])
-          }
-          const existingNewsIds = this.state.sortedNewsItems.map(elem => elem.id)
-          const newNews = response
-                            .payload
-                            .filter((newsItem: INewsItem) => !existingNewsIds.includes(newsItem.id))
-                            .sort(this.sortNewsFunc)
-          this.setState({
-            sortedNewsItems: this.uniqNews([...newNews, ...this.state.sortedNewsItems]),
-            status: STATUSES.READY,
-          }, () => resolve(newNews))
-        })
-      })
+            .then((response) => {
+              if (!response.payload) {
+                this.setState({
+                  status: STATUSES.READY,
+                })
+                return Promise.resolve([])
+              }
+              const existingNewsIds = this.state.sortedNewsItems.map(
+                (elem) => elem.id,
+              )
+              const newNews = response.payload
+                .filter(
+                  (newsItem: INewsItem) =>
+                    !existingNewsIds.includes(newsItem.id),
+                )
+                .sort(this.sortNewsFunc)
+              this.setState(
+                {
+                  sortedNewsItems: this.uniqNews([
+                    ...newNews,
+                    ...this.state.sortedNewsItems,
+                  ]),
+                  status: STATUSES.READY,
+                },
+                () => resolve(newNews),
+              )
+            })
+        },
+      )
     })
   }
 
   public fetchNewsItems = (filters: IFilters): Promise<INewsItem[]> => {
     return new Promise((resolve, reject) => {
-      this.setState({
-        status: STATUSES.LOADING,
-      },() => {
-        localAPI.get('/news', { ...filters }).then((response) => {
-          const sortedNewsItems = this.uniqNews(response.payload.sort(this.sortNewsFunc))
-          this.setState({
-            sortedNewsItems,
-            status: STATUSES.READY,
-          }, () => resolve(sortedNewsItems))
-        })
-      })
+      this.setState(
+        {
+          status: STATUSES.LOADING,
+        },
+        () => {
+          localAPI.get('/news', { ...filters }).then((response) => {
+            const sortedNewsItems = this.uniqNews(
+              response.payload.sort(this.sortNewsFunc),
+            )
+            this.setState(
+              {
+                sortedNewsItems,
+                status: STATUSES.READY,
+              },
+              () => resolve(sortedNewsItems),
+            )
+          })
+        },
+      )
     })
   }
 
   public fetchMoreNewsItems = (filters: IFilters): Promise<INewsItem[]> => {
-    if (this.state.sortedNewsItems.length === 0) { return Promise.resolve([]) }
+    if (this.state.sortedNewsItems.length === 0) {
+      return Promise.resolve([])
+    }
 
-    const lastNews = this.state.sortedNewsItems[this.state.sortedNewsItems.length - 1]
+    const lastNews = this.state.sortedNewsItems[
+      this.state.sortedNewsItems.length - 1
+    ]
 
     return new Promise((resolve, reject) => {
-      this.setState({
-          status: STATUSES.LOADING_MORE_ITEMS
-        }, () => localAPI.get(`/news`, { publishedUntil: lastNews.feed_item_published_at, ...filters }).then(response => {
-            if (!response.payload) {
-              this.setState({
-                status: STATUSES.READY,
-              })
-              return
-            }
-            const moreNewsItems = response.payload.sort(this.sortNewsFunc)
-            this.setState({
-              sortedNewsItems: this.uniqNews([...this.state.sortedNewsItems, ...moreNewsItems]),
-              status: STATUSES.READY,
-            }, () => resolve(moreNewsItems))
-        })
+      this.setState(
+        {
+          status: STATUSES.LOADING_MORE_ITEMS,
+        },
+        () =>
+          localAPI
+            .get(`/news`, {
+              publishedUntil: lastNews.feed_item_published_at,
+              ...filters,
+            })
+            .then((response) => {
+              if (!response.payload) {
+                this.setState({
+                  status: STATUSES.READY,
+                })
+                return
+              }
+              const moreNewsItems = response.payload.sort(this.sortNewsFunc)
+              this.setState(
+                {
+                  sortedNewsItems: this.uniqNews([
+                    ...this.state.sortedNewsItems,
+                    ...moreNewsItems,
+                  ]),
+                  status: STATUSES.READY,
+                },
+                () => resolve(moreNewsItems),
+              )
+            }),
       )
     })
   }
 
   public render = () => {
-
     const payload: NewsfeedContextType = {
       fetchMoreNewsItems: this.fetchMoreNewsItems,
       fetchNewNewsItems: this.fetchNewNewsItems,
@@ -118,7 +163,7 @@ class NewsfeedContainer extends React.Component<IProps, IState> {
       isReady: this.state.status === STATUSES.READY,
       newslist: this.state.sortedNewsItems,
       status: this.state.status,
-   }
+    }
 
     return (
       <NewsfeedContext.Provider value={payload}>
