@@ -7,7 +7,7 @@ import CoinTipsTab from '../../bundles/common/components/CoinTipsTab'
 const NewsListHeader = (props) => {
   const { enableUI, currentUI, coins, feedSources, newsfeedTips } = props
 
-  const toggleFilters = () =>
+  const toggleFilterPanel = () =>
     enableUI('filterPanel', { fullScreen: window.isMobile })
 
   const showCoinListDrawer = () =>
@@ -22,8 +22,7 @@ const NewsListHeader = (props) => {
         />
       )}
       <FilterBar
-        {...props}
-        toggleFilterPanel={toggleFilters}
+        toggleFilterPanel={toggleFilterPanel}
         showCoinListDrawer={showCoinListDrawer}
       >
         <SearchCoins {...props} />

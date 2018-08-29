@@ -215,7 +215,10 @@ class ExchangeListingsPage extends Component {
           centerSection={
             <Fragment>
               <ExchangeListingsContext.Provider value={context}>
-                <ListingsHeader showFilterPanel={this.state.showFilterPanel} />
+                <ListingsHeader
+                  toggleFilterPanel={this.toggleFilterPanel}
+                  showFilterPanel={this.state.showFilterPanel}
+                />
               </ExchangeListingsContext.Provider>
               <ListingsList
                 listings={listings}

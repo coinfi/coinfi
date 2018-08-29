@@ -2,7 +2,7 @@ import React from 'react'
 import FilterButton from './FilterButton'
 import ExchangeListingsContext from '~/bundles/ExchangeListings/context'
 
-export default ({ children }) => (
+export default ({ children, showCoinListDrawer, toggleFilterPanel }) => (
   <div
     id="panel-header"
     className="pa3 b--b flex-none flex justify-between items-center bg-athens"
@@ -23,17 +23,13 @@ export default ({ children }) => (
                 }
               : {}
           }
-          onClick={props.showCoinListDrawer}
+          onClick={showCoinListDrawer}
         >
           <i className="material-icons f6 mr2">list</i>
           Coins
         </button>
       )}
-      <ExchangeListingsContext.Consumer>
-        {({ toggleFilterPanel }) => (
-          <FilterButton onClick={toggleFilterPanel} />
-        )}
-      </ExchangeListingsContext.Consumer>
+      <FilterButton onClick={toggleFilterPanel} />
       {children}
     </div>
   </div>
