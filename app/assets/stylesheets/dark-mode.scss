@@ -1,23 +1,45 @@
 body.dark-mode {
-  > main,
-  .bg-white,
-  .bg-athens {
-    background: #333;
+  color:#fff;
+  > main, .bg-white, .bg-athens, .bg-foam {
+    background: #071d29;
   }
-  .bg-foam {
-    background: #333;
-  }
-  h1,
-  h2,
-  h3,
-  h4 {
+  h1, h2, h3, h4 {
     color: #eee;
   }
-  .bl,
-  .b--b,
-  .b--t,
-  .b--r,
-  .b--l {
-    border-color: #444;
+  .bl, .b--b, .b--t, .b--r, .b--l, .b--geyser{
+    border-color: rgba(255, 255, 255, 0.12);;
+  }
+  .f6 {
+    color: rgba(255, 255, 255, 0.7);
+  }
+  .topnav {
+    background: #041219;
+  }
+  .filter-panel-wrap {
+    background:#05161f;
+  }
+  .filter-btn {
+    background: none;
+    color: rgba(255, 255, 255, 0.7);
+  }
+  .cancel-btn {
+    color: #fff;
+    background:none;
+    border:0;
+  }
+  .category-btn {
+    button  {
+      background: rgba(255, 255, 255, 0.12);
+      color: #fff;
+    }
+  }
+  .item-selector-alt {
+    .mid-gray {
+      color:#fff;
+    }
+    input {
+      background-color: rgba(255, 255, 255, 0.08);
+      border: solid 1px rgba(255, 255, 255, 0.12);
+    }
   }
 }

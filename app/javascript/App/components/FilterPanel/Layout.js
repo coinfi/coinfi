@@ -11,7 +11,7 @@ const Layout = (props) => {
   } = props
   let containerClass = 'modal bg-athens'
   if (!window.isMobile)
-    containerClass = 'overlay z-999 bg-athens overflow-y-auto'
+    containerClass = 'overlay z-999 bg-athens overflow-y-auto filter-panel-wrap'
   return (
     <div className={containerClass}>
       <div className="pa3 bb b--geyser flex justify-between items-center filter-panel-header">
@@ -33,23 +33,15 @@ const Layout = (props) => {
           </button>
         </div>
         <div>
-          <button
-            className="btn btn-white btn-xs"
+          <a
+            className="btn btn-white btn-xs cancel-btn"
             onClick={() => {
               disableUI('filterPanel')
               nightModeHelper()
             }}
-            style={{
-              background: 'none',
-              border: 'none',
-              boxShadow: 'none',
-              textTransform: 'none',
-              fontSize: '14px',
-              color: 'rgba(0, 0, 0, 0.54)',
-            }}
           >
             Cancel
-          </button>
+          </a>
           <button
             data-heap="news-click-apply-filter-button"
             className="btn btn-blue btn-xs ml3"
