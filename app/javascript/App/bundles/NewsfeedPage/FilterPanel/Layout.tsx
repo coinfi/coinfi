@@ -65,7 +65,7 @@ const Layout = (props: IProps) => {
       <div
         className="ph3 ph4-l"
         // @ts-ignore
-        style={!!props.newsFeedStyle ? { padding: '1rem' } : ''}
+        style={!!props.newsFeedStyle ? { padding: '1rem' } : {}}
       >
         {props.children}
       </div>
