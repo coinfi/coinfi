@@ -87,6 +87,7 @@ class FilterPanel extends React.Component<IProps, IState> {
       }
       return state
     })
+
   public render() {
     if (!this.props.isShown) {
       return null
