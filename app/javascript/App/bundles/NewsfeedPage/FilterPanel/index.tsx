@@ -1,23 +1,24 @@
 import * as React from 'react'
+import _ from 'lodash'
 import Layout from './Layout'
 import { normalizeFilterData } from '../../../lib/stateHelpers'
 import MarketMoving from './filterComponents/MarketMoving'
 import Coins from './filterComponents/Coins'
 import Dates from './filterComponents/Dates'
 import FeedSources from './filterComponents/FeedSources'
-import Social from './filterComponents/Social';
+import Social from './filterComponents/Social'
 import Categories from './filterComponents/Categories'
 import Keywords from './filterComponents/Keywords'
 import { IFilters } from '../types'
 
-import defaultFilters from '../defaultFilters';
+import getDefaultFilters from '../defaultFilters'
 
 interface IProps {
+  isShown: boolean
   categories: string[]
   feedSources: string[]
   filters: IFilters
   closeFilterPanel: () => void
-  resetFilters: () => void
   applyFilters: (filters: IFilters) => void
   children?: any
   newsFeedStyle?: boolean
@@ -29,21 +30,28 @@ interface IState {
 
 class FilterPanel extends React.Component<IProps, IState> {
   public static state = {
-    form: defaultFilters,
+    form: getDefaultFilters(),
   }
 
   constructor(props) {
     super(props)
-    this.state = { form: this.props.filters }
-  }
-
-  public componentDidUpdate(prevProps, prevState) {
-    // TODO
+    this.state = { form: _.cloneDeep(this.props.filters) }
   }
 
   public applyFilters = () => {
     this.props.applyFilters(this.state.form)
     this.props.closeFilterPanel()
+  }
+
+  public onClosePanel = () => {
+    this.setState({
+      form: _.cloneDeep(this.props.filters),
+    })
+    this.props.closeFilterPanel()
+  }
+
+  public onReset = () => {
+    this.setState({ form: getDefaultFilters() })
   }
 
   public onSinceChange = (publishedSince: string) =>
@@ -59,9 +67,11 @@ class FilterPanel extends React.Component<IProps, IState> {
     })
 
   public onCagetoryToggle = (category: string) =>
-    this.setState(state => {
+    this.setState((state) => {
       if (state.form.categories.includes(category)) {
-        state.form.categories = state.form.categories.filter(cat => cat !== category)
+        state.form.categories = state.form.categories.filter(
+          (cat) => cat !== category,
+        )
       } else {
         state.form.categories.push(category)
       }
@@ -69,20 +79,26 @@ class FilterPanel extends React.Component<IProps, IState> {
     })
 
   public onFeedSourceToggle = (source: string) =>
-    this.setState(state => {
+    this.setState((state) => {
       if (state.form.feedSources.includes(source)) {
-        state.form.feedSources = state.form.feedSources.filter(src => src !== source)
+        state.form.feedSources = state.form.feedSources.filter(
+          (src) => src !== source,
+        )
       } else {
         state.form.feedSources.push(source)
       }
       return state
     })
-  
+
   public render() {
+    if (!this.props.isShown) {
+      return null
+    }
+
     return (
       <Layout
-        closeFilterPanel={this.props.closeFilterPanel}
-        resetFilters={this.props.resetFilters}
+        closeFilterPanel={this.onClosePanel}
+        resetFilters={this.onReset}
         applyFilters={this.applyFilters}
         newsFeedStyle={this.props.newsFeedStyle}
       >
@@ -101,15 +117,15 @@ class FilterPanel extends React.Component<IProps, IState> {
         </div>
         <div className="pb3">
           <h4 className="mb2 f5">Categories</h4>
-          <Categories 
+          <Categories
             items={this.props.categories}
             selectedItems={this.state.form.categories}
-            onChange={this.onCagetoryToggle} 
+            onChange={this.onCagetoryToggle}
           />
         </div>
         <div className="pb3">
           <h4 className="mb2 f5">Social Sources</h4>
-          <Social 
+          <Social
             feedSources={this.state.form.feedSources}
             onToggleReddit={() => this.onFeedSourceToggle('reddit')}
             onToggleTwitter={() => this.onFeedSourceToggle('twitter')}

@@ -10,31 +10,18 @@ const itemLabel = (item) => {
   return item
 }
 
-const ItemLink = (props) => {
-  if (props.isSelected) {
-    return (
-      <label
-        htmlFor={props.item}
-        className="mid-gray"
-        onClick={props.onChange}
-      >
-        <input type="checkbox" className="mr2 w-auto" defaultChecked />
-        {itemLabel(props.item)}
-      </label>
-    )
-  } else {
-    return (
-      <label
-        htmlFor={props.item}
-        className="mid-gray"
-        onClick={props.onChange}
-      >
-        <input id={props.item} type="checkbox" className="mr2 w-auto" />
-        {itemLabel(props.item)}
-      </label>
-    )
-  }
-}
+const ItemLink = (props) => (
+  <label htmlFor={props.item} className="mid-gray">
+    <input
+      id={props.item}
+      type="checkbox"
+      className="mr2 w-auto"
+      checked={props.isSelected}
+      onChange={props.onChange}
+    />
+    {itemLabel(props.item)}
+  </label>
+)
 
 interface IProps {
   items: string[]
@@ -52,7 +39,11 @@ const ItemSelector = (props: IProps) => {
           }
           return (
             <li className="mv2" key={i}>
-              <ItemLink item={item} onChange={() => props.onChange(item)} isSelected={props.selectedItems.includes(item)} />
+              <ItemLink
+                item={item}
+                onChange={() => props.onChange(item)}
+                isSelected={props.selectedItems.includes(item)}
+              />
             </li>
           )
         })}

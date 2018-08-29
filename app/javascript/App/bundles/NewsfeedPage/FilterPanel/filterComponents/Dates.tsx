@@ -27,15 +27,10 @@ export default class Dates extends React.Component<IProps, {}> {
   }
 
   public render() {
-    const publishedSince = () =>
-      this.props &&
-      this.props.publishedSince &&
-      moment(this.props.publishedSince)
 
-    const publishedUntil = () =>
-      this.props &&
-      this.props.publishedUntil &&
-      moment(this.props.publishedUntil)
+    const publishedSince = !!this.props.publishedSince ? moment(this.props.publishedSince) : null
+
+    const publishedUntil = !!this.props.publishedUntil ? moment(this.props.publishedUntil) : null
 
     return (
       <div className="item-selector-alt nh1 nt1">
@@ -46,11 +41,11 @@ export default class Dates extends React.Component<IProps, {}> {
             style={!window.isMobile ? { maxWidth: '50%' } : {}}
           >
             <DatePicker
-              selected={publishedSince()}
+              selected={publishedSince}
               placeholderText="Start Date"
               selectsStart={true}
-              startDate={publishedSince()}
-              endDate={publishedUntil()}
+              startDate={publishedSince}
+              endDate={publishedUntil}
               onChange={this.sinceChange}
               className="from"
             />
@@ -61,11 +56,11 @@ export default class Dates extends React.Component<IProps, {}> {
             style={!window.isMobile ? { maxWidth: '50%' } : {}}
           >
             <DatePicker
-              selected={publishedUntil()}
+              selected={publishedUntil}
               placeholderText="End Date"
               selectsEnd={true}
-              startDate={publishedSince()}
-              endDate={publishedUntil()}
+              startDate={publishedSince}
+              endDate={publishedUntil}
               onChange={this.untilChange}
               className="to"
             />

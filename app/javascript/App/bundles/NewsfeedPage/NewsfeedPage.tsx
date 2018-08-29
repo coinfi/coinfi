@@ -18,7 +18,7 @@ import _ from 'lodash'
 
 import { INewsItem, ContentType, IFilters } from './types'
 import { CoinList, Coin } from '../common/types'
-import defaultFilters from './defaultFilters'
+import getDefaultFilters from './defaultFilters'
 
 const POLLING_TIMEOUT = 6000
 
@@ -49,7 +49,7 @@ interface IState {
 
 class NewsfeedPage extends React.Component<IProps, IState> {
   public state = {
-    filters: defaultFilters,
+    filters: getDefaultFilters(),
     initialRenderTips: false,
     isWindowFocused: true,
     newsfeedTips: true,

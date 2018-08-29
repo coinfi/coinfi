@@ -1,11 +1,11 @@
 import { IFilters } from './types'
 
-const defaultFilters: IFilters = {
+const getDefaultFilters = (): IFilters => ({
   coinSlugs: [],
   publishedSince: null,
   publishedUntil: null,
   categories: [],
   feedSources: [],
-}
+})
 
-export default defaultFilters
+export default getDefaultFilters 
