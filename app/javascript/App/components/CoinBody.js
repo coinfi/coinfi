@@ -41,7 +41,7 @@ const CoinBody = (props) => {
               />
             </span>
           </div>
-          <div className="dib ph2 pv1 bg-light-gray f6 mt2">
+          <div className="dib ph2 pv1 bg-light-gray f6 mt2 market-cap">
             {`Market: ${coin.getIn(['market_info', 'market_cap_usd'])}`}
           </div>
         </div>
