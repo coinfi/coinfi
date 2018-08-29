@@ -1,3 +1,4 @@
+/* tslint:disable */
 declare var window: {
   isMobile?: boolean
   isTablet?: boolean
@@ -27,8 +28,8 @@ interface IProps {
   activeFilters?: any
   sortedNewsItems?: NewsItem[]
   initialRenderTips?: boolean
-  fetchMoreNewsFeed?: () => void
-  closeTips?: () => void
+  fetchMoreNewsFeed?: any // () => void
+  closeTips?: any // () => void
 }
 
 interface IState {
