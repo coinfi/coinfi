@@ -7,10 +7,10 @@
   <title>CoinFi News</title>
   <script>
     (function (i, s, o, g, r, a, m) {
-    i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
-      (i[r].q = i[r].q || []).push(arguments)
-    }, i[r].l = 1 * new Date(); a = s.createElement(o),
-      m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+      i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
+        (i[r].q = i[r].q || []).push(arguments)
+      }, i[r].l = 1 * new Date(); a = s.createElement(o),
+        m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
     })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
 
     ga('create', 'UA-105378428-1', 'auto');
@@ -45,21 +45,23 @@
 
   <!-- Facebook Pixel Code -->
   <script>
-    !function(f,b,e,v,n,t,s)
-    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-    n.queue=[];t=b.createElement(e);t.async=!0;
-    t.src=v;s=b.getElementsByTagName(e)[0];
-    s.parentNode.insertBefore(t,s)}(window,document,'script',
-    'https://connect.facebook.net/en_US/fbevents.js');
-    fbq('init', '269786986970028'); 
+    !function (f, b, e, v, n, t, s) {
+      if (f.fbq) return; n = f.fbq = function () {
+        n.callMethod ?
+          n.callMethod.apply(n, arguments) : n.queue.push(arguments)
+      };
+      if (!f._fbq) f._fbq = n; n.push = n; n.loaded = !0; n.version = '2.0';
+      n.queue = []; t = b.createElement(e); t.async = !0;
+      t.src = v; s = b.getElementsByTagName(e)[0];
+      s.parentNode.insertBefore(t, s)
+    }(window, document, 'script',
+      'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', '269786986970028');
     fbq('track', 'PageView');
   </script>
   <noscript>
-    <img height="1" width="1" 
-    src="https://www.facebook.com/tr?id=269786986970028&ev=PageView
-    &noscript=1"/>
+    <img height="1" width="1" src="https://www.facebook.com/tr?id=269786986970028&ev=PageView
+    &noscript=1" />
   </noscript>
   <!-- End Facebook Pixel Code -->
 </head>
@@ -79,6 +81,10 @@
             </li>
             <li>
               <a href="https://careers.coinfi.com">Careers</a>
+
+            </li>
+            <li>
+              <a class="" href="/press">Press</a>
             </li>
             <li>
               <a class="" href="/about">About</a>
@@ -107,6 +113,9 @@
                 <a href="https://careers.coinfi.com">Careers</a>
               </li>
               <li>
+                <a class="" href="/press">Press</a>
+              </li>
+              <li>
                 <a class="" href="/about">About</a>
               </li>
             </ul>
@@ -118,8 +127,8 @@
       </div>
       <div class="valueprop col-7 wow fadeInUp">
         <h1>Be the first to know the news that moves the market</h1>
-        <p class="mobile-hidden">CoinFi News gives crypto investors like you an informational advantage by filtering out the noise and showing you
-          the news that is impacting coin price.
+        <p class="mobile-hidden">CoinFi News gives crypto investors like you an informational advantage by filtering out
+          the noise and showing you the news that is impacting coin price.
           <strong>It’s the difference between a profitable or losing trade.</strong>
         </p>
         <div class="cta cta-top">
@@ -152,7 +161,9 @@
       <div class="col-5 wow fadeIn">
         <div class="product-content">
           <h2>Be the first to get notified of new exchange listings</h2>
-          <p>When a hot ICO gets listed for the 1st time, CoinFi News gives you the edge you need to lock in a profitable trade.</p>
+          <p>When a hot ICO gets listed for the 1st time, CoinFi News gives you the edge you need to lock in a profitable
+            trade.
+          </p>
         </div>
       </div>
     </div>
@@ -256,7 +267,8 @@
         <a href="https://github.com/coinfi" class="pv1 ph2" target="_blank">
           <img height="20" width="20" src="img/icon-github.svg">
         </a>
-        <a href="https://heapanalytics.com/?utm_source=badge" class="pv1 ph2" rel="nofollow"><img style="margin-top: 4px; height: 24px" src="//heapanalytics.com/img/badgeLight.png" alt="Heap | Mobile and Web Analytics" /></a>
+        <a href="https://heapanalytics.com/?utm_source=badge" class="pv1 ph2" rel="nofollow"><img style="margin-top: 4px; height: 24px"
+            src="//heapanalytics.com/img/badgeLight.png" alt="Heap | Mobile and Web Analytics" /></a>
       </div>
     </div>
   </footer>
@@ -271,21 +283,21 @@
     }
     tryHook();
 
-    $(document).ready(function() {
-      $('video.product-video').each(function(index) {
+    $(document).ready(function () {
+      $('video.product-video').each(function (index) {
         var video = $(this);
 
-        video.on('error', function(e) {
+        video.on('error', function (e) {
           console.log('error', e);
         })
 
-        video.one('canplaythrough', function() {
-          $('body').on('click', function() {
+        video.one('canplaythrough', function () {
+          $('body').on('click', function () {
             $('video.product-video')[index].play();
           });
         });
 
-        video.on('ended', function() {
+        video.on('ended', function () {
           $('video.product-video')[index].play();
         })
 
@@ -295,4 +307,5 @@
   </script>
   <button type="button" id="track-submit" style="display: none;"></button>
 </body>
+
 </html>

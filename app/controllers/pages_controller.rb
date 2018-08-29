@@ -35,7 +35,7 @@ class PagesController < ApplicationController
   end
 
   def public_pages
-    %w[home about calendar ambassadors win-cofi]
+    %w[home about press calendar ambassadors win-cofi]
   end
 
   def member_pages
