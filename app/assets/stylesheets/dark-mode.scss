@@ -24,8 +24,9 @@ body.dark-mode {
   }
   .cancel-btn {
     color: #fff;
-    background:none;
-    border:0;
+    background: none;
+    border: 0;
+    box-shadow: none;
   }
   .category-btn {
     button  {
@@ -40,6 +41,7 @@ body.dark-mode {
     input {
       background-color: rgba(255, 255, 255, 0.08);
       border: solid 1px rgba(255, 255, 255, 0.12);
+      color: #fff;
     }
   }
 }
