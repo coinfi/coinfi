@@ -5,11 +5,16 @@ import MarketMoving from './filterComponents/MarketMoving'
 import Coins from './filterComponents/Coins'
 import Dates from './filterComponents/Dates'
 import FeedSources from './filterComponents/FeedSources'
+import Social from './filterComponents/Social';
 import Categories from './filterComponents/Categories'
 import Keywords from './filterComponents/Keywords'
 import { IFilters } from '../types'
 
+import defaultFilters from '../defaultFilters';
+
 interface IProps {
+  categories: string[]
+  feedSources: string[]
   filters: IFilters
   closeFilterPanel: () => void
   resetFilters: () => void
@@ -24,11 +29,7 @@ interface IState {
 
 class FilterPanel extends React.Component<IProps, IState> {
   public static state = {
-    form: {
-      coinSlugs: [],
-      publishedSince: null,
-      publishedUntil: null,
-    },
+    form: defaultFilters,
   }
 
   constructor(props) {
@@ -57,6 +58,26 @@ class FilterPanel extends React.Component<IProps, IState> {
       return state
     })
 
+  public onCagetoryToggle = (category: string) =>
+    this.setState(state => {
+      if (state.form.categories.includes(category)) {
+        state.form.categories = state.form.categories.filter(cat => cat !== category)
+      } else {
+        state.form.categories.push(category)
+      }
+      return state
+    })
+
+  public onFeedSourceToggle = (source: string) =>
+    this.setState(state => {
+      if (state.form.feedSources.includes(source)) {
+        state.form.feedSources = state.form.feedSources.filter(src => src !== source)
+      } else {
+        state.form.feedSources.push(source)
+      }
+      return state
+    })
+  
   public render() {
     return (
       <Layout
@@ -80,15 +101,27 @@ class FilterPanel extends React.Component<IProps, IState> {
         </div>
         <div className="pb3">
           <h4 className="mb2 f5">Categories</h4>
-          <Categories />
+          <Categories 
+            items={this.props.categories}
+            selectedItems={this.state.form.categories}
+            onChange={this.onCagetoryToggle} 
+          />
         </div>
         <div className="pb3">
           <h4 className="mb2 f5">Social Sources</h4>
-          <SocialSources />
+          <Social 
+            feedSources={this.state.form.feedSources}
+            onToggleReddit={() => this.onFeedSourceToggle('reddit')}
+            onToggleTwitter={() => this.onFeedSourceToggle('twitter')}
+          />
         </div>
         <div className="pb3">
           <h4 className="mb2 f5">General sources</h4>
-          <FeedSources />
+          <FeedSources
+            feedSources={this.props.feedSources}
+            selectedItems={this.state.form.feedSources}
+            onChange={this.onFeedSourceToggle}
+          />
         </div>
       </Layout>
     )

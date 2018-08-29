@@ -1,10 +1,16 @@
-import React from 'react'
+import * as React from 'react'
 import _ from 'lodash'
-import ItemSelector from '../../ItemSelectorAlt'
+import ItemSelector from '../components/ItemSelector'
 
-const FeedSources = ({ feedSources, value, onChange }) => {
+interface IProps {
+  feedSources: string[]
+  selectedItems: string[]
+  onChange: (item: string) => void
+}
+
+const FeedSources = (props: IProps) => {
   const sortedSources = _.sortBy(
-    feedSources.map((item) => {
+    props.feedSources.map((item) => {
       if (/www/.exec(item) !== null) {
         return item.replace('www.', '').concat('.www')
       }
@@ -17,16 +23,10 @@ const FeedSources = ({ feedSources, value, onChange }) => {
   return (
     <ItemSelector
       items={sourcesSansSocial}
-      selectedItems={value}
-      onChange={onChange('feedSources')}
+      selectedItems={props.selectedItems}
+      onChange={props.onChange}
     />
   )
 }
-
-// FeedSources.propTypes = {
-//   value: Type.object,
-//   feedSources: Type.array.isRequired,
-//   onChange: Type.func
-// }
 
 export default FeedSources

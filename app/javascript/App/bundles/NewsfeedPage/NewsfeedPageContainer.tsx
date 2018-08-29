@@ -4,9 +4,11 @@ import CoinListContext from '../../contexts/CoinListContext';
 import NewsfeedContext, { NewsfeedContextType } from '../../contexts/NewsfeedContext';
 
 interface Props {
-  coinSlug?: string,
-  newsItemId?: string,
-};
+  categories: string[]
+  feedSources: string[]
+  coinSlug?: string
+  newsItemId?: string
+}
 
 const NewsfeedPageContainer = (props: Props) => (
   <NewsfeedContext.Consumer>
@@ -28,6 +30,8 @@ const NewsfeedPageContainer = (props: Props) => (
                 fetchNewsItems={newsfeedPayload.fetchNewsItems}
                 fetchMoreNewsItems={newsfeedPayload.fetchMoreNewsItems}
                 fetchNewNewsItems={newsfeedPayload.fetchNewNewsItems}
+                categories={props.categories}
+                feedSources={props.feedSources}
               />
             )
           }

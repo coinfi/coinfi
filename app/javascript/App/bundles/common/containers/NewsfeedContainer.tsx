@@ -51,8 +51,8 @@ class NewsfeedContainer extends React.Component<{}, IState> {
         () => {
           localAPI
             .get('/news', {
-              publishedSince: firstNewsItem.feed_item_published_at,
               ...filters,
+              publishedSince: !!filters.publishedSince ? filters.publishedSince : firstNewsItem.feed_item_published_at,
             })
             .then((response) => {
               if (!response.payload) {
@@ -127,8 +127,8 @@ class NewsfeedContainer extends React.Component<{}, IState> {
         () =>
           localAPI
             .get(`/news`, {
-              publishedUntil: lastNews.feed_item_published_at,
               ...filters,
+              publishedUntil: !!filters.publishedUntil ? filters.publishedUntil : lastNews.feed_item_published_at,
             })
             .then((response) => {
               if (!response.payload) {

@@ -23,6 +23,8 @@ import defaultFilters from './defaultFilters'
 const POLLING_TIMEOUT = 6000
 
 interface IProps extends RouteComponentProps<any> {
+  categories: string[],
+  feedSources: string[],
   coinSlug?: string
   newsItemId?: string
   coinlist: CoinList
@@ -223,13 +225,13 @@ class NewsfeedPage extends React.Component<IProps, IState> {
               <NewsListHeader
                 // @ts-ignore FIXME
                 coins={this.props.coinlist}
-                // @ts-ignore FIXME
                 feedSources={this.props.feedSources}
                 // @ts-ignore FIXME
                 showFilters={this.state.showFilters}
                 newsfeedTips={this.state.newsfeedTips}
                 applyFilters={this.applyFilters}
                 filters={this.state.filters}
+                categories={this.props.categories}
               />
               <NewsList
                 isWindowFocused={this.state.isWindowFocused}

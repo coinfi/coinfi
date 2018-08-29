@@ -22,4 +22,6 @@ export interface IFilters {
   coinSlugs: CoinSlug[]
   publishedSince: string | null
   publishedUntil: string | null
+  categories: string[]
+  feedSources: string[]
 }

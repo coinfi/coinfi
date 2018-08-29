@@ -14,9 +14,10 @@ import { IFilters } from './types'
 const filterBtn = require('../../images/filter-btn.svg')
 
 interface IProps {
+  categories: string[],
+  feedSources: string[],
   coins: string[]
   filters: IFilters
-  feedSources: any
   resetFilters: () => void
   applyFilters: (filters: IFilters) => void
 }
@@ -111,6 +112,8 @@ export default class NewsListHeader extends React.Component<IProps, IState> {
         </SectionHeader>
         {this.state.showFilters && (
           <FilterPanel
+            categories={this.props.categories}
+            feedSources={this.props.feedSources}
             filters={this.props.filters}
             closeFilterPanel={this.toggleFilterPanel}
             resetFilters={this.props.resetFilters}
