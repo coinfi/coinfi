@@ -15,14 +15,7 @@ import scrollHelper from './../../scrollHelper'
 import { NewsItem } from './types'
 
 interface IProps {
-  // FIXME commented props are right
-  // isLoading: boolean,
-  // isInfiniteScrollLoading: boolean,
-  // activeFilters: any,
-  // sortedNewsItems: Array<NewsItem>,
-  // initialRenderTips: boolean,
-  // fetchMoreNewsFeed: () => void,
-  // closeTips: () => void,
+  // FIXME all props must be required
   isLoading?: boolean
   isInfiniteScrollLoading?: boolean
   activeFilters?: any
@@ -30,6 +23,9 @@ interface IProps {
   initialRenderTips?: boolean
   fetchMoreNewsFeed?: any // () => void
   closeTips?: any // () => void
+  onNewsItemShown?: (id) => void,
+  isNewsSeen?: (id) => boolean,
+  isWindowFocused?: boolean,
 }
 
 interface IState {
@@ -103,7 +99,7 @@ class NewsList extends React.Component<IProps, IState> {
 
     const readNewsIds = JSON.parse(localStorage.getItem('readNews')) || []
 
-    const mappedItems = this.props.sortedNewsItems.map((newsItem) => {
+    const mappedItems = this.props.sortedNewsItems.map((newsItem, index) => {
       const hasRead = readNewsIds.includes(newsItem.id)
       return (
         <NewsListItem
@@ -112,7 +108,7 @@ class NewsList extends React.Component<IProps, IState> {
           {...this.props}
           setActiveNewsItem={this.setActiveNewsItem}
           // @ts-ignore FIME
-          selectCoin={(symbol) => this.selectCoin(symbol)}
+          selectCoin={(symbol) => this.selectCoin(symbol)} 
           hasRead={hasRead}
         />
       )

@@ -1,4 +1,5 @@
 import * as React from 'react'
+import styled from 'styled-components'
 import { Link } from 'react-router-dom'
 import timeago from 'timeago.js'
 import CoinTags from '../common/components/CoinTags'
@@ -8,6 +9,8 @@ import { slugify } from '../../lib/utils/slugify'
 const twitterLogo = require('../../images/logo-twitter.svg')
 const linkLogo = require('../../images/logo-link.svg')
 const redditLogo = require('../../images/logo-reddit.svg')
+
+import classNames from 'classnames'
 
 const readNewsHandler = (newsItem) => {
   const newsId = newsItem.id
@@ -25,6 +28,14 @@ const readNewsHandler = (newsItem) => {
   }
 }
 
+const Title = styled.h4`
+  ${({ hasRead }: any) =>
+    hasRead &&
+    `
+    color: #999;
+  `};
+`
+
 const NewsListItem = (props) => {
   const {
     activeEntity,
@@ -33,19 +44,29 @@ const NewsListItem = (props) => {
     preRender,
     hasRead,
   } = props
-  let className = 'b--b tiber overflow-hidden'
+
+  let bgFoam = false
   if (activeEntity) {
     const { type, id } = activeEntity
-    if (type === 'newsItem' && id === newsItem.id) { className += ' bg-foam' }
+    if (type === 'newsItem' && id === newsItem.id) {
+      bgFoam = true
+    }
   }
+
   const url = new URL(newsItem.url)
-  if (preRender) { className += ' o-0 absolute' }
   const newsItemTitle = newsItem.title
     .replace(/<h1>/g, '')
     .replace(/<\/h1>/g, '')
 
   return (
-    <div className={className} style={{ height: props.height || 'auto' }}>
+    <div
+      className={classNames(
+        'b--b tiber overflow-hidden',
+        { 'bg-foam': bgFoam },
+        { 'o-0 absolute': preRender },
+      )}
+      style={{ height: props.height || 'auto' }}
+    >
       <div data-heap="news-click-on-news-item" className="pa-default">
         <Link
           to={`/news/${newsItem.id}/${slugify(newsItem.title)}`}
@@ -62,12 +83,7 @@ const NewsListItem = (props) => {
             }
           }}
         >
-          <h4
-            className="pointer mb2 f5"
-            style={hasRead ? { color: '#999' } : {}}
-          >
-            {newsItemTitle}
-          </h4>
+          <Title hasRead={hasRead}>{newsItemTitle}</Title>
         </Link>
         <div className="flex justify-between flex-wrap">
           <div className="f6 silver">
