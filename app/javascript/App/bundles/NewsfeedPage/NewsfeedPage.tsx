@@ -18,6 +18,7 @@ import _ from 'lodash'
 
 import { INewsItem, ContentType, IFilters } from './types'
 import { CoinList, Coin } from '../common/types'
+import defaultFilters from './defaultFilters'
 
 const POLLING_TIMEOUT = 6000
 
@@ -46,11 +47,7 @@ interface IState {
 
 class NewsfeedPage extends React.Component<IProps, IState> {
   public state = {
-    filters: {
-      coinSlugs: [],
-      publishedSince: null,
-      publishedUntil: null,
-    },
+    filters: defaultFilters,
     initialRenderTips: false,
     isWindowFocused: true,
     newsfeedTips: true,
@@ -85,6 +82,13 @@ class NewsfeedPage extends React.Component<IProps, IState> {
         this.documentTitle
       }`
     }
+  }
+
+  public applyFilters = (filters: IFilters) => {
+    this.setState(
+      (state) => Object.assign({}, state, { filters }),
+      () => this.props.fetchNewsItems(this.state.filters),
+    )
   }
 
   public fetchNewNewsItems = () => {
@@ -223,9 +227,9 @@ class NewsfeedPage extends React.Component<IProps, IState> {
                 feedSources={this.props.feedSources}
                 // @ts-ignore FIXME
                 showFilters={this.state.showFilters}
-                // @ts-ignore FIXME
-                activeFilters={this.state.activeFilters}
                 newsfeedTips={this.state.newsfeedTips}
+                applyFilters={this.applyFilters}
+                filters={this.state.filters}
               />
               <NewsList
                 isWindowFocused={this.state.isWindowFocused}

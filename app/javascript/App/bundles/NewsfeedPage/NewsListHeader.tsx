@@ -7,14 +7,18 @@ import Icon from '../../components/Icon'
 import SectionHeader from '../../components/SectionHeader'
 import SectionHeaderTight from '../../components/SectionHeaderTight'
 import SearchCoins from '../../components/SearchCoins'
-import FilterPanel from '../../components/FilterPanel'
+import FilterPanel from './FilterPanel'
+import { IFilters } from './types'
 
 // tslint:disable-next-line
 const filterBtn = require('../../images/filter-btn.svg')
 
 interface IProps {
   coins: string[]
+  filters: IFilters
   feedSources: any
+  resetFilters: () => void
+  applyFilters: (filters: IFilters) => void
 }
 
 interface IState {
@@ -95,9 +99,9 @@ export default class NewsListHeader extends React.Component<IProps, IState> {
                 <span>Coins</span>
               </button>
             )}
-            <SearchCoins {...props} />
+            {/* <SearchCoins {...props} /> */}
             <button
-              onClick={toggleFilters}
+              onClick={this.toggleFilterPanel}
               className="btn btn-xs btn-white filter-btn ml2"
             >
               <img style={{ height: 10, marginRight: 10 }} src={filterBtn} />
@@ -105,7 +109,15 @@ export default class NewsListHeader extends React.Component<IProps, IState> {
             </button>
           </div>
         </SectionHeader>
-        {showFilters && <FilterPanel />}
+        {this.state.showFilters && (
+          <FilterPanel
+            filters={this.props.filters}
+            closeFilterPanel={this.toggleFilterPanel}
+            resetFilters={this.props.resetFilters}
+            applyFilters={this.props.applyFilters}
+            newsFeedStyle={true}
+          />
+        )}
       </>
     )
   }
