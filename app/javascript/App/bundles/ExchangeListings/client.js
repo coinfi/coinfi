@@ -7,7 +7,7 @@ import ListingsHeader from './components/ListingsHeader'
 import ListingsList from './components/ListingsList'
 import BodySection from './components/BodySection'
 import localAPI from '~/lib/localAPI'
-import { Provider } from '~/bundles/common/context'
+import { ExchangeListingsContextProvider } from '~/bundles/ExchangeListings/context'
 
 class ExchangeListingsPage extends Component {
   constructor(props) {
@@ -175,9 +175,9 @@ class ExchangeListingsPage extends Component {
         <LayoutMobile
           mainSection={
             <Fragment>
-              <Provider value={context}>
+              <ExchangeListingsContextProvider value={context}>
                 <ListingsHeader showFilterPanel={this.state.showFilterPanel} />
-              </Provider>
+              </ExchangeListingsContextProvider>
               <ListingsList
                 listings={listings}
                 hasMore={hasMore}
@@ -196,9 +196,9 @@ class ExchangeListingsPage extends Component {
           {...props}
           leftSection={
             <Fragment>
-              <Provider value={context}>
+              <ExchangeListingsContextProvider value={context}>
                 <ListingsHeader showFilterPanel={this.state.showFilterPanel} />
-              </Provider>
+              </ExchangeListingsContextProvider>
               <ListingsList
                 listings={listings}
                 hasMore={hasMore}
@@ -216,9 +216,9 @@ class ExchangeListingsPage extends Component {
           leftSection={null}
           centerSection={
             <Fragment>
-              <Provider value={context}>
+              <ExchangeListingsContextProvider value={context}>
                 <ListingsHeader showFilterPanel={this.state.showFilterPanel} />
-              </Provider>
+              </ExchangeListingsContextProvider>
               <ListingsList
                 listings={listings}
                 hasMore={hasMore}

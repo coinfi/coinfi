@@ -1,6 +1,6 @@
 import React from 'react'
 import FilterButton from './FilterButton'
-import { Consumer } from '~/bundles/common/context'
+import { ExchangeListingContextConsumer } from '~/bundles/ExchangeListings/context'
 
 export default ({ children }) => (
   <div
@@ -28,11 +28,11 @@ export default ({ children }) => (
           Coins
         </button>
       )}
-      <Consumer>
+      <ExchangeListingContextConsumer>
         {({ toggleFilterPanel }) => (
           <FilterButton onClick={toggleFilterPanel} />
         )}
-      </Consumer>
+      </ExchangeListingContextConsumer>
       {children}
     </div>
   </div>

@@ -2,7 +2,7 @@ import React from 'react'
 import FilterApplyButton from './FilterApplyButton'
 import FilterCancelButton from './FilterCancelButton'
 import FilterResetLink from './FilterResetLink'
-import { Consumer } from '~/bundles/common/context'
+import { ExchangeListingContextConsumer } from '~/bundles/ExchangeListings/context'
 
 export default ({ children }) => {
   // TODO: make this shared component work with other components using FilterPanel
@@ -15,7 +15,7 @@ export default ({ children }) => {
   return (
     <div className="ph3 ph4-l">
       <div className={containerClass}>
-        <Consumer>
+        <ExchangeListingContextConsumer>
           {({ resetFilters, toggleFilterPanel, applyFilters }) => (
             <div className="pa3 bb b--geyser flex justify-between items-center filter-panel-header">
               <div className="flex items-center">
@@ -28,7 +28,7 @@ export default ({ children }) => {
               </div>
             </div>
           )}
-        </Consumer>
+        </ExchangeListingContextConsumer>
         {children}
       </div>
     </div>
