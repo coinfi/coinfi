@@ -37,6 +37,7 @@ interface IProps extends RouteComponentProps<any> {
   fetchNewsItems: (filters: IFilters) => Promise<INewsItem[]>
   fetchMoreNewsItems: (filters: IFilters) => Promise<INewsItem[]>
   fetchNewNewsItems: (filters: IFilters) => Promise<INewsItem[]>
+  cleanNewsItems: () => void
 }
 
 interface IState {
@@ -89,9 +90,13 @@ class NewsfeedPage extends React.Component<IProps, IState> {
   }
 
   public applyFilters = (filters: IFilters) => {
-    this.setState(
-      (state) => Object.assign({}, state, { filters }),
-      () => this.props.fetchNewsItems(this.state.filters),
+    this.setState({
+      filters: _.cloneDeep(filters),
+    },
+      () => {
+        this.props.cleanNewsItems()
+        this.props.fetchNewsItems(this.state.filters)
+      }
     )
   }
 

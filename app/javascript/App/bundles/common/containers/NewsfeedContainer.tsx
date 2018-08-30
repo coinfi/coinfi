@@ -36,6 +36,12 @@ class NewsfeedContainer extends React.Component<{}, IState> {
     return _.uniqBy(arr, (elem) => elem.id)
   }
 
+  public cleanNewsItems = () => {
+    this.setState({
+      sortedNewsItems: []
+    })
+  }
+
   public fetchNewNewsItems = (filters: IFilters): Promise<INewsItem[]> => {
     if (this.state.sortedNewsItems.length === 0) {
       return Promise.resolve([])
@@ -155,6 +161,7 @@ class NewsfeedContainer extends React.Component<{}, IState> {
 
   public render = () => {
     const payload: NewsfeedContextType = {
+      cleanNewsItems: this.cleanNewsItems,
       fetchMoreNewsItems: this.fetchMoreNewsItems,
       fetchNewNewsItems: this.fetchNewNewsItems,
       fetchNewsItems: this.fetchNewsItems,

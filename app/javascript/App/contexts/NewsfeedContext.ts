@@ -10,6 +10,7 @@ export interface NewsfeedContextType {
   fetchNewNewsItems: (filters: IFilters) => Promise<INewsItem[]>,
   fetchNewsItems: (filters: IFilters) => Promise<INewsItem[]>, 
   fetchMoreNewsItems: (filters: IFilters) => Promise<INewsItem[]>,
+  cleanNewsItems: () => void,
 }
 
 const NewsfeedContext = React.createContext(null)

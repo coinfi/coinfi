@@ -30,6 +30,7 @@ const NewsfeedPageContainer = (props: Props) => (
                 fetchNewsItems={newsfeedPayload.fetchNewsItems}
                 fetchMoreNewsItems={newsfeedPayload.fetchMoreNewsItems}
                 fetchNewNewsItems={newsfeedPayload.fetchNewNewsItems}
+                cleanNewsItems={newsfeedPayload.cleanNewsItems}
                 categories={props.categories}
                 feedSources={props.feedSources}
               />
