@@ -43,6 +43,10 @@ class User < ApplicationRecord
     role == 'admin' || role == 'superadmin'
   end
 
+  def superadmin?
+    role == 'superadmin'
+  end
+
   def get_referrals
     User.where("token_sale ->> 'referred_by' = ?", self.id.to_s).order(created_at: :desc).select(:email, :created_at)
   end

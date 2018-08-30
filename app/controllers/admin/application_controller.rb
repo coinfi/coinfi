@@ -11,5 +11,9 @@ module Admin
     def require_admin
       redirect_to "/", alert: "Not authorized." unless current_user.try(:admin?)
     end
+
+    def require_superadmin
+      redirect_to "/admin", alert: "Not authorized." unless current_user.try(:superadmin?)
+    end
   end
 end
