@@ -74,13 +74,13 @@ class NewsItemDashboard < Administrate::BaseDashboard
   # an array of attributes that will be displayed
   # on the model's form (`new` and `edit`) pages.
   FORM_ATTRIBUTES = [
+    :title,
     :coins,
     :news_categories,
     :is_human_tagged,
     :is_published,
     #:feed_item_id,
     #:url,
-    #:title,
     #:summary,
     #:content,
     #:actor_id,
