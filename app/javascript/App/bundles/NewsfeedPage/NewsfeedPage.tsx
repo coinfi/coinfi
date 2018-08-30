@@ -45,6 +45,7 @@ interface IState {
   isWindowFocused: boolean
   newsfeedTips: boolean
   unseenNewsIds: number[]
+  showFilters: boolean
 }
 
 class NewsfeedPage extends React.Component<IProps, IState> {
@@ -54,6 +55,7 @@ class NewsfeedPage extends React.Component<IProps, IState> {
     isWindowFocused: true,
     newsfeedTips: true,
     unseenNewsIds: [],
+    showFilters: false,
   }
 
   public handleResize = debounce(() => this.forceUpdate(), 500)
@@ -183,6 +185,10 @@ class NewsfeedPage extends React.Component<IProps, IState> {
     this.setState({ initialRenderTips: false })
   }
 
+  public toggleFilters = () => {
+    this.setState({ showFilters: !this.state.showFilters })
+  }
+
   public render() {
     if (window.isMobile) {
       return (
@@ -226,19 +232,18 @@ class NewsfeedPage extends React.Component<IProps, IState> {
                 // @ts-ignore FIXME
                 coins={this.props.coinlist}
                 feedSources={this.props.feedSources}
-                // @ts-ignore FIXME
                 showFilters={this.state.showFilters}
+                toggleFilters={this.toggleFilters}
                 newsfeedTips={this.state.newsfeedTips}
                 applyFilters={this.applyFilters}
                 filters={this.state.filters}
                 categories={this.props.categories}
               />
               <NewsList
+                isShown={!this.state.showFilters}
                 isWindowFocused={this.state.isWindowFocused}
                 isLoading={this.props.isNewsfeedLoading}
                 isInfiniteScrollLoading={this.props.isNewsfeedLoadingMoreItems}
-                // @ts-ignore FIXME
-                activeFilters={this.state.activeFilters}
                 sortedNewsItems={this.props.newslist}
                 initialRenderTips={this.state.initialRenderTips}
                 fetchMoreNewsFeed={() =>

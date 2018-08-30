@@ -14,15 +14,13 @@ import { IFilters } from './types'
 const filterBtn = require('../../images/filter-btn.svg')
 
 interface IProps {
+  showFilters: boolean
   categories: string[]
   feedSources: string[]
   coins: string[]
   filters: IFilters
   applyFilters: (filters: IFilters) => void
-}
-
-interface IState {
-  showFilters: boolean
+  toggleFilters: () => void
 }
 
 const btnStyle: React.CSSProperties = {
@@ -32,20 +30,7 @@ const btnStyle: React.CSSProperties = {
   textTransform: 'none',
 }
 
-export default class NewsListHeader extends React.Component<IProps, IState> {
-  public state = {
-    showFilters: false,
-  }
-
-  public toggleFilters = () => {
-    this.setState({
-      showFilters: !this.state.showFilters,
-    })
-  }
-
-  public toggleFilterPanel = () =>
-    this.setState({ showFilters: !this.state.showFilters })
-
+export default class NewsListHeader extends React.Component<IProps, {}> {
   public render() {
     return (
       <>
@@ -101,7 +86,7 @@ export default class NewsListHeader extends React.Component<IProps, IState> {
             )}
             {/* <SearchCoins {...props} /> */}
             <button
-              onClick={this.toggleFilterPanel}
+              onClick={this.props.toggleFilters}
               className="btn btn-xs btn-white filter-btn ml2"
             >
               <img style={{ height: 10, marginRight: 10 }} src={filterBtn} />
@@ -110,11 +95,11 @@ export default class NewsListHeader extends React.Component<IProps, IState> {
           </div>
         </SectionHeader>
         <FilterPanel
-          isShown={this.state.showFilters}
+          isShown={this.props.showFilters}
           categories={this.props.categories}
           feedSources={this.props.feedSources}
           filters={this.props.filters}
-          closeFilterPanel={this.toggleFilterPanel}
+          closeFilterPanel={this.props.toggleFilters}
           applyFilters={this.props.applyFilters}
           newsFeedStyle={true}
         />

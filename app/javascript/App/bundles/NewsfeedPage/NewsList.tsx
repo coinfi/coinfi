@@ -16,6 +16,7 @@ import { INewsItem } from './types'
 
 interface IProps {
   // FIXME all props must be required
+  isShown?: boolean
   isLoading?: boolean
   isInfiniteScrollLoading?: boolean
   activeFilters?: any
@@ -139,6 +140,8 @@ class NewsList extends React.Component<IProps, IState> {
   // }
 
   public render() {
+    if (!this.props.isShown) return null
+  
     const {
       // @ts-ignore FIXME
       activeEntity,
