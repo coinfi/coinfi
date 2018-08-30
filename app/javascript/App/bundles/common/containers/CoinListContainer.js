@@ -16,10 +16,10 @@ class CoinListContainer extends Component {
   state = {
     status: STATUSES.INITIALIZING,
     isWatchlist: false,
-    toplistIndex: null,
-    toplist: null,
-    watchlistIndex: null,
-    watchlist: null,
+    toplistIndex: [],
+    toplist: [],
+    watchlistIndex: [],
+    watchlist: [],
   }
 
   componentDidMount = () => {
