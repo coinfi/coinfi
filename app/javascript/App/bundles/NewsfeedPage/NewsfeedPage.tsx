@@ -47,7 +47,6 @@ interface IState {
   newsfeedTips: boolean
   showFilters: boolean
   unseenNewsIds: number[]
-  showFilters: boolean
 }
 
 class NewsfeedPage extends React.Component<IProps, IState> {
@@ -58,7 +57,6 @@ class NewsfeedPage extends React.Component<IProps, IState> {
     newsfeedTips: true,
     showFilters: false,
     unseenNewsIds: [],
-    showFilters: false,
   }
 
   public handleResize = debounce(() => this.forceUpdate(), 500)
