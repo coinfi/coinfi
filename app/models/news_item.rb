@@ -51,8 +51,20 @@ class NewsItem < ApplicationRecord
     coins.pluck(:symbol).join(', ')
   end
 
+  # This is used in Administrate to override the `categories` and `coins` filters.
+  def all_coin_symbols
+    mentions = NewsCoinMention.where(news_item_id: id)
+    coin_symbols = Coin.where(id: mentions.pluck(:coin_id)).pluck(:symbol).join(', ')
+  end
+
   def news_category_names
     news_categories.pluck(:name).join(', ')
+  end
+
+  # This is used in Administrate to override the `categories` and `coins` filters.
+  def all_news_category_names
+    categorizations = NewsItemCategorization.where(news_item_id: id)
+    category_names = NewsCategory.where(id: categorizations.pluck(:news_category_id)).pluck(:name).join(', ')
   end
 
   def feed_source_name
