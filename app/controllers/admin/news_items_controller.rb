@@ -30,6 +30,18 @@ module Admin
           page = Administrate::Page::Collection.new(dashboard)
           resources = NewsItem.tagged.order_by_published
             .includes(:coins, :news_coin_mentions, :news_categories, :news_item_categorizations)
+
+          if params[:categories]
+            category_ids = params[:categories].split(',')
+            resources = resources.where(news_item_categorizations: { news_category_id: category_ids })
+          end
+
+          if params[:coins]
+            coin_ids = params[:coins].split(',')
+            resources = resources.where(news_coin_mentions: { coin_id: coin_ids })
+          end
+
+          resources = resources
             .page(params[:page])
             .per(records_per_page)
           render :index, locals: { page: page, resources: resources, search_term: search_term, show_search_bar: show_search_bar? }
