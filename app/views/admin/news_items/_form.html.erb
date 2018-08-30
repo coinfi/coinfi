@@ -48,6 +48,7 @@ and renders all form fields for a resource's editable attributes.
   <hr />
 
   <% page.attributes.each do |attribute| -%>
+    <% next if attribute.attribute == :title && current_user.role != 'superadmin' %>
     <div class="field-unit field-unit--<%= attribute.html_class %>">
       <%= render_field attribute, f: f %>
     </div>
