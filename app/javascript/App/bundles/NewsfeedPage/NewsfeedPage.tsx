@@ -23,8 +23,8 @@ import getDefaultFilters from './defaultFilters'
 const POLLING_TIMEOUT = 6000
 
 interface IProps extends RouteComponentProps<any> {
-  categories: string[],
-  feedSources: string[],
+  categories: string[]
+  feedSources: string[]
   coinSlug?: string
   newsItemId?: string
   coinlist: CoinList
@@ -45,8 +45,8 @@ interface IState {
   initialRenderTips: boolean
   isWindowFocused: boolean
   newsfeedTips: boolean
-  unseenNewsIds: number[]
   showFilters: boolean
+  unseenNewsIds: number[]
 }
 
 class NewsfeedPage extends React.Component<IProps, IState> {
@@ -55,8 +55,8 @@ class NewsfeedPage extends React.Component<IProps, IState> {
     initialRenderTips: false,
     isWindowFocused: true,
     newsfeedTips: true,
-    unseenNewsIds: [],
     showFilters: false,
+    unseenNewsIds: [],
   }
 
   public handleResize = debounce(() => this.forceUpdate(), 500)
@@ -90,13 +90,14 @@ class NewsfeedPage extends React.Component<IProps, IState> {
   }
 
   public applyFilters = (filters: IFilters) => {
-    this.setState({
-      filters: _.cloneDeep(filters),
-    },
+    this.setState(
+      {
+        filters: _.cloneDeep(filters),
+      },
       () => {
         this.props.cleanNewsItems()
         this.props.fetchNewsItems(this.state.filters)
-      }
+      },
     )
   }
 
@@ -200,8 +201,8 @@ class NewsfeedPage extends React.Component<IProps, IState> {
         <LayoutMobile
           mainSection={
             <React.Fragment>
-              <NewsListHeader />
-              <NewsList />
+              {/* <NewsListHeader />
+              <NewsList /> */}
             </React.Fragment>
           }
           modalName="newsfeedModal"
@@ -218,10 +219,8 @@ class NewsfeedPage extends React.Component<IProps, IState> {
       return (
         <LayoutTablet
           leftSection={
-            <>
-              <NewsListHeader />
-              <NewsList />
-            </>
+            <>{/* <NewsListHeader />
+              <NewsList /> */}</>
           }
           rightSection={<BodySection />}
           drawerSection={<CoinListDrawer />}

@@ -39,6 +39,7 @@ export default class NewsListHeader extends React.Component<IProps, {}> {
             <div className="flex-auto flex items-center">
               <button
                 className="btn btn-blue btn-xs flex-auto justify-center"
+                // @ts-ignore
                 onClick={() => showCoinListDrawer()}
                 style={{
                   ...btnStyle,
@@ -52,6 +53,7 @@ export default class NewsListHeader extends React.Component<IProps, {}> {
               </button>
               <button
                 className="btn btn-blue btn-xs flex-auto justify-center"
+                // @ts-ignore
                 onClick={newsfeedTips}
                 style={btnStyle}
               >
@@ -66,6 +68,7 @@ export default class NewsListHeader extends React.Component<IProps, {}> {
             {!window.isMobile && (
               <button
                 className="btn btn-blue btn-xs coins-btn mr2"
+                // @ts-ignore
                 onClick={() => showCoinListDrawer()}
                 style={
                   window.isMobile
