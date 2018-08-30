@@ -26,8 +26,10 @@ class NewsItemDashboard < Administrate::BaseDashboard
     created_at: Field::DateTime,
     updated_at: Field::DateTime,
     # Derived fields
+    all_coin_symbols: Field::String.with_options(searchable: false),
     coin_symbols: Field::String.with_options(searchable: false),
     news_category_names: Field::String.with_options(searchable: false),
+    all_news_category_names: Field::String.with_options(searchable: false),
     feed_source_name: Field::String.with_options(searchable: false),
   }.freeze
 
@@ -38,8 +40,8 @@ class NewsItemDashboard < Administrate::BaseDashboard
   # Feel free to add, remove, or rearrange items.
   COLLECTION_ATTRIBUTES = [
     :id,
-    :coin_symbols,
-    :news_category_names,
+    :all_coin_symbols,
+    :all_news_category_names,
     :feed_source_name,
     :user_id,
     :is_human_tagged,
