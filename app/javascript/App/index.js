@@ -59,38 +59,41 @@ const injectComponents = () => {
       const props = JSON.parse(hook.getAttribute('props'))
       const withStore = hook.getAttribute('withStore') !== null
       if (withStore) {
-        // This is the custom flag for `feature/toplist-watchlist` branch
         if (false) {
           // ReactDOM.render(
-          //   <NewsfeedContainer>
-          //     <CoinListContainer user={props.user}>
-          //       <Provider store={store}>
-          //         <Router>
-          //           <div>
-          //             <Route
-          //               exact
-          //               path="/news/:coinSlug?"
-          //               render={(routeProps) => (
-          //                 <NewsfeedPageNew
-          //                   coinSlug={routeProps.match.params.coinSlug}
-          //                 />
-          //               )}
-          //             />
-          //             <Route
-          //               exact
-          //               path="/news/:newsItemId/:newsItemSlug"
-          //               render={(routeProps) => (
-          //                 <NewsfeedPageNew
-          //                   newsItemId={routeProps.match.params.newsItemId}
-          //                 />
-          //               )}
-          //             />
-          //             <Route path="/events" component={CalendarPage} />
-          //           </div>
-          //         </Router>
-          //       </Provider>
-          //     </CoinListContainer>
-          //   </NewsfeedContainer>,
+          //     <NewsfeedContainer>
+          //       <CoinListContainer user={props.user}>
+          //         <Provider store={store}>
+          //           <Router>
+          //             <div>
+          //               <Route
+          //                 exact
+          //                 path="/news/:coinSlug?"
+          //                 render={(routeProps) => (
+          //                   <NewsfeedPageNew
+          //                     coinSlug={routeProps.match.params.coinSlug}
+          //                     categories={props.categories}
+          //                     feedSources={props.feedSources}
+          //                   />
+          //                 )}
+          //               />
+          //               <Route
+          //                 exact
+          //                 path="/news/:newsItemId/:newsItemSlug"
+          //                 render={(routeProps) => (
+          //                   <NewsfeedPageNew
+          //                     newsItemId={routeProps.match.params.newsItemId}
+          //                     categories={props.categories}
+          //                     feedSources={props.feedSources}
+          //                   />
+          //                 )}
+          //               />
+          //               <Route path="/events" component={CalendarPage} />
+          //             </div>
+          //           </Router>
+          //         </Provider>
+          //       </CoinListContainer>
+          //     </NewsfeedContainer>,
           //   hook,
           // )
         } else {
