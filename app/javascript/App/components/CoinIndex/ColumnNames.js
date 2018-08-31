@@ -21,7 +21,7 @@ export default (currency) => {
           <div className="b--r">
             <img alt={text} src={row.image_url} className="fl mr2" />
             <div className="fl">
-              <a href={`/coinsnew/${row.slug}`}>{row.symbol}</a>
+              <a href={`/coins/${row.slug}`}>{row.symbol}</a>
               <div>{text}</div>
             </div>
           </div>

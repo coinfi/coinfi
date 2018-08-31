@@ -1,10 +1,7 @@
 class Api::CoinsController < ApiController
   def index
-    query = params[:q] || {}
-    if params[:exclude_watched]
-      query[:id_not_in] = current_user.watchlist.coin_ids
-    end
-    @coins = Coin.ransack(query).result(distinct: true).limit(params[:limit] || 10).order(:ranking)
+    @current_page = params[:page] || 1
+    @coins = Coin.legit.listed.page(@current_page).per(params[:per]).order(:ranking)
     respond_success index_serializer(@coins)
   end
 
@@ -12,6 +9,12 @@ class Api::CoinsController < ApiController
     coin = Coin.find(params[:id])
     coin.current_user = current_user
     respond_success show_serializer(coin)
+  end
+
+  def search
+    query = params[:q] || {}
+    @coins = Coin.ransack(query).result(distinct: true).limit(params[:limit] || 10).order(:ranking)
+    respond_success search_serializer(@coins)
   end
 
   def by_slug
@@ -32,7 +35,7 @@ class Api::CoinsController < ApiController
     respond_success coinlist_serializer(coins)
   end
 
-  private
+private
 
   def coinlist_serializer(coins)
     coins.as_json(
@@ -43,9 +46,13 @@ class Api::CoinsController < ApiController
 
   def index_serializer(coins)
     coins.as_json(
-      only: %i[id coin_key name image_url symbol slug price_usd],
-      methods: %i[market_info prices_data]
+      only: %i[id name symbol slug coin_key ranking image_url price market_cap change1h change24h change7d volume24],
+      methods: %i[sparkline]
     )
+  end
+
+  def search_serializer(coins)
+    coins.as_json(only: %i[id name symbol slug])
   end
 
   def show_serializer(coin)

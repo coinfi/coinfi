@@ -3,6 +3,18 @@ Rails.application.routes.draw do
     path: '',
     path_names: { sign_in: 'login', sign_out: 'logout', sign_up: 'register' }
 
+  resources :author_profiles, only: %i[index show create update], path: 'authors'
+  get '/calculators/:id', to: 'calculators#show'
+  resources :coins, only: %i[index show]
+  resources :contributor_submissions, path: 'contributor-submissions'
+  resources :exchange_listings, only: %i[index show], path: 'listings'
+  get '/icos', to: redirect('/icos/upcoming')
+  get '/icos(/:status)', to: 'icos#index'
+  get '/news(/*others)', to: 'news#index'
+  get '/news-beta', to: redirect('/', status: 302)
+  get '/profile', to: 'author_profiles#edit', as: 'edit_author_profile'
+  get '/podcast', to: redirect('https://blog.coinfi.com/topics/podcast/', status: 302)
+
   namespace :admin do
     resources :coins do
       get 'influencers', on: :collection
@@ -23,16 +35,8 @@ Rails.application.routes.draw do
   end
 
   namespace :api, constraints: { format: 'json' } do
-    get '/user', to: 'user#show'
-    patch '/user', to: 'user#update'
-    resources :exchange_listings, only: %i[index show]
-    resources :news_items, only: %i[index]
-    resources :news, only: %i[index show]
-    resources :news_items, only: :index
-    namespace :newsfeed do
-      resources :coins, only: %i[index]
-    end
     resources :calendar_events, only: %i[index]
+
     get '/coins/search', to: 'coinsnew#search'
     get '/coins/:id/news', to: 'coins#news'
     get '/coins/by-slug/:slug', to: 'coins#by_slug'
@@ -40,27 +44,24 @@ Rails.application.routes.draw do
       get 'toplist', on: :collection
       get 'watchlist', on: :collection
     end
-    resources :coinsnew, only: %i[index show]
-    get '/social_feeds/tweets_by_user', to: 'social_feeds#tweets_by_user'
-  end
 
-  resources :coins, only: %i[index show]
-  get '/icos', to: redirect('/icos/upcoming')
-  get '/icos(/:status)', to: 'icos#index'
-  resources :contributor_submissions, path: 'contributor-submissions'
-  get '/profile', to: 'author_profiles#edit', as: 'edit_author_profile'
-  resources :author_profiles, only: %i[index show create update], path: 'authors'
-  resources :exchange_listings, only: %i[index show], path: 'listings'
-  get '/news(/*others)', to: 'news#index'
+    resources :exchange_listings, only: %i[index show]
+
+    resources :news, only: %i[index show]
+    resources :news_items, only: :index
+    namespace :newsfeed do
+      resources :coins, only: %i[index]
+    end
+
+    get '/social_feeds/tweets_by_user', to: 'social_feeds#tweets_by_user'
+
+    get '/user', to: 'user#show'
+    patch '/user', to: 'user#update'
+  end
 
   namespace :webhooks do
     post "#{ENV.fetch('SUPERFEEDR_CALLBACK_URL_SEGMENT_SECRET')}-superfeedr-ingest", to: 'websubs#superfeedr_ingest'
   end
-
-  get '/calculators/:id', to: 'calculators#show'
-
-  get '/podcast', to: redirect('https://blog.coinfi.com/topics/podcast/', status: 302)
-  get '/news-beta', to: redirect('/', status: 302)
 
   root to: 'pages#show'
   get '/:id', to: 'pages#show'

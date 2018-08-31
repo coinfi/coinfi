@@ -29,7 +29,7 @@ class CoinIndex extends Component {
 
   fetchCoins = (params = {}) => {
     this.setState({ loading: true })
-    API.get('/coinsnew', params).then((response) => {
+    API.get('/coins', params).then((response) => {
       this.setState({
         loading: false,
         coins: response.payload,
