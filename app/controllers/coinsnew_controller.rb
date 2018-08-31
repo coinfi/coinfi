@@ -15,7 +15,7 @@ class CoinsnewController < ApplicationController
     @upcoming_events = @coin.articles.upcoming_events
 
     if @coin.symbol && ENV['MODE_ACCESS_KEY']
-      base_mode_analytics_url = "https://modeanalytics.com/coinfi/reports/ab6bace449d6/runs/7eeda840fac5/embed?"
+      base_mode_analytics_url = "https://modeanalytics.com/coinfi/reports/ab6bace449d6/embed?"
       # Keys need to be in alphabetical order!
       mode_params = {
         access_key: ENV['MODE_ACCESS_KEY'],
