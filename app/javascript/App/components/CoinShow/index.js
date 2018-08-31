@@ -274,12 +274,12 @@ class CoinShow extends Component {
                           itemLayout="horizontal"
                           dataSource={LinksData(coinObj)}
                           renderItem={(item) => {
-                            const iconClasses = classNames(
-                              `fa-${item.icon}`,
-                              item.brand ? 'fab' : 'far',
-                              'fa-fw',
-                            )
                             if (item.value) {
+                              const iconClasses = classNames(
+                                `fa-${item.icon}`,
+                                item.brand ? 'fab' : 'far',
+                                'fa-fw',
+                              )
                               return (
                                 <List.Item>
                                   <i
