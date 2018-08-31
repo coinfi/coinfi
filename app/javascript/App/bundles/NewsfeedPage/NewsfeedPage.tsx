@@ -1,7 +1,6 @@
-
 // TODO: find more convenient way to extend window declaration
-import { WindowScreenType } from '../common/types';
-declare const window: WindowScreenType;
+import { WindowScreenType } from '../common/types'
+declare const window: WindowScreenType
 
 import * as React from 'react'
 import { withRouter, RouteComponentProps } from 'react-router'
@@ -17,151 +16,193 @@ import BodySection from './BodySection'
 import BodySectionDrawer from '../../components/BodySectionDrawer'
 import _ from 'lodash'
 
-import { NewsItem, ContentType } from './types';
-import { CoinList, Coin } from '../common/types';
+import { INewsItem, ContentType, IFilters } from './types'
+import { CoinList, Coin } from '../common/types'
+import getDefaultFilters from './defaultFilters'
 
-const POLLING_TIMEOUT = 6000;
+const POLLING_TIMEOUT = 6000
 
-interface Props extends RouteComponentProps<any> {
-  coinSlug?: string,
-  newsItemId?: string,
-  coinlist: CoinList,
-  newslist: Array<NewsItem>,
-  isNewsfeedLoading: boolean,
-  isNewsfeedLoadingMoreItems: boolean,
-  isNewsfeedReady: boolean,
-  isCoinlistLoading: boolean,
-  isCoinlistReady: boolean,
-  fetchNewsItemsForCoin: (coinSlug: string) => Promise<NewsItem[]>,
-  fetchAllNewsItems: () => Promise<NewsItem[]>, 
-  fetchMoreNewsItems: () => Promise<NewsItem[]>,
-  fetchNewNewsItems: () => Promise<NewsItem[]>,
-};
+interface IProps extends RouteComponentProps<any> {
+  categories: string[]
+  feedSources: string[]
+  coinSlug?: string
+  newsItemId?: string
+  coinlist: CoinList
+  newslist: INewsItem[]
+  isNewsfeedLoading: boolean
+  isNewsfeedLoadingMoreItems: boolean
+  isNewsfeedReady: boolean
+  isCoinlistLoading: boolean
+  isCoinlistReady: boolean
+  fetchNewsItems: (filters: IFilters) => Promise<INewsItem[]>
+  fetchMoreNewsItems: (filters: IFilters) => Promise<INewsItem[]>
+  fetchNewNewsItems: (filters: IFilters) => Promise<INewsItem[]>
+  cleanNewsItems: () => void
+}
 
-interface State {
-  initialRenderTips: boolean,
-  newsfeedTips: boolean,
-  unseenNewsIds: number[],
-  isWindowFocused: boolean,
-};
+interface IState {
+  filters: IFilters
+  initialRenderTips: boolean
+  isWindowFocused: boolean
+  newsfeedTips: boolean
+  showFilters: boolean
+  unseenNewsIds: number[]
+}
 
-class NewsfeedPage extends React.Component<Props, State> {
-
-  private documentTitle = document.title;
-
-  state = {
+class NewsfeedPage extends React.Component<IProps, IState> {
+  public state = {
+    filters: getDefaultFilters(),
     initialRenderTips: false,
-    newsfeedTips: true,
-    unseenNewsIds: [],
     isWindowFocused: true,
+    newsfeedTips: true,
+    showFilters: false,
+    unseenNewsIds: [],
   }
 
-  startPollingNews = () => {
+  public handleResize = debounce(() => this.forceUpdate(), 500)
+
+  private documentTitle = document.title
+
+  public startPollingNews = () => {
     setTimeout(() => {
       this.fetchNewNewsItems().then(() => {
-        this.startPollingNews();
+        this.startPollingNews()
       })
     }, POLLING_TIMEOUT)
   }
 
-  updateTitle = (news?: NewsItem[]) => {
-    if(typeof news !== 'undefined') {
-      if (news.length === 0) return;
-      document.title = news.length + ' | ' + this.documentTitle;
-      return;
+  public updateTitle = (news?: INewsItem[]) => {
+    if (typeof news !== 'undefined') {
+      if (news.length === 0) {
+        return
+      }
+      document.title = `${news.length} | ${this.documentTitle}`
+      return
     }
 
     if (!this.state.unseenNewsIds.length) {
-      document.title = this.documentTitle;
+      document.title = this.documentTitle
     } else {
-      document.title = this.state.unseenNewsIds.length + ' | ' + this.documentTitle;
+      document.title = `${this.state.unseenNewsIds.length} | ${
+        this.documentTitle
+      }`
     }
   }
 
-  fetchNewNewsItems = () => {
-    return this.props.fetchNewNewsItems().then(news => {
-      return new Promise((resolve, _reject) => {
+  public applyFilters = (filters: IFilters) => {
+    this.setState(
+      {
+        filters: _.cloneDeep(filters),
+      },
+      () => {
+        this.props.cleanNewsItems()
+        this.props.fetchNewsItems(this.state.filters)
+      },
+    )
+  }
+
+  public fetchNewNewsItems = () => {
+    return this.props.fetchNewNewsItems(this.state.filters).then((news) => {
+      return new Promise((resolve, reject) => {
         if (!this.state.isWindowFocused) {
-          const ids = news.map(elem => elem.id)
+          const ids = news.map((elem) => elem.id)
           const unseenNewsIds = _.uniq(this.state.unseenNewsIds.concat(ids))
-          this.updateTitle(unseenNewsIds);
-          this.setState({
-            unseenNewsIds,
-            }, () => {
-              resolve();
-            })
-          } else {
-            resolve();
+          this.updateTitle(unseenNewsIds)
+          this.setState(
+            {
+              unseenNewsIds,
+            },
+            () => {
+              resolve()
+            },
+          )
+        } else {
+          resolve()
         }
       })
     })
   }
 
-  handleResize = debounce(() => this.forceUpdate(), 500)
+  public handleOnBlur = () => this.setState({ isWindowFocused: false })
 
-  handleOnBlur = () => this.setState({ isWindowFocused: false })
-  
-  handleOnFocus = () => this.setState({ isWindowFocused: true, unseenNewsIds: [] }, () => this.updateTitle())
+  public handleOnFocus = () =>
+    this.setState({ isWindowFocused: true, unseenNewsIds: [] }, () =>
+      this.updateTitle(),
+    )
 
-  getContentType(): ContentType {
+  public getContentType(): ContentType {
     if (typeof this.props.coinSlug !== 'undefined') {
-      return "coin";
+      return 'coin'
     }
 
     if (typeof this.props.newsItemId !== 'undefined') {
-      return "news";
+      return 'news'
     }
 
-    return "none";
+    return 'none'
   }
 
-  componentDidMount() {
+  public componentDidMount() {
     window.addEventListener('resize', this.handleResize)
-    window.addEventListener('blur', this.handleOnBlur);
-    window.addEventListener('focus', this.handleOnFocus);
+    window.addEventListener('blur', this.handleOnBlur)
+    window.addEventListener('focus', this.handleOnFocus)
 
     if (!document.hasFocus()) {
       this.setState({ isWindowFocused: false })
     }
 
-    if (this.getContentType() === "coin") {
-        this.props.fetchNewsItemsForCoin(this.props.coinSlug).then(() => {
-          this.startPollingNews();
-        });
+    if (this.getContentType() === 'coin') {
+      this.setState((state, props) => {
+        state.filters.coinSlugs.push(props.coinSlug)
+        this.props.fetchNewsItems(state.filters).then(() => {
+          this.startPollingNews()
+        })
+        return state
+      })
     } else {
       if (this.props.newslist.length > 0) {
-        return;
+        return
       }
-      this.props.fetchAllNewsItems().then(() => {
-        this.startPollingNews();
-      });
-    }
-  }
-  
-  componentWillUnmount() {
-    window.removeEventListener('resize', this.handleResize);
-    window.removeEventListener('blur', this.handleOnBlur);
-    window.removeEventListener('focus', this.handleOnFocus);
-  }
-
-  componentDidUpdate(prevProps, prevState, snapshot) {
-    if (this.props.coinSlug !== prevProps.coinSlug) {
-      this.props.fetchNewsItemsForCoin(this.props.coinSlug)
+      this.props.fetchNewsItems(this.state.filters).then(() => {
+        this.startPollingNews()
+      })
     }
   }
 
-  closeTips = () => {
+  public componentWillUnmount() {
+    window.removeEventListener('resize', this.handleResize)
+    window.removeEventListener('blur', this.handleOnBlur)
+    window.removeEventListener('focus', this.handleOnFocus)
+  }
+
+  public componentDidUpdate(prevProps, prevState, snapshot) {
+    if (this.getContentType() === 'coin') {
+      if (this.props.coinSlug !== prevProps.coinSlug && !!this.props.coinSlug) {
+        this.setState((state) => {
+          state.filters.coinSlugs = [this.props.coinSlug]
+          this.props.fetchNewsItems(state.filters)
+          return state
+        })
+      }
+    }
+  }
+
+  public closeTips = () => {
     this.setState({ initialRenderTips: false })
   }
 
-  render() {
+  public toggleFilters = () => {
+    this.setState({ showFilters: !this.state.showFilters })
+  }
+
+  public render() {
     if (window.isMobile) {
       return (
         <LayoutMobile
           mainSection={
             <React.Fragment>
-              <NewsListHeader />
-              <NewsList />
+              {/* <NewsListHeader />
+              <NewsList /> */}
             </React.Fragment>
           }
           modalName="newsfeedModal"
@@ -169,9 +210,7 @@ class NewsfeedPage extends React.Component<Props, State> {
           drawerSection={
             <>
               <CoinListDrawer />
-              <BodySectionDrawer
-                bodySection={<BodySection />}
-              />
+              <BodySectionDrawer bodySection={<BodySection />} />
             </>
           }
         />
@@ -180,10 +219,8 @@ class NewsfeedPage extends React.Component<Props, State> {
       return (
         <LayoutTablet
           leftSection={
-            <>
-              <NewsListHeader />
-              <NewsList />
-            </>
+            <>{/* <NewsListHeader />
+              <NewsList /> */}</>
           }
           rightSection={<BodySection />}
           drawerSection={<CoinListDrawer />}
@@ -194,28 +231,30 @@ class NewsfeedPage extends React.Component<Props, State> {
         <LayoutDesktop
           leftSection={<CoinListWrapper />}
           centerSection={
-              <>
-                <NewsListHeader
-                  coins={this.props.coinlist}
-                  // @ts-ignore FIXME
-                  feedSources={this.props.feedSources}
-                  // @ts-ignore FIXME
-                  showFilters={this.state.showFilters}
-                  // @ts-ignore FIXME
-                  activeFilters={this.state.activeFilters}
-                  newsfeedTips={this.state.newsfeedTips}
-                />
-                <NewsList
-                  isWindowFocused={this.state.isWindowFocused}
-                  isLoading={this.props.isNewsfeedLoading}
-                  isInfiniteScrollLoading={this.props.isNewsfeedLoadingMoreItems}
-                  // @ts-ignore FIXME
-                  activeFilters={this.state.activeFilters}
-                  sortedNewsItems={this.props.newslist}
-                  initialRenderTips={this.state.initialRenderTips}
-                  fetchMoreNewsFeed={this.props.fetchMoreNewsItems}
-                  closeTips={this.closeTips}
-                />
+            <>
+              <NewsListHeader
+                // @ts-ignore FIXME
+                coins={this.props.coinlist}
+                feedSources={this.props.feedSources}
+                showFilters={this.state.showFilters}
+                toggleFilters={this.toggleFilters}
+                newsfeedTips={this.state.newsfeedTips}
+                applyFilters={this.applyFilters}
+                filters={this.state.filters}
+                categories={this.props.categories}
+              />
+              <NewsList
+                isShown={!this.state.showFilters}
+                isWindowFocused={this.state.isWindowFocused}
+                isLoading={this.props.isNewsfeedLoading}
+                isInfiniteScrollLoading={this.props.isNewsfeedLoadingMoreItems}
+                sortedNewsItems={this.props.newslist}
+                initialRenderTips={this.state.initialRenderTips}
+                fetchMoreNewsFeed={() =>
+                  this.props.fetchMoreNewsItems(this.state.filters)
+                }
+                closeTips={this.closeTips}
+              />
             </>
           }
           rightSection={
@@ -223,7 +262,7 @@ class NewsfeedPage extends React.Component<Props, State> {
               coinSlug={this.props.coinSlug}
               newsItemId={this.props.newsItemId}
               contentType={this.getContentType()}
-              closeTips={this.closeTips} 
+              closeTips={this.closeTips}
             />
           }
         />
@@ -232,4 +271,4 @@ class NewsfeedPage extends React.Component<Props, State> {
   }
 }
 
-export default withRouter<Props>(NewsfeedPage);
+export default withRouter<IProps>(NewsfeedPage)

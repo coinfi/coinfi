@@ -1,17 +1,27 @@
-import { ItemWithCoinLinkData } from '../common/types';
+import { ItemWithCoinLinkData, Coin } from '../common/types'
 
-interface Category {
-  name: string,
-};
+interface ICategory {
+  name: string
+}
 
-export interface NewsItem extends ItemWithCoinLinkData {
-  id: number,
+export interface INewsItem extends ItemWithCoinLinkData {
+  id: number
   title: string
   summary: string
   content: string
   url: string
-  feed_item_published_at: string,
-  categories: Array<Category>,
-};
+  feed_item_published_at: string
+  categories: ICategory[]
+}
 
-export type ContentType = "none" | "coin" | "news";
+export type ContentType = 'none' | 'coin' | 'news'
+
+type CoinSlug = string
+
+export interface IFilters {
+  coinSlugs: CoinSlug[]
+  publishedSince: string | null
+  publishedUntil: string | null
+  categories: string[]
+  feedSources: string[]
+}

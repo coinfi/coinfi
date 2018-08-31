@@ -12,20 +12,20 @@ import LoadingIndicator from '../../components/LoadingIndicator'
 import Tips from './Tips'
 import scrollHelper from './../../scrollHelper'
 
-import { NewsItem } from './types'
+import { INewsItem } from './types'
 
 interface IProps {
   // FIXME all props must be required
+  isShown?: boolean
   isLoading?: boolean
   isInfiniteScrollLoading?: boolean
   activeFilters?: any
-  sortedNewsItems?: NewsItem[]
+  sortedNewsItems?: INewsItem[]
   initialRenderTips?: boolean
-  fetchMoreNewsFeed?: any // () => void
-  closeTips?: any // () => void
-  onNewsItemShown?: (id) => void,
-  isNewsSeen?: (id) => boolean,
-  isWindowFocused?: boolean,
+  fetchMoreNewsFeed?: () => void
+  closeTips?: () => void
+  isNewsSeen?: (id) => boolean
+  isWindowFocused?: boolean
 }
 
 interface IState {
@@ -140,6 +140,8 @@ class NewsList extends React.Component<IProps, IState> {
   // }
 
   public render() {
+    if (!this.props.isShown) return null
+  
     const {
       // @ts-ignore FIXME
       activeEntity,
