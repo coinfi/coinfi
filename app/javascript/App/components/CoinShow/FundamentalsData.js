@@ -41,10 +41,24 @@ export default (coinObj, currency) => {
   }
   if (coinObj.available_supply) {
     columns.push({
-      title: 'Circulating Supply',
+      title: 'Available Supply',
       value: `${coinObj.available_supply.toLocaleString('en-US')} ${
         coinObj.symbol
       }`,
+    })
+  }
+  if (coinObj.total_supply) {
+    columns.push({
+      title: 'Total Supply',
+      value: `${coinObj.total_supply.toLocaleString('en-US')} ${
+        coinObj.symbol
+      }`,
+    })
+  }
+  if (coinObj.max_supply) {
+    columns.push({
+      title: 'Maximum Supply',
+      value: `${coinObj.max_supply.toLocaleString('en-US')} ${coinObj.symbol}`,
     })
   }
 
