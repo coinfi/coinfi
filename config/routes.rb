@@ -37,7 +37,7 @@ Rails.application.routes.draw do
   namespace :api, constraints: { format: 'json' } do
     resources :calendar_events, only: %i[index]
 
-    get '/coins/search', to: 'coinsnew#search'
+    get '/coins/search', to: 'coins#search'
     get '/coins/:id/news', to: 'coins#news'
     get '/coins/by-slug/:slug', to: 'coins#by_slug'
     resources :coins, only: %i[index show toplist watchlist] do
