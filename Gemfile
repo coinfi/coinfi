@@ -41,6 +41,7 @@ gem 'administrate-field-belongs_to_search'
 gem 'administrate-field-json', github: 'eddietejeda/administrate-field-json'
 gem 'administrate-field-nested_has_many', github: 'nickcharlton/administrate-field-nested_has_many'
 gem 'aws-sdk', '~> 2'
+gem 'blazer'
 gem 'canonical-rails'
 gem 'convertkit-ruby', require: 'convertkit', git: 'https://github.com/hanchang/convertkit-ruby.git'
 gem 'cryptocompare'
@@ -72,11 +73,6 @@ gem 'unidecoder'
 gem 'wombat'
 gem 'twitter'
 gem 'webpacker', '~> 3.3'
-
-# Devise needs to be in front of Ahoy in the Gemfile to have Ahoy automatically update Visit with User ID:
-# https://github.com/ankane/ahoy/issues/12
-gem 'ahoy_matey'
-gem 'blazer'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

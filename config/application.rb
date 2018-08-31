@@ -35,7 +35,6 @@ module CoinfiRails
     config.middleware.insert_before 0, Rack::Cors do
       allow do
         origins 'https://blog.coinfi.com', 'https://landing.coinfi.com'
-        resource '/ahoy/*', headers: :any, methods: [:get, :post]
       end
     end
 
