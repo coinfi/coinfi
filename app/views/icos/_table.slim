@@ -18,9 +18,6 @@ table.responsive-table.right-align
       th ICO Price
       // 7
       th Token Type
-      // 8
-      - if ['upcoming', 'active'].include? @status
-        th Reviews
   tbody
     - @coins.each do |coin|
       tr
@@ -99,13 +96,5 @@ table.responsive-table.right-align
           label Token Type
           div
             = coin.token_type
-
-        // 8
-
-        - if ['upcoming', 'active'].include? @status
-          td
-            label Review Count
-            div
-              = coin.influencer_reviews.count
 
 = paginate @coins, window: 6

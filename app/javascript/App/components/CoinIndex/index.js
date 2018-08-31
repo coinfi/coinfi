@@ -29,10 +29,10 @@ class CoinIndex extends Component {
 
   fetchCoins = (params = {}) => {
     this.setState({ loading: true })
-    API.get('/coinsnew', params).then((response) => {
+    API.get('/coins', params).then((response) => {
       this.setState({
         loading: false,
-        coins: response,
+        coins: response.payload,
       })
     })
   }
@@ -66,6 +66,7 @@ class CoinIndex extends Component {
           dataSource={this.state.coins}
           pagination={this.state.pagination}
           onChange={this.handleTableChange}
+          loading={{ spinning: this.state.loading }}
           scroll={{ x: 1080 }}
           style={{ background: '#fff' }}
         />

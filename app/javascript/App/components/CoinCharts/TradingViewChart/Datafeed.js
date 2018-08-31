@@ -14,7 +14,7 @@ export default class Datafeed {
         supports_group_request: false,
         supported_resolutions: ['D'],
         supports_marks: false,
-        supports_timescale_marks: false
+        supports_timescale_marks: false,
       })
     }, 0)
   }
@@ -27,7 +27,7 @@ export default class Datafeed {
         minmov: 1,
         pricescale: 100,
         session: '24x7',
-        timezone: 'Europe/London'
+        timezone: 'Europe/London',
       })
     }, 0)
   }
@@ -38,20 +38,20 @@ export default class Datafeed {
     to,
     onHistoryCallback,
     onErrorCallback,
-    firstDataRequest
+    firstDataRequest,
   ) {
     /*
      * Doc: https://github.com/tradingview/charting_library/wiki/JS-Api#getbarssymbolinfo-resolution-from-to-onhistorycallback-onerrorcallback-firstdatarequest
      * Example: https://github.com/tradingview/charting_library/blob/e7771668fcb61b5f99d79103d2cc7e27452cae12/datafeeds/udf/lib/history-provider.js#L7
      */
     if (!firstDataRequest) return
-    const bars = this.data.map(bar => ({
-      time: bar.timestamp * 1000,
+    const bars = this.data.map((bar) => ({
+      time: bar.timestamp,
       volume: Number(bar.volume_from),
       open: Number(bar.open),
       close: Number(bar.close),
       low: Number(bar.low),
-      high: Number(bar.high)
+      high: Number(bar.high),
     }))
     onHistoryCallback(bars)
   }

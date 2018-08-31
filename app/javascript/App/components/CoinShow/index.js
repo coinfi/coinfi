@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from 'react'
 import { Layout, Card, Button, List, Col, Row, Avatar } from 'antd'
+import classNames from 'classnames'
 import styled from 'styled-components'
 import axios from 'axios'
 import SearchCoins from './../shared/SearchCoins'
@@ -66,10 +67,21 @@ class CoinShow extends Component {
       coinObj,
     } = this.props
 
+    const epochPrices = priceData.map((datum) => {
+      datum.timestamp = new Date(datum.time).getTime()
+      return datum
+    })
+
     const percentChange1h = {
       positive: coinObj.change1h > 0,
       value: coinObj.change1h,
     }
+
+    const currency = this.state.currency
+    const prepend = currency === 'USD' ? '$' : ''
+    const price = `${prepend}${Number.parseFloat(
+      coinObj.price[currency.toLowerCase()],
+    ).toPrecision(6)} ${currency}`
 
     return (
       <Fragment>
@@ -101,11 +113,7 @@ class CoinShow extends Component {
                             marginRight: '.75rem',
                           }}
                         >
-                          {this.state.currency === 'USD' ? '$' : ''}
-                          {
-                            coinObj.price[this.state.currency.toLowerCase()]
-                          }{' '}
-                          {this.state.currency}
+                          {price}
                         </Span>
                         <Span
                           style={
@@ -171,7 +179,7 @@ class CoinShow extends Component {
                       <Card title="Price Chart" style={{ padding: 1 }}>
                         <CoinCharts
                           symbol={symbol}
-                          priceData={priceData}
+                          priceData={epochPrices}
                           annotations={annotations}
                           isTradingViewVisible={isTradingViewVisible}
                         />
@@ -267,47 +275,24 @@ class CoinShow extends Component {
                           dataSource={LinksData(coinObj)}
                           renderItem={(item) => {
                             if (item.value) {
+                              const iconClasses = classNames(
+                                `fa-${item.icon}`,
+                                item.brand ? 'fab' : 'far',
+                                'fa-fw',
+                              )
                               return (
                                 <List.Item>
-                                  {item.icon === 'twitter' && (
-                                    <svg
-                                      xmlns="http://www.w3.org/2000/svg"
-                                      width="13"
-                                      height="11"
-                                      viewBox="0 0 13 11"
-                                      style={{
-                                        position: 'relative',
-                                        top: 1,
-                                        left: 3,
-                                        marginRight: 4,
-                                      }}
-                                    >
-                                      <g fill="none" fillRule="evenodd">
-                                        <path
-                                          fill="#000"
-                                          fillOpacity=".54"
-                                          d="M12.292 1.531a4.92 4.92 0 0 1-1.25 1.302v.313c0 1.823-.656 3.476-1.966 4.96-1.311 1.485-3.052 2.227-5.222 2.227A6.956 6.956 0 0 1 0 9.187c.278.035.477.053.599.053a4.899 4.899 0 0 0 3.125-1.094 2.535 2.535 0 0 1-1.458-.508 2.386 2.386 0 0 1-.886-1.237c.209.035.365.052.469.052.174 0 .4-.035.677-.104a2.546 2.546 0 0 1-1.445-.872 2.4 2.4 0 0 1-.586-1.602v-.026c.382.208.764.312 1.146.312C.894 3.675.52 2.972.52 2.052c0-.434.113-.85.338-1.25 1.337 1.65 3.065 2.526 5.183 2.63-.035-.121-.052-.312-.052-.573 0-.711.243-1.31.729-1.796.486-.487 1.085-.73 1.797-.73.711 0 1.32.27 1.823.808.52-.087 1.059-.296 1.614-.625-.173.607-.547 1.076-1.12 1.406a4.3 4.3 0 0 0 1.459-.39z"
-                                        />
-                                        <path d="M-2-3h16v16H-2z" />
-                                      </g>
-                                    </svg>
-                                  )}
-                                  {item.icon !== 'twitter' && (
-                                    <i
-                                      className="material-icons"
-                                      style={{
-                                        position: 'relative',
-                                        top: 0,
-                                        fontSize: 15,
-                                      }}
-                                    >
-                                      {item.icon}
-                                    </i>
-                                  )}
-
+                                  <i
+                                    className={iconClasses}
+                                    style={{
+                                      position: 'relative',
+                                      top: 0,
+                                    }}
+                                  />
                                   <a
                                     href={item.value}
                                     target="_blank"
+                                    rel="nofollow noopener noreferrer"
                                     style={{
                                       color: '#000',
                                       marginLeft: '.5rem',

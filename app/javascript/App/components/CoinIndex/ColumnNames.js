@@ -1,4 +1,5 @@
 import React from 'react'
+import RedGreenSpan from './RedGreenSpan'
 import { Sparklines, SparklinesLine } from 'react-sparklines'
 
 export default (currency) => {
@@ -20,9 +21,7 @@ export default (currency) => {
           <div className="b--r">
             <img alt={text} src={row.image_url} className="fl mr2" />
             <div className="fl">
-              <a href={`/coinsnew/${text.toLowerCase().replace(/ /, '-')}`}>
-                {row.symbol}
-              </a>
+              <a href={`/coins/${row.slug}`}>{row.symbol}</a>
               <div>{text}</div>
             </div>
           </div>
@@ -35,11 +34,23 @@ export default (currency) => {
       align: 'right',
       render: (text, row, index) => {
         const currencyKey = currency.toLowerCase()
-        if (currency === 'USD') {
-          return <span>${row.price[currencyKey]}</span>
+        if (currency === 'USD' && row.price) {
+          const formattedPrice = row.price[currencyKey].toLocaleString(
+            'en-US',
+            {
+              maximumFractionDigits: 4,
+            },
+          )
+          return <span>${formattedPrice} USD</span>
         }
-        if (currency === 'BTC') {
-          return <span>{row.price[currencyKey]} &#579;</span>
+        if (currency === 'BTC' && row.price) {
+          const formattedPrice = row.price[currencyKey].toLocaleString(
+            'en-US',
+            {
+              maximumFractionDigits: 8,
+            },
+          )
+          return <span>{formattedPrice} &#579;</span>
         }
       },
     },
@@ -47,60 +58,43 @@ export default (currency) => {
       title: 'Market Cap',
       dataIndex: 'market_cap.usd',
       align: 'right',
-      render: (text, row, index) => {
-        return (
+      render: (text, row, index) =>
+        text ? (
           <span>
             ${text.toLocaleString('en-US', {
               maximumFractionDigits: 0,
             })}
           </span>
-        )
-      },
+        ) : null,
     },
     {
       title: '% Move 1H',
       dataIndex: 'change1h',
       align: 'right',
-      render: (text, row, index) => {
-        if (text > 0) {
-          return <span style={{ color: '#12d8b8' }}>{text}%</span>
-        }
-        return <span style={{ color: '#ff6161' }}>{text}%</span>
-      },
+      render: (text, row, index) => <RedGreenSpan text={text} affix="%" />,
     },
     {
       title: '% Move 1D',
       dataIndex: 'change24h',
       align: 'right',
-      render: (text, row, index) => {
-        if (text > 0) {
-          return <span style={{ color: '#12d8b8' }}>{text}%</span>
-        }
-        return <span style={{ color: '#ff6161' }}>{text}%</span>
-      },
+      render: (text, row, index) => <RedGreenSpan text={text} affix="%" />,
     },
     {
       title: '% Move 1W',
       dataIndex: 'change7d',
       align: 'right',
-      render: (text, row, index) => {
-        if (text > 0) {
-          return <span style={{ color: '#12d8b8' }}>{text}%</span>
-        }
-        return <span style={{ color: '#ff6161' }}>{text}%</span>
-      },
+      render: (text, row, index) => <RedGreenSpan text={text} affix="%" />,
     },
     {
       title: 'Volume (24hr)',
       dataIndex: 'volume24.usd',
       align: 'right',
-      render: (text, row, index) => {
-        return (
+      render: (text, row, index) =>
+        text ? (
           <span>
             {text.toLocaleString('en-US', { maximumFractionDigits: 0 })}
           </span>
-        )
-      },
+        ) : null,
     },
     {
       title: '7D Chart',
