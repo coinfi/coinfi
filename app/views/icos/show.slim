@@ -3,10 +3,44 @@
     .col-xs-12.col-md-4.flex.flex-column
       = render partial: 'icos/header'
       = render partial: 'icos/stats'
-      = render partial: 'coins/last_updated'
-      = render partial: 'coins/links'
+      .bg-white.tc.f7.pa4.mb2
+        - last_update = @data["last_updated"].presence || @coin.updated_at
+        = "Last updated: #{distance_of_time_in_words(Integer(last_update), Time.now)} ago"
+      .bg-tiber.pa4.flex.flex-wrap.justify-center.flex-auto
+        .icons.tc.w-100
+          - if @coin.website.present?
+            a.icon.icon-light href=@coin.website target="_blank" rel="nofollow"
+              i class="fal fa-link"
+              label Website
+          - if @coin.explorer.present?
+            a.icon.icon-light href=@coin.explorer target="_blank" rel="nofollow"
+              i class="fal fa-search"
+              label Explorer
+          - if @coin.forum.present?
+            a.icon.icon-light href=@coin.forum target="_blank" rel="nofollow"
+              i class="fal fa-comments"
+              label Forum
+          - if @coin.whitepaper.present?
+            a.icon.icon-light href=@coin.whitepaper target="_blank" rel="nofollow"
+              i class="fal fa-file-alt"
+              label Whitepaper
+          - if @coin.twitter.present?
+            a.icon.icon-light href=@coin.twitter target="_blank" rel="nofollow"
+              i class="fab fa-twitter"
+              label Twitter
+          - if @coin.reddit.present?
+            a.icon.icon-light href=@coin.reddit target="_blank" rel="nofollow"
+              i class="fab fa-reddit"
+              label Reddit
+          - if @coin.medium.present?
+            a.icon.icon-light href=@coin.medium target="_blank" rel="nofollow"
+              i class="fab fa-medium"
+              label Medium
+          - if @coin.github.present?
+            a.icon.icon-light href=@coin.github target="_blank" rel="nofollow"
+              i class="fab fa-github"
+              label Github
     .col-xs-12.col-md-8.flex
       .bg-white.w-100
         = render partial: 'icos/reviews'
         = render partial: 'icos/charts'
-        = render partial: 'coins/relevant_content'
