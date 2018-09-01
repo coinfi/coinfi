@@ -3,5 +3,10 @@
     - if current_user
       = react_component 'WatchButton', props: { coinID: @coin.id, watching: user_is_watching?(@coin), loggedIn: !!current_user }
   .pa4.pt0
-    = render partial: 'coins/title'
+    .flex.justify-center.items-center.mb3
+      - if @coin.image_url.present?
+        img.w3e.h3e.mr3.a1 src=@coin.image_url alt=@coin.name width=32 height=32
+      h1.ma0.lh-solid
+        span.fw4>= @coin.name
+        span#symbol.f6.fw9.sans-alt= @coin.symbol
     = render partial: 'icos/subheader'

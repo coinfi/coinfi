@@ -311,7 +311,7 @@ class CoinShow extends Component {
                     </CardWrapLast>
                   </Col>
 
-                  {modeAnalyticsUrl ? (
+                  {coinObj.token_type === 'ERC20' && modeAnalyticsUrl ? (
                     <Col xs={24} sm={24} m={24} l={24} xl={24}>
                       <CardWrapLast>
                         <Card title="Token Metrics">
