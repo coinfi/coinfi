@@ -2,9 +2,8 @@
   "name": "coinfi-rails",
   "private": true,
   "engines": {
-    "node": "^8.9.1",
-    "npm": "^5.8.0",
-    "yarn": "^1.5.1"
+    "node": "^10.9.0",
+    "yarn": "^1.9.0"
   },
   "dependencies": {
     "@rails/webpacker": "^3.3.1",
@@ -66,8 +65,7 @@
     "tslint-react": "^3.6.0",
     "typescript": "^3.0.1",
     "url-parse": "^1.4.1",
-    "webpack-merge": "^4.1.2",
-    "webpack-strip-log-loader": "^0.1.5"
+    "webpack-merge": "^4.1.2"
   },
   "devDependencies": {
     "@storybook/addon-actions": "^3.4.8",
@@ -95,7 +93,7 @@
     "stylelint-config-recommended-scss": "^3.1.0",
     "stylelint-scss": "^2.5.0",
     "tslint-config-prettier": "^1.15.0",
-    "webpack-dev-server": "2.11.2"
+    "webpack-dev-server": "^2.11.1"
   },
   "scripts": {
     "storybook": "start-storybook -p 6006",
