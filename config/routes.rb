@@ -7,7 +7,7 @@ Rails.application.routes.draw do
   get '/calculators/:id', to: 'calculators#show'
   resources :coins, only: %i[index show]
   resources :contributor_submissions, path: 'contributor-submissions'
-  resources :exchange_listings, only: %i[index show], path: 'listings'
+  resources :exchange_listings, only: :index, path: 'listings'
   get '/icos', to: redirect('/icos/upcoming')
   get '/icos(/:status)', to: 'icos#index'
   get '/news(/*others)', to: 'news#index'
