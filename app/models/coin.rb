@@ -29,7 +29,7 @@ class Coin < ApplicationRecord
 
   before_save :update_previous_name
 
-  scope :legit, -> { where.not(price: nil, change7d: nil, image_url: nil) }
+  scope :legit, -> { where.not(price: nil, image_url: nil) }
   scope :top, -> (limit) { order(ranking: :asc).limit(limit) }
   scope :icos, -> { where(ico_status: ICO_STATUSES).order(:ico_end_date) }
 
