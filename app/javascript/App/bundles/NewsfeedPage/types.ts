@@ -1,10 +1,10 @@
-import { ItemWithCoinLinkData, Coin } from '../common/types'
+import { IItemWithCoinLinkData } from '../common/types'
 
 interface ICategory {
   name: string
 }
 
-export interface INewsItem extends ItemWithCoinLinkData {
+export interface INewsItem extends IItemWithCoinLinkData {
   id: number
   title: string
   summary: string

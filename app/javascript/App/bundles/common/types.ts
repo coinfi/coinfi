@@ -1,4 +1,4 @@
-export interface Coin {
+export interface ICoin {
   id: number
   market_info: any
   name: string
@@ -6,19 +6,19 @@ export interface Coin {
   symbol: string
 }
 
-export interface CoinLinkData {
-  id: number,
-  symbol: string,
-  slug: string,
-};
-
-export interface ItemWithCoinLinkData {
-  coin_link_data: Array<CoinLinkData>,
+export interface ICoinLinkData {
+  id: number
+  symbol: string
+  slug: string
 }
 
-export type CoinList = Array<Coin>
+export interface IItemWithCoinLinkData {
+  coin_link_data: ICoinLinkData[]
+}
 
-export interface User {
+export type CoinList = ICoin[]
+
+export interface IUser {
   created_at: string
   email: string
   id: number
@@ -30,12 +30,12 @@ export interface User {
   username: string
 }
 
-export interface WindowScreenType extends Window {
+export interface IWindowScreenType extends Window {
   isMobile?: boolean
   isTablet?: boolean
 }
 
-export interface CoinWithDetails extends Coin {
+export interface ICoinWithDetails extends ICoin {
   image_url: string
   price_usd: any
   prices_data: any

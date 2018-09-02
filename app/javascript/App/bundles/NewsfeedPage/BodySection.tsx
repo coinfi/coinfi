@@ -4,7 +4,7 @@ import NewsBody from './NewsBody'
 import CoinBody from '../common/components/CoinBody'
 import Tips from './Tips'
 import { ContentType } from './types'
-import { User } from '../common/types'
+import { IUser } from '../common/types'
 
 interface Props {
   // FIXME commented props are right
@@ -17,7 +17,7 @@ interface Props {
   coinSlug?: string
   contentType?: ContentType
   closeTips?: Function
-  user?: User
+  user?: IUser
 }
 
 const BodySection = (props: Props) => {

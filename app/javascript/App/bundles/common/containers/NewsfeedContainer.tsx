@@ -2,7 +2,7 @@ import * as React from 'react'
 import _ from 'lodash'
 import localAPI from '../../../lib/localAPI'
 import NewsfeedContext, {
-  NewsfeedContextType,
+  INewsfeedContextType,
 } from '../../../contexts/NewsfeedContext'
 import { INewsItem, IFilters } from '../../NewsfeedPage/types'
 
@@ -38,7 +38,7 @@ class NewsfeedContainer extends React.Component<{}, IState> {
 
   public cleanNewsItems = () => {
     this.setState({
-      sortedNewsItems: []
+      sortedNewsItems: [],
     })
   }
 
@@ -58,7 +58,9 @@ class NewsfeedContainer extends React.Component<{}, IState> {
           localAPI
             .get('/news', {
               ...filters,
-              publishedSince: !!filters.publishedSince ? filters.publishedSince : firstNewsItem.feed_item_published_at,
+              publishedSince: !!filters.publishedSince
+                ? filters.publishedSince
+                : firstNewsItem.feed_item_published_at,
             })
             .then((response) => {
               if (!response.payload) {
@@ -134,7 +136,9 @@ class NewsfeedContainer extends React.Component<{}, IState> {
           localAPI
             .get(`/news`, {
               ...filters,
-              publishedUntil: !!filters.publishedUntil ? filters.publishedUntil : lastNews.feed_item_published_at,
+              publishedUntil: !!filters.publishedUntil
+                ? filters.publishedUntil
+                : lastNews.feed_item_published_at,
             })
             .then((response) => {
               if (!response.payload) {
@@ -160,7 +164,7 @@ class NewsfeedContainer extends React.Component<{}, IState> {
   }
 
   public render = () => {
-    const payload: NewsfeedContextType = {
+    const payload: INewsfeedContextType = {
       cleanNewsItems: this.cleanNewsItems,
       fetchMoreNewsItems: this.fetchMoreNewsItems,
       fetchNewNewsItems: this.fetchNewNewsItems,

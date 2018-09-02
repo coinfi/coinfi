@@ -1,5 +1,5 @@
-import { WindowScreenType } from '../../../common/types'
-declare const window: WindowScreenType
+import { IWindowScreenType } from '../../../common/types'
+declare const window: IWindowScreenType
 
 import * as React from 'react'
 import classNames from 'classnames'
