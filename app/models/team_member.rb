@@ -50,13 +50,6 @@ class TeamMember < ActiveHash::Base
       linkedin: 'https://www.linkedin.com/in/zpardes/'
     },
     {
-      name: 'Nav Aulakh',
-      title: 'Community Manager',
-      bio: "Programmatic digital media planner who moved client side, helping tech SaaS startups with community management and marketing. Experienced crypto investor with a background in Mathematical Risk Management (BSc) and Financial Engineering (MSc).",
-      img: 'https://res.cloudinary.com/coinfi/image/upload/v1522671950/profile-photos/navneet-aulakh.jpg',
-      linkedin: 'https://www.linkedin.com/in/navneet-aulakh-73161826'
-    },
-    {
       name: 'Alex Lascus',
       title: 'Community Support',
       bio: "Internet marketing expert with over 5 years experience in Advertising and Community Management. Passionate about anything that’s related to social media and cryptocurrencies.",
