@@ -1,22 +1,22 @@
-h2
-  | Change your password
-= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :put }) do |f|
-  = devise_error_messages!
-  = f.hidden_field :reset_password_token
-  .field
-    = f.label :password, "New password"
-    br
-    - if @minimum_password_length
-      em
-        | (
-        = @minimum_password_length
-        |  characters minimum)
-      br
-    = f.password_field :password, autofocus: true, autocomplete: "off"
-  .field
-    = f.label :password_confirmation, "Confirm new password"
-    br
-    = f.password_field :password_confirmation, autocomplete: "off"
-  .actions
-    = f.submit "Change my password"
-= render "devise/shared/links"
+.phr-ns.pv4-ns.flex.items-center
+  .container-narrower
+    .pa4.pa5-ns.max-w28e.center.ba.b--light-gray.shadow-s1.bg-white
+      h2
+        | Change your password
+      = form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :put }) do |f|
+        = devise_error_messages!
+        = f.hidden_field :reset_password_token
+        .field
+          = f.label :password, "New password"
+          - if @minimum_password_length
+            em
+              | (
+              = @minimum_password_length
+              |  characters minimum)
+          = f.password_field :password, autofocus: true, autocomplete: "off"
+        .field
+          = f.label :password_confirmation, "Confirm new password"
+          = f.password_field :password_confirmation, autocomplete: "off"
+        .actions
+          = f.submit "Change my password", class: 'btn btn-blue w-100'
+      = render "devise/shared/links"
