@@ -74,7 +74,7 @@ class TeamMember < ActiveHash::Base
       name: 'Sharon Chen',
       title: 'Head of Content',
       bio: "Sharon Chen previously worked as the Head of Content in a fast-growing eCommerce startup in the health and wellness industry. She has also been running a content site for more than five years including two book publications. Armed with extensive experience and skill set in content marketing and operations at a Chinese Bitcoin exchange back in 2013, Sharon has joined forces with CoinFi, aiming to bring maximum exposure to the platform through content marketing.",
-      img: 'https://res.cloudinary.com/coinfi/image/upload/v1522671946/profile-photos/sharen-chen.jpg',
+      img: 'https://res.cloudinary.com/coinfi/image/upload/v1522671946/profile-photos/sharon-chen.jpg',
       linkedin: 'https://www.linkedin.com/in/sharonchen1099/'
     },
     {
