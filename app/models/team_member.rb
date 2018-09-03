@@ -86,7 +86,7 @@ class TeamMember < ActiveHash::Base
     },
     {
       name: 'Wayne Lam',
-      title: 'Junior Product Manager',
+      title: 'Operations Manager & Associate Product Manager',
       bio: "Previously worked at a fast paced CPA start up that grew from $0 to $1 million in annual revenues within two years. Experienced in working with small & medium businesses from a wide array of industries providing financial clarity and business solutions. Avid equities and crypto investor.",
       img: 'https://res.cloudinary.com/coinfi/image/upload/v1522671946/profile-photos/wayne-lam.jpg',
       linkedin: 'https://www.linkedin.com/in/wlamhk/'
