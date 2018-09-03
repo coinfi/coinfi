@@ -93,7 +93,7 @@ class TeamMember < ActiveHash::Base
     },
     {
       name: 'Evgeny Medvedev',
-      title: '',
+      title: 'Data engineer',
       bio: "Software architect and data engineer with significant experience in architecting, building, and maintaining scalable systems. AWS Certified Solutions architect. Has deep knowledge of Ethereum having written the Ethereum ETL ingest library.",
       img: 'https://res.cloudinary.com/coinfi/image/upload/v1522671946/profile-photos/evgeny-medvedev.jpg',
       linkedin: 'https://www.linkedin.com/in/evgemedvedev'
