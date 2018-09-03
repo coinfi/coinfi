@@ -1,12 +1,12 @@
 import * as React from 'react'
 import Icon from '../../../components/Icon'
 
-interface Props {
-  value: string,
-  className: string,
-};
+interface IProps {
+  value: string
+  className: string
+}
 
-const PercentageChange = ({ value, className }: Props) => {
+const PercentageChange = ({ value, className }: IProps) => {
   const n = parseFloat(value)
   let iconName = 'caret-up'
   let klass = 'green'
@@ -14,12 +14,16 @@ const PercentageChange = ({ value, className }: Props) => {
     iconName = 'caret-down'
     klass = 'sunset'
   }
-  if (className) klass = `${className} ${klass}`
-  let percentage = `${Math.abs(n)}%`
-  if (isNaN(n)) return (<div />)
+  if (className) {
+    klass = `${className} ${klass}`
+  }
+  const percentage = `${Math.abs(n)}%`
+  if (isNaN(n)) {
+    return <div />
+  }
   return (
     <span className={klass}>
-      <Icon name={iconName} solid className="mr1" />
+      <Icon name={iconName} solid={true} className="mr1" />
       {percentage}
     </span>
   )

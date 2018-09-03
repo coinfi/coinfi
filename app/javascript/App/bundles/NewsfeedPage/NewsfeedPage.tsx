@@ -1,6 +1,6 @@
 // TODO: find more convenient way to extend window declaration
-import { WindowScreenType } from '../common/types'
-declare const window: WindowScreenType
+import { IWindowScreenType } from '../common/types'
+declare const window: IWindowScreenType
 
 import * as React from 'react'
 import { withRouter, RouteComponentProps } from 'react-router'
@@ -17,7 +17,7 @@ import BodySectionDrawer from '../../components/BodySectionDrawer'
 import _ from 'lodash'
 
 import { INewsItem, ContentType, IFilters } from './types'
-import { CoinList, Coin } from '../common/types'
+import { CoinList } from '../common/types'
 import getDefaultFilters from './defaultFilters'
 
 const POLLING_TIMEOUT = 6000

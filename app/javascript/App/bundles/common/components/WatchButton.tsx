@@ -1,19 +1,15 @@
 import * as React from 'react'
 import Icon from '../../../components/Icon'
 import CoinListContext from '../../../contexts/CoinListContext'
-import { Coin } from '../types';
+import { ICoin } from '../types'
 
-interface Props {
-  coin: Coin,
-  hasText: boolean,
-  loggedIn: boolean,
+interface IProps {
+  coin: ICoin
+  hasText: boolean
+  loggedIn: boolean
 }
 
-const WatchButton = ({
-  coin,
-  hasText,
-  loggedIn,
-}: Props) => {
+const WatchButton = ({ coin, hasText, loggedIn }: IProps) => {
   const hasTextClassNames = 'btn btn-xs btn-gray'
 
   return (
@@ -24,7 +20,7 @@ const WatchButton = ({
             return (
               <Icon
                 name="star"
-                solid
+                solid={true}
                 className={`aqua ${hasText ? hasTextClassNames : ''}`}
                 onClick={() => {
                   payload.removeCoinFromWatchlist(coin.symbol)
@@ -38,14 +34,14 @@ const WatchButton = ({
             return (
               <Icon
                 name="star"
-                light
+                light={true}
                 className={`light-silver ${hasText ? hasTextClassNames : ''}`}
                 onClick={() => {
                   payload.addCoinToWatchlist(coin.symbol)
                 }}
               >
                 {hasText && 'Watch'}
-              </Icon> 
+              </Icon>
             )
           }
         }
@@ -54,7 +50,7 @@ const WatchButton = ({
           <div className="div tooltipped">
             <Icon
               name="star"
-              light
+              light={true}
               className={`light-silver ${hasText ? hasTextClassNames : ''}`}
               onClick={() => {
                 // TODO: Implement new onboarding signup flow.
@@ -65,11 +61,9 @@ const WatchButton = ({
             </Icon>
           </div>
         )
-    }}
+      }}
     </CoinListContext.Consumer>
   )
-
-  
 }
 
 export default WatchButton

@@ -8,7 +8,7 @@ const filterIcon = require('../../images/filterIcon.svg')
 // tslint:disable-next-line
 const listIcon = require('./../../images/listIcon.svg')
 
-import { User } from '../common/types'
+import { IUser } from '../common/types'
 
 const titleStyle = {
   fontSize: '1.13rem',
@@ -33,7 +33,7 @@ const listNumberStyle = {
 
 interface IProps {
   closeTips: any // () => boolean
-  user?: User
+  user?: IUser
 }
 
 export default ({ closeTips, user }: IProps) => {

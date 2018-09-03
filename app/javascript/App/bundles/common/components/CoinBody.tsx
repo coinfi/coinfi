@@ -6,44 +6,43 @@ import WatchButton from './WatchButton'
 import LoadingIndicator from '../../../components/LoadingIndicator'
 import localAPI from '../../../lib/localAPI'
 
-import { CoinWithDetails, User } from '../types';
+import { ICoinWithDetails, IUser } from '../types'
 
-interface Props {
-  coinSlug?: string,
-  user?: User,
-};
+interface IProps {
+  coinSlug?: string
+  user?: IUser
+}
 
-interface State {
-  coinWithDetails?: CoinWithDetails;
-};
+interface IState {
+  coinWithDetails?: ICoinWithDetails
+}
 
-class CoinBody extends React.Component<Props, State> {
-  state = {
+class CoinBody extends React.Component<IProps, IState> {
+  public state = {
     coinWithDetails: null,
-  };
+  }
 
-  componentDidMount() {
+  public componentDidMount() {
     if (!!this.props.coinSlug) {
-      this.fetchCoinDetails();
+      this.fetchCoinDetails()
     }
   }
 
-  componentDidUpdate(prevProps, prevState, snapshot) {
+  public componentDidUpdate(prevProps, prevState, snapshot) {
     if (!this.props.coinSlug) {
       if (!!prevState.coinWithDetails) {
         // coinSlug prop turns null
-        this.setState({ coinWithDetails: null });
+        this.setState({ coinWithDetails: null })
       }
     } else {
       if (!prevProps.coinSlug || prevProps.coinSlug !== this.props.coinSlug) {
         // coinSlug prop changed
-        this.setState({ coinWithDetails: null }, () => this.fetchCoinDetails());
+        this.setState({ coinWithDetails: null }, () => this.fetchCoinDetails())
       }
     }
   }
 
-
-  fetchCoinDetails() {
+  public fetchCoinDetails() {
     localAPI.get(`/coins/by-slug/${this.props.coinSlug}`).then((response) => {
       this.setState({
         coinWithDetails: response.payload,
@@ -51,17 +50,19 @@ class CoinBody extends React.Component<Props, State> {
     })
   }
 
-  render() {
-
+  public render() {
     const { user } = this.props
-    const { coinWithDetails } = this.state;
+    const { coinWithDetails } = this.state
 
-    let loggedIn = !!user;
+    const loggedIn = !!user
 
-    if (!coinWithDetails)
-      return (<div className="pa3 tc mt4">
-            <LoadingIndicator />
-          </div>)
+    if (!coinWithDetails) {
+      return (
+        <div className="pa3 tc mt4">
+          <LoadingIndicator />
+        </div>
+      )
+    }
     return (
       <div className="pa4 bg-white">
         <div className="flex justify-between items-center">
@@ -70,13 +71,21 @@ class CoinBody extends React.Component<Props, State> {
             className="f4 fw6 flex items-center color-inherit"
           >
             {coinWithDetails.image_url && (
-              <img className="w2e h2e mr3" src={coinWithDetails.image_url} alt="" />
+              <img
+                className="w2e h2e mr3"
+                src={coinWithDetails.image_url}
+                alt=""
+              />
             )}
             {coinWithDetails.name}
             <span className="ml2">({coinWithDetails.symbol})</span>
           </a>
           <div className="tooltipped">
-            <WatchButton coin={coinWithDetails} loggedIn={loggedIn} hasText />
+            <WatchButton
+              coin={coinWithDetails}
+              loggedIn={loggedIn}
+              hasText={true}
+            />
             {!loggedIn && <div className="tooltip">Login to watch</div>}
           </div>
         </div>
