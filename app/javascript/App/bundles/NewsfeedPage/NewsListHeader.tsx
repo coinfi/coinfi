@@ -17,7 +17,6 @@ interface IProps {
   showFilters: boolean
   categories: string[]
   feedSources: string[]
-  coins: string[]
   filters: IFilters
   applyFilters: (filters: IFilters) => void
   toggleFilters: () => void
