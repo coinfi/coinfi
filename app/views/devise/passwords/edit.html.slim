@@ -1,7 +1,7 @@
 .phr-ns.pv4-ns.flex.items-center
   .container-narrower
     .pa4.pa5-ns.max-w28e.center.ba.b--light-gray.shadow-s1.bg-white
-      h2
+      h2.mt0.tc
         | Change your password
       = form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :put }) do |f|
         = devise_error_messages!
