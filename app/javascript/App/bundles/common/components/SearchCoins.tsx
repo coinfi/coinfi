@@ -12,6 +12,7 @@ interface ICoin {
   name: string
   symbol: string
   slug: string
+  image_url: string
 }
 
 interface IProps {
@@ -30,7 +31,13 @@ const getSuggestionValue = (suggestion: ICoin) => suggestion.slug
 const renderSuggestion = (suggestion: ICoin) => (
   <div className="flex items-center">
     <a>
-      {suggestion.name} ({suggestion.symbol})
+      <img
+        src={suggestion.image_url}
+        style={{ width: '20px', height: '20px', marginRight: '5px' }}
+      />
+      <span>
+        {suggestion.name} ({suggestion.symbol})
+      </span>
     </a>
   </div>
 )
@@ -98,14 +105,6 @@ class SearchCoins extends React.Component<IProps, IState> {
     )
   }
 
-  public onSuggestionHighlighted = ({ suggestion }) => {
-    if (!!suggestion) {
-      this.setState({
-        value: suggestion.name,
-      })
-    }
-  }
-
   public render() {
     const { value, suggestions } = this.state
 
@@ -144,7 +143,6 @@ class SearchCoins extends React.Component<IProps, IState> {
             renderSuggestionsContainer={renderSuggestionsContainer}
             renderSuggestion={renderSuggestion}
             onSuggestionSelected={this.onSuggestionSelected}
-            onSuggestionHighlighted={this.onSuggestionHighlighted}
             highlightFirstSuggestion={false}
             inputProps={inputProps}
           />

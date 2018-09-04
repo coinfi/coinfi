@@ -56,8 +56,9 @@ class CoinIndex extends Component {
           <div className="flex pt3">
             <div className="ma2">
               <SearchCoins
-                {...this.props}
-                onSelect={(suggestion) => alert(suggestion.name)}
+                onSelect={(suggestion) =>
+                  (window.location.href = `/coins/${suggestion.slug}`)
+                }
                 unstyled
               />
             </div>
