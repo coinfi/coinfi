@@ -1,7 +1,7 @@
 class Api::CoinsController < ApiController
   def index
     @current_page = params[:page] || 1
-    @coins = Coin.legit.listed.page(@current_page).per(params[:per]).order(:ranking)
+    @coins = Coin.legit.page(@current_page).per(params[:per]).order(:ranking)
     respond_success index_serializer(@coins)
   end
 

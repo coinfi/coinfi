@@ -7,14 +7,12 @@ export default (currency) => {
     {
       title: '#',
       dataIndex: 'ranking',
-      fixed: 'left',
       align: 'right',
       width: 64,
     },
     {
       title: 'Coin',
       dataIndex: 'name',
-      fixed: 'left',
       width: 240,
       render: (text, row, index) => {
         return (

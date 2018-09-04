@@ -8,10 +8,10 @@ class CoinIndex extends Component {
   state = {
     coins: [],
     pagination: {
-      defaultPageSize: 10,
+      defaultPageSize: 100,
       total: this.props.coinCount,
     },
-    loading: false,
+    loading: true,
     currency: 'USD',
   }
 
@@ -38,7 +38,7 @@ class CoinIndex extends Component {
   }
 
   componentDidMount() {
-    this.fetchCoins()
+    this.fetchCoins({ per: this.state.pagination.defaultPageSize })
   }
 
   changeCurrencyHandler = ({ key }) => {
