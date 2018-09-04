@@ -17,7 +17,6 @@ import debounce from 'debounce'
 import appContainer from './containers/app'
 
 import WatchButton from './components/WatchButton'
-import GlobalCoinSearch from './components/GlobalCoinSearch'
 import TwitterFeed from './components/TwitterFeed'
 import RedditFeed from './components/RedditFeed'
 import IcoFilters from './components/IcoFilters'
@@ -35,7 +34,6 @@ import scrollHelper from './scrollHelper'
 
 const injectableComponents = {
   WatchButton,
-  GlobalCoinSearch,
   TwitterFeed,
   RedditFeed,
   IcoFilters,
