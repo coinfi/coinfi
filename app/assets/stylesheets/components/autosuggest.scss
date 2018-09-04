@@ -1,0 +1,57 @@
+.autosuggest {
+  ul {
+    padding: 0;
+    list-style: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    z-index: 12;
+    width: calc(100% + 90px);
+    background: #fff;
+    border: 1px solid #cfd7db;
+    border-radius: 2px;
+    -webkit-border-radius: 2px;
+    box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.09);
+    -webkit-box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.09);
+    li {
+      cursor: pointer;
+      position: relative;
+      display: block;
+      padding: 7px;
+      &.hover {
+        background-color: #f7f8fa;
+      }
+      a {
+        font-weight: 500;
+        color: #555555;
+        display: block;
+        padding: 0.5rem;
+        width: 100%;
+        border: none;
+        background: transparent;
+      }
+    }
+  }
+
+  &.unstyled {
+    .react-autosuggest__input--open {
+      border: none !important;
+      box-shadow: none !important;
+    }
+    .react-autosuggest__input--focused {
+      border: none !important;
+      box-shadow: none !important;
+    }
+    .react-autosuggest__input {
+      padding: 0;
+      border: none;
+      color: inherit;
+      font-size: inherit;
+      box-shadow: none;
+      -webkit-box-shadow: none;
+      background: transparent;
+      line-height: 1.5;
+    }
+  }
+}

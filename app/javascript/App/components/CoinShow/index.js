@@ -3,7 +3,7 @@ import { Layout, Card, Button, List, Col, Row, Avatar } from 'antd'
 import classNames from 'classnames'
 import styled from 'styled-components'
 import axios from 'axios'
-import SearchCoins from './../shared/SearchCoins'
+import SearchCoins from '../../bundles/common/components/SearchCoins'
 import CoinCharts from './../CoinCharts'
 import SectionHeader from './../shared/SectionHeader'
 import newsfeedContainer from './../../containers/newsfeed'
@@ -91,7 +91,13 @@ class CoinShow extends Component {
               {/* Coin List Button */}
               <Col xs={24} sm={24} m={24} l={24} xl={24}>
                 <SectionHeader>
-                  <SearchCoins {...this.props} coinShow />
+                  <SearchCoins
+                    onSelect={(suggestion) =>
+                      (window.location.href = `/coins/${suggestion.slug}`)
+                    }
+                    coinShow
+                    unstyled
+                  />
                 </SectionHeader>
                 {/* main content */}{' '}
                 <Row>

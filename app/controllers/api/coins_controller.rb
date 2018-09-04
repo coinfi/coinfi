@@ -65,7 +65,7 @@ private
   end
 
   def search_serializer(coins)
-    coins.as_json(only: %i[id name symbol slug])
+    coins.as_json(only: %i[id name symbol slug image_url])
   end
 
   def show_serializer(coin)

@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react'
 import { Table } from 'antd'
 import ColumnNames from './ColumnNames'
-import SearchCoins from '../shared/SearchCoins'
+import SearchCoins from '../../bundles/common/components/SearchCoins'
 import API from '../../lib/localAPI'
 
 class CoinIndex extends Component {
@@ -55,7 +55,12 @@ class CoinIndex extends Component {
           <span style={{ flexGrow: 1 }} />
           <div className="flex pt3">
             <div className="ma2">
-              <SearchCoins {...this.props} />
+              <SearchCoins
+                onSelect={(suggestion) =>
+                  (window.location.href = `/coins/${suggestion.slug}`)
+                }
+                unstyled
+              />
             </div>
           </div>
         </div>
