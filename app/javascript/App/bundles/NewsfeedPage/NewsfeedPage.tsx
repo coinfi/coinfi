@@ -233,11 +233,10 @@ class NewsfeedPage extends React.Component<IProps, IState> {
           centerSection={
             <>
               <NewsListHeader
-                // @ts-ignore FIXME
-                coins={this.props.coinlist}
                 feedSources={this.props.feedSources}
                 showFilters={this.state.showFilters}
                 toggleFilters={this.toggleFilters}
+                // @ts-ignore
                 newsfeedTips={this.state.newsfeedTips}
                 applyFilters={this.applyFilters}
                 filters={this.state.filters}

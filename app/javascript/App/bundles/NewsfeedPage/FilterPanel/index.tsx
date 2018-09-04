@@ -27,13 +27,20 @@ interface IState {
 }
 
 class FilterPanel extends React.Component<IProps, IState> {
-  public static state = {
-    form: getDefaultFilters(),
+  public static getDerivedStateFromProps(props: IProps, state: IState) {
+    // FIXME:
+    // We can't get initial `coinSlugs` correctly which goes from react-router,
+    // because there is no way to handle the change of `coinSlugs` in `props.filters`
+    // in DidMount and DidUpdate methods for some reason. So here is the workaround
+    // to get `coinSlugs` before the first render and set it to the state.
+    if (!state.form.coinSlugs.length && !!props.filters.coinSlugs.length) {
+      state.form.coinSlugs = props.filters.coinSlugs
+    }
+    return state
   }
-
   constructor(props) {
     super(props)
-    this.state = { form: _.cloneDeep(this.props.filters) }
+    this.state = { form: getDefaultFilters() }
   }
 
   public applyFilters = () => {
@@ -88,6 +95,13 @@ class FilterPanel extends React.Component<IProps, IState> {
       return state
     })
 
+  public onCoinsChange = (selectedOptions: any[]) => {
+    this.setState((state) => {
+      state.form.coinSlugs = selectedOptions.map((elem) => elem.value)
+      return state
+    })
+  }
+
   public render() {
     if (!this.props.isShown) {
       return null
@@ -119,6 +133,13 @@ class FilterPanel extends React.Component<IProps, IState> {
             items={this.props.categories}
             selectedItems={this.state.form.categories}
             onChange={this.onCagetoryToggle}
+          />
+        </div>
+        <div className="pb3">
+          <h4 className="mb2 f5">Coins</h4>
+          <Coins
+            selectedCoins={this.state.form.coinSlugs}
+            onChange={this.onCoinsChange}
           />
         </div>
         <div className="pb3">

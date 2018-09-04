@@ -38,6 +38,7 @@ Rails.application.routes.draw do
     resources :calendar_events, only: %i[index]
 
     get '/coins/search', to: 'coins#search'
+    get '/coins/search_by_params', to: 'coins#search_by_params'
     get '/coins/:id/news', to: 'coins#news'
     get '/coins/by-slug/:slug', to: 'coins#by_slug'
     resources :coins, only: %i[index show toplist watchlist] do

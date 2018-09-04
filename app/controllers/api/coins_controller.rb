@@ -16,6 +16,19 @@ class Api::CoinsController < ApiController
     @coins = Coin.ransack(query).result(distinct: true).limit(params[:limit] || 10).order(:ranking)
     respond_success search_serializer(@coins)
   end
+  
+  def search_by_params
+    coins = []
+    puts params
+    if params[:coinSlugs].present? 
+      coins = Coin.where(slug: params[:coinSlugs])
+    elsif params[:name].present?
+      coins = Coin.where('upper(concat(symbol,\' \', name)) like upper(?)', "%#{params[:name]}%")
+                  .order('length(name) asc')
+                  .limit(10)
+    end
+    respond_success search_serializer(coins)
+  end
 
   def by_slug
     coin = Coin.find_by(slug: params[:slug])
