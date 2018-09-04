@@ -1,14 +1,19 @@
+require_relative '../../lib/tasks/batch_process'
+
 class CoinMarketCapService
+  attr_accessor :failed_updates
+
   def initialize
     @failed_updates = []
   end
 
   def ticker_update
     data = load_cmc_ticker_data
-    coins(data).each do |coin|
+    batch_process(coins(data)) do |coin|
       identifier = coin['identifier']
       update_coin(identifier, coin)
     end
+    log_failed_updates
   end
 
   private
@@ -30,7 +35,7 @@ class CoinMarketCapService
   end
 
   def perform_update(coin, data)
-    coin.update!(
+    coin.update(
       ranking: data['position'],
       market_cap: data['marketCap'],
       price: data['price'],
