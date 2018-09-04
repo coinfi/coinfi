@@ -26,7 +26,7 @@ class TeamMember < ActiveHash::Base
       title: 'Chief Data Scientist',
       bio: "Alex Svanevik is Chief Data Scientist at Coinfi, a market intelligence platform for cryptoassets. He is the founder of ICOWhitelists.com, a website for discovering initial coin offerings (ICOs). Alex has 8+ years experience from data science, management consulting, and startups in Schibsted Media Group, BearingPoint, and Codeus. He holds an MSc in Artificial Intelligence from the University of Edinburgh.",
       img: 'https://res.cloudinary.com/coinfi/image/upload/v1522671943/profile-photos/alexander-svanevik.jpg',
-      linkedin: 'https://www.linkedin.com/in/alexander-svanevik-152198a/'
+      linkedin: 'https://www.linkedin.com/in/alex-svanevik-152198a/'
     },
     {
       name: 'Toni Cebrian',
