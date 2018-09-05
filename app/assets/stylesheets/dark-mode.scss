@@ -1,13 +1,36 @@
 body.dark-mode {
-  color:#fff;
-  > main, .bg-white, .bg-athens, .bg-foam {
+  ::-webkit-scrollbar {
+    background-color: rgba(255, 255, 255, 0.9);
+  }
+  ::-webkit-scrollbar:hover {
+    background-color: rgba(0, 0, 0, 1);
+  }
+  ::-webkit-scrollbar-thumb:vertical {
+    background: rgba(0, 0, 0, 0.5);
+  }
+  ::-webkit-scrollbar-thumb:vertical:active {
+    background: rgba(0, 0, 0, 0.61);
+  }
+  color: #fff;
+  > main,
+  .bg-white,
+  .bg-athens,
+  .bg-foam {
     background: #071d29;
   }
-  h1, h2, h3, h4 {
+  h1,
+  h2,
+  h3,
+  h4 {
     color: #eee;
   }
-  .bl, .b--b, .b--t, .b--r, .b--l, .b--geyser{
-    border-color: rgba(255, 255, 255, 0.12);;
+  .bl,
+  .b--b,
+  .b--t,
+  .b--r,
+  .b--l,
+  .b--geyser {
+    border-color: rgba(255, 255, 255, 0.12);
   }
   .f6 {
     color: rgba(255, 255, 255, 0.7);
@@ -16,7 +39,7 @@ body.dark-mode {
     background: #041219;
   }
   .filter-panel-wrap {
-    background:#05161f;
+    background: #05161f;
   }
   .filter-btn {
     background: none;
@@ -34,14 +57,14 @@ body.dark-mode {
     color: #23adf0;
   }
   .category-btn {
-    button  {
+    button {
       background: rgba(255, 255, 255, 0.12);
       color: #fff;
     }
   }
   .item-selector-alt {
     .mid-gray {
-      color:#fff;
+      color: #fff;
     }
     input {
       background-color: rgba(255, 255, 255, 0.08);
@@ -51,5 +74,8 @@ body.dark-mode {
   }
   .market-cap {
     background: #103649;
+  }
+  button.switch:not(.on) {
+    background: rgba(255, 255, 255, 0.5);
   }
 }
