@@ -4,11 +4,29 @@ script {
 
 * {
   outline: none;
+  ::-webkit-scrollbar {
+    width: 8px;
+    background-color: transparent;
+    -webkit-border-radius: 100px;
+  }
+  ::-webkit-scrollbar:hover {
+    background-color: rgba(0, 0, 0, 0.09);
+  }
+  ::-webkit-scrollbar-thumb:vertical {
+    background: rgba(0, 0, 0, 0.5);
+    -webkit-border-radius: 100px;
+  }
+  ::-webkit-scrollbar-thumb:vertical:active {
+    background: rgba(0, 0, 0, 0.61);
+    -webkit-border-radius: 100px;
+  }
 }
+
 a,
 a > * {
   cursor: pointer;
 }
+
 body {
   font-family: $sans-serif;
   @extend .min-vh-100;
@@ -28,6 +46,7 @@ body {
     }
   }
 }
+
 // Default border color
 .bl {
   border-color: $athens-darker;
