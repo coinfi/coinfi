@@ -15,6 +15,8 @@ export interface ICoinListContextType {
   addCoinToWatchlist: (id: number) => void
   removeCoinFromWatchlist: (id: number) => void 
   coinlist: ICoin[]
+  selectCoin: (func: (coin: ICoin) => boolean) => Promise<void>
+  selectedCoin: ICoin
   isLoading: boolean
   isReady: boolean
 }
