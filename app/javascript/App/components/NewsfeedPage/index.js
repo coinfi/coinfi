@@ -1,6 +1,10 @@
 import React, { Component, Fragment } from 'react'
 import debounce from 'debounce'
 import axios from 'axios'
+import Immutable from 'immutable'
+import _ from 'lodash'
+import PropTypes from 'prop-types'
+
 import newsfeedContainer from '../../containers/newsfeed'
 import LayoutDesktop from '../LayoutDesktop'
 import LayoutTablet from '../LayoutTablet'
@@ -9,15 +13,15 @@ import CoinList from '../CoinList/CoinList'
 import CoinListDrawer from '../CoinList/CoinListDrawer'
 import NewsList from './NewsList'
 import NewsListHeader from './NewsListHeader'
+import Notification from '../shared/Notification'
 import BodySection from './BodySection'
 import BodySectionDrawer from '../BodySectionDrawer'
-import Immutable from 'immutable'
-import _ from 'lodash'
 
 class NewsfeedPage extends Component {
   state = {
     initialRenderTips: false,
     liveCoinArr: [],
+    showLoginNotification: true,
   }
 
   componentDidMount() {
@@ -69,6 +73,10 @@ class NewsfeedPage extends Component {
     }))
   }
 
+  closeNotification() {
+    this.setState({ showLoginNotification: false })
+  }
+
   render() {
     let coinsCollection
     if (this.state.liveCoinArr.length) {
@@ -86,6 +94,9 @@ class NewsfeedPage extends Component {
       coins: coinsCollection,
     }
 
+    const notificationIsShown =
+      this.props.loggedIn && this.state.showLoginNotification
+
     if (window.isMobile) {
       return (
         <LayoutMobile
@@ -94,6 +105,10 @@ class NewsfeedPage extends Component {
             <Fragment>
               <NewsListHeader {...enhancedProps} />
               <NewsList {...enhancedProps} />
+              <Notification
+                closeNotification={this.closeNotification.bind(this)}
+                opened={notificationIsShown}
+              />
             </Fragment>
           }
           modalName="newsfeedModal"
@@ -117,6 +132,10 @@ class NewsfeedPage extends Component {
             <Fragment>
               <NewsListHeader {...enhancedProps} />
               <NewsList {...enhancedProps} />
+              <Notification
+                closeNotification={this.closeNotification.bind(this)}
+                opened={notificationIsShown}
+              />
             </Fragment>
           }
           rightSection={<BodySection {...enhancedProps} />}
@@ -132,6 +151,10 @@ class NewsfeedPage extends Component {
             <Fragment>
               <NewsListHeader {...enhancedProps} />
               <NewsList {...enhancedProps} />
+              <Notification
+                closeNotification={this.closeNotification.bind(this)}
+                opened={notificationIsShown}
+              />
             </Fragment>
           }
           rightSection={<BodySection {...enhancedProps} />}
@@ -142,3 +165,12 @@ class NewsfeedPage extends Component {
 }
 
 export default newsfeedContainer(NewsfeedPage)
+
+NewsfeedPage.propTypes = {
+  closeNotification: PropTypes.func,
+  coins: PropTypes.arrayOf(PropTypes.shape({})),
+  loggedIn: PropTypes.bool,
+  newsfeedTips: PropTypes.func,
+  removeCoinsWatchlist: PropTypes.func,
+  renderNotifications: PropTypes.func,
+}
