@@ -1,5 +1,5 @@
 // TODO: find more convenient way to extend window declaration
-import { IWindowScreenType } from '../common/types'
+import { IWindowScreenType, ICoinLinkData } from '../common/types'
 declare const window: IWindowScreenType
 
 import * as React from 'react'
@@ -23,6 +23,7 @@ import getDefaultFilters from './defaultFilters'
 const POLLING_TIMEOUT = 6000
 
 interface IProps extends RouteComponentProps<any> {
+  loggedIn: boolean
   categories: string[]
   feedSources: string[]
   coinSlug?: string
@@ -229,7 +230,7 @@ class NewsfeedPage extends React.Component<IProps, IState> {
     } else {
       return (
         <LayoutDesktop
-          leftSection={<CoinListWrapper />}
+          leftSection={<CoinListWrapper loggedIn={this.props.loggedIn} />}
           centerSection={
             <>
               <NewsListHeader
@@ -261,7 +262,8 @@ class NewsfeedPage extends React.Component<IProps, IState> {
               coinSlug={this.props.coinSlug}
               newsItemId={this.props.newsItemId}
               contentType={this.getContentType()}
-              closeTips={this.closeTips}
+              // @ts-ignore
+              loggedIn={this.props.loggedIn}
             />
           }
         />

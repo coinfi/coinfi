@@ -8,8 +8,6 @@ const filterIcon = require('../../images/filterIcon.svg')
 // tslint:disable-next-line
 const listIcon = require('./../../images/listIcon.svg')
 
-import { IUser } from '../common/types'
-
 const titleStyle = {
   fontSize: '1.13rem',
   fontWeight: 700, // bold, typescript complains about string value for fontWeight property
@@ -32,12 +30,11 @@ const listNumberStyle = {
 }
 
 interface IProps {
-  closeTips: any // () => boolean
-  user?: IUser
+  closeTips?: () => void
+  loggedIn: boolean
 }
 
-export default ({ closeTips, user }: IProps) => {
-  const userIsLoggedIn = !!user
+export default ({ closeTips, loggedIn }: IProps) => {
   return (
     <div className="lh-copy">
       <div>
@@ -108,7 +105,7 @@ export default ({ closeTips, user }: IProps) => {
           </ol>
         </div>
 
-        {!userIsLoggedIn && (
+        {!loggedIn && (
           <div style={{ paddingTop: '15px' }} className="signup-cta-wrap">
             <h2 className="tc mt0">Get the most out of CoinFi News</h2>
             <div style={{ margin: '0 20px 20px', display: 'grid' }}>

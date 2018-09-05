@@ -46,6 +46,10 @@ Rails.application.routes.draw do
       get 'watchlist', on: :collection
     end
 
+    namespace :watchlist do
+      resources :coins, only: %i[index create destroy]
+    end
+
     resources :exchange_listings, only: %i[index show]
 
     resources :news, only: %i[index show]
