@@ -40,6 +40,10 @@ const Layout = (props) => {
               disableUI('filterPanel')
               nightModeHelper()
             }}
+            style={{
+              padding: '8px 20px',
+              fontSize: '.88rem',
+            }}
           >
             Cancel
           </a>
