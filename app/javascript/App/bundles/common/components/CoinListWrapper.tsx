@@ -1,6 +1,6 @@
 import * as React from 'react'
 import CoinList from '~/bundles/common/components/CoinList'
-import CoinListHeader from '~/bundles/common/components/CoinListHeader'
+import CoinListHeader from './CoinListHeader'
 import CoinListContext, {
   ICoinListContextType,
 } from '~/contexts/CoinListContext'

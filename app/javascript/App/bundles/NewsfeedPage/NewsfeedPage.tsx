@@ -207,11 +207,12 @@ class NewsfeedPage extends React.Component<IProps, IState> {
             </React.Fragment>
           }
           modalName="newsfeedModal"
+          // @ts-ignore
           modalSection={<BodySection />}
           drawerSection={
             <>
-              <CoinListDrawer />
-              <BodySectionDrawer bodySection={<BodySection />} />
+              {/* <CoinListDrawer />
+              <BodySectionDrawer bodySection={<BodySection />} /> */}
             </>
           }
         />
@@ -223,6 +224,7 @@ class NewsfeedPage extends React.Component<IProps, IState> {
             <>{/* <NewsListHeader />
               <NewsList /> */}</>
           }
+          // @ts-ignore
           rightSection={<BodySection />}
           drawerSection={<CoinListDrawer />}
         />

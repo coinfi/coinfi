@@ -158,6 +158,8 @@ class CoinListContainer extends React.Component<IProps, IState> {
         addCoinToWatchlist: this.addCoinToWatchlist,
         removeCoinFromWatchlist: this.removeCoinFromWatchlist,
         coinlist: this.getCoinList(),
+        isLoading: this.state.status !== STATUSES.READY,
+        isReady: this.state.status === STATUSES.READY,
     }
 
     return (
