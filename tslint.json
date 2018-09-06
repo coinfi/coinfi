@@ -20,7 +20,8 @@
         }
       }
     ],
-    "interface-name": [false, "always-prefix"]
+    "interface-name": [false, "always-prefix"],
+    "object-literal-sort-keys": false
   },
   "rulesDirectory": []
 }
