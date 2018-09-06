@@ -1,11 +1,14 @@
 import * as React from 'react'
 import NewsfeedPage from './NewsfeedPage'
-import CoinListContext from '../../contexts/CoinListContext'
+import CoinListContext, {
+  ICoinListContextType,
+} from '../../contexts/CoinListContext'
 import NewsfeedContext, {
   INewsfeedContextType,
 } from '../../contexts/NewsfeedContext'
 
 interface IProps {
+  loggedIn: boolean
   categories: string[]
   feedSources: string[]
   coinSlug?: string
@@ -16,8 +19,9 @@ const NewsfeedPageContainer = (props: IProps) => (
   <NewsfeedContext.Consumer>
     {(newsfeedPayload: INewsfeedContextType) => (
       <CoinListContext.Consumer>
-        {(coinlistPayload) => (
+        {(coinlistPayload: ICoinListContextType) => (
           <NewsfeedPage
+            loggedIn={props.loggedIn}
             coinSlug={props.coinSlug}
             newsItemId={props.newsItemId}
             coinlist={coinlistPayload.coinlist}

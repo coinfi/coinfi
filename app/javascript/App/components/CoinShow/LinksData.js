@@ -38,4 +38,10 @@ export default (coinObj, currency) => [
     icon: 'github',
     brand: true,
   },
+  {
+    linkType: 'Telegram',
+    value: coinObj.telegram,
+    icon: 'telegram',
+    brand: true,
+  },
 ]

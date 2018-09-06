@@ -1,7 +1,7 @@
 class Api::CoinsController < ApiController
   def index
     @current_page = params[:page] || 1
-    @coins = Coin.legit.listed.page(@current_page).per(params[:per]).order(:ranking)
+    @coins = Coin.legit.page(@current_page).per(params[:per]).order(:ranking)
     respond_success index_serializer(@coins)
   end
 
@@ -15,6 +15,19 @@ class Api::CoinsController < ApiController
     query = params[:q] || {}
     @coins = Coin.ransack(query).result(distinct: true).limit(params[:limit] || 10).order(:ranking)
     respond_success search_serializer(@coins)
+  end
+  
+  def search_by_params
+    coins = []
+    puts params
+    if params[:coinSlugs].present? 
+      coins = Coin.where(slug: params[:coinSlugs])
+    elsif params[:name].present?
+      coins = Coin.where('upper(concat(symbol,\' \', name)) like upper(?)', "%#{params[:name]}%")
+                  .order('length(name) asc')
+                  .limit(10)
+    end
+    respond_success search_serializer(coins)
   end
 
   def by_slug
@@ -52,7 +65,7 @@ private
   end
 
   def search_serializer(coins)
-    coins.as_json(only: %i[id name symbol slug])
+    coins.as_json(only: %i[id name symbol slug image_url])
   end
 
   def show_serializer(coin)

@@ -1,17 +1,17 @@
 import React, { Component, Fragment } from 'react'
 import { Table } from 'antd'
 import ColumnNames from './ColumnNames'
-import SearchCoins from '../shared/SearchCoins'
+import SearchCoins from '../../bundles/common/components/SearchCoins'
 import API from '../../lib/localAPI'
 
 class CoinIndex extends Component {
   state = {
     coins: [],
     pagination: {
-      defaultPageSize: 10,
+      defaultPageSize: 100,
       total: this.props.coinCount,
     },
-    loading: false,
+    loading: true,
     currency: 'USD',
   }
 
@@ -38,7 +38,7 @@ class CoinIndex extends Component {
   }
 
   componentDidMount() {
-    this.fetchCoins()
+    this.fetchCoins({ per: this.state.pagination.defaultPageSize })
   }
 
   changeCurrencyHandler = ({ key }) => {
@@ -55,7 +55,12 @@ class CoinIndex extends Component {
           <span style={{ flexGrow: 1 }} />
           <div className="flex pt3">
             <div className="ma2">
-              <SearchCoins {...this.props} />
+              <SearchCoins
+                onSelect={(suggestion) =>
+                  (window.location.href = `/coins/${suggestion.slug}`)
+                }
+                unstyled
+              />
             </div>
           </div>
         </div>

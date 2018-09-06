@@ -22,18 +22,11 @@ class TeamMember < ActiveHash::Base
       linkedin: 'https://www.linkedin.com/in/nate-tsang-3a493a153/'
     },
     {
-      name: 'Jonney Liu',
-      title: 'Head of Crypto Research',
-      bio: "Formerly a senior portfolio manager with 11+ years experience trading derivatives at institutions such as Lehman Brothers, Macquarie; most recently, he was at a $350 million volatility arbitrage hedge fund from True Capital.",
-      img: 'https://res.cloudinary.com/coinfi/image/upload/v1530362110/profile-photos/Jonney_yxi8pk.jpg',
-      linkedin: 'https://www.linkedin.com/in/jonney-liu-0453824/'
-    },
-    {
-      name: 'Alexander Svanevik',
+      name: 'Alex Svanevik',
       title: 'Chief Data Scientist',
-      bio: "Manager at Schibsted Media Group, 8+ years of experience leading a group of 7 data scientists to create business value from data. Previously a management consultant at BearingPoint as well as cofounder of Codeus Artificial Intelligence. Experienced crypto trader who runs ICO Whitelists.",
+      bio: "Alex Svanevik is Chief Data Scientist at Coinfi, a market intelligence platform for cryptoassets. He is the founder of ICOWhitelists.com, a website for discovering initial coin offerings (ICOs). Alex has 8+ years experience from data science, management consulting, and startups in Schibsted Media Group, BearingPoint, and Codeus. He holds an MSc in Artificial Intelligence from the University of Edinburgh.",
       img: 'https://res.cloudinary.com/coinfi/image/upload/v1522671943/profile-photos/alexander-svanevik.jpg',
-      linkedin: 'https://www.linkedin.com/in/alexander-svanevik-152198a/'
+      linkedin: 'https://www.linkedin.com/in/alex-svanevik-152198a/'
     },
     {
       name: 'Toni Cebrian',
@@ -43,6 +36,63 @@ class TeamMember < ActiveHash::Base
       linkedin: 'https://www.linkedin.com/in/tonicebrian/'
     },
     {
+      name: 'Evgeny Medvedev',
+      title: 'Data Engineer',
+      bio: "Software architect and data engineer with significant experience in architecting, building, and maintaining scalable systems. AWS Certified Solutions architect. Has deep knowledge of Ethereum having written the Ethereum ETL ingest library.",
+      img: 'https://res.cloudinary.com/coinfi/image/upload/v1522671946/profile-photos/evgeny-medvedev.jpg',
+      linkedin: 'https://www.linkedin.com/in/evgemedvedev'
+    },
+    {
+      name: 'Kwa Jie Hao',
+      title: 'Data Scientist',
+      bio: "B.A. in Economics and East Asian Studies from Brown University and a M.S. in Data Science from the Barcelona Graduate School of Economics and previously interned at Telefonica Research. Passionate about machine learning and statistics and is looking forward to applying data science to crypto.",
+      img: 'https://res.cloudinary.com/coinfi/image/upload/v1522671946/profile-photos/kwa-jie-hao.jpg',
+      linkedin: 'https://www.linkedin.com/in/jie-hao-kwa-70bbb984/'
+    },
+    {
+      name: 'Jesse Hon',
+      title: 'Senior Software Engineer',
+      bio: "Full-stack engineer with 8+ years of professional development experience across web and mobile. Former developer on an investment management platform with over 159,000 client portfolios and £31.9B under direction. Co-founded a number of startups and experienced in leading development of fast-growing products.",
+      img: 'https://res.cloudinary.com/coinfi/image/upload/v1522671946/profile-photos/jesse-hon.jpg',
+      linkedin: 'https://www.linkedin.com/in/jesse-hon-8386972b/'
+    },
+    {
+      name: 'Eugene Khaimson',
+      title: 'Head of Algorithm Development',
+      bio: "Eugene has 20+ years of experience in senior technology and product development roles across Hedge Funds, International Broker Dealers and major Investment Banks. His expertise extends to designing quant prediction models, algorithmic trading systems, smart order routing and dark pools for global markets.
+      As part of his responsibilities Eugene has been working with senior regional bank management, regulators and institutional investors to advance the acceptance of electronic trading in global equities markets.",
+      img: 'https://res.cloudinary.com/coinfi/image/upload/v1522671946/profile-photos/eugene-khaimson.jpg',
+      linkedin: 'https://www.linkedin.com/in/eugene-khaimson'
+    },
+    {
+      name: 'Jonney Liu',
+      title: 'Head of Crypto Research',
+      bio: "Formerly a senior portfolio manager with 11+ years experience trading derivatives at institutions such as Lehman Brothers, Macquarie; most recently, he was at a $350 million volatility arbitrage hedge fund from True Capital.",
+      img: 'https://res.cloudinary.com/coinfi/image/upload/v1530362110/profile-photos/Jonney_yxi8pk.jpg',
+      linkedin: 'https://www.linkedin.com/in/jonney-liu-0453824/'
+    },
+    {
+      name: 'Jane Lippencott',
+      title: 'Head of Business Development',
+      bio: "Jane is Head of Business Development at CoinFi, where she focuses on strategic partnerships, integrations, and outreach. She first started working in blockchain in 2016 as a founding team member of ZenCash, an encrypted ecosystem building an on-chain governance module and a privacy-oriented DAG protocol. Jane is an active advisor of blockchain funds Origin-X Capital, Lumen Capital Partners, and Ezra New Economy Fund and early-stage startups Blockhous and Cord. She’s passionate about decentralized governance, use cases for reputation protocols, and impact investing.",
+      img: 'https://res.cloudinary.com/coinfi/image/upload/v1522671946/profile-photos/jane-lippencott.jpg',
+      linkedin: 'http://linkedin.com/in/janelippencott'
+    },
+    {
+      name: 'Wayne Lam',
+      title: 'Operations Manager & Associate Product Manager',
+      bio: "Previously worked at a fast paced CPA start up that grew from $0 to $1 million in annual revenues within two years. Experienced in working with small & medium businesses from a wide array of industries providing financial clarity and business solutions. Avid equities and crypto investor.",
+      img: 'https://res.cloudinary.com/coinfi/image/upload/v1522671946/profile-photos/wayne-lam.jpg',
+      linkedin: 'https://www.linkedin.com/in/wlamhk/'
+    },
+    {
+      name: 'Sharon Chen',
+      title: 'Head of Content',
+      bio: "Sharon previously worked as the Head of Content in a fast-growing eCommerce startup in the health and wellness industry. She has also been running a content site for more than five years including two book publications. Armed with extensive experience and skill set in content marketing and operations at a Chinese Bitcoin exchange back in 2013, Sharon has joined forces with CoinFi, aiming to bring maximum exposure to the platform through content marketing.",
+      img: 'https://res.cloudinary.com/coinfi/image/upload/v1522671946/profile-photos/sharon-chen.jpg',
+      linkedin: 'https://www.linkedin.com/in/sharonchen1099/'
+    },
+    {
       name: 'Zachary Pardes',
       title: 'PR Advisor',
       bio: "Integrated communications professional with 10 years of experience leading earned media campaigns for Virgin, E*TRADE, B2R Finance, Citi, and Investing.com. Managed $1M+ digital strategies for NYC / Silicon Valley startups. Master's from Northwestern University.",
@@ -50,11 +100,11 @@ class TeamMember < ActiveHash::Base
       linkedin: 'https://www.linkedin.com/in/zpardes/'
     },
     {
-      name: 'Nav Aulakh',
-      title: 'Community Manager',
-      bio: "Programmatic digital media planner who moved client side, helping tech SaaS startups with community management and marketing. Experienced crypto investor with a background in Mathematical Risk Management (BSc) and Financial Engineering (MSc).",
-      img: 'https://res.cloudinary.com/coinfi/image/upload/v1522671950/profile-photos/navneet-aulakh.jpg',
-      linkedin: 'https://www.linkedin.com/in/navneet-aulakh-73161826'
+      name: 'Sylvia Leung',
+      title: 'Office & Administrative Manager',
+      bio: "Sylvia Leung is the Office and Administrative Manager at CoinFi, supporting the CEO and the team in both internal and external operations for business. Sylvia has over 7 years’ experience in office administration, marketing, and events management in both information technology and financial services. ",
+      img: 'https://res.cloudinary.com/coinfi/image/upload/v1522671946/profile-photos/sylvia-leung.jpg',
+      linkedin: 'https://www.linkedin.com/in/sylviakyleung/'
     },
     {
       name: 'Alex Lascus',

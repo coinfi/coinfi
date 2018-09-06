@@ -7,22 +7,15 @@ import { ContentType } from './types'
 import { IUser } from '../common/types'
 
 interface Props {
-  // FIXME commented props are right
-  // newsItemId?: string,
-  // coinSlug?: string,
-  // contentType: ContentType,
-  // closeTips: Function,
-  // user?: User,
   newsItemId?: string
   coinSlug?: string
-  contentType?: ContentType
-  closeTips?: Function
-  user?: IUser
+  contentType: ContentType
+  loggedIn: boolean
 }
 
 const BodySection = (props: Props) => {
   if (props.contentType === 'none') {
-    return <Tips closeTips={props.closeTips} user={props.user} />
+    return <Tips loggedIn={props.loggedIn} />
   }
 
   if (props.contentType === 'news') {
@@ -30,7 +23,7 @@ const BodySection = (props: Props) => {
   }
 
   if (props.contentType === 'coin')
-    return <CoinBody coinSlug={props.coinSlug} user={props.user} />
+    return <CoinBody coinSlug={props.coinSlug} loggedIn={props.loggedIn} />
 
   return null
 }

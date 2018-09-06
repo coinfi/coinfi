@@ -16,7 +16,7 @@ export interface INewsItem extends IItemWithCoinLinkData {
 
 export type ContentType = 'none' | 'coin' | 'news'
 
-type CoinSlug = string
+export type CoinSlug = string
 
 export interface IFilters {
   coinSlugs: CoinSlug[]
