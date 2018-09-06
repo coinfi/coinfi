@@ -41,6 +41,9 @@ interface IProps extends RouteComponentProps<any> {
   cleanNewsItems: () => void
   selectedCoinSlug: string | null
   selectCoinBySlug: any
+  isWatchlistSelected: boolean
+  getWatchlist: any
+  watchlist: any
 }
 
 interface IState {
@@ -192,8 +195,47 @@ class NewsfeedPage extends React.Component<IProps, IState> {
       }
     }
 
-    if (!!this.props.selectedCoinSlug && !_.isEqual(this.props.selectedCoinSlug, prevProps.selectedCoinSlug)) {
+    if (
+      !!this.props.selectedCoinSlug &&
+      !_.isEqual(this.props.selectedCoinSlug, prevProps.selectedCoinSlug)
+    ) {
       this.props.history.push(`/news/${this.props.selectedCoinSlug}`)
+      return
+    }
+
+    if (!!this.props.isWatchlistSelected && !prevProps.isWatchlistSelected) {
+      this.setState((state) => {
+        state.filters.coinSlugs = this.props
+          .getWatchlist()
+          .map((elem) => elem.slug)
+        this.props.fetchNewsItems(state.filters)
+        return state
+      })
+      return
+    } else if (
+      !!prevProps.isWatchlistSelected &&
+      !this.props.isWatchlistSelected
+    ) {
+      this.setState((state) => {
+        state.filters.coinSlugs = !!this.props.coinSlug ? [this.props.coinSlug] : []
+        this.props.fetchNewsItems(state.filters)
+        return state
+      })
+      return
+    }
+
+    if (
+      !!this.props.isWatchlistSelected &&
+      !_.isEqual(this.props.watchlist, prevProps.watchlist)
+    ) {
+      this.setState((state) => {
+        state.filters.coinSlugs = this.props
+          .getWatchlist()
+          .map((elem) => elem.slug)
+        this.props.fetchNewsItems(state.filters)
+        return state
+      })
+      return
     }
   }
 
