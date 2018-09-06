@@ -25,7 +25,7 @@ interface IState {
   toplist: ICoin[]
   watchlistIndex: number[]
   watchlist: ICoin[]
-  selectedCoin: ICoin | null
+  selectedCoinSlug: string | null
 }
 
 class CoinListContainer extends React.Component<IProps, IState> {
@@ -36,7 +36,7 @@ class CoinListContainer extends React.Component<IProps, IState> {
     toplist: [],
     watchlistIndex: [],
     watchlist: [],
-    selectedCoin: null,
+    selectedCoinSlug: null,
   }
 
   public componentDidMount = () => {
@@ -146,14 +146,9 @@ class CoinListContainer extends React.Component<IProps, IState> {
     }
   }
 
-  selectCoin = (func: (c: ICoin) => boolean): Promise<void> => {
-    return new Promise((res, rej) => {
-      const elem = _.find(this.state.toplist, func)
-      this.setState({ 
-        selectedCoin: !!elem ? elem : null 
-      }, res)
-    })
-  }
+  public selectCoinBySlug = (coinSlug: string) => this.setState({
+    selectedCoinSlug: coinSlug
+  })
 
   public render = () => {
     const payload: ICoinListContextType = {
@@ -172,8 +167,8 @@ class CoinListContainer extends React.Component<IProps, IState> {
         coinlist: this.getCoinList(),
         isLoading: this.state.status !== STATUSES.READY,
         isReady: this.state.status === STATUSES.READY,
-        selectCoin: this.selectCoin,
-        selectedCoin: this.state.selectedCoin,
+        selectedCoinSlug: this.state.selectedCoinSlug,
+        selectCoinBySlug: this.selectCoinBySlug,
     }
 
     return (

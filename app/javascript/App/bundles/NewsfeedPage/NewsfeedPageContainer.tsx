@@ -37,6 +37,8 @@ const NewsfeedPageContainer = (props: IProps) => (
             cleanNewsItems={newsfeedPayload.cleanNewsItems}
             categories={props.categories}
             feedSources={props.feedSources}
+            selectedCoinSlug={coinlistPayload.selectedCoinSlug}
+            selectCoinBySlug={coinlistPayload.selectCoinBySlug}
           />
         )}
       </CoinListContext.Consumer>

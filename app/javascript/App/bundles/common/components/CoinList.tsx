@@ -6,7 +6,7 @@ interface IProps {
   list: ICoin[]
   loggedIn: boolean
   onSelectCoin: (coin: ICoin) => void
-  selectedCoin?: ICoin
+  selectedCoinSlug?: string
 }
 
 const CoinList = (props: IProps) => (
@@ -17,7 +17,7 @@ const CoinList = (props: IProps) => (
         coin={coin}
         loggedIn={props.loggedIn}
         onSelectCoin={props.onSelectCoin}
-        isSelected={!!props.selectedCoin && props.selectedCoin.id === coin.id}
+        isSelected={!!props.selectedCoinSlug && props.selectedCoinSlug === coin.slug}
       />
     ))}
   </>
