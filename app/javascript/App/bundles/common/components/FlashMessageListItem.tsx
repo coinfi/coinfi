@@ -9,6 +9,7 @@ import CloseIcon from '@material-ui/icons/Close'
 import classnames from 'classnames'
 import { Icon, IconButton } from '@material-ui/core'
 import { TransitionProps } from '@material-ui/core/transitions/transition'
+import { FlashMessage } from '~/bundles/common/types'
 
 const TRANSITION_DELAY = 150
 const TRANSITION_DOWN_DURATION = 200
@@ -77,10 +78,7 @@ interface Props
     close: string
   }
   level: number
-  message: {
-    text: string
-    type: string
-  }
+  message: FlashMessage
 }
 
 const styles = (theme) => ({

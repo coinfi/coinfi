@@ -1,14 +1,9 @@
 import * as React from 'react'
-import FlashMessageListItem from './FlashMessageListItem'
-
-interface FlashMessage {
-  id: string
-  type: string
-  text: string
-}
+import FlashMessageListItem from '~/bundles/common/components/FlashMessageListItem'
+import { FlashMessage } from '~/bundles/common/types'
 
 interface State {
-  closed: {
+  closedMessages: {
     [id: string]: boolean
   }
 }
@@ -17,15 +12,15 @@ interface Props {
   messages: FlashMessage[]
 }
 
-class FlashMessageList extends React.Component<Props, State> {
+class FlashMessageListContainer extends React.Component<Props, State> {
   public state = {
-    closed: {},
+    closedMessages: {},
   }
 
-  public handleClose = (id: string) => {
+  public handleCloseMessage = (id: string) => {
     this.setState({
-      closed: {
-        ...this.state.closed,
+      closedMessages: {
+        ...this.state.closedMessages,
         [id]: true,
       },
     })
@@ -41,8 +36,8 @@ class FlashMessageList extends React.Component<Props, State> {
             key={message.id}
             level={idx}
             message={message}
-            open={!this.state.closed[message.id]}
-            onClose={() => this.handleClose(message.id)}
+            open={!this.state.closedMessages[message.id]}
+            onClose={() => this.handleCloseMessage(message.id)}
             anchorOrigin={{
               horizontal: 'left',
               vertical: 'bottom',
@@ -55,4 +50,4 @@ class FlashMessageList extends React.Component<Props, State> {
   }
 }
 
-export default FlashMessageList
+export default FlashMessageListContainer
