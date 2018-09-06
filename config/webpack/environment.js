@@ -5,6 +5,7 @@
 */
 
 const { environment } = require('@rails/webpacker')
+const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin')
 const typescript = require('./loaders/typescript')
 const merge = require('webpack-merge')
 const webpack = require('webpack')
@@ -51,6 +52,7 @@ const aliasConfig = {
     alias: {
       jquery: 'jquery/src/jquery',
     },
+    plugins: [new TsconfigPathsPlugin({ configFile: './tsconfig.json' })],
   },
 }
 

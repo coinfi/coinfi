@@ -1,7 +1,8 @@
-import React, { Component } from 'react'
+import * as React from 'react'
 import API from '../../../lib/API'
 import normalizers from '../../../normalizers'
-import CoinListContext from '../../../contexts/CoinListContext'
+import CoinListContext, { ICoinListContextType } from '~/contexts/CoinListContext'
+import { ICoin } from '~/bundles/common/types'
 
 const STATUSES = {
   INITIALIZING: 'Initializing',
@@ -12,8 +13,21 @@ const STATUSES = {
   // TODO: Add API failure statuses.
 }
 
-class CoinListContainer extends Component {
-  state = {
+interface IProps {
+  loggedIn: boolean
+}
+
+interface IState {
+  status: string
+  isWatchlist: boolean
+  toplistIndex: number[]
+  toplist: ICoin[]
+  watchlistIndex: number[]
+  watchlist: ICoin[]
+}
+
+class CoinListContainer extends React.Component<IProps, IState> {
+  public state = {
     status: STATUSES.INITIALIZING,
     isWatchlist: false,
     toplistIndex: [],
@@ -22,16 +36,15 @@ class CoinListContainer extends Component {
     watchlist: [],
   }
 
-  componentDidMount = () => {
-    if (this.props.user) {
-      console.log(this.props)
+  public componentDidMount = () => {
+    if (this.props.loggedIn) {
       this.getToplistAndWatchlistOnMount()
     } else {
       this.getToplistOnMount()
     }
   }
 
-  getToplistOnMount = () => {
+  public getToplistOnMount = () => {
     this.fetchToplist().then((res) => {
       this.setState({
         status: STATUSES.READY,
@@ -41,7 +54,7 @@ class CoinListContainer extends Component {
     })
   }
 
-  getToplistAndWatchlistOnMount = () =>
+  public getToplistAndWatchlistOnMount = () =>
     Promise.all([this.fetchToplist(), this.fetchWatchlist()]).then(
       ([toplist, watchlist]) => {
         this.setState({
@@ -54,33 +67,31 @@ class CoinListContainer extends Component {
       },
     )
 
-  showToplist = () => {
-    console.log('showToplist')
+  public showToplist = () => {
     this.setState((state) => ({ isWatchlist: false }))
   }
 
-  showWatchlist = () => {
-    console.log('showWatchlist')
+  public showWatchlist = () => {
     this.setState((state) => ({ isWatchlist: true }))
   }
 
-  fetchToplist = () =>
+  public fetchToplist = () =>
     API.get('/coins/toplist', {}, false).then((response) =>
       Promise.resolve(normalizers.coins(response.payload)),
     )
 
-  fetchWatchlist = () =>
+  public fetchWatchlist = () =>
     // TODO: Write Watchlist endpoint.
     API.get('/coins/watchlist', {}, false).then((response) =>
       Promise.resolve(normalizers.coins(response.payload)),
     )
 
   // TODO: Figure out what
-  persistCoinToWatchlist = (coinId) =>
-    API.put('/watchlist/coins', { coinId }, false)
+  public persistCoinToWatchlist = id =>
+    API.post('/watchlist/coins', { id }, false)
 
   // FIXME: nested promises
-  addCoinToWatchlist = (coinId) =>
+  public addCoinToWatchlist = (coinId) =>
     this.setState({ status: STATUSES.ADDING_NEW_COIN_TO_WATCHLIST }, () =>
       this.persistCoinToWatchlist(coinId).then(() =>
         this.fetchWatchlist().then(({ result, entities }) =>
@@ -94,11 +105,11 @@ class CoinListContainer extends Component {
     )
 
   // TODO: check this because of comment above `persist...`
-  deleteCoinFromWatchlist = (coinId) =>
-    API.delete('/watchlist/coins', { coinId }, false)
+  public deleteCoinFromWatchlist = id =>
+    API.delete(`/watchlist/coins/${id}`, {}, false)
 
   // FIXME: nested promises
-  removeCoinFromWatchlist = (coinId) =>
+  public removeCoinFromWatchlist = (coinId) =>
     this.setState({ status: STATUSES.REMOVING_COIN_FROM_WATCHLIST }, () =>
       this.deleteCoinFromWatchlist(coinId).then(() =>
         this.fetchWatchlist().then(({ result, entities }) =>
@@ -111,17 +122,17 @@ class CoinListContainer extends Component {
       ),
     )
 
-  isCoinInWatchlist = (coinId) => this.state.watchlistIndex.includes(coinId)
+  public isCoinInWatchlist = (coinId) => this.state.watchlistIndex.includes(coinId)
 
-  isInitializing = () => this.state.status === STATUSES.INITIALIZING
+  public isInitializing = () => this.state.status === STATUSES.INITIALIZING
 
-  getToplistArray = () =>
+  public getToplistArray = (): ICoin[] =>
     this.state.toplistIndex.map((id) => this.state.toplist[id])
 
-  getWatchlistArray = () =>
+  public getWatchlistArray = (): ICoin[] =>
     this.state.watchlistIndex.map((id) => this.state.watchlist[id])
 
-  getCoinList = () => {
+  public getCoinList = () => {
     switch (this.state.status) {
       case STATUSES.INITIALIZING:
         return null
@@ -132,9 +143,8 @@ class CoinListContainer extends Component {
     }
   }
 
-  render = () => (
-    <CoinListContext.Provider
-      value={{
+  public render = () => {
+    const payload: ICoinListContextType = {
         status: this.state.status,
         watchlist: this.state.watchlist,
         toplist: this.state.toplist,
@@ -148,11 +158,16 @@ class CoinListContainer extends Component {
         addCoinToWatchlist: this.addCoinToWatchlist,
         removeCoinFromWatchlist: this.removeCoinFromWatchlist,
         coinlist: this.getCoinList(),
-      }}
-    >
-      {this.props.children}
-    </CoinListContext.Provider>
-  )
+        isLoading: this.state.status !== STATUSES.READY,
+        isReady: this.state.status === STATUSES.READY,
+    }
+
+    return (
+      <CoinListContext.Provider value={payload}>
+        {this.props.children}
+      </CoinListContext.Provider>
+    )
+  }
 }
 
 export default CoinListContainer

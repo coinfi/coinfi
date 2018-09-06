@@ -60,7 +60,7 @@ const injectComponents = () => {
         if (false) {
           // ReactDOM.render(
           //     <NewsfeedContainer>
-          //       <CoinListContainer user={props.user}>
+          //       <CoinListContainer loggedIn={props.loggedIn}>
           //         <Provider store={store}>
           //           <Router>
           //             <div>
@@ -69,6 +69,7 @@ const injectComponents = () => {
           //                 path="/news/:coinSlug?"
           //                 render={(routeProps) => (
           //                   <NewsfeedPageNew
+          //                     loggedIn={props.loggedIn}
           //                     coinSlug={routeProps.match.params.coinSlug}
           //                     categories={props.categories}
           //                     feedSources={props.feedSources}
@@ -80,6 +81,7 @@ const injectComponents = () => {
           //                 path="/news/:newsItemId/:newsItemSlug"
           //                 render={(routeProps) => (
           //                   <NewsfeedPageNew
+          //                     loggedIn={props.loggedIn}
           //                     newsItemId={routeProps.match.params.newsItemId}
           //                     categories={props.categories}
           //                     feedSources={props.feedSources}

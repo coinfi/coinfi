@@ -6,11 +6,11 @@ import WatchButton from './WatchButton'
 import LoadingIndicator from '../../../components/LoadingIndicator'
 import localAPI from '../../../lib/localAPI'
 
-import { ICoinWithDetails, IUser } from '../types'
+import { ICoinWithDetails } from '../types'
 
 interface IProps {
   coinSlug?: string
-  user?: IUser
+  loggedIn: boolean
 }
 
 interface IState {
@@ -51,10 +51,8 @@ class CoinBody extends React.Component<IProps, IState> {
   }
 
   public render() {
-    const { user } = this.props
+    const { loggedIn } = this.props
     const { coinWithDetails } = this.state
-
-    const loggedIn = !!user
 
     if (!coinWithDetails) {
       return (

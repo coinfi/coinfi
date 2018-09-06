@@ -1,12 +1,18 @@
-import React from 'react'
+import * as React from 'react'
 import { Link } from 'react-router-dom'
-import PercentageChange from './PercentageChange'
-import WatchButton from './WatchButton'
+import PercentageChange from '~/bundles/common/components/PercentageChange'
+import WatchButton from '~/bundles/common/components/WatchButton'
+import { ICoin } from '~/bundles/common/types'
 
-export default (props) => {
-  const { coin, user, onClick } = props
-  let klass = 'pa-default b--b flex items-center pointer'
-  //if (isActiveEntity({ type: 'coin', id: coin.get('id') })) klass += ' bg-foam'
+interface IProps {
+  coin: ICoin
+  loggedIn: boolean
+}
+
+export default (props: IProps) => {
+  const { coin, loggedIn } = props
+  const klass = 'pa-default b--b flex items-center pointer'
+  // if (isActiveEntity({ type: 'coin', id: coin.get('id') })) klass += ' bg-foam'
 
   const coinPrice = coin.market_info.price_usd
   let fixedCount = 0
@@ -20,10 +26,14 @@ export default (props) => {
   const percentChange = coin.market_info.percent_change_24h
   return (
     // TODO: Change to "Control" component for accessibility.
-    <Link className={klass} to={`/news/${coin.slug}`} style={{ minHeight: 57, color: '#555' }}>
+    <Link
+      className={klass}
+      to={`/news/${coin.slug}`}
+      style={{ minHeight: 57, color: '#555' }}
+    >
       <div className="tooltipped">
-        {!user && <div className="tooltip from-right">Login to watch</div>}
-        <WatchButton {...props} />
+        {!loggedIn && <div className="tooltip from-right">Login to watch</div>}
+        <WatchButton {...props} hasText={false} />
       </div>
       <div className="flex-auto flex justify-between items-center">
         <div className="b f5 pl2">{coin.symbol}</div>
