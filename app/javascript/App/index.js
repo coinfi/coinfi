@@ -32,6 +32,7 @@ import CoinShow from './components/CoinShow'
 import scrollHelper from './scrollHelper'
 // import CoinListContainer from './bundles/common/containers/CoinListContainer'
 // import NewsfeedContainer from './bundles/common/containers/NewsfeedContainer'
+import FlashMessageList from './components/FlashMessageList'
 
 const injectableComponents = {
   WatchButton,
@@ -46,6 +47,7 @@ const injectableComponents = {
   CalendarPage,
   CoinIndex,
   CoinShow,
+  FlashMessageList,
 }
 
 const injectComponents = () => {

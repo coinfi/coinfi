@@ -1,12 +1,2 @@
 - if flash.any?
-  .pt3.ph3.flex-none.flash-container
-    - flash.each do |type, message|
-      div class="flash flash-#{type}"
-        - if message.kind_of?(Array)
-          ul
-            - message.each do |m|
-              li= m
-        - else
-          = message
-        span
-          a onclick="$(this).parentsUntil('.flash-container', '.flash').remove(); if ($('.flash-container').children().length === 0){ $('.flash-container').remove(); }" X
+  = react_component "FlashMessageList", withStore: false, props: { messages: flash_messages }
