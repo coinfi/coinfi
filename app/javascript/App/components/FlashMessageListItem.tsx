@@ -130,6 +130,7 @@ const FlashMessageListItem: React.StatelessComponent<Props> = (props) => {
       TransitionProps={transitionProps}
       style={getTransitionStyles(level, anchorOrigin)}
       open={open}
+      onClose={onClose}
       {...otherProps}
     >
       <SnackbarContent

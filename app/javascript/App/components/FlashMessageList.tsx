@@ -47,6 +47,7 @@ class FlashMessageList extends React.Component<Props, State> {
               horizontal: 'left',
               vertical: 'bottom',
             }}
+            autoHideDuration={5000}
           />
         ))}
       </div>
