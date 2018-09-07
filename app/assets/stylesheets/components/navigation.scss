@@ -1,5 +1,6 @@
 $nav-height: 50px;
 $nav-menu-width: 300px;
+$nav-menu-more-width: 150px;
 
 .nav {
   background: $dark-pine-green;
@@ -21,6 +22,7 @@ $nav-menu-width: 300px;
   }
 }
 .nav-menu {
+  overflow-y: scroll;
   transition: 0.2s;
   display: flex;
   flex-direction: column;
@@ -35,6 +37,7 @@ $nav-menu-width: 300px;
     font-size: 14px;
     font-weight: 600;
     color: $white-80;
+    padding: 0.75rem;
 
     @extend .hover-white;
     &.active {
@@ -75,6 +78,7 @@ main {
   .nav-logo {
   }
   .nav-menu {
+    overflow-y: initial;
     padding-top: initial;
     background: none;
     z-index: initial;
@@ -87,7 +91,8 @@ main {
   .nav-menu__item {
     height: 100%;
     display: flex;
-    align-self: center;
+    align-items: center;
+    padding: 0.5rem;
 
     &.active {
       color: $aqua;
@@ -135,10 +140,14 @@ main {
       z-index: 1;
       left: -20px;
       top: 50px;
-      background: black;
+      width: $nav-menu-more-width;
+      background: $dark-pine-green;
       flex-direction: column;
       align-items: flex-start;
       display: flex;
     }
+  }
+  .nav-menu__item {
+    padding: 0.75rem;
   }
 }

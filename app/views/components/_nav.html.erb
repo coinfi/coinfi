@@ -12,27 +12,29 @@
     </a>
 
     <!-- Menu -->
-    <div class="nav-menu nav-menu--out">
-      <a class="nav-menu__item link pa2" href="/coins" title="Coins">Coins</a>
-      <a class="nav-menu__item link pa2" href="/icos/upcoming" title="ICOs">ICOs</a>
+    <div class="nav-menu nav-menu--out ph2 ph0-ns">
+      <a class="nav-menu__item link" href="/coins" title="Coins">Coins</a>
+      <a class="nav-menu__item link" href="/icos/upcoming" title="ICOs">ICOs</a>
       <% if has_news_feature? %>
-        <a class="nav-menu__item link pa2" href="/news" title="News">News</a>
+        <a class="nav-menu__item link" href="/news" title="News">News</a>
       <% end %>
       <% if has_calendar_feature? %>
-        <a class="nav-menu__item link pa2" href="/calendar" title="Events">Events</a>
+        <a class="nav-menu__item link" href="/calendar" title="Events">Events</a>
       <% end %>
       <% if has_listings_feature? %>
-        <a class="nav-menu__item link pa2" href="/listings" title="Listings">Listings</a>
+        <a class="nav-menu__item link" href="/listings" title="Listings">Listings</a>
       <% end %>
-      <a class="nav-menu__item nav-menu-more-toggle link pa2 dn db-m dn-l" href="#" title="More">...</a>
+      <a class="nav-menu__item nav-menu-more-toggle link dn db-m dn-l" href="#" title="More">
+        <i class="fa fa-ellipsis-h"></i>
+      </a>
       <div class="nav-menu-more">
         <div class="nav-menu-more__inner">
-          <a class="nav-menu__item link pa2" href="https://blog.coinfi.com/topics/podcast/" title="Podcast">Podcast</a>
-          <a class="nav-menu__item link pa2" href="https://blog.coinfi.com" title="Blog">Blog</a>
-          <a class="nav-menu__item link pa2" href="https://careers.coinfi.com" title="Careers">Careers</a>
-          <a class="nav-menu__item link pa2" href="/press" title="Press">Press</a>
-          <a class="nav-menu__item link pa2" href="/about" title="About">About</a>
-          <a class="nav-menu__item link pa2" href="https://feedback.coinfi.com/feature-requests" title="Feedback">Feedback</a>
+          <a class="nav-menu__item link" href="https://blog.coinfi.com/topics/podcast/" title="Podcast">Podcast</a>
+          <a class="nav-menu__item link" href="https://blog.coinfi.com" title="Blog">Blog</a>
+          <a class="nav-menu__item link" href="https://careers.coinfi.com" title="Careers">Careers</a>
+          <a class="nav-menu__item link" href="/press" title="Press">Press</a>
+          <a class="nav-menu__item link" href="/about" title="About">About</a>
+          <a class="nav-menu__item link" href="https://feedback.coinfi.com/feature-requests" title="Feedback">Feedback</a>
         </div>
       </div>
 
