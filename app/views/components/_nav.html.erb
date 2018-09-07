@@ -1,0 +1,45 @@
+<nav class="nav w-100 border-box ph3 bb b--black-10">
+  <div class="nav__inner">
+    <!-- Menu toggle -->
+    <a href="#" class="nav-menu-toggle link">
+      <img src="<%= image_path('nav-trigger.svg') %>" class="nav-menu-toggle__img">
+    </a>
+
+    <!-- Logo -->
+    <a class="nav-logo link pa2 ma2 ma0-ns mr4-ns h-100" href="#" title="Home">
+      <img src="<%= image_path('logo.svg') %>" class="nav-logo__img">
+    </a>
+
+    <!-- Menu -->
+    <div class="nav-menu nav-menu--out">
+      <a class="nav-menu__item link pa2" href="/coins" title="Coins">Coins</a>
+      <a class="nav-menu__item link pa2" href="/icos/upcoming" title="ICOs">ICOs</a>
+      <% if has_news_feature? %>
+        <a class="nav-menu__item link pa2" href="/news" title="News">News</a>
+      <% end %>
+      <% if has_calendar_feature? %>
+        <a class="nav-menu__item link pa2" href="/calendar" title="Events">Events</a>
+      <% end %>
+      <% if has_listings_feature? %>
+        <a class="nav-menu__item link pa2" href="/listings" title="Listings">Listings</a>
+      <% end %>
+      <div class="nav-menu__nested">
+        <a class="nav-menu__item link pa2" href="https://blog.coinfi.com/topics/podcast/" title="Podcast">Podcast</a>
+        <a class="nav-menu__item link pa2" href="https://blog.coinfi.com" title="Blog">Blog</a>
+        <a class="nav-menu__item link pa2" href="https://careers.coinfi.com" title="Careers">Careers</a>
+        <a class="nav-menu__item link pa2" href="/press" title="Press">Press</a>
+        <a class="nav-menu__item link pa2" href="/about" title="About">About</a>
+        <a class="nav-menu__item link pa2" href="https://feedback.coinfi.com/feature-requests" title="Feedback">Feedback</a>
+      </div>
+
+      <div class="nav-menu__actions pa2">
+        <%= render "components/user_actions" %>
+      </div>
+    </div>
+
+    <!-- Actions -->
+    <div class="nav-actions">
+      <%= render "components/user_actions" %>
+    </div>
+  </div>
+</nav>

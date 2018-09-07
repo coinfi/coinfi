@@ -21,7 +21,6 @@
       <%= render partial: "components/flash" %>
       <%= yield %>
     </main>
-    <%= render partial: 'components/mobile_nav' %>
     <%= javascript_tag do %>
       window.pricesURL = '<%= ENV.fetch('COINFI_PRICES_URL') %>';
     <% end %>
