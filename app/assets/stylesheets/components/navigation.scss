@@ -1,12 +1,10 @@
 $nav-height: 50px;
 $nav-menu-width: 300px;
 
-.topnav {
-  background: $dark-pine-green;
-}
-
 .nav {
-  position: relative;
+  background: $dark-pine-green;
+  width: 100%;
+  position: fixed;
   z-index: 10;
   height: $nav-height;
 
@@ -18,8 +16,6 @@ $nav-menu-width: 300px;
   }
 }
 .nav-logo {
-  height: 100%;
-
   &__img {
     height: 100%;
   }
@@ -65,8 +61,14 @@ $nav-menu-width: 300px;
   flex-direction: column;
   display: flex;
 }
+main {
+  margin-top: $nav-height;
+}
 
 @media #{$screen-min-ns} {
+  .nav {
+    position: relative;
+  }
   .nav__inner {
     justify-content: flex-start;
   }
@@ -112,6 +114,8 @@ $nav-menu-width: 300px;
     flex-direction: row;
   }
 }
+
+// Medium screens
 @media screen and (min-width: #{$screen-ns}) and (max-width: #{$screen-m - 1px}) {
   .nav-menu-more-toggle {
     height: 100%;
