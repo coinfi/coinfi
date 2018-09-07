@@ -1,7 +1,17 @@
-import parseData from './parseData'
+const parseData = (priceData) => {
+  const prices = []
+  const volume = []
+  priceData.forEach((day) => {
+    let { timestamp: time, close: price, volume_from: vol } = day
+    prices.push([time, price])
+    volume.push([time, vol])
+  })
+  return { prices, volume }
+}
+
 export default (data) => {
-  const { annotations } = data
-  const { prices, volume } = parseData(data)
+  const { annotations, priceData } = data
+  const { prices, volume } = parseData(priceData)
   const { Highcharts } = window
   return {
     rangeSelector: {
