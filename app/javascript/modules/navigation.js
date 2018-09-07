@@ -1,3 +1,19 @@
+// Adapted from https://stackoverflow.com/a/3028037
+function onClickOutside(selector, fn) {
+  const outsideClickListener = (event) => {
+    if (!$(event.target).closest(selector).length) {
+      fn()
+      removeClickListener()
+    }
+  }
+
+  const removeClickListener = () => {
+    document.removeEventListener('click', outsideClickListener)
+  }
+
+  document.addEventListener('click', outsideClickListener)
+}
+
 $(document).ready(() => {
   let navMenuIsOpen = false
   let navMenuMoreIsOpen = false
@@ -16,6 +32,7 @@ $(document).ready(() => {
     $navMenu.removeClass('nav-menu--out')
     $navMenu.addClass('nav-menu--in')
     navMenuIsOpen = true
+    onClickOutside('.nav-menu, .nav-menu-toggle', closeNavMenu)
   }
 
   const closeNavMenuMore = () => {
@@ -26,6 +43,7 @@ $(document).ready(() => {
   const openNavMenuMore = () => {
     $navMenuMore.addClass('nav-menu-more--active')
     navMenuMoreIsOpen = true
+    onClickOutside('.nav-menu-more, .nav-menu-more-toggle', closeNavMenuMore)
   }
 
   // Bind click handler to menu toggle
