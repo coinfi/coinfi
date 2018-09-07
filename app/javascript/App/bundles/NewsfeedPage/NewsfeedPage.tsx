@@ -1,5 +1,5 @@
 // TODO: find more convenient way to extend window declaration
-import { IWindowScreenType, ICoinLinkData } from '../common/types'
+import { IWindowScreenType, ICoinLinkData, ICoin } from '../common/types'
 declare const window: IWindowScreenType
 
 import * as React from 'react'
@@ -39,6 +39,11 @@ interface IProps extends RouteComponentProps<any> {
   fetchMoreNewsItems: (filters: IFilters) => Promise<INewsItem[]>
   fetchNewNewsItems: (filters: IFilters) => Promise<INewsItem[]>
   cleanNewsItems: () => void
+  selectedCoinSlug: string | null
+  selectCoinBySlug: any
+  isWatchlistSelected: boolean
+  getWatchlist: any
+  watchlist: any
 }
 
 interface IState {
@@ -153,6 +158,7 @@ class NewsfeedPage extends React.Component<IProps, IState> {
     }
 
     if (this.getContentType() === 'coin') {
+      this.props.selectCoinBySlug(this.props.coinSlug)
       this.setState((state, props) => {
         state.filters.coinSlugs.push(props.coinSlug)
         this.props.fetchNewsItems(state.filters).then(() => {
@@ -179,12 +185,59 @@ class NewsfeedPage extends React.Component<IProps, IState> {
   public componentDidUpdate(prevProps, prevState, snapshot) {
     if (this.getContentType() === 'coin') {
       if (this.props.coinSlug !== prevProps.coinSlug && !!this.props.coinSlug) {
+        this.props.selectCoinBySlug(this.props.coinSlug)
         this.setState((state) => {
           state.filters.coinSlugs = [this.props.coinSlug]
           this.props.fetchNewsItems(state.filters)
           return state
         })
+        return
       }
+    }
+
+    if (
+      !!this.props.selectedCoinSlug &&
+      !_.isEqual(this.props.selectedCoinSlug, prevProps.selectedCoinSlug)
+    ) {
+      this.props.history.push(`/news/${this.props.selectedCoinSlug}`)
+      return
+    }
+
+    if (!!this.props.isWatchlistSelected && !prevProps.isWatchlistSelected) {
+      this.setState((state) => {
+        state.filters.coinSlugs = this.props
+          .getWatchlist()
+          .map((elem) => elem.slug)
+        this.props.fetchNewsItems(state.filters)
+        return state
+      })
+      return
+    } else if (
+      !!prevProps.isWatchlistSelected &&
+      !this.props.isWatchlistSelected
+    ) {
+      this.setState((state) => {
+        state.filters.coinSlugs = !!this.props.coinSlug
+          ? [this.props.coinSlug]
+          : []
+        this.props.fetchNewsItems(state.filters)
+        return state
+      })
+      return
+    }
+
+    if (
+      !!this.props.isWatchlistSelected &&
+      !_.isEqual(this.props.watchlist, prevProps.watchlist)
+    ) {
+      this.setState((state) => {
+        state.filters.coinSlugs = this.props
+          .getWatchlist()
+          .map((elem) => elem.slug)
+        this.props.fetchNewsItems(state.filters)
+        return state
+      })
+      return
     }
   }
 

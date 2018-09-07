@@ -5,6 +5,7 @@ import CoinListContext, {
   ICoinListContextType,
 } from '~/contexts/CoinListContext'
 import LoadingIndicator from '../../../components/LoadingIndicator'
+import { ICoin } from '~/bundles/common/types'
 
 interface IProps {
   loggedIn: boolean
@@ -18,7 +19,12 @@ const CoinListWrapper = (props: IProps) => (
       ) : (
         <>
           <CoinListHeader />
-          <CoinList list={payload.coinlist} loggedIn={props.loggedIn} />
+          <CoinList
+            list={payload.coinlist}
+            loggedIn={props.loggedIn}
+            selectedCoinSlug={payload.selectedCoinSlug}
+            onSelectCoin={(coin: ICoin) => payload.selectCoinBySlug(coin.slug)}
+          />
         </>
       )
     }}

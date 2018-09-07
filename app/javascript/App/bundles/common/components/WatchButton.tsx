@@ -24,6 +24,7 @@ const WatchButton = ({ coin, hasText, loggedIn }: IProps) => {
                 className={`aqua ${hasText ? hasTextClassNames : ''}`}
                 onClick={(e) => {
                   e.preventDefault()
+                  e.stopPropagation()
                   payload.removeCoinFromWatchlist(coin.id)
                 }}
               >
@@ -38,6 +39,7 @@ const WatchButton = ({ coin, hasText, loggedIn }: IProps) => {
                 className={`light-silver ${hasText ? hasTextClassNames : ''}`}
                 onClick={(e) => {
                   e.preventDefault()
+                  e.stopPropagation()
                   payload.addCoinToWatchlist(coin.id)
                 }}
               >
@@ -55,6 +57,7 @@ const WatchButton = ({ coin, hasText, loggedIn }: IProps) => {
               className={`light-silver ${hasText ? hasTextClassNames : ''}`}
               onClick={(e) => {
                 e.preventDefault()
+                e.stopPropagation()
                 // TODO: Implement new onboarding signup flow.
                 window.location.href = '/login'
               }}

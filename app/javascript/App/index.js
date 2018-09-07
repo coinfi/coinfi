@@ -8,7 +8,7 @@ import 'babel-polyfill'
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { Provider } from 'react-redux'
-// import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
+// import { BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom'
 import configureStore from './configureStore'
 import getScreenSize from './lib/screenSize'
 import { PersistGate } from 'redux-persist/integration/react'
@@ -20,7 +20,7 @@ import WatchButton from './components/WatchButton'
 import TwitterFeed from './components/TwitterFeed'
 import RedditFeed from './components/RedditFeed'
 import IcoFilters from './components/IcoFilters'
-import ExchangeListingsPage from './bundles/ExchangeListings/client'
+import ExchangeListingsPage from './bundles/ExchangeListings/ExchangeListingsCointainer'
 import NewsfeedPage from './components/NewsfeedPage'
 // import NewsfeedPageNew from './bundles/NewsfeedPage/NewsfeedPageContainer'
 import Tabs from './components/Tabs'
@@ -29,7 +29,7 @@ import CalendarPage from './components/CalendarPage'
 import CoinIndex from './components/CoinIndex'
 import CoinShow from './components/CoinShow'
 import scrollHelper from './scrollHelper'
-// import CoinListContainer from './bundles/common/containers/CoinListContainer'
+import CoinListContainer from './bundles/common/containers/CoinListContainer'
 // import NewsfeedContainer from './bundles/common/containers/NewsfeedContainer'
 import FlashMessageListContainer from './bundles/common/containers/FlashMessageListContainer'
 
@@ -65,7 +65,7 @@ const injectComponents = () => {
           //       <CoinListContainer loggedIn={props.loggedIn}>
           //         <Provider store={store}>
           //           <Router>
-          //             <div>
+          //             <Switch>
           //               <Route
           //                 exact
           //                 path="/news/:coinSlug?"
@@ -90,8 +90,9 @@ const injectComponents = () => {
           //                   />
           //                 )}
           //               />
+          //               <Route exact path="/listings" render={() => <ExchangeListingsPage {...props} />} />
           //               <Route path="/events" component={CalendarPage} />
-          //             </div>
+          //             </Switch>
           //           </Router>
           //         </Provider>
           //       </CoinListContainer>
@@ -101,11 +102,13 @@ const injectComponents = () => {
         } else {
           const AppComponent = appContainer(Component)
           ReactDOM.render(
-            <Provider store={store}>
-              <PersistGate loading={null} persistor={persistor}>
-                <AppComponent {...props} />
-              </PersistGate>
-            </Provider>,
+            <CoinListContainer user={props.user}>
+              <Provider store={store}>
+                <PersistGate loading={null} persistor={persistor}>
+                  <AppComponent {...props} />
+                </PersistGate>
+              </Provider>
+            </CoinListContainer>,
             hook,
           )
         }

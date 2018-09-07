@@ -15,8 +15,10 @@ export interface ICoinListContextType {
   addCoinToWatchlist: (id: number) => void
   removeCoinFromWatchlist: (id: number) => void
   coinlist: ICoin[]
+  selectedCoinSlug: string | null
   isLoading: boolean
   isReady: boolean
+  selectCoinBySlug: (coinSlug: string) => void
 }
 
 const CoinListContext = React.createContext(null)
