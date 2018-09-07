@@ -47,11 +47,6 @@ $nav-menu-width: 300px;
     }
   }
 
-  &__nested {
-    flex-direction: column;
-    display: flex;
-  }
-
   &--in {
     left: 0;
   }
@@ -63,8 +58,15 @@ $nav-menu-width: 300px;
 .nav-actions {
   display: none;
 }
+.nav-menu-more-toggle {
+  display: hidden;
+}
+.nav-menu-more__inner {
+  flex-direction: column;
+  display: flex;
+}
 
-@media only screen and (min-width: $screen-ns) {
+@media #{$screen-min-ns} {
   .nav__inner {
     justify-content: flex-start;
   }
@@ -80,9 +82,6 @@ $nav-menu-width: 300px;
     top: initial;
     left: initial;
   }
-  .nav-menu__nested {
-    flex-direction: row;
-  }
   .nav-menu__item {
     height: 100%;
     display: flex;
@@ -91,6 +90,9 @@ $nav-menu-width: 300px;
     &.active {
       color: $aqua;
     }
+  }
+  .nav-menu-more-toggle {
+    display: none;
   }
   .nav-menu__actions {
     display: none;
@@ -105,5 +107,34 @@ $nav-menu-width: 300px;
     height: 100%;
     display: flex;
     align-items: center;
+  }
+  .nav-menu-more__inner {
+    flex-direction: row;
+  }
+}
+@media screen and (min-width: #{$screen-ns}) and (max-width: #{$screen-m - 1px}) {
+  .nav-menu-more-toggle {
+    height: 100%;
+    display: flex;
+    align-self: center;
+  }
+  .nav-menu-more {
+    position: relative;
+
+    display: none;
+    &--active {
+      display: block;
+    }
+
+    &__inner {
+      position: absolute;
+      z-index: 1;
+      left: -20px;
+      top: 50px;
+      background: black;
+      flex-direction: column;
+      align-items: flex-start;
+      display: flex;
+    }
   }
 }
