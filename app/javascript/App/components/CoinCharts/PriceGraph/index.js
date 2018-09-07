@@ -19,8 +19,10 @@ class PriceGraph extends Component {
     let { priceData, annotations } = this.props
 
     const epochPrices = priceData.map((datum) => {
-      datum.timestamp = new Date(datum.time).getTime()
-      return datum
+      return {
+        ...datum,
+        timestamp: new Date(datum.time).getTime(),
+      }
     })
 
     window.Highcharts.setOptions(options)
