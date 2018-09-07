@@ -16,7 +16,9 @@
   </head>
 
   <body id='<%= @body_id %>'>
-    <%= render partial: "components/site_header" %>
+    <header>
+      <%= render partial: "components/nav" %>
+    </header>
     <main>
       <%= render partial: "components/flash" %>
       <%= yield %>

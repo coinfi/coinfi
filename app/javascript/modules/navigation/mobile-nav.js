@@ -15,15 +15,6 @@ export const toggleOverlay = (element) => {
 }
 
 $(document).ready(() => {
-  $('.mobile-nav-toggle').on('click', () => toggleOverlay($('#mobile-nav')))
-
-  $('.search-toggle').on('click', () => {
-    toggleOverlay($('#global-coin-search'))
-      .find('input[type="text"]')
-      .first()
-      .focus()
-  })
-
   $('.registration-form-wrapper form').on('submit', function() {
     $(this).find('input[type=submit]').prop('disabled', true).text('Processing...');
   })
