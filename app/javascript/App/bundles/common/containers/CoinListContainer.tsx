@@ -1,4 +1,5 @@
 import * as React from 'react'
+import _ from 'lodash'
 import API from '../../../lib/API'
 import normalizers from '../../../normalizers'
 import CoinListContext, { ICoinListContextType } from '~/contexts/CoinListContext'
@@ -24,6 +25,7 @@ interface IState {
   toplist: ICoin[]
   watchlistIndex: number[]
   watchlist: ICoin[]
+  selectedCoin: ICoin | null
 }
 
 class CoinListContainer extends React.Component<IProps, IState> {
@@ -34,6 +36,7 @@ class CoinListContainer extends React.Component<IProps, IState> {
     toplist: [],
     watchlistIndex: [],
     watchlist: [],
+    selectedCoin: null,
   }
 
   public componentDidMount = () => {
@@ -143,6 +146,15 @@ class CoinListContainer extends React.Component<IProps, IState> {
     }
   }
 
+  selectCoin = (func: (c: ICoin) => boolean): Promise<void> => {
+    return new Promise((res, rej) => {
+      const elem = _.find(this.state.toplist, func)
+      this.setState({ 
+        selectedCoin: !!elem ? elem : null 
+      }, res)
+    })
+  }
+
   public render = () => {
     const payload: ICoinListContextType = {
         status: this.state.status,
@@ -160,6 +172,8 @@ class CoinListContainer extends React.Component<IProps, IState> {
         coinlist: this.getCoinList(),
         isLoading: this.state.status !== STATUSES.READY,
         isReady: this.state.status === STATUSES.READY,
+        selectCoin: this.selectCoin,
+        selectedCoin: this.state.selectedCoin,
     }
 
     return (
