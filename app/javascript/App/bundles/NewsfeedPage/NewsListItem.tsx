@@ -41,17 +41,10 @@ const NewsListItem = (props) => {
     activeEntity,
     newsItem,
     setActiveNewsItem,
+    isSelected,
     preRender,
     hasRead,
   } = props
-
-  let bgFoam = false
-  if (activeEntity) {
-    const { type, id } = activeEntity
-    if (type === 'newsItem' && id === newsItem.id) {
-      bgFoam = true
-    }
-  }
 
   const url = new URL(newsItem.url)
   const newsItemTitle = newsItem.title
@@ -62,7 +55,7 @@ const NewsListItem = (props) => {
     <div
       className={classNames(
         'b--b tiber overflow-hidden',
-        { 'bg-foam': bgFoam },
+        { 'bg-foam': isSelected },
         { 'o-0 absolute': preRender },
       )}
       style={{ height: props.height || 'auto' }}

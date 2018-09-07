@@ -309,6 +309,7 @@ class NewsfeedPage extends React.Component<IProps, IState> {
                   this.props.fetchMoreNewsItems(this.state.filters)
                 }
                 closeTips={this.closeTips}
+                selectedNewsItemId={this.props.newsItemId}
               />
             </>
           }

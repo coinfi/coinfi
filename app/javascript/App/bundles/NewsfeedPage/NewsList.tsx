@@ -26,6 +26,7 @@ interface IProps {
   closeTips?: () => void
   isNewsSeen?: (id) => boolean
   isWindowFocused?: boolean
+  selectedNewsItemId?: string
 }
 
 interface IState {
@@ -106,9 +107,10 @@ class NewsList extends React.Component<IProps, IState> {
           key={newsItem.id}
           newsItem={newsItem}
           {...this.props}
+          isSelected={this.props.selectedNewsItemId === newsItem.id.toString()}
           setActiveNewsItem={this.setActiveNewsItem}
           // @ts-ignore FIME
-          selectCoin={(symbol) => this.selectCoin(symbol)} 
+          selectCoin={(symbol) => this.selectCoin(symbol)}
           hasRead={hasRead}
         />
       )
@@ -141,7 +143,7 @@ class NewsList extends React.Component<IProps, IState> {
 
   public render() {
     if (!this.props.isShown) return null
-  
+
     const {
       // @ts-ignore FIXME
       activeEntity,
