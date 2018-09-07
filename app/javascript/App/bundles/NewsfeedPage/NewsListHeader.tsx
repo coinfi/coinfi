@@ -96,15 +96,16 @@ export default class NewsListHeader extends React.Component<IProps, {}> {
             </button>
           </div>
         </SectionHeader>
-        <FilterPanel
-          isShown={this.props.showFilters}
-          categories={this.props.categories}
-          feedSources={this.props.feedSources}
-          filters={this.props.filters}
-          closeFilterPanel={this.props.toggleFilters}
-          applyFilters={this.props.applyFilters}
-          newsFeedStyle={true}
-        />
+        {this.props.showFilters && (
+          <FilterPanel
+            categories={this.props.categories}
+            feedSources={this.props.feedSources}
+            filters={this.props.filters}
+            closeFilterPanel={this.props.toggleFilters}
+            applyFilters={this.props.applyFilters}
+            newsFeedStyle={true}
+          />
+        )}
       </>
     )
   }

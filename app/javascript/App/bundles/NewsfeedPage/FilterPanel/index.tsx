@@ -12,7 +12,6 @@ import { IFilters } from '../types'
 import getDefaultFilters from '../defaultFilters'
 
 interface IProps {
-  isShown: boolean
   categories: string[]
   feedSources: string[]
   filters: IFilters
@@ -27,20 +26,18 @@ interface IState {
 }
 
 class FilterPanel extends React.Component<IProps, IState> {
-  public static getDerivedStateFromProps(props: IProps, state: IState) {
-    // FIXME:
-    // We can't get initial `coinSlugs` correctly which goes from react-router,
-    // because there is no way to handle the change of `coinSlugs` in `props.filters`
-    // in DidMount and DidUpdate methods for some reason. So here is the workaround
-    // to get `coinSlugs` before the first render and set it to the state.
-    if (!state.form.coinSlugs.length && !!props.filters.coinSlugs.length) {
-      state.form.coinSlugs = props.filters.coinSlugs
-    }
-    return state
-  }
   constructor(props) {
     super(props)
-    this.state = { form: getDefaultFilters() }
+
+    this.state = {
+      form: getDefaultFilters(),
+    }
+  }
+
+  public componentDidMount() {
+    this.setState({
+      form: _.cloneDeep(this.props.filters),
+    })
   }
 
   public applyFilters = () => {
@@ -103,10 +100,6 @@ class FilterPanel extends React.Component<IProps, IState> {
   }
 
   public render() {
-    if (!this.props.isShown) {
-      return null
-    }
-
     return (
       <Layout
         closeFilterPanel={this.onClosePanel}
