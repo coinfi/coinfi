@@ -49,6 +49,10 @@ class NewsList extends React.Component<IProps, IState> {
     scrollHelper()
   }
 
+  public componentDidUpdate() {
+    scrollHelper()
+  }
+
   public setActiveNewsItem = (newsItem) => {
     // @ts-ignore FIXME
     const { setActiveEntity, enableUI } = this.props
@@ -119,7 +123,7 @@ class NewsList extends React.Component<IProps, IState> {
     return (
       <InfiniteScroll
         dataLength={mappedItems.length}
-        scrollableTarget={this.newsfeedDiv}
+        scrollableTarget="newsfeed"
         next={this.props.fetchMoreNewsFeed}
         hasMore={true} // TODO: Actually determine when there are no more NewsItems...
         loader={<LoadingIndicator />}

@@ -27,7 +27,7 @@ class CoinListHeader extends Component {
     return (
       <CoinListContext.Consumer>
         {(payload) => (
-          <div className="b--b flex-none flex justify-between items-center bg-athens tabs">
+          <div id="panel-header" className="b--b flex-none flex justify-between items-center bg-athens tabs">
             <Tab
               className="tab"
               selected={!payload.isWatchlist}
