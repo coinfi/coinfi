@@ -51,8 +51,7 @@ class CoinSelector extends React.Component<IProps, IState> {
 
   public componentDidUpdate(prevProps: IProps, prevState: IState) {
     if (
-      !_.isEqual(prevProps.selectedCoins, this.props.selectedCoins) &&
-      !!this.props.selectedCoins.length
+      !_.isEqual(prevProps.selectedCoins, this.props.selectedCoins)
     ) {
       this.fetchCoinsDetails(this.props.selectedCoins).then((result) => {
         this.setState({

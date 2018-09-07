@@ -8,6 +8,7 @@ import ListingsList from './components/ListingsList'
 import BodySection from './components/BodySection'
 import localAPI from '~/lib/localAPI'
 import ExchangeListingsContext from '~/bundles/ExchangeListings/context'
+import CoinListWrapper from '~/bundles/common/components/CoinListWrapper'
 
 class ExchangeListingsPage extends Component {
   constructor(props) {
@@ -38,6 +39,22 @@ class ExchangeListingsPage extends Component {
     clearInterval(this.interval)
   }
 
+  componentDidUpdate(prevProps) {
+    if (!prevProps.selectedCoin) {
+      if (!!this.props.selectedCoin) {
+        this.setState({
+          selectedSymbols: [this.props.selectedCoin.symbol]
+        }, () => this.fetchListingsBySymbol())
+      }
+    } else {
+      if (!!this.props.selectedCoin && this.props.selectedCoin.id !== prevProps.selectedCoin.id) {
+        this.setState({
+          selectedSymbols: [this.props.selectedCoin.symbol]
+        }, () => this.fetchListingsBySymbol())
+      }
+    }
+  }
+
   fetchNewerExchangeListings = () => {
     console.log('Fetching newer exchange listings...')
     localAPI
@@ -53,6 +70,7 @@ class ExchangeListingsPage extends Component {
   }
 
   fetchOlderExchangeListings = () => {
+    console.log('Fetch older')
     localAPI
       .get(`/exchange_listings?detectedUntil=${this.state.oldestDetectedAt}`)
       .then((response) => {
@@ -119,11 +137,18 @@ class ExchangeListingsPage extends Component {
           hasMore: false,
         })
       }
-      this.toggleFilterPanel()
     })
   }
 
   updateOnResize = () => debounce(() => this.forceUpdate(), 500)
+
+  closeFilterPanel = () => {
+    if (!this.state.showFilterPanel) return;
+  
+    this.setState((prevState) => ({
+      showFilterPanel: false,
+    }))
+  }
 
   toggleFilterPanel = () => {
     this.setState((prevState) => ({
@@ -132,7 +157,11 @@ class ExchangeListingsPage extends Component {
   }
 
   applyFilters = () => {
-    this.fetchListingsBySymbol()
+    this.props.selectCoin(coin => this.state.selectedSymbols.length === 1 ? coin.symbol === this.state.selectedSymbols[0] : false)
+      .then(() => {
+        this.fetchListingsBySymbol()
+        this.closeFilterPanel();
+      })
   }
 
   resetFilters = () => {
@@ -211,7 +240,7 @@ class ExchangeListingsPage extends Component {
     } else {
       return (
         <LayoutDesktop
-          leftSection={null}
+          leftSection={<CoinListWrapper />}
           centerSection={
             <Fragment>
               <ExchangeListingsContext.Provider value={context}>
