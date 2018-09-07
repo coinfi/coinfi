@@ -3,11 +3,14 @@ import { withStyles } from '@material-ui/core/styles'
 import green from '@material-ui/core/colors/green'
 import amber from '@material-ui/core/colors/amber'
 import Slide from '@material-ui/core/Slide'
-import Snackbar, { SnackbarProps } from '@material-ui/core/Snackbar'
+import Snackbar, {
+  SnackbarProps,
+  SnackbarOrigin,
+} from '@material-ui/core/Snackbar'
 import SnackbarContent from '@material-ui/core/SnackbarContent'
 import CloseIcon from '@material-ui/icons/Close'
 import classnames from 'classnames'
-import { Icon, IconButton } from '@material-ui/core'
+import { Icon, IconButton, createStyles } from '@material-ui/core'
 import { TransitionProps } from '@material-ui/core/transitions/transition'
 import { FlashMessage } from '~/bundles/common/types'
 
@@ -20,7 +23,7 @@ const TRANSITION_DOWN_DURATION = 200
  * @param {number} level - Level on which snakcbar should be displayed
  * (when snackbars are stacked on top of eachother)
  */
-const getTransitionStyles = (level, anchorOrigin) =>
+const getTransitionStyles = (level: number, anchorOrigin: SnackbarOrigin) =>
   Object.assign(
     {
       [anchorOrigin.vertical]: level * 48 + level * 16 + 20,
@@ -35,20 +38,27 @@ const getTransitionStyles = (level, anchorOrigin) =>
     },
   )
 
-const DIRECTION = {
+const TRANSITION_DIRECTION = {
   right: 'left',
   left: 'right',
   bottom: 'up',
   top: 'down',
 }
 
-const getTransitionDirection = (anchorOrigin) => {
+/**
+ * Returns the direction when the snackbar transitions away
+ */
+const getTransitionDirection = (anchorOrigin: SnackbarOrigin) => {
   if (anchorOrigin.horizontal !== 'center') {
-    return DIRECTION[anchorOrigin.horizontal]
+    return TRANSITION_DIRECTION[anchorOrigin.horizontal]
   }
-  return DIRECTION[anchorOrigin.vertical]
+  return TRANSITION_DIRECTION[anchorOrigin.vertical]
 }
 
+/**
+ * Returns the
+ * @param flashType - flash message types defined in rails
+ */
 const getSnackbarVariant = (flashType: string) => {
   switch (flashType) {
     case 'alert':
@@ -71,41 +81,37 @@ const TransitionComponent = (props) => <Slide {...props} />
 
 interface Props
   extends Pick<SnackbarProps, Exclude<keyof SnackbarProps, 'classes'>> {
-  classes: {
-    message: string
-    icon: string
-    iconVariant: string
-    close: string
-  }
+  classes: any
   level: number
   message: FlashMessage
 }
 
-const styles = (theme) => ({
-  success: {
-    backgroundColor: green[600],
-  },
-  error: {
-    backgroundColor: theme.palette.error.dark,
-  },
-  info: {
-    backgroundColor: theme.palette.primary.dark,
-  },
-  warning: {
-    backgroundColor: amber[700],
-  },
-  icon: {
-    fontSize: 20,
-  },
-  iconVariant: {
-    opacity: 0.9,
-    marginRight: theme.spacing.unit,
-  },
-  message: {
-    display: 'flex',
-    alignItems: 'center',
-  },
-})
+const styles = (theme) =>
+  createStyles({
+    success: {
+      backgroundColor: green[600],
+    },
+    error: {
+      backgroundColor: theme.palette.error.dark,
+    },
+    info: {
+      backgroundColor: theme.palette.primary.dark,
+    },
+    warning: {
+      backgroundColor: amber[700],
+    },
+    icon: {
+      fontSize: 20,
+    },
+    iconVariant: {
+      opacity: 0.9,
+      marginRight: theme.spacing.unit,
+    },
+    message: {
+      display: 'flex',
+      alignItems: 'center',
+    },
+  })
 
 const FlashMessageListItem: React.StatelessComponent<Props> = (props) => {
   const {
