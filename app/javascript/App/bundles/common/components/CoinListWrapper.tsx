@@ -24,7 +24,7 @@ const CoinListWrapper = (props: IProps) => (
             loggedIn={props.loggedIn}
             selectedCoinSlug={payload.selectedCoinSlug}
             onSelectCoin={(coin: ICoin) => payload.selectCoinBySlug(coin.slug)}
-           />
+          />
         </>
       )
     }}

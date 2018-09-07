@@ -2,7 +2,9 @@ import * as React from 'react'
 import _ from 'lodash'
 import API from '../../../lib/API'
 import normalizers from '../../../normalizers'
-import CoinListContext, { ICoinListContextType } from '~/contexts/CoinListContext'
+import CoinListContext, {
+  ICoinListContextType,
+} from '~/contexts/CoinListContext'
 import { ICoin } from '~/bundles/common/types'
 
 const STATUSES = {
@@ -90,7 +92,7 @@ class CoinListContainer extends React.Component<IProps, IState> {
     )
 
   // TODO: Figure out what
-  public persistCoinToWatchlist = id =>
+  public persistCoinToWatchlist = (id) =>
     API.post('/watchlist/coins', { id }, false)
 
   // FIXME: nested promises
@@ -108,7 +110,7 @@ class CoinListContainer extends React.Component<IProps, IState> {
     )
 
   // TODO: check this because of comment above `persist...`
-  public deleteCoinFromWatchlist = id =>
+  public deleteCoinFromWatchlist = (id) =>
     API.delete(`/watchlist/coins/${id}`, {}, false)
 
   // FIXME: nested promises
@@ -125,7 +127,8 @@ class CoinListContainer extends React.Component<IProps, IState> {
       ),
     )
 
-  public isCoinInWatchlist = (coinId) => this.state.watchlistIndex.includes(coinId)
+  public isCoinInWatchlist = (coinId) =>
+    this.state.watchlistIndex.includes(coinId)
 
   public isInitializing = () => this.state.status === STATUSES.INITIALIZING
 
@@ -146,29 +149,30 @@ class CoinListContainer extends React.Component<IProps, IState> {
     }
   }
 
-  public selectCoinBySlug = (coinSlug: string) => this.setState({
-    selectedCoinSlug: coinSlug
-  })
+  public selectCoinBySlug = (coinSlug: string) =>
+    this.setState({
+      selectedCoinSlug: coinSlug,
+    })
 
   public render = () => {
     const payload: ICoinListContextType = {
-        status: this.state.status,
-        watchlist: this.state.watchlist,
-        toplist: this.state.toplist,
-        isInitializing: this.isInitializing,
-        isWatchlist: this.state.isWatchlist,
-        getWatchlist: this.getWatchlistArray,
-        getToplist: this.getToplistArray,
-        showWatchlist: this.showWatchlist,
-        showToplist: this.showToplist,
-        isCoinInWatchlist: this.isCoinInWatchlist,
-        addCoinToWatchlist: this.addCoinToWatchlist,
-        removeCoinFromWatchlist: this.removeCoinFromWatchlist,
-        coinlist: this.getCoinList(),
-        isLoading: this.state.status !== STATUSES.READY,
-        isReady: this.state.status === STATUSES.READY,
-        selectedCoinSlug: this.state.selectedCoinSlug,
-        selectCoinBySlug: this.selectCoinBySlug,
+      status: this.state.status,
+      watchlist: this.state.watchlist,
+      toplist: this.state.toplist,
+      isInitializing: this.isInitializing,
+      isWatchlist: this.state.isWatchlist,
+      getWatchlist: this.getWatchlistArray,
+      getToplist: this.getToplistArray,
+      showWatchlist: this.showWatchlist,
+      showToplist: this.showToplist,
+      isCoinInWatchlist: this.isCoinInWatchlist,
+      addCoinToWatchlist: this.addCoinToWatchlist,
+      removeCoinFromWatchlist: this.removeCoinFromWatchlist,
+      coinlist: this.getCoinList(),
+      isLoading: this.state.status !== STATUSES.READY,
+      isReady: this.state.status === STATUSES.READY,
+      selectedCoinSlug: this.state.selectedCoinSlug,
+      selectCoinBySlug: this.selectCoinBySlug,
     }
 
     return (

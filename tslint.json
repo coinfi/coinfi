@@ -12,9 +12,16 @@
     "jsx-a11y/href-no-hash": [0],
     "no-var-requires": false,
     "semicolon": [true, "never"],
-    "trailing-comma": [true,  { "esSpecCompliant": {
-      "type": true
-    }}]
+    "trailing-comma": [
+      true,
+      {
+        "esSpecCompliant": {
+          "type": true
+        }
+      }
+    ],
+    "interface-name": [false, "always-prefix"],
+    "object-literal-sort-keys": false
   },
   "rulesDirectory": []
 }

@@ -31,6 +31,7 @@ import CoinShow from './components/CoinShow'
 import scrollHelper from './scrollHelper'
 import CoinListContainer from './bundles/common/containers/CoinListContainer'
 // import NewsfeedContainer from './bundles/common/containers/NewsfeedContainer'
+import FlashMessageListContainer from './bundles/common/containers/FlashMessageListContainer'
 
 const injectableComponents = {
   WatchButton,
@@ -44,6 +45,7 @@ const injectableComponents = {
   CalendarPage,
   CoinIndex,
   CoinShow,
+  FlashMessageListContainer,
 }
 
 const injectComponents = () => {
@@ -103,7 +105,7 @@ const injectComponents = () => {
             <CoinListContainer user={props.user}>
               <Provider store={store}>
                 <PersistGate loading={null} persistor={persistor}>
-                    <AppComponent {...props} />
+                  <AppComponent {...props} />
                 </PersistGate>
               </Provider>
             </CoinListContainer>,

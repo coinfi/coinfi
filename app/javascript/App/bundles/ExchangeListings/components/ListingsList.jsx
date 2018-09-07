@@ -5,7 +5,6 @@ import InfiniteScroll from 'react-infinite-scroll-component'
 import scrollHelper from '../../../scrollHelper'
 
 class ListingsList extends Component {
-
   constructor(props) {
     super(props)
   }
@@ -20,7 +19,7 @@ class ListingsList extends Component {
       return <ListingItem key={listing.id} listing={listing} />
     })
     return (
-      <div 
+      <div
         id="newsfeed"
         className="flex-auto relative overflow-y-hidden overflow-y-auto-m"
       >

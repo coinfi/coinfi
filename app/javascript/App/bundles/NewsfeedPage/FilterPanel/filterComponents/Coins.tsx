@@ -50,9 +50,7 @@ class CoinSelector extends React.Component<IProps, IState> {
   public loadOptions = (inputValue) => this.fetchCoinsByName(inputValue)
 
   public componentDidUpdate(prevProps: IProps, prevState: IState) {
-    if (
-      !_.isEqual(prevProps.selectedCoins, this.props.selectedCoins)
-    ) {
+    if (!_.isEqual(prevProps.selectedCoins, this.props.selectedCoins)) {
       this.fetchCoinsDetails(this.props.selectedCoins).then((result) => {
         this.setState({
           selectedOptions: result,

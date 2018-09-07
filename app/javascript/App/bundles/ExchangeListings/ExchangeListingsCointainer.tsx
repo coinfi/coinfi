@@ -5,8 +5,8 @@ import ExchangeListingsPage from './ExchangeListingsPage'
 const ExchangeListingsContainer = (props) => (
   <CoinListContext.Consumer>
     {(payload) => (
-      <ExchangeListingsPage 
-        {...props} 
+      <ExchangeListingsPage
+        {...props}
         selectedCoin={payload.selectedCoin}
         selectCoin={payload.selectCoin}
       />
