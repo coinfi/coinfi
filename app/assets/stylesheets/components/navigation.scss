@@ -95,6 +95,7 @@ main {
     padding: 0.5rem;
 
     &.active {
+      background: none;
       color: $aqua;
     }
   }
