@@ -6,7 +6,7 @@ const Tab = styled.div`
   padding: 0 !important;
   margin: 0 !important;
   flex: 1;
-  height: 60px;
+  height: 59px;
   align-items: flex-end !important;
   display: flex !important;
   justify-content: center !important;

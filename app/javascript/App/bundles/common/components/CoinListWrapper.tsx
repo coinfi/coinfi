@@ -15,7 +15,12 @@ const CoinListWrapper = (props: IProps) => (
   <CoinListContext.Consumer>
     {(payload: ICoinListContextType) => {
       return payload.isInitializing() ? (
-        <LoadingIndicator />
+        <>
+          <CoinListHeader />
+          <div className="pa3 tc mt4">
+            <LoadingIndicator />
+          </div>
+        </>
       ) : (
         <>
           <CoinListHeader />
