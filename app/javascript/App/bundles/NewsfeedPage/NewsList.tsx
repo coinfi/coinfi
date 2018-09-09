@@ -27,6 +27,7 @@ interface IProps {
   isNewsSeen?: (id) => boolean
   isWindowFocused?: boolean
   selectedNewsItemId?: string
+  onNewsItemClick: any
 }
 
 interface IState {
@@ -116,6 +117,7 @@ class NewsList extends React.Component<IProps, IState> {
           // @ts-ignore FIME
           selectCoin={(symbol) => this.selectCoin(symbol)}
           hasRead={hasRead}
+          onClick={this.props.onNewsItemClick}
         />
       )
     })
@@ -159,12 +161,9 @@ class NewsList extends React.Component<IProps, IState> {
       <div
         ref={this.newsfeedDiv}
         id="newsfeed"
-        className="flex-auto relative overflow-y-hidden overflow-y-auto-m"
+        className="flex-auto relative overflow-y-scroll overflow-y-auto-m"
         style={
-          !activeEntity &&
-          window.isMobile &&
-          !activeFilters.size &&
-          initialRenderTips
+          window.isMobile && initialRenderTips
             ? {
                 background: '#fff',
                 marginTop: '-65px',

@@ -9,6 +9,7 @@ import { ICoin } from '~/bundles/common/types'
 
 interface IProps {
   loggedIn: boolean
+  onClick: any
 }
 
 const CoinListWrapper = (props: IProps) => (
@@ -28,7 +29,10 @@ const CoinListWrapper = (props: IProps) => (
             list={payload.coinlist}
             loggedIn={props.loggedIn}
             selectedCoinSlug={payload.selectedCoinSlug}
-            onSelectCoin={(coin: ICoin) => payload.selectCoinBySlug(coin.slug)}
+            onSelectCoin={(coin: ICoin) => {
+              payload.selectCoinBySlug(coin.slug)
+              props.onClick()
+            }}
           />
         </>
       )

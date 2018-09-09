@@ -44,6 +44,7 @@ const NewsListItem = (props) => {
     isSelected,
     preRender,
     hasRead,
+    onClick,
   } = props
 
   const url = new URL(newsItem.url)
@@ -61,8 +62,7 @@ const NewsListItem = (props) => {
       style={{ height: props.height || 'auto' }}
     >
       <div data-heap="news-click-on-news-item" className="pa-default">
-        <Link
-          to={`/news/${newsItem.id}/${slugify(newsItem.title)}`}
+        <div
           onClick={() => {
             readNewsHandler(newsItem)
             if (
@@ -74,10 +74,11 @@ const NewsListItem = (props) => {
                 // @ts-ignore
               ).parentNode.scrollTop = 0
             }
+            onClick(newsItem)
           }}
         >
           <Title hasRead={hasRead}>{newsItemTitle}</Title>
-        </Link>
+        </div>
         <div className="flex justify-between flex-wrap">
           <div className="f6 silver">
             {url.hostname === 'twitter.com' && (
