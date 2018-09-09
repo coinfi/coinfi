@@ -35,9 +35,18 @@ interface IProps extends RouteComponentProps<any> {
   isNewsfeedReady: boolean
   isCoinlistLoading: boolean
   isCoinlistReady: boolean
-  fetchNewsItems: (filters: IFilters) => Promise<INewsItem[]>
-  fetchMoreNewsItems: (filters: IFilters) => Promise<INewsItem[]>
-  fetchNewNewsItems: (filters: IFilters) => Promise<INewsItem[]>
+  fetchNewsItems: (
+    filters: IFilters,
+    searchKeyword: string,
+  ) => Promise<INewsItem[]>
+  fetchMoreNewsItems: (
+    filters: IFilters,
+    searchKeyword: string,
+  ) => Promise<INewsItem[]>
+  fetchNewNewsItems: (
+    filters: IFilters,
+    searchKeyword: string,
+  ) => Promise<INewsItem[]>
   cleanNewsItems: () => void
   selectedCoinSlug: string | null
   selectCoinBySlug: any
@@ -53,6 +62,7 @@ interface IState {
   newsfeedTips: boolean
   showFilters: boolean
   unseenNewsIds: number[]
+  searchKeyword: string
 }
 
 class NewsfeedPage extends React.Component<IProps, IState> {
@@ -63,6 +73,7 @@ class NewsfeedPage extends React.Component<IProps, IState> {
     newsfeedTips: true,
     showFilters: false,
     unseenNewsIds: [],
+    searchKeyword: null,
   }
 
   public handleResize = debounce(() => this.forceUpdate(), 500)
@@ -102,13 +113,27 @@ class NewsfeedPage extends React.Component<IProps, IState> {
       },
       () => {
         this.props.cleanNewsItems()
-        this.props.fetchNewsItems(this.state.filters)
+        this.props.fetchNewsItems(this.state.filters, this.state.searchKeyword)
+      },
+    )
+  }
+
+  public applySearchKeyword = (value: string) => {
+    this.setState(
+      {
+        searchKeyword: value,
+      },
+      () => {
+        this.props.cleanNewsItems()
+        this.props.fetchNewsItems(this.state.filters, this.state.searchKeyword)
       },
     )
   }
 
   public fetchNewNewsItems = () => {
-    return this.props.fetchNewNewsItems(this.state.filters).then((news) => {
+    const { filters, searchKeyword } = this.state
+
+    return this.props.fetchNewNewsItems(filters, searchKeyword).then((news) => {
       return new Promise((resolve, reject) => {
         if (!this.state.isWindowFocused) {
           const ids = news.map((elem) => elem.id)
@@ -161,18 +186,22 @@ class NewsfeedPage extends React.Component<IProps, IState> {
       this.props.selectCoinBySlug(this.props.coinSlug)
       this.setState((state, props) => {
         state.filters.coinSlugs.push(props.coinSlug)
-        this.props.fetchNewsItems(state.filters).then(() => {
-          this.startPollingNews()
-        })
+        this.props
+          .fetchNewsItems(state.filters, state.searchKeyword)
+          .then(() => {
+            this.startPollingNews()
+          })
         return state
       })
     } else {
       if (this.props.newslist.length > 0) {
         return
       }
-      this.props.fetchNewsItems(this.state.filters).then(() => {
-        this.startPollingNews()
-      })
+      this.props
+        .fetchNewsItems(this.state.filters, this.state.searchKeyword)
+        .then(() => {
+          this.startPollingNews()
+        })
     }
   }
 
@@ -188,7 +217,7 @@ class NewsfeedPage extends React.Component<IProps, IState> {
         this.props.selectCoinBySlug(this.props.coinSlug)
         this.setState((state) => {
           state.filters.coinSlugs = [this.props.coinSlug]
-          this.props.fetchNewsItems(state.filters)
+          this.props.fetchNewsItems(state.filters, state.searchKeyword)
           return state
         })
         return
@@ -208,7 +237,7 @@ class NewsfeedPage extends React.Component<IProps, IState> {
         state.filters.coinSlugs = this.props
           .getWatchlist()
           .map((elem) => elem.slug)
-        this.props.fetchNewsItems(state.filters)
+        this.props.fetchNewsItems(state.filters, state.searchKeyword)
         return state
       })
       return
@@ -220,7 +249,7 @@ class NewsfeedPage extends React.Component<IProps, IState> {
         state.filters.coinSlugs = !!this.props.coinSlug
           ? [this.props.coinSlug]
           : []
-        this.props.fetchNewsItems(state.filters)
+        this.props.fetchNewsItems(state.filters, state.searchKeyword)
         return state
       })
       return
@@ -234,7 +263,7 @@ class NewsfeedPage extends React.Component<IProps, IState> {
         state.filters.coinSlugs = this.props
           .getWatchlist()
           .map((elem) => elem.slug)
-        this.props.fetchNewsItems(state.filters)
+        this.props.fetchNewsItems(state.filters, state.searchKeyword)
         return state
       })
       return
@@ -295,8 +324,10 @@ class NewsfeedPage extends React.Component<IProps, IState> {
                 // @ts-ignore
                 newsfeedTips={this.state.newsfeedTips}
                 applyFilters={this.applyFilters}
+                applySearchKeyword={this.applySearchKeyword}
                 filters={this.state.filters}
                 categories={this.props.categories}
+                searchKeyword={this.state.searchKeyword}
               />
               <NewsList
                 isShown={!this.state.showFilters}
@@ -306,7 +337,10 @@ class NewsfeedPage extends React.Component<IProps, IState> {
                 sortedNewsItems={this.props.newslist}
                 initialRenderTips={this.state.initialRenderTips}
                 fetchMoreNewsFeed={() =>
-                  this.props.fetchMoreNewsItems(this.state.filters)
+                  this.props.fetchMoreNewsItems(
+                    this.state.filters,
+                    this.state.searchKeyword,
+                  )
                 }
                 closeTips={this.closeTips}
               />

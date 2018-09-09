@@ -19,7 +19,13 @@ interface IProps {
   feedSources: string[]
   filters: IFilters
   applyFilters: (filters: IFilters) => void
+  applySearchKeyword: (value: string) => void
   toggleFilters: () => void
+  searchKeyword: string
+}
+
+interface IState {
+  searchKeyword: string
 }
 
 const btnStyle: React.CSSProperties = {
@@ -30,6 +36,10 @@ const btnStyle: React.CSSProperties = {
 }
 
 export default class NewsListHeader extends React.Component<IProps, {}> {
+  public state = {
+    searchKeyword: this.props.searchKeyword || '',
+  }
+
   public render() {
     return (
       <>
@@ -94,6 +104,18 @@ export default class NewsListHeader extends React.Component<IProps, {}> {
               <img style={{ height: 10, marginRight: 10 }} src={filterBtn} />
               Filters
             </button>
+            <input
+              value={this.state.searchKeyword}
+              onKeyDown={(event) => {
+                const keyCode = event.which || event.keyCode
+                if (keyCode === 13) {
+                  this.props.applySearchKeyword(this.state.searchKeyword)
+                }
+              }}
+              onChange={(event) => {
+                this.setState({ searchKeyword: event.target.value })
+              }}
+            />
           </div>
         </SectionHeader>
         {this.props.showFilters && (

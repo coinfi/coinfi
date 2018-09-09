@@ -7,9 +7,18 @@ export interface INewsfeedContextType {
   isLoading: boolean
   isLoadingMoreItems: boolean
   isReady: boolean
-  fetchNewNewsItems: (filters: IFilters) => Promise<INewsItem[]>
-  fetchNewsItems: (filters: IFilters) => Promise<INewsItem[]>
-  fetchMoreNewsItems: (filters: IFilters) => Promise<INewsItem[]>
+  fetchNewNewsItems: (
+    filters: IFilters,
+    searchKeyword: string,
+  ) => Promise<INewsItem[]>
+  fetchNewsItems: (
+    filters: IFilters,
+    searchKeyword: string,
+  ) => Promise<INewsItem[]>
+  fetchMoreNewsItems: (
+    filters: IFilters,
+    searchKeyword: string,
+  ) => Promise<INewsItem[]>
   cleanNewsItems: () => void
 }
 

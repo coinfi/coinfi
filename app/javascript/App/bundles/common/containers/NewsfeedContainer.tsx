@@ -42,7 +42,10 @@ class NewsfeedContainer extends React.Component<{}, IState> {
     })
   }
 
-  public fetchNewNewsItems = (filters: IFilters): Promise<INewsItem[]> => {
+  public fetchNewNewsItems = (
+    filters: IFilters,
+    searchKeyword: string,
+  ): Promise<INewsItem[]> => {
     if (this.state.sortedNewsItems.length === 0) {
       return Promise.resolve([])
     }
@@ -58,6 +61,7 @@ class NewsfeedContainer extends React.Component<{}, IState> {
           localAPI
             .get('/news', {
               ...filters,
+              searchKeyword,
               publishedSince: !!filters.publishedSince
                 ? filters.publishedSince
                 : firstNewsItem.feed_item_published_at,
@@ -94,7 +98,10 @@ class NewsfeedContainer extends React.Component<{}, IState> {
     })
   }
 
-  public fetchNewsItems = (filters: IFilters): Promise<INewsItem[]> => {
+  public fetchNewsItems = (
+    filters: IFilters,
+    searchKeyword: string,
+  ): Promise<INewsItem[]> => {
     return new Promise((resolve, reject) => {
       this.setState(
         {
@@ -118,7 +125,10 @@ class NewsfeedContainer extends React.Component<{}, IState> {
     })
   }
 
-  public fetchMoreNewsItems = (filters: IFilters): Promise<INewsItem[]> => {
+  public fetchMoreNewsItems = (
+    filters: IFilters,
+    searchKeyword: string,
+  ): Promise<INewsItem[]> => {
     if (this.state.sortedNewsItems.length === 0) {
       return Promise.resolve([])
     }
