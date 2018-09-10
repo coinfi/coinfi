@@ -3,7 +3,7 @@ import Types from 'prop-types'
 import Layout from './Layout'
 import FilterComponent from './FilterComponent'
 import { normalizeFilterData } from '../../lib/stateHelpers'
-import nightModeHelper from '~/nightModeHelper'
+import darkModeHelper from '~/darkModeHelper'
 
 class FilterPanel extends Component {
   state = { filters: this.props.defaultFilters || {} }
@@ -33,7 +33,7 @@ class FilterPanel extends Component {
     const { setFilters, disableUI } = this.props
     setFilters(this.state.filters)
     disableUI('filterPanel')
-    nightModeHelper()
+    darkModeHelper()
   }
   resetFilters = () => {
     this.setState({ filters: this.props.defaultFilters || {} })

@@ -1,6 +1,6 @@
 import React from 'react'
 import withDevice from '~/bundles/common/utils/withDevice'
-import nightModeHelper from '~/nightModeHelper'
+import darkModeHelper from '~/darkModeHelper'
 
 const Layout = (props) => {
   const {
@@ -38,7 +38,7 @@ const Layout = (props) => {
             className="btn btn-white btn-xs cancel-btn"
             onClick={() => {
               disableUI('filterPanel')
-              nightModeHelper()
+              darkModeHelper()
             }}
             style={{
               padding: '8px 20px',
