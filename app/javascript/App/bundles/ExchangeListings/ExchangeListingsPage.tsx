@@ -106,7 +106,10 @@ class ExchangeListingsPage extends React.Component<IProps, IState> {
 
   public fetchNewerExchangeListings = () => {
     localAPI
-      .get(`/exchange_listings?detectedSince=${this.state.newestDetectedAt}`)
+      .get(
+        `/exchange_listings`,
+        this.getParams({ detectedSince: this.state.newestDetectedAt }),
+      )
       .then((response) => {
         if (response.payload.length) {
           this.setState({
@@ -119,7 +122,10 @@ class ExchangeListingsPage extends React.Component<IProps, IState> {
 
   public fetchOlderExchangeListings = () => {
     localAPI
-      .get(`/exchange_listings?detectedUntil=${this.state.oldestDetectedAt}`)
+      .get(
+        `/exchange_listings`,
+        this.getParams({ detectedUntil: this.state.oldestDetectedAt }),
+      )
       .then((response) => {
         response.payload.length
           ? this.setState({
@@ -159,23 +165,31 @@ class ExchangeListingsPage extends React.Component<IProps, IState> {
     })
   }
 
-  public fetchListingsBySymbol = () => {
-    const quoteSymbolArg = this.state.selectedSymbols
-    const exchangeSlugArgs = this.state.selectedExchanges
-    const detectedSinceStr =
-      this.state.detectedSince !== null
-        ? `&detectedSince=${this.state.detectedSince}`
-        : ''
-    const detectedUntilStr =
-      this.state.detectedUntil !== null
-        ? `&detectedUntil=${this.state.detectedUntil}`
-        : ''
-    const urlParams = `${`/exchange_listings?` +
-      `quoteSymbols=${quoteSymbolArg}&` +
-      `exchangeSlugs=${exchangeSlugArgs ||
-        ''}&`}${detectedSinceStr}${detectedUntilStr}`
+  public getParams = (args) => {
+    const result = {}
 
-    localAPI.get(urlParams).then((response) => {
+    if (!!this.state.selectedSymbols.length) {
+      result.quoteSymbols = this.state.selectedSymbols
+    }
+
+    if (!!this.state.selectedExchanges.length) {
+      result.exchangeSlugs = this.state.selectedExchanges
+    }
+
+    if (!!this.state.detectedSince) {
+      result.detectedSince = this.state.detectedSince
+    }
+
+    if (!!this.state.detectedUntil) {
+      result.detectedUntil = this.state.detectedUntil
+    }
+
+    return { ...result, ...args }
+  }
+
+  public fetchListingsBySymbol = () => {
+    this.setState({ listings: [], hasMore: true })
+    localAPI.get(`/exchange_listings`, this.getParams({})).then((response) => {
       this.setState({
         listings: response.payload,
         status: STATUSES.READY,
@@ -256,7 +270,9 @@ class ExchangeListingsPage extends React.Component<IProps, IState> {
                   showCoinListDrawer={() =>
                     this.setState({ ActiveMobileWindow: 'CoinsList' })
                   }
-                  toggleNewsfeedTips={() => this.setState({ ActiveMobileWindow: 'Modal' })}
+                  toggleNewsfeedTips={() =>
+                    this.setState({ ActiveMobileWindow: 'Modal' })
+                  }
                 />
               </ExchangeListingsContext.Provider>
               <ListingsList
@@ -267,7 +283,12 @@ class ExchangeListingsPage extends React.Component<IProps, IState> {
               />
             </>
           }
-          modalSection={<BodySection mobileLayout={true} closeTips={() => this.setState({ ActiveMobileWindow: 'None' })} />}
+          modalSection={
+            <BodySection
+              mobileLayout={true}
+              closeTips={() => this.setState({ ActiveMobileWindow: 'None' })}
+            />
+          }
           drawerSection={
             <CoinListDrawer
               isShown={this.state.ActiveMobileWindow === 'CoinsList'}

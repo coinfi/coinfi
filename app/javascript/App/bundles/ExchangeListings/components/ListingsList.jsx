@@ -39,7 +39,7 @@ class ListingsList extends Component {
           dataLength={mappedItems.length}
           loader={<LoadingIndicator />}
           next={fetchOlderExchangeListings}
-          hasMore={true}
+          hasMore={hasMore}
           scrollableTarget="newsfeed"
           endMessage={
             <p className="tc">
