@@ -51,10 +51,7 @@ const injectComponents = () => {
     const { store, persistor } = configureStore()
     Array.from(hooks).forEach((hook) => {
       const name = hook.getAttribute('name')
-      const Component = injectableComponents[name]
-      if (!Component) return console.error(`Component "${name}" not found`)
       const props = JSON.parse(hook.getAttribute('props'))
-      const withStore = hook.getAttribute('withStore') !== null
 
       if (name === 'App') {
         ReactDOM.render(
@@ -100,6 +97,9 @@ const injectComponents = () => {
           hook,
         )
       } else {
+        const Component = injectableComponents[name]
+        if (!Component) return console.error(`Component "${name}" not found`)
+        const withStore = hook.getAttribute('withStore') !== null
         if (withStore) {
           const AppComponent = appContainer(Component)
           ReactDOM.render(
