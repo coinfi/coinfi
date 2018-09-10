@@ -12,8 +12,9 @@ Rails.application.routes.draw do
   get '/icos(/:status)', to: 'icos#index'
   get '/news(/*others)', to: 'news#index'
   get '/news-beta', to: redirect('/', status: 302)
-  get '/profile', to: 'author_profiles#edit', as: 'edit_author_profile'
   get '/podcast', to: redirect('https://blog.coinfi.com/topics/podcast/', status: 302)
+  get '/profile', to: 'users#edit'
+  put '/profile', to: 'users#update'
 
   namespace :admin do
     resources :coins do
@@ -60,16 +61,9 @@ Rails.application.routes.draw do
 
     get '/social_feeds/tweets_by_user', to: 'social_feeds#tweets_by_user'
 
-  resources :coins, only: %i[index show]
-  resources :coinsnew, only: %i[index show]
-  get '/icos', to: redirect('/icos/upcoming')
-  get '/icos(/:status)', to: 'icos#index'
-  resources :contributor_submissions, path: 'contributor-submissions'
-  resources :author_profiles, only: %i[index show create update], path: 'authors'
-  resources :exchange_listings, only: %i[index show], path: 'listings'
-  get '/profile', to: 'users#edit'
-  put '/profile', to: 'users#update'
-  get '/news(/*others)', to: 'news#index'
+    get '/user', to: 'user#show'
+    patch '/user', to: 'user#update'
+  end
 
   namespace :webhooks do
     post "#{ENV.fetch('SUPERFEEDR_CALLBACK_URL_SEGMENT_SECRET')}-superfeedr-ingest", to: 'websubs#superfeedr_ingest'
