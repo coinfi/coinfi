@@ -9,11 +9,17 @@ body.dark-mode {
   ::-webkit-scrollbar-thumb:vertical:active {
     background-color: rgba(255, 255, 255, 0.7);
   }
+  nav.nav {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+  }
   > main,
   .bg-white,
-  .bg-athens,
-  .bg-foam {
+  .bg-athens {
     background: #071d29;
+  }
+  > main,
+  .bg-foam {
+    background-color: rgba(255, 255, 255, 0.08);
   }
   h1,
   h2,
