@@ -20,7 +20,7 @@ import { INewsItem, ContentType, IFilters } from './types'
 import { CoinList } from '../common/types'
 import getDefaultFilters from './defaultFilters'
 
-const POLLING_TIMEOUT = 6000
+const POLLING_TIMEOUT = 60000
 
 interface IProps extends RouteComponentProps<any> {
   loggedIn: boolean
