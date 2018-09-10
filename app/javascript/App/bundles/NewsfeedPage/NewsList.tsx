@@ -135,18 +135,6 @@ class NewsList extends React.Component<IProps, IState> {
     )
   }
 
-  // TODO: this commented out code will be uncommented and merged with existing functionality
-  // selectCoin(coinData) {
-  //   const { setFilter, clearSearch, setActiveEntity } = this.props
-  //   setActiveEntity({ type: 'coin', id: coinData.get('id') })
-  //   if (this.selectedCoins) {
-  //     let value = this.selectedCoins()
-  //     value = union(value, [coinData.get('name')]) // eslint-disable-line no-undef
-  //     setFilter({ key: 'coins', value })
-  //     clearSearch()
-  //   }
-  // }
-
   public render() {
     if (!this.props.isShown) return null
 

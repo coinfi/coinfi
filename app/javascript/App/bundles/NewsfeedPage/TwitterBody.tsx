@@ -7,12 +7,11 @@ import { INewsItem } from './types'
 import { getTweetId } from '../../lib/utils/url'
 
 interface IProps {
-  newsItem: INewsItem,
+  newsItem: INewsItem
 }
 
 export default class NewsBody extends React.Component<IProps, {}> {
   public render() {
-
     const { newsItem } = this.props
 
     if (!newsItem) {
@@ -21,7 +20,7 @@ export default class NewsBody extends React.Component<IProps, {}> {
 
     const tweetId = getTweetId(newsItem.url)
 
-    const categories = newsItem.categories // TODO: check if that's right
+    const categories = newsItem.categories
 
     return (
       <div className="pa4 bg-white min-h-100">

@@ -1,4 +1,3 @@
-// TODO: find more convenient way to extend window declaration
 import { IWindowScreenType, ICoinLinkData, ICoin } from '../common/types'
 declare const window: IWindowScreenType
 
