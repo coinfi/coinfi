@@ -1,0 +1,41 @@
+header.header.flex-none.phr.bg-white.b--b
+  .container
+    .row
+      .col-xs-12.col-lg-8.col-lg-offset-2
+        br
+        h1 Your CoinFi Profile
+
+section.flex-none.phr.pv3
+  .container
+    .row
+      .col-xs-12.col-lg-8.col-lg-offset-2
+        .ba.b--light-silver.pa3.bg-white
+          h2 Account
+          h4 Username
+          = form_for(current_user, url: '/profile', method: :put, html: { id: 'edit_user_username' }) do |f|
+            => f.text_field :username, value: current_user.username || '', class: 'mb2'
+            = f.submit "Update Username", class: 'btn btn-sm btn-blue'
+          h4 Email
+          = form_for(current_user, url: '/profile', method: :put, html: { id: 'edit_user_email' }) do |f|
+            => f.text_field :email, value: current_user.email || '', class: 'mb2'
+            = f.submit "Update Email", class: 'btn btn-sm btn-blue'
+          h4 Password
+          = form_for(current_user, url: '/profile', method: :put, html: { id: 'edit_user_password' }) do |f|
+            => f.password_field :password, placeholder: 'Enter new password here...', class: 'mb2'
+            = f.submit "Update Password", class: 'btn btn-sm btn-blue'
+
+/ section.flex-none.phr.pv3
+/   .container
+/     .row
+/       .col-xs-12.col-lg-8.col-lg-offset-2
+/         .ba.b--light-silver.pa3.bg-white
+/           h2 Notifications
+
+/           h4 Updates from CoinFi
+/           small Receive notifications about the latest features and news from CoinFi.
+
+/           h4 Exchange Listings
+/           small Receive notifications whenever a coin on your watchlist is listed on a new exchange.
+
+/           h4 News
+/           small Receive news notifications whenever a coin on your watchlist is listed on a new exchange.
