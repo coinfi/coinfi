@@ -40,7 +40,6 @@ const injectableComponents = {
   Tabs,
   CoinCharts,
   CalendarPage,
-  CoinIndex,
   CoinShow,
   FlashMessageListContainer,
 }
@@ -57,41 +56,44 @@ const injectComponents = () => {
         ReactDOM.render(
           <NewsfeedContainer>
             <CoinListContainer loggedIn={!!props.user}>
-              <Provider store={store}>
-                <Router>
-                  <Switch>
-                    <Route
-                      exact
-                      path="/news/:coinSlug?"
-                      render={(routeProps) => (
-                        <NewsfeedPageNew
-                          loggedIn={!!props.user}
-                          coinSlug={routeProps.match.params.coinSlug}
-                          categories={props.categories}
-                          feedSources={props.feedSources}
-                        />
-                      )}
-                    />
-                    <Route
-                      exact
-                      path="/news/:newsItemId/:newsItemSlug"
-                      render={(routeProps) => (
-                        <NewsfeedPageNew
-                          loggedIn={!!props.user}
-                          newsItemId={routeProps.match.params.newsItemId}
-                          categories={props.categories}
-                          feedSources={props.feedSources}
-                        />
-                      )}
-                    />
-                    <Route
-                      exact
-                      path="/listings"
-                      render={() => <ExchangeListingsPage {...props} />}
-                    />
-                  </Switch>
-                </Router>
-              </Provider>
+              <Router>
+                <Switch>
+                  <Route
+                    exact
+                    path="/news/:coinSlug?"
+                    render={(routeProps) => (
+                      <NewsfeedPageNew
+                        loggedIn={!!props.user}
+                        coinSlug={routeProps.match.params.coinSlug}
+                        categories={props.categories}
+                        feedSources={props.feedSources}
+                      />
+                    )}
+                  />
+                  <Route
+                    exact
+                    path="/news/:newsItemId/:newsItemSlug"
+                    render={(routeProps) => (
+                      <NewsfeedPageNew
+                        loggedIn={!!props.user}
+                        newsItemId={routeProps.match.params.newsItemId}
+                        categories={props.categories}
+                        feedSources={props.feedSources}
+                      />
+                    )}
+                  />
+                  <Route
+                    exact
+                    path="/listings"
+                    render={() => <ExchangeListingsPage {...props} />}
+                  />
+                  <Route
+                    exact
+                    path="/coins"
+                    render={() => <CoinIndex {...props} />}
+                  />
+                </Switch>
+              </Router>
             </CoinListContainer>
           </NewsfeedContainer>,
           hook,
