@@ -1,8 +1,5 @@
-/* tslint:disable */
-declare var window: {
-  isMobile?: boolean
-  isTablet?: boolean
-}
+import { IWindowScreenType } from '../common/types'
+declare const window: IWindowScreenType
 
 import * as React from 'react'
 import InfiniteScroll from 'react-infinite-scroll-component'
@@ -15,19 +12,17 @@ import scrollHelper from './../../scrollHelper'
 import { INewsItem } from './types'
 
 interface IProps {
-  // FIXME all props must be required
-  isShown?: boolean
-  isLoading?: boolean
-  isInfiniteScrollLoading?: boolean
-  activeFilters?: any
-  sortedNewsItems?: INewsItem[]
-  initialRenderTips?: boolean
-  fetchMoreNewsFeed?: () => void
-  closeTips?: () => void
-  isNewsSeen?: (id) => boolean
-  isWindowFocused?: boolean
-  selectedNewsItemId?: string
+  isShown: boolean
+  isLoading: boolean
+  isInfiniteScrollLoading: boolean
+  sortedNewsItems: INewsItem[]
+  initialRenderTips: boolean
+  fetchMoreNewsFeed: () => void
+  closeTips: () => void
+  isWindowFocused: boolean
+  selectedNewsItemId: string
   onNewsItemClick: any
+  hasMore: boolean
 }
 
 interface IState {
@@ -54,27 +49,9 @@ class NewsList extends React.Component<IProps, IState> {
     scrollHelper()
   }
 
-  public setActiveNewsItem = (newsItem) => {
-    // @ts-ignore FIXME
-    const { setActiveEntity, enableUI } = this.props
-    const url = newsItem.url
-    const urlFragments = url.split('/')
-    const tweetId = urlFragments[urlFragments.length - 1]
-    if (/twitter/.exec(url) !== null) {
-      setActiveEntity({ type: 'twitterNews', id: newsItem.id, tweetId })
-    } else {
-      setActiveEntity({ type: 'newsItem', id: newsItem.id })
-    }
-    if (window.isMobile) {
-      enableUI('bodySectionDrawer', { fullScreen: true })
-    }
-    setTimeout(() => {
-      // set max height to enable scroll in ff
-      const colWrap = document.querySelector('.column-wrap')
-      const newsContent = document.querySelector('.selected-news-content')
-      // @ts-ignore FIXME
-      newsContent.style.maxHeight = `${colWrap.offsetHeight}px`
-    }, 500)
+  public onSelect = (newsItem) => {
+    scrollHelper()
+    this.props.onNewsItemClick(newsItem)
   }
 
   public renderView() {
@@ -111,13 +88,10 @@ class NewsList extends React.Component<IProps, IState> {
         <NewsListItem
           key={newsItem.id}
           newsItem={newsItem}
-          {...this.props}
           isSelected={this.props.selectedNewsItemId === newsItem.id.toString()}
-          setActiveNewsItem={this.setActiveNewsItem}
-          // @ts-ignore FIME
-          selectCoin={(symbol) => this.selectCoin(symbol)}
+          selectCoin={() => null}
           hasRead={hasRead}
-          onClick={this.props.onNewsItemClick}
+          onClick={this.onSelect}
         />
       )
     })
@@ -127,8 +101,13 @@ class NewsList extends React.Component<IProps, IState> {
         dataLength={mappedItems.length}
         scrollableTarget="newsfeed"
         next={this.props.fetchMoreNewsFeed}
-        hasMore={true} // TODO: Actually determine when there are no more NewsItems...
+        hasMore={this.props.hasMore}
         loader={<LoadingIndicator />}
+        endMessage={
+          <p className="tc">
+            <b>No more news present in the database.</b>
+          </p>
+        }
       >
         {mappedItems}
       </InfiniteScroll>
@@ -136,14 +115,11 @@ class NewsList extends React.Component<IProps, IState> {
   }
 
   public render() {
-    if (!this.props.isShown) return null
+    if (!this.props.isShown) {
+      return null
+    }
 
-    const {
-      // @ts-ignore FIXME
-      activeEntity,
-      activeFilters,
-      initialRenderTips,
-    } = this.props
+    const { initialRenderTips } = this.props
 
     return (
       <div

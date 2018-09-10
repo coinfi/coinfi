@@ -59,7 +59,7 @@ export default () => {
     }
 
     if (!!newsBodyElem) {
-      newsBodyElem.style.maxHeight = `${calculatedHeight}px`
+      newsBodyElem.style.maxHeight = `${calculatedHeight + topNavHeight}px`
     }
 
     if (!!coinDrawerElem) {
