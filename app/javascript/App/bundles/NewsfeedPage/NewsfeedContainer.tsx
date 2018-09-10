@@ -15,12 +15,14 @@ const STATUSES = {
 interface IState {
   sortedNewsItems: INewsItem[]
   status: string
+  hasMore: boolean
 }
 
 class NewsfeedContainer extends React.Component<{}, IState> {
   public state = {
     sortedNewsItems: [],
     status: STATUSES.INITIALIZING,
+    hasMore: true,
   }
 
   public sortNewsFunc(x: INewsItem, y: INewsItem) {
@@ -97,6 +99,7 @@ class NewsfeedContainer extends React.Component<{}, IState> {
       this.setState(
         {
           status: STATUSES.LOADING,
+          hasMore: true,
         },
         () => {
           localAPI.get('/news', { ...filters }).then((response) => {
@@ -107,6 +110,7 @@ class NewsfeedContainer extends React.Component<{}, IState> {
               {
                 sortedNewsItems,
                 status: STATUSES.READY,
+                hasMore: sortedNewsItems.length > 0,
               },
               () => resolve(sortedNewsItems),
             )
@@ -153,6 +157,7 @@ class NewsfeedContainer extends React.Component<{}, IState> {
                     ...moreNewsItems,
                   ]),
                   status: STATUSES.READY,
+                  hasMore: moreNewsItems.length > 0,
                 },
                 () => resolve(moreNewsItems),
               )
@@ -172,6 +177,7 @@ class NewsfeedContainer extends React.Component<{}, IState> {
       isReady: this.state.status === STATUSES.READY,
       newslist: this.state.sortedNewsItems,
       status: this.state.status,
+      hasMore: this.state.hasMore,
     }
 
     return (

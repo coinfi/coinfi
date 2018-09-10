@@ -40,6 +40,7 @@ const NewsfeedPageContainer = (props: IProps) => (
             isWatchlistSelected={coinlistPayload.isWatchlist}
             getWatchlist={coinlistPayload.getWatchlist}
             watchlist={coinlistPayload.watchlist}
+            hasMore={newsfeedPayload.hasMore}
           />
         )}
       </CoinListContext.Consumer>

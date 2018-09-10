@@ -1,4 +1,4 @@
-import { IWindowScreenType, ICoinLinkData, ICoin } from '../common/types'
+import { IWindowScreenType } from '../common/types'
 declare const window: IWindowScreenType
 
 import * as React from 'react'
@@ -44,6 +44,7 @@ interface IProps extends RouteComponentProps<any> {
   isWatchlistSelected: boolean
   getWatchlist: any
   watchlist: any
+  hasMore: boolean
 }
 
 type ActiveMobileWindow = 'CoinsList' | 'BodySection' | 'None'
@@ -301,6 +302,7 @@ class NewsfeedPage extends React.Component<IProps, IState> {
                   )
                   this.setState({ ActiveMobileWindow: 'BodySection' })
                 }}
+                hasMore={this.props.hasMore}
               />
             </>
           }
@@ -366,6 +368,7 @@ class NewsfeedPage extends React.Component<IProps, IState> {
                     `/news/${newsItem.id}/${slugify(newsItem.title)}`,
                   )
                 }}
+                hasMore={this.props.hasMore}
               />
             </>
           }
@@ -426,6 +429,7 @@ class NewsfeedPage extends React.Component<IProps, IState> {
                   )
                   this.setState({ ActiveMobileWindow: 'BodySection' })
                 }}
+                hasMore={this.props.hasMore}
               />
             </>
           }
