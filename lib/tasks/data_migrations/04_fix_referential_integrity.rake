@@ -33,7 +33,7 @@ namespace :data_migrations do
 
       NewsItem.includes(:feed_source).each do |item|
         if item.feed_source_id && item.feed_source.nil?
-          puts "Destroying NewsItem(#{item.id}): missing FeedSource(#{categorization.feed_source_id})"
+          puts "Destroying NewsItem(#{item.id}): missing FeedSource(#{item.feed_source_id})"
           item.destroy!
           next
         end
