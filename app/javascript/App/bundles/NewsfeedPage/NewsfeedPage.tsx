@@ -28,13 +28,8 @@ interface IProps extends RouteComponentProps<any> {
   feedSources: string[]
   coinSlug?: string
   newsItemId?: string
-  coinlist: CoinList
   newslist: INewsItem[]
   isNewsfeedLoading: boolean
-  isNewsfeedLoadingMoreItems: boolean
-  isNewsfeedReady: boolean
-  isCoinlistLoading: boolean
-  isCoinlistReady: boolean
   fetchNewsItems: (filters: IFilters) => Promise<INewsItem[]>
   fetchMoreNewsItems: (filters: IFilters) => Promise<INewsItem[]>
   fetchNewNewsItems: (filters: IFilters) => Promise<INewsItem[]>
@@ -288,7 +283,6 @@ class NewsfeedPage extends React.Component<IProps, IState> {
                 isShown={!this.state.showFilters}
                 isWindowFocused={this.state.isWindowFocused}
                 isLoading={this.props.isNewsfeedLoading}
-                isInfiniteScrollLoading={this.props.isNewsfeedLoadingMoreItems}
                 sortedNewsItems={this.props.newslist}
                 initialRenderTips={this.state.initialRenderTips}
                 fetchMoreNewsFeed={() =>
@@ -354,10 +348,9 @@ class NewsfeedPage extends React.Component<IProps, IState> {
               <NewsList
                 isShown={!this.state.showFilters}
                 isWindowFocused={this.state.isWindowFocused}
-                isLoading={this.props.isNewsfeedLoading}
-                isInfiniteScrollLoading={this.props.isNewsfeedLoadingMoreItems}
                 sortedNewsItems={this.props.newslist}
                 initialRenderTips={this.state.initialRenderTips}
+                isLoading={this.props.isNewsfeedLoading}
                 fetchMoreNewsFeed={() =>
                   this.props.fetchMoreNewsItems(this.state.filters)
                 }
@@ -414,10 +407,9 @@ class NewsfeedPage extends React.Component<IProps, IState> {
               <NewsList
                 isShown={!this.state.showFilters}
                 isWindowFocused={this.state.isWindowFocused}
-                isLoading={this.props.isNewsfeedLoading}
-                isInfiniteScrollLoading={this.props.isNewsfeedLoadingMoreItems}
                 sortedNewsItems={this.props.newslist}
                 initialRenderTips={this.state.initialRenderTips}
+                isLoading={this.props.isNewsfeedLoading}
                 fetchMoreNewsFeed={() =>
                   this.props.fetchMoreNewsItems(this.state.filters)
                 }

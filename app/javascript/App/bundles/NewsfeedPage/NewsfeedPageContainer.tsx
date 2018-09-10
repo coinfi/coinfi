@@ -22,13 +22,8 @@ const NewsfeedPageContainer = (props: IProps) => (
             loggedIn={props.loggedIn}
             coinSlug={props.coinSlug}
             newsItemId={props.newsItemId}
-            coinlist={coinlistPayload.coinlist}
             newslist={newsfeedPayload.newslist}
             isNewsfeedLoading={newsfeedPayload.isLoading}
-            isNewsfeedLoadingMoreItems={newsfeedPayload.isLoadingMoreItems}
-            isNewsfeedReady={newsfeedPayload.isReady}
-            isCoinlistLoading={coinlistPayload.isLoading}
-            isCoinlistReady={coinlistPayload.isReady}
             fetchNewsItems={newsfeedPayload.fetchNewsItems}
             fetchMoreNewsItems={newsfeedPayload.fetchMoreNewsItems}
             fetchNewNewsItems={newsfeedPayload.fetchNewNewsItems}

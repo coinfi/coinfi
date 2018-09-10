@@ -14,7 +14,6 @@ import { INewsItem } from './types'
 interface IProps {
   isShown: boolean
   isLoading: boolean
-  isInfiniteScrollLoading: boolean
   sortedNewsItems: INewsItem[]
   initialRenderTips: boolean
   fetchMoreNewsFeed: () => void
