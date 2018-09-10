@@ -6,13 +6,13 @@ namespace :data_migrations do
         if mention.coin_id && mention.coin.nil?
           puts "Destroying NewsCoinMention(#{mention.id}): missing Coin(#{mention.coin_id})"
           mention.destroy!
-          return
+          next
         end
 
         if mention.news_item_id && mention.news_item.nil?
           puts "Destroying NewsCoinMention(#{mention.id}): missing NewsItem(#{mention.news_item_id})"
           mention.destroy!
-          return
+          next
         end
 
       end
@@ -21,13 +21,13 @@ namespace :data_migrations do
         if categorization.news_item_id && categorization.news_item.nil?
           puts "Destroying NewsItemCategorization(#{categorization.id}): missing NewsItem(#{categorization.news_item_id})"
           categorization.destroy!
-          return
+          next
         end
 
         if categorization.news_category_id && categorization.news_category.nil?
           puts "Destroying NewsItemCategorization(#{categorization.id}): missing NewsCategory(#{categorization.news_category_id})"
           categorization.destroy!
-          return
+          next
         end
       end
 
@@ -35,7 +35,7 @@ namespace :data_migrations do
         if item.feed_source_id && item.feed_source.nil?
           puts "Destroying NewsItem(#{item.id}): missing FeedSource(#{categorization.feed_source_id})"
           item.destroy!
-          return
+          next
         end
       end
 
@@ -43,7 +43,7 @@ namespace :data_migrations do
         if item.coin_id && item.coin.nil?
           puts "Destroying WatchlistItem(#{item.id}): missing Coin(#{item.coin_id})"
           item.destroy!
-          return
+          next
         end
       end
     end
