@@ -2,6 +2,7 @@ import { IWindowScreenType } from '../common/types'
 declare const window: IWindowScreenType
 
 import * as React from 'react'
+import _ from 'lodash'
 import debounce from 'debounce'
 import LayoutDesktop from '../../components/LayoutDesktop'
 import LayoutTablet from '../../components/LayoutTablet'
@@ -96,6 +97,10 @@ class ExchangeListingsPage extends React.Component<IProps, IState> {
     }
   }
 
+  public uniqListings = (arr) => {
+    return _.uniqBy(arr, (elem) => elem.id)
+  }
+
   public fetchCoinDetails = (coinSlug): Promise<ICoin> => {
     return new Promise((res, rej) => {
       localAPI.get(`/coins/by-slug/${coinSlug}`).then((response) => {
@@ -113,7 +118,9 @@ class ExchangeListingsPage extends React.Component<IProps, IState> {
       .then((response) => {
         if (response.payload.length) {
           this.setState({
-            listings: response.payload.concat(this.state.listings),
+            listings: this.uniqListings(
+              response.payload.concat(this.state.listings),
+            ),
             newestDetectedAt: response.payload[0].detected_at,
           })
         }
@@ -129,7 +136,9 @@ class ExchangeListingsPage extends React.Component<IProps, IState> {
       .then((response) => {
         response.payload.length
           ? this.setState({
-              listings: this.state.listings.concat(response.payload),
+              listings: this.uniqListings(
+                this.state.listings.concat(response.payload),
+              ),
               oldestDetectedAt:
                 response.payload[response.payload.length - 1].detected_at,
             })
