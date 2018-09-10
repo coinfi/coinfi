@@ -109,7 +109,6 @@ class CoinBody extends React.Component<IProps, IState> {
           symbol={coinWithDetails.symbol}
           priceData={coinWithDetails.prices_data}
           annotations={coinWithDetails.news_data}
-          // isTradingViewVisible={activeEntity.type !== 'coin'} // Quesion Andrey: why checking type == coin here if is this component is used only with .type=coin ?
           isTradingViewVisible={true}
         />
       </div>
