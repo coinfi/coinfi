@@ -1,10 +1,8 @@
 import * as React from 'react'
 import styled from 'styled-components'
-import { Link } from 'react-router-dom'
 import timeago from 'timeago.js'
 import CoinTags from '../common/components/CoinTags'
 import BulletSpacer from '../../components/BulletSpacer'
-import { slugify } from '../../lib/utils/slugify'
 
 const twitterLogo = require('../../images/logo-twitter.svg')
 const linkLogo = require('../../images/logo-link.svg')
@@ -37,15 +35,7 @@ const Title = styled.h4`
 `
 
 const NewsListItem = (props) => {
-  const {
-    activeEntity,
-    newsItem,
-    setActiveNewsItem,
-    isSelected,
-    preRender,
-    hasRead,
-    onClick,
-  } = props
+  const { newsItem, isSelected, preRender, hasRead, onClick } = props
 
   const url = new URL(newsItem.url)
   const newsItemTitle = newsItem.title

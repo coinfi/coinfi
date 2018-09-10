@@ -1,7 +1,8 @@
 import * as React from 'react'
-import CoinListContext, { ICoinListContextType } from '~/bundles/common/contexts/CoinListContext'
+import CoinListContext, {
+  ICoinListContextType,
+} from '~/bundles/common/contexts/CoinListContext'
 import ExchangeListingsPage from './ExchangeListingsPage'
-import { ICoin } from '~/bundles/common/types'
 import { IListing } from '~/bundles/ExchangeListings/types'
 
 interface IProps {

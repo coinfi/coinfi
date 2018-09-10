@@ -1,9 +1,7 @@
 import * as React from 'react'
-import CoinTags from '../common/components/CoinTags'
 import { Tweet } from 'react-twitter-widgets'
-
+import CoinTags from '../common/components/CoinTags'
 import { INewsItem } from './types'
-
 import { getTweetId } from '../../lib/utils/url'
 
 interface IProps {
