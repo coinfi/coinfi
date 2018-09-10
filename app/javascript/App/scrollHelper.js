@@ -3,7 +3,7 @@ export default () => {
   // https://app.nuclino.com/CoinFi/Engineering/Handle-Firefox-Scrolling-Issues-724ec6e6-3d06-453b-b8fb-62582f796833
 
   const panelHeader = document.querySelector('#panel-header')
-  const topNavHeight = document.querySelector('.topnav').offsetHeight
+  const topNavHeight = document.querySelector('.nav').offsetHeight
 
   if (panelHeader && window.isMobile) {
     const newsfeedElem = document.querySelector('#newsfeed')

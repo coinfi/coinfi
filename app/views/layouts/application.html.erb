@@ -16,12 +16,13 @@
   </head>
 
   <body id='<%= @body_id %>'>
-    <%= render partial: "components/site_header" %>
+    <header>
+      <%= render partial: "components/nav" %>
+    </header>
     <main>
       <%= render partial: "components/flash" %>
       <%= yield %>
     </main>
-    <%= render partial: 'components/mobile_nav' %>
     <%= javascript_tag do %>
       window.pricesURL = '<%= ENV.fetch('COINFI_PRICES_URL') %>';
     <% end %>

@@ -128,7 +128,7 @@ class NewsList extends Component {
       sortedNewsItems: sortedNewsItems,
     }
     const readNewsIds = JSON.parse(localStorage.getItem('readNews')) || []
-    const marginTopVal = document.querySelector('.topnav').offsetHeight * -1
+    const marginTopVal = document.querySelector('.nav').offsetHeight * -1
 
     return (
       <div

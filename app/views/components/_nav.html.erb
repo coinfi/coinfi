@@ -1,0 +1,51 @@
+<nav class="nav w-100 border-box ph3 bb b--black-10">
+  <div class="nav__inner">
+    <!-- Menu toggle -->
+    <a href="#" class="nav-menu-toggle link">
+      <img src="<%= image_path('nav-trigger.svg') %>" class="nav-menu-toggle__img">
+    </a>
+
+    <!-- Logo -->
+    <a class="nav-logo link pa2 ma2 ma0-ns mr4-ns h-70" href="#" title="Home">
+      <img src="<%= image_path('logo.svg') %>" class="nav-logo__img">
+      <span class="white-90 f6">beta</span>
+    </a>
+
+    <!-- Menu -->
+    <div class="nav-menu nav-menu--out ph2 ph0-ns">
+      <%= nav_link "Coins", "/coins", { class: "nav-menu__item link" } %>
+      <%= nav_link "ICOs", "/icos/upcoming", { class: "nav-menu__item link" } %>
+      <% if has_news_feature? %>
+        <%= nav_link "News", "/news", { class: "nav-menu__item link" } %>
+      <% end %>
+      <% if has_calendar_feature? %>
+        <%= nav_link "Events", "/calendar", { class: "nav-menu__item link" } %>
+      <% end %>
+      <% if has_listings_feature? %>
+        <%= nav_link "Listings", "/listings", { class: "nav-menu__item link" } %>
+      <% end %>
+      <a class="nav-menu__item nav-menu-more-toggle link dn db-m dn-l" href="#" title="More">
+        <i class="fa fa-ellipsis-h"></i>
+      </a>
+      <div class="nav-menu-more">
+        <div class="nav-menu-more__inner">
+          <%= nav_link "Podcast", "https://blog.coinfi.com/topics/podcast/", { class: "nav-menu__item link" } %>
+          <%= nav_link "Blog", "https://blog.coinfi.com", { class: "nav-menu__item link" } %>
+          <%= nav_link "Careers", "https://careers.coinfi.com", { class: "nav-menu__item link" } %>
+          <%= nav_link "Press", "/press", { class: "nav-menu__item link" } %>
+          <%= nav_link "About", "/about", { class: "nav-menu__item link" } %>
+          <%= nav_link "Feedback", "https://feedback.coinfi.com/feature-requests", { class: "nav-menu__item link" } %>
+        </div>
+      </div>
+
+      <div class="nav-menu__actions pa2">
+        <%= render partial: "components/user_actions" %>
+      </div>
+    </div>
+
+    <!-- Actions -->
+    <div class="nav-actions">
+      <%= render partial: "components/user_actions" %>
+    </div>
+  </div>
+</nav>
