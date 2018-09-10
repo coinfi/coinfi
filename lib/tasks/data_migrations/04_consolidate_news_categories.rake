@@ -1,6 +1,7 @@
 require_relative '../batch_process'
 
 namespace :data_migrations do
+  desc 'Consolidate NewsCategories into shorter list'
   task :consolidate_news_categories => :environment do
     ActiveRecord::Base.transaction do
       # Rename category from 'Exchange Listing' to 'Exchange Announcements'
