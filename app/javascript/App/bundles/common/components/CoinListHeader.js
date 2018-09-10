@@ -6,7 +6,7 @@ const Tab = styled.div`
   padding: 0 !important;
   margin: 0 !important;
   flex: 1;
-  height: 60px;
+  height: 59px;
   align-items: flex-end !important;
   display: flex !important;
   justify-content: center !important;
@@ -27,7 +27,7 @@ class CoinListHeader extends Component {
     return (
       <CoinListContext.Consumer>
         {(payload) => (
-          <div className="b--b flex-none flex justify-between items-center bg-athens tabs">
+          <div id="panel-header" className="b--b flex-none flex justify-between items-center bg-athens tabs">
             <Tab
               className="tab"
               selected={!payload.isWatchlist}

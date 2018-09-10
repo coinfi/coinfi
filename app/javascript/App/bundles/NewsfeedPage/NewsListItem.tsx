@@ -41,17 +41,11 @@ const NewsListItem = (props) => {
     activeEntity,
     newsItem,
     setActiveNewsItem,
+    isSelected,
     preRender,
     hasRead,
+    onClick,
   } = props
-
-  let bgFoam = false
-  if (activeEntity) {
-    const { type, id } = activeEntity
-    if (type === 'newsItem' && id === newsItem.id) {
-      bgFoam = true
-    }
-  }
 
   const url = new URL(newsItem.url)
   const newsItemTitle = newsItem.title
@@ -62,29 +56,29 @@ const NewsListItem = (props) => {
     <div
       className={classNames(
         'b--b tiber overflow-hidden',
-        { 'bg-foam': bgFoam },
+        { 'bg-foam': isSelected },
         { 'o-0 absolute': preRender },
       )}
       style={{ height: props.height || 'auto' }}
     >
-      <div data-heap="news-click-on-news-item" className="pa-default">
-        <Link
-          to={`/news/${newsItem.id}/${slugify(newsItem.title)}`}
-          onClick={() => {
-            readNewsHandler(newsItem)
-            if (
-              document.querySelector('.selected-news-content') &&
-              document.querySelector('.selected-news-content').parentNode
-            ) {
-              document.querySelector(
-                '.selected-news-content',
-                // @ts-ignore
-              ).parentNode.scrollTop = 0
-            }
-          }}
-        >
-          <Title hasRead={hasRead}>{newsItemTitle}</Title>
-        </Link>
+      <div
+        data-heap="news-click-on-news-item"
+        className="pa-default"
+        onClick={() => {
+          readNewsHandler(newsItem)
+          if (
+            document.querySelector('.selected-news-content') &&
+            document.querySelector('.selected-news-content').parentNode
+          ) {
+            document.querySelector(
+              '.selected-news-content',
+              // @ts-ignore
+            ).parentNode.scrollTop = 0
+          }
+          onClick(newsItem)
+        }}
+      >
+        <Title hasRead={hasRead}>{newsItemTitle}</Title>
         <div className="flex justify-between flex-wrap">
           <div className="f6 silver">
             {url.hostname === 'twitter.com' && (

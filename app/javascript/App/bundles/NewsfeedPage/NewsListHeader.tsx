@@ -5,8 +5,7 @@ declare var window: {
 import * as React from 'react'
 import Icon from '../../components/Icon'
 import SectionHeader from '../../components/SectionHeader'
-import SectionHeaderTight from '../../components/SectionHeaderTight'
-import SearchCoins from '../../components/SearchCoins'
+import CoinTipsTab from '../common/components/CoinTipsTab'
 import FilterPanel from './FilterPanel'
 import { IFilters } from './types'
 
@@ -20,6 +19,8 @@ interface IProps {
   filters: IFilters
   applyFilters: (filters: IFilters) => void
   toggleFilters: () => void
+  toggleNewsfeedTips: () => void
+  showCoinListDrawer: () => void
 }
 
 const btnStyle: React.CSSProperties = {
@@ -34,41 +35,20 @@ export default class NewsListHeader extends React.Component<IProps, {}> {
     return (
       <>
         {window.isMobile && (
-          <SectionHeaderTight>
-            <div className="flex-auto flex items-center">
-              <button
-                className="btn btn-blue btn-xs flex-auto justify-center"
-                // @ts-ignore
-                onClick={() => showCoinListDrawer()}
-                style={{
-                  ...btnStyle,
-                  ...{
-                    background: '#2495ce',
-                  },
-                }}
-              >
-                <i className="material-icons f6 mr1">list</i>
-                <span className="f6">Coins</span>
-              </button>
-              <button
-                className="btn btn-blue btn-xs flex-auto justify-center"
-                // @ts-ignore
-                onClick={newsfeedTips}
-                style={btnStyle}
-              >
-                <i className="material-icons f6 mr1">announcement</i>
-                <span className="f6">Tips</span>
-              </button>
-            </div>
-          </SectionHeaderTight>
+          <CoinTipsTab
+            showCoinListDrawer={this.props.showCoinListDrawer}
+            showTips={this.props.toggleNewsfeedTips}
+          />
         )}
         <SectionHeader>
-          <div className="flex items-center flex-auto search-coin-wrapper">
+          <div
+            id="panel-header"
+            className="flex items-center flex-auto search-coin-wrapper"
+          >
             {!window.isMobile && (
               <button
                 className="btn btn-blue btn-xs coins-btn mr2"
-                // @ts-ignore
-                onClick={() => showCoinListDrawer()}
+                onClick={() => this.props.showCoinListDrawer()}
                 style={
                   window.isMobile
                     ? {
@@ -86,7 +66,6 @@ export default class NewsListHeader extends React.Component<IProps, {}> {
                 <span>Coins</span>
               </button>
             )}
-            {/* <SearchCoins {...props} /> */}
             <button
               onClick={this.props.toggleFilters}
               className="btn btn-xs btn-white filter-btn ml2"

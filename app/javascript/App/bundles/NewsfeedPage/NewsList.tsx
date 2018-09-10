@@ -26,6 +26,8 @@ interface IProps {
   closeTips?: () => void
   isNewsSeen?: (id) => boolean
   isWindowFocused?: boolean
+  selectedNewsItemId?: string
+  onNewsItemClick: any
 }
 
 interface IState {
@@ -45,6 +47,10 @@ class NewsList extends React.Component<IProps, IState> {
 
   public componentDidMount() {
     // set max height to enable scroll in ff
+    scrollHelper()
+  }
+
+  public componentDidUpdate() {
     scrollHelper()
   }
 
@@ -106,10 +112,12 @@ class NewsList extends React.Component<IProps, IState> {
           key={newsItem.id}
           newsItem={newsItem}
           {...this.props}
+          isSelected={this.props.selectedNewsItemId === newsItem.id.toString()}
           setActiveNewsItem={this.setActiveNewsItem}
           // @ts-ignore FIME
-          selectCoin={(symbol) => this.selectCoin(symbol)} 
+          selectCoin={(symbol) => this.selectCoin(symbol)}
           hasRead={hasRead}
+          onClick={this.props.onNewsItemClick}
         />
       )
     })
@@ -117,7 +125,7 @@ class NewsList extends React.Component<IProps, IState> {
     return (
       <InfiniteScroll
         dataLength={mappedItems.length}
-        scrollableTarget={this.newsfeedDiv}
+        scrollableTarget="newsfeed"
         next={this.props.fetchMoreNewsFeed}
         hasMore={true} // TODO: Actually determine when there are no more NewsItems...
         loader={<LoadingIndicator />}
@@ -141,7 +149,7 @@ class NewsList extends React.Component<IProps, IState> {
 
   public render() {
     if (!this.props.isShown) return null
-  
+
     const {
       // @ts-ignore FIXME
       activeEntity,
@@ -153,12 +161,9 @@ class NewsList extends React.Component<IProps, IState> {
       <div
         ref={this.newsfeedDiv}
         id="newsfeed"
-        className="flex-auto relative overflow-y-hidden overflow-y-auto-m"
+        className="flex-auto relative overflow-y-scroll overflow-y-auto-m"
         style={
-          !activeEntity &&
-          window.isMobile &&
-          !activeFilters.size &&
-          initialRenderTips
+          window.isMobile && initialRenderTips
             ? {
                 background: '#fff',
                 marginTop: '-65px',
