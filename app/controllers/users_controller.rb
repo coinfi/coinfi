@@ -7,7 +7,6 @@ class UsersController < ApplicationController
   end
 
   def update
-    # TODO: Act
     if current_user.update(user_params)
       flash[:success] = 'Profile successfully updated.'
       redirect_to '/profile'
