@@ -29,7 +29,7 @@ import CoinIndex from './components/CoinIndex'
 import CoinShow from './components/CoinShow'
 import scrollHelper from './scrollHelper'
 import CoinListContainer from './bundles/common/containers/CoinListContainer'
-import NewsfeedContainer from './bundles/common/containers/NewsfeedContainer'
+import NewsfeedContainer from './bundles/NewsfeedPage/NewsfeedContainer'
 import FlashMessageListContainer from './bundles/common/containers/FlashMessageListContainer'
 
 const injectableComponents = {

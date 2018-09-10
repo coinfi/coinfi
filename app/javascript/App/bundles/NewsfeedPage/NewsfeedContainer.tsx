@@ -1,10 +1,8 @@
 import * as React from 'react'
 import _ from 'lodash'
-import localAPI from '../../../lib/localAPI'
-import NewsfeedContext, {
-  INewsfeedContextType,
-} from '../../../contexts/NewsfeedContext'
-import { INewsItem, IFilters } from '../../NewsfeedPage/types'
+import localAPI from '../../lib/localAPI'
+import NewsfeedContext, { INewsfeedContextType } from './NewsfeedContext'
+import { INewsItem, IFilters } from './types'
 
 const STATUSES = {
   INITIALIZING: 'INITIALIZING',

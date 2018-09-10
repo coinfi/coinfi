@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { INewsItem, IFilters } from '../bundles/NewsfeedPage/types'
+import { INewsItem, IFilters } from './types'
 
 export interface INewsfeedContextType {
   status: string

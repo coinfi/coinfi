@@ -4,7 +4,7 @@ import API from '../../../lib/API'
 import normalizers from '../../../normalizers'
 import CoinListContext, {
   ICoinListContextType,
-} from '~/contexts/CoinListContext'
+} from '~/bundles/common/contexts/CoinListContext'
 import { ICoin } from '~/bundles/common/types'
 
 const STATUSES = {

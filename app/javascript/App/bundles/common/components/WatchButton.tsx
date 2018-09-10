@@ -1,6 +1,6 @@
 import * as React from 'react'
 import Icon from '../../../components/Icon'
-import CoinListContext from '../../../contexts/CoinListContext'
+import CoinListContext from '../contexts/CoinListContext'
 import { ICoin } from '../types'
 
 interface IProps {

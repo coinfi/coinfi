@@ -2,10 +2,8 @@ import * as React from 'react'
 import NewsfeedPage from './NewsfeedPage'
 import CoinListContext, {
   ICoinListContextType,
-} from '../../contexts/CoinListContext'
-import NewsfeedContext, {
-  INewsfeedContextType,
-} from '../../contexts/NewsfeedContext'
+} from '../common/contexts/CoinListContext'
+import NewsfeedContext, { INewsfeedContextType } from './NewsfeedContext'
 
 interface IProps {
   loggedIn: boolean
