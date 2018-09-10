@@ -217,7 +217,9 @@ class NewsfeedPage extends React.Component<IProps, IState> {
       !this.props.isWatchlistSelected
     ) {
       this.setState((state) => {
-        state.filters.coinSlugs = !!this.props.coinSlug ? [this.props.coinSlug] : []
+        state.filters.coinSlugs = !!this.props.coinSlug
+          ? [this.props.coinSlug]
+          : []
         this.props.fetchNewsItems(state.filters)
         return state
       })

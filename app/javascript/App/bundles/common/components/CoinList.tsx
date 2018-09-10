@@ -12,12 +12,14 @@ interface IProps {
 const CoinList = (props: IProps) => (
   <>
     {props.list.map((coin) => (
-      <CoinListItem 
-        key={coin.id} 
+      <CoinListItem
+        key={coin.id}
         coin={coin}
         loggedIn={props.loggedIn}
         onSelectCoin={props.onSelectCoin}
-        isSelected={!!props.selectedCoinSlug && props.selectedCoinSlug === coin.slug}
+        isSelected={
+          !!props.selectedCoinSlug && props.selectedCoinSlug === coin.slug
+        }
       />
     ))}
   </>

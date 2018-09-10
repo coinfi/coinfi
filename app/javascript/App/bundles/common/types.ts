@@ -42,3 +42,9 @@ export interface ICoinWithDetails extends ICoin {
   news_data: any
   is_being_watched: any
 }
+
+export interface FlashMessage {
+  id: string
+  type: string
+  text: string
+}

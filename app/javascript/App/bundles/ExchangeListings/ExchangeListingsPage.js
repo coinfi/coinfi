@@ -42,15 +42,24 @@ class ExchangeListingsPage extends Component {
   componentDidUpdate(prevProps) {
     if (!prevProps.selectedCoin) {
       if (!!this.props.selectedCoin) {
-        this.setState({
-          selectedSymbols: [this.props.selectedCoin.symbol]
-        }, () => this.fetchListingsBySymbol())
+        this.setState(
+          {
+            selectedSymbols: [this.props.selectedCoin.symbol],
+          },
+          () => this.fetchListingsBySymbol(),
+        )
       }
     } else {
-      if (!!this.props.selectedCoin && this.props.selectedCoin.id !== prevProps.selectedCoin.id) {
-        this.setState({
-          selectedSymbols: [this.props.selectedCoin.symbol]
-        }, () => this.fetchListingsBySymbol())
+      if (
+        !!this.props.selectedCoin &&
+        this.props.selectedCoin.id !== prevProps.selectedCoin.id
+      ) {
+        this.setState(
+          {
+            selectedSymbols: [this.props.selectedCoin.symbol],
+          },
+          () => this.fetchListingsBySymbol(),
+        )
       }
     }
   }
@@ -143,8 +152,8 @@ class ExchangeListingsPage extends Component {
   updateOnResize = () => debounce(() => this.forceUpdate(), 500)
 
   closeFilterPanel = () => {
-    if (!this.state.showFilterPanel) return;
-  
+    if (!this.state.showFilterPanel) return
+
     this.setState((prevState) => ({
       showFilterPanel: false,
     }))
@@ -157,10 +166,16 @@ class ExchangeListingsPage extends Component {
   }
 
   applyFilters = () => {
-    this.props.selectCoin(coin => this.state.selectedSymbols.length === 1 ? coin.symbol === this.state.selectedSymbols[0] : false)
+    this.props
+      .selectCoin(
+        (coin) =>
+          this.state.selectedSymbols.length === 1
+            ? coin.symbol === this.state.selectedSymbols[0]
+            : false,
+      )
       .then(() => {
         this.fetchListingsBySymbol()
-        this.closeFilterPanel();
+        this.closeFilterPanel()
       })
   }
 

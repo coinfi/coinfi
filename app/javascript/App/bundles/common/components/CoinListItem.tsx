@@ -27,12 +27,9 @@ export default (props: IProps) => {
   return (
     // TODO: Change to "Control" component for accessibility.
     <div
-      className={classNames(
-        'pa-default b--b flex items-center pointer',
-        {
-          'bg-foam': props.isSelected,
-        }
-      )}
+      className={classNames('pa-default b--b flex items-center pointer', {
+        'bg-foam': props.isSelected,
+      })}
       style={{ minHeight: 57, color: '#555' }}
       onClick={() => props.onSelectCoin(coin)}
     >
