@@ -1,10 +1,8 @@
 import React, { Fragment } from 'react'
 import Icon from '../Icon'
 import SectionHeader from '../SectionHeader'
-import SectionHeaderTight from '../SectionHeaderTight'
 import SearchCoins from '../SearchCoins'
 import FilterPanel from '../FilterPanel'
-import bulbIcon from '../../images/bulbIcon.svg'
 import filterBtn from '../../images/filter-btn.svg'
 
 const CalendarListHeader = (props) => {
@@ -19,7 +17,8 @@ const CalendarListHeader = (props) => {
 
   return (
     <Fragment>
-      {window.isMobile && (
+      {/* TODO: Refactor since `SectionHeaderTight` component has been removed. */}
+      {/*window.isMobile && (
         <SectionHeaderTight>
           <div className="flex-auto flex items-center">
             <Fragment>
@@ -58,7 +57,7 @@ const CalendarListHeader = (props) => {
             </Fragment>
           </div>
         </SectionHeaderTight>
-      )}
+      )*/}
       <SectionHeader>
         <div className="flex items-center flex-auto">
           {!window.isMobile && (

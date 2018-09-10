@@ -5,8 +5,6 @@ declare var window: {
 import * as React from 'react'
 import Icon from '../../components/Icon'
 import SectionHeader from '../../components/SectionHeader'
-import SectionHeaderTight from '../../components/SectionHeaderTight'
-import SearchCoins from '../../components/SearchCoins'
 import CoinTipsTab from '../common/components/CoinTipsTab'
 import FilterPanel from './FilterPanel'
 import { IFilters } from './types'
@@ -68,7 +66,6 @@ export default class NewsListHeader extends React.Component<IProps, {}> {
                 <span>Coins</span>
               </button>
             )}
-            {/* <SearchCoins {...props} /> */}
             <button
               onClick={this.props.toggleFilters}
               className="btn btn-xs btn-white filter-btn ml2"
