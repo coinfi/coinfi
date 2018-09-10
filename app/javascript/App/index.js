@@ -59,7 +59,7 @@ const injectComponents = () => {
       if (name === 'App') {
         ReactDOM.render(
           <NewsfeedContainer>
-            <CoinListContainer loggedIn={props.loggedIn}>
+            <CoinListContainer loggedIn={!!props.user}>
               <Provider store={store}>
                 <Router>
                   <Switch>
@@ -68,7 +68,7 @@ const injectComponents = () => {
                       path="/news/:coinSlug?"
                       render={(routeProps) => (
                         <NewsfeedPageNew
-                          loggedIn={props.loggedIn}
+                          loggedIn={!!props.user}
                           coinSlug={routeProps.match.params.coinSlug}
                           categories={props.categories}
                           feedSources={props.feedSources}
@@ -80,7 +80,7 @@ const injectComponents = () => {
                       path="/news/:newsItemId/:newsItemSlug"
                       render={(routeProps) => (
                         <NewsfeedPageNew
-                          loggedIn={props.loggedIn}
+                          loggedIn={!!props.user}
                           newsItemId={routeProps.match.params.newsItemId}
                           categories={props.categories}
                           feedSources={props.feedSources}
