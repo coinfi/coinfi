@@ -3,7 +3,6 @@ import timeago from 'timeago.js'
 import CoinTags from '../CoinTags'
 import BulletSpacer from '../BulletSpacer'
 import twitterLogo from '../../images/logo-twitter.svg'
-import linkLogo from '../../images/logo-link.svg'
 import redditLogo from '../../images/logo-reddit.svg'
 
 const readNewsHandler = (newsItem, setActiveNewsItem) => {
@@ -96,7 +95,12 @@ const NewsListItem = (props) => {
               url.hostname !== 'www.reddit.com' && (
                 <Fragment>
                   <span className="mr2">
-                    <img src={linkLogo} style={{ height: 9 }} />
+                    <i
+                      className="material-icons"
+                      style={{ position: 'relative', top: 7 }}
+                    >
+                      link
+                    </i>
                   </span>
                   <a
                     href={newsItem.get('url')}
