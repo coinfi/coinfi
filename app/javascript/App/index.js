@@ -8,7 +8,7 @@ import 'babel-polyfill'
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { Provider } from 'react-redux'
-// import { BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom'
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import configureStore from './configureStore'
 import getScreenSize from './lib/screenSize'
 import { PersistGate } from 'redux-persist/integration/react'
@@ -21,8 +21,7 @@ import TwitterFeed from './components/TwitterFeed'
 import RedditFeed from './components/RedditFeed'
 import IcoFilters from './components/IcoFilters'
 import ExchangeListingsPage from './bundles/ExchangeListings/ExchangeListingsCointainer'
-import NewsfeedPage from './components/NewsfeedPage'
-// import NewsfeedPageNew from './bundles/NewsfeedPage/NewsfeedPageContainer'
+import NewsfeedPageNew from './bundles/NewsfeedPage/NewsfeedPageContainer'
 import Tabs from './components/Tabs'
 import CoinCharts from './components/CoinCharts'
 import CalendarPage from './components/CalendarPage'
@@ -30,7 +29,7 @@ import CoinIndex from './components/CoinIndex'
 import CoinShow from './components/CoinShow'
 import scrollHelper from './scrollHelper'
 import CoinListContainer from './bundles/common/containers/CoinListContainer'
-// import NewsfeedContainer from './bundles/common/containers/NewsfeedContainer'
+import NewsfeedContainer from './bundles/common/containers/NewsfeedContainer'
 import FlashMessageListContainer from './bundles/common/containers/FlashMessageListContainer'
 
 const injectableComponents = {
@@ -38,8 +37,6 @@ const injectableComponents = {
   TwitterFeed,
   RedditFeed,
   IcoFilters,
-  ExchangeListingsPage,
-  NewsfeedPage,
   Tabs,
   CoinCharts,
   CalendarPage,
@@ -58,48 +55,52 @@ const injectComponents = () => {
       if (!Component) return console.error(`Component "${name}" not found`)
       const props = JSON.parse(hook.getAttribute('props'))
       const withStore = hook.getAttribute('withStore') !== null
-      if (withStore) {
-        if (false) {
-          // ReactDOM.render(
-          //     <NewsfeedContainer>
-          //       <CoinListContainer loggedIn={props.loggedIn}>
-          //         <Provider store={store}>
-          //           <Router>
-          //             <Switch>
-          //               <Route
-          //                 exact
-          //                 path="/news/:coinSlug?"
-          //                 render={(routeProps) => (
-          //                   <NewsfeedPageNew
-          //                     loggedIn={props.loggedIn}
-          //                     coinSlug={routeProps.match.params.coinSlug}
-          //                     categories={props.categories}
-          //                     feedSources={props.feedSources}
-          //                   />
-          //                 )}
-          //               />
-          //               <Route
-          //                 exact
-          //                 path="/news/:newsItemId/:newsItemSlug"
-          //                 render={(routeProps) => (
-          //                   <NewsfeedPageNew
-          //                     loggedIn={props.loggedIn}
-          //                     newsItemId={routeProps.match.params.newsItemId}
-          //                     categories={props.categories}
-          //                     feedSources={props.feedSources}
-          //                   />
-          //                 )}
-          //               />
-          //               <Route exact path="/listings" render={() => <ExchangeListingsPage {...props} />} />
-          //               <Route path="/events" component={CalendarPage} />
-          //             </Switch>
-          //           </Router>
-          //         </Provider>
-          //       </CoinListContainer>
-          //     </NewsfeedContainer>,
-          //   hook,
-          // )
-        } else {
+
+      if (name === 'App') {
+        ReactDOM.render(
+          <NewsfeedContainer>
+            <CoinListContainer loggedIn={props.loggedIn}>
+              <Provider store={store}>
+                <Router>
+                  <Switch>
+                    <Route
+                      exact
+                      path="/news/:coinSlug?"
+                      render={(routeProps) => (
+                        <NewsfeedPageNew
+                          loggedIn={props.loggedIn}
+                          coinSlug={routeProps.match.params.coinSlug}
+                          categories={props.categories}
+                          feedSources={props.feedSources}
+                        />
+                      )}
+                    />
+                    <Route
+                      exact
+                      path="/news/:newsItemId/:newsItemSlug"
+                      render={(routeProps) => (
+                        <NewsfeedPageNew
+                          loggedIn={props.loggedIn}
+                          newsItemId={routeProps.match.params.newsItemId}
+                          categories={props.categories}
+                          feedSources={props.feedSources}
+                        />
+                      )}
+                    />
+                    <Route
+                      exact
+                      path="/listings"
+                      render={() => <ExchangeListingsPage {...props} />}
+                    />
+                  </Switch>
+                </Router>
+              </Provider>
+            </CoinListContainer>
+          </NewsfeedContainer>,
+          hook,
+        )
+      } else {
+        if (withStore) {
           const AppComponent = appContainer(Component)
           ReactDOM.render(
             <CoinListContainer user={props.user}>
@@ -111,9 +112,9 @@ const injectComponents = () => {
             </CoinListContainer>,
             hook,
           )
+        } else {
+          ReactDOM.render(<Component {...props} />, hook)
         }
-      } else {
-        ReactDOM.render(<Component {...props} />, hook)
       }
     })
   }
