@@ -18,8 +18,8 @@ const ExchangeListingsContainer = (props: IProps) => (
     {(payload: ICoinListContextType) => (
       <ExchangeListingsPage
         initialListings={props.initialListings}
-        quoteSymbols={props.exchanges}
-        exchanges={props.quoteSymbols}
+        quoteSymbols={props.quoteSymbols}
+        exchanges={props.exchanges}
         loggedIn={!!props.user}
         selectedCoinSlug={payload.selectedCoinSlug}
         selectCoinBySlug={payload.selectCoinBySlug}

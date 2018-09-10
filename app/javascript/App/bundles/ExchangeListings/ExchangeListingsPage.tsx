@@ -166,7 +166,7 @@ class ExchangeListingsPage extends React.Component<IProps, IState> {
   }
 
   public getParams = (args) => {
-    const result = {}
+    const result: any = {}
 
     if (!!this.state.selectedSymbols.length) {
       result.quoteSymbols = this.state.selectedSymbols
