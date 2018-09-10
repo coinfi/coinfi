@@ -7,6 +7,10 @@ namespace :data_migrations do
       exchange_listing_category.update!(name: 'Exchange Announcements')
       puts "Renamed NewsCategory(#{exchange_listing_category.id}): 'Exchange Announcements'"
 
+      # Create new 'Price Analysis' category
+      price_analysis_category = NewsCategory.create!(name: 'Price Analysis')
+      puts "Created NewsCategory(#{price_analysis_category.id}): 'Price Analysis'"
+
       # Create new 'Project Announcements' category
       project_announcements_category = NewsCategory.create!(name: 'Project Announcements')
       puts "Created NewsCategory(#{project_announcements_category.id}): 'Project Announcements'"
