@@ -14,14 +14,26 @@ class ListingsList extends Component {
   }
 
   render() {
-    const { listings, hasMore, fetchOlderExchangeListings } = this.props
+    const {
+      listings,
+      hasMore,
+      fetchOlderExchangeListings,
+      isLoading,
+    } = this.props
+    if (isLoading) {
+      return (
+        <div className="pa3 tc mt4">
+          <LoadingIndicator />
+        </div>
+      )
+    }
     const mappedItems = listings.map((listing) => {
       return <ListingItem key={listing.id} listing={listing} />
     })
     return (
       <div
         id="newsfeed"
-        className="flex-auto relative overflow-y-hidden overflow-y-auto-m"
+        className="flex-auto relative overflow-y-scroll overflow-y-auto-m"
       >
         <InfiniteScroll
           dataLength={mappedItems.length}

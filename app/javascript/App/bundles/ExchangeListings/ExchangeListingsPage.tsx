@@ -1,20 +1,62 @@
-import React, { Component, Fragment } from 'react'
+import { IWindowScreenType } from '../common/types'
+declare const window: IWindowScreenType
+
+import * as React from 'react'
 import debounce from 'debounce'
-import LayoutDesktop from '~/components/LayoutDesktop'
-import LayoutTablet from '~/components/LayoutTablet'
-import LayoutMobile from '~/components/LayoutMobile'
+import LayoutDesktop from '../../components/LayoutDesktop'
+import LayoutTablet from '../../components/LayoutTablet'
+import LayoutMobile from '~/bundles/common/components/LayoutMobile'
 import ListingsHeader from './components/ListingsHeader'
 import ListingsList from './components/ListingsList'
 import BodySection from './components/BodySection'
-import localAPI from '~/lib/localAPI'
-import ExchangeListingsContext from '~/bundles/ExchangeListings/context'
+import localAPI from '../../lib/localAPI'
+import ExchangeListingsContext from './context'
 import CoinListWrapper from '~/bundles/common/components/CoinListWrapper'
+import CoinListDrawer from '~/bundles/common/components/CoinListDrawer'
+import { ICoin } from '~/bundles/common/types'
+import { IListing } from '~/bundles/ExchangeListings/types'
 
-class ExchangeListingsPage extends Component {
+type ActiveMobileWindow = 'Modal' | 'CoinsList' | 'BodySection' | 'None'
+
+interface IProps {
+  loggedIn: boolean
+  selectedCoinSlug: string | null
+  selectCoinBySlug: (coinSlug: string) => void
+  watchlist: ICoin[]
+  getWatchlist: () => ICoin[]
+  quoteSymbols: string[]
+  exchanges: string[]
+  initialListings: IListing[]
+}
+
+interface IState {
+  ActiveMobileWindow: ActiveMobileWindow
+  listings: IListing[]
+  newestDetectedAt: string
+  oldestDetectedAt: string
+  hasMore: boolean
+  showFilterPanel: boolean
+  selectedSymbols: string[]
+  selectedExchanges: string[]
+  exchangeSlugs: string[]
+  detectedSince: string | null
+  detectedUntil: string | null
+  status: string
+}
+
+const STATUSES = {
+  LOADING: 'LOADING',
+  READY: 'READY',
+}
+
+class ExchangeListingsPage extends React.Component<IProps, IState> {
+  private interval: any
+
   constructor(props) {
     super(props)
 
     this.state = {
+      ActiveMobileWindow: 'None',
       listings: props.initialListings,
       newestDetectedAt: props.initialListings[0].detected_at,
       oldestDetectedAt:
@@ -26,46 +68,43 @@ class ExchangeListingsPage extends Component {
       exchangeSlugs: [],
       detectedSince: null,
       detectedUntil: null,
+      status: STATUSES.READY,
     }
   }
 
-  componentDidMount() {
+  public componentDidMount() {
     this.interval = setInterval(() => {
       this.fetchNewerExchangeListings()
     }, 60000)
   }
 
-  componentWillUnmount() {
+  public componentWillUnmount() {
     clearInterval(this.interval)
   }
 
-  componentDidUpdate(prevProps) {
-    if (!prevProps.selectedCoin) {
-      if (!!this.props.selectedCoin) {
+  public componentDidUpdate(prevProps: IProps) {
+    if (prevProps.selectedCoinSlug !== this.props.selectedCoinSlug) {
+      this.setState({ status: STATUSES.LOADING })
+      this.fetchCoinDetails(this.props.selectedCoinSlug).then((result) => {
         this.setState(
           {
-            selectedSymbols: [this.props.selectedCoin.symbol],
+            selectedSymbols: [result.symbol],
           },
           () => this.fetchListingsBySymbol(),
         )
-      }
-    } else {
-      if (
-        !!this.props.selectedCoin &&
-        this.props.selectedCoin.id !== prevProps.selectedCoin.id
-      ) {
-        this.setState(
-          {
-            selectedSymbols: [this.props.selectedCoin.symbol],
-          },
-          () => this.fetchListingsBySymbol(),
-        )
-      }
+      })
     }
   }
 
-  fetchNewerExchangeListings = () => {
-    console.log('Fetching newer exchange listings...')
+  public fetchCoinDetails = (coinSlug): Promise<ICoin> => {
+    return new Promise((res, rej) => {
+      localAPI.get(`/coins/by-slug/${coinSlug}`).then((response) => {
+        res(response.payload)
+      })
+    })
+  }
+
+  public fetchNewerExchangeListings = () => {
     localAPI
       .get(`/exchange_listings?detectedSince=${this.state.newestDetectedAt}`)
       .then((response) => {
@@ -78,8 +117,7 @@ class ExchangeListingsPage extends Component {
       })
   }
 
-  fetchOlderExchangeListings = () => {
-    console.log('Fetch older')
+  public fetchOlderExchangeListings = () => {
     localAPI
       .get(`/exchange_listings?detectedUntil=${this.state.oldestDetectedAt}`)
       .then((response) => {
@@ -93,7 +131,7 @@ class ExchangeListingsPage extends Component {
       })
   }
 
-  filterDates = (data) => {
+  public filterDates = (data) => {
     if (data.detectedSince) {
       this.setState({
         detectedSince: data.detectedSince,
@@ -106,22 +144,22 @@ class ExchangeListingsPage extends Component {
     }
   }
 
-  changeSymbol = (data) => {
+  public changeSymbol = (data) => {
     const selectedSymbols = data.map((item) => item.value)
 
     this.setState({
-      selectedSymbols: selectedSymbols,
+      selectedSymbols,
     })
   }
 
-  changeExchange = (data) => {
+  public changeExchange = (data) => {
     const selectedExchanges = data.map((item) => item.value)
     this.setState({
-      selectedExchanges: selectedExchanges,
+      selectedExchanges,
     })
   }
 
-  fetchListingsBySymbol = () => {
+  public fetchListingsBySymbol = () => {
     const quoteSymbolArg = this.state.selectedSymbols
     const exchangeSlugArgs = this.state.selectedExchanges
     const detectedSinceStr =
@@ -140,6 +178,7 @@ class ExchangeListingsPage extends Component {
     localAPI.get(urlParams).then((response) => {
       this.setState({
         listings: response.payload,
+        status: STATUSES.READY,
       })
       if (!response.payload.length) {
         this.setState({
@@ -149,37 +188,30 @@ class ExchangeListingsPage extends Component {
     })
   }
 
-  updateOnResize = () => debounce(() => this.forceUpdate(), 500)
+  public updateOnResize = () => debounce(() => this.forceUpdate(), 500)
 
-  closeFilterPanel = () => {
-    if (!this.state.showFilterPanel) return
+  public closeFilterPanel = () => {
+    if (!this.state.showFilterPanel) {
+      return
+    }
 
     this.setState((prevState) => ({
       showFilterPanel: false,
     }))
   }
 
-  toggleFilterPanel = () => {
+  public toggleFilterPanel = () => {
     this.setState((prevState) => ({
       showFilterPanel: !prevState.showFilterPanel,
     }))
   }
 
-  applyFilters = () => {
-    this.props
-      .selectCoin(
-        (coin) =>
-          this.state.selectedSymbols.length === 1
-            ? coin.symbol === this.state.selectedSymbols[0]
-            : false,
-      )
-      .then(() => {
-        this.fetchListingsBySymbol()
-        this.closeFilterPanel()
-      })
+  public applyFilters = () => {
+    this.fetchListingsBySymbol()
+    this.closeFilterPanel()
   }
 
-  resetFilters = () => {
+  public resetFilters = () => {
     this.setState({
       detectedSince: null,
       detectedUntil: null,
@@ -188,7 +220,7 @@ class ExchangeListingsPage extends Component {
     })
   }
 
-  render() {
+  public render() {
     const props = this.props
     const { listings, hasMore } = this.state
     const selectedItems = {
@@ -205,7 +237,7 @@ class ExchangeListingsPage extends Component {
       changeSymbol: this.changeSymbol,
       changeExchange: this.changeExchange,
       filterDates: this.filterDates,
-      selectedItems: selectedItems,
+      selectedItems,
       selectedSymbols: this.state.selectedSymbols,
       selectedExchanges: this.state.selectedExchanges,
       exchangeSlugs: this.state.exchangeSlugs,
@@ -216,20 +248,35 @@ class ExchangeListingsPage extends Component {
       return (
         <LayoutMobile
           mainSection={
-            <Fragment>
+            <>
               <ExchangeListingsContext.Provider value={context}>
-                <ListingsHeader showFilterPanel={this.state.showFilterPanel} />
+                <ListingsHeader
+                  showFilterPanel={this.state.showFilterPanel}
+                  toggleFilterPanel={this.toggleFilterPanel}
+                  showCoinListDrawer={() =>
+                    this.setState({ ActiveMobileWindow: 'CoinsList' })
+                  }
+                  toggleNewsfeedTips={() => this.setState({ ActiveMobileWindow: 'Modal' })}
+                />
               </ExchangeListingsContext.Provider>
               <ListingsList
                 listings={listings}
                 hasMore={hasMore}
                 fetchOlderExchangeListings={this.fetchOlderExchangeListings}
+                isLoading={this.state.status === STATUSES.LOADING}
               />
-            </Fragment>
+            </>
           }
-          modalName="listingsModal"
-          modalSection={<BodySection mobileLayout />}
-          drawerSection={null}
+          modalSection={<BodySection mobileLayout={true} closeTips={() => this.setState({ ActiveMobileWindow: 'None' })} />}
+          drawerSection={
+            <CoinListDrawer
+              isShown={this.state.ActiveMobileWindow === 'CoinsList'}
+              onClose={() => this.setState({ ActiveMobileWindow: 'None' })}
+              loggedIn={this.props.loggedIn}
+              onClick={() => this.setState({ ActiveMobileWindow: 'None' })}
+            />
+          }
+          showModal={this.state.ActiveMobileWindow === 'Modal'}
         />
       )
     } else if (window.isTablet) {
@@ -237,7 +284,7 @@ class ExchangeListingsPage extends Component {
         <LayoutTablet
           {...props}
           leftSection={
-            <Fragment>
+            <>
               <ExchangeListingsContext.Provider value={context}>
                 <ListingsHeader showFilterPanel={this.state.showFilterPanel} />
               </ExchangeListingsContext.Provider>
@@ -245,8 +292,9 @@ class ExchangeListingsPage extends Component {
                 listings={listings}
                 hasMore={hasMore}
                 fetchOlderExchangeListings={this.fetchOlderExchangeListings}
+                isLoading={this.state.status === STATUSES.LOADING}
               />
-            </Fragment>
+            </>
           }
           rightSection={<BodySection />}
           drawerSection={null}
@@ -255,9 +303,14 @@ class ExchangeListingsPage extends Component {
     } else {
       return (
         <LayoutDesktop
-          leftSection={<CoinListWrapper />}
+          leftSection={
+            <CoinListWrapper
+              loggedIn={this.props.loggedIn}
+              onClick={() => null}
+            />
+          }
           centerSection={
-            <Fragment>
+            <>
               <ExchangeListingsContext.Provider value={context}>
                 <ListingsHeader
                   toggleFilterPanel={this.toggleFilterPanel}
@@ -268,8 +321,9 @@ class ExchangeListingsPage extends Component {
                 listings={listings}
                 hasMore={hasMore}
                 fetchOlderExchangeListings={this.fetchOlderExchangeListings}
+                isLoading={this.state.status === STATUSES.LOADING}
               />
-            </Fragment>
+            </>
           }
           rightSection={<BodySection />}
         />

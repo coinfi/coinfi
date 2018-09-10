@@ -1,8 +1,13 @@
 import React from 'react'
+import styled from 'styled-components'
 import FilterApplyButton from './FilterApplyButton'
 import FilterCancelButton from './FilterCancelButton'
 import FilterResetLink from './FilterResetLink'
 import ExchangeListingContext from '~/bundles/ExchangeListings/context'
+
+const Modal = styled.div`
+  display: block !important
+`
 
 export default ({ children }) => {
   // TODO: make this shared component work with other components using FilterPanel
@@ -14,7 +19,7 @@ export default ({ children }) => {
 
   return (
     <div className="ph3 ph4-l">
-      <div className={containerClass}>
+      <Modal className={containerClass}>
         <ExchangeListingContext.Consumer>
           {({ resetFilters, toggleFilterPanel, applyFilters }) => (
             <div className="pa3 bb b--geyser flex justify-between items-center filter-panel-header">
@@ -30,7 +35,7 @@ export default ({ children }) => {
           )}
         </ExchangeListingContext.Consumer>
         {children}
-      </div>
+      </Modal>
     </div>
   )
 }
