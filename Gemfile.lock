@@ -177,7 +177,7 @@ GEM
       faraday_middleware (>= 0.9)
       loofah (>= 2.0)
       sax-machine (>= 1.0)
-    ffi (1.9.18)
+    ffi (1.9.25)
     friendly_id (5.2.1)
       activerecord (>= 4.0.0)
     globalid (0.4.0)
