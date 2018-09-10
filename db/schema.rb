@@ -10,12 +10,12 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180831064949) do
+ActiveRecord::Schema.define(version: 20180910025523) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
-  enable_extension "pg_stat_statements"
   enable_extension "dblink"
+  enable_extension "pg_stat_statements"
 
   create_table "articles", force: :cascade do |t|
     t.bigint "coin_id"
@@ -274,7 +274,6 @@ ActiveRecord::Schema.define(version: 20180831064949) do
     t.datetime "updated_at", null: false
     t.index ["base_symbol_id"], name: "index_exchange_listings_on_base_symbol_id"
     t.index ["detected_at"], name: "index_exchange_listings_on_detected_at"
-    t.index ["exchange_id", "symbol"], name: "index_exchange_listings_on_exchange_id_and_symbol", unique: true
     t.index ["exchange_id"], name: "index_exchange_listings_on_exchange_id"
     t.index ["quote_symbol"], name: "index_exchange_listings_on_quote_symbol"
     t.index ["quote_symbol_id"], name: "index_exchange_listings_on_quote_symbol_id"
@@ -473,9 +472,16 @@ ActiveRecord::Schema.define(version: 20180831064949) do
   end
 
   add_foreign_key "articles", "coins"
+  add_foreign_key "author_profiles", "users"
+  add_foreign_key "calendar_event_categorizations", "calendar_events"
+  add_foreign_key "calendar_event_categorizations", "news_categories"
+  add_foreign_key "calendar_event_coins", "calendar_events"
+  add_foreign_key "calendar_event_coins", "coins"
   add_foreign_key "calendar_events", "users"
   add_foreign_key "coin_excluded_countries", "coins", on_delete: :cascade
   add_foreign_key "coin_excluded_countries", "countries", on_delete: :cascade
+  add_foreign_key "coin_industries_coins", "coin_industries"
+  add_foreign_key "coin_industries_coins", "coins"
   add_foreign_key "contributor_submissions", "submission_categories"
   add_foreign_key "contributor_submissions", "users", on_delete: :cascade
   add_foreign_key "exchange_listings", "coins", column: "base_symbol_id"
@@ -484,5 +490,13 @@ ActiveRecord::Schema.define(version: 20180831064949) do
   add_foreign_key "feed_sources", "coins"
   add_foreign_key "influencer_reviews", "coins", on_delete: :cascade
   add_foreign_key "influencer_reviews", "influencers", on_delete: :cascade
+  add_foreign_key "news_coin_mentions", "coins"
+  add_foreign_key "news_coin_mentions", "news_items"
+  add_foreign_key "news_item_categorizations", "news_categories"
+  add_foreign_key "news_item_categorizations", "news_items"
+  add_foreign_key "news_items", "feed_sources"
   add_foreign_key "news_items", "users"
+  add_foreign_key "watchlist_items", "coins"
+  add_foreign_key "watchlist_items", "watchlists"
+  add_foreign_key "watchlists", "users"
 end
