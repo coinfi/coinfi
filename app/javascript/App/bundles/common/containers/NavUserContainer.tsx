@@ -1,6 +1,5 @@
 import * as React from 'react'
 import NavUser from '~/bundles/common/components/NavUser/NavUser'
-import { IUser } from '~/bundles/common/types'
 
 interface State {
   menuOpen: boolean
@@ -8,7 +7,7 @@ interface State {
 }
 
 interface Props {
-  user: IUser
+  userEmail: string
   formAuthenticityToken: string
 }
 
@@ -39,7 +38,7 @@ class NavUserContainer extends React.Component<Props, State> {
         menuAnchor={this.state.menuAnchor}
         onOpenMenu={this.handleOpenMenu}
         onCloseMenu={this.handleCloseMenu}
-        user={this.props.user}
+        userEmail={this.props.userEmail}
         formAuthenticityToken={this.props.formAuthenticityToken}
       />
     )

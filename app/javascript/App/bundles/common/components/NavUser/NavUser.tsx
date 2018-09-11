@@ -15,7 +15,6 @@ import {
 import { MenuProps } from '@material-ui/core/Menu'
 import { createStyles, withStyles, withTheme } from '@material-ui/core'
 import { PROFILE_EDIT_URL, LOGOUT_URL } from '~/constants'
-import { IUser } from '~/bundles/common/types'
 
 const styles = (theme) =>
   createStyles({
@@ -66,7 +65,7 @@ interface Props {
   onOpenMenu: (event) => void
   onCloseMenu: (event) => void
   formAuthenticityToken: string
-  user: IUser
+  userEmail: string
   classes: any
 }
 
@@ -77,7 +76,7 @@ const NavUser: React.StatelessComponent<Props> = (props) => {
     onOpenMenu,
     onCloseMenu,
     formAuthenticityToken,
-    user,
+    userEmail,
     classes,
   } = props
 
@@ -137,7 +136,7 @@ const NavUser: React.StatelessComponent<Props> = (props) => {
       >
         <ListSubheader className={classes.menuHeadingItem}>
           <div className={classes.menuAccountLabel}>Account</div>
-          <div className={classes.menuEmail}>{user.email}</div>
+          <div className={classes.menuEmail}>{userEmail}</div>
         </ListSubheader>
 
         <Divider className={classes.menuDivider} />
