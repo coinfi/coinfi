@@ -10,7 +10,7 @@ interface IProps {
 }
 
 const CoinList = (props: IProps) => (
-  <>
+  <div className="flex-auto relative overflow-y-scroll coin-watch-list">
     {props.list.map((coin) => (
       <CoinListItem
         key={coin.id}
@@ -22,7 +22,7 @@ const CoinList = (props: IProps) => (
         }
       />
     ))}
-  </>
+  </div>
 )
 
 export default CoinList

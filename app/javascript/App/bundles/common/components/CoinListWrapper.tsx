@@ -9,13 +9,19 @@ import { ICoin } from '~/bundles/common/types'
 
 interface IProps {
   loggedIn: boolean
+  onClick: any
 }
 
 const CoinListWrapper = (props: IProps) => (
   <CoinListContext.Consumer>
     {(payload: ICoinListContextType) => {
       return payload.isInitializing() ? (
-        <LoadingIndicator />
+        <>
+          <CoinListHeader />
+          <div className="pa3 tc mt4">
+            <LoadingIndicator />
+          </div>
+        </>
       ) : (
         <>
           <CoinListHeader />
@@ -23,7 +29,10 @@ const CoinListWrapper = (props: IProps) => (
             list={payload.coinlist}
             loggedIn={props.loggedIn}
             selectedCoinSlug={payload.selectedCoinSlug}
-            onSelectCoin={(coin: ICoin) => payload.selectCoinBySlug(coin.slug)}
+            onSelectCoin={(coin: ICoin) => {
+              payload.selectCoinBySlug(coin.slug)
+              props.onClick()
+            }}
           />
         </>
       )

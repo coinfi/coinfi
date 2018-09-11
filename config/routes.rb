@@ -12,8 +12,9 @@ Rails.application.routes.draw do
   get '/icos(/:status)', to: 'icos#index'
   get '/news(/*others)', to: 'news#index'
   get '/news-beta', to: redirect('/', status: 302)
-  get '/profile', to: 'author_profiles#edit', as: 'edit_author_profile'
   get '/podcast', to: redirect('https://blog.coinfi.com/topics/podcast/', status: 302)
+  get '/profile', to: 'users#edit'
+  put '/profile', to: 'users#update'
 
   namespace :admin do
     resources :coins do

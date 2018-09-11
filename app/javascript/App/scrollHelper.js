@@ -19,6 +19,32 @@ export default () => {
     }
   }
 
+  if (panelHeader && window.isTablet) {
+    const newsfeedElem = document.querySelector('#newsfeed')
+
+    if (!!newsfeedElem) {
+      const newsBodyElem = document.querySelector('.selected-news-content')
+      const coinDrawerElem = document.querySelector('.coin-watch-list')
+      const windowHeight = window.innerHeight
+      const panelHeaderHeight = panelHeader.offsetHeight
+
+      const calculatedHeight =
+        windowHeight - topNavHeight - panelHeaderHeight - topNavHeight
+
+      if (!!newsfeedElem) {
+        newsfeedElem.style.maxHeight = `${calculatedHeight}px`
+      }
+
+      if (!!newsBodyElem) {
+        newsBodyElem.style.maxHeight = `${calculatedHeight}px`
+      }
+
+      if (!!coinDrawerElem) {
+        coinDrawerElem.style.maxHeight = `${calculatedHeight}px`
+      }
+    }
+  }
+
   if (panelHeader && window.isDesktop) {
     const newsfeedElem = document.querySelector('#newsfeed')
     const newsBodyElem = document.querySelector('.selected-news-content')

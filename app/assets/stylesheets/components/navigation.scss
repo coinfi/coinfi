@@ -1,14 +1,12 @@
 $nav-height: 50px;
 $nav-menu-width: 300px;
 $nav-menu-more-width: 150px;
-
 .nav {
   background: $dark-pine-green;
   width: 100%;
   position: fixed;
   z-index: 10;
   height: $nav-height;
-
   &__inner {
     height: 100%;
     position: relative;
@@ -16,11 +14,13 @@ $nav-menu-more-width: 150px;
     align-items: center;
   }
 }
+
 .nav-logo {
   &__img {
     height: 100%;
   }
 }
+
 .nav-menu {
   overflow-y: scroll;
   transition: 0.2s;
@@ -32,50 +32,52 @@ $nav-menu-more-width: 150px;
   width: $nav-menu-width;
   top: $nav-height;
   left: 0;
-
   &__item {
     font-size: 14px;
     font-weight: 600;
     color: $white-80;
     padding: 0.75rem;
-
     @extend .hover-white;
     &.active {
       background: $sky-blue;
       color: $white;
     }
   }
-
   &--in {
     left: 0;
   }
-
   &--out {
     left: -1 * $nav-menu-width;
   }
 }
+
 .nav-actions {
   display: none;
 }
+
 .nav-menu-more-toggle {
   display: hidden;
 }
+
 .nav-menu-more__inner {
   flex-direction: column;
   display: flex;
 }
+
 main {
   margin-top: $nav-height;
 }
 
+// Not Small Screens
 @media #{$screen-min-ns} {
+  main {
+    margin: 0;
+  }
   .nav {
     position: relative;
   }
   .nav__inner {
     justify-content: flex-start;
-  }
-  .nav-logo {
   }
   .nav-menu {
     overflow-y: initial;
@@ -93,7 +95,6 @@ main {
     display: flex;
     align-items: center;
     padding: 0.5rem;
-
     &.active {
       background: none;
       color: $aqua;
@@ -121,7 +122,7 @@ main {
   }
 }
 
-// Medium screens
+// Medium Screens
 @media screen and (min-width: #{$screen-ns}) and (max-width: #{$screen-m - 1px}) {
   .nav-menu-more-toggle {
     height: 100%;
@@ -130,7 +131,6 @@ main {
   }
   .nav-menu-more {
     position: relative;
-
     display: none;
     &--active {
       display: block;
