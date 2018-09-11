@@ -13,6 +13,8 @@ import configureStore from './configureStore'
 import getScreenSize from './lib/screenSize'
 import { PersistGate } from 'redux-persist/integration/react'
 import debounce from 'debounce'
+import { MuiThemeProvider } from '@material-ui/core/styles'
+import theme from './theme'
 
 import appContainer from './containers/app'
 
@@ -63,6 +65,7 @@ const injectComponents = () => {
       if (withStore) {
         if (false) {
           // ReactDOM.render(
+          //   <MuiThemeProvider theme={theme}>
           //     <NewsfeedContainer>
           //       <CoinListContainer loggedIn={props.loggedIn}>
           //         <Provider store={store}>
@@ -98,24 +101,32 @@ const injectComponents = () => {
           //           </Router>
           //         </Provider>
           //       </CoinListContainer>
-          //     </NewsfeedContainer>,
+          //     </NewsfeedContainer>
+          //   </MuiThemeProvider>,
           //   hook,
           // )
         } else {
           const AppComponent = appContainer(Component)
           ReactDOM.render(
-            <CoinListContainer user={props.user}>
-              <Provider store={store}>
-                <PersistGate loading={null} persistor={persistor}>
-                  <AppComponent {...props} />
-                </PersistGate>
-              </Provider>
-            </CoinListContainer>,
+            <MuiThemeProvider theme={theme}>
+              <CoinListContainer user={props.user}>
+                <Provider store={store}>
+                  <PersistGate loading={null} persistor={persistor}>
+                    <AppComponent {...props} />
+                  </PersistGate>
+                </Provider>
+              </CoinListContainer>
+            </MuiThemeProvider>,
             hook,
           )
         }
       } else {
-        ReactDOM.render(<Component {...props} />, hook)
+        ReactDOM.render(
+          <MuiThemeProvider theme={theme}>
+            <Component {...props} />
+          </MuiThemeProvider>,
+          hook,
+        )
       }
     })
   }
