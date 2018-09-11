@@ -26,9 +26,9 @@ default: &default
     connections:
       - role: master
         name: primary
-        url: <%= ENV["DATABASE_URL"] %>
+        url: <%= ENV.fetch("DATABASE_MASTER_URL") %>
       - name: replica
-        url: <%= ENV["REPLICA_DATABASE_URL"] %>
+        url: <%= ENV.fetch("DATABASE_REPLICA_URL") %>
 
 development:
   <<: *default
