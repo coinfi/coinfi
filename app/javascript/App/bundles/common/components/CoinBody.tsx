@@ -6,18 +6,18 @@ import WatchButton from './WatchButton'
 import LoadingIndicator from '../../../components/LoadingIndicator'
 import localAPI from '../../../lib/localAPI'
 
-import { ICoinWithDetails } from '../types'
+import { CoinWithDetails } from '../types'
 
-interface IProps {
+interface Props {
   coinSlug?: string
   loggedIn: boolean
 }
 
-interface IState {
-  coinWithDetails?: ICoinWithDetails
+interface State {
+  coinWithDetails?: CoinWithDetails
 }
 
-class CoinBody extends React.Component<IProps, IState> {
+class CoinBody extends React.Component<Props, State> {
   public state = {
     coinWithDetails: null,
   }

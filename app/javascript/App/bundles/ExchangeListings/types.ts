@@ -1,4 +1,4 @@
-export interface IListing {
+export interface Listing {
   detected_at: string
   exchange_id: number
   exchange_name: string

@@ -1,5 +1,5 @@
-import { IWindowScreenType } from '../../common/types'
-declare const window: IWindowScreenType
+import { WindowScreenType } from '../../common/types'
+declare const window: WindowScreenType
 
 import * as React from 'react'
 import classNames from 'classnames'
@@ -7,7 +7,7 @@ import Autosuggest from 'react-autosuggest'
 import Icon from '../../../components/Icon'
 import localApi from '../../../lib/localAPI'
 
-interface ICoin {
+interface Coin {
   id: number
   name: string
   symbol: string
@@ -15,20 +15,20 @@ interface ICoin {
   image_url: string
 }
 
-interface IProps {
+interface Props {
   unstyled?: boolean
   coinShow?: boolean
-  onSelect: (suggestion: ICoin) => void
+  onSelect: (suggestion: Coin) => void
 }
 
-interface IState {
-  suggestions: ICoin[]
+interface State {
+  suggestions: Coin[]
   value: string
 }
 
-const getSuggestionValue = (suggestion: ICoin) => suggestion.slug
+const getSuggestionValue = (suggestion: Coin) => suggestion.slug
 
-const renderSuggestion = (suggestion: ICoin) => (
+const renderSuggestion = (suggestion: Coin) => (
   <div className="flex items-center">
     <a>
       <img
@@ -45,7 +45,7 @@ const renderSuggestion = (suggestion: ICoin) => (
 const renderSuggestionsContainer = ({ containerProps, children, query }) =>
   !!children && <ul {...containerProps}>{children}</ul>
 
-class SearchCoins extends React.Component<IProps, IState> {
+class SearchCoins extends React.Component<Props, State> {
   private autosuggestRef = null
 
   constructor(props) {

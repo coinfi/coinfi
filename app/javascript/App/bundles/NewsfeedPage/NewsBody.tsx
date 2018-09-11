@@ -11,18 +11,17 @@ import TwitterBody from './TwitterBody'
 import LoadingIndicator from '../../components/LoadingIndicator'
 import { getDomainType } from '../../lib/utils/url'
 
-import { INewsItem } from './types'
+import { NewsItem } from './types'
 
-interface IProps {
-  newsItemId: string,
+interface Props {
+  newsItemId: string
 }
 
-interface IState {
-  newsItem: INewsItem,
+interface State {
+  newsItem: NewsItem
 }
 
-export default class NewsBody extends React.Component<IProps, IState>  {
-
+export default class NewsBody extends React.Component<Props, State> {
   public state = {
     newsItem: null,
   }
@@ -33,13 +32,16 @@ export default class NewsBody extends React.Component<IProps, IState>  {
     }
   }
 
-  public componentDidUpdate(prevProps: IProps, prevState: IState, snapshot) {
+  public componentDidUpdate(prevProps: Props, prevState: State, snapshot) {
     if (!this.props.newsItemId) {
       if (!!prevState.newsItem) {
         this.setState({ newsItem: null })
       }
     } else {
-      if (!prevProps.newsItemId || prevProps.newsItemId !== this.props.newsItemId) {
+      if (
+        !prevProps.newsItemId ||
+        prevProps.newsItemId !== this.props.newsItemId
+      ) {
         this.setState({ newsItem: null }, () => this.fetchNewsItemDetails())
       }
     }
@@ -55,13 +57,13 @@ export default class NewsBody extends React.Component<IProps, IState>  {
 
   public render() {
     const { newsItem } = this.state
-  
-    if(!newsItem) {
+
+    if (!newsItem) {
       return (
         <div className="pa3 tc mt4">
           <LoadingIndicator />
         </div>
-      ) 
+      )
     }
 
     if (getDomainType(newsItem.url) === 'twitter') {

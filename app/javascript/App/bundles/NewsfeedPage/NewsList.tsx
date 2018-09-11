@@ -1,5 +1,5 @@
-import { IWindowScreenType } from '../common/types'
-declare const window: IWindowScreenType
+import { WindowScreenType } from '../common/types'
+declare const window: WindowScreenType
 
 import * as React from 'react'
 import InfiniteScroll from 'react-infinite-scroll-component'
@@ -9,12 +9,12 @@ import LoadingIndicator from '../../components/LoadingIndicator'
 import Tips from './Tips'
 import scrollHelper from './../../scrollHelper'
 
-import { INewsItem } from './types'
+import { NewsItem } from './types'
 
-interface IProps {
+interface Props {
   isShown: boolean
   isLoading: boolean
-  sortedNewsItems: INewsItem[]
+  sortedNewsItems: NewsItem[]
   initialRenderTips: boolean
   fetchMoreNewsFeed: () => void
   closeTips: () => void
@@ -24,12 +24,12 @@ interface IProps {
   hasMore: boolean
 }
 
-interface IState {
+interface State {
   initialRender: boolean
   initialRenderTips: boolean
 }
 
-class NewsList extends React.Component<IProps, IState> {
+class NewsList extends React.Component<Props, State> {
   public state = { initialRender: true, initialRenderTips: false }
 
   private newsfeedDiv: React.RefObject<HTMLDivElement>

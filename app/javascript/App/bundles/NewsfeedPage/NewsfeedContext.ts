@@ -1,15 +1,15 @@
 import * as React from 'react'
-import { INewsItem, IFilters } from './types'
+import { NewsItem, Filters } from './types'
 
-export interface INewsfeedContextType {
+export interface NewsfeedContextType {
   status: string
-  newslist: INewsItem[]
+  newslist: NewsItem[]
   isLoading: boolean
   isLoadingMoreItems: boolean
   isReady: boolean
-  fetchNewNewsItems: (filters: IFilters) => Promise<INewsItem[]>
-  fetchNewsItems: (filters: IFilters) => Promise<INewsItem[]>
-  fetchMoreNewsItems: (filters: IFilters) => Promise<INewsItem[]>
+  fetchNewNewsItems: (filters: Filters) => Promise<NewsItem[]>
+  fetchNewsItems: (filters: Filters) => Promise<NewsItem[]>
+  fetchMoreNewsItems: (filters: Filters) => Promise<NewsItem[]>
   cleanNewsItems: () => void
   hasMore: boolean
 }

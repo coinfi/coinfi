@@ -1,22 +1,22 @@
-import { IWindowScreenType } from '../common/types'
-declare const window: IWindowScreenType
+import { WindowScreenType } from '../common/types'
+declare const window: WindowScreenType
 
 import * as React from 'react'
 import Icon from '../../components/Icon'
 import SectionHeader from '../../components/SectionHeader'
 import CoinTipsTab from '../common/components/CoinTipsTab'
 import FilterPanel from './FilterPanel'
-import { IFilters } from './types'
+import { Filters } from './types'
 
 // tslint:disable-next-line
 const filterBtn = require('../../images/filter-btn.svg')
 
-interface IProps {
+interface Props {
   showFilters: boolean
   categories: string[]
   feedSources: string[]
-  filters: IFilters
-  applyFilters: (filters: IFilters) => void
+  filters: Filters
+  applyFilters: (filters: Filters) => void
   toggleFilters: () => void
   toggleNewsfeedTips: () => void
   showCoinListDrawer: () => void
@@ -29,7 +29,7 @@ const btnStyle: React.CSSProperties = {
   textTransform: 'none',
 }
 
-export default class NewsListHeader extends React.Component<IProps, {}> {
+export default class NewsListHeader extends React.Component<Props, {}> {
   public render() {
     return (
       <>

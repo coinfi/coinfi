@@ -15,13 +15,13 @@ const Block = (props) => (
   </div>
 )
 
-interface IProps {
+interface Props {
   feedSources: string[]
   onToggleReddit: () => void
   onToggleTwitter: () => void
 }
 
-const Social = (props: IProps) => (
+const Social = (props: Props) => (
   <>
     <div className="pv2 f6">
       Reddit and Twitter often has more noise than signal so we&apos;ve disabled

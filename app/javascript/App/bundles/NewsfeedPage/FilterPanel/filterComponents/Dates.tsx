@@ -3,14 +3,14 @@ import * as moment from 'moment'
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker-cssmodules.css'
 
-interface IProps {
+interface Props {
   publishedSince?: string
   publishedUntil?: string
   onSinceChange: (since: string) => void
   onUntilChange: (until: string) => void
 }
 
-export default class Dates extends React.Component<IProps, {}> {
+export default class Dates extends React.Component<Props, {}> {
   public sinceChange = (item: moment.Moment) => {
     this.props.onSinceChange(item.format('YYYY-MM-DD'))
   }
@@ -27,10 +27,13 @@ export default class Dates extends React.Component<IProps, {}> {
   }
 
   public render() {
+    const publishedSince = !!this.props.publishedSince
+      ? moment(this.props.publishedSince)
+      : null
 
-    const publishedSince = !!this.props.publishedSince ? moment(this.props.publishedSince) : null
-
-    const publishedUntil = !!this.props.publishedUntil ? moment(this.props.publishedUntil) : null
+    const publishedUntil = !!this.props.publishedUntil
+      ? moment(this.props.publishedUntil)
+      : null
 
     return (
       <div className="item-selector-alt nh1 nt1">

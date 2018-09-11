@@ -1,24 +1,24 @@
-import { IItemWithCoinLinkData } from '../common/types'
+import { ItemWithCoinLinkData } from '../common/types'
 
-interface ICategory {
+interface Category {
   name: string
 }
 
-export interface INewsItem extends IItemWithCoinLinkData {
+export interface NewsItem extends ItemWithCoinLinkData {
   id: number
   title: string
   summary: string
   content: string
   url: string
   feed_item_published_at: string
-  categories: ICategory[]
+  categories: Category[]
 }
 
 export type ContentType = 'none' | 'coin' | 'news'
 
 export type CoinSlug = string
 
-export interface IFilters {
+export interface Filters {
   coinSlugs: CoinSlug[]
   publishedSince: string | null
   publishedUntil: string | null

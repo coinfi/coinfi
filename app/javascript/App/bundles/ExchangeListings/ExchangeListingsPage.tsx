@@ -1,5 +1,5 @@
-import { IWindowScreenType } from '../common/types'
-declare const window: IWindowScreenType
+import { WindowScreenType } from '../common/types'
+declare const window: WindowScreenType
 
 import * as React from 'react'
 import _ from 'lodash'
@@ -14,25 +14,25 @@ import localAPI from '../../lib/localAPI'
 import ExchangeListingsContext from './context'
 import CoinListWrapper from '~/bundles/common/components/CoinListWrapper'
 import CoinListDrawer from '~/bundles/common/components/CoinListDrawer'
-import { ICoin } from '~/bundles/common/types'
-import { IListing } from '~/bundles/ExchangeListings/types'
+import { Coin } from '~/bundles/common/types'
+import { Listing } from '~/bundles/ExchangeListings/types'
 
 type ActiveMobileWindow = 'Modal' | 'CoinsList' | 'BodySection' | 'None'
 
-interface IProps {
+interface Props {
   loggedIn: boolean
   selectedCoinSlug: string | null
   selectCoinBySlug: (coinSlug: string) => void
-  watchlist: ICoin[]
-  getWatchlist: () => ICoin[]
+  watchlist: Coin[]
+  getWatchlist: () => Coin[]
   quoteSymbols: string[]
   exchanges: string[]
-  initialListings: IListing[]
+  initialListings: Listing[]
 }
 
-interface IState {
+interface State {
   ActiveMobileWindow: ActiveMobileWindow
-  listings: IListing[]
+  listings: Listing[]
   newestDetectedAt: string
   oldestDetectedAt: string
   hasMore: boolean
@@ -50,7 +50,7 @@ const STATUSES = {
   READY: 'READY',
 }
 
-class ExchangeListingsPage extends React.Component<IProps, IState> {
+class ExchangeListingsPage extends React.Component<Props, State> {
   private interval: any
 
   constructor(props) {
@@ -83,7 +83,7 @@ class ExchangeListingsPage extends React.Component<IProps, IState> {
     clearInterval(this.interval)
   }
 
-  public componentDidUpdate(prevProps: IProps) {
+  public componentDidUpdate(prevProps: Props) {
     if (prevProps.selectedCoinSlug !== this.props.selectedCoinSlug) {
       this.setState({ status: STATUSES.LOADING })
       this.fetchCoinDetails(this.props.selectedCoinSlug).then((result) => {
@@ -101,7 +101,7 @@ class ExchangeListingsPage extends React.Component<IProps, IState> {
     return _.uniqBy(arr, (elem) => elem.id)
   }
 
-  public fetchCoinDetails = (coinSlug): Promise<ICoin> => {
+  public fetchCoinDetails = (coinSlug): Promise<Coin> => {
     return new Promise((res, rej) => {
       localAPI.get(`/coins/by-slug/${coinSlug}`).then((response) => {
         res(response.payload)

@@ -1,8 +1,8 @@
 import * as React from 'react'
 import _ from 'lodash'
 import localAPI from '../../lib/localAPI'
-import NewsfeedContext, { INewsfeedContextType } from './NewsfeedContext'
-import { INewsItem, IFilters } from './types'
+import NewsfeedContext, { NewsfeedContextType } from './NewsfeedContext'
+import { NewsItem, Filters } from './types'
 
 const STATUSES = {
   INITIALIZING: 'INITIALIZING',
@@ -12,20 +12,20 @@ const STATUSES = {
   READY: 'READY',
 }
 
-interface IState {
-  sortedNewsItems: INewsItem[]
+interface State {
+  sortedNewsItems: NewsItem[]
   status: string
   hasMore: boolean
 }
 
-class NewsfeedContainer extends React.Component<{}, IState> {
+class NewsfeedContainer extends React.Component<{}, State> {
   public state = {
     sortedNewsItems: [],
     status: STATUSES.INITIALIZING,
     hasMore: true,
   }
 
-  public sortNewsFunc(x: INewsItem, y: INewsItem) {
+  public sortNewsFunc(x: NewsItem, y: NewsItem) {
     return (
       Date.parse(y.feed_item_published_at) -
       Date.parse(x.feed_item_published_at)
@@ -42,7 +42,7 @@ class NewsfeedContainer extends React.Component<{}, IState> {
     })
   }
 
-  public fetchNewNewsItems = (filters: IFilters): Promise<INewsItem[]> => {
+  public fetchNewNewsItems = (filters: Filters): Promise<NewsItem[]> => {
     if (this.state.sortedNewsItems.length === 0) {
       return Promise.resolve([])
     }
@@ -74,7 +74,7 @@ class NewsfeedContainer extends React.Component<{}, IState> {
               )
               const newNews = response.payload
                 .filter(
-                  (newsItem: INewsItem) =>
+                  (newsItem: NewsItem) =>
                     !existingNewsIds.includes(newsItem.id),
                 )
                 .sort(this.sortNewsFunc)
@@ -94,7 +94,7 @@ class NewsfeedContainer extends React.Component<{}, IState> {
     })
   }
 
-  public fetchNewsItems = (filters: IFilters): Promise<INewsItem[]> => {
+  public fetchNewsItems = (filters: Filters): Promise<NewsItem[]> => {
     return new Promise((resolve, reject) => {
       this.setState(
         {
@@ -120,7 +120,7 @@ class NewsfeedContainer extends React.Component<{}, IState> {
     })
   }
 
-  public fetchMoreNewsItems = (filters: IFilters): Promise<INewsItem[]> => {
+  public fetchMoreNewsItems = (filters: Filters): Promise<NewsItem[]> => {
     if (this.state.sortedNewsItems.length === 0) {
       return Promise.resolve([])
     }
@@ -167,7 +167,7 @@ class NewsfeedContainer extends React.Component<{}, IState> {
   }
 
   public render = () => {
-    const payload: INewsfeedContextType = {
+    const payload: NewsfeedContextType = {
       cleanNewsItems: this.cleanNewsItems,
       fetchMoreNewsItems: this.fetchMoreNewsItems,
       fetchNewNewsItems: this.fetchNewNewsItems,
