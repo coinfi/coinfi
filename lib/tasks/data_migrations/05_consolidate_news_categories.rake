@@ -33,7 +33,7 @@ namespace :data_migrations do
         .where(news_categories: {name: PROJECT_ANNOUNCEMENTS_CATEGORIES})
 
       update_count = 0
-      project_announcements_categorizations.each do |categorization|
+      project_announcements_categorizations.find_each do |categorization|
         categorization.update!(news_category: project_announcements_category)
         update_count += 1
       end
@@ -42,7 +42,7 @@ namespace :data_migrations do
       # Remove replaced categories
       replaced_categories = PROJECT_ANNOUNCEMENTS_CATEGORIES
       destroy_count = 0
-      NewsCategory.where(name: replaced_categories).each do |category|
+      NewsCategory.where(name: replaced_categories).find_each do |category|
         category.destroy!
         destroy_count += 1
       end
