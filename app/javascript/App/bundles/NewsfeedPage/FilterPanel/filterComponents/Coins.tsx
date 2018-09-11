@@ -29,23 +29,15 @@ class CoinSelector extends React.Component<Props, State> {
       value: elem.slug,
     }))
 
-  public fetchCoinsDetails = (coinSlugs): Promise<Option[]> => {
-    return new Promise((res, rej) => {
-      localApi
-        .get(`/coins/search_by_params`, { coinSlugs })
-        .then((response) => {
-          res(this.mapPayloadToOptions(response.payload))
-        })
-    })
-  }
+  public fetchCoinsDetails = (coinSlugs): Promise<Option[]> =>
+    localApi
+      .get(`/coins/search_by_params`, { coinSlugs })
+      .then((response) => this.mapPayloadToOptions(response.payload))
 
-  public fetchCoinsByName = (name): Promise<Option[]> => {
-    return new Promise((res, rej) => {
-      localApi.get(`/coins/search_by_params`, { name }).then((response) => {
-        res(this.mapPayloadToOptions(response.payload))
-      })
-    })
-  }
+  public fetchCoinsByName = (name): Promise<Option[]> =>
+    localApi
+      .get(`/coins/search_by_params`, { name })
+      .then((response) => this.mapPayloadToOptions(response.payload))
 
   public loadOptions = (inputValue) => this.fetchCoinsByName(inputValue)
 

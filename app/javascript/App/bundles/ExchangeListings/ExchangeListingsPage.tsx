@@ -85,15 +85,21 @@ class ExchangeListingsPage extends React.Component<Props, State> {
 
   public componentDidUpdate(prevProps: Props) {
     if (prevProps.selectedCoinSlug !== this.props.selectedCoinSlug) {
-      this.setState({ status: STATUSES.LOADING })
-      this.fetchCoinDetails(this.props.selectedCoinSlug).then((result) => {
-        this.setState(
-          {
-            selectedSymbols: [result.symbol],
-          },
-          () => this.fetchListingsBySymbol(),
-        )
-      })
+      this.setState(
+        {
+          status: STATUSES.LOADING,
+        },
+        () => {
+          this.fetchCoinDetails(this.props.selectedCoinSlug).then((result) => {
+            this.setState(
+              {
+                selectedSymbols: [result.symbol],
+              },
+              () => this.fetchListingsBySymbol(),
+            )
+          })
+        },
+      )
     }
   }
 
@@ -101,13 +107,10 @@ class ExchangeListingsPage extends React.Component<Props, State> {
     return _.uniqBy(arr, (elem) => elem.id)
   }
 
-  public fetchCoinDetails = (coinSlug): Promise<Coin> => {
-    return new Promise((res, rej) => {
-      localAPI.get(`/coins/by-slug/${coinSlug}`).then((response) => {
-        res(response.payload)
-      })
-    })
-  }
+  public fetchCoinDetails = (coinSlug): Promise<Coin> =>
+    localAPI
+      .get(`/coins/by-slug/${coinSlug}`)
+      .then((response) => response.payload)
 
   public fetchNewerExchangeListings = () => {
     localAPI
@@ -197,21 +200,28 @@ class ExchangeListingsPage extends React.Component<Props, State> {
   }
 
   public fetchListingsBySymbol = () => {
-    this.setState({ listings: [], hasMore: true })
-    localAPI.get(`/exchange_listings`, this.getParams({})).then((response) => {
-      this.setState({
-        listings: response.payload,
-        status: STATUSES.READY,
-      })
-      if (!response.payload.length) {
-        this.setState({
-          hasMore: false,
-        })
-      }
-    })
+    this.setState(
+      {
+        listings: [],
+        hasMore: true,
+      },
+      () => {
+        localAPI
+          .get(`/exchange_listings`, this.getParams({}))
+          .then((response) => {
+            this.setState({
+              listings: response.payload,
+              status: STATUSES.READY,
+            })
+            if (!response.payload.length) {
+              this.setState({
+                hasMore: false,
+              })
+            }
+          })
+      },
+    )
   }
-
-  public updateOnResize = () => debounce(() => this.forceUpdate(), 500)
 
   public closeFilterPanel = () => {
     if (!this.state.showFilterPanel) {
@@ -254,7 +264,7 @@ class ExchangeListingsPage extends React.Component<Props, State> {
     const context = {
       toggleFilterPanel: this.toggleFilterPanel,
       showFilterPanel: this.state.showFilterPanel,
-      applyFilters: () => this.applyFilters(),
+      applyFilters: this.applyFilters,
       quoteSymbols: this.props.quoteSymbols,
       exchanges: this.props.exchanges,
       changeSymbol: this.changeSymbol,
@@ -333,12 +343,7 @@ class ExchangeListingsPage extends React.Component<Props, State> {
     } else {
       return (
         <LayoutDesktop
-          leftSection={
-            <CoinListWrapper
-              loggedIn={this.props.loggedIn}
-              onClick={() => null}
-            />
-          }
+          leftSection={<CoinListWrapper loggedIn={this.props.loggedIn} />}
           centerSection={
             <>
               <ExchangeListingsContext.Provider value={context}>
