@@ -55,6 +55,33 @@ $nav-menu-more-width: 150px;
   display: none;
 }
 
+.nav-menu-actions {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 1rem;
+
+  &__btn {
+    @extend .btn, .btn.btn-sm;
+    display: block;
+    width: 100%;
+    text-align: center;
+  }
+  &--primary {
+    background: $aqua;
+    color: white;
+  }
+  &--secondary {
+    background: none;
+    color: $aqua;
+  }
+}
+.nav-menu-actions-account {
+  margin-bottom: 0.75rem;
+  color: rgba(255, 255, 255, 0.8);
+}
+
 .nav-menu-more-toggle {
   display: hidden;
 }
@@ -103,7 +130,7 @@ main {
   .nav-menu-more-toggle {
     display: none;
   }
-  .nav-menu__actions {
+  .nav-menu-actions {
     display: none;
   }
   .nav-menu-toggle {
