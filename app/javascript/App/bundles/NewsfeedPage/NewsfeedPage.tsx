@@ -386,12 +386,7 @@ class NewsfeedPage extends React.Component<Props, State> {
     } else {
       return (
         <LayoutDesktop
-          leftSection={
-            <CoinListWrapper
-              loggedIn={this.props.loggedIn}
-              onClick={() => null}
-            />
-          }
+          leftSection={<CoinListWrapper loggedIn={this.props.loggedIn} />}
           centerSection={
             <>
               <NewsListHeader
@@ -402,7 +397,6 @@ class NewsfeedPage extends React.Component<Props, State> {
                 applyFilters={this.applyFilters}
                 filters={this.state.filters}
                 categories={this.props.categories}
-                showCoinListDrawer={() => null}
               />
               <NewsList
                 isShown={!this.state.showFilters}

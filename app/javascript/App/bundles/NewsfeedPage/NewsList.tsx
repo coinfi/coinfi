@@ -88,7 +88,6 @@ class NewsList extends React.Component<Props, State> {
           key={newsItem.id}
           newsItem={newsItem}
           isSelected={this.props.selectedNewsItemId === newsItem.id.toString()}
-          selectCoin={() => null}
           hasRead={hasRead}
           onClick={this.onSelect}
         />

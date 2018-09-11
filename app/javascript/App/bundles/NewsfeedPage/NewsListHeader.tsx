@@ -19,7 +19,7 @@ interface Props {
   applyFilters: (filters: Filters) => void
   toggleFilters: () => void
   toggleNewsfeedTips: () => void
-  showCoinListDrawer: () => void
+  showCoinListDrawer?: () => void
 }
 
 const btnStyle: React.CSSProperties = {
@@ -47,7 +47,10 @@ export default class NewsListHeader extends React.Component<Props, {}> {
             {!window.isMobile && (
               <button
                 className="btn btn-blue btn-xs coins-btn mr2"
-                onClick={() => this.props.showCoinListDrawer()}
+                onClick={() =>
+                  !!this.props.showCoinListDrawer &&
+                  this.props.showCoinListDrawer()
+                }
                 style={
                   window.isMobile
                     ? {
