@@ -1,5 +1,12 @@
 import * as React from 'react'
-import { Avatar, Divider, IconButton, Menu, MenuItem } from '@material-ui/core'
+import {
+  Avatar,
+  Divider,
+  IconButton,
+  Menu,
+  MenuItem,
+  ListSubheader,
+} from '@material-ui/core'
 import {
   AccountCircle,
   KeyboardArrowDown,
@@ -7,6 +14,8 @@ import {
 } from '@material-ui/icons'
 import { MenuProps } from '@material-ui/core/Menu'
 import { createStyles, withStyles, withTheme } from '@material-ui/core'
+import { PROFILE_EDIT_URL, LOGOUT_URL } from '~/constants'
+import { IUser } from '~/bundles/common/types'
 
 const styles = (theme) =>
   createStyles({
@@ -24,12 +33,23 @@ const styles = (theme) =>
       borderRadius: 0,
       backgroundColor: '#071d29',
     },
+    menuHeadingItem: {
+      color: 'white',
+      lineHeight: '24px',
+      paddingLeft: 12,
+      paddingRight: 48,
+    },
+    menuAccountLabel: {},
+    menuEmail: {
+      color: 'rgba(255, 255, 255, .7)',
+    },
     menuList: {
       paddingTop: 0,
       paddingBottom: 0,
     },
     menuItem: {
       height: 10,
+      lineHeight: '10px',
       color: 'white',
       fontSize: 14,
       fontWeight: 500,
@@ -45,11 +65,33 @@ interface Props {
   menuAnchor: MenuProps['anchorEl']
   onOpenMenu: (event) => void
   onCloseMenu: (event) => void
+  formAuthenticityToken: string
+  user: IUser
   classes: any
 }
 
 const NavUser: React.StatelessComponent<Props> = (props) => {
-  const { menuOpen, menuAnchor, onOpenMenu, onCloseMenu, classes } = props
+  const {
+    menuOpen,
+    menuAnchor,
+    onOpenMenu,
+    onCloseMenu,
+    formAuthenticityToken,
+    user,
+    classes,
+  } = props
+
+  const LogoutButton = (logoutButtonProps) => (
+    <form method="post" action={LOGOUT_URL}>
+      <input type="hidden" name="_method" value="delete" />
+      <button type="submit" value="Logout" {...logoutButtonProps} />
+      <input
+        type="hidden"
+        name="authenticity_token"
+        value={formAuthenticityToken}
+      />
+    </form>
+  )
 
   return (
     <div className={classes.root}>
@@ -93,14 +135,18 @@ const NavUser: React.StatelessComponent<Props> = (props) => {
         open={menuOpen}
         onClose={onCloseMenu}
       >
-        <MenuItem className={classes.menuItem} onClick={onCloseMenu}>
-          Account
-        </MenuItem>
+        <ListSubheader className={classes.menuHeadingItem}>
+          <div className={classes.menuAccountLabel}>Account</div>
+          <div className={classes.menuEmail}>{user.email}</div>
+        </ListSubheader>
+
         <Divider className={classes.menuDivider} />
-        <MenuItem className={classes.menuItem} onClick={onCloseMenu}>
-          My profile
-        </MenuItem>
-        <MenuItem className={classes.menuItem} onClick={onCloseMenu}>
+
+        <a href={PROFILE_EDIT_URL}>
+          <MenuItem className={classes.menuItem}>My profile</MenuItem>
+        </a>
+
+        <MenuItem component={LogoutButton} className={classes.menuItem}>
           Logout
         </MenuItem>
       </Menu>

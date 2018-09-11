@@ -8,7 +8,8 @@ interface State {
 }
 
 interface Props {
-  user?: IUser
+  user: IUser
+  formAuthenticityToken: string
 }
 
 class NavUserContainer extends React.Component<Props, State> {
@@ -38,6 +39,8 @@ class NavUserContainer extends React.Component<Props, State> {
         menuAnchor={this.state.menuAnchor}
         onOpenMenu={this.handleOpenMenu}
         onCloseMenu={this.handleCloseMenu}
+        user={this.props.user}
+        formAuthenticityToken={this.props.formAuthenticityToken}
       />
     )
   }
