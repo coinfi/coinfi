@@ -16,11 +16,12 @@
 #
 
 default: &default
-  url: postgresql-makara:///
   encoding: unicode
   # For details on connection pooling, see Rails configuration guide
   # http://guides.rubyonrails.org/configuring.html#database-pooling
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  <% if ENV["MAKARA_ENABLED"] %>
+  url: postgresql-makara:///
   makara:
     sticky: true
     connections:
@@ -29,6 +30,10 @@ default: &default
         url: <%= ENV.fetch("DATABASE_MASTER_URL") %>
       - name: replica
         url: <%= ENV.fetch("DATABASE_REPLICA_URL") %>
+  <% else %>
+  adapter: postgresql
+  url: <%= ENV["DATABASE_URL"] %>
+  <% end %>
 
 development:
   <<: *default
@@ -76,6 +81,4 @@ test:
 # available as an environment variable. For example:
 #
 #   DATABASE_URL="postgres://myuser:mypass@localhost/somedatabase"
-#
-# You can use this database configuration with:
 #
