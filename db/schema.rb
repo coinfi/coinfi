@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180910025523) do
+ActiveRecord::Schema.define(version: 20180912054352) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -196,7 +196,7 @@ ActiveRecord::Schema.define(version: 20180910025523) do
     t.bigint "ico_usd_raised"
     t.bigint "ico_start_epoch"
     t.bigint "ico_end_epoch"
-    t.decimal "ico_token_price_usd", precision: 10, scale: 2
+    t.decimal "ico_token_price_usd", precision: 24, scale: 16
     t.decimal "ico_token_price_btc", precision: 24, scale: 16
     t.decimal "ico_token_price_eth", precision: 24, scale: 16
     t.string "ico_personal_cap_min"
