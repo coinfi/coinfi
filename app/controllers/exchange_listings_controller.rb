@@ -4,20 +4,24 @@ class ExchangeListingsController < ApplicationController
   def index
     @body_id = 'pane-layout'
 
-    # These fields are used to populate the filters;
-    # needs to be of the format { value, label }
-    @quote_symbols = Coin.symbols.map { |symbol| { "value" => symbol, "label" => symbol }}
-    @exchanges = Exchange.order(:name).select("name as label", "slug as value").as_json(except: :id)
+    distribute_reads(max_lag: MAX_ACCEPTABLE_REPLICATION_LAG, lag_failover: true) do
+      # These fields are used to populate the filters;
+      # needs to be of the format { value, label }
+      @quote_symbols = Coin.symbols.map { |symbol| { "value" => symbol, "label" => symbol }}
+      @exchanges = Exchange.order(:name).select("name as label", "slug as value").as_json(except: :id)
 
-    @listings = ExchangeListing.includes(:exchange).order_by_detected.limit(25).as_json(
-      only: %i[id symbol quote_symbol exchange_id exchange_name detected_at],
-      methods: %i[exchange_id exchange_name]
-    )
+      @listings = ExchangeListing.includes(:exchange).order_by_detected.limit(25).as_json(
+        only: %i[id symbol quote_symbol exchange_id exchange_name detected_at],
+        methods: %i[exchange_id exchange_name]
+      )
+    end
   end
 
   def show
-    @listing = ExchangeListing.find(params[:id])
-    @coin = Coin.listed.find_by_symbol(@listing.quote_symbol)
+    distribute_reads(max_lag: MAX_ACCEPTABLE_REPLICATION_LAG, lag_failover: true) do
+      @listing = ExchangeListing.find(params[:id])
+      @coin = Coin.listed.find_by_symbol(@listing.quote_symbol)
+    end
 
     respond_to do |format|
       format.js { render layout: false }

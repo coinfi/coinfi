@@ -5,34 +5,38 @@ class Api::ExchangeListingsController < ApiController
     # Ensure fresh response on every request
     headers['Last-Modified'] = Time.now.httpdate
 
-    @listings = ExchangeListing.includes(:exchange).all
+    distribute_reads(max_lag: MAX_ACCEPTABLE_REPLICATION_LAG, lag_failover: true) do
+      @listings = ExchangeListing.includes(:exchange).all
 
-    if params[:quoteSymbols].present?
-      quote_symbols = params[:quoteSymbols].split(',')
-      @listings = @listings.where(quote_symbol: quote_symbols)
+      if params[:quoteSymbols].present?
+        quote_symbols = params[:quoteSymbols].split(',')
+        @listings = @listings.where(quote_symbol: quote_symbols)
+      end
+
+      if params[:exchangeSlugs].present?
+        exchange_slugs = params[:exchangeSlugs].split(',')
+        @listings = @listings.where(exchanges: { slug: exchange_slugs })
+      end
+
+      if params[:detectedSince].present?
+        @listings = @listings.where('detected_at > ?', params[:detectedSince].to_datetime)
+      end
+
+      if params[:detectedUntil].present?
+        @listings = @listings.where('detected_at < ?', params[:detectedUntil].to_datetime)
+      end
+
+      @listings = @listings.order_by_detected.limit(PER_PAGE)
+
+      respond_success index_serializer(@listings)
     end
-
-    if params[:exchangeSlugs].present?
-      exchange_slugs = params[:exchangeSlugs].split(',')
-      @listings = @listings.where(exchanges: { slug: exchange_slugs })
-    end
-
-    if params[:detectedSince].present?
-      @listings = @listings.where('detected_at > ?', params[:detectedSince].to_datetime)
-    end
-
-    if params[:detectedUntil].present?
-      @listings = @listings.where('detected_at < ?', params[:detectedUntil].to_datetime)
-    end
-
-    @listings = @listings.order_by_detected.limit(PER_PAGE)
-
-    respond_success index_serializer(@listings)
   end
 
   def show
-    @listing = ExchangeListing.find(params[:id])
-    respond_success show_serializer(@listing)
+    distribute_reads(max_lag: MAX_ACCEPTABLE_REPLICATION_LAG, lag_failover: true) do
+      @listing = ExchangeListing.find(params[:id])
+      respond_success show_serializer(@listing)
+    end
   end
 
   private
