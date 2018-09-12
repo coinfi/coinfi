@@ -47,7 +47,7 @@ const NewsListItem = (props) => {
   const linkUrl =
     parsedUrl.hostname === 'twitter.com'
       ? `https://twitter.com/${parsedUrl.pathname.split('/')[1]}`
-      : newsItem.url
+      : newsItem.get('url')
   const linkText =
     parsedUrl.hostname === 'twitter.com'
       ? `@${parsedUrl.pathname.split('/')[1]}`
