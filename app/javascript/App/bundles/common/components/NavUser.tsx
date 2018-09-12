@@ -1,19 +1,15 @@
 import * as React from 'react'
-import {
-  Avatar,
-  Divider,
-  IconButton,
-  Menu,
-  MenuItem,
-  ListSubheader,
-} from '@material-ui/core'
-import {
-  AccountCircle,
-  KeyboardArrowDown,
-  KeyboardArrowUp,
-} from '@material-ui/icons'
+import Avatar from '@material-ui/core/Avatar'
+import Divider from '@material-ui/core/Divider'
+import IconButton from '@material-ui/core/IconButton'
+import Menu from '@material-ui/core/Menu'
+import MenuItem from '@material-ui/core/MenuItem'
+import ListSubheader from '@material-ui/core/ListSubheader'
+import { createStyles, withStyles, withTheme } from '@material-ui/core/styles'
+import AccountCircle from '@material-ui/icons/AccountCircle'
+import KeyboardArrowDown from '@material-ui/icons/KeyboardArrowDown'
+import KeyboardArrowUp from '@material-ui/icons/KeyboardArrowUp'
 import { MenuProps } from '@material-ui/core/Menu'
-import { createStyles, withStyles, withTheme } from '@material-ui/core'
 import { PROFILE_EDIT_URL, LOGOUT_URL } from '~/constants'
 
 const styles = (theme) =>
