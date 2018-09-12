@@ -63,7 +63,7 @@ $nav-menu-more-width: 150px;
   padding: 1rem;
 
   &__btn {
-    @extend .btn, .btn.btn-sm;
+    @extend .btn, .btn-sm;
     display: block;
     width: 100%;
     text-align: center;
