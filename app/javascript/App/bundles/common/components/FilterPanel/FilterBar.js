@@ -1,6 +1,6 @@
 import React from 'react'
 import FilterButton from './FilterButton'
-import ExchangeListingsContext from '~/bundles/ExchangeListings/context'
+import ExchangeListingsContext from '~/bundles/ExchangeListings/ExchangeListingsContext'
 
 export default ({ children, showCoinListDrawer, toggleFilterPanel }) => (
   <div

@@ -11,7 +11,9 @@ import ListingsHeader from './components/ListingsHeader'
 import ListingsList from './components/ListingsList'
 import BodySection from './components/BodySection'
 import localAPI from '../../lib/localAPI'
-import ExchangeListingsContext from './context'
+import ExchangeListingsContext, {
+  ExchangeListingsContextType,
+} from './ExchangeListingsContext'
 import CoinListWrapper from '~/bundles/common/components/CoinListWrapper'
 import CoinListDrawer from '~/bundles/common/components/CoinListDrawer'
 import { Coin } from '~/bundles/common/types'
@@ -256,12 +258,8 @@ class ExchangeListingsPage extends React.Component<Props, State> {
   public render() {
     const props = this.props
     const { listings, hasMore } = this.state
-    const selectedItems = {
-      detectedSince: this.state.detectedSince,
-      detectedUntil: this.state.detectedUntil,
-    }
 
-    const context = {
+    const context: ExchangeListingsContextType = {
       toggleFilterPanel: this.toggleFilterPanel,
       showFilterPanel: this.state.showFilterPanel,
       applyFilters: this.applyFilters,
@@ -270,7 +268,10 @@ class ExchangeListingsPage extends React.Component<Props, State> {
       changeSymbol: this.changeSymbol,
       changeExchange: this.changeExchange,
       filterDates: this.filterDates,
-      selectedItems,
+      selectedItems: {
+        detectedSince: this.state.detectedSince,
+        detectedUntil: this.state.detectedUntil,
+      },
       selectedSymbols: this.state.selectedSymbols,
       selectedExchanges: this.state.selectedExchanges,
       exchangeSlugs: this.state.exchangeSlugs,

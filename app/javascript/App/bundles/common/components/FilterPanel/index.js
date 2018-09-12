@@ -3,10 +3,10 @@ import styled from 'styled-components'
 import FilterApplyButton from './FilterApplyButton'
 import FilterCancelButton from './FilterCancelButton'
 import FilterResetLink from './FilterResetLink'
-import ExchangeListingContext from '~/bundles/ExchangeListings/context'
+import ExchangeListingContext from '~/bundles/ExchangeListings/ExchangeListingsContext'
 
 const Modal = styled.div`
-  display: block !important
+  display: block !important;
 `
 
 export default ({ children }) => {
