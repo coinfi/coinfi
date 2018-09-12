@@ -166,7 +166,6 @@ class NewsList extends React.Component<IProps, IState> {
           window.isMobile && initialRenderTips
             ? {
                 background: '#fff',
-                marginTop: '-65px',
                 overflow: 'hidden',
                 position: 'absolute',
               }

@@ -1,14 +1,30 @@
 import * as React from 'react'
-import CoinListContext from '../../contexts/CoinListContext'
+import CoinListContext, {
+  ICoinListContextType,
+} from '../../contexts/CoinListContext'
 import ExchangeListingsPage from './ExchangeListingsPage'
+import { ICoin } from '~/bundles/common/types'
+import { IListing } from '~/bundles/ExchangeListings/types'
 
-const ExchangeListingsContainer = (props) => (
+interface IProps {
+  user: any
+  initialListings: IListing[]
+  quoteSymbols: string[]
+  exchanges: string[]
+}
+
+const ExchangeListingsContainer = (props: IProps) => (
   <CoinListContext.Consumer>
-    {(payload) => (
+    {(payload: ICoinListContextType) => (
       <ExchangeListingsPage
-        {...props}
-        selectedCoin={payload.selectedCoin}
-        selectCoin={payload.selectCoin}
+        initialListings={props.initialListings}
+        quoteSymbols={props.quoteSymbols}
+        exchanges={props.exchanges}
+        loggedIn={!!props.user}
+        selectedCoinSlug={payload.selectedCoinSlug}
+        selectCoinBySlug={payload.selectCoinBySlug}
+        watchlist={payload.watchlist}
+        getWatchlist={payload.getWatchlist}
       />
     )}
   </CoinListContext.Consumer>

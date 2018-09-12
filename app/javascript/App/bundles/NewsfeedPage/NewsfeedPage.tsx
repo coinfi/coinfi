@@ -305,6 +305,7 @@ class NewsfeedPage extends React.Component<IProps, IState> {
               />
             </>
           }
+          showModal={false}
           modalSection={null}
           drawerSection={
             <>
