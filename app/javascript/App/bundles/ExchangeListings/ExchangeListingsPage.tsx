@@ -3,7 +3,6 @@ declare const window: WindowScreenType
 
 import * as React from 'react'
 import _ from 'lodash'
-import debounce from 'debounce'
 import LayoutDesktop from '../../components/LayoutDesktop'
 import LayoutTablet from '../../components/LayoutTablet'
 import LayoutMobile from '~/bundles/common/components/LayoutMobile'
