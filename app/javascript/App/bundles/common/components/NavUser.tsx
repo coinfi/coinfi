@@ -52,7 +52,7 @@ const styles = (theme) =>
       color: 'white',
       fontSize: 14,
       fontWeight: 500,
-      paddingRight: 48,
+      minWidth: 150,
     },
     menuDivider: {
       backgroundColor: 'rgba(255, 255, 255, .3)',
@@ -83,7 +83,7 @@ const NavUser: React.StatelessComponent<Props> = (props) => {
   const LogoutButton = (logoutButtonProps) => (
     <form method="post" action={LOGOUT_URL}>
       <input type="hidden" name="_method" value="delete" />
-      <button type="submit" value="Logout" {...logoutButtonProps} />
+      <button type="submit" {...logoutButtonProps} />
       <input
         type="hidden"
         name="authenticity_token"
@@ -110,6 +110,7 @@ const NavUser: React.StatelessComponent<Props> = (props) => {
       ) : (
         <IconButton
           className={classes.button}
+          disableRipple={true}
           aria-label="Open"
           color="inherit"
           onClick={onOpenMenu}
