@@ -1,10 +1,8 @@
 import * as React from 'react'
 import { withStyles, createStyles } from '@material-ui/core/styles'
-import * as URL from 'url-parse'
-import { ImgHTMLAttributes } from 'react'
 
 const getFaviconUrl = (url: string) => {
-  const parsedUrl = URL(url)
+  const parsedUrl = new URL(url)
   return `https://www.google.com/s2/favicons?domain=${parsedUrl.hostname}`
 }
 
