@@ -21,6 +21,6 @@ export interface CoinListContextType {
   selectCoinBySlug: (coinSlug: string) => void
 }
 
-const CoinListContext = React.createContext(null)
+const CoinListContext = React.createContext<CoinListContextType>(null)
 
 export default CoinListContext

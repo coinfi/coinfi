@@ -14,6 +14,6 @@ export interface NewsfeedContextType {
   hasMore: boolean
 }
 
-const NewsfeedContext = React.createContext(null)
+const NewsfeedContext = React.createContext<NewsfeedContextType>(null)
 
 export default NewsfeedContext
