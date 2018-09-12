@@ -31,7 +31,7 @@ class NewsItem < ApplicationRecord
 
   def self.chart_data(is_topcoin = false)
     if is_topcoin
-      categories = ["Exchange Listing", "Regulatory", "Security (Vulnerabilities)", "Product Release", "Token Supply Changes", "Forks"]
+      categories = ["Exchange Announcements", "Regulatory", "Project Announcements"]
     else
       categories = nil
     end
