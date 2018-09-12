@@ -2,9 +2,6 @@ import React, { Fragment } from 'react'
 import timeago from 'timeago.js'
 import CoinTags from '../CoinTags'
 import BulletSpacer from '../BulletSpacer'
-import twitterLogo from '../../images/logo-twitter.svg'
-import linkLogo from '../../images/logo-link.svg'
-import redditLogo from '../../images/logo-reddit.svg'
 import Favicon from '~/bundles/common/components/Favicon'
 
 const readNewsHandler = (newsItem, setActiveNewsItem) => {

@@ -6,10 +6,6 @@ import CoinTags from '../common/components/CoinTags'
 import BulletSpacer from '../../components/BulletSpacer'
 import { slugify } from '../../lib/utils/slugify'
 
-const twitterLogo = require('../../images/logo-twitter.svg')
-const linkLogo = require('../../images/logo-link.svg')
-const redditLogo = require('../../images/logo-reddit.svg')
-
 import classNames from 'classnames'
 import Favicon from '~/bundles/common/components/Favicon'
 
