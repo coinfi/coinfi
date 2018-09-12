@@ -1,5 +1,5 @@
 import * as React from 'react'
-import NavUser from '~/bundles/common/components/NavUser/NavUser'
+import NavUser from '~/bundles/common/components/NavUser'
 
 interface State {
   menuOpen: boolean
