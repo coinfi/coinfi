@@ -27,6 +27,8 @@ const styles = (theme) =>
     },
     button: {
       color: 'white',
+      width: 'auto',
+      fontSize: 20,
     },
     menuPaper: {
       borderRadius: 0,
@@ -105,7 +107,7 @@ const NavUser: React.StatelessComponent<Props> = (props) => {
           color="inherit"
           onClick={onCloseMenu}
         >
-          <KeyboardArrowUp />
+          <KeyboardArrowUp fontSize="inherit" />
         </IconButton>
       ) : (
         <IconButton
@@ -115,7 +117,7 @@ const NavUser: React.StatelessComponent<Props> = (props) => {
           color="inherit"
           onClick={onOpenMenu}
         >
-          <KeyboardArrowDown />
+          <KeyboardArrowDown fontSize="inherit" />
         </IconButton>
       )}
 
