@@ -10,7 +10,7 @@ namespace :data_migrations do
       .where(feed_source: feed_sources)
 
     batch_process(news_items) do |item|
-      unless item.news_categories.exists?(project_announcements_category.id)
+      unless item.news_categories.include?(project_announcements_category)
         item.news_categories << project_announcements_category
         item.last_machine_tagged_on = Time.now
         item.save!
