@@ -6,6 +6,7 @@ import CoinTags from '../CoinTags'
 import BulletSpacer from '../BulletSpacer'
 import Icon from '../Icon'
 import scrollHelper from '../../scrollHelper'
+import NewsBodyShareButtons from '~/bundles/NewsfeedPage/NewsBodyShareButtons'
 
 export default class NewsBody extends Component {
   componentDidMount() {
@@ -34,6 +35,7 @@ export default class NewsBody extends Component {
       _.trim(newsItem.get('content')) || _.trim(newsItem.get('summary'))
     return (
       <div className="pa3 bg-white min-h-100 selected-news-content">
+        {/* Header */}
         <CoinTags
           itemWithCoinLinkData={newsItem}
           selectCoin={this.selectCoin}
@@ -68,6 +70,8 @@ export default class NewsBody extends Component {
           </div>
         )}
         <div className="mv3 b--b" />
+
+        {/* Content */}
         <div
           className="lh-copy"
           dangerouslySetInnerHTML={{
@@ -76,6 +80,14 @@ export default class NewsBody extends Component {
             }),
           }}
         />
+
+        <div className="mv3 b--b" />
+
+        {/* Footer */}
+        <div>
+          <h2 className="f5">Share news</h2>
+          <NewsBodyShareButtons url={window.location.href} />
+        </div>
       </div>
     )
   }
