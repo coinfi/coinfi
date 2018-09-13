@@ -5,8 +5,13 @@ class AssignNewsItemDefaultNewsCategories
 
   def call
     if is_coin_project_tweet?
-      @news_item.news_categories << NewsCategory.find_project_announcements!
-      @news_item.last_machine_tagged_on = Time.now
+      project_announcements_category = NewsCategory.find_project_announcements!
+
+      # Assign if does not already exist
+      unless @news_item.news_categories.exists?(project_announcements_category.id)
+        @news_item.news_categories << project_announcements_category
+        @news_item.last_machine_tagged_on = Time.now
+      end
     end
 
     # Return true if call was successful
