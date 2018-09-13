@@ -35,27 +35,27 @@ const NewsBodyShareButtons: React.StatelessComponent<Props> = (props) => {
   return (
     <div className={classes.root}>
       <FacebookShareButton className={classes.button} url={url}>
-        <i className="fa fa-facebook-square" />
+        <i className="fab fa-facebook-square" />
       </FacebookShareButton>
 
       <TwitterShareButton className={classes.button} url={url}>
-        <i className="fa fa-twitter" />
+        <i className="fab fa-twitter" />
       </TwitterShareButton>
 
       <TelegramShareButton className={classes.button} url={url}>
-        <i className="fa fa-telegram" />
+        <i className="fab fa-telegram-plane" />
       </TelegramShareButton>
 
       <RedditShareButton className={classes.button} url={url}>
-        <i className="fa fa-reddit" />
+        <i className="fab fa-reddit" />
       </RedditShareButton>
 
       <EmailShareButton className={classes.button} url={url}>
-        <i className="fa fa-envelope" />
+        <i className="fas fa-envelope" />
       </EmailShareButton>
 
       <LinkedinShareButton className={classes.button} url={url}>
-        <i className="fa fa-linkedin" />
+        <i className="fab fa-linkedin" />
       </LinkedinShareButton>
     </div>
   )
