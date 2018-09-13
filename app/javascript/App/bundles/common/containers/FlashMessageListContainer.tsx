@@ -1,4 +1,5 @@
 import * as React from 'react'
+import ReactOnRails from 'react-on-rails'
 import FlashMessageListItem from '~/bundles/common/components/FlashMessageListItem'
 import { FlashMessage } from '~/bundles/common/types'
 
@@ -49,5 +50,7 @@ class FlashMessageListContainer extends React.Component<Props, State> {
     )
   }
 }
+
+ReactOnRails.register({ FlashMessageListContainer })
 
 export default FlashMessageListContainer
