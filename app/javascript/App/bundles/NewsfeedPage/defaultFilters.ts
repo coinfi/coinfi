@@ -1,6 +1,6 @@
-import { IFilters } from './types'
+import { Filters } from './types'
 
-const getDefaultFilters = (): IFilters => ({
+const getDefaultFilters = (): Filters => ({
   categories: [],
   coinSlugs: [],
   feedSources: [],

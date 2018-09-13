@@ -1,16 +1,16 @@
-import { IWindowScreenType } from '../../../common/types'
-declare const window: IWindowScreenType
+import { WindowScreenType } from '../../../common/types'
+declare const window: WindowScreenType
 
 import * as React from 'react'
 import classNames from 'classnames'
 
-interface IProps {
+interface Props {
   items: string[]
   selectedItems: string[]
   onChange: (item: string) => void
 }
 
-export default class Categories extends React.Component<IProps, {}> {
+export default class Categories extends React.Component<Props, {}> {
   public isSelected = (item) => this.props.selectedItems.includes(item)
 
   public render() {

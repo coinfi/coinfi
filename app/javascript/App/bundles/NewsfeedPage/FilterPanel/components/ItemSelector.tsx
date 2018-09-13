@@ -23,13 +23,13 @@ const ItemLink = (props) => (
   </label>
 )
 
-interface IProps {
+interface Props {
   items: string[]
   selectedItems: string[]
   onChange: (item: string) => void
 }
 
-const ItemSelector = (props: IProps) => {
+const ItemSelector = (props: Props) => {
   return (
     <div className="item-selector-alt">
       <ul>

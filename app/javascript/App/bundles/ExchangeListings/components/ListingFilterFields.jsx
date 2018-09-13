@@ -1,7 +1,7 @@
 import React from 'react'
 import Select from 'react-select'
 import DateRangeListing from '~/components/DateRangeListing'
-import ExchangeListingsContext from '~/bundles/ExchangeListings/context'
+import ExchangeListingsContext from '~/bundles/ExchangeListings/ExchangeListingsContext'
 
 export default () => (
   <div className="pa3">

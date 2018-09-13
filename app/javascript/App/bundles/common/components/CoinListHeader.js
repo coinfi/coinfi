@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
-import CoinListContext from '../../../contexts/CoinListContext'
+import CoinListContext from '../contexts/CoinListContext'
 
 const Tab = styled.div`
   padding: 0 !important;
@@ -27,7 +27,10 @@ class CoinListHeader extends Component {
     return (
       <CoinListContext.Consumer>
         {(payload) => (
-          <div id="panel-header" className="b--b flex-none flex justify-between items-center bg-athens tabs">
+          <div
+            id="panel-header"
+            className="b--b flex-none flex justify-between items-center bg-athens tabs"
+          >
             <Tab
               className="tab"
               selected={!payload.isWatchlist}

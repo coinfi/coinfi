@@ -3,9 +3,9 @@ import _ from 'lodash'
 import API from '../../../lib/API'
 import normalizers from '../../../normalizers'
 import CoinListContext, {
-  ICoinListContextType,
-} from '~/contexts/CoinListContext'
-import { ICoin } from '~/bundles/common/types'
+  CoinListContextType,
+} from '~/bundles/common/contexts/CoinListContext'
+import { Coin } from '~/bundles/common/types'
 
 const STATUSES = {
   INITIALIZING: 'Initializing',
@@ -16,21 +16,21 @@ const STATUSES = {
   // TODO: Add API failure statuses.
 }
 
-interface IProps {
+interface Props {
   loggedIn: boolean
 }
 
-interface IState {
+interface State {
   status: string
   isWatchlist: boolean
   toplistIndex: number[]
-  toplist: ICoin[]
+  toplist: Coin[]
   watchlistIndex: number[]
-  watchlist: ICoin[]
+  watchlist: Coin[]
   selectedCoinSlug: string | null
 }
 
-class CoinListContainer extends React.Component<IProps, IState> {
+class CoinListContainer extends React.Component<Props, State> {
   public state = {
     status: STATUSES.INITIALIZING,
     isWatchlist: false,
@@ -86,45 +86,40 @@ class CoinListContainer extends React.Component<IProps, IState> {
     )
 
   public fetchWatchlist = () =>
-    // TODO: Write Watchlist endpoint.
     API.get('/coins/watchlist', {}, false).then((response) =>
       Promise.resolve(normalizers.coins(response.payload)),
     )
 
-  // TODO: Figure out what
   public persistCoinToWatchlist = (id) =>
     API.post('/watchlist/coins', { id }, false)
 
-  // FIXME: nested promises
   public addCoinToWatchlist = (coinId) =>
     this.setState({ status: STATUSES.ADDING_NEW_COIN_TO_WATCHLIST }, () =>
-      this.persistCoinToWatchlist(coinId).then(() =>
-        this.fetchWatchlist().then(({ result, entities }) =>
+      this.persistCoinToWatchlist(coinId)
+        .then(this.fetchWatchlist)
+        .then(({ result, entities }) =>
           this.setState({
             status: STATUSES.READY,
             watchlistIndex: result,
             watchlist: entities.coins,
           }),
         ),
-      ),
     )
 
-  // TODO: check this because of comment above `persist...`
   public deleteCoinFromWatchlist = (id) =>
     API.delete(`/watchlist/coins/${id}`, {}, false)
 
-  // FIXME: nested promises
   public removeCoinFromWatchlist = (coinId) =>
     this.setState({ status: STATUSES.REMOVING_COIN_FROM_WATCHLIST }, () =>
-      this.deleteCoinFromWatchlist(coinId).then(() =>
-        this.fetchWatchlist().then(({ result, entities }) =>
+      this.deleteCoinFromWatchlist(coinId)
+        .then(this.fetchWatchlist)
+        .then(({ result, entities }) =>
           this.setState({
             status: STATUSES.READY,
             watchlistIndex: result,
             watchlist: entities.coins,
           }),
         ),
-      ),
     )
 
   public isCoinInWatchlist = (coinId) =>
@@ -132,10 +127,10 @@ class CoinListContainer extends React.Component<IProps, IState> {
 
   public isInitializing = () => this.state.status === STATUSES.INITIALIZING
 
-  public getToplistArray = (): ICoin[] =>
+  public getToplistArray = (): Coin[] =>
     this.state.toplistIndex.map((id) => this.state.toplist[id])
 
-  public getWatchlistArray = (): ICoin[] =>
+  public getWatchlistArray = (): Coin[] =>
     this.state.watchlistIndex.map((id) => this.state.watchlist[id])
 
   public getCoinList = () => {
@@ -155,7 +150,7 @@ class CoinListContainer extends React.Component<IProps, IState> {
     })
 
   public render = () => {
-    const payload: ICoinListContextType = {
+    const payload: CoinListContextType = {
       status: this.state.status,
       watchlist: this.state.watchlist,
       toplist: this.state.toplist,

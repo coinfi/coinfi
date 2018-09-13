@@ -31,15 +31,7 @@ const Title = styled.h4`
 `
 
 const NewsListItem = (props) => {
-  const {
-    activeEntity,
-    newsItem,
-    setActiveNewsItem,
-    isSelected,
-    preRender,
-    hasRead,
-    onClick,
-  } = props
+  const { newsItem, isSelected, preRender, hasRead, onClick } = props
 
   const newsItemTitle = newsItem.title
     .replace(/<h1>/g, '')

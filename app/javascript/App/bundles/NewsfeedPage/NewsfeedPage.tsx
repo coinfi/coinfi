@@ -1,6 +1,5 @@
-// TODO: find more convenient way to extend window declaration
-import { IWindowScreenType, ICoinLinkData, ICoin } from '../common/types'
-declare const window: IWindowScreenType
+import { WindowScreenType } from '../common/types'
+declare const window: WindowScreenType
 
 import * as React from 'react'
 import { withRouter, RouteComponentProps } from 'react-router'
@@ -17,41 +16,37 @@ import BodySection from './BodySection'
 import BodySectionDrawer from '../../bundles/common/components/BodySectionDrawer'
 import _ from 'lodash'
 
-import { INewsItem, ContentType, IFilters } from './types'
+import { NewsItem, ContentType, Filters } from './types'
 import { CoinList } from '../common/types'
 import getDefaultFilters from './defaultFilters'
 
-const POLLING_TIMEOUT = 6000
+const POLLING_TIMEOUT = 60000
 
-interface IProps extends RouteComponentProps<any> {
+interface Props extends RouteComponentProps<any> {
   loggedIn: boolean
   categories: string[]
   feedSources: string[]
   coinSlug?: string
   newsItemId?: string
-  coinlist: CoinList
-  newslist: INewsItem[]
+  newslist: NewsItem[]
   isNewsfeedLoading: boolean
-  isNewsfeedLoadingMoreItems: boolean
-  isNewsfeedReady: boolean
-  isCoinlistLoading: boolean
-  isCoinlistReady: boolean
-  fetchNewsItems: (filters: IFilters) => Promise<INewsItem[]>
-  fetchMoreNewsItems: (filters: IFilters) => Promise<INewsItem[]>
-  fetchNewNewsItems: (filters: IFilters) => Promise<INewsItem[]>
+  fetchNewsItems: (filters: Filters) => Promise<NewsItem[]>
+  fetchMoreNewsItems: (filters: Filters) => Promise<NewsItem[]>
+  fetchNewNewsItems: (filters: Filters) => Promise<NewsItem[]>
   cleanNewsItems: () => void
   selectedCoinSlug: string | null
   selectCoinBySlug: any
   isWatchlistSelected: boolean
   getWatchlist: any
   watchlist: any
+  hasMore: boolean
 }
 
 type ActiveMobileWindow = 'CoinsList' | 'BodySection' | 'None'
 
-interface IState {
+interface State {
   ActiveMobileWindow: ActiveMobileWindow
-  filters: IFilters
+  filters: Filters
   initialRenderTips: boolean
   isWindowFocused: boolean
   newsfeedTips: boolean
@@ -59,7 +54,7 @@ interface IState {
   unseenNewsIds: number[]
 }
 
-class NewsfeedPage extends React.Component<IProps, IState> {
+class NewsfeedPage extends React.Component<Props, State> {
   public state = {
     ActiveMobileWindow: 'None' as ActiveMobileWindow,
     filters: getDefaultFilters(),
@@ -82,7 +77,7 @@ class NewsfeedPage extends React.Component<IProps, IState> {
     }, POLLING_TIMEOUT)
   }
 
-  public updateTitle = (news?: INewsItem[]) => {
+  public updateTitle = (news?: NewsItem[]) => {
     if (typeof news !== 'undefined') {
       if (news.length === 0) {
         return
@@ -100,7 +95,7 @@ class NewsfeedPage extends React.Component<IProps, IState> {
     }
   }
 
-  public applyFilters = (filters: IFilters) => {
+  public applyFilters = (filters: Filters) => {
     this.setState(
       {
         filters: _.cloneDeep(filters),
@@ -164,7 +159,7 @@ class NewsfeedPage extends React.Component<IProps, IState> {
 
     if (this.getContentType() === 'coin') {
       this.props.selectCoinBySlug(this.props.coinSlug)
-      this.setState((state: IState, props: IProps) => {
+      this.setState((state: State, props: Props) => {
         state.filters.coinSlugs.push(props.coinSlug)
         state.ActiveMobileWindow = 'BodySection'
         this.props.fetchNewsItems(state.filters).then(() => {
@@ -288,7 +283,6 @@ class NewsfeedPage extends React.Component<IProps, IState> {
                 isShown={!this.state.showFilters}
                 isWindowFocused={this.state.isWindowFocused}
                 isLoading={this.props.isNewsfeedLoading}
-                isInfiniteScrollLoading={this.props.isNewsfeedLoadingMoreItems}
                 sortedNewsItems={this.props.newslist}
                 initialRenderTips={this.state.initialRenderTips}
                 fetchMoreNewsFeed={() =>
@@ -302,9 +296,11 @@ class NewsfeedPage extends React.Component<IProps, IState> {
                   )
                   this.setState({ ActiveMobileWindow: 'BodySection' })
                 }}
+                hasMore={this.props.hasMore}
               />
             </>
           }
+          showModal={false}
           modalSection={null}
           drawerSection={
             <>
@@ -352,10 +348,9 @@ class NewsfeedPage extends React.Component<IProps, IState> {
               <NewsList
                 isShown={!this.state.showFilters}
                 isWindowFocused={this.state.isWindowFocused}
-                isLoading={this.props.isNewsfeedLoading}
-                isInfiniteScrollLoading={this.props.isNewsfeedLoadingMoreItems}
                 sortedNewsItems={this.props.newslist}
                 initialRenderTips={this.state.initialRenderTips}
+                isLoading={this.props.isNewsfeedLoading}
                 fetchMoreNewsFeed={() =>
                   this.props.fetchMoreNewsItems(this.state.filters)
                 }
@@ -366,6 +361,7 @@ class NewsfeedPage extends React.Component<IProps, IState> {
                     `/news/${newsItem.id}/${slugify(newsItem.title)}`,
                   )
                 }}
+                hasMore={this.props.hasMore}
               />
             </>
           }
@@ -390,12 +386,7 @@ class NewsfeedPage extends React.Component<IProps, IState> {
     } else {
       return (
         <LayoutDesktop
-          leftSection={
-            <CoinListWrapper
-              loggedIn={this.props.loggedIn}
-              onClick={() => null}
-            />
-          }
+          leftSection={<CoinListWrapper loggedIn={this.props.loggedIn} />}
           centerSection={
             <>
               <NewsListHeader
@@ -406,15 +397,13 @@ class NewsfeedPage extends React.Component<IProps, IState> {
                 applyFilters={this.applyFilters}
                 filters={this.state.filters}
                 categories={this.props.categories}
-                showCoinListDrawer={() => null}
               />
               <NewsList
                 isShown={!this.state.showFilters}
                 isWindowFocused={this.state.isWindowFocused}
-                isLoading={this.props.isNewsfeedLoading}
-                isInfiniteScrollLoading={this.props.isNewsfeedLoadingMoreItems}
                 sortedNewsItems={this.props.newslist}
                 initialRenderTips={this.state.initialRenderTips}
+                isLoading={this.props.isNewsfeedLoading}
                 fetchMoreNewsFeed={() =>
                   this.props.fetchMoreNewsItems(this.state.filters)
                 }
@@ -426,6 +415,7 @@ class NewsfeedPage extends React.Component<IProps, IState> {
                   )
                   this.setState({ ActiveMobileWindow: 'BodySection' })
                 }}
+                hasMore={this.props.hasMore}
               />
             </>
           }
@@ -443,4 +433,4 @@ class NewsfeedPage extends React.Component<IProps, IState> {
   }
 }
 
-export default withRouter<IProps>(NewsfeedPage)
+export default withRouter<Props>(NewsfeedPage)
