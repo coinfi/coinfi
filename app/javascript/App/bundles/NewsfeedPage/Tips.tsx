@@ -29,12 +29,12 @@ const listNumberStyle = {
   width: 18,
 }
 
-interface IProps {
+interface Props {
   closeTips?: () => void
   loggedIn?: boolean
 }
 
-export default ({ closeTips, loggedIn }: IProps) => {
+export default ({ closeTips, loggedIn }: Props) => {
   return (
     <div className="lh-copy">
       <div>

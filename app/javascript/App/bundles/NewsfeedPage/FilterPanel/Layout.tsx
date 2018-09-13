@@ -1,6 +1,6 @@
 import * as React from 'react'
 
-interface IProps {
+interface Props {
   closeFilterPanel: () => void
   resetFilters: () => void
   applyFilters: () => void
@@ -8,7 +8,7 @@ interface IProps {
   newsFeedStyle?: boolean
 }
 
-const Layout = (props: IProps) => {
+const Layout = (props: Props) => {
   let containerClass = 'modal bg-athens'
   // @ts-ignore
   if (!window.isMobile) {

@@ -7,25 +7,25 @@ import Dates from './filterComponents/Dates'
 import FeedSources from './filterComponents/FeedSources'
 import Social from './filterComponents/Social'
 import Categories from './filterComponents/Categories'
-import { IFilters } from '../types'
+import { Filters } from '../types'
 
 import getDefaultFilters from '../defaultFilters'
 
-interface IProps {
+interface Props {
   categories: string[]
   feedSources: string[]
-  filters: IFilters
+  filters: Filters
   closeFilterPanel: () => void
-  applyFilters: (filters: IFilters) => void
+  applyFilters: (filters: Filters) => void
   children?: any
   newsFeedStyle?: boolean
 }
 
-interface IState {
-  form: IFilters
+interface State {
+  form: Filters
 }
 
-class FilterPanel extends React.Component<IProps, IState> {
+class FilterPanel extends React.Component<Props, State> {
   constructor(props) {
     super(props)
 

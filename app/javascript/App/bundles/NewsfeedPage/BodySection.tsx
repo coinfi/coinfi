@@ -4,7 +4,6 @@ import NewsBody from './NewsBody'
 import CoinBody from '../common/components/CoinBody'
 import Tips from './Tips'
 import { ContentType } from './types'
-import { IUser } from '../common/types'
 
 interface Props {
   newsItemId?: string

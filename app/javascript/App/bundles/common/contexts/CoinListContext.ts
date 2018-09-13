@@ -1,26 +1,26 @@
 import * as React from 'react'
-import { ICoin } from '~/bundles/common/types'
+import { Coin } from '~/bundles/common/types'
 
-export interface ICoinListContextType {
+export interface CoinListContextType {
   status: string
-  watchlist: ICoin[]
-  toplist: ICoin[]
+  watchlist: Coin[]
+  toplist: Coin[]
   isInitializing: () => boolean
   isWatchlist: boolean
-  getWatchlist: () => ICoin[]
-  getToplist: () => ICoin[]
+  getWatchlist: () => Coin[]
+  getToplist: () => Coin[]
   showWatchlist: () => void
   showToplist: () => void
   isCoinInWatchlist: (id: number) => boolean
   addCoinToWatchlist: (id: number) => void
   removeCoinFromWatchlist: (id: number) => void
-  coinlist: ICoin[]
+  coinlist: Coin[]
   selectedCoinSlug: string | null
   isLoading: boolean
   isReady: boolean
   selectCoinBySlug: (coinSlug: string) => void
 }
 
-const CoinListContext = React.createContext(null)
+const CoinListContext = React.createContext<CoinListContextType>(null)
 
 export default CoinListContext

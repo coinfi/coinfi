@@ -2,19 +2,25 @@ import * as React from 'react'
 import CoinList from '~/bundles/common/components/CoinList'
 import CoinListHeader from './CoinListHeader'
 import CoinListContext, {
-  ICoinListContextType,
-} from '~/contexts/CoinListContext'
+  CoinListContextType,
+} from '~/bundles/common/contexts/CoinListContext'
 import LoadingIndicator from '../../../components/LoadingIndicator'
-import { ICoin } from '~/bundles/common/types'
+import { Coin } from '~/bundles/common/types'
 
-interface IProps {
+interface MobileVersionProps {
   loggedIn: boolean
-  onClick: any
+  forMobile: true
+  onClick: () => void
 }
 
-const CoinListWrapper = (props: IProps) => (
+interface Props {
+  loggedIn: boolean
+  forMobile?: false
+}
+
+const CoinListWrapper = (props: Props | MobileVersionProps) => (
   <CoinListContext.Consumer>
-    {(payload: ICoinListContextType) => {
+    {(payload: CoinListContextType) => {
       return payload.isInitializing() ? (
         <>
           <CoinListHeader />
@@ -29,9 +35,11 @@ const CoinListWrapper = (props: IProps) => (
             list={payload.coinlist}
             loggedIn={props.loggedIn}
             selectedCoinSlug={payload.selectedCoinSlug}
-            onSelectCoin={(coin: ICoin) => {
+            onSelectCoin={(coin: Coin) => {
               payload.selectCoinBySlug(coin.slug)
-              props.onClick()
+              if (props.forMobile) {
+                props.onClick()
+              }
             }}
           />
         </>
