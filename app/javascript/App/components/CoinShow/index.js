@@ -1,4 +1,5 @@
 import React, { Component, Fragment } from 'react'
+import ReactOnRails from 'react-on-rails'
 import { Layout, Card, Button, List, Col, Row, Avatar } from 'antd'
 import classNames from 'classnames'
 import styled from 'styled-components'
@@ -392,7 +393,9 @@ class CoinShow extends Component {
   }
 }
 
-export default newsfeedContainer(CoinShow)
+ReactOnRails.register({ CoinShow })
+
+export default CoinShow
 
 const Section = styled.section`
   text-align: center;
