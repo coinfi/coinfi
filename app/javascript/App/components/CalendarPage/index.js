@@ -1,4 +1,5 @@
 import React, { Component, Fragment } from 'react'
+import ReactOnRails from 'react-on-rails'
 import debounce from 'debounce'
 import axios from 'axios'
 import calendarContainer from '../../containers/calendar'
@@ -13,6 +14,7 @@ import BodySection from './BodySection'
 import BodySectionDrawer from '../BodySectionDrawer'
 import Immutable from 'immutable'
 import _ from 'lodash'
+import withStore from '../../withStore'
 
 class CalendarPage extends Component {
   state = {
@@ -143,4 +145,6 @@ class CalendarPage extends Component {
   }
 }
 
-export default calendarContainer(CalendarPage)
+const CalendarPageWithStore = withStore(calendarContainer(CalendarPage))
+
+ReactOnRails.register({ CalendarPage: CalendarPageWithStore })
