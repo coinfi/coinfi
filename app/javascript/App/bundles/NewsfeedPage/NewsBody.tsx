@@ -12,6 +12,7 @@ import LoadingIndicator from '../../components/LoadingIndicator'
 import { getDomainType } from '../../lib/utils/url'
 
 import { NewsItem } from './types'
+import NewsBodyShareButtons from './NewsBodyShareButtons'
 
 interface Props {
   newsItemId: string
@@ -76,6 +77,7 @@ export default class NewsBody extends React.Component<Props, State> {
 
     return (
       <div className="pa3 bg-white min-h-100 selected-news-content">
+        {/* Header */}
         <CoinTags itemWithCoinLinkData={newsItem} />
         <h1 className="break-word f4">{newsItem.title}</h1>
         <div className="mb3 f6">
@@ -106,7 +108,10 @@ export default class NewsBody extends React.Component<Props, State> {
             ))}
           </div>
         )}
+
         <div className="mv3 b--b" />
+
+        {/* Content */}
         <div
           className="lh-copy"
           dangerouslySetInnerHTML={{
@@ -115,6 +120,14 @@ export default class NewsBody extends React.Component<Props, State> {
             }),
           }}
         />
+
+        <div className="mv3 b--b" />
+
+        {/* Footer */}
+        <div>
+          <h2 className="f5">Share news</h2>
+          <NewsBodyShareButtons url={window.location.href} />
+        </div>
       </div>
     )
   }
