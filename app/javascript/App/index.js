@@ -13,6 +13,8 @@ import configureStore from './configureStore'
 import getScreenSize from './lib/screenSize'
 import { PersistGate } from 'redux-persist/integration/react'
 import debounce from 'debounce'
+import { MuiThemeProvider } from '@material-ui/core/styles'
+import theme from './theme'
 
 import appContainer from './containers/app'
 
@@ -31,6 +33,7 @@ import scrollHelper from './scrollHelper'
 import CoinListContainer from './bundles/common/containers/CoinListContainer'
 import NewsfeedContainer from './bundles/NewsfeedPage/NewsfeedContainer'
 import FlashMessageListContainer from './bundles/common/containers/FlashMessageListContainer'
+import NavUserContainer from './bundles/common/containers/NavUserContainer'
 
 const injectableComponents = {
   WatchButton,
@@ -42,6 +45,7 @@ const injectableComponents = {
   CalendarPage,
   CoinShow,
   FlashMessageListContainer,
+  NavUserContainer,
 }
 
 const injectComponents = () => {
@@ -54,48 +58,50 @@ const injectComponents = () => {
 
       if (name === 'App') {
         ReactDOM.render(
-          <NewsfeedContainer>
-            <CoinListContainer loggedIn={!!props.user}>
-              <Router>
-                <Switch>
-                  <Route
-                    exact
-                    path="/news/:coinSlug?"
-                    render={(routeProps) => (
-                      <NewsfeedPageNew
-                        loggedIn={!!props.user}
-                        coinSlug={routeProps.match.params.coinSlug}
-                        categories={props.categories}
-                        feedSources={props.feedSources}
-                      />
-                    )}
-                  />
-                  <Route
-                    exact
-                    path="/news/:newsItemId/:newsItemSlug"
-                    render={(routeProps) => (
-                      <NewsfeedPageNew
-                        loggedIn={!!props.user}
-                        newsItemId={routeProps.match.params.newsItemId}
-                        categories={props.categories}
-                        feedSources={props.feedSources}
-                      />
-                    )}
-                  />
-                  <Route
-                    exact
-                    path="/listings"
-                    render={() => <ExchangeListingsPage {...props} />}
-                  />
-                  <Route
-                    exact
-                    path="/coins"
-                    render={() => <CoinIndex {...props} />}
-                  />
-                </Switch>
-              </Router>
-            </CoinListContainer>
-          </NewsfeedContainer>,
+          <MuiThemeProvider>
+            <NewsfeedContainer>
+              <CoinListContainer loggedIn={!!props.user}>
+                <Router>
+                  <Switch>
+                    <Route
+                      exact
+                      path="/news/:coinSlug?"
+                      render={(routeProps) => (
+                        <NewsfeedPageNew
+                          loggedIn={!!props.user}
+                          coinSlug={routeProps.match.params.coinSlug}
+                          categories={props.categories}
+                          feedSources={props.feedSources}
+                        />
+                      )}
+                    />
+                    <Route
+                      exact
+                      path="/news/:newsItemId/:newsItemSlug"
+                      render={(routeProps) => (
+                        <NewsfeedPageNew
+                          loggedIn={!!props.user}
+                          newsItemId={routeProps.match.params.newsItemId}
+                          categories={props.categories}
+                          feedSources={props.feedSources}
+                        />
+                      )}
+                    />
+                    <Route
+                      exact
+                      path="/listings"
+                      render={() => <ExchangeListingsPage {...props} />}
+                    />
+                    <Route
+                      exact
+                      path="/coins"
+                      render={() => <CoinIndex {...props} />}
+                    />
+                  </Switch>
+                </Router>
+              </CoinListContainer>
+            </NewsfeedContainer>
+          </MuiThemeProvider>,
           hook,
         )
       } else {
@@ -105,17 +111,24 @@ const injectComponents = () => {
         if (withStore) {
           const AppComponent = appContainer(Component)
           ReactDOM.render(
-            <CoinListContainer user={props.user}>
-              <Provider store={store}>
-                <PersistGate loading={null} persistor={persistor}>
-                  <AppComponent {...props} />
-                </PersistGate>
-              </Provider>
-            </CoinListContainer>,
+            <MuiThemeProvider theme={theme}>
+              <CoinListContainer user={props.user}>
+                <Provider store={store}>
+                  <PersistGate loading={null} persistor={persistor}>
+                    <AppComponent {...props} />
+                  </PersistGate>
+                </Provider>
+              </CoinListContainer>
+            </MuiThemeProvider>,
             hook,
           )
         } else {
-          ReactDOM.render(<Component {...props} />, hook)
+          ReactDOM.render(
+            <MuiThemeProvider theme={theme}>
+              <Component {...props} />
+            </MuiThemeProvider>,
+            hook,
+          )
         }
       }
     })

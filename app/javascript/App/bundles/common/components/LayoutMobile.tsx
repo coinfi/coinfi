@@ -12,17 +12,18 @@ const Modal = styled.div`
   background: white;
 `
 
-export default function({ mainSection, modalSection, drawerSection, showModal }) {
+export default function({
+  mainSection,
+  modalSection,
+  drawerSection,
+  showModal,
+}) {
   return (
     <>
       <div className="bg-white relative flex-auto flex flex-column">
         {mainSection}
       </div>
-      {!!showModal && (
-        <Modal>
-          {modalSection}
-        </Modal>
-      )}
+      {!!showModal && <Modal>{modalSection}</Modal>}
       {drawerSection}
     </>
   )
