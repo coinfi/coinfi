@@ -47,12 +47,29 @@ class NewsItem < ApplicationRecord
       .order_by_published(:asc)
   end
 
-  def coin_link_data
-    coins.map { |coin| coin.as_json(only: [:symbol, :slug, :id] ) }
+  def tag_scoped_coins
+    case ENV['NEWS_COIN_MENTION_TAG_SCOPE']
+    when 'human'
+      self.human_tagged_coins
+    when 'machine'
+      self.machine_tagged_coins
+    when 'combo'
+      if self.human_tagged_coins.exists?
+        self.human_tagged_coins
+      else
+        self.machine_tagged_coins
+      end
+    else
+      raise "Invalid NEWS_COIN_MENTION_TAG_SCOPE environment variable"
+    end
   end
 
-  def coin_symbols
-    coins.pluck(:symbol).join(', ')
+  def tag_scoped_coin_link_data
+    tag_scoped_coins.map { |coin| coin.as_json(only: [:symbol, :slug, :id] ) }
+  end
+
+  def tag_scoped_coin_symbols
+    tag_scoped_coins.pluck(:symbol).join(', ')
   end
 
   # This is used in Administrate to override the `categories` and `coins` filters.
