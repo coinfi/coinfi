@@ -124,8 +124,8 @@ export default class NewsBody extends React.Component<Props, State> {
         <div className="mv3 b--b" />
 
         {/* Footer */}
-        <div>
-          <h2 className="f5">Share news</h2>
+        <div className="mb3">
+          <h2 className="f5">Share This Article</h2>
           <NewsBodyShareButtons url={window.location.href} />
         </div>
       </div>
