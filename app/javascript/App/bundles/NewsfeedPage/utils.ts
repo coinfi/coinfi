@@ -6,7 +6,7 @@ export const SOCIAL_FEED_SOURCES = ['reddit', 'twitter']
 export const getDefaultFilters = (): Filters => ({
   categories: [],
   coinSlugs: [],
-  feedSources: [...SOCIAL_FEED_SOURCES],
+  feedSources: [],
   publishedSince: null,
   publishedUntil: null,
 })
