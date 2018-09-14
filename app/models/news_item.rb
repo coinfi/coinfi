@@ -72,6 +72,10 @@ class NewsItem < ApplicationRecord
     tag_scoped_coins.pluck(:symbol).join(', ')
   end
 
+  def coin_symbols
+    coins.pluck(:symbol).join(', ')
+  end
+
   # This is used in Administrate to override the `categories` and `coins` filters.
   def all_coin_symbols
     mentions = NewsCoinMention.where(news_item_id: id)
