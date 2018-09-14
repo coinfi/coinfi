@@ -26,12 +26,12 @@ export const isTopCoin = (coinSlug: string) => {
 export const getInitialSocialSourcesForCoinsFilter = (
   coinSlugs: string[],
 ): Filters['feedSources'] => {
-  // Enable social sources if there are low cap coins or if all coins are displayed
-  if (!_.every(coinSlugs, isTopCoin) || _.isEmpty(coinSlugs)) {
-    return SOCIAL_FEED_SOURCES
+  // Disable social sources if there are only top coins or if all coins are displayed
+  if (_.isEmpty(coinSlugs) || _.every(coinSlugs, isTopCoin)) {
+    return []
   }
 
-  return []
+  return SOCIAL_FEED_SOURCES
 }
 
 export const mergeInitialSocialSourcesForCoinsFilter = (
