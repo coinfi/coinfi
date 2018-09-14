@@ -18,7 +18,10 @@ import _ from 'lodash'
 
 import { NewsItem, ContentType, Filters } from './types'
 import { CoinList } from '../common/types'
-import getDefaultFilters from './defaultFilters'
+import {
+  getDefaultFilters,
+  mergeInitialSocialSourcesForCoinsFilter,
+} from './utils'
 
 const POLLING_TIMEOUT = 60000
 
@@ -162,9 +165,18 @@ class NewsfeedPage extends React.Component<Props, State> {
 
   public getInitialFilters = () => {
     const defaultFilters = getDefaultFilters()
+    const coinSlugs = _.compact([
+      ...defaultFilters.coinSlugs,
+      this.props.coinSlug,
+    ])
+
     const result = {
       ...defaultFilters,
-      coinSlugs: _.compact([...defaultFilters.coinSlugs, this.props.coinSlug]),
+      coinSlugs,
+      feedSources: mergeInitialSocialSourcesForCoinsFilter(
+        defaultFilters.feedSources,
+        coinSlugs,
+      ),
     }
 
     return result
@@ -203,6 +215,11 @@ class NewsfeedPage extends React.Component<Props, State> {
         this.props.selectCoinBySlug(this.props.coinSlug)
         this.setState((state) => {
           state.filters.coinSlugs = [this.props.coinSlug]
+          state.filters.feedSources = mergeInitialSocialSourcesForCoinsFilter(
+            state.filters.feedSources,
+            state.filters.coinSlugs,
+          )
+
           this.props.fetchNewsItems(state.filters)
           return state
         })
@@ -225,6 +242,11 @@ class NewsfeedPage extends React.Component<Props, State> {
         state.filters.coinSlugs = this.props
           .getWatchlist()
           .map((elem) => elem.slug)
+        state.filters.feedSources = mergeInitialSocialSourcesForCoinsFilter(
+          state.filters.feedSources,
+          state.filters.coinSlugs,
+        )
+
         this.props.fetchNewsItems(state.filters)
         return state
       })
@@ -239,6 +261,11 @@ class NewsfeedPage extends React.Component<Props, State> {
         state.filters.coinSlugs = !!this.props.coinSlug
           ? [this.props.coinSlug]
           : []
+        state.filters.feedSources = mergeInitialSocialSourcesForCoinsFilter(
+          state.filters.feedSources,
+          state.filters.coinSlugs,
+        )
+
         this.props.fetchNewsItems(state.filters)
         return state
       })
@@ -254,6 +281,11 @@ class NewsfeedPage extends React.Component<Props, State> {
         state.filters.coinSlugs = this.props
           .getWatchlist()
           .map((elem) => elem.slug)
+        state.filters.feedSources = mergeInitialSocialSourcesForCoinsFilter(
+          state.filters.feedSources,
+          state.filters.coinSlugs,
+        )
+
         this.props.fetchNewsItems(state.filters)
         return state
       })
