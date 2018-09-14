@@ -191,6 +191,7 @@ class NewsfeedPage extends React.Component<Props, State> {
   }
 
   public componentDidUpdate(prevProps, prevState, snapshot) {
+    // Check if `coinSlug` in the route changed
     if (this.getContentType() === 'coin') {
       if (this.props.coinSlug !== prevProps.coinSlug && !!this.props.coinSlug) {
         this.props.selectCoinBySlug(this.props.coinSlug)
@@ -203,6 +204,7 @@ class NewsfeedPage extends React.Component<Props, State> {
       }
     }
 
+    // Check if `selectedCoinSlug` changed from context
     if (
       !!this.props.selectedCoinSlug &&
       !_.isEqual(this.props.selectedCoinSlug, prevProps.selectedCoinSlug)
@@ -211,6 +213,7 @@ class NewsfeedPage extends React.Component<Props, State> {
       return
     }
 
+    // Check if watchlist tab changed to active
     if (!!this.props.isWatchlistSelected && !prevProps.isWatchlistSelected) {
       this.setState((state) => {
         state.filters.coinSlugs = this.props
@@ -220,6 +223,8 @@ class NewsfeedPage extends React.Component<Props, State> {
         return state
       })
       return
+
+      // Check if watchlist tab changed to inactive
     } else if (
       !!prevProps.isWatchlistSelected &&
       !this.props.isWatchlistSelected
@@ -234,6 +239,7 @@ class NewsfeedPage extends React.Component<Props, State> {
       return
     }
 
+    // Check if watchlist changed
     if (
       !!this.props.isWatchlistSelected &&
       !_.isEqual(this.props.watchlist, prevProps.watchlist)
