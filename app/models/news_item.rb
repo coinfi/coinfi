@@ -2,10 +2,14 @@ class NewsItem < ApplicationRecord
   belongs_to :feed_source
   has_one :user # References the Admin user who tagged this NewsItem
   has_one :news_item_raw
-  has_many :news_coin_mentions, class_name: 'NewsCoinMention'
-  has_many :coins, through: :news_coin_mentions
   has_many :news_item_categorizations, dependent: :destroy
   has_many :news_categories, through: :news_item_categorizations
+  has_many :news_coin_mentions, class_name: 'NewsCoinMention'
+  has_many :machine_tagged_news_coin_mentions, -> { NewsCoinMention.machine_tagged }, class_name: 'NewsCoinMention'
+  has_many :human_tagged_news_coin_mentions, -> { NewsCoinMention.human_tagged }, class_name: 'NewsCoinMention'
+  has_many :coins, through: :news_coin_mentions
+  has_many :machine_tagged_coins, through: :machine_tagged_news_coin_mentions, source: :coin
+  has_many :human_tagged_coins, through: :human_tagged_news_coin_mentions, source: :coin
 
   scope :general, -> { where(feed_source: FeedSource.general) }
   scope :pending, -> { where(is_human_tagged: nil) }
