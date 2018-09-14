@@ -55,19 +55,23 @@ interface State {
 }
 
 class NewsfeedPage extends React.Component<Props, State> {
-  public state = {
-    ActiveMobileWindow: 'None' as ActiveMobileWindow,
-    filters: getDefaultFilters(),
-    initialRenderTips: false,
-    isWindowFocused: true,
-    newsfeedTips: true,
-    showFilters: false,
-    unseenNewsIds: [],
-  }
-
   public handleResize = debounce(() => this.forceUpdate(), 500)
 
   private documentTitle = document.title
+
+  constructor(props) {
+    super(props)
+
+    this.state = {
+      ActiveMobileWindow: this.getInitialActiveMobileWindow(),
+      filters: this.getInitialFilters(),
+      initialRenderTips: false,
+      isWindowFocused: true,
+      newsfeedTips: true,
+      showFilters: false,
+      unseenNewsIds: [],
+    }
+  }
 
   public startPollingNews = () => {
     setTimeout(() => {
@@ -148,6 +152,24 @@ class NewsfeedPage extends React.Component<Props, State> {
     return 'none'
   }
 
+  public getInitialActiveMobileWindow = () => {
+    if (this.getContentType() === 'none') {
+      return 'None'
+    }
+
+    return 'BodySection'
+  }
+
+  public getInitialFilters = () => {
+    const defaultFilters = getDefaultFilters()
+    const result = {
+      ...defaultFilters,
+      coinSlugs: _.compact([...defaultFilters.coinSlugs, this.props.coinSlug]),
+    }
+
+    return result
+  }
+
   public componentDidMount() {
     window.addEventListener('resize', this.handleResize)
     window.addEventListener('blur', this.handleOnBlur)
@@ -157,31 +179,15 @@ class NewsfeedPage extends React.Component<Props, State> {
       this.setState({ isWindowFocused: false })
     }
 
+    // Ensure CoinListContainer provider state is in sync
     if (this.getContentType() === 'coin') {
       this.props.selectCoinBySlug(this.props.coinSlug)
-      this.setState((state: State, props: Props) => {
-        state.filters.coinSlugs.push(props.coinSlug)
-        state.ActiveMobileWindow = 'BodySection'
-        this.props.fetchNewsItems(state.filters).then(() => {
-          this.startPollingNews()
-        })
-        return state
-      })
-    } else if (this.getContentType() === 'news') {
-      this.setState({
-        ActiveMobileWindow: 'BodySection',
-      })
-      this.props.fetchNewsItems(this.state.filters).then(() => {
-        this.startPollingNews()
-      })
-    } else {
-      if (this.props.newslist.length > 0) {
-        return
-      }
-      this.props.fetchNewsItems(this.state.filters).then(() => {
-        this.startPollingNews()
-      })
     }
+
+    // Perform initial fetch and always poll
+    this.props.fetchNewsItems(this.state.filters).then(() => {
+      this.startPollingNews()
+    })
   }
 
   public componentWillUnmount() {
