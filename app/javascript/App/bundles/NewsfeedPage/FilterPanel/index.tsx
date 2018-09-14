@@ -33,14 +33,8 @@ class FilterPanel extends React.Component<Props, State> {
     super(props)
 
     this.state = {
-      form: getDefaultFilters(),
-    }
-  }
-
-  public componentDidMount() {
-    this.setState({
       form: _.cloneDeep(this.props.filters),
-    })
+    }
   }
 
   public applyFilters = () => {
