@@ -9,8 +9,7 @@ const Social = (props) => {
   return (
     <Fragment>
       <div className="pv2 f6">
-        Reddit and Twitter often has more noise than signal so we&apos;ve
-        disabled them by default, but you can enable them here.
+        {`If a coin does not have a lot of news coverage from our general sources, we'll automatically enable social sources for the coin.`}
       </div>
       <ToggleReddit
         {...props}
