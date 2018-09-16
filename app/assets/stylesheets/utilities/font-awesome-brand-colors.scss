@@ -1,0 +1,174 @@
+/*
+	FONT AWESOME COLOR BRAND in SCSS
+	v. 1.0.1 - 04/12/2016
+	based on Font Awesome v. 4.6
+	Made with hands by pedrodj46
+*/
+
+$facb: 'a500px' #222222, 'adn' #000000, 'amazon' #ff9900, 'android' #a4c639,
+  'angel-list' #7fbb00, 'apple' #000000, 'behance' #1769ff, 'bitbucket' #205081,
+  'bitcoin' #ff9900, 'black-tie' #000000, 'bluetooth' #2b3490,
+  'buy-sell-ads' #9f0012, 'american-express' #00679d, 'diners-club' #2e3192,
+  'discover' #f68026, 'visa' #0c54a8, 'jcb' #0f4a94, 'mastercard' #23164a,
+  'stripe' #3995ef, 'chrome' #4685f2, 'codepen' #3d3d3d, 'codie-pie' #000000,
+  'connect-develop' #1d26b2, 'contao' #e4790f, 'css3' #016fba,
+  'dashcube' #7f7f7f, 'delicious' #2a96ff, 'deviantart' #05cc75, 'digg' #1b5791,
+  'dribbble' #ea4c89, 'dropbox' #007ee5, 'drupal' #0077c0, 'edge' #3277bc,
+  'empire' #000000, 'envira' #7cc048, 'expeditedssl' #000000, 'facebook' #3b5998,
+  'firefox' #ff9500, 'flickr' #ff0084, 'fonticons' #000000,
+  'fort-awesome' #d2d2d4, 'forumbee' #83ad13, 'foursquare' #0072b1,
+  'get-pocket' #ef4056, 'gg' #000000, 'git' #f34f29, 'github' #4183c4,
+  'gitlab' #fca326, 'glide' #378ee4, 'google' #4285f4, 'google-plus' #dd4b39,
+  'google-wallet' #4385f6, 'gratipay' #643614, 'hacker-news' #ff6600,
+  'houzz' #7ac142, 'html5' #e34f26, 'instagram' #517fa4,
+  'internet-explorer' #00ccff, 'ioxhost' #a7a9ac, 'joomla' #0e71af,
+  'jsfiddle' #4679a4, 'lastfm' #d51007, 'leanpub' #231f20, 'linkedin' #007bb6,
+  'linux' #000000, 'maxcdn' #ff5b02, 'meanpath' #151b2f, 'medium' #02b875,
+  'mixcloud' #34495e, 'modx' #7bbf50, 'odnoklassniki' #f58220,
+  'opencart' #35c3ef, 'openid' #f38019, 'opera' #cc0f16, 'optinmonster' #97c100,
+  'pagelines' #6baef5, 'paypal' #003087, 'pied-piper' #007d00,
+  'pinterest' #cb2027, 'product-hunt' #da552f, 'qq' #0172b6, 'rebel' #000000,
+  'reddit' #ff5700, 'renren' #0259a0, 'safari' #0bbcec, 'scribd' #235669,
+  'sellsy' #0075c8, 'share-alt' #f8f8ff, 'shirts-in-bulk' #e23622,
+  'simplybuilt' #f0f0f0, 'skyatlas' #4cc3c8, 'skype' #00aff0, 'slack' #443643,
+  'slideshare' #0077b5, 'snapchat' #fffc00, 'soundcloud' #ff3a00,
+  'spotify' #00e461, 'stack-exchange' #356eb6, 'stack-overflow' #fe7a15,
+  'steam' #020202, 'stumbleupon' #eb4924, 'tencent-weibo' #df2029,
+  'trello' #0079bf, 'tripadvisor' #589442, 'tumblr' #32506d, 'twitch' #6441a5,
+  'twitter' #00aced, 'usb' #005193, 'viacoin' #c1c0c0, 'viadeo' #f49a1f,
+  'vimeo' #aad450, 'vine' #00bf8f, 'vk' #45668e, 'wechat' #09b83e,
+  'weibo' #df2029, 'whatsapp' #4dc247, 'wikipedia' #000000, 'windows' #00bcf2,
+  'wordpress' #21759b, 'wp-beginner' #ff6600, 'wp-forms' #7fa6bc, 'xing' #026466,
+  'y-combinator' #f26522, 'yahoo' #7b0099, 'yelp' #af0606, 'youtube' #cd201f;
+@each $color in $facb {
+  .#{nth($color, 1)} {
+    color: nth($color, 2);
+  }
+}
+
+$a500px: #222222;
+$adn: #000000;
+$amazon: #ff9900;
+$android: #a4c639;
+$angel-list: #7fbb00;
+$apple: #000000;
+$behance: #1769ff;
+$bitbucket: #205081;
+$bitcoin: #ff9900;
+$black-tie: #000000;
+$bluetooth: #2b3490;
+$buy-sell-ads: #9f0012;
+$american-express: #00679d;
+$diners-club: #2e3192;
+$discover: #f68026;
+$jcb: #0f4a94;
+$mastercard: #23164a;
+$stripe: #3995ef;
+$visa: #0c54a8;
+$chrome: #4685f2;
+$codepen: #3d3d3d;
+$codie-pie: #000000;
+$connect-develop: #1d26b2;
+$contao: #e4790f;
+$css3: #016fba;
+$dashcube: #7f7f7f;
+$delicious: #2a96ff;
+$deviantart: #05cc75;
+$digg: #1b5791;
+$dribbble: #ea4c89;
+$dropbox: #007ee5;
+$drupal: #0077c0;
+$edge: #3277bc;
+$empire: #000000;
+$envira: #7cc048;
+$expeditedssl: #000000;
+$facebook: #3b5998;
+$firefox: #ff9500;
+$flickr: #ff0084;
+$fonticons: #000000;
+$fort-awesome: #d2d2d4;
+$forumbee: #83ad13;
+$foursquare: #0072b1;
+$get-pocket: #ef4056;
+$gg: #000000;
+$git: #f34f29;
+$github: #4183c4;
+$gitlab: #fca326;
+$glide: #378ee4;
+$google: #4285f4;
+$google-plus: #dd4b39;
+$google-wallet: #4385f6;
+$gratipay: #643614;
+$hacker-news: #ff6600;
+$houzz: #7ac142;
+$html5: #e34f26;
+$instagram: #517fa4;
+$internet-explorer: #00ccff;
+$ioxhost: #a7a9ac;
+$joomla: #0e71af;
+$jsfiddle: #4679a4;
+$lastfm: #d51007;
+$leanpub: #231f20;
+$linkedin: #007bb6;
+$linux: #000000;
+$maxcdn: #ff5b02;
+$meanpath: #151b2f;
+$medium: #02b875;
+$mixcloud: #34495e;
+$modx: #7bbf50;
+$odnoklassniki: #f58220;
+$opencart: #35c3ef;
+$openid: #f38019;
+$opera: #cc0f16;
+$optinmonster: #97c100;
+$pagelines: #6baef5;
+$paypal: #003087;
+$pied-piper: #007d00;
+$pinterest: #cb2027;
+$product-hunt: #da552f;
+$qq: #0172b6;
+$rebel: #000000;
+$reddit: #ff5700;
+$renren: #0259a0;
+$safari: #0bbcec;
+$scribd: #235669;
+$sellsy: #0075c8;
+$share-alt: #f8f8ff;
+$shirts-in-bulk: #e23622;
+$simplybuilt: #f0f0f0;
+$skyatlas: #4cc3c8;
+$skype: #00aff0;
+$slack: #443643;
+$slideshare: #0077b5;
+$snapchat: #fffc00;
+$soundcloud: #ff3a00;
+$spotify: #00e461;
+$stack-exchange: #356eb6;
+$stack-overflow: #fe7a15;
+$steam: #020202;
+$stumbleupon: #eb4924;
+$tencent-weibo: #df2029;
+$trello: #0079bf;
+$tripadvisor: #589442;
+$tumblr: #32506d;
+$twitch: #6441a5;
+$twitter: #00aced;
+$usb: #005193;
+$viacoin: #c1c0c0;
+$viadeo: #f49a1f;
+$vimeo: #aad450;
+$vine: #00bf8f;
+$vk: #45668e;
+$wechat: #09b83e;
+$weibo: #df2029;
+$whatsapp: #4dc247;
+$wikipedia: #000000;
+$windows: #00bcf2;
+$wordpress: #21759b;
+$wp-beginner: #ff6600;
+$wp-forms: #7fa6bc;
+$xing: #026466;
+$y-combinator: #f26522;
+$yahoo: #7b0099;
+$yelp: #af0606;
+$youtube: #cd201f;
