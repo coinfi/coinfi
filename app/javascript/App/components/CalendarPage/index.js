@@ -1,5 +1,4 @@
 import React, { Component, Fragment } from 'react'
-import ReactOnRails from 'react-on-rails'
 import debounce from 'debounce'
 import axios from 'axios'
 import calendarContainer from '../../containers/calendar'
@@ -145,6 +144,4 @@ class CalendarPage extends Component {
   }
 }
 
-const CalendarPageWithStore = withStore(calendarContainer(CalendarPage))
-
-ReactOnRails.register({ CalendarPage: CalendarPageWithStore })
+export default withStore(calendarContainer(CalendarPage))

@@ -8,7 +8,6 @@ import NewsfeedPageNew from '~/bundles/NewsfeedPage/NewsfeedPageContainer'
 import CoinIndex from './components/CoinIndex'
 import CoinListContainer from '~/bundles/common/containers/CoinListContainer'
 import NewsfeedContainer from '~/bundles/NewsfeedPage/NewsfeedContainer'
-import ReactOnRails from 'react-on-rails'
 
 const App = (props, railsContext) => (
   <MuiThemeProvider theme={theme}>
@@ -57,4 +56,4 @@ const App = (props, railsContext) => (
   </MuiThemeProvider>
 )
 
-ReactOnRails.register({ App })
+export default App

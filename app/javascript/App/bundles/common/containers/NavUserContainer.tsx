@@ -1,5 +1,4 @@
 import * as React from 'react'
-import ReactOnRails from 'react-on-rails'
 import NavUser from '~/bundles/common/components/NavUser'
 
 interface State {
@@ -45,7 +44,5 @@ class NavUserContainer extends React.Component<Props, State> {
     )
   }
 }
-
-ReactOnRails.register({ NavUserContainer })
 
 export default NavUserContainer
