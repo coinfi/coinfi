@@ -1,12 +1,63 @@
+
+require "browser"
+
 # frozen_string_literal: true
 
 # See https://github.com/shakacode/react_on_rails/blob/master/docs/basics/configuration.md
 # for many more options.
 
+module RenderingExtension
+  # Return a Hash that contains custom values from the view context that will get passed to
+  # all calls to react_component and redux_store for rendering
+  def self.custom_context(view_context)
+    if view_context.controller.is_a?(ActionMailer::Base)
+      return {}
+    end
+
+    return {
+      'sizesProviderProps': get_sizes_provider_props(view_context)
+    }
+  end
+
+  private
+
+  def self.get_sizes_provider_props(view_context)
+    browser = Browser.new(view_context.request.user_agent)
+
+    if browser.device.mobile?
+      return {
+        'config': {
+          'fallbackWidth': 360,
+          'fallbackHeight': 640,
+        }
+      }
+    end
+
+    if browser.device.tablet?
+      return {
+        'config': {
+          'fallbackWidth': 360,
+          'fallbackHeight': 640,
+        }
+      }
+    end
+
+    return {
+      'config': {
+        'fallbackWidth': 1280,
+        'fallbackHeight': 700,
+      }
+    }
+  end
+end
+
+
 ReactOnRails.configure do |config|
   # This configures the script to run to build the production assets by webpack. Set this to nil
   # if you don't want react_on_rails building this file for you.
   config.build_production_command = "RAILS_ENV=production NODE_ENV=production bin/webpack"
+
+  config.rendering_extension = RenderingExtension
 
   ################################################################################
   ################################################################################
