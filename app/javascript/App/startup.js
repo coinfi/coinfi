@@ -11,6 +11,7 @@ import FlashMessageListContainer from './bundles/common/containers/FlashMessageL
 import WatchButton from './bundles/common/components/WatchButton'
 import CalendarPage from './components/CalendarPage'
 
+// Register the components so they can be rendered from Rails
 ReactOnRails.register({
   NavUserContainer,
   CoinShow,
