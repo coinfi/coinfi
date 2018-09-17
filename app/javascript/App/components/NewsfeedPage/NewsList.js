@@ -4,6 +4,7 @@ import NewsListItem from './NewsListItem'
 import LoadingIndicator from '../LoadingIndicator'
 import Tips from './Tips'
 import scrollHelper from '../../scrollHelper'
+import withDevice from '~/bundles/common/utils/withDevice'
 
 class NewsList extends Component {
   state = { initialRender: true, initialRenderTips: false }
@@ -14,7 +15,7 @@ class NewsList extends Component {
   }
 
   setActiveNewsItem = (newsItem) => {
-    const { setActiveEntity, enableUI } = this.props
+    const { setActiveEntity, enableUI, isMobile } = this.props
     const url = newsItem.get('url')
     const urlFragments = url.split('/')
     const tweetId = urlFragments[urlFragments.length - 1]
@@ -23,7 +24,7 @@ class NewsList extends Component {
     } else {
       setActiveEntity({ type: 'newsItem', id: newsItem.get('id') })
     }
-    if (window.isMobile) {
+    if (isMobile) {
       enableUI('bodySectionDrawer', { fullScreen: true })
     }
   }
@@ -40,8 +41,9 @@ class NewsList extends Component {
     fetchMoreNewsFeed,
     user,
     loggedIn,
+    isMobile,
   ) {
-    if (initialRenderTips && window.isMobile) {
+    if (initialRenderTips && isMobile) {
       return (
         <Tips
           closeTips={this.closeTips.bind(this)}
@@ -121,6 +123,7 @@ class NewsList extends Component {
       fetchMoreNewsFeed,
       user,
       loggedIn,
+      isMobile,
     } = this.props
     const viewState = {
       activeEntity: activeEntity,
@@ -135,10 +138,7 @@ class NewsList extends Component {
         id="newsfeed"
         className="flex-auto relative overflow-y-scroll"
         style={
-          !activeEntity &&
-          window.isMobile &&
-          !activeFilters.size &&
-          initialRenderTips
+          !activeEntity && isMobile && !activeFilters.size && initialRenderTips
             ? {
                 marginTop: marginTopVal,
                 background: '#fff',
@@ -157,10 +157,11 @@ class NewsList extends Component {
           fetchMoreNewsFeed,
           user,
           loggedIn,
+          isMobile,
         )}
       </div>
     )
   }
 }
 
-export default NewsList
+export default withDevice(NewsList)

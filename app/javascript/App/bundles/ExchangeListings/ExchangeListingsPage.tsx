@@ -17,6 +17,7 @@ import CoinListWrapper from '~/bundles/common/components/CoinListWrapper'
 import CoinListDrawer from '~/bundles/common/components/CoinListDrawer'
 import { Coin } from '~/bundles/common/types'
 import { Listing } from '~/bundles/ExchangeListings/types'
+import withDevice from '~/bundles/common/utils/withDevice'
 
 type ActiveMobileWindow = 'Modal' | 'CoinsList' | 'BodySection' | 'None'
 
@@ -29,6 +30,8 @@ interface Props {
   quoteSymbols: string[]
   exchanges: string[]
   initialListings: Listing[]
+  isMobile: boolean
+  isTablet: boolean
 }
 
 interface State {
@@ -277,7 +280,7 @@ class ExchangeListingsPage extends React.Component<Props, State> {
       resetFilters: this.resetFilters,
     }
 
-    if (window.isMobile) {
+    if (props.isMobile) {
       return (
         <LayoutMobile
           mainSection={
@@ -319,7 +322,7 @@ class ExchangeListingsPage extends React.Component<Props, State> {
           showModal={this.state.ActiveMobileWindow === 'Modal'}
         />
       )
-    } else if (window.isTablet) {
+    } else if (props.isTablet) {
       return (
         <LayoutTablet
           {...props}
@@ -367,4 +370,4 @@ class ExchangeListingsPage extends React.Component<Props, State> {
   }
 }
 
-export default ExchangeListingsPage
+export default withDevice(ExchangeListingsPage)

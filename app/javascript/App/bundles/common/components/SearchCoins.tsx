@@ -6,6 +6,7 @@ import classNames from 'classnames'
 import Autosuggest from 'react-autosuggest'
 import Icon from '../../../components/Icon'
 import localApi from '../../../lib/localAPI'
+import withDevice from '~/bundles/common/utils/withDevice'
 
 interface Coin {
   id: number
@@ -18,6 +19,7 @@ interface Coin {
 interface Props {
   unstyled?: boolean
   coinShow?: boolean
+  isMobile: boolean
   onSelect: (suggestion: Coin) => void
 }
 
@@ -125,7 +127,7 @@ class SearchCoins extends React.Component<Props, State> {
         className={classNames('search-field autosuggest', {
           unstyled: !!this.props.unstyled,
         })}
-        style={this.props.coinShow && window.isMobile ? styleObj : {}}
+        style={this.props.coinShow && this.props.isMobile ? styleObj : {}}
       >
         <div className="flex items-center f5 tiber">
           <Icon
@@ -160,4 +162,4 @@ class SearchCoins extends React.Component<Props, State> {
   }
 }
 
-export default SearchCoins
+export default withDevice(SearchCoins)

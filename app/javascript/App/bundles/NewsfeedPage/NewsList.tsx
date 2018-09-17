@@ -8,6 +8,7 @@ import NewsListItem from './NewsListItem'
 import LoadingIndicator from '../../components/LoadingIndicator'
 import Tips from './Tips'
 import scrollHelper from './../../scrollHelper'
+import withDevice from '~/bundles/common/utils/withDevice'
 
 import { NewsItem } from './types'
 
@@ -22,6 +23,7 @@ interface Props {
   selectedNewsItemId: string
   onNewsItemClick: any
   hasMore: boolean
+  isMobile: boolean
 }
 
 interface State {
@@ -54,7 +56,7 @@ class NewsList extends React.Component<Props, State> {
   }
 
   public renderView() {
-    if (this.props.initialRenderTips && window.isMobile) {
+    if (this.props.initialRenderTips && this.props.isMobile) {
       return <Tips closeTips={this.props.closeTips} />
     } else if (this.props.isLoading) {
       return (
@@ -125,7 +127,7 @@ class NewsList extends React.Component<Props, State> {
         id="newsfeed"
         className="flex-auto relative overflow-y-scroll overflow-y-auto-m"
         style={
-          window.isMobile && initialRenderTips
+          this.props.isMobile && initialRenderTips
             ? {
                 background: '#fff',
                 overflow: 'hidden',
@@ -140,4 +142,4 @@ class NewsList extends React.Component<Props, State> {
   }
 }
 
-export default NewsList
+export default withDevice(NewsList)

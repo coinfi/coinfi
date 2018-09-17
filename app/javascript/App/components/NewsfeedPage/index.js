@@ -13,6 +13,7 @@ import BodySection from './BodySection'
 import BodySectionDrawer from '../BodySectionDrawer'
 import Immutable from 'immutable'
 import _ from 'lodash'
+import withDevice from '~/bundles/common/utils/withDevice'
 
 class NewsfeedPage extends Component {
   state = {
@@ -86,7 +87,7 @@ class NewsfeedPage extends Component {
       coins: coinsCollection,
     }
 
-    if (window.isMobile) {
+    if (this.props.isMobile) {
       return (
         <LayoutMobile
           {...enhancedProps}
@@ -109,7 +110,7 @@ class NewsfeedPage extends Component {
           }
         />
       )
-    } else if (window.isTablet) {
+    } else if (this.props.isTablet) {
       return (
         <LayoutTablet
           {...enhancedProps}
@@ -141,4 +142,4 @@ class NewsfeedPage extends Component {
   }
 }
 
-export default newsfeedContainer(NewsfeedPage)
+export default newsfeedContainer(withDevice(NewsfeedPage))

@@ -3,8 +3,8 @@ import CoinListContainer from './bundles/common/containers/CoinListContainer'
 import { MuiThemeProvider } from '@material-ui/core/styles'
 import theme from './theme'
 import { default as withLegacyAppReduxContainer } from './containers/app'
-import { SizesProvider } from 'react-sizes'
 import withReduxStore from './withReduxStore'
+import { DeviceProvider } from '~/bundles/common/contexts/DeviceContext'
 
 const withLegacyCombinedProviders = (TargetComponent) => {
   const WithLegacyCombinedProviders = (props, railsContext) => {
@@ -13,13 +13,13 @@ const withLegacyCombinedProviders = (TargetComponent) => {
     )
 
     return (
-      <SizesProvider {...railsContext.sizesProviderProps}>
+      <DeviceProvider {...railsContext.deviceProviderProps}>
         <MuiThemeProvider theme={theme}>
           <CoinListContainer loggedIn={!!props.user}>
             <TargetComponentWithRedux {...props} />
           </CoinListContainer>
         </MuiThemeProvider>
-      </SizesProvider>
+      </DeviceProvider>
     )
   }
 

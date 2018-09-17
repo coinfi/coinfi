@@ -3,10 +3,18 @@ import CoinListHeader from './CoinListHeader'
 import CoinListItem from './CoinListItem'
 import LoadingIndicator from '../LoadingIndicator'
 import watchlistStarIcon from '../../images/watch-list-star-icon.svg'
+import withDevice from '~/bundles/common/utils/withDevice'
 
 class CoinList extends Component {
   setActiveCoin = (coin) => {
-    const { setActiveEntity, setFilter, disableUI, enableUI } = this.props
+    const {
+      setActiveEntity,
+      setFilter,
+      disableUI,
+      enableUI,
+      isMobile,
+      isDesktop,
+    } = this.props
     setActiveEntity({
       type: 'coin',
       id: coin.get('id'),
@@ -14,8 +22,8 @@ class CoinList extends Component {
     })
     const value = [coin.get('name')]
     setFilter({ key: 'coins', value })
-    if (!window.isDesktop) disableUI('coinListDrawer')
-    if (window.isMobile) enableUI('bodySectionDrawer', { fullScreen: true })
+    if (!isDesktop) disableUI('coinListDrawer')
+    if (isMobile) enableUI('bodySectionDrawer', { fullScreen: true })
   }
   newCoinHandler = (coin) => {
     this.props.watchlistHandler(coin)
@@ -44,9 +52,9 @@ class CoinList extends Component {
           )}
 
           {currentUI('coinSearch') &&
-            searchedCoins.size > 0 && (
+            this.props.searchedCoins.size > 0 && (
               <div className="b--b bw2">
-                {searchedCoins.map((coin, key) => {
+                {this.props.searchedCoins.map((coin, key) => {
                   return (
                     <CoinListItem
                       {...{ coin, key, ...this.props }}
@@ -73,4 +81,4 @@ class CoinList extends Component {
   }
 }
 
-export default CoinList
+export default withDevice(CoinList)

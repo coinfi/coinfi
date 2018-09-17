@@ -3,19 +3,20 @@ import SearchCoins from '../SearchCoins'
 import FilterPanel from '../FilterPanel'
 import FilterBar from '../../bundles/common/components/FilterPanel/FilterBar'
 import CoinTipsTab from '../../bundles/common/components/CoinTipsTab'
+import withDevice from '~/bundles/common/utils/withDevice'
 
 const NewsListHeader = (props) => {
   const { enableUI, currentUI, coins, feedSources, newsfeedTips } = props
 
   const toggleFilterPanel = () =>
-    enableUI('filterPanel', { fullScreen: window.isMobile })
+    enableUI('filterPanel', { fullScreen: props.isMobile })
 
   const showCoinListDrawer = () =>
     enableUI('coinListDrawer', { fullScreen: true })
 
   return (
     <Fragment>
-      {window.isMobile && (
+      {props.isMobile && (
         <CoinTipsTab
           showCoinListDrawer={showCoinListDrawer}
           showTips={newsfeedTips}
@@ -34,4 +35,4 @@ const NewsListHeader = (props) => {
   )
 }
 
-export default NewsListHeader
+export default withDevice(NewsListHeader)

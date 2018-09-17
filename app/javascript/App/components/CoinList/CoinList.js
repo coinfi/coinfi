@@ -4,10 +4,18 @@ import CoinListItem from './CoinListItem'
 import LoadingIndicator from '../LoadingIndicator'
 import watchlistStarIcon from '../../images/watch-list-star-icon.svg'
 import scrollHelper from './../../scrollHelper'
+import withDevice from '~/bundles/common/utils/withDevice'
 
 class CoinList extends Component {
   setActiveCoin = (coin) => {
-    const { setActiveEntity, setFilter, disableUI, enableUI } = this.props
+    const {
+      setActiveEntity,
+      setFilter,
+      disableUI,
+      enableUI,
+      isDesktop,
+      isMobile,
+    } = this.props
     setActiveEntity({
       type: 'coin',
       id: coin.get('id'),
@@ -15,8 +23,8 @@ class CoinList extends Component {
     })
     const value = [coin.get('name')]
     setFilter({ key: 'coins', value })
-    if (!window.isDesktop) disableUI('coinListDrawer')
-    if (window.isMobile) enableUI('bodySectionDrawer', { fullScreen: true })
+    if (!isDesktop) disableUI('coinListDrawer')
+    if (isMobile) enableUI('bodySectionDrawer', { fullScreen: true })
   }
   newCoinHandler = (coin) => {
     this.setActiveCoin(coin)
@@ -72,4 +80,4 @@ class CoinList extends Component {
   }
 }
 
-export default CoinList
+export default withDevice(CoinList)

@@ -14,6 +14,7 @@ import BodySectionDrawer from '../BodySectionDrawer'
 import Immutable from 'immutable'
 import _ from 'lodash'
 import withLegacyCombinedProviders from '../../withLegacyCombinedProviders'
+import withDevice from '~/bundles/common/utils/withDevice'
 
 class CalendarPage extends Component {
   state = {
@@ -87,7 +88,7 @@ class CalendarPage extends Component {
       coins: coinsCollection,
     }
 
-    if (window.isMobile) {
+    if (this.props.isMobile) {
       return (
         <LayoutMobile
           {...enhancedProps}
@@ -110,7 +111,7 @@ class CalendarPage extends Component {
           }
         />
       )
-    } else if (window.isTablet) {
+    } else if (this.props.isTablet) {
       return (
         <LayoutTablet
           {...enhancedProps}
@@ -144,4 +145,6 @@ class CalendarPage extends Component {
   }
 }
 
-export default withLegacyCombinedProviders(calendarContainer(CalendarPage))
+export default withLegacyCombinedProviders(
+  calendarContainer(withDevice(CalendarPage)),
+)

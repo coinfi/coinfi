@@ -3,19 +3,21 @@ declare const window: WindowScreenType
 
 import * as React from 'react'
 import classNames from 'classnames'
+import withDevice from '~/bundles/common/utils/withDevice'
 
 interface Props {
   items: string[]
   selectedItems: string[]
   onChange: (item: string) => void
+  isMobile: boolean
 }
 
-export default class Categories extends React.Component<Props, {}> {
+class Categories extends React.Component<Props, {}> {
   public isSelected = (item) => this.props.selectedItems.includes(item)
 
   public render() {
     let colSize = 0
-    if (window.isMobile) {
+    if (this.props.isMobile) {
       colSize = 2
     } else {
       colSize = 3
@@ -63,3 +65,5 @@ export default class Categories extends React.Component<Props, {}> {
     )
   }
 }
+
+export default withDevice(Categories)

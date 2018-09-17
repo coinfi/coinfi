@@ -2,15 +2,17 @@ import * as React from 'react'
 import * as moment from 'moment'
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker-cssmodules.css'
+import withDevice from '~/bundles/common/utils/withDevice'
 
 interface Props {
   publishedSince?: string
   publishedUntil?: string
   onSinceChange: (since: string) => void
   onUntilChange: (until: string) => void
+  isMobile: boolean
 }
 
-export default class Dates extends React.Component<Props, {}> {
+class Dates extends React.Component<Props, {}> {
   public sinceChange = (item: moment.Moment) => {
     this.props.onSinceChange(item.format('YYYY-MM-DD'))
   }
@@ -41,7 +43,7 @@ export default class Dates extends React.Component<Props, {}> {
           <div
             className="w-50 dib"
             // @ts-ignore
-            style={!window.isMobile ? { maxWidth: '50%' } : {}}
+            style={!props.isMobile ? { maxWidth: '50%' } : {}}
           >
             <DatePicker
               selected={publishedSince}
@@ -56,7 +58,7 @@ export default class Dates extends React.Component<Props, {}> {
           <div
             className="w-50 dib"
             // @ts-ignore
-            style={!window.isMobile ? { maxWidth: '50%' } : {}}
+            style={!props.isMobile ? { maxWidth: '50%' } : {}}
           >
             <DatePicker
               selected={publishedUntil}
@@ -73,3 +75,5 @@ export default class Dates extends React.Component<Props, {}> {
     )
   }
 }
+
+export default withDevice(Dates)

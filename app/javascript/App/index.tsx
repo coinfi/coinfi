@@ -2,17 +2,17 @@ import * as React from 'react'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import { MuiThemeProvider } from '@material-ui/core/styles'
 import theme from '~/theme'
-import { SizesProvider } from 'react-sizes'
 
 import ExchangeListingsPage from '~/bundles/ExchangeListings/ExchangeListingsCointainer'
 import NewsfeedPageNew from '~/bundles/NewsfeedPage/NewsfeedPageContainer'
 import CoinIndex from './components/CoinIndex'
 import CoinListContainer from '~/bundles/common/containers/CoinListContainer'
 import NewsfeedContainer from '~/bundles/NewsfeedPage/NewsfeedContainer'
+import { DeviceProvider } from '~/bundles/common/contexts/DeviceContext'
 
 const App = (props, railsContext) => (
   <MuiThemeProvider theme={theme}>
-    <SizesProvider {...railsContext.sizesProviderProps}>
+    <DeviceProvider {...railsContext.deviceProviderProps}>
       <NewsfeedContainer>
         <CoinListContainer loggedIn={!!props.user}>
           <Router>
@@ -57,7 +57,7 @@ const App = (props, railsContext) => (
           </Router>
         </CoinListContainer>
       </NewsfeedContainer>
-    </SizesProvider>
+    </DeviceProvider>
   </MuiThemeProvider>
 )
 

@@ -15,38 +15,32 @@ module RenderingExtension
     end
 
     return {
-      'sizesProviderProps': get_sizes_provider_props(view_context)
+      'deviceProviderProps': get_device_provider_props(view_context)
     }
   end
 
   private
 
-  def self.get_sizes_provider_props(view_context)
+  def self.get_device_provider_props(view_context)
     browser = Browser.new(view_context.request.user_agent)
 
     if browser.device.mobile?
       return {
-        'config': {
-          'fallbackWidth': 360,
-          'fallbackHeight': 640,
-        }
+        'fallbackDeviceWidth': 360,
+        'fallbackDeviceHeight': 640,
       }
     end
 
     if browser.device.tablet?
       return {
-        'config': {
-          'fallbackWidth': 360,
-          'fallbackHeight': 640,
-        }
+        'fallbackDeviceWidth': 360,
+        'fallbackDeviceHeight': 640,
       }
     end
 
     return {
-      'config': {
-        'fallbackWidth': 1280,
-        'fallbackHeight': 700,
-      }
+      'fallbackDeviceWidth': 1280,
+      'fallbackDeviceHeight': 700,
     }
   end
 end
