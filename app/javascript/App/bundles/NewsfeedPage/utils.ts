@@ -11,21 +11,14 @@ export const getDefaultFilters = (): Filters => ({
   publishedUntil: null,
 })
 
-export const TOP_COINS = [
-  'bitcoin',
-  'ethereum',
-  'ripple',
-  'tron',
-  'binance-coin',
-]
-
-export const isTopCoin = (coinSlug: string) => {
-  return _.includes(TOP_COINS, coinSlug)
-}
-
 export const getInitialSocialSourcesForCoinsFilter = (
   coinSlugs: string[],
+  topCoinSlugs: string[],
 ): Filters['feedSources'] => {
+  const isTopCoin = (coinSlug: string) => {
+    return _.includes(topCoinSlugs, coinSlug)
+  }
+
   // Disable social sources if there are only top coins or if all coins are displayed
   if (_.isEmpty(coinSlugs) || _.every(coinSlugs, isTopCoin)) {
     return []
@@ -37,7 +30,8 @@ export const getInitialSocialSourcesForCoinsFilter = (
 export const mergeInitialSocialSourcesForCoinsFilter = (
   feedSources: Filters['feedSources'],
   coinSlugs: string[],
+  topCoinSlugs: string[],
 ) => [
   ..._.without(feedSources, ...SOCIAL_FEED_SOURCES),
-  ...getInitialSocialSourcesForCoinsFilter(coinSlugs),
+  ...getInitialSocialSourcesForCoinsFilter(coinSlugs, topCoinSlugs),
 ]

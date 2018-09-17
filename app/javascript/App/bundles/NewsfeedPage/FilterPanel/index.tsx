@@ -17,6 +17,7 @@ import {
 interface Props {
   categories: string[]
   feedSources: string[]
+  topCoinSlugs: string[]
   filters: Filters
   closeFilterPanel: () => void
   applyFilters: (filters: Filters) => void
@@ -91,6 +92,7 @@ class FilterPanel extends React.Component<Props, State> {
       state.form.feedSources = mergeInitialSocialSourcesForCoinsFilter(
         state.form.feedSources,
         state.form.coinSlugs,
+        this.props.topCoinSlugs,
       )
       return state
     })

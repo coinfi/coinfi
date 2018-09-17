@@ -30,6 +30,7 @@ interface Props extends RouteComponentProps<any> {
   categories: string[]
   feedSources: string[]
   coinSlug?: string
+  topCoinSlugs: string[]
   newsItemId?: string
   newslist: NewsItem[]
   isNewsfeedLoading: boolean
@@ -176,6 +177,7 @@ class NewsfeedPage extends React.Component<Props, State> {
       feedSources: mergeInitialSocialSourcesForCoinsFilter(
         defaultFilters.feedSources,
         coinSlugs,
+        this.props.topCoinSlugs,
       ),
     }
 
@@ -218,6 +220,7 @@ class NewsfeedPage extends React.Component<Props, State> {
           state.filters.feedSources = mergeInitialSocialSourcesForCoinsFilter(
             state.filters.feedSources,
             state.filters.coinSlugs,
+            this.props.topCoinSlugs,
           )
 
           this.props.fetchNewsItems(state.filters)
@@ -245,6 +248,7 @@ class NewsfeedPage extends React.Component<Props, State> {
         state.filters.feedSources = mergeInitialSocialSourcesForCoinsFilter(
           state.filters.feedSources,
           state.filters.coinSlugs,
+          this.props.topCoinSlugs,
         )
 
         this.props.fetchNewsItems(state.filters)
@@ -264,6 +268,7 @@ class NewsfeedPage extends React.Component<Props, State> {
         state.filters.feedSources = mergeInitialSocialSourcesForCoinsFilter(
           state.filters.feedSources,
           state.filters.coinSlugs,
+          this.props.topCoinSlugs,
         )
 
         this.props.fetchNewsItems(state.filters)
@@ -284,6 +289,7 @@ class NewsfeedPage extends React.Component<Props, State> {
         state.filters.feedSources = mergeInitialSocialSourcesForCoinsFilter(
           state.filters.feedSources,
           state.filters.coinSlugs,
+          this.props.topCoinSlugs,
         )
 
         this.props.fetchNewsItems(state.filters)
@@ -313,6 +319,7 @@ class NewsfeedPage extends React.Component<Props, State> {
             <>
               <NewsListHeader
                 feedSources={this.props.feedSources}
+                topCoinSlugs={this.props.topCoinSlugs}
                 showFilters={this.state.showFilters}
                 toggleFilters={this.toggleFilters}
                 toggleNewsfeedTips={this.toggleTips}
@@ -379,6 +386,7 @@ class NewsfeedPage extends React.Component<Props, State> {
             <>
               <NewsListHeader
                 feedSources={this.props.feedSources}
+                topCoinSlugs={this.props.topCoinSlugs}
                 showFilters={this.state.showFilters}
                 toggleFilters={this.toggleFilters}
                 toggleNewsfeedTips={this.toggleTips}
@@ -435,6 +443,7 @@ class NewsfeedPage extends React.Component<Props, State> {
             <>
               <NewsListHeader
                 feedSources={this.props.feedSources}
+                topCoinSlugs={this.props.topCoinSlugs}
                 showFilters={this.state.showFilters}
                 toggleFilters={this.toggleFilters}
                 toggleNewsfeedTips={this.toggleTips}
