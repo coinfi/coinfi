@@ -18,7 +18,10 @@ import _ from 'lodash'
 
 import { NewsItem, ContentType, Filters } from './types'
 import { CoinList } from '../common/types'
-import getDefaultFilters from './defaultFilters'
+import {
+  getDefaultFilters,
+  mergeInitialSocialSourcesForCoinsFilter,
+} from './utils'
 
 const POLLING_TIMEOUT = 60000
 
@@ -27,6 +30,7 @@ interface Props extends RouteComponentProps<any> {
   categories: string[]
   feedSources: string[]
   coinSlug?: string
+  topCoinSlugs: string[]
   newsItemId?: string
   newslist: NewsItem[]
   isNewsfeedLoading: boolean
@@ -55,19 +59,23 @@ interface State {
 }
 
 class NewsfeedPage extends React.Component<Props, State> {
-  public state = {
-    ActiveMobileWindow: 'None' as ActiveMobileWindow,
-    filters: getDefaultFilters(),
-    initialRenderTips: false,
-    isWindowFocused: true,
-    newsfeedTips: true,
-    showFilters: false,
-    unseenNewsIds: [],
-  }
-
   public handleResize = debounce(() => this.forceUpdate(), 500)
 
   private documentTitle = document.title
+
+  constructor(props) {
+    super(props)
+
+    this.state = {
+      ActiveMobileWindow: this.getInitialActiveMobileWindow(),
+      filters: this.getInitialFilters(),
+      initialRenderTips: false,
+      isWindowFocused: true,
+      newsfeedTips: true,
+      showFilters: false,
+      unseenNewsIds: [],
+    }
+  }
 
   public startPollingNews = () => {
     setTimeout(() => {
@@ -148,6 +156,34 @@ class NewsfeedPage extends React.Component<Props, State> {
     return 'none'
   }
 
+  public getInitialActiveMobileWindow = () => {
+    if (this.getContentType() === 'none') {
+      return 'None'
+    }
+
+    return 'BodySection'
+  }
+
+  public getInitialFilters = () => {
+    const defaultFilters = getDefaultFilters()
+    const coinSlugs = _.compact([
+      ...defaultFilters.coinSlugs,
+      this.props.coinSlug,
+    ])
+
+    const result = {
+      ...defaultFilters,
+      coinSlugs,
+      feedSources: mergeInitialSocialSourcesForCoinsFilter(
+        defaultFilters.feedSources,
+        coinSlugs,
+        this.props.topCoinSlugs,
+      ),
+    }
+
+    return result
+  }
+
   public componentDidMount() {
     window.addEventListener('resize', this.handleResize)
     window.addEventListener('blur', this.handleOnBlur)
@@ -157,31 +193,15 @@ class NewsfeedPage extends React.Component<Props, State> {
       this.setState({ isWindowFocused: false })
     }
 
+    // Ensure CoinListContainer provider state is in sync
     if (this.getContentType() === 'coin') {
       this.props.selectCoinBySlug(this.props.coinSlug)
-      this.setState((state: State, props: Props) => {
-        state.filters.coinSlugs.push(props.coinSlug)
-        state.ActiveMobileWindow = 'BodySection'
-        this.props.fetchNewsItems(state.filters).then(() => {
-          this.startPollingNews()
-        })
-        return state
-      })
-    } else if (this.getContentType() === 'news') {
-      this.setState({
-        ActiveMobileWindow: 'BodySection',
-      })
-      this.props.fetchNewsItems(this.state.filters).then(() => {
-        this.startPollingNews()
-      })
-    } else {
-      if (this.props.newslist.length > 0) {
-        return
-      }
-      this.props.fetchNewsItems(this.state.filters).then(() => {
-        this.startPollingNews()
-      })
     }
+
+    // Perform initial fetch and always poll
+    this.props.fetchNewsItems(this.state.filters).then(() => {
+      this.startPollingNews()
+    })
   }
 
   public componentWillUnmount() {
@@ -191,11 +211,18 @@ class NewsfeedPage extends React.Component<Props, State> {
   }
 
   public componentDidUpdate(prevProps, prevState, snapshot) {
+    // Check if `coinSlug` in the route changed
     if (this.getContentType() === 'coin') {
       if (this.props.coinSlug !== prevProps.coinSlug && !!this.props.coinSlug) {
         this.props.selectCoinBySlug(this.props.coinSlug)
         this.setState((state) => {
           state.filters.coinSlugs = [this.props.coinSlug]
+          state.filters.feedSources = mergeInitialSocialSourcesForCoinsFilter(
+            state.filters.feedSources,
+            state.filters.coinSlugs,
+            this.props.topCoinSlugs,
+          )
+
           this.props.fetchNewsItems(state.filters)
           return state
         })
@@ -203,6 +230,7 @@ class NewsfeedPage extends React.Component<Props, State> {
       }
     }
 
+    // Check if `selectedCoinSlug` changed from context
     if (
       !!this.props.selectedCoinSlug &&
       !_.isEqual(this.props.selectedCoinSlug, prevProps.selectedCoinSlug)
@@ -211,15 +239,24 @@ class NewsfeedPage extends React.Component<Props, State> {
       return
     }
 
+    // Check if watchlist tab changed to active
     if (!!this.props.isWatchlistSelected && !prevProps.isWatchlistSelected) {
       this.setState((state) => {
         state.filters.coinSlugs = this.props
           .getWatchlist()
           .map((elem) => elem.slug)
+        state.filters.feedSources = mergeInitialSocialSourcesForCoinsFilter(
+          state.filters.feedSources,
+          state.filters.coinSlugs,
+          this.props.topCoinSlugs,
+        )
+
         this.props.fetchNewsItems(state.filters)
         return state
       })
       return
+
+      // Check if watchlist tab changed to inactive
     } else if (
       !!prevProps.isWatchlistSelected &&
       !this.props.isWatchlistSelected
@@ -228,12 +265,19 @@ class NewsfeedPage extends React.Component<Props, State> {
         state.filters.coinSlugs = !!this.props.coinSlug
           ? [this.props.coinSlug]
           : []
+        state.filters.feedSources = mergeInitialSocialSourcesForCoinsFilter(
+          state.filters.feedSources,
+          state.filters.coinSlugs,
+          this.props.topCoinSlugs,
+        )
+
         this.props.fetchNewsItems(state.filters)
         return state
       })
       return
     }
 
+    // Check if watchlist changed
     if (
       !!this.props.isWatchlistSelected &&
       !_.isEqual(this.props.watchlist, prevProps.watchlist)
@@ -242,6 +286,12 @@ class NewsfeedPage extends React.Component<Props, State> {
         state.filters.coinSlugs = this.props
           .getWatchlist()
           .map((elem) => elem.slug)
+        state.filters.feedSources = mergeInitialSocialSourcesForCoinsFilter(
+          state.filters.feedSources,
+          state.filters.coinSlugs,
+          this.props.topCoinSlugs,
+        )
+
         this.props.fetchNewsItems(state.filters)
         return state
       })
@@ -269,6 +319,7 @@ class NewsfeedPage extends React.Component<Props, State> {
             <>
               <NewsListHeader
                 feedSources={this.props.feedSources}
+                topCoinSlugs={this.props.topCoinSlugs}
                 showFilters={this.state.showFilters}
                 toggleFilters={this.toggleFilters}
                 toggleNewsfeedTips={this.toggleTips}
@@ -335,6 +386,7 @@ class NewsfeedPage extends React.Component<Props, State> {
             <>
               <NewsListHeader
                 feedSources={this.props.feedSources}
+                topCoinSlugs={this.props.topCoinSlugs}
                 showFilters={this.state.showFilters}
                 toggleFilters={this.toggleFilters}
                 toggleNewsfeedTips={this.toggleTips}
@@ -391,6 +443,7 @@ class NewsfeedPage extends React.Component<Props, State> {
             <>
               <NewsListHeader
                 feedSources={this.props.feedSources}
+                topCoinSlugs={this.props.topCoinSlugs}
                 showFilters={this.state.showFilters}
                 toggleFilters={this.toggleFilters}
                 toggleNewsfeedTips={this.toggleTips}

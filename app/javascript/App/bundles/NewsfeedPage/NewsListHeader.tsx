@@ -15,6 +15,7 @@ interface Props {
   showFilters: boolean
   categories: string[]
   feedSources: string[]
+  topCoinSlugs: string[]
   filters: Filters
   applyFilters: (filters: Filters) => void
   toggleFilters: () => void
@@ -81,6 +82,7 @@ export default class NewsListHeader extends React.Component<Props, {}> {
           <FilterPanel
             categories={this.props.categories}
             feedSources={this.props.feedSources}
+            topCoinSlugs={this.props.topCoinSlugs}
             filters={this.props.filters}
             closeFilterPanel={this.props.toggleFilters}
             applyFilters={this.props.applyFilters}

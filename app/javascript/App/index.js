@@ -70,6 +70,7 @@ const injectComponents = () => {
                         <NewsfeedPageNew
                           loggedIn={!!props.user}
                           coinSlug={routeProps.match.params.coinSlug}
+                          topCoinSlugs={props.topCoinSlugs}
                           categories={props.categories}
                           feedSources={props.feedSources}
                         />
