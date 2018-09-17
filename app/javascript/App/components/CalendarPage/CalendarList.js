@@ -5,6 +5,7 @@ import CalendarListEvent from './CalendarListEvent'
 import CalendarListEventHeader from './CalendarListEventHeader'
 import LoadingIndicator from '../LoadingIndicator'
 import Tips from './Tips'
+import withDevice from '~/bundles/common/utils/withDevice'
 
 class CalendarList extends Component {
   state = { initialRender: true, initialRenderTips: false }
@@ -215,4 +216,4 @@ class CalendarList extends Component {
   }
 }
 
-export default CalendarList
+export default withDevice(CalendarList)
