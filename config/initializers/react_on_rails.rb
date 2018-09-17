@@ -33,8 +33,8 @@ module RenderingExtension
 
     if browser.device.tablet?
       return {
-        'fallbackDeviceWidth': 360,
-        'fallbackDeviceHeight': 640,
+        'fallbackDeviceWidth': 768,
+        'fallbackDeviceHeight': 1024,
       }
     end
 
