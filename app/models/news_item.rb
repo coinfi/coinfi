@@ -48,7 +48,7 @@ class NewsItem < ApplicationRecord
   end
 
   def tag_scoped_coins
-    case ENV['NEWS_COIN_MENTION_TAG_SCOPE']
+    case ENV.fetch['NEWS_COIN_MENTION_TAG_SCOPE']
     when 'human'
       self.human_tagged_coins
     when 'machine'

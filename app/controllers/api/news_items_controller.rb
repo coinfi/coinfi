@@ -71,7 +71,7 @@ class Api::NewsItemsController < ApiController
       only: %i[id title summary feed_item_published_at updated_at url content],
       methods: %i[tag_scoped_coin_link_data categories]
     )
-    format_item = Proc.new do |item, *args||
+    format_item = Proc.new do |item, *args|
       item
         .except('tag_scoped_coin_link_data')
         .merge({
