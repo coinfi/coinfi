@@ -2,10 +2,14 @@ class NewsItem < ApplicationRecord
   belongs_to :feed_source
   has_one :user # References the Admin user who tagged this NewsItem
   has_one :news_item_raw
-  has_many :news_coin_mentions, class_name: 'NewsCoinMention'
-  has_many :coins, through: :news_coin_mentions
   has_many :news_item_categorizations, dependent: :destroy
   has_many :news_categories, through: :news_item_categorizations
+  has_many :news_coin_mentions, class_name: 'NewsCoinMention'
+  has_many :machine_tagged_news_coin_mentions, -> { NewsCoinMention.machine_tagged }, class_name: 'NewsCoinMention'
+  has_many :human_tagged_news_coin_mentions, -> { NewsCoinMention.human_tagged }, class_name: 'NewsCoinMention'
+  has_many :coins, through: :news_coin_mentions
+  has_many :machine_tagged_coins, through: :machine_tagged_news_coin_mentions, source: :coin
+  has_many :human_tagged_coins, through: :human_tagged_news_coin_mentions, source: :coin
 
   scope :general, -> { where(feed_source: FeedSource.general) }
   scope :pending, -> { where(is_human_tagged: nil) }
@@ -43,8 +47,29 @@ class NewsItem < ApplicationRecord
       .order_by_published(:asc)
   end
 
-  def coin_link_data
-    coins.map { |coin| coin.as_json(only: [:symbol, :slug, :id] ) }
+  def tag_scoped_coins
+    case ENV.fetch('NEWS_COIN_MENTION_TAG_SCOPE')
+    when 'human'
+      self.human_tagged_coins
+    when 'machine'
+      self.machine_tagged_coins
+    when 'combo'
+      if self.human_tagged_coins.exists?
+        self.human_tagged_coins
+      else
+        self.machine_tagged_coins
+      end
+    else
+      raise "Invalid NEWS_COIN_MENTION_TAG_SCOPE environment variable"
+    end
+  end
+
+  def tag_scoped_coin_link_data
+    tag_scoped_coins.map { |coin| coin.as_json(only: [:symbol, :slug, :id] ) }
+  end
+
+  def tag_scoped_coin_symbols
+    tag_scoped_coins.pluck(:symbol).join(', ')
   end
 
   def coin_symbols

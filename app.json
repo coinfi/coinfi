@@ -21,6 +21,7 @@
     "NEWS_TAGGER_ENDPOINT": { "required": true },
     "NEWS_TAGGER_BASIC_AUTH_PASSWORD": { "required": true },
     "NEWS_TAGGER_BASIC_AUTH_USERNAME": { "required": true },
+    "NEWS_COIN_MENTION_TAG_SCOPE": { "required": true },
     "RACK_ENV": { "required": true },
     "RAILS_ENV": { "required": true },
     "RAILS_LOG_TO_STDOUT": { "required": true },
