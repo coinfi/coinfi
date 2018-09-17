@@ -392,7 +392,7 @@ class CoinShow extends Component {
   }
 }
 
-export default newsfeedContainer(CoinShow)
+export default CoinShow
 
 const Section = styled.section`
   text-align: center;
