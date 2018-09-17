@@ -13,7 +13,10 @@ class Api::NewsController < ApiController
     coin_ids = Coin.where(slug: coin_slugs).pluck(:id) if coin_slugs
     coin_ids = Coin.top(20).ids unless coin_ids
 
-    feed_sources = FeedSource.active.all
+    feed_sources = FeedSource
+      .where.not(id: FeedSource.active.reddit)
+      .where.not(id: FeedSource.active.twitter)
+
     @news_items = NewsItem.published.joins(:news_coin_mentions).where(news_coin_mentions: { coin: coin_ids })
 
     # Showing default coins
@@ -73,9 +76,23 @@ class Api::NewsController < ApiController
   private
 
   def serialized(obj)
-    obj.as_json(
+    data = obj.as_json(
       only: %i[id title summary feed_item_published_at updated_at url content],
-      methods: %i[coin_link_data categories]
+      methods: %i[tag_scoped_coin_link_data categories]
     )
+    format_item = Proc.new do |item, *args|
+      item
+        .except('tag_scoped_coin_link_data')
+        .merge({
+          coin_link_data: item['tag_scoped_coin_link_data'],
+        })
+    end
+
+    # Handle both hashes and arrays of hashes
+    if (data.kind_of?(Array))
+      formatted_data = data.map(&format_item)
+    else
+      formatted_data = format_item.call(data)
+    end
   end
 end

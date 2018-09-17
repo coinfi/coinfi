@@ -22,6 +22,7 @@ const App = (props, railsContext) => (
                 <NewsfeedPageNew
                   loggedIn={!!props.user}
                   coinSlug={routeProps.match.params.coinSlug}
+                  topCoinSlugs={props.topCoinSlugs}
                   categories={props.categories}
                   feedSources={props.feedSources}
                 />
@@ -34,6 +35,7 @@ const App = (props, railsContext) => (
                 <NewsfeedPageNew
                   loggedIn={!!props.user}
                   newsItemId={routeProps.match.params.newsItemId}
+                  topCoinSlugs={props.topCoinSlugs}
                   categories={props.categories}
                   feedSources={props.feedSources}
                 />
