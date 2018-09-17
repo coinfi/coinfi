@@ -1,17 +1,15 @@
 class Api::UserController < ApiController
-
   skip_before_action :verify_authenticity_token
   before_action :set_watchlist
 
   def show
-    respond_success(nil) and return unless current_user
     respond_success(serialized(current_user))
   end
 
   def update
-    respond_warning("User not logged in") and return unless current_user
     watch_coin(params[:watchCoin]) if params[:watchCoin]
     unwatch_coin(params[:unwatchCoin]) if params[:unwatchCoin]
+    set_dark_mode(params[:isDarkMode]) if params[:isDarkMode]
     respond_success(serialized(current_user))
   end
 
@@ -28,6 +26,11 @@ class Api::UserController < ApiController
     item.destroy if item
   end
 
+  def set_dark_mode(is_dark)
+    current_user.token_sale["dark_mode"] = is_dark
+    current_user.save
+  end
+
   def serialized(user)
     user.as_json(
       only: %i[email],
@@ -36,8 +39,7 @@ class Api::UserController < ApiController
   end
 
   def set_watchlist
-    return unless current_user
+    respond_warning("User not logged in") and return unless current_user
     @watchlist = current_user.watchlist || Watchlist.create(user: current_user)
   end
-
 end

@@ -47,6 +47,10 @@ class User < ApplicationRecord
     role == 'superadmin'
   end
 
+  def dark_mode?
+    token_sale && token_sale["dark_mode"]
+  end
+
   def get_referrals
     User.where("token_sale ->> 'referred_by' = ?", self.id.to_s).order(created_at: :desc).select(:email, :created_at)
   end
