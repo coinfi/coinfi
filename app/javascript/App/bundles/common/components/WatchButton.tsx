@@ -1,5 +1,4 @@
 import * as React from 'react'
-import ReactOnRails from 'react-on-rails'
 import Icon from '../../../components/Icon'
 import CoinListContext from '../contexts/CoinListContext'
 import { Coin } from '../types'
@@ -71,7 +70,5 @@ const WatchButton = ({ coin, hasText, loggedIn }: Props) => {
     </CoinListContext.Consumer>
   )
 }
-
-ReactOnRails.register({ WatchButton })
 
 export default WatchButton
