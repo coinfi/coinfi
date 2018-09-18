@@ -13,6 +13,7 @@ import BodySection from './BodySection'
 import BodySectionDrawer from '../BodySectionDrawer'
 import Immutable from 'immutable'
 import _ from 'lodash'
+import withStore from '../../withStore'
 
 class CalendarPage extends Component {
   state = {
@@ -143,4 +144,4 @@ class CalendarPage extends Component {
   }
 }
 
-export default calendarContainer(CalendarPage)
+export default withStore(calendarContainer(CalendarPage))

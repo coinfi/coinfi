@@ -77,15 +77,6 @@ module ApplicationHelper
     d
   end
 
-  def react_component name, opts = {}
-    locals = { 
-      name: name, 
-      props: opts[:props] || {}, 
-      withStore: opts[:withStore] 
-    }
-    render partial: 'components/react_component', locals: locals 
-  end
-
   def flash_messages
     flash.map do |type, text|
       { id: text.object_id, type: type, text: text }
