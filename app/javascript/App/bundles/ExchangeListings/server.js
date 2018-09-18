@@ -2,7 +2,6 @@
 import 'regenerator-runtime/runtime'; // eslint-disable-line import/no-extraneous-dependencies
 
 import * as React from 'react';
-import ReactOnRails from 'react-on-rails';
 import { Provider } from 'react-redux';
 import { StaticRouter } from 'react-router-dom';
 
@@ -29,8 +28,6 @@ const ListingsIndex = (props: RailsProps, context: RailsContext) => {
     </Provider>
   );
 };
-
-ReactOnRails.register({ ExchangeListingsPage });
 
 export default ExchangeListingsPage;
 */

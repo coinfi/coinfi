@@ -6,7 +6,6 @@ import axios from 'axios'
 import SearchCoins from '../../bundles/common/components/SearchCoins'
 import CoinCharts from './../CoinCharts'
 import SectionHeader from './../shared/SectionHeader'
-import newsfeedContainer from './../../containers/newsfeed'
 import FundamentalsData from './FundamentalsData'
 import LinksData from './LinksData'
 
@@ -392,7 +391,7 @@ class CoinShow extends Component {
   }
 }
 
-export default newsfeedContainer(CoinShow)
+export default CoinShow
 
 const Section = styled.section`
   text-align: center;
