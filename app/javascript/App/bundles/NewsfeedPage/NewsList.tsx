@@ -7,7 +7,6 @@ import _ from 'lodash'
 import NewsListItem from './NewsListItem'
 import LoadingIndicator from '../../components/LoadingIndicator'
 import Tips from './Tips'
-import scrollHelper from './../../scrollHelper'
 import withDevice from '~/bundles/common/utils/withDevice'
 
 import { NewsItem } from './types'
@@ -41,17 +40,7 @@ class NewsList extends React.Component<Props, State> {
     this.newsfeedDiv = React.createRef()
   }
 
-  public componentDidMount() {
-    // set max height to enable scroll in ff
-    scrollHelper()
-  }
-
-  public componentDidUpdate() {
-    scrollHelper()
-  }
-
   public onSelect = (newsItem) => {
-    scrollHelper()
     this.props.onNewsItemClick(newsItem)
   }
 

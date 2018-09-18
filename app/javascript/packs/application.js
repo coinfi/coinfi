@@ -8,7 +8,6 @@ import '../modules/navigation'
 // React
 import '../App/startup'
 
-import scrollHelper from '../App/scrollHelper'
 import getScreenSize from '../App/lib/screenSize'
 import debounce from 'debounce'
 
@@ -24,4 +23,3 @@ document.addEventListener('DOMContentLoaded', () => {
 })
 
 window.addEventListener('resize', debounce(setScreenSize, 400))
-window.addEventListener('resize', debounce(scrollHelper, 400))
