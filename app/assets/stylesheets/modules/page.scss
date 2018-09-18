@@ -1,0 +1,8 @@
+@media #{$screen-min-ns} {
+  .page {
+    &--fullscreen {
+      height: 100vh;
+      overflow: hidden;
+    }
+  }
+}
