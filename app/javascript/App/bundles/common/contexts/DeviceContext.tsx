@@ -5,6 +5,8 @@ export interface DeviceContextType {
   isMobile: boolean
   isTablet: boolean
   isDesktop: boolean
+  screenWidth: number
+  screenHeight: number
 }
 
 const DeviceContext = React.createContext<DeviceContextType>(null)
@@ -30,11 +32,13 @@ export const DeviceProvider: React.StatelessComponent<Props> = ({
     fallbackWidth: fallback.width,
     fallbackHeight: fallback.height,
   }
-  const mapSizesToProps = ({ width }) => ({
+  const mapSizesToProps = ({ width, height }) => ({
     value: {
       isMobile: width < breakpoints.m,
       isTablet: width >= breakpoints.m && width < breakpoints.l,
       isDesktop: width >= breakpoints.l,
+      screenWidth: width,
+      screenHeight: height,
     },
   })
 
