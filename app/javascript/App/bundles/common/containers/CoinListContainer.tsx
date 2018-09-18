@@ -33,7 +33,7 @@ interface State {
 class CoinListContainer extends React.Component<Props, State> {
   public state = {
     status: STATUSES.INITIALIZING,
-    isWatchlist: false,
+    isWatchlist: this.props.loggedIn,
     toplistIndex: [],
     toplist: [],
     watchlistIndex: [],
