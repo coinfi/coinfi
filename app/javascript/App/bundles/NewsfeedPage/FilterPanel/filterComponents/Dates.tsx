@@ -42,8 +42,7 @@ class Dates extends React.Component<Props, {}> {
         <div className="pv4">
           <div
             className="w-50 dib"
-            // @ts-ignore
-            style={!props.isMobile ? { maxWidth: '50%' } : {}}
+            style={!this.props.isMobile ? { maxWidth: '50%' } : {}}
           >
             <DatePicker
               selected={publishedSince}
@@ -57,8 +56,7 @@ class Dates extends React.Component<Props, {}> {
           </div>
           <div
             className="w-50 dib"
-            // @ts-ignore
-            style={!props.isMobile ? { maxWidth: '50%' } : {}}
+            style={!this.props.isMobile ? { maxWidth: '50%' } : {}}
           >
             <DatePicker
               selected={publishedUntil}
