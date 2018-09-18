@@ -21,27 +21,43 @@ module RenderingExtension
 
   private
 
+  # Fallback device widths taken from most popular screen sizes by platform
+  # see: http://gs.statcounter.com/screen-resolution-stats/tablet/worldwide
   def self.get_device_provider_props(view_context)
     browser = Browser.new(view_context.request.user_agent)
 
-    if browser.device.mobile?
-      return {
-        'fallbackDeviceWidth': 360,
-        'fallbackDeviceHeight': 640,
+    default_props = {
+      'breakpoints': {
+        'ns': 480,
+        'm': 992,
+        'l': 1184
       }
+    }
+
+    if browser.device.mobile?
+      return default_props.merge({
+        'fallback': {
+          'width': 360,
+          'height': 640,
+        },
+      })
     end
 
     if browser.device.tablet?
-      return {
-        'fallbackDeviceWidth': 768,
-        'fallbackDeviceHeight': 1024,
-      }
+      return default_props.merge({
+        'fallback': {
+          'width': 1024,
+          'height': 768,
+        },
+      })
     end
 
-    return {
-      'fallbackDeviceWidth': 1280,
-      'fallbackDeviceHeight': 700,
-    }
+    return default_props.merge({
+      'fallback': {
+        'width': 1366,
+        'height': 768,
+      },
+    })
   end
 end
 

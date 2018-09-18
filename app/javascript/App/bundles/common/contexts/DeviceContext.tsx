@@ -10,20 +10,31 @@ export interface DeviceContextType {
 const DeviceContext = React.createContext<DeviceContextType>(null)
 
 interface Props {
-  fallbackDeviceWidth: number
-  fallbackDeviceHeight: number
+  breakpoints: {
+    ns: number
+    m: number
+    l: number
+  }
+  fallback: {
+    width: number
+    height: number
+  }
 }
 
-export const DeviceProvider: React.StatelessComponent<Props> = (props) => {
+export const DeviceProvider: React.StatelessComponent<Props> = ({
+  fallback,
+  breakpoints,
+  children,
+}) => {
   const sizesProviderConfig = {
-    fallbackWidth: props.fallbackDeviceWidth,
-    fallbackHeight: props.fallbackDeviceHeight,
+    fallbackWidth: fallback.width,
+    fallbackHeight: fallback.height,
   }
-  const mapSizesToProps = (sizes) => ({
+  const mapSizesToProps = ({ width }) => ({
     value: {
-      isMobile: withSizes.isMobile(sizes),
-      isTablet: withSizes.isTablet(sizes),
-      isDesktop: withSizes.isDesktop(sizes),
+      isMobile: width < breakpoints.m,
+      isTablet: width >= breakpoints.m && width < breakpoints.l,
+      isDesktop: width >= breakpoints.l,
     },
   })
 
@@ -33,9 +44,7 @@ export const DeviceProvider: React.StatelessComponent<Props> = (props) => {
 
   return (
     <SizesProvider config={sizesProviderConfig}>
-      <EnhancedDeviceContextProvider>
-        {props.children}
-      </EnhancedDeviceContextProvider>
+      <EnhancedDeviceContextProvider>{children}</EnhancedDeviceContextProvider>
     </SizesProvider>
   )
 }
