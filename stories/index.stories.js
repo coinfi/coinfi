@@ -5,9 +5,6 @@ import { storiesOf } from '@storybook/react'
 import CoinSummary from '../app/javascript/App/components/CoinSummary'
 import CoinDetail from '../app/javascript/App/components/CoinDetail'
 
-// import { BodySection } from '../app/javascript/App/components/NewsfeedPage/BodySection'
-// import { NewsBody } from '../app/javascript/App/components/NewsfeedPage/NewsBody'
-
 // import { bodySectionProps } from './bodySectionProps'
 
 // import styles from './tachy.css'
