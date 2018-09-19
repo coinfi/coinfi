@@ -1,19 +1,37 @@
 import React, { Fragment } from 'react'
+import { withStyles, createStyles } from '@material-ui/core/styles'
 
-export default function({
+const styles = (theme) =>
+  createStyles({
+    root: {},
+    section: {
+      maxHeight: '100%',
+    },
+  })
+
+const LayoutTablet = ({
+  classes,
   leftSection,
   rightSection,
   drawerSection,
   ...props
-}) {
+}) => {
   return (
     <Fragment>
-      <div className="bg-white flex flex-column flex-auto">
+      <div className="bg-white flex flex-column flex-auto relative">
         <div className="row no-gutter flex-auto">
-          <div className="col-xs-6 b--l relative flex flex-column">
+          <div
+            className={`${
+              classes.section
+            } col-xs-6 b--l relative flex flex-column`}
+          >
             {leftSection}
           </div>
-          <div className="col-xs-6 b--l relative overflow-y-auto">
+          <div
+            className={`${
+              classes.section
+            } col-xs-6 b--l relative overflow-y-auto`}
+          >
             {rightSection}
           </div>
         </div>
@@ -22,3 +40,5 @@ export default function({
     </Fragment>
   )
 }
+
+export default withStyles(styles)(LayoutTablet)

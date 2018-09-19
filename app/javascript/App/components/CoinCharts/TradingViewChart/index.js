@@ -1,14 +1,23 @@
 import React, { Component } from 'react'
 import Datafeed from './Datafeed'
-const { TradingView } = window
 
 const containerID = 'tradingview'
 
 export default class TradingViewChart extends Component {
+  getTradingView = () => {
+    if (this.TradingView) {
+      return this.TradingView
+    }
+
+    this.TradingView = window.TradingView
+    return this.TradingView
+  }
+
   componentDidMount() {
     // TODO: inject TV lib here
     const { symbol, priceData } = this.props
-    window.tvWidget = new TradingView.widget({
+    const TradingView = this.getTradingView()
+    const tvWidget = new TradingView.widget({
       debug: false,
       fullscreen: false,
       symbol: symbol,
@@ -35,7 +44,7 @@ export default class TradingViewChart extends Component {
       // charts_storage_api_version: '1.1',
       // client_id: 'tradingview.com',
       // user_id: 'public_user_id',
-      width: '100%'
+      width: '100%',
     })
   }
   render() {

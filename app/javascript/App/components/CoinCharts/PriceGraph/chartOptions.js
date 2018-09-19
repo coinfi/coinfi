@@ -9,10 +9,9 @@ const parseData = (priceData) => {
   return { prices, volume }
 }
 
-export default (data) => {
+export default (Highcharts, data) => {
   const { annotations, priceData } = data
   const { prices, volume } = parseData(priceData)
-  const { Highcharts } = window
   return {
     rangeSelector: {
       selected: 0,

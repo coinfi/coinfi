@@ -1,6 +1,3 @@
-import { WindowScreenType } from '../common/types'
-declare const window: WindowScreenType
-
 import * as React from 'react'
 import { withRouter, RouteComponentProps } from 'react-router'
 import debounce from 'debounce'
@@ -15,6 +12,8 @@ import NewsListHeader from './NewsListHeader'
 import BodySection from './BodySection'
 import BodySectionDrawer from '../../bundles/common/components/BodySectionDrawer'
 import _ from 'lodash'
+import withDevice from '~/bundles/common/utils/withDevice'
+import EventListener from 'react-event-listener'
 
 import { NewsItem, ContentType, Filters } from './types'
 import { CoinList } from '../common/types'
@@ -44,6 +43,8 @@ interface Props extends RouteComponentProps<any> {
   getWatchlist: any
   watchlist: any
   hasMore: boolean
+  isMobile: boolean
+  isTablet: boolean
 }
 
 type ActiveMobileWindow = 'CoinsList' | 'BodySection' | 'None'
@@ -185,14 +186,6 @@ class NewsfeedPage extends React.Component<Props, State> {
   }
 
   public componentDidMount() {
-    window.addEventListener('resize', this.handleResize)
-    window.addEventListener('blur', this.handleOnBlur)
-    window.addEventListener('focus', this.handleOnFocus)
-
-    if (!document.hasFocus()) {
-      this.setState({ isWindowFocused: false })
-    }
-
     // Ensure CoinListContainer provider state is in sync
     if (this.getContentType() === 'coin') {
       this.props.selectCoinBySlug(this.props.coinSlug)
@@ -202,12 +195,6 @@ class NewsfeedPage extends React.Component<Props, State> {
     this.props.fetchNewsItems(this.state.filters).then(() => {
       this.startPollingNews()
     })
-  }
-
-  public componentWillUnmount() {
-    window.removeEventListener('resize', this.handleResize)
-    window.removeEventListener('blur', this.handleOnBlur)
-    window.removeEventListener('focus', this.handleOnFocus)
   }
 
   public componentDidUpdate(prevProps, prevState, snapshot) {
@@ -312,178 +299,199 @@ class NewsfeedPage extends React.Component<Props, State> {
   }
 
   public render() {
-    if (window.isMobile) {
+    if (this.props.isMobile) {
       return (
-        <LayoutMobile
-          mainSection={
-            <>
-              <NewsListHeader
-                feedSources={this.props.feedSources}
-                topCoinSlugs={this.props.topCoinSlugs}
-                showFilters={this.state.showFilters}
-                toggleFilters={this.toggleFilters}
-                toggleNewsfeedTips={this.toggleTips}
-                applyFilters={this.applyFilters}
-                filters={this.state.filters}
-                categories={this.props.categories}
-                showCoinListDrawer={() =>
-                  this.setState({ ActiveMobileWindow: 'CoinsList' })
-                }
+        <EventListener
+          target="window"
+          onResize={this.handleResize}
+          onBlur={this.handleOnBlur}
+          onFocus={this.handleOnFocus}
+        >
+          <LayoutMobile
+            mainSection={
+              <>
+                <NewsListHeader
+                  feedSources={this.props.feedSources}
+                  topCoinSlugs={this.props.topCoinSlugs}
+                  showFilters={this.state.showFilters}
+                  toggleFilters={this.toggleFilters}
+                  toggleNewsfeedTips={this.toggleTips}
+                  applyFilters={this.applyFilters}
+                  filters={this.state.filters}
+                  categories={this.props.categories}
+                  showCoinListDrawer={() =>
+                    this.setState({ ActiveMobileWindow: 'CoinsList' })
+                  }
+                />
+                <NewsList
+                  isShown={!this.state.showFilters}
+                  isWindowFocused={this.state.isWindowFocused}
+                  isLoading={this.props.isNewsfeedLoading}
+                  sortedNewsItems={this.props.newslist}
+                  initialRenderTips={this.state.initialRenderTips}
+                  fetchMoreNewsFeed={() =>
+                    this.props.fetchMoreNewsItems(this.state.filters)
+                  }
+                  closeTips={this.closeTips}
+                  selectedNewsItemId={this.props.newsItemId}
+                  onNewsItemClick={(newsItem) => {
+                    this.props.history.push(
+                      `/news/${newsItem.id}/${slugify(newsItem.title)}`,
+                    )
+                    this.setState({ ActiveMobileWindow: 'BodySection' })
+                  }}
+                  hasMore={this.props.hasMore}
+                />
+              </>
+            }
+            showModal={false}
+            modalSection={null}
+            drawerSection={
+              <>
+                <CoinListDrawer
+                  isShown={this.state.ActiveMobileWindow === 'CoinsList'}
+                  onClose={() => this.setState({ ActiveMobileWindow: 'None' })}
+                  loggedIn={this.props.loggedIn}
+                  onClick={() =>
+                    this.setState({ ActiveMobileWindow: 'BodySection' })
+                  }
+                />
+                <BodySectionDrawer
+                  isShown={this.state.ActiveMobileWindow === 'BodySection'}
+                  onClose={() => this.setState({ ActiveMobileWindow: 'None' })}
+                  bodySection={
+                    <BodySection
+                      coinSlug={this.props.coinSlug}
+                      newsItemId={this.props.newsItemId}
+                      contentType={this.getContentType()}
+                      loggedIn={this.props.loggedIn}
+                    />
+                  }
+                />
+              </>
+            }
+          />
+        </EventListener>
+      )
+    } else if (this.props.isTablet) {
+      return (
+        <EventListener
+          target="window"
+          onResize={this.handleResize}
+          onBlur={this.handleOnBlur}
+          onFocus={this.handleOnFocus}
+        >
+          <LayoutTablet
+            leftSection={
+              <>
+                <NewsListHeader
+                  feedSources={this.props.feedSources}
+                  topCoinSlugs={this.props.topCoinSlugs}
+                  showFilters={this.state.showFilters}
+                  toggleFilters={this.toggleFilters}
+                  toggleNewsfeedTips={this.toggleTips}
+                  applyFilters={this.applyFilters}
+                  filters={this.state.filters}
+                  categories={this.props.categories}
+                  showCoinListDrawer={() =>
+                    this.setState({ ActiveMobileWindow: 'CoinsList' })
+                  }
+                />
+                <NewsList
+                  isShown={!this.state.showFilters}
+                  isWindowFocused={this.state.isWindowFocused}
+                  sortedNewsItems={this.props.newslist}
+                  initialRenderTips={this.state.initialRenderTips}
+                  isLoading={this.props.isNewsfeedLoading}
+                  fetchMoreNewsFeed={() =>
+                    this.props.fetchMoreNewsItems(this.state.filters)
+                  }
+                  closeTips={this.closeTips}
+                  selectedNewsItemId={this.props.newsItemId}
+                  onNewsItemClick={(newsItem) => {
+                    this.props.history.push(
+                      `/news/${newsItem.id}/${slugify(newsItem.title)}`,
+                    )
+                  }}
+                  hasMore={this.props.hasMore}
+                />
+              </>
+            }
+            rightSection={
+              <BodySection
+                coinSlug={this.props.coinSlug}
+                newsItemId={this.props.newsItemId}
+                contentType={this.getContentType()}
+                loggedIn={this.props.loggedIn}
               />
-              <NewsList
-                isShown={!this.state.showFilters}
-                isWindowFocused={this.state.isWindowFocused}
-                isLoading={this.props.isNewsfeedLoading}
-                sortedNewsItems={this.props.newslist}
-                initialRenderTips={this.state.initialRenderTips}
-                fetchMoreNewsFeed={() =>
-                  this.props.fetchMoreNewsItems(this.state.filters)
-                }
-                closeTips={this.closeTips}
-                selectedNewsItemId={this.props.newsItemId}
-                onNewsItemClick={(newsItem) => {
-                  this.props.history.push(
-                    `/news/${newsItem.id}/${slugify(newsItem.title)}`,
-                  )
-                  this.setState({ ActiveMobileWindow: 'BodySection' })
-                }}
-                hasMore={this.props.hasMore}
-              />
-            </>
-          }
-          showModal={false}
-          modalSection={null}
-          drawerSection={
-            <>
+            }
+            drawerSection={
               <CoinListDrawer
                 isShown={this.state.ActiveMobileWindow === 'CoinsList'}
                 onClose={() => this.setState({ ActiveMobileWindow: 'None' })}
                 loggedIn={this.props.loggedIn}
-                onClick={() =>
-                  this.setState({ ActiveMobileWindow: 'BodySection' })
-                }
+                onClick={() => this.setState({ ActiveMobileWindow: 'None' })}
               />
-              <BodySectionDrawer
-                isShown={this.state.ActiveMobileWindow === 'BodySection'}
-                onClose={() => this.setState({ ActiveMobileWindow: 'None' })}
-                bodySection={
-                  <BodySection
-                    coinSlug={this.props.coinSlug}
-                    newsItemId={this.props.newsItemId}
-                    contentType={this.getContentType()}
-                    loggedIn={this.props.loggedIn}
-                  />
-                }
-              />
-            </>
-          }
-        />
-      )
-    } else if (window.isTablet) {
-      return (
-        <LayoutTablet
-          leftSection={
-            <>
-              <NewsListHeader
-                feedSources={this.props.feedSources}
-                topCoinSlugs={this.props.topCoinSlugs}
-                showFilters={this.state.showFilters}
-                toggleFilters={this.toggleFilters}
-                toggleNewsfeedTips={this.toggleTips}
-                applyFilters={this.applyFilters}
-                filters={this.state.filters}
-                categories={this.props.categories}
-                showCoinListDrawer={() =>
-                  this.setState({ ActiveMobileWindow: 'CoinsList' })
-                }
-              />
-              <NewsList
-                isShown={!this.state.showFilters}
-                isWindowFocused={this.state.isWindowFocused}
-                sortedNewsItems={this.props.newslist}
-                initialRenderTips={this.state.initialRenderTips}
-                isLoading={this.props.isNewsfeedLoading}
-                fetchMoreNewsFeed={() =>
-                  this.props.fetchMoreNewsItems(this.state.filters)
-                }
-                closeTips={this.closeTips}
-                selectedNewsItemId={this.props.newsItemId}
-                onNewsItemClick={(newsItem) => {
-                  this.props.history.push(
-                    `/news/${newsItem.id}/${slugify(newsItem.title)}`,
-                  )
-                }}
-                hasMore={this.props.hasMore}
-              />
-            </>
-          }
-          rightSection={
-            <BodySection
-              coinSlug={this.props.coinSlug}
-              newsItemId={this.props.newsItemId}
-              contentType={this.getContentType()}
-              loggedIn={this.props.loggedIn}
-            />
-          }
-          drawerSection={
-            <CoinListDrawer
-              isShown={this.state.ActiveMobileWindow === 'CoinsList'}
-              onClose={() => this.setState({ ActiveMobileWindow: 'None' })}
-              loggedIn={this.props.loggedIn}
-              onClick={() => this.setState({ ActiveMobileWindow: 'None' })}
-            />
-          }
-        />
+            }
+          />
+        </EventListener>
       )
     } else {
       return (
-        <LayoutDesktop
-          leftSection={<CoinListWrapper loggedIn={this.props.loggedIn} />}
-          centerSection={
-            <>
-              <NewsListHeader
-                feedSources={this.props.feedSources}
-                topCoinSlugs={this.props.topCoinSlugs}
-                showFilters={this.state.showFilters}
-                toggleFilters={this.toggleFilters}
-                toggleNewsfeedTips={this.toggleTips}
-                applyFilters={this.applyFilters}
-                filters={this.state.filters}
-                categories={this.props.categories}
+        <EventListener
+          target="window"
+          onResize={this.handleResize}
+          onBlur={this.handleOnBlur}
+          onFocus={this.handleOnFocus}
+        >
+          <LayoutDesktop
+            leftSection={<CoinListWrapper loggedIn={this.props.loggedIn} />}
+            centerSection={
+              <>
+                <NewsListHeader
+                  feedSources={this.props.feedSources}
+                  topCoinSlugs={this.props.topCoinSlugs}
+                  showFilters={this.state.showFilters}
+                  toggleFilters={this.toggleFilters}
+                  toggleNewsfeedTips={this.toggleTips}
+                  applyFilters={this.applyFilters}
+                  filters={this.state.filters}
+                  categories={this.props.categories}
+                />
+                <NewsList
+                  isShown={!this.state.showFilters}
+                  isWindowFocused={this.state.isWindowFocused}
+                  sortedNewsItems={this.props.newslist}
+                  initialRenderTips={this.state.initialRenderTips}
+                  isLoading={this.props.isNewsfeedLoading}
+                  fetchMoreNewsFeed={() =>
+                    this.props.fetchMoreNewsItems(this.state.filters)
+                  }
+                  closeTips={this.closeTips}
+                  selectedNewsItemId={this.props.newsItemId}
+                  onNewsItemClick={(newsItem) => {
+                    this.props.history.push(
+                      `/news/${newsItem.id}/${slugify(newsItem.title)}`,
+                    )
+                    this.setState({ ActiveMobileWindow: 'BodySection' })
+                  }}
+                  hasMore={this.props.hasMore}
+                />
+              </>
+            }
+            rightSection={
+              <BodySection
+                coinSlug={this.props.coinSlug}
+                newsItemId={this.props.newsItemId}
+                contentType={this.getContentType()}
+                loggedIn={this.props.loggedIn}
               />
-              <NewsList
-                isShown={!this.state.showFilters}
-                isWindowFocused={this.state.isWindowFocused}
-                sortedNewsItems={this.props.newslist}
-                initialRenderTips={this.state.initialRenderTips}
-                isLoading={this.props.isNewsfeedLoading}
-                fetchMoreNewsFeed={() =>
-                  this.props.fetchMoreNewsItems(this.state.filters)
-                }
-                closeTips={this.closeTips}
-                selectedNewsItemId={this.props.newsItemId}
-                onNewsItemClick={(newsItem) => {
-                  this.props.history.push(
-                    `/news/${newsItem.id}/${slugify(newsItem.title)}`,
-                  )
-                  this.setState({ ActiveMobileWindow: 'BodySection' })
-                }}
-                hasMore={this.props.hasMore}
-              />
-            </>
-          }
-          rightSection={
-            <BodySection
-              coinSlug={this.props.coinSlug}
-              newsItemId={this.props.newsItemId}
-              contentType={this.getContentType()}
-              loggedIn={this.props.loggedIn}
-            />
-          }
-        />
+            }
+          />
+        </EventListener>
       )
     }
   }
 }
 
-export default withRouter<Props>(NewsfeedPage)
+export default withDevice(withRouter<Props>(NewsfeedPage))
