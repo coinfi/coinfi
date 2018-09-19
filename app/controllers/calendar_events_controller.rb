@@ -1,8 +1,8 @@
-class NewsController < ApplicationController
+class CalendarEventsController < ApplicationController
   before_action :set_body_class
 
   def index
-    return render_404 unless has_news_feature?
+    return render_404 unless has_calendar_feature?
   end
 
   protected

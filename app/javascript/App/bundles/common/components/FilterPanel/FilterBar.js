@@ -1,19 +1,25 @@
 import React from 'react'
 import FilterButton from './FilterButton'
 import ExchangeListingsContext from '~/bundles/ExchangeListings/ExchangeListingsContext'
+import withDevice from '~/bundles/common/utils/withDevice'
 
-export default ({ children, showCoinListDrawer, toggleFilterPanel }) => (
+const FilterBar = ({
+  children,
+  showCoinListDrawer,
+  toggleFilterPanel,
+  isMobile,
+}) => (
   <div
     id="panel-header"
     className="pa3 b--b flex-none flex justify-between items-center bg-athens"
     style={{ height: 60 }}
   >
     <div className="flex items-center flex-auto">
-      {!window.isMobile && (
+      {!isMobile && (
         <button
           className="btn btn-blue btn-xs coins-btn mr2"
           style={
-            window.isMobile
+            isMobile
               ? {
                   ...{
                     background: '#2495ce',
@@ -34,3 +40,5 @@ export default ({ children, showCoinListDrawer, toggleFilterPanel }) => (
     </div>
   </div>
 )
+
+export default withDevice(FilterBar)

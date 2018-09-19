@@ -4,11 +4,12 @@ import SectionHeader from '../SectionHeader'
 import SearchCoins from '../SearchCoins'
 import FilterPanel from '../FilterPanel'
 import filterBtn from '../../images/filter-btn.svg'
+import withDevice from '~/bundles/common/utils/withDevice'
 
 const CalendarListHeader = (props) => {
   const { enableUI, currentUI, coins, activeFilters, calendarTips } = props
   const toggleFilters = () =>
-    enableUI('filterPanel', { fullScreen: window.isMobile })
+    enableUI('filterPanel', { fullScreen: props.isMobile })
 
   const btnStyle = {
     padding: '18px',
@@ -18,7 +19,7 @@ const CalendarListHeader = (props) => {
   return (
     <Fragment>
       {/* TODO: Refactor since `SectionHeaderTight` component has been removed. */}
-      {/*window.isMobile && (
+      {/*props.isMobile && (
         <SectionHeaderTight>
           <div className="flex-auto flex items-center">
             <Fragment>
@@ -60,12 +61,12 @@ const CalendarListHeader = (props) => {
       )*/}
       <SectionHeader>
         <div className="flex items-center flex-auto">
-          {!window.isMobile && (
+          {!props.isMobile && (
             <button
               className="btn btn-blue btn-xs coins-btn mr2"
               onClick={() => enableUI('coinListDrawer', { fullScreen: true })}
               style={
-                window.isMobile
+                props.isMobile
                   ? {
                       ...btnStyle,
                       ...{
@@ -102,4 +103,4 @@ const CalendarListHeader = (props) => {
   )
 }
 
-export default CalendarListHeader
+export default withDevice(CalendarListHeader)

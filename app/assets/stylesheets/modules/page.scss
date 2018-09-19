@@ -1,5 +1,5 @@
-@media #{$screen-min-ns} {
-  #news-page {
+.page {
+  &--fullscreen {
     height: 100vh;
     overflow: hidden;
   }

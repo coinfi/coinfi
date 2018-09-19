@@ -8,6 +8,7 @@ Rails.application.routes.draw do
   resources :coins, only: %i[index show]
   resources :contributor_submissions, path: 'contributor-submissions'
   resources :exchange_listings, only: :index, path: 'listings'
+  resources :calendar_events, only: :index, path: 'calendar'
   get '/icos', to: redirect('/icos/upcoming')
   get '/icos(/:status)', to: 'icos#index'
   get '/news(/*others)', to: 'news#index'
