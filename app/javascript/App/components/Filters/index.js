@@ -8,19 +8,24 @@ import MobileLayout from './MobileLayout'
 import debounce from 'debounce'
 import { normalizeFilterData } from '../../lib/stateHelpers'
 import withDevice from '~/bundles/common/utils/withDevice'
+import EventListener from 'react-event-listener'
 
 class Filters extends React.Component {
-  componentWillMount() {
-    window.addEventListener('resize', debounce(() => this.forceUpdate()), 500)
-  }
+  handleWindowResize = debounce(() => this.forceUpdate(), 500)
+
   render() {
     const { filterData, isMobile, ...props } = this.props
     const pProps = { ...props, filterData: normalizeFilterData(filterData) }
-    if (isMobile) {
-      return <MobileLayout {...pProps} />
-    } else {
-      return <DesktopLayout {...pProps} />
-    }
+
+    return (
+      <EventListener target="window" onResize={this.handleWindowResize}>
+        {isMobile ? (
+          <MobileLayout {...pProps} />
+        ) : (
+          <DesktopLayout {...pProps} />
+        )}
+      </EventListener>
+    )
   }
 }
 
