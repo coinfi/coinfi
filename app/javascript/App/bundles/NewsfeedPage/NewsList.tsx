@@ -1,6 +1,3 @@
-import { WindowScreenType } from '../common/types'
-declare const window: WindowScreenType
-
 import * as React from 'react'
 import InfiniteScroll from 'react-infinite-scroll-component'
 import _ from 'lodash'

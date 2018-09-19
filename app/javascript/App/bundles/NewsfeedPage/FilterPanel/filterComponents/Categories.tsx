@@ -1,6 +1,3 @@
-import { WindowScreenType } from '../../../common/types'
-declare const window: WindowScreenType
-
 import * as React from 'react'
 import classNames from 'classnames'
 import withDevice from '~/bundles/common/utils/withDevice'
