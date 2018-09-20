@@ -1,6 +1,14 @@
 class CoinsController < ApplicationController
   def index
     @coin_count = Coin.legit.listed.count
+    @coins = serializer_coins(
+      Coin
+        .legit
+        .page(1)
+        .per(100)
+        .order(:ranking)
+    )
+
     set_meta_tags(
       title: "Top Cryptocurrency Prices Live, Cryptocurrency Market Cap, Best Cryptocurrency Charts",
       keywords: "cryptocurrency, cryptocurrency news, cryptocurrency market, cryptocurrency prices, cryptocurrency charts, top cryptocurrency, best cryptocurrency"
@@ -45,4 +53,14 @@ class CoinsController < ApplicationController
       render 'icos/show'
     end
   end
+
+  protected
+
+  def serializer_coins(coins)
+    coins.as_json(
+      only: %i[id name symbol slug coin_key ranking image_url price market_cap change1h change24h change7d volume24],
+      methods: %i[sparkline]
+    )
+  end
+
 end
