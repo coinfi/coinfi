@@ -57,4 +57,13 @@ const aliasConfig = {
   },
 }
 
+/*
+ * Setup a seed object so manifests can be combined
+ * see: https://github.com/rails/webpacker/issues/732
+ * see: https://www.npmjs.com/package/webpack-manifest-plugin
+ */
+
+const ManifestPlugin = environment.plugins.get('Manifest')
+ManifestPlugin.opts.seed = {}
+
 module.exports = merge(environment.toWebpackConfig(), aliasConfig)
