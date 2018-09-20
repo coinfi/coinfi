@@ -41,7 +41,7 @@ const RailsContext = React.createContext<RailsContextType>(null)
 
 interface Props {
   railsContext: RailsContextType
-  children: any[]
+  children: any
 }
 
 export const RailsProvider: React.StatelessComponent<Props> = (props) => {
