@@ -4,6 +4,7 @@ import { NewsItem, Filters } from './types'
 export interface NewsfeedContextType {
   status: string
   newslist: NewsItem[]
+  initialNewsItem?: NewsItem
   isLoading: boolean
   isLoadingMoreItems: boolean
   isReady: boolean

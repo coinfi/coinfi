@@ -32,6 +32,7 @@ interface Props extends RouteComponentProps<any> {
   topCoinSlugs: string[]
   newsItemId?: string
   newslist: NewsItem[]
+  initialNewsItem?: NewsItem
   isNewsfeedLoading: boolean
   fetchNewsItems: (filters: Filters) => Promise<NewsItem[]>
   fetchMoreNewsItems: (filters: Filters) => Promise<NewsItem[]>
@@ -200,10 +201,16 @@ class NewsfeedPage extends React.Component<Props, State> {
       this.props.selectCoinBySlug(this.props.coinSlug)
     }
 
-    // Perform initial fetch and always poll
-    this.props.fetchNewsItems(this.state.filters).then(() => {
+    // Should check if not defined but currently all defaults are using an empty array instead
+    if (_.isEmpty(this.props.newslist)) {
+      // Perform initial fetch and then start polling
+      this.props.fetchNewsItems(this.state.filters).then(() => {
+        this.startPollingNews()
+      })
+    } else {
+      // Start polling
       this.startPollingNews()
-    })
+    }
   }
 
   public componentDidUpdate(prevProps, prevState, snapshot) {
@@ -372,6 +379,7 @@ class NewsfeedPage extends React.Component<Props, State> {
                     <BodySection
                       coinSlug={this.props.coinSlug}
                       newsItemId={this.props.newsItemId}
+                      initialNewsItem={this.props.initialNewsItem}
                       contentType={this.getContentType()}
                       loggedIn={this.props.loggedIn}
                     />
@@ -430,6 +438,7 @@ class NewsfeedPage extends React.Component<Props, State> {
               <BodySection
                 coinSlug={this.props.coinSlug}
                 newsItemId={this.props.newsItemId}
+                initialNewsItem={this.props.initialNewsItem}
                 contentType={this.getContentType()}
                 loggedIn={this.props.loggedIn}
               />
@@ -492,6 +501,7 @@ class NewsfeedPage extends React.Component<Props, State> {
               <BodySection
                 coinSlug={this.props.coinSlug}
                 newsItemId={this.props.newsItemId}
+                initialNewsItem={this.props.initialNewsItem}
                 contentType={this.getContentType()}
                 loggedIn={this.props.loggedIn}
               />

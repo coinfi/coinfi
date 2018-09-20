@@ -3,9 +3,10 @@ import * as React from 'react'
 import NewsBody from './NewsBody'
 import CoinBody from '../common/components/CoinBody'
 import Tips from './Tips'
-import { ContentType } from './types'
+import { ContentType, NewsItem } from './types'
 
 interface Props {
+  initialNewsItem?: NewsItem
   newsItemId?: string
   coinSlug?: string
   contentType: ContentType
@@ -18,7 +19,12 @@ const BodySection = (props: Props) => {
   }
 
   if (props.contentType === 'news') {
-    return <NewsBody newsItemId={props.newsItemId} />
+    return (
+      <NewsBody
+        initialNewsItem={props.initialNewsItem}
+        newsItemId={props.newsItemId}
+      />
+    )
   }
 
   if (props.contentType === 'coin')

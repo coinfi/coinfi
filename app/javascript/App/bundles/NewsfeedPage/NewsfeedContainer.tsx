@@ -193,6 +193,7 @@ class NewsfeedContainer extends React.Component<Props, State> {
       isLoadingMoreItems: this.state.status === STATUSES.LOADING_MORE_ITEMS,
       isReady: this.state.status === STATUSES.READY,
       newslist: this.state.sortedNewsItems,
+      initialNewsItem: this.props.initialNewsItem,
       status: this.state.status,
       hasMore: this.state.hasMore,
     }

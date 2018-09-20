@@ -25,6 +25,7 @@ const NewsfeedPageContainer = (props: Props) => (
             topCoinSlugs={props.topCoinSlugs}
             newsItemId={props.newsItemId}
             newslist={newsfeedPayload.newslist}
+            initialNewsItem={newsfeedPayload.initialNewsItem}
             isNewsfeedLoading={newsfeedPayload.isLoading}
             fetchNewsItems={newsfeedPayload.fetchNewsItems}
             fetchMoreNewsItems={newsfeedPayload.fetchMoreNewsItems}
