@@ -14,6 +14,7 @@ const STATUSES = {
 
 interface Props {
   initialNewsItems?: any
+  initialNewsItem?: any
 }
 
 interface State {
@@ -36,7 +37,7 @@ class NewsfeedContainer extends React.Component<Props, State> {
 
     this.state = {
       status: initialStatus || STATUSES.INITIALIZING,
-      sortedNewsItems: initialSortedNewsItems,
+      sortedNewsItems: initialSortedNewsItems || [],
       hasMore: true,
     }
   }
