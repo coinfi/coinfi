@@ -10,7 +10,9 @@ const withCombinedProviders = (TargetComponent) => {
     return (
       <MuiThemeProvider theme={theme}>
         <DeviceProvider {...railsContext.deviceProviderProps}>
-          <NewsfeedContainer initialNewsItems={this.initialNewsItems}>
+          <NewsfeedContainer
+            initialNewsItems={props.initialNewsItems}
+          >
             <CoinListContainer
               loggedIn={!!props.user}
               initialToplistData={props.initialTopCoinsData}

@@ -12,6 +12,28 @@ class NewsController < ApplicationController
     )
   end
 
+  def coin_index
+    coin = Coin.find_by!(slug: params[:coin_slug])
+    @news_items_data = serialize_news_items(
+      NewsItems::WithFilters.call(coins: [coin])
+        .includes(:coins, :news_categories)
+        .order_by_published
+        .limit(25)
+    )
+  end
+
+  def show
+    @news_items_data = serialize_news_items(
+      NewsItems::WithFilters.call(coins: [coin])
+        .includes(:coins, :news_categories)
+        .order_by_published
+        .limit(25)
+    )
+    @news_item_data = serialize_news_items(
+      NewsItem.published.find(params[:id])
+    )
+  end
+
   protected
 
   def check_permissions
