@@ -1,6 +1,3 @@
-import { WindowScreenType } from '../common/types'
-declare const window: WindowScreenType
-
 import * as React from 'react'
 import { withRouter, RouteComponentProps } from 'react-router'
 import debounce from 'debounce'
@@ -15,6 +12,7 @@ import NewsListHeader from './NewsListHeader'
 import BodySection from './BodySection'
 import BodySectionDrawer from '../../bundles/common/components/BodySectionDrawer'
 import _ from 'lodash'
+import withDevice from '~/bundles/common/utils/withDevice'
 
 import { NewsItem, ContentType, Filters } from './types'
 import { CoinList } from '../common/types'
@@ -44,6 +42,8 @@ interface Props extends RouteComponentProps<any> {
   getWatchlist: any
   watchlist: any
   hasMore: boolean
+  isMobile: boolean
+  isTablet: boolean
 }
 
 type ActiveMobileWindow = 'CoinsList' | 'BodySection' | 'None'
@@ -312,7 +312,7 @@ class NewsfeedPage extends React.Component<Props, State> {
   }
 
   public render() {
-    if (window.isMobile) {
+    if (this.props.isMobile) {
       return (
         <LayoutMobile
           mainSection={
@@ -379,7 +379,7 @@ class NewsfeedPage extends React.Component<Props, State> {
           }
         />
       )
-    } else if (window.isTablet) {
+    } else if (this.props.isTablet) {
       return (
         <LayoutTablet
           leftSection={
@@ -486,4 +486,4 @@ class NewsfeedPage extends React.Component<Props, State> {
   }
 }
 
-export default withRouter<Props>(NewsfeedPage)
+export default withDevice(withRouter<Props>(NewsfeedPage))

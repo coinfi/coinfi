@@ -30,11 +30,6 @@ export interface User {
   username: string
 }
 
-export interface WindowScreenType extends Window {
-  isMobile?: boolean
-  isTablet?: boolean
-}
-
 export interface CoinWithDetails extends Coin {
   image_url: string
   price_usd: any

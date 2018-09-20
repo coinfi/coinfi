@@ -1,4 +1,5 @@
 import React from 'react'
+import withDevice from '~/bundles/common/utils/withDevice'
 
 const Layout = (props) => {
   const {
@@ -7,10 +8,10 @@ const Layout = (props) => {
     applyFilters,
     resetFilters,
     newsFeedStyle,
+    isMobile,
   } = props
   let containerClass = 'modal bg-athens'
-  if (!window.isMobile)
-    containerClass = 'overlay z-999 bg-athens overflow-y-auto'
+  if (!isMobile) containerClass = 'overlay z-999 bg-athens overflow-y-auto'
   return (
     <div className={containerClass}>
       <div className="pa3 bb b--geyser flex justify-between items-center filter-panel-header">
@@ -70,4 +71,4 @@ const Layout = (props) => {
   )
 }
 
-export default Layout
+export default withDevice(Layout)

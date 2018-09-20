@@ -1,9 +1,8 @@
 class ExchangeListingsController < ApplicationController
   before_action :apply_feature_flag
+  before_action :set_body_class
 
   def index
-    @body_id = 'pane-layout'
-
     # These fields are used to populate the filters;
     # needs to be of the format { value, label }
     @quote_symbols = Coin.symbols.map { |symbol| { "value" => symbol, "label" => symbol }}
@@ -28,5 +27,9 @@ protected
 
   def apply_feature_flag
     return render_404 if !has_listings_feature?
+  end
+
+  def set_body_class
+    @body_class = 'page page--fullscreen'
   end
 end
