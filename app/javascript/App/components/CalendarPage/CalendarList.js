@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react'
-import _ from 'lodash'
+import * as _ from 'lodash'
 import moment from 'moment'
 import CalendarListEvent from './CalendarListEvent'
 import CalendarListEventHeader from './CalendarListEventHeader'

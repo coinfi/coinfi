@@ -11,7 +11,7 @@ import NewsList from './NewsList'
 import NewsListHeader from './NewsListHeader'
 import BodySection from './BodySection'
 import BodySectionDrawer from '../../bundles/common/components/BodySectionDrawer'
-import _ from 'lodash'
+import * as _ from 'lodash'
 import withDevice from '~/bundles/common/utils/withDevice'
 import EventListener from 'react-event-listener'
 

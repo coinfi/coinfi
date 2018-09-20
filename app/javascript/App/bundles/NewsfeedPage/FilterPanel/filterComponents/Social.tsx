@@ -1,5 +1,5 @@
 import * as React from 'react'
-import _ from 'lodash'
+import * as _ from 'lodash'
 import Switch from '../components/Switch'
 
 const RedditLogo = require('../../../../images/logo-reddit.svg')
