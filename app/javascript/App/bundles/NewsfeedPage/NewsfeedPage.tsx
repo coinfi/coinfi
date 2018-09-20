@@ -62,7 +62,7 @@ interface State {
 class NewsfeedPage extends React.Component<Props, State> {
   public handleResize = debounce(() => this.forceUpdate(), 500)
 
-  private documentTitle = document.title
+  private initialDocumentTitle
 
   constructor(props) {
     super(props)
@@ -78,6 +78,15 @@ class NewsfeedPage extends React.Component<Props, State> {
     }
   }
 
+  public getInitialDocumentTitle = () => {
+    if (this.initialDocumentTitle) {
+      return this.initialDocumentTitle
+    }
+
+    this.initialDocumentTitle = document.title
+    return this.initialDocumentTitle
+  }
+
   public startPollingNews = () => {
     setTimeout(() => {
       this.fetchNewNewsItems().then(() => {
@@ -91,16 +100,16 @@ class NewsfeedPage extends React.Component<Props, State> {
       if (news.length === 0) {
         return
       }
-      document.title = `${news.length} | ${this.documentTitle}`
+      document.title = `${news.length} | ${this.getInitialDocumentTitle()}`
       return
     }
 
     if (!this.state.unseenNewsIds.length) {
-      document.title = this.documentTitle
+      document.title = this.getInitialDocumentTitle()
     } else {
-      document.title = `${this.state.unseenNewsIds.length} | ${
-        this.documentTitle
-      }`
+      document.title = `${
+        this.state.unseenNewsIds.length
+      } | ${this.getInitialDocumentTitle()}`
     }
   }
 
