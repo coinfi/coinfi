@@ -1,7 +1,7 @@
 import * as React from 'react'
 import timeago from 'timeago.js'
 import sanitizeHtml from 'sanitize-html'
-import _ from 'lodash'
+import * as _ from 'lodash'
 import CoinTags from '../common/components/CoinTags'
 import BulletSpacer from '../../components/BulletSpacer'
 import Icon from '../../components/Icon'
@@ -13,6 +13,7 @@ import { getDomainType } from '../../lib/utils/url'
 
 import { NewsItem } from './types'
 import NewsBodyShareButtons from './NewsBodyShareButtons'
+import { RailsConsumer } from '~/bundles/common/contexts/RailsContext'
 
 interface Props {
   newsItemId: string
@@ -126,7 +127,15 @@ export default class NewsBody extends React.Component<Props, State> {
         {/* Footer */}
         <div className="mb3">
           <h2 className="f5">Share This Article</h2>
-          <NewsBodyShareButtons url={_.get(window, 'location.href')} />
+          <RailsConsumer>
+            {({ href }) => {
+              const initialHref = href
+              const hasWindow = !_.isError(_.attempt(() => window))
+              const url = hasWindow ? window.location.href : initialHref
+
+              return <NewsBodyShareButtons url={url} />
+            }}
+          </RailsConsumer>
         </div>
       </div>
     )

@@ -1,10 +1,11 @@
 import * as React from 'react'
+import { DeviceProviderProps } from './DeviceContext'
 
 /**
  * Type definition for the original `railsContext` provided by the React on Rails gem
  * @see https://github.com/shakacode/react_on_rails/blob/master/docs/basics/generator-functions-and-railscontext.md
  */
-interface InitialRailsContextType {
+interface BaseRailsContextType {
   railsEnv: any
   inMailer: boolean
 
@@ -32,20 +33,15 @@ interface InitialRailsContextType {
  * Type definition for the combined `railsContext` including custom attributes added via the
  * rendering extension
  */
-export interface RailsContextType extends InitialRailsContextType {
-  sizesProviderProps: {
-    config: {
-      fallbackWidth: number
-      fallbackHeight: number
-    }
-  }
+export interface RailsContextType extends BaseRailsContextType {
+  deviceProviderProps: DeviceProviderProps
 }
 
 const RailsContext = React.createContext<RailsContextType>(null)
 
 interface Props {
   railsContext: RailsContextType
-  children: any
+  children: any[]
 }
 
 export const RailsProvider: React.StatelessComponent<Props> = (props) => {
