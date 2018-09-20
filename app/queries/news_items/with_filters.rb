@@ -54,7 +54,7 @@ module NewsItems
         result = result.where('feed_item_published_at < ?', published_until.to_datetime)
       end
 
-      result
+      result.distinct()
     end
   end
 end
