@@ -67,7 +67,10 @@ class NewsList extends React.Component<Props, State> {
       )
     }
 
-    const readNewsIds = JSON.parse(localStorage.getItem('readNews')) || []
+    const hasLocalStorage = !_.isError(_.attempt(() => localStorage))
+    const readNewsIds = hasLocalStorage
+      ? JSON.parse(localStorage.getItem('readNews')) || []
+      : []
 
     const mappedItems = this.props.sortedNewsItems.map((newsItem, index) => {
       const hasRead = readNewsIds.includes(newsItem.id)
