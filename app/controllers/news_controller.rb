@@ -24,7 +24,7 @@ class NewsController < ApplicationController
 
   def show
     @news_items_data = serialize_news_items(
-      NewsItems::WithFilters.call(coins: [coin])
+      NewsItems::WithFilters.call()
         .includes(:coins, :news_categories)
         .order_by_published
         .limit(25)
