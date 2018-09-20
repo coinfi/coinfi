@@ -8,53 +8,56 @@ import NewsfeedPageNew from '~/bundles/NewsfeedPage/NewsfeedPageContainer'
 import CoinIndex from './components/CoinIndex'
 import CoinListContainer from '~/bundles/common/containers/CoinListContainer'
 import NewsfeedContainer from '~/bundles/NewsfeedPage/NewsfeedContainer'
+import { DeviceProvider } from '~/bundles/common/contexts/DeviceContext'
 
 const App = (props, railsContext) => (
   <MuiThemeProvider theme={theme}>
-    <NewsfeedContainer>
-      <CoinListContainer loggedIn={!!props.user}>
-        <Router>
-          <Switch>
-            <Route
-              exact={true}
-              path="/news/:coinSlug?"
-              render={(routeProps) => (
-                <NewsfeedPageNew
-                  loggedIn={!!props.user}
-                  coinSlug={routeProps.match.params.coinSlug}
-                  topCoinSlugs={props.topCoinSlugs}
-                  categories={props.categories}
-                  feedSources={props.feedSources}
-                />
-              )}
-            />
-            <Route
-              exact={true}
-              path="/news/:newsItemId/:newsItemSlug"
-              render={(routeProps) => (
-                <NewsfeedPageNew
-                  loggedIn={!!props.user}
-                  newsItemId={routeProps.match.params.newsItemId}
-                  topCoinSlugs={props.topCoinSlugs}
-                  categories={props.categories}
-                  feedSources={props.feedSources}
-                />
-              )}
-            />
-            <Route
-              exact={true}
-              path="/listings"
-              render={() => <ExchangeListingsPage {...props} />}
-            />
-            <Route
-              exact={true}
-              path="/coins"
-              render={() => <CoinIndex {...props} />}
-            />
-          </Switch>
-        </Router>
-      </CoinListContainer>
-    </NewsfeedContainer>
+    <DeviceProvider {...railsContext.deviceProviderProps}>
+      <NewsfeedContainer>
+        <CoinListContainer loggedIn={!!props.user}>
+          <Router>
+            <Switch>
+              <Route
+                exact={true}
+                path="/news/:coinSlug?"
+                render={(routeProps) => (
+                  <NewsfeedPageNew
+                    loggedIn={!!props.user}
+                    coinSlug={routeProps.match.params.coinSlug}
+                    topCoinSlugs={props.topCoinSlugs}
+                    categories={props.categories}
+                    feedSources={props.feedSources}
+                  />
+                )}
+              />
+              <Route
+                exact={true}
+                path="/news/:newsItemId/:newsItemSlug"
+                render={(routeProps) => (
+                  <NewsfeedPageNew
+                    loggedIn={!!props.user}
+                    newsItemId={routeProps.match.params.newsItemId}
+                    topCoinSlugs={props.topCoinSlugs}
+                    categories={props.categories}
+                    feedSources={props.feedSources}
+                  />
+                )}
+              />
+              <Route
+                exact={true}
+                path="/listings"
+                render={() => <ExchangeListingsPage {...props} />}
+              />
+              <Route
+                exact={true}
+                path="/coins"
+                render={() => <CoinIndex {...props} />}
+              />
+            </Switch>
+          </Router>
+        </CoinListContainer>
+      </NewsfeedContainer>
+    </DeviceProvider>
   </MuiThemeProvider>
 )
 

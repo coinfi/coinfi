@@ -1,5 +1,5 @@
 import Filters from './Filters'
 import container from '../containers/icoFilters'
-import withStore from '../withStore'
+import withLegacyCombinedProviders from '../withLegacyCombinedProviders'
 
-export default withStore(container(Filters))
+export default withLegacyCombinedProviders(container(Filters))
