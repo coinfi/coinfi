@@ -12,17 +12,33 @@ const STATUSES = {
   READY: 'READY',
 }
 
+interface Props {
+  initialNewsItems?: any
+}
+
 interface State {
   sortedNewsItems: NewsItem[]
   status: string
   hasMore: boolean
 }
 
-class NewsfeedContainer extends React.Component<{}, State> {
-  public state = {
-    sortedNewsItems: [],
-    status: STATUSES.INITIALIZING,
-    hasMore: true,
+class NewsfeedContainer extends React.Component<Props, State> {
+  constructor(props: Props) {
+    super(props)
+
+    const initialSortedNewsItems = props.initialNewsItems
+      ? props.initialNewsItems.sort(this.sortNewsFunc)
+      : undefined
+
+    // Set initial status
+    const statusIsReady = !_.isUndefined(props.initialNewsItems)
+    const initialStatus = statusIsReady ? STATUSES.READY : undefined
+
+    this.state = {
+      status: initialStatus || STATUSES.INITIALIZING,
+      sortedNewsItems: initialSortedNewsItems,
+      hasMore: true,
+    }
   }
 
   public sortNewsFunc(x: NewsItem, y: NewsItem) {
