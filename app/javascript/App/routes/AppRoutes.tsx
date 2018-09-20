@@ -33,7 +33,7 @@ const AppRoutes = (props) => {
           />
         )}
       />
-      {/* <Route
+      <Route
         exact={true}
         path="/listings"
         render={() => <ExchangeListingsPage {...props} />}
@@ -42,7 +42,7 @@ const AppRoutes = (props) => {
         exact={true}
         path="/coins"
         render={() => <CoinIndex {...props} />}
-      /> */}
+      />
     </Switch>
   )
 }
