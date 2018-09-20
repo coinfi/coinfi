@@ -1,7 +1,7 @@
 import React from 'react'
 import Drawer from '../Drawer'
 import CoinList from './CoinList'
-import Icon from '../Icon'
+import Icon from '../../bundles/common/components/Icon'
 
 const CoinListDrawer = (props) => (
   <Drawer uiKey="coinListDrawer" {...props} position="left" className="flex">

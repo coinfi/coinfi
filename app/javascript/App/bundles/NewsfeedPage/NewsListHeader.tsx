@@ -1,5 +1,5 @@
 import * as React from 'react'
-import Icon from '../../components/Icon'
+import Icon from '~/bundles/common/components/Icon'
 import SectionHeader from '../../components/SectionHeader'
 import CoinTipsTab from '../common/components/CoinTipsTab'
 import FilterPanel from './FilterPanel'

@@ -8,8 +8,8 @@ import NavUserContainer from './bundles/common/containers/NavUserContainer'
 import CoinShow from './components/CoinShow'
 import IcoFilters from './components/IcoFilters'
 import FlashMessageListContainer from './bundles/common/containers/FlashMessageListContainer'
-import WatchButton from './bundles/common/components/WatchButton'
-import CalendarPage from './components/CalendarPage'
+import WatchStar from './bundles/common/components/WatchStar'
+// import CalendarPage from './components/CalendarPage'
 
 // Register the components so they can be rendered from Rails
 ReactOnRails.register({
@@ -17,7 +17,7 @@ ReactOnRails.register({
   CoinShow,
   IcoFilters,
   FlashMessageListContainer,
-  WatchButton,
-  CalendarPage,
+  WatchStar,
+  // CalendarPage,
   App,
 })

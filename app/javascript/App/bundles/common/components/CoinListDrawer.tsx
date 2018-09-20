@@ -1,6 +1,6 @@
 import * as React from 'react'
 import Drawer from './Drawer'
-import Icon from '../../../components/Icon'
+import Icon from '~/bundles/common/components/Icon'
 import CoinListWrapper from '~/bundles/common/components/CoinListWrapper'
 
 const CoinListDrawer = (props) => (
@@ -13,7 +13,7 @@ const CoinListDrawer = (props) => (
       />
     </div>
     <div className="flex-auto flex items-center ph4" onClick={props.onClose}>
-      <Icon name="times" className="f4 slate" regular={true} />
+      <Icon name="times" className="f4 slate" styleType="regular" />
     </div>
   </Drawer>
 )

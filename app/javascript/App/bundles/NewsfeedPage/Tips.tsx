@@ -1,5 +1,5 @@
 import * as React from 'react'
-import Icon from '../../components/Icon'
+import Icon from '~/bundles/common/components/Icon'
 
 // tslint:disable-next-line
 const chartIcon = require('../../images/chartIcon.svg')
@@ -50,7 +50,7 @@ export default ({ closeTips, loggedIn }: Props) => {
               <Icon
                 name="times"
                 className="f4 slate"
-                regular={true}
+                styleType="regular"
                 onClick={closeTips}
               />
             )}

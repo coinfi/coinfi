@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import AddFilter from './AddFilter'
 import FilterButton from './FilterButton'
-import Icon from '../Icon'
+import Icon from '~/bundles/common/components/Icon'
 
 export default class MobileLayout extends Component {
   toggleFilters = () => {

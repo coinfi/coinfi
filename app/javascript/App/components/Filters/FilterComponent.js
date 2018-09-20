@@ -10,13 +10,13 @@ import React, { Component } from 'react'
 import Types from 'prop-types'
 import clickOutside from 'react-onclickoutside'
 import components from './filterComponents'
-import Icon from '../Icon'
+import Icon from '~/bundles/common/components/Icon'
 
 class FilterComponent extends Component {
   state = { value: null }
   activeFilter = () =>
     this.props.activeFilters.find(
-      (o) => o.get('key') === this.props.filter.get('key')
+      (o) => o.get('key') === this.props.filter.get('key'),
     )
   componentWillMount() {
     const active = this.activeFilter()
@@ -84,7 +84,7 @@ FilterComponent.propTypes = {
   uiKey: Types.string.isRequired,
   toggleUI: Types.func.isRequired,
   setFilter: Types.func.isRequired,
-  removeFilter: Types.func.isRequired
+  removeFilter: Types.func.isRequired,
 }
 
 FilterComponent = clickOutside(FilterComponent)
