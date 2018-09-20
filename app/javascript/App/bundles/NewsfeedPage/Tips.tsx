@@ -113,7 +113,7 @@ export default ({ closeTips, loggedIn }: Props) => {
               latest market moving news.
             </div>
             <button
-              className="btn btn-blue btn-l w-30-ns mv3 b ttn"
+              className="btn btn-blue mv3 b ttn"
               onClick={() => (window.location.href = '/register')}
             >
               Sign Up Now
