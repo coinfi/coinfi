@@ -1,5 +1,6 @@
 import * as React from 'react'
 import { withStyles, createStyles } from '@material-ui/core/styles'
+import URL from 'url-parse'
 
 const getFaviconUrl = (url: string) => {
   const parsedUrl = new URL(url)

@@ -74,7 +74,7 @@
     "tslint": "^5.11.0",
     "tslint-react": "^3.6.0",
     "typescript": "^3.0.1",
-    "url-parse": "^1.4.1",
+    "url-parse": "^1.4.3",
     "webpack-merge": "^4.1.2",
     "webpack-strip-log-loader": "^0.1.5"
   },
