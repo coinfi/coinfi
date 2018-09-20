@@ -1,3 +1,3 @@
 - feed_sources = (FeedSource.feed_types - ['general']) + FeedSource.where(feed_type: 'general').pluck(:site_hostname)
 - top_coin_slugs = Coin.top(5).pluck(:slug)
-= react_component "App", withStore: true, props: { user: current_user, topCoinSlugs: top_coin_slugs, feedSources: feed_sources, categories: NewsCategory.pluck(:name)  }
+= react_component "App", withStore: true, props: { user: current_user, topCoinSlugs: top_coin_slugs, feedSources: feed_sources, categories: NewsCategory.pluck(:name) }, prerender: true
