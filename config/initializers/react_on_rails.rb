@@ -89,6 +89,7 @@ ReactOnRails.configure do |config|
   ################################################################################
   # SERVER RENDERING OPTIONS
   ################################################################################
+
   # This is the file used for server rendering of React when using `(prerender: true)`
   # If you are never using server rendering, you should set this to "".
   # Note, there is only one server bundle, unlike JavaScript where you want to minimize the size
@@ -99,5 +100,41 @@ ReactOnRails.configure do |config|
   # different. You should have ONE server bundle which can create all of your server rendered
   # React components.
   #
-  config.server_bundle_js_file = ""
+  config.server_bundle_js_file = "server-bundle.js"
+
+  # Default is false. Can be overriden at the component level.
+  # Set to false for debugging issues before turning on to true.
+  config.prerender = false
+
+  # If set to true, this forces Rails to reload the server bundle if it is modified
+  config.development_mode = Rails.env.development?
+
+  # For server rendering. This can be set to false so that server side messages are discarded.
+  # Default is true. Be cautious about turning this off.
+  config.replay_console = true
+
+  # Default is true. Logs server rendering messages to Rails.logger.info
+  config.logging_on_server = true
+
+  # Change to true to raise exception on server if the JS code throws. Let's do this only if not
+  # in production, as the JS code might still work on the client and we don't want to blow up the
+  # whole Rails page.
+  config.raise_on_prerender_error = !Rails.env.production?
+
+  # Server rendering only (not for render_component helper)
+  # You can configure your pool of JS virtual machines and specify where it should load code:
+  # On MRI, use `therubyracer` for the best performance
+  # (see [discussion](https://github.com/reactjs/react-rails/pull/290))
+  # On MRI, you'll get a deadlock with `pool_size` > 1
+  # If you're using JRuby, you can increase `pool_size` to have real multi-threaded rendering.
+  config.server_renderer_pool_size = 1 # increase if you're on JRuby
+  config.server_renderer_timeout = 20 # seconds
+
+  ################################################################################
+  # MISCELLANEOUS OPTIONS
+  ################################################################################
+
+  # This allows you to add additional values to the Rails Context. Implement one static method
+  # called `custom_context(view_context)` and return a Hash.
+  config.rendering_extension = RenderingExtension
 end
