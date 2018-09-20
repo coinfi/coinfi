@@ -13,9 +13,25 @@ class NewsController < ApplicationController
       FeedSource.where(feed_type: 'general').pluck(:site_hostname)
     @top_coin_slugs = Coin.top(5).pluck(:slug)
     @categories = NewsCategory.pluck(:name)
+
+    @top_coins_data = coinlist_serializer(
+      Rails.cache.fetch("coins/toplist", expires_in: 1.hour) do
+        Coin.order(:ranking).limit(20)
+      end
+    )
+    @watched_coins_data = coinlist_serializer(
+      current_user.watchlist.coins.order(:ranking)
+    ) if current_user
   end
 
   def set_body_class
     @body_class = 'page page--fullscreen'
+  end
+
+  def coinlist_serializer(coins)
+    coins.as_json(
+      only: %i[id name symbol slug price_usd],
+      methods: %i[market_info]
+    )
   end
 end
