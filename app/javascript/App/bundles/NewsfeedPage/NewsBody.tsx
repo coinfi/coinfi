@@ -25,15 +25,11 @@ interface State {
 }
 
 export default class NewsBody extends React.Component<Props, State> {
-  public state = {
-    newsItem: null,
-  }
-
   constructor(props) {
     super(props)
 
     this.state = {
-      newsItem: props.initialNewsItem,
+      newsItem: props.initialNewsItem || null,
     }
   }
 
@@ -44,12 +40,12 @@ export default class NewsBody extends React.Component<Props, State> {
   }
 
   public componentDidUpdate(prevProps: Props, prevState: State, snapshot) {
-    // Check if `newsItem` is unselected
+    // Check if news item is unselected
     if (!this.props.newsItemId && prevState.newsItem) {
       return this.setState({ newsItem: null })
     }
 
-    // Check if `newsItem` is selected/changed
+    // Check if news item is selected/changed
     if (this.props.newsItemId !== prevProps.newsItemId) {
       return this.setState({ newsItem: null }, () =>
         this.fetchNewsItemDetails(),
