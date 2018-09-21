@@ -1,7 +1,7 @@
 class ApplicationController < ActionController::Base
   include Responses
   protect_from_forgery with: :exception
-  before_action :set_locale
+  before_action :set_locale, :enable_dark_mode
 
   def after_sign_in_path_for(resource)
     return '/coins' if !has_news_feature?
@@ -21,6 +21,11 @@ private
   end
 
 protected
+
+  def enable_dark_mode
+    # Add prepended space in case there are other CSS class names.
+    @body_class += ' dark-mode' if cookies[:dark_mode]
+  end
 
   def has_news_feature?
     current_user && $launch_darkly.variation('news', current_user.launch_darkly_hash, false)
