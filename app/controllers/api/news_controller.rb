@@ -38,6 +38,7 @@ class Api::NewsController < ApiController
     end
 
     news_items = NewsItems::WithFilters.call(
+      NewsItem.published,
       coins: coins || nil,
       feed_sources: feed_sources || nil,
       news_categories: news_categories || nil,

@@ -5,7 +5,7 @@ class NewsController < ApplicationController
 
   def index
     @news_items_data = serialize_news_items(
-      NewsItems::WithFilters.call()
+      NewsItems::WithFilters.call(NewsItem.published)
         .includes(:coins, :news_categories)
         .order_by_published
         .limit(25)
@@ -17,7 +17,7 @@ class NewsController < ApplicationController
     @coin_with_details_data = serialize_coins_with_details(coin)
 
     @news_items_data = serialize_news_items(
-      NewsItems::WithFilters.call(coins: [coin])
+      NewsItems::WithFilters.call(NewsItem.published, coins: [coin])
         .includes(:coins, :news_categories)
         .order_by_published
         .limit(25)
@@ -26,7 +26,7 @@ class NewsController < ApplicationController
 
   def show
     @news_items_data = serialize_news_items(
-      NewsItems::WithFilters.call()
+      NewsItems::WithFilters.call(NewsItem.published)
         .includes(:coins, :news_categories)
         .order_by_published
         .limit(25)
