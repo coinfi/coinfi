@@ -2,8 +2,9 @@ import React, { Component } from 'react'
 import DatePicker from 'react-datepicker'
 import moment from 'moment'
 import 'react-datepicker/dist/react-datepicker-cssmodules.css'
+import withDevice from '~/bundles/common/utils/withDevice'
 
-export default class DateRange extends Component {
+class DateRange extends Component {
   selectedItems = () => this.props.selectedItems || []
 
   addFrom = (item) => {
@@ -49,7 +50,7 @@ export default class DateRange extends Component {
         <div className="pv4">
           <div
             className="w-50 dib"
-            style={!window.isMobile ? { maxWidth: '50%' } : {}}
+            style={!this.props.isMobile ? { maxWidth: '50%' } : {}}
           >
             <DatePicker
               selected={publishedSince()}
@@ -63,7 +64,7 @@ export default class DateRange extends Component {
           </div>
           <div
             className="w-50 dib"
-            style={!window.isMobile ? { maxWidth: '50%' } : {}}
+            style={!this.props.isMobile ? { maxWidth: '50%' } : {}}
           >
             <DatePicker
               selected={publishedUntil()}
@@ -80,3 +81,5 @@ export default class DateRange extends Component {
     )
   }
 }
+
+export default withDevice(DateRange)

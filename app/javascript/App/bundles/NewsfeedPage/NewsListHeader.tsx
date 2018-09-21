@@ -1,12 +1,10 @@
-import { WindowScreenType } from '../common/types'
-declare const window: WindowScreenType
-
 import * as React from 'react'
 import Icon from '../../components/Icon'
 import SectionHeader from '../../components/SectionHeader'
 import CoinTipsTab from '../common/components/CoinTipsTab'
 import FilterPanel from './FilterPanel'
 import { Filters } from './types'
+import withDevice from '~/bundles/common/utils/withDevice'
 
 // tslint:disable-next-line
 const filterBtn = require('../../images/filter-btn.svg')
@@ -15,11 +13,13 @@ interface Props {
   showFilters: boolean
   categories: string[]
   feedSources: string[]
+  topCoinSlugs: string[]
   filters: Filters
   applyFilters: (filters: Filters) => void
   toggleFilters: () => void
   toggleNewsfeedTips: () => void
   showCoinListDrawer?: () => void
+  isMobile: boolean
 }
 
 const btnStyle: React.CSSProperties = {
@@ -29,11 +29,11 @@ const btnStyle: React.CSSProperties = {
   textTransform: 'none',
 }
 
-export default class NewsListHeader extends React.Component<Props, {}> {
+class NewsListHeader extends React.Component<Props, {}> {
   public render() {
     return (
       <>
-        {window.isMobile && (
+        {this.props.isMobile && (
           <CoinTipsTab
             showCoinListDrawer={this.props.showCoinListDrawer}
             showTips={this.props.toggleNewsfeedTips}
@@ -44,7 +44,7 @@ export default class NewsListHeader extends React.Component<Props, {}> {
             id="panel-header"
             className="flex items-center flex-auto search-coin-wrapper"
           >
-            {!window.isMobile && (
+            {!this.props.isMobile && (
               <button
                 className="btn btn-blue btn-xs coins-btn mr2"
                 onClick={() =>
@@ -52,7 +52,7 @@ export default class NewsListHeader extends React.Component<Props, {}> {
                   this.props.showCoinListDrawer()
                 }
                 style={
-                  window.isMobile
+                  this.props.isMobile
                     ? {
                         ...btnStyle,
                         ...{
@@ -81,6 +81,7 @@ export default class NewsListHeader extends React.Component<Props, {}> {
           <FilterPanel
             categories={this.props.categories}
             feedSources={this.props.feedSources}
+            topCoinSlugs={this.props.topCoinSlugs}
             filters={this.props.filters}
             closeFilterPanel={this.props.toggleFilters}
             applyFilters={this.props.applyFilters}
@@ -91,3 +92,5 @@ export default class NewsListHeader extends React.Component<Props, {}> {
     )
   }
 }
+
+export default withDevice(NewsListHeader)

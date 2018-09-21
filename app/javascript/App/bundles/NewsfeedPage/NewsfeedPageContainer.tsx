@@ -10,6 +10,7 @@ interface Props {
   categories: string[]
   feedSources: string[]
   coinSlug?: string
+  topCoinSlugs: string[]
   newsItemId?: string
 }
 
@@ -21,6 +22,7 @@ const NewsfeedPageContainer = (props: Props) => (
           <NewsfeedPage
             loggedIn={props.loggedIn}
             coinSlug={props.coinSlug}
+            topCoinSlugs={props.topCoinSlugs}
             newsItemId={props.newsItemId}
             newslist={newsfeedPayload.newslist}
             isNewsfeedLoading={newsfeedPayload.isLoading}
