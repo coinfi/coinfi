@@ -96,7 +96,7 @@ class NewsfeedPage extends React.Component<Props, State> {
     }, POLLING_TIMEOUT)
   }
 
-  public updateTitle = (news?: NewsItem[]) => {
+  public updateTitle = (newsIds?: number[]) => {
     if (typeof news !== 'undefined') {
       if (news.length === 0) {
         return

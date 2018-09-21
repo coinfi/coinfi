@@ -49,8 +49,8 @@ class NewsfeedContainer extends React.Component<Props, State> {
     )
   }
 
-  public uniqNews = (arr) => {
-    return _.uniqBy(arr, (elem) => elem.id)
+  public uniqNews = (arr: NewsItem[]) => {
+    return _.uniqBy<NewsItem>(arr, (elem) => elem.id)
   }
 
   public cleanNewsItems = () => {

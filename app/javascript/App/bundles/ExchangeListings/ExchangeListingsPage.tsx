@@ -104,7 +104,7 @@ class ExchangeListingsPage extends React.Component<Props, State> {
     }
   }
 
-  public uniqListings = (arr) => {
+  public uniqListings = (arr: Listing[]) => {
     return _.uniqBy(arr, (elem) => elem.id)
   }
 
