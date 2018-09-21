@@ -10,7 +10,6 @@ class AssignNewsItemDefaultNewsCategories
       # Assign if does not already exist
       unless @news_item.news_categories.exists?(project_announcements_category.id)
         @news_item.news_categories << project_announcements_category
-        @news_item.last_machine_tagged_on = Time.now
       end
     end
 

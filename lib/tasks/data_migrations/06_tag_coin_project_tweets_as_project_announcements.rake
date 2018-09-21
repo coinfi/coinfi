@@ -12,7 +12,6 @@ namespace :data_migrations do
     batch_process(news_items) do |item|
       unless item.news_categories.include?(project_announcements_category)
         item.news_categories << project_announcements_category
-        item.last_machine_tagged_on = Time.now
         item.save!
       end
     end

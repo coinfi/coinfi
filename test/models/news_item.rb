@@ -24,7 +24,6 @@ class NewsItemTest < ActiveSupport::TestCase
       feed_item_updated_at: 1.day.ago
     )
 
-    assert_operator news_item.last_machine_tagged_on, :>=, 3.seconds.ago
     assert_includes news_item.news_categories, category
   end
 end
