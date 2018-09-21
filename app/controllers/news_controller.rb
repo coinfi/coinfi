@@ -14,6 +14,8 @@ class NewsController < ApplicationController
 
   def coin_index
     coin = Coin.find_by!(slug: params[:coin_slug])
+    @coin_with_details_data = serialize_coins_with_details(coin)
+
     @news_items_data = serialize_news_items(
       NewsItems::WithFilters.call(coins: [coin])
         .includes(:coins, :news_categories)
@@ -86,5 +88,12 @@ class NewsController < ApplicationController
     else
       formatted_data = format_item.call(data)
     end
+  end
+
+  def serialize_coins_with_details(coins)
+    coins.as_json(
+      only: %i[id coin_key name image_url symbol slug price_usd],
+      methods: %i[prices_data news_data market_info is_being_watched]
+    )
   end
 end

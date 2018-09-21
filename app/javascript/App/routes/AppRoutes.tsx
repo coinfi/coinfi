@@ -17,6 +17,7 @@ const AppRoutes = (props) => {
             topCoinSlugs={props.topCoinSlugs}
             categories={props.categories}
             feedSources={props.feedSources}
+            initialCoinWithDetails={props.initialCoinWithDetails}
           />
         )}
       />
@@ -30,6 +31,7 @@ const AppRoutes = (props) => {
             topCoinSlugs={props.topCoinSlugs}
             categories={props.categories}
             feedSources={props.feedSources}
+            initialNewsItem={props.initialNewsItem}
           />
         )}
       />

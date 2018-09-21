@@ -16,7 +16,7 @@ import withDevice from '~/bundles/common/utils/withDevice'
 import EventListener from 'react-event-listener'
 
 import { NewsItem, ContentType, Filters } from './types'
-import { CoinList } from '../common/types'
+import { CoinList, CoinWithDetails } from '../common/types'
 import {
   getDefaultFilters,
   mergeInitialSocialSourcesForCoinsFilter,
@@ -33,6 +33,7 @@ interface Props extends RouteComponentProps<any> {
   newsItemId?: string
   newslist: NewsItem[]
   initialNewsItem?: NewsItem
+  initialCoinWithDetails?: CoinWithDetails
   isNewsfeedLoading: boolean
   fetchNewsItems: (filters: Filters) => Promise<NewsItem[]>
   fetchMoreNewsItems: (filters: Filters) => Promise<NewsItem[]>
@@ -380,6 +381,7 @@ class NewsfeedPage extends React.Component<Props, State> {
                       coinSlug={this.props.coinSlug}
                       newsItemId={this.props.newsItemId}
                       initialNewsItem={this.props.initialNewsItem}
+                      initialCoinWithDetails={this.props.initialCoinWithDetails}
                       contentType={this.getContentType()}
                       loggedIn={this.props.loggedIn}
                     />
@@ -439,6 +441,7 @@ class NewsfeedPage extends React.Component<Props, State> {
                 coinSlug={this.props.coinSlug}
                 newsItemId={this.props.newsItemId}
                 initialNewsItem={this.props.initialNewsItem}
+                initialCoinWithDetails={this.props.initialCoinWithDetails}
                 contentType={this.getContentType()}
                 loggedIn={this.props.loggedIn}
               />
@@ -502,6 +505,7 @@ class NewsfeedPage extends React.Component<Props, State> {
                 coinSlug={this.props.coinSlug}
                 newsItemId={this.props.newsItemId}
                 initialNewsItem={this.props.initialNewsItem}
+                initialCoinWithDetails={this.props.initialCoinWithDetails}
                 contentType={this.getContentType()}
                 loggedIn={this.props.loggedIn}
               />

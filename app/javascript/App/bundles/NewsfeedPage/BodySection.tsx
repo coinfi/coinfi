@@ -4,9 +4,11 @@ import NewsBody from './NewsBody'
 import CoinBody from '../common/components/CoinBody'
 import Tips from './Tips'
 import { ContentType, NewsItem } from './types'
+import { CoinWithDetails } from '~/bundles/common/types'
 
 interface Props {
   initialNewsItem?: NewsItem
+  initialCoinWithDetails?: CoinWithDetails
   newsItemId?: string
   coinSlug?: string
   contentType: ContentType
@@ -27,8 +29,15 @@ const BodySection = (props: Props) => {
     )
   }
 
-  if (props.contentType === 'coin')
-    return <CoinBody coinSlug={props.coinSlug} loggedIn={props.loggedIn} />
+  if (props.contentType === 'coin') {
+    return (
+      <CoinBody
+        initialCoinWithDetails={props.initialCoinWithDetails}
+        coinSlug={props.coinSlug}
+        loggedIn={props.loggedIn}
+      />
+    )
+  }
 
   return null
 }
