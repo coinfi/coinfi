@@ -35,7 +35,9 @@ class PriceGraph extends Component {
 
     // Workaround to send a reference to the `priceChart` back up to a parent component. Ideally the
     // parent should not need reference to this `priceChart`
-    this.props.onPriceChartCreated(chart)
+    if (this.props.onPriceChartCreated) {
+      this.props.onPriceChartCreated(chart)
+    }
 
     const annotatedChart = this.getAnnotatedChart(chart)
     annotatedChart.show()
