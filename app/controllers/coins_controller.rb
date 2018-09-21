@@ -1,4 +1,6 @@
 class CoinsController < ApplicationController
+  before_action :set_coin, only: [:show]
+
   def index
     @coin_count = Coin.legit.listed.count
     @coins = serialize_coins(
@@ -16,7 +18,6 @@ class CoinsController < ApplicationController
   end
 
   def show
-    @coin = Coin.find(params[:id])
     @data = @coin.market_info
     @coin_price = @data["price_usd"] # TODO: Consolidate price and volume from data warehouse and remove from coins table.
     @latest_news = @coin.articles.latest_news
@@ -55,6 +56,23 @@ class CoinsController < ApplicationController
   end
 
   protected
+
+  def set_coin
+    coin_id_or_slug = params[:id_or_slug]
+
+    # Attempt to search assuming the param is a slug
+    coin_by_slug = Coin.find_by(slug: coin_id_or_slug)
+    if coin_by_slug
+      @coin = coin_by_slug
+      return
+    end
+
+    # If we don't find matches for slug, we can safely assume it is an id
+    coin_id = coin_id_or_slug
+    coin_by_id = Coin.find(coin_id)
+    # Redirect to the same action with the slug
+    redirect_to :action => action_name, :id_or_slug => coin_by_id.slug
+  end
 
   def serialize_coins(coins)
     coins.as_json(
