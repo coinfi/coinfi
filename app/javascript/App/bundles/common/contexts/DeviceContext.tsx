@@ -11,7 +11,7 @@ export interface DeviceContextType {
 
 const DeviceContext = React.createContext<DeviceContextType>(null)
 
-interface Props {
+export interface DeviceProviderProps {
   breakpoints: {
     ns: number
     m: number
@@ -23,7 +23,7 @@ interface Props {
   }
 }
 
-export const DeviceProvider: React.StatelessComponent<Props> = ({
+export const DeviceProvider: React.StatelessComponent<DeviceProviderProps> = ({
   fallback,
   breakpoints,
   children,

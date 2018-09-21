@@ -12,6 +12,8 @@ import LinksData from './LinksData'
 const { Content } = Layout
 
 class CoinShow extends Component {
+  chart = undefined
+
   state = {
     liveCoinArr: [],
     currency: 'USD',
@@ -50,9 +52,13 @@ class CoinShow extends Component {
       })
   }
 
+  handlePriceChartCreated = (priceChart) => {
+    this.priceChart = priceChart
+  }
+
   componentDidMount() {
     setTimeout(() => {
-      window.priceChart.setSize()
+      this.priceChart.setSize()
     }, 100)
   }
 
@@ -182,6 +188,7 @@ class CoinShow extends Component {
                           priceData={priceData}
                           annotations={annotations}
                           isTradingViewVisible={isTradingViewVisible}
+                          onPriceChartCreated={this.handlePriceChartCreated}
                         />
                       </Card>
                     </CardWrap>

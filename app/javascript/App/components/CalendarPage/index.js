@@ -15,6 +15,7 @@ import Immutable from 'immutable'
 import _ from 'lodash'
 import withLegacyCombinedProviders from '../../withLegacyCombinedProviders'
 import withDevice from '~/bundles/common/utils/withDevice'
+import EventListener from 'react-event-listener'
 
 class CalendarPage extends Component {
   state = {
@@ -22,9 +23,7 @@ class CalendarPage extends Component {
     liveCoinArr: [],
   }
 
-  componentWillMount() {
-    window.addEventListener('resize', debounce(() => this.forceUpdate()), 500)
-  }
+  handleWindowResize = debounce(() => this.forceUpdate(), 500)
 
   removeCoinsWatchlist(symbol) {
     const liveCoinArrAdd = this.state.liveCoinArr.filter(
@@ -90,56 +89,62 @@ class CalendarPage extends Component {
 
     if (this.props.isMobile) {
       return (
-        <LayoutMobile
-          {...enhancedProps}
-          mainSection={
-            <Fragment>
-              <CalendarListHeader {...enhancedProps} />
-              <CalendarList {...enhancedProps} />
-            </Fragment>
-          }
-          modalName="calendarModal"
-          modalSection={<BodySection {...enhancedProps} mobileLayout />}
-          drawerSection={
-            <Fragment>
-              <CoinListDrawer {...enhancedProps} />
-              <BodySectionDrawer
-                {...enhancedProps}
-                bodySection={<BodySection {...enhancedProps} />}
-              />
-            </Fragment>
-          }
-        />
+        <EventListener target="window" onResize={this.handleWindowResize}>
+          <LayoutMobile
+            {...enhancedProps}
+            mainSection={
+              <Fragment>
+                <CalendarListHeader {...enhancedProps} />
+                <CalendarList {...enhancedProps} />
+              </Fragment>
+            }
+            modalName="calendarModal"
+            modalSection={<BodySection {...enhancedProps} mobileLayout />}
+            drawerSection={
+              <Fragment>
+                <CoinListDrawer {...enhancedProps} />
+                <BodySectionDrawer
+                  {...enhancedProps}
+                  bodySection={<BodySection {...enhancedProps} />}
+                />
+              </Fragment>
+            }
+          />
+        </EventListener>
       )
     } else if (this.props.isTablet) {
       return (
-        <LayoutTablet
-          {...enhancedProps}
-          initialRenderTips={this.state.initialRenderTips}
-          leftSection={
-            <Fragment>
-              <CalendarListHeader {...enhancedProps} />
-              <CalendarList {...enhancedProps} />
-            </Fragment>
-          }
-          rightSection={<BodySection {...enhancedProps} />}
-          drawerSection={<CoinListDrawer {...enhancedProps} />}
-        />
+        <EventListener target="window" onResize={this.handleWindowResize}>
+          <LayoutTablet
+            {...enhancedProps}
+            initialRenderTips={this.state.initialRenderTips}
+            leftSection={
+              <Fragment>
+                <CalendarListHeader {...enhancedProps} />
+                <CalendarList {...enhancedProps} />
+              </Fragment>
+            }
+            rightSection={<BodySection {...enhancedProps} />}
+            drawerSection={<CoinListDrawer {...enhancedProps} />}
+          />
+        </EventListener>
       )
     } else {
       return (
-        <LayoutDesktop
-          {...enhancedProps}
-          initialRenderTips={this.state.initialRenderTips}
-          leftSection={<CoinList {...enhancedProps} />}
-          centerSection={
-            <Fragment>
-              <CalendarListHeader {...enhancedProps} />
-              <CalendarList {...enhancedProps} />
-            </Fragment>
-          }
-          rightSection={<BodySection {...enhancedProps} />}
-        />
+        <EventListener target="window" onResize={this.handleWindowResize}>
+          <LayoutDesktop
+            {...enhancedProps}
+            initialRenderTips={this.state.initialRenderTips}
+            leftSection={<CoinList {...enhancedProps} />}
+            centerSection={
+              <Fragment>
+                <CalendarListHeader {...enhancedProps} />
+                <CalendarList {...enhancedProps} />
+              </Fragment>
+            }
+            rightSection={<BodySection {...enhancedProps} />}
+          />
+        </EventListener>
       )
     }
   }

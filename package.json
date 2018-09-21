@@ -42,6 +42,7 @@
     "react-currency-formatter": "^1.1.0",
     "react-datepicker": "^1.6.0",
     "react-dom": "^16.2.0",
+    "react-event-listener": "^0.6.3",
     "react-infinite-scroll-component": "^4.2.0",
     "react-move": "^2.7.0",
     "react-on-rails": "11.1.4",
@@ -73,7 +74,7 @@
     "tslint": "^5.11.0",
     "tslint-react": "^3.6.0",
     "typescript": "^3.0.1",
-    "url-parse": "^1.4.1",
+    "url-parse": "^1.4.3",
     "webpack-merge": "^4.1.2",
     "webpack-strip-log-loader": "^0.1.5"
   },
