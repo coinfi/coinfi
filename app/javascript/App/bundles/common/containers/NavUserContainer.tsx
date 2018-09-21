@@ -7,7 +7,7 @@ interface State {
 }
 
 interface Props {
-  userEmail: string
+  userEmail?: string
   formAuthenticityToken: string
 }
 

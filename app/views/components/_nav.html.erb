@@ -58,11 +58,7 @@
 
     <!-- Actions -->
     <div class="nav-actions">
-      <% if user_signed_in? %>
-        <%= react_component "NavUserContainer", { props: { formAuthenticityToken: form_authenticity_token, userEmail: current_user.email } } %>
-      <% else %>
-        <%= link_to "Login", new_user_session_path, class: "btn btn-xs btn-green" %>
-      <% end %>
+      <%= react_component "NavUserContainer", { props: { formAuthenticityToken: form_authenticity_token, userEmail: current_user.try(:email) } } %>
     </div>
   </div>
 </nav>

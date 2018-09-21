@@ -1,2 +1,4 @@
-export const PROFILE_EDIT_URL = '/profile'
+export const LOGIN_URL = '/logout'
 export const LOGOUT_URL = '/logout'
+export const PROFILE_EDIT_URL = '/profile'
+export const REGISTRATION_URL = '/register'

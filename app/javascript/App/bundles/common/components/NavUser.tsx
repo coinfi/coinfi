@@ -10,7 +10,13 @@ import AccountCircle from '@material-ui/icons/AccountCircle'
 import KeyboardArrowDown from '@material-ui/icons/KeyboardArrowDown'
 import KeyboardArrowUp from '@material-ui/icons/KeyboardArrowUp'
 import { MenuProps } from '@material-ui/core/Menu'
-import { PROFILE_EDIT_URL, LOGOUT_URL } from '~/constants'
+import Switch from '@material-ui/core/Switch'
+import {
+  LOGIN_URL,
+  LOGOUT_URL,
+  PROFILE_EDIT_URL,
+  REGISTRATION_URL,
+} from '~/constants'
 
 const styles = (theme) =>
   createStyles({
@@ -78,6 +84,11 @@ const NavUser: React.StatelessComponent<Props> = (props) => {
     classes,
   } = props
 
+  // TODO: Implement onChange method.
+  const DarkModeToggle = (isDarkMode) => (
+    <Switch checked={isDarkMode} onChange={null} value={isDarkMode} />
+  )
+
   const LogoutButton = (logoutButtonProps) => (
     <form method="post" action={LOGOUT_URL}>
       <input type="hidden" name="_method" value="delete" />
@@ -90,32 +101,36 @@ const NavUser: React.StatelessComponent<Props> = (props) => {
     </form>
   )
 
-  return (
+  // TODO: Get menu to show up on right hand side.
+  const MenuToggle = () =>
+    menuOpen ? (
+      <IconButton
+        className={classes.button}
+        aria-label="Close"
+        color="inherit"
+        onClick={onCloseMenu}
+      >
+        <KeyboardArrowUp fontSize="inherit" />
+      </IconButton>
+    ) : (
+      <IconButton
+        className={classes.button}
+        disableRipple={true}
+        aria-label="Open"
+        color="inherit"
+        onClick={onOpenMenu}
+      >
+        <KeyboardArrowDown fontSize="inherit" />
+      </IconButton>
+    )
+
+  const LoggedInNav = () => (
     <div className={classes.root}>
       <Avatar className={classes.avatar}>
         <AccountCircle />
       </Avatar>
 
-      {menuOpen ? (
-        <IconButton
-          className={classes.button}
-          aria-label="Close"
-          color="inherit"
-          onClick={onCloseMenu}
-        >
-          <KeyboardArrowUp fontSize="inherit" />
-        </IconButton>
-      ) : (
-        <IconButton
-          className={classes.button}
-          disableRipple={true}
-          aria-label="Open"
-          color="inherit"
-          onClick={onOpenMenu}
-        >
-          <KeyboardArrowDown fontSize="inherit" />
-        </IconButton>
-      )}
+      <MenuToggle />
 
       <Menu
         classes={{
@@ -141,7 +156,7 @@ const NavUser: React.StatelessComponent<Props> = (props) => {
         <Divider className={classes.menuDivider} />
 
         <a href={PROFILE_EDIT_URL}>
-          <MenuItem className={classes.menuItem}>My profile</MenuItem>
+          <MenuItem className={classes.menuItem}>My Profile</MenuItem>
         </a>
 
         <MenuItem component={LogoutButton} className={classes.menuItem}>
@@ -150,6 +165,39 @@ const NavUser: React.StatelessComponent<Props> = (props) => {
       </Menu>
     </div>
   )
+
+  const LoggedOutNav = () => (
+    <div className={classes.root}>
+      <MenuToggle />
+      <Menu
+        classes={{
+          paper: classes.menuPaper,
+        }}
+        MenuListProps={{
+          className: classes.menuList,
+        }}
+        anchorEl={menuAnchor}
+        anchorOrigin={{
+          vertical: 'bottom',
+          horizontal: 'left',
+        }}
+        getContentAnchorEl={null}
+        open={menuOpen}
+        onClose={onCloseMenu}
+      >
+        {/* TODO: Add DarkModeToggle here. */}
+        <Divider className={classes.menuDivider} />
+        <a href={REGISTRATION_URL}>
+          <MenuItem className={classes.menuItem}>Sign Up</MenuItem>
+        </a>
+        <a href={LOGIN_URL}>
+          <MenuItem className={classes.menuItem}>Login</MenuItem>
+        </a>
+      </Menu>
+    </div>
+  )
+
+  return userEmail ? <LoggedInNav /> : <LoggedOutNav />
 }
 
 export default withTheme()(withStyles(styles)(NavUser))
