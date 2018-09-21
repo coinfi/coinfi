@@ -1,6 +1,5 @@
 import React from 'react'
 import withDevice from '~/bundles/common/utils/withDevice'
-import darkModeHelper from '~/darkModeHelper'
 
 const Layout = (props) => {
   const {
@@ -12,7 +11,9 @@ const Layout = (props) => {
     isMobile,
   } = props
   let containerClass = 'modal bg-athens'
-  if (!isMobile) containerClass = 'overlay z-999 bg-athens overflow-y-auto filter-panel-wrap'
+  if (!isMobile) {
+    containerClass = 'overlay z-999 bg-athens overflow-y-auto filter-panel-wrap'
+  }
   return (
     <div className={containerClass}>
       <div className="pa3 bb b--geyser flex justify-between items-center filter-panel-header">
@@ -38,7 +39,6 @@ const Layout = (props) => {
             className="btn btn-white btn-xs cancel-btn"
             onClick={() => {
               disableUI('filterPanel')
-              darkModeHelper()
             }}
             style={{
               padding: '8px 20px',
