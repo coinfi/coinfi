@@ -97,11 +97,11 @@ class NewsfeedPage extends React.Component<Props, State> {
   }
 
   public updateTitle = (newsIds?: number[]) => {
-    if (typeof news !== 'undefined') {
-      if (news.length === 0) {
+    if (typeof newsIds !== 'undefined') {
+      if (newsIds.length === 0) {
         return
       }
-      document.title = `${news.length} | ${this.getInitialDocumentTitle()}`
+      document.title = `${newsIds.length} | ${this.getInitialDocumentTitle()}`
       return
     }
 
