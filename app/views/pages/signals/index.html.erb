@@ -27,7 +27,18 @@
 
         <a class="btn btn-blue signals-section__cta-btn">Reserve My Spot</a>
 
-        <p class="signals-section__cta-btn-note">Only 2,000 spots available <a href="">Why?</a>
+        <div class="signals-section__cta-btn-note">
+          Only 2,000 spots available
+          <%= react_component "SignalPopoverText",
+            props: {
+              text: "Why?",
+              description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam sapiente expedita ullam atque quo veritatis adipisci modi, earum",
+            },
+            html_options: {
+              class: 'signal-popover-text'
+            }
+          %>
+        </div>
       </div>
       <div class="col-sm-5 signals-section__col">
         <%= render "pages/signals/telegram_message", {

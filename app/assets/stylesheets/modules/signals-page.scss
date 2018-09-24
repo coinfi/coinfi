@@ -130,6 +130,10 @@ $signals-section-gutter: 40px;
   }
 }
 
+.signal-popover-text {
+  display: inline-block;
+}
+
 .signal-example-panels {
   &__item {
     margin-bottom: 20px;
