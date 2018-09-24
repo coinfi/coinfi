@@ -1,17 +1,36 @@
+$signals-section-gutter: 40px;
+
 .signals-section {
   padding-top: 100px;
   padding-bottom: 100px;
+  line-height: 1.28;
+  font-size: 16px;
 
-  &--dark {
-    @extend .bg-tiber;
-    color: white;
+  &__col {
+    &--vertical-center {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    &--horizontal-center {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
   }
 
   &__title {
-    color: white;
     margin-bottom: 40px;
+    font-size: 27px;
+    font-weight: 600;
+  }
+  &__description {
+    margin-top: 0;
+    font-size: 18px;
   }
   &__lead {
+    margin-top: 0;
     margin-bottom: 40px;
     font-weight: 600;
   }
@@ -21,6 +40,36 @@
   &__cta-btn-note {
     font-size: 12px;
     font-weight: 500;
+  }
+}
+.signals-section--dark {
+  @extend .bg-tiber;
+  color: white;
+
+  .signals-section__title {
+    color: white;
+  }
+}
+
+.featured-signals-section {
+  &__title {
+    font-size: 30px;
+  }
+}
+.faq-signals-section {
+  background: white;
+  text-align: center;
+}
+.cta-signals-section {
+  text-align: center;
+
+  &__title {
+    font-size: 42px;
+    margin-bottom: 24px;
+  }
+
+  &__lead {
+    margin-bottom: 80px;
   }
 }
 
@@ -79,4 +128,8 @@
   }
   &__separator {
   }
+}
+
+.signal-faqs {
+  text-align: left;
 }
