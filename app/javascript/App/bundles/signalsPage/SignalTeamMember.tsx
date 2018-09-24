@@ -7,11 +7,23 @@ import Typography from '@material-ui/core/Typography'
 const styles = (theme) =>
   createStyles({
     root: {},
+    avatar: {
+      width: 88,
+      height: 88,
+    },
     popover: {
       pointerEvents: 'none',
+      marginTop: 20,
+    },
+    popoverContent: {
+      margin: theme.spacing.unit * 2,
     },
     description: {
-      margin: theme.spacing.unit * 2,
+      maxWidth: 300,
+      marginBottom: theme.spacing.unit * 2,
+    },
+    roleDescription: {
+      marginRight: 10,
     },
   })
 
@@ -24,6 +36,7 @@ interface Props {
   classes: any
   avatarUrl: string
   description: string
+  roleDescription: string
 }
 
 class SignalTeamMember extends React.Component<Props, State> {
@@ -51,7 +64,7 @@ class SignalTeamMember extends React.Component<Props, State> {
   }
 
   public render() {
-    const { classes, avatarUrl, description } = this.props
+    const { classes, avatarUrl, description, roleDescription } = this.props
 
     return (
       <div className={classes.root}>
@@ -77,7 +90,14 @@ class SignalTeamMember extends React.Component<Props, State> {
           }}
           disableRestoreFocus={true}
         >
-          <Typography className={classes.description}>{description}</Typography>
+          <div className={classes.popoverContent}>
+            <Typography className={classes.description}>
+              {description}
+            </Typography>
+            <Typography className={classes.roleDescription}>
+              {roleDescription}
+            </Typography>
+          </div>
         </Popover>
       </div>
     )
