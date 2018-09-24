@@ -79,7 +79,8 @@
             },
             html_options: {
               class: 'signal-example-panels__item'
-            }
+            },
+            prerender: true
           %>
 
           <%= react_component "SignalExamplePanel",
@@ -89,7 +90,8 @@
             },
             html_options: {
               class: 'signal-example-panels__item'
-            }
+            },
+            prerender: true
           %>
 
           <%= react_component "SignalExamplePanel",
@@ -99,7 +101,8 @@
             },
             html_options: {
               class: 'signal-example-panels__item'
-            }
+            },
+            prerender: true
           %>
         </div>
       </div>
@@ -126,7 +129,8 @@
             },
             html_options: {
               class: 'signal-example-panels__item'
-            }
+            },
+            prerender: true
           %>
 
           <%= react_component "SignalExamplePanel",
@@ -137,7 +141,8 @@
             },
             html_options: {
               class: 'signal-example-panels__item'
-            }
+            },
+            prerender: true
           %>
 
           <%= react_component "SignalExamplePanel",
@@ -147,7 +152,8 @@
             },
             html_options: {
               class: 'signal-example-panels__item'
-            }
+            },
+            prerender: true
           %>
         </div>
       </div>
@@ -172,6 +178,7 @@
                 avatarUrl: "https://placehold.it/300x300",
                 description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam sapiente expedita ullam atque quo veritatis adipisci modi, earum, harum dolorem debitis impedit fugit consequuntur repellendus autem. Sapiente eius corrupti voluptate.",
                 roleDescription: "Lorem ipsum dolor sit amet consectetur",
+                prerender: true
               } %>
             </div>
             <div class="col-xs signals-section__col signals-section__col--horizontal-center">
@@ -179,6 +186,7 @@
                 avatarUrl: "https://placehold.it/300x300",
                 description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam sapiente expedita ullam atque quo veritatis adipisci modi, earum, harum dolorem debitis impedit fugit consequuntur repellendus autem. Sapiente eius corrupti voluptate.",
                 roleDescription: "Lorem ipsum dolor sit amet consectetur",
+                prerender: true
               } %>
             </div>
             <div class="col-xs signals-section__col signals-section__col--horizontal-center">
@@ -186,6 +194,7 @@
                 avatarUrl: "https://placehold.it/300x300",
                 description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam sapiente expedita ullam atque quo veritatis adipisci modi, earum, harum dolorem debitis impedit fugit consequuntur repellendus autem. Sapiente eius corrupti voluptate.",
                 roleDescription: "Lorem ipsum dolor sit amet consectetur",
+                prerender: true
               } %>
             </div>
             <div class="col-xs signals-section__col signals-section__col--horizontal-center">
@@ -193,6 +202,7 @@
                 avatarUrl: "https://placehold.it/300x300",
                 description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam sapiente expedita ullam atque quo veritatis adipisci modi, earum, harum dolorem debitis impedit fugit consequuntur repellendus autem. Sapiente eius corrupti voluptate.",
                 roleDescription: "Lorem ipsum dolor sit amet consectetur",
+                prerender: true
               } %>
             </div>
           </div>
@@ -240,50 +250,83 @@
     <h2 class="signals-section__title">FAQ</h2>
 
     <div class="signal-faqs">
-      <%= react_component "SignalFaqPanel", props: {
-        question: "What do I need to do to reserve a spot?",
-        answer: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam sapiente expedita ullam atque quo veritatis adipisci modi, earum, harum dolorem debitis impedit fugit consequuntur repellendus autem. Sapiente eius corrupti voluptate.",
-      } %>
-      <%= react_component "SignalFaqPanel", props: {
-        question: "Do the signals really work?",
-        answer: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam sapiente expedita ullam atque quo veritatis adipisci modi, earum, harum dolorem debitis impedit fugit consequuntur repellendus autem. Sapiente eius corrupti voluptate.",
-      } %>
-      <%= react_component "SignalFaqPanel", props: {
-        question: "If the signals work, why are you selling them?",
-        answer: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam sapiente expedita ullam atque quo veritatis adipisci modi, earum, harum dolorem debitis impedit fugit consequuntur repellendus autem. Sapiente eius corrupti voluptate.",
-      } %>
-      <%= react_component "SignalFaqPanel", props: {
-        question: "How will the signals get delivered?",
-        answer: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam sapiente expedita ullam atque quo veritatis adipisci modi, earum, harum dolorem debitis impedit fugit consequuntur repellendus autem. Sapiente eius corrupti voluptate.",
-      } %>
-      <%= react_component "SignalFaqPanel", props: {
-        question: "How often will I get signals?",
-        answer: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam sapiente expedita ullam atque quo veritatis adipisci modi, earum, harum dolorem debitis impedit fugit consequuntur repellendus autem. Sapiente eius corrupti voluptate.",
-      } %>
-      <%= react_component "SignalFaqPanel", props: {
-        question: "Will you add new signals in the future?",
-        answer: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam sapiente expedita ullam atque quo veritatis adipisci modi, earum, harum dolorem debitis impedit fugit consequuntur repellendus autem. Sapiente eius corrupti voluptate.",
-      } %>
-      <%= react_component "SignalFaqPanel", props: {
-        question: "Do your signals tell me what price to buy at and what price to sell at?",
-        answer: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam sapiente expedita ullam atque quo veritatis adipisci modi, earum, harum dolorem debitis impedit fugit consequuntur repellendus autem. Sapiente eius corrupti voluptate.",
-      } %>
-      <%= react_component "SignalFaqPanel", props: {
-        question: "How should I use the signals?",
-        answer: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam sapiente expedita ullam atque quo veritatis adipisci modi, earum, harum dolorem debitis impedit fugit consequuntur repellendus autem. Sapiente eius corrupti voluptate.",
-      } %>
-      <%= react_component "SignalFaqPanel", props: {
-        question: "Do your signals work in a bear market?",
-        answer: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam sapiente expedita ullam atque quo veritatis adipisci modi, earum, harum dolorem debitis impedit fugit consequuntur repellendus autem. Sapiente eius corrupti voluptate.",
-      } %>
-      <%= react_component "SignalFaqPanel", props: {
-        question: "Do you use these signals yourselves?",
-        answer: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam sapiente expedita ullam atque quo veritatis adipisci modi, earum, harum dolorem debitis impedit fugit consequuntur repellendus autem. Sapiente eius corrupti voluptate.",
-      } %>
-      <%= react_component "SignalFaqPanel", props: {
-        question: "How do you come up with these signals?",
-        answer: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam sapiente expedita ullam atque quo veritatis adipisci modi, earum, harum dolorem debitis impedit fugit consequuntur repellendus autem. Sapiente eius corrupti voluptate.",
-      } %>
+      <%= react_component "SignalFaqPanel",
+        props: {
+          question: "What do I need to do to reserve a spot?",
+          answer: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam sapiente expedita ullam atque quo veritatis adipisci modi, earum, harum dolorem debitis impedit fugit consequuntur repellendus autem. Sapiente eius corrupti voluptate.",
+        },
+        prerender: true
+      %>
+      <%= react_component "SignalFaqPanel",
+        props: {
+          question: "Do the signals really work?",
+          answer: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam sapiente expedita ullam atque quo veritatis adipisci modi, earum, harum dolorem debitis impedit fugit consequuntur repellendus autem. Sapiente eius corrupti voluptate.",
+        },
+        prerender: true
+      %>
+      <%= react_component "SignalFaqPanel",
+        props: {
+          question: "If the signals work, why are you selling them?",
+          answer: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam sapiente expedita ullam atque quo veritatis adipisci modi, earum, harum dolorem debitis impedit fugit consequuntur repellendus autem. Sapiente eius corrupti voluptate.",
+        },
+        prerender: true
+      %>
+      <%= react_component "SignalFaqPanel",
+        props: {
+          question: "How will the signals get delivered?",
+          answer: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam sapiente expedita ullam atque quo veritatis adipisci modi, earum, harum dolorem debitis impedit fugit consequuntur repellendus autem. Sapiente eius corrupti voluptate.",
+        },
+        prerender: true
+      %>
+      <%= react_component "SignalFaqPanel",
+        props: {
+          question: "How often will I get signals?",
+          answer: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam sapiente expedita ullam atque quo veritatis adipisci modi, earum, harum dolorem debitis impedit fugit consequuntur repellendus autem. Sapiente eius corrupti voluptate.",
+        },
+        prerender: true
+      %>
+      <%= react_component "SignalFaqPanel",
+        props: {
+          question: "Will you add new signals in the future?",
+          answer: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam sapiente expedita ullam atque quo veritatis adipisci modi, earum, harum dolorem debitis impedit fugit consequuntur repellendus autem. Sapiente eius corrupti voluptate.",
+        },
+        prerender: true
+      %>
+      <%= react_component "SignalFaqPanel",
+        props: {
+          question: "Do your signals tell me what price to buy at and what price to sell at?",
+          answer: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam sapiente expedita ullam atque quo veritatis adipisci modi, earum, harum dolorem debitis impedit fugit consequuntur repellendus autem. Sapiente eius corrupti voluptate.",
+        },
+        prerender: true
+      %>
+      <%= react_component "SignalFaqPanel",
+        props: {
+          question: "How should I use the signals?",
+          answer: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam sapiente expedita ullam atque quo veritatis adipisci modi, earum, harum dolorem debitis impedit fugit consequuntur repellendus autem. Sapiente eius corrupti voluptate.",
+        },
+        prerender: true
+      %>
+      <%= react_component "SignalFaqPanel",
+        props: {
+          question: "Do your signals work in a bear market?",
+          answer: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam sapiente expedita ullam atque quo veritatis adipisci modi, earum, harum dolorem debitis impedit fugit consequuntur repellendus autem. Sapiente eius corrupti voluptate.",
+        },
+        prerender: true
+      %>
+      <%= react_component "SignalFaqPanel",
+        props: {
+          question: "Do you use these signals yourselves?",
+          answer: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam sapiente expedita ullam atque quo veritatis adipisci modi, earum, harum dolorem debitis impedit fugit consequuntur repellendus autem. Sapiente eius corrupti voluptate.",
+        },
+        prerender: true
+      %>
+      <%= react_component "SignalFaqPanel",
+        props: {
+          question: "How do you come up with these signals?",
+          answer: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam sapiente expedita ullam atque quo veritatis adipisci modi, earum, harum dolorem debitis impedit fugit consequuntur repellendus autem. Sapiente eius corrupti voluptate.",
+        },
+        prerender: true
+      %>
     </div>
   </div>
 </section>
