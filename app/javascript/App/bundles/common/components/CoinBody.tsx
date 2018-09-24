@@ -9,36 +9,41 @@ import localAPI from '../../../lib/localAPI'
 import { CoinWithDetails } from '../types'
 
 interface Props {
+  initialCoinWithDetails?: CoinWithDetails
   coinSlug?: string
   loggedIn: boolean
 }
 
 interface State {
-  coinWithDetails?: CoinWithDetails
+  coinWithDetails: CoinWithDetails
 }
 
 class CoinBody extends React.Component<Props, State> {
-  public state = {
-    coinWithDetails: null,
+  constructor(props) {
+    super(props)
+
+    this.state = {
+      coinWithDetails: props.initialCoinWithDetails || null,
+    }
   }
 
   public componentDidMount() {
-    if (!!this.props.coinSlug) {
+    if (this.props.coinSlug) {
       this.fetchCoinDetails()
     }
   }
 
   public componentDidUpdate(prevProps, prevState, snapshot) {
-    if (!this.props.coinSlug) {
-      if (!!prevState.coinWithDetails) {
-        // coinSlug prop turns null
-        this.setState({ coinWithDetails: null })
-      }
-    } else {
-      if (!prevProps.coinSlug || prevProps.coinSlug !== this.props.coinSlug) {
-        // coinSlug prop changed
-        this.setState({ coinWithDetails: null }, () => this.fetchCoinDetails())
-      }
+    // Check if coin is unselected
+    if (!this.props.coinSlug && prevState.coinWithDetails) {
+      // coinSlug prop turns null
+      this.setState({ coinWithDetails: null })
+    }
+
+    // Check if coin is selected/changed
+    if (prevProps.coinSlug !== this.props.coinSlug) {
+      // coinSlug prop changed
+      this.setState({ coinWithDetails: null }, () => this.fetchCoinDetails())
     }
   }
 

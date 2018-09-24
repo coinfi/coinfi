@@ -12,7 +12,7 @@ import Icon from '../Icon'
 import FilterComponent from './FilterComponent'
 import buttonLabels from './filterButtonLabels'
 import { singularize } from '../../lib/misc'
-import _ from 'lodash'
+import * as _ from 'lodash'
 
 const FilterButton = (props) => {
   const { filter, toggleUI, currentUI, removeFilter } = props

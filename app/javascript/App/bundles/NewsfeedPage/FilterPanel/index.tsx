@@ -1,5 +1,5 @@
 import * as React from 'react'
-import _ from 'lodash'
+import * as _ from 'lodash'
 import Layout from './Layout'
 import MarketMoving from './filterComponents/MarketMoving'
 import Coins from './filterComponents/Coins'
