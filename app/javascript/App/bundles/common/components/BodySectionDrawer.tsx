@@ -2,13 +2,13 @@ import * as React from 'react'
 import Drawer from './Drawer'
 import Icon from './../../../components/Icon'
 
-interface IProps {
+interface Props {
   isShown: boolean
   onClose: () => void
   bodySection: any
 }
 
-const BodySectionDrawer = (props: IProps) => (
+const BodySectionDrawer = (props: Props) => (
   <Drawer
     {...props}
     position="bottom"

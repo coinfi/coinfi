@@ -69,9 +69,23 @@ class Api::NewsItemsController < ApiController
   private
 
   def serialized(obj)
-    obj.as_json(
+    data = obj.as_json(
       only: %i[id title summary feed_item_published_at updated_at url content],
-      methods: %i[coin_link_data categories]
+      methods: %i[tag_scoped_coin_link_data categories]
     )
+    format_item = Proc.new do |item, *args|
+      item
+        .except('tag_scoped_coin_link_data')
+        .merge({
+          coin_link_data: item['tag_scoped_coin_link_data'],
+        })
+    end
+
+    # Handle both hashes and arrays of hashes
+    if (data.kind_of?(Array))
+      formatted_data = data.map(&format_item)
+    else
+      formatted_data = format_item.call(data)
+    end
   end
 end

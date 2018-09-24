@@ -1,20 +1,25 @@
 import React from 'react'
+import styled from 'styled-components'
 import FilterApplyButton from './FilterApplyButton'
 import FilterCancelButton from './FilterCancelButton'
 import FilterResetLink from './FilterResetLink'
-import ExchangeListingContext from '~/bundles/ExchangeListings/context'
+import ExchangeListingContext from '~/bundles/ExchangeListings/ExchangeListingsContext'
+import withDevice from '~/bundles/common/utils/withDevice'
 
-export default ({ children }) => {
+const Modal = styled.div`
+  display: block !important;
+`
+
+const FilterPanel = ({ children, isMobile }) => {
   // TODO: make this shared component work with other components using FilterPanel
   const { applyFilters, resetFilters } = this
 
   let containerClass = 'modal bg-athens'
-  if (!window.isMobile)
-    containerClass = 'overlay z-999 bg-athens overflow-y-auto'
+  if (!isMobile) containerClass = 'overlay z-999 bg-athens overflow-y-auto'
 
   return (
     <div className="ph3 ph4-l">
-      <div className={containerClass}>
+      <Modal className={containerClass}>
         <ExchangeListingContext.Consumer>
           {({ resetFilters, toggleFilterPanel, applyFilters }) => (
             <div className="pa3 bb b--geyser flex justify-between items-center filter-panel-header">
@@ -30,7 +35,9 @@ export default ({ children }) => {
           )}
         </ExchangeListingContext.Consumer>
         {children}
-      </div>
+      </Modal>
     </div>
   )
 }
+
+export default withDevice(FilterPanel)

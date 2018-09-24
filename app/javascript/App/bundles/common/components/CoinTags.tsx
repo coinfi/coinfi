@@ -1,12 +1,12 @@
 import * as React from 'react'
-import { IItemWithCoinLinkData } from '../types'
+import { ItemWithCoinLinkData } from '../types'
 
-interface IProps {
-  itemWithCoinLinkData: IItemWithCoinLinkData
+interface Props {
+  itemWithCoinLinkData: ItemWithCoinLinkData
   // selectCoin: (CoinLinkData) => void, // FIXME
 }
 
-const CoinTags = ({ itemWithCoinLinkData /*selectCoin*/ }: IProps) => (
+const CoinTags = ({ itemWithCoinLinkData /*selectCoin*/ }: Props) => (
   <div>
     {itemWithCoinLinkData.coin_link_data.map((data, index) => (
       <a

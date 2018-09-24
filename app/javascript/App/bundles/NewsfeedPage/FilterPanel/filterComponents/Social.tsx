@@ -1,5 +1,5 @@
 import * as React from 'react'
-import _ from 'lodash'
+import * as _ from 'lodash'
 import Switch from '../components/Switch'
 
 const RedditLogo = require('../../../../images/logo-reddit.svg')
@@ -15,17 +15,16 @@ const Block = (props) => (
   </div>
 )
 
-interface IProps {
+interface Props {
   feedSources: string[]
   onToggleReddit: () => void
   onToggleTwitter: () => void
 }
 
-const Social = (props: IProps) => (
+const Social = (props: Props) => (
   <>
     <div className="pv2 f6">
-      Reddit and Twitter often has more noise than signal so we&apos;ve disabled
-      them by default, but you can enable them here.
+      {`If a coin does not have a lot of news coverage from our general sources, we'll automatically enable social sources for the coin.`}
     </div>
     <Block label="Reddit" logo={RedditLogo}>
       <Switch

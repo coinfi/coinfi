@@ -1,41 +1,33 @@
-/* tslint:disable */
-declare var window: {
-  isMobile?: boolean
-  isTablet?: boolean
-}
-
 import * as React from 'react'
 import InfiniteScroll from 'react-infinite-scroll-component'
-import _ from 'lodash'
+import * as _ from 'lodash'
 import NewsListItem from './NewsListItem'
 import LoadingIndicator from '../../components/LoadingIndicator'
 import Tips from './Tips'
-import scrollHelper from './../../scrollHelper'
+import withDevice from '~/bundles/common/utils/withDevice'
 
-import { INewsItem } from './types'
+import { NewsItem } from './types'
 
-interface IProps {
-  // FIXME all props must be required
-  isShown?: boolean
-  isLoading?: boolean
-  isInfiniteScrollLoading?: boolean
-  activeFilters?: any
-  sortedNewsItems?: INewsItem[]
-  initialRenderTips?: boolean
-  fetchMoreNewsFeed?: () => void
-  closeTips?: () => void
-  isNewsSeen?: (id) => boolean
-  isWindowFocused?: boolean
-  selectedNewsItemId?: string
+interface Props {
+  isShown: boolean
+  isLoading: boolean
+  sortedNewsItems: NewsItem[]
+  initialRenderTips: boolean
+  fetchMoreNewsFeed: () => void
+  closeTips: () => void
+  isWindowFocused: boolean
+  selectedNewsItemId: string
   onNewsItemClick: any
+  hasMore: boolean
+  isMobile: boolean
 }
 
-interface IState {
+interface State {
   initialRender: boolean
   initialRenderTips: boolean
 }
 
-class NewsList extends React.Component<IProps, IState> {
+class NewsList extends React.Component<Props, State> {
   public state = { initialRender: true, initialRenderTips: false }
 
   private newsfeedDiv: React.RefObject<HTMLDivElement>
@@ -45,40 +37,12 @@ class NewsList extends React.Component<IProps, IState> {
     this.newsfeedDiv = React.createRef()
   }
 
-  public componentDidMount() {
-    // set max height to enable scroll in ff
-    scrollHelper()
-  }
-
-  public componentDidUpdate() {
-    scrollHelper()
-  }
-
-  public setActiveNewsItem = (newsItem) => {
-    // @ts-ignore FIXME
-    const { setActiveEntity, enableUI } = this.props
-    const url = newsItem.url
-    const urlFragments = url.split('/')
-    const tweetId = urlFragments[urlFragments.length - 1]
-    if (/twitter/.exec(url) !== null) {
-      setActiveEntity({ type: 'twitterNews', id: newsItem.id, tweetId })
-    } else {
-      setActiveEntity({ type: 'newsItem', id: newsItem.id })
-    }
-    if (window.isMobile) {
-      enableUI('bodySectionDrawer', { fullScreen: true })
-    }
-    setTimeout(() => {
-      // set max height to enable scroll in ff
-      const colWrap = document.querySelector('.column-wrap')
-      const newsContent = document.querySelector('.selected-news-content')
-      // @ts-ignore FIXME
-      newsContent.style.maxHeight = `${colWrap.offsetHeight}px`
-    }, 500)
+  public onSelect = (newsItem) => {
+    this.props.onNewsItemClick(newsItem)
   }
 
   public renderView() {
-    if (this.props.initialRenderTips && window.isMobile) {
+    if (this.props.initialRenderTips && this.props.isMobile) {
       return <Tips closeTips={this.props.closeTips} />
     } else if (this.props.isLoading) {
       return (
@@ -103,7 +67,10 @@ class NewsList extends React.Component<IProps, IState> {
       )
     }
 
-    const readNewsIds = JSON.parse(localStorage.getItem('readNews')) || []
+    const hasLocalStorage = !_.isError(_.attempt(() => localStorage))
+    const readNewsIds = hasLocalStorage
+      ? JSON.parse(localStorage.getItem('readNews')) || []
+      : []
 
     const mappedItems = this.props.sortedNewsItems.map((newsItem, index) => {
       const hasRead = readNewsIds.includes(newsItem.id)
@@ -111,13 +78,9 @@ class NewsList extends React.Component<IProps, IState> {
         <NewsListItem
           key={newsItem.id}
           newsItem={newsItem}
-          {...this.props}
           isSelected={this.props.selectedNewsItemId === newsItem.id.toString()}
-          setActiveNewsItem={this.setActiveNewsItem}
-          // @ts-ignore FIME
-          selectCoin={(symbol) => this.selectCoin(symbol)}
           hasRead={hasRead}
-          onClick={this.props.onNewsItemClick}
+          onClick={this.onSelect}
         />
       )
     })
@@ -127,35 +90,25 @@ class NewsList extends React.Component<IProps, IState> {
         dataLength={mappedItems.length}
         scrollableTarget="newsfeed"
         next={this.props.fetchMoreNewsFeed}
-        hasMore={true} // TODO: Actually determine when there are no more NewsItems...
+        hasMore={this.props.hasMore}
         loader={<LoadingIndicator />}
+        endMessage={
+          <p className="tc">
+            <b>No more news present in the database.</b>
+          </p>
+        }
       >
         {mappedItems}
       </InfiniteScroll>
     )
   }
 
-  // TODO: this commented out code will be uncommented and merged with existing functionality
-  // selectCoin(coinData) {
-  //   const { setFilter, clearSearch, setActiveEntity } = this.props
-  //   setActiveEntity({ type: 'coin', id: coinData.get('id') })
-  //   if (this.selectedCoins) {
-  //     let value = this.selectedCoins()
-  //     value = union(value, [coinData.get('name')]) // eslint-disable-line no-undef
-  //     setFilter({ key: 'coins', value })
-  //     clearSearch()
-  //   }
-  // }
-
   public render() {
-    if (!this.props.isShown) return null
+    if (!this.props.isShown) {
+      return null
+    }
 
-    const {
-      // @ts-ignore FIXME
-      activeEntity,
-      activeFilters,
-      initialRenderTips,
-    } = this.props
+    const { initialRenderTips } = this.props
 
     return (
       <div
@@ -163,10 +116,9 @@ class NewsList extends React.Component<IProps, IState> {
         id="newsfeed"
         className="flex-auto relative overflow-y-scroll overflow-y-auto-m"
         style={
-          window.isMobile && initialRenderTips
+          this.props.isMobile && initialRenderTips
             ? {
                 background: '#fff',
-                marginTop: '-65px',
                 overflow: 'hidden',
                 position: 'absolute',
               }
@@ -179,4 +131,4 @@ class NewsList extends React.Component<IProps, IState> {
   }
 }
 
-export default NewsList
+export default withDevice(NewsList)

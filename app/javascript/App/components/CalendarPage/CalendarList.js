@@ -1,10 +1,11 @@
 import React, { Component, Fragment } from 'react'
-import _ from 'lodash'
+import * as _ from 'lodash'
 import moment from 'moment'
 import CalendarListEvent from './CalendarListEvent'
 import CalendarListEventHeader from './CalendarListEventHeader'
 import LoadingIndicator from '../LoadingIndicator'
 import Tips from './Tips'
+import withDevice from '~/bundles/common/utils/withDevice'
 
 class CalendarList extends Component {
   state = { initialRender: true, initialRenderTips: false }
@@ -22,12 +23,11 @@ class CalendarList extends Component {
       this.setState({ initialRender: false })
     }, 60000)
     this.mountOnScrollHandler()
-    document.querySelector('#calendar').style.height = `${window.outerHeight}px`
   }
 
   componentDidUpdate() {
     const timer = setInterval(() => {
-      if (!window.isMobile && !window.isTablet) {
+      if (!this.props.isMobile && !this.props.isTablet) {
         this.props.fetchMoreCalendarEvents()
       }
     }, 60000)
@@ -39,7 +39,7 @@ class CalendarList extends Component {
   }
 
   mountOnScrollHandler() {
-    if (window.isMobile) {
+    if (this.props.isMobile) {
       const throttled = _.throttle(this.onScrollCalendarMobile, 500)
       $(window).scroll(throttled)
     } else {
@@ -79,7 +79,7 @@ class CalendarList extends Component {
   setActiveCalendarEvent = (calendarEvent) => {
     const { setActiveEntity, enableUI } = this.props
     setActiveEntity({ type: 'calendarEvent', id: calendarEvent.get('id') })
-    if (window.isMobile) {
+    if (this.props.isMobile) {
       enableUI('bodySectionDrawer', { fullScreen: true })
     }
   }
@@ -96,7 +96,7 @@ class CalendarList extends Component {
     initialRenderTips,
     isLoading,
   ) {
-    if (initialRenderTips && window.isMobile) {
+    if (initialRenderTips && this.props.isMobile) {
       return <Tips closeTips={this.closeTips.bind(this)} />
     } else if (isLoading('calendarEvents')) {
       return (
@@ -175,6 +175,7 @@ class CalendarList extends Component {
       activeFilters,
       sortedCalendarEvents,
       initialRenderTips,
+      isMobile,
     } = this.props
     const viewState = {
       activeEntity: activeEntity,
@@ -189,7 +190,7 @@ class CalendarList extends Component {
           className="flex-auto relative overflow-y-auto-m"
           style={
             !activeEntity &&
-            window.isMobile &&
+            isMobile &&
             !activeFilters.size &&
             initialRenderTips
               ? { marginTop: '-65px', background: '#fff', position: 'absolute' }
@@ -214,4 +215,4 @@ class CalendarList extends Component {
   }
 }
 
-export default CalendarList
+export default withDevice(CalendarList)

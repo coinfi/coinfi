@@ -1,15 +1,15 @@
 import * as React from 'react'
 import Icon from '../../../components/Icon'
-import CoinListContext from '../../../contexts/CoinListContext'
-import { ICoin } from '../types'
+import CoinListContext from '../contexts/CoinListContext'
+import { Coin } from '../types'
 
-interface IProps {
-  coin: ICoin
+interface Props {
+  coin: Coin
   hasText: boolean
   loggedIn: boolean
 }
 
-const WatchButton = ({ coin, hasText, loggedIn }: IProps) => {
+const WatchButton = ({ coin, hasText, loggedIn }: Props) => {
   const hasTextClassNames = 'btn btn-xs btn-gray'
 
   return (

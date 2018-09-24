@@ -3,7 +3,6 @@ import Highcharts from 'highcharts/highstock'
 import Switch from '../../Switch'
 import options from './options'
 import chartOptions from './chartOptions'
-window.Highcharts = Highcharts
 
 const containerID = 'highcharts'
 
@@ -13,6 +12,7 @@ class PriceGraph extends Component {
     this.state = {
       chart: null,
     }
+    this.Highcharts = Highcharts
   }
 
   componentDidMount() {
@@ -25,13 +25,19 @@ class PriceGraph extends Component {
       }
     })
 
-    window.Highcharts.setOptions(options)
-    const chart = window.Highcharts.stockChart(
+    this.Highcharts.setOptions(options)
+    const chart = this.Highcharts.stockChart(
       containerID,
-      chartOptions({ priceData: epochPrices, annotations }),
+      chartOptions(this.Highcharts, { priceData: epochPrices, annotations }),
     )
-    window.priceChart = chart
+    this.priceChart = chart
     this.setState({ chart: chart })
+
+    // Workaround to send a reference to the `priceChart` back up to a parent component. Ideally the
+    // parent should not need reference to this `priceChart`
+    if (this.props.onPriceChartCreated) {
+      this.props.onPriceChartCreated(chart)
+    }
 
     const annotatedChart = this.getAnnotatedChart(chart)
     annotatedChart.show()

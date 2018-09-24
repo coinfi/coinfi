@@ -1,23 +1,22 @@
 import * as React from 'react'
 import styled from 'styled-components'
-import { Link } from 'react-router-dom'
 import timeago from 'timeago.js'
 import CoinTags from '../common/components/CoinTags'
 import BulletSpacer from '../../components/BulletSpacer'
-import { slugify } from '../../lib/utils/slugify'
-
-const twitterLogo = require('../../images/logo-twitter.svg')
-const linkLogo = require('../../images/logo-link.svg')
-const redditLogo = require('../../images/logo-reddit.svg')
-
 import classNames from 'classnames'
+import Favicon from '~/bundles/common/components/Favicon'
+import * as _ from 'lodash'
+import URL from 'url-parse'
 
 const readNewsHandler = (newsItem) => {
   const newsId = newsItem.id
-  const readNewsData = JSON.parse(localStorage.getItem('readNews')) || []
 
-  readNewsData.push(newsId)
-  localStorage.setItem('readNews', JSON.stringify(readNewsData))
+  const hasLocalStorage = !_.isError(_.attempt(() => localStorage))
+  if (hasLocalStorage) {
+    const readNewsData = JSON.parse(localStorage.getItem('readNews')) || []
+    readNewsData.push(newsId)
+    localStorage.setItem('readNews', JSON.stringify(readNewsData))
+  }
 
   if (
     document.querySelector('.selected-news-content') &&
@@ -37,20 +36,23 @@ const Title = styled.h4`
 `
 
 const NewsListItem = (props) => {
-  const {
-    activeEntity,
-    newsItem,
-    setActiveNewsItem,
-    isSelected,
-    preRender,
-    hasRead,
-    onClick,
-  } = props
+  const { newsItem, isSelected, preRender, hasRead, onClick } = props
 
-  const url = new URL(newsItem.url)
   const newsItemTitle = newsItem.title
     .replace(/<h1>/g, '')
     .replace(/<\/h1>/g, '')
+
+  const parsedUrl = new URL(newsItem.url)
+  const linkUrl =
+    parsedUrl.hostname === 'twitter.com'
+      ? `https://twitter.com/${parsedUrl.pathname.split('/')[1]}`
+      : newsItem.url
+  const linkText =
+    parsedUrl.hostname === 'twitter.com'
+      ? `@${parsedUrl.pathname.split('/')[1]}`
+      : parsedUrl.hostname === 'www.reddit.com'
+        ? `/r/${parsedUrl.pathname.split('/')[2]}`
+        : parsedUrl.hostname
 
   return (
     <div
@@ -81,58 +83,19 @@ const NewsListItem = (props) => {
         <Title hasRead={hasRead}>{newsItemTitle}</Title>
         <div className="flex justify-between flex-wrap">
           <div className="f6 silver">
-            {url.hostname === 'twitter.com' && (
-              <>
-                <span className="mr2">
-                  <img src={twitterLogo} style={{ height: 11 }} />
-                </span>
-                <a
-                  href={`https://twitter.com/${url.pathname.split('/')[1]}`}
-                  target="_blank noopener noreferrer"
-                  rel="nofollow"
-                  className="dib silver"
-                >
-                  {`@${url.pathname.split('/')[1]}`}
-                </a>
-                <BulletSpacer />
-                {timeago().format(newsItem.feed_item_published_at)}
-              </>
-            )}
-            {url.hostname === 'www.reddit.com' && (
-              <>
-                <span className="mr2">
-                  <img src={redditLogo} style={{ height: 12 }} />
-                </span>
-                <a
-                  href={newsItem.url}
-                  target="_blank noopener noreferrer"
-                  rel="nofollow"
-                  className="dib silver"
-                >
-                  {`/r/${url.pathname.split('/')[2]}`}
-                </a>
-                <BulletSpacer />
-                {timeago().format(newsItem.feed_item_published_at)}
-              </>
-            )}
-            {url.hostname !== 'twitter.com' &&
-              url.hostname !== 'www.reddit.com' && (
-                <>
-                  <span className="mr2">
-                    <img src={linkLogo} style={{ height: 9 }} />
-                  </span>
-                  <a
-                    href={newsItem.url}
-                    target="_blank noopener noreferrer"
-                    rel="nofollow"
-                    className="dib silver"
-                  >
-                    {url.hostname}
-                  </a>
-                  <BulletSpacer />
-                  {timeago().format(newsItem.feed_item_published_at)}
-                </>
-              )}
+            <span className="mr2">
+              <Favicon url={linkUrl} style={{ height: 12 }} />
+            </span>
+            <a
+              href={linkUrl}
+              target="_blank noopener noreferrer"
+              rel="nofollow"
+              className="dib silver"
+            >
+              {linkText}
+            </a>
+            <BulletSpacer />
+            {timeago().format(newsItem.feed_item_published_at)}
           </div>
           <CoinTags {...props} itemWithCoinLinkData={newsItem} />
         </div>

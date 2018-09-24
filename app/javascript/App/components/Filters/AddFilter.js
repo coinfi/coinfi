@@ -8,15 +8,22 @@ import React from 'react'
 import SelectFilter from './SelectFilter'
 import FilterComponent from './FilterComponent'
 import Icon from '../Icon'
+import withDevice from '~/bundles/common/utils/withDevice'
 
 const AddFilters = (props) => {
-  const { currentUI, toggleUI, availableFilters, activeFilters } = props
+  const {
+    currentUI,
+    toggleUI,
+    availableFilters,
+    activeFilters,
+    isMobile,
+  } = props
   if (availableFilters.size === 0) return null
   const uiKey = 'newFilter'
   const filterKey = currentUI(uiKey)
   const toggleNew = () => toggleUI(['newFilter', 'selectFilter'])
   if (!filterKey) {
-    if (activeFilters.size > 0 || window.isMobile) {
+    if (activeFilters.size > 0 || isMobile) {
       return (
         <div className="oi">
           <button className="btn-reset oi-icon" onClick={toggleNew}>
@@ -50,4 +57,4 @@ const AddFilters = (props) => {
   }
 }
 
-export default AddFilters
+export default withDevice(AddFilters)

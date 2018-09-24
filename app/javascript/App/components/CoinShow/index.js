@@ -6,13 +6,14 @@ import axios from 'axios'
 import SearchCoins from '../../bundles/common/components/SearchCoins'
 import CoinCharts from './../CoinCharts'
 import SectionHeader from './../shared/SectionHeader'
-import newsfeedContainer from './../../containers/newsfeed'
 import FundamentalsData from './FundamentalsData'
 import LinksData from './LinksData'
 
 const { Content } = Layout
 
 class CoinShow extends Component {
+  chart = undefined
+
   state = {
     liveCoinArr: [],
     currency: 'USD',
@@ -51,9 +52,13 @@ class CoinShow extends Component {
       })
   }
 
+  handlePriceChartCreated = (priceChart) => {
+    this.priceChart = priceChart
+  }
+
   componentDidMount() {
     setTimeout(() => {
-      window.priceChart.setSize()
+      this.priceChart.setSize()
     }, 100)
   }
 
@@ -183,6 +188,7 @@ class CoinShow extends Component {
                           priceData={priceData}
                           annotations={annotations}
                           isTradingViewVisible={isTradingViewVisible}
+                          onPriceChartCreated={this.handlePriceChartCreated}
                         />
                       </Card>
                     </CardWrap>
@@ -392,7 +398,7 @@ class CoinShow extends Component {
   }
 }
 
-export default newsfeedContainer(CoinShow)
+export default CoinShow
 
 const Section = styled.section`
   text-align: center;

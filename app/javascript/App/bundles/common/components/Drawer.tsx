@@ -3,7 +3,7 @@ import Swipeable from 'react-swipeable'
 import Animate from 'react-move/Animate'
 import { easeExpOut } from 'd3-ease'
 
-interface IProps {
+interface Props {
   onClose: () => void
   position: string
   isShown: boolean
@@ -13,7 +13,7 @@ interface IProps {
   opacity?: number
 }
 
-const Drawer = (props: IProps) => {
+const Drawer = (props: Props) => {
   const start: any = { opacity: [0] }
   const enter: any = { opacity: [1] }
   switch (props.position) {
@@ -46,7 +46,7 @@ const Drawer = (props: IProps) => {
   )
 }
 
-class DrawerContent extends React.Component<IProps, {}> {
+class DrawerContent extends React.Component<Props, {}> {
   public state = { swipeAttempts: 0 }
   private drawer: any
   public handleClose = () => {

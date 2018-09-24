@@ -1,5 +1,5 @@
 import * as React from 'react'
-import _ from 'lodash'
+import * as _ from 'lodash'
 import Layout from './Layout'
 import MarketMoving from './filterComponents/MarketMoving'
 import Coins from './filterComponents/Coins'
@@ -7,37 +7,35 @@ import Dates from './filterComponents/Dates'
 import FeedSources from './filterComponents/FeedSources'
 import Social from './filterComponents/Social'
 import Categories from './filterComponents/Categories'
-import { IFilters } from '../types'
+import { Filters } from '../types'
 
-import getDefaultFilters from '../defaultFilters'
+import {
+  getDefaultFilters,
+  mergeInitialSocialSourcesForCoinsFilter,
+} from '../utils'
 
-interface IProps {
+interface Props {
   categories: string[]
   feedSources: string[]
-  filters: IFilters
+  topCoinSlugs: string[]
+  filters: Filters
   closeFilterPanel: () => void
-  applyFilters: (filters: IFilters) => void
+  applyFilters: (filters: Filters) => void
   children?: any
   newsFeedStyle?: boolean
 }
 
-interface IState {
-  form: IFilters
+interface State {
+  form: Filters
 }
 
-class FilterPanel extends React.Component<IProps, IState> {
+class FilterPanel extends React.Component<Props, State> {
   constructor(props) {
     super(props)
 
     this.state = {
-      form: getDefaultFilters(),
-    }
-  }
-
-  public componentDidMount() {
-    this.setState({
       form: _.cloneDeep(this.props.filters),
-    })
+    }
   }
 
   public applyFilters = () => {
@@ -71,9 +69,7 @@ class FilterPanel extends React.Component<IProps, IState> {
   public onCagetoryToggle = (category: string) =>
     this.setState((state) => {
       if (state.form.categories.includes(category)) {
-        state.form.categories = state.form.categories.filter(
-          (cat) => cat !== category,
-        )
+        state.form.categories = _.without(state.form.categories, category)
       } else {
         state.form.categories.push(category)
       }
@@ -83,9 +79,7 @@ class FilterPanel extends React.Component<IProps, IState> {
   public onFeedSourceToggle = (source: string) =>
     this.setState((state) => {
       if (state.form.feedSources.includes(source)) {
-        state.form.feedSources = state.form.feedSources.filter(
-          (src) => src !== source,
-        )
+        state.form.feedSources = _.without(state.form.feedSources, source)
       } else {
         state.form.feedSources.push(source)
       }
@@ -95,6 +89,11 @@ class FilterPanel extends React.Component<IProps, IState> {
   public onCoinsChange = (selectedOptions: any[]) => {
     this.setState((state) => {
       state.form.coinSlugs = selectedOptions.map((elem) => elem.value)
+      state.form.feedSources = mergeInitialSocialSourcesForCoinsFilter(
+        state.form.feedSources,
+        state.form.coinSlugs,
+        this.props.topCoinSlugs,
+      )
       return state
     })
   }

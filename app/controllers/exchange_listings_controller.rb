@@ -1,9 +1,8 @@
 class ExchangeListingsController < ApplicationController
   before_action :apply_feature_flag
+  before_action :set_body_class
 
   def index
-    @body_id = 'pane-layout'
-
     distribute_reads(max_lag: MAX_ACCEPTABLE_REPLICATION_LAG, lag_failover: true) do
       # These fields are used to populate the filters;
       # needs to be of the format { value, label }
@@ -32,5 +31,9 @@ protected
 
   def apply_feature_flag
     return render_404 if !has_listings_feature?
+  end
+
+  def set_body_class
+    @body_class = 'page page--fullscreen'
   end
 end

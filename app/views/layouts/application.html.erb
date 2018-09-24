@@ -14,7 +14,7 @@
     <%= stylesheet_link_tag 'application' %>
     <%= csrf_meta_tags %>
   </head>
-  <body id='<%= @body_id %>'>
+  <body class='<%= @body_class %>'>
     <header>
       <%= render partial: "components/nav" %>
     </header>
@@ -26,7 +26,7 @@
       window.pricesURL = '<%= ENV.fetch('COINFI_PRICES_URL') %>';
     <% end %>
     <script src="/tradingview/charting_library.min.js"></script>
-    <%= javascript_pack_tag 'application' %>
+    <%= javascript_pack_tag 'client-bundle' %>
     <%= render 'layouts/tracking_scripts' %>
     <script src="https://modeanalytics.com/embed/embed.js"></script>
   </body>

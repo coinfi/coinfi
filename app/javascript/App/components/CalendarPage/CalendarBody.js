@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react'
 import moment from 'moment'
-import _ from 'lodash'
+import * as _ from 'lodash'
 import CoinTags from '../CoinTags'
 import BulletSpacer from '../BulletSpacer'
 import Icon from '../Icon'

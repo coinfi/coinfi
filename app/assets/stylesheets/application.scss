@@ -17,7 +17,6 @@
 @import 'tachyons';
 @import 'antd';
 @import 'rc-slider/assets/index';
-
 @import 'utilities/conceal';
 @import 'utilities/brand-colors';
 @import 'utilities/responsive-padding';
@@ -34,10 +33,9 @@
 @import 'utilities/flex-stack';
 @import 'utilities/fa-svg-with-js';
 @import 'utilities/borders';
-
+@import 'utilities/font-awesome-brand-colors';
 @import 'base/general';
 @import 'base/typography';
-
 @import 'components/autosuggest';
 @import 'components/drawer';
 @import 'components/switch';
@@ -63,12 +61,10 @@
 @import 'components/modal';
 @import 'components/search-field';
 @import 'components/react-datepicker';
-
-@import 'modules/pane-layout';
+@import 'modules/page';
 @import 'modules/mobile-nav';
 @import 'modules/site-subheader';
 @import 'modules/twitter';
 @import 'modules/global-coin-search';
-@import 'modules/news-page';
 @import 'modules/calendar-page';
 @import 'antd-styles';

@@ -1,14 +1,14 @@
 import * as React from 'react'
-import _ from 'lodash'
+import * as _ from 'lodash'
 import ItemSelector from '../components/ItemSelector'
 
-interface IProps {
+interface Props {
   feedSources: string[]
   selectedItems: string[]
   onChange: (item: string) => void
 }
 
-const FeedSources = (props: IProps) => {
+const FeedSources = (props: Props) => {
   const sortedSources = _.sortBy(
     props.feedSources.map((item) => {
       if (/www/.exec(item) !== null) {

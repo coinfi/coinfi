@@ -8,9 +8,12 @@ Rails.application.routes.draw do
   resources :coins, only: %i[index show]
   resources :contributor_submissions, path: 'contributor-submissions'
   resources :exchange_listings, only: :index, path: 'listings'
+  resources :calendar_events, only: :index, path: 'calendar'
   get '/icos', to: redirect('/icos/upcoming')
   get '/icos(/:status)', to: 'icos#index'
-  get '/news(/*others)', to: 'news#index'
+  get '/news/:id/:slug', to: 'news#show'
+  get '/news/:coin_slug', to: 'news#coin_index'
+  get '/news', to: 'news#index'
   get '/news-beta', to: redirect('/', status: 302)
   get '/podcast', to: redirect('https://blog.coinfi.com/topics/podcast/', status: 302)
   get '/profile', to: 'users#edit'

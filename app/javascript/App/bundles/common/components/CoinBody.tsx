@@ -6,39 +6,44 @@ import WatchButton from './WatchButton'
 import LoadingIndicator from '../../../components/LoadingIndicator'
 import localAPI from '../../../lib/localAPI'
 
-import { ICoinWithDetails } from '../types'
+import { CoinWithDetails } from '../types'
 
-interface IProps {
+interface Props {
+  initialCoinWithDetails?: CoinWithDetails
   coinSlug?: string
   loggedIn: boolean
 }
 
-interface IState {
-  coinWithDetails?: ICoinWithDetails
+interface State {
+  coinWithDetails: CoinWithDetails
 }
 
-class CoinBody extends React.Component<IProps, IState> {
-  public state = {
-    coinWithDetails: null,
+class CoinBody extends React.Component<Props, State> {
+  constructor(props) {
+    super(props)
+
+    this.state = {
+      coinWithDetails: props.initialCoinWithDetails || null,
+    }
   }
 
   public componentDidMount() {
-    if (!!this.props.coinSlug) {
+    if (this.props.coinSlug) {
       this.fetchCoinDetails()
     }
   }
 
   public componentDidUpdate(prevProps, prevState, snapshot) {
-    if (!this.props.coinSlug) {
-      if (!!prevState.coinWithDetails) {
-        // coinSlug prop turns null
-        this.setState({ coinWithDetails: null })
-      }
-    } else {
-      if (!prevProps.coinSlug || prevProps.coinSlug !== this.props.coinSlug) {
-        // coinSlug prop changed
-        this.setState({ coinWithDetails: null }, () => this.fetchCoinDetails())
-      }
+    // Check if coin is unselected
+    if (!this.props.coinSlug && prevState.coinWithDetails) {
+      // coinSlug prop turns null
+      this.setState({ coinWithDetails: null })
+    }
+
+    // Check if coin is selected/changed
+    if (prevProps.coinSlug !== this.props.coinSlug) {
+      // coinSlug prop changed
+      this.setState({ coinWithDetails: null }, () => this.fetchCoinDetails())
     }
   }
 
@@ -109,7 +114,6 @@ class CoinBody extends React.Component<IProps, IState> {
           symbol={coinWithDetails.symbol}
           priceData={coinWithDetails.prices_data}
           annotations={coinWithDetails.news_data}
-          // isTradingViewVisible={activeEntity.type !== 'coin'} // Quesion Andrey: why checking type == coin here if is this component is used only with .type=coin ?
           isTradingViewVisible={true}
         />
       </div>
