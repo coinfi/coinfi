@@ -5,10 +5,58 @@ import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary'
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails'
 import Typography from '@material-ui/core/Typography'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
+import classnames from 'classnames'
 
 const styles = (theme) =>
   createStyles({
-    root: {},
+    title: {
+      color: 'black',
+      fontWeight: 500,
+      fontSize: 20,
+    },
+    panel: {
+      background: 'none',
+      border: 0,
+      boxShadow: 'none',
+    },
+    panelSummary: {
+      padding: 0,
+      margin: 0,
+      minHeight: '0 !important',
+      borderBottom: 'solid 1px #4a4a4a',
+    },
+    panelDetails: {
+      padding: 0,
+      fontSize: 18,
+    },
+    panelSummaryContent: {
+      margin: '12px 0 !important',
+    },
+    panelExpandIcon: {
+      right: 0,
+    },
+    tableRow: {
+      // Table striping is enabled for all `<tr>`s by default with a global and an extremely
+      // specific css rule
+      background: 'none !important',
+    },
+    tableCell: {
+      paddingTop: 20,
+      paddingBottom: 20,
+      verticalAlign: 'top',
+      // Table border is enabled for all `<td>`s by default with a global and an extremely specific
+      // css rule
+      borderTop: 'none !important',
+    },
+    rowLabel: {
+      fontWeight: 600,
+    },
+    buyLabel: {
+      color: '#017b30',
+    },
+    sellLabel: {
+      color: '#a3393a',
+    },
   })
 
 interface State {
@@ -47,26 +95,50 @@ class SignalExamplePanel extends React.Component<Props, State> {
     return (
       <div className={classes.root}>
         <ExpansionPanel
+          className={classes.panel}
           expanded={this.state.expanded}
           onChange={this.handleExpansionChange}
         >
-          <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-            <Typography className={classes.heading}>{title}</Typography>
+          <ExpansionPanelSummary
+            classes={{
+              root: classes.panelSummary,
+              content: classes.panelSummaryContent,
+              expandIcon: classes.panelExpandIcon,
+            }}
+            expandIcon={<ExpandMoreIcon />}
+          >
+            <Typography className={classes.title}>{title}</Typography>
           </ExpansionPanelSummary>
-          <ExpansionPanelDetails>
+          <ExpansionPanelDetails className={classes.panelDetails}>
             <table>
               <tbody>
                 {buyDescription && (
-                  <tr>
-                    <td>Buy</td>
-                    <td>{buyDescription}</td>
+                  <tr className={classes.tableRow}>
+                    <td
+                      className={classnames(
+                        classes.tableCell,
+                        classes.rowLabel,
+                        classes.buyLabel,
+                      )}
+                    >
+                      Buy
+                    </td>
+                    <td className={classes.tableCell}>{buyDescription}</td>
                   </tr>
                 )}
 
                 {sellDescription && (
-                  <tr>
-                    <td>Sell</td>
-                    <td>{sellDescription}</td>
+                  <tr className={classes.tableRow}>
+                    <td
+                      className={classnames(
+                        classes.tableCell,
+                        classes.rowLabel,
+                        classes.sellLabel,
+                      )}
+                    >
+                      Sell
+                    </td>
+                    <td className={classes.tableCell}>{sellDescription}</td>
                   </tr>
                 )}
               </tbody>

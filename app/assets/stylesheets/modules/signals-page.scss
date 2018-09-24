@@ -130,6 +130,12 @@ $signals-section-gutter: 40px;
   }
 }
 
+.signal-example-panels {
+  &__item {
+    margin-bottom: 20px;
+  }
+}
+
 .signal-faqs {
   text-align: left;
 }
