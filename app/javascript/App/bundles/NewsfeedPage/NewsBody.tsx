@@ -16,7 +16,8 @@ import NewsBodyShareButtons from './NewsBodyShareButtons'
 import { RailsConsumer } from '~/bundles/common/contexts/RailsContext'
 
 interface Props {
-  newsItemId: string
+  initialNewsItem?: NewsItem
+  newsItemId?: string
 }
 
 interface State {
@@ -24,28 +25,31 @@ interface State {
 }
 
 export default class NewsBody extends React.Component<Props, State> {
-  public state = {
-    newsItem: null,
+  constructor(props) {
+    super(props)
+
+    this.state = {
+      newsItem: props.initialNewsItem || null,
+    }
   }
 
   public componentDidMount() {
-    if (!!this.props.newsItemId) {
+    if (this.props.newsItemId) {
       this.fetchNewsItemDetails()
     }
   }
 
   public componentDidUpdate(prevProps: Props, prevState: State, snapshot) {
-    if (!this.props.newsItemId) {
-      if (!!prevState.newsItem) {
-        this.setState({ newsItem: null })
-      }
-    } else {
-      if (
-        !prevProps.newsItemId ||
-        prevProps.newsItemId !== this.props.newsItemId
-      ) {
-        this.setState({ newsItem: null }, () => this.fetchNewsItemDetails())
-      }
+    // Check if news item is unselected
+    if (!this.props.newsItemId && prevState.newsItem) {
+      return this.setState({ newsItem: null })
+    }
+
+    // Check if news item is selected/changed
+    if (this.props.newsItemId !== prevProps.newsItemId) {
+      return this.setState({ newsItem: null }, () =>
+        this.fetchNewsItemDetails(),
+      )
     }
   }
 

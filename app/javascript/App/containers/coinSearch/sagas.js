@@ -1,7 +1,7 @@
 import { takeLatest } from 'redux-saga/effects'
 import { apiSagas } from '../../lib/redux'
 import * as actions from './actions'
-import _ from 'lodash'
+import * as _ from 'lodash'
 
 export default function* watcher() {
   yield takeLatest('SEARCH_COINS', searchCoins)

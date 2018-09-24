@@ -1,5 +1,5 @@
 import * as React from 'react'
-import _ from 'lodash'
+import * as _ from 'lodash'
 import ItemSelector from '../components/ItemSelector'
 
 interface Props {

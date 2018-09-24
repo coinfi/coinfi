@@ -1,5 +1,5 @@
 import * as React from 'react'
-import _ from 'lodash'
+import * as _ from 'lodash'
 import AsyncSelect from 'react-select/lib/Async'
 import { CoinSlug } from '~/bundles/NewsfeedPage/types'
 import localApi from '../../../../lib/localAPI'

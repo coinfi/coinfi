@@ -3,16 +3,23 @@ import { Table } from 'antd'
 import ColumnNames from './ColumnNames'
 import SearchCoins from '../../bundles/common/components/SearchCoins'
 import API from '../../lib/localAPI'
+import * as _ from 'lodash'
 
 class CoinIndex extends Component {
-  state = {
-    coins: [],
-    pagination: {
-      defaultPageSize: 100,
-      total: this.props.coinCount,
-    },
-    loading: true,
-    currency: 'USD',
+  constructor(props) {
+    super(props)
+
+    const loading = _.isUndefined(props.initialCoins)
+
+    this.state = {
+      coins: props.initialCoins || [],
+      pagination: {
+        defaultPageSize: 100,
+        total: this.props.coinCount,
+      },
+      loading,
+      currency: 'USD',
+    }
   }
 
   handleTableChange = (pagination) => {
@@ -38,7 +45,9 @@ class CoinIndex extends Component {
   }
 
   componentDidMount() {
-    this.fetchCoins({ per: this.state.pagination.defaultPageSize })
+    if (_.isEmpty(this.state.coins)) {
+      this.fetchCoins({ per: this.state.pagination.defaultPageSize })
+    }
   }
 
   changeCurrencyHandler = ({ key }) => {

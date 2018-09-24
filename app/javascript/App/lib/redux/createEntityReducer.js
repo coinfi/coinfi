@@ -8,7 +8,7 @@ import { fromJS } from 'immutable'
 import normalizers from '../../normalizers'
 import { pluralize, singularize } from '../misc'
 import initialState from './initialState'
-import _ from 'lodash'
+import * as _ from 'lodash'
 
 const createEntityReducer = (namespace) => (state = initialState, action) => {
   if (namespace !== action.namespace) return state

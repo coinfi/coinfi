@@ -1,4 +1,4 @@
-import _ from 'lodash'
+import * as _ from 'lodash'
 import { namespace, filterList } from './constants'
 import { createEntitySelectors, createFilterSelectors } from '../../lib/redux'
 

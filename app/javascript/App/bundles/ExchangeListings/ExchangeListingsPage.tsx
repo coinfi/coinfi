@@ -1,5 +1,5 @@
 import * as React from 'react'
-import _ from 'lodash'
+import * as _ from 'lodash'
 import LayoutDesktop from '../../components/LayoutDesktop'
 import LayoutTablet from '../../components/LayoutTablet'
 import LayoutMobile from '~/bundles/common/components/LayoutMobile'
@@ -104,7 +104,7 @@ class ExchangeListingsPage extends React.Component<Props, State> {
     }
   }
 
-  public uniqListings = (arr) => {
+  public uniqListings = (arr: Listing[]) => {
     return _.uniqBy(arr, (elem) => elem.id)
   }
 

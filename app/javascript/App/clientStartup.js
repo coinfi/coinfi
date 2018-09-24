@@ -1,7 +1,7 @@
 import ReactOnRails from 'react-on-rails'
 
 // react-router app
-import App from './index'
+import ClientApp from './ClientApp'
 
 // non-react-router components
 import NavUserContainer from './bundles/common/containers/NavUserContainer'
@@ -19,5 +19,5 @@ ReactOnRails.register({
   FlashMessageListContainer,
   WatchButton,
   CalendarPage,
-  App,
+  App: ClientApp,
 })
