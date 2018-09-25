@@ -7,8 +7,6 @@ export const getDefaultFilters = (): Filters => ({
   categories: [],
   coinSlugs: [],
   feedSources: [],
-  publishedSince: null,
-  publishedUntil: null,
 })
 
 export const getInitialSocialSourcesForCoinsFilter = (

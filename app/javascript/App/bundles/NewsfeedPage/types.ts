@@ -20,8 +20,8 @@ export type CoinSlug = string
 
 export interface Filters {
   coinSlugs: CoinSlug[]
-  publishedSince: string | null
-  publishedUntil: string | null
+  publishedSince?: string | null
+  publishedUntil?: string | null
   categories: string[]
   feedSources: string[]
 }
