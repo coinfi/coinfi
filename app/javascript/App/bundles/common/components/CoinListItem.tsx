@@ -25,13 +25,16 @@ export default (props: Props) => {
   const coinPriceFixed = parseFloat(coinPrice).toFixed(fixedCount)
   const percentChange = coin.market_info.percent_change_24h
   return (
-    // TODO: Change to "Control" component for accessibility.
-    <div
+    <a
+      href={`/news/${coin.slug}`}
       className={classNames('pa-default b--b flex items-center pointer', {
         'bg-foam': props.isSelected,
       })}
       style={{ minHeight: 57, color: '#555' }}
-      onClick={() => props.onSelectCoin(coin)}
+      onClick={(event) => {
+        event.preventDefault()
+        props.onSelectCoin(coin)
+      }}
     >
       <div className="tooltipped">
         {!loggedIn && <div className="tooltip from-right">Login to watch</div>}
@@ -51,6 +54,6 @@ export default (props: Props) => {
           </div>
         )}
       </div>
-    </div>
+    </a>
   )
 }
