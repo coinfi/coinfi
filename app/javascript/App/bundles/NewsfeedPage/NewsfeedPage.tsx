@@ -471,7 +471,12 @@ class NewsfeedPage extends React.Component<Props, State> {
           onFocus={this.handleOnFocus}
         >
           <LayoutDesktop
-            leftSection={<CoinListWrapper loggedIn={this.props.loggedIn} />}
+            leftSection={
+              <CoinListWrapper
+                isWatchlist={this.props.loggedIn}
+                loggedIn={this.props.loggedIn}
+              />
+            }
             centerSection={
               <>
                 <NewsListHeader
