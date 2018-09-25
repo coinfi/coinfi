@@ -11,11 +11,12 @@ import NewsList from './NewsList'
 import NewsListHeader from './NewsListHeader'
 import BodySection from './BodySection'
 import BodySectionDrawer from '../../bundles/common/components/BodySectionDrawer'
-import _ from 'lodash'
+import * as _ from 'lodash'
 import withDevice from '~/bundles/common/utils/withDevice'
 import EventListener from 'react-event-listener'
 
 import { NewsItem, ContentType, Filters } from './types'
+import { CoinWithDetails } from '../common/types'
 import {
   getDefaultFilters,
   mergeInitialSocialSourcesForCoinsFilter,
@@ -31,6 +32,8 @@ interface Props extends RouteComponentProps<any> {
   topCoinSlugs: string[]
   newsItemId?: string
   newslist: NewsItem[]
+  initialNewsItem?: NewsItem
+  initialCoinWithDetails?: CoinWithDetails
   isNewsfeedLoading: boolean
   fetchNewsItems: (filters: Filters) => Promise<NewsItem[]>
   fetchMoreNewsItems: (filters: Filters) => Promise<NewsItem[]>
@@ -94,12 +97,12 @@ class NewsfeedPage extends React.Component<Props, State> {
     }, POLLING_TIMEOUT)
   }
 
-  public updateTitle = (news?: NewsItem[]) => {
-    if (typeof news !== 'undefined') {
-      if (news.length === 0) {
+  public updateTitle = (newsIds?: number[]) => {
+    if (typeof newsIds !== 'undefined') {
+      if (newsIds.length === 0) {
         return
       }
-      document.title = `${news.length} | ${this.getInitialDocumentTitle()}`
+      document.title = `${newsIds.length} | ${this.getInitialDocumentTitle()}`
       return
     }
 
@@ -199,10 +202,16 @@ class NewsfeedPage extends React.Component<Props, State> {
       this.props.selectCoinBySlug(this.props.coinSlug)
     }
 
-    // Perform initial fetch and always poll
-    this.props.fetchNewsItems(this.state.filters).then(() => {
+    // Should check if not defined but currently all defaults are using an empty array instead
+    if (_.isEmpty(this.props.newslist)) {
+      // Perform initial fetch and then start polling
+      this.props.fetchNewsItems(this.state.filters).then(() => {
+        this.startPollingNews()
+      })
+    } else {
+      // Start polling
       this.startPollingNews()
-    })
+    }
   }
 
   public componentDidUpdate(prevProps, prevState, snapshot) {
@@ -376,6 +385,8 @@ class NewsfeedPage extends React.Component<Props, State> {
                     <BodySection
                       coinSlug={this.props.coinSlug}
                       newsItemId={this.props.newsItemId}
+                      initialNewsItem={this.props.initialNewsItem}
+                      initialCoinWithDetails={this.props.initialCoinWithDetails}
                       contentType={this.getContentType()}
                       loggedIn={this.props.loggedIn}
                     />
@@ -434,6 +445,8 @@ class NewsfeedPage extends React.Component<Props, State> {
               <BodySection
                 coinSlug={this.props.coinSlug}
                 newsItemId={this.props.newsItemId}
+                initialNewsItem={this.props.initialNewsItem}
+                initialCoinWithDetails={this.props.initialCoinWithDetails}
                 contentType={this.getContentType()}
                 loggedIn={this.props.loggedIn}
               />
@@ -496,6 +509,8 @@ class NewsfeedPage extends React.Component<Props, State> {
               <BodySection
                 coinSlug={this.props.coinSlug}
                 newsItemId={this.props.newsItemId}
+                initialNewsItem={this.props.initialNewsItem}
+                initialCoinWithDetails={this.props.initialCoinWithDetails}
                 contentType={this.getContentType()}
                 loggedIn={this.props.loggedIn}
               />

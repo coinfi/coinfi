@@ -1,5 +1,5 @@
 import * as React from 'react'
-import _ from 'lodash'
+import * as _ from 'lodash'
 import localAPI from '../../lib/localAPI'
 import NewsfeedContext, { NewsfeedContextType } from './NewsfeedContext'
 import { NewsItem, Filters } from './types'
@@ -12,17 +12,33 @@ const STATUSES = {
   READY: 'READY',
 }
 
+interface Props {
+  initialNewsItems?: any
+}
+
 interface State {
   sortedNewsItems: NewsItem[]
   status: string
   hasMore: boolean
 }
 
-class NewsfeedContainer extends React.Component<{}, State> {
-  public state = {
-    sortedNewsItems: [],
-    status: STATUSES.INITIALIZING,
-    hasMore: true,
+class NewsfeedContainer extends React.Component<Props, State> {
+  constructor(props: Props) {
+    super(props)
+
+    const initialSortedNewsItems = props.initialNewsItems
+      ? props.initialNewsItems.sort(this.sortNewsFunc)
+      : undefined
+
+    // Set initial status
+    const statusIsReady = !_.isUndefined(props.initialNewsItems)
+    const initialStatus = statusIsReady ? STATUSES.READY : undefined
+
+    this.state = {
+      status: initialStatus || STATUSES.INITIALIZING,
+      sortedNewsItems: initialSortedNewsItems || [],
+      hasMore: true,
+    }
   }
 
   public sortNewsFunc(x: NewsItem, y: NewsItem) {
@@ -32,8 +48,8 @@ class NewsfeedContainer extends React.Component<{}, State> {
     )
   }
 
-  public uniqNews = (arr) => {
-    return _.uniqBy(arr, (elem) => elem.id)
+  public uniqNews = (arr: NewsItem[]) => {
+    return _.uniqBy<NewsItem>(arr, (elem) => elem.id)
   }
 
   public cleanNewsItems = () => {

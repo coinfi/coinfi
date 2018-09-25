@@ -1,5 +1,6 @@
 import * as React from 'react'
-import _ from 'lodash'
+import * as _ from 'lodash'
+import { normalize, schema } from 'normalizr'
 import API from '../../../lib/API'
 import normalizers from '../../../normalizers'
 import CoinListContext, {
@@ -16,8 +17,16 @@ const STATUSES = {
   // TODO: Add API failure statuses.
 }
 
+const normalizeCoins = (coinsData) => {
+  const coinSchema = new schema.Entity('coins')
+  const coinListSchema = [coinSchema]
+  return normalize(coinsData, coinListSchema)
+}
+
 interface Props {
   loggedIn: boolean
+  initialToplistData?: any[]
+  initialWatchlistData?: any[]
 }
 
 interface State {
@@ -31,17 +40,54 @@ interface State {
 }
 
 class CoinListContainer extends React.Component<Props, State> {
-  public state = {
-    status: STATUSES.INITIALIZING,
-    isWatchlist: this.props.loggedIn,
-    toplistIndex: [],
-    toplist: [],
-    watchlistIndex: [],
-    watchlist: [],
-    selectedCoinSlug: null,
+  constructor(props: Props) {
+    super(props)
+
+    // Normalize toplist
+    const normalizedInitialToplist = props.initialToplistData
+      ? normalizeCoins(props.initialToplistData)
+      : undefined
+    const initialToplist = normalizedInitialToplist
+      ? normalizedInitialToplist.entities.coins
+      : undefined
+    const initialToplistIndex = normalizedInitialToplist
+      ? normalizedInitialToplist.result
+      : undefined
+
+    // Normalize watchlist
+    const normalizedInitialWatchlist = props.initialWatchlistData
+      ? normalizeCoins(props.initialWatchlistData)
+      : undefined
+    const initialWatchlist = normalizedInitialWatchlist
+      ? normalizedInitialWatchlist.entities.coins
+      : undefined
+    const initialWatchlistIndex = normalizedInitialWatchlist
+      ? normalizedInitialWatchlist.result
+      : undefined
+
+    // Set initial status
+    const statusIsReady = props.loggedIn
+      ? !_.isUndefined(initialToplist) && !_.isUndefined(initialWatchlist)
+      : !_.isUndefined(initialToplist)
+    const initialStatus = statusIsReady ? STATUSES.READY : undefined
+
+    this.state = {
+      status: initialStatus || STATUSES.INITIALIZING,
+      isWatchlist: false,
+      toplistIndex: initialToplistIndex || [],
+      toplist: initialToplist || [],
+      watchlistIndex: initialWatchlistIndex || [],
+      watchlist: initialWatchlist || [],
+      selectedCoinSlug: null,
+    }
   }
 
   public componentDidMount = () => {
+    // If required data is set provided so we don't need to perform an initial fetch
+    if (this.state.status === STATUSES.READY) {
+      return
+    }
+
     if (this.props.loggedIn) {
       this.getToplistAndWatchlistOnMount()
     } else {

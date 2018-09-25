@@ -4,6 +4,8 @@ import CoinListContext, {
   CoinListContextType,
 } from '../common/contexts/CoinListContext'
 import NewsfeedContext, { NewsfeedContextType } from './NewsfeedContext'
+import { CoinWithDetails } from '~/bundles/common/types'
+import { NewsItem } from '~/bundles/NewsfeedPage/types'
 
 interface Props {
   loggedIn: boolean
@@ -12,6 +14,8 @@ interface Props {
   coinSlug?: string
   topCoinSlugs: string[]
   newsItemId?: string
+  initialNewsItem?: NewsItem
+  initialCoinWithDetails?: CoinWithDetails
 }
 
 const NewsfeedPageContainer = (props: Props) => (
@@ -25,6 +29,8 @@ const NewsfeedPageContainer = (props: Props) => (
             topCoinSlugs={props.topCoinSlugs}
             newsItemId={props.newsItemId}
             newslist={newsfeedPayload.newslist}
+            initialNewsItem={props.initialNewsItem}
+            initialCoinWithDetails={props.initialCoinWithDetails}
             isNewsfeedLoading={newsfeedPayload.isLoading}
             fetchNewsItems={newsfeedPayload.fetchNewsItems}
             fetchMoreNewsItems={newsfeedPayload.fetchMoreNewsItems}

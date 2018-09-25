@@ -5,14 +5,18 @@ import CoinTags from '../common/components/CoinTags'
 import BulletSpacer from '../../components/BulletSpacer'
 import classNames from 'classnames'
 import Favicon from '~/bundles/common/components/Favicon'
+import * as _ from 'lodash'
 import URL from 'url-parse'
 
 const readNewsHandler = (newsItem) => {
   const newsId = newsItem.id
-  const readNewsData = JSON.parse(localStorage.getItem('readNews')) || []
 
-  readNewsData.push(newsId)
-  localStorage.setItem('readNews', JSON.stringify(readNewsData))
+  const hasLocalStorage = !_.isError(_.attempt(() => localStorage))
+  if (hasLocalStorage) {
+    const readNewsData = JSON.parse(localStorage.getItem('readNews')) || []
+    readNewsData.push(newsId)
+    localStorage.setItem('readNews', JSON.stringify(readNewsData))
+  }
 
   if (
     document.querySelector('.selected-news-content') &&

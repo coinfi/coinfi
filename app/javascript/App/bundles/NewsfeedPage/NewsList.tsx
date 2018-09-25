@@ -1,6 +1,6 @@
 import * as React from 'react'
 import InfiniteScroll from 'react-infinite-scroll-component'
-import _ from 'lodash'
+import * as _ from 'lodash'
 import NewsListItem from './NewsListItem'
 import LoadingIndicator from '../../components/LoadingIndicator'
 import Tips from './Tips'
@@ -67,7 +67,10 @@ class NewsList extends React.Component<Props, State> {
       )
     }
 
-    const readNewsIds = JSON.parse(localStorage.getItem('readNews')) || []
+    const hasLocalStorage = !_.isError(_.attempt(() => localStorage))
+    const readNewsIds = hasLocalStorage
+      ? JSON.parse(localStorage.getItem('readNews')) || []
+      : []
 
     const mappedItems = this.props.sortedNewsItems.map((newsItem, index) => {
       const hasRead = readNewsIds.includes(newsItem.id)

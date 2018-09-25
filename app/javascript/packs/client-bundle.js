@@ -6,4 +6,4 @@ import 'jquery' // jQuery has been configured to be globally available
 import '../modules/navigation'
 
 // React
-import '../App/startup'
+import '../App/clientStartup'
