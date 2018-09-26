@@ -335,92 +335,206 @@
       <div class="signal-faqs">
         <%= react_component_with_jss "SignalFaqPanel",
           props: {
-            question: "What do I need to do to reserve a spot?",
-            answer: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam sapiente expedita ullam atque quo veritatis adipisci modi, earum, harum dolorem debitis impedit fugit consequuntur repellendus autem. Sapiente eius corrupti voluptate.",
+            question: "What do I need to do to reserve a beta spot?",
+            answerHtml: <<~HTML
+              <p class="signal-faqs-item__paragraph">
+                To reserve one of the 2,000 beta spots available, we’re asking you to stake 20,000 COFI tokens for at least 3 months or until the beta ends, whichever come first.
+              </p>
+              <p class="signal-faqs-item__paragraph signal-faqs-item__paragraph--last">
+                At the end of 3 months or the beta, you can choose to withdraw your tokens and cancel the service.
+              </p>
+            HTML
+          },
+          html_options: {
+            class: "signal-faqs-item",
           },
           prerender: true
         %>
         <%= react_component_with_jss "SignalFaqPanel",
           props: {
             question: "What signals will I receive during the beta?",
-            answer: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam sapiente expedita ullam atque quo veritatis adipisci modi, earum, harum dolorem debitis impedit fugit consequuntur repellendus autem. Sapiente eius corrupti voluptate.",
+            answerHtml: <<~HTML
+              <p class="signal-faqs-item__paragraph signal-faqs-item__paragraph--last">
+                Signals will be released one by one during the beta as they complete testing. All of the signals mentioned on this page must pass thorough testing before we release them. We may also release signals that have not been mentioned on this page.
+              </p>
+            HTML
+          },
+          html_options: {
+            class: "signal-faqs-item",
           },
           prerender: true
         %>
         <%= react_component_with_jss "SignalFaqPanel",
           props: {
             question: "How does pricing work after the beta?",
-            answer: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam sapiente expedita ullam atque quo veritatis adipisci modi, earum, harum dolorem debitis impedit fugit consequuntur repellendus autem. Sapiente eius corrupti voluptate.",
+            answerHtml: <<~HTML
+              <p class="signal-faqs-item__paragraph signal-faqs-item__paragraph--last">
+                We’re currently evaluating different payment options for the official product launch. Once the beta ends, you’ll get an opportunity to either withdraw your COFI tokens or choose to continue the service on a new pricing package.
+              </p>
+            HTML
+          },
+          html_options: {
+            class: "signal-faqs-item",
           },
           prerender: true
         %>
         <%= react_component_with_jss "SignalFaqPanel",
           props: {
             question: "Do the signals really work?",
-            answer: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam sapiente expedita ullam atque quo veritatis adipisci modi, earum, harum dolorem debitis impedit fugit consequuntur repellendus autem. Sapiente eius corrupti voluptate.",
+            answerHtml: <<~HTML
+              <p class="signal-faqs-item__paragraph signal-faqs-item__paragraph--last">
+                It’s important to understand that no signal will work 100% of the time. However, each signal goes through a rigorous backtesting process using historical data. We test many signals and only release the ones that have shown to have a positive correlation to price movements. In addition, we constantly optimize each signal based on ever changing market conditions.
+              </p>
+            HTML
+          },
+          html_options: {
+            class: "signal-faqs-item",
           },
           prerender: true
         %>
         <%= react_component_with_jss "SignalFaqPanel",
           props: {
             question: "If the signals work, why are you selling them?",
-            answer: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam sapiente expedita ullam atque quo veritatis adipisci modi, earum, harum dolorem debitis impedit fugit consequuntur repellendus autem. Sapiente eius corrupti voluptate.",
+            answerHtml: <<~HTML
+              <p class="signal-faqs-item__paragraph">
+                CoinFi’s mission is to give you trading edges that professional traders have.
+              </p>
+              <p class="signal-faqs-item__paragraph signal-faqs-item__paragraph--last">
+                Our employees are paid in COFI tokens which means they are incentivized to help our members succeed in having trading edges. Due to our token model, releasing signals that work will likely increase the value of COFI tokens. In addition, we deploy the revenue we generate from the service to fund our operations so we can continue to build professional tools and signals for main street crypto investors.
+              </p>
+            HTML
+          },
+          html_options: {
+            class: "signal-faqs-item",
           },
           prerender: true
         %>
         <%= react_component_with_jss "SignalFaqPanel",
           props: {
             question: "How will the signals get delivered?",
-            answer: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam sapiente expedita ullam atque quo veritatis adipisci modi, earum, harum dolorem debitis impedit fugit consequuntur repellendus autem. Sapiente eius corrupti voluptate.",
+            answerHtml: <<~HTML
+              <p class="signal-faqs-item__paragraph signal-faqs-item__paragraph--last">
+                Signals will be delivered in real-time through a private, one on one telegram chat. In the future, we plan to support email notifications and dashboard access.
+              </p>
+            HTML
+          },
+          html_options: {
+            class: "signal-faqs-item",
+          },
+          prerender: true
+        %>
+        <%= react_component_with_jss "SignalFaqPanel",
+          props: {
+            question: "How will you prevent members from sharing your signals?",
+            answerHtml: <<~HTML
+              <p class="signal-faqs-item__paragraph">
+                Every signal will have a unique signature traceable to the member we sent it to.
+              </p>
+              <p class="signal-faqs-item__paragraph signal-faqs-item__paragraph--last">
+                Members who get caught sharing signals will receive a lifetime ban from the service and get their COFI tokens confiscated. The confiscated tokens will get distributed to members who have staked for access.
+              </p>
+            HTML
+          },
+          html_options: {
+            class: "signal-faqs-item",
           },
           prerender: true
         %>
         <%= react_component_with_jss "SignalFaqPanel",
           props: {
             question: "How often will I get signals?",
-            answer: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam sapiente expedita ullam atque quo veritatis adipisci modi, earum, harum dolorem debitis impedit fugit consequuntur repellendus autem. Sapiente eius corrupti voluptate.",
+            answerHtml: <<~HTML
+              <p class="signal-faqs-item__paragraph signal-faqs-item__paragraph--last">
+                We’ll alert you instantly when we detect a buying or selling opportunity. These opportunities usually come around every 1-2 days.
+              </p>
+            HTML
+          },
+          html_options: {
+            class: "signal-faqs-item",
           },
           prerender: true
         %>
         <%= react_component_with_jss "SignalFaqPanel",
           props: {
             question: "Will you add new signals in the future?",
-            answer: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam sapiente expedita ullam atque quo veritatis adipisci modi, earum, harum dolorem debitis impedit fugit consequuntur repellendus autem. Sapiente eius corrupti voluptate.",
+            answerHtml: <<~HTML
+              <p class="signal-faqs-item__paragraph signal-faqs-item__paragraph--last">
+                Yes, our team of professional traders and data scientists work around the clock to come up with new signals.
+              </p>
+            HTML
+          },
+          html_options: {
+            class: "signal-faqs-item",
           },
           prerender: true
         %>
         <%= react_component_with_jss "SignalFaqPanel",
           props: {
             question: "Do your signals tell me what price to buy at and what price to sell at?",
-            answer: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam sapiente expedita ullam atque quo veritatis adipisci modi, earum, harum dolorem debitis impedit fugit consequuntur repellendus autem. Sapiente eius corrupti voluptate.",
+            answerHtml: <<~HTML
+              <p class="signal-faqs-item__paragraph signal-faqs-item__paragraph--last">
+                No. As professional traders, we don’t believe that anyone can accurately predict the exact best price to buy at or sell at. Anyone or any Telegram group that attempt to tell you that aren’t likely to be doing you any favors.
+              </p>
+            HTML
+          },
+          html_options: {
+            class: "signal-faqs-item",
           },
           prerender: true
         %>
         <%= react_component_with_jss "SignalFaqPanel",
           props: {
             question: "How should I use the signals?",
-            answer: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam sapiente expedita ullam atque quo veritatis adipisci modi, earum, harum dolorem debitis impedit fugit consequuntur repellendus autem. Sapiente eius corrupti voluptate.",
+            answerHtml: <<~HTML
+              <p class="signal-faqs-item__paragraph signal-faqs-item__paragraph--last">
+                CoinFi Pro Signals give you unique trading signals that other traders simply don’t have. You should combine our trading signals with your own analysis and feel for the market to ultimately make a decision on buying and selling.
+              </p>
+            HTML
+          },
+          html_options: {
+            class: "signal-faqs-item",
           },
           prerender: true
         %>
         <%= react_component_with_jss "SignalFaqPanel",
           props: {
-            question: "Do your signals work in a bear market?",
-            answer: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam sapiente expedita ullam atque quo veritatis adipisci modi, earum, harum dolorem debitis impedit fugit consequuntur repellendus autem. Sapiente eius corrupti voluptate.",
+            question: "Will your signals work in a bear market?",
+            answerHtml: <<~HTML
+              <p class="signal-faqs-item__paragraph signal-faqs-item__paragraph--last">
+                Yes, we backtest our signals in bear markets and bull markets. In addition, our team of data scientists are constantly monitoring the effectiveness of these signals. If we find that a signal no longer works, we’ll either optimize it again to the current market conditions or remove it.
+              </p>
+            HTML
+          },
+          html_options: {
+            class: "signal-faqs-item",
           },
           prerender: true
         %>
         <%= react_component_with_jss "SignalFaqPanel",
           props: {
             question: "Do you use these signals yourselves?",
-            answer: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam sapiente expedita ullam atque quo veritatis adipisci modi, earum, harum dolorem debitis impedit fugit consequuntur repellendus autem. Sapiente eius corrupti voluptate.",
+            answerHtml: <<~HTML
+              <p class="signal-faqs-item__paragraph signal-faqs-item__paragraph--last">
+                Yes, our entire team, including the professional traders, use these signals to help them decide what and when to buy and sell.
+              </p>
+            HTML
+          },
+          html_options: {
+            class: "signal-faqs-item",
           },
           prerender: true
         %>
         <%= react_component_with_jss "SignalFaqPanel",
           props: {
             question: "How do you come up with these signals?",
-            answer: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam sapiente expedita ullam atque quo veritatis adipisci modi, earum, harum dolorem debitis impedit fugit consequuntur repellendus autem. Sapiente eius corrupti voluptate.",
+            answerHtml: <<~HTML
+              <p class="signal-faqs-item__paragraph signal-faqs-item__paragraph--last">
+                Our team of professional traders start by asking themselves what trading signals they wish they have. Next, our team of data engineers gather the data such as getting a real time feed of all transactions that happen on the Ethereum blockchain. Finally, our team of data scientists backtest the signals for correlation with price movements. Only when we find a positive correlation with price movements do we release the signals to our members.
+              </p>
+            HTML
+          },
+          html_options: {
+            class: "signal-faqs-item",
           },
           prerender: true
         %>

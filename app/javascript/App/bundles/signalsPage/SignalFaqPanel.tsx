@@ -19,7 +19,7 @@ interface Props {
   classes: any
   initialExpanded: boolean
   question: string
-  answer: string
+  answerHtml: string
 }
 
 class SignalFaqPanel extends React.Component<Props, State> {
@@ -41,7 +41,7 @@ class SignalFaqPanel extends React.Component<Props, State> {
   }
 
   public render() {
-    const { classes, question, answer } = this.props
+    const { classes, question, answerHtml } = this.props
 
     return (
       <div className={classes.root}>
@@ -53,7 +53,7 @@ class SignalFaqPanel extends React.Component<Props, State> {
             <Typography className={classes.heading}>{question}</Typography>
           </ExpansionPanelSummary>
           <ExpansionPanelDetails>
-            <Typography className={classes.heading}>{answer}</Typography>
+            <div dangerouslySetInnerHTML={{ __html: answerHtml }} />
           </ExpansionPanelDetails>
         </ExpansionPanel>
       </div>
