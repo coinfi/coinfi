@@ -120,7 +120,7 @@
     height: 10px;
     width: 10px;
     margin-right: 12px;
-    background-image: url('https://placehold.it/30x30');
+    background-image: url(<%= image_path('signals/checkmark.svg') %>);
   }
 
   &__label {
@@ -154,6 +154,13 @@
 
 .signal-faqs {
   text-align: left;
+}
+
+.signal-market-image {
+  max-height: 340px;
+}
+.signal-exclusive-image {
+  max-height: 340px;
 }
 
 @media (max-width: 767px) {

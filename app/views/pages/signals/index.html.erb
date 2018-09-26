@@ -47,17 +47,17 @@
         <div class="signals-section-content signals-section-content--xs-last">
           <%= render "pages/signals/telegram_message", {
             title: "Sell signal: Whale moved $68m ETH to an exchange",
-            message: "The #3 holder of Ethereum (ETH) moved 319k ETH ($68m) to Binance - 1 minute ago.",
+            message_html: "The #3 holder of Ethereum (ETH) <img src=\"#{image_path('signals/eth.svg')}\" /> moved 319k ETH ($68m) to Binance - 1 minute ago.",
           } %>
 
           <%= render "pages/signals/telegram_message", {
             title: "Buy signal: Whales of BNB increased their holdings ",
-            message: "The top 5 holders of Binance (BNB) increased their holdings from 10% to 12% overall in the last 24 hours.",
+            message_html: "The top 5 holders of Binance (BNB) <img src=\"#{image_path('signals/bnb.svg')}\" /> increased their holdings from 10% to 12% overall in the last 24 hours.",
           } %>
 
           <%= render "pages/signals/telegram_message", {
             title: "Buy signal: 5% of Augur supply withdrawn from Binance",
-            message: "550,000 REP ($6.7M) USD moved out of Binance wallets in last 24 hours.",
+            message_html: "550,000 REP <img src=\"#{image_path('signals/rep.svg')}\" /> ($6.7M) USD moved out of Binance wallets in last 24 hours.",
           } %>
         </div>
       </div>
@@ -193,7 +193,7 @@
               <div class="col-xs signals-section__col">
                 <%= react_component_with_jss "SignalTeamMember",
                   props: {
-                    avatarUrl: "https://placehold.it/300x300",
+                    avatarUrl: image_path('signals/team-members/tim.png'),
                     description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam sapiente expedita ullam atque quo veritatis adipisci modi, earum, harum dolorem debitis impedit fugit consequuntur repellendus autem. Sapiente eius corrupti voluptate.",
                     roleDescription: "Lorem ipsum dolor sit amet consectetur",
                     prerender: true
@@ -205,7 +205,7 @@
               <div class="col-xs signals-section__col">
                 <%= react_component_with_jss "SignalTeamMember",
                   props: {
-                    avatarUrl: "https://placehold.it/300x300",
+                    avatarUrl: image_path('signals/team-members/jonney.png'),
                     description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam sapiente expedita ullam atque quo veritatis adipisci modi, earum, harum dolorem debitis impedit fugit consequuntur repellendus autem. Sapiente eius corrupti voluptate.",
                     roleDescription: "Lorem ipsum dolor sit amet consectetur",
                     prerender: true
@@ -217,7 +217,7 @@
               <div class="col-xs signals-section__col">
                 <%= react_component_with_jss "SignalTeamMember",
                   props: {
-                    avatarUrl: "https://placehold.it/300x300",
+                    avatarUrl: image_path('signals/team-members/alex.png'),
                     description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam sapiente expedita ullam atque quo veritatis adipisci modi, earum, harum dolorem debitis impedit fugit consequuntur repellendus autem. Sapiente eius corrupti voluptate.",
                     roleDescription: "Lorem ipsum dolor sit amet consectetur",
                     prerender: true
@@ -229,7 +229,7 @@
               <div class="col-xs signals-section__col">
                 <%= react_component_with_jss "SignalTeamMember",
                   props: {
-                    avatarUrl: "https://placehold.it/300x300",
+                    avatarUrl: image_path('signals/team-members/kwa.png'),
                     description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam sapiente expedita ullam atque quo veritatis adipisci modi, earum, harum dolorem debitis impedit fugit consequuntur repellendus autem. Sapiente eius corrupti voluptate.",
                     roleDescription: "Lorem ipsum dolor sit amet consectetur",
                     prerender: true
@@ -261,7 +261,7 @@
 
       <div class="col-sm-6 signals-section__col">
         <div class="signals-section-content signals-section-content--xs-last signals-section-content--center">
-          <img src="https://placehold.it/300x300">
+          <img class="signal-market-image" src="<%= image_path('signals/market-doesnt-stand-still.jpg') %>">
         </div>
       </div>
     </div>
@@ -281,7 +281,7 @@
       </div>
       <div class="col-sm-6 signals-section__col">
         <div class="signals-section-content signals-section-content--xs-last signals-section-content--center">
-          <img src="https://placehold.it/300x300">
+          <img class="signal-exclusive-image" src="<%= image_path('signals/exclusive.svg') %>">
         </div>
       </div>
     </div>
