@@ -83,6 +83,8 @@ module ApplicationHelper
     end
   end
 
+  # Renders a react component and update `@jss_server_side_css` with css. Should be used in place of
+  # `react_component` for components that return hashes with `componentHtml` and `componentCss`
   def react_component_with_jss(component_name, options = {})
     component_hash = react_component_hash(component_name, options)
     component_html = component_hash['componentHtml']
