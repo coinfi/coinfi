@@ -32,7 +32,7 @@ class NewsController < ApplicationController
     news_item = NewsItem.published.find(params[:id])
     @news_item_data = serialize_news_items(news_item)
 
-    set_meta_tags canonical: @news_item.url
+    set_meta_tags canonical: news_item.url
   end
 
   protected
