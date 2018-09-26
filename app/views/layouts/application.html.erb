@@ -10,9 +10,14 @@
     <link rel="icon" href="<%= image_path('favicon.png') %>">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-9ralMzdK1QYsk4yBY680hmsb4/hJ98xK3w0TIaJ3ll4POWpWUYaA2bRjGGujGT8w" crossorigin="anonymous">
-    <%= canonical_tag %>
     <%= stylesheet_link_tag 'application' %>
     <%= csrf_meta_tags %>
+    <% if @jss_server_side_css %>
+      <style id="jss-server-side">
+        <%= @jss_server_side_css %>
+      </style>
+    <% end %>
+
   </head>
   <body id="<%= @body_id %>" class="<%= @body_class %>">
     <header>

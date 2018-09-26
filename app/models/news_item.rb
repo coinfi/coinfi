@@ -54,11 +54,7 @@ class NewsItem < ApplicationRecord
     when 'machine'
       self.machine_tagged_coins
     when 'combo'
-      if self.human_tagged_coins.exists?
-        self.human_tagged_coins
-      else
-        self.machine_tagged_coins
-      end
+      self.human_tagged_coins.or(self.machine_tagged_coins).distinct()
     else
       raise "Invalid NEWS_COIN_MENTION_TAG_SCOPE environment variable"
     end

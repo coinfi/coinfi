@@ -55,9 +55,9 @@ export default ({ closeTips, loggedIn }: Props) => {
               />
             )}
           </div>
-          <h2 className="mt0" style={titleStyle}>
-            CoinFi News
-          </h2>
+          <h1 className="mt0" style={titleStyle}>
+            CoinFi News: Cryptocurrency News Today
+          </h1>
         </div>
         <div className="pa3">
           <div style={{ fontSize: '.8rem' }}>
