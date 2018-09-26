@@ -83,4 +83,15 @@ module ApplicationHelper
     end
   end
 
+  def react_component_with_jss(component_name, options = {})
+    component_hash = react_component_hash(component_name, options)
+    component_html = component_hash['componentHtml']
+    component_css = component_hash['componentCss']
+
+    # `componentCss` should include the combined css of all the rendered components so we only need
+    # to store one copy of this
+    @jss_server_side_css = component_css
+
+    return component_html
+  end
 end
