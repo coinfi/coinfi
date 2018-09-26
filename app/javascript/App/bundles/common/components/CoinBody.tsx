@@ -81,7 +81,8 @@ class CoinBody extends React.Component<Props, State> {
               />
             )}
             {coinWithDetails.name}
-            <span className="ml2">({coinWithDetails.symbol})</span>
+            <span className="mh2">({coinWithDetails.symbol})</span>
+            News
           </a>
           <div className="tooltipped">
             <WatchButton

@@ -1,7 +1,5 @@
 class NewsController < ApplicationController
-  before_action :check_permissions
-  before_action :set_body_class
-  before_action :set_view_data
+  before_action :check_permissions, :set_body_class, :set_view_data
 
   def index
     @news_items_data = serialize_news_items(
@@ -9,6 +7,11 @@ class NewsController < ApplicationController
         .includes(:coins, :news_categories)
         .order_by_published
         .limit(25)
+    )
+
+    set_meta_tags(
+      title: "Latest Cryptocurrency News Today - Current Crypto News Today",
+      description: "CoinFi’s #1 crypto news aggregator gives you the latest cryptocurrency news, so you can be the first to know what news moved the crypto markets today."
     )
   end
 
@@ -22,6 +25,10 @@ class NewsController < ApplicationController
         .order_by_published
         .limit(25)
     )
+
+    set_meta_tags(
+      title: "Latest (#{coin.symbol}) #{coin.name} News - #{coin.name} Crypto News (#{Date.today.strftime("%b %e, %Y")})"
+    )
   end
 
   def show
@@ -31,9 +38,10 @@ class NewsController < ApplicationController
         .order_by_published
         .limit(25)
     )
-    @news_item_data = serialize_news_items(
-      NewsItem.published.find(params[:id])
-    )
+    news_item = NewsItem.published.find(params[:id])
+    @news_item_data = serialize_news_items(news_item)
+
+    set_meta_tags canonical: news_item.url
   end
 
   protected

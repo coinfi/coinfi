@@ -8,24 +8,23 @@ class Api::NewsController < ApiController
     headers['Last-Modified'] = Time.now.httpdate
 
     distribute_reads(max_lag: MAX_ACCEPTABLE_REPLICATION_LAG, lag_failover: true) do
-      if coin_slugs_text = params[:coinSlugs]
-        coin_slugs = coin_slugs_text.split(',')
-        coins = Coin.where(slug: coin_slugs)
+      if params[:coinSlugs]
+        coins = Coin.where(slug: params[:coinSlugs])
       end
 
       if feed_source_keys = params[:feedSources]
-        feed_sources = FeedSource
+        feed_sources = FeedSource.active
 
         # Exclude reddit unless specified
         unless reddit = feed_source_keys.delete('reddit')
           feed_sources = feed_sources
-            .where.not(id: FeedSource.active.reddit)
+            .where.not(id: FeedSource.reddit)
         end
 
         # Exclude twitter unless specified
         unless twitter = feed_source_keys.delete('twitter')
           feed_sources = feed_sources
-            .where.not(id: FeedSource.active.twitter)
+            .where.not(id: FeedSource.twitter)
         end
 
         # Include remaining feed sources after removing twitter and reddit

@@ -114,8 +114,6 @@ GEM
       activesupport (>= 3.0.0)
       uniform_notifier (~> 1.11.0)
     byebug (9.0.6)
-    canonical-rails (0.2.3)
-      rails (>= 4.1, < 5.3)
     capybara (2.13.0)
       addressable
       mime-types (>= 1.16)
@@ -534,7 +532,6 @@ DEPENDENCIES
   browser
   bullet
   byebug
-  canonical-rails
   capybara (~> 2.13)
   coffee-rails (~> 4.2)
   convertkit-ruby!
