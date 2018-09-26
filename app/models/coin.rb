@@ -52,6 +52,10 @@ class Coin < ApplicationRecord
     pluck(:symbol).uniq.compact.sort.reject { |symbol| /[[:lower:]]/.match(symbol) }
   end
 
+  def related_coins
+    Coins::RelatedToQuery.call(coin: self)
+  end
+
   def update_previous_name
     self.previous_name = name_was if name_changed?
   end
