@@ -27,6 +27,10 @@ class NewsController < ApplicationController
         .order_by_published
         .limit(25)
     )
+
+    set_meta_tags(
+      title: "Latest (#{coin.symbol}) #{coin.name} News - #{coin.name} Crypto News (#{Date.today.strftime("%b %e, %Y")})"
+    )
   end
 
   def show
