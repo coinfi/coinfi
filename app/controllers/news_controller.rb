@@ -10,6 +10,11 @@ class NewsController < ApplicationController
         .order_by_published
         .limit(25)
     )
+
+    set_meta_tags(
+      title: "Latest Cryptocurrency News Today - Current Crypto News Today",
+      description: "CoinFi’s #1 crypto news aggregator gives you the latest cryptocurrency news, so you can be the first to know what news moved the crypto markets today."
+    )
   end
 
   def coin_index
