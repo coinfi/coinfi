@@ -4,6 +4,11 @@ import { renderToString } from 'react-dom/server'
 import { StaticRouter, StaticRouterContext } from 'react-router'
 import withCombinedProviders from './withCombinedProviders'
 import * as _ from 'lodash'
+import { SheetsRegistry } from 'jss'
+import { createGenerateClassName, MuiThemeProvider } from '@material-ui/core'
+import JssProvider from 'react-jss/lib/JssProvider'
+import theme from './theme'
+import createServerComponentHash from '~/createServerComponentHash'
 
 const createServerAppRouter = (railsContext, context) => {
   const ServerAppRouter = (props) => (
@@ -15,21 +20,23 @@ const createServerAppRouter = (railsContext, context) => {
   return ServerAppRouter
 }
 
-const ServerApp = (props, railsContext) => {
+const createServerAppHash = (props, railsContext) => {
   // First create a context for `StaticRouter`, it's where we keep the
   // results of rendering for the second pass if necessary
   const context: StaticRouterContext = {}
 
-  // Render to HTML passing in `context` to be updated
-  const markup = renderToString(
-    withCombinedProviders(createServerAppRouter(railsContext, context))(
-      props,
-      railsContext,
-    ),
+  // Create a new combined `AppComponent` passing in `context` to be updated
+  const AppComponent = withCombinedProviders(
+    createServerAppRouter(railsContext, context),
+  )
+  // Render to component hash which includes the HTML and css
+  const componentHash = createServerComponentHash(AppComponent)(
+    props,
+    railsContext,
   )
 
   // The mutated `context` will tell you if it redirected, if so, we ignore the generated markup and
-  // send a redirect for Rails `render_component` to handle
+  // send a redirect for Rails `react_component` to handle
   // see: https://github.com/shakacode/react_on_rails/blob/master/docs/additional-reading/react-router.md
   const redirected = !!context.url
   if (redirected) {
@@ -38,9 +45,10 @@ const ServerApp = (props, railsContext) => {
     }
   }
 
-  // Return the successful markup as a string for Rails `render_component` to handle
+  // Return the successful markup as a string for Rails `react_component` or `react_component_hash`
+  // to handle
   // see: https://github.com/shakacode/react_on_rails#react_component_hash-for-generator-functions
-  return { renderedHtml: markup }
+  return componentHash
 }
 
-export default ServerApp
+export default createServerAppHash
