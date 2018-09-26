@@ -25,7 +25,7 @@
             <li class="signal-highlight-item">
               <span class="signal-highlight-item__label">Advanced</span>
               <span class="signal-highlight-item__separator">-</span>
-              <span class="signal-highlight-item__description">developed by professional traders and data scientists</span>
+              <span class="signal-highlight-item__description">developed by professional traders and data scientists using blockchain data</span>
             </li>
           </ul>
 
@@ -182,6 +182,30 @@
     <div class="row wide-gutter">
       <div class="col-sm-6 signals-section__col">
         <div class="signals-section-content">
+          <h2 class="signals-section__title">Next-generation of trading signals using blockchain data</h2>
+          <p class="signals-section__description">
+            CoinFi systems monitor on-chain and proprietary off-chain data in real time to deliver market intelligence not possible before.
+          </p>
+          <p class="signals-section__description">
+            Learn how CoinFi uses blockchain data and see our partnership with Google Cloud on tracking the Ethereum blockchain.
+          </p>
+        </div>
+      </div>
+
+      <div class="col-sm-6 signals-section__col">
+        <div class="signals-section-content signals-section-content--xs-last signals-section-content--center">
+          <img class="signal-market-image" src="<%= image_path('signals/blockchain-data.jpg') %>">
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="signals-section">
+  <div class="bs-container bs-container--default">
+    <div class="row wide-gutter">
+      <div class="col-sm-6 last-sm signals-section__col">
+        <div class="signals-section-content">
           <h2 class="signals-section__title">Developed by professional traders and data scientists</h2>
           <p class="signals-section__description">
             We combine the expertise of professional traders and the analytical power of data scientists to deliver signals you can rely on.
@@ -197,8 +221,8 @@
                 <%= react_component_with_jss "SignalTeamMember",
                   props: {
                     avatarUrl: image_path('signals/team-members/tim.png'),
-                    description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam sapiente expedita ullam atque quo veritatis adipisci modi, earum, harum dolorem debitis impedit fugit consequuntur repellendus autem. Sapiente eius corrupti voluptate.",
-                    roleDescription: "Lorem ipsum dolor sit amet consectetur",
+                    description: "Timothy Tam has 10+ years  of professional trading experience at Goldman Sachs and hedge funds with $1+ billion in assets.",
+                    roleDescription: "Tim is the CEO of CoinFi.",
                     prerender: true
                   },
                   html_options: {
@@ -209,8 +233,8 @@
                 <%= react_component_with_jss "SignalTeamMember",
                   props: {
                     avatarUrl: image_path('signals/team-members/jonney.png'),
-                    description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam sapiente expedita ullam atque quo veritatis adipisci modi, earum, harum dolorem debitis impedit fugit consequuntur repellendus autem. Sapiente eius corrupti voluptate.",
-                    roleDescription: "Lorem ipsum dolor sit amet consectetur",
+                    description: "Jonney Liu is a former senior portfolio manager with 11+ years experience trading derivatives at institutions such as Lehman Brothers, Macquarie; most recently, he was at a $350 million volatility arbitrage hedge fund from True Capital.",
+                    roleDescription: "Jonney is the Head of Crypto Research at CoinFi.",
                     prerender: true
                   },
                   html_options: {
@@ -221,8 +245,8 @@
                 <%= react_component_with_jss "SignalTeamMember",
                   props: {
                     avatarUrl: image_path('signals/team-members/alex.png'),
-                    description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam sapiente expedita ullam atque quo veritatis adipisci modi, earum, harum dolorem debitis impedit fugit consequuntur repellendus autem. Sapiente eius corrupti voluptate.",
-                    roleDescription: "Lorem ipsum dolor sit amet consectetur",
+                    description: "Alex Svanevik has 8+ years experience from data science, management consulting, and startups in Schibsted Media Group, BearingPoint, and Codeus. He holds an MSc in Artificial Intelligence from the University of Edinburgh.",
+                    roleDescription: "Alex is the Chief Data Scientist at Coinfi.",
                     prerender: true
                   },
                   html_options: {
@@ -233,8 +257,8 @@
                 <%= react_component_with_jss "SignalTeamMember",
                   props: {
                     avatarUrl: image_path('signals/team-members/kwa.png'),
-                    description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam sapiente expedita ullam atque quo veritatis adipisci modi, earum, harum dolorem debitis impedit fugit consequuntur repellendus autem. Sapiente eius corrupti voluptate.",
-                    roleDescription: "Lorem ipsum dolor sit amet consectetur",
+                    description: "Kwa Jie Hao has a B.A. in Economics from Brown University and a M.S. in Data Science from the Barcelona Graduate School of Economics and previously interned at Telefonica Research.",
+                    roleDescription: "Kwa is a data scientist at CoinFi.",
                     prerender: true
                   },
                   html_options: {
@@ -253,7 +277,7 @@
 <section class="signals-section">
   <div class="bs-container bs-container--default">
     <div class="row wide-gutter">
-      <div class="col-sm-6 last-sm signals-section__col">
+      <div class="col-sm-6 signals-section__col">
         <div class="signals-section-content">
           <h2 class="signals-section__title">The market doesn’t stand still, neither do our signals</h2>
           <p class="signals-section__description">
@@ -300,6 +324,20 @@
         <%= react_component_with_jss "SignalFaqPanel",
           props: {
             question: "What do I need to do to reserve a spot?",
+            answer: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam sapiente expedita ullam atque quo veritatis adipisci modi, earum, harum dolorem debitis impedit fugit consequuntur repellendus autem. Sapiente eius corrupti voluptate.",
+          },
+          prerender: true
+        %>
+        <%= react_component_with_jss "SignalFaqPanel",
+          props: {
+            question: "What signals will I receive during the beta?",
+            answer: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam sapiente expedita ullam atque quo veritatis adipisci modi, earum, harum dolorem debitis impedit fugit consequuntur repellendus autem. Sapiente eius corrupti voluptate.",
+          },
+          prerender: true
+        %>
+        <%= react_component_with_jss "SignalFaqPanel",
+          props: {
+            question: "How does pricing work after the beta?",
             answer: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam sapiente expedita ullam atque quo veritatis adipisci modi, earum, harum dolorem debitis impedit fugit consequuntur repellendus autem. Sapiente eius corrupti voluptate.",
           },
           prerender: true
