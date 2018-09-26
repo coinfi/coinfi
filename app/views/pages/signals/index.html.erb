@@ -2,109 +2,63 @@
   <div class="bs-container bs-container--default">
     <div class="row wide-gutter">
       <div class="col-sm-7 signals-section__col">
-        <h1 class="signals-section__title featured-signals-section__title">Real time, professional trading signals for crypto</h1>
+        <div class="signals-section-content">
+          <h1 class="signals-section__title featured-signals-section__title">Real time, professional trading signals for crypto</h1>
 
-        <p class="signals-section__lead">
-          Get alerts of buying and selling opportunities
-        </p>
-        <ul class="signal-highlight-list">
-          <li class="signal-highlight-item">
-            <span class="signal-highlight-item__label">Reliable</span>
-            <span class="signal-highlight-item__separator">-</span>
-            <span class="signal-highlight-item__description">thoroughly tested to help predict price movements</span>
-          </li>
-          <li class="signal-highlight-item">
-            <span class="signal-highlight-item__label">Instant</span>
-            <span class="signal-highlight-item__separator">-</span>
-            <span class="signal-highlight-item__description">know before anyone else does</span>
-          </li>
-          <li class="signal-highlight-item">
-            <span class="signal-highlight-item__label">Advanced</span>
-            <span class="signal-highlight-item__separator">-</span>
-            <span class="signal-highlight-item__description">developed by professional traders and data scientists</span>
-          </li>
-        </ul>
+          <p class="signals-section__lead">
+            Get alerts of buying and selling opportunities
+          </p>
+          <ul class="signal-highlight-list">
+            <li class="signal-highlight-item">
+              <span class="signal-highlight-item__label">Reliable</span>
+              <span class="signal-highlight-item__separator">-</span>
+              <span class="signal-highlight-item__description">thoroughly tested to help predict price movements</span>
+            </li>
+            <li class="signal-highlight-item">
+              <span class="signal-highlight-item__label">Instant</span>
+              <span class="signal-highlight-item__separator">-</span>
+              <span class="signal-highlight-item__description">know before anyone else does</span>
+            </li>
+            <li class="signal-highlight-item">
+              <span class="signal-highlight-item__label">Advanced</span>
+              <span class="signal-highlight-item__separator">-</span>
+              <span class="signal-highlight-item__description">developed by professional traders and data scientists</span>
+            </li>
+          </ul>
 
-        <a class="btn btn-blue signals-section__cta-btn">Reserve My Spot</a>
+          <a class="btn btn-blue signals-section__cta-btn">Reserve My Spot</a>
 
-        <div class="signals-section__cta-btn-note">
-          Only 2,000 spots available
-          <%= react_component_with_jss "SignalPopoverText",
-            props: {
-              text: "Why?",
-              description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam sapiente expedita ullam atque quo veritatis adipisci modi, earum",
-            },
-            html_options: {
-              class: 'signal-popover-text'
-            },
-            prerender: true
-          %>
+          <div class="signals-section__cta-btn-note">
+            Only 2,000 spots available
+            <%= react_component_with_jss "SignalPopoverText",
+              props: {
+                text: "Why?",
+                description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam sapiente expedita ullam atque quo veritatis adipisci modi, earum",
+              },
+              html_options: {
+                class: 'signal-popover-text'
+              },
+              prerender: true
+            %>
+          </div>
         </div>
       </div>
       <div class="col-sm-5 signals-section__col">
-        <%= render "pages/signals/telegram_message", {
-          title: "Sell signal: Whale moved $68m ETH to an exchange",
-          message: "The #3 holder of Ethereum (ETH) moved 319k ETH ($68m) to Binance - 1 minute ago.",
-        } %>
+        <div class="signals-section-content signals-section-content--xs-last">
+          <%= render "pages/signals/telegram_message", {
+            title: "Sell signal: Whale moved $68m ETH to an exchange",
+            message: "The #3 holder of Ethereum (ETH) moved 319k ETH ($68m) to Binance - 1 minute ago.",
+          } %>
 
-        <%= render "pages/signals/telegram_message", {
-          title: "Buy signal: Whales of BNB increased their holdings ",
-          message: "The top 5 holders of Binance (BNB) increased their holdings from 10% to 12% overall in the last 24 hours.",
-        } %>
+          <%= render "pages/signals/telegram_message", {
+            title: "Buy signal: Whales of BNB increased their holdings ",
+            message: "The top 5 holders of Binance (BNB) increased their holdings from 10% to 12% overall in the last 24 hours.",
+          } %>
 
-        <%= render "pages/signals/telegram_message", {
-          title: "Buy signal: 5% of Augur supply withdrawn from Binance",
-          message: "550,000 REP ($6.7M) USD moved out of Binance wallets in last 24 hours.",
-        } %>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="signals-section">
-  <div class="bs-container bs-container--default">
-    <div class="row wide-gutter">
-      <div class="col-sm-6 signals-section__col signals-section__col--vertical-center">
-        <h2 class="signals-section__title">Signals for the crypto market</h2>
-        <p class="signals-section__description">
-          These signals alert you to shifts in the rapidly changing crupto markets so you’ll be the first to know and prepared to act when the market moves.
-        </p>
-      </div>
-      <div class="col-sm-6 signals-section__col signals-section__col--vertical-center">
-        <div class="signal-example-panels">
-          <%= react_component_with_jss "SignalExamplePanel",
-            props: {
-              title: "ETH movement in and out of exchanges",
-              buyDescription: "When an abnormally high amount of ETH move out of exchanges and into cold storage wallets, it likely indicates that the holders don’t plan to sell soon. CoinFi monitors exchange wallets.",
-              sellDescription: "When an abnormally high amount of BTC/ETH moves into exchanges, it likely indicates that holders are looking to sell.",
-            },
-            html_options: {
-              class: 'signal-example-panels__item'
-            },
-            prerender: true
-          %>
-
-          <%= react_component_with_jss "SignalExamplePanel",
-            props: {
-              title: "USDT movement into Bitfinex",
-              buyDescription: "When there is a high amount of USDT (Tether) moving into Bitfinex, it likely indicates that a pump of BTC or ETH may happen in the near future. CoinFi monitors Bitfinex wallets.",
-            },
-            html_options: {
-              class: 'signal-example-panels__item'
-            },
-            prerender: true
-          %>
-
-          <%= react_component_with_jss "SignalExamplePanel",
-            props: {
-              title: "Short positions",
-              sellDescription: "When there is an increase of short positions being taken against BTC/ETH, it likely indicates that BTC/ETH may dump. CoinFi monitors short positions.",
-            },
-            html_options: {
-              class: 'signal-example-panels__item'
-            },
-            prerender: true
-          %>
+          <%= render "pages/signals/telegram_message", {
+            title: "Buy signal: 5% of Augur supply withdrawn from Binance",
+            message: "550,000 REP ($6.7M) USD moved out of Binance wallets in last 24 hours.",
+          } %>
         </div>
       </div>
     </div>
@@ -114,48 +68,51 @@
 <section class="signals-section">
   <div class="bs-container bs-container--default">
     <div class="row wide-gutter">
-      <div class="col-sm-6 last-sm signals-section__col signals-section__col--vertical-center">
-        <h2 class="signals-section__title">Signals for tokens you care about</h2>
-        <p class="signals-section__description">
-          Track every ERC-20 tokens you care about and we’ll alert you when there’s a new buying or selling opportunity.
-        </p>
+      <div class="col-sm-6 signals-section__col">
+        <div class="signals-section-content">
+          <h2 class="signals-section__title">Signals for the crypto market</h2>
+          <p class="signals-section__description">
+            These signals alert you to shifts in the rapidly changing crupto markets so you’ll be the first to know and prepared to act when the market moves.
+          </p>
+        </div>
       </div>
-      <div class="col-sm-6 signals-section__col signals-section__col--vertical-center">
-        <div class="signal-example-panels">
-          <%= react_component_with_jss "SignalExamplePanel",
-            props: {
-              title: "Coins moving in and out of exchanges",
-              buyDescription: "When a high amount of coin moves out of an exchange and into cold storage, it likely indicates that holders are bullish and don’t plan to sell soon. CoinFi monitors exchange wallets.",
-              sellDescription: "When a high amount of the coin moves into exchanges, it likely indicates that holders are ready to sell.",
-            },
-            html_options: {
-              class: 'signal-example-panels__item'
-            },
-            prerender: true
-          %>
+      <div class="col-sm-6 signals-section__col">
+        <div class="signals-section-content signals-section-content--xs-last">
+          <div class="signal-example-panels">
+            <%= react_component_with_jss "SignalExamplePanel",
+              props: {
+                title: "ETH movement in and out of exchanges",
+                buyDescription: "When an abnormally high amount of ETH move out of exchanges and into cold storage wallets, it likely indicates that the holders don’t plan to sell soon. CoinFi monitors exchange wallets.",
+                sellDescription: "When an abnormally high amount of BTC/ETH moves into exchanges, it likely indicates that holders are looking to sell.",
+              },
+              html_options: {
+                class: 'signal-example-panels__item'
+              },
+              prerender: true
+            %>
 
-          <%= react_component_with_jss "SignalExamplePanel",
-            props: {
-              title: "Whales buying and selling",
-              buyDescription: "When whales buy more, it likely indicates that the founders, insiders, and large investors are bullish on the coin. It could also mean that founders and insiders are about to make a big announcement or launch a feature. CoinFi monitors the  whale wallets of every coin.",
-              sellDescription: "When whales sell, it likely indicates that the founders, insiders, and large investors aren’t long on the coin.",
-            },
-            html_options: {
-              class: 'signal-example-panels__item'
-            },
-            prerender: true
-          %>
+            <%= react_component_with_jss "SignalExamplePanel",
+              props: {
+                title: "USDT movement into Bitfinex",
+                buyDescription: "When there is a high amount of USDT (Tether) moving into Bitfinex, it likely indicates that a pump of BTC or ETH may happen in the near future. CoinFi monitors Bitfinex wallets.",
+              },
+              html_options: {
+                class: 'signal-example-panels__item'
+              },
+              prerender: true
+            %>
 
-          <%= react_component_with_jss "SignalExamplePanel",
-            props: {
-              title: "Tokens moving out of exchange wallets",
-              sellDescription: "When tokens move out of project wallets, it likely indicates that a lockup period has ended for a founder or employee - increasing the circulating supply. CoinFi identifies and monitors project wallets.",
-            },
-            html_options: {
-              class: 'signal-example-panels__item'
-            },
-            prerender: true
-          %>
+            <%= react_component_with_jss "SignalExamplePanel",
+              props: {
+                title: "Short positions",
+                sellDescription: "When there is an increase of short positions being taken against BTC/ETH, it likely indicates that BTC/ETH may dump. CoinFi monitors short positions.",
+              },
+              html_options: {
+                class: 'signal-example-panels__item'
+              },
+              prerender: true
+            %>
+          </div>
         </div>
       </div>
     </div>
@@ -165,46 +122,122 @@
 <section class="signals-section">
   <div class="bs-container bs-container--default">
     <div class="row wide-gutter">
-      <div class="col-sm-6 signals-section__col signals-section__col--vertical-center">
-        <h2 class="signals-section__title">Developed by professional traders and data scientists</h2>
-        <p class="signals-section__description">
-          We combine the expertise of professional traders and the analytical power of data scientists to deliver signals you can rely on.
-        </p>
+      <div class="col-sm-6 last-sm signals-section__col">
+        <div class="signals-section-content">
+          <h2 class="signals-section__title">Signals for tokens you care about</h2>
+          <p class="signals-section__description">
+            Track every ERC-20 tokens you care about and we’ll alert you when there’s a new buying or selling opportunity.
+          </p>
+        </div>
       </div>
-      <div class="col-sm-6 signals-section__col signals-section__col--vertical-center">
-        <div class="team-members">
-          <div class="row">
-            <div class="col-xs signals-section__col signals-section__col--horizontal-center">
-              <%= react_component_with_jss "SignalTeamMember", props: {
-                avatarUrl: "https://placehold.it/300x300",
-                description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam sapiente expedita ullam atque quo veritatis adipisci modi, earum, harum dolorem debitis impedit fugit consequuntur repellendus autem. Sapiente eius corrupti voluptate.",
-                roleDescription: "Lorem ipsum dolor sit amet consectetur",
-                prerender: true
-              } %>
-            </div>
-            <div class="col-xs signals-section__col signals-section__col--horizontal-center">
-              <%= react_component_with_jss "SignalTeamMember", props: {
-                avatarUrl: "https://placehold.it/300x300",
-                description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam sapiente expedita ullam atque quo veritatis adipisci modi, earum, harum dolorem debitis impedit fugit consequuntur repellendus autem. Sapiente eius corrupti voluptate.",
-                roleDescription: "Lorem ipsum dolor sit amet consectetur",
-                prerender: true
-              } %>
-            </div>
-            <div class="col-xs signals-section__col signals-section__col--horizontal-center">
-              <%= react_component_with_jss "SignalTeamMember", props: {
-                avatarUrl: "https://placehold.it/300x300",
-                description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam sapiente expedita ullam atque quo veritatis adipisci modi, earum, harum dolorem debitis impedit fugit consequuntur repellendus autem. Sapiente eius corrupti voluptate.",
-                roleDescription: "Lorem ipsum dolor sit amet consectetur",
-                prerender: true
-              } %>
-            </div>
-            <div class="col-xs signals-section__col signals-section__col--horizontal-center">
-              <%= react_component_with_jss "SignalTeamMember", props: {
-                avatarUrl: "https://placehold.it/300x300",
-                description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam sapiente expedita ullam atque quo veritatis adipisci modi, earum, harum dolorem debitis impedit fugit consequuntur repellendus autem. Sapiente eius corrupti voluptate.",
-                roleDescription: "Lorem ipsum dolor sit amet consectetur",
-                prerender: true
-              } %>
+      <div class="col-sm-6 signals-section__col">
+        <div class="signals-section-content signals-section-content--xs-last">
+          <div class="signal-example-panels">
+            <%= react_component_with_jss "SignalExamplePanel",
+              props: {
+                title: "Coins moving in and out of exchanges",
+                buyDescription: "When a high amount of coin moves out of an exchange and into cold storage, it likely indicates that holders are bullish and don’t plan to sell soon. CoinFi monitors exchange wallets.",
+                sellDescription: "When a high amount of the coin moves into exchanges, it likely indicates that holders are ready to sell.",
+              },
+              html_options: {
+                class: 'signal-example-panels__item'
+              },
+              prerender: true
+            %>
+
+            <%= react_component_with_jss "SignalExamplePanel",
+              props: {
+                title: "Whales buying and selling",
+                buyDescription: "When whales buy more, it likely indicates that the founders, insiders, and large investors are bullish on the coin. It could also mean that founders and insiders are about to make a big announcement or launch a feature. CoinFi monitors the  whale wallets of every coin.",
+                sellDescription: "When whales sell, it likely indicates that the founders, insiders, and large investors aren’t long on the coin.",
+              },
+              html_options: {
+                class: 'signal-example-panels__item'
+              },
+              prerender: true
+            %>
+
+            <%= react_component_with_jss "SignalExamplePanel",
+              props: {
+                title: "Tokens moving out of exchange wallets",
+                sellDescription: "When tokens move out of project wallets, it likely indicates that a lockup period has ended for a founder or employee - increasing the circulating supply. CoinFi identifies and monitors project wallets.",
+              },
+              html_options: {
+                class: 'signal-example-panels__item'
+              },
+              prerender: true
+            %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="signals-section">
+  <div class="bs-container bs-container--default">
+    <div class="row wide-gutter">
+      <div class="col-sm-6 signals-section__col">
+        <div class="signals-section-content">
+          <h2 class="signals-section__title">Developed by professional traders and data scientists</h2>
+          <p class="signals-section__description">
+            We combine the expertise of professional traders and the analytical power of data scientists to deliver signals you can rely on.
+          </p>
+        </div>
+      </div>
+
+      <div class="col-sm-6 signals-section__col">
+        <div class="signals-section-content signals-section-content--xs-last">
+          <div class="signal-team-members">
+            <div class="row">
+              <div class="col-xs signals-section__col">
+                <%= react_component_with_jss "SignalTeamMember",
+                  props: {
+                    avatarUrl: "https://placehold.it/300x300",
+                    description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam sapiente expedita ullam atque quo veritatis adipisci modi, earum, harum dolorem debitis impedit fugit consequuntur repellendus autem. Sapiente eius corrupti voluptate.",
+                    roleDescription: "Lorem ipsum dolor sit amet consectetur",
+                    prerender: true
+                  },
+                  html_options: {
+                    class: "signal-team-members__item"
+                  } %>
+              </div>
+              <div class="col-xs signals-section__col">
+                <%= react_component_with_jss "SignalTeamMember",
+                  props: {
+                    avatarUrl: "https://placehold.it/300x300",
+                    description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam sapiente expedita ullam atque quo veritatis adipisci modi, earum, harum dolorem debitis impedit fugit consequuntur repellendus autem. Sapiente eius corrupti voluptate.",
+                    roleDescription: "Lorem ipsum dolor sit amet consectetur",
+                    prerender: true
+                  },
+                  html_options: {
+                    class: "signal-team-members__item"
+                  } %>
+              </div>
+              <div class="col-xs signals-section__col">
+                <%= react_component_with_jss "SignalTeamMember",
+                  props: {
+                    avatarUrl: "https://placehold.it/300x300",
+                    description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam sapiente expedita ullam atque quo veritatis adipisci modi, earum, harum dolorem debitis impedit fugit consequuntur repellendus autem. Sapiente eius corrupti voluptate.",
+                    roleDescription: "Lorem ipsum dolor sit amet consectetur",
+                    prerender: true
+                  },
+                  html_options: {
+                    class: "signal-team-members__item"
+                  } %>
+              </div>
+              <div class="col-xs signals-section__col">
+                <%= react_component_with_jss "SignalTeamMember",
+                  props: {
+                    avatarUrl: "https://placehold.it/300x300",
+                    description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam sapiente expedita ullam atque quo veritatis adipisci modi, earum, harum dolorem debitis impedit fugit consequuntur repellendus autem. Sapiente eius corrupti voluptate.",
+                    roleDescription: "Lorem ipsum dolor sit amet consectetur",
+                    prerender: true
+                  },
+                  html_options: {
+                    class: "signal-team-members__item"
+                  } %>
+              </div>
             </div>
           </div>
         </div>
@@ -217,14 +250,19 @@
 <section class="signals-section">
   <div class="bs-container bs-container--default">
     <div class="row wide-gutter">
-      <div class="col-sm-6 last-sm signals-section__col signals-section__col--vertical-center">
-        <h2 class="signals-section__title">The market doesn’t stand still, neither do our signals</h2>
-        <p class="signals-section__description">
-          We constantly optimize our signals, remove ones that no longer work, and develop new signals based on market conditions so you’ll always have an edge in a bear or bull market.
-        </p>
+      <div class="col-sm-6 last-sm signals-section__col">
+        <div class="signals-section-content">
+          <h2 class="signals-section__title">The market doesn’t stand still, neither do our signals</h2>
+          <p class="signals-section__description">
+            We constantly optimize our signals, remove ones that no longer work, and develop new signals based on market conditions so you’ll always have an edge in a bear or bull market.
+          </p>
+        </div>
       </div>
-      <div class="col-sm-6 signals-section__col signals-section__col--vertical-center">
-        <img src="https://placehold.it/300x300">
+
+      <div class="col-sm-6 signals-section__col">
+        <div class="signals-section-content signals-section-content--xs-last signals-section-content--center">
+          <img src="https://placehold.it/300x300">
+        </div>
       </div>
     </div>
   </div>
@@ -233,14 +271,18 @@
 <section class="signals-section">
   <div class="bs-container bs-container--default">
     <div class="row wide-gutter">
-      <div class="col-sm-6 signals-section__col signals-section__col--vertical-center">
-        <h2 class="signals-section__title">Exclusive to a handful of traders</h2>
-        <p class="signals-section__description">
-          We want to give you a trading edge, not everyone. That’s why we’re capping the number of signups to 2,000 initially.
-        </p>
+      <div class="col-sm-6 signals-section__col">
+        <div class="signals-section-content">
+          <h2 class="signals-section__title">Exclusive to a handful of traders</h2>
+          <p class="signals-section__description">
+            We want to give you a trading edge, not everyone. That’s why we’re capping the number of signups to 2,000 initially.
+          </p>
+        </div>
       </div>
-      <div class="col-sm-6 signals-section__col signals-section__col--vertical-center">
-        <img src="https://placehold.it/300x300">
+      <div class="col-sm-6 signals-section__col">
+        <div class="signals-section-content signals-section-content--xs-last signals-section-content--center">
+          <img src="https://placehold.it/300x300">
+        </div>
       </div>
     </div>
   </div>
@@ -248,95 +290,99 @@
 
 <section class="signals-section faq-signals-section">
   <div class="bs-container bs-container--default">
-    <h2 class="signals-section__title">FAQ</h2>
+    <div class="signals-section-content signals-section-content--xs-last">
+      <h2 class="signals-section__title">FAQ</h2>
 
-    <div class="signal-faqs">
-      <%= react_component_with_jss "SignalFaqPanel",
-        props: {
-          question: "What do I need to do to reserve a spot?",
-          answer: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam sapiente expedita ullam atque quo veritatis adipisci modi, earum, harum dolorem debitis impedit fugit consequuntur repellendus autem. Sapiente eius corrupti voluptate.",
-        },
-        prerender: true
-      %>
-      <%= react_component_with_jss "SignalFaqPanel",
-        props: {
-          question: "Do the signals really work?",
-          answer: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam sapiente expedita ullam atque quo veritatis adipisci modi, earum, harum dolorem debitis impedit fugit consequuntur repellendus autem. Sapiente eius corrupti voluptate.",
-        },
-        prerender: true
-      %>
-      <%= react_component_with_jss "SignalFaqPanel",
-        props: {
-          question: "If the signals work, why are you selling them?",
-          answer: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam sapiente expedita ullam atque quo veritatis adipisci modi, earum, harum dolorem debitis impedit fugit consequuntur repellendus autem. Sapiente eius corrupti voluptate.",
-        },
-        prerender: true
-      %>
-      <%= react_component_with_jss "SignalFaqPanel",
-        props: {
-          question: "How will the signals get delivered?",
-          answer: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam sapiente expedita ullam atque quo veritatis adipisci modi, earum, harum dolorem debitis impedit fugit consequuntur repellendus autem. Sapiente eius corrupti voluptate.",
-        },
-        prerender: true
-      %>
-      <%= react_component_with_jss "SignalFaqPanel",
-        props: {
-          question: "How often will I get signals?",
-          answer: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam sapiente expedita ullam atque quo veritatis adipisci modi, earum, harum dolorem debitis impedit fugit consequuntur repellendus autem. Sapiente eius corrupti voluptate.",
-        },
-        prerender: true
-      %>
-      <%= react_component_with_jss "SignalFaqPanel",
-        props: {
-          question: "Will you add new signals in the future?",
-          answer: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam sapiente expedita ullam atque quo veritatis adipisci modi, earum, harum dolorem debitis impedit fugit consequuntur repellendus autem. Sapiente eius corrupti voluptate.",
-        },
-        prerender: true
-      %>
-      <%= react_component_with_jss "SignalFaqPanel",
-        props: {
-          question: "Do your signals tell me what price to buy at and what price to sell at?",
-          answer: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam sapiente expedita ullam atque quo veritatis adipisci modi, earum, harum dolorem debitis impedit fugit consequuntur repellendus autem. Sapiente eius corrupti voluptate.",
-        },
-        prerender: true
-      %>
-      <%= react_component_with_jss "SignalFaqPanel",
-        props: {
-          question: "How should I use the signals?",
-          answer: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam sapiente expedita ullam atque quo veritatis adipisci modi, earum, harum dolorem debitis impedit fugit consequuntur repellendus autem. Sapiente eius corrupti voluptate.",
-        },
-        prerender: true
-      %>
-      <%= react_component_with_jss "SignalFaqPanel",
-        props: {
-          question: "Do your signals work in a bear market?",
-          answer: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam sapiente expedita ullam atque quo veritatis adipisci modi, earum, harum dolorem debitis impedit fugit consequuntur repellendus autem. Sapiente eius corrupti voluptate.",
-        },
-        prerender: true
-      %>
-      <%= react_component_with_jss "SignalFaqPanel",
-        props: {
-          question: "Do you use these signals yourselves?",
-          answer: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam sapiente expedita ullam atque quo veritatis adipisci modi, earum, harum dolorem debitis impedit fugit consequuntur repellendus autem. Sapiente eius corrupti voluptate.",
-        },
-        prerender: true
-      %>
-      <%= react_component_with_jss "SignalFaqPanel",
-        props: {
-          question: "How do you come up with these signals?",
-          answer: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam sapiente expedita ullam atque quo veritatis adipisci modi, earum, harum dolorem debitis impedit fugit consequuntur repellendus autem. Sapiente eius corrupti voluptate.",
-        },
-        prerender: true
-      %>
+      <div class="signal-faqs">
+        <%= react_component_with_jss "SignalFaqPanel",
+          props: {
+            question: "What do I need to do to reserve a spot?",
+            answer: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam sapiente expedita ullam atque quo veritatis adipisci modi, earum, harum dolorem debitis impedit fugit consequuntur repellendus autem. Sapiente eius corrupti voluptate.",
+          },
+          prerender: true
+        %>
+        <%= react_component_with_jss "SignalFaqPanel",
+          props: {
+            question: "Do the signals really work?",
+            answer: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam sapiente expedita ullam atque quo veritatis adipisci modi, earum, harum dolorem debitis impedit fugit consequuntur repellendus autem. Sapiente eius corrupti voluptate.",
+          },
+          prerender: true
+        %>
+        <%= react_component_with_jss "SignalFaqPanel",
+          props: {
+            question: "If the signals work, why are you selling them?",
+            answer: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam sapiente expedita ullam atque quo veritatis adipisci modi, earum, harum dolorem debitis impedit fugit consequuntur repellendus autem. Sapiente eius corrupti voluptate.",
+          },
+          prerender: true
+        %>
+        <%= react_component_with_jss "SignalFaqPanel",
+          props: {
+            question: "How will the signals get delivered?",
+            answer: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam sapiente expedita ullam atque quo veritatis adipisci modi, earum, harum dolorem debitis impedit fugit consequuntur repellendus autem. Sapiente eius corrupti voluptate.",
+          },
+          prerender: true
+        %>
+        <%= react_component_with_jss "SignalFaqPanel",
+          props: {
+            question: "How often will I get signals?",
+            answer: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam sapiente expedita ullam atque quo veritatis adipisci modi, earum, harum dolorem debitis impedit fugit consequuntur repellendus autem. Sapiente eius corrupti voluptate.",
+          },
+          prerender: true
+        %>
+        <%= react_component_with_jss "SignalFaqPanel",
+          props: {
+            question: "Will you add new signals in the future?",
+            answer: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam sapiente expedita ullam atque quo veritatis adipisci modi, earum, harum dolorem debitis impedit fugit consequuntur repellendus autem. Sapiente eius corrupti voluptate.",
+          },
+          prerender: true
+        %>
+        <%= react_component_with_jss "SignalFaqPanel",
+          props: {
+            question: "Do your signals tell me what price to buy at and what price to sell at?",
+            answer: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam sapiente expedita ullam atque quo veritatis adipisci modi, earum, harum dolorem debitis impedit fugit consequuntur repellendus autem. Sapiente eius corrupti voluptate.",
+          },
+          prerender: true
+        %>
+        <%= react_component_with_jss "SignalFaqPanel",
+          props: {
+            question: "How should I use the signals?",
+            answer: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam sapiente expedita ullam atque quo veritatis adipisci modi, earum, harum dolorem debitis impedit fugit consequuntur repellendus autem. Sapiente eius corrupti voluptate.",
+          },
+          prerender: true
+        %>
+        <%= react_component_with_jss "SignalFaqPanel",
+          props: {
+            question: "Do your signals work in a bear market?",
+            answer: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam sapiente expedita ullam atque quo veritatis adipisci modi, earum, harum dolorem debitis impedit fugit consequuntur repellendus autem. Sapiente eius corrupti voluptate.",
+          },
+          prerender: true
+        %>
+        <%= react_component_with_jss "SignalFaqPanel",
+          props: {
+            question: "Do you use these signals yourselves?",
+            answer: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam sapiente expedita ullam atque quo veritatis adipisci modi, earum, harum dolorem debitis impedit fugit consequuntur repellendus autem. Sapiente eius corrupti voluptate.",
+          },
+          prerender: true
+        %>
+        <%= react_component_with_jss "SignalFaqPanel",
+          props: {
+            question: "How do you come up with these signals?",
+            answer: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam sapiente expedita ullam atque quo veritatis adipisci modi, earum, harum dolorem debitis impedit fugit consequuntur repellendus autem. Sapiente eius corrupti voluptate.",
+          },
+          prerender: true
+        %>
+      </div>
     </div>
   </div>
 </section>
 
 <section class="signals-section cta-signals-section">
   <div class="bs-container bs-container--default">
-    <h2 class="signals-section__title cta-signals-section__title">Ready to trade with professional signals?</h2>
-    <p class="signals-section__lead cta-signals-section__lead">Reserve one of the 2,000 spots</p>
+    <div class="signals-section-content signals-section-content--xs-last signals-section-content--center">
+      <h2 class="signals-section__title cta-signals-section__title">Ready to trade with professional signals?</h2>
+      <p class="signals-section__lead cta-signals-section__lead">Reserve one of the 2,000 spots</p>
 
-    <a class="btn btn-blue signals-section__cta-btn">Reserve My Spot</a>
+      <a class="btn btn-blue signals-section__cta-btn">Reserve My Spot</a>
+    </div>
   </div>
 </section>

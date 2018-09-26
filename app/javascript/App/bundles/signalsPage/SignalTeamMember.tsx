@@ -10,6 +10,10 @@ const styles = (theme) =>
     avatar: {
       width: 88,
       height: 88,
+      [theme.breakpoints.down('sm')]: {
+        width: 50,
+        height: 50,
+      },
     },
     popover: {
       pointerEvents: 'none',
