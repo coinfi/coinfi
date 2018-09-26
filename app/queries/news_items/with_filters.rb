@@ -12,8 +12,8 @@ module NewsItems
       result = relation
 
       # Apply Coins filter
+      # Default coins
       coins = Coin.top(20) unless coins.present?
-
       news_coin_mentions = NewsCoinMention.default_tagged.where(coin: coins)
       result = result
         .left_outer_joins(:news_coin_mentions)
