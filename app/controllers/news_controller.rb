@@ -29,8 +29,8 @@ class NewsController < ApplicationController
         .order_by_published
         .limit(25)
     )
-    @news_item = NewsItem.published.find(params[:id])
-    @news_item_data = serialize_news_items(@news_item)
+    news_item = NewsItem.published.find(params[:id])
+    @news_item_data = serialize_news_items(news_item)
 
     set_meta_tags canonical: @news_item.url
   end
