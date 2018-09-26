@@ -12,20 +12,15 @@ module NewsItems
       result = relation
 
       # Apply Coins filter
-      unless coins.present?
-        # Default coins
-        coins = Coin.top(20)
-      end
-      news_coin_mentions = NewsCoinMention.default_tagged
-        .where(coin: coins)
+      # Default coins
+      coins = Coin.top(20) unless coins.present?
+      news_coin_mentions = NewsCoinMention.default_tagged.where(coin: coins)
       result = result
-        .joins(:news_coin_mentions)
-        .where(news_coin_mentions: {
-          id: news_coin_mentions
-        })
+        .left_outer_joins(:news_coin_mentions)
+        .where("news_coin_mentions.id IN (?) OR news_coin_mentions.id IS NULL", news_coin_mentions.select(:id))
 
       # Apply FeedSources filter
-      unless feed_sources.present?
+      if feed_sources.blank?
         # Default feed sources
         feed_sources = FeedSource.all
           .where.not(id: FeedSource.active.reddit)
