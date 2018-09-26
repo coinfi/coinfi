@@ -12,10 +12,6 @@
     font-size: 27px;
     font-weight: 600;
   }
-  &__description {
-    margin-top: 0;
-    font-size: 18px;
-  }
   &__lead {
     margin-top: 0;
     margin-bottom: 40px;
@@ -72,6 +68,21 @@
   }
 }
 
+.signals-section-description {
+  font-size: 18px;
+  margin-bottom: 24px;
+  line-height: 32px;
+
+  &__paragraph {
+    margin-top: 0;
+    margin-bottom: 40px;
+
+    &--last {
+      margin-bottom: 0px;
+    }
+  }
+}
+
 .telegram-message {
   text-align: left;
   margin-bottom: 16px;
@@ -112,7 +123,9 @@
 }
 .signal-highlight-item {
   margin-bottom: 24px;
+  padding-left: 26px;
   list-style: none;
+  line-height: 32px;
 
   &:before {
     content: '';
@@ -120,6 +133,7 @@
     height: 10px;
     width: 10px;
     margin-right: 12px;
+    margin-left: -26px;
     background-image: url(<%= image_path('signals/checkmark.svg') %>);
   }
 
@@ -162,6 +176,10 @@
 .signal-exclusive-image {
   max-height: 340px;
 }
+.signal-blockchain-image {
+  max-height: 250px;
+}
+
 .signal-beta-badge {
   display: inline-block;
   padding: 5px 12px 2px 12px;
