@@ -1,7 +1,5 @@
 class NewsController < ApplicationController
-  before_action :check_permissions
-  before_action :set_body_class
-  before_action :set_view_data
+  before_action :check_permissions, :set_body_class, :set_view_data
 
   def index
     @news_items_data = serialize_news_items(
@@ -31,9 +29,10 @@ class NewsController < ApplicationController
         .order_by_published
         .limit(25)
     )
-    @news_item_data = serialize_news_items(
-      NewsItem.published.find(params[:id])
-    )
+    news_item = NewsItem.published.find(params[:id])
+    @news_item_data = serialize_news_items(news_item)
+
+    set_meta_tags canonical: news_item.url
   end
 
   protected
