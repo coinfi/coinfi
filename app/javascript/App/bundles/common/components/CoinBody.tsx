@@ -132,7 +132,7 @@ class CoinBody extends React.Component<Props, State> {
         />
 
         <div className="mt3 mb3">
-          <h2 className="f5">Related Coins</h2>
+          <h2 className="f5">Read Related News</h2>
           <NewsRelatedCoinList
             relatedCoinsData={coinWithDetails.related_coins_data}
           />
