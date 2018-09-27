@@ -1,6 +1,9 @@
 # Set the host name for URL creation
 SitemapGenerator::Sitemap.default_host = "https://#{ENV.fetch('ROOT_DOMAIN')}"
 
+# Disable automatically including root url
+SitemapGenerator::Sitemap.include_root = false
+
 SitemapGenerator::Sitemap.create do
   # Put links creation logic here.
   #
@@ -25,7 +28,7 @@ SitemapGenerator::Sitemap.create do
   #     add article_path(article), :lastmod => article.updated_at
   #   end
 
-  add root_path, :priority => 1.0, :changefreq => 'annually'
+  add root_path, :priority => 1.0, :changefreq => 'always'
   add home_about_path, :priority => 0.8, :changefreq => 'daily'
   add home_press_path, :priority => 0.8, :changefreq => 'daily'
   add home_calendar_path, :priority => 0.8, :changefreq => 'daily'
