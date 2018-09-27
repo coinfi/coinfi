@@ -30,7 +30,7 @@ SitemapGenerator::Sitemap.create do
   add home_press_path, :priority => 0.8, :changefreq => 'daily'
   add home_calendar_path, :priority => 0.8, :changefreq => 'daily'
   add home_ambassadors_path, :priority => 0.8, :changefreq => 'daily'
-  add home_win_confi_path, :priority => 0.8, :changefreq => 'daily'
+  add home_win_cofi_path, :priority => 0.8, :changefreq => 'daily'
 
   add podcast_path, :changefreq => 'daily'
   add coins_path, :changefreq => 'hourly'

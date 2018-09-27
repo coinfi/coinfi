@@ -78,7 +78,7 @@ Rails.application.routes.draw do
   get '/press', to: 'pages#show', id: 'press', as: 'home_press'
   get '/calendar', to: 'pages#show', id: 'calendar', as: 'home_calendar'
   get '/ambassadors', to: 'pages#show', id: 'ambassadors', as: 'home_ambassadors'
-  get '/win-confi', to: 'pages#show', id: 'win-confi', as: 'home_win_confi'
+  get '/win-cofi', to: 'pages#show', id: 'win-cofi', as: 'home_win_cofi'
 
   mount Blazer::Engine, at: "blazer"
 end
