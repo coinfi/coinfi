@@ -3,6 +3,7 @@ import CoinCharts from '../../../components/CoinCharts'
 import Currency from '../../../components/Currency'
 import PercentageChange from './PercentageChange'
 import WatchButton from './WatchButton'
+import NewsRelatedCoinList from './NewsRelatedCoinList'
 import LoadingIndicator from '../../../components/LoadingIndicator'
 import localAPI from '../../../lib/localAPI'
 import { withStyles, createStyles } from '@material-ui/core/styles'
@@ -14,6 +15,7 @@ const styles = (theme) =>
   createStyles({
     relatedCoinList: {
       listStyle: 'none',
+      paddingLeft: 0,
     },
     relatedCoinItem: {},
   })
@@ -129,17 +131,11 @@ class CoinBody extends React.Component<Props, State> {
           isTradingViewVisible={true}
         />
 
-        <div className="mb3">
+        <div className="mt3 mb3">
           <h2 className="f5">Related Coins</h2>
-          <ul className={classes.relatedCoinList}>
-            {coinWithDetails.related_coins_data.map((relatedCoinData) => (
-              <li key={relatedCoinData.id} className={classes.relatedCoinItem}>
-                <Link to={`/news/${relatedCoinData.slug}`}>
-                  {`${relatedCoinData.name} news`}
-                </Link>
-              </li>
-            ))}
-          </ul>
+          <NewsRelatedCoinList
+            relatedCoinsData={coinWithDetails.related_coins_data}
+          />
         </div>
       </div>
     )
