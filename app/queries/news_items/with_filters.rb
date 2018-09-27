@@ -46,7 +46,7 @@ module NewsItems
         result = result
           .joins(:news_item_categorizations)
           .where(news_item_categorizations: {
-            id: news_categories
+            news_category_id: news_categories.select(:id)
           })
       end
 
