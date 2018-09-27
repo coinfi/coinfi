@@ -69,9 +69,22 @@ private
   end
 
   def show_serializer(coin)
-    coin.as_json(
-      only: %i[id coin_key name image_url symbol slug price_usd],
-      methods: %i[prices_data news_data market_info is_being_watched]
+    related_coins_data = coin.related_coins.as_json(
+      only: %i[id coin_key name symbol slug]
     )
+
+    return {
+      id: coin.id,
+      coin_key: coin.coin_key,
+      name: coin.name,
+      image_url: coin.image_url,
+      symbol: coin.symbol,
+      slug: coin.slug,
+      prices_data: coin.prices_data,
+      news_data: coin.news_data,
+      market_info: coin.market_info,
+      is_being_watched: coin.is_being_watched,
+      related_coins_data: related_coins_data,
+    }
   end
 end

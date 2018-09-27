@@ -6,7 +6,7 @@ module Admin
       news_item = NewsItem.find(params[:id])
       metadata_params = { user_id: current_user.id, last_human_tagged_on: Time.now }
       news_item.update(news_item_params.merge(metadata_params))
-      redirect_to action: :index
+      redirect_to action: :pending
     end
 
     def pending
