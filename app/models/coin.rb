@@ -155,6 +155,7 @@ class Coin < ApplicationRecord
   end
 
   def is_erc20?
+    return false unless token_type
     token_type.start_with?("ERC") || token_type.start_with?("EIP")
   end
 end
