@@ -31,7 +31,7 @@ class CoinsController < ApplicationController
       }
       token = JWT.encode payload, ENV['METABASE_SECRET_KEY']
 
-      @metabase_url = "https://metabase.coinfi.com/embed/dashboard/" + token + "#bordered=false&titled=false"
+      @metabase_url = "https://metabase.coinfi.com/embed/dashboard/#{token}#bordered=false&titled=false"
     else
       @metabase_url = nil
     end
