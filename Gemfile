@@ -79,6 +79,8 @@ gem 'webpacker', '~> 3.3'
 gem 'mini_racer', platforms: :ruby
 # For parsing browser stats from user-agent
 gem 'browser'
+# Used to produce sitemap.xml
+gem 'sitemap_generator'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
