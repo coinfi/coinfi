@@ -322,7 +322,6 @@ class CoinShow extends Component {
                     <Col xs={24} sm={24} m={24} l={24} xl={24}>
                       <CardWrapLast>
                         <Card title="Advanced Token Metrics">
-                          {/*<IframeResizer src={metabaseUrl} frameBorder={0} />*/}
                           <iframe
                             title="Advanced Token Metrics"
                             src={metabaseUrl}
