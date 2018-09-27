@@ -12,12 +12,14 @@ module Coins
       result = relation
         .where("id >= ?", coin.id - 4)
         .where.not(id: coin)
+        .order(:id)
         .limit(8)
       # If there are not enough coins after `coin.id - 4` search the other way instead
       if result.length < 8
         result = relation
           .where("id =< ?", coin.id + 4)
           .where.not(id: coin)
+          .order(:id)
           .limit(8)
       end
 
