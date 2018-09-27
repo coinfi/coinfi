@@ -9,6 +9,10 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 const styles = (theme) =>
   createStyles({
     root: {},
+    heading: {
+      fontSize: 16,
+      fontWeight: 400,
+    },
   })
 
 interface State {
