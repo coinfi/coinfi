@@ -97,3 +97,9 @@ $reservation-step-text-line-height: 32px;
   background-color: #e8e8e8;
   padding: 4px 6px;
 }
+
+@media (max-width: 767px) {
+  .reservation-option-step-list {
+    padding-left: 48px;
+  }
+}
