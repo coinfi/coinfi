@@ -15,6 +15,10 @@ class PagesController < ApplicationController
     render "pages/signals/index"
   end
 
+  def signals_reservation
+    render "pages/signals/reservation"
+  end
+
   private
 
   def page_known?

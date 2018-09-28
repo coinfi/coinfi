@@ -76,6 +76,7 @@ Rails.application.routes.draw do
   root to: 'pages#show'
 
   get '/signals', to: 'pages#signals_index'
+  get '/signals/reservation', to: 'pages#signals_reservation'
   get '/:id', to: 'pages#show'
 
   mount Blazer::Engine, at: "blazer"
