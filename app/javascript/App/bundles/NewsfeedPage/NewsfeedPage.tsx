@@ -16,7 +16,7 @@ import withDevice from '~/bundles/common/utils/withDevice'
 import EventListener from 'react-event-listener'
 
 import { NewsItem, ContentType, Filters } from './types'
-import { CoinList, CoinWithDetails } from '../common/types'
+import { CoinWithDetails } from '../common/types'
 import {
   getDefaultFilters,
   mergeInitialSocialSourcesForCoinsFilter,
@@ -244,7 +244,11 @@ class NewsfeedPage extends React.Component<Props, State> {
     }
 
     // Check if watchlist tab changed to active
-    if (!!this.props.isWatchlistSelected && !prevProps.isWatchlistSelected) {
+    if (
+      !!this.props.isWatchlistSelected &&
+      !prevProps.isWatchlistSelected &&
+      this.props.loggedIn
+    ) {
       this.setState((state) => {
         state.filters.coinSlugs = this.props
           .getWatchlist()
@@ -263,7 +267,8 @@ class NewsfeedPage extends React.Component<Props, State> {
       // Check if watchlist tab changed to inactive
     } else if (
       !!prevProps.isWatchlistSelected &&
-      !this.props.isWatchlistSelected
+      !this.props.isWatchlistSelected &&
+      this.props.loggedIn
     ) {
       this.setState((state) => {
         state.filters.coinSlugs = !!this.props.coinSlug
@@ -466,7 +471,12 @@ class NewsfeedPage extends React.Component<Props, State> {
           onFocus={this.handleOnFocus}
         >
           <LayoutDesktop
-            leftSection={<CoinListWrapper loggedIn={this.props.loggedIn} />}
+            leftSection={
+              <CoinListWrapper
+                isWatchlist={this.props.loggedIn}
+                loggedIn={this.props.loggedIn}
+              />
+            }
             centerSection={
               <>
                 <NewsListHeader

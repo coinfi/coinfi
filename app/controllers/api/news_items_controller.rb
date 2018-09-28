@@ -1,8 +1,6 @@
 class Api::NewsItemsController < ApiController
   PER_PAGE = 20
 
-  before_action :detect_news_feature
-
   def index
     # Ensure fresh response on every request
     headers['Last-Modified'] = Time.now.httpdate

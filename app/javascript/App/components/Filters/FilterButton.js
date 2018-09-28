@@ -8,7 +8,7 @@
  */
 import React from 'react'
 import Immutable from 'immutable'
-import Icon from '../Icon'
+import Icon from '~/bundles/common/components/Icon'
 import FilterComponent from './FilterComponent'
 import buttonLabels from './filterButtonLabels'
 import { singularize } from '../../lib/misc'

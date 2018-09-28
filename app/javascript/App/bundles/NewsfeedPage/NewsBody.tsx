@@ -4,7 +4,7 @@ import sanitizeHtml from 'sanitize-html'
 import * as _ from 'lodash'
 import CoinTags from '../common/components/CoinTags'
 import BulletSpacer from '../../components/BulletSpacer'
-import Icon from '../../components/Icon'
+import Icon from '~/bundles/common/components/Icon'
 import localAPI from '../../lib/localAPI'
 
 import TwitterBody from './TwitterBody'
@@ -92,12 +92,12 @@ export default class NewsBody extends React.Component<Props, State> {
             rel="nofollow"
             className="break-all"
           >
-            <Icon name="link" className="mr1 f7" regular={true} />
+            <Icon name="link" className="mr1 f7" styleType="regular" />
             {newsItem.url}
           </a>
         </div>
         <div className="mb3 f6">
-          <Icon name="clock" className="mr1 f7" regular={true} />
+          <Icon name="clock" className="mr1 f7" styleType="regular" />
           {timeago().format(newsItem.feed_item_published_at)}
           <BulletSpacer />
           <span>

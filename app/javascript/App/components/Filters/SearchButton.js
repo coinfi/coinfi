@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import Icon from '../Icon'
+import Icon from '~/bundles/common/components/Icon'
 import FilterComponent from './FilterComponent'
 
 export default class Search extends Component {

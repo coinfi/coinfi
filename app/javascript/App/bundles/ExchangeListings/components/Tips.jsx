@@ -1,5 +1,5 @@
 import React from 'react'
-import Icon from '../../../components/Icon'
+import Icon from '~/bundles/common/components/Icon'
 import chartIcon from '../../../images/chartIcon.svg'
 import filterIcon from '../../../images/filterIcon.svg'
 import listIcon from '../../../images/listIcon.svg'

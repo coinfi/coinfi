@@ -1,12 +1,12 @@
 import React, { Component } from 'react'
 import Type from 'prop-types'
 import Input from '../../Input'
-import Icon from '../../Icon'
+import Icon from '~/bundles/common/components/Icon'
 import Slider from 'rc-slider'
 
 const scale = { min: 0, max: 1000, step: 50 }
 
-const SocialCounts = props => (
+const SocialCounts = (props) => (
   <div className="pa3 pt0">
     <SocialCount network="twitter" {...props} />
     <SocialCount network="telegram" {...props} className="mt3" />
@@ -14,12 +14,12 @@ const SocialCounts = props => (
 )
 
 SocialCounts.propTypes = {
-  value: Type.object.isRequired
+  value: Type.object.isRequired,
 }
 
 export default SocialCounts
 class SocialCount extends Component {
-  setVal = network => value => {
+  setVal = (network) => (value) => {
     const { onChange, value: v } = this.props
     v[network] = value
     onChange(v)

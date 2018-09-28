@@ -7,7 +7,7 @@
 import React from 'react'
 import SelectFilter from './SelectFilter'
 import FilterComponent from './FilterComponent'
-import Icon from '../Icon'
+import Icon from '~/bundles/common/components/Icon'
 import withDevice from '~/bundles/common/utils/withDevice'
 
 const AddFilters = (props) => {

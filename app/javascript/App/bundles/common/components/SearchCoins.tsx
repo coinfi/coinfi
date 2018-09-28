@@ -1,7 +1,7 @@
 import * as React from 'react'
 import classNames from 'classnames'
 import Autosuggest from 'react-autosuggest'
-import Icon from '../../../components/Icon'
+import Icon from '~/bundles/common/components/Icon'
 import localApi from '../../../lib/localAPI'
 import withDevice from '~/bundles/common/utils/withDevice'
 
@@ -128,7 +128,7 @@ class SearchCoins extends React.Component<Props, State> {
       >
         <div className="flex items-center f5 tiber">
           <Icon
-            regular={true}
+            styleType="regular"
             name="search"
             className="silver mr1"
             onClick={this.focusTextInput}
@@ -147,7 +147,7 @@ class SearchCoins extends React.Component<Props, State> {
           />
           {!!value.length && (
             <Icon
-              regular={true}
+              styleType="regular"
               name="times"
               className="silver"
               onClick={this.resetState}
