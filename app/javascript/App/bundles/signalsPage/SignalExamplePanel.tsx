@@ -1,0 +1,153 @@
+import * as React from 'react'
+import { withStyles, createStyles } from '@material-ui/core/styles'
+import ExpansionPanel from '@material-ui/core/ExpansionPanel'
+import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary'
+import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails'
+import Typography from '@material-ui/core/Typography'
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
+import classnames from 'classnames'
+
+const styles = (theme) =>
+  createStyles({
+    title: {
+      color: 'black',
+      fontWeight: 500,
+      fontSize: 20,
+    },
+    panel: {
+      background: 'none',
+      border: 0,
+      boxShadow: 'none',
+    },
+    panelSummary: {
+      padding: 0,
+      margin: 0,
+      minHeight: '0 !important',
+      borderBottom: 'solid 1px #4a4a4a',
+    },
+    panelDetails: {
+      padding: 0,
+      fontSize: 18,
+    },
+    panelSummaryContent: {
+      margin: '12px 0 !important',
+    },
+    panelExpandIcon: {
+      right: 0,
+    },
+    tableRow: {
+      // Table striping is enabled for all `<tr>`s by default with a global and an extremely
+      // specific css rule
+      background: 'none !important',
+    },
+    tableCell: {
+      paddingTop: 20,
+      paddingBottom: 20,
+      verticalAlign: 'top',
+      // Table border is enabled for all `<td>`s by default with a global and an extremely specific
+      // css rule
+      borderTop: 'none !important',
+    },
+    rowLabel: {
+      fontWeight: 600,
+    },
+    buyLabel: {
+      color: '#017b30',
+    },
+    sellLabel: {
+      color: '#a3393a',
+    },
+  })
+
+interface State {
+  expanded: boolean
+}
+
+interface Props {
+  classes: any
+  initialExpanded: boolean
+  title: string
+  buyDescription?: string
+  sellDescription?: string
+}
+
+class SignalExamplePanel extends React.Component<Props, State> {
+  constructor(props) {
+    super(props)
+
+    this.state = {
+      expanded: props.initialExpanded || false,
+    }
+  }
+
+  public handleExpansionChange = (
+    event: React.ChangeEvent<{}>,
+    expanded: boolean,
+  ) => {
+    this.setState({
+      expanded,
+    })
+  }
+
+  public render() {
+    const { classes, title, buyDescription, sellDescription } = this.props
+
+    return (
+      <div className={classes.root}>
+        <ExpansionPanel
+          className={classes.panel}
+          expanded={this.state.expanded}
+          onChange={this.handleExpansionChange}
+        >
+          <ExpansionPanelSummary
+            classes={{
+              root: classes.panelSummary,
+              content: classes.panelSummaryContent,
+              expandIcon: classes.panelExpandIcon,
+            }}
+            expandIcon={<ExpandMoreIcon />}
+          >
+            <Typography className={classes.title}>{title}</Typography>
+          </ExpansionPanelSummary>
+          <ExpansionPanelDetails className={classes.panelDetails}>
+            <table>
+              <tbody>
+                {buyDescription && (
+                  <tr className={classes.tableRow}>
+                    <td
+                      className={classnames(
+                        classes.tableCell,
+                        classes.rowLabel,
+                        classes.buyLabel,
+                      )}
+                    >
+                      Buy
+                    </td>
+                    <td className={classes.tableCell}>{buyDescription}</td>
+                  </tr>
+                )}
+
+                {sellDescription && (
+                  <tr className={classes.tableRow}>
+                    <td
+                      className={classnames(
+                        classes.tableCell,
+                        classes.rowLabel,
+                        classes.sellLabel,
+                      )}
+                    >
+                      Sell
+                    </td>
+                    <td className={classes.tableCell}>{sellDescription}</td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
+          </ExpansionPanelDetails>
+        </ExpansionPanel>
+      </div>
+    )
+  }
+}
+
+export default withStyles(styles)(SignalExamplePanel)
