@@ -1,0 +1,94 @@
+.reservation-page__inner {
+  padding-top: 60px;
+  padding-bottom: 60px;
+}
+
+.reservation-title {
+  text-align: center;
+  margin-bottom: 48px;
+  font-weight: 700;
+}
+
+.reservation-card {
+  background: white;
+  border: solid 1px rgba(0, 0, 0, 0.15);
+  padding: 40px;
+}
+
+.reservation-option {
+  margin-bottom: 80px;
+
+  &--last {
+    margin-bottom: 0;
+  }
+
+  &__title {
+    margin-bottom: 32px;
+    font-weight: 700;
+  }
+}
+
+.reservation-option-step-list {
+  padding-left: 72px;
+  counter-reset: step-counter;
+  list-style: none;
+}
+
+$reservation-step-text-line-height: 32px;
+
+.reservation-option-step-item {
+  margin-bottom: 40px;
+  counter-increment: step-counter;
+  position: relative;
+
+  &::before {
+    content: counter(step-counter);
+    font-weight: bold;
+    position: absolute;
+    line-height: $reservation-step-text-line-height;
+    left: -1 * $reservation-step-text-line-height - 16px;
+    width: $reservation-step-text-line-height;
+    height: $reservation-step-text-line-height;
+    top: 0;
+    border: solid 1px black;
+    border-radius: 50%;
+    text-align: center;
+  }
+
+  &--last {
+    margin-bottom: 0;
+  }
+
+  &__text {
+    line-height: $reservation-step-text-line-height;
+    margin-bottom: 20px;
+    font-weight: 600;
+    font-size: 18px;
+  }
+
+  &__point-list {
+    padding-left: 32px;
+    list-style: none;
+    font-size: 16px;
+  }
+
+  &__point-item {
+    margin-bottom: 24px;
+    position: relative;
+
+    &::before {
+      content: '•';
+      position: absolute;
+      left: -16px;
+    }
+  }
+}
+
+.reservation-option-step-note {
+  font-size: 14px;
+}
+
+.reservation-value {
+  background-color: #e8e8e8;
+  padding: 4px 6px;
+}
