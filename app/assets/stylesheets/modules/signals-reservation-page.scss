@@ -6,8 +6,7 @@
 }
 
 .reservation-title {
-  text-align: center;
-  margin-bottom: 48px;
+  margin-bottom: 32px;
   font-weight: 700;
 }
 
@@ -18,12 +17,10 @@
 }
 
 .reservation-option {
-  margin-bottom: 80px;
-
+  margin-bottom: 16px;
   &--last {
     margin-bottom: 0;
   }
-
   &__title {
     margin-bottom: 32px;
     font-weight: 700;
@@ -31,18 +28,16 @@
 }
 
 .reservation-option-step-list {
-  padding-left: 72px;
+  padding-left: 48px;
   counter-reset: step-counter;
   list-style: none;
 }
 
 $reservation-step-text-line-height: 32px;
-
 .reservation-option-step-item {
   margin-bottom: 40px;
   counter-increment: step-counter;
   position: relative;
-
   &::before {
     content: counter(step-counter);
     font-weight: bold;
@@ -56,28 +51,23 @@ $reservation-step-text-line-height: 32px;
     border-radius: 50%;
     text-align: center;
   }
-
   &--last {
     margin-bottom: 0;
   }
-
   &__text {
     line-height: $reservation-step-text-line-height;
     margin-bottom: 20px;
-    font-weight: 600;
+    font-weight: 700;
     font-size: 18px;
   }
-
   &__point-list {
     padding-left: 32px;
     list-style: none;
     font-size: 16px;
   }
-
   &__point-item {
     margin-bottom: 24px;
     position: relative;
-
     &::before {
       content: '•';
       position: absolute;
