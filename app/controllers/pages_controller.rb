@@ -16,6 +16,7 @@ class PagesController < ApplicationController
   end
 
   def signals_reservation
+    @random = rand(0..9999)
     render "pages/signals/reservation"
   end
 
