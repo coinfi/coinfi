@@ -14,8 +14,28 @@
               <code class="reservation-value">0xABCDEFG12345</code>
             </div>
 
-            <a class="reservation-option-step-note" href="" target="_blank">
-              Don't have any COFI tokens or need more?
+            <%= react_component_with_jss "SignalPopoverText",
+              props: {
+                text: "Don't have any COFI tokens or need more?",
+                description: 'You can acquire COFI tokens at the following exchanges:
+                  <ul>
+                    <li>
+                      <a href="https://kyber.network/swap/eth_cofi" target="_blank">Kyber Network</a>
+                    </li>
+                    <li>
+                      <a href="https://www.kucoin.com" target="_blank">KuCoin</a>
+                    </li>
+                    <li>
+                      <a href="https://www.gate.io/" target="_blank">Gate.io</a>
+                    </li>
+                  </ul>',
+              },
+              html_options: {
+                class: 'signal-popover-text'
+              },
+              prerender: true
+            %>
+
             </a>
           </li>
 
