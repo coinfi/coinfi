@@ -4,6 +4,15 @@ SitemapGenerator::Sitemap.default_host = "https://#{ENV.fetch('ROOT_DOMAIN')}"
 # Disable automatically including root url
 SitemapGenerator::Sitemap.include_root = false
 
+# Sitemap gets uploaded to AWS S3 since Heroku only has ephemeral filesystem.
+SitemapGenerator::Sitemap.adapter = SitemapGenerator::S3Adapter.new(
+  fog_provider: 'AWS',
+  aws_access_key_id: ENV.fetch('AWS_ACCESS_KEY_ID'),
+  aws_secret_access_key: ENV.fetch('AWS_SECRET_ACCESS_KEY'),
+  fog_directory: ENV.fetch('S3_BUCKET'),
+  fog_region: 'us-east-1'
+)
+
 SitemapGenerator::Sitemap.create do
   # Put links creation logic here.
   #
