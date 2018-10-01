@@ -59,7 +59,7 @@ class Coin < ApplicationRecord
       .group(:id)
       .order('COUNT(DISTINCT news_items.id) DESC')
       .limit(1)
-      .first()
+      .first
   end
 
   def most_common_feed_source
@@ -69,7 +69,7 @@ class Coin < ApplicationRecord
       .group(:id)
       .order('COUNT(DISTINCT news_items.id) DESC')
       .limit(1)
-      .first()
+      .first
   end
 
   def summary
@@ -78,20 +78,18 @@ class Coin < ApplicationRecord
     if self.ranking && self.market_info["market_cap_usd"]
       result << %W[
         #{self.name} (#{self.symbol}) is currently the ##{self.ranking} cryptocurrency by market cap
-        at #{(self.market_info["market_cap_usd"])}.
+        at #{(self.market_info["market_cap_usd"])} USD.
       ]
     end
 
     if self.market_info["24h_volume_usd"]
       result << %W[
         Trading volume for #{self.name} over the last 24 hours is
-        #{(self.market_info["24h_volume_usd"])}.
+        #{(self.market_info["24h_volume_usd"])} USD.
       ]
     end
 
-    recent_news_count = self.news_items
-      .where('feed_item_published_at >= ?', 7.days.ago)
-      .count()
+    recent_news_count = self.news_items.where('feed_item_published_at >= ?', 7.days.ago).count
     formatted_recent_news_count = recent_news_count == 0 ? 'no' : recent_news_count
     if recent_news_count > 1
       result << %W[
@@ -115,7 +113,7 @@ class Coin < ApplicationRecord
     ]
 
     # Merge the result into a single line string
-    result.flatten().join(' ')
+    result.flatten.join(' ')
   end
 
   def related_coins
