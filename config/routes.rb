@@ -16,7 +16,7 @@ Rails.application.routes.draw do
   get '/news/:coin_slug', to: 'news#coin_index', as: 'news_coin'
   get '/news', to: 'news#index'
   get '/news-beta', to: redirect('/', status: 302)
-  get '/podcast', to: redirect('https://blog.coinfi.com/topics/podcast/', status: 302)
+  get '/podcast', to: redirect('https://blog.coinfi.com/topics/podcast/', status: 302), as: 'podcast'
   get '/profile', to: 'users#edit'
   put '/profile', to: 'users#update'
 
@@ -74,11 +74,11 @@ Rails.application.routes.draw do
   end
 
   root to: 'pages#show', id: 'home'
-  get '/about', to: 'pages#show', id: 'about', as: 'home_about'
-  get '/press', to: 'pages#show', id: 'press', as: 'home_press'
-  get '/calendar', to: 'pages#show', id: 'calendar', as: 'home_calendar'
-  get '/ambassadors', to: 'pages#show', id: 'ambassadors', as: 'home_ambassadors'
-  get '/win-cofi', to: 'pages#show', id: 'win-cofi', as: 'home_win_cofi'
+  get '/about', to: 'pages#show', id: 'about', as: 'page_about'
+  get '/press', to: 'pages#show', id: 'press', as: 'page_press'
+  get '/calendar', to: 'pages#show', id: 'calendar', as: 'page_calendar'
+  get '/ambassadors', to: 'pages#show', id: 'ambassadors', as: 'page_ambassadors'
+  get '/win-cofi', to: 'pages#show', id: 'win-cofi', as: 'page_win_cofi'
 
   mount Blazer::Engine, at: "blazer"
 end

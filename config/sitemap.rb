@@ -29,11 +29,11 @@ SitemapGenerator::Sitemap.create do
   #   end
 
   add root_path, :priority => 1.0, :changefreq => 'always'
-  add home_about_path, :priority => 0.8, :changefreq => 'daily'
-  add home_press_path, :priority => 0.8, :changefreq => 'daily'
-  add home_calendar_path, :priority => 0.8, :changefreq => 'daily'
-  add home_ambassadors_path, :priority => 0.8, :changefreq => 'daily'
-  add home_win_cofi_path, :priority => 0.8, :changefreq => 'daily'
+  add page_about_path, :priority => 0.8, :changefreq => 'daily'
+  add page_press_path, :priority => 0.8, :changefreq => 'daily'
+  add page_calendar_path, :priority => 0.8, :changefreq => 'daily'
+  add page_ambassadors_path, :priority => 0.8, :changefreq => 'daily'
+  add page_win_cofi_path, :priority => 0.8, :changefreq => 'daily'
 
   add podcast_path, :changefreq => 'daily'
   add coins_path, :changefreq => 'hourly'
