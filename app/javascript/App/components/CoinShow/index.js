@@ -68,7 +68,7 @@ class CoinShow extends Component {
       priceData,
       annotations,
       isTradingViewVisible,
-      modeAnalyticsUrl,
+      metabaseUrl,
       coinObj,
     } = this.props
 
@@ -318,13 +318,18 @@ class CoinShow extends Component {
                     </CardWrapLast>
                   </Col>
 
-                  {coinObj.token_type === 'ERC20' && modeAnalyticsUrl ? (
+                  {metabaseUrl ? (
                     <Col xs={24} sm={24} m={24} l={24} xl={24}>
                       <CardWrapLast>
-                        <Card title="Token Metrics">
-                          <a href={modeAnalyticsUrl} className="mode-embed">
-                            Token Metrics
-                          </a>
+                        <Card title="Advanced Token Metrics">
+                          <iframe
+                            title="Advanced Token Metrics"
+                            src={metabaseUrl}
+                            frameBorder="0"
+                            width="100%"
+                            height="900"
+                            scrolling="no"
+                          />
                         </Card>
                       </CardWrapLast>
                     </Col>

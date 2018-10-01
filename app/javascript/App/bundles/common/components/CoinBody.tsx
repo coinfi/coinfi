@@ -3,12 +3,24 @@ import CoinCharts from '../../../components/CoinCharts'
 import Currency from '../../../components/Currency'
 import PercentageChange from './PercentageChange'
 import WatchStar from '~/bundles/common/components/WatchStar'
+import NewsRelatedCoinList from './NewsRelatedCoinList'
 import LoadingIndicator from '../../../components/LoadingIndicator'
 import localAPI from '../../../lib/localAPI'
+import { withStyles, createStyles } from '@material-ui/core/styles'
 
 import { CoinWithDetails } from '../types'
 
+const styles = (theme) =>
+  createStyles({
+    relatedCoinList: {
+      listStyle: 'none',
+      paddingLeft: 0,
+    },
+    relatedCoinItem: {},
+  })
+
 interface Props {
+  classes: any
   initialCoinWithDetails?: CoinWithDetails
   coinSlug?: string
   loggedIn: boolean
@@ -56,7 +68,7 @@ class CoinBody extends React.Component<Props, State> {
   }
 
   public render() {
-    const { loggedIn } = this.props
+    const { loggedIn, classes } = this.props
     const { coinWithDetails } = this.state
 
     if (!coinWithDetails) {
@@ -117,9 +129,16 @@ class CoinBody extends React.Component<Props, State> {
           annotations={coinWithDetails.news_data}
           isTradingViewVisible={true}
         />
+
+        <div className="mt3 mb3">
+          <h2 className="f5">Read Related News</h2>
+          <NewsRelatedCoinList
+            relatedCoinsData={coinWithDetails.related_coins_data}
+          />
+        </div>
       </div>
     )
   }
 }
 
-export default CoinBody
+export default withStyles(styles)(CoinBody)

@@ -12,11 +12,25 @@ module NewsItems
       result = relation
 
       # Apply Coins filter
-      coins = Coin.top(20) unless coins.present? # Default coins
+      if coins.present?
+        filter_by_coins = true
+      else
+        # Default coins
+        coins = Coin.top(20)
+        filter_by_coins = false
+      end
+
       news_coin_mentions = NewsCoinMention.default_tagged.where(coin: coins)
-      result = result
-        .left_outer_joins(:news_coin_mentions)
-        .where("news_coin_mentions.id IN (?) OR news_coin_mentions.id IS NULL", news_coin_mentions.select(:id))
+
+      if filter_by_coins
+        result = result
+          .joins(:news_coin_mentions)
+          .where("news_coin_mentions.id IN (?)", news_coin_mentions.select(:id))
+      else
+        result = result
+          .left_outer_joins(:news_coin_mentions)
+          .where("news_coin_mentions.id IN (?) OR news_coin_mentions.id IS NULL", news_coin_mentions.select(:id))
+      end
 
       # Apply FeedSources filter
       if feed_sources.blank?
@@ -32,7 +46,7 @@ module NewsItems
         result = result
           .joins(:news_item_categorizations)
           .where(news_item_categorizations: {
-            id: news_categories
+            news_category_id: news_categories.select(:id)
           })
       end
 

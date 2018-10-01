@@ -52,6 +52,10 @@ class Coin < ApplicationRecord
     pluck(:symbol).uniq.compact.sort.reject { |symbol| /[[:lower:]]/.match(symbol) }
   end
 
+  def related_coins
+    Coins::RelatedToQuery.call(coin: self)
+  end
+
   def update_previous_name
     self.previous_name = name_was if name_changed?
   end
@@ -152,5 +156,10 @@ class Coin < ApplicationRecord
   def is_being_watched
     # Only use this for serialization
     current_user && current_user.coins.include?(self)
+  end
+
+  def is_erc20?
+    return false unless token_type
+    token_type.start_with?("ERC") || token_type.start_with?("EIP")
   end
 end
