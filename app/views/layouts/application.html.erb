@@ -19,7 +19,7 @@
     <% end %>
 
   </head>
-  <body class='<%= @body_class %>'>
+  <body id="<%= @body_id %>" class="<%= @body_class %>">
     <header>
       <%= render partial: "components/nav" %>
     </header>
@@ -33,6 +33,5 @@
     <script src="/tradingview/charting_library.min.js"></script>
     <%= javascript_pack_tag 'client-bundle' %>
     <%= render 'layouts/tracking_scripts' %>
-    <script src="https://modeanalytics.com/embed/embed.js"></script>
   </body>
 </html>

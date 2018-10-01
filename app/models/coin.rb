@@ -157,4 +157,9 @@ class Coin < ApplicationRecord
     # Only use this for serialization
     current_user && current_user.coins.include?(self)
   end
+
+  def is_erc20?
+    return false unless token_type
+    token_type.start_with?("ERC") || token_type.start_with?("EIP")
+  end
 end

@@ -23,22 +23,18 @@ class CoinsController < ApplicationController
     @latest_news = @coin.articles.latest_news
     @upcoming_events = @coin.articles.upcoming_events
 
-    if @coin.symbol && ENV['MODE_ACCESS_KEY']
-      base_mode_analytics_url = "https://modeanalytics.com/coinfi/reports/ab6bace449d6/embed?"
-      # Keys need to be in alphabetical order!
-      mode_params = {
-        access_key: ENV['MODE_ACCESS_KEY'],
-        max_age: 60 * 60 * 12, # in seconds; equivalent to 12 hours
-        param_token_symbol: @coin.symbol,
-        timestamp: Time.now.to_i
+    if @coin.symbol && @coin.is_erc20? && ENV['METABASE_SECRET_KEY']
+      payload = {
+        resource: { dashboard: 3 },
+        params: {
+          "coin_key" => @coin.coin_key
+        }
       }
+      token = JWT.encode payload, ENV['METABASE_SECRET_KEY']
 
-      # <iframe src="https://modeanalytics.com/coinfi/reports/ab6bace449d6/embed
-      # ?access_key=[xxx]&max_age=[xxxx in seconds]&param_[foo=bar]&timestamp=[xxx]&signature=[xxx]"
-      # width="100%" height="300" frameborder="0"></iframe>
-      @mode_analytics_url = ModeAnalytics.sign_url(base_mode_analytics_url + mode_params.to_query)
+      @metabase_url = "https://metabase.coinfi.com/embed/dashboard/#{token}#bordered=false&titled=false"
     else
-      @mode_analytics_url = nil
+      @metabase_url = nil
     end
 
     if @coin.ico_status == 'listed'
