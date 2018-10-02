@@ -14,18 +14,10 @@ import SignalTeamMember from './bundles/signalsPage/SignalTeamMember'
 
 // Register the components so they can be rendered from Rails
 ;(ReactOnRails as any).register({
-  CoinShow: createServerComponentHash((props) => <CoinShow {...props} />),
-  SignalExamplePanel: createServerComponentHash((props) => (
-    <SignalExamplePanel {...props} />
-  )),
-  SignalFaqPanel: createServerComponentHash((props) => (
-    <SignalFaqPanel {...props} />
-  )),
-  SignalPopoverText: createServerComponentHash((props) => (
-    <SignalPopoverText {...props} />
-  )),
-  SignalTeamMember: createServerComponentHash((props) => (
-    <SignalTeamMember {...props} />
-  )),
+  CoinShow: createServerComponentHash(CoinShow),
+  SignalExamplePanel: createServerComponentHash(SignalExamplePanel),
+  SignalFaqPanel: createServerComponentHash(SignalFaqPanel),
+  SignalPopoverText: createServerComponentHash(SignalPopoverText),
+  SignalTeamMember: createServerComponentHash(SignalTeamMember),
   App: createServerAppHash,
 })

@@ -22,7 +22,10 @@ class NewsItem < ApplicationRecord
   alias_method :categories, :news_categories
   alias_method :mentions, :news_coin_mentions
 
-  before_create :set_unpublished_if_feed_source_inactive, :set_unpublished_if_duplicate
+  before_create :set_unpublished_if_feed_source_inactive
+  before_create :set_unpublished_if_duplicate
+  before_create :assign_default_news_categories
+
   after_create_commit :notify_news_tagger, :link_coin_from_feedsource
 
   def self.categorized(categories = nil)
@@ -117,6 +120,11 @@ class NewsItem < ApplicationRecord
     if duplicate_exists
       self.is_published = false
     end
+  end
+
+  def assign_default_news_categories
+    assign_service = AssignNewsItemDefaultNewsCategories.new(news_item: self)
+    assign_service.call
   end
 
   def link_coin_from_feedsource

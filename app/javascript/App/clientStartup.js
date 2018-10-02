@@ -1,4 +1,5 @@
 import ReactOnRails from 'react-on-rails'
+import withClientProviders from '~/withClientProviders'
 
 // react-router app
 import ClientApp from './ClientApp'
@@ -17,15 +18,15 @@ import SignalTeamMember from './bundles/signalsPage/SignalTeamMember'
 
 // Register the components so they can be rendered from Rails
 ReactOnRails.register({
-  NavUserContainer,
-  CoinShow,
-  IcoFilters,
-  FlashMessageListContainer,
-  WatchButton,
-  CalendarPage,
-  SignalExamplePanel,
-  SignalFaqPanel,
-  SignalPopoverText,
-  SignalTeamMember,
+  NavUserContainer: withClientProviders(NavUserContainer),
+  CoinShow: withClientProviders(CoinShow),
+  IcoFilters: withClientProviders(IcoFilters),
+  FlashMessageListContainer: withClientProviders(FlashMessageListContainer),
+  WatchButton: withClientProviders(WatchButton),
+  CalendarPage: withClientProviders(CalendarPage),
+  SignalExamplePanel: withClientProviders(SignalExamplePanel),
+  SignalFaqPanel: withClientProviders(SignalFaqPanel),
+  SignalPopoverText: withClientProviders(SignalPopoverText),
+  SignalTeamMember: withClientProviders(SignalTeamMember),
   App: ClientApp,
 })
