@@ -20,6 +20,13 @@ var _rollbarConfig = {
   <% if current_user %>
     heap.identify('<%= current_user.email %>');
   <% end %>
+  window.addEventListener('load', function() {
+    if (typeof web3 !== 'undefined' && web3.currentProvider.isMetaMask) {
+      heap.addUserProperties({ 'hasMetaMask': true })
+    } else {
+      heap.addUserProperties({ 'hasMetaMask': false })
+    }
+  })
 </script>
 
 <script>
