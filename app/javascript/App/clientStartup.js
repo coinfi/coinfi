@@ -1,4 +1,5 @@
 import ReactOnRails from 'react-on-rails'
+import withClientProviders from '~/withClientProviders'
 
 // react-router app
 import ClientApp from './ClientApp'
@@ -13,11 +14,11 @@ import CalendarPage from './components/CalendarPage'
 
 // Register the components so they can be rendered from Rails
 ReactOnRails.register({
-  NavUserContainer,
-  CoinShow,
-  IcoFilters,
-  FlashMessageListContainer,
-  WatchButton,
-  CalendarPage,
+  NavUserContainer: withClientProviders(NavUserContainer),
+  CoinShow: withClientProviders(CoinShow),
+  IcoFilters: withClientProviders(IcoFilters),
+  FlashMessageListContainer: withClientProviders(FlashMessageListContainer),
+  WatchButton: withClientProviders(WatchButton),
+  CalendarPage: withClientProviders(CalendarPage),
   App: ClientApp,
 })
