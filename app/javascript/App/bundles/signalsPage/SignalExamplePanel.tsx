@@ -6,6 +6,9 @@ import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails'
 import Typography from '@material-ui/core/Typography'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import classnames from 'classnames'
+import withDevice from '~/bundles/common/utils/withDevice'
+import { DeviceContextType } from '~/bundles/common/contexts/DeviceContext'
+import * as _ from 'lodash'
 
 const styles = (theme) =>
   createStyles({
@@ -63,9 +66,9 @@ interface State {
   expanded: boolean
 }
 
-interface Props {
+interface Props extends DeviceContextType {
   classes: any
-  initialExpanded: boolean
+  initialExpanded?: boolean
   title: string
   buyDescription?: string
   sellDescription?: string
@@ -75,8 +78,13 @@ class SignalExamplePanel extends React.Component<Props, State> {
   constructor(props) {
     super(props)
 
+    // Set the panel to be expanded by default unless it is on mobile
+    const defaultExpanded = !props.isMobile
+
     this.state = {
-      expanded: props.initialExpanded || false,
+      expanded: !_.isUndefined(props.initialExpanded)
+        ? props.initialExpanded
+        : defaultExpanded,
     }
   }
 
@@ -150,4 +158,4 @@ class SignalExamplePanel extends React.Component<Props, State> {
   }
 }
 
-export default withStyles(styles)(SignalExamplePanel)
+export default withDevice(withStyles(styles)(SignalExamplePanel))
