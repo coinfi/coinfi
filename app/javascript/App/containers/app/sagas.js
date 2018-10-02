@@ -3,10 +3,9 @@ import { setUser } from './actions'
 import apiSagas from '../../lib/redux/apiSagas'
 import * as selectors from './selectors'
 
-import icoFiltersSagas from '../icoFilters/sagas'
 import calendarSagas from '../calendar/sagas'
 
-const sagas = [icoFiltersSagas, calendarSagas]
+const sagas = [calendarSagas]
 
 export default function* watcher() {
   yield all(sagas.map((saga) => fork(saga)))
