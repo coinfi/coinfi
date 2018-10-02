@@ -1,4 +1,5 @@
 import ReactOnRails from 'react-on-rails'
+import withClientProviders from '~/withClientProviders'
 
 // react-router app
 import ClientApp from './ClientApp'
@@ -9,13 +10,21 @@ import CoinShow from './bundles/CoinShow'
 import FlashMessageListContainer from './bundles/common/containers/FlashMessageListContainer'
 import WatchButton from './bundles/common/components/WatchButton'
 import CalendarPage from './bundles/CalendarPage'
+import SignalExamplePanel from './bundles/signalsPage/SignalExamplePanel'
+import SignalFaqPanel from './bundles/signalsPage/SignalFaqPanel'
+import SignalPopoverText from './bundles/signalsPage/SignalPopoverText'
+import SignalTeamMember from './bundles/signalsPage/SignalTeamMember'
 
 // Register the components so they can be rendered from Rails
 ReactOnRails.register({
-  NavUserContainer,
-  CoinShow,
-  FlashMessageListContainer,
-  WatchButton,
-  CalendarPage,
+  NavUserContainer: withClientProviders(NavUserContainer),
+  CoinShow: withClientProviders(CoinShow),
+  FlashMessageListContainer: withClientProviders(FlashMessageListContainer),
+  WatchButton: withClientProviders(WatchButton),
+  CalendarPage: withClientProviders(CalendarPage),
+  SignalExamplePanel: withClientProviders(SignalExamplePanel),
+  SignalFaqPanel: withClientProviders(SignalFaqPanel),
+  SignalPopoverText: withClientProviders(SignalPopoverText),
+  SignalTeamMember: withClientProviders(SignalTeamMember),
   App: ClientApp,
 })

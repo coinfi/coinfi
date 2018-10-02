@@ -27,35 +27,74 @@ const styles = (theme) =>
 interface Props {
   classes: any
   url: string
+  twitterButtonProps?: any
+  facebookButtonProps?: any
+  linkedinButtonProps?: any
+  telegramButtonProps?: any
+  redditButtonProps?: any
+  emailButtonProps?: any
 }
 
 const NewsBodyShareButtons: React.StatelessComponent<Props> = (props) => {
-  const { url, classes } = props
+  const {
+    classes,
+    url,
+    twitterButtonProps,
+    facebookButtonProps,
+    linkedinButtonProps,
+    telegramButtonProps,
+    redditButtonProps,
+    emailButtonProps,
+  } = props
 
   return (
     <div className={classes.root}>
-      <TwitterShareButton className={classes.button} url={url}>
+      <TwitterShareButton
+        className={classes.button}
+        url={url}
+        {...twitterButtonProps || {}}
+      >
         <i className="fab fa-twitter twitter" />
       </TwitterShareButton>
 
-      <FacebookShareButton className={classes.button} url={url}>
+      <FacebookShareButton
+        className={classes.button}
+        url={url}
+        {...facebookButtonProps || {}}
+      >
         <i className="fab fa-facebook-square facebook" />
       </FacebookShareButton>
 
-      <LinkedinShareButton className={classes.button} url={url}>
+      <LinkedinShareButton
+        className={classes.button}
+        url={url}
+        {...linkedinButtonProps || {}}
+      >
         <i className="fab fa-linkedin linkedin" />
       </LinkedinShareButton>
 
-      <TelegramShareButton className={classes.button} url={url}>
+      <TelegramShareButton
+        className={classes.button}
+        url={url}
+        {...telegramButtonProps || {}}
+      >
         {/* Using `safari` font-awesome-brand-color since it's the closest to Telegram brand color */}
         <i className="fab fa-telegram-plane safari" />
       </TelegramShareButton>
 
-      <RedditShareButton className={classes.button} url={url}>
+      <RedditShareButton
+        className={classes.button}
+        url={url}
+        {...redditButtonProps || {}}
+      >
         <i className="fab fa-reddit reddit" />
       </RedditShareButton>
 
-      <EmailShareButton className={classes.button} url={url}>
+      <EmailShareButton
+        className={classes.button}
+        url={url}
+        {...emailButtonProps || {}}
+      >
         <i className="fas fa-envelope" />
       </EmailShareButton>
     </div>
