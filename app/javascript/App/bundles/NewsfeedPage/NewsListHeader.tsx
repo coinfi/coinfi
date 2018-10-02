@@ -1,13 +1,11 @@
 import * as React from 'react'
-import Icon from '../../components/Icon'
-import SectionHeader from '../../components/SectionHeader'
+import Icon from '~/bundles/common/components/Icon'
+import SectionHeader from '~/bundles/common/components/SectionHeader'
 import CoinTipsTab from '../common/components/CoinTipsTab'
 import FilterPanel from './FilterPanel'
 import { Filters } from './types'
 import withDevice from '~/bundles/common/utils/withDevice'
-
-// tslint:disable-next-line
-const filterBtn = require('../../images/filter-btn.svg')
+import { filterBtn } from '~/bundles/common/utils/images'
 
 interface Props {
   showFilters: boolean

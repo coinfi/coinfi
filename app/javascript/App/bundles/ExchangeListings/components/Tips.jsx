@@ -1,8 +1,6 @@
 import React from 'react'
-import Icon from '../../../components/Icon'
-import chartIcon from '../../../images/chartIcon.svg'
-import filterIcon from '../../../images/filterIcon.svg'
-import listIcon from '../../../images/listIcon.svg'
+import Icon from '../../common/components/Icon'
+import { chartIcon, filterIcon, listIcon } from '../../common/utils/images'
 
 const titleStyle = {
   fontSize: '1.13rem',

@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import Icon from '../Icon'
+import Icon from '../../bundles/common/components/Icon'
 import clickOutside from 'react-onclickoutside'
 
 class SelectFilter extends Component {

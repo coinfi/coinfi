@@ -1,11 +1,9 @@
 import React, { Component, Fragment } from 'react'
 import moment from 'moment'
 import * as _ from 'lodash'
-import CoinTags from '../CoinTags'
-import BulletSpacer from '../BulletSpacer'
-import Icon from '../Icon'
-import Countdown from '../Countdown'
-import cornerArrowIcon from '../../images/cornerArrowIcon.svg'
+import BulletSpacer from '~/bundles/common/components/BulletSpacer'
+import Countdown from '../../bundles/common/components/Countdown'
+import { cornerArrowIcon } from '~/bundles/common/utils/images'
 
 export default class CalendarBody extends Component {
   render() {

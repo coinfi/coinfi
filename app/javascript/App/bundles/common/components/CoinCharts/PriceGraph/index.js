@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import Highcharts from 'highcharts/highstock'
-import Switch from '../../Switch'
+import Switch from '~/bundles/common/components/Switch'
 import options from './options'
 import chartOptions from './chartOptions'
 

@@ -1,13 +1,12 @@
 import * as React from 'react'
-import CoinCharts from '../../../components/CoinCharts'
-import Currency from '../../../components/Currency'
+import CoinCharts from './CoinCharts'
+import Currency from './Currency'
 import PercentageChange from './PercentageChange'
 import WatchButton from './WatchButton'
 import NewsRelatedCoinList from './NewsRelatedCoinList'
-import LoadingIndicator from '../../../components/LoadingIndicator'
+import LoadingIndicator from './LoadingIndicator'
 import localAPI from '../../../lib/localAPI'
 import { withStyles, createStyles } from '@material-ui/core/styles'
-import { Link } from 'react-router-dom'
 
 import { CoinWithDetails } from '../types'
 

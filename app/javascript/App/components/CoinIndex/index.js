@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react'
 import { Table } from 'antd'
 import ColumnNames from './ColumnNames'
-import SearchCoins from '../../bundles/common/components/SearchCoins'
+import SearchCoins from '~/bundles/common/components/SearchCoins'
 import API from '../../lib/localAPI'
 import * as _ from 'lodash'
 

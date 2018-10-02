@@ -4,7 +4,7 @@ import moment from 'moment'
 import 'react-datepicker/dist/react-datepicker-cssmodules.css'
 import withDevice from '~/bundles/common/utils/withDevice'
 
-class DateRange extends Component {
+class DateRangeListing extends Component {
   selectedItems = () => this.props.selectedItems || []
 
   addFrom = (item) => {
@@ -82,4 +82,4 @@ class DateRange extends Component {
   }
 }
 
-export default withDevice(DateRange)
+export default withDevice(DateRangeListing)

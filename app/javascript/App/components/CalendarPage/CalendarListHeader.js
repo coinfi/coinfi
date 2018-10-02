@@ -1,9 +1,10 @@
 import React, { Fragment } from 'react'
-import Icon from '../Icon'
-import SectionHeader from '../SectionHeader'
-import SearchCoins from '../SearchCoins'
-import FilterPanel from '../FilterPanel'
-import filterBtn from '../../images/filter-btn.svg'
+import Icon from '~/bundles/common/components/Icon'
+import SectionHeader from '~/bundles/common/components/SectionHeader'
+import SearchCoins from '~/bundles/common/components/SearchCoins'
+//NOTE: this will probably be broken, but breaking to remove old dependencies
+import FilterPanel from '~/bundles/common/components/FilterPanel'
+import { filterBtn } from '~/bundles/common/utils/images'
 import withDevice from '~/bundles/common/utils/withDevice'
 
 const CalendarListHeader = (props) => {

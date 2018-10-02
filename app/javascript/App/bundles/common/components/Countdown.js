@@ -1,6 +1,5 @@
 import React, { Component, Fragment } from 'react'
 import moment from 'moment'
-import { Row, Col } from 'antd'
 
 export default class Countdown extends Component {
   timer

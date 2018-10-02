@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import Tabs from '../Tabs'
+import Tabs from './Tabs'
 import PriceGraph from './PriceGraph'
 import TradingViewChart from './TradingViewChart'
 

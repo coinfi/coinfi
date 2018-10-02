@@ -3,11 +3,11 @@ import coinSearchProvider from '../containers/coinSearch'
 import Input from './Input'
 import Icon from './Icon'
 
-class SearchCoins extends Component {
+class SearchEvents extends Component {
   handleSearchInput = (value) => {
-    let { searchCoins } = this.props
+    let { searchEvents } = this.props
     const name_not_in = this.selectedCoins()
-    searchCoins(value, { q: { name_not_in }, limit: 10 })
+    searchEvents(value, { q: { name_not_in }, limit: 10 })
   }
   render() {
     const { classProps, searchText, clearSearch } = this.props
@@ -47,4 +47,4 @@ class SearchCoins extends Component {
   }
 }
 
-export default coinSearchProvider('coinFilter')(SearchCoins)
+export default coinSearchProvider('coinFilter')(SearchEvents)

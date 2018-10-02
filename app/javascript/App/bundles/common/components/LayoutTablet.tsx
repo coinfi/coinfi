@@ -1,5 +1,7 @@
-import React, { Fragment } from 'react'
+import * as React from 'react'
 import { withStyles, createStyles } from '@material-ui/core/styles'
+
+const { Fragment } = React
 
 const styles = (theme) =>
   createStyles({

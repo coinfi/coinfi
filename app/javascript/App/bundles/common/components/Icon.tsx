@@ -1,15 +1,42 @@
-import React from 'react'
+import * as React from 'react'
 
 /*
  * Simple wrapper for FontAwesome.
  * Wrapping div/button required to prevent error on unmount.
  */
 
-export default ({ name, brand, regular, solid, children, ...rest }) => {
+export interface IconProps {
+  name: string
+  brand?: boolean
+  regular?: boolean
+  solid?: boolean
+  [x: string]: any
+}
+
+export interface IconWrapperProps {
+  onClick?: () => void
+  className?: string
+  [x: string]: any
+}
+
+export default ({
+  name,
+  brand,
+  regular,
+  solid,
+  children,
+  ...rest
+}: IconProps) => {
   let prefix = 'fal'
-  if (regular) prefix = 'far'
-  if (solid) prefix = 'fas'
-  if (brand) prefix = 'fab'
+  if (regular) {
+    prefix = 'far'
+  }
+  if (solid) {
+    prefix = 'fas'
+  }
+  if (brand) {
+    prefix = 'fab'
+  }
   return (
     <IconWrapper {...rest}>
       <i className={`pr1 ${prefix} fa-${name}`} />
@@ -18,7 +45,7 @@ export default ({ name, brand, regular, solid, children, ...rest }) => {
   )
 }
 
-const IconWrapper = ({ onClick, children, className }) => {
+const IconWrapper = ({ onClick, children, className }: IconWrapperProps) => {
   const klass = className || ''
   if (onClick) {
     return (

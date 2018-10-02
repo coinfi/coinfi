@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import Switch from '../../Switch'
+import Switch from '~/bundles/common/components/Switch'
 
 export default class OpenWhitelist extends Component {
   render() {

@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react'
 import moment from 'moment'
-import CoinTags from '../CoinTags'
-import BulletSpacer from '../BulletSpacer'
+import CoinTags from '~/bundles/common/components/CoinTags'
+import BulletSpacer from '~/bundles/common/components/BulletSpacer'
 
 const CalendarListEvent = (props) => {
   const {

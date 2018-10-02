@@ -3,7 +3,7 @@ import * as _ from 'lodash'
 import moment from 'moment'
 import CalendarListEvent from './CalendarListEvent'
 import CalendarListEventHeader from './CalendarListEventHeader'
-import LoadingIndicator from '../LoadingIndicator'
+import LoadingIndicator from '../../bundles/common/components/LoadingIndicator'
 import Tips from './Tips'
 import withDevice from '~/bundles/common/utils/withDevice'
 

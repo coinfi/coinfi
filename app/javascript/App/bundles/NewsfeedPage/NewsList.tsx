@@ -2,7 +2,7 @@ import * as React from 'react'
 import InfiniteScroll from 'react-infinite-scroll-component'
 import * as _ from 'lodash'
 import NewsListItem from './NewsListItem'
-import LoadingIndicator from '../../components/LoadingIndicator'
+import LoadingIndicator from '../common/components/LoadingIndicator'
 import Tips from './Tips'
 import withDevice from '~/bundles/common/utils/withDevice'
 
