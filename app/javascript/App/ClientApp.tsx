@@ -14,10 +14,6 @@ const createClientAppRouter = () => {
   return ClientAppRouter
 }
 
-const ClientApp = (props, railsContext) =>
-  withClientProviders(withAppProviders(createClientAppRouter()))(
-    props,
-    railsContext,
-  )
+const ClientApp = withClientProviders(withAppProviders(createClientAppRouter()))
 
 export default ClientApp
