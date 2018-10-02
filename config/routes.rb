@@ -5,7 +5,7 @@ Rails.application.routes.draw do
 
   resources :author_profiles, only: %i[index show create update], path: 'authors'
   get '/calculators/:id', to: 'calculators#show'
-  get '/coins/:id_or_slug', to: 'coins#show'
+  get '/coins/:id_or_slug', to: 'coins#show', as: :coin
   resources :coins, only: %i[index]
   resources :contributor_submissions, path: 'contributor-submissions'
   resources :exchange_listings, only: :index, path: 'listings'
