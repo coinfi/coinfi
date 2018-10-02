@@ -12,16 +12,14 @@ const generateClassName = createGenerateClassName()
 /**
  * Generator function for a component hash to be used with React on Rails `react_component` and
  * `react_component_hash`. Use this on any component to allow it to be rendered server side
- * @param componentFn Component to render. Must be in the form of a function instead of a class as
- *   we need to pass in `railsContext` in addition to `props`
+ * @param TargetComponent Component to render. Note that `railsContext` will not be passed as an
+ *   argument to this component
  */
-const createServerComponentHash = (
-  componentFn: (props: any, railsContext: any) => React.ReactNode,
-) => {
+const createServerComponentHash = (TargetComponent: any) => {
   return (props, railsContext) => {
     // Render to HTML passing in `context` to be updated
     const componentHtml = renderToString(
-      withServerProviders(componentFn, {
+      withServerProviders(TargetComponent, {
         sheetsRegistry,
         sheetsManager,
         generateClassName,
