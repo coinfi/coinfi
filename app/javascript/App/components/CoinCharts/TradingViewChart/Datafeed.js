@@ -2,6 +2,7 @@
  * Implementation of the JS API
  * See: https://github.com/tradingview/charting_library/wiki/JS-Api
  */
+import moment from 'moment'
 
 export default class Datafeed {
   constructor(data) {
@@ -45,14 +46,19 @@ export default class Datafeed {
      * Example: https://github.com/tradingview/charting_library/blob/e7771668fcb61b5f99d79103d2cc7e27452cae12/datafeeds/udf/lib/history-provider.js#L7
      */
     if (!firstDataRequest) return
-    const bars = this.data.map((bar) => ({
-      time: bar.timestamp,
-      volume: Number(bar.volume_from),
-      open: Number(bar.open),
-      close: Number(bar.close),
-      low: Number(bar.low),
-      high: Number(bar.high),
-    }))
+    const bars = this.data.map((bar) => {
+      // Need to convert `time` which is a date string into unix timestamp
+      const timestamp = moment(bar.time).valueOf()
+
+      return {
+        time: timestamp,
+        volume: Number(bar.volume_from),
+        open: Number(bar.open),
+        close: Number(bar.close),
+        low: Number(bar.low),
+        high: Number(bar.high),
+      }
+    })
     onHistoryCallback(bars)
   }
   subscribeBars() {}
