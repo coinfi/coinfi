@@ -29,7 +29,9 @@
             </li>
           </ul>
 
-          <a class="btn btn-blue signals-section__cta-btn">Reserve My Spot</a>
+          <a class="btn btn-blue signals-section__cta-btn" href="<%= signals_reservation_path %>">
+            Reserve My Spot
+          </a>
 
           <div class="signals-section__cta-btn-note">
             Only 2,000 spots available
@@ -256,7 +258,7 @@
                   props: {
                     avatarUrl: image_path('signals/team-members/alex.png'),
                     description: "Alex Svanevik has 8+ years experience from data science, management consulting, and startups in Schibsted Media Group, BearingPoint, and Codeus. He holds an MSc in Artificial Intelligence from the University of Edinburgh.",
-                    roleDescription: "Alex is the Chief Data Scientist at Coinfi.",
+                    roleDescription: "Alex is the Chief Data Scientist at CoinFi.",
                   },
                   html_options: {
                     class: "signal-team-members__item",
@@ -553,7 +555,9 @@
       <h2 class="signals-section__title cta-signals-section__title">Ready to trade with professional signals?</h2>
       <p class="signals-section__lead cta-signals-section__lead">Reserve one of the 2,000 spots</p>
 
-      <a class="btn btn-blue signals-section__cta-btn">Reserve My Spot</a>
+      <a class="btn btn-blue signals-section__cta-btn" href="<%= signals_reservation_path %>">
+        Reserve My Spot
+      </a>
     </div>
   </div>
 </section>

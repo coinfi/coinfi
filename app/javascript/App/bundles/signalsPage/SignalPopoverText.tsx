@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { withStyles, createStyles } from '@material-ui/core/styles'
-import Avatar from '@material-ui/core/Avatar'
+import ClickAwayListener from '@material-ui/core/ClickAwayListener'
 import Popover from '@material-ui/core/Popover'
 import Typography from '@material-ui/core/Typography'
 
@@ -12,7 +12,6 @@ const styles = (theme) =>
       cursor: 'pointer',
     },
     popover: {
-      pointerEvents: 'none',
       marginTop: 20,
     },
     popoverContent: {
@@ -26,7 +25,6 @@ const styles = (theme) =>
 
 interface State {
   anchorEl: any
-  popoverOpen: boolean
 }
 
 interface Props {
@@ -35,67 +33,67 @@ interface Props {
   description: string
 }
 
-class SignalTeamMember extends React.Component<Props, State> {
-  constructor(props) {
-    super(props)
-
-    this.state = {
-      anchorEl: null,
-      popoverOpen: false,
-    }
+class SignalPopoverText extends React.Component<Props, State> {
+  public state = {
+    anchorEl: null,
   }
 
   public handlePopoverOpen = (event) => {
     this.setState({
-      popoverOpen: true,
       anchorEl: event.currentTarget,
     })
   }
 
   public handlePopoverClose = () => {
     this.setState({
-      popoverOpen: false,
       anchorEl: null,
     })
   }
 
   public render() {
     const { classes, text, description } = this.props
+    const { anchorEl } = this.state
+    const isOpen = Boolean(anchorEl)
 
     return (
       <span className={classes.root}>
-        <span
-          className={classes.text}
-          onMouseEnter={this.handlePopoverOpen}
-          onMouseLeave={this.handlePopoverClose}
-        >
-          {text}
-        </span>
+        <ClickAwayListener onClickAway={this.handlePopoverClose}>
+          <>
+            <span
+              aria-owns={isOpen ? 'signal-popover' : null}
+              aria-haspopup="true"
+              className={classes.text}
+              onClick={this.handlePopoverOpen}
+            >
+              {text}
+            </span>
 
-        <Popover
-          className={classes.popover}
-          open={this.state.popoverOpen}
-          onClose={this.handlePopoverClose}
-          anchorEl={this.state.anchorEl}
-          anchorOrigin={{
-            vertical: 'bottom',
-            horizontal: 'center',
-          }}
-          transformOrigin={{
-            vertical: 'top',
-            horizontal: 'center',
-          }}
-          disableRestoreFocus={true}
-        >
-          <div className={classes.popoverContent}>
-            <Typography className={classes.description}>
-              {description}
-            </Typography>
-          </div>
-        </Popover>
+            <Popover
+              id="signal-popover"
+              className={classes.popover}
+              open={isOpen}
+              onClose={this.handlePopoverClose}
+              anchorEl={this.state.anchorEl}
+              anchorOrigin={{
+                vertical: 'bottom',
+                horizontal: 'center',
+              }}
+              transformOrigin={{
+                vertical: 'top',
+                horizontal: 'center',
+              }}
+            >
+              <div className={classes.popoverContent}>
+                <Typography className={classes.description}>
+                  <span dangerouslySetInnerHTML={{ __html: description }} />
+                </Typography>
+              </div>
+            </Popover>
+          </>
+        </ClickAwayListener>
       </span>
     )
   }
 }
 
-export default withStyles(styles)(SignalTeamMember)
+export default withStyles(styles)(SignalPopoverText)
