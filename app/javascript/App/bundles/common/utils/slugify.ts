@@ -1,6 +1,6 @@
 // https://gist.github.com/mathewbyrne/1280286
 
-export function slugify(text) {
+export default function slugify(text) {
   return text
     .toString()
     .toLowerCase()

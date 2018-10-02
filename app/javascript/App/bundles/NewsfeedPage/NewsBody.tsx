@@ -9,7 +9,7 @@ import localAPI from '../../lib/localAPI'
 
 import TwitterBody from './TwitterBody'
 import LoadingIndicator from '../common/components/LoadingIndicator'
-import { getDomainType } from '../../lib/utils/url'
+import { getDomainType } from '~/bundles/common/utils/url'
 
 import { NewsItem } from './types'
 import NewsBodyShareButtons from './NewsBodyShareButtons'

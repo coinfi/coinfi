@@ -5,26 +5,20 @@ import storage from 'redux-persist/lib/storage'
 
 import uiReducer from './uiReducer'
 import userReducer from './userReducer'
-import watchlistReducer from '../watchlist/reducer'
-import coinSearchReducer from '../coinSearch/reducer'
 import icoFiltersReducer from '../icoFilters/reducer'
-import newsfeedReducer from '../newsfeed/reducer'
 import calendarReducer from '../calendar/reducer'
 
 const persistConfig = {
   transforms: [immutableTransform()],
   key: 'root',
   storage,
-  whitelist: ['icoFilters', 'newsfeed'],
+  whitelist: ['icoFilters'],
 }
 
 const appReducers = combineReducers({
   user: userReducer,
   UI: uiReducer,
-  watchlist: watchlistReducer,
-  coinSearch: coinSearchReducer,
   icoFilters: icoFiltersReducer,
-  newsfeed: newsfeedReducer,
   calendar: calendarReducer,
 })
 
