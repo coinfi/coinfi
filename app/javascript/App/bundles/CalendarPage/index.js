@@ -1,12 +1,13 @@
 import React, { Component, Fragment } from 'react'
 import debounce from 'debounce'
 import axios from 'axios'
-import calendarContainer from '../../containers/calendar'
 import LayoutDesktop from '../../bundles/common/components/LayoutDesktop'
 import LayoutTablet from '../../bundles/common/components/LayoutTablet'
 import LayoutMobile from '../../bundles/common/components/LayoutMobile'
+// TODO: Fix CoinList
 import CoinList from '~/bundles/common/components/CoinList'
 import CoinListDrawer from '~/bundles/common/components/CoinListDrawer'
+// TODO: Fix CalendarList
 import CalendarList from './CalendarList'
 import CalendarListHeader from './CalendarListHeader'
 import BodySection from './BodySection'
@@ -150,6 +151,5 @@ class CalendarPage extends Component {
   }
 }
 
-export default withLegacyCombinedProviders(
-  calendarContainer(withDevice(CalendarPage)),
-)
+// TODO: Provide calendar context. currently disconnected from redux.
+export default withLegacyCombinedProviders(withDevice(CalendarPage))

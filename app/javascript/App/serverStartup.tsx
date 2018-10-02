@@ -6,10 +6,10 @@ import createServerAppHash from './createServerAppHash'
 
 // non-react-router components
 import createServerComponentHash from './createServerComponentHash'
-import CoinShow from './components/CoinShow'
+import CoinShow from './bundles/CoinShow'
 
 // Register the components so they can be rendered from Rails
-(ReactOnRails as any).register({
+;(ReactOnRails as any).register({
   CoinShow: createServerComponentHash((props) => <CoinShow {...props} />),
   App: createServerAppHash,
 })

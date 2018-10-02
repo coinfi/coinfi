@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
+import { BrowserRouter as Router } from 'react-router-dom'
 import AppRoutes from '~/routes/AppRoutes'
 import withCombinedProviders from './withCombinedProviders'
 import { MuiThemeProvider } from '@material-ui/core'
