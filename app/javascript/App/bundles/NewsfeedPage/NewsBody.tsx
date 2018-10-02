@@ -9,7 +9,11 @@ import localAPI from '../../lib/localAPI'
 
 import TwitterBody from './TwitterBody'
 import LoadingIndicator from '../../components/LoadingIndicator'
-import { getDomainType } from '../../lib/utils/url'
+import {
+  getDomainType,
+  isTwitter,
+  getTwitterUsername,
+} from '../../lib/utils/url'
 
 import { NewsItem } from './types'
 import NewsBodyShareButtons from './NewsBodyShareButtons'
@@ -137,7 +141,19 @@ export default class NewsBody extends React.Component<Props, State> {
               const hasWindow = !_.isError(_.attempt(() => window))
               const url = hasWindow ? window.location.href : initialHref
 
-              return <NewsBodyShareButtons url={url} />
+              const twitterUsername = isTwitter(newsItem.url)
+                ? getTwitterUsername(newsItem.url)
+                : undefined
+
+              return (
+                <NewsBodyShareButtons
+                  url={url}
+                  twitterButtonProps={{
+                    title: newsItem.title,
+                    via: twitterUsername,
+                  }}
+                />
+              )
             }}
           </RailsConsumer>
         </div>
