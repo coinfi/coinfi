@@ -1,13 +1,13 @@
 // Generic, reusable sagas
 
 import { call, put, select } from 'redux-saga/effects'
-import API from '../localAPI'
+import API from '../../bundles/common/utils/localAPI'
 
 export default {
   get,
   patch,
   post,
-  destroy
+  destroy,
 }
 export function* get(url, params, callback, selector = false) {
   try {

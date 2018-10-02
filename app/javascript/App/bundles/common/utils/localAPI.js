@@ -12,5 +12,5 @@ export default {
   },
   delete(path, data) {
     return API.delete(path, data, false)
-  }
+  },
 }

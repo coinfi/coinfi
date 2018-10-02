@@ -6,7 +6,7 @@ import LayoutMobile from '~/bundles/common/components/LayoutMobile'
 import ListingsHeader from './components/ListingsHeader'
 import ListingsList from './components/ListingsList'
 import BodySection from './components/BodySection'
-import localAPI from '../../lib/localAPI'
+import localAPI from '../common/utils/localAPI'
 import ExchangeListingsContext, {
   ExchangeListingsContextType,
 } from './ExchangeListingsContext'

@@ -2,7 +2,7 @@ import * as React from 'react'
 import classNames from 'classnames'
 import Autosuggest from 'react-autosuggest'
 import Icon from './Icon'
-import localApi from '../../../lib/localAPI'
+import localApi from '../utils/localAPI'
 import withDevice from '~/bundles/common/utils/withDevice'
 
 interface Coin {

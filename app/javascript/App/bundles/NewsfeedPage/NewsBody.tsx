@@ -5,7 +5,7 @@ import * as _ from 'lodash'
 import CoinTags from '~/bundles/common/components/CoinTags'
 import BulletSpacer from '~/bundles/common/components/BulletSpacer'
 import Icon from '~/bundles/common/components/Icon'
-import localAPI from '../../lib/localAPI'
+import localAPI from '../common/utils/localAPI'
 
 import TwitterBody from './TwitterBody'
 import LoadingIndicator from '../common/components/LoadingIndicator'

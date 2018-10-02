@@ -1,7 +1,7 @@
 import * as React from 'react'
 import * as _ from 'lodash'
 import { normalize, schema } from 'normalizr'
-import API from '../../../lib/API'
+import API from '../utils/API'
 import normalizers from '../../../normalizers'
 import CoinListContext, {
   CoinListContextType,

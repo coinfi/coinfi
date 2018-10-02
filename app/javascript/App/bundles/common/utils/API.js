@@ -12,7 +12,7 @@ const request = (path, data = {}, remote = true, type = 'get') => {
   const headers = {
     'X-CSRF-Token': document
       .querySelector('meta[name="csrf-token"]')
-      .getAttribute('content')
+      .getAttribute('content'),
   }
   if (type === 'get') params = { params }
   if (remote) endpoint = window.pricesURL
@@ -52,5 +52,5 @@ export default {
   },
   delete(path, data, remote) {
     return request(path, data, remote, 'delete')
-  }
+  },
 }

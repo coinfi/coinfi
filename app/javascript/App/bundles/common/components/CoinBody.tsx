@@ -5,7 +5,7 @@ import PercentageChange from './PercentageChange'
 import WatchButton from './WatchButton'
 import NewsRelatedCoinList from './NewsRelatedCoinList'
 import LoadingIndicator from './LoadingIndicator'
-import localAPI from '../../../lib/localAPI'
+import localAPI from '../utils/localAPI'
 import { withStyles, createStyles } from '@material-ui/core/styles'
 
 import { CoinWithDetails } from '../types'

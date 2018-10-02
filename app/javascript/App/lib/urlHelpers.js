@@ -1,3 +1,4 @@
+//TODO: Remove - Redux only
 import qs from 'qs'
 
 export const getQueryObject = () => {
