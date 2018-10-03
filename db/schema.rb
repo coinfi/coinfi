@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180910025523) do
+ActiveRecord::Schema.define(version: 20180928070531) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -305,6 +305,7 @@ ActiveRecord::Schema.define(version: 20180910025523) do
     t.index ["coin_id"], name: "index_feed_sources_on_coin_id"
     t.index ["feed_type"], name: "index_feed_sources_on_feed_type"
     t.index ["feed_url"], name: "index_feed_sources_on_feed_url", unique: true
+    t.index ["is_active"], name: "index_feed_sources_on_is_active"
     t.index ["name"], name: "index_feed_sources_on_name", unique: true
   end
 

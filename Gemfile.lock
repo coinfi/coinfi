@@ -85,6 +85,8 @@ GEM
       rails (>= 4.2, < 5.2)
       selectize-rails (~> 0.6)
     api-pagination (4.8.1)
+    archive-zip (0.11.0)
+      io-like (~> 0.3.0)
     arel (8.0.0)
     ast (2.4.0)
     autoprefixer-rails (8.4.1)
@@ -124,6 +126,9 @@ GEM
     chartkick (2.2.5)
     childprocess (0.6.3)
       ffi (~> 1.0, >= 1.0.11)
+    chromedriver-helper (1.2.0)
+      archive-zip (~> 0.10)
+      nokogiri (~> 1.8)
     cocoon (1.2.11)
     codeclimate-engine-rb (0.4.1)
       virtus (~> 1.0)
@@ -221,6 +226,7 @@ GEM
     i18n (0.9.5)
       concurrent-ruby (~> 1.0)
     ice_nine (0.11.2)
+    io-like (0.3.0)
     ipaddress (0.8.3)
     jbuilder (2.6.3)
       activesupport (>= 3.0.0, < 5.2)
@@ -555,6 +561,7 @@ DEPENDENCIES
   bullet
   byebug
   capybara (~> 2.13)
+  chromedriver-helper
   coffee-rails (~> 4.2)
   convertkit-ruby!
   cryptocompare
