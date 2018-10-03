@@ -31,14 +31,17 @@ const renderSuggestion = (suggestion: Coin) => {
   const label = suggestion.symbol
     ? `${suggestion.name} (${suggestion.symbol})`
     : suggestion.name
+  const imageStyle: React.CSSProperties = {
+    width: '20px',
+    height: '20px',
+    marginRight: '5px',
+    ...(!suggestion.image_url && { visibility: 'hidden' }),
+  }
 
   return (
     <div className="flex items-center">
       <a>
-        <img
-          src={suggestion.image_url}
-          style={{ width: '20px', height: '20px', marginRight: '5px' }}
-        />
+        <img src={suggestion.image_url} style={imageStyle} />
         <span>{label}</span>
       </a>
     </div>
