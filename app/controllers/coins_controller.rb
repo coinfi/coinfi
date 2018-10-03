@@ -22,6 +22,7 @@ class CoinsController < ApplicationController
     @coin_price = @data["price_usd"] # TODO: Consolidate price and volume from data warehouse and remove from coins table.
     @latest_news = @coin.articles.latest_news
     @upcoming_events = @coin.articles.upcoming_events
+    @related_coins = @coin.related_coins.select(:id, :coin_key, :name, :symbol, :slug)
 
     if @coin.symbol && @coin.is_erc20? && ENV['METABASE_SECRET_KEY']
       payload = {
