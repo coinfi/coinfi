@@ -14,7 +14,6 @@ import BodySection from './BodySection'
 import BodySectionDrawer from '~/bundles/common/components/BodySectionDrawer'
 import Immutable from 'immutable'
 import * as _ from 'lodash'
-import withLegacyCombinedProviders from '../../withLegacyCombinedProviders'
 import withDevice from '~/bundles/common/utils/withDevice'
 import EventListener from 'react-event-listener'
 
@@ -152,4 +151,4 @@ class CalendarPage extends Component {
 }
 
 // TODO: Provide calendar context. currently disconnected from redux.
-export default withLegacyCombinedProviders(withDevice(CalendarPage))
+export default withDevice(CalendarPage)
