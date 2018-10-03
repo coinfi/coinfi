@@ -27,19 +27,21 @@ interface State {
 
 const getSuggestionValue = (suggestion: Coin) => suggestion.slug
 
-const renderSuggestion = (suggestion: Coin) => (
-  <div className="flex items-center">
-    <a>
-      <img
-        src={suggestion.image_url}
-        style={{ width: '20px', height: '20px', marginRight: '5px' }}
-      />
-      <span>
-        {suggestion.name} ({suggestion.symbol})
-      </span>
-    </a>
-  </div>
-)
+const renderSuggestion = (suggestion: Coin) => {
+  const label =
+    suggestion.name + (suggestion.symbol ? ` (${suggestion.symbol})` : '')
+  return (
+    <div className="flex items-center">
+      <a>
+        <img
+          src={suggestion.image_url}
+          style={{ width: '20px', height: '20px', marginRight: '5px' }}
+        />
+        <span>{label}</span>
+      </a>
+    </div>
+  )
+}
 
 const renderSuggestionsContainer = ({ containerProps, children, query }) =>
   !!children && <ul {...containerProps}>{children}</ul>
