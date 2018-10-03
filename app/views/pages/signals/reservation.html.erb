@@ -14,7 +14,7 @@
               <code class="reservation-value reservation-fit-text">0xa61B5f29730C7b111C8e0B1e78bD3737d2Bb8684</code>
             </div>
 
-            <%= react_component "SignalPopoverText",
+            <%= react_component_with_jss "SignalPopoverText",
               props: {
                 text: "Don't have any COFI tokens or need more?",
                 description: 'You can acquire COFI tokens at the following exchanges:
@@ -32,7 +32,8 @@
               },
               html_options: {
                 class: 'signal-popover-text'
-              }
+              },
+              prerender: true
             %>
 
             </a>
