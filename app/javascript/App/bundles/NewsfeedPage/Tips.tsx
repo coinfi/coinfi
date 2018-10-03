@@ -1,6 +1,8 @@
 import * as React from 'react'
 import Icon from '~/bundles/common/components/Icon'
-import { chartIcon, filterIcon, listIcon } from '~/bundles/common/utils/images'
+const chartIcon = require('~/images/chartIcon.svg') // tslint:disable-line
+const filterIcon = require('~/images/filterIcon.svg') // tslint:disable-line
+const listIcon = require('~/images/listIcon.svg') // tslint:disable-line
 
 const titleStyle = {
   fontSize: '1.13rem',

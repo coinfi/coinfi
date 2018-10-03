@@ -1,6 +1,7 @@
 import React from 'react'
 import Icon from '~/bundles/common/components/Icon'
-import { filterIcon, bellIcon } from '~/bundles/common/utils/images'
+const filterIcon = require('~/images/filterIcon.svg')
+const bellIcon = require('~/images/bellIcon.svg')
 
 const titleStyle = {
   fontSize: '1.13rem',

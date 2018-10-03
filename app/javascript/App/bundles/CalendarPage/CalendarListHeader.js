@@ -4,8 +4,8 @@ import SectionHeader from '~/bundles/common/components/SectionHeader'
 import SearchCoins from '~/bundles/common/components/SearchCoins'
 //NOTE: this will probably be broken, but breaking to remove old dependencies
 import FilterPanel from '~/bundles/common/components/FilterPanel'
-import { filterBtn } from '~/bundles/common/utils/images'
 import withDevice from '~/bundles/common/utils/withDevice'
+const filterBtn = require('~/images/filterBtn.svg')
 
 const CalendarListHeader = (props) => {
   const { enableUI, currentUI, coins, activeFilters, calendarTips } = props

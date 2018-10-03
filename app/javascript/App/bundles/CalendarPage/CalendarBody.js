@@ -3,7 +3,8 @@ import moment from 'moment'
 import * as _ from 'lodash'
 import BulletSpacer from '~/bundles/common/components/BulletSpacer'
 import Countdown from '../../bundles/common/components/Countdown'
-import { cornerArrowIcon } from '~/bundles/common/utils/images'
+
+const cornerArrowIcon = require('~/images/cornerArrowIcon.svg')
 
 export default class CalendarBody extends Component {
   render() {

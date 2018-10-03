@@ -5,7 +5,8 @@ import CoinTipsTab from '../common/components/CoinTipsTab'
 import FilterPanel from './FilterPanel'
 import { Filters } from './types'
 import withDevice from '~/bundles/common/utils/withDevice'
-import { filterBtn } from '~/bundles/common/utils/images'
+
+const filterBtn = require('~/images/filterBtn.svg') // tslint:disable-line
 
 interface Props {
   showFilters: boolean
