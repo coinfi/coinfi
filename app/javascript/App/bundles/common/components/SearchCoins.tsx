@@ -28,8 +28,10 @@ interface State {
 const getSuggestionValue = (suggestion: Coin) => suggestion.slug
 
 const renderSuggestion = (suggestion: Coin) => {
-  const label =
-    suggestion.name + (suggestion.symbol ? ` (${suggestion.symbol})` : '')
+  const label = suggestion.symbol
+    ? `${suggestion.name} (${suggestion.symbol})`
+    : suggestion.name
+
   return (
     <div className="flex items-center">
       <a>
