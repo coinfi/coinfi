@@ -1,6 +1,7 @@
+require 'application_integration_test'
 require 'test_helper'
 
-class NewsRoutesTest < ActionDispatch::IntegrationTest
+class NewsRoutesTest < ApplicationIntegrationTest
   include Devise::Test::IntegrationHelpers
 
   test "cannot visit index when not authenticated" do
