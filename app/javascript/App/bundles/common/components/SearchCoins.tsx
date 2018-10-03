@@ -28,6 +28,9 @@ interface State {
 const getSuggestionValue = (suggestion: Coin) => suggestion.slug
 
 const renderSuggestion = (suggestion: Coin) => {
+  const label = suggestion.symbol
+    ? `${suggestion.name} (${suggestion.symbol})`
+    : suggestion.name
   const imageStyle: React.CSSProperties = {
     width: '20px',
     height: '20px',
@@ -39,9 +42,7 @@ const renderSuggestion = (suggestion: Coin) => {
     <div className="flex items-center">
       <a>
         <img src={suggestion.image_url} style={imageStyle} />
-        <span>
-          {suggestion.name} ({suggestion.symbol})
-        </span>
+        <span>{label}</span>
       </a>
     </div>
   )
