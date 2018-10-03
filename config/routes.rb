@@ -4,7 +4,7 @@ Rails.application.routes.draw do
     path_names: { sign_in: 'login', sign_out: 'logout', sign_up: 'register' }
 
   resources :author_profiles, only: %i[index show create update], path: 'authors'
-  get '/calculators/:id', to: 'calculators#show'
+  get '/calculators/:id', to: 'calculators#show', as: 'calculator'
   get '/coins/:id_or_slug', to: 'coins#show', as: 'coin'
   resources :coins, only: %i[index]
   resources :contributor_submissions, path: 'contributor-submissions'

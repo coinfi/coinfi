@@ -44,6 +44,7 @@ SitemapGenerator::Sitemap.create do
   add page_ambassadors_path, :priority => 0.8, :changefreq => 'daily'
   add page_win_cofi_path, :priority => 0.8, :changefreq => 'daily'
 
+  add calculator_path('bitcoin-investment-calculator'), :changefreq => 'daily'
   add podcast_path, :changefreq => 'daily'
   add coins_path, :changefreq => 'hourly'
   add news_path, :changefreq => 'hourly'
