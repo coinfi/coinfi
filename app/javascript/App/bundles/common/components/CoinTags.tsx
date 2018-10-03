@@ -1,12 +1,13 @@
 import * as React from 'react'
-import { ItemWithCoinLinkData } from '../types'
+import { ItemWithCoinLinkData, CoinLinkData, CoinClickHandler } from '../types'
 
 interface Props {
   itemWithCoinLinkData: ItemWithCoinLinkData
-  selectCoin?: (CoinLinkData) => void
+  selectCoin?: CoinClickHandler
+  getLink?: (coinData: CoinLinkData) => string
 }
 
-const CoinTags = ({ itemWithCoinLinkData, selectCoin }: Props) => (
+const CoinTags = ({ itemWithCoinLinkData, selectCoin, getLink }: Props) => (
   <div>
     {itemWithCoinLinkData.coin_link_data.map((data, index) => {
       const isClickable = !!selectCoin
@@ -17,9 +18,15 @@ const CoinTags = ({ itemWithCoinLinkData, selectCoin }: Props) => (
             selectCoin(data)
           }
         : undefined
+      const link = getLink ? getLink(data) : undefined
 
       return (
-        <a key={index} className="tag pointer" onClick={onClickHandler}>
+        <a
+          key={index}
+          className="tag pointer"
+          onClick={onClickHandler}
+          href={link}
+        >
           {data.symbol}
         </a>
       )

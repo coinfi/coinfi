@@ -44,3 +44,5 @@ export interface FlashMessage {
   type: string
   text: string
 }
+
+export type CoinClickHandler = (coinData: CoinLinkData) => void

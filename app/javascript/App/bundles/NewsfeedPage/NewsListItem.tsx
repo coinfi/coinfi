@@ -112,6 +112,7 @@ const NewsListItem = (props) => {
             {...props}
             itemWithCoinLinkData={newsItem}
             selectCoin={onCoinClick}
+            getLink={(data) => `/news/${data.slug}`}
           />
         </div>
       </div>
