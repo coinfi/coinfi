@@ -42,7 +42,14 @@ const Title = styled.h4`
 `
 
 const NewsListItem = (props) => {
-  const { newsItem, isSelected, preRender, hasRead, onClick } = props
+  const {
+    newsItem,
+    isSelected,
+    preRender,
+    hasRead,
+    onClick,
+    onCoinClick,
+  } = props
 
   const newsItemTitle = newsItem.title
     .replace(/<h1>/g, '')
@@ -101,7 +108,11 @@ const NewsListItem = (props) => {
             <BulletSpacer />
             {timeago().format(newsItem.feed_item_published_at)}
           </div>
-          <CoinTags {...props} itemWithCoinLinkData={newsItem} />
+          <CoinTags
+            {...props}
+            itemWithCoinLinkData={newsItem}
+            selectCoin={onCoinClick}
+          />
         </div>
       </div>
     </div>

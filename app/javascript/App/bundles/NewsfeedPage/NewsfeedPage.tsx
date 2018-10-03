@@ -16,7 +16,8 @@ import withDevice from '~/bundles/common/utils/withDevice'
 import EventListener from 'react-event-listener'
 
 import { NewsItem, ContentType, Filters } from './types'
-import { CoinList, CoinWithDetails } from '../common/types'
+import { CoinWithDetails } from '../common/types'
+import { CoinLinkData } from '~/bundles/common/types'
 import {
   getDefaultFilters,
   mergeInitialSocialSourcesForCoinsFilter,
@@ -351,11 +352,15 @@ class NewsfeedPage extends React.Component<Props, State> {
                   }
                   closeTips={this.closeTips}
                   selectedNewsItemId={this.props.newsItemId}
-                  onNewsItemClick={(newsItem) => {
+                  onNewsItemClick={(newsItem: NewsItem) => {
                     this.props.history.push(
                       `/news/${newsItem.id}/${slugify(newsItem.title)}`,
                     )
                     this.setState({ ActiveMobileWindow: 'BodySection' })
+                  }}
+                  onCoinClick={(coinData: CoinLinkData) => {
+                    this.props.history.push(`/news/${coinData.slug}`)
+                    this.setState({ ActiveMobileWindow: 'None' })
                   }}
                   hasMore={this.props.hasMore}
                 />
@@ -427,10 +432,13 @@ class NewsfeedPage extends React.Component<Props, State> {
                   }
                   closeTips={this.closeTips}
                   selectedNewsItemId={this.props.newsItemId}
-                  onNewsItemClick={(newsItem) => {
+                  onNewsItemClick={(newsItem: NewsItem) => {
                     this.props.history.push(
                       `/news/${newsItem.id}/${slugify(newsItem.title)}`,
                     )
+                  }}
+                  onCoinClick={(coinData: CoinLinkData) => {
+                    this.props.history.push(`/news/${coinData.slug}`)
                   }}
                   hasMore={this.props.hasMore}
                 />
@@ -490,11 +498,15 @@ class NewsfeedPage extends React.Component<Props, State> {
                   }
                   closeTips={this.closeTips}
                   selectedNewsItemId={this.props.newsItemId}
-                  onNewsItemClick={(newsItem) => {
+                  onNewsItemClick={(newsItem: NewsItem) => {
                     this.props.history.push(
                       `/news/${newsItem.id}/${slugify(newsItem.title)}`,
                     )
                     this.setState({ ActiveMobileWindow: 'BodySection' })
+                  }}
+                  onCoinClick={(coinData: CoinLinkData) => {
+                    this.props.history.push(`/news/${coinData.slug}`)
+                    this.setState({ ActiveMobileWindow: 'None' })
                   }}
                   hasMore={this.props.hasMore}
                 />
