@@ -16,7 +16,7 @@ import withDevice from '~/bundles/common/utils/withDevice'
 import EventListener from 'react-event-listener'
 
 import { NewsItem, ContentType, Filters } from './types'
-import { CoinWithDetails } from '../common/types'
+import { CoinWithDetails, CoinClickHandler } from '../common/types'
 import { CoinLinkData } from '~/bundles/common/types'
 import {
   getDefaultFilters,
@@ -318,7 +318,7 @@ class NewsfeedPage extends React.Component<Props, State> {
 
   public render() {
     if (this.props.isMobile) {
-      const coinClickHandler = (coinData: CoinLinkData) => {
+      const coinClickHandler: CoinClickHandler = (coinData) => {
         this.props.history.push(`/news/${coinData.slug}`)
         this.setState({ ActiveMobileWindow: 'None' })
       }
@@ -400,7 +400,7 @@ class NewsfeedPage extends React.Component<Props, State> {
         </EventListener>
       )
     } else if (this.props.isTablet) {
-      const coinClickHandler = (coinData: CoinLinkData) => {
+      const coinClickHandler: CoinClickHandler = (coinData) => {
         this.props.history.push(`/news/${coinData.slug}`)
       }
       return (
@@ -470,7 +470,7 @@ class NewsfeedPage extends React.Component<Props, State> {
         </EventListener>
       )
     } else {
-      const coinClickHandler = (coinData: CoinLinkData) => {
+      const coinClickHandler: CoinClickHandler = (coinData) => {
         this.props.history.push(`/news/${coinData.slug}`)
         this.setState({ ActiveMobileWindow: 'None' })
       }
