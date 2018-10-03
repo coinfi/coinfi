@@ -13,6 +13,15 @@ SitemapGenerator::Sitemap.adapter = SitemapGenerator::S3Adapter.new(
   fog_region: 'us-east-1'
 )
 
+# Pick a place safe to write the files
+SitemapGenerator::Sitemap.public_path = 'tmp/'
+
+# Inform the map cross-linking where to find the other maps
+SitemapGenerator::Sitemap.sitemaps_host = ENV.fetch('ASSET_HOST')
+
+# Pick a namespace within your bucket to organize your maps
+SitemapGenerator::Sitemap.sitemaps_path = 'sitemaps/'
+
 SitemapGenerator::Sitemap.create do
   # Put links creation logic here.
   #
