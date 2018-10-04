@@ -9,9 +9,6 @@ const serverWebpackConfig = {
     'server-bundle': baseWebpackConfig.entry['server-bundle'],
   },
 
-  // Remove unused `devServer` entry
-  devServer: undefined,
-
   // Include additional plugins
   plugins: [...baseWebpackConfig.plugins, new HardSourceWebpackPlugin()],
 }
