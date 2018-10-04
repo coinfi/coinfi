@@ -25,9 +25,6 @@
       <%= render partial: "components/flash" %>
       <%= yield %>
     </main>
-    <%= javascript_tag do %>
-      window.pricesURL = '<%= ENV.fetch('COINFI_PRICES_URL') %>';
-    <% end %>
     <script src="/tradingview/charting_library.min.js"></script>
     <%= javascript_pack_tag 'client-bundle' %>
     <%= render 'layouts/tracking_scripts' %>
