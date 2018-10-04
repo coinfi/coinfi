@@ -9,7 +9,7 @@ const serverWebpackConfig = {
     'server-bundle': baseWebpackConfig.entry['server-bundle'],
   },
 
-  // Include additional plugins
+  // Append `HardSourceWebpackPlugin` to plugins
   plugins: [...baseWebpackConfig.plugins, new HardSourceWebpackPlugin()],
 }
 
