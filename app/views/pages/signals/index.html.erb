@@ -35,15 +35,14 @@
 
           <div class="signals-section__cta-btn-note">
             Only 2,000 spots available
-            <%= react_component_with_jss "SignalPopoverText",
+            <%= react_component "SignalPopoverText",
               props: {
                 text: "Why?",
                 description: "To give our members a bigger trading edge, we’re capping the number of sign ups for the beta. Spots are first come first serve.",
               },
               html_options: {
                 class: 'signal-popover-text'
-              },
-              prerender: true
+              }
             %>
           </div>
         </div>
@@ -86,38 +85,35 @@
       <div class="col-sm-6 signals-section__col">
         <div class="signals-section-content signals-section-content--xs-last">
           <div class="signal-example-panels">
-            <%= react_component_with_jss "SignalExamplePanel",
+            <%= react_component "SignalExamplePanel",
               props: {
                 title: "ETH movement in and out of exchanges",
-                buyDescription: "When an abnormally high amount of ETH move out of exchanges and into cold storage wallets, it likely indicates that the holders don’t plan to sell soon. CoinFi monitors exchange wallets.",
-                sellDescription: "When an abnormally high amount of BTC/ETH moves into exchanges, it likely indicates that holders are looking to sell.",
+                buyDescription: "When an abnormally high amount of ETH moves out of exchanges and into cold storage wallets, it likely indicates that the holders don’t plan to sell soon.",
+                sellDescription: "When an abnormally high amount of ETH moves into exchanges, it likely indicates that holders are looking to sell.",
               },
               html_options: {
                 class: 'signal-example-panels__item'
-              },
-              prerender: true
+              }
             %>
 
-            <%= react_component_with_jss "SignalExamplePanel",
+            <%= react_component "SignalExamplePanel",
               props: {
                 title: "USDT movement into Bitfinex",
-                buyDescription: "When there is a high amount of USDT (Tether) moving into Bitfinex, it likely indicates that a pump of BTC or ETH may happen in the near future. CoinFi monitors Bitfinex wallets.",
+                buyDescription: "When there is a high amount of Tether (USDT) moving into Bitfinex, it likely indicates that a pump of BTC or ETH may happen in the near future.",
               },
               html_options: {
                 class: 'signal-example-panels__item'
-              },
-              prerender: true
+              }
             %>
 
-            <%= react_component_with_jss "SignalExamplePanel",
+            <%= react_component "SignalExamplePanel",
               props: {
                 title: "Short positions",
-                sellDescription: "When there is an increase of short positions being taken against BTC/ETH, it likely indicates that BTC/ETH may dump. CoinFi monitors short positions.",
+                sellDescription: "When there is an increase of short positions being taken against BTC or ETH, it likely indicates that BTC or ETH may dump.",
               },
               html_options: {
                 class: 'signal-example-panels__item'
-              },
-              prerender: true
+              }
             %>
           </div>
         </div>
@@ -134,7 +130,7 @@
           <h2 class="signals-section__title">Signals for tokens you care about</h2>
           <div class="signals-section-description">
             <p class="signals-section-description__paragraph signals-section-description__paragraph--last">
-              Track every ERC-20 tokens you care about and we’ll alert you when there’s a new buying or selling opportunity.
+              Track every ERC-20 token you care about and we’ll alert you when there’s a new buying or selling opportunity.
             </p>
           </div>
         </div>
@@ -142,39 +138,36 @@
       <div class="col-sm-6 signals-section__col">
         <div class="signals-section-content signals-section-content--xs-last">
           <div class="signal-example-panels">
-            <%= react_component_with_jss "SignalExamplePanel",
+            <%= react_component "SignalExamplePanel",
               props: {
-                title: "Coins moving in and out of exchanges",
-                buyDescription: "When a high amount of coin moves out of an exchange and into cold storage, it likely indicates that holders are bullish and don’t plan to sell soon. CoinFi monitors exchange wallets.",
-                sellDescription: "When a high amount of the coin moves into exchanges, it likely indicates that holders are ready to sell.",
+                title: "Altcoins moving in and out of exchanges",
+                buyDescription: "When a high amount of cryptocurrency moves out of an exchange and into cold storage, it likely indicates that holders are bullish and don’t plan to sell soon.",
+                sellDescription: "When a high amount of cryptocurrency moves into exchanges, it likely indicates that holders are ready to sell.",
               },
               html_options: {
                 class: 'signal-example-panels__item'
-              },
-              prerender: true
+              }
             %>
 
-            <%= react_component_with_jss "SignalExamplePanel",
+            <%= react_component "SignalExamplePanel",
               props: {
                 title: "Whales buying and selling",
-                buyDescription: "When whales buy more, it likely indicates that the founders, insiders, and large investors are bullish on the coin. It could also mean that founders and insiders are about to make a big announcement or launch a feature. CoinFi monitors the  whale wallets of every coin.",
-                sellDescription: "When whales sell, it likely indicates that the founders, insiders, and large investors aren’t long on the coin.",
+                buyDescription: "When whales buy more, it likely indicates that the founders, insiders, and large investors are bullish on the coin. It could also mean that founders and insiders are about to make a big announcement or launch a new feature.",
+                sellDescription: "When whales sell, it likely indicates that founders, insiders, and large investors have information that makes them no longer bullish on the coin.",
               },
               html_options: {
                 class: 'signal-example-panels__item'
-              },
-              prerender: true
+              }
             %>
 
-            <%= react_component_with_jss "SignalExamplePanel",
+            <%= react_component "SignalExamplePanel",
               props: {
                 title: "Tokens moving out of exchange wallets",
                 sellDescription: "When tokens move out of project wallets, it likely indicates that a lockup period has ended for a founder or employee - increasing the circulating supply. CoinFi identifies and monitors project wallets.",
               },
               html_options: {
                 class: 'signal-example-panels__item'
-              },
-              prerender: true
+              }
             %>
           </div>
         </div>
@@ -228,7 +221,7 @@
           <div class="signal-team-members">
             <div class="row">
               <div class="col-xs signals-section__col">
-                <%= react_component_with_jss "SignalTeamMember",
+                <%= react_component "SignalTeamMember",
                   props: {
                     avatarUrl: image_path('signals/team-members/tim.png'),
                     description: "Timothy Tam has 10+ years  of professional trading experience at Goldman Sachs and hedge funds with $1+ billion in assets.",
@@ -236,12 +229,11 @@
                   },
                   html_options: {
                     class: "signal-team-members__item",
-                  },
-                  prerender: true
+                  }
                 %>
               </div>
               <div class="col-xs signals-section__col">
-                <%= react_component_with_jss "SignalTeamMember",
+                <%= react_component "SignalTeamMember",
                   props: {
                     avatarUrl: image_path('signals/team-members/jonney.png'),
                     description: "Jonney Liu is a former senior portfolio manager with 11+ years experience trading derivatives at institutions such as Lehman Brothers, Macquarie; most recently, he was at a $350 million volatility arbitrage hedge fund from True Capital.",
@@ -249,12 +241,11 @@
                   },
                   html_options: {
                     class: "signal-team-members__item",
-                  },
-                  prerender: true
+                  }
                 %>
               </div>
               <div class="col-xs signals-section__col">
-                <%= react_component_with_jss "SignalTeamMember",
+                <%= react_component "SignalTeamMember",
                   props: {
                     avatarUrl: image_path('signals/team-members/alex.png'),
                     description: "Alex Svanevik has 8+ years experience from data science, management consulting, and startups in Schibsted Media Group, BearingPoint, and Codeus. He holds an MSc in Artificial Intelligence from the University of Edinburgh.",
@@ -262,12 +253,11 @@
                   },
                   html_options: {
                     class: "signal-team-members__item",
-                  },
-                  prerender: true
+                  }
                 %>
               </div>
               <div class="col-xs signals-section__col">
-                <%= react_component_with_jss "SignalTeamMember",
+                <%= react_component "SignalTeamMember",
                   props: {
                     avatarUrl: image_path('signals/team-members/kwa.png'),
                     description: "Kwa Jie Hao has a B.A. in Economics from Brown University and a M.S. in Data Science from the Barcelona Graduate School of Economics and previously interned at Telefonica Research.",
@@ -275,8 +265,7 @@
                   },
                   html_options: {
                     class: "signal-team-members__item",
-                  },
-                  prerender: true
+                  }
                 %>
               </div>
             </div>
@@ -339,7 +328,7 @@
       <h2 class="signals-section__title">FAQ</h2>
 
       <div class="signal-faqs">
-        <%= react_component_with_jss "SignalFaqPanel",
+        <%= react_component "SignalFaqPanel",
           props: {
             question: "What do I need to do to reserve a beta spot?",
             answerHtml: <<~HTML
@@ -353,10 +342,9 @@
           },
           html_options: {
             class: "signal-faqs-item",
-          },
-          prerender: true
+          }
         %>
-        <%= react_component_with_jss "SignalFaqPanel",
+        <%= react_component "SignalFaqPanel",
           props: {
             question: "What signals will I receive during the beta?",
             answerHtml: <<~HTML
@@ -367,10 +355,9 @@
           },
           html_options: {
             class: "signal-faqs-item",
-          },
-          prerender: true
+          }
         %>
-        <%= react_component_with_jss "SignalFaqPanel",
+        <%= react_component "SignalFaqPanel",
           props: {
             question: "How does pricing work after the beta?",
             answerHtml: <<~HTML
@@ -381,10 +368,9 @@
           },
           html_options: {
             class: "signal-faqs-item",
-          },
-          prerender: true
+          }
         %>
-        <%= react_component_with_jss "SignalFaqPanel",
+        <%= react_component "SignalFaqPanel",
           props: {
             question: "Do the signals really work?",
             answerHtml: <<~HTML
@@ -395,10 +381,9 @@
           },
           html_options: {
             class: "signal-faqs-item",
-          },
-          prerender: true
+          }
         %>
-        <%= react_component_with_jss "SignalFaqPanel",
+        <%= react_component "SignalFaqPanel",
           props: {
             question: "If the signals work, why are you selling them?",
             answerHtml: <<~HTML
@@ -412,10 +397,9 @@
           },
           html_options: {
             class: "signal-faqs-item",
-          },
-          prerender: true
+          }
         %>
-        <%= react_component_with_jss "SignalFaqPanel",
+        <%= react_component "SignalFaqPanel",
           props: {
             question: "How will the signals get delivered?",
             answerHtml: <<~HTML
@@ -426,10 +410,9 @@
           },
           html_options: {
             class: "signal-faqs-item",
-          },
-          prerender: true
+          }
         %>
-        <%= react_component_with_jss "SignalFaqPanel",
+        <%= react_component "SignalFaqPanel",
           props: {
             question: "How will you prevent members from sharing your signals?",
             answerHtml: <<~HTML
@@ -443,10 +426,9 @@
           },
           html_options: {
             class: "signal-faqs-item",
-          },
-          prerender: true
+          }
         %>
-        <%= react_component_with_jss "SignalFaqPanel",
+        <%= react_component "SignalFaqPanel",
           props: {
             question: "How often will I get signals?",
             answerHtml: <<~HTML
@@ -457,10 +439,9 @@
           },
           html_options: {
             class: "signal-faqs-item",
-          },
-          prerender: true
+          }
         %>
-        <%= react_component_with_jss "SignalFaqPanel",
+        <%= react_component "SignalFaqPanel",
           props: {
             question: "Will you add new signals in the future?",
             answerHtml: <<~HTML
@@ -471,10 +452,9 @@
           },
           html_options: {
             class: "signal-faqs-item",
-          },
-          prerender: true
+          }
         %>
-        <%= react_component_with_jss "SignalFaqPanel",
+        <%= react_component "SignalFaqPanel",
           props: {
             question: "Do your signals tell me what price to buy at and what price to sell at?",
             answerHtml: <<~HTML
@@ -485,10 +465,9 @@
           },
           html_options: {
             class: "signal-faqs-item",
-          },
-          prerender: true
+          }
         %>
-        <%= react_component_with_jss "SignalFaqPanel",
+        <%= react_component "SignalFaqPanel",
           props: {
             question: "How should I use the signals?",
             answerHtml: <<~HTML
@@ -499,10 +478,9 @@
           },
           html_options: {
             class: "signal-faqs-item",
-          },
-          prerender: true
+          }
         %>
-        <%= react_component_with_jss "SignalFaqPanel",
+        <%= react_component "SignalFaqPanel",
           props: {
             question: "Will your signals work in a bear market?",
             answerHtml: <<~HTML
@@ -513,10 +491,9 @@
           },
           html_options: {
             class: "signal-faqs-item",
-          },
-          prerender: true
+          }
         %>
-        <%= react_component_with_jss "SignalFaqPanel",
+        <%= react_component "SignalFaqPanel",
           props: {
             question: "Do you use these signals yourselves?",
             answerHtml: <<~HTML
@@ -527,10 +504,9 @@
           },
           html_options: {
             class: "signal-faqs-item",
-          },
-          prerender: true
+          }
         %>
-        <%= react_component_with_jss "SignalFaqPanel",
+        <%= react_component "SignalFaqPanel",
           props: {
             question: "How do you come up with these signals?",
             answerHtml: <<~HTML
@@ -541,8 +517,7 @@
           },
           html_options: {
             class: "signal-faqs-item",
-          },
-          prerender: true
+          }
         %>
       </div>
     </div>

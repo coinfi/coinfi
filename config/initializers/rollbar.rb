@@ -59,7 +59,9 @@ Rollbar.configure do |config|
   config.js_options = {
     accessToken: ENV.fetch('ROLLBAR_CLIENT_ACCESS_TOKEN'),
     captureUncaught: true,
-    hostWhiteList: ['staging.coinfi.com', 'www.coinfi.com', 'sale.coinfi.com'],
+    captureUnhandledRejections: true,
+    logLevel: 'error',
+    hostWhiteList: ['coinfi.com', 'herokuapp.com'],
     payload: {
       environment: "production"
     }

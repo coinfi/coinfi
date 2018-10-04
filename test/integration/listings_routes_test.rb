@@ -1,6 +1,7 @@
+require 'application_integration_test'
 require 'test_helper'
 
-class ListingRoutesTest < ActionDispatch::IntegrationTest
+class ListingRoutesTest < ApplicationIntegrationTest
   include Devise::Test::IntegrationHelpers
 
   test "cannot visit index when not authenticated" do

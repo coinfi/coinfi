@@ -24,10 +24,14 @@ class CoinSelector extends React.Component<Props, State> {
   }
 
   public mapPayloadToOptions = (payload: any[]): Option[] =>
-    payload.map((elem) => ({
-      label: `${elem.symbol} | ${elem.name}`,
-      value: elem.slug,
-    }))
+    payload.map((elem) => {
+      const label = elem.symbol ? `${elem.symbol} | ${elem.name}` : elem.name
+
+      return {
+        label,
+        value: elem.slug,
+      }
+    })
 
   public fetchCoinsDetails = (coinSlugs): Promise<Option[]> =>
     localApi
