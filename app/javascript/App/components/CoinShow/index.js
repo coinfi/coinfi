@@ -323,7 +323,7 @@ class CoinShow extends Component {
                   {relatedCoins ? (
                     <Col xs={24} sm={8} m={8} l={8} xl={8}>
                       <CardWrapLast>
-                        <Card title="Related News">
+                        <Card title="Related Coins">
                           <List
                             itemLayout="horizontal"
                             dataSource={relatedCoins}
@@ -343,7 +343,7 @@ class CoinShow extends Component {
                                         marginTop: '-.25rem',
                                       }}
                                     >
-                                      {`${item.name} News`}
+                                      {item.name}
                                     </a>
                                   </List.Item>
                                 )
