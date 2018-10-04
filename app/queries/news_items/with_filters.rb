@@ -14,7 +14,7 @@ module NewsItems
       # Apply FeedSources filter
       if feed_sources.blank?
         # Default feed sources
-        feed_sources = FeedSource.all
+        feed_sources = FeedSource.active
           .where.not(id: FeedSource.active.reddit)
           .where.not(id: FeedSource.active.twitter)
       end
