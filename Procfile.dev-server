@@ -9,4 +9,4 @@ web: rails s -p 3000
 # so you add `--inline=false` and then CSS is not inlined.
 # Otherwise, you will have an error. If you want HMR and Server Rendering, see
 # the example in the https://github.com/shakacode/react-webpack-rails-tutorial
-client: sh -c 'rm -rf public/packs/* || true && bundle exec rake react_on_rails:locale && bin/webpack-dev-server'
+webpack: sh -c 'rm -rf public/packs/* || true && bundle exec rake react_on_rails:locale && bin/webpack-dev-server'
