@@ -26,8 +26,11 @@
     "dayjs": "^1.6.2",
     "debounce": "^1.1.0",
     "dotenv": "^5.0.1",
+    "enzyme": "^3.6.0",
+    "enzyme-adapter-react-16": "^1.5.0",
     "highcharts": "^6.1.1",
     "immutable": "^3.8.2",
+    "jest-enzyme": "^6.1.2",
     "jquery": "^3.3.1",
     "lodash": "^4.17.10",
     "lodash-inflection": "^1.5.0",
@@ -119,6 +122,11 @@
     "test-watch": "jest --watch"
   },
   "jest": {
+    "moduleNameMapper": {
+      "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/test/javascript/__mocks__/fileMock.js",
+      "\\.(css|less)$": "<rootDir>/test/javascript/__mocks__/styleMock.js"
+    },
+    "setupTestFrameworkScriptFile": "./node_modules/jest-enzyme/lib/index.js",
     "roots": [
       "app/javascript/packs",
       "test/javascript"
