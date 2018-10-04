@@ -122,6 +122,10 @@
     "roots": [
       "app/javascript/packs",
       "test/javascript"
+    ],
+    "moduleDirectories": [
+      "node_modules",
+      "app/javascript/packs"
     ]
   }
 }
