@@ -11,6 +11,15 @@ module NewsItems
     )
       result = relation
 
+      # Apply FeedSources filter
+      if feed_sources.blank?
+        # Default feed sources
+        feed_sources = FeedSource.all
+          .where.not(id: FeedSource.active.reddit)
+          .where.not(id: FeedSource.active.twitter)
+      end
+      result = result.where(feed_source: feed_sources)
+
       # Apply Coins filter
       if coins.present?
         filter_by_coins = true
@@ -31,15 +40,6 @@ module NewsItems
           .left_outer_joins(:news_coin_mentions)
           .where("news_coin_mentions.id IN (?) OR news_coin_mentions.id IS NULL", news_coin_mentions.select(:id))
       end
-
-      # Apply FeedSources filter
-      if feed_sources.blank?
-        # Default feed sources
-        feed_sources = FeedSource.all
-          .where.not(id: FeedSource.active.reddit)
-          .where.not(id: FeedSource.active.twitter)
-      end
-      result = result.where(feed_source: feed_sources)
 
       # Apply NewsCategories filter
       if news_categories.present?
@@ -62,7 +62,7 @@ module NewsItems
         result = result.where('feed_item_published_at < ?', published_until.to_datetime)
       end
 
-      result.distinct()
+      result.group(:id)
     end
   end
 end
