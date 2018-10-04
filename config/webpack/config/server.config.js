@@ -1,4 +1,5 @@
 const baseWebpackConfig = require('./base.config')
+const HardSourceWebpackPlugin = require('hard-source-webpack-plugin')
 
 const serverWebpackConfig = {
   ...baseWebpackConfig,
@@ -7,6 +8,12 @@ const serverWebpackConfig = {
   entry: {
     'server-bundle': baseWebpackConfig.entry['server-bundle'],
   },
+
+  // Remove unused `devServer` entry
+  devServer: undefined,
+
+  // Append `HardSourceWebpackPlugin` to plugins
+  plugins: [...baseWebpackConfig.plugins, new HardSourceWebpackPlugin()],
 }
 
 module.exports = serverWebpackConfig
