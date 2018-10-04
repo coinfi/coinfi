@@ -3,19 +3,19 @@ import { ItemWithCoinLinkData, CoinLinkData, CoinClickHandler } from '../types'
 
 interface Props {
   itemWithCoinLinkData: ItemWithCoinLinkData
-  selectCoin?: CoinClickHandler
+  onClick?: CoinClickHandler
   getLink?: (coinData: CoinLinkData) => string
 }
 
-const CoinTags = ({ itemWithCoinLinkData, selectCoin, getLink }: Props) => (
+const CoinTags = ({ itemWithCoinLinkData, onClick, getLink }: Props) => (
   <div>
     {itemWithCoinLinkData.coin_link_data.map((data, index) => {
-      const isClickable = !!selectCoin
+      const isClickable = !!onClick
       const onClickHandler = isClickable
         ? (e) => {
             e.stopPropagation()
             e.nativeEvent.stopImmediatePropagation()
-            selectCoin(data)
+            onClick(data)
           }
         : undefined
       const link = getLink ? getLink(data) : undefined

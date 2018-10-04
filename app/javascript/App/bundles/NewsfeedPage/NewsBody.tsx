@@ -92,7 +92,7 @@ export default class NewsBody extends React.Component<Props, State> {
         <CoinTags
           itemWithCoinLinkData={newsItem}
           getLink={(data) => `/news/${data.slug}`}
-          selectCoin={this.props.onCoinClick}
+          onClick={this.props.onCoinClick}
         />
         <h1 className="break-word f4">{newsItem.title}</h1>
         <div className="mb3 f6">
