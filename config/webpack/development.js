@@ -1,3 +1,5 @@
-const environment = require('./environment')
+const clientWebpackConfig = require('./config/client.config')
+const serverWebpackConfig = require('./config/server.config.dev')
 
-module.exports = environment
+// Include both server and client config for webpack to build
+module.exports = [serverWebpackConfig, clientWebpackConfig]

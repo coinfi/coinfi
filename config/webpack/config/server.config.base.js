@@ -12,7 +12,7 @@ const serverWebpackConfig = {
   // Remove unused `devServer` entry
   devServer: undefined,
 
-  // Append `HardSourceWebpackPlugin` to plugins
+  // Include additional plugins
   plugins: [...baseWebpackConfig.plugins, new HardSourceWebpackPlugin()],
 }
 
