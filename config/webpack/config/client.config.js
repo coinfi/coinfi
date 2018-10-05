@@ -1,5 +1,4 @@
 const baseWebpackConfig = require('./base.config')
-const path = require('path')
 const HardSourceWebpackPlugin = require('hard-source-webpack-plugin')
 
 const clientWebpackConfig = {
