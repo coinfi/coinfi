@@ -50,6 +50,7 @@ gem 'devise'
 gem 'distribute_reads'
 gem 'email_address'
 gem 'feedjira'
+gem 'fog-aws'
 gem 'friendly_id', '~> 5.2.1'
 gem 'httparty'
 gem 'jwt'
@@ -80,6 +81,8 @@ gem 'webpacker', '~> 3.3'
 gem 'mini_racer', platforms: :ruby
 # For parsing browser stats from user-agent
 gem 'browser'
+# Used to produce sitemap.xml
+gem 'sitemap_generator'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
