@@ -7,7 +7,7 @@ class NewsSystemTest < ApplicationSystemTestCase
   setup do
     @user = create(:user)
     @watchlist = create(:watchlist, user: @user)
-    @coins = create_list(:coin, 20, :with_feed_sources, :with_news_items)
+    @coins = create_list(:coin_with_news_items, 20, :with_feed_sources)
   end
 
   test "can visit index when authenticated" do

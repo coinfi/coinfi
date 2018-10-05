@@ -38,8 +38,16 @@ FactoryBot.define do
       feed_sources { build_list(:feed_source, 3) }
     end
 
-    trait :with_news_items do
-      news_items { build_list(:news_item, 5) }
+    factory :coin_with_news_items do
+      transient do
+        machine_tagged_news_items_count { 3 }
+        human_tagged_news_items_count { 3 }
+      end
+
+      after(:create) do |coin, evaluator|
+        coin.machine_tagged_news_items << create_list(:news_item, evaluator.machine_tagged_news_items_count)
+        coin.human_tagged_news_items << create_list(:news_item, evaluator.human_tagged_news_items_count)
+      end
     end
   end
 end
