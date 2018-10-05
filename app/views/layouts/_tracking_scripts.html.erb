@@ -1,198 +1,191 @@
 <% if Rails.env.production? %>
-<!-- Heap Analytics -->
-<script type="text/javascript">
-  window.heap=window.heap||[],heap.load=function(e,t){window.heap.appid=e,window.heap.config=t=t||{};var r=t.forceSSL||"https:"===document.location.protocol,a=document.createElement("script");a.type="text/javascript",a.async=!0,a.src=(r?"https:":"http:")+"//cdn.heapanalytics.com/js/heap-"+e+".js";var n=document.getElementsByTagName("script")[0];n.parentNode.insertBefore(a,n);for(var o=function(e){return function(){heap.push([e].concat(Array.prototype.slice.call(arguments,0)))}},p=["addEventProperties","addUserProperties","clearEventProperties","identify","removeEventProperty","setEventProperties","track","unsetEventProperty"],c=0;c<p.length;c++)heap[p[c]]=o(p[c])};
-  heap.load('<%= ENV.fetch('HEAP_APP_ID') %>');
-  <% if current_user %>
-    heap.identify('<%= current_user.email %>');
-  <% end %>
-  window.addEventListener('load', function() {
-    if (typeof web3 !== 'undefined' && web3.currentProvider.isMetaMask) {
-      heap.addUserProperties({ 'hasMetaMask': true })
-    } else {
-      heap.addUserProperties({ 'hasMetaMask': false })
-    }
-  })
-</script>
-
-<script>
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-
-  ga('create', 'UA-105378428-1', 'auto');
-  ga('send', 'pageview');
-</script>
-
-<!-- Google Code for Remarketing Tag -->
-<script type="text/javascript">
-/* <![CDATA[ */
-var google_conversion_id = 995933950;
-var google_custom_params = window.google_tag_params;
-var google_remarketing_only = true;
-/* ]]> */
-</script>
-<script type="text/javascript" src="//www.googleadservices.com/pagead/conversion.js">
-</script>
-<noscript>
-<div style="display:inline;">
-<img height="1" width="1" style="border-style:none;" alt="" src="//googleads.g.doubleclick.net/pagead/viewthroughconversion/995933950/?guid=ON&amp;script=0"/>
-</div>
-</noscript>
-
-<!-- Global site tag (gtag.js) - AdWords: 1064039393 -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=AW-1064039393"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'AW-1064039393');
-</script>
-
-<!-- Facebook Pixel Code -->
-<script>
-  !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-  n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
-  n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
-  t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
-  document,'script','https://connect.facebook.net/en_US/fbevents.js');
-  fbq('init', '175229079700938'); // Insert your pixel ID here.
-  fbq('track', 'PageView');
-</script>
-<noscript><img height="1" width="1" style="display:none"
-src="https://www.facebook.com/tr?id=175229079700938&ev=PageView&noscript=1"
-/></noscript>
-<!-- DO NOT MODIFY -->
-<!-- End Facebook Pixel Code -->
-
-<!-- Twitter universal website tag code -->
-<script>
-!function(e,t,n,s,u,a){e.twq||(s=e.twq=function(){s.exe?s.exe.apply(s,arguments):s.queue.push(arguments);
-},s.version='1.1',s.queue=[],u=t.createElement(n),u.async=!0,u.src='//static.ads-twitter.com/uwt.js',
-a=t.getElementsByTagName(n)[0],a.parentNode.insertBefore(u,a))}(window,document,'script');
-// Insert Twitter Pixel ID and Standard Event data below
-twq('init','nyhv6');
-twq('track','PageView');
-</script>
-<!-- End Twitter universal website tag code -->
-
-<% if request.original_fullpath.start_with? '/signals' %>
-<!-- Hotjar Tracking Code for https://www.coinfi.com/signals -->
-<script>
-(function(h,o,t,j,a,r){
-  h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
-  h._hjSettings={hjid:1034618,hjsv:6};
-  a=o.getElementsByTagName('head')[0];
-  r=o.createElement('script');r.async=1;
-  r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
-  a.appendChild(r);
-})(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
-</script>
-<% else %>
-<!-- Hotjar Tracking Code for sale.coinfi.com -->
-<script>
-(function(h,o,t,j,a,r){
-  h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
-  h._hjSettings={hjid:691132,hjsv:6};
-  a=o.getElementsByTagName('head')[0];
-  r=o.createElement('script');r.async=1;
-  r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
-  a.appendChild(r);
-})(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
-</script>
-<% end %>
-
-<!-- Start Visual Website Optimizer Asynchronous Code -->
-<script type='text/javascript'>
-var _vwo_code=(function(){
-var account_id=323413,
-settings_tolerance=2000,
-library_tolerance=2500,
-use_existing_jquery=false,
-/* DO NOT EDIT BELOW THIS LINE */
-f=false,d=document;return{use_existing_jquery:function(){return use_existing_jquery;},library_tolerance:function(){return library_tolerance;},finish:function(){if(!f){f=true;var a=d.getElementById('_vis_opt_path_hides');if(a)a.parentNode.removeChild(a);}},finished:function(){return f;},load:function(a){var b=d.createElement('script');b.src=a;b.type='text/javascript';b.innerText;b.onerror=function(){_vwo_code.finish();};d.getElementsByTagName('head')[0].appendChild(b);},init:function(){settings_timer=setTimeout('_vwo_code.finish()',settings_tolerance);var a=d.createElement('style'),b='body{opacity:0 !important;filter:alpha(opacity=0) !important;background:none !important;}',h=d.getElementsByTagName('head')[0];a.setAttribute('id','_vis_opt_path_hides');a.setAttribute('type','text/css');if(a.styleSheet)a.styleSheet.cssText=b;else a.appendChild(d.createTextNode(b));h.appendChild(a);this.load('//dev.visualwebsiteoptimizer.com/j.php?a='+account_id+'&u='+encodeURIComponent(d.URL)+'&r='+Math.random());return settings_timer;}};}());_vwo_settings_timer=_vwo_code.init();
-</script>
-<!-- End Visual Website Optimizer Asynchronous Code -->
-
-<!-- Mouseflow -->
-<script type="text/javascript">
-  window._mfq = window._mfq || [];
-  (function() {
-    var mf = document.createElement("script");
-    mf.type = "text/javascript"; mf.async = true;
-    mf.src = "//cdn.mouseflow.com/projects/62f7b1d8-2d67-46db-9db5-d396e360d36b.js";
-    document.getElementsByTagName("head")[0].appendChild(mf);
-  })();
-</script>
-
-<!--
-Only show Drift on Signals page, otherwise show Usersnap bug report;
-this is because they both occupy the bottom right hand side of the screen,
-and there should be no bugs to report on the Signals pages so we want to
-encourage users to convert without distracting them with other options.
--->
-<% if request.original_fullpath.start_with? '/signals' %>
-<!-- Start of Async Drift Code -->
-<script>
-!function() {
-  var t = window.driftt = window.drift = window.driftt || [];
-  if (!t.init) {
-    if (t.invoked) return void (window.console && console.error && console.error("Drift snippet included twice."));
-    t.invoked = !0, t.methods = [ "identify", "config", "track", "reset", "debug", "show", "ping", "page", "hide", "off", "on" ],
-    t.factory = function(e) {
-      return function() {
-        var n = Array.prototype.slice.call(arguments);
-        return n.unshift(e), t.push(n), t;
-      };
-    }, t.methods.forEach(function(e) {
-      t[e] = t.factory(e);
-    }), t.load = function(t) {
-      var e = 3e5, n = Math.ceil(new Date() / e) * e, o = document.createElement("script");
-      o.type = "text/javascript", o.async = !0, o.crossorigin = "anonymous", o.src = "https://js.driftt.com/include/" + n + "/" + t + ".js";
-      var i = document.getElementsByTagName("script")[0];
-      i.parentNode.insertBefore(o, i);
-    };
-  }
-}();
-drift.SNIPPET_VERSION = '0.3.1';
-drift.load('rib3n3nefgnd');
-</script>
-<!-- End of Async Drift Code -->
-<% else %>
-<!-- UserSnap -->
-<script type="text/javascript">
-(function() { var s = document.createElement("script"); s.type = "text/javascript"; s.async = true; s.src = '//api.usersnap.com/load/566ea3b0-5719-4a7c-999f-b7f6604930c2.js';
-var x = document.getElementsByTagName('script')[0]; x.parentNode.insertBefore(s, x); })();
-</script>
-<% end %>
-
-<script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async></script>
-<script>
-  var OneSignal = window.OneSignal || [];
-  OneSignal.push(["init", {
-    appId: "91b756ae-dfc8-45ab-b96e-93aa1bf9d474",
-    allowLocalhostAsSecureOrigin: true,
-    autoRegister: true,
-    notifyButton: {
-      enable: false /* Set to false to hide */
-    }
-  }]);
-</script>
-
-<% if user_signed_in? %>
-  <!-- Canny -->
-  <script>!function(w,d,i,s){function l(){if(!d.getElementById(i)){var f=d.getElementsByTagName(s)[0],e=d.createElement(s);e.type="text/javascript",e.async=!0,e.src="https://canny.io/sdk.js",f.parentNode.insertBefore(e,f)}}if("function"!=typeof w.Canny){var c=function(){c.q.push(arguments)};c.q=[],w.Canny=c,"complete"===d.readyState?l():w.attachEvent?w.attachEvent("onload",l):w.addEventListener("load",l,!1)}}(window,document,"canny-jssdk","script");</script>
-  <script>
-  Canny('identify', {
-    appID: '5b0d1194d5be9f110e4ba0c5',
-    user: {
-      email: "<%= current_user.email %>",
-      name: "<%= current_user.username || current_user.email.split('@').first %>",
-      id: <%= current_user.id %>,
-    },
-  });
+  <!-- Heap Analytics -->
+  <script type="text/javascript">
+    window.heap=window.heap||[],heap.load=function(e,t){window.heap.appid=e,window.heap.config=t=t||{};var r=t.forceSSL||"https:"===document.location.protocol,a=document.createElement("script");a.type="text/javascript",a.async=!0,a.src=(r?"https:":"http:")+"//cdn.heapanalytics.com/js/heap-"+e+".js";var n=document.getElementsByTagName("script")[0];n.parentNode.insertBefore(a,n);for(var o=function(e){return function(){heap.push([e].concat(Array.prototype.slice.call(arguments,0)))}},p=["addEventProperties","addUserProperties","clearEventProperties","identify","removeEventProperty","setEventProperties","track","unsetEventProperty"],c=0;c<p.length;c++)heap[p[c]]=o(p[c])};
+    heap.load('<%= ENV.fetch('HEAP_APP_ID') %>');
+    <% if current_user %>
+      heap.identify('<%= current_user.email %>');
+    <% end %>
+    window.addEventListener('load', function() {
+      if (typeof web3 !== 'undefined' && web3.currentProvider.isMetaMask) {
+        heap.addUserProperties({ 'hasMetaMask': true })
+      } else {
+        heap.addUserProperties({ 'hasMetaMask': false })
+      }
+    })
   </script>
-<% end %>
+
+  <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-105378428-1', 'auto');
+    ga('send', 'pageview');
+  </script>
+
+  <!-- Google Code for Remarketing Tag -->
+  <script type="text/javascript">
+  /* <![CDATA[ */
+  var google_conversion_id = 995933950;
+  var google_custom_params = window.google_tag_params;
+  var google_remarketing_only = true;
+  /* ]]> */
+  </script>
+  <script type="text/javascript" src="//www.googleadservices.com/pagead/conversion.js">
+  </script>
+  <noscript>
+  <div style="display:inline;">
+  <img height="1" width="1" style="border-style:none;" alt="" src="//googleads.g.doubleclick.net/pagead/viewthroughconversion/995933950/?guid=ON&amp;script=0"/>
+  </div>
+  </noscript>
+
+  <!-- Global site tag (gtag.js) - AdWords: 1064039393 -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=AW-1064039393"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'AW-1064039393');
+  </script>
+
+  <!-- Facebook Pixel Code -->
+  <script>
+    !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+    n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+    document,'script','https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', '175229079700938'); // Insert your pixel ID here.
+    fbq('track', 'PageView');
+  </script>
+  <noscript><img height="1" width="1" style="display:none"
+  src="https://www.facebook.com/tr?id=175229079700938&ev=PageView&noscript=1"
+  /></noscript>
+  <!-- DO NOT MODIFY -->
+  <!-- End Facebook Pixel Code -->
+
+  <!-- Twitter universal website tag code -->
+  <script>
+  !function(e,t,n,s,u,a){e.twq||(s=e.twq=function(){s.exe?s.exe.apply(s,arguments):s.queue.push(arguments);
+  },s.version='1.1',s.queue=[],u=t.createElement(n),u.async=!0,u.src='//static.ads-twitter.com/uwt.js',
+  a=t.getElementsByTagName(n)[0],a.parentNode.insertBefore(u,a))}(window,document,'script');
+  // Insert Twitter Pixel ID and Standard Event data below
+  twq('init','nyhv6');
+  twq('track','PageView');
+  </script>
+  <!-- End Twitter universal website tag code -->
+
+  <!-- Hotjar Tracking Code -->
+  <script>
+  var hotjarId = "<%= request.original_fullpath.start_with?('/signals') ? '1034618' : '691132' %>";
+  (function(h,o,t,j,a,r){
+    h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
+    h._hjSettings={hjid:hotjarId,hjsv:6};
+    a=o.getElementsByTagName('head')[0];
+    r=o.createElement('script');r.async=1;
+    r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
+    a.appendChild(r);
+  })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
+  </script>
+
+  <!-- Start Visual Website Optimizer Asynchronous Code -->
+  <script type='text/javascript'>
+  var _vwo_code=(function(){
+  var account_id=323413,
+  settings_tolerance=2000,
+  library_tolerance=2500,
+  use_existing_jquery=false,
+  /* DO NOT EDIT BELOW THIS LINE */
+  f=false,d=document;return{use_existing_jquery:function(){return use_existing_jquery;},library_tolerance:function(){return library_tolerance;},finish:function(){if(!f){f=true;var a=d.getElementById('_vis_opt_path_hides');if(a)a.parentNode.removeChild(a);}},finished:function(){return f;},load:function(a){var b=d.createElement('script');b.src=a;b.type='text/javascript';b.innerText;b.onerror=function(){_vwo_code.finish();};d.getElementsByTagName('head')[0].appendChild(b);},init:function(){settings_timer=setTimeout('_vwo_code.finish()',settings_tolerance);var a=d.createElement('style'),b='body{opacity:0 !important;filter:alpha(opacity=0) !important;background:none !important;}',h=d.getElementsByTagName('head')[0];a.setAttribute('id','_vis_opt_path_hides');a.setAttribute('type','text/css');if(a.styleSheet)a.styleSheet.cssText=b;else a.appendChild(d.createTextNode(b));h.appendChild(a);this.load('//dev.visualwebsiteoptimizer.com/j.php?a='+account_id+'&u='+encodeURIComponent(d.URL)+'&r='+Math.random());return settings_timer;}};}());_vwo_settings_timer=_vwo_code.init();
+  </script>
+  <!-- End Visual Website Optimizer Asynchronous Code -->
+
+  <!--
+  Only show Mouseflow on landing pages, otherwise the recording quota
+  gets wasted on pages where we don't need the data.
+  -->
+  <% if request.original_fullpath.start_with? '/signals' %>
+    <!-- Mouseflow -->
+    <script type="text/javascript">
+      window._mfq = window._mfq || [];
+      (function() {
+        var mf = document.createElement("script");
+        mf.type = "text/javascript"; mf.async = true;
+        mf.src = "//cdn.mouseflow.com/projects/62f7b1d8-2d67-46db-9db5-d396e360d36b.js";
+        document.getElementsByTagName("head")[0].appendChild(mf);
+      })();
+    </script>
+  <% end %>
+
+  <!--
+  Only show Drift on Signals page, otherwise show Usersnap bug report;
+  this is because they both occupy the bottom right hand side of the screen,
+  and there should be no bugs to report on the Signals pages so we want to
+  encourage users to convert without distracting them with other options.
+  -->
+  <% if request.original_fullpath.start_with? '/signals' %>
+    <!-- Start of Async Drift Code -->
+    <script>
+    !function() {
+      var t = window.driftt = window.drift = window.driftt || [];
+      if (!t.init) {
+        if (t.invoked) return void (window.console && console.error && console.error("Drift snippet included twice."));
+        t.invoked = !0, t.methods = [ "identify", "config", "track", "reset", "debug", "show", "ping", "page", "hide", "off", "on" ],
+        t.factory = function(e) {
+          return function() {
+            var n = Array.prototype.slice.call(arguments);
+            return n.unshift(e), t.push(n), t;
+          };
+        }, t.methods.forEach(function(e) {
+          t[e] = t.factory(e);
+        }), t.load = function(t) {
+          var e = 3e5, n = Math.ceil(new Date() / e) * e, o = document.createElement("script");
+          o.type = "text/javascript", o.async = !0, o.crossorigin = "anonymous", o.src = "https://js.driftt.com/include/" + n + "/" + t + ".js";
+          var i = document.getElementsByTagName("script")[0];
+          i.parentNode.insertBefore(o, i);
+        };
+      }
+    }();
+    drift.SNIPPET_VERSION = '0.3.1';
+    drift.load('rib3n3nefgnd');
+    </script>
+    <!-- End of Async Drift Code -->
+  <% else %>
+    <!-- UserSnap -->
+    <script type="text/javascript">
+    (function() { var s = document.createElement("script"); s.type = "text/javascript"; s.async = true; s.src = '//api.usersnap.com/load/566ea3b0-5719-4a7c-999f-b7f6604930c2.js';
+    var x = document.getElementsByTagName('script')[0]; x.parentNode.insertBefore(s, x); })();
+    </script>
+  <% end %>
+
+  <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async></script>
+  <script>
+    var OneSignal = window.OneSignal || [];
+    OneSignal.push(["init", {
+      appId: "91b756ae-dfc8-45ab-b96e-93aa1bf9d474",
+      allowLocalhostAsSecureOrigin: true,
+      autoRegister: true,
+      notifyButton: {
+        enable: false /* Set to false to hide */
+      }
+    }]);
+  </script>
+
+  <% if user_signed_in? %>
+    <!-- Canny -->
+    <script>!function(w,d,i,s){function l(){if(!d.getElementById(i)){var f=d.getElementsByTagName(s)[0],e=d.createElement(s);e.type="text/javascript",e.async=!0,e.src="https://canny.io/sdk.js",f.parentNode.insertBefore(e,f)}}if("function"!=typeof w.Canny){var c=function(){c.q.push(arguments)};c.q=[],w.Canny=c,"complete"===d.readyState?l():w.attachEvent?w.attachEvent("onload",l):w.addEventListener("load",l,!1)}}(window,document,"canny-jssdk","script");</script>
+    <script>
+    Canny('identify', {
+      appID: '5b0d1194d5be9f110e4ba0c5',
+      user: {
+        email: "<%= current_user.email %>",
+        name: "<%= current_user.username || current_user.email.split('@').first %>",
+        id: <%= current_user.id %>,
+      },
+    });
+    </script>
+  <% end %>
 <% end %>
