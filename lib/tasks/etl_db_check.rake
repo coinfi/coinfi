@@ -12,7 +12,7 @@ namespace :etldb do
         {
             'title' => "Daily",
             'name' => "daily_ohcl_prices",
-            'interval' => "''1 day''",
+            'interval' => "''7 days''",
             'url' => "https://hc-ping.com/772bacf5-958e-4541-b8ca-a81fe24c63d0"
         },
         {
@@ -24,29 +24,30 @@ namespace :etldb do
     ]
 
     coins = [
-        {
-            'title' => "'Bitcoin",
-            'query' => lambda { Coin.where(symbol: 'BTC').pluck(:coin_key, :ranking) },
-            'url' => "https://hc-ping.com/67fffb49-c4d7-4e3f-a7cf-4688495c00d1"
-        },
-        {
-            'title' => "Ethereum",
-            'query' => lambda { Coin.where(symbol: 'ETH').pluck(:coin_key, :ranking) },
-            'url' => "https://hc-ping.com/67fffb49-c4d7-4e3f-a7cf-4688495c00d1"
-        },
-        {
-            'title' => "CoinFi",
-            'query' => lambda { Coin.where(symbol: 'COFI').pluck(:coin_key, :ranking) },
-            'url' => "https://hc-ping.com/67fffb49-c4d7-4e3f-a7cf-4688495c00d1"
-        },
-        {
-            'title' => "Top 10",
-            'query' => lambda { Coin.top(10).pluck(:coin_key, :ranking) },
-            'url' => "https://hc-ping.com/67fffb49-c4d7-4e3f-a7cf-4688495c00d1"
-        },
+        # {
+        #     'title' => "'Bitcoin",
+        #     'query' => lambda { Coin.where(symbol: 'BTC').pluck(:coin_key, :ranking) },
+        #     'url' => "https://hc-ping.com/67fffb49-c4d7-4e3f-a7cf-4688495c00d1"
+        # },
+        # {
+        #     'title' => "Ethereum",
+        #     'query' => lambda { Coin.where(symbol: 'ETH').pluck(:coin_key, :ranking) },
+        #     'url' => "https://hc-ping.com/67fffb49-c4d7-4e3f-a7cf-4688495c00d1"
+        # },
+        # {
+        #     'title' => "CoinFi",
+        #     'query' => lambda { Coin.where(symbol: 'COFI').pluck(:coin_key, :ranking) },
+        #     'url' => "https://hc-ping.com/67fffb49-c4d7-4e3f-a7cf-4688495c00d1"
+        # },
+        # {
+        #     'title' => "Top 10",
+        #     'query' => lambda { Coin.top(10).pluck(:coin_key, :ranking) },
+        #     'url' => "https://hc-ping.com/67fffb49-c4d7-4e3f-a7cf-4688495c00d1"
+        # },
         {
             'title' => "Random 3",
-            'query' => lambda { Coin.all.order("RANDOM()").limit(3).pluck(:coin_key, :ranking) },
+            'query' => lambda { Coin.where("ico_status=? OR ranking IS NOT NULL", 'listed')
+                .order("RANDOM()").limit(3).pluck(:coin_key, :ranking) },
             'url' => "https://hc-ping.com/67fffb49-c4d7-4e3f-a7cf-4688495c00d1"
         }            
     ]
