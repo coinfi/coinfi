@@ -14,6 +14,7 @@ FactoryBot.define do
     explorer2 { "https://ethplorer.io/address/#{Faker::Crypto.sha256}" }
     sequence(:ranking)
     is_listed { Faker::Boolean.boolean(0.9) }
+    ico_status { is_listed ? 'listed' : Coin::ICO_STATUSES.without('listed').sample }
 
     volume24 {
       {
