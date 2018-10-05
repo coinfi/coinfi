@@ -23,6 +23,14 @@ GIT
       administrate (> 0.8, < 1)
       cocoon (~> 1.2, >= 1.2.11)
 
+GIT
+  remote: https://github.com/stympy/faker.git
+  revision: 7aedb710f26d25adc2eb2fa5e6c609557a6dc4ff
+  branch: master
+  specs:
+    faker (1.9.1)
+      i18n (>= 0.7)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -148,6 +156,7 @@ GEM
     cryptocompare (0.12.0)
       faraday
       json
+    database_cleaner (1.7.0)
     datetime_picker_rails (0.0.7)
       momentjs-rails (>= 2.8.1)
     descendants_tracker (0.0.4)
@@ -174,6 +183,11 @@ GEM
     erubi (1.7.1)
     excon (0.62.0)
     execjs (2.7.0)
+    factory_bot (4.11.1)
+      activesupport (>= 3.0.0)
+    factory_bot_rails (4.11.1)
+      factory_bot (~> 4.11.1)
+      railties (>= 3.0.0)
     faraday (0.13.1)
       multipart-post (>= 1.2, < 3)
     faraday-http-cache (2.0.0)
@@ -299,6 +313,7 @@ GEM
     mini_racer (0.1.15)
       libv8 (~> 6.3)
     minitest (5.11.3)
+    minitest-stub_any_instance (1.0.2)
     momentjs-rails (2.20.1)
       railties (>= 3.1)
     multi_json (1.12.1)
@@ -565,10 +580,13 @@ DEPENDENCIES
   coffee-rails (~> 4.2)
   convertkit-ruby!
   cryptocompare
+  database_cleaner
   devise
   distribute_reads
   dotenv-rails
   email_address
+  factory_bot_rails
+  faker!
   feedjira
   fog-aws
   friendly_id (~> 5.2.1)
@@ -582,6 +600,7 @@ DEPENDENCIES
   lograge
   meta-tags
   mini_racer
+  minitest-stub_any_instance
   nokogiri (~> 1.8.1)
   omniauth
   omniauth-twitter
