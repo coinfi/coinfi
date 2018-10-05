@@ -5,14 +5,16 @@ class AddCompositeIndexToNewsCoinMention < ActiveRecord::Migration[5.1]
     reversible do |dir|
       dir.up do
         # remove duplicates
-        execute <<-SQL
-          DELETE FROM news_coin_mentions AS T1 
-            USING news_coin_mentions AS T2 
-              WHERE T1.ctid < T2.ctid 
-              AND T1.coin_id = T2.coin_id 
-              AND T1.news_item_id = T2.news_item_id 
-              AND T1.is_machine_tagged = T2.is_machine_tagged;
-        SQL
+        safety_assured {
+          execute <<-SQL
+            DELETE FROM news_coin_mentions AS T1 
+              USING news_coin_mentions AS T2 
+                WHERE T1.ctid < T2.ctid 
+                AND T1.coin_id = T2.coin_id 
+                AND T1.news_item_id = T2.news_item_id 
+                AND T1.is_machine_tagged = T2.is_machine_tagged;
+          SQL
+        }
       end
     end
 
