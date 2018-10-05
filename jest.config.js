@@ -11,11 +11,7 @@ module.exports = {
   },
   setupTestFrameworkScriptFile: './node_modules/jest-enzyme/lib/index.js',
   roots: ['app/javascript/packs', 'test/javascript'],
-  moduleDirectories: [
-    'node_modules',
-    'app/javascript/App',
-    'app/javascript/packs',
-  ],
+  moduleDirectories: ['node_modules', 'app/javascript/packs'],
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
   transform: {
     '^.+\\.tsx?$': 'ts-jest',
