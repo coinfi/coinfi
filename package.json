@@ -87,6 +87,7 @@
     "@storybook/addon-links": "^3.4.8",
     "@storybook/addons": "^3.4.8",
     "@storybook/react": "^3.4.8",
+    "@types/jest": "^23.3.3",
     "babel-eslint": "^8.1.1",
     "babel-jest": "^23.6.0",
     "babel-plugin-import": "^1.8.0",
@@ -109,6 +110,7 @@
     "stylelint": "^9.1.3",
     "stylelint-config-recommended-scss": "^3.1.0",
     "stylelint-scss": "^2.5.0",
+    "ts-jest": "^23.10.3",
     "tslint-config-prettier": "^1.15.0",
     "webpack-dev-server": "2.11.2"
   },
@@ -120,20 +122,5 @@
     "dev": "./bin/webpack-dev-server",
     "test": "jest",
     "test-watch": "jest --watch"
-  },
-  "jest": {
-    "moduleNameMapper": {
-      "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/test/javascript/__mocks__/fileMock.js",
-      "\\.(css|less)$": "<rootDir>/test/javascript/__mocks__/styleMock.js"
-    },
-    "setupTestFrameworkScriptFile": "./node_modules/jest-enzyme/lib/index.js",
-    "roots": [
-      "app/javascript/packs",
-      "test/javascript"
-    ],
-    "moduleDirectories": [
-      "node_modules",
-      "app/javascript/packs"
-    ]
   }
 }
