@@ -6,7 +6,6 @@ class NewsSystemTest < ApplicationSystemTestCase
 
   setup do
     @user = create(:user)
-    @watchlist = create(:watchlist, user: @user)
     @coins = create_list(:coin_with_news_items, 20, :with_feed_sources)
   end
 
