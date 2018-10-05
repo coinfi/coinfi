@@ -1,6 +1,7 @@
+require 'application_integration_test'
 require 'test_helper'
 
-class CoinsRoutesTest < ActionDispatch::IntegrationTest
+class CoinsRoutesTest < ApplicationIntegrationTest
   setup do
     @coin = Coin.create(name: 'Bitcoin')
   end

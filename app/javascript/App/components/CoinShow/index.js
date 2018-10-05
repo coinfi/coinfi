@@ -70,6 +70,7 @@ class CoinShow extends Component {
       isTradingViewVisible,
       metabaseUrl,
       coinObj,
+      relatedCoins,
     } = this.props
 
     const percentChange1h = {
@@ -317,6 +318,43 @@ class CoinShow extends Component {
                       </Card>
                     </CardWrapLast>
                   </Col>
+
+                  {/* related coins */}
+                  {relatedCoins ? (
+                    <Col xs={24} sm={8} m={8} l={8} xl={8}>
+                      <CardWrapLast>
+                        <Card title="Related Coins">
+                          <List
+                            itemLayout="horizontal"
+                            dataSource={relatedCoins}
+                            renderItem={(item) => {
+                              if (item.slug) {
+                                return (
+                                  <List.Item
+                                    style={{
+                                      paddingTop: '0.25rem',
+                                      paddingBottom: '0.25rem',
+                                    }}
+                                  >
+                                    <a
+                                      href={`/coins/${item.slug}`}
+                                      rel="nofollow noopener noreferrer"
+                                      style={{
+                                        marginTop: '-.25rem',
+                                      }}
+                                    >
+                                      {item.name}
+                                    </a>
+                                  </List.Item>
+                                )
+                              }
+                              return <Fragment />
+                            }}
+                          />
+                        </Card>
+                      </CardWrapLast>
+                    </Col>
+                  ) : null}
 
                   {metabaseUrl ? (
                     <Col xs={24} sm={24} m={24} l={24} xl={24}>
