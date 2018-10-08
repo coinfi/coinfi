@@ -3,7 +3,7 @@ require 'test_helper'
 
 class CoinsRoutesTest < ApplicationIntegrationTest
   setup do
-    @coin = Coin.create(name: 'Bitcoin')
+    @coins = create_list(:coin, 10)
   end
 
   test "can visit index" do
@@ -12,7 +12,7 @@ class CoinsRoutesTest < ApplicationIntegrationTest
   end
 
   test "can visit show" do
-    get "/coins/#{@coin.slug}"
+    get "/coins/#{@coins.first.slug}"
     assert_equal 200, status
   end
 end

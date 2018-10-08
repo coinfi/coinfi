@@ -18,7 +18,12 @@ class Coin < ApplicationRecord
   has_many :feed_sources
   has_many :influencer_reviews
   has_many :mentions, class_name: 'NewsCoinMention'
+  has_many :machine_tagged_mentions, -> { NewsCoinMention.machine_tagged }, class_name: 'NewsCoinMention'
+  has_many :human_tagged_mentions, -> { NewsCoinMention.human_tagged }, class_name: 'NewsCoinMention'
   has_many :news_items, through: :mentions
+  has_many :machine_tagged_news_items, through: :machine_tagged_mentions, source: :news_item
+  has_many :human_tagged_news_items, through: :human_tagged_mentions, source: :news_item
+
   has_many :calendar_event_coins
   has_many :calendar_events, through: :calendar_event_coins
 
