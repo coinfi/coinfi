@@ -40,14 +40,20 @@ FactoryBot.define do
     end
 
     factory :coin_with_news_items do
+      with_feed_sources
+
       transient do
         machine_tagged_news_items_count { 3 }
         human_tagged_news_items_count { 3 }
       end
 
       after(:create) do |coin, evaluator|
-        coin.machine_tagged_news_items << create_list(:news_item, evaluator.machine_tagged_news_items_count)
-        coin.human_tagged_news_items << create_list(:news_item, evaluator.human_tagged_news_items_count)
+        evaluator.machine_tagged_news_items_count.times do |i|
+          coin.machine_tagged_news_items << create(:news_item, feed_source: coin.feed_sources.sample)
+        end
+        evaluator.human_tagged_news_items_count.times do |i|
+          coin.human_tagged_news_items << create(:news_item, feed_source: coin.feed_sources.sample)
+        end
       end
     end
   end
