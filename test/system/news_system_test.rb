@@ -5,8 +5,9 @@ class NewsSystemTest < ApplicationSystemTestCase
   include Devise::Test::IntegrationHelpers
 
   setup do
+    Rails.application.load_seed
     @user = create(:user)
-    @coins = create_list(:coin_with_news_items, 20, :with_feed_sources)
+    @coins = create_list(:coin_with_news_items, 20)
   end
 
   test "can visit index when authenticated" do
