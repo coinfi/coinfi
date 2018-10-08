@@ -10,8 +10,9 @@ class NewsSystemTest < ApplicationSystemTestCase
   end
 
   test "can visit index when authenticated" do
+    login_as(@user, :scope => :user)
+
     LaunchDarkly::LDClient.stub_any_instance(:variation, true) do
-      login_as(@user, :scope => :user)
       visit news_url
     end
 
