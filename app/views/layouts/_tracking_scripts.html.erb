@@ -103,10 +103,10 @@
   </script>
   <!-- End Visual Website Optimizer Asynchronous Code -->
 
-  <!--
+  <%#
   Only show Mouseflow on landing pages, otherwise the recording quota
   gets wasted on pages where we don't need the data.
-  -->
+  %>
   <% if request.original_fullpath.start_with? '/signals' %>
     <!-- Mouseflow -->
     <script type="text/javascript">
@@ -120,12 +120,12 @@
     </script>
   <% end %>
 
-  <!--
+  <%#
   Only show Drift on Signals page, otherwise show Usersnap bug report;
   this is because they both occupy the bottom right hand side of the screen,
   and there should be no bugs to report on the Signals pages so we want to
   encourage users to convert without distracting them with other options.
-  -->
+  %>
   <% if request.original_fullpath.start_with? '/signals' %>
     <!-- Start of Async Drift Code -->
     <script>
