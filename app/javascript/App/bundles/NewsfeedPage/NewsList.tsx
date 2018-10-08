@@ -7,6 +7,7 @@ import Tips from './Tips'
 import withDevice from '~/bundles/common/utils/withDevice'
 
 import { NewsItem } from './types'
+import { CoinLinkData } from '~/bundles/common/types'
 
 interface Props {
   isShown: boolean
@@ -17,7 +18,8 @@ interface Props {
   closeTips: () => void
   isWindowFocused: boolean
   selectedNewsItemId: string
-  onNewsItemClick: any
+  onNewsItemClick: (newsItem: NewsItem) => void
+  onCoinClick: (coinData: CoinLinkData) => void
   hasMore: boolean
   isMobile: boolean
 }
@@ -81,6 +83,7 @@ class NewsList extends React.Component<Props, State> {
           isSelected={this.props.selectedNewsItemId === newsItem.id.toString()}
           hasRead={hasRead}
           onClick={this.onSelect}
+          onCoinClick={this.props.onCoinClick}
         />
       )
     })

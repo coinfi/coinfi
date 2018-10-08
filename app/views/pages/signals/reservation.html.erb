@@ -40,7 +40,7 @@
             Do NOT send from an exchange since we cannot confirm the sender.
             </p>
 
-            <%= react_component "SignalPopoverText",
+            <%= react_component_with_jss "SignalPopoverText",
               props: {
                 text: "Don't have any COFI tokens or need more?",
                 description: 'You can acquire COFI tokens at the following exchanges:
@@ -58,7 +58,8 @@
               },
               html_options: {
                 class: 'signal-popover-text'
-              }
+              },
+              prerender: true
             %>
           </li>
 

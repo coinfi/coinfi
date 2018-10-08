@@ -4,7 +4,7 @@ import NewsBody from './NewsBody'
 import CoinBody from '../common/components/CoinBody'
 import Tips from './Tips'
 import { ContentType, NewsItem } from './types'
-import { CoinWithDetails } from '~/bundles/common/types'
+import { CoinWithDetails, CoinClickHandler } from '~/bundles/common/types'
 
 interface Props {
   initialNewsItem?: NewsItem
@@ -13,6 +13,7 @@ interface Props {
   coinSlug?: string
   contentType: ContentType
   loggedIn: boolean
+  onCoinClick?: CoinClickHandler
 }
 
 const BodySection = (props: Props) => {
@@ -25,6 +26,7 @@ const BodySection = (props: Props) => {
       <NewsBody
         initialNewsItem={props.initialNewsItem}
         newsItemId={props.newsItemId}
+        onCoinClick={props.onCoinClick}
       />
     )
   }
