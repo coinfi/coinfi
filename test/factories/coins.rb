@@ -35,6 +35,12 @@ FactoryBot.define do
       }
     }
 
+    trait :with_listings do
+      after(:build) do |coin, evaluator|
+        coin.exchange_listings << build_list(:exchange_listing, 3, quote_coin: coin)
+      end
+    end
+
     trait :with_feed_sources do
       feed_sources { build_list(:feed_source, 3) }
     end
