@@ -11,8 +11,8 @@ class ListingRoutesTest < ApplicationIntegrationTest
   end
 
   test "can visit index when authenticated" do
-    @user = User.create!(email: 'john.smith@example.org', password: 'abc123')
-    sign_in @user
+    user = create(:user)
+    login_as(user, :scope => :user)
 
     get "/listings"
     assert_equal 200, status
