@@ -14,15 +14,14 @@ class ActiveSupport::TestCase
   # Add more helper methods to be used by all tests here...
   include FactoryBot::Syntax::Methods
 
+  # Unfortunately uncommitted transactional data is not accessible to external drivers (e.g. the
+  # ones used in system tests)
+  # See https://stackoverflow.com/a/6316184
   self.use_transactional_tests = false
+  # Use `DatabaseCleaner` to reset the database instead of `use_transactional_tests`
+  setup { DatabaseCleaner.start }
+  teardown { DatabaseCleaner.clean }
 
+  # Ensure there are no pending migrations
   ActiveRecord::Migration.check_pending!
-
-  setup do
-    DatabaseCleaner.start
-  end
-
-  teardown do
-    DatabaseCleaner.clean
-  end
 end
