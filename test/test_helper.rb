@@ -13,6 +13,7 @@ class ActiveSupport::TestCase
 
   # Add more helper methods to be used by all tests here...
   include FactoryBot::Syntax::Methods
+  include Warden::Test::Helpers
 
   # Unfortunately uncommitted transactional data is not accessible to external drivers (e.g. the
   # ones used in system tests)
