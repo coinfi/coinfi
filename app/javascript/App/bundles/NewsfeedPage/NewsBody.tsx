@@ -9,15 +9,21 @@ import localAPI from '../../lib/localAPI'
 
 import TwitterBody from './TwitterBody'
 import LoadingIndicator from '../../components/LoadingIndicator'
-import { getDomainType } from '../../lib/utils/url'
+import {
+  getDomainType,
+  isTwitter,
+  getTwitterUsername,
+} from '../../lib/utils/url'
 
 import { NewsItem } from './types'
+import { CoinClickHandler } from '~/bundles/common/types'
 import NewsBodyShareButtons from './NewsBodyShareButtons'
 import { RailsConsumer } from '~/bundles/common/contexts/RailsContext'
 
 interface Props {
   initialNewsItem?: NewsItem
   newsItemId?: string
+  onCoinClick?: CoinClickHandler
 }
 
 interface State {
@@ -83,7 +89,11 @@ export default class NewsBody extends React.Component<Props, State> {
     return (
       <div className="pa3 bg-white min-h-100 selected-news-content">
         {/* Header */}
-        <CoinTags itemWithCoinLinkData={newsItem} />
+        <CoinTags
+          itemWithCoinLinkData={newsItem}
+          getLink={(data) => `/news/${data.slug}`}
+          onClick={this.props.onCoinClick}
+        />
         <h1 className="break-word f4">{newsItem.title}</h1>
         <div className="mb3 f6">
           <a
@@ -137,7 +147,19 @@ export default class NewsBody extends React.Component<Props, State> {
               const hasWindow = !_.isError(_.attempt(() => window))
               const url = hasWindow ? window.location.href : initialHref
 
-              return <NewsBodyShareButtons url={url} />
+              const twitterUsername = isTwitter(newsItem.url)
+                ? getTwitterUsername(newsItem.url)
+                : undefined
+
+              return (
+                <NewsBodyShareButtons
+                  url={url}
+                  twitterButtonProps={{
+                    title: newsItem.title,
+                    via: twitterUsername,
+                  }}
+                />
+              )
             }}
           </RailsConsumer>
         </div>

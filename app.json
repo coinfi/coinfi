@@ -11,7 +11,7 @@
     "BLAZER_DATABASE_URL": { "required": true },
     "BLAZER_PASSWORD": { "required": true },
     "BLAZER_USERNAME": { "required": true },
-    "COINFI_PRICES_URL": { "required": true },
+    "COINFI_NEW_PRICES_URL": { "required": true },
     "CONVERTKIT_API_KEY": { "required": true },
     "CONVERTKIT_API_SECRET": { "required": true },
     "HEAP_APP_ID": { "required": true },

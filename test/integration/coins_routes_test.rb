@@ -1,8 +1,9 @@
+require 'application_integration_test'
 require 'test_helper'
 
-class CoinsRoutesTest < ActionDispatch::IntegrationTest
+class CoinsRoutesTest < ApplicationIntegrationTest
   setup do
-    @coin = Coin.create(name: 'Bitcoin')
+    @coins = create_list(:coin, 10)
   end
 
   test "can visit index" do
@@ -11,7 +12,7 @@ class CoinsRoutesTest < ActionDispatch::IntegrationTest
   end
 
   test "can visit show" do
-    get "/coins/#{@coin.slug}"
+    get "/coins/#{@coins.first.slug}"
     assert_equal 200, status
   end
 end

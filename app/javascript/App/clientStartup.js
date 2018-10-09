@@ -1,4 +1,5 @@
 import ReactOnRails from 'react-on-rails'
+import withClientProviders from '~/withClientProviders'
 
 // react-router app
 import ClientApp from './ClientApp'
@@ -10,14 +11,22 @@ import IcoFilters from './components/IcoFilters'
 import FlashMessageListContainer from './bundles/common/containers/FlashMessageListContainer'
 import WatchButton from './bundles/common/components/WatchButton'
 import CalendarPage from './components/CalendarPage'
+import SignalExamplePanel from './bundles/signalsPage/SignalExamplePanel'
+import SignalFaqPanel from './bundles/signalsPage/SignalFaqPanel'
+import SignalPopoverText from './bundles/signalsPage/SignalPopoverText'
+import SignalTeamMember from './bundles/signalsPage/SignalTeamMember'
 
 // Register the components so they can be rendered from Rails
 ReactOnRails.register({
-  NavUserContainer,
-  CoinShow,
-  IcoFilters,
-  FlashMessageListContainer,
-  WatchButton,
-  CalendarPage,
+  NavUserContainer: withClientProviders(NavUserContainer),
+  CoinShow: withClientProviders(CoinShow),
+  IcoFilters: withClientProviders(IcoFilters),
+  FlashMessageListContainer: withClientProviders(FlashMessageListContainer),
+  WatchButton: withClientProviders(WatchButton),
+  CalendarPage: withClientProviders(CalendarPage),
+  SignalExamplePanel: withClientProviders(SignalExamplePanel),
+  SignalFaqPanel: withClientProviders(SignalFaqPanel),
+  SignalPopoverText: withClientProviders(SignalPopoverText),
+  SignalTeamMember: withClientProviders(SignalTeamMember),
   App: ClientApp,
 })

@@ -1,6 +1,7 @@
+require 'application_integration_test'
 require 'test_helper'
 
-class NewsRoutesTest < ActionDispatch::IntegrationTest
+class NewsRoutesTest < ApplicationIntegrationTest
   include Devise::Test::IntegrationHelpers
 
   test "cannot visit index when not authenticated" do
@@ -10,10 +11,13 @@ class NewsRoutesTest < ActionDispatch::IntegrationTest
   end
 
   test "can visit index when authenticated" do
-    @user = User.create!(email: 'john.smith@example.org', password: 'abc123')
-    sign_in @user
+    user = create(:user)
+    login_as(user, :scope => :user)
 
-    get "/news"
+    LaunchDarkly::LDClient.stub_any_instance(:variation, true) do
+      get "/news"
+    end
+
     assert_equal 200, status
   end
 end

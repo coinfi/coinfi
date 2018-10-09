@@ -7,6 +7,12 @@ import classNames from 'classnames'
 import Favicon from '~/bundles/common/components/Favicon'
 import * as _ from 'lodash'
 import URL from 'url-parse'
+import {
+  getTwitterUsername,
+  getSubredditName,
+  isTwitter,
+  isReddit,
+} from '~/lib/utils/url'
 
 const readNewsHandler = (newsItem) => {
   const newsId = newsItem.id
@@ -43,16 +49,14 @@ const NewsListItem = (props) => {
     .replace(/<\/h1>/g, '')
 
   const parsedUrl = new URL(newsItem.url)
-  const linkUrl =
-    parsedUrl.hostname === 'twitter.com'
-      ? `https://twitter.com/${parsedUrl.pathname.split('/')[1]}`
-      : newsItem.url
-  const linkText =
-    parsedUrl.hostname === 'twitter.com'
-      ? `@${parsedUrl.pathname.split('/')[1]}`
-      : parsedUrl.hostname === 'www.reddit.com'
-        ? `/r/${parsedUrl.pathname.split('/')[2]}`
-        : parsedUrl.hostname
+  const linkUrl = isTwitter(newsItem.url)
+    ? `https://twitter.com/${parsedUrl.pathname.split('/')[1]}`
+    : newsItem.url
+  const linkText = isTwitter(newsItem.url)
+    ? `@${getTwitterUsername(newsItem.url)}`
+    : isReddit(newsItem.url)
+      ? `/r/${getSubredditName(newsItem.url)}`
+      : parsedUrl.hostname
 
   return (
     <div
