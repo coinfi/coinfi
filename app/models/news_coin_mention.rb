@@ -12,7 +12,7 @@ class NewsCoinMention < ApplicationRecord
     when 'machine'
       self.machine_tagged
     when 'combo'
-      self.human_tagged.or(self.machine_tagged)
+      self
     else
       raise "Invalid NEWS_COIN_MENTION_TAG_SCOPE environment variable"
     end
