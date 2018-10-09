@@ -1,8 +1,12 @@
 require 'application_integration_test'
 require 'test_helper'
 
-class ListingRoutesTest < ApplicationIntegrationTest
+class ListingsRoutesTest < ApplicationIntegrationTest
   include Devise::Test::IntegrationHelpers
+
+  setup do
+    @exchange_listings = create_list(:exchange_listing, 10)
+  end
 
   test "cannot visit index when not authenticated" do
     assert_raises(ActionController::RoutingError) do
