@@ -96,6 +96,10 @@ group :development, :test do
   gem 'reek'
   gem 'selenium-webdriver'
   gem 'chromedriver-helper'
+  gem 'factory_bot_rails'
+  gem 'faker', :git => 'https://github.com/stympy/faker.git', :branch => 'master'
+  gem 'minitest-stub_any_instance'
+  gem 'database_cleaner'
 end
 
 group :development do
