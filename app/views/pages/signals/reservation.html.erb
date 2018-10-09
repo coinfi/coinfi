@@ -6,6 +6,13 @@
     </div>
 
     <div class="reservation-card">
+      <%= react_component_with_jss "SignalReservationForm",
+        props: {},
+        html_options: {
+          class: "signal-stepper",
+        },
+        prerender: true
+      %>
     </div>
   </div>
 </div>
