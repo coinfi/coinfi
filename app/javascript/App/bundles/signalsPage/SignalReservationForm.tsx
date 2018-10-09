@@ -7,6 +7,8 @@ import StepContent from '@material-ui/core/StepContent'
 import Button from '@material-ui/core/Button'
 import Typography from '@material-ui/core/Typography'
 import TextField from '@material-ui/core/TextField'
+import * as Validator from 'validatorjs'
+import * as _ from 'lodash'
 
 const styles = (theme) => ({
   root: {},
@@ -45,23 +47,95 @@ interface State {
   formData: {
     email: string
     telegramUsername: string
-    walletAddress: string
+    ethWalletAddress: string
+  }
+  formErrors: {
+    email?: string[]
+    telegramUsername?: string[]
+    ethWalletAddress?: string[]
   }
 }
 
 class SignalReservationForm extends React.Component<Props, State> {
   public STEP_COUNT = 3
+  public VALIDATION_RULES = {
+    email: 'required|email',
+    telegramUsername: [
+      'required',
+      // Telegram regex https://core.telegram.org/method/account.checkUsername
+      'regex:/^[a-zA-Z0-9_]{5,32}$/',
+    ],
+    ethWalletAddress: ['required', 'regex:/^0x[a-fA-F0-9]{40}$/'],
+  }
+  public VALIDATION_ERROR_MESSAGES = {
+    required: 'Field is required',
+    email: 'Format is invalid',
+    regex: 'Format is invalid',
+  }
 
-  public state = {
+  public state: State = {
     activeStep: 0,
     formData: {
       email: '',
       telegramUsername: '',
-      walletAddress: '',
+      ethWalletAddress: '',
     },
+    formErrors: {},
+  }
+
+  public validateField = (fieldKey) => {
+    const rules = _.pick(this.VALIDATION_RULES, fieldKey)
+
+    // Can skip if there are no validation rules for this field
+    if (_.isEmpty(rules)) {
+      return
+    }
+
+    const validation = new Validator(
+      this.state.formData,
+      rules,
+      this.VALIDATION_ERROR_MESSAGES,
+    )
+    const validationResult = validation.passes()
+
+    this.setState((state) => ({
+      formErrors: {
+        ...state.formErrors,
+        [fieldKey]: validationResult
+          ? undefined
+          : validation.errors.get(fieldKey),
+      },
+    }))
+
+    return validationResult
+  }
+
+  public getStepFieldKeys = (stepIndex) => {
+    if (stepIndex === 0) {
+      return ['email', 'telegramUsername']
+    }
+
+    if (stepIndex === 1) {
+      return ['ethWalletAddress']
+    }
+
+    return []
+  }
+
+  public validateStep = (stepIndex) => {
+    const fieldKeys = this.getStepFieldKeys(stepIndex)
+    const haveValidationsPassed = _.every(
+      fieldKeys.map((fieldKey) => this.validateField(fieldKey)),
+    )
+
+    return haveValidationsPassed
   }
 
   public handleNext = () => {
+    if (!this.validateStep(this.state.activeStep)) {
+      return
+    }
+
     this.setState((state) => ({
       activeStep: state.activeStep + 1,
     }))
@@ -73,13 +147,21 @@ class SignalReservationForm extends React.Component<Props, State> {
     }))
   }
 
-  public handleFieldChange = (key) => (event) => {
-    this.setState((state) => ({
-      formData: {
-        ...state.formData,
-        [key]: event.target.value,
-      },
-    }))
+  public handleFieldBlur = (fieldKey) => () => {
+    this.validateField(fieldKey)
+  }
+
+  public handleFieldChange = (fieldKey) => (event) => {
+    const fieldValue = event.target.value
+
+    this.setState((state) => {
+      return {
+        formData: {
+          ...state.formData,
+          [fieldKey]: fieldValue,
+        },
+      }
+    })
   }
 
   public renderBackButton = () => {
@@ -114,7 +196,7 @@ class SignalReservationForm extends React.Component<Props, State> {
 
   public render() {
     const { classes } = this.props
-    const { activeStep } = this.state
+    const { activeStep, formData, formErrors } = this.state
 
     return (
       <div className={classes.root}>
@@ -131,16 +213,22 @@ class SignalReservationForm extends React.Component<Props, State> {
                 <TextField
                   label="Email"
                   className={classes.textField}
-                  value={this.state.formData.email}
-                  onChange={this.handleFieldChange('name')}
+                  value={formData.email}
+                  onBlur={this.handleFieldBlur('email')}
+                  onChange={this.handleFieldChange('email')}
+                  error={!_.isEmpty(formErrors.email)}
+                  helperText={_.first(formErrors.email)}
                   margin="normal"
                   fullWidth={true}
                 />
                 <TextField
                   label="Telegram username"
                   className={classes.textField}
-                  value={this.state.formData.telegramUsername}
+                  value={formData.telegramUsername}
+                  onBlur={this.handleFieldBlur('telegramUsername')}
                   onChange={this.handleFieldChange('telegramUsername')}
+                  error={!_.isEmpty(formErrors.telegramUsername)}
+                  helperText={_.first(formErrors.telegramUsername)}
                   margin="normal"
                   fullWidth={true}
                 />
@@ -166,8 +254,11 @@ class SignalReservationForm extends React.Component<Props, State> {
                 <TextField
                   label="Your ETH wallet address"
                   className={classes.textField}
-                  value={this.state.formData.walletAddress}
-                  onChange={this.handleFieldChange('walletAddress')}
+                  value={formData.ethWalletAddress}
+                  onBlur={this.handleFieldBlur('ethWalletAddress')}
+                  onChange={this.handleFieldChange('ethWalletAddress')}
+                  error={!_.isEmpty(formErrors.ethWalletAddress)}
+                  helperText={_.first(formErrors.ethWalletAddress)}
                   margin="normal"
                   fullWidth={true}
                 />
