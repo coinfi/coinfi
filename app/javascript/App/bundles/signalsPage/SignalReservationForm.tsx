@@ -15,6 +15,10 @@ const styles = (theme) => ({
   stepper: {
     padding: 0,
   },
+  stepLabelText: {
+    fontSize: 16,
+    fontWeight: 500,
+  },
   successMessage: {
     marginTop: theme.spacing.unit * 4,
   },
@@ -32,10 +36,7 @@ const styles = (theme) => ({
     maxWidth: 300,
     width: '100%',
   },
-  textField: {
-    marginLeft: theme.spacing.unit,
-    marginRight: theme.spacing.unit,
-  },
+  textField: {},
 })
 
 interface Props {
@@ -207,7 +208,13 @@ class SignalReservationForm extends React.Component<Props, State> {
         >
           <Step>
             <StepLabel
-            >{`Where would you like to receive trading signals?`}</StepLabel>
+              classes={{
+                label: classes.stepLabelText,
+              }}
+            >
+              {`Where would you like to receive trading signals?`}
+            </StepLabel>
+
             <StepContent>
               <div className={classes.fields}>
                 <TextField
@@ -243,7 +250,13 @@ class SignalReservationForm extends React.Component<Props, State> {
 
           <Step>
             <StepLabel
-            >{`Which wallet will you send your COFI tokens from?`}</StepLabel>
+              classes={{
+                label: classes.stepLabelText,
+              }}
+            >
+              {`Which wallet will you send your COFI tokens from?`}
+            </StepLabel>
+
             <StepContent>
               <Typography>
                 We need to know what your wallet address is so that we know it’s
@@ -272,7 +285,14 @@ class SignalReservationForm extends React.Component<Props, State> {
           </Step>
 
           <Step>
-            <StepLabel>{`Check your email for staking instructions`}</StepLabel>
+            <StepLabel
+              classes={{
+                label: classes.stepLabelText,
+              }}
+            >
+              {`Check your email for staking instructions`}
+            </StepLabel>
+
             <StepContent>
               <Typography>
                 Almost there! Finish your reservation by following the

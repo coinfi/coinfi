@@ -16,6 +16,19 @@
     margin-bottom: 32px;
   }
 }
+.reservation-section {
+  margin-bottom: 40px;
+
+  &--last {
+    margin-bottom: 0;
+  }
+
+  &__title {
+    text-align: center;
+    font-size: 30px;
+    font-weight: 600;
+  }
+}
 
 .reservation-card {
   background: white;
