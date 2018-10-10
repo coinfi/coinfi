@@ -9,6 +9,8 @@ import Typography from '@material-ui/core/Typography'
 import TextField from '@material-ui/core/TextField'
 import * as Validator from 'validatorjs'
 import * as _ from 'lodash'
+import axios from 'axios'
+import { SIGNALS_RESERVATION_URL } from '~/constants'
 
 const styles = (theme) => ({
   root: {},
@@ -20,6 +22,8 @@ const styles = (theme) => ({
     fontWeight: 500,
   },
   successMessage: {
+    fontSize: 17,
+    fontWeight: 600,
     marginTop: theme.spacing.unit * 4,
   },
   button: {
@@ -48,12 +52,12 @@ interface State {
   formData: {
     email: string
     telegramUsername: string
-    ethWalletAddress: string
+    ethereumAddress: string
   }
   formErrors: {
     email?: string[]
     telegramUsername?: string[]
-    ethWalletAddress?: string[]
+    ethereumAddress?: string[]
   }
 }
 
@@ -66,7 +70,7 @@ class SignalReservationForm extends React.Component<Props, State> {
       // Telegram regex https://core.telegram.org/method/account.checkUsername
       'regex:/^[a-zA-Z0-9_]{5,32}$/',
     ],
-    ethWalletAddress: ['required', 'regex:/^0x[a-fA-F0-9]{40}$/'],
+    ethereumAddress: ['required', 'regex:/^0x[a-fA-F0-9]{40}$/'],
   }
   public VALIDATION_ERROR_MESSAGES = {
     required: 'Field is required',
@@ -79,7 +83,7 @@ class SignalReservationForm extends React.Component<Props, State> {
     formData: {
       email: '',
       telegramUsername: '',
-      ethWalletAddress: '',
+      ethereumAddress: '',
     },
     formErrors: {},
   }
@@ -113,11 +117,11 @@ class SignalReservationForm extends React.Component<Props, State> {
 
   public getStepFieldKeys = (stepIndex) => {
     if (stepIndex === 0) {
-      return ['email', 'telegramUsername']
-    }
-
-    if (stepIndex === 1) {
-      return ['ethWalletAddress']
+      return ['email']
+    } else if (stepIndex === 1) {
+      return ['telegramUsername']
+    } else if (stepIndex === 2) {
+      return ['ethereumAddress']
     }
 
     return []
@@ -137,9 +141,23 @@ class SignalReservationForm extends React.Component<Props, State> {
       return
     }
 
-    this.setState((state) => ({
-      activeStep: state.activeStep + 1,
-    }))
+    const headers = {
+      'X-CSRF-Token': document
+        .querySelector('meta[name="csrf-token"]')
+        .getAttribute('content'),
+    }
+
+    axios
+      .patch(SIGNALS_RESERVATION_URL, this.state.formData, { headers })
+      .then(() => {
+        this.setState((state) => ({
+          activeStep: state.activeStep + 1,
+        }))
+      })
+      .catch((error) => {
+        // TODO: Handle error by showing some sort of message.
+        alert(error)
+      })
   }
 
   public handleBack = () => {
@@ -195,6 +213,13 @@ class SignalReservationForm extends React.Component<Props, State> {
     )
   }
 
+  public catchReturn = (event) => {
+    if (event.key === 'Enter') {
+      event.preventDefault()
+      this.handleNext()
+    }
+  }
+
   public render() {
     const { classes } = this.props
     const { activeStep, formData, formErrors } = this.state
@@ -212,7 +237,7 @@ class SignalReservationForm extends React.Component<Props, State> {
                 label: classes.stepLabelText,
               }}
             >
-              {`Where would you like to receive trading signals?`}
+              {`What is your email address?`}
             </StepLabel>
 
             <StepContent>
@@ -223,21 +248,45 @@ class SignalReservationForm extends React.Component<Props, State> {
                   value={formData.email}
                   onBlur={this.handleFieldBlur('email')}
                   onChange={this.handleFieldChange('email')}
+                  onKeyPress={this.catchReturn}
                   error={!_.isEmpty(formErrors.email)}
                   helperText={_.first(formErrors.email)}
                   margin="normal"
                   fullWidth={true}
+                  autoFocus={true}
                 />
+              </div>
+
+              <div className={classes.actionsContainer}>
+                {this.renderBackButton()}
+                {this.renderNextButton()}
+              </div>
+            </StepContent>
+          </Step>
+
+          <Step>
+            <StepLabel
+              classes={{
+                label: classes.stepLabelText,
+              }}
+            >
+              {`What is your Telegram username to receive signals at?`}
+            </StepLabel>
+
+            <StepContent>
+              <div className={classes.fields}>
                 <TextField
-                  label="Telegram username"
+                  label="Telegram Username"
                   className={classes.textField}
                   value={formData.telegramUsername}
                   onBlur={this.handleFieldBlur('telegramUsername')}
                   onChange={this.handleFieldChange('telegramUsername')}
+                  onKeyPress={this.catchReturn}
                   error={!_.isEmpty(formErrors.telegramUsername)}
                   helperText={_.first(formErrors.telegramUsername)}
                   margin="normal"
                   fullWidth={true}
+                  autoFocus={true}
                 />
               </div>
 
@@ -267,37 +316,17 @@ class SignalReservationForm extends React.Component<Props, State> {
                 <TextField
                   label="Your ETH wallet address"
                   className={classes.textField}
-                  value={formData.ethWalletAddress}
-                  onBlur={this.handleFieldBlur('ethWalletAddress')}
-                  onChange={this.handleFieldChange('ethWalletAddress')}
-                  error={!_.isEmpty(formErrors.ethWalletAddress)}
-                  helperText={_.first(formErrors.ethWalletAddress)}
+                  value={formData.ethereumAddress}
+                  onBlur={this.handleFieldBlur('ethereumAddress')}
+                  onChange={this.handleFieldChange('ethereumAddress')}
+                  onKeyPress={this.catchReturn}
+                  error={!_.isEmpty(formErrors.ethereumAddress)}
+                  helperText={_.first(formErrors.ethereumAddress)}
                   margin="normal"
                   fullWidth={true}
+                  autoFocus={true}
                 />
               </div>
-
-              <div className={classes.actionsContainer}>
-                {this.renderBackButton()}
-                {this.renderNextButton()}
-              </div>
-            </StepContent>
-          </Step>
-
-          <Step>
-            <StepLabel
-              classes={{
-                label: classes.stepLabelText,
-              }}
-            >
-              {`Check your email for staking instructions`}
-            </StepLabel>
-
-            <StepContent>
-              <Typography>
-                Almost there! Finish your reservation by following the
-                instructions sent to your email.
-              </Typography>
 
               <div className={classes.actionsContainer}>
                 {this.renderBackButton()}
@@ -309,7 +338,8 @@ class SignalReservationForm extends React.Component<Props, State> {
 
         {activeStep === this.STEP_COUNT && (
           <Typography className={classes.successMessage}>
-            Thank you for your interest in CoinFi Trading Signals beta!
+            You're almost there! Finish your reservation by following the
+            instructions sent to your email.
           </Typography>
         )}
       </div>

@@ -81,7 +81,7 @@ Rails.application.routes.draw do
   get '/win-cofi', to: 'pages#show', id: 'win-cofi', as: 'page_win_cofi'
   get '/signals', to: 'signals#index'
   get '/signals/reservation', to: 'signals#reservation'
-  put '/signals/reservation', to: 'signals#reservation_update'
+  patch '/signals/reservation', to: 'signals#reservation_update'
   post '/signals/reservation', to: 'signals#reservation_complete'
 
   mount Blazer::Engine, at: "blazer"

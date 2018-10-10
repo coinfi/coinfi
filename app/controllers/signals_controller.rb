@@ -3,7 +3,6 @@ class SignalsController < ApplicationController
   end
 
   def reservation
-    @random = rand(0..9999)
   end
 
   def reservation_update
@@ -11,8 +10,8 @@ class SignalsController < ApplicationController
     @user = find_or_create_user(email: params[:email])
 
     @user.token_sale = @user.token_sale || {}
-    @user.token_sale["telegram_handle"] = params[:telegram_username]
-    @user.token_sale["staked_ethereum_address"] = params[:ethereum_address]
+    @user.token_sale["telegram_username"] = params[:telegramUsername]
+    @user.token_sale["staked_ethereum_address"] = params[:ethereumAddress]
 
     if @user.save
       head :created
@@ -26,8 +25,8 @@ class SignalsController < ApplicationController
     @user = find_or_create_user(email: params[:email])
 
     @user.token_sale = @user.token_sale || {}
-    @user.token_sale["telegram_handle"] = params[:telegram_username]
-    @user.token_sale["staked_ethereum_address"] = params[:ethereum_address]
+    @user.token_sale["telegram_username"] = params[:telegramUsername]
+    @user.token_sale["staked_ethereum_address"] = params[:ethereumAddress]
     @user.token_sale["reservation_completed_at"] = Time.now
 
     if @user.save
@@ -57,8 +56,6 @@ class SignalsController < ApplicationController
   end
 
   def reservation_update_params
-    params
-      .require(:reservation)
-      .permit(:email, :telegram_username, :ethereum_address)
+    params.require(:signal).permit(:email, :telegramUsername, :ethereumAddress)
   end
 end
