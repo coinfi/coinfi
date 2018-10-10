@@ -11,7 +11,7 @@ const styles = (theme) =>
     root: {},
     heading: {
       fontSize: 16,
-      fontWeight: 500,
+      fontWeight: 600,
     },
   })
 
