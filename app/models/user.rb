@@ -1,5 +1,5 @@
 class User < ApplicationRecord
-  after_create :add_to_convertkit, :identify_in_launch_darkly
+  after_create :setup_watchlist, :add_to_convertkit, :identify_in_launch_darkly
 
   has_many :news_items
   has_many :visits
@@ -105,6 +105,10 @@ private
     if Rails.env.production?
       Convertkit::Client.new.add_subscriber_to_form('267531', email)
     end
+  end
+
+  def setup_watchlist
+    Watchlist.create(user: self)
   end
 
   def self.dummy_email(auth)
