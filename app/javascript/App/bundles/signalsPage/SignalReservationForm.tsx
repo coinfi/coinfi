@@ -192,6 +192,7 @@ class SignalReservationForm extends React.Component<Props, State> {
         disabled={activeStep === 0}
         onClick={this.handleBack}
         className={classes.button}
+        data-heap={`signals-previous-step-${this.state.activeStep}`}
       >
         Back
       </Button>
@@ -207,6 +208,7 @@ class SignalReservationForm extends React.Component<Props, State> {
         color="primary"
         onClick={this.handleNext}
         className={classes.button}
+        data-heap={`signals-next-step-${this.state.activeStep}`}
       >
         {text}
       </Button>
@@ -270,7 +272,7 @@ class SignalReservationForm extends React.Component<Props, State> {
                 label: classes.stepLabelText,
               }}
             >
-              {`What is your Telegram username to receive signals at?`}
+              {`What is your Telegram username to receive signals?`}
             </StepLabel>
 
             <StepContent>
@@ -338,8 +340,11 @@ class SignalReservationForm extends React.Component<Props, State> {
 
         {activeStep === this.STEP_COUNT && (
           <Typography className={classes.successMessage}>
-            You're almost there! Finish your reservation by following the
-            instructions sent to your email.
+            <p>We've received your request. You're almost there!</p>
+            <p>
+              Finish your reservation by following the instructions sent to your
+              email.
+            </p>
           </Typography>
         )}
       </div>

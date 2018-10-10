@@ -1,13 +1,12 @@
 .reservation-page__inner {
-  padding-top: 60px;
-  padding-bottom: 60px;
+  padding-top: 32px;
+  padding-bottom: 32px;
   padding-left: 20px;
   padding-right: 20px;
 }
 
 .reservation-header {
   text-align: center;
-
   &__title {
     margin-bottom: 32px;
     font-weight: 700;
@@ -16,13 +15,12 @@
     margin-bottom: 32px;
   }
 }
+
 .reservation-section {
   margin-bottom: 40px;
-
   &--last {
     margin-bottom: 0;
   }
-
   &__title {
     text-align: center;
     font-size: 30px;
@@ -33,7 +31,7 @@
 .reservation-card {
   background: white;
   border: solid 1px rgba(0, 0, 0, 0.15);
-  padding: 40px;
+  padding: 32px;
 }
 
 @media (max-width: 767px) {
