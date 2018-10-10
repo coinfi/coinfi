@@ -3,7 +3,7 @@ require 'faker'
 FactoryBot.define do
   factory :news_item do
     feed_source
-    sequence(:feed_item_id) { |n| "#{Faker::Internet.url(feed_source.feed_url)}#{n}" }
+    sequence(:feed_item_id) { |n| "#{Faker::Internet.url(feed_source.site_hostname)}#{n}" }
     url { feed_item_id }
     title { Faker::Lorem.sentence }
     summary { "<p>#{Faker::Lorem.sentence}</p>" }
