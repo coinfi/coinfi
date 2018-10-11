@@ -7,13 +7,13 @@ class SignalsController < ApplicationController
 
   def reservation_update
     params = reservation_update_params
-    @user = find_or_create_user(email: params[:email])
+    user = find_or_create_user(email: params[:email])
 
-    @user.token_sale = @user.token_sale || {}
-    @user.token_sale["telegram_username"] = params[:telegramUsername]
-    @user.token_sale["staked_ethereum_address"] = params[:ethereumAddress]
+    user.token_sale ||= {}
+    user.token_sale["telegram_username"] = params[:telegramUsername]
+    user.token_sale["staked_ethereum_address"] = params[:ethereumAddress]
 
-    if @user.save
+    if user.save
       head :created
     else
       head :unprocessable_entity
@@ -22,14 +22,14 @@ class SignalsController < ApplicationController
 
   def reservation_complete
     params = reservation_update_params
-    @user = find_or_create_user(email: params[:email])
+    user = find_or_create_user(email: params[:email])
 
-    @user.token_sale = @user.token_sale || {}
-    @user.token_sale["telegram_username"] = params[:telegramUsername]
-    @user.token_sale["staked_ethereum_address"] = params[:ethereumAddress]
-    @user.token_sale["reservation_completed_at"] = Time.now
+    user.token_sale ||= {}
+    user.token_sale["telegram_username"] = params[:telegramUsername]
+    user.token_sale["staked_ethereum_address"] = params[:ethereumAddress]
+    user.token_sale["reservation_completed_at"] = Time.now
 
-    if @user.save
+    if user.save
       # Send email with instructions
       SignalsMailer.staking_instructions(user).deliver
       head :created
