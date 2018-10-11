@@ -1,6 +1,6 @@
 class SignalsTelegramBotRegistrationForm < Patterns::Form
   REQUIRED_MIN_STAKED_TOKEN_AMOUNT = 20000
-  param_key 'signals_telegram_subscription'
+  param_key 'signals_telegram_bot'
 
   attribute :telegram_username
   attribute :chat_id
