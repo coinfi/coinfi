@@ -12,6 +12,12 @@ class SignalsTelegramBotRegistrationForm < Patterns::Form
   validates :chat_id, presence: true
   validates :started_at, presence: true
 
+  def persist
+    user.token_sale[:signals_telegram_bot_chat_id] = chat_id
+    user.token_sale[:signals_telegram_bot_started_at] = started_at
+    user.save
+  end
+
   protected
 
   def user
