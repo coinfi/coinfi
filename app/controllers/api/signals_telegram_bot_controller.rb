@@ -1,4 +1,6 @@
 class Api::SignalsTelegramBotController < ApiController
+  skip_before_action :verify_authenticity_token
+
   def register
     form = SignalsTelegramBotRegistrationForm.new(register_params)
     if form.save
