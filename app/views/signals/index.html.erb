@@ -13,16 +13,19 @@
           </p>
           <ul class="signal-highlight-list">
             <li class="signal-highlight-item">
+              <span class="mr2 emerald"><i class="far fa-check"></i></span>
               <span class="signal-highlight-item__label">Reliable</span>
               <span class="signal-highlight-item__separator">-</span>
               <span class="signal-highlight-item__description">thoroughly tested to help predict price movements</span>
             </li>
             <li class="signal-highlight-item">
+              <span class="mr2 emerald"><i class="far fa-check"></i></span>
               <span class="signal-highlight-item__label">Instant</span>
               <span class="signal-highlight-item__separator">-</span>
               <span class="signal-highlight-item__description">know before anyone else does</span>
             </li>
             <li class="signal-highlight-item">
+              <span class="mr2 emerald"><i class="far fa-check"></i></span>
               <span class="signal-highlight-item__label">Advanced</span>
               <span class="signal-highlight-item__separator">-</span>
               <span class="signal-highlight-item__description">developed by professional traders and data scientists using blockchain data</span>
@@ -50,17 +53,17 @@
       </div>
       <div class="col-sm-5 signals-section__col">
         <div class="signals-section-content featured-signals-section-content signals-section-content--xs-last">
-          <%= render "pages/signals/telegram_message", {
+          <%= render "signals/telegram_message", {
             title: "Sell signal: Whale moved $68m ETH to an exchange",
             message_html: "The #3 holder of Ethereum (ETH) <img class=\"signal-coin-icon\" src=\"#{image_path('signals/eth.png')}\" /> moved 319k ETH ($68m) to Binance - 1 minute ago.",
           } %>
 
-          <%= render "pages/signals/telegram_message", {
+          <%= render "signals/telegram_message", {
             title: "Buy signal: Whales of BNB increased their holdings ",
             message_html: "The top 5 holders of Binance (BNB) <img class=\"signal-coin-icon\" src=\"#{image_path('signals/bnb.png')}\" /> increased their holdings from 10% to 12% overall in the last 24 hours.",
           } %>
 
-          <%= render "pages/signals/telegram_message", {
+          <%= render "signals/telegram_message", {
             title: "Buy signal: 5% of Augur supply withdrawn from Binance",
             message_html: "550,000 REP <img class=\"signal-coin-icon\" src=\"#{image_path('signals/rep.png')}\" /> ($6.7M) USD moved out of Binance wallets in last 24 hours.",
           } %>
@@ -420,7 +423,7 @@
             question: "How will the signals get delivered?",
             answerHtml: <<~HTML
               <p class="signal-faqs-item__paragraph signal-faqs-item__paragraph--last">
-                Signals will be delivered in real-time through a private, one on one telegram chat. In the future, we plan to support email notifications and dashboard access.
+                Signals will be delivered in real-time through a private, one on one Telegram chat. In the future, we plan to support email notifications and dashboard access.
               </p>
             HTML
           },

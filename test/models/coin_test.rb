@@ -12,6 +12,6 @@ class CoinTest < ActiveSupport::TestCase
 
   test "does not change previous_name if name doesn't change" do
     @coin.update_attribute :symbol, 'CN'
-    assert_equal nil, @coin.previous_name
+    assert_nil @coin.previous_name
   end
 end
