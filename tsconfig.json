@@ -14,6 +14,15 @@
       "~/*": ["app/javascript/App/*"]
     }
   },
-  "exclude": ["**/*.spec.ts", "node_modules", "vendor", "public"],
+  "exclude": [
+    "**/*.spec.ts",
+    "**/*.spec.tsx",
+    "**/*.test.ts",
+    "**/*.test.tsx",
+    "test",
+    "node_modules",
+    "vendor",
+    "public"
+  ],
   "compileOnSave": false
 }

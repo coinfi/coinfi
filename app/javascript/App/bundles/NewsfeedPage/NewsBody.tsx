@@ -16,12 +16,14 @@ import {
 } from '~/bundles/common/utils/url'
 
 import { NewsItem } from './types'
+import { CoinClickHandler } from '~/bundles/common/types'
 import NewsBodyShareButtons from './NewsBodyShareButtons'
 import { RailsConsumer } from '~/bundles/common/contexts/RailsContext'
 
 interface Props {
   initialNewsItem?: NewsItem
   newsItemId?: string
+  onCoinClick?: CoinClickHandler
 }
 
 interface State {
@@ -87,7 +89,11 @@ export default class NewsBody extends React.Component<Props, State> {
     return (
       <div className="pa3 bg-white min-h-100 selected-news-content">
         {/* Header */}
-        <CoinTags itemWithCoinLinkData={newsItem} />
+        <CoinTags
+          itemWithCoinLinkData={newsItem}
+          getLink={(data) => `/news/${data.slug}`}
+          onClick={this.props.onCoinClick}
+        />
         <h1 className="break-word f4">{newsItem.title}</h1>
         <div className="mb3 f6">
           <a

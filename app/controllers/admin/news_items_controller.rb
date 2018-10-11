@@ -13,7 +13,7 @@ module Admin
       respond_to do |format|
         format.html {
           page = Administrate::Page::Collection.new(dashboard)
-          resources = NewsItem.pending.order_by_published
+          resources = NewsItem.pending.no_category.order_by_published
             .includes(:coins, :news_coin_mentions, :news_categories, :news_item_categorizations)
             .page(params[:page])
             .per(records_per_page)

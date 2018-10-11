@@ -16,7 +16,7 @@ import withDevice from '~/bundles/common/utils/withDevice'
 import EventListener from 'react-event-listener'
 
 import { NewsItem, ContentType, Filters } from './types'
-import { CoinWithDetails } from '../common/types'
+import { CoinWithDetails, CoinClickHandler } from '../common/types'
 import {
   getDefaultFilters,
   mergeInitialSocialSourcesForCoinsFilter,
@@ -317,6 +317,10 @@ class NewsfeedPage extends React.Component<Props, State> {
 
   public render() {
     if (this.props.isMobile) {
+      const coinClickHandler: CoinClickHandler = (coinData) => {
+        this.props.history.push(`/news/${coinData.slug}`)
+        this.setState({ ActiveMobileWindow: 'None' })
+      }
       return (
         <EventListener
           target="window"
@@ -351,12 +355,13 @@ class NewsfeedPage extends React.Component<Props, State> {
                   }
                   closeTips={this.closeTips}
                   selectedNewsItemId={this.props.newsItemId}
-                  onNewsItemClick={(newsItem) => {
+                  onNewsItemClick={(newsItem: NewsItem) => {
                     this.props.history.push(
                       `/news/${newsItem.id}/${slugify(newsItem.title)}`,
                     )
                     this.setState({ ActiveMobileWindow: 'BodySection' })
                   }}
+                  onCoinClick={coinClickHandler}
                   hasMore={this.props.hasMore}
                 />
               </>
@@ -384,6 +389,7 @@ class NewsfeedPage extends React.Component<Props, State> {
                       initialCoinWithDetails={this.props.initialCoinWithDetails}
                       contentType={this.getContentType()}
                       loggedIn={this.props.loggedIn}
+                      onCoinClick={coinClickHandler}
                     />
                   }
                 />
@@ -393,6 +399,9 @@ class NewsfeedPage extends React.Component<Props, State> {
         </EventListener>
       )
     } else if (this.props.isTablet) {
+      const coinClickHandler: CoinClickHandler = (coinData) => {
+        this.props.history.push(`/news/${coinData.slug}`)
+      }
       return (
         <EventListener
           target="window"
@@ -427,11 +436,12 @@ class NewsfeedPage extends React.Component<Props, State> {
                   }
                   closeTips={this.closeTips}
                   selectedNewsItemId={this.props.newsItemId}
-                  onNewsItemClick={(newsItem) => {
+                  onNewsItemClick={(newsItem: NewsItem) => {
                     this.props.history.push(
                       `/news/${newsItem.id}/${slugify(newsItem.title)}`,
                     )
                   }}
+                  onCoinClick={coinClickHandler}
                   hasMore={this.props.hasMore}
                 />
               </>
@@ -444,6 +454,7 @@ class NewsfeedPage extends React.Component<Props, State> {
                 initialCoinWithDetails={this.props.initialCoinWithDetails}
                 contentType={this.getContentType()}
                 loggedIn={this.props.loggedIn}
+                onCoinClick={coinClickHandler}
               />
             }
             drawerSection={
@@ -458,6 +469,11 @@ class NewsfeedPage extends React.Component<Props, State> {
         </EventListener>
       )
     } else {
+      const coinClickHandler: CoinClickHandler = (coinData) => {
+        this.props.history.push(`/news/${coinData.slug}`)
+        this.setState({ ActiveMobileWindow: 'None' })
+      }
+
       return (
         <EventListener
           target="window"
@@ -490,12 +506,13 @@ class NewsfeedPage extends React.Component<Props, State> {
                   }
                   closeTips={this.closeTips}
                   selectedNewsItemId={this.props.newsItemId}
-                  onNewsItemClick={(newsItem) => {
+                  onNewsItemClick={(newsItem: NewsItem) => {
                     this.props.history.push(
                       `/news/${newsItem.id}/${slugify(newsItem.title)}`,
                     )
                     this.setState({ ActiveMobileWindow: 'BodySection' })
                   }}
+                  onCoinClick={coinClickHandler}
                   hasMore={this.props.hasMore}
                 />
               </>
@@ -508,6 +525,7 @@ class NewsfeedPage extends React.Component<Props, State> {
                 initialCoinWithDetails={this.props.initialCoinWithDetails}
                 contentType={this.getContentType()}
                 loggedIn={this.props.loggedIn}
+                onCoinClick={coinClickHandler}
               />
             }
           />
