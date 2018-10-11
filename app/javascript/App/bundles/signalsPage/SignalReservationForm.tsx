@@ -45,6 +45,7 @@ const styles = (theme) => ({
 
 interface Props {
   classes: any
+  formAuthenticityToken: string
 }
 
 interface State {
@@ -142,9 +143,7 @@ class SignalReservationForm extends React.Component<Props, State> {
     }
 
     const headers = {
-      'X-CSRF-Token': document
-        .querySelector('meta[name="csrf-token"]')
-        .getAttribute('content'),
+      'X-CSRF-Token': this.props.formAuthenticityToken,
     }
 
     axios
@@ -340,11 +339,11 @@ class SignalReservationForm extends React.Component<Props, State> {
 
         {activeStep === this.STEP_COUNT && (
           <Typography className={classes.successMessage}>
-            <p>We've received your request. You're almost there!</p>
-            <p>
-              Finish your reservation by following the instructions sent to your
-              email.
-            </p>
+            We've received your request. You're almost there!
+            <br />
+            <br />
+            Finish your reservation by following the instructions sent to your
+            email.
           </Typography>
         )}
       </div>

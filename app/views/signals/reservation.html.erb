@@ -9,7 +9,7 @@
 
       <div class="reservation-card">
         <%= react_component_with_jss "SignalReservationForm",
-          props: {},
+          props: { formAuthenticityToken: form_authenticity_token },
           html_options: {
             class: "signal-stepper",
           },
