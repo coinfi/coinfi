@@ -82,7 +82,6 @@ Rails.application.routes.draw do
   get '/signals', to: 'signals#index'
   get '/signals/reservation', to: 'signals#reservation'
   patch '/signals/reservation', to: 'signals#reservation_update', as: 'signals_reservation_update'
-  post '/signals/reservation', to: 'signals#reservation_complete', as: 'signals_reservation_complete'
 
   mount Blazer::Engine, at: "blazer"
 end
