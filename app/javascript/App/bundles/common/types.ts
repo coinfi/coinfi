@@ -37,6 +37,7 @@ export interface CoinWithDetails extends Coin {
   news_data: any
   is_being_watched: any
   related_coins_data: Array<Pick<Coin, 'id' | 'name' | 'slug' | 'symbol'>>
+  summary: string
 }
 
 export interface FlashMessage {

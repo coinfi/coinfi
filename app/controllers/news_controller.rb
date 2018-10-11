@@ -115,6 +115,7 @@ class NewsController < ApplicationController
       market_info: coin.market_info,
       is_being_watched: coin.is_being_watched,
       related_coins_data: related_coins_data,
+      summary: coin.summary,
     }
   end
 end

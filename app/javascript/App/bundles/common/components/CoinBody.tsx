@@ -7,7 +7,6 @@ import NewsRelatedCoinList from './NewsRelatedCoinList'
 import LoadingIndicator from '../../../components/LoadingIndicator'
 import localAPI from '../../../lib/localAPI'
 import { withStyles, createStyles } from '@material-ui/core/styles'
-import { Link } from 'react-router-dom'
 
 import { CoinWithDetails } from '../types'
 
@@ -131,7 +130,9 @@ class CoinBody extends React.Component<Props, State> {
           isTradingViewVisible={true}
         />
 
-        <div className="mt3 mb3">
+        <p className="mt3 mb4">{coinWithDetails.summary}</p>
+
+        <div className="mb3">
           <h2 className="f5">Read Related News</h2>
           <NewsRelatedCoinList
             relatedCoinsData={coinWithDetails.related_coins_data}
