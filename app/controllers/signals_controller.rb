@@ -7,31 +7,23 @@ class SignalsController < ApplicationController
 
   def reservation_update
     params = reservation_update_params
-    @user = find_or_create_user(email: params[:email])
+    user = find_or_create_user(email: params[:email])
 
-    @user.token_sale = @user.token_sale || {}
-    @user.token_sale["telegram_username"] = params[:telegramUsername]
-    @user.token_sale["staked_ethereum_address"] = params[:ethereumAddress]
+    user.token_sale ||= {}
+    user.token_sale["signals_signup"] = true
+    user.token_sale["telegram_username"] = params[:telegramUsername] if params["telegramUsername"].present?
+    user.token_sale["staked_ethereum_address"] = params[:ethereumAddress] if params["ethereumAddress"].present?
 
-    if @user.save
-      head :created
-    else
-      head :unprocessable_entity
+    if params[:ethereumAddress].present? # This is the last step.
+      user.token_sale["reservation_completed_at"] = Time.now
     end
-  end
 
-  def reservation_complete
-    params = reservation_update_params
-    @user = find_or_create_user(email: params[:email])
+    if user.save
+      # Send email with instructions if process is complete.
+      if params[:ethereumAddress].present?
+        SignalsMailer.staking_instructions(user).deliver_later
+      end
 
-    @user.token_sale = @user.token_sale || {}
-    @user.token_sale["telegram_username"] = params[:telegramUsername]
-    @user.token_sale["staked_ethereum_address"] = params[:ethereumAddress]
-    @user.token_sale["reservation_completed_at"] = Time.now
-
-    if @user.save
-      # Send email with instructions
-      SignalsMailer.staking_instructions(user).deliver
       head :created
     else
       head :unprocessable_entity
@@ -47,15 +39,12 @@ class SignalsController < ApplicationController
 
     generated_password = Devise.friendly_token.first(12)
     user = User.create!(email: email, password: generated_password)
-
-    if user
-      SignalsMailer.password_notification(user, generated_password).deliver
-    end
+    SignalsMailer.password_notification(user, generated_password).deliver_later
 
     user
   end
 
   def reservation_update_params
-    params.require(:signal).permit(:email, :telegramUsername, :ethereumAddress)
+    params.require(:signal).permit(:email, :telegramUsername, :ethereumAddress, :finalize)
   end
 end
