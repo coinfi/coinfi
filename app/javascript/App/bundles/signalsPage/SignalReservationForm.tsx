@@ -1,4 +1,5 @@
 import * as React from 'react'
+import SignalPopoverText from '~/bundles/signalsPage/SignalPopoverText'
 import { withStyles } from '@material-ui/core/styles'
 import Stepper from '@material-ui/core/Stepper'
 import Step from '@material-ui/core/Step'
@@ -23,8 +24,11 @@ const styles = (theme) => ({
   },
   successMessage: {
     fontSize: 17,
-    fontWeight: 600,
     marginTop: theme.spacing.unit * 4,
+  },
+  stakingMessage: {
+    fontSize: '1rem',
+    lineHeight: '1.6em',
   },
   button: {
     marginTop: theme.spacing.unit,
@@ -63,7 +67,7 @@ interface State {
 }
 
 class SignalReservationForm extends React.Component<Props, State> {
-  public STEP_COUNT = 3
+  public FINAL_STEP_COUNT = 4
   public VALIDATION_RULES = {
     email: 'required|email',
     telegramUsername: [
@@ -331,20 +335,95 @@ class SignalReservationForm extends React.Component<Props, State> {
 
               <div className={classes.actionsContainer}>
                 {this.renderBackButton()}
-                {this.renderNextButton('Finish')}
+                {this.renderNextButton()}
+              </div>
+            </StepContent>
+          </Step>
+
+          <Step>
+            <StepLabel
+              classes={{
+                label: classes.stepLabelText,
+              }}
+            >
+              {`Send 20,000 COFI to the CoinFi Trading Signals staking address.`}
+            </StepLabel>
+
+            <StepContent>
+              <Typography className={classes.stakingMessage}>
+                Send exactly{' '}
+                <code className="reservation-value">20,000 COFI</code> tokens
+                to:<br />
+                <code className="reservation-value">
+                  0xa61B5f29730C7b111C8e0B1e78bD3737d2Bb8684
+                </code>
+              </Typography>
+              <br />
+              <Typography className={classes.stakingMessage}>
+                <strong>IMPORTANT:</strong> Do NOT send from an exchange since
+                we cannot confirm the sender.
+              </Typography>
+              <br />
+              <SignalPopoverText
+                text="Don't have any COFI tokens or need more?"
+                description={`
+                  <div>
+                    You can acquire COFI tokens at the following exchanges:
+                    <ul>
+                      <li>
+                        <a
+                          href="https://kyber.network/swap/eth_cofi"
+                          target="_blank"
+                        >
+                          Kyber Network
+                        </a>
+                      </li>
+                      <li>
+                        <a href="https://www.kucoin.com" target="_blank">
+                          KuCoin
+                        </a>
+                      </li>
+                      <li>
+                        <a href="https://www.gate.io/" target="_blank">
+                          Gate.io
+                        </a>
+                      </li>
+                    </ul>
+                  </div>
+                `}
+              />
+              <br />
+              <br />
+              <Typography className={classes.stakingMessage}>
+                Once we receive your tokens, you will receive a confirmation
+                email.
+              </Typography>
+              <br />
+              <Typography className={classes.stakingMessage}>
+                See you on the other side!
+              </Typography>
+              <div className={classes.actionsContainer}>
+                {this.renderBackButton()}
+                {this.renderNextButton('Confirm')}
               </div>
             </StepContent>
           </Step>
         </Stepper>
 
-        {activeStep === this.STEP_COUNT && (
-          <Typography className={classes.successMessage}>
-            We've received your request. You're almost there!
-            <br />
-            <br />
-            Finish your reservation by following the instructions sent to your
-            email.
-          </Typography>
+        {activeStep === this.FINAL_STEP_COUNT && (
+          <>
+            <Typography className={classes.successMessage}>
+              Thank you for your interest in CoinFi Trading Signals!
+            </Typography>
+            <Typography className={classes.successMessage}>
+              We've also sent a copy of the staking instructions to your email
+              for your reference.
+            </Typography>
+            <Typography className={classes.successMessage}>
+              If you have any questions, feel free to chat with us or send an
+              email to signals@coinfi.com.
+            </Typography>
+          </>
         )}
       </div>
     )
