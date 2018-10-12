@@ -21,16 +21,16 @@ class SignalsTelegramBotRegistrationForm < Patterns::Form
   protected
 
   def user
-    @user = @user || User.where('token_sale @> ?', { telegram_username: telegram_username }.to_json).first
+    @user ||= User.where("(token_sale->>'telegram_username') = ?", telegram_username).first
   end
 
   def validate_user_staked_token_amount
     staked_token_amount = user.token_sale.fetch(:staked_token_amount, 0)
-    if staked_token_amount < self.REQUIRED_MIN_STAKED_TOKEN_AMOUNT
+    if staked_token_amount < self.class::REQUIRED_MIN_STAKED_TOKEN_AMOUNT
       errors.add(
         :user,
         :min_staked_token_amount,
-        message: "has not staked more than #{self.REQUIRED_MIN_STAKED_TOKEN_AMOUNT} tokens"
+        message: "has not staked more than #{self.class::REQUIRED_MIN_STAKED_TOKEN_AMOUNT} tokens"
       )
     end
   end

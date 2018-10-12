@@ -6,7 +6,7 @@ class Api::SignalsTelegramBotController < ApiController
     if form.save
       render json: nil, status: :ok
     else
-      errors_json = form.errors.extract(:details, :messages)
+      errors_json = { details: form.errors.details, messages: form.errors.messages }
       render json: { errors: errors_json }, status: :unprocessable_entity
     end
   end
