@@ -25,7 +25,7 @@ class SignalsTelegramBotRegistrationForm < Patterns::Form
   end
 
   def validate_user_staked_token_amount
-    staked_token_amount = user.token_sale.fetch(:staked_token_amount, 0)
+    staked_token_amount = user.token_sale.fetch('staked_token_amount', 0)
     if staked_token_amount < self.class::REQUIRED_MIN_STAKED_TOKEN_AMOUNT
       errors.add(
         :user,
