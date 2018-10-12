@@ -15,6 +15,7 @@
     "@types/react-dom": "^16.0.7",
     "@types/react-router-dom": "^4.3.0",
     "@types/react-select": "^2.0.2",
+    "@types/validatorjs": "^3.7.1",
     "antd": "^3.7.3",
     "axios": "^0.18.0",
     "babel-core": "^6.26.0",
@@ -76,6 +77,7 @@
     "tslint-react": "^3.6.0",
     "typescript": "^3.0.1",
     "url-parse": "^1.4.3",
+    "validatorjs": "^3.14.2",
     "webpack-merge": "^4.1.2",
     "webpack-strip-log-loader": "^0.1.5"
   },
