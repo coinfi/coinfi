@@ -159,7 +159,7 @@ class SignalReservationForm extends React.Component<Props, State> {
     axios
       .patch(SIGNALS_RESERVATION_URL, this.state.formData, { headers })
       .then(() => {
-        incrementStep()
+        this.incrementStep()
       })
       .catch((error) => {
         // TODO: Handle error by showing some sort of message.
