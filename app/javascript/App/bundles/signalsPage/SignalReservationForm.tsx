@@ -209,7 +209,7 @@ class SignalReservationForm extends React.Component<Props, State> {
       <Button
         variant="contained"
         color="primary"
-        onClick={this.handleNext}
+        onClick={text === 'Next' ? this.handleNext : null}
         className={classes.button}
         data-heap={`signals-next-step-${this.state.activeStep}`}
       >
