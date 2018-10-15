@@ -36,7 +36,7 @@ class SignalsController < ApplicationController
   private
 
   def find_or_create_user(email:)
-    if user = User.find_by(email: email)
+    if user = User.find_for_authentication(email: email)
       return user
     end
 
