@@ -13,6 +13,7 @@ interface Props {
 export interface CoinOption {
   value: string
   label: string
+  src?: string
 }
 
 interface State {
@@ -33,6 +34,26 @@ const customStyles = {
   }),
 }
 
+const imageStyles = {
+  maxHeight: '15px',
+  maxWidth: '15px',
+  height: 'auto',
+  width: 'auto',
+  marginRight: '0.25em',
+  padding: 0,
+}
+
+const formatLabel = (value: CoinOption, options) => {
+  const { label, src } = value
+
+  return (
+    <div style={{ display: 'flex', alignItems: 'center' }}>
+      {src ? <img src={src} style={imageStyles} /> : ''}
+      {label}
+    </div>
+  )
+}
+
 class CoinSelector extends React.Component<Props, State> {
   public state = {
     selectedOption: null,
@@ -45,6 +66,7 @@ class CoinSelector extends React.Component<Props, State> {
       return {
         label,
         value: elem.slug,
+        src: elem.image_url,
       }
     })
 
@@ -95,6 +117,7 @@ class CoinSelector extends React.Component<Props, State> {
         loadOptions={this.loadOptions}
         value={this.state.selectedOption}
         placeholder={this.props.placeholder}
+        formatOptionLabel={formatLabel}
         styles={customStyles}
       />
     )
