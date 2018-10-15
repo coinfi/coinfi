@@ -7,6 +7,7 @@ import localApi from '../../../lib/localAPI'
 interface Props {
   selectedCoin: CoinSlug
   onChange: (selectedOption: CoinOption) => void
+  placeholder?: string
 }
 
 export interface CoinOption {
@@ -16,6 +17,20 @@ export interface CoinOption {
 
 interface State {
   selectedOption: CoinOption
+}
+
+const customStyles = {
+  option: (base, state) => ({
+    ...base,
+  }),
+  control: (base, state) => ({
+    ...base,
+    height: '30px',
+    minHeight: '30px',
+  }),
+  singleValue: (base, state) => ({
+    ...base,
+  }),
 }
 
 class CoinSelector extends React.Component<Props, State> {
@@ -51,6 +66,10 @@ class CoinSelector extends React.Component<Props, State> {
         this.setState({
           selectedOption: results[0],
         })
+      } else {
+        this.setState({
+          selectedOption: null,
+        })
       }
     })
 
@@ -70,10 +89,13 @@ class CoinSelector extends React.Component<Props, State> {
     return (
       <AsyncSelect
         isMulti={false}
+        isClearable={true}
         onChange={this.props.onChange}
         cacheOptions={true}
         loadOptions={this.loadOptions}
         value={this.state.selectedOption}
+        placeholder={this.props.placeholder}
+        styles={customStyles}
       />
     )
   }

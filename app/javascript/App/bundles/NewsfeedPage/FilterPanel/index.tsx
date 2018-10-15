@@ -8,10 +8,7 @@ import Social from './filterComponents/Social'
 import Categories from './filterComponents/Categories'
 import { Filters } from '../types'
 
-import {
-  getDefaultFilters,
-  mergeInitialSocialSourcesForCoinsFilter,
-} from '../utils'
+import { getDefaultFilters } from '../utils'
 
 interface Props {
   categories: string[]
