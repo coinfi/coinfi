@@ -141,6 +141,12 @@ class SignalReservationForm extends React.Component<Props, State> {
     return haveValidationsPassed
   }
 
+  public incrementStep = () => {
+    this.setState((state) => ({
+      activeStep: state.activeStep + 1,
+    }))
+  }
+
   public handleNext = () => {
     if (!this.validateStep(this.state.activeStep)) {
       return
@@ -153,9 +159,7 @@ class SignalReservationForm extends React.Component<Props, State> {
     axios
       .patch(SIGNALS_RESERVATION_URL, this.state.formData, { headers })
       .then(() => {
-        this.setState((state) => ({
-          activeStep: state.activeStep + 1,
-        }))
+        this.incrementStep()
       })
       .catch((error) => {
         // TODO: Handle error by showing some sort of message.
@@ -209,7 +213,7 @@ class SignalReservationForm extends React.Component<Props, State> {
       <Button
         variant="contained"
         color="primary"
-        onClick={this.handleNext}
+        onClick={text === 'Next' ? this.handleNext : this.incrementStep}
         className={classes.button}
         data-heap={`signals-next-step-${this.state.activeStep}`}
       >
