@@ -4,19 +4,19 @@ Rails.application.routes.draw do
     path_names: { sign_in: 'login', sign_out: 'logout', sign_up: 'register' }
 
   resources :author_profiles, only: %i[index show create update], path: 'authors'
-  get '/calculators/:id', to: 'calculators#show'
-  get '/coins/:id_or_slug', to: 'coins#show', as: :coin
+  get '/calculators/:id', to: 'calculators#show', as: 'calculator'
+  get '/coins/:id_or_slug', to: 'coins#show', as: 'coin'
   resources :coins, only: %i[index]
   resources :contributor_submissions, path: 'contributor-submissions'
   resources :exchange_listings, only: :index, path: 'listings'
   resources :calendar_events, only: :index, path: 'calendar'
-  get '/icos', to: redirect('/icos/upcoming')
-  get '/icos(/:status)', to: 'icos#index'
-  get '/news/:id/:slug', to: 'news#show'
-  get '/news/:coin_slug', to: 'news#coin_index'
+  get '/icos', to: redirect('/icos/upcoming'), as: 'icos_root'
+  get '/icos(/:status)', to: 'icos#index', as: 'icos'
+  get '/news/:id/:slug', to: 'news#show', as: 'news_item'
+  get '/news/:coin_slug', to: 'news#coin_index', as: 'news_coin'
   get '/news', to: 'news#index'
   get '/news-beta', to: redirect('/', status: 302)
-  get '/podcast', to: redirect('https://blog.coinfi.com/topics/podcast/', status: 302)
+  get '/podcast', to: redirect('https://blog.coinfi.com/topics/podcast/', status: 302), as: 'podcast'
   get '/profile', to: 'users#edit'
   put '/profile', to: 'users#update'
 
