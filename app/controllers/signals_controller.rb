@@ -19,9 +19,12 @@ class SignalsController < ApplicationController
     end
 
     if user.save
+      puts "Saved staking information for #{user.email}"
+
       # Send email with instructions if process is complete.
       if params[:ethereumAddress].present?
         SignalsMailer.staking_instructions(user).deliver_later
+        puts "Sent staking instructions to #{user.email}"
       end
 
       head :created
