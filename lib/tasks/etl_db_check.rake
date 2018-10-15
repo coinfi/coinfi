@@ -26,28 +26,23 @@ namespace :etldb do
   coins = [
     {
       'title' => "'Bitcoin",
-      'query' => lambda { Coin.where(symbol: 'BTC').pluck(:coin_key, :ranking) },
-      'url' => "https://hc-ping.com/67fffb49-c4d7-4e3f-a7cf-4688495c00d1"
+      'query' => lambda { Coin.where(symbol: 'BTC').pluck(:coin_key, :ranking) }
     },
     {
       'title' => "Ethereum",
-      'query' => lambda { Coin.where(symbol: 'ETH').pluck(:coin_key, :ranking) },
-      'url' => "https://hc-ping.com/67fffb49-c4d7-4e3f-a7cf-4688495c00d1"
+      'query' => lambda { Coin.where(symbol: 'ETH').pluck(:coin_key, :ranking) }
     },
     {
       'title' => "CoinFi",
-      'query' => lambda { Coin.where(symbol: 'COFI').pluck(:coin_key, :ranking) },
-      'url' => "https://hc-ping.com/67fffb49-c4d7-4e3f-a7cf-4688495c00d1"
+      'query' => lambda { Coin.where(symbol: 'COFI').pluck(:coin_key, :ranking) }
     },
     {
       'title' => "Top 10",
-      'query' => lambda { Coin.top(10).pluck(:coin_key, :ranking) },
-      'url' => "https://hc-ping.com/67fffb49-c4d7-4e3f-a7cf-4688495c00d1"
+      'query' => lambda { Coin.top(10).pluck(:coin_key, :ranking) }
     },
     {
       'title' => "Random 3",
-      'query' => lambda { Coin.listed.order("RANDOM()").limit(3).pluck(:coin_key, :ranking) },
-      'url' => "https://hc-ping.com/67fffb49-c4d7-4e3f-a7cf-4688495c00d1"
+      'query' => lambda { Coin.listed.order("RANDOM()").limit(3).pluck(:coin_key, :ranking) }
     }      
   ]
 
