@@ -34,6 +34,12 @@ const customStyles = {
   }),
 }
 
+const labelStyles = {
+  display: 'flex',
+  alignItems: 'center',
+  textOverflow: 'ellipsis',
+}
+
 const imageStyles = {
   maxHeight: '15px',
   maxWidth: '15px',
@@ -43,11 +49,17 @@ const imageStyles = {
   padding: 0,
 }
 
-const formatLabel = (value: CoinOption, options) => {
+interface FormatOptions {
+  context: 'menu' | 'value'
+  inputValue: string
+  selectValue: object | object[] | null | undefined
+}
+
+const formatLabel = (value: CoinOption, options: FormatOptions) => {
   const { label, src } = value
 
   return (
-    <div style={{ display: 'flex', alignItems: 'center' }}>
+    <div style={labelStyles}>
       {src ? <img src={src} style={imageStyles} /> : ''}
       {label}
     </div>
@@ -71,9 +83,11 @@ class CoinSelector extends React.Component<Props, State> {
     })
 
   public fetchCoinsDetails = (coinSlugs): Promise<CoinOption[]> =>
-    localApi
-      .get(`/coins/search_by_params`, { coinSlugs })
-      .then((response) => this.mapPayloadToOptions(response.payload))
+    coinSlugs
+      ? localApi
+          .get(`/coins/search_by_params`, { coinSlugs })
+          .then((response) => this.mapPayloadToOptions(response.payload))
+      : new Promise((resolve) => resolve([]))
 
   public fetchCoinsByName = (name): Promise<CoinOption[]> =>
     localApi

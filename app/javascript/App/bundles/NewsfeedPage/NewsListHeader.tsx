@@ -1,4 +1,5 @@
 import * as React from 'react'
+import * as _ from 'lodash'
 import Icon from '../../components/Icon'
 import SectionHeader from '../../components/SectionHeader'
 import CoinTipsTab from '../common/components/CoinTipsTab'
@@ -8,7 +9,6 @@ import CoinSelector, {
 } from '~/bundles/common/components/CoinSelector'
 import { Filters } from './types'
 import withDevice from '~/bundles/common/utils/withDevice'
-import { mergeInitialSocialSourcesForCoinsFilter } from './utils'
 
 // tslint:disable-next-line
 const filterBtn = require('../../images/filter-btn.svg')
@@ -23,11 +23,9 @@ interface Props {
   toggleFilters: () => void
   toggleNewsfeedTips: () => void
   showCoinListDrawer?: () => void
-  isMobile: boolean
-}
-
-interface State {
+  onCoinChange: (selectedOption: CoinOption) => void
   selectedCoin: string
+  isMobile: boolean
 }
 
 const btnStyle: React.CSSProperties = {
@@ -38,33 +36,13 @@ const btnStyle: React.CSSProperties = {
 }
 
 const searchStyle: React.CSSProperties = {
-  minWidth: '200px',
-  width: '80%',
+  flex: '1 1 auto',
   marginLeft: '1em',
+  minWidth: '160px',
+  maxWidth: '300px',
 }
 
-class NewsListHeader extends React.Component<Props, State> {
-  public state = { selectedCoin: null }
-
-  public onCoinChange = (selectedOption: CoinOption) => {
-    const value = selectedOption ? selectedOption.value : null
-
-    this.setState({ selectedCoin: value })
-
-    const coinSlugs = value !== null ? [value] : []
-    const feedSources = mergeInitialSocialSourcesForCoinsFilter(
-      this.props.filters.feedSources,
-      coinSlugs,
-      this.props.topCoinSlugs,
-    )
-
-    this.props.applyFilters({
-      ...this.props.filters,
-      feedSources,
-      coinSlugs,
-    })
-  }
-
+class NewsListHeader extends React.Component<Props, {}> {
   public render() {
     return (
       <>
@@ -112,9 +90,9 @@ class NewsListHeader extends React.Component<Props, State> {
             </button>
             <div style={searchStyle}>
               <CoinSelector
-                selectedCoin={this.state.selectedCoin}
-                onChange={this.onCoinChange}
-                placeholder="Select Coin"
+                selectedCoin={this.props.selectedCoin}
+                onChange={this.props.onCoinChange}
+                placeholder="Search Coins"
               />
             </div>
           </div>
