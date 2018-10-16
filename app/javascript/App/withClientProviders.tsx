@@ -6,7 +6,11 @@ import { RailsProvider } from '~/bundles/common/contexts/RailsContext'
 import { createGenerateClassName } from '@material-ui/core/styles'
 import JssProvider from 'react-jss/lib/JssProvider'
 
-const generateClassName = createGenerateClassName()
+const generateClassName = createGenerateClassName({
+  // Attempt to use global css for more deterministic class names to resolve mismatches between
+  // client and server rendering
+  dangerouslyUseGlobalCSS: true,
+})
 
 /**
  * Wraps `TargetComponent` with providers shared by all client components

@@ -7,7 +7,11 @@ import withServerProviders from '~/withServerProviders'
 
 const sheetsRegistry = new SheetsRegistry()
 const sheetsManager = new Map()
-const generateClassName = createGenerateClassName()
+const generateClassName = createGenerateClassName({
+  // Attempt to use global css for more deterministic class names to resolve mismatches between
+  // client and server rendering
+  dangerouslyUseGlobalCSS: true,
+})
 
 /**
  * Generator function for a component hash to be used with React on Rails `react_component` and
