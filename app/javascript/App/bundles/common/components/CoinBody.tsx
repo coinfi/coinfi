@@ -130,7 +130,9 @@ class CoinBody extends React.Component<Props, State> {
           isTradingViewVisible={true}
         />
 
-        <div className="mt3 mb3">
+        <p className="mt3 mb4">{coinWithDetails.summary}</p>
+
+        <div className="mb3">
           <h2 className="f5">Read Related News</h2>
           <NewsRelatedCoinList
             relatedCoinsData={coinWithDetails.related_coins_data}
