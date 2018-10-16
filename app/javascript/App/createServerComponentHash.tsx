@@ -1,17 +1,10 @@
 import * as React from 'react'
 import { renderToString } from 'react-dom/server'
 import * as _ from 'lodash'
-import { SheetsRegistry } from 'jss'
-import { createGenerateClassName } from '@material-ui/core/styles'
 import withServerProviders from '~/withServerProviders'
+import createStylesContext from '~/createStylesContext'
 
-const sheetsRegistry = new SheetsRegistry()
-const sheetsManager = new Map()
-const generateClassName = createGenerateClassName({
-  // Attempt to use global css for more deterministic class names to resolve mismatches between
-  // client and server rendering
-  dangerouslyUseGlobalCSS: true,
-})
+const sharedStylesContext = createStylesContext()
 
 /**
  * Generator function for a component hash to be used with React on Rails `react_component` and
@@ -23,11 +16,10 @@ const createServerComponentHash = (TargetComponent: any) => {
   return (props, railsContext) => {
     // Render to HTML passing in `context` to be updated
     const componentHtml = renderToString(
-      withServerProviders(TargetComponent, {
-        sheetsRegistry,
-        sheetsManager,
-        generateClassName,
-      })(props, railsContext),
+      withServerProviders(TargetComponent, sharedStylesContext)(
+        props,
+        railsContext,
+      ),
     )
 
     // Return the successful markup as a string for Rails `react_component` and
@@ -38,7 +30,7 @@ const createServerComponentHash = (TargetComponent: any) => {
         componentHtml,
         // As this is a shared `SheetsRegistry`, the styles will include ones from other components
         // as well
-        componentCss: sheetsRegistry.toString(),
+        componentCss: sharedStylesContext.sheetsRegistry.toString(),
       },
     }
   }
