@@ -31,7 +31,7 @@ export default (Highcharts, data) => {
     },
 
     time: {
-      useUTC: false,
+      useUTC: true,
     },
 
     yAxis: [

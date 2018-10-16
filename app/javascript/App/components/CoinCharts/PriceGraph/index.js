@@ -3,6 +3,7 @@ import Highcharts from 'highcharts/highstock'
 import Switch from '../../Switch'
 import options from './options'
 import chartOptions from './chartOptions'
+import moment from 'moment'
 
 const containerID = 'highcharts'
 
@@ -21,7 +22,7 @@ class PriceGraph extends Component {
     const epochPrices = priceData.map((datum) => {
       return {
         ...datum,
-        timestamp: new Date(datum.time).getTime(),
+        timestamp: moment.utc(datum.time).valueOf(),
       }
     })
 
