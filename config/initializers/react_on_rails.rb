@@ -83,7 +83,7 @@ ReactOnRails.configure do |config|
   # with rspec then this controls what yarn command is run
   # to automatically refresh your webpack assets on every test run.
   #
-  config.build_test_command = "RAILS_ENV=test bin/webpack"
+  config.build_test_command = "RAILS_ENV=test NODE_OPTIONS=--max-old-space-size=4096 bin/webpack"
 
   ################################################################################
   ################################################################################

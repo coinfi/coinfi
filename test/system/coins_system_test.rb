@@ -8,7 +8,7 @@ class CoinsSystemTest < ApplicationSystemTestCase
     Rails.application.load_seed
     @user = create(:user)
     @coins = create_list(:coin, 20)
-    @coin = Coin.find_by(name: 'Bitcoin')
+    @coin = create(:coin)
   end
 
   test "can visit index when authenticated" do
@@ -42,20 +42,24 @@ class CoinsSystemTest < ApplicationSystemTestCase
   end
 
   test "can see trading view" do
-    Capybara.visit "/coins/#{@coin.slug}"
+    visit coin_url(@coin.slug)
 
-    Capybara.page.click_button('TradingView Chart')
-    Capybara.page.save_screenshot("screenshot-#{Time.now.to_i}.png")
+    # Go to trading view
+    click_button('TradingView Chart')
+    # save_screenshot("screenshot-#{Time.now.to_i}.png")
 
+    # Check for trading view iframe
     iframe_selector = 'div#tradingview iframe'
     iframe_element_selector = 'div.chart-container.active'
+    has_iframe = has_selector?(iframe_selector)
 
-    has_iframe = Capybara.page.has_selector?(iframe_selector)
+    # Check for element within iframe
     has_iframe_element = nil
-    Capybara.page.within_frame(Capybara.page.find(iframe_selector)) do
-      has_iframe_element = Capybara.page.has_selector?(iframe_element_selector)
+    within_frame(find(iframe_selector)) do
+      has_iframe_element = has_selector?(iframe_element_selector)
     end
 
+    # Test above checks
     assert_equal has_iframe, true
     assert_equal has_iframe_element, true
   end
