@@ -154,7 +154,7 @@ class Coin < ApplicationRecord
   def market_info market_data = nil
     data = market_data || live_market_data.dup
     data["24h_volume_usd"] = humanize(data["24h_volume_usd"], '$') if data["24h_volume_usd"]
-    if self.available_supply then
+    if self.available_supply
       data["available_supply"] = humanize(self.available_supply)
     elsif data["available_supply"]
       data["available_supply"] = humanize(data["available_supply"]) 
