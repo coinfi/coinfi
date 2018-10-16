@@ -71,8 +71,6 @@ class CoinSelector extends React.Component<Props, State> {
     selectedOption: null,
   }
 
-  public loadOptions = _.debounce(this.fetchCoinsByName, 500)
-
   public mapPayloadToOptions = (payload: any[]): CoinOption[] =>
     payload.map((elem) => {
       const label = elem.symbol ? `${elem.symbol} | ${elem.name}` : elem.name
@@ -95,6 +93,9 @@ class CoinSelector extends React.Component<Props, State> {
     localApi
       .get(`/coins/search_by_params`, { name })
       .then((response) => this.mapPayloadToOptions(response.payload))
+
+  // tslint:disable-next-line
+  public loadOptions = _.debounce(this.fetchCoinsByName, 500)
 
   public refreshCoin = (selectedCoin: string) =>
     this.fetchCoinsDetails(selectedCoin).then((results) => {
