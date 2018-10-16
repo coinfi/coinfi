@@ -110,12 +110,14 @@ class Coin < ApplicationRecord
       ]
     end
 
-    most_common_feed_source_name = self.most_common_feed_source.name
-    most_common_news_category_name = self.most_common_news_category.name
-    result << %W[
-      The most common news source covering #{self.name} is #{most_common_feed_source_name} and the
-      most common news category is #{most_common_news_category_name}.
-    ]
+    most_common_feed_source_name = self.most_common_feed_source&.name
+    most_common_news_category_name = self.most_common_news_category&.name
+    if most_common_feed_source_name && most_common_news_category_name
+      result << %W[
+        The most common news source covering #{self.name} is #{most_common_feed_source_name} and the
+        most common news category is #{most_common_news_category_name}.
+      ]
+    end
 
     # Merge the result into a single line string
     result.flatten.join(' ')
