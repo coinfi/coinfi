@@ -126,7 +126,8 @@
     "build-storybook": "build-storybook",
     "tslint-check": "tslint-config-prettier-check ./tslint.json",
     "precommit": "lint-staged",
-    "dev": "./bin/webpack-dev-server",
+    "dev:webpack": "foreman start -f Procfile.dev webpack",
+    "dev": "foreman start -f Procfile.dev",
     "test": "jest",
     "test-watch": "jest --watch"
   }

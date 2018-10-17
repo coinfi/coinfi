@@ -40,7 +40,6 @@ class CoinMarketCapService
       market_cap: data['marketCap'],
       price: data['price'],
       volume24: data['volume24'],
-      available_supply: data['availableSupply'],
       change24h: data['change24h'],
       change1h: data['change1h'],
       change7d: data['change7d'],
