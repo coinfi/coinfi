@@ -77,7 +77,7 @@
           "size": "standard-1x"
         }
       },
-      "addons": ["heroku-postgresql:standard-0"]
+      "addons": ["heroku-postgresql:in-dyno"]
     }
   }
 }
