@@ -2,7 +2,7 @@ import * as React from 'react'
 import styled from 'styled-components'
 import timeago from 'timeago.js'
 import CoinTags from '../common/components/CoinTags'
-import BulletSpacer from '../../components/BulletSpacer'
+import BulletSpacer from '~/bundles/common/components/BulletSpacer'
 import classNames from 'classnames'
 import Favicon from '~/bundles/common/components/Favicon'
 import * as _ from 'lodash'
@@ -12,7 +12,7 @@ import {
   getSubredditName,
   isTwitter,
   isReddit,
-} from '~/lib/utils/url'
+} from '~/bundles/common/utils/url'
 
 const readNewsHandler = (newsItem) => {
   const newsId = newsItem.id

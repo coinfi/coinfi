@@ -2,18 +2,18 @@ import * as React from 'react'
 import timeago from 'timeago.js'
 import sanitizeHtml from 'sanitize-html'
 import * as _ from 'lodash'
-import CoinTags from '../common/components/CoinTags'
-import BulletSpacer from '../../components/BulletSpacer'
-import Icon from '../../components/Icon'
-import localAPI from '../../lib/localAPI'
+import CoinTags from '~/bundles/common/components/CoinTags'
+import BulletSpacer from '~/bundles/common/components/BulletSpacer'
+import Icon from '~/bundles/common/components/Icon'
+import localAPI from '../common/utils/localAPI'
 
 import TwitterBody from './TwitterBody'
-import LoadingIndicator from '../../components/LoadingIndicator'
+import LoadingIndicator from '../common/components/LoadingIndicator'
 import {
   getDomainType,
   isTwitter,
   getTwitterUsername,
-} from '../../lib/utils/url'
+} from '~/bundles/common/utils/url'
 
 import { NewsItem } from './types'
 import { CoinClickHandler } from '~/bundles/common/types'
