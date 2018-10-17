@@ -18,7 +18,10 @@ class ListingsRoutesTest < ApplicationIntegrationTest
     user = create(:user)
     login_as(user, :scope => :user)
 
-    get "/listings"
+    LaunchDarkly::LDClient.stub_any_instance(:variation, true) do
+      get "/listings"
+    end
+
     assert_equal 200, status
   end
 end
