@@ -136,7 +136,7 @@ class NewsItem < ApplicationRecord
 
   def notify_news_tagger
     # Don't want to notify news tagger when running tests
-    if ENV.rails.test?
+    if Rails.env.test?
       return
     end
 
