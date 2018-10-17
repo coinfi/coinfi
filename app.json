@@ -69,12 +69,15 @@
     "scheduler:standard"
   ],
   "buildpacks": [{ "url": "heroku/nodejs" }, { "url": "heroku/ruby" }],
-  "test": {
-    "formation": {
-      "test": {
-        "quantity": 1,
-        "size": "standard-1x"
-      }
+  "environments": {
+    "test": {
+      "formation": {
+        "test": {
+          "quantity": 1,
+          "size": "standard-1x"
+        }
+      },
+      "addons": ["heroku-postgresql:standard-0"]
     }
   }
 }
