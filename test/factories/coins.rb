@@ -55,10 +55,14 @@ FactoryBot.define do
 
       after(:create) do |coin, evaluator|
         evaluator.machine_tagged_news_items_count.times do |i|
-          coin.machine_tagged_news_items << create(:news_item, feed_source: coin.feed_sources.sample)
+          begin
+            coin.machine_tagged_news_items << create(:news_item, feed_source: coin.feed_sources.sample)
+          end
         end
         evaluator.human_tagged_news_items_count.times do |i|
-          coin.human_tagged_news_items << create(:news_item, feed_source: coin.feed_sources.sample)
+          begin
+            coin.human_tagged_news_items << create(:news_item, feed_source: coin.feed_sources.sample)
+          end
         end
       end
     end
