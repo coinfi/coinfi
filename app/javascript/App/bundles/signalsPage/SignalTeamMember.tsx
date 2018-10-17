@@ -1,6 +1,7 @@
 import * as React from 'react'
 import { withStyles, createStyles } from '@material-ui/core/styles'
 import Avatar from '@material-ui/core/Avatar'
+import ButtonBase from '@material-ui/core/ButtonBase'
 import Popover from '@material-ui/core/Popover'
 import Typography from '@material-ui/core/Typography'
 
@@ -33,55 +34,60 @@ const styles = (theme) =>
 
 interface State {
   anchorEl: any
-  popoverOpen: boolean
 }
 
 interface Props {
   classes: any
+  name: string
   avatarUrl: string
   description: string
   roleDescription: string
 }
 
 class SignalTeamMember extends React.Component<Props, State> {
-  constructor(props) {
-    super(props)
-
-    this.state = {
-      anchorEl: null,
-      popoverOpen: false,
-    }
+  public state = {
+    anchorEl: null,
   }
 
   public handlePopoverOpen = (event) => {
     this.setState({
-      popoverOpen: true,
       anchorEl: event.currentTarget,
     })
   }
 
   public handlePopoverClose = () => {
     this.setState({
-      popoverOpen: false,
       anchorEl: null,
     })
   }
 
   public render() {
-    const { classes, avatarUrl, description, roleDescription } = this.props
+    const {
+      classes,
+      name,
+      avatarUrl,
+      description,
+      roleDescription,
+    } = this.props
+    const open = Boolean(this.state.anchorEl)
+    const id = `${name}-popover`
 
     return (
       <div className={classes.root}>
-        <Avatar
-          className={classes.avatar}
-          src={avatarUrl}
+        <ButtonBase
+          aria-owns={open ? id : null}
+          aria-haspopup="true"
           onMouseEnter={this.handlePopoverOpen}
           onMouseLeave={this.handlePopoverClose}
-        />
+          onClick={this.handlePopoverOpen}
+        >
+          <Avatar className={classes.avatar} src={avatarUrl} />
+        </ButtonBase>
 
         <Popover
+          id={id}
           className={classes.popover}
-          open={this.state.popoverOpen}
+          open={open}
           onClose={this.handlePopoverClose}
           anchorEl={this.state.anchorEl}
           anchorOrigin={{
