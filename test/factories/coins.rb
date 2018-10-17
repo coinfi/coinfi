@@ -57,11 +57,15 @@ FactoryBot.define do
         evaluator.machine_tagged_news_items_count.times do |i|
           begin
             coin.machine_tagged_news_items << create(:news_item, feed_source: coin.feed_sources.sample)
+          rescue ActiveRecord::RecordNotUnique
+            # The device already exists.
           end
         end
         evaluator.human_tagged_news_items_count.times do |i|
           begin
             coin.human_tagged_news_items << create(:news_item, feed_source: coin.feed_sources.sample)
+          rescue ActiveRecord::RecordNotUnique
+            # The device already exists.
           end
         end
       end
