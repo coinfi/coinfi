@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import ListingItem from './ListingItem'
-import LoadingIndicator from '../../../../App/components/LoadingIndicator'
+import LoadingIndicator from '../../common/components/LoadingIndicator'
 import InfiniteScroll from 'react-infinite-scroll-component'
 
 class ListingsList extends Component {

@@ -1,10 +1,10 @@
 import * as React from 'react'
 import { withRouter, RouteComponentProps } from 'react-router'
 import debounce from 'debounce'
-import { slugify } from '../../lib/utils/slugify'
-import LayoutDesktop from '../../components/LayoutDesktop'
-import LayoutTablet from '../../components/LayoutTablet'
-import LayoutMobile from '../../bundles/common/components/LayoutMobile'
+import slugify from '~/bundles/common/utils/slugify'
+import LayoutDesktop from '~/bundles/common/components/LayoutDesktop'
+import LayoutTablet from '~/bundles/common/components/LayoutTablet'
+import LayoutMobile from '~/bundles/common/components/LayoutMobile'
 import CoinListWrapper from '../common/components/CoinListWrapper'
 import CoinListDrawer from '../common/components/CoinListDrawer'
 import NewsList from './NewsList'
@@ -17,7 +17,6 @@ import EventListener from 'react-event-listener'
 
 import { NewsItem, ContentType, Filters } from './types'
 import { CoinWithDetails, CoinClickHandler } from '../common/types'
-import { CoinLinkData } from '~/bundles/common/types'
 import {
   getDefaultFilters,
   mergeInitialSocialSourcesForCoinsFilter,
