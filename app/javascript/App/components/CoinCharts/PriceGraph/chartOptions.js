@@ -30,6 +30,10 @@ export default (Highcharts, data) => {
         '#FFFFFF',
     },
 
+    time: {
+      useUTC: true,
+    },
+
     yAxis: [
       {
         labels: {

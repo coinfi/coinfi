@@ -28,7 +28,7 @@ export default class Datafeed {
         minmov: 1,
         pricescale: 100,
         session: '24x7',
-        timezone: 'Europe/London',
+        timezone: 'UTC',
       })
     }, 0)
   }
@@ -48,7 +48,7 @@ export default class Datafeed {
     if (!firstDataRequest) return
     const bars = this.data.map((bar) => {
       // Need to convert `time` which is a date string into unix timestamp
-      const timestamp = moment(bar.time).valueOf()
+      const timestamp = moment.utc(bar.time).valueOf()
 
       return {
         time: timestamp,
