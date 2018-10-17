@@ -74,7 +74,7 @@
       "formation": {
         "test": {
           "quantity": 1,
-          "size": "standard-1x"
+          "size": "performance-l"
         }
       },
       "addons": ["heroku-postgresql:in-dyno"]
