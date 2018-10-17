@@ -45,5 +45,8 @@ module CoinfiRails
     # Give the asset pipeline access to npm packages
     config.assets.paths << Rails.root.join('node_modules')
 
+    # https://help.heroku.com/AHH2KNSR/why-do-i-get-postgres-extension-errors-when-i-run-rake-db-structure-load-or-rake-db-setup
+    config.active_record.schema_format = :ruby
+
   end
 end
