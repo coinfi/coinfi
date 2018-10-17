@@ -8,7 +8,6 @@ class CoinsSystemTest < ApplicationSystemTestCase
     Rails.application.load_seed
     @user = create(:user)
     @coins = create_list(:coin, 20)
-    @coin = create(:coin)
   end
 
   test "can visit index when authenticated" do
@@ -42,11 +41,12 @@ class CoinsSystemTest < ApplicationSystemTestCase
   end
 
   test "can see trading view" do
-    visit coin_url(@coin.slug)
+    coin = @coins.first
+    visit coin_url(coin.slug)
 
     # Go to trading view
     click_button('TradingView Chart')
-    # save_screenshot("screenshot-#{Time.now.to_i}.png")
+    # save_screenshot("tmp/screenshots/screenshot-trading-view-#{Time.now.to_i}.png")
 
     # Check for trading view iframe
     iframe_selector = 'div#tradingview iframe'
