@@ -78,4 +78,174 @@ class NewsSystemTest < ApplicationSystemTestCase
       end
     end
   end
+
+  test "news items with twitter filter" do
+    # Login
+    login_as(@user, :scope => :user)
+    LaunchDarkly::LDClient.stub_any_instance(:variation, true) do
+      visit news_url
+    end
+
+    # Open and set filter
+    click_button('Filter')
+    twitter_button = find(:xpath, "//span[contains(text(),'Twitter')]/following-sibling::button")
+    twitter_button.click
+    assert twitter_button[:class].include?("on"), true
+    click_button('Apply')
+    
+    # Check against expected news items
+    feed_sources = FeedSource.active.where.not(id: FeedSource.reddit)
+    expected_news_items = NewsItems::WithFilters.call(
+        NewsItem.published, 
+        feed_sources: feed_sources
+      ).order_by_published.limit(25)
+    
+    within '#newsfeed' do
+      expected_news_items.each do |news_item|
+        assert_text(:all, news_item.title)
+      end
+    end
+  end
+
+  test "news items with reddit and twitter filters" do
+    # Login
+    login_as(@user, :scope => :user)
+    LaunchDarkly::LDClient.stub_any_instance(:variation, true) do
+      visit news_url
+    end
+
+    # Open and set filter
+    click_button('Filter')
+
+    twitter_button = find(:xpath, "//span[contains(text(),'Twitter')]/following-sibling::button")
+    twitter_button.click
+    assert twitter_button[:class].include?("on"), true
+
+    reddit_button = find(:xpath, "//span[contains(text(),'Reddit')]/following-sibling::button")
+    reddit_button.click
+    assert reddit_button[:class].include?("on"), true
+
+    click_button('Apply')
+    
+    # Check against expected news items
+    feed_sources = FeedSource.active
+    expected_news_items = NewsItems::WithFilters.call(
+        NewsItem.published, 
+        feed_sources: feed_sources
+      ).order_by_published.limit(25)
+    
+    within '#newsfeed' do
+      expected_news_items.each do |news_item|
+        assert_text(:all, news_item.title)
+      end
+    end
+  end
+
+  test "news items with start date filter" do
+    # Login
+    login_as(@user, :scope => :user)
+    LaunchDarkly::LDClient.stub_any_instance(:variation, true) do
+      visit news_url
+    end
+
+    date_format = "%m/%d/%Y"
+    start_date = (Date.current - Random.rand(10)).to_datetime
+
+    # Open and set filter
+    click_button('Filter')
+
+    start_input = find("input[placeholder='Start Date']")
+    start_input.set start_date.strftime(date_format)
+
+    assert start_input.value, start_date.strftime(date_format)
+
+    click_button('Apply')
+    
+    # Check against expected news items
+    expected_news_items = NewsItems::WithFilters.call(
+      NewsItem.published, 
+      published_since: start_date
+    ).order_by_published.limit(25)
+    
+    within '#newsfeed' do
+      expected_news_items.each do |news_item|
+        assert_text(:all, news_item.title)
+      end
+    end
+  end
+
+  test "news items with end date filter" do
+    # Login
+    login_as(@user, :scope => :user)
+    LaunchDarkly::LDClient.stub_any_instance(:variation, true) do
+      visit news_url
+    end
+
+    date_format = "%m/%d/%Y"
+    end_date = (Date.current - Random.rand(10)).to_datetime
+
+    # Open and set filter
+    click_button('Filter')
+
+    end_input = find("input[placeholder='Start Date']")
+    end_input.set end_date.strftime(date_format)
+
+    assert end_input.value, end_date.strftime(date_format)
+
+    click_button('Apply')
+    
+    # Check against expected news items
+    expected_news_items = NewsItems::WithFilters.call(
+      NewsItem.published, 
+      published_since: end_date
+    ).order_by_published.limit(25)
+    
+    within '#newsfeed' do
+      expected_news_items.each do |news_item|
+        assert_text(:all, news_item.title)
+      end
+    end
+  end
+
+  test "news items with date filter" do
+    # Login
+    login_as(@user, :scope => :user)
+    LaunchDarkly::LDClient.stub_any_instance(:variation, true) do
+      visit news_url
+    end
+
+    date_format = "%m/%d/%Y"
+    end_date = (Date.current - Random.rand(4)).to_datetime
+    start_date = (end_date - Random.rand(4)).to_datetime
+
+    # Open and set filter
+    click_button('Filter')
+    
+    end_input = find("input[placeholder='End Date']")
+    end_input.set end_date.strftime(date_format)
+
+    # Click elsewhere to avoid fill error on second input
+    find('h4', text: 'Date Range').click
+
+    start_input = find("input[placeholder='Start Date']")
+    start_input.set start_date.strftime(date_format)
+
+    assert start_input.value, start_date.strftime(date_format)
+    assert end_input.value, end_date.strftime(date_format)
+
+    click_button('Apply')
+    
+    # Check against expected news items
+    expected_news_items = NewsItems::WithFilters.call(
+      NewsItem.published, 
+      published_since: start_date,
+      published_until: end_date
+    ).order_by_published.limit(25)
+    
+    within '#newsfeed' do
+      expected_news_items.each do |news_item|
+        assert_text(:all, news_item.title)
+      end
+    end
+  end
 end
