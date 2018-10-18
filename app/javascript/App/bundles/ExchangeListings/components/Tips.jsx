@@ -1,8 +1,8 @@
 import React from 'react'
-import Icon from '../../../components/Icon'
-import chartIcon from '../../../images/chartIcon.svg'
-import filterIcon from '../../../images/filterIcon.svg'
-import listIcon from '../../../images/listIcon.svg'
+import Icon from '../../common/components/Icon'
+const chartIcon = require('~/images/chartIcon.svg')
+const filterIcon = require('~/images/filterIcon.svg')
+const listIcon = require('~/images/listIcon.svg')
 
 const titleStyle = {
   fontSize: '1.13rem',

@@ -1,5 +1,5 @@
 import * as React from 'react'
-import Icon from '../../../components/Icon'
+import Icon from './Icon'
 
 interface Props {
   value: string

@@ -2,7 +2,7 @@ import * as React from 'react'
 import { Tweet } from 'react-twitter-widgets'
 import CoinTags from '../common/components/CoinTags'
 import { NewsItem } from './types'
-import { getTweetId } from '../../lib/utils/url'
+import { getTweetId } from '~/bundles/common/utils/url'
 
 interface Props {
   newsItem: NewsItem
