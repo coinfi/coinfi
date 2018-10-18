@@ -94,7 +94,7 @@ group :development, :test do
   gem 'pry-rails'
   gem 'rubocop'
   gem 'reek'
-  gem 'selenium-webdriver'
+  gem 'selenium-webdriver', '>= 3.14.0'
   gem 'chromedriver-helper'
   gem 'factory_bot_rails'
   gem 'faker', :git => 'https://github.com/stympy/faker.git', :branch => 'master'

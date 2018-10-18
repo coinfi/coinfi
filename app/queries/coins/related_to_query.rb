@@ -18,7 +18,7 @@ module Coins
         # If there are not enough coins, search the other way instead
         if result.length < RESULT_COUNT
           result = relation
-            .where("ranking =< ?", coin.ranking + RESULT_COUNT / 2)
+            .where("ranking <= ?", coin.ranking + RESULT_COUNT / 2)
             .where.not(ranking: coin.ranking)
             .order(:ranking)
             .limit(RESULT_COUNT)
@@ -35,7 +35,7 @@ module Coins
         # If there are not enough coins after `coin.id - 4` search the other way instead
         if result.length < RESULT_COUNT
           result = relation
-            .where("id =< ?", coin.id + RESULT_COUNT / 2)
+            .where("id <= ?", coin.id + RESULT_COUNT / 2)
             .where.not(id: coin)
             .order(:id)
             .limit(RESULT_COUNT)
