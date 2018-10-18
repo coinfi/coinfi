@@ -23,6 +23,23 @@ class SignalsTelegramBotRegistrationFormTest < ActiveSupport::TestCase
     assert form.valid?
   end
 
+  test 'updates `token_sale` attributes on save' do
+    form_params = @default_form_params
+    form = SignalsTelegramBotRegistrationForm.new(form_params)
+
+    expected_token_sale = @user.token_sale
+      .merge(
+        signals_telegram_bot_chat_id: @default_form_params[:chat_id],
+        signals_telegram_bot_started_at: @default_form_params[:started_at],
+      )
+      .stringify_keys
+
+    form.save!
+    @user.reload
+
+    assert_equal @user.token_sale, expected_token_sale
+  end
+
   test 'invalid with empty `username`' do
     form_params = @default_form_params.merge(telegram_username: nil)
     form = SignalsTelegramBotRegistrationForm.new(form_params)
