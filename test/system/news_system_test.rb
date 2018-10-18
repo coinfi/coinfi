@@ -107,6 +107,94 @@ class NewsSystemTest < ApplicationSystemTestCase
     end
   end
 
+  test "news items with general filter" do
+    # Login
+    login_as(@user, :scope => :user)
+    LaunchDarkly::LDClient.stub_any_instance(:variation, true) do
+      visit news_url
+    end
+
+    # Get a general filter
+    random_feed = nil
+    random_coin = nil
+    while !random_feed do
+      random_coin = @coins.sample
+      random_coin.feed_sources.each do |feed_source|
+        if (feed_source.feed_type == 'general')
+          random_feed = feed_source
+        end
+      end
+    end
+
+    # Open and set filter
+    click_button('Filter')
+    check(random_feed.site_hostname)
+    click_button('Apply')
+
+    # Check against expected news items
+    feed_sources = FeedSource.active
+      .where.not(id: FeedSource.reddit)
+      .where.not(id: FeedSource.twitter)
+      .where(site_hostname: [random_feed.site_hostname])
+    expected_news_items = NewsItems::WithFilters.call(
+        NewsItem.published, 
+        feed_sources: feed_sources
+      ).order_by_published.limit(25)
+
+    within '#newsfeed' do
+      expected_news_items.each do |news_item|
+        assert_text(:all, news_item.title)
+      end
+    end
+  end
+
+  test "news items with general and reddit filter" do
+    # Login
+    login_as(@user, :scope => :user)
+    LaunchDarkly::LDClient.stub_any_instance(:variation, true) do
+      visit news_url
+    end
+
+    # Get a general filter
+    random_feed = nil
+    random_coin = nil
+    while !random_feed do
+      random_coin = @coins.sample
+      random_coin.feed_sources.each do |feed_source|
+        if (feed_source.feed_type == 'general')
+          random_feed = feed_source
+        end
+      end
+    end
+
+    # Open and set filter
+    click_button('Filter')
+
+    reddit_button = find(:xpath, "//span[contains(text(),'Reddit')]/following-sibling::button")
+    reddit_button.click
+    assert reddit_button[:class].include?("on"), true
+
+    check(random_feed.site_hostname)
+
+    click_button('Apply')
+
+    # Check against expected news items
+    feed_sources = FeedSource.active
+      .where.not(id: FeedSource.twitter)
+      .where(site_hostname: [random_feed.site_hostname])
+    expected_news_items = NewsItems::WithFilters.call(
+        NewsItem.published, 
+        feed_sources: feed_sources
+      ).order_by_published.limit(25)
+
+    within '#newsfeed' do
+      expected_news_items.each do |news_item|
+        assert_text(:all, news_item.title)
+      end
+    end
+  end
+
+
   test "news items with reddit and twitter filters" do
     # Login
     login_as(@user, :scope => :user)
