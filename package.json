@@ -128,6 +128,7 @@
     "precommit": "lint-staged",
     "dev:webpack": "foreman start -f Procfile.dev webpack",
     "dev": "foreman start -f Procfile.dev",
+    "clean": "rm -rf node_modules/.cache/hard-source",
     "test": "jest",
     "test-watch": "jest --watch"
   }
