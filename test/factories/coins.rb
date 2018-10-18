@@ -56,16 +56,16 @@ FactoryBot.define do
       after(:create) do |coin, evaluator|
         evaluator.machine_tagged_news_items_count.times do |i|
           begin
-            coin.machine_tagged_news_items << create(:news_item, feed_source: coin.feed_sources.sample)
+            coin.machine_tagged_news_items << create(:news_item_with_category, feed_source: coin.feed_sources.sample)
           rescue ActiveRecord::RecordNotUnique
-            # The device already exists.
+            # The record already exists.
           end
         end
         evaluator.human_tagged_news_items_count.times do |i|
           begin
-            coin.human_tagged_news_items << create(:news_item, feed_source: coin.feed_sources.sample)
+            coin.human_tagged_news_items << create(:news_item_with_category, feed_source: coin.feed_sources.sample)
           rescue ActiveRecord::RecordNotUnique
-            # The device already exists.
+            # The record already exists.
           end
         end
       end
