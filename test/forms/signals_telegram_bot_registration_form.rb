@@ -7,7 +7,7 @@ class SignalsTelegramBotRegistrationFormTest < ActiveSupport::TestCase
     @default_form_params = {
       telegram_username: @telegram_username,
       chat_id: Faker::Number.number(10),
-      started_at: DateTime.iso8601,
+      started_at: DateTime.now.iso8601,
     }
 
     @user = create(:user, token_sale: {
