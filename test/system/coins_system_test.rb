@@ -39,4 +39,28 @@ class CoinsSystemTest < ApplicationSystemTestCase
     # Check related news
     assert_text "Related Coins"
   end
+
+  test "can see trading view" do
+    coin = @coins.first
+    visit coin_url(coin.slug)
+
+    # Go to trading view
+    click_button('TradingView Chart')
+    # save_screenshot("tmp/screenshots/screenshot-trading-view-#{Time.now.to_i}.png")
+
+    # Check for trading view iframe
+    iframe_selector = 'div#tradingview iframe'
+    iframe_element_selector = 'div.chart-container.active'
+    has_iframe = has_selector?(iframe_selector)
+
+    # Check for element within iframe
+    has_iframe_element = nil
+    within_frame(find(iframe_selector)) do
+      has_iframe_element = has_selector?(iframe_element_selector)
+    end
+
+    # Test above checks
+    assert_equal has_iframe, true
+    assert_equal has_iframe_element, true
+  end
 end

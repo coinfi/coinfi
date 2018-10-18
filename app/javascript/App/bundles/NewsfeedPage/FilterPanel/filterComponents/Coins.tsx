@@ -1,7 +1,7 @@
 import * as React from 'react'
 import * as _ from 'lodash'
 import AsyncSelect from 'react-select/lib/Async'
-import localApi from '../../../../lib/localAPI'
+import localApi from '../../../common/utils/localAPI'
 
 type CoinSlug = string
 

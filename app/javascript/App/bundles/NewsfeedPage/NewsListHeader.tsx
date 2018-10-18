@@ -1,7 +1,7 @@
 import * as React from 'react'
 import * as _ from 'lodash'
-import Icon from '../../components/Icon'
-import SectionHeader from '../../components/SectionHeader'
+import Icon from '~/bundles/common/components/Icon'
+import SectionHeader from '~/bundles/common/components/SectionHeader'
 import CoinTipsTab from '../common/components/CoinTipsTab'
 import FilterPanel from './FilterPanel'
 import CoinSelector, {
@@ -10,8 +10,7 @@ import CoinSelector, {
 import { Filters } from './types'
 import withDevice from '~/bundles/common/utils/withDevice'
 
-// tslint:disable-next-line
-const filterBtn = require('../../images/filter-btn.svg')
+const filterBtn = require('~/images/filterBtn.svg') // tslint:disable-line
 
 interface Props {
   showFilters: boolean

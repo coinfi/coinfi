@@ -2,7 +2,7 @@ import * as React from 'react'
 import { Route, Switch } from 'react-router-dom'
 import ExchangeListingsPage from '~/bundles/ExchangeListings/ExchangeListingsCointainer'
 import NewsfeedPageNew from '~/bundles/NewsfeedPage/NewsfeedPageContainer'
-import CoinIndex from '../components/CoinIndex'
+import CoinIndex from '../bundles/CoinIndex'
 
 const AppRoutes = (props) => {
   return (

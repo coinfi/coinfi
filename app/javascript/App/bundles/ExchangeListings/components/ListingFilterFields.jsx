@@ -1,6 +1,6 @@
 import React from 'react'
 import Select from 'react-select'
-import DateRangeListing from '~/components/DateRangeListing'
+import DateRangeListing from '~/bundles/common/components/DateRangeListing'
 import ExchangeListingsContext from '~/bundles/ExchangeListings/ExchangeListingsContext'
 
 export default () => (

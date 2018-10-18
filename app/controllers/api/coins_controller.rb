@@ -23,9 +23,17 @@ class Api::CoinsController < ApiController
     if params[:coinSlugs].present? 
       coins = Coin.where(slug: params[:coinSlugs])
     elsif params[:name].present?
-      coins = Coin.where('upper(concat(symbol,\' \', name)) like upper(?)', "%#{params[:name]}%")
-                  .order('length(name) asc')
-                  .limit(10)
+      coins = Coin.find_by_sql("
+        SELECT *, CASE
+            WHEN UPPER(symbol) = UPPER('#{params[:name]}') THEN 1
+            WHEN UPPER(name) = UPPER('#{params[:name]}') THEN 1
+            ELSE 3
+          END as match
+          FROM coins
+          WHERE UPPER(symbol) LIKE UPPER('#{params[:name]}%')
+            OR UPPER(name) LIKE UPPER('#{params[:name]}%')
+          ORDER BY match ASC, ranking ASC
+          LIMIT 10")
     end
     respond_success search_serializer(coins)
   end

@@ -2,7 +2,7 @@ import * as React from 'react'
 import * as _ from 'lodash'
 import AsyncSelect from 'react-select/lib/Async'
 import { CoinSlug } from '~/bundles/common/types'
-import localApi from '../../../lib/localAPI'
+import localApi from '../utils/localAPI'
 
 interface Props {
   selectedCoin: CoinSlug
