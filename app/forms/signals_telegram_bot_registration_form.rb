@@ -21,7 +21,7 @@ class SignalsTelegramBotRegistrationForm < Patterns::Form
   protected
 
   def user
-    @user ||= User.where("(token_sale->>'telegram_username') = ?", telegram_username).first
+    @user ||= User.where("(token_sale->>'telegram_username') ILIKE ?", telegram_username).first
   end
 
   def validate_user_staked_token_amount
