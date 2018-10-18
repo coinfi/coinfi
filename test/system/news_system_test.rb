@@ -50,4 +50,32 @@ class NewsSystemTest < ApplicationSystemTestCase
     # Check title
     assert_selector "h1", text: news_item.title
   end
+
+  test "news items with reddit filter" do
+    # Login
+    login_as(@user, :scope => :user)
+    LaunchDarkly::LDClient.stub_any_instance(:variation, true) do
+      visit news_url
+    end
+
+    # Open and set filter
+    click_button('Filter')
+    reddit_button = find(:xpath, "//span[contains(text(),'Reddit')]/following-sibling::button")
+    reddit_button.click
+    assert reddit_button[:class].include?("on"), true
+    click_button('Apply')
+    
+    # Check against expected news items
+    feed_sources = FeedSource.active.where.not(id: FeedSource.twitter)
+    expected_news_items = NewsItems::WithFilters.call(
+        NewsItem.published, 
+        feed_sources: feed_sources
+      ).order_by_published.limit(25)
+    
+    within '#newsfeed' do
+      expected_news_items.each do |news_item|
+        assert_text(:all, news_item.title)
+      end
+    end
+  end
 end
