@@ -14,7 +14,7 @@ ActiveRecord::Schema.define(version: 20181004013839) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
-  enable_extension "dblink"
+  enable_extension "db_link" unless Rails.env.test?
   enable_extension "pg_stat_statements"
 
   create_table "articles", force: :cascade do |t|

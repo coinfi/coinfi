@@ -68,5 +68,16 @@
     "scout",
     "scheduler:standard"
   ],
-  "buildpacks": [{ "url": "heroku/nodejs" }, { "url": "heroku/ruby" }]
+  "buildpacks": [{ "url": "heroku/nodejs" }, { "url": "heroku/ruby" }],
+  "environments": {
+    "test": {
+      "formation": {
+        "test": {
+          "quantity": 1,
+          "size": "performance-m"
+        }
+      },
+      "addons": ["heroku-postgresql:in-dyno"]
+    }
+  }
 }

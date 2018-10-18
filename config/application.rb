@@ -44,6 +44,5 @@ module CoinfiRails
 
     # Give the asset pipeline access to npm packages
     config.assets.paths << Rails.root.join('node_modules')
-
   end
 end
