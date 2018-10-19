@@ -17,8 +17,8 @@ class NewsRenderTest < ApplicationIntegrationTest
       get news_url
     end
 
-    expected_news_items = NewsItems::WithFilters.call(NewsItem.published).limit(25)
-    expected_news_items.find_each do |news_item|
+    expected_news_items = NewsItems::WithFilters.call(NewsItem.published).order_by_published.limit(25)
+    expected_news_items.each do |news_item|
       assert_select "*", text: news_item.title
     end
   end
@@ -29,8 +29,8 @@ class NewsRenderTest < ApplicationIntegrationTest
       get news_coin_url(coin.slug)
     end
 
-    expected_news_items = NewsItems::WithFilters.call(NewsItem.published, coins: [coin]).limit(25)
-    expected_news_items.find_each do |news_item|
+    expected_news_items = NewsItems::WithFilters.call(NewsItem.published, coins: [coin]).order_by_published.limit(25)
+    expected_news_items.each do |news_item|
       assert_select "*", text: news_item.title
     end
   end
@@ -42,8 +42,8 @@ class NewsRenderTest < ApplicationIntegrationTest
       get news_item_url(news_item, news_item_slug)
     end
 
-    expected_news_items = NewsItems::WithFilters.call(NewsItem.published).limit(25)
-    expected_news_items.find_each do |news_item|
+    expected_news_items = NewsItems::WithFilters.call(NewsItem.published).order_by_published.limit(25)
+    expected_news_items.each do |news_item|
       assert_select "*", text: news_item.title
     end
   end

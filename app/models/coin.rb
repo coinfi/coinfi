@@ -110,12 +110,14 @@ class Coin < ApplicationRecord
       ]
     end
 
-    most_common_feed_source_name = self.most_common_feed_source.name
-    most_common_news_category_name = self.most_common_news_category.name
-    result << %W[
-      The most common news source covering #{self.name} is #{most_common_feed_source_name} and the
-      most common news category is #{most_common_news_category_name}.
-    ]
+    most_common_feed_source_name = self.most_common_feed_source&.name
+    most_common_news_category_name = self.most_common_news_category&.name
+    if most_common_feed_source_name && most_common_news_category_name
+      result << %W[
+        The most common news source covering #{self.name} is #{most_common_feed_source_name} and the
+        most common news category is #{most_common_news_category_name}.
+      ]
+    end
 
     # Merge the result into a single line string
     result.flatten.join(' ')
@@ -154,7 +156,11 @@ class Coin < ApplicationRecord
   def market_info market_data = nil
     data = market_data || live_market_data.dup
     data["24h_volume_usd"] = humanize(data["24h_volume_usd"], '$') if data["24h_volume_usd"]
-    data["available_supply"] = humanize(data["available_supply"]) if data["available_supply"]
+    if self.available_supply
+      data["available_supply"] = humanize(self.available_supply)
+    elsif data["available_supply"]
+      data["available_supply"] = humanize(data["available_supply"]) 
+    end
     data["market_cap_usd"] = humanize(data["market_cap_usd"], '$') if data["market_cap_usd"]
     data["total_supply"] = humanize(data["total_supply"]) if data["total_supply"]
     data["max_supply"] = humanize(data["max_supply"]) if data["max_supply"]

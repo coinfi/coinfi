@@ -1,8 +1,8 @@
 import * as React from 'react'
 import * as _ from 'lodash'
 import { normalize, schema } from 'normalizr'
-import API from '../../../lib/API'
-import normalizers from '../../../normalizers'
+import API from '../utils/API'
+import coinsNormalizer from '../normalizers/coins'
 import CoinListContext, {
   CoinListContextType,
 } from '~/bundles/common/contexts/CoinListContext'
@@ -128,12 +128,12 @@ class CoinListContainer extends React.Component<Props, State> {
 
   public fetchToplist = () =>
     API.get('/coins/toplist', {}, false).then((response) =>
-      Promise.resolve(normalizers.coins(response.payload)),
+      Promise.resolve(coinsNormalizer(response.payload)),
     )
 
   public fetchWatchlist = () =>
     API.get('/coins/watchlist', {}, false).then((response) =>
-      Promise.resolve(normalizers.coins(response.payload)),
+      Promise.resolve(coinsNormalizer(response.payload)),
     )
 
   public persistCoinToWatchlist = (id) =>
