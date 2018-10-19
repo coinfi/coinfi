@@ -13,5 +13,27 @@ FactoryBot.define do
     feed_item_updated_at { Faker::Date.between(1.week.ago, Date.today) }
     importance { 0 }
     is_published { Faker::Boolean.boolean(0.9) }
+
+    trait :with_category do
+      transient do
+        category_id { NewsCategory.pluck(:id).sample }
+      end
+      
+      after(:create) do |news, evaluator|
+        # tag news with category
+        begin
+          NewsItemCategorization.create(
+            news_item_id: news.id,
+            news_category_id: evaluator.category_id
+          )
+        rescue ActiveRecord::RecordNotUnique
+          # The record already exists.
+        end
+      end
+    end
+  
+    factory :news_item_with_category do
+      with_category
+    end
   end
 end
