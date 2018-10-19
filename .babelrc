@@ -1,7 +1,7 @@
 {
   "presets": [
     [
-      "env",
+      "@babel/preset-env",
       {
         "modules": false,
         "targets": {
@@ -11,20 +11,20 @@
         "useBuiltIns": true
       }
     ],
-    "react"
+    "@babel/preset-react"
   ],
   "env": {
     "test": {
       "presets": [
         [
-          "env"
+          "@babel/preset-env"
         ],
-        "react"
+        "@babel/preset-react"
       ],
       "plugins": [
         "babel-plugin-styled-components",
-        "syntax-dynamic-import",
-        "transform-object-rest-spread",
+        "@babel/plugin-syntax-dynamic-import",
+        "@babel/plugin-proposal-object-rest-spread",
         [
           "babel-plugin-root-import",
           {
@@ -33,7 +33,7 @@
           }
         ],
         [
-          "transform-class-properties",
+          "@babel/plugin-proposal-class-properties",
           {
             "spec": true
           }
@@ -43,8 +43,8 @@
   },
   "plugins": [
     "babel-plugin-styled-components",
-    "syntax-dynamic-import",
-    "transform-object-rest-spread",
+    "@babel/plugin-syntax-dynamic-import",
+    "@babel/plugin-proposal-object-rest-spread",
     [
       "babel-plugin-root-import",
       {
@@ -53,12 +53,17 @@
       }
     ],
     [
-      "transform-class-properties",
+      "@babel/plugin-proposal-class-properties",
       {
         "spec": true
       }
     ],
-    ["import", { "libraryName": "antd", "style": "css" }]
+    [
+      "import",
+      {
+        "libraryName": "antd",
+        "style": "css"
+      }
+    ]
   ]
-
 }
