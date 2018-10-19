@@ -11,8 +11,8 @@ class NewsItemRaw < ApplicationRecord
   def self.clean_content_html(content_html)
     parsed_content_html = Nokogiri::HTML::DocumentFragment.parse(content_html)
 
-    # Remove any <li> elements with <i> with no children
-    parsed_content_html.xpath('*//li/i[not(.//* or @* or text())]').remove()
+    # Remove any <li> elements with <i> with no children (or ss as child)
+    parsed_content_html.xpath('*//li[i[ss or not(.//* or @* or text())]]').remove()
 
     parsed_content_html.to_html()
   end
