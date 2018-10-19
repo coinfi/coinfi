@@ -18,7 +18,7 @@ const styles = (theme) =>
   })
 
 const Favicon: React.StatelessComponent<Props> = (props) => {
-  const { classes, url, ...otherProps } = props
+  const { classes, url, unselectable, ...otherProps } = props
 
   return (
     <img src={getFaviconUrl(url)} className={classes.root} {...otherProps} />

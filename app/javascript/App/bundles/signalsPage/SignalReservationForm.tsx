@@ -178,7 +178,7 @@ class SignalReservationForm extends React.Component<Props, State> {
   }
 
   public handleFieldChange = (fieldKey) => (event) => {
-    const fieldValue = event.target.value
+    const fieldValue = _.trim(event.target.value)
 
     this.setState((state) => {
       return {
