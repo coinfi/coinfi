@@ -42,6 +42,8 @@
     "SCOUT_LOG_LEVEL": { "required": true },
     "SCOUT_MONITOR": { "required": true },
     "SECRET_KEY_BASE": { "required": true },
+    "SIGNALS_TELEGRAM_BOT_API_USERNAME": { "required": true },
+    "SIGNALS_TELEGRAM_BOT_API_PASSWORD": { "required": true },
     "STAGING_DATABASE_URL": { "required": true },
     "SUPERFEEDR_CALLBACK_URL_SEGMENT_SECRET": { "required": true },
     "SUPERFEEDR_SECRET": { "required": true },
