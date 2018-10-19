@@ -135,7 +135,7 @@
     "dev:webpack": "foreman start -f Procfile.dev webpack",
     "dev": "foreman start -f Procfile.dev",
     "build:dev:client": "PROJECT_PATH=. NODE_ENV=development webpack -w --config ./client/config/webpack.client.rails.build.config.js",
-    "build:dev:server": "PROJECT_PATH=. NODE_ENV=development webpack --config ./client/config/webpack.server.rails.build.config.js",
+    "build:dev:server": "PROJECT_PATH=. NODE_ENV=development webpack -w --config ./client/config/webpack.server.rails.build.config.js",
     "build:production": "rm -rf public/webpack/production && yarn run build:production:client && yarn run build:production:server",
     "build:production:client": "PROJECT_PATH=. NODE_ENV=production webpack -p --config ./client/config/webpack.client.rails.build.config.js",
     "build:production:server": "PROJECT_PATH=. NODE_ENV=production webpack -p --config ./client/config/webpack.server.rails.build.config.js",
