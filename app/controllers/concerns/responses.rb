@@ -6,7 +6,6 @@ module Responses
   end
 
   def render_404
-    puts "render 404"
     raise ActionController::RoutingError.new('Not Found')
   end
 
