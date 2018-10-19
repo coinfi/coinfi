@@ -6,6 +6,8 @@ https://www.coinfi.com
 
 ### The CoinFi Platform
 
+[![Build Status](https://semaphoreci.com/api/v1/coinfi/coinfi/branches/develop/badge.svg)](https://semaphoreci.com/coinfi/coinfi)
+
 #### Crowdsourced and Curated Real-Time News Database
 
 The CoinFi database will enable users to monitor and analyze real-time crypto market news alongside price charts in ways that are currently impossible with existing tools. It changes the current delivery frequency of market news from delayed, to near real-time.
