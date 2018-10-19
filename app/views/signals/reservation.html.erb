@@ -8,12 +8,12 @@
       </div>
 
       <div class="reservation-card">
-        <%= react_component "SignalReservationForm",
+        <%= react_component_with_jss "SignalReservationForm",
           props: { formAuthenticityToken: form_authenticity_token },
           html_options: {
             class: "signal-stepper",
           },
-          prerender: false
+          prerender: true
         %>
       </div>
     </div>
@@ -22,7 +22,7 @@
       <h2 class="reservation-section__title">FAQ</h2>
 
       <div class="signal-faqs">
-        <%= react_component "SignalFaqPanel",
+        <%= react_component_with_jss "SignalFaqPanel",
           props: {
             initialExpanded: true,
             question: "What is staking?",
@@ -41,9 +41,9 @@
           html_options: {
             class: "signal-faqs-item",
           },
-          prerender: false
+          prerender: true
         %>
-        <%= react_component "SignalFaqPanel",
+        <%= react_component_with_jss "SignalFaqPanel",
           props: {
             question: "What happens to my tokens during and after the beta?",
             answerHtml: <<~HTML
@@ -58,9 +58,9 @@
           html_options: {
             class: "signal-faqs-item",
           },
-          prerender: false
+          prerender: true
         %>
-        <%= react_component "SignalFaqPanel",
+        <%= react_component_with_jss "SignalFaqPanel",
           props: {
             question: "Why are you holding tokens in your wallet instead of a smart contract?",
             answerHtml: <<~HTML
@@ -72,9 +72,9 @@
           html_options: {
             class: "signal-faqs-item",
           },
-          prerender: false
+          prerender: true
         %>
-        <%= react_component "SignalFaqPanel",
+        <%= react_component_with_jss "SignalFaqPanel",
           props: {
             question: "What am I getting in the beta?",
             answerHtml: <<~HTML
@@ -89,9 +89,9 @@
           html_options: {
             class: "signal-faqs-item",
           },
-          prerender: false
+          prerender: true
         %>
-        <%= react_component "SignalFaqPanel",
+        <%= react_component_with_jss "SignalFaqPanel",
           props: {
             question: "Is there a timeline for delivery?",
             answerHtml: <<~HTML
@@ -103,9 +103,9 @@
           html_options: {
             class: "signal-faqs-item",
           },
-          prerender: false
+          prerender: true
         %>
-        <%= react_component "SignalFaqPanel",
+        <%= react_component_with_jss "SignalFaqPanel",
           props: {
             question: "What signals will I receive during the beta?",
             answerHtml: <<~HTML
@@ -117,9 +117,9 @@
           html_options: {
             class: "signal-faqs-item",
           },
-          prerender: false
+          prerender: true
         %>
-        <%= react_component "SignalFaqPanel",
+        <%= react_component_with_jss "SignalFaqPanel",
           props: {
             question: "Do the signals really work?",
             answerHtml: <<~HTML
@@ -131,9 +131,9 @@
           html_options: {
             class: "signal-faqs-item",
           },
-          prerender: false
+          prerender: true
         %>
-        <%= react_component "SignalFaqPanel",
+        <%= react_component_with_jss "SignalFaqPanel",
           props: {
             question: "If the signals work, why are you selling them?",
             answerHtml: <<~HTML
@@ -148,9 +148,9 @@
           html_options: {
             class: "signal-faqs-item",
           },
-          prerender: false
+          prerender: true
         %>
-        <%= react_component "SignalFaqPanel",
+        <%= react_component_with_jss "SignalFaqPanel",
           props: {
             question: "How will the signals get delivered?",
             answerHtml: <<~HTML
@@ -162,9 +162,9 @@
           html_options: {
             class: "signal-faqs-item",
           },
-          prerender: false
+          prerender: true
         %>
-        <%= react_component "SignalFaqPanel",
+        <%= react_component_with_jss "SignalFaqPanel",
           props: {
             question: "How will you prevent members from sharing your signals?",
             answerHtml: <<~HTML
@@ -179,9 +179,9 @@
           html_options: {
             class: "signal-faqs-item",
           },
-          prerender: false
+          prerender: true
         %>
-        <%= react_component "SignalFaqPanel",
+        <%= react_component_with_jss "SignalFaqPanel",
           props: {
             question: "How often will I get signals?",
             answerHtml: <<~HTML
@@ -193,9 +193,9 @@
           html_options: {
             class: "signal-faqs-item",
           },
-          prerender: false
+          prerender: true
         %>
-        <%= react_component "SignalFaqPanel",
+        <%= react_component_with_jss "SignalFaqPanel",
           props: {
             question: "Will you add new signals in the future?",
             answerHtml: <<~HTML
@@ -207,9 +207,9 @@
           html_options: {
             class: "signal-faqs-item",
           },
-          prerender: false
+          prerender: true
         %>
-        <%= react_component "SignalFaqPanel",
+        <%= react_component_with_jss "SignalFaqPanel",
           props: {
             question: "Do your signals tell me what price to buy at and what price to sell at?",
             answerHtml: <<~HTML
@@ -221,9 +221,9 @@
           html_options: {
             class: "signal-faqs-item",
           },
-          prerender: false
+          prerender: true
         %>
-        <%= react_component "SignalFaqPanel",
+        <%= react_component_with_jss "SignalFaqPanel",
           props: {
             question: "How should I use the signals?",
             answerHtml: <<~HTML
@@ -235,9 +235,9 @@
           html_options: {
             class: "signal-faqs-item",
           },
-          prerender: false
+          prerender: true
         %>
-        <%= react_component "SignalFaqPanel",
+        <%= react_component_with_jss "SignalFaqPanel",
           props: {
             question: "Will your signals work in a bear market?",
             answerHtml: <<~HTML
@@ -249,9 +249,9 @@
           html_options: {
             class: "signal-faqs-item",
           },
-          prerender: false
+          prerender: true
         %>
-        <%= react_component "SignalFaqPanel",
+        <%= react_component_with_jss "SignalFaqPanel",
           props: {
             question: "Do you use these signals yourselves?",
             answerHtml: <<~HTML
@@ -263,9 +263,9 @@
           html_options: {
             class: "signal-faqs-item",
           },
-          prerender: false
+          prerender: true
         %>
-        <%= react_component "SignalFaqPanel",
+        <%= react_component_with_jss "SignalFaqPanel",
           props: {
             question: "How does pricing work after the beta?",
             answerHtml: <<~HTML
@@ -277,9 +277,9 @@
           html_options: {
             class: "signal-faqs-item",
           },
-          prerender: false
+          prerender: true
         %>
-        <%= react_component "SignalFaqPanel",
+        <%= react_component_with_jss "SignalFaqPanel",
           props: {
             question: "How do you come up with these signals?",
             answerHtml: <<~HTML
@@ -291,7 +291,7 @@
           html_options: {
             class: "signal-faqs-item",
           },
-          prerender: false
+          prerender: true
         %>
       </div>
     </div>

@@ -1,6 +1,5 @@
 import * as React from 'react'
 import AppRoutes from '~/routes/AppRoutes'
-import { renderToString } from 'react-dom/server'
 import { StaticRouter, StaticRouterContext } from 'react-router'
 import withAppProviders from '~/withAppProviders'
 import * as _ from 'lodash'
