@@ -1,2 +1,23 @@
-h1 Errors#internal_server_error
-p Find me in app/views/errors/internal_server_error.html.slim
+section.pv5-ns.ph0-ns.pa4
+  div.container-narrow
+    div.flex.items-baseline
+      h1.f1.fw7.lh-solid.ma0 Oops!
+      = image_tag "face-palm-emoji.png", :class => "mw-100 ml1"
+    h1.f3.f2-ns.fw4.mv1 Sorry, something went wrong.
+  div.container-narrow.mv4
+    div.flex.items-center.mb2
+      h1.f4.fw7.mv0.lh-title Looking For These?
+      = image_tag "magnifying_glass.png", :class => "mw-100 ml2"
+    ol.f5.pl4
+      li= link_to "CoinFi Trading Signals Pro", signals_path, class: "mid-gray"
+      li= link_to "CoinFi News", news_path, class: "mid-gray"
+      li= link_to "Coins Database", coins_path, class: "mid-gray"
+      li= link_to "ICOs Database", icos_path, class: "mid-gray"
+      li= link_to "Our Blog", "https://blog.coinfi.com", class: "mid-gray"
+      li= link_to "About Us", page_about_path, class: "mid-gray"
+    div.flex.items-center.mb3.mt4
+      h1.f4.fw7.mv0.lh-title Contact Us
+      = image_tag "chat_bubble_outline.png", :class => "mw-100 ml2"
+    div.f5
+      | If you still can't find what you're looking for or if this was a mistake, 
+      | shoot us an email at <a href="mailto:contact@coinfi.com">contact@coinfi.com</a>
