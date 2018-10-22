@@ -3,7 +3,6 @@
 // Note that Foreman (Procfile.dev) has also been configured to take care of this.
 
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
-const merge = require('webpack-merge')
 const { resolve } = require('path')
 const { paths } = require(resolve(
   process.env.PROJECT_PATH,
@@ -24,7 +23,9 @@ if (devBuild) {
   console.log('Webpack production build for Rails') // eslint-disable-line no-console
 }
 
-module.exports = merge(baseConfig, {
+module.exports = {
+  ...baseConfig,
+
   devtool: devBuild ? 'eval-source-map' : baseConfig.devBuild,
 
   output: {
@@ -38,6 +39,7 @@ module.exports = merge(baseConfig, {
 
   module: {
     rules: [
+      ...baseConfig.module.rules,
       {
         test: /\.(js|jsx|ts|tsx)$/,
         use: 'babel-loader',
@@ -119,9 +121,10 @@ module.exports = merge(baseConfig, {
   },
 
   plugins: [
+    ...baseConfig.plugins,
     new ExtractTextPlugin({
       filename: '[name]-[hash].css',
       allChunks: true,
     }),
   ],
-})
+}
