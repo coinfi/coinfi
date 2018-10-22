@@ -94,7 +94,7 @@ module.exports = {
         },
       },
       {
-        test: require.resolve('jquery-ujs'),
+        test: require.resolve('jquery'),
         use: [
           {
             loader: 'expose-loader',
