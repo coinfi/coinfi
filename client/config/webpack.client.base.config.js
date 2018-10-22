@@ -27,7 +27,10 @@ module.exports = {
     ],
 
     // This will contain the app entry points defined by webpack.hot.config and webpack.rails.config
-    'app-bundle': [paths.webpack.clientEntry],
+    'app-bundle': [
+      resolve(paths.webpack.src, 'modules/navigation.js'),
+      paths.webpack.clientEntry,
+    ],
   },
 
   resolve: {
