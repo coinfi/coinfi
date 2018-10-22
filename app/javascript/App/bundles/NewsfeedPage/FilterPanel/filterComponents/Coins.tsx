@@ -2,7 +2,7 @@ import * as React from 'react'
 import * as _ from 'lodash'
 import AsyncSelect from 'react-select/lib/Async'
 import { CoinSlug } from '~/bundles/NewsfeedPage/types'
-import localApi from '../../../../lib/localAPI'
+import localApi from '../../../common/utils/localAPI'
 
 interface Props {
   selectedCoins: CoinSlug[]
@@ -24,10 +24,14 @@ class CoinSelector extends React.Component<Props, State> {
   }
 
   public mapPayloadToOptions = (payload: any[]): Option[] =>
-    payload.map((elem) => ({
-      label: `${elem.symbol} | ${elem.name}`,
-      value: elem.slug,
-    }))
+    payload.map((elem) => {
+      const label = elem.symbol ? `${elem.symbol} | ${elem.name}` : elem.name
+
+      return {
+        label,
+        value: elem.slug,
+      }
+    })
 
   public fetchCoinsDetails = (coinSlugs): Promise<Option[]> =>
     localApi

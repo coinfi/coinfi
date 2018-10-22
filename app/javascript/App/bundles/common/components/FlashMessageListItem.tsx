@@ -1,8 +1,10 @@
 import * as React from 'react'
-import { withStyles } from '@material-ui/core/styles'
+import { withStyles, createStyles } from '@material-ui/core/styles'
 import green from '@material-ui/core/colors/green'
 import amber from '@material-ui/core/colors/amber'
 import Slide from '@material-ui/core/Slide'
+import IconButton from '@material-ui/core/IconButton'
+import Icon from '@material-ui/core/Icon'
 import Snackbar, {
   SnackbarProps,
   SnackbarOrigin,
@@ -10,7 +12,6 @@ import Snackbar, {
 import SnackbarContent from '@material-ui/core/SnackbarContent'
 import CloseIcon from '@material-ui/icons/Close'
 import classnames from 'classnames'
-import { Icon, IconButton, createStyles } from '@material-ui/core'
 import { TransitionProps } from '@material-ui/core/transitions/transition'
 import { FlashMessage } from '~/bundles/common/types'
 

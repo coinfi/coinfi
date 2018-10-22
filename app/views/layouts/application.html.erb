@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
@@ -17,7 +16,6 @@
         <%= @jss_server_side_css %>
       </style>
     <% end %>
-
   </head>
   <body id="<%= @body_id %>" class="<%= @body_class %>">
     <header>
@@ -27,9 +25,6 @@
       <%= render partial: "components/flash" %>
       <%= yield %>
     </main>
-    <%= javascript_tag do %>
-      window.pricesURL = '<%= ENV.fetch('COINFI_PRICES_URL') %>';
-    <% end %>
     <script src="/tradingview/charting_library.min.js"></script>
     <%= javascript_pack_tag 'client-bundle' %>
     <%= render 'layouts/tracking_scripts' %>

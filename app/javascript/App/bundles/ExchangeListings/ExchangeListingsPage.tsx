@@ -1,12 +1,12 @@
 import * as React from 'react'
 import * as _ from 'lodash'
-import LayoutDesktop from '../../components/LayoutDesktop'
-import LayoutTablet from '../../components/LayoutTablet'
+import LayoutDesktop from '~/bundles/common/components/LayoutDesktop'
+import LayoutTablet from '~/bundles/common/components/LayoutTablet'
 import LayoutMobile from '~/bundles/common/components/LayoutMobile'
 import ListingsHeader from './components/ListingsHeader'
 import ListingsList from './components/ListingsList'
 import BodySection from './components/BodySection'
-import localAPI from '../../lib/localAPI'
+import localAPI from '../common/utils/localAPI'
 import ExchangeListingsContext, {
   ExchangeListingsContextType,
 } from './ExchangeListingsContext'

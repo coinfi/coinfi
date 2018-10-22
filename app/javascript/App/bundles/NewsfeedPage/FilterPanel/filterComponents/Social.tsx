@@ -1,9 +1,8 @@
 import * as React from 'react'
 import * as _ from 'lodash'
 import Switch from '../components/Switch'
-
-const RedditLogo = require('../../../../images/logo-reddit.svg')
-const TwitterLogo = require('../../../../images/logo-twitter.svg')
+const RedditLogo = require('~/images/logoReddit.svg')
+const TwitterLogo = require('~/images/logoTwitter.svg')
 
 const Block = (props) => (
   <div className="pv2">

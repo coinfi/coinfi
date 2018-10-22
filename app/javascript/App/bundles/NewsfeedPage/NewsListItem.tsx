@@ -2,11 +2,17 @@ import * as React from 'react'
 import styled from 'styled-components'
 import timeago from 'timeago.js'
 import CoinTags from '../common/components/CoinTags'
-import BulletSpacer from '../../components/BulletSpacer'
+import BulletSpacer from '~/bundles/common/components/BulletSpacer'
 import classNames from 'classnames'
 import Favicon from '~/bundles/common/components/Favicon'
 import * as _ from 'lodash'
 import URL from 'url-parse'
+import {
+  getTwitterUsername,
+  getSubredditName,
+  isTwitter,
+  isReddit,
+} from '~/bundles/common/utils/url'
 
 const readNewsHandler = (newsItem) => {
   const newsId = newsItem.id
@@ -43,16 +49,14 @@ const NewsListItem = (props) => {
     .replace(/<\/h1>/g, '')
 
   const parsedUrl = new URL(newsItem.url)
-  const linkUrl =
-    parsedUrl.hostname === 'twitter.com'
-      ? `https://twitter.com/${parsedUrl.pathname.split('/')[1]}`
-      : newsItem.url
-  const linkText =
-    parsedUrl.hostname === 'twitter.com'
-      ? `@${parsedUrl.pathname.split('/')[1]}`
-      : parsedUrl.hostname === 'www.reddit.com'
-        ? `/r/${parsedUrl.pathname.split('/')[2]}`
-        : parsedUrl.hostname
+  const linkUrl = isTwitter(newsItem.url)
+    ? `https://twitter.com/${parsedUrl.pathname.split('/')[1]}`
+    : newsItem.url
+  const linkText = isTwitter(newsItem.url)
+    ? `@${getTwitterUsername(newsItem.url)}`
+    : isReddit(newsItem.url)
+      ? `/r/${getSubredditName(newsItem.url)}`
+      : parsedUrl.hostname
 
   return (
     <div

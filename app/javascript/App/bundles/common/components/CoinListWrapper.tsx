@@ -4,7 +4,7 @@ import CoinListHeader from './CoinListHeader'
 import CoinListContext, {
   CoinListContextType,
 } from '~/bundles/common/contexts/CoinListContext'
-import LoadingIndicator from '../../../components/LoadingIndicator'
+import LoadingIndicator from './LoadingIndicator'
 import { Coin } from '~/bundles/common/types'
 
 interface MobileVersionProps {

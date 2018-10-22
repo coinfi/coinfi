@@ -1,20 +1,20 @@
 import * as React from 'react'
 import AppRoutes from '~/routes/AppRoutes'
-import { renderToString } from 'react-dom/server'
 import { StaticRouter, StaticRouterContext } from 'react-router'
-import withCombinedProviders from './withCombinedProviders'
+import withAppProviders from '~/withAppProviders'
 import * as _ from 'lodash'
-import { SheetsRegistry } from 'jss'
-import { createGenerateClassName, MuiThemeProvider } from '@material-ui/core'
-import JssProvider from 'react-jss/lib/JssProvider'
-import theme from './theme'
 import createServerComponentHash from '~/createServerComponentHash'
+import { RailsConsumer } from '~/bundles/common/contexts/RailsContext'
 
-const createServerAppRouter = (railsContext, context) => {
+const createServerAppRouter = (context) => {
   const ServerAppRouter = (props) => (
-    <StaticRouter location={railsContext.location} context={context}>
-      <AppRoutes {...props} />
-    </StaticRouter>
+    <RailsConsumer>
+      {({ location }) => (
+        <StaticRouter location={location} context={context}>
+          <AppRoutes {...props} />
+        </StaticRouter>
+      )}
+    </RailsConsumer>
   )
 
   return ServerAppRouter
@@ -26,9 +26,7 @@ const createServerAppHash = (props, railsContext) => {
   const context: StaticRouterContext = {}
 
   // Create a new combined `AppComponent` passing in `context` to be updated
-  const AppComponent = withCombinedProviders(
-    createServerAppRouter(railsContext, context),
-  )
+  const AppComponent = withAppProviders(createServerAppRouter(context))
   // Render to component hash which includes the HTML and css
   const componentHash = createServerComponentHash(AppComponent)(
     props,

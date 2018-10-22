@@ -12,6 +12,7 @@ class NewsItem < ApplicationRecord
   has_many :human_tagged_coins, through: :human_tagged_news_coin_mentions, source: :coin
 
   scope :general, -> { where(feed_source: FeedSource.general) }
+  scope :no_category, -> { left_outer_joins(:news_item_categorizations).merge(NewsItemCategorization.no_category) }
   scope :pending, -> { where(is_human_tagged: nil) }
   scope :published, -> { where(is_published: true) }
   scope :reddit, -> { where(feed_source: FeedSource.reddit) }
@@ -22,7 +23,10 @@ class NewsItem < ApplicationRecord
   alias_method :categories, :news_categories
   alias_method :mentions, :news_coin_mentions
 
-  before_create :set_unpublished_if_feed_source_inactive, :set_unpublished_if_duplicate
+  before_create :set_unpublished_if_feed_source_inactive
+  before_create :set_unpublished_if_duplicate
+  before_create :assign_default_news_categories
+
   after_create_commit :notify_news_tagger, :link_coin_from_feedsource
 
   def self.categorized(categories = nil)
@@ -119,6 +123,11 @@ class NewsItem < ApplicationRecord
     end
   end
 
+  def assign_default_news_categories
+    assign_service = AssignNewsItemDefaultNewsCategories.new(news_item: self)
+    assign_service.call
+  end
+
   def link_coin_from_feedsource
     if feed_source.coin.present?
       feed_source.coin.news_items |= [self]
@@ -126,6 +135,11 @@ class NewsItem < ApplicationRecord
   end
 
   def notify_news_tagger
+    # Don't want to notify news tagger when running tests
+    if Rails.env.test?
+      return
+    end
+
     news_tagger_endpoint = ENV['NEWS_TAGGER_ENDPOINT']
     return unless news_tagger_endpoint.present?
 

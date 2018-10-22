@@ -1,35 +1,25 @@
 import * as React from 'react'
 import { renderToString } from 'react-dom/server'
 import * as _ from 'lodash'
-import { SheetsRegistry } from 'jss'
-import { createGenerateClassName, MuiThemeProvider } from '@material-ui/core'
-import JssProvider from 'react-jss/lib/JssProvider'
-import theme from './theme'
+import withServerProviders from '~/withServerProviders'
+import createStylesContext from '~/createStylesContext'
 
-const sheetsRegistry = new SheetsRegistry()
-const sheetsManager = new Map()
-const generateClassName = createGenerateClassName()
+const sharedStylesContext = createStylesContext()
 
 /**
  * Generator function for a component hash to be used with React on Rails `react_component` and
  * `react_component_hash`. Use this on any component to allow it to be rendered server side
- * @param fn Component to render. Must be in the form of a function instead of a class as we need to
- *   pass in `railsContext` in addition to `props`
+ * @param TargetComponent Component to render. Note that `railsContext` will not be passed as an
+ *   argument to this component
  */
-const createServerComponentHash = (
-  fn: (props: any, railsContext: any) => React.ReactNode,
-) => {
+const createServerComponentHash = (TargetComponent: any) => {
   return (props, railsContext) => {
     // Render to HTML passing in `context` to be updated
     const componentHtml = renderToString(
-      <JssProvider
-        registry={sheetsRegistry}
-        generateClassName={generateClassName}
-      >
-        <MuiThemeProvider theme={theme} sheetsManager={sheetsManager}>
-          {fn(props, railsContext)}
-        </MuiThemeProvider>
-      </JssProvider>,
+      withServerProviders(TargetComponent, sharedStylesContext)(
+        props,
+        railsContext,
+      ),
     )
 
     // Return the successful markup as a string for Rails `react_component` and
@@ -40,7 +30,7 @@ const createServerComponentHash = (
         componentHtml,
         // As this is a shared `SheetsRegistry`, the styles will include ones from other components
         // as well
-        componentCss: sheetsRegistry.toString(),
+        componentCss: sharedStylesContext.sheetsRegistry.toString(),
       },
     }
   }

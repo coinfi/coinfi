@@ -1,6 +1,6 @@
 import * as React from 'react'
 import * as _ from 'lodash'
-import localAPI from '../../lib/localAPI'
+import localAPI from '../common/utils/localAPI'
 import NewsfeedContext, { NewsfeedContextType } from './NewsfeedContext'
 import { NewsItem, Filters } from './types'
 

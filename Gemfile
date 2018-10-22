@@ -50,6 +50,7 @@ gem 'devise'
 gem 'distribute_reads'
 gem 'email_address'
 gem 'feedjira'
+gem 'fog-aws'
 gem 'friendly_id', '~> 5.2.1'
 gem 'httparty'
 gem 'jwt'
@@ -80,6 +81,8 @@ gem 'webpacker', '~> 3.3'
 gem 'mini_racer', platforms: :ruby
 # For parsing browser stats from user-agent
 gem 'browser'
+# Used to produce sitemap.xml
+gem 'sitemap_generator'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
@@ -91,7 +94,12 @@ group :development, :test do
   gem 'pry-rails'
   gem 'rubocop'
   gem 'reek'
-  gem 'selenium-webdriver'
+  gem 'selenium-webdriver', '>= 3.14.0'
+  gem 'chromedriver-helper'
+  gem 'factory_bot_rails'
+  gem 'faker', :git => 'https://github.com/stympy/faker.git', :branch => 'master'
+  gem 'minitest-stub_any_instance'
+  gem 'database_cleaner'
 end
 
 group :development do

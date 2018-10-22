@@ -39,6 +39,11 @@ class User < ApplicationRecord
     end
   end
 
+  # Lazy-create the watchlist association
+  def watchlist
+    super || self.create_watchlist
+  end
+
   def admin?
     role == 'admin' || role == 'superadmin'
   end

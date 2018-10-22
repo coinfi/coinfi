@@ -1,11 +1,11 @@
 import * as React from 'react'
-import CoinCharts from '../../../components/CoinCharts'
-import Currency from '../../../components/Currency'
+import CoinCharts from './CoinCharts'
+import Currency from './Currency'
 import PercentageChange from './PercentageChange'
 import WatchStar from '~/bundles/common/components/WatchStar'
 import NewsRelatedCoinList from './NewsRelatedCoinList'
-import LoadingIndicator from '../../../components/LoadingIndicator'
-import localAPI from '../../../lib/localAPI'
+import LoadingIndicator from './LoadingIndicator'
+import localAPI from '../utils/localAPI'
 import { withStyles, createStyles } from '@material-ui/core/styles'
 
 import { CoinWithDetails } from '../types'
@@ -130,7 +130,9 @@ class CoinBody extends React.Component<Props, State> {
           isTradingViewVisible={true}
         />
 
-        <div className="mt3 mb3">
+        <p className="mt3 mb4">{coinWithDetails.summary}</p>
+
+        <div className="mb3">
           <h2 className="f5">Read Related News</h2>
           <NewsRelatedCoinList
             relatedCoinsData={coinWithDetails.related_coins_data}

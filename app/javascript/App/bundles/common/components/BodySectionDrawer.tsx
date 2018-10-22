@@ -1,6 +1,6 @@
 import * as React from 'react'
 import Drawer from './Drawer'
-import Icon from '~/bundles/common/components/Icon'
+import Icon from './Icon'
 
 interface Props {
   isShown: boolean
