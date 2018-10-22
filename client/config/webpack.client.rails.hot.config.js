@@ -13,7 +13,7 @@ const { paths } = require(resolve(
 const webpackConfigLoader = require('react-on-rails/webpackConfigLoader')
 
 const baseConfig = require(resolve(
-  paths.webpackConfig,
+  paths.webpack.config,
   'webpack.client.base.config',
 ))
 const railsWebpackConfig = webpackConfigLoader(paths.railsConfig)
@@ -29,7 +29,7 @@ module.exports = merge(baseConfig, {
     ],
 
     // These are Rails specific
-    'vendor-bundle': ['jquery-ujs'],
+    'vendor-bundle': 'jquery-ujs',
   },
 
   output: {
