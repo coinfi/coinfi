@@ -25,12 +25,13 @@ module.exports = {
 
   entry: {
     'app-bundle': [
+      ...baseConfig.entry['app-bundle'],
       `webpack-dev-server/client?${hotReloadingUrl}`,
       'webpack/hot/only-dev-server',
     ],
 
     // These are Rails specific
-    'vendor-bundle': 'jquery-ujs',
+    'vendor-bundle': [...baseConfig.entry['vendor-bundle'], 'jquery-ujs'],
   },
 
   output: {
