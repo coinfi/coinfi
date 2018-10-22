@@ -2,7 +2,7 @@
 rails: rails s webrick -p 3000
 
 # Render static client assets
-webpack-client: sh -c 'rm -rf public/webpack || true && bundle exec rake react_on_rails:locale && yarn run build:dev:client'
+webpack-client: sh -c 'rm -rf public/webpack/development || true && bundle exec rake react_on_rails:locale && yarn run watch-webpack:dev:client'
 
 # Render static server assets. Remove if not server rendering
-webpack-server: sh -c 'yarn run build:dev:server'
+webpack-server: sh -c 'yarn run watch-webpack:dev:server'
