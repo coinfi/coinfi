@@ -1,0 +1,8 @@
+# You can run these commands in separate shells
+rails: rails s webrick -p 3000
+
+# Render static client assets
+webpack-client: sh -c 'rm -rf public/webpack/development || true && bundle exec rake react_on_rails:locale && yarn run build:dev:client'
+
+# Render static server assets. Remove if not server rendering
+webpack-server: sh -c 'yarn run build:dev:server'

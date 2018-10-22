@@ -137,8 +137,6 @@
     "build-storybook": "build-storybook",
     "tslint-check": "tslint-config-prettier-check ./tslint.json",
     "precommit": "lint-staged",
-    "dev:webpack": "foreman start -f Procfile.dev webpack",
-    "dev": "foreman start -f Procfile.dev",
     "build:dev:client": "PROJECT_PATH=. NODE_ENV=development webpack -w --config ./client/config/webpack.client.rails.build.config.js",
     "build:dev:server": "PROJECT_PATH=. NODE_ENV=development webpack -w --config ./client/config/webpack.server.rails.build.config.js",
     "build:production": "rm -rf public/webpack/production && yarn run build:production:client && yarn run build:production:server",
@@ -147,7 +145,8 @@
     "build:test": "rm -rf public/webpack/test && yarn run build:test:client && yarn run build:test:server",
     "build:test:client": "PROJECT_PATH=. NODE_ENV=test webpack -w --config ./client/config/webpack.client.rails.build.config.js",
     "build:test:server": "PROJECT_PATH=. NODE_ENV=test webpack -w --config ./client/config/webpack.server.rails.build.config.js",
-    "hot-assets": "PROJECT_PATH=. NODE_ENV=development babel-node ./client/server-rails-hot.js",
+    "serve:client": "PROJECT_PATH=. NODE_ENV=development babel-node ./client/server-rails-hot.js",
+    "serve": "foreman start -f Procfile.hot",
     "test": "jest",
     "test-watch": "jest --watch"
   }
