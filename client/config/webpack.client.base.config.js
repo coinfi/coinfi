@@ -13,7 +13,7 @@ const devBuild = process.env.NODE_ENV !== 'production'
 
 module.exports = {
   // the project dir
-  context: paths.webpack.context,
+  context: paths.webpack.src,
   entry: {
     // This will contain the app entry points defined by
     // webpack.client.rails.hot.config and webpack.client.rails.build.config
@@ -72,7 +72,7 @@ module.exports = {
     }),
 
     new ManifestPlugin({
-      publicPath: railsWebpackConfig.publicPath,
+      publicPath: railsWebpackConfig.output.publicPath,
       writeToFileEmit: true,
     }),
   ],

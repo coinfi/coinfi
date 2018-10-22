@@ -10,7 +10,7 @@ const railsWebpackConfig = webpackConfigLoader(paths.railsConfig)
 
 module.exports = {
   // the project dir
-  context: paths.webpack.context,
+  context: paths.webpack.src,
   entry: ['babel-polyfill', paths.webpack.serverEntry],
   output: {
     // Important to NOT use a hash if the server webpack config runs separately from the client one.
