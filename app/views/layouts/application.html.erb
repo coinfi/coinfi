@@ -26,7 +26,8 @@
       <%= yield %>
     </main>
     <script src="/tradingview/charting_library.min.js"></script>
-    <%= javascript_pack_tag 'client-bundle' %>
+    <%= javascript_pack_tag 'vendor-bundle' %>
+    <%= javascript_pack_tag 'app-bundle' %>
     <%= render 'layouts/tracking_scripts' %>
   </body>
 </html>
