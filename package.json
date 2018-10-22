@@ -150,6 +150,7 @@
     "watch-webpack:dev:client": "yarn run build-webpack:dev:client -w",
     "watch-webpack:dev:server": "yarn run build-webpack:dev:server -w",
     "serve-webpack:dev:client-hot": "PROJECT_PATH=. NODE_ENV=development babel-node ./client/server-rails-hot.js",
+    "serve-webpack": "foreman start -f Procfile.static -m webpack-client=1,webpack-server=1",
     "serve": "foreman start -f Procfile.static",
     "test": "jest",
     "test-watch": "jest --watch"
