@@ -148,7 +148,7 @@
     "build:test:client": "PROJECT_PATH=. NODE_ENV=test webpack -w --config ./client/config/webpack.client.rails.build.config.js",
     "build:test:server": "PROJECT_PATH=. NODE_ENV=test webpack -w --config ./client/config/webpack.server.rails.build.config.js",
     "serve:client": "PROJECT_PATH=. NODE_ENV=development babel-node ./client/server-rails-hot.js",
-    "serve": "foreman start -f Procfile.hot",
+    "serve": "foreman start -f Procfile.static",
     "test": "jest",
     "test-watch": "jest --watch"
   }
