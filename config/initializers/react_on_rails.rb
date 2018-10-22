@@ -65,7 +65,7 @@ end
 ReactOnRails.configure do |config|
   # This configures the script to run to build the production assets by webpack. Set this to nil
   # if you don't want react_on_rails building this file for you.
-  config.build_production_command = "yarn run build:production"
+  config.build_production_command = "yarn run build-webpack:production"
 
   config.rendering_extension = RenderingExtension
 
@@ -83,7 +83,7 @@ ReactOnRails.configure do |config|
   # with rspec then this controls what yarn command is run
   # to automatically refresh your webpack assets on every test run.
   #
-  config.build_test_command = "yarn run build:test"
+  config.build_test_command = "yarn run build-webpack:test"
 
   ################################################################################
   ################################################################################
