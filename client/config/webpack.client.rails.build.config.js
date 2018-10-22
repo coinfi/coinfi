@@ -1,7 +1,3 @@
-// Run like this:
-// cd client && yarn run build:client
-// Note that Foreman (Procfile.dev) has also been configured to take care of this.
-
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const { resolve } = require('path')
 const { paths } = require(resolve(
