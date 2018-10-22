@@ -1,24 +1,28 @@
 const webpack = require('webpack')
 const WebpackDevServer = require('webpack-dev-server')
 
-const webpackConfig = require('./webpack.client.rails.hot.config')
-
 const { resolve } = require('path')
-
 const webpackConfigLoader = require('react-on-rails/webpackConfigLoader')
 
-const configPath = resolve('..', 'config')
-const { output, settings } = webpackConfigLoader(configPath)
+const { paths } = require(resolve(
+  process.env.PROJECT_PATH,
+  'client/config/lib/constants',
+))
+const config = require(resolve(
+  paths.webpack.config,
+  'webpack.client.rails.hot.config',
+))
+const railsWebpackConfig = webpackConfigLoader(paths.railsConfig)
 
-const hotReloadingUrl = output.publicPathWithHost
-const hotReloadingPort = settings.dev_server.port
-const hotReloadingHostname = settings.dev_server.host
+const hotReloadingUrl = railsWebpackConfig.output.publicPathWithHost
+const hotReloadingPort = railsWebpackConfig.settings.dev_server.port
+const hotReloadingHostname = railsWebpackConfig.settings.dev_server.host
 
-const compiler = webpack(webpackConfig)
+const compiler = webpack(config)
 
 const devServer = new WebpackDevServer(compiler, {
   proxy: { '*': `http://${hotReloadingHostname}:${hotReloadingPort}` },
-  publicPath: output.publicPathWithHost,
+  publicPath: railsWebpackConfig.output.publicPathWithHost,
   headers: {
     'Access-Control-Allow-Origin': '*',
   },

@@ -10,6 +10,7 @@
         "useBuiltIns": "usage"
       }
     ],
+    "@babel/preset-typescript",
     "@babel/preset-react"
   ],
   "env": {
@@ -18,6 +19,7 @@
         [
           "@babel/preset-env"
         ],
+        "@babel/preset-typescript",
         "@babel/preset-react"
       ],
       "plugins": [

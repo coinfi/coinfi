@@ -4,37 +4,34 @@
 
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const merge = require('webpack-merge')
-const config = require('./webpack.client.base.config')
 const { resolve } = require('path')
+const { paths } = require(resolve(
+  process.env.PROJECT_PATH,
+  'client/config/lib/constants',
+))
 const webpackConfigLoader = require('react-on-rails/webpackConfigLoader')
 
-const configPath = resolve('..', 'config')
-const { output } = webpackConfigLoader(configPath)
-
+const baseConfig = require(resolve(
+  paths.webpack.config,
+  'webpack.client.base.config',
+))
+const railsWebpackConfig = webpackConfigLoader(paths.railsConfig)
 const devBuild = process.env.NODE_ENV !== 'production'
 
 if (devBuild) {
   console.log('Webpack dev build for Rails') // eslint-disable-line no-console
-  config.devtool = 'eval-source-map'
 } else {
   console.log('Webpack production build for Rails') // eslint-disable-line no-console
 }
 
-module.exports = merge(config, {
-  // You can add entry points specific to rails here
-  entry: {
-    'vendor-bundle': [
-      'jquery-ujs',
-      // Configures extractStyles to be true if NODE_ENV is production
-      'bootstrap-loader/extractStyles',
-    ],
-  },
+module.exports = merge(baseConfig, {
+  devtool: devBuild ? 'eval-source-map' : baseConfig.devBuild,
 
   output: {
     filename: '[name]-[chunkhash].js',
     chunkFilename: '[name]-[chunkhash].chunk.js',
-    publicPath: output.publicPath,
-    path: output.path,
+    publicPath: railsWebpackConfig.output.publicPath,
+    path: railsWebpackConfig.output.path,
   },
 
   // See webpack.client.base.config for adding modules common to both webpack dev server and rails
@@ -42,7 +39,7 @@ module.exports = merge(config, {
   module: {
     rules: [
       {
-        test: /\.jsx?$/,
+        test: /\.(js|jsx|ts|tsx)$/,
         use: 'babel-loader',
         exclude: /node_modules/,
       },
@@ -60,7 +57,14 @@ module.exports = merge(config, {
                 localIdentName: '[name]__[local]__[hash:base64:5]',
               },
             },
-            'postcss-loader',
+            {
+              loader: 'postcss-loader',
+              options: {
+                config: {
+                  path: paths.postcssConfig,
+                },
+              },
+            },
           ],
         }),
       },
@@ -74,17 +78,20 @@ module.exports = merge(config, {
               options: {
                 minimize: true,
                 modules: true,
-                importLoaders: 3,
+                importLoaders: 2,
                 localIdentName: '[name]__[local]__[hash:base64:5]',
               },
             },
-            'postcss-loader',
-            'sass-loader',
             {
-              loader: 'sass-resources-loader',
+              loader: 'postcss-loader',
               options: {
-                resources: './app/assets/styles/app-variables.scss',
+                config: {
+                  path: paths.postcssConfig,
+                },
               },
+            },
+            {
+              loader: 'sass-loader',
             },
           ],
         }),

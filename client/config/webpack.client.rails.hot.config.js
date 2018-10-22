@@ -6,14 +6,20 @@
 const webpack = require('webpack')
 const merge = require('webpack-merge')
 const { resolve } = require('path')
-const config = require('./webpack.client.base.config')
+const { paths } = require(resolve(
+  process.env.PROJECT_PATH,
+  'client/config/lib/constants',
+))
 const webpackConfigLoader = require('react-on-rails/webpackConfigLoader')
 
-const configPath = resolve('..', 'config')
-const { output } = webpackConfigLoader(configPath)
-const hotReloadingUrl = output.publicPathWithHost
+const baseConfig = require(resolve(
+  paths.webpackConfig,
+  'webpack.client.base.config',
+))
+const railsWebpackConfig = webpackConfigLoader(paths.railsConfig)
+const hotReloadingUrl = railsWebpackConfig.output.publicPathWithHost
 
-module.exports = merge(config, {
+module.exports = merge(baseConfig, {
   devtool: 'eval-source-map',
 
   entry: {
@@ -23,21 +29,21 @@ module.exports = merge(config, {
     ],
 
     // These are Rails specific
-    'vendor-bundle': ['jquery-ujs', 'bootstrap-loader'],
+    'vendor-bundle': ['jquery-ujs'],
   },
 
   output: {
     filename: '[name]-[hash].js',
     chunkFilename: '[name]-[chunkhash].chunk.js',
-    publicPath: output.publicPath,
-    path: output.path,
+    publicPath: railsWebpackConfig.output.publicPath,
+    path: railsWebpackConfig.output.path,
   },
 
   module: {
     rules: [
       {
-        test: /\.jsx?$/,
-        loader: 'babel-loader',
+        test: /\.(js|jsx|ts|tsx)$/,
+        use: 'babel-loader',
         exclude: /node_modules/,
       },
       {
@@ -48,11 +54,18 @@ module.exports = merge(config, {
             loader: 'css-loader',
             options: {
               modules: true,
-              importLoaders: 0,
+              importLoaders: 1,
               localIdentName: '[name]__[local]__[hash:base64:5]',
             },
           },
-          'postcss-loader',
+          {
+            loader: 'postcss-loader',
+            options: {
+              config: {
+                path: paths.postcssConfig,
+              },
+            },
+          },
         ],
       },
       {
@@ -63,19 +76,20 @@ module.exports = merge(config, {
             loader: 'css-loader',
             options: {
               modules: true,
-              importLoaders: 3,
+              importLoaders: 2,
               localIdentName: '[name]__[local]__[hash:base64:5]',
             },
           },
-          'postcss-loader',
           {
-            loader: 'sass-loader',
+            loader: 'postcss-loader',
+            options: {
+              config: {
+                path: paths.postcssConfig,
+              },
+            },
           },
           {
-            loader: 'sass-resources-loader',
-            options: {
-              resources: './app/assets/styles/app-variables.scss',
-            },
+            loader: 'sass-loader',
           },
         ],
       },
