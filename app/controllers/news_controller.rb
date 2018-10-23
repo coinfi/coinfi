@@ -1,5 +1,5 @@
 class NewsController < ApplicationController
-  before_action :set_body_class, :set_view_data
+  before_action :check_permissions, :set_body_class, :set_view_data
 
   def index
     @news_items_data = serialize_news_items(
@@ -45,6 +45,14 @@ class NewsController < ApplicationController
   end
 
   protected
+
+  def check_permissions
+    if !user_signed_in?
+      redirect_to '/login', alert: "Please login first"
+    elsif !has_news_feature?
+      render_404
+    end
+  end
 
   def set_view_data
     @feed_sources = (FeedSource.feed_types - ['general']) +

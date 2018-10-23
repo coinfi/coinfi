@@ -79,7 +79,9 @@ export default class NewsBody extends React.Component<Props, State> {
     }
 
     if (getDomainType(newsItem.url) === 'twitter') {
-      return <TwitterBody newsItem={newsItem} />
+      return (
+        <TwitterBody newsItem={newsItem} onCoinClick={this.props.onCoinClick} />
+      )
     }
 
     const categories = newsItem.categories
