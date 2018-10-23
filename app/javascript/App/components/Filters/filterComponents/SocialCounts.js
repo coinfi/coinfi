@@ -30,7 +30,7 @@ class SocialCount extends Component {
       <div className={className || ''}>
         <div className="flex justify-between items-center mb2">
           <div className="f6 elephant ttc mr3 flex-none">
-            <Icon brand name={network} className="mr2 aqua" />
+            <Icon name={network} className="mr2 aqua" styleType="brand" />
             {network}
           </div>
           <Input

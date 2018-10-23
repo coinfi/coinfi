@@ -8,7 +8,7 @@ export default ({ value }) => (
       {value.get('twitter')}
     </span>
     <span>
-      <Icon brand name="telegram" className="mr2" />
+      <Icon name="telegram" className="mr2" styleType="brand" />
       {value.get('telegram')}
     </span>
   </div>
