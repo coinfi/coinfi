@@ -63,6 +63,13 @@ end
 
 
 ReactOnRails.configure do |config|
+  # Define the files for we need to check for webpack compilation when running tests
+  config.webpack_generated_files = %w[
+    app-bundle.js
+    vendor-bundle.js vendor-bundle.css
+    server-bundle.js
+  ]
+
   # This configures the script to run to build the production assets by webpack. Set this to nil
   # if you don't want react_on_rails building this file for you.
   config.build_production_command = "yarn run build-webpack:production"
