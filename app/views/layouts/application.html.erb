@@ -10,6 +10,10 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-9ralMzdK1QYsk4yBY680hmsb4/hJ98xK3w0TIaJ3ll4POWpWUYaA2bRjGGujGT8w" crossorigin="anonymous">
     <%= stylesheet_link_tag 'application' %>
+
+    <%# This should really be included but currently conflicts with a lot of our the css styles %>
+    <%#= stylesheet_pack_tag 'vendor-bundle', media: 'all' %>
+
     <%= csrf_meta_tags %>
     <% if @jss_server_side_css %>
       <style id="jss-server-side">
