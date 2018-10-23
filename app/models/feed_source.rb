@@ -17,6 +17,8 @@ class FeedSource < ApplicationRecord
   scope :general, -> { where(feed_type: 'general') }
   scope :reddit , -> { where(feed_type: 'reddit') }
   scope :twitter, -> { where(feed_type: 'twitter') }
+  scope :coindesk, -> { where(slug: 'coindesk') }
+  scope :cointelegraph, -> { where(slug: 'cointelegraph') }
 
   def self.feed_types
     pluck(:feed_type).uniq
