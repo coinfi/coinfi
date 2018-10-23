@@ -338,7 +338,6 @@ class CoinShow extends Component {
                                   >
                                     <a
                                       href={`/coins/${item.slug}`}
-                                      rel="nofollow noopener noreferrer"
                                       style={{
                                         marginTop: '-.25rem',
                                       }}
