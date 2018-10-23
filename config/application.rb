@@ -45,5 +45,8 @@ module CoinfiRails
     # Give the asset pipeline access to npm packages
     config.assets.paths << Rails.root.join('node_modules')
 
+    # Use dynamic error pages
+    # Based on https://mattbrictson.com/dynamic-rails-error-pages
+    config.exceptions_app = self.routes
   end
 end
