@@ -1,10 +1,7 @@
 import React, { Component, Fragment } from 'react'
 import { Table } from 'antd'
 import ColumnNames from './ColumnNames'
-import Button from '@material-ui/core/Button'
-import Paper from '@material-ui/core/Paper'
-import Typography from '@material-ui/core/Typography'
-import Grid from '@material-ui/core/Grid'
+import { Button, Paper, Typography, Hidden, Grid } from '@material-ui/core'
 import SearchCoins from '~/bundles/common/components/SearchCoins'
 import API from '../../bundles/common/utils/localAPI'
 import * as _ from 'lodash'
@@ -16,12 +13,11 @@ const styles = (theme) =>
     mainFeaturedPost: {
       backgroundColor: '#253640',
       color: '#d7d7d7',
-      marginBottom: theme.spacing.unit * 4,
       boxShadow: 'none',
     },
     mainFeaturedPostContent: {
       padding: `${theme.spacing.unit * 4}px`,
-      [theme.breakpoints.up('sm')]: {
+      [theme.breakpoints.up('md')]: {
         paddingLeft: 0,
         paddingRight: 0,
       },
@@ -34,7 +30,7 @@ const styles = (theme) =>
     subheader: {
       fontSize: '0.8rem',
       textAlign: 'center',
-      [theme.breakpoints.up('sm')]: {
+      [theme.breakpoints.up('md')]: {
         fontSize: '1rem',
       },
     },
@@ -48,7 +44,17 @@ const styles = (theme) =>
       },
     },
     widgetContainer: {
-      padding: `${theme.spacing.unit * 4}px`,
+      backgroundColor: '#fff',
+      [theme.breakpoints.up('md')]: {
+        padding: `${theme.spacing.unit * 4}px`,
+      },
+    },
+    newsWidgetHeader: {
+      [theme.breakpoints.down('sm')]: {
+        borderBottom: '1px solid #e5e8ed',
+        paddingTop: `${theme.spacing.unit * 2}px !important`,
+        paddingBottom: `${theme.spacing.unit}px !important`,
+      },
     },
   })
 
@@ -149,27 +155,33 @@ class CoinIndex extends Component {
           alignItems="stretch"
           className={classes.widgetContainer}
         >
-          <Grid item xs={6}>
+          <Hidden smDown implementation="css">
             <Grid
               container
+              item
+              md={6}
               direction="column"
               justify="center"
               alignItems="stretch"
             >
-              <Grid item xs>
+              <Grid item md>
                 <Typography variant="h5" align="center">
                   Market Cap Placeholder
                 </Typography>
               </Grid>
-              <Grid item xs>
+              <Grid item md>
                 <Typography variant="h5" align="center">
                   Market Dominance Placeholder
                 </Typography>
               </Grid>
             </Grid>
-          </Grid>
-          <Grid item xs={6}>
-            <Typography variant="h5" align="center">
+          </Hidden>
+          <Grid item xs={12} md={6}>
+            <Typography
+              variant="h5"
+              align="center"
+              className={classes.newsWidgetHeader}
+            >
               Latest Cryptocurrency News
             </Typography>
             <NewsList />

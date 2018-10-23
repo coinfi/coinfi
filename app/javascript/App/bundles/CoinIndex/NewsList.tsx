@@ -2,7 +2,6 @@ import * as React from 'react'
 import * as _ from 'lodash'
 import timeago from 'timeago.js'
 import localAPI from '../common/utils/localAPI'
-import withDevice from '~/bundles/common/utils/withDevice'
 import LoadingIndicator from '~/bundles/common/components/LoadingIndicator'
 import { Typography, Grid } from '@material-ui/core'
 import { withStyles, createStyles } from '@material-ui/core/styles'
@@ -10,7 +9,6 @@ import Favicon from '~/bundles/common/components/Favicon'
 import BulletSpacer from '~/bundles/common/components/BulletSpacer'
 import { formatNewsUrl } from '~/bundles/common/utils/news'
 import { NewsItem } from '../NewsfeedPage/types'
-import { CSSProperties } from '@material-ui/core/styles/withStyles'
 import CoinTags from '../common/components/CoinTags'
 
 enum STATUSES {
@@ -20,7 +18,6 @@ enum STATUSES {
 }
 
 interface Props {
-  isMobile: boolean
   classes: any
 }
 
@@ -34,19 +31,33 @@ const styles = (theme) =>
     listItem: {
       borderBottom: '1px solid #e5e8ed',
       marginBottom: `${theme.spacing.unit * 2}px`,
+      [theme.breakpoints.down('sm')]: {
+        paddingLeft: `${theme.spacing.unit * 2}px`,
+        paddingRight: `${theme.spacing.unit * 2}px`,
+      },
     },
-    listHeader: {
+    listItemHeader: {
       fontSize: '1rem',
       marginBottom: '0.25em !important',
     },
-    listFooterContainer: {
+    listItemFooterContainer: {
       marginBottom: '0.5em',
     },
-    listFooter: {
+    listItemFooter: {
       color: '#999',
       fontSize: '0.875rem',
     },
     listCoins: {},
+    listFooter: {
+      textAlign: 'right',
+      [theme.breakpoints.down('sm')]: {
+        textAlign: 'center',
+        backgroundColor: '#f6f8fa',
+        borderBottom: '1px solid #e5e8ed',
+        paddingTop: `${theme.spacing.unit * 2}px`,
+        marginTop: `-${theme.spacing.unit * 2}px`,
+      },
+    },
   })
 
 class NewsList extends React.Component<Props, State> {
@@ -127,7 +138,7 @@ class NewsList extends React.Component<Props, State> {
               className={classes.listItem}
             >
               <Grid item={true}>
-                <Typography variant="h6" className={classes.listHeader}>
+                <Typography variant="h6" className={classes.listItemHeader}>
                   {newsItem.title}
                 </Typography>
               </Grid>
@@ -135,10 +146,13 @@ class NewsList extends React.Component<Props, State> {
                 container={true}
                 item={true}
                 justify="space-between"
-                className={classes.listFooterContainer}
+                className={classes.listItemFooterContainer}
               >
                 <Grid item={true}>
-                  <Typography component="div" className={classes.listFooter}>
+                  <Typography
+                    component="div"
+                    className={classes.listItemFooter}
+                  >
                     <Favicon
                       url={linkUrl}
                       style={{ height: 12, paddingRight: '0.5em' }}
@@ -162,8 +176,8 @@ class NewsList extends React.Component<Props, State> {
             </Grid>
           )
         })}
-        <Grid item={true}>
-          <Typography align="right">
+        <Grid item={true} className={classes.listFooter}>
+          <Typography>
             <a href="/news">View more cryptocurrency news</a>
           </Typography>
         </Grid>
@@ -172,4 +186,4 @@ class NewsList extends React.Component<Props, State> {
   }
 }
 
-export default withDevice(withStyles(styles)(NewsList))
+export default withStyles(styles)(NewsList)
