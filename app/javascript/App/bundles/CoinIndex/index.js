@@ -9,6 +9,7 @@ import SearchCoins from '~/bundles/common/components/SearchCoins'
 import API from '../../bundles/common/utils/localAPI'
 import * as _ from 'lodash'
 import { withStyles, createStyles } from '@material-ui/core/styles'
+import NewsList from './NewsList'
 
 const styles = (theme) =>
   createStyles({
@@ -45,6 +46,9 @@ const styles = (theme) =>
         backgroundColor: '#23adf0',
         boxShadow: '0 2px 10px rgba(14, 151, 255, 0.4)',
       },
+    },
+    widgetContainer: {
+      padding: `${theme.spacing.unit * 4}px`,
     },
   })
 
@@ -138,6 +142,39 @@ class CoinIndex extends Component {
             </Grid>
           </Grid>
         </Paper>
+
+        <Grid
+          container
+          justify="space-between"
+          alignItems="stretch"
+          className={classes.widgetContainer}
+        >
+          <Grid item xs={6}>
+            <Grid
+              container
+              direction="column"
+              justify="center"
+              alignItems="stretch"
+            >
+              <Grid item xs>
+                <Typography variant="h5" align="center">
+                  Market Cap Placeholder
+                </Typography>
+              </Grid>
+              <Grid item xs>
+                <Typography variant="h5" align="center">
+                  Market Dominance Placeholder
+                </Typography>
+              </Grid>
+            </Grid>
+          </Grid>
+          <Grid item xs={6}>
+            <Typography variant="h5" align="center">
+              Latest Cryptocurrency News
+            </Typography>
+            <NewsList />
+          </Grid>
+        </Grid>
 
         <div className="flex">
           <h1 className="pt3 pl3">Coins</h1>
