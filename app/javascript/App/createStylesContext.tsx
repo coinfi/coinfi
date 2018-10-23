@@ -1,5 +1,3 @@
-import * as React from 'react'
-import * as _ from 'lodash'
 import { SheetsRegistry } from 'jss'
 import { createGenerateClassName } from '@material-ui/core/styles'
 
