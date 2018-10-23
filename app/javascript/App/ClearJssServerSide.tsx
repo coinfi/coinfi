@@ -13,7 +13,7 @@ interface Props {
  */
 class ClearJssServerSide extends React.Component<Props, {}> {
   public componentDidMount() {
-    const jssStyles = $(
+    const jssStyles = jQuery(
       `[data-jss-server-side][data-meta="${this.props.stylesNamespace}"]`,
     )
     if (jssStyles.length) {
