@@ -51,6 +51,11 @@ Rails.application.routes.draw do
       get 'watchlist', on: :collection
     end
 
+    scope :signals_telegram_bot do
+      post 'register', to: 'signals_telegram_bot#register'
+      get 'subscribers', to: 'signals_telegram_bot#subscribers'
+    end
+
     namespace :watchlist do
       resources :coins, only: %i[index create destroy]
     end
@@ -84,4 +89,7 @@ Rails.application.routes.draw do
   patch '/signals/reservation', to: 'signals#reservation_update', as: 'signals_reservation_update'
 
   mount Blazer::Engine, at: "blazer"
+
+  match '/404', :to => 'errors#not_found', :via => :all
+  match '/500', :to => 'errors#internal_server_error', :via => :all
 end

@@ -347,7 +347,7 @@
             question: "What do I need to do to reserve a beta spot?",
             answerHtml: <<~HTML
               <p class="signal-faqs-item__paragraph">
-                To reserve one of the 2,000 beta spots available, we’re asking you to stake 20,000 COFI tokens for at least 3 months or until the beta ends, whichever come first.
+                To reserve one of the 2,000 beta spots available, we’re asking you to stake #{number_with_delimiter(ENV.fetch('SIGNALS_STAKING_AMOUNT'))} COFI tokens for at least 3 months or until the beta ends, whichever come first.
               </p>
               <p class="signal-faqs-item__paragraph signal-faqs-item__paragraph--last">
                 At the end of 3 months or the beta, you can choose to withdraw your tokens and cancel the service.
