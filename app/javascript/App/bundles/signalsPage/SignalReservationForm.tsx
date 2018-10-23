@@ -50,6 +50,7 @@ const styles = (theme) => ({
 interface Props {
   classes: any
   formAuthenticityToken: string
+  reservationStakingAmount: string
 }
 
 interface State {
@@ -230,7 +231,7 @@ class SignalReservationForm extends React.Component<Props, State> {
   }
 
   public render() {
-    const { classes } = this.props
+    const { classes, reservationStakingAmount } = this.props
     const { activeStep, formData, formErrors } = this.state
 
     return (
@@ -350,14 +351,16 @@ class SignalReservationForm extends React.Component<Props, State> {
                 label: classes.stepLabelText,
               }}
             >
-              {`Send 20,000 COFI to the CoinFi Trading Signals staking address.`}
+              {`Send ${reservationStakingAmount} COFI to the CoinFi Trading Signals staking address.`}
             </StepLabel>
 
             <StepContent>
               <Typography className={classes.stakingMessage}>
                 Send exactly{' '}
-                <code className="reservation-value">20,000 COFI</code> tokens
-                to:<br />
+                <code className="reservation-value">
+                  {reservationStakingAmount} COFI
+                </code>{' '}
+                tokens to:<br />
                 <code className="reservation-value">
                   0xa61B5f29730C7b111C8e0B1e78bD3737d2Bb8684
                 </code>
