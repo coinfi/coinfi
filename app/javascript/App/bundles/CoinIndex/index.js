@@ -1,7 +1,15 @@
 import React, { Component, Fragment } from 'react'
 import { Table } from 'antd'
+import compose from 'recompose/compose'
 import ColumnNames from './ColumnNames'
-import { Button, Paper, Typography, Hidden, Grid } from '@material-ui/core'
+import {
+  Button,
+  Paper,
+  Typography,
+  Hidden,
+  Grid,
+  withWidth,
+} from '@material-ui/core'
 import SearchCoins from '~/bundles/common/components/SearchCoins'
 import API from '../../bundles/common/utils/localAPI'
 import * as _ from 'lodash'
@@ -155,24 +163,24 @@ class CoinIndex extends Component {
           alignItems="stretch"
           className={classes.widgetContainer}
         >
-          <Hidden smDown implementation="css">
-            <Grid
-              container
-              item
-              md={6}
-              direction="column"
-              justify="center"
-              alignItems="stretch"
-            >
-              <Grid item md>
-                <Typography variant="h5" align="center">
-                  Market Cap Placeholder
-                </Typography>
-              </Grid>
-              <Grid item md>
-                <Typography variant="h5" align="center">
-                  Market Dominance Placeholder
-                </Typography>
+          <Hidden smDown initialWidth="lg">
+            <Grid item md={6}>
+              <Grid
+                container
+                direction="column"
+                justify="center"
+                alignItems="stretch"
+              >
+                <Grid item md>
+                  <Typography variant="h5" align="center">
+                    Market Cap Placeholder
+                  </Typography>
+                </Grid>
+                <Grid item md>
+                  <Typography variant="h5" align="center">
+                    Market Dominance Placeholder
+                  </Typography>
+                </Grid>
               </Grid>
             </Grid>
           </Hidden>
@@ -218,4 +226,7 @@ class CoinIndex extends Component {
   }
 }
 
-export default withStyles(styles)(CoinIndex)
+export default compose(
+  withStyles(styles),
+  withWidth(),
+)(CoinIndex)
