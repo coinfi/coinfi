@@ -4,12 +4,11 @@ import theme from './theme'
 import { DeviceProvider } from '~/bundles/common/contexts/DeviceContext'
 import { RailsProvider } from '~/bundles/common/contexts/RailsContext'
 import JssProvider from 'react-jss/lib/JssProvider'
-import { SheetsRegistry, GenerateClassName } from 'jss'
+import ClearJssServerSide from '~/ClearJssServerSide'
+import getOrCreateStylesContext from '~/getOrCreateStylesContext'
 
 interface WithServerProvidersOptions {
-  sheetsRegistry: SheetsRegistry
-  sheetsManager: Map<any, any>
-  generateClassName: GenerateClassName<any>
+  stylesNamespace?: string
 }
 
 /**
@@ -17,24 +16,28 @@ interface WithServerProvidersOptions {
  */
 const withServerProviders = (
   TargetComponent,
-  {
-    sheetsRegistry,
-    sheetsManager,
-    generateClassName,
-  }: WithServerProvidersOptions,
+  options: WithServerProvidersOptions = {},
 ) => {
   const WithServerProviders = (props, railsContext) => {
+    const stylesNamespace = props.stylesNamespace || options.stylesNamespace
+    const stylesContext = getOrCreateStylesContext(stylesNamespace)
+
     return (
       <JssProvider
-        registry={sheetsRegistry}
-        generateClassName={generateClassName}
+        registry={stylesContext.sheetsRegistry}
+        generateClassName={stylesContext.generateClassName}
       >
-        <MuiThemeProvider theme={theme} sheetsManager={sheetsManager}>
-          <RailsProvider railsContext={railsContext}>
-            <DeviceProvider {...railsContext.deviceProviderProps}>
-              <TargetComponent {...props} />
-            </DeviceProvider>
-          </RailsProvider>
+        <MuiThemeProvider
+          theme={theme}
+          sheetsManager={stylesContext.sheetsManager}
+        >
+          <ClearJssServerSide stylesNamespace={stylesNamespace}>
+            <RailsProvider railsContext={railsContext}>
+              <DeviceProvider {...railsContext.deviceProviderProps}>
+                <TargetComponent {...props} />
+              </DeviceProvider>
+            </RailsProvider>
+          </ClearJssServerSide>
         </MuiThemeProvider>
       </JssProvider>
     )
