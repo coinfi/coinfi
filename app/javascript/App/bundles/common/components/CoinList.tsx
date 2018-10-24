@@ -1,6 +1,7 @@
 import * as React from 'react'
 import CoinListItem from '~/bundles/common/components/CoinListItem'
 import { Coin } from '~/bundles/common/types'
+import { REGISTRATION_URL } from '~/constants'
 
 interface Props {
   isWatchlist: boolean
@@ -15,7 +16,7 @@ const CoinList = (props: Props) => (
     {!props.loggedIn && props.isWatchlist ? (
       <div className="pa3 tc">
         Sign up to see coins on your Watchlist here.
-        <a className="btn btn-md btn-blue mt3" href="/register">
+        <a className="btn btn-md btn-blue mt3" href={REGISTRATION_URL}>
           Sign Up Now
         </a>
       </div>
