@@ -18,13 +18,11 @@ import SignalReservationForm from './bundles/signalsPage/SignalReservationForm'
 
 // Register the components so they can be rendered from Rails
 ReactOnRails.register({
-  NavUserContainer: withRootProviders(NavUserContainer, { clientOnly: true }),
+  NavUserContainer: withRootProviders(NavUserContainer),
   CoinShow: withRootProviders(CoinShow),
-  FlashMessageListContainer: withRootProviders(FlashMessageListContainer, {
-    clientOnly: true,
-  }),
-  WatchButton: withRootProviders(WatchButton, { clientOnly: true }),
-  CalendarPage: withRootProviders(CalendarPage, { clientOnly: true }),
+  FlashMessageListContainer: withRootProviders(FlashMessageListContainer),
+  WatchButton: withRootProviders(WatchButton),
+  CalendarPage: withRootProviders(CalendarPage),
   SignalExamplePanel: withRootProviders(SignalExamplePanel),
   SignalFaqPanel: withRootProviders(SignalFaqPanel),
   SignalPopoverText: withRootProviders(SignalPopoverText),
