@@ -15,6 +15,7 @@ import API from '../../bundles/common/utils/localAPI'
 import * as _ from 'lodash'
 import { withStyles, createStyles } from '@material-ui/core/styles'
 import NewsList from './NewsList'
+import MarketDominance from './MarketDominance'
 
 const styles = (theme) =>
   createStyles({
@@ -70,7 +71,8 @@ class CoinIndex extends Component {
   constructor(props) {
     super(props)
 
-    const loading = _.isUndefined(props.initialCoins)
+    const loading =
+      _.isUndefined(props.initialCoins) || _.isUndefined(props.marketDominance)
 
     this.state = {
       coins: props.initialCoins || [],
@@ -117,7 +119,7 @@ class CoinIndex extends Component {
     })
   }
   render() {
-    const { classes } = this.props
+    const { classes, marketDominance } = this.props
 
     return (
       <Fragment>
@@ -162,6 +164,7 @@ class CoinIndex extends Component {
           justify="space-between"
           alignItems="stretch"
           className={classes.widgetContainer}
+          spacing={24}
         >
           <Hidden smDown initialWidth="lg">
             <Grid item md={6}>
@@ -177,9 +180,7 @@ class CoinIndex extends Component {
                   </Typography>
                 </Grid>
                 <Grid item md>
-                  <Typography variant="h5" align="center">
-                    Market Dominance Placeholder
-                  </Typography>
+                  <MarketDominance coinData={marketDominance} />
                 </Grid>
               </Grid>
             </Grid>
