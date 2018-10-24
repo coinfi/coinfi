@@ -13,6 +13,8 @@ interface Props {
  */
 class ClearJssServerSide extends React.Component<Props, {}> {
   public componentDidMount() {
+    // Misconfiguration in webpack is preventing `$` to be accessed when rendering server side. Have
+    // to fallback to calling jQuery
     const jssStyles = jQuery(
       `[data-jss-server-side][data-meta="${this.props.stylesNamespace}"]`,
     )
