@@ -104,12 +104,12 @@ export default class NewsBody extends React.Component<Props, State> {
             rel="nofollow"
             className="break-all"
           >
-            <Icon name="link" className="mr1 f7" styleType="regular" />
+            <Icon name="link" className="mr1 f7" />
             {newsItem.url}
           </a>
         </div>
         <div className="mb3 f6">
-          <Icon name="clock" className="mr1 f7" styleType="regular" />
+          <Icon name="clock" className="mr1 f7" />
           {timeago().format(newsItem.feed_item_published_at)}
           <BulletSpacer />
           <span>

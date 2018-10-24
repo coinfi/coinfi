@@ -135,7 +135,6 @@ class SearchCoins extends React.Component<Props, State> {
       >
         <div className="flex items-center f5 tiber">
           <Icon
-            styleType="regular"
             name="search"
             className="silver mr1"
             onClick={this.focusTextInput}
@@ -153,12 +152,7 @@ class SearchCoins extends React.Component<Props, State> {
             inputProps={inputProps}
           />
           {!!value.length && (
-            <Icon
-              styleType="regular"
-              name="times"
-              className="silver"
-              onClick={this.resetState}
-            />
+            <Icon name="times" className="silver" onClick={this.resetState} />
           )}
         </div>
       </div>

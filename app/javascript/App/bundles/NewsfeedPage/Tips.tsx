@@ -43,12 +43,7 @@ export default ({ closeTips, loggedIn }: Props) => {
         >
           <div style={{ float: 'right', marginRight: '15px' }}>
             {closeTips && (
-              <Icon
-                name="times"
-                className="f4 slate"
-                styleType="regular"
-                onClick={closeTips}
-              />
+              <Icon name="times" className="f4 slate" onClick={closeTips} />
             )}
           </div>
           <h1 className="mt0" style={titleStyle}>

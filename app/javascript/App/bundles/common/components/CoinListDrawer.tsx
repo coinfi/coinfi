@@ -13,7 +13,7 @@ const CoinListDrawer = (props) => (
       />
     </div>
     <div className="flex-auto flex items-center ph4" onClick={props.onClose}>
-      <Icon name="times" className="f4 slate" styleType="regular" />
+      <Icon name="times" className="f4 slate" />
     </div>
   </Drawer>
 )
