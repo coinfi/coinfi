@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { renderToString } from 'react-dom/server'
 import * as _ from 'lodash'
-import withServerProviders from '~/withServerProviders'
+import withRootProviders from '~/withRootProviders'
 import getOrCreateStylesContext from '~/getOrCreateStylesContext'
 
 /**
@@ -15,7 +15,7 @@ const createServerComponentHash = (TargetComponent: any) => {
     // Render to HTML passing in `context` to be updated
     const stylesNamespace = props.stylesNamespace
     const componentHtml = renderToString(
-      withServerProviders(TargetComponent, { stylesNamespace })(
+      withRootProviders(TargetComponent, { stylesNamespace })(
         props,
         railsContext,
       ),

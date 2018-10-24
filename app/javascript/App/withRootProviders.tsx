@@ -4,21 +4,21 @@ import theme from './theme'
 import { DeviceProvider } from '~/bundles/common/contexts/DeviceContext'
 import { RailsProvider } from '~/bundles/common/contexts/RailsContext'
 import JssProvider from 'react-jss/lib/JssProvider'
-import ClearJssServerSide from '~/ClearJssServerSide'
 import getOrCreateStylesContext from '~/getOrCreateStylesContext'
+import ClearJssServerSide from '~/ClearJssServerSide'
 
-interface WithServerProvidersOptions {
+interface WithClientProvidersOptions {
   stylesNamespace?: string
 }
 
 /**
- * Wraps `TargetComponent` with providers shared by all server components
+ * Wraps `TargetComponent` with providers shared by all client components
  */
-const withServerProviders = (
+const withRootProviders = (
   TargetComponent,
-  options: WithServerProvidersOptions = {},
+  options: WithClientProvidersOptions = {},
 ) => {
-  const WithServerProviders = (props, railsContext) => {
+  const WithRootProviders = (props, railsContext) => {
     const stylesNamespace = props.stylesNamespace || options.stylesNamespace
     const stylesContext = getOrCreateStylesContext(stylesNamespace)
 
@@ -43,7 +43,7 @@ const withServerProviders = (
     )
   }
 
-  return WithServerProviders
+  return WithRootProviders
 }
 
-export default withServerProviders
+export default withRootProviders
