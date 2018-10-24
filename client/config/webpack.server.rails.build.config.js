@@ -101,15 +101,18 @@ module.exports = {
         ],
       },
       {
-        test: /\.(png|svg|gif|jpeg|jpg)$/,
-        use: [
-          {
-            loader: 'file-loader',
-            options: {
-              name: '[path][name]-[hash].[ext]',
-            },
+        test: /\.(ttf|eot)$/,
+        use: 'file-loader',
+      },
+      {
+        test: /\.(woff2?|jpe?g|png|gif|svg|ico)$/,
+        use: {
+          loader: 'url-loader',
+          options: {
+            name: '[name]-[hash].[ext]',
+            limit: 10000,
           },
-        ],
+        },
       },
     ],
   },
