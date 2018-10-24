@@ -4,27 +4,24 @@ import theme from './theme'
 import { DeviceProvider } from '~/bundles/common/contexts/DeviceContext'
 import { RailsProvider } from '~/bundles/common/contexts/RailsContext'
 import JssProvider from 'react-jss/lib/JssProvider'
-import createStylesContext from '~/createStylesContext'
-
-const sharedStylesContext = createStylesContext()
-const clientOnlyStylesContext = createStylesContext('client')
+import getOrCreateStylesContext from '~/getOrCreateStylesContext'
+import ClearJssServerSide from '~/ClearJssServerSide'
 
 interface WithClientProvidersOptions {
-  clientOnly?: boolean
+  stylesNamespace?: string
 }
 
 /**
  * Wraps `TargetComponent` with providers shared by all client components
  */
-const withClientProviders = (
+const withRootProviders = (
   TargetComponent,
   options: WithClientProvidersOptions = {},
 ) => {
-  const stylesContext = options.clientOnly
-    ? clientOnlyStylesContext
-    : sharedStylesContext
+  const WithRootProviders = (props, railsContext) => {
+    const stylesNamespace = props.stylesNamespace || options.stylesNamespace
+    const stylesContext = getOrCreateStylesContext(stylesNamespace)
 
-  const WithClientProviders = (props, railsContext) => {
     return (
       <JssProvider
         registry={stylesContext.sheetsRegistry}
@@ -34,17 +31,19 @@ const withClientProviders = (
           theme={theme}
           sheetsManager={stylesContext.sheetsManager}
         >
-          <RailsProvider railsContext={railsContext}>
-            <DeviceProvider {...railsContext.deviceProviderProps}>
-              <TargetComponent {...props} />
-            </DeviceProvider>
-          </RailsProvider>
+          <ClearJssServerSide stylesNamespace={stylesNamespace}>
+            <RailsProvider railsContext={railsContext}>
+              <DeviceProvider {...railsContext.deviceProviderProps}>
+                <TargetComponent {...props} />
+              </DeviceProvider>
+            </RailsProvider>
+          </ClearJssServerSide>
         </MuiThemeProvider>
       </JssProvider>
     )
   }
 
-  return WithClientProviders
+  return WithRootProviders
 }
 
-export default withClientProviders
+export default withRootProviders

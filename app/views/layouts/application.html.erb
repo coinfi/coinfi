@@ -11,11 +11,6 @@
     <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-9ralMzdK1QYsk4yBY680hmsb4/hJ98xK3w0TIaJ3ll4POWpWUYaA2bRjGGujGT8w" crossorigin="anonymous">
     <%= stylesheet_link_tag 'application' %>
     <%= csrf_meta_tags %>
-    <% if @jss_server_side_css %>
-      <style id="jss-server-side">
-        <%= @jss_server_side_css %>
-      </style>
-    <% end %>
   </head>
   <body id="<%= @body_id %>" class="<%= @body_class %>">
     <header>
@@ -24,6 +19,18 @@
     <main>
       <%= render partial: "components/flash" %>
       <%= yield %>
+
+      <%#
+      Output each of the sheet styles as separate `style` tags. Note that is must always be included
+      after any component renders in order to ensure `@jss_server_side_css` is correctly populated
+      %>
+      <% if @jss_server_side_css %>
+        <% @jss_server_side_css.each do |styles_namespace, sheet_css| %>
+          <style data-jss-server-side data-meta="<%= styles_namespace %>">
+            <%= sheet_css %>
+          </style>
+        <% end %>
+      <% end %>
     </main>
     <script src="/tradingview/charting_library.min.js"></script>
     <%= javascript_pack_tag 'client-bundle' %>
