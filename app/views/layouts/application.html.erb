@@ -24,10 +24,12 @@
       Output each of the sheet styles as separate `style` tags. Note that is must always be included
       after any component renders in order to ensure `@jss_server_side_css` is correctly populated
       %>
-      <% @jss_server_side_css.each do |styles_namespace, sheet_css| %>
-        <style data-jss-server-side data-meta="<%= styles_namespace %>">
-          <%= sheet_css %>
-        </style>
+      <% if @jss_server_side_css %>
+        <% @jss_server_side_css.each do |styles_namespace, sheet_css| %>
+          <style data-jss-server-side data-meta="<%= styles_namespace %>">
+            <%= sheet_css %>
+          </style>
+        <% end %>
       <% end %>
     </main>
     <script src="/tradingview/charting_library.min.js"></script>
