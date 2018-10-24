@@ -30,7 +30,7 @@ class SignalsTelegramBotRegistrationForm < Patterns::Form
       errors.add(
         :user,
         :min_staked_cofi_amount,
-        message: "has not staked more than #{self.class::REQUIRED_MIN_STAKED_COFI_AMOUNT} cofi tokens"
+        message: "has not staked more than #{self.class::REQUIRED_MIN_STAKED_COFI_AMOUNT} COFI tokens"
       )
     end
   end
