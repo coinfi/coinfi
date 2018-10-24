@@ -1,0 +1,2 @@
+class MarketCap < ApplicationRecord
+end
