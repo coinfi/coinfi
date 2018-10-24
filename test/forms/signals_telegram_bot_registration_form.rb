@@ -12,7 +12,7 @@ class SignalsTelegramBotRegistrationFormTest < ActiveSupport::TestCase
 
     @user = create(:user, token_sale: {
       telegram_username: @telegram_username,
-      staked_token_amount: 20000,
+      staked_cofi_amount: 20000,
     })
   end
 
@@ -73,7 +73,7 @@ class SignalsTelegramBotRegistrationFormTest < ActiveSupport::TestCase
   end
 
   test 'invalid with insufficient staked amount' do
-    @user.update!(token_sale: @user.token_sale.merge(staked_token_amount: 1000))
+    @user.update!(token_sale: @user.token_sale.merge(staked_cofi_amount: 1000))
     form_params = @default_form_params
     form = SignalsTelegramBotRegistrationForm.new(form_params)
 
@@ -82,7 +82,7 @@ class SignalsTelegramBotRegistrationFormTest < ActiveSupport::TestCase
   end
 
   test 'valid with greater staked amount' do
-    @user.update!(token_sale: @user.token_sale.merge(staked_token_amount: 40000))
+    @user.update!(token_sale: @user.token_sale.merge(staked_cofi_amount: 40000))
     form_params = @default_form_params
     form = SignalsTelegramBotRegistrationForm.new(form_params)
 
