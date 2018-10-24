@@ -1,5 +1,5 @@
 class SignalsTelegramBotRegistrationForm < Patterns::Form
-  REQUIRED_MIN_STAKED_TOKEN_AMOUNT = 20000
+  REQUIRED_MIN_STAKED_COFI_AMOUNT = 20000
   param_key 'signals_telegram_bot'
 
   attribute :telegram_username
@@ -8,7 +8,7 @@ class SignalsTelegramBotRegistrationForm < Patterns::Form
 
   validates :telegram_username, presence: true
   validates :user, presence: true, :if => proc { |f| f.telegram_username.present? }
-  validate :validate_user_staked_token_amount, :if => proc { |f| f.user.present? }
+  validate :validate_user_staked_cofi_amount, :if => proc { |f| f.user.present? }
   validates :chat_id, presence: true
   validates :started_at, presence: true
 
@@ -24,13 +24,13 @@ class SignalsTelegramBotRegistrationForm < Patterns::Form
     @user ||= User.where("(token_sale->>'telegram_username') ILIKE ?", telegram_username).first
   end
 
-  def validate_user_staked_token_amount
-    staked_token_amount = user.token_sale.fetch('staked_token_amount', 0)
-    if staked_token_amount < self.class::REQUIRED_MIN_STAKED_TOKEN_AMOUNT
+  def validate_user_staked_cofi_amount
+    staked_cofi_amount = user.token_sale.fetch('staked_cofi_amount', 0)
+    if staked_cofi_amount < self.class::REQUIRED_MIN_STAKED_COFI_AMOUNT
       errors.add(
         :user,
-        :min_staked_token_amount,
-        message: "has not staked more than #{self.class::REQUIRED_MIN_STAKED_TOKEN_AMOUNT} tokens"
+        :min_staked_cofi_amount,
+        message: "has not staked more than #{self.class::REQUIRED_MIN_STAKED_COFI_AMOUNT} COFI tokens"
       )
     end
   end
