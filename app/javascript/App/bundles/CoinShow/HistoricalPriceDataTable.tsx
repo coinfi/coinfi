@@ -144,7 +144,7 @@ class HistoricalPriceDataTable extends React.Component<Props, State> {
   }
 
   public render() {
-    const { classes, symbol } = this.props
+    const { classes, symbol, availableSupply } = this.props
     const { data, status, currency, start, end } = this.state
 
     if (status !== STATUSES.READY) {
@@ -182,7 +182,11 @@ class HistoricalPriceDataTable extends React.Component<Props, State> {
               <TableCell numeric={true}>Low</TableCell>
               <TableCell numeric={true}>Close</TableCell>
               <TableCell numeric={true}>Volume ({symbol})</TableCell>
-              <TableCell numeric={true}>Market Cap</TableCell>
+              {!!availableSupply ? (
+                <TableCell numeric={true}>Market Cap</TableCell>
+              ) : (
+                ''
+              )}
             </TableRow>
           </TableHead>
           <TableBody>
@@ -197,7 +201,11 @@ class HistoricalPriceDataTable extends React.Component<Props, State> {
                   <TableCell numeric={true}>{row.low}</TableCell>
                   <TableCell numeric={true}>{row.close}</TableCell>
                   <TableCell numeric={true}>{row.volume}</TableCell>
-                  <TableCell numeric={true}>{row.marketCap}</TableCell>
+                  {!!availableSupply ? (
+                    <TableCell numeric={true}>{row.marketCap}</TableCell>
+                  ) : (
+                    ''
+                  )}
                 </TableRow>
               )
             })}
