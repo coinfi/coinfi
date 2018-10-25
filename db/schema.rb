@@ -16,6 +16,7 @@ ActiveRecord::Schema.define(version: 20181025032258) do
   enable_extension "plpgsql"
   enable_extension "dblink"
   enable_extension "pg_stat_statements"
+  enable_extension "pg_trgm"
 
   create_table "articles", force: :cascade do |t|
     t.bigint "coin_id"
@@ -454,7 +455,7 @@ ActiveRecord::Schema.define(version: 20181025032258) do
     t.string "username"
     t.string "role"
     t.index "((token_sale ->> 'signals_telegram_bot_chat_id'::text))", name: "index_users_on_token_sale_signals_telegram_bot_chat_id"
-    t.index "((token_sale ->> 'telegram_username'::text))", name: "index_users_on_token_sale_telegram_username"
+    t.index "((token_sale ->> 'telegram_username'::text)) gin_trgm_ops", name: "index_users_on_token_sale_telegram_username", using: :gin
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["provider"], name: "index_users_on_provider"
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
