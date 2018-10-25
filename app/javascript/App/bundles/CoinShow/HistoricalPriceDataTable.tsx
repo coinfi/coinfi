@@ -98,7 +98,7 @@ class HistoricalPriceDataTable extends React.Component<Props, State> {
     return y.datetime.diff(x.datetime)
   }
 
-  public formatPrice(price: number, decimal: number = 2): string {
+  public formatPrice(price: number, decimal: number = 6): string {
     return price.toLocaleString('en-US', {
       maximumFractionDigits: decimal,
     })
@@ -115,7 +115,7 @@ class HistoricalPriceDataTable extends React.Component<Props, State> {
     const high = this.formatPrice(d.high)
     const low = this.formatPrice(d.low)
     const close = this.formatPrice(d.close)
-    const volume = this.formatPrice(d.volume_from, 2)
+    const volume = this.formatPrice(d.volume_from)
 
     return {
       open,
@@ -146,6 +146,8 @@ class HistoricalPriceDataTable extends React.Component<Props, State> {
   public render() {
     const { classes, symbol, availableSupply } = this.props
     const { data, status, currency, start, end } = this.state
+
+    const prepend = currency === 'USD' ? '$' : ''
 
     if (status !== STATUSES.READY) {
       return <LoadingIndicator />
@@ -196,13 +198,28 @@ class HistoricalPriceDataTable extends React.Component<Props, State> {
                   <TableCell component="th" scope="row">
                     {row.formattedTime}
                   </TableCell>
-                  <TableCell numeric={true}>{row.open}</TableCell>
-                  <TableCell numeric={true}>{row.high}</TableCell>
-                  <TableCell numeric={true}>{row.low}</TableCell>
-                  <TableCell numeric={true}>{row.close}</TableCell>
+                  <TableCell numeric={true}>
+                    {prepend}
+                    {row.open}
+                  </TableCell>
+                  <TableCell numeric={true}>
+                    {prepend}
+                    {row.high}
+                  </TableCell>
+                  <TableCell numeric={true}>
+                    {prepend}
+                    {row.low}
+                  </TableCell>
+                  <TableCell numeric={true}>
+                    {prepend}
+                    {row.close}
+                  </TableCell>
                   <TableCell numeric={true}>{row.volume}</TableCell>
                   {!!availableSupply ? (
-                    <TableCell numeric={true}>{row.marketCap}</TableCell>
+                    <TableCell numeric={true}>
+                      {prepend}
+                      {row.marketCap}
+                    </TableCell>
                   ) : (
                     ''
                   )}
