@@ -9,7 +9,7 @@ import CoinCharts from '~/bundles/common/components/CoinCharts'
 import SectionHeader from '~/bundles/common/components/SectionHeader'
 import FundamentalsData from './FundamentalsData'
 import LinksData from './LinksData'
-import HistoricalData from './HistoricalData'
+import HistoricalPriceDataTable from './HistoricalPriceDataTable'
 
 const { Content } = Layout
 
@@ -201,7 +201,7 @@ class CoinShow extends Component {
                         title="Historical Data"
                         style={{ padding: 1, overflowX: 'auto' }}
                       >
-                        <HistoricalData
+                        <HistoricalPriceDataTable
                           initialData={priceData}
                           availableSupply={availableSupply}
                           symbol={symbol}

@@ -70,7 +70,7 @@ const styles = (theme) =>
     picker: {},
   })
 
-class HistoricalData extends React.Component<Props, State> {
+class HistoricalPriceDataTable extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props)
 
@@ -208,4 +208,4 @@ class HistoricalData extends React.Component<Props, State> {
   }
 }
 
-export default withStyles(styles)(HistoricalData)
+export default withStyles(styles)(HistoricalPriceDataTable)
