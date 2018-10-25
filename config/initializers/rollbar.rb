@@ -31,6 +31,34 @@ Rollbar.configure do |config|
   #
   # You can also specify a callable, which will be called with the exception instance.
   # config.exception_level_filters.merge!('MyCriticalException' => lambda { |e| 'critical' })
+  config.exception_level_filters.merge!({
+    'ActionController::InvalidAuthenticityToken' => 'ignore',
+  })
+
+  BLACKLISTED_ROUTING_REGEX = %r{
+    ^/assets/|
+    ^/images/|
+    ^/signup/|
+    wp-login.php|
+    xmlrpc.php|
+    ads.txt
+  }x.freeze
+
+  BLACKLISTED_RECORDS_REGEX = %r{
+    ^/coins/
+  }x.freeze
+
+  handler = proc do |options|
+    url = options[:exception].message[/.*"([^"]*)"/,1]
+    puts url
+    if options[:exception].is_a?(ActionController::RoutingError)
+      raise Rollbar::Ignore if url =~ BLACKLISTED_ROUTING_REGEX
+    elsif options[:exception].is_a?(ActiveRecord::RecordNotFound)
+      raise Rollbar::Ignore if url =~ BLACKLISTED_RECORDS_REGEX
+    end
+  end
+  
+  config.before_process << handler
 
   # Enable asynchronous reporting (uses girl_friday or Threading if girl_friday
   # is not installed)
