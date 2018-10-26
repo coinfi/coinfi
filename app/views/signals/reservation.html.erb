@@ -12,6 +12,7 @@
           props: {
             formAuthenticityToken: form_authenticity_token,
             reservationStakingAmount: number_with_delimiter(ENV.fetch('SIGNALS_STAKING_AMOUNT'))
+            destinationCofiWalletAddress: ENV.fetch('COINFI_COFI_WALLET_ADDRESS')
           },
           html_options: {
             class: "signal-stepper",

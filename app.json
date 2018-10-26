@@ -11,6 +11,7 @@
     "BLAZER_DATABASE_URL": { "required": true },
     "BLAZER_PASSWORD": { "required": true },
     "BLAZER_USERNAME": { "required": true },
+    "COINFI_COFI_WALLET_ADDRESS": { "required": true },
     "COINFI_NEW_PRICES_URL": { "required": true },
     "CONVERTKIT_API_KEY": { "required": true },
     "CONVERTKIT_API_SECRET": { "required": true },

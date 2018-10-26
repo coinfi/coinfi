@@ -65,6 +65,7 @@ interface Props {
   classes: any
   formAuthenticityToken: string
   reservationStakingAmount: string
+  destinationCofiWalletAddress: string
 }
 
 interface State {
@@ -245,7 +246,11 @@ class SignalReservationForm extends React.Component<Props, State> {
   }
 
   public render() {
-    const { classes, reservationStakingAmount } = this.props
+    const {
+      classes,
+      reservationStakingAmount,
+      destinationCofiWalletAddress,
+    } = this.props
     const { activeStep, formData, formErrors } = this.state
 
     return (
@@ -386,7 +391,7 @@ class SignalReservationForm extends React.Component<Props, State> {
                 </code>{' '}
                 tokens to:<br />
                 <code className="reservation-value">
-                  0xa61B5f29730C7b111C8e0B1e78bD3737d2Bb8684
+                  {destinationCofiWalletAddress}
                 </code>
               </Typography>
               <br />
