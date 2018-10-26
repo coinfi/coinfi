@@ -23,6 +23,8 @@
 config/skylight.yml
 /public/packs
 /public/packs-test
+/public/webpack
+/public/webpack-test
 /public/sitemap.xml.gz
 /node_modules
 package-lock.json

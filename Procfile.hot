@@ -1,0 +1,8 @@
+# You can run these commands in separate shells
+rails: HOT_RELOADING=TRUE rails s webrick -p 3000
+
+# Run the hot reload server for client development
+webpack-client-hot: sh -c 'rm -rf public/webpack/development || true && bundle exec rake react_on_rails:locale && HOT_RAILS_PORT=3500 yarn run watch-webpack:dev:client-hot'
+
+# Keep the JS fresh for server rendering. Remove if not server rendering
+webpack-server: sh -c 'yarn run watch-webpack:dev:server'
