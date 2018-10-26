@@ -1,3 +1,22 @@
+BLACKLISTED_ROUTING_REGEX = %r{
+  ^/assets/|
+  ^/images/|
+  ^/signup/|
+  ^/u/|
+  ^/ahoy/|
+  ^/admin/|
+  wp-login\.php|
+  xmlrpc\.php|
+  ads\.txt
+}x.freeze
+
+before_process_handler = proc do |options|
+  url = options[:exception].message[/.*"([^"]*)"/,1]
+  if options[:exception].is_a?(ActionController::RoutingError)
+    raise Rollbar::Ignore if url =~ BLACKLISTED_ROUTING_REGEX
+  end
+end
+
 Rollbar.configure do |config|
   # Without configuration, Rollbar is enabled in all environments.
   # To disable in specific environments, set config.enabled=false.
@@ -33,31 +52,11 @@ Rollbar.configure do |config|
   # config.exception_level_filters.merge!('MyCriticalException' => lambda { |e| 'critical' })
   config.exception_level_filters.merge!({
     'ActionController::InvalidAuthenticityToken' => 'ignore',
+    'SignalException: SIGTERM' => 'ignore',
   })
-
-  BLACKLISTED_ROUTING_REGEX = %r{
-    ^/assets/|
-    ^/images/|
-    ^/signup/|
-    wp-login.php|
-    xmlrpc.php|
-    ads.txt
-  }x.freeze
-
-  BLACKLISTED_RECORDS_REGEX = %r{
-    ^/coins/
-  }x.freeze
-
-  handler = proc do |options|
-    url = options[:exception].message[/.*"([^"]*)"/,1]
-    if options[:exception].is_a?(ActionController::RoutingError)
-      raise Rollbar::Ignore if url =~ BLACKLISTED_ROUTING_REGEX
-    elsif options[:exception].is_a?(ActiveRecord::RecordNotFound)
-      raise Rollbar::Ignore if url =~ BLACKLISTED_RECORDS_REGEX
-    end
-  end
   
-  config.before_process << handler
+  # Use before process handler to ignore routing errors to specified paths
+  config.before_process << before_process_handler
 
   # Enable asynchronous reporting (uses girl_friday or Threading if girl_friday
   # is not installed)
