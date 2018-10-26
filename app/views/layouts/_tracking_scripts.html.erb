@@ -126,7 +126,7 @@
   and there should be no bugs to report on the Signals pages so we want to
   encourage users to convert without distracting them with other options.
   %>
-  <% if request.original_fullpath.start_with? '/signals' %>
+  <% if request.original_fullpath == '/' || request.original_fullpath.start_with?('/signals') %>
     <!-- Start of Async Drift Code -->
     <script>
     !function() {
