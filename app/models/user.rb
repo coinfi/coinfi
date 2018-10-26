@@ -8,6 +8,7 @@ class User < ApplicationRecord
   accepts_nested_attributes_for :author_profile
   has_one :watchlist, inverse_of: :user
   has_many :coins, through: :watchlist
+  has_many :staked_cofi_transactions
 
   alias_method :submissions, :contributor_submissions
 
