@@ -88,6 +88,8 @@ gem 'sitemap_generator'
 gem "rails-patterns"
 # Rails application performance monitoring
 gem 'skylight'
+# EtherScan API client
+gem 'etherscan_api', require: 'etherscan'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
