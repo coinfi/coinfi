@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20181025032258) do
+ActiveRecord::Schema.define(version: 20181026035424) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -405,6 +405,23 @@ ActiveRecord::Schema.define(version: 20181025032258) do
     t.index ["user_id"], name: "index_news_items_on_user_id"
   end
 
+  create_table "staked_cofi_transactions", force: :cascade do |t|
+    t.bigint "user_id"
+    t.string "transaction_block_number"
+    t.string "transaction_timestamp"
+    t.string "transaction_hash"
+    t.string "transaction_block_hash"
+    t.string "transaction_from"
+    t.string "transaction_to"
+    t.string "transaction_value"
+    t.integer "transaction_token_decimal"
+    t.boolean "is_transaction_confirmations_gte_10"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["transaction_hash"], name: "index_staked_cofi_transactions_on_transaction_hash", unique: true
+    t.index ["user_id"], name: "index_staked_cofi_transactions_on_user_id"
+  end
+
   create_table "submission_categories", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
@@ -502,6 +519,7 @@ ActiveRecord::Schema.define(version: 20181025032258) do
   add_foreign_key "news_item_categorizations", "news_items"
   add_foreign_key "news_items", "feed_sources"
   add_foreign_key "news_items", "users"
+  add_foreign_key "staked_cofi_transactions", "users"
   add_foreign_key "watchlist_items", "coins"
   add_foreign_key "watchlist_items", "watchlists"
   add_foreign_key "watchlists", "users"
