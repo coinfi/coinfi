@@ -15,7 +15,7 @@ class CoinCharts extends Component {
     const processedPriceData = priceData.map(this.formatPriceData)
     const processedPriceDataHourly = hasHourlyPrice
       ? priceDataHourly.map(this.formatPriceData)
-      : processedPriceData
+      : [...processedPriceData]
 
     const sortedPriceData = [
       ...(hasHourlyPrice ? processedPriceDataHourly : []),
