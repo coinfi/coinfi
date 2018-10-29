@@ -57,15 +57,6 @@ class Coin < ApplicationRecord
     pluck(:symbol).uniq.compact.sort.reject { |symbol| /[[:lower:]]/.match(symbol) }
   end
 
-  def self.historical_total_market_data
-    Rails.cache.fetch("coins/historical_total_market_data", expires_in: 5.minutes) do
-      url = "https://pro-api.coinmarketcap.com/v1/global-metrics/quotes/historical?count=7&interval=daily?apiKey=#{ENV.fetch('COINMARKETCAP_API_KEY')}"
-      response = HTTParty.get(url)
-      data = JSON.parse(response.body)[0] || {}
-      default_market_data.merge(data)
-    end
-  end
-
   def most_common_news_category
     NewsCategory
       .joins(news_items: :news_coin_mentions)
