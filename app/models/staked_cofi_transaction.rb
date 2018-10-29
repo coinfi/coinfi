@@ -13,10 +13,10 @@ class StakedCofiTransaction < ApplicationRecord
   end
 
   def txn_quantity
-    return txn_value if txn_token_decimal = 0
+    return BigDecimal(self.txn_value) if self.txn_token_decimal == 0
 
-    padded_txn_value = txn_value.rjust(txn_token_decimal, "0")
-    txn_quantity_text = padded_txn_value.insert(-1 * txn_token_decimal - 1, '.')
+    padded_txn_value = self.txn_value.rjust(self.txn_token_decimal, "0")
+    txn_quantity_text = padded_txn_value.insert(-1 * self.txn_token_decimal - 1, '.')
     BigDecimal txn_quantity_text
   end
 end
