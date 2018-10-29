@@ -1,5 +1,5 @@
 class StakedCofiTransaction < ApplicationRecord
-  belongs_to :user
+  belongs_to :user, optional: true
 
   def txn_quantity
     return txn_value if txn_token_decimal = 0
