@@ -24,7 +24,7 @@ class CoinCharts extends Component {
       : processedPriceData
 
     const sortedPriceData = [
-      ...(hasHourlyPrice && processedPriceDataHourly),
+      ...(hasHourlyPrice ? processedPriceDataHourly : []),
       ...processedPriceData,
     ].sort((a, b) => a.timestamp - b.timestamp)
     const epochPrices = _.sortedUniqBy(
