@@ -188,4 +188,9 @@
     });
     </script>
   <% end %>
+
+  <%# This should be right before closing body tag %>
+  <% if controller.controller_name != ('signals') %>
+    <script src="https://my.hellobar.com/7700c8817cb197d6aa452a9bf6647ba36e18a9f2.js" type="text/javascript" charset="utf-8" async="async"></script>
+  <% end %>
 <% end %>
