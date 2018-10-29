@@ -362,6 +362,8 @@ GEM
     rack (2.0.5)
     rack-affiliates (0.4.0)
       rack
+    rack-attack (5.4.1)
+      rack (>= 1.0, < 3)
     rack-cors (1.0.2)
     rack-proxy (0.6.4)
       rack
@@ -616,6 +618,7 @@ DEPENDENCIES
   pry-rails
   puma (~> 3.7)
   rack-affiliates
+  rack-attack
   rack-cors
   rack-rewrite
   rails (~> 5.1.3)
