@@ -9,6 +9,7 @@ import CoinCharts from '~/bundles/common/components/CoinCharts'
 import SectionHeader from '~/bundles/common/components/SectionHeader'
 import FundamentalsData from './FundamentalsData'
 import LinksData from './LinksData'
+import HistoricalPriceDataTable from './HistoricalPriceDataTable'
 
 const { Content } = Layout
 
@@ -67,6 +68,7 @@ class CoinShow extends Component {
     const {
       symbol,
       priceData,
+      availableSupply,
       annotations,
       isTradingViewVisible,
       metabaseUrl,
@@ -191,6 +193,18 @@ class CoinShow extends Component {
                           annotations={annotations}
                           isTradingViewVisible={isTradingViewVisible}
                           onPriceChartCreated={this.handlePriceChartCreated}
+                        />
+                      </Card>
+                    </CardWrap>
+                    <CardWrap>
+                      <Card
+                        title="Historical Data"
+                        style={{ padding: 1, overflowX: 'auto' }}
+                      >
+                        <HistoricalPriceDataTable
+                          initialData={priceData}
+                          availableSupply={availableSupply}
+                          symbol={symbol}
                         />
                       </Card>
                     </CardWrap>
