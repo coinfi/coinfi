@@ -1,6 +1,6 @@
 import * as React from 'react'
 import * as _ from 'lodash'
-import Select from 'react-select'
+import AsyncSelect from 'react-select/lib/Async'
 import { CoinSlug } from '~/bundles/common/types'
 import localApi from '../utils/localAPI'
 
@@ -17,8 +17,6 @@ export interface CoinOption {
 }
 
 interface State {
-  q: string
-  options: CoinOption[]
   selectedOption: CoinOption
 }
 
@@ -70,8 +68,6 @@ const formatLabel = (value: CoinOption, options: FormatOptions) => {
 
 class CoinSelector extends React.Component<Props, State> {
   public state = {
-    q: '',
-    options: [],
     selectedOption: null,
   }
 
@@ -93,29 +89,17 @@ class CoinSelector extends React.Component<Props, State> {
           .then((response) => this.mapPayloadToOptions(response.payload))
       : new Promise((resolve) => resolve([]))
 
-  public fetchCoinsByName = (name): Promise<CoinOption[]> =>
+  public fetchCoinsByName = (name, cb): Promise<CoinOption[]> =>
     localApi.get(`/coins/search_by_params`, { name }).then((response) => {
       const results = this.mapPayloadToOptions(response.payload)
 
-      if (this.state.q === name) {
-        this.setState({ options: results })
-      }
+      cb(results)
 
       return results
     })
 
   // tslint:disable-next-line
   public debouncedFetchCoinsByName = _.debounce(this.fetchCoinsByName, 500)
-
-  public handleInputChange = (newInput: string) => {
-    this.setState({ q: newInput })
-
-    if (!_.isEmpty(newInput)) {
-      this.debouncedFetchCoinsByName(newInput)
-    }
-
-    return newInput
-  }
 
   public refreshCoin = (selectedCoin: string) =>
     this.fetchCoinsDetails(selectedCoin).then((results) => {
@@ -130,13 +114,11 @@ class CoinSelector extends React.Component<Props, State> {
       }
     })
 
-  public onChangeWrapper = (selectedOption: CoinOption) => {
-    this.setState({
-      q: '',
-      options: [],
-    })
-
-    this.props.onChange(selectedOption)
+  public loadOptions = (input, cb) => {
+    if (_.isEmpty(input)) {
+      return cb(null, [])
+    }
+    this.debouncedFetchCoinsByName(input, cb)
   }
 
   public componentDidUpdate(prevProps: Props, prevState: State) {
@@ -153,12 +135,12 @@ class CoinSelector extends React.Component<Props, State> {
 
   public render() {
     return (
-      <Select
+      <AsyncSelect
         isMulti={false}
         isClearable={true}
-        onChange={this.onChangeWrapper}
-        onInputChange={this.handleInputChange}
-        options={this.state.options}
+        cacheOptions={true}
+        onChange={this.props.onChange}
+        loadOptions={this.loadOptions}
         value={this.state.selectedOption}
         placeholder={this.props.placeholder}
         formatOptionLabel={formatLabel}
