@@ -7,7 +7,7 @@ class StakedCofiTransactionTest < ActiveSupport::TestCase
       txn_value: '20000000000000000000000',
       txn_token_decimal: 18
     )
-    assert_equal transaction.txn_quantity, 20000
+    assert_equal 20000, transaction.txn_quantity
   end
 
   test 'txn_quantity is correct when txn_value is small' do
@@ -16,7 +16,7 @@ class StakedCofiTransactionTest < ActiveSupport::TestCase
       txn_value: '1',
       txn_token_decimal: 18
     )
-    assert_equal transaction.txn_quantity, 10 ** -18
+    assert_equal 10 ** -18, transaction.txn_quantity
   end
 
   test 'txn_quantity is correct when txn_value is 0' do
@@ -25,7 +25,7 @@ class StakedCofiTransactionTest < ActiveSupport::TestCase
       txn_value: '0',
       txn_token_decimal: 18
     )
-    assert_equal transaction.txn_quantity, 0
+    assert_equal 0, transaction.txn_quantity
   end
 
   test 'txn_quantity is correct when txn_token_decimal is 0' do
@@ -34,7 +34,7 @@ class StakedCofiTransactionTest < ActiveSupport::TestCase
       txn_value: '20000',
       txn_token_decimal: 0
     )
-    assert_equal transaction.txn_quantity, 20000
+    assert_equal 20000, transaction.txn_quantity
   end
 
   test 'txn_quantity is correct when txn_value is 0 and txn_token_decimal is 0' do
@@ -43,6 +43,6 @@ class StakedCofiTransactionTest < ActiveSupport::TestCase
       txn_value: '0',
       txn_token_decimal: 0
     )
-    assert_equal transaction.txn_quantity, 20000
+    assert_equal 0, transaction.txn_quantity
   end
 end
