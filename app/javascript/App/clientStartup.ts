@@ -1,5 +1,5 @@
 import ReactOnRails from 'react-on-rails'
-import withClientProviders from '~/withClientProviders'
+import withRootProviders from '~/withRootProviders'
 
 // react-router app
 import ClientApp from './ClientApp'
@@ -18,17 +18,15 @@ import SignalReservationForm from './bundles/signalsPage/SignalReservationForm'
 
 // Register the components so they can be rendered from Rails
 ReactOnRails.register({
-  NavUserContainer: withClientProviders(NavUserContainer, { clientOnly: true }),
-  CoinShow: withClientProviders(CoinShow),
-  FlashMessageListContainer: withClientProviders(FlashMessageListContainer, {
-    clientOnly: true,
-  }),
-  WatchButton: withClientProviders(WatchButton, { clientOnly: true }),
-  CalendarPage: withClientProviders(CalendarPage, { clientOnly: true }),
-  SignalExamplePanel: withClientProviders(SignalExamplePanel),
-  SignalFaqPanel: withClientProviders(SignalFaqPanel),
-  SignalPopoverText: withClientProviders(SignalPopoverText),
-  SignalTeamMember: withClientProviders(SignalTeamMember),
-  SignalReservationForm: withClientProviders(SignalReservationForm),
+  NavUserContainer: withRootProviders(NavUserContainer),
+  CoinShow: withRootProviders(CoinShow),
+  FlashMessageListContainer: withRootProviders(FlashMessageListContainer),
+  WatchButton: withRootProviders(WatchButton),
+  CalendarPage: withRootProviders(CalendarPage),
+  SignalExamplePanel: withRootProviders(SignalExamplePanel),
+  SignalFaqPanel: withRootProviders(SignalFaqPanel),
+  SignalPopoverText: withRootProviders(SignalPopoverText),
+  SignalTeamMember: withRootProviders(SignalTeamMember),
+  SignalReservationForm: withRootProviders(SignalReservationForm),
   App: ClientApp,
 })

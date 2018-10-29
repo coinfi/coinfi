@@ -1,4 +1,5 @@
 import React, { Component, Fragment } from 'react'
+import * as _ from 'lodash'
 import { Layout, Card, Button, List, Col, Row, Avatar } from 'antd'
 import classNames from 'classnames'
 import styled from 'styled-components'
@@ -81,7 +82,7 @@ class CoinShow extends Component {
     const currency = this.state.currency
     const prepend = currency === 'USD' ? '$' : ''
     const price = `${prepend}${Number.parseFloat(
-      coinObj.price[currency.toLowerCase()],
+      _.get(coinObj, ['price', currency.toLowerCase()], 0),
     ).toPrecision(6)} ${currency}`
 
     return (

@@ -2,7 +2,7 @@ import * as React from 'react'
 import { BrowserRouter as Router } from 'react-router-dom'
 import AppRoutes from '~/routes/AppRoutes'
 import withAppProviders from '~/withAppProviders'
-import withClientProviders from '~/withClientProviders'
+import withRootProviders from '~/withRootProviders'
 
 const createClientAppRouter = () => {
   const ClientAppRouter = (props) => (
@@ -14,6 +14,6 @@ const createClientAppRouter = () => {
   return ClientAppRouter
 }
 
-const ClientApp = withClientProviders(withAppProviders(createClientAppRouter()))
+const ClientApp = withRootProviders(withAppProviders(createClientAppRouter()))
 
 export default ClientApp
