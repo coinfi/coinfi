@@ -57,6 +57,15 @@ class Coin < ApplicationRecord
     pluck(:symbol).uniq.compact.sort.reject { |symbol| /[[:lower:]]/.match(symbol) }
   end
 
+  def self.historical_total_market_data
+    Rails.cache.fetch("coins/historical_total_market_data", expires_in: 5.minutes) do
+      url = "https://pro-api.coinmarketcap.com/v1/global-metrics/quotes/historical?count=7&interval=daily?apiKey=#{ENV.fetch('COINMARKETCAP_API_KEY')}"
+      response = HTTParty.get(url)
+      data = JSON.parse(response.body)[0] || {}
+      default_market_data.merge(data)
+    end
+  end
+
   def most_common_news_category
     NewsCategory
       .joins(news_items: :news_coin_mentions)
@@ -180,10 +189,19 @@ class Coin < ApplicationRecord
     {'available_supply' => available_supply, 'max_supply' => max_supply}
   end
 
+  def hourly_prices_data
+    # TODO: expires_in should probably be at midnight
+    Rails.cache.fetch("coins/#{id}/hourly_prices", expires_in: 1.hour) do
+      url = "#{ENV.fetch('COINFI_NEW_PRICES_URL')}hourly_ohcl_prices?coin_key=eq.#{coin_key}&to_currency=eq.USD&order=time.asc"
+      response = HTTParty.get(url)
+      JSON.parse(response.body)
+    end
+  end
+
   def prices_data
     # TODO: expires_in should probably be at midnight
     Rails.cache.fetch("coins/#{id}/prices", expires_in: 1.day) do
-      url = "#{ENV.fetch('COINFI_NEW_PRICES_URL')}?coin_key=eq.#{coin_key}&to_currency=eq.USD&order=time.asc"
+      url = "#{ENV.fetch('COINFI_NEW_PRICES_URL')}daily_ohcl_prices?coin_key=eq.#{coin_key}&to_currency=eq.USD&order=time.asc"
       response = HTTParty.get(url)
       JSON.parse(response.body)
     end
@@ -191,7 +209,7 @@ class Coin < ApplicationRecord
 
   def sparkline
     Rails.cache.fetch("coins/#{id}/sparkline", expires_in: 1.day) do
-      url = "#{ENV.fetch('COINFI_NEW_PRICES_URL')}?coin_key=eq.#{coin_key}&select=close&to_currency=eq.USD&limit=7&order=time.desc"
+      url = "#{ENV.fetch('COINFI_NEW_PRICES_URL')}daily_ohcl_prices?coin_key=eq.#{coin_key}&select=close&to_currency=eq.USD&limit=7&order=time.desc"
       response = HTTParty.get(url)
       results = JSON.parse(response.body)
       results.map! { |result| result["close"] }

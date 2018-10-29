@@ -67,6 +67,7 @@ class CoinShow extends Component {
     const {
       symbol,
       priceData,
+      priceDataHourly,
       annotations,
       isTradingViewVisible,
       metabaseUrl,
@@ -188,6 +189,7 @@ class CoinShow extends Component {
                         <CoinCharts
                           symbol={symbol}
                           priceData={priceData}
+                          priceDataHourly={priceDataHourly}
                           annotations={annotations}
                           isTradingViewVisible={isTradingViewVisible}
                           onPriceChartCreated={this.handlePriceChartCreated}
