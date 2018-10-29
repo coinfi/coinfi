@@ -8,7 +8,7 @@ class SignalsTelegramBotRegistrationForm < Patterns::Form
 
   validates :telegram_username, presence: true
   validates :user, presence: true, :if => proc { |f| f.telegram_username.present? }
-  validate :validate_user_staked_cofi_amount, :if => proc { |f| f.user.present? }
+  validate :validate_user_access, :if => proc { |f| f.user.present? }
   validates :chat_id, presence: true
   validates :started_at, presence: true
 
@@ -22,6 +22,29 @@ class SignalsTelegramBotRegistrationForm < Patterns::Form
 
   def user
     @user ||= User.where("(token_sale->>'telegram_username') ILIKE ?", telegram_username).first
+  end
+
+  def validate_user_access
+    signals_access_override = user.token_sale.fetch('signals_access_override', nil)
+
+    # Handle `signals_access_override` values
+    unless signals_access_override.nil?
+      if signals_access_override == true
+        return
+      elsif signals_access_override == false
+        errors.add(
+          :user,
+          :override,
+          message: "has not been allowed access"
+        )
+        return
+      end
+
+      raise "Invalid `signals_access_override` value: #{signals_access_override}"
+    end
+
+    # Perform amount validation if not set
+    self.validate_user_staked_cofi_amount
   end
 
   def validate_user_staked_cofi_amount
