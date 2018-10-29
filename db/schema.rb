@@ -306,7 +306,6 @@ ActiveRecord::Schema.define(version: 20181029150802) do
     t.index ["coin_id"], name: "index_feed_sources_on_coin_id"
     t.index ["feed_type"], name: "index_feed_sources_on_feed_type"
     t.index ["feed_url"], name: "index_feed_sources_on_feed_url", unique: true
-    t.index ["id", "is_active", "feed_type"], name: "compound_index"
     t.index ["is_active"], name: "index_feed_sources_on_is_active"
     t.index ["name"], name: "index_feed_sources_on_name", unique: true
   end
