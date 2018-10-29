@@ -34,7 +34,7 @@ class SignalsTelegramBotRegistrationForm < Patterns::Form
       elsif signals_access_override == false
         errors.add(
           :user,
-          :override,
+          :access_override,
           message: "has not been allowed access"
         )
         return
