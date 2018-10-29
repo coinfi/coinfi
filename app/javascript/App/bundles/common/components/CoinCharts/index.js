@@ -6,16 +6,10 @@ import moment from 'moment'
 import * as _ from 'lodash'
 
 class CoinCharts extends Component {
-  formatPriceData(datum) {
-    return {
-      ...datum,
-      timestamp: moment.utc(datum.time).valueOf(),
-    }
-  }
+  constructor(props) {
+    super(props)
 
-  render() {
-    const { isTradingViewVisible } = this.props
-    const { priceData, priceDataHourly, ...remainingProps } = this.props
+    const { priceData, priceDataHourly } = props
 
     const hasHourlyPrice = priceDataHourly && priceDataHourly.length > 0
     const processedPriceData = priceData.map(this.formatPriceData)
@@ -31,6 +25,29 @@ class CoinCharts extends Component {
       sortedPriceData,
       (datum) => datum.timestamp,
     )
+
+    this.state = {
+      processedPriceData,
+      processedPriceDataHourly,
+      epochPrices,
+    }
+  }
+
+  formatPriceData(datum) {
+    return {
+      ...datum,
+      timestamp: moment.utc(datum.time).valueOf(),
+    }
+  }
+
+  render() {
+    const { isTradingViewVisible } = this.props
+    const { priceData, priceDataHourly, ...remainingProps } = this.props
+    const {
+      processedPriceData,
+      processedPriceDataHourly,
+      epochPrices,
+    } = this.state
 
     return (
       <div>
