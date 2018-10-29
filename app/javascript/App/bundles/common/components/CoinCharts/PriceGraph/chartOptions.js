@@ -10,11 +10,100 @@ const parseData = (priceData) => {
 }
 
 export default (Highcharts, data) => {
-  const { annotations, priceData } = data
-  const { prices, volume } = parseData(priceData)
+  const {
+    annotations,
+    priceData,
+    priceDataHourly,
+    setPriceData,
+    setVolumeData,
+  } = data
+  const { prices, volume } = parseData(priceDataHourly)
+
+  const setToHourly = () => {
+    const { prices, volume } = parseData(priceDataHourly)
+    setPriceData(prices)
+    setVolumeData(volume)
+  }
+  const setToDaily = () => {
+    const { prices, volume } = parseData(priceData)
+    setPriceData(prices)
+    setVolumeData(volume)
+  }
+
   return {
     rangeSelector: {
       selected: 0,
+      buttons: [
+        {
+          type: 'day',
+          count: 1,
+          text: '1d',
+          events: {
+            click: function() {
+              setToHourly()
+            },
+          },
+        },
+        {
+          type: 'day',
+          count: 7,
+          text: '7d',
+          events: {
+            click: function() {
+              setToHourly()
+            },
+          },
+        },
+        {
+          type: 'month',
+          count: 1,
+          text: '1m',
+          events: {
+            click: function() {
+              setToHourly()
+            },
+          },
+        },
+        {
+          type: 'month',
+          count: 3,
+          text: '3m',
+          events: {
+            click: function() {
+              setToDaily()
+            },
+          },
+        },
+        {
+          type: 'month',
+          count: 6,
+          text: '6m',
+          events: {
+            click: function() {
+              setToDaily()
+            },
+          },
+        },
+        {
+          type: 'year',
+          count: 1,
+          text: '1y',
+          events: {
+            click: function() {
+              setToDaily()
+            },
+          },
+        },
+        {
+          type: 'all',
+          text: 'All',
+          events: {
+            click: function() {
+              setToDaily()
+            },
+          },
+        },
+      ],
     },
     navigator: {
       enabled: false,
@@ -66,7 +155,7 @@ export default (Highcharts, data) => {
         width: '200px',
       },
       valueDecimals: 4,
-      xDateFormat: '%A, %b %e, %Y',
+      xDateFormat: '%A, %b %e, %Y %H:%M',
       useHTML: true,
       hideDelay: 1000,
       shared: true,
@@ -81,6 +170,9 @@ export default (Highcharts, data) => {
             },
           },
         },
+      },
+      series: {
+        turboThreshold: 2000,
       },
     },
     series: [
