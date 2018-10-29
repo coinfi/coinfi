@@ -1,5 +1,8 @@
 class StakedCofiTransaction < ApplicationRecord
   belongs_to :user, optional: true
+  scope :unconfirmed, -> { where(is_txn_confirmations_gte_10: false) }
+  scope :confirmed, -> { where(is_txn_confirmations_gte_10: true) }
+
   # Only set the user if its not defined to avoid replacing any manual overrides
   before_save :set_user_by_txn_from, :if => proc { |f| f.user.blank? && f.txn_from_changed? }
 

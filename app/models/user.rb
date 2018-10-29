@@ -9,6 +9,7 @@ class User < ApplicationRecord
   has_one :watchlist, inverse_of: :user
   has_many :coins, through: :watchlist
   has_many :staked_cofi_transactions
+  has_many :confirmed_staked_cofi_transactions, -> { StakedCofiTransaction.confirmed }, class_name: 'StakedCofiTransaction'
 
   alias_method :submissions, :contributor_submissions
 
@@ -114,7 +115,7 @@ class User < ApplicationRecord
 
     # Calculate the amount from the sum of all `staked_cofi_transactions`
     calculated_amount = 0
-    self.staked_cofi_transactions.find_each do |transaction|
+    self.confirmed_staked_cofi_transactions.find_each do |transaction|
       calculated_amount += transaction.txn_quantity
     end
     calculated_amount
