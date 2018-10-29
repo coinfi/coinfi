@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20181026104531) do
+ActiveRecord::Schema.define(version: 20181029150802) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -306,6 +306,7 @@ ActiveRecord::Schema.define(version: 20181026104531) do
     t.index ["coin_id"], name: "index_feed_sources_on_coin_id"
     t.index ["feed_type"], name: "index_feed_sources_on_feed_type"
     t.index ["feed_url"], name: "index_feed_sources_on_feed_url", unique: true
+    t.index ["id", "is_active", "feed_type"], name: "compound_index"
     t.index ["is_active"], name: "index_feed_sources_on_is_active"
     t.index ["name"], name: "index_feed_sources_on_name", unique: true
   end
@@ -340,6 +341,13 @@ ActiveRecord::Schema.define(version: 20181026104531) do
     t.string "website"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "market_caps", force: :cascade do |t|
+    t.decimal "total_market_cap", precision: 18, scale: 2
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["created_at"], name: "index_market_caps_on_created_at"
   end
 
   create_table "news_categories", force: :cascade do |t|
@@ -403,6 +411,7 @@ ActiveRecord::Schema.define(version: 20181026104531) do
     t.index ["feed_source_id", "feed_item_id"], name: "index_news_items_on_feed_source_id_and_feed_item_id", unique: true
     t.index ["feed_source_id"], name: "index_news_items_on_feed_source_id"
     t.index ["is_published"], name: "index_news_items_on_is_published"
+    t.index ["title"], name: "index_news_items_on_title"
     t.index ["user_id"], name: "index_news_items_on_user_id"
   end
 
