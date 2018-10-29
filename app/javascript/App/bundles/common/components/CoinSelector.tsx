@@ -1,6 +1,6 @@
 import * as React from 'react'
 import * as _ from 'lodash'
-import AsyncSelect from 'react-select/lib/Async'
+import Select from 'react-select'
 import { CoinSlug } from '~/bundles/common/types'
 import localApi from '../utils/localAPI'
 
@@ -17,6 +17,8 @@ export interface CoinOption {
 }
 
 interface State {
+  q: string
+  options: CoinOption[]
   selectedOption: CoinOption
 }
 
@@ -68,6 +70,8 @@ const formatLabel = (value: CoinOption, options: FormatOptions) => {
 
 class CoinSelector extends React.Component<Props, State> {
   public state = {
+    q: '',
+    options: [],
     selectedOption: null,
   }
 
@@ -90,12 +94,28 @@ class CoinSelector extends React.Component<Props, State> {
       : new Promise((resolve) => resolve([]))
 
   public fetchCoinsByName = (name): Promise<CoinOption[]> =>
-    localApi
-      .get(`/coins/search_by_params`, { name })
-      .then((response) => this.mapPayloadToOptions(response.payload))
+    localApi.get(`/coins/search_by_params`, { name }).then((response) => {
+      const results = this.mapPayloadToOptions(response.payload)
+
+      if (this.state.q === name) {
+        this.setState({ options: results })
+      }
+
+      return results
+    })
 
   // tslint:disable-next-line
-  public loadOptions = _.debounce(this.fetchCoinsByName, 500)
+  public debouncedFetchCoinsByName = _.debounce(this.fetchCoinsByName, 500)
+
+  public handleInputChange = (newInput: string) => {
+    this.setState({ q: newInput })
+
+    if (!_.isEmpty(newInput)) {
+      this.debouncedFetchCoinsByName(newInput)
+    }
+
+    return newInput
+  }
 
   public refreshCoin = (selectedCoin: string) =>
     this.fetchCoinsDetails(selectedCoin).then((results) => {
@@ -109,6 +129,15 @@ class CoinSelector extends React.Component<Props, State> {
         })
       }
     })
+
+  public onChangeWrapper = (selectedOption: CoinOption) => {
+    this.setState({
+      q: '',
+      options: [],
+    })
+
+    this.props.onChange(selectedOption)
+  }
 
   public componentDidUpdate(prevProps: Props, prevState: State) {
     if (!_.isEqual(prevProps.selectedCoin, this.props.selectedCoin)) {
@@ -124,12 +153,12 @@ class CoinSelector extends React.Component<Props, State> {
 
   public render() {
     return (
-      <AsyncSelect
+      <Select
         isMulti={false}
         isClearable={true}
-        onChange={this.props.onChange}
-        cacheOptions={true}
-        loadOptions={this.loadOptions}
+        onChange={this.onChangeWrapper}
+        onInputChange={this.handleInputChange}
+        options={this.state.options}
         value={this.state.selectedOption}
         placeholder={this.props.placeholder}
         formatOptionLabel={formatLabel}
