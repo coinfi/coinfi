@@ -407,18 +407,20 @@ ActiveRecord::Schema.define(version: 20181026035424) do
 
   create_table "staked_cofi_transactions", force: :cascade do |t|
     t.bigint "user_id"
-    t.string "transaction_block_number"
-    t.string "transaction_timestamp"
-    t.string "transaction_hash"
-    t.string "transaction_block_hash"
-    t.string "transaction_from"
-    t.string "transaction_to"
-    t.string "transaction_value"
-    t.integer "transaction_token_decimal"
-    t.boolean "is_transaction_confirmations_gte_10"
+    t.string "txn_block_number"
+    t.datetime "txn_timestamp"
+    t.string "txn_hash"
+    t.string "txn_block_hash"
+    t.string "txn_from"
+    t.string "txn_to"
+    t.string "txn_value"
+    t.integer "txn_token_decimal"
+    t.boolean "is_txn_confirmations_gte_10"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["transaction_hash"], name: "index_staked_cofi_transactions_on_transaction_hash", unique: true
+    t.index ["is_txn_confirmations_gte_10"], name: "index_staked_cofi_transactions_on_is_txn_confirmations_gte_10"
+    t.index ["txn_block_number"], name: "index_staked_cofi_transactions_on_txn_block_number"
+    t.index ["txn_hash"], name: "index_staked_cofi_transactions_on_txn_hash", unique: true
     t.index ["user_id"], name: "index_staked_cofi_transactions_on_user_id"
   end
 
