@@ -25,8 +25,7 @@ class SignalsTelegramBotRegistrationForm < Patterns::Form
   end
 
   def validate_user_staked_cofi_amount
-    staked_cofi_amount = user.token_sale.fetch('staked_cofi_amount', 0)
-    if staked_cofi_amount < self.class::REQUIRED_MIN_STAKED_COFI_AMOUNT
+    if user.staked_cofi_amount < self.class::REQUIRED_MIN_STAKED_COFI_AMOUNT
       errors.add(
         :user,
         :min_staked_cofi_amount,

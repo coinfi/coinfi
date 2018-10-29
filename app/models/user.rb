@@ -105,6 +105,21 @@ class User < ApplicationRecord
     $launch_darkly.identify(launch_darkly_hash)
   end
 
+  # Returns number of staked COFI tokens
+  # Uses the value in `token_sale` first otherwise fallback onto looking up transactions
+  def staked_cofi_amount
+    # Get the manually set amount
+    manual_amount = self.token_sale.fetch('staked_cofi_amount', nil)
+    return manual_amount unless manual_amount.nil?
+
+    # Calculate the amount from the sum of all `staked_cofi_transactions`
+    calculated_amount = 0
+    self.staked_cofi_transactions.find_each do |transaction|
+      calculated_amount += transaction.txn_quantity
+    end
+    calculated_amount
+  end
+
 private
 
   def add_to_convertkit
