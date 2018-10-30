@@ -17,6 +17,7 @@ import EventListener from 'react-event-listener'
 
 import { NewsItem, ContentType, Filters } from './types'
 import { CoinWithDetails, CoinClickHandler } from '../common/types'
+import { CoinOption } from '~/bundles/common/components/CoinSelector'
 import {
   getDefaultFilters,
   mergeInitialSocialSourcesForCoinsFilter,
@@ -59,6 +60,7 @@ interface State {
   newsfeedTips: boolean
   showFilters: boolean
   unseenNewsIds: number[]
+  selectedCoin: string
 }
 
 class NewsfeedPage extends React.Component<Props, State> {
@@ -77,6 +79,7 @@ class NewsfeedPage extends React.Component<Props, State> {
       newsfeedTips: true,
       showFilters: false,
       unseenNewsIds: [],
+      selectedCoin: null,
     }
   }
 
@@ -220,15 +223,22 @@ class NewsfeedPage extends React.Component<Props, State> {
       if (this.props.coinSlug !== prevProps.coinSlug && !!this.props.coinSlug) {
         this.props.selectCoinBySlug(this.props.coinSlug)
         this.setState((state) => {
-          state.filters.coinSlugs = [this.props.coinSlug]
-          state.filters.feedSources = mergeInitialSocialSourcesForCoinsFilter(
-            state.filters.feedSources,
-            state.filters.coinSlugs,
-            this.props.topCoinSlugs,
-          )
+          const newState = {
+            ...state,
+            filters: {
+              ...state.filters,
+              coinSlugs: [this.props.coinSlug],
+              feedSources: mergeInitialSocialSourcesForCoinsFilter(
+                state.filters.feedSources,
+                state.filters.coinSlugs,
+                this.props.topCoinSlugs,
+              ),
+            },
+            selectedCoin: null,
+          }
 
-          this.props.fetchNewsItems(state.filters)
-          return state
+          this.props.fetchNewsItems(newState.filters)
+          return newState
         })
         return
       }
@@ -246,17 +256,22 @@ class NewsfeedPage extends React.Component<Props, State> {
     // Check if watchlist tab changed to active
     if (!!this.props.isWatchlistSelected && !prevProps.isWatchlistSelected) {
       this.setState((state) => {
-        state.filters.coinSlugs = this.props
-          .getWatchlist()
-          .map((elem) => elem.slug)
-        state.filters.feedSources = mergeInitialSocialSourcesForCoinsFilter(
-          state.filters.feedSources,
-          state.filters.coinSlugs,
-          this.props.topCoinSlugs,
-        )
+        const newState = {
+          ...state,
+          filters: {
+            ...state.filters,
+            coinSlugs: this.props.getWatchlist().map((elem) => elem.slug),
+            feedSources: mergeInitialSocialSourcesForCoinsFilter(
+              state.filters.feedSources,
+              state.filters.coinSlugs,
+              this.props.topCoinSlugs,
+            ),
+          },
+          selectedCoin: null,
+        }
 
-        this.props.fetchNewsItems(state.filters)
-        return state
+        this.props.fetchNewsItems(newState.filters)
+        return newState
       })
       return
 
@@ -266,17 +281,22 @@ class NewsfeedPage extends React.Component<Props, State> {
       !this.props.isWatchlistSelected
     ) {
       this.setState((state) => {
-        state.filters.coinSlugs = !!this.props.coinSlug
-          ? [this.props.coinSlug]
-          : []
-        state.filters.feedSources = mergeInitialSocialSourcesForCoinsFilter(
-          state.filters.feedSources,
-          state.filters.coinSlugs,
-          this.props.topCoinSlugs,
-        )
+        const newState = {
+          ...state,
+          filters: {
+            ...state.filters,
+            coinSlugs: !!this.props.coinSlug ? [this.props.coinSlug] : [],
+            feedSources: mergeInitialSocialSourcesForCoinsFilter(
+              state.filters.feedSources,
+              state.filters.coinSlugs,
+              this.props.topCoinSlugs,
+            ),
+          },
+          selectedCoin: null,
+        }
 
-        this.props.fetchNewsItems(state.filters)
-        return state
+        this.props.fetchNewsItems(newState.filters)
+        return newState
       })
       return
     }
@@ -287,20 +307,58 @@ class NewsfeedPage extends React.Component<Props, State> {
       !_.isEqual(this.props.watchlist, prevProps.watchlist)
     ) {
       this.setState((state) => {
-        state.filters.coinSlugs = this.props
-          .getWatchlist()
-          .map((elem) => elem.slug)
-        state.filters.feedSources = mergeInitialSocialSourcesForCoinsFilter(
-          state.filters.feedSources,
-          state.filters.coinSlugs,
-          this.props.topCoinSlugs,
-        )
+        const newState = {
+          ...state,
+          filters: {
+            ...state.filters,
+            coinSlugs: this.props.getWatchlist().map((elem) => elem.slug),
+            feedSources: mergeInitialSocialSourcesForCoinsFilter(
+              state.filters.feedSources,
+              state.filters.coinSlugs,
+              this.props.topCoinSlugs,
+            ),
+          },
+          selectedCoin: null,
+        }
 
-        this.props.fetchNewsItems(state.filters)
-        return state
+        this.props.fetchNewsItems(newState.filters)
+        return newState
       })
       return
     }
+  }
+
+  public onCoinChange = (selectedOption: CoinOption) => {
+    const value = selectedOption ? selectedOption.value : null
+
+    // get previous coin slug based on component update logic
+    const defaultCoinSlugs = this.props.isWatchlistSelected
+      ? this.props.getWatchlist().map((elem) => elem.slug)
+      : !!this.props.coinSlug
+        ? [this.props.coinSlug]
+        : []
+
+    const coinSlugs = value ? [value] : defaultCoinSlugs
+    const feedSources = mergeInitialSocialSourcesForCoinsFilter(
+      this.state.filters.feedSources,
+      coinSlugs,
+      this.props.topCoinSlugs,
+    )
+
+    this.setState(
+      {
+        selectedCoin: value,
+        filters: {
+          ...this.state.filters,
+          coinSlugs,
+          feedSources,
+        },
+      },
+      () => {
+        this.props.cleanNewsItems()
+        this.props.fetchNewsItems(this.state.filters)
+      },
+    )
   }
 
   public closeTips = () => {
@@ -343,6 +401,8 @@ class NewsfeedPage extends React.Component<Props, State> {
                   showCoinListDrawer={() =>
                     this.setState({ ActiveMobileWindow: 'CoinsList' })
                   }
+                  onCoinChange={this.onCoinChange}
+                  selectedCoin={this.state.selectedCoin}
                 />
                 <NewsList
                   isShown={!this.state.showFilters}
@@ -424,6 +484,8 @@ class NewsfeedPage extends React.Component<Props, State> {
                   showCoinListDrawer={() =>
                     this.setState({ ActiveMobileWindow: 'CoinsList' })
                   }
+                  onCoinChange={this.onCoinChange}
+                  selectedCoin={this.state.selectedCoin}
                 />
                 <NewsList
                   isShown={!this.state.showFilters}
@@ -494,6 +556,8 @@ class NewsfeedPage extends React.Component<Props, State> {
                   applyFilters={this.applyFilters}
                   filters={this.state.filters}
                   categories={this.props.categories}
+                  onCoinChange={this.onCoinChange}
+                  selectedCoin={this.state.selectedCoin}
                 />
                 <NewsList
                   isShown={!this.state.showFilters}

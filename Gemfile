@@ -88,6 +88,8 @@ gem 'sitemap_generator'
 gem "rails-patterns"
 # Rails application performance monitoring
 gem 'skylight'
+# EtherScan API client
+gem 'etherscan_api', require: 'etherscan'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
@@ -119,8 +121,9 @@ end
 
 group :production do
   gem 'rails_12factor'
-  gem 'scout_apm'
+  gem 'rack-attack'
   gem 'rack-timeout'
+  gem 'scout_apm'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem

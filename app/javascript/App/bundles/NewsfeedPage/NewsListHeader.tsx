@@ -1,8 +1,12 @@
 import * as React from 'react'
+import * as _ from 'lodash'
 import Icon from '~/bundles/common/components/Icon'
 import SectionHeader from '~/bundles/common/components/SectionHeader'
 import CoinTipsTab from '../common/components/CoinTipsTab'
 import FilterPanel from './FilterPanel'
+import CoinSelector, {
+  CoinOption,
+} from '~/bundles/common/components/CoinSelector'
 import { Filters } from './types'
 import withDevice from '~/bundles/common/utils/withDevice'
 
@@ -18,6 +22,8 @@ interface Props {
   toggleFilters: () => void
   toggleNewsfeedTips: () => void
   showCoinListDrawer?: () => void
+  onCoinChange: (selectedOption: CoinOption) => void
+  selectedCoin: string
   isMobile: boolean
 }
 
@@ -26,6 +32,13 @@ const btnStyle: React.CSSProperties = {
   display: 'inline-flex',
   padding: '16px',
   textTransform: 'none',
+}
+
+const searchStyle: React.CSSProperties = {
+  flex: '1 1 auto',
+  marginLeft: '1em',
+  minWidth: '160px',
+  maxWidth: '300px',
 }
 
 class NewsListHeader extends React.Component<Props, {}> {
@@ -74,13 +87,19 @@ class NewsListHeader extends React.Component<Props, {}> {
               <img style={{ height: 10, marginRight: 10 }} src={filterBtn} />
               Filters
             </button>
+            <div style={searchStyle}>
+              <CoinSelector
+                selectedCoin={this.props.selectedCoin}
+                onChange={this.props.onCoinChange}
+                placeholder="Search Coins"
+              />
+            </div>
           </div>
         </SectionHeader>
         {this.props.showFilters && (
           <FilterPanel
             categories={this.props.categories}
             feedSources={this.props.feedSources}
-            topCoinSlugs={this.props.topCoinSlugs}
             filters={this.props.filters}
             closeFilterPanel={this.props.toggleFilters}
             applyFilters={this.props.applyFilters}
