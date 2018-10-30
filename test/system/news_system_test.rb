@@ -64,14 +64,14 @@ class NewsSystemTest < ApplicationSystemTestCase
     reddit_button.click
     assert reddit_button[:class].include?("on"), true
     click_button('Apply')
-    
+
     # Check against expected news items
     feed_sources = FeedSource.active.where.not(id: FeedSource.twitter)
     expected_news_items = NewsItems::WithFilters.call(
-        NewsItem.published, 
+        NewsItem.published,
         feed_sources: feed_sources
       ).order_by_published.limit(25)
-    
+
     within '#newsfeed' do
       expected_news_items.each do |news_item|
         assert_text(:all, news_item.title)
@@ -92,14 +92,14 @@ class NewsSystemTest < ApplicationSystemTestCase
     twitter_button.click
     assert twitter_button[:class].include?("on"), true
     click_button('Apply')
-    
+
     # Check against expected news items
     feed_sources = FeedSource.active.where.not(id: FeedSource.reddit)
     expected_news_items = NewsItems::WithFilters.call(
-        NewsItem.published, 
+        NewsItem.published,
         feed_sources: feed_sources
       ).order_by_published.limit(25)
-    
+
     within '#newsfeed' do
       expected_news_items.each do |news_item|
         assert_text(:all, news_item.title)
@@ -137,7 +137,7 @@ class NewsSystemTest < ApplicationSystemTestCase
       .where.not(id: FeedSource.twitter)
       .where(site_hostname: [random_feed.site_hostname])
     expected_news_items = NewsItems::WithFilters.call(
-        NewsItem.published, 
+        NewsItem.published,
         feed_sources: feed_sources
       ).order_by_published.limit(25)
 
@@ -183,7 +183,7 @@ class NewsSystemTest < ApplicationSystemTestCase
       .where.not(id: FeedSource.twitter)
       .where(site_hostname: [random_feed.site_hostname])
     expected_news_items = NewsItems::WithFilters.call(
-        NewsItem.published, 
+        NewsItem.published,
         feed_sources: feed_sources
       ).order_by_published.limit(25)
 
@@ -213,14 +213,14 @@ class NewsSystemTest < ApplicationSystemTestCase
     assert reddit_button[:class].include?("on"), true
 
     click_button('Apply')
-    
+
     # Check against expected news items
     feed_sources = FeedSource.active
     expected_news_items = NewsItems::WithFilters.call(
-        NewsItem.published, 
+        NewsItem.published,
         feed_sources: feed_sources
       ).order_by_published.limit(25)
-    
+
     within '#newsfeed' do
       expected_news_items.each do |news_item|
         assert_text(:all, news_item.title)
@@ -247,13 +247,13 @@ class NewsSystemTest < ApplicationSystemTestCase
     assert start_input.value, start_date.strftime(date_format)
 
     click_button('Apply')
-    
+
     # Check against expected news items
     expected_news_items = NewsItems::WithFilters.call(
-      NewsItem.published, 
+      NewsItem.published,
       published_since: start_date
     ).order_by_published.limit(25)
-    
+
     within '#newsfeed' do
       expected_news_items.each do |news_item|
         assert_text(:all, news_item.title)
@@ -280,13 +280,13 @@ class NewsSystemTest < ApplicationSystemTestCase
     assert end_input.value, end_date.strftime(date_format)
 
     click_button('Apply')
-    
+
     # Check against expected news items
     expected_news_items = NewsItems::WithFilters.call(
-      NewsItem.published, 
+      NewsItem.published,
       published_since: end_date
     ).order_by_published.limit(25)
-    
+
     within '#newsfeed' do
       expected_news_items.each do |news_item|
         assert_text(:all, news_item.title)
@@ -307,7 +307,7 @@ class NewsSystemTest < ApplicationSystemTestCase
 
     # Open and set filter
     click_button('Filter')
-    
+
     end_input = find("input[placeholder='End Date']")
     end_input.set end_date.strftime(date_format)
 
@@ -321,14 +321,14 @@ class NewsSystemTest < ApplicationSystemTestCase
     assert end_input.value, end_date.strftime(date_format)
 
     click_button('Apply')
-    
+
     # Check against expected news items
     expected_news_items = NewsItems::WithFilters.call(
-      NewsItem.published, 
+      NewsItem.published,
       published_since: start_date,
       published_until: end_date
     ).order_by_published.limit(25)
-    
+
     within '#newsfeed' do
       expected_news_items.each do |news_item|
         assert_text(:all, news_item.title)
@@ -358,9 +358,36 @@ class NewsSystemTest < ApplicationSystemTestCase
     # Check against expected news items
     news_categories = NewsCategory.where(name: [random_category.name])
     expected_news_items = NewsItems::WithFilters.call(
-        NewsItem.published, 
+        NewsItem.published,
         news_categories: news_categories
       ).order_by_published.limit(25)
+
+    within '#newsfeed' do
+      expected_news_items.each do |news_item|
+        assert_text(:all, news_item.title)
+      end
+    end
+  end
+
+  test "news items with coin filter" do
+    # Login
+    login_as(@user, :scope => :user)
+    LaunchDarkly::LDClient.stub_any_instance(:variation, true) do
+      visit news_url
+    end
+
+    test_coin = Coin.find_by_slug 'tezos'
+
+    coin_filter = find("input[placeholder='Search Coins']")
+    coin_filter.set test_coin.symbol
+
+    assert coin_filter.value, test_coin.symbol
+
+    # Hit enter to filter by coin
+    coin_filter.native.send_keys(:return)
+
+    # Check against expected news items
+    expected_news_items = test_coin.news_items
 
     within '#newsfeed' do
       expected_news_items.each do |news_item|
