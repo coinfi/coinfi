@@ -1,23 +1,27 @@
 class SendSignalsStakingConfirmationEmailsService < Patterns::Service
+  attr_reader :users_sent
+
   def initialize(user_scope: User.all)
     @user_scope = user_scope
   end
 
   def call
-    self.users_awaiting_email.find_each do |user|
+    @users_sent = []
+
+    users_awaiting_email.find_each do |user|
       if user.staked_cofi_amount < ENV.fetch('SIGNALS_MIN_STAKING_AMOUNT').to_d
         next
       end
 
-      SignalsMailer.staking_confirmation.deliver_later(user)
       user.token_sale['signals_staking_confirmation_email_queued_at'] = DateTime.now
+      SignalsMailer.staking_confirmation.deliver_later(user)
       user.save!
+
+      @users_sent << user
     end
 
     true
   end
-
-  private
 
   def users_awaiting_email
     @users_awaiting_email ||= @user_scope

@@ -6,13 +6,13 @@ class StakedCofiTransaction < ApplicationRecord
   # Only set the user if its not defined to avoid replacing any manual overrides
   before_save :set_user_by_txn_from, :if => proc { |f| f.user.blank? && f.txn_from_changed? }
 
-  def set_user_by_txn_from
+  def set_user_by_txn_from(user_scope: User.all)
     if self.txn_from.blank?
       self.user = nil
       return
     end
 
-    self.user = User.find_by("(token_sale->>'staked_ethereum_address') = ?", self.txn_from)
+    self.user = user_scope.find_by("(token_sale->>'staked_ethereum_address') = ?", self.txn_from)
   end
 
   def txn_quantity

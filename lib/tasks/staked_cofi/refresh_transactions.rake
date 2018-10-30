@@ -1,7 +1,7 @@
 # Creates or updates StakedCofiTransaction items for every COFI transaction found on EtherScan
-namespace :staked_cofi_transactions do
+namespace :staked_cofi do
   desc "Refresh staked cofi transactions by querying etherscan"
-  task :refresh => :environment do
+  task :refresh_transactions => :environment do
     # Since `is_txn_confirmations_gte_10` is the only field that may change, we can limit our query
     # to use that as a starting block
     earliest_unconfirmed_block_number = StakedCofiTransaction
@@ -40,8 +40,11 @@ namespace :staked_cofi_transactions do
           txn_token_decimal: transaction_item['tokenDecimal'].to_i,
         )
         transaction.is_txn_confirmations_gte_10 = (transaction_item['confirmations'].to_i >= 10)
-        transaction.save!
-        puts "Saved transaction #{transaction_item['hash']}"
+        transaction.set_user_by_txn_from if transaction.user.blank?
+        if transaction.changed?
+          transaction.save!
+          puts "Created/Updated transaction #{transaction_item['hash']}"
+        end
       end
     end
   end
