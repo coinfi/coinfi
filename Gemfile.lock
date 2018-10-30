@@ -181,6 +181,9 @@ GEM
     equalizer (0.0.11)
     errbase (0.0.3)
     erubi (1.7.1)
+    etherscan_api (0.4.0)
+      faraday
+      json (~> 2.1)
     excon (0.62.0)
     execjs (2.7.0)
     factory_bot (4.11.1)
@@ -593,6 +596,7 @@ DEPENDENCIES
   distribute_reads
   dotenv-rails
   email_address
+  etherscan_api
   factory_bot_rails
   faker!
   feedjira

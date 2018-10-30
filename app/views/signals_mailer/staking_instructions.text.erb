@@ -1,6 +1,6 @@
 You're almost there!
 
-To finish reserving your spot, send exactly <%= number_with_delimiter(ENV.fetch('SIGNALS_STAKING_AMOUNT')) %> COFI tokens to 0xa61B5f29730C7b111C8e0B1e78bD3737d2Bb8684.
+To finish reserving your spot, send exactly <%= number_with_delimiter(ENV.fetch('SIGNALS_STAKING_AMOUNT')) %> COFI tokens to <%= ENV.fetch('COINFI_COFI_STAKING_WALLET_ADDRESS') %>.
 
 We expect your COFI tokens to come from this wallet address: <%= @staked_ethereum_address %>, which you provided previously.
 
