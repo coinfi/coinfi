@@ -19,7 +19,6 @@ class NewsItem < ApplicationRecord
   scope :tagged, -> { where(is_human_tagged: true) }
   scope :twitter, -> { where(feed_source: FeedSource.twitter) }
   scope :order_by_published, -> (order = nil) { order(feed_item_published_at: order || :desc) }
-  scope :front_page, -> { where(feed_source: FeedSource.coindesk.or(FeedSource.cointelegraph)) }
 
   alias_method :categories, :news_categories
   alias_method :mentions, :news_coin_mentions
