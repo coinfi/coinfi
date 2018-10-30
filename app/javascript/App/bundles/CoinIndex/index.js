@@ -16,6 +16,7 @@ import * as _ from 'lodash'
 import { withStyles, createStyles } from '@material-ui/core/styles'
 import NewsList from './NewsList'
 import MarketDominance from './MarketDominance'
+import TotalMarketCap from './TotalMarketCap'
 
 const styles = (theme) =>
   createStyles({
@@ -54,8 +55,20 @@ const styles = (theme) =>
     },
     widgetContainer: {
       backgroundColor: '#fff',
+      marginTop: '0 !important',
+      marginBottom: '0 !important',
       [theme.breakpoints.up('md')]: {
         padding: `${theme.spacing.unit * 4}px`,
+      },
+    },
+    widgetContainerLeft: {
+      [theme.breakpoints.up('md')]: {
+        maxWidth: '492px',
+      },
+    },
+    widgetContainerRight: {
+      [theme.breakpoints.up('md')]: {
+        maxWidth: '492px',
       },
     },
     newsWidgetHeader: {
@@ -119,7 +132,7 @@ class CoinIndex extends Component {
     })
   }
   render() {
-    const { classes, marketDominance } = this.props
+    const { classes, marketDominance, totalMarketCap } = this.props
 
     return (
       <Fragment>
@@ -161,23 +174,22 @@ class CoinIndex extends Component {
 
         <Grid
           container
-          justify="space-between"
+          justify="center"
           alignItems="stretch"
           className={classes.widgetContainer}
           spacing={24}
         >
           <Hidden smDown initialWidth="lg">
-            <Grid item md={6}>
+            <Grid item md={6} className={classes.widgetContainerLeft}>
               <Grid
                 container
                 direction="column"
-                justify="center"
+                justify="flex-end"
                 alignItems="stretch"
+                spacing={8}
               >
                 <Grid item md>
-                  <Typography variant="h5" align="center">
-                    Market Cap Placeholder
-                  </Typography>
+                  <TotalMarketCap marketCapData={totalMarketCap} />
                 </Grid>
                 <Grid item md>
                   <MarketDominance coinData={marketDominance} />
@@ -185,7 +197,7 @@ class CoinIndex extends Component {
               </Grid>
             </Grid>
           </Hidden>
-          <Grid item xs={12} md={6}>
+          <Grid item xs={12} md={6} className={classes.widgetContainerRight}>
             <Typography
               variant="h5"
               align="center"
