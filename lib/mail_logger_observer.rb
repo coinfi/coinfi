@@ -1,7 +1,5 @@
 class MailLoggerObserver
   def self.delivered_email(mail)
-    Rails.logger.tagged('EMAIL') do
-      Rails.logger.info mail
-    end
+    puts mail
   end
 end
