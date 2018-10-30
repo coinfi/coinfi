@@ -11,6 +11,7 @@ class CoinsController < ApplicationController
         .order(:ranking)
     )
     @market_dominance = dominance
+    @market_cap = Coin.historical_total_market_data
 
     set_meta_tags(
       title: "Top Cryptocurrency Prices Live, Cryptocurrency Market Cap, Best Cryptocurrency Charts",
