@@ -1,0 +1,27 @@
+class SendSignalsStakingConfirmationEmailsService < Patterns::Service
+  def initialize(user_scope: User.all)
+    @user_scope = user_scope
+  end
+
+  def call
+    self.users_awaiting_email.find_each do |user|
+      if user.staked_cofi_amount < ENV.fetch('SIGNALS_MIN_STAKING_AMOUNT').to_d
+        next
+      end
+
+      SignalsMailer.staking_confirmation.deliver_later(user)
+      user.token_sale['signals_staking_confirmation_email_queued_at'] = DateTime.now
+      user.save!
+    end
+
+    true
+  end
+
+  private
+
+  def users_awaiting_email
+    @users_awaiting_email ||= @user_scope
+      .where("(token_sale->>'reservation_completed_at') IS NOT NULL")
+      .where("(token_sale->>'signals_staking_confirmation_email_queued_at') IS NULL")
+  end
+end
