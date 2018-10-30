@@ -31,13 +31,13 @@ module NewsItems
         result = result.where(feed_source: feed_sources)
       end
 
-      news_coin_mentions = NewsCoinMention.default_tagged.where(coin: coins)
+      news_coin_mentions = NewsCoinMention.default_tagged
 
       # Apply Coins filter
       if coins.present?
         result = result
           .joins(:news_coin_mentions)
-          .where("news_coin_mentions.id IN (?)", news_coin_mentions.select(:id))
+          .where("news_coin_mentions.id IN (?)", news_coin_mentions.where(coin: coins).select(:id))
       else
         result = result
           .joins('LEFT OUTER JOIN "news_coin_mentions" ON "news_items"."id" = "news_coin_mentions"."news_item_id"
