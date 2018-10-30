@@ -1,7 +1,9 @@
 import * as React from 'react'
 import * as _ from 'lodash'
+import compose from 'recompose/compose'
 import { Typography, Grid } from '@material-ui/core'
 import { withStyles, createStyles } from '@material-ui/core/styles'
+import withWidth, { isWidthDown, isWidthUp } from '@material-ui/core/withWidth'
 import BulletSpacer from '~/bundles/common/components/BulletSpacer'
 import Highcharts from 'highcharts/highcharts'
 import options from '../common/components/CoinCharts/PriceGraph/options'
@@ -23,7 +25,13 @@ interface CoinDominance {
 
 interface Props {
   classes: any
+  width: any
   coinData: CoinDominance[]
+}
+
+interface State {
+  chartData: any
+  marketDominance: number
 }
 
 const containerId = 'market-dominance-chart'
@@ -42,25 +50,74 @@ const styles = (theme) =>
     legend: {
       flexBasis: 'unset !important', // fixes weird height issue
     },
+    titleLabel: {
+      color: '#d7d7d7',
+      paddingRight: '5px',
+    },
+    title: {
+      fontWeight: 600,
+      display: 'inline-block',
+      [theme.breakpoints.down('sm')]: {
+        fontSize: '0.7rem',
+        color: '#fff',
+      },
+    },
   })
 
-class MarketDominance extends React.Component<Props, {}> {
+class MarketDominance extends React.Component<Props, State> {
   public chart: any
 
-  public formatPercentage(percentage) {
-    return parseFloat((percentage * 100).toFixed(1))
-  }
+  public constructor(props) {
+    super(props)
 
-  public componentDidMount() {
-    const { coinData } = this.props
-
-    const data = coinData.map((coin) => {
+    const chartData = props.coinData.map((coin) => {
       return [coin.name, this.formatPercentage(coin.market_percentage)]
     })
 
-    const bitcoinData = _.find(coinData, (coin) => coin.slug === 'bitcoin') || {
+    const bitcoinData = _.find(
+      props.coinData,
+      (coin) => coin.slug === 'bitcoin',
+    ) || {
       market_percentage: 0,
     }
+    const marketDominance = bitcoinData.market_percentage
+
+    this.state = {
+      chartData,
+      marketDominance,
+    }
+  }
+
+  public componentDidMount() {
+    if (isWidthUp('md', this.props.width)) {
+      this.mountHighchart()
+    }
+  }
+
+  public componentDidUpdate(prevProps, prevState) {
+    if (
+      isWidthUp('md', this.props.width) &&
+      isWidthDown('sm', prevProps.width)
+    ) {
+      // switching from mobile to desktop
+      this.mountHighchart()
+    } else if (
+      isWidthUp('md', prevProps.width) &&
+      isWidthDown('sm', this.props.width)
+    ) {
+      // switching from desktop to mobile
+      this.unmountHighchart()
+    }
+  }
+
+  public componentWillUnmount() {
+    this.unmountHighchart()
+  }
+
+  public mountHighchart() {
+    const { chartData: data, marketDominance } = this.state
+
+    this.unmountHighchart()
 
     this.chart = Highcharts.chart(
       containerId,
@@ -74,7 +131,7 @@ class MarketDominance extends React.Component<Props, {}> {
           },
           colors: chartColours,
           title: {
-            text: `${this.formatPercentage(bitcoinData.market_percentage)}%`,
+            text: `${this.formatPercentage(marketDominance)}%`,
             verticalAlign: 'middle',
             y: -7,
             style: { 'font-size': '1.5rem', 'font-weight': 'bold' },
@@ -112,12 +169,35 @@ class MarketDominance extends React.Component<Props, {}> {
     )
   }
 
-  public componentWillUnmount() {
-    this.chart.destroy()
+  public unmountHighchart() {
+    if (this.chart) {
+      this.chart.destroy()
+      this.chart = undefined
+    }
+  }
+
+  public formatPercentage(percentage) {
+    return parseFloat((percentage * 100).toFixed(1))
   }
 
   public render() {
-    const { classes, coinData } = this.props
+    const { classes, coinData, width } = this.props
+    const { marketDominance } = this.state
+
+    if (isWidthDown('sm', width)) {
+      return (
+        <React.Fragment>
+          <Grid item={true} className={classes.title}>
+            <Typography className={classes.titleLabel} component="span">
+              Bitcoin Dominance:{' '}
+            </Typography>
+          </Grid>
+          <Grid item={true} className={classes.title}>
+            {this.formatPercentage(marketDominance)}%
+          </Grid>
+        </React.Fragment>
+      )
+    }
 
     return (
       <Grid
@@ -174,4 +254,7 @@ class MarketDominance extends React.Component<Props, {}> {
   }
 }
 
-export default withStyles(styles)(MarketDominance)
+export default compose(
+  withStyles(styles),
+  withWidth(),
+)(MarketDominance)
