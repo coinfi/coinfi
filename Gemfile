@@ -122,6 +122,7 @@ end
 group :production do
   gem 'rails_12factor'
   gem 'scout_apm'
+  gem 'rack-attack'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem

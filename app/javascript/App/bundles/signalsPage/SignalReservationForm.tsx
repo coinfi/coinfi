@@ -65,6 +65,7 @@ interface Props {
   classes: any
   formAuthenticityToken: string
   reservationStakingAmount: string
+  email?: string
   destinationCofiWalletAddress: string
 }
 
@@ -102,7 +103,7 @@ class SignalReservationForm extends React.Component<Props, State> {
   public state: State = {
     activeStep: 0,
     formData: {
-      email: '',
+      email: this.props.email || '',
       telegramUsername: '',
       ethereumAddress: '',
     },

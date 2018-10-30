@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20181026035424) do
+ActiveRecord::Schema.define(version: 20181029150802) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -375,6 +375,7 @@ ActiveRecord::Schema.define(version: 20181026035424) do
     t.boolean "is_processed", default: false
     t.integer "news_item_id"
     t.boolean "was_replaced_by_an_update"
+    t.index ["news_item_id"], name: "index_news_item_raws_on_news_item_id"
   end
 
   create_table "news_items", force: :cascade do |t|
@@ -402,6 +403,7 @@ ActiveRecord::Schema.define(version: 20181026035424) do
     t.index ["feed_source_id", "feed_item_id"], name: "index_news_items_on_feed_source_id_and_feed_item_id", unique: true
     t.index ["feed_source_id"], name: "index_news_items_on_feed_source_id"
     t.index ["is_published"], name: "index_news_items_on_is_published"
+    t.index ["title"], name: "index_news_items_on_title"
     t.index ["user_id"], name: "index_news_items_on_user_id"
   end
 

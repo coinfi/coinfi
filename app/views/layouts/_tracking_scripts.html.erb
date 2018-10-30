@@ -126,7 +126,7 @@
   and there should be no bugs to report on the Signals pages so we want to
   encourage users to convert without distracting them with other options.
   %>
-  <% if request.original_fullpath.start_with? '/signals' %>
+  <% if request.original_fullpath == '/' || request.original_fullpath.start_with?('/signals') %>
     <!-- Start of Async Drift Code -->
     <script>
     !function() {
@@ -187,5 +187,10 @@
       },
     });
     </script>
+  <% end %>
+
+  <%# This should be right before closing body tag %>
+  <% if controller.controller_name != ('signals') %>
+    <script src="https://my.hellobar.com/7700c8817cb197d6aa452a9bf6647ba36e18a9f2.js" type="text/javascript" charset="utf-8" async="async"></script>
   <% end %>
 <% end %>

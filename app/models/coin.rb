@@ -36,6 +36,7 @@ class Coin < ApplicationRecord
 
   scope :legit, -> { where.not(price: nil, image_url: nil) }
   scope :top, -> (limit) { order(ranking: :asc).limit(limit) }
+  scope :quick_top, -> (limit) { where("coins.ranking >= ?", limit) }
   scope :icos, -> { where(ico_status: ICO_STATUSES).order(:ico_end_date) }
   scope :unslugged, -> { where(slug: nil) }
 
