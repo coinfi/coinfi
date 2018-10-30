@@ -49,6 +49,7 @@
     "SCOUT_MONITOR": { "required": true },
     "SECRET_KEY_BASE": { "required": true },
     "SIGNALS_STAKING_AMOUNT": { "required": true },
+    "SIGNALS_MIN_STAKING_AMOUNT": { "required": true },
     "SIGNALS_TELEGRAM_BOT_API_USERNAME": { "required": true },
     "SIGNALS_TELEGRAM_BOT_API_PASSWORD": { "required": true },
     "STAGING_DATABASE_URL": { "required": true },

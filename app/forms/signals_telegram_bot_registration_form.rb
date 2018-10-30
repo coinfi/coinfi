@@ -1,5 +1,4 @@
 class SignalsTelegramBotRegistrationForm < Patterns::Form
-  REQUIRED_MIN_STAKED_COFI_AMOUNT = 20000
   param_key 'signals_telegram_bot'
 
   attribute :telegram_username
@@ -48,11 +47,12 @@ class SignalsTelegramBotRegistrationForm < Patterns::Form
   end
 
   def validate_user_staked_cofi_amount
-    if user.staked_cofi_amount < self.class::REQUIRED_MIN_STAKED_COFI_AMOUNT
+    min_staking_amount = ENV.fetch('SIGNALS_MIN_STAKING_AMOUNT').to_d
+    if user.staked_cofi_amount < min_staking_amount
       errors.add(
         :user,
         :min_staked_cofi_amount,
-        message: "has not staked more than #{self.class::REQUIRED_MIN_STAKED_COFI_AMOUNT} COFI tokens"
+        message: "has not staked more than #{min_staking_amount} COFI tokens"
       )
     end
   end
