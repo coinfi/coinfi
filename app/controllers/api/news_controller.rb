@@ -16,10 +16,17 @@ class Api::NewsController < ApiController
           .order_by_published
           .limit(5)
       else # For newsfeed (keep feature flag)
+<<<<<<< HEAD
         has_news = detect_news_feature
         return has_news unless has_news.nil?
 
         news_items = process_news_feed(params)
+=======
+        news_feature_response = detect_news_feature
+        return news_feature_response unless news_feature_response.nil?
+        
+        news_items = apply_news_feed_filters(params)
+>>>>>>> cee8b0cf... Change names for clarity.
       end
 
       respond_success serialized(news_items)
@@ -60,7 +67,7 @@ class Api::NewsController < ApiController
     end
   end
 
-  def process_news_feed(params)
+  def apply_news_feed_filters(params)
     if params[:coinSlugs]
       coins = Coin.where(slug: params[:coinSlugs])
     end
