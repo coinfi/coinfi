@@ -13,7 +13,7 @@ class SendSignalsStakingConfirmationEmailsService < Patterns::Service
         next
       end
 
-      user.token_sale['signals_staking_confirmation_email_queued_at'] = DateTime.now
+      user.token_sale['reservation_confirmed_at'] = DateTime.now
       SignalsMailer.staking_confirmation(user).deliver_later
       user.save!
 
@@ -26,6 +26,6 @@ class SendSignalsStakingConfirmationEmailsService < Patterns::Service
   def users_awaiting_email
     @users_awaiting_email ||= @user_scope
       .where("(token_sale->>'reservation_completed_at') IS NOT NULL")
-      .where("(token_sale->>'signals_staking_confirmation_email_queued_at') IS NULL")
+      .where("(token_sale->>'reservation_confirmed_at') IS NULL")
   end
 end
