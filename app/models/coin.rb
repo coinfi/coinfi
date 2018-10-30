@@ -97,102 +97,22 @@ class Coin < ApplicationRecord
   end
 
   def self.historical_total_market_data
-    # Rails.cache.fetch("coins/historical_total_market_data", expires_in: 5.minutes) do
-      # url = "https://pro-api.coinmarketcap.com/v1/global-metrics/quotes/historical?count=7&interval=daily?apiKey=#{ENV.fetch('COINMARKETCAP_API_KEY')}"
-      # response = HTTParty.get(url)
-      # data = JSON.parse(response.body)[0] || {}
-      # default_market_data.merge(data)
-      data = JSON.parse('{
-        "data": {
-        "quotes": [
-        {
-          "timestamp": "2018-07-29T00:02:00.000Z",
-          "btc_dominance": 47.9949,
-          "quote": {
-            "USD": {
-              "total_market_cap": 292863223827.394,
-              "total_volume_24h": 17692152629.7864,
-              "timestamp": "2018-07-31T00:02:00.000Z"
-            }
-          }
-        },
-        {
-          "timestamp": "2018-07-30T00:02:00.000Z",
-          "btc_dominance": 47.9949,
-          "quote": {
-            "USD": {
-              "total_market_cap": 292863223827.394,
-              "total_volume_24h": 17692152629.7864,
-              "timestamp": "2018-07-31T00:02:00.000Z"
-            }
-          }
-        },
-        {
-          "timestamp": "2018-07-31T00:02:00.000Z",
-          "btc_dominance": 47.9949,
-          "quote": {
-            "USD": {
-              "total_market_cap": 292863223827.394,
-              "total_volume_24h": 17692152629.7864,
-              "timestamp": "2018-07-31T00:02:00.000Z"
-            }
-          }
-        },
-        {
-          "timestamp": "2018-08-01T00:02:00.000Z",
-          "btc_dominance": 48.0585,
-          "quote": {
-            "USD": {
-              "total_market_cap": 277770824530.303,
-              "total_volume_24h": 15398085549.0344,
-              "timestamp": "2018-07-31T00:02:00.000Z"
-            }
-          }
-        },
-        {
-          "timestamp": "2018-08-02T00:02:00.000Z",
-          "btc_dominance": 48.041,
-          "quote": {
-            "USD": {
-              "total_market_cap": 273078776005.223,
-              "total_volume_24h": 14300071695.0547,
-              "timestamp": "2018-07-31T00:02:00.000Z"
-            }
-          }
-        },
-        {
-          "timestamp": "2018-08-03T00:02:00.000Z",
-          "btc_dominance": 48.041,
-          "quote": {
-            "USD": {
-              "total_market_cap": 273078776005.223,
-              "total_volume_24h": 14300071695.0547,
-              "timestamp": "2018-07-31T00:02:00.000Z"
-            }
-          }
-        },
-        {
-          "timestamp": "2018-08-04T00:02:00.000Z",
-          "btc_dominance": 48.041,
-          "quote": {
-            "USD": {
-              "total_market_cap": 292863223827.394,
-              "total_volume_24h": 17692152629.7864,
-              "timestamp": "2018-07-31T00:02:00.000Z"
-            }
-          }
-        }
-        ]
-        },
-        "status": {
-        "timestamp": "2018-06-02T22:51:28.209Z",
-        "error_code": 0,
-        "error_message": "",
-        "elapsed": 10,
-        "credit_count": 1
-        }
-      }')
-      
+    Rails.cache.fetch("coins/historical_total_market_data", expires_in: 5.minutes) do
+      url = "https://pro-api.coinmarketcap.com/v1/global-metrics/quotes/historical"
+      query = {
+        "count" => 7,
+        "interval" => "daily",
+      }
+      headers = {
+        "X-CMC_PRO_API_KEY" => ENV.fetch('COINMARKETCAP_API_KEY')
+      }
+      response = HTTParty.get(
+        url, 
+        :query => query,
+        :headers => headers,  
+      )
+      data = JSON.parse(response.body) || {}
+
       processed_data = (data.dig('data', 'quotes') || {}).map { |x| {
         "timestamp" => x['timestamp'],
         "total_market_cap" => x.dig('quote', 'USD', 'total_market_cap'),
@@ -200,7 +120,7 @@ class Coin < ApplicationRecord
       } }
 
       processed_data
-    # end
+    end
   end
 
   def market_percentage
