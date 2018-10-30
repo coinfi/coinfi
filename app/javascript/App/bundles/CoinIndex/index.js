@@ -62,6 +62,9 @@ const styles = (theme) =>
       },
     },
     widgetContainerLeft: {
+      [theme.breakpoints.down('sm')]: {
+        backgroundColor: 'rgb(7, 29, 41)',
+      },
       [theme.breakpoints.up('md')]: {
         maxWidth: '492px',
       },
@@ -69,6 +72,16 @@ const styles = (theme) =>
     widgetContainerRight: {
       [theme.breakpoints.up('md')]: {
         maxWidth: '492px',
+      },
+    },
+    leftContainerInner: {
+      flexDirection: 'row',
+      justifyContent: 'space-around',
+      alignItems: 'baseline',
+      [theme.breakpoints.up('md')]: {
+        flexDirection: 'column',
+        justifyContent: 'flex-start',
+        alignItems: 'stretch',
       },
     },
     newsWidgetHeader: {
@@ -179,24 +192,16 @@ class CoinIndex extends Component {
           className={classes.widgetContainer}
           spacing={24}
         >
-          <Hidden smDown initialWidth="lg">
-            <Grid item md={6} className={classes.widgetContainerLeft}>
-              <Grid
-                container
-                direction="column"
-                justify="flex-end"
-                alignItems="stretch"
-                spacing={8}
-              >
-                <Grid item md>
-                  <TotalMarketCap marketCapData={totalMarketCap} />
-                </Grid>
-                <Grid item md>
-                  <MarketDominance coinData={marketDominance} />
-                </Grid>
+          <Grid item xs={12} md={6} className={classes.widgetContainerLeft}>
+            <Grid container className={classes.leftContainerInner} spacing={8}>
+              <Grid item md>
+                <TotalMarketCap marketCapData={totalMarketCap} />
+              </Grid>
+              <Grid item md>
+                <MarketDominance coinData={marketDominance} />
               </Grid>
             </Grid>
-          </Hidden>
+          </Grid>
           <Grid item xs={12} md={6} className={classes.widgetContainerRight}>
             <Typography
               variant="h5"

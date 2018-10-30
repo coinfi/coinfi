@@ -43,10 +43,18 @@ const styles = (theme) =>
       padding: `${theme.spacing.unit * 2}px`,
     },
     chartContainer: {},
+    titleLabel: {
+      color: '#d7d7d7',
+      paddingRight: '5px',
+    },
     title: {
       fontSize: '1.2rem',
       fontWeight: 600,
       display: 'inline-block',
+      [theme.breakpoints.down('sm')]: {
+        fontSize: '0.7rem',
+        color: '#fff',
+      },
     },
     titleDetails: {
       fontSize: '0.8rem',
@@ -267,12 +275,23 @@ class TotalMarketCap extends React.Component<Props, State> {
       percentageDifference,
     } = this.state
 
+    if (isWidthDown('sm', this.props.width)) {
+      return (
+        <React.Fragment>
+          <Grid item={true} className={classes.title}>
+            <Typography className={classes.titleLabel} component="span">
+              Market Cap:{' '}
+            </Typography>
+          </Grid>
+          <Grid item={true} className={classes.title}>
+            ${totalMarketCap}
+          </Grid>
+        </React.Fragment>
+      )
+    }
+
     const arrow = isPositive ? '▲' : '▼'
     const colourStyle = isPositive ? { color: '#0f0' } : { color: '#f00' }
-
-    if (isWidthDown('sm', this.props.width)) {
-      return <div>Market Cap: ${totalMarketCap}</div>
-    }
 
     return (
       <Grid
