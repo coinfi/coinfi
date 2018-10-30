@@ -64,7 +64,6 @@ Rails.application.routes.draw do
     resources :exchange_listings, only: %i[index show]
 
     resources :news, only: %i[index show]
-    resources :news_items, only: :index
     namespace :newsfeed do
       resources :coins, only: %i[index]
     end
