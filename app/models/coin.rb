@@ -113,7 +113,7 @@ class Coin < ApplicationRecord
       )
       data = JSON.parse(response.body) || {}
 
-      processed_data = (data.dig('data', 'quotes') || {}).map { |x| {
+      processed_data = (data.dig('data', 'quotes') || []).map { |x| {
         "timestamp" => x['timestamp'],
         "total_market_cap" => x.dig('quote', 'USD', 'total_market_cap'),
         "total_volume_24h" => x.dig('quote', 'USD', 'total_volume_24h'),

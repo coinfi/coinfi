@@ -94,11 +94,15 @@ class TotalMarketCap extends React.Component<Props, State> {
       })
       .sort((a, b) => b - a)
 
-    const latest = sortedMarketCapData.slice(sortedMarketCapData.length - 1)[0]
-    const secondLatest = sortedMarketCapData.slice(
-      sortedMarketCapData.length - 2,
-      sortedMarketCapData.length - 1,
-    )[0]
+    const empty = { total_market_cap: 0 }
+    const latest =
+      sortedMarketCapData.slice(sortedMarketCapData.length - 1)[0] || empty
+    const secondLatest =
+      sortedMarketCapData.slice(
+        sortedMarketCapData.length - 2,
+        sortedMarketCapData.length - 1,
+      )[0] || empty
+
     const totalMarketCap = this.formatPrice(latest.total_market_cap, 0)
     const difference = secondLatest.total_market_cap - latest.total_market_cap
     const isPositive = difference >= 0
@@ -204,8 +208,8 @@ class TotalMarketCap extends React.Component<Props, State> {
             startOnTick: true,
             endOnTick: true,
             minTickInterval: 24 * 3600 * 1000,
-            min: data[0].x,
-            max: data[data.length - 1].x,
+            ...(data.length > 0 && { min: data[0].x }),
+            ...(data.length > 0 && { max: data[data.length - 1].x }),
           },
           yAxis: [
             {
