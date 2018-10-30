@@ -11,7 +11,7 @@ class Api::NewsController < ApiController
       news_items = nil
 
       if params[:frontPage].present? # For Front page (public; no feature flag)
-        news_items = NewsItem.published.front_page
+        news_items = NewsItem.published.where(feed_source: FeedSource.coindesk.or(FeedSource.cointelegraph))
           .includes(:coins, :news_categories)
           .order_by_published
           .limit(5)
