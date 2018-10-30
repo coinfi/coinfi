@@ -2,22 +2,17 @@ import * as React from 'react'
 import * as _ from 'lodash'
 import Layout from './Layout'
 import MarketMoving from './filterComponents/MarketMoving'
-import Coins from './filterComponents/Coins'
 import Dates from './filterComponents/Dates'
 import FeedSources from './filterComponents/FeedSources'
 import Social from './filterComponents/Social'
 import Categories from './filterComponents/Categories'
 import { Filters } from '../types'
 
-import {
-  getDefaultFilters,
-  mergeInitialSocialSourcesForCoinsFilter,
-} from '../utils'
+import { getDefaultFilters } from '../utils'
 
 interface Props {
   categories: string[]
   feedSources: string[]
-  topCoinSlugs: string[]
   filters: Filters
   closeFilterPanel: () => void
   applyFilters: (filters: Filters) => void
@@ -66,7 +61,7 @@ class FilterPanel extends React.Component<Props, State> {
       return state
     })
 
-  public onCagetoryToggle = (category: string) =>
+  public onCategoryToggle = (category: string) =>
     this.setState((state) => {
       if (state.form.categories.includes(category)) {
         state.form.categories = _.without(state.form.categories, category)
@@ -85,18 +80,6 @@ class FilterPanel extends React.Component<Props, State> {
       }
       return state
     })
-
-  public onCoinsChange = (selectedOptions: any[]) => {
-    this.setState((state) => {
-      state.form.coinSlugs = selectedOptions.map((elem) => elem.value)
-      state.form.feedSources = mergeInitialSocialSourcesForCoinsFilter(
-        state.form.feedSources,
-        state.form.coinSlugs,
-        this.props.topCoinSlugs,
-      )
-      return state
-    })
-  }
 
   public render() {
     return (
@@ -124,14 +107,7 @@ class FilterPanel extends React.Component<Props, State> {
           <Categories
             items={this.props.categories}
             selectedItems={this.state.form.categories}
-            onChange={this.onCagetoryToggle}
-          />
-        </div>
-        <div className="pb3">
-          <h4 className="mb2 f5">Coins</h4>
-          <Coins
-            selectedCoins={this.state.form.coinSlugs}
-            onChange={this.onCoinsChange}
+            onChange={this.onCategoryToggle}
           />
         </div>
         <div className="pb3">
