@@ -1,8 +1,14 @@
 class SignalsController < ApplicationController
   def index
+    set_meta_tags(
+      title: "Professional Crypto Trading Signals"
+    )
   end
 
   def reservation
+    set_meta_tags(
+      title: "Professional Crypto Trading Signals"
+    )
   end
 
   def reservation_update
@@ -10,6 +16,10 @@ class SignalsController < ApplicationController
     user = find_or_create_user(email: params[:email])
 
     user.token_sale ||= {}
+
+    # Starting time.
+    user.token_sale["signals_reservation_start_time"] = Time.now unless user.token_sale["signals_signup"]
+
     user.token_sale["signals_signup"] = true
     user.token_sale["telegram_username"] = params[:telegramUsername] if params["telegramUsername"].present?
     user.token_sale["staked_ethereum_address"] = params[:ethereumAddress] if params["ethereumAddress"].present?

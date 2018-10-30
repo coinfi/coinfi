@@ -47,7 +47,11 @@ class NewsController < ApplicationController
   protected
 
   def check_permissions
-    return render_404 unless has_news_feature?
+    if !user_signed_in?
+      redirect_to '/login', alert: "Please login first"
+    elsif !has_news_feature?
+      render_404
+    end
   end
 
   def set_view_data

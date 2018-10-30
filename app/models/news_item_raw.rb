@@ -8,6 +8,15 @@ class NewsItemRaw < ApplicationRecord
     raw_item.process!
   end
 
+  def self.clean_content_html(content_html)
+    parsed_content_html = Nokogiri::HTML::DocumentFragment.parse(content_html)
+
+    # Remove any <li> elements with <i> with no children (or ss as child)
+    parsed_content_html.xpath('*//li[i[ss or not(.//* or @* or text())]]').remove()
+
+    parsed_content_html.to_html()
+  end
+
   def process!
     begin
       news_item = NewsItem.create!(news_item_params)
@@ -42,7 +51,7 @@ class NewsItemRaw < ApplicationRecord
       url: item[:permalinkUrl],
       title: item[:title],
       summary: item[:summary],
-      content: item[:content],
+      content: self.class.clean_content_html(item[:content]),
       actor_id: actor_id,
       feed_item_published_at: DateTime.strptime(item[:published].to_s, '%s'),
       feed_item_updated_at: DateTime.strptime(item[:updated].to_s, '%s'),

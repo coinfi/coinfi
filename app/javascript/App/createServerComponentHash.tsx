@@ -1,10 +1,8 @@
 import * as React from 'react'
 import { renderToString } from 'react-dom/server'
 import * as _ from 'lodash'
-import withServerProviders from '~/withServerProviders'
-import createStylesContext from '~/createStylesContext'
-
-const sharedStylesContext = createStylesContext()
+import withRootProviders from '~/withRootProviders'
+import getOrCreateStylesContext from '~/getOrCreateStylesContext'
 
 /**
  * Generator function for a component hash to be used with React on Rails `react_component` and
@@ -15,8 +13,9 @@ const sharedStylesContext = createStylesContext()
 const createServerComponentHash = (TargetComponent: any) => {
   return (props, railsContext) => {
     // Render to HTML passing in `context` to be updated
+    const stylesNamespace = props.stylesNamespace
     const componentHtml = renderToString(
-      withServerProviders(TargetComponent, sharedStylesContext)(
+      withRootProviders(TargetComponent, { stylesNamespace })(
         props,
         railsContext,
       ),
@@ -30,7 +29,10 @@ const createServerComponentHash = (TargetComponent: any) => {
         componentHtml,
         // As this is a shared `SheetsRegistry`, the styles will include ones from other components
         // as well
-        componentCss: sharedStylesContext.sheetsRegistry.toString(),
+        componentCss: getOrCreateStylesContext(
+          stylesNamespace,
+        ).sheetsRegistry.toString(),
+        componentStylesNamespace: stylesNamespace,
       },
     }
   }

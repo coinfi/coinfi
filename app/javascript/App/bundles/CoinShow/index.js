@@ -1,4 +1,5 @@
 import React, { Component, Fragment } from 'react'
+import * as _ from 'lodash'
 import { Layout, Card, Button, List, Col, Row, Avatar } from 'antd'
 import classNames from 'classnames'
 import styled from 'styled-components'
@@ -8,6 +9,7 @@ import CoinCharts from '~/bundles/common/components/CoinCharts'
 import SectionHeader from '~/bundles/common/components/SectionHeader'
 import FundamentalsData from './FundamentalsData'
 import LinksData from './LinksData'
+import HistoricalPriceDataTable from './HistoricalPriceDataTable'
 
 const { Content } = Layout
 
@@ -66,6 +68,7 @@ class CoinShow extends Component {
     const {
       symbol,
       priceData,
+      availableSupply,
       annotations,
       isTradingViewVisible,
       metabaseUrl,
@@ -81,7 +84,7 @@ class CoinShow extends Component {
     const currency = this.state.currency
     const prepend = currency === 'USD' ? '$' : ''
     const price = `${prepend}${Number.parseFloat(
-      coinObj.price[currency.toLowerCase()],
+      _.get(coinObj, ['price', currency.toLowerCase()], 0),
     ).toPrecision(6)} ${currency}`
 
     return (
@@ -190,6 +193,18 @@ class CoinShow extends Component {
                           annotations={annotations}
                           isTradingViewVisible={isTradingViewVisible}
                           onPriceChartCreated={this.handlePriceChartCreated}
+                        />
+                      </Card>
+                    </CardWrap>
+                    <CardWrap>
+                      <Card
+                        title="Historical Data"
+                        style={{ padding: 1, overflowX: 'auto' }}
+                      >
+                        <HistoricalPriceDataTable
+                          initialData={priceData}
+                          availableSupply={availableSupply}
+                          symbol={symbol}
                         />
                       </Card>
                     </CardWrap>
@@ -338,7 +353,6 @@ class CoinShow extends Component {
                                   >
                                     <a
                                       href={`/coins/${item.slug}`}
-                                      rel="nofollow noopener noreferrer"
                                       style={{
                                         marginTop: '-.25rem',
                                       }}
