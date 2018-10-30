@@ -83,6 +83,11 @@ gem 'mini_racer', platforms: :ruby
 gem 'browser'
 # Used to produce sitemap.xml
 gem 'sitemap_generator'
+# Library for Rails best practise patterns
+# see https://medium.com/selleo/essential-rubyonrails-patterns-part-1-service-objects-1af9f9573ca1
+gem "rails-patterns"
+# Rails application performance monitoring
+gem 'skylight'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

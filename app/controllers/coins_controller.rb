@@ -66,7 +66,14 @@ class CoinsController < ApplicationController
 
     # If we don't find matches for slug, we can safely assume it is an id
     coin_id = coin_id_or_slug
-    coin_by_id = Coin.find(coin_id)
+    coin_by_id = nil
+    Rollbar.silenced {
+      coin_by_id = Coin.find(coin_id)
+    }
+    if !coin_by_id 
+      render_404
+    end
+
     # 301 redirect to the same action with the coin slug for SEO purposes
     redirect_to action: action_name, id_or_slug: coin_by_id.slug, status: :moved_permanently
   end

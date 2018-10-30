@@ -12,10 +12,11 @@ Rails.application.routes.draw do
   resources :calendar_events, only: :index, path: 'calendar'
   get '/icos', to: redirect('/icos/upcoming'), as: 'icos_root'
   get '/icos(/:status)', to: 'icos#index', as: 'icos'
+  get '/news/beta', to: static('/news-beta.html')
   get '/news/:id/:slug', to: 'news#show', as: 'news_item'
   get '/news/:coin_slug', to: 'news#coin_index', as: 'news_coin'
   get '/news', to: 'news#index'
-  get '/news-beta', to: redirect('/', status: 302)
+  get '/news-beta', to: static('/news-beta.html')
   get '/podcast', to: redirect('https://blog.coinfi.com/topics/podcast/', status: 302), as: 'podcast'
   get '/profile', to: 'users#edit'
   put '/profile', to: 'users#update'
@@ -51,6 +52,11 @@ Rails.application.routes.draw do
       get 'watchlist', on: :collection
     end
 
+    scope :signals_telegram_bot do
+      post 'register', to: 'signals_telegram_bot#register'
+      get 'subscribers', to: 'signals_telegram_bot#subscribers'
+    end
+
     namespace :watchlist do
       resources :coins, only: %i[index create destroy]
     end
@@ -73,7 +79,7 @@ Rails.application.routes.draw do
     post "#{ENV.fetch('SUPERFEEDR_CALLBACK_URL_SEGMENT_SECRET')}-superfeedr-ingest", to: 'websubs#superfeedr_ingest'
   end
 
-  root to: 'pages#show', id: 'home'
+  root to: 'signals#index'
   get '/about', to: 'pages#show', id: 'about', as: 'page_about'
   get '/press', to: 'pages#show', id: 'press', as: 'page_press'
   get '/calendar', to: 'pages#show', id: 'calendar', as: 'page_calendar'
@@ -84,4 +90,7 @@ Rails.application.routes.draw do
   patch '/signals/reservation', to: 'signals#reservation_update', as: 'signals_reservation_update'
 
   mount Blazer::Engine, at: "blazer"
+
+  match '/404', :to => 'errors#not_found', :via => :all
+  match '/500', :to => 'errors#internal_server_error', :via => :all
 end
