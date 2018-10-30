@@ -31,7 +31,7 @@ module NewsItems
         result = result.where(feed_source: feed_sources)
       end
 
-      news_coin_mentions = NewsCoinMention.default_tagged
+      news_coin_mentions = NewsCoinMention.default_tagged.where(coin: coins)
 
       # Apply Coins filter
       if coins.present?
