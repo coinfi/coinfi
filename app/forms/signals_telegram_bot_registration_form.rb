@@ -7,9 +7,9 @@ class SignalsTelegramBotRegistrationForm < Patterns::Form
 
   validates :telegram_username, presence: true
   validates :user, presence: true, :if => proc { |f| f.telegram_username.present? }
-  validate :validate_user_access, :if => proc { |f| f.user.present? }
   validates :chat_id, presence: true
   validates :started_at, presence: true
+  validate :validate_user_access, :if => proc { |f| f.user.present? }
 
   def persist
     user.token_sale[:signals_telegram_bot_chat_id] = chat_id
