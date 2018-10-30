@@ -1,8 +1,10 @@
 import * as React from 'react'
 import * as _ from 'lodash'
 import * as moment from 'moment'
+import compose from 'recompose/compose'
 import { Typography, Grid } from '@material-ui/core'
 import { withStyles, createStyles } from '@material-ui/core/styles'
+import withWidth, { isWidthDown, isWidthUp } from '@material-ui/core/withWidth'
 import Highcharts from 'highcharts/highcharts'
 import options from '../common/components/CoinCharts/PriceGraph/options'
 
@@ -18,6 +20,7 @@ interface MarketCap extends RawMarketCap {
 
 interface Props {
   classes: any
+  width: any
   marketCapData: RawMarketCap[]
 }
 
@@ -109,6 +112,38 @@ class TotalMarketCap extends React.Component<Props, State> {
   }
 
   public componentDidMount() {
+    Highcharts.setOptions({
+      lang: {
+        numericSymbols,
+      },
+    })
+
+    if (isWidthUp('md', this.props.width)) {
+      this.mountHighchart()
+    }
+  }
+
+  public componentDidUpdate(prevProps, prevState) {
+    if (
+      isWidthUp('md', this.props.width) &&
+      isWidthDown('sm', prevProps.width)
+    ) {
+      // switching from mobile to desktop
+      this.mountHighchart()
+    } else if (
+      isWidthUp('md', prevProps.width) &&
+      isWidthDown('sm', this.props.width)
+    ) {
+      // switching from desktop to mobile
+      this.unmountHighchart()
+    }
+  }
+
+  public componentWillUnmount() {
+    this.unmountHighchart()
+  }
+
+  public mountHighchart() {
     const { sortedMarketCapData } = this.state
 
     const data = sortedMarketCapData.map((datum) => {
@@ -118,17 +153,15 @@ class TotalMarketCap extends React.Component<Props, State> {
       }
     })
 
-    Highcharts.setOptions({
-      lang: {
-        numericSymbols,
-      },
-    })
+    this.unmountHighchart()
+
     this.chart = Highcharts.chart(
       containerId,
       _.merge(
         { ...options },
         {
           chart: {
+            type: 'line',
             width: null,
             zoomType: 'x',
             height: '40%',
@@ -198,8 +231,11 @@ class TotalMarketCap extends React.Component<Props, State> {
     )
   }
 
-  public componentWillUnmount() {
-    this.chart.destroy()
+  public unmountHighchart() {
+    if (this.chart) {
+      this.chart.destroy()
+      this.chart = undefined
+    }
   }
 
   public formatPrice(price: number, decimal: number = 6): string {
@@ -233,6 +269,10 @@ class TotalMarketCap extends React.Component<Props, State> {
 
     const arrow = isPositive ? '▲' : '▼'
     const colourStyle = isPositive ? { color: '#0f0' } : { color: '#f00' }
+
+    if (isWidthDown('sm', this.props.width)) {
+      return <div>Market Cap: ${totalMarketCap}</div>
+    }
 
     return (
       <Grid
@@ -286,4 +326,7 @@ class TotalMarketCap extends React.Component<Props, State> {
   }
 }
 
-export default withStyles(styles)(TotalMarketCap)
+export default compose(
+  withStyles(styles),
+  withWidth(),
+)(TotalMarketCap)
