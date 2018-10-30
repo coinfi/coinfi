@@ -14,7 +14,7 @@ class SendSignalsStakingConfirmationEmailsService < Patterns::Service
       end
 
       user.token_sale['signals_staking_confirmation_email_queued_at'] = DateTime.now
-      SignalsMailer.staking_confirmation.deliver_later(user)
+      SignalsMailer.staking_confirmation(user).deliver_later
       user.save!
 
       @users_sent << user
