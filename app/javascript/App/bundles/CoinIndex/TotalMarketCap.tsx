@@ -23,6 +23,10 @@ interface Props {
 
 interface State {
   sortedMarketCapData: MarketCap[]
+  totalMarketCap: string
+  formattedDifference: string
+  percentageDifference: string
+  isPositive: boolean
 }
 
 const containerId = 'market-cap-chart'
@@ -79,8 +83,28 @@ class TotalMarketCap extends React.Component<Props, State> {
       })
       .sort((a, b) => b - a)
 
+    const latest = sortedMarketCapData.slice(sortedMarketCapData.length - 1)[0]
+    const secondLatest = sortedMarketCapData.slice(
+      sortedMarketCapData.length - 2,
+      sortedMarketCapData.length - 1,
+    )[0]
+    const totalMarketCap = this.formatPrice(latest.total_market_cap, 0)
+    const difference = secondLatest.total_market_cap - latest.total_market_cap
+    const isPositive = difference >= 0
+    const formattedDifference = this.formatAbbreviatedPrice(
+      Math.abs(difference),
+    )
+    const percentageDifference = this.formatPrice(
+      difference / secondLatest.total_market_cap,
+      1,
+    )
+
     this.state = {
       sortedMarketCapData,
+      totalMarketCap,
+      formattedDifference,
+      percentageDifference,
+      isPositive,
     }
   }
 
@@ -200,21 +224,13 @@ class TotalMarketCap extends React.Component<Props, State> {
 
   public render() {
     const { classes } = this.props
-    const { sortedMarketCapData } = this.state
+    const {
+      isPositive,
+      totalMarketCap,
+      formattedDifference,
+      percentageDifference,
+    } = this.state
 
-    const latest = sortedMarketCapData.slice(sortedMarketCapData.length - 1)[0]
-    const secondLatest = sortedMarketCapData.slice(
-      sortedMarketCapData.length - 2,
-      sortedMarketCapData.length - 1,
-    )[0]
-    const totalMarketCap = this.formatPrice(latest.total_market_cap, 0)
-    const difference = secondLatest.total_market_cap - latest.total_market_cap
-    const isPositive = difference >= 0
-    const formattedDiference = this.formatAbbreviatedPrice(Math.abs(difference))
-    const percentageDifference = this.formatPrice(
-      difference / secondLatest.total_market_cap,
-      1,
-    )
     const arrow = isPositive ? '▲' : '▼'
     const colourStyle = isPositive ? { color: '#0f0' } : { color: '#f00' }
 
@@ -252,7 +268,7 @@ class TotalMarketCap extends React.Component<Props, State> {
                 className={classes.subtitle}
                 style={colourStyle}
               >
-                {arrow} ${formattedDiference} ({percentageDifference}%)
+                {arrow} ${formattedDifference} ({percentageDifference}%)
               </Typography>
             </Grid>
             <Grid item={true}>
