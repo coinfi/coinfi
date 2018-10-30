@@ -37,7 +37,10 @@ const styles = (theme) =>
       paddingRight: `${theme.spacing.unit}px`, // smaller to compensate for chart's whitespace
     },
     chartContainer: {
-      maxWidth: '240px',
+      maxWidth: '200px',
+    },
+    legend: {
+      flexBasis: 'unset !important', // fixes weird height issue
     },
   })
 
@@ -61,48 +64,51 @@ class MarketDominance extends React.Component<Props, {}> {
 
     this.chart = Highcharts.chart(
       containerId,
-      _.merge(options, {
-        chart: {
-          type: 'pie',
-          width: null,
-          height: '100%',
-        },
-        colors: chartColours,
-        title: {
-          text: `${this.formatPercentage(bitcoinData.market_percentage)}%`,
-          verticalAlign: 'middle',
-          y: -7,
-          style: { 'font-size': '1.5rem', 'font-weight': 'bold' },
-        },
-        subtitle: {
-          text: 'Bitcoin Dominance',
-          verticalAlign: 'middle',
-          y: 10,
-          style: { 'font-size': '0.75rem' },
-        },
-        plotOptions: {
-          pie: {
-            shadow: false,
+      _.merge(
+        { ...options },
+        {
+          chart: {
+            type: 'pie',
+            width: null,
+            height: '100%',
           },
-        },
-        tooltip: {
-          formatter() {
-            return `<b>${this.point.name}</b> ${this.y}%`
+          colors: chartColours,
+          title: {
+            text: `${this.formatPercentage(bitcoinData.market_percentage)}%`,
+            verticalAlign: 'middle',
+            y: -7,
+            style: { 'font-size': '1.5rem', 'font-weight': 'bold' },
           },
-        },
-        series: [
-          {
-            name: 'Browsers',
-            data,
-            size: '100%',
-            innerSize: '90%',
-            showInLegend: false,
-            dataLabels: {
-              enabled: false,
+          subtitle: {
+            text: 'Bitcoin Dominance',
+            verticalAlign: 'middle',
+            y: 10,
+            style: { 'font-size': '0.75rem' },
+          },
+          plotOptions: {
+            pie: {
+              shadow: false,
             },
           },
-        ],
-      }),
+          tooltip: {
+            formatter() {
+              return `<b>${this.point.name}</b> ${this.y}%`
+            },
+          },
+          series: [
+            {
+              name: 'Coins',
+              data,
+              size: '100%',
+              innerSize: '90%',
+              showInLegend: false,
+              dataLabels: {
+                enabled: false,
+              },
+            },
+          ],
+        },
+      ),
     )
   }
 
@@ -126,6 +132,7 @@ class MarketDominance extends React.Component<Props, {}> {
             direction="column"
             justify="flex-start"
             alignItems="stretch"
+            className={classes.legend}
           >
             <Grid item={true}>
               <Typography variant="h5">Market Dominance</Typography>
