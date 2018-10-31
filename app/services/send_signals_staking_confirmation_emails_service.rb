@@ -1,8 +1,9 @@
 class SendSignalsStakingConfirmationEmailsService < Patterns::Service
   attr_reader :users_sent
 
-  def initialize(user_scope: User.all)
+  def initialize(user_scope: User.all, use_job_queue: true)
     @user_scope = user_scope
+    @use_job_queue = use_job_queue
   end
 
   def call
@@ -14,7 +15,12 @@ class SendSignalsStakingConfirmationEmailsService < Patterns::Service
       end
 
       user.token_sale['reservation_confirmed_at'] = DateTime.now
-      SignalsMailer.staking_confirmation(user).deliver_later
+      mail = SignalsMailer.staking_confirmation(user)
+      if @use_job_queue
+        mail.deliver_later
+      else
+        mail.deliver_now
+      end
       user.save!
 
       @users_sent << user
