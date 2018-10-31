@@ -2,12 +2,15 @@ class CoinsController < ApplicationController
   before_action :set_coin, only: [:show]
 
   def index
-    @coin_count = Coin.legit.listed.count
+    @page = if params.has_key?(:page) then params[:page].to_i else 1 end
+    @limit = if params.has_key?(:limit) then params[:limit].to_i else 100 end
+
+    coins = Coin.default
+    @coin_count = coins.count
     @coins = serialize_coins(
-      Coin
-        .legit
-        .page(1)
-        .per(100)
+      coins
+        .page(@page)
+        .per(@limit)
         .order(:ranking)
     )
 
@@ -70,7 +73,7 @@ class CoinsController < ApplicationController
     Rollbar.silenced {
       coin_by_id = Coin.find(coin_id)
     }
-    if !coin_by_id 
+    if !coin_by_id
       render_404
     end
 
