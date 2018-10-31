@@ -12,9 +12,9 @@ class CoinCharts extends Component {
     const { priceData, priceDataHourly } = props
 
     const hasHourlyPrice = priceDataHourly && priceDataHourly.length > 0
-    const processedPriceData = priceData.map(this.formatPriceData)
+    const processedPriceData = priceData.map(this.formatPriceDataDaily)
     const processedPriceDataHourly = hasHourlyPrice
-      ? priceDataHourly.map(this.formatPriceData)
+      ? priceDataHourly.map(this.formatPriceDataHourly)
       : [...processedPriceData]
 
     const sortedPriceData = [
@@ -33,10 +33,23 @@ class CoinCharts extends Component {
     }
   }
 
-  formatPriceData(datum) {
+  formatPriceDataDaily(datum) {
     return {
       ...datum,
-      timestamp: moment.utc(datum.time).valueOf(),
+      timestamp: moment
+        .utc(datum.time)
+        .startOf('day')
+        .valueOf(),
+    }
+  }
+
+  formatPriceDataHourly(datum) {
+    return {
+      ...datum,
+      timestamp: moment
+        .utc(datum.time)
+        .startOf('hour')
+        .valueOf(),
     }
   }
 

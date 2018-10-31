@@ -15,15 +15,17 @@ export default class TradingViewChart extends Component {
 
   componentDidMount() {
     // TODO: inject TV lib here
-    const { symbol, priceData } = this.props
+    const { symbol, priceData, priceDataHourly } = this.props
     const TradingView = this.getTradingView()
+
+    // Options resource https://github.com/stevenGame/jr-chart/wiki/Widget-Constructor
     const tvWidget = new TradingView.widget({
-      debug: false,
+      debug: true,
       fullscreen: false,
       symbol: symbol,
-      interval: 'D',
+      interval: '60',
       container_id: containerID,
-      datafeed: new Datafeed(priceData),
+      datafeed: new Datafeed(priceData, priceDataHourly),
       library_path: '/tradingview/',
       // locale: 'en',
       // disabled_features: [
@@ -45,6 +47,18 @@ export default class TradingViewChart extends Component {
       // client_id: 'tradingview.com',
       // user_id: 'public_user_id',
       width: '100%',
+      favorites: {
+        intervals: ['60', 'D'],
+      },
+      time_frames: [
+        { text: '1d', resolution: '60', description: '3 Days' },
+        { text: '7d', resolution: '60', description: '7 Days' },
+        { text: '1m', resolution: '60', description: '1 Month' },
+        { text: '3m', resolution: 'D', description: '3 Months' },
+        { text: '6m', resolution: 'D', description: '6 Months' },
+        { text: '1y', resolution: 'D', description: '1 Year' },
+        { text: '1000y', resolution: 'D', description: 'All', title: 'All' },
+      ],
     })
   }
   render() {
