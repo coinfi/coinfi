@@ -1,6 +1,7 @@
 import * as React from 'react'
 import { Component, Fragment } from 'react'
 import { withRouter, RouteComponentProps } from 'react-router'
+import compose from 'recompose/compose'
 import {
   Table,
   TableHead,
@@ -9,13 +10,14 @@ import {
   TableCell,
   TablePagination,
   TableFooter,
-  Typography,
 } from '@material-ui/core'
+import { withStyles, createStyles } from '@material-ui/core/styles'
 import ColumnNames from './ColumnNames'
 import SearchCoins from '~/bundles/common/components/SearchCoins'
 import LoadingIndicator from '~/bundles/common/components/LoadingIndicator'
 import API from '../common/utils/localAPI'
 import * as _ from 'lodash'
+import TablePaginationActions from './TablePaginationActions'
 
 interface CoinData {
   id: number
@@ -39,6 +41,7 @@ interface PaginatedCoins {
 }
 
 interface Props extends RouteComponentProps<any> {
+  classes: any
   coinCount: number
   intialCoins: CoinData[]
   page: number
@@ -58,6 +61,26 @@ const DEFAULTS = {
   limit: 100,
   currency: 'USD',
 }
+
+const styles = (theme) =>
+  createStyles({
+    tableWrapper: {
+      overflow: 'auto',
+    },
+    table: {
+      width: '1080px',
+      minWidth: '100%',
+    },
+    tableHeader: {
+      color: 'rgba(0,0,0,0.65)',
+    },
+    tableRow: {
+      height: `${theme.spacing.unit * 7}px`,
+    },
+    sparkline: {
+      width: '200px',
+    },
+  })
 
 class CoinIndex extends Component<Props, State> {
   constructor(props) {
@@ -159,7 +182,7 @@ class CoinIndex extends Component<Props, State> {
   }
 
   public render() {
-    const { coinCount } = this.props
+    const { coinCount, classes } = this.props
     const { loading, pageSize, currentPage, coinsByPage } = this.state
     const rows = coinsByPage[currentPage] || []
     const columns = ColumnNames(this.state.currency)
@@ -181,63 +204,72 @@ class CoinIndex extends Component<Props, State> {
           </div>
         </div>
 
-        <Table>
-          <TableHead>
-            <TableRow>
-              {columns.map((col, colIndex) => {
-                const { title, align } = col
-                const isNumeric = align === 'right'
-
-                return (
-                  <TableCell key={colIndex} numeric={isNumeric}>
-                    {title}
-                  </TableCell>
-                )
-              })}
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {loading ? (
+        <div className={classes.tableWrapper}>
+          <Table padding="default" className={classes.table}>
+            <TableHead className={classes.tableHeader}>
               <TableRow>
-                <TableCell colSpan={columns.length}>
-                  <LoadingIndicator />
-                </TableCell>
+                {columns.map((col, colIndex) => {
+                  const { title, align } = col
+
+                  return (
+                    <TableCell key={colIndex} style={{ textAlign: align }}>
+                      {title}
+                    </TableCell>
+                  )
+                })}
               </TableRow>
-            ) : (
-              rows.map((row, rowIndex) => {
-                return (
-                  <TableRow key={row.id}>
-                    {columns.map((col, colIndex) => {
-                      const { dataIndex, render, align } = col
-                      const text = row[dataIndex]
-                      const isNumeric = align === 'right'
-                      return (
-                        <TableCell key={colIndex} numeric={isNumeric}>
-                          {render ? render(text, row, colIndex) : text}
-                        </TableCell>
-                      )
-                    })}
-                  </TableRow>
-                )
-              })
-            )}
-          </TableBody>
-          <TableFooter>
-            <TableRow>
-              <TablePagination
-                count={coinCount}
-                rowsPerPage={pageSize}
-                page={currentPage - 1}
-                rowsPerPageOptions={[10, 25, 100]}
-                onChangePage={this.handlePageChange}
-                onChangeRowsPerPage={this.handlePageSizeChange}
-              />
-            </TableRow>
-          </TableFooter>
-        </Table>
+            </TableHead>
+            <TableBody>
+              {loading ? (
+                <TableRow>
+                  <TableCell colSpan={columns.length}>
+                    <LoadingIndicator />
+                  </TableCell>
+                </TableRow>
+              ) : (
+                rows.map((row, rowIndex) => {
+                  return (
+                    <TableRow key={row.id} className={classes.tableRow}>
+                      {columns.map((col, colIndex) => {
+                        const { dataIndex, render, align } = col
+                        const text = row[dataIndex]
+                        const isNumeric = align === 'right'
+                        return (
+                          <TableCell
+                            key={colIndex}
+                            numeric={isNumeric}
+                            className={classes[dataIndex]}
+                          >
+                            {render ? render(text, row, colIndex) : text}
+                          </TableCell>
+                        )
+                      })}
+                    </TableRow>
+                  )
+                })
+              )}
+            </TableBody>
+            <TableFooter>
+              <TableRow>
+                <TablePagination
+                  count={coinCount}
+                  rowsPerPage={pageSize}
+                  page={currentPage - 1}
+                  rowsPerPageOptions={[10, 25, 100]}
+                  onChangePage={this.handlePageChange}
+                  onChangeRowsPerPage={this.handlePageSizeChange}
+                  ActionsComponent={TablePaginationActions}
+                />
+              </TableRow>
+            </TableFooter>
+          </Table>
+        </div>
       </Fragment>
     )
   }
 }
 
-export default withRouter(CoinIndex)
+export default compose(
+  withRouter,
+  withStyles(styles),
+)(CoinIndex)
