@@ -7,7 +7,7 @@ export default (currency) => {
     {
       title: '#',
       dataIndex: 'ranking',
-      align: 'right',
+      align: 'left',
       width: 64,
     },
     {
