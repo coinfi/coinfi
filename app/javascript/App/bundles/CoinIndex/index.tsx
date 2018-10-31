@@ -10,8 +10,10 @@ import {
   TableCell,
   TablePagination,
   TableFooter,
+  Hidden,
 } from '@material-ui/core'
 import { withStyles, createStyles } from '@material-ui/core/styles'
+import withWidth, { isWidthDown } from '@material-ui/core/withWidth'
 import ColumnNames from './ColumnNames'
 import SearchCoins from '~/bundles/common/components/SearchCoins'
 import LoadingIndicator from '~/bundles/common/components/LoadingIndicator'
@@ -42,6 +44,7 @@ interface PaginatedCoins {
 
 interface Props extends RouteComponentProps<any> {
   classes: any
+  width: any
   coinCount: number
   intialCoins: CoinData[]
   page: number
@@ -64,21 +67,30 @@ const DEFAULTS = {
 
 const styles = (theme) =>
   createStyles({
-    tableWrapper: {
-      overflow: 'auto',
-    },
+    tableWrapper: {},
     table: {
-      width: '1080px',
-      minWidth: '100%',
+      width: '100%',
+      maxWidth: '1200px',
     },
     tableHeader: {
       color: 'rgba(0,0,0,0.65)',
     },
     tableRow: {
-      height: `${theme.spacing.unit * 7}px`,
+      minHeight: `${theme.spacing.unit * 7}px`,
     },
     sparkline: {
       width: '200px',
+    },
+    mobileTableCell: {
+      paddingTop: `${theme.spacing.unit * 2}px`,
+      paddingBottom: `${theme.spacing.unit * 2}px`,
+    },
+    mobileTableCellInner: {
+      minHeight: `${theme.spacing.unit * 2}px`,
+    },
+    mobileTitle: {
+      width: '30%',
+      display: 'inline-block',
     },
   })
 
@@ -186,6 +198,7 @@ class CoinIndex extends Component<Props, State> {
     const { loading, pageSize, currentPage, coinsByPage } = this.state
     const rows = coinsByPage[currentPage] || []
     const columns = ColumnNames(this.state.currency)
+    const isMobile = isWidthDown('sm', this.props.width)
 
     return (
       <Fragment>
@@ -206,19 +219,36 @@ class CoinIndex extends Component<Props, State> {
 
         <div className={classes.tableWrapper}>
           <Table padding="default" className={classes.table}>
-            <TableHead className={classes.tableHeader}>
-              <TableRow>
+            {!isMobile && (
+              <colgroup>
                 {columns.map((col, colIndex) => {
-                  const { title, align } = col
+                  const { width } = col
+                  const style = width
+                    ? {
+                        width,
+                        minWidth: width,
+                      }
+                    : {}
 
-                  return (
-                    <TableCell key={colIndex} style={{ textAlign: align }}>
-                      {title}
-                    </TableCell>
-                  )
+                  return <col key={colIndex} style={style} />
                 })}
-              </TableRow>
-            </TableHead>
+              </colgroup>
+            )}
+            {!isMobile && (
+              <TableHead className={classes.tableHeader}>
+                <TableRow>
+                  {columns.map((col, colIndex) => {
+                    const { title, align } = col
+
+                    return (
+                      <TableCell key={colIndex} style={{ textAlign: align }}>
+                        {title}
+                      </TableCell>
+                    )
+                  })}
+                </TableRow>
+              </TableHead>
+            )}
             <TableBody>
               {loading ? (
                 <TableRow>
@@ -230,20 +260,62 @@ class CoinIndex extends Component<Props, State> {
                 rows.map((row, rowIndex) => {
                   return (
                     <TableRow key={row.id} className={classes.tableRow}>
-                      {columns.map((col, colIndex) => {
-                        const { dataIndex, render, align } = col
-                        const text = row[dataIndex]
-                        const isNumeric = align === 'right'
-                        return (
-                          <TableCell
-                            key={colIndex}
-                            numeric={isNumeric}
-                            className={classes[dataIndex]}
-                          >
-                            {render ? render(text, row, colIndex) : text}
-                          </TableCell>
-                        )
-                      })}
+                      {isMobile ? (
+                        <TableCell
+                          key={rowIndex}
+                          className={classes.mobileTableCell}
+                        >
+                          {row.image_url && (
+                            <img
+                              alt={row.name}
+                              src={row.image_url}
+                              className="fr ml2"
+                            />
+                          )}
+                          {columns.map((col, colIndex) => {
+                            const {
+                              dataIndex,
+                              render,
+                              mobileRender,
+                              title,
+                            } = col
+                            const text = row[dataIndex]
+
+                            if (dataIndex === 'sparkline') {
+                              return
+                            }
+
+                            return (
+                              <div
+                                key={colIndex}
+                                className={classes.mobileTableCellInner}
+                              >
+                                <b className={classes.mobileTitle}>{title}</b>
+                                {mobileRender
+                                  ? mobileRender(text, row, colIndex)
+                                  : render
+                                    ? render(text, row, colIndex)
+                                    : text}
+                              </div>
+                            )
+                          })}
+                        </TableCell>
+                      ) : (
+                        columns.map((col, colIndex) => {
+                          const { dataIndex, render, align } = col
+                          const text = row[dataIndex]
+                          const isNumeric = align === 'right'
+                          return (
+                            <TableCell
+                              key={colIndex}
+                              numeric={isNumeric}
+                              className={classes[dataIndex]}
+                            >
+                              {render ? render(text, row, colIndex) : text}
+                            </TableCell>
+                          )
+                        })
+                      )}
                     </TableRow>
                   )
                 })
@@ -270,6 +342,6 @@ class CoinIndex extends Component<Props, State> {
 }
 
 export default compose(
-  withRouter,
+  withWidth(),
   withStyles(styles),
-)(CoinIndex)
+)(withRouter(CoinIndex))

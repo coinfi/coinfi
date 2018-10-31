@@ -25,6 +25,13 @@ export default (currency) => {
           </div>
         )
       },
+      mobileRender: (text, row, index) => {
+        return (
+          <span>
+            <a href={`/coins/${row.slug}`}>{row.symbol}</a> {text}
+          </span>
+        )
+      },
     },
     {
       title: 'Price',
