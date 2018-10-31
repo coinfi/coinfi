@@ -70,14 +70,12 @@ class Api::NewsController < ApiController
 
       # Exclude reddit unless specified
       unless reddit = feed_source_keys.delete('reddit')
-        feed_sources = feed_sources
-          .where.not(id: FeedSource.reddit)
+        feed_sources = feed_sources.not_reddit
       end
 
       # Exclude twitter unless specified
       unless twitter = feed_source_keys.delete('twitter')
-        feed_sources = feed_sources
-          .where.not(id: FeedSource.twitter)
+        feed_sources = feed_sources.not_twitter
       end
 
       # Include remaining feed sources after removing twitter and reddit
@@ -90,7 +88,7 @@ class Api::NewsController < ApiController
       news_categories = NewsCategory.where(name: news_category_names)
     end
 
-    NewsItems::WithFilters.call(
+    news_items = NewsItems::WithFilters.call(
       NewsItem.published,
       coins: coins || nil,
       feed_sources: feed_sources || nil,
@@ -99,8 +97,8 @@ class Api::NewsController < ApiController
       published_since: params[:publishedSince],
       published_until: params[:publishedUntil],
     )
-    .includes(:coins, :news_categories)
-    .order_by_published
-    .limit(25)
+      .includes(:coins, :news_categories)
+      .order_by_published
+      .limit(25)
   end
 end

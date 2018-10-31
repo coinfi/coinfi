@@ -181,6 +181,9 @@ GEM
     equalizer (0.0.11)
     errbase (0.0.3)
     erubi (1.7.1)
+    etherscan_api (0.4.0)
+      faraday
+      json (~> 2.1)
     excon (0.62.0)
     execjs (2.7.0)
     factory_bot (4.11.1)
@@ -362,6 +365,8 @@ GEM
     rack (2.0.5)
     rack-affiliates (0.4.0)
       rack
+    rack-attack (5.4.1)
+      rack (>= 1.0, < 3)
     rack-cors (1.0.2)
     rack-proxy (0.6.4)
       rack
@@ -591,6 +596,7 @@ DEPENDENCIES
   distribute_reads
   dotenv-rails
   email_address
+  etherscan_api
   factory_bot_rails
   faker!
   feedjira
@@ -616,6 +622,7 @@ DEPENDENCIES
   pry-rails
   puma (~> 3.7)
   rack-affiliates
+  rack-attack
   rack-cors
   rack-rewrite
   rails (~> 5.1.3)

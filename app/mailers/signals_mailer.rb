@@ -12,4 +12,8 @@ class SignalsMailer < ApplicationMailer
     # TODO: Remember to remove the "beta" tag once we're out of beta!
     mail(to: user.email, subject: "Finish reserving your spot for the CoinFi Trading Signals beta")
   end
+
+  def staking_confirmation(user)
+    mail(to: user.email, subject: "Reservation confirmed! Connect your Telegram to CoinFi Trading Signals beta bot")
+  end
 end
