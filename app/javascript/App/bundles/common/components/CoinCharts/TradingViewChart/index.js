@@ -20,7 +20,7 @@ export default class TradingViewChart extends Component {
 
     // Options resource https://github.com/stevenGame/jr-chart/wiki/Widget-Constructor
     const tvWidget = new TradingView.widget({
-      debug: true,
+      debug: false,
       fullscreen: false,
       symbol: symbol,
       interval: '60',
