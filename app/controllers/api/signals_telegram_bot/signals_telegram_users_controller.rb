@@ -1,7 +1,4 @@
-class Api::SignalsTelegramBotController < ApiController
-  skip_before_action :verify_authenticity_token
-  http_basic_authenticate_with name: ENV.fetch('SIGNALS_TELEGRAM_BOT_API_USERNAME'), password: ENV.fetch('SIGNALS_TELEGRAM_BOT_API_PASSWORD')
-
+class Api::SignalsTelegramBot::SignalsTelegramUsersController < Api::SignalsTelegramBot::BaseController
   def register
     form = SignalsTelegramBotRegistrationForm.new(register_params)
     if form.save
