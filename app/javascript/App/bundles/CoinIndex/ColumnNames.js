@@ -1,5 +1,5 @@
 import React from 'react'
-import RedGreenSpan from './RedGreenSpan'
+import RedGreenSpan from '../common/components/RedGreenSpan'
 import { Sparklines, SparklinesLine } from 'react-sparklines'
 
 export default (currency) => {
