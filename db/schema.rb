@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20181029150802) do
+ActiveRecord::Schema.define(version: 20181101060308) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -407,6 +407,28 @@ ActiveRecord::Schema.define(version: 20181029150802) do
     t.index ["user_id"], name: "index_news_items_on_user_id"
   end
 
+  create_table "signals_telegram_subscriptions", force: :cascade do |t|
+    t.bigint "signals_telegram_user_id"
+    t.bigint "coin_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["coin_id"], name: "index_signals_telegram_subscriptions_on_coin_id"
+    t.index ["signals_telegram_user_id"], name: "index_sts_on_signals_telegram_user_id"
+  end
+
+  create_table "signals_telegram_users", force: :cascade do |t|
+    t.bigint "user_id"
+    t.string "telegram_username"
+    t.string "telegram_chat_id"
+    t.datetime "started_at"
+    t.boolean "is_active"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["telegram_chat_id"], name: "index_signals_telegram_users_on_telegram_chat_id", unique: true
+    t.index ["telegram_username"], name: "index_signals_telegram_users_on_telegram_username", unique: true
+    t.index ["user_id"], name: "index_signals_telegram_users_on_user_id"
+  end
+
   create_table "staked_cofi_transactions", force: :cascade do |t|
     t.bigint "user_id"
     t.string "txn_block_number"
@@ -523,6 +545,9 @@ ActiveRecord::Schema.define(version: 20181029150802) do
   add_foreign_key "news_item_categorizations", "news_items"
   add_foreign_key "news_items", "feed_sources"
   add_foreign_key "news_items", "users"
+  add_foreign_key "signals_telegram_subscriptions", "coins"
+  add_foreign_key "signals_telegram_subscriptions", "signals_telegram_users"
+  add_foreign_key "signals_telegram_users", "users"
   add_foreign_key "staked_cofi_transactions", "users"
   add_foreign_key "watchlist_items", "coins"
   add_foreign_key "watchlist_items", "watchlists"
