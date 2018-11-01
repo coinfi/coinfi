@@ -1,4 +1,19 @@
 class Api::SignalsTelegramBot::SignalsTelegramUsersController < Api::SignalsTelegramBot::BaseController
+  def index
+    is_active = index_params[:is_active]
+    signals_telegram_users = is_active ? SignalsTelegramUser.active : SignalsTelegramUser.inactive
+
+    json = signals_telegram_users.map { |u| serialize_signals_telegram_user(u) }
+    render json: json, status: :ok
+  end
+
+  def show
+    signals_telegram_user = SignalsTelegramUser.find_by(telegram_username: params[:telegram_username])
+
+    json = serialize_signals_telegram_user(u)
+    render json: json, status: :ok
+  end
+
   def register
     form = SignalsTelegramBotRegistrationForm.new(register_params)
     if form.save
@@ -9,24 +24,23 @@ class Api::SignalsTelegramBot::SignalsTelegramUsersController < Api::SignalsTele
     end
   end
 
-  def subscribers
-    users = User.where("(token_sale->>'signals_telegram_bot_chat_id') IS NOT NULL").select(:token_sale)
-    subscribers = users.map do |user|
-      {
-        telegram_username: user.token_sale['telegram_username'],
-        chat_id: user.token_sale['signals_telegram_bot_chat_id'],
-        started_at: user.token_sale['signals_telegram_bot_started_at'],
-      }
-    end
-
-    render json: subscribers.to_json, status: :ok
-  end
-
   private
 
+  def serialize_signals_telegram_user(signals_telegram_user)
+    signals_telegram_user.as_json(
+      only: %i[id user_id telegram_username telegram_chat_id started_at is_active],
+    )
+  end
+
+  def index_params
+    params.permit(
+      :is_active
+    )
+  end
+
   def register_params
-    params.require(:signals_telegram_bot).permit(
-      :telegram_username, :chat_id, :started_at
+    params.require(:signals_telegram_user).permit(
+      :telegram_username, :telegram_chat_id, :started_at
     )
   end
 end

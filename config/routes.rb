@@ -53,8 +53,9 @@ Rails.application.routes.draw do
     end
 
     namespace :signals_telegram_bot do
-      post 'register', to: 'signals_telegram_users#register'
-      get 'subscribers', to: 'signals_telegram_users#subscribers'
+      resources :signals_telegram_users, only: %i[index show], param: :telegram_username do
+        post 'register', on: :collection
+      end
     end
 
     namespace :watchlist do
