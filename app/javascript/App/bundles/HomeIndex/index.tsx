@@ -74,6 +74,7 @@ class HomeIndex extends React.Component<Props, State> {
       <div
         style={{
           width: '100%',
+          maxWidth: '1200px',
           height: '100%',
           display: 'flex',
           flex: 1,
@@ -87,6 +88,7 @@ class HomeIndex extends React.Component<Props, State> {
         >
           <AgGridReact
             enableSorting={true}
+            suppressCellSelection={true}
             columnDefs={this.state.columnDefs}
             rowData={this.state.rowData}
             onGridReady={this.onGridReady}

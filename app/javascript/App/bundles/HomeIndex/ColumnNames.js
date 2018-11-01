@@ -9,7 +9,9 @@ function ColumnNames(currency) {
       headerName: '',
       field: 'isWatched',
       suppressSorting: true,
+      minWidth: 30,
       maxWidth: 30,
+      cellStyle: { 'margin-left': '5px' },
       cellRendererFramework: ({
         value: isWatched,
         data: row,
@@ -31,7 +33,7 @@ function ColumnNames(currency) {
       headerName: '#',
       field: 'ranking',
       suppressSorting: true,
-      maxWidth: 80,
+      maxWidth: 40,
       cellRendererFramework: ({ value: text, data: row, rowIndex: index }) => {
         return <span>{text}</span>
       },
@@ -40,10 +42,11 @@ function ColumnNames(currency) {
       headerName: 'Coin',
       field: 'name',
       suppressSorting: true,
+      minWidth: 200,
+      cellStyle: { 'border-right': '1px solid #e0e0e0' },
       cellRendererFramework: ({ value: text, data: row, rowIndex: index }) => {
         return (
           <div
-            className="b--r"
             style={{
               lineHeight: 'normal',
               paddingTop: '5px',
@@ -51,7 +54,15 @@ function ColumnNames(currency) {
             }}
           >
             <img alt={text} src={row.image_url} className="fl mr2" />
-            <div className="fl">
+            <div
+              className="fl"
+              style={{
+                maxWidth: '150px',
+                overflow: 'hidden',
+                whiteSpace: 'nowrap',
+                textOverflow: 'ellipsis',
+              }}
+            >
               <a href={`/coins/${row.slug}`}>{row.symbol}</a>
               <div>{text}</div>
             </div>
@@ -63,6 +74,7 @@ function ColumnNames(currency) {
       headerName: 'Price',
       field: `price.${currency.toLowerCase()}`,
       unSortIcon: true,
+      type: 'numericColumn',
       cellRendererFramework: ({ value: text, data: row, rowIndex: index }) => {
         const currencyKey = currency.toLowerCase()
         if (currency === 'USD' && row.price) {
@@ -89,6 +101,7 @@ function ColumnNames(currency) {
       headerName: 'Market Cap',
       field: 'market_cap.usd',
       unSortIcon: true,
+      type: 'numericColumn',
       cellRendererFramework: ({ value: text, data: row, rowIndex: index }) =>
         text ? (
           <span>
@@ -102,6 +115,7 @@ function ColumnNames(currency) {
       headerName: '% Move 1H',
       field: 'change1h',
       unSortIcon: true,
+      type: 'numericColumn',
       cellRendererFramework: ({ value: text, data: row, rowIndex: index }) => (
         <RedGreenSpan text={text} affix="%" />
       ),
@@ -110,6 +124,7 @@ function ColumnNames(currency) {
       headerName: '% Move 1D',
       field: 'change24h',
       unSortIcon: true,
+      type: 'numericColumn',
       cellRendererFramework: ({ value: text, data: row, rowIndex: index }) => (
         <RedGreenSpan text={text} affix="%" />
       ),
@@ -118,6 +133,7 @@ function ColumnNames(currency) {
       headerName: '% Move 1W',
       field: 'change7d',
       unSortIcon: true,
+      type: 'numericColumn',
       cellRendererFramework: ({ value: text, data: row, rowIndex: index }) => (
         <RedGreenSpan text={text} affix="%" />
       ),
@@ -126,6 +142,8 @@ function ColumnNames(currency) {
       headerName: 'Volume (24hr)',
       field: 'volume24.usd',
       unSortIcon: true,
+      type: 'numericColumn',
+      minWidth: 150,
       cellRendererFramework: ({ value: text, data: row, rowIndex: index }) =>
         text ? (
           <span>
