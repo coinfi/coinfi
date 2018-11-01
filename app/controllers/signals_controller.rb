@@ -22,7 +22,7 @@ class SignalsController < ApplicationController
 
     user.token_sale["signals_signup"] = true
     user.token_sale["telegram_username"] = params[:telegramUsername] if params["telegramUsername"].present?
-    user.token_sale["staked_ethereum_address"] = params[:ethereumAddress] if params["ethereumAddress"].present?
+    user.token_sale["staked_ethereum_address"] = params[:ethereumAddress].downcase if params["ethereumAddress"].present?
 
     if params[:ethereumAddress].present? # This is the last step.
       user.token_sale["reservation_completed_at"] = Time.now
