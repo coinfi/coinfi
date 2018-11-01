@@ -16,26 +16,31 @@ class Api::SignalsTelegramBot::SignalsTelegramUsers::SignalsTelegramSubscription
 
   def create
     coin = Coin.find_by!(slug: create_params[:coin_slug])
-    @signals_telegram_subscription = SignalsTelegramSubscription.new(
+    service = CreateSignalsTelegramSubscriptionService.new(
       coin: coin,
-      signals_telegram_user: @signals_telegram_user,
+      signals_telegram_user: signals_telegram_user
     )
 
     respond_to do |format|
-      if @signals_telegram_subscription.save
-        json = serialize_signals_telegram_subscription(@signals_telegram_subscription)
+      if service.call
+        json = serialize_signals_telegram_subscription(service.signals_telegram_subscription)
         render json: json, status: :created
       else
-        render json: @signals_telegram_subscription.errors, status: :unprocessable_entity
+        errors = service&.signals_telegram_subscription&.errors || service&.watchlist_item&.errors
+        render json: errors, status: :unprocessable_entity
       end
     end
   end
 
   def destroy
-    if @signals_telegram_subscription.destroy
+    service = DestroySignalsTelegramSubscriptionService.new(
+      signals_telegram_subscription: @signals_telegram_subscription
+    )
+
+    if service.call
       head :no_content
     else
-      render json: @signals_telegram_subscription.errors, status: :unprocessable_entity
+      render json: nil, status: :unprocessable_entity
     end
   end
 
