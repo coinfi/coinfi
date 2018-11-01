@@ -12,23 +12,23 @@ class Api::SignalsTelegramBotRoutesTest < ApplicationIntegrationTest
   end
 
   test "cannot visit register when unauthenticated" do
-    post "/api/signals_telegram_bot/register"
+    post "/api/signals_telegram_bot/signals_telegram_users/register"
     assert_equal 401, status
   end
 
   test "can visit register" do
     assert_raises(ActionController::ParameterMissing) do
-      post "/api/signals_telegram_bot/register", headers: @auth_headers
+      post "/api/signals_telegram_bot/signals_telegram_users/register", headers: @auth_headers
     end
   end
 
   test "cannot visit subscribers when unauthenticated" do
-    get "/api/signals_telegram_bot/subscribers"
+    get "/api/signals_telegram_bot/signals_telegram_users"
     assert_equal 401, status
   end
 
   test "can visit subscribers" do
-    get "/api/signals_telegram_bot/subscribers", headers: @auth_headers
+    get "/api/signals_telegram_bot/signals_telegram_users", headers: @auth_headers
     assert_equal 200, status
   end
 end

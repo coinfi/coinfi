@@ -1,12 +1,12 @@
 require 'test_helper'
 require 'faker'
 
-class SignalsTelegramBotRegistrationFormTest < ActiveSupport::TestCase
+class SignalsTelegramBot::RegistrationFormTest < ActiveSupport::TestCase
   setup do
     @telegram_username = Faker::Internet.username
     @default_form_params = {
       telegram_username: @telegram_username,
-      chat_id: Faker::Number.number(10),
+      telegram_chat_id: Faker::Number.number(10),
       started_at: DateTime.now.iso8601,
     }
 
@@ -18,31 +18,26 @@ class SignalsTelegramBotRegistrationFormTest < ActiveSupport::TestCase
 
   test 'valid' do
     form_params = @default_form_params
-    form = SignalsTelegramBotRegistrationForm.new(form_params)
+    form = SignalsTelegramBot::RegistrationForm.new(form_params)
 
     assert form.valid?
   end
 
-  test 'updates `token_sale` attributes on save' do
+  test 'creates SignalsTelegramUser on save' do
     form_params = @default_form_params
-    form = SignalsTelegramBotRegistrationForm.new(form_params)
+    form = SignalsTelegramBot::RegistrationForm.new(form_params)
 
-    expected_token_sale = @user.token_sale
-      .merge(
-        signals_telegram_bot_chat_id: @default_form_params[:chat_id],
-        signals_telegram_bot_started_at: @default_form_params[:started_at],
-      )
-      .stringify_keys
-
-    form.save!
-    @user.reload
-
-    assert_equal @user.token_sale, expected_token_sale
+    assert_difference 'SignalsTelegramUser.count', 1 do
+      form.save!
+    end
+    assert_equal @default_form_params[:telegram_username], form.signals_telegram_user.telegram_username
+    assert_equal @default_form_params[:telegram_chat_id], form.signals_telegram_user.telegram_chat_id
+    assert_equal DateTime.parse(@default_form_params[:started_at]), form.signals_telegram_user.started_at
   end
 
   test 'invalid with empty `username`' do
     form_params = @default_form_params.merge(telegram_username: nil)
-    form = SignalsTelegramBotRegistrationForm.new(form_params)
+    form = SignalsTelegramBot::RegistrationForm.new(form_params)
 
     refute form.valid?
     assert_includes form.errors.keys, :telegram_username
@@ -50,23 +45,23 @@ class SignalsTelegramBotRegistrationFormTest < ActiveSupport::TestCase
 
   test 'invalid with wrong `username`' do
     form_params = @default_form_params.merge(telegram_username: "not_#{@telegram_username}")
-    form = SignalsTelegramBotRegistrationForm.new(form_params)
+    form = SignalsTelegramBot::RegistrationForm.new(form_params)
 
     refute form.valid?
     assert_includes form.errors.keys, :user
   end
 
-  test 'invalid with empty `chat_id`' do
-    form_params = @default_form_params.merge(chat_id: nil)
-    form = SignalsTelegramBotRegistrationForm.new(form_params)
+  test 'invalid with empty `telegram_chat_id`' do
+    form_params = @default_form_params.merge(telegram_chat_id: nil)
+    form = SignalsTelegramBot::RegistrationForm.new(form_params)
 
     refute form.valid?
-    assert_includes form.errors.keys, :chat_id
+    assert_includes form.errors.keys, :telegram_chat_id
   end
 
   test 'invalid with empty `started_at`' do
     form_params = @default_form_params.merge(started_at: nil)
-    form = SignalsTelegramBotRegistrationForm.new(form_params)
+    form = SignalsTelegramBot::RegistrationForm.new(form_params)
 
     refute form.valid?
     assert_includes form.errors.keys, :started_at
@@ -75,7 +70,7 @@ class SignalsTelegramBotRegistrationFormTest < ActiveSupport::TestCase
   test 'invalid with insufficient staked amount' do
     @user.update!(token_sale: @user.token_sale.merge(staked_cofi_amount: 1000))
     form_params = @default_form_params
-    form = SignalsTelegramBotRegistrationForm.new(form_params)
+    form = SignalsTelegramBot::RegistrationForm.new(form_params)
 
     refute form.valid?
     assert_includes form.errors.keys, :user
@@ -84,7 +79,7 @@ class SignalsTelegramBotRegistrationFormTest < ActiveSupport::TestCase
   test 'valid with greater staked amount' do
     @user.update!(token_sale: @user.token_sale.merge(staked_cofi_amount: 40000))
     form_params = @default_form_params
-    form = SignalsTelegramBotRegistrationForm.new(form_params)
+    form = SignalsTelegramBot::RegistrationForm.new(form_params)
 
     assert form.valid?
   end
