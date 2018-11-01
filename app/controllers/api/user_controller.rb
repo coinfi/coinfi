@@ -19,13 +19,13 @@ class Api::UserController < ApiController
 
   def watch_coin(coin_id)
     unless @watchlist.coins.find_by_id(coin_id)
-      @watchlist.items.create(coin_id: coin_id)
+      CreateWatchlistItemService.call(watchlist: @watchlist, coin_id: coin_id)
     end
   end
 
   def unwatch_coin(coin_id)
     item = @watchlist.items.find_by_coin_id(coin_id)
-    item.destroy if item
+    DestroyWatchlistItemService.call(watchlist_item: item)
   end
 
   def serialized(user)
