@@ -15,9 +15,10 @@ class Api::SignalsTelegramBot::SignalsTelegramUsersController < Api::SignalsTele
   end
 
   def register
-    form = SignalsTelegramBotRegistrationForm.new(register_params)
+    form = SignalsTelegramBot::RegistrationForm.new(register_params)
     if form.save
-      render json: nil, status: :ok
+      json = serialize_signals_telegram_user(signals_telegram_user)
+      render json: json, status: :ok
     else
       errors_json = { details: form.errors.details, messages: form.errors.messages }
       render json: { errors: errors_json }, status: :unprocessable_entity
