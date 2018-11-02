@@ -1,4 +1,6 @@
 class Api::SignalsTelegramBot::SignalsTelegramUsersController < Api::SignalsTelegramBot::BaseController
+  before_action :set_signals_telegram_user, only: [:show]
+
   def index
     if index_params.has_key?(:is_active)
       is_active = JSON.parse(index_params[:is_active])
@@ -12,9 +14,7 @@ class Api::SignalsTelegramBot::SignalsTelegramUsersController < Api::SignalsTele
   end
 
   def show
-    signals_telegram_user = SignalsTelegramUser.find_by(telegram_username: params[:telegram_username])
-
-    json = serialize_signals_telegram_user(u)
+    json = serialize_signals_telegram_user(@signals_telegram_user)
     render json: json, status: :ok
   end
 
@@ -30,6 +30,13 @@ class Api::SignalsTelegramBot::SignalsTelegramUsersController < Api::SignalsTele
   end
 
   private
+
+  def set_signals_telegram_user
+    telegram_username = params.require(:telegram_username)
+    @signals_telegram_user = SignalsTelegramUser
+      .where('telegram_username ILIKE ?', telegram_username)
+      .first!
+  end
 
   def serialize_signals_telegram_user(signals_telegram_user)
     signals_telegram_user.as_json(

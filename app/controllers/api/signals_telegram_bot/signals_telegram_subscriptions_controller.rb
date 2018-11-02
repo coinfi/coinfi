@@ -46,8 +46,10 @@ class Api::SignalsTelegramBot::SignalsTelegramSubscriptionsController < Api::Sig
   private
 
   def set_signals_telegram_user
+    telegram_username = params.require(:signals_telegram_user_telegram_username)
     @signals_telegram_user = SignalsTelegramUser
-      .find_by!(telegram_username: params.require(:signals_telegram_user_telegram_username))
+      .where('telegram_username ILIKE ?', telegram_username)
+      .first!
   end
 
   def set_signals_telegram_subscription
