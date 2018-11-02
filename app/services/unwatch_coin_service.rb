@@ -13,7 +13,7 @@ class UnwatchCoinService < Patterns::Service
       @watchlist_item.destroy if watchlist_item
 
       if signals_telegram_user = @user.signals_telegram_user
-        @signals_telegram_subscription = signals_telegram_user.signals_telegram_subscriptions.find_by(coin: coin)
+        @signals_telegram_subscription = signals_telegram_user.signals_telegram_subscriptions.find_by(coin: @coin)
         @signals_telegram_subscription.destroy if @signals_telegram_subscriptions
       end
     end

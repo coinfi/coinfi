@@ -15,7 +15,7 @@ class Api::SignalsTelegramBot::SignalsTelegramUsersController < Api::SignalsTele
   end
 
   def register
-    form = SignalsTelegramBot::RegistrationForm.new(register_params)
+    form = ::SignalsTelegramBot::RegistrationForm.new(register_params)
     if form.save
       json = serialize_signals_telegram_user(signals_telegram_user)
       render json: json, status: :ok
