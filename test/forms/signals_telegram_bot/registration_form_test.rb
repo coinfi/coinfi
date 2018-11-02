@@ -3,10 +3,10 @@ require 'faker'
 
 class SignalsTelegramBot::RegistrationFormTest < ActiveSupport::TestCase
   setup do
-    @telegram_username = Faker::Internet.username
+    @telegram_username = Faker::Internet.username(nil, %w(_))
     @default_form_params = {
       telegram_username: @telegram_username,
-      telegram_chat_id: Faker::Number.number(10),
+      telegram_chat_id: Faker::Number.number(9),
       started_at: DateTime.now.iso8601,
     }
 
