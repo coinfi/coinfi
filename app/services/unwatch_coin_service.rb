@@ -14,7 +14,7 @@ class UnwatchCoinService < Patterns::Service
 
       if signals_telegram_user = @user.signals_telegram_user
         @signals_telegram_subscription = signals_telegram_user.signals_telegram_subscriptions.find_by(coin: @coin)
-        @signals_telegram_subscription.destroy if @signals_telegram_subscriptions
+        @signals_telegram_subscription.destroy if @signals_telegram_subscription
       end
     end
 

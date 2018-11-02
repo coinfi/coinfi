@@ -17,18 +17,16 @@ class Api::SignalsTelegramBot::SignalsTelegramSubscriptionsController < Api::Sig
   def create
     coin = Coin.find_by!(slug: create_params[:coin_slug])
     service = WatchCoinService.new(
-      user: @signals_telegram_user,
+      user: @signals_telegram_user.user,
       coin: coin,
     )
 
-    respond_to do |format|
-      if service.call
-        json = serialize_signals_telegram_subscription(service.signals_telegram_subscription)
-        render json: json, status: :created
-      else
-        errors = service&.signals_telegram_subscription&.errors || service&.watchlist_item&.errors
-        render json: errors, status: :unprocessable_entity
-      end
+    if service.call
+      json = serialize_signals_telegram_subscription(service.signals_telegram_subscription)
+      render json: json, status: :created
+    else
+      errors = service&.signals_telegram_subscription&.errors || service&.watchlist_item&.errors
+      render json: errors, status: :unprocessable_entity
     end
   end
 

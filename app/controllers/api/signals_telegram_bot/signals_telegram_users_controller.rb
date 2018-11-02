@@ -1,7 +1,11 @@
 class Api::SignalsTelegramBot::SignalsTelegramUsersController < Api::SignalsTelegramBot::BaseController
   def index
-    is_active = index_params[:is_active]
-    signals_telegram_users = is_active ? SignalsTelegramUser.active : SignalsTelegramUser.inactive
+    if index_params.has_key?(:is_active)
+      is_active = JSON.parse(index_params[:is_active])
+      signals_telegram_users = is_active ? SignalsTelegramUser.active : SignalsTelegramUser.inactive
+    else
+      signals_telegram_users = SignalsTelegramUser.all
+    end
 
     json = signals_telegram_users.map { |u| serialize_signals_telegram_user(u) }
     render json: json, status: :ok
@@ -17,7 +21,7 @@ class Api::SignalsTelegramBot::SignalsTelegramUsersController < Api::SignalsTele
   def register
     form = ::SignalsTelegramBot::RegistrationForm.new(register_params)
     if form.save
-      json = serialize_signals_telegram_user(signals_telegram_user)
+      json = serialize_signals_telegram_user(form.signals_telegram_user)
       render json: json, status: :ok
     else
       errors_json = { details: form.errors.details, messages: form.errors.messages }
