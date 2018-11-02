@@ -15,8 +15,10 @@ class FeedSource < ApplicationRecord
 
   scope :active, -> { where(is_active: true) }
   scope :general, -> { where(feed_type: 'general') }
-  scope :reddit , -> { where(feed_type: 'reddit') }
+  scope :reddit, -> { where(feed_type: 'reddit') }
+  scope :not_reddit, -> { where.not(feed_type: 'reddit') }
   scope :twitter, -> { where(feed_type: 'twitter') }
+  scope :not_twitter, -> { where.not(feed_type: 'twitter') }
   scope :coindesk, -> { where(slug: 'coindesk') }
   scope :cointelegraph, -> { where(slug: 'cointelegraph') }
 

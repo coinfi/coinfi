@@ -1,4 +1,4 @@
-import { ItemWithCoinLinkData } from '../common/types'
+import { ItemWithCoinLinkData, CoinSlug } from '../common/types'
 
 interface Category {
   name: string
@@ -15,8 +15,6 @@ export interface NewsItem extends ItemWithCoinLinkData {
 }
 
 export type ContentType = 'none' | 'coin' | 'news'
-
-export type CoinSlug = string
 
 export interface Filters {
   coinSlugs: CoinSlug[]
