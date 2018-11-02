@@ -19,6 +19,6 @@ class WatchCoinService < Patterns::Service
       end
     end
 
-    result.all?
+    result.present? && result.all?
   end
 end
