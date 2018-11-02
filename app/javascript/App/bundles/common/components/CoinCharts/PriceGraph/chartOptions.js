@@ -279,9 +279,7 @@ export default (Highcharts, data) => {
             },
           },
         },
-        tooltip: {
-          enabled: false,
-        },
+        enableMouseTracking: false,
         color: '#2faeed',
         marker: {
           fillColor: '#fff',
