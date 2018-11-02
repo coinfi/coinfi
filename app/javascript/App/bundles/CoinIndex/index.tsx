@@ -29,12 +29,12 @@ interface CoinData {
   coin_key: string
   ranking: number
   image_url: string
-  price: string
-  market_cap: string
+  price: any
+  market_cap: any
   change1h: string
   change24h: string
   change7d: string
-  volume24: string
+  volume24: any
   sparkline: string
 }
 
@@ -67,10 +67,13 @@ const DEFAULTS = {
 
 const styles = (theme) =>
   createStyles({
-    tableWrapper: {},
+    tableWrapper: {
+      width: '100%',
+    },
     table: {
       width: '100%',
       maxWidth: '1200px',
+      margin: '0 auto',
     },
     tableHeader: {
       color: 'rgba(0,0,0,0.65)',
@@ -92,6 +95,21 @@ const styles = (theme) =>
       width: '30%',
       display: 'inline-block',
     },
+    ranking: {
+      width: '30px',
+      maxWidth: '30px',
+    },
+    name: {
+      width: '240px',
+      maxWidth: '240px',
+    },
+    coinWrapper: {},
+    coinIcon: {
+      flexShrink: 0,
+      paddingRight: '7px',
+    },
+    coinSymbol: {},
+    coinName: {},
   })
 
 class CoinIndex extends Component<Props, State> {
@@ -218,30 +236,19 @@ class CoinIndex extends Component<Props, State> {
         </div>
 
         <div className={classes.tableWrapper}>
-          <Table padding="default" className={classes.table}>
-            {!isMobile && (
-              <colgroup>
-                {columns.map((col, colIndex) => {
-                  const { width } = col
-                  const style = width
-                    ? {
-                        width,
-                        minWidth: width,
-                      }
-                    : {}
-
-                  return <col key={colIndex} style={style} />
-                })}
-              </colgroup>
-            )}
+          <Table padding="dense" className={classes.table}>
             {!isMobile && (
               <TableHead className={classes.tableHeader}>
                 <TableRow>
                   {columns.map((col, colIndex) => {
-                    const { title, align } = col
+                    const { title, align, dataIndex } = col
 
                     return (
-                      <TableCell key={colIndex} style={{ textAlign: align }}>
+                      <TableCell
+                        key={colIndex}
+                        style={{ textAlign: align }}
+                        className={classes[dataIndex]}
+                      >
                         {title}
                       </TableCell>
                     )
@@ -303,7 +310,7 @@ class CoinIndex extends Component<Props, State> {
                       ) : (
                         columns.map((col, colIndex) => {
                           const { dataIndex, render, align } = col
-                          const text = row[dataIndex]
+                          const text = _.get(row, dataIndex)
                           const isNumeric = align === 'right'
                           return (
                             <TableCell
@@ -311,7 +318,9 @@ class CoinIndex extends Component<Props, State> {
                               numeric={isNumeric}
                               className={classes[dataIndex]}
                             >
-                              {render ? render(text, row, colIndex) : text}
+                              {render
+                                ? render(text, row, colIndex, classes)
+                                : text}
                             </TableCell>
                           )
                         })

@@ -1,6 +1,7 @@
 import React from 'react'
 import RedGreenSpan from './RedGreenSpan'
 import { Sparklines, SparklinesLine } from 'react-sparklines'
+import { Grid } from '@material-ui/core'
 
 export default (currency) => {
   return [
@@ -8,21 +9,34 @@ export default (currency) => {
       title: '#',
       dataIndex: 'ranking',
       align: 'left',
-      width: 64,
     },
     {
       title: 'Coin',
       dataIndex: 'name',
-      width: 240,
-      render: (text, row, index) => {
+      render: (text, row, index, classes) => {
         return (
-          <div className="b--r">
-            <img alt={text} src={row.image_url} className="fl mr2" />
-            <div className="fl">
-              <a href={`/coins/${row.slug}`}>{row.symbol}</a>
-              <div>{text}</div>
-            </div>
-          </div>
+          <Grid
+            container={true}
+            direction="row"
+            alignContent="flex-start"
+            alignItems="stretch"
+            wrap="nowrap"
+            className={classes.coinWrapper}
+          >
+            <Grid item={true} className={classes.coinIcon}>
+              <img alt={row.name} src={row.image_url} />
+            </Grid>
+            <Grid item={true}>
+              <Grid container={true} direction="column">
+                <Grid item={true} xs={12} className={classes.coinSymbol}>
+                  <a href={`/coins/${row.slug}`}>{row.symbol}</a>
+                </Grid>
+                <Grid item={true} xs={12} className={classes.coinName}>
+                  {row.name}
+                </Grid>
+              </Grid>
+            </Grid>
+          </Grid>
         )
       },
       mobileRender: (text, row, index) => {
