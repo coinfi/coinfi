@@ -2,6 +2,7 @@ import React from 'react'
 import RedGreenSpan from '../common/components/RedGreenSpan'
 import Icon from '../common/components/Icon'
 import { Sparklines, SparklinesLine } from 'react-sparklines'
+import { formatPrice, formatValue } from '../common/utils/numberFormatters'
 
 function ColumnNames(currency) {
   return [
@@ -77,24 +78,13 @@ function ColumnNames(currency) {
       type: 'numericColumn',
       cellRendererFramework: ({ value: text, data: row, rowIndex: index }) => {
         const currencyKey = currency.toLowerCase()
-        if (currency === 'USD' && row.price) {
-          const formattedPrice = row.price[currencyKey].toLocaleString(
-            'en-US',
-            {
-              maximumFractionDigits: 4,
-            },
-          )
-          return <span>${formattedPrice} USD</span>
+
+        if (row.price) {
+          const formattedPrice = formatPrice(row.price[currencyKey], currency)
+          return <span>${formattedPrice}</span>
         }
-        if (currency === 'BTC' && row.price) {
-          const formattedPrice = row.price[currencyKey].toLocaleString(
-            'en-US',
-            {
-              maximumFractionDigits: 8,
-            },
-          )
-          return <span>{formattedPrice} &#579;</span>
-        }
+
+        return <span />
       },
     },
     {
@@ -103,13 +93,7 @@ function ColumnNames(currency) {
       unSortIcon: true,
       type: 'numericColumn',
       cellRendererFramework: ({ value: text, data: row, rowIndex: index }) =>
-        text ? (
-          <span>
-            ${text.toLocaleString('en-US', {
-              maximumFractionDigits: 0,
-            })}
-          </span>
-        ) : null,
+        text ? <span>${formatValue(text, 0)}</span> : null,
     },
     {
       headerName: '% Move 1H',
@@ -145,11 +129,7 @@ function ColumnNames(currency) {
       type: 'numericColumn',
       minWidth: 150,
       cellRendererFramework: ({ value: text, data: row, rowIndex: index }) =>
-        text ? (
-          <span>
-            {text.toLocaleString('en-US', { maximumFractionDigits: 0 })}
-          </span>
-        ) : null,
+        text ? <span>{formatValue(text, 0)}</span> : null,
     },
     {
       headerName: '7D Chart',
