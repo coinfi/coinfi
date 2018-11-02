@@ -15,10 +15,10 @@ class Api::SignalsTelegramBot::SignalsTelegramUsers::SignalsTelegramSubscription
   end
 
   def create
-    coin = Coin.find_by!(slug: create_params[:coin_slug])
-    service = CreateSignalsTelegramSubscriptionService.new(
+    coin = Coin.find_by!(coin_slug: params[:coin_slug])
+    service = WatchCoinService.new(
+      user: @signals_telegram_user,
       coin: coin,
-      signals_telegram_user: signals_telegram_user
     )
 
     respond_to do |format|
@@ -33,8 +33,9 @@ class Api::SignalsTelegramBot::SignalsTelegramUsers::SignalsTelegramSubscription
   end
 
   def destroy
-    service = DestroySignalsTelegramSubscriptionService.new(
-      signals_telegram_subscription: @signals_telegram_subscription
+    service = UnwatchCoinService.new(
+      user: @signals_telegram_user.user,
+      coin: @signals_telegram_subscription.coin
     )
 
     if service.call
