@@ -3,9 +3,11 @@ import { Tweet } from 'react-twitter-widgets'
 import CoinTags from '../common/components/CoinTags'
 import { NewsItem } from './types'
 import { getTweetId } from '~/bundles/common/utils/url'
+import { CoinClickHandler } from '../common/types'
 
 interface Props {
   newsItem: NewsItem
+  onCoinClick?: CoinClickHandler
 }
 
 export default class NewsBody extends React.Component<Props, {}> {
@@ -22,7 +24,11 @@ export default class NewsBody extends React.Component<Props, {}> {
 
     return (
       <div className="pa4 bg-white min-h-100">
-        <CoinTags itemWithCoinLinkData={newsItem} />
+        <CoinTags
+          itemWithCoinLinkData={newsItem}
+          getLink={(data) => `/news/${data.slug}`}
+          onClick={this.props.onCoinClick}
+        />
         {categories.length > 0 && (
           <div className="mt3">
             {categories.map((category, index) => (

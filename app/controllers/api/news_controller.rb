@@ -18,7 +18,7 @@ class Api::NewsController < ApiController
       else # For newsfeed (keep feature flag)
         has_news = detect_news_feature
         return has_news unless has_news.nil?
-        
+
         news_items = process_news_feed(params)
       end
 

@@ -8,6 +8,7 @@ import StepContent from '@material-ui/core/StepContent'
 import Button from '@material-ui/core/Button'
 import Typography from '@material-ui/core/Typography'
 import TextField from '@material-ui/core/TextField'
+import InputAdornment from '@material-ui/core/InputAdornment'
 import * as Validator from 'validatorjs'
 import * as _ from 'lodash'
 import axios from 'axios'
@@ -45,11 +46,27 @@ const styles = (theme) => ({
     width: '100%',
   },
   textField: {},
+  inputRoot: {
+    border: '1px solid #ccc',
+    borderRadius: '2px',
+    paddingLeft: theme.spacing.unit,
+  },
+  inputRootFocused: {
+    border: '1px solid #23adf0',
+    boxShadow: '0 0 2px rgba(35, 173, 240, 0.4)',
+  },
+  inputField: {
+    border: 'none !important',
+    boxShadow: 'none !important',
+  },
 })
 
 interface Props {
   classes: any
   formAuthenticityToken: string
+  reservationStakingAmount: string
+  email?: string
+  destinationCofiWalletAddress: string
 }
 
 interface State {
@@ -86,7 +103,7 @@ class SignalReservationForm extends React.Component<Props, State> {
   public state: State = {
     activeStep: 0,
     formData: {
-      email: '',
+      email: this.props.email || '',
       telegramUsername: '',
       ethereumAddress: '',
     },
@@ -230,7 +247,11 @@ class SignalReservationForm extends React.Component<Props, State> {
   }
 
   public render() {
-    const { classes } = this.props
+    const {
+      classes,
+      reservationStakingAmount,
+      destinationCofiWalletAddress,
+    } = this.props
     const { activeStep, formData, formErrors } = this.state
 
     return (
@@ -296,6 +317,16 @@ class SignalReservationForm extends React.Component<Props, State> {
                   margin="normal"
                   fullWidth={true}
                   autoFocus={true}
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">@</InputAdornment>
+                    ),
+                    classes: {
+                      root: classes.inputRoot,
+                      focused: classes.inputRootFocused,
+                      input: classes.inputField,
+                    },
+                  }}
                 />
               </div>
 
@@ -350,16 +381,18 @@ class SignalReservationForm extends React.Component<Props, State> {
                 label: classes.stepLabelText,
               }}
             >
-              {`Send 20,000 COFI to the CoinFi Trading Signals staking address.`}
+              {`Send ${reservationStakingAmount} COFI to the CoinFi Trading Signals staking address.`}
             </StepLabel>
 
             <StepContent>
               <Typography className={classes.stakingMessage}>
                 Send exactly{' '}
-                <code className="reservation-value">20,000 COFI</code> tokens
-                to:<br />
                 <code className="reservation-value">
-                  0xa61B5f29730C7b111C8e0B1e78bD3737d2Bb8684
+                  {reservationStakingAmount} COFI
+                </code>{' '}
+                tokens to:<br />
+                <code className="reservation-value">
+                  {destinationCofiWalletAddress}
                 </code>
               </Typography>
               <br />

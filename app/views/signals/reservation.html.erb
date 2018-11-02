@@ -4,16 +4,21 @@
     <div class="reservation-section">
       <div class="reservation-header">
         <h1 class="reservation-header__title">Reserve Your Spot</h1>
-        <p class="reservation-header__lead">Get first access to professional, data-backed trading signals by staking 20,000 COFI tokens.</p>
+        <p class="reservation-header__lead">Get first access to professional, data-backed trading signals by staking <%= number_with_delimiter(ENV.fetch('SIGNALS_STAKING_AMOUNT')) %> COFI tokens.</p>
       </div>
 
       <div class="reservation-card">
-        <%= react_component_with_jss "SignalReservationForm",
-          props: { formAuthenticityToken: form_authenticity_token },
+        <%= react_component "SignalReservationForm",
+          props: {
+            email: current_user&.email,
+            formAuthenticityToken: form_authenticity_token,
+            reservationStakingAmount: number_with_delimiter(ENV.fetch('SIGNALS_STAKING_AMOUNT')),
+            destinationCofiWalletAddress: ENV.fetch('COINFI_COFI_STAKING_WALLET_ADDRESS')
+          },
           html_options: {
             class: "signal-stepper",
           },
-          prerender: true
+          prerender: false
         %>
       </div>
     </div>
@@ -22,7 +27,7 @@
       <h2 class="reservation-section__title">FAQ</h2>
 
       <div class="signal-faqs">
-        <%= react_component_with_jss "SignalFaqPanel",
+        <%= react_component "SignalFaqPanel",
           props: {
             initialExpanded: true,
             question: "What is staking?",
@@ -31,7 +36,7 @@
                 Staking simply means pledging to reserve a specific amount of cryptocurrency from circulation.
               </p>
               <p class="signal-faqs-item__paragraph">
-                In the case for CoinFi, we're asking that you stake 20,000 COFI tokens by temporarily sending them to us in exchange for early access to the CoinFi Signals product.
+                In the case for CoinFi, we're asking that you stake #{number_with_delimiter(ENV.fetch('SIGNALS_STAKING_AMOUNT'))} COFI tokens by temporarily sending them to us in exchange for early access to the CoinFi Signals product.
               </p>
               <p class="signal-faqs-item__paragraph signal-faqs-item__paragraph--last">
                 This means there is no risk on your part - you will receive the tokens back at the end of the beta or 3 months, whichever is sooner.
@@ -41,9 +46,9 @@
           html_options: {
             class: "signal-faqs-item",
           },
-          prerender: true
+          prerender: false
         %>
-        <%= react_component_with_jss "SignalFaqPanel",
+        <%= react_component "SignalFaqPanel",
           props: {
             question: "What happens to my tokens during and after the beta?",
             answerHtml: <<~HTML
@@ -58,9 +63,9 @@
           html_options: {
             class: "signal-faqs-item",
           },
-          prerender: true
+          prerender: false
         %>
-        <%= react_component_with_jss "SignalFaqPanel",
+        <%= react_component "SignalFaqPanel",
           props: {
             question: "Why are you holding tokens in your wallet instead of a smart contract?",
             answerHtml: <<~HTML
@@ -72,9 +77,9 @@
           html_options: {
             class: "signal-faqs-item",
           },
-          prerender: true
+          prerender: false
         %>
-        <%= react_component_with_jss "SignalFaqPanel",
+        <%= react_component "SignalFaqPanel",
           props: {
             question: "What am I getting in the beta?",
             answerHtml: <<~HTML
@@ -89,9 +94,9 @@
           html_options: {
             class: "signal-faqs-item",
           },
-          prerender: true
+          prerender: false
         %>
-        <%= react_component_with_jss "SignalFaqPanel",
+        <%= react_component "SignalFaqPanel",
           props: {
             question: "Is there a timeline for delivery?",
             answerHtml: <<~HTML
@@ -103,9 +108,9 @@
           html_options: {
             class: "signal-faqs-item",
           },
-          prerender: true
+          prerender: false
         %>
-        <%= react_component_with_jss "SignalFaqPanel",
+        <%= react_component "SignalFaqPanel",
           props: {
             question: "What signals will I receive during the beta?",
             answerHtml: <<~HTML
@@ -117,9 +122,9 @@
           html_options: {
             class: "signal-faqs-item",
           },
-          prerender: true
+          prerender: false
         %>
-        <%= react_component_with_jss "SignalFaqPanel",
+        <%= react_component "SignalFaqPanel",
           props: {
             question: "Do the signals really work?",
             answerHtml: <<~HTML
@@ -131,9 +136,9 @@
           html_options: {
             class: "signal-faqs-item",
           },
-          prerender: true
+          prerender: false
         %>
-        <%= react_component_with_jss "SignalFaqPanel",
+        <%= react_component "SignalFaqPanel",
           props: {
             question: "If the signals work, why are you selling them?",
             answerHtml: <<~HTML
@@ -148,9 +153,9 @@
           html_options: {
             class: "signal-faqs-item",
           },
-          prerender: true
+          prerender: false
         %>
-        <%= react_component_with_jss "SignalFaqPanel",
+        <%= react_component "SignalFaqPanel",
           props: {
             question: "How will the signals get delivered?",
             answerHtml: <<~HTML
@@ -162,9 +167,9 @@
           html_options: {
             class: "signal-faqs-item",
           },
-          prerender: true
+          prerender: false
         %>
-        <%= react_component_with_jss "SignalFaqPanel",
+        <%= react_component "SignalFaqPanel",
           props: {
             question: "How will you prevent members from sharing your signals?",
             answerHtml: <<~HTML
@@ -179,9 +184,9 @@
           html_options: {
             class: "signal-faqs-item",
           },
-          prerender: true
+          prerender: false
         %>
-        <%= react_component_with_jss "SignalFaqPanel",
+        <%= react_component "SignalFaqPanel",
           props: {
             question: "How often will I get signals?",
             answerHtml: <<~HTML
@@ -193,9 +198,9 @@
           html_options: {
             class: "signal-faqs-item",
           },
-          prerender: true
+          prerender: false
         %>
-        <%= react_component_with_jss "SignalFaqPanel",
+        <%= react_component "SignalFaqPanel",
           props: {
             question: "Will you add new signals in the future?",
             answerHtml: <<~HTML
@@ -207,9 +212,9 @@
           html_options: {
             class: "signal-faqs-item",
           },
-          prerender: true
+          prerender: false
         %>
-        <%= react_component_with_jss "SignalFaqPanel",
+        <%= react_component "SignalFaqPanel",
           props: {
             question: "Do your signals tell me what price to buy at and what price to sell at?",
             answerHtml: <<~HTML
@@ -221,9 +226,9 @@
           html_options: {
             class: "signal-faqs-item",
           },
-          prerender: true
+          prerender: false
         %>
-        <%= react_component_with_jss "SignalFaqPanel",
+        <%= react_component "SignalFaqPanel",
           props: {
             question: "How should I use the signals?",
             answerHtml: <<~HTML
@@ -235,9 +240,9 @@
           html_options: {
             class: "signal-faqs-item",
           },
-          prerender: true
+          prerender: false
         %>
-        <%= react_component_with_jss "SignalFaqPanel",
+        <%= react_component "SignalFaqPanel",
           props: {
             question: "Will your signals work in a bear market?",
             answerHtml: <<~HTML
@@ -249,9 +254,9 @@
           html_options: {
             class: "signal-faqs-item",
           },
-          prerender: true
+          prerender: false
         %>
-        <%= react_component_with_jss "SignalFaqPanel",
+        <%= react_component "SignalFaqPanel",
           props: {
             question: "Do you use these signals yourselves?",
             answerHtml: <<~HTML
@@ -263,9 +268,9 @@
           html_options: {
             class: "signal-faqs-item",
           },
-          prerender: true
+          prerender: false
         %>
-        <%= react_component_with_jss "SignalFaqPanel",
+        <%= react_component "SignalFaqPanel",
           props: {
             question: "How does pricing work after the beta?",
             answerHtml: <<~HTML
@@ -277,9 +282,9 @@
           html_options: {
             class: "signal-faqs-item",
           },
-          prerender: true
+          prerender: false
         %>
-        <%= react_component_with_jss "SignalFaqPanel",
+        <%= react_component "SignalFaqPanel",
           props: {
             question: "How do you come up with these signals?",
             answerHtml: <<~HTML
@@ -291,7 +296,7 @@
           html_options: {
             class: "signal-faqs-item",
           },
-          prerender: true
+          prerender: false
         %>
       </div>
     </div>

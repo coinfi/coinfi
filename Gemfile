@@ -83,6 +83,13 @@ gem 'mini_racer', platforms: :ruby
 gem 'browser'
 # Used to produce sitemap.xml
 gem 'sitemap_generator'
+# Library for Rails best practise patterns
+# see https://medium.com/selleo/essential-rubyonrails-patterns-part-1-service-objects-1af9f9573ca1
+gem "rails-patterns"
+# Rails application performance monitoring
+gem 'skylight'
+# EtherScan API client
+gem 'etherscan_api', require: 'etherscan'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
@@ -115,6 +122,7 @@ end
 group :production do
   gem 'rails_12factor'
   gem 'scout_apm'
+  gem 'rack-attack'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
