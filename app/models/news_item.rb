@@ -12,7 +12,7 @@ class NewsItem < ApplicationRecord
   has_many :human_tagged_coins, through: :human_tagged_news_coin_mentions, source: :coin
 
   scope :general, -> { where(feed_source: FeedSource.general) }
-  scope :no_category, -> { left_outer_joins(:news_item_categorizations).merge(NewsItemCategorization.no_category) }
+  scope :no_category, -> { where("news_items.id NOT IN (SELECT news_item_categorizations.news_item_id FROM news_item_categorizations)") }
   scope :pending, -> { where(is_human_tagged: nil) }
   scope :published, -> { where(is_published: true) }
   scope :reddit, -> { where(feed_source: FeedSource.reddit) }

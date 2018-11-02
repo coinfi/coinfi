@@ -11,34 +11,38 @@ module NewsItems
     )
       result = relation
 
+      # EXPLAIN ANALYSE SELECT "news_items".* FROM "news_items"
+      # LEFT OUTER JOIN "news_coin_mentions" ON "news_items"."id" = "news_coin_mentions"."news_item_id"
+      # LEFT OUTER JOIN "coins" ON "news_coin_mentions"."coin_id" = "coins"."id"
+      # JOIN "feed_sources" ON "news_items"."feed_source_id" = "feed_sources"."id"
+      # WHERE "news_items"."is_published" = true
+      # AND "feed_sources"."is_active" = true
+      # AND "feed_sources"."feed_type" <> 'reddit'
+      # AND "feed_sources"."feed_type" <> 'twitter'
+      # AND ("coins"."ranking" >= 20 OR "news_coin_mentions"."id" IS NULL)
+      # GROUP BY "news_items"."id"
+      # ORDER BY "news_items"."feed_item_published_at" DESC;
+
       # Apply FeedSources filter
       if feed_sources.blank?
         # Default feed sources
-        feed_sources = FeedSource.active
-          .where.not(id: FeedSource.active.reddit)
-          .where.not(id: FeedSource.active.twitter)
+        result = result.joins(:feed_source).merge(FeedSource.active.not_reddit.not_twitter)
+      else
+        result = result.where(feed_source: feed_sources)
       end
-      result = result.where(feed_source: feed_sources)
+
+      news_coin_mentions = NewsCoinMention.default_tagged
 
       # Apply Coins filter
       if coins.present?
-        filter_by_coins = true
-      else
-        # Default coins
-        coins = Coin.top(20)
-        filter_by_coins = false
-      end
-
-      news_coin_mentions = NewsCoinMention.default_tagged.where(coin: coins)
-
-      if filter_by_coins
         result = result
           .joins(:news_coin_mentions)
-          .where("news_coin_mentions.id IN (?)", news_coin_mentions.select(:id))
+          .where("news_coin_mentions.id IN (?)", news_coin_mentions.where(coin: coins).select(:id))
       else
         result = result
-          .left_outer_joins(:news_coin_mentions)
-          .where("news_coin_mentions.id IN (?) OR news_coin_mentions.id IS NULL", news_coin_mentions.select(:id))
+          .joins('LEFT OUTER JOIN "news_coin_mentions" ON "news_items"."id" = "news_coin_mentions"."news_item_id"
+          LEFT OUTER JOIN "coins" ON "news_coin_mentions"."coin_id" = "coins"."id"')
+          .merge(Coin.quick_top(20).or(news_coin_mentions.where(id: nil)))
       end
 
       # Apply NewsCategories filter
@@ -51,18 +55,22 @@ module NewsItems
       end
 
       if keywords.present?
-        result = result.where('title ILIKE ?', "%#{keywords}%")
+        result = result.where('news_items.title ILIKE ?', "%#{keywords}%")
       end
 
       if published_since.present?
-        result = result.where('feed_item_published_at > ?', published_since.to_datetime)
+        result = result.where('news_items.feed_item_published_at > ?', published_since.to_datetime)
       end
 
       if published_until.present?
-        result = result.where('feed_item_published_at < ?', published_until.to_datetime)
+        result = result.where('news_items.feed_item_published_at < ?', published_until.to_datetime)
       end
 
-      result.group(:id)
+      result = result.group(:id)
+
+      puts result.to_sql
+
+      result
     end
   end
 end

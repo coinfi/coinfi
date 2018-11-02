@@ -6,6 +6,8 @@ export interface Coin {
   symbol: string
 }
 
+export type CoinSlug = string
+
 export interface CoinLinkData {
   id: number
   symbol: string
