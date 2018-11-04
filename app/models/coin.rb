@@ -160,7 +160,7 @@ class Coin < ApplicationRecord
     if self.available_supply
       data["available_supply"] = humanize(self.available_supply)
     elsif data["available_supply"]
-      data["available_supply"] = humanize(data["available_supply"]) 
+      data["available_supply"] = humanize(data["available_supply"])
     end
     data["market_cap_usd"] = humanize(data["market_cap_usd"], '$') if data["market_cap_usd"]
     data["total_supply"] = humanize(data["total_supply"]) if data["total_supply"]
@@ -184,7 +184,7 @@ class Coin < ApplicationRecord
   def hourly_prices_data
     # TODO: expires_in should probably be at midnight
     Rails.cache.fetch("coins/#{id}/hourly_prices", expires_in: 1.hour) do
-      url = "#{ENV.fetch('COINFI_NEW_PRICES_URL')}hourly_ohcl_prices?coin_key=eq.#{coin_key}&to_currency=eq.USD&order=time.asc"
+      url = "#{ENV.fetch('COINFI_PRICES_API_URL')}hourly_ohcl_prices?coin_key=eq.#{coin_key}&to_currency=eq.USD&order=time.asc"
       response = HTTParty.get(url)
       JSON.parse(response.body)
     end
@@ -193,7 +193,7 @@ class Coin < ApplicationRecord
   def prices_data
     # TODO: expires_in should probably be at midnight
     Rails.cache.fetch("coins/#{id}/prices", expires_in: 1.day) do
-      url = "#{ENV.fetch('COINFI_NEW_PRICES_URL')}daily_ohcl_prices?coin_key=eq.#{coin_key}&to_currency=eq.USD&order=time.asc"
+      url = "#{ENV.fetch('COINFI_PRICES_API_URL')}daily_ohcl_prices?coin_key=eq.#{coin_key}&to_currency=eq.USD&order=time.asc"
       response = HTTParty.get(url)
       JSON.parse(response.body)
     end
@@ -201,7 +201,7 @@ class Coin < ApplicationRecord
 
   def sparkline
     Rails.cache.fetch("coins/#{id}/sparkline", expires_in: 1.day) do
-      url = "#{ENV.fetch('COINFI_NEW_PRICES_URL')}daily_ohcl_prices?coin_key=eq.#{coin_key}&select=close&to_currency=eq.USD&limit=7&order=time.desc"
+      url = "#{ENV.fetch('COINFI_PRICES_API_URL')}daily_ohcl_prices?coin_key=eq.#{coin_key}&select=close&to_currency=eq.USD&limit=7&order=time.desc"
       response = HTTParty.get(url)
       results = JSON.parse(response.body)
       results.map! { |result| result["close"] }

@@ -12,7 +12,9 @@ class CoinCharts extends Component {
     const { priceData, priceDataHourly } = props
 
     const hasHourlyPrice = priceDataHourly && priceDataHourly.length > 0
-    const processedPriceData = priceData.map(this.formatPriceDataDaily)
+    const processedPriceData = Array.isArray(priceData)
+      ? priceData.map(this.formatPriceDataDaily)
+      : []
     const processedPriceDataHourly = hasHourlyPrice
       ? priceDataHourly.map(this.formatPriceDataHourly)
       : [...processedPriceData]
