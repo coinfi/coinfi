@@ -2,10 +2,10 @@ class IcosController < ApplicationController
   ICOS_PER_PAGE = 100
 
   def index
-    distribute_reads(max_lag: MAX_ACCEPTABLE_REPLICATION_LAG, lag_failover: true) do
-      @status = params[:status]
-      redirect_to "/icos/upcoming" && return unless Coin::ICO_STATUSES.include?(@status)
+    @status = params[:status]
+    redirect_to "/icos/upcoming" && return unless Coin::ICO_STATUSES.include?(@status)
 
+    distribute_reads(max_lag: MAX_ACCEPTABLE_REPLICATION_LAG, lag_failover: true) do
       @coins = Coin.where(ico_status: @status)
       @result_count_total = @coins.length
       @coins = @coins.page(params[:page]).per(ICOS_PER_PAGE)
