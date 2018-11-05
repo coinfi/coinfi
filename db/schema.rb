@@ -342,6 +342,13 @@ ActiveRecord::Schema.define(version: 20181029150802) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "market_caps", force: :cascade do |t|
+    t.decimal "total_market_cap", precision: 18, scale: 2
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["created_at"], name: "index_market_caps_on_created_at"
+  end
+
   create_table "news_categories", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false

@@ -10,6 +10,8 @@ class CoinsController < ApplicationController
         .per(100)
         .order(:ranking)
     )
+    @market_dominance = dominance
+    @market_cap = Coin.historical_total_market_data
 
     set_meta_tags(
       title: "Top Cryptocurrency Prices Live, Cryptocurrency Market Cap, Best Cryptocurrency Charts",
@@ -76,6 +78,20 @@ class CoinsController < ApplicationController
 
     # 301 redirect to the same action with the coin slug for SEO purposes
     redirect_to action: action_name, id_or_slug: coin_by_id.slug, status: :moved_permanently
+  end
+
+  def dominance
+    market_dominance = Coin.market_dominance
+
+    # Bitcoin + top 4
+    bitcoin = market_dominance.extract!('bitcoin.org').flat_map { |v| v[1] }
+    other_coins = market_dominance.dup
+                    .sort_by { |k, v| v[:market_percentage] }
+                    .reverse[0..3]
+                    .flat_map { |v| v[1] }
+    coins = bitcoin + other_coins
+
+    coins.as_json
   end
 
   def serialize_coins(coins)

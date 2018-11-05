@@ -58,6 +58,77 @@ class Coin < ApplicationRecord
     pluck(:symbol).uniq.compact.sort.reject { |symbol| /[[:lower:]]/.match(symbol) }
   end
 
+  def self.live_total_market_cap
+    coins = Coin.all
+    total_market_cap = 0
+
+    coins.each do |coin|
+      total_market_cap += coin.market_cap_by_currency('usd') || 0
+    end
+
+    total_market_cap
+  end
+
+  def self.live_market_dominance(no_cache: false)
+    coins = Coin.all
+    total_market_cap = Coin.live_total_market_cap
+    market_dominance = {}
+
+    coins.each do |coin|
+      market_cap = coin.market_cap_by_currency('usd') || 0
+      market_dominance[coin.coin_key] = {
+        :id => coin.id,
+        :name => coin.name,
+        :symbol => coin.symbol,
+        :slug => coin.slug,
+        :price_usd => coin.price_by_currency('usd') || 0,
+        :market_percentage => market_cap / total_market_cap
+      }
+    end
+
+    Rails.cache.write('market_dominance', market_dominance, expires_in: 1.day) unless no_cache
+
+    market_dominance
+  end
+
+  def self.market_dominance
+    Rails.cache.fetch('market_dominance', expires_in: 1.day) do
+      self.live_market_dominance(no_cache: true)
+    end
+  end
+
+  def self.historical_total_market_data
+    Rails.cache.fetch("coins/historical_total_market_data", expires_in: 5.minutes) do
+      url = "https://pro-api.coinmarketcap.com/v1/global-metrics/quotes/historical"
+      query = {
+        "count" => 7,
+        "interval" => "daily",
+      }
+      headers = {
+        "X-CMC_PRO_API_KEY" => ENV.fetch('COINMARKETCAP_API_KEY')
+      }
+      response = HTTParty.get(
+        url, 
+        :query => query,
+        :headers => headers,  
+      )
+      data = JSON.parse(response.body) || {}
+
+      processed_data = (data.dig('data', 'quotes') || []).map { |x| {
+        "timestamp" => x['timestamp'],
+        "total_market_cap" => x.dig('quote', 'USD', 'total_market_cap'),
+        "total_volume_24h" => x.dig('quote', 'USD', 'total_volume_24h'),
+      } }
+
+      processed_data
+    end
+  end
+
+  def market_percentage
+    coin = Coin.market_dominance[self.coin_key]
+    coin[:market_percentage]
+  end
+
   def most_common_news_category
     NewsCategory
       .joins(news_items: :news_coin_mentions)
