@@ -32,15 +32,15 @@ class Api::SignalsTelegramBot::SignalsTelegramUsersController < Api::SignalsTele
   private
 
   def set_signals_telegram_user
-    telegram_username = params.require(:telegram_username)
+    telegram_user_id_or_username = params.require(:telegram_user_id_or_username)
     @signals_telegram_user = SignalsTelegramUser
-      .where('telegram_username ILIKE ?', telegram_username)
+      .where('telegram_user_id = ? OR telegram_username ILIKE ?', telegram_user_id_or_username, telegram_user_id_or_username)
       .first!
   end
 
   def serialize_signals_telegram_user(signals_telegram_user)
     signals_telegram_user.as_json(
-      only: %i[id user_id telegram_username telegram_chat_id started_at is_active],
+      only: %i[id user_id telegram_user_id telegram_username telegram_chat_id started_at is_active],
     )
   end
 

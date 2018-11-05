@@ -53,7 +53,7 @@ Rails.application.routes.draw do
     end
 
     namespace :signals_telegram_bot do
-      resources :signals_telegram_users, only: %i[index show], param: :telegram_username do
+      resources :signals_telegram_users, only: %i[index show], param: :telegram_user_id_or_username do
         post 'register', on: :collection
 
         resources :signals_telegram_subscriptions, param: :coin_symbol, only: %i[index show create destroy]

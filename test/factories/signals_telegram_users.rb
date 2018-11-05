@@ -3,6 +3,7 @@ require 'faker'
 FactoryBot.define do
   factory :signals_telegram_user do
     user
+    telegram_user_id { Faker::Number.number(9) }
     telegram_username { user.token_sale['telegram_username'] || Faker::Internet.username(nil, %w(_)) }
     telegram_chat_id { Faker::Number.number(9) }
     started_at { 1.day.ago }

@@ -5,12 +5,14 @@ require_relative './base_test'
 class Api::SignalsTelegramBot::RenderTest < Api::SignalsTelegramBot::BaseTest
   test "register when valid" do
     unregistered_user = create(:user, :with_confirmed_signals_reservation)
+    telegram_user_id = Faker::Number.number(9)
     telegram_username = unregistered_user.token_sale['telegram_username']
     telegram_chat_id = Faker::Number.number(9)
     started_at = 1.hour.ago
 
     request_params = {
       signals_telegram_user: {
+        telegram_user_id: telegram_user_id,
         telegram_username: telegram_username,
         telegram_chat_id: telegram_chat_id,
         started_at: started_at.iso8601,
@@ -21,6 +23,7 @@ class Api::SignalsTelegramBot::RenderTest < Api::SignalsTelegramBot::BaseTest
     assert_equal 200, status
     unregistered_user.reload
     assert_not_nil unregistered_user.signals_telegram_user
+    assert_equal telegram_user_id, unregistered_user.signals_telegram_user.telegram_user_id
     assert_equal telegram_username, unregistered_user.signals_telegram_user.telegram_username
     assert_equal telegram_chat_id, unregistered_user.signals_telegram_user.telegram_chat_id
     assert_equal started_at.utc.to_s, unregistered_user.signals_telegram_user.started_at.utc.to_s
@@ -74,7 +77,7 @@ class Api::SignalsTelegramBot::RenderTest < Api::SignalsTelegramBot::BaseTest
     signals_telegram_users = create_list(:signals_telegram_user, 3, :with_signals_telegram_subscriptions, is_active: true)
     signals_telegram_user = signals_telegram_users.first
 
-    get "/api/signals_telegram_bot/signals_telegram_users/#{signals_telegram_user.telegram_username}/signals_telegram_subscriptions", headers: auth_headers
+    get "/api/signals_telegram_bot/signals_telegram_users/#{signals_telegram_user.telegram_user_id}/signals_telegram_subscriptions", headers: auth_headers
 
     assert_equal 200, status
     assert_equal 3, response.parsed_body.count
@@ -97,7 +100,7 @@ class Api::SignalsTelegramBot::RenderTest < Api::SignalsTelegramBot::BaseTest
     }
 
     assert_difference 'SignalsTelegramSubscription.count', 1 do
-      post "/api/signals_telegram_bot/signals_telegram_users/#{signals_telegram_user.telegram_username}/signals_telegram_subscriptions", params: request_params, headers: auth_headers
+      post "/api/signals_telegram_bot/signals_telegram_users/#{signals_telegram_user.telegram_user_id}/signals_telegram_subscriptions", params: request_params, headers: auth_headers
     end
     assert_equal 201, status
     assert_equal coin.id, response.parsed_body['coin']['id']
@@ -111,7 +114,7 @@ class Api::SignalsTelegramBot::RenderTest < Api::SignalsTelegramBot::BaseTest
     coin = signals_telegram_user.signals_telegram_subscriptions.sample.coin
 
     assert_difference 'SignalsTelegramSubscription.count', -1 do
-      delete "/api/signals_telegram_bot/signals_telegram_users/#{signals_telegram_user.telegram_username}/signals_telegram_subscriptions/#{coin.symbol}", headers: auth_headers
+      delete "/api/signals_telegram_bot/signals_telegram_users/#{signals_telegram_user.telegram_user_id}/signals_telegram_subscriptions/#{coin.symbol}", headers: auth_headers
     end
     assert_equal 204, status
     assert_not_includes signals_telegram_user.subscribed_coins, coin
