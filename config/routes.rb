@@ -79,8 +79,7 @@ Rails.application.routes.draw do
     post "#{ENV.fetch('SUPERFEEDR_CALLBACK_URL_SEGMENT_SECRET')}-superfeedr-ingest", to: 'websubs#superfeedr_ingest'
   end
 
-  root to: 'signals#index'
-  get '/home', to: 'home#index', id: 'home'
+  root to: 'home#index'
   get '/about', to: 'pages#show', id: 'about', as: 'page_about'
   get '/press', to: 'pages#show', id: 'press', as: 'page_press'
   get '/calendar', to: 'pages#show', id: 'calendar', as: 'page_calendar'
