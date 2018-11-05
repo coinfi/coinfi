@@ -2,14 +2,16 @@ class CoinsController < ApplicationController
   before_action :set_coin, only: [:show]
 
   def index
-    @coin_count = Coin.legit.listed.count
-    @coins = serialize_coins(
-      Coin
-        .legit
-        .page(1)
-        .per(100)
-        .order(:ranking)
-    )
+    distribute_reads(max_lag: MAX_ACCEPTABLE_REPLICATION_LAG, lag_failover: true) do
+      @coin_count = Coin.listed.count
+      @coins = serialize_coins(
+        Coin
+          .legit
+          .page(1)
+          .per(100)
+          .order(:ranking)
+      )
+    end
 
     set_meta_tags(
       title: "Top Cryptocurrency Prices Live, Cryptocurrency Market Cap, Best Cryptocurrency Charts",
@@ -70,7 +72,7 @@ class CoinsController < ApplicationController
     Rollbar.silenced {
       coin_by_id = Coin.find(coin_id)
     }
-    if !coin_by_id 
+    if !coin_by_id
       render_404
     end
 

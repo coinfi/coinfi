@@ -2,12 +2,14 @@ class NewsController < ApplicationController
   before_action :check_permissions, :set_body_class, :set_view_data
 
   def index
-    @news_items_data = serialize_news_items(
-      NewsItems::WithFilters.call(NewsItem.published)
-        .includes(:coins, :news_categories)
-        .order_by_published
-        .limit(25)
-    )
+    distribute_reads(max_lag: MAX_ACCEPTABLE_REPLICATION_LAG, lag_failover: true) do
+      @news_items_data = serialize_news_items(
+        NewsItems::WithFilters.call(NewsItem.published)
+          .includes(:coins, :news_categories)
+          .order_by_published
+          .limit(25)
+      )
+    end
 
     set_meta_tags(
       title: "Latest Cryptocurrency News Today - Current Crypto News Today",

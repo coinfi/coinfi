@@ -16,11 +16,11 @@ class Api::CoinsController < ApiController
     @coins = Coin.ransack(query).result(distinct: true).limit(params[:limit] || 10).order(:ranking)
     respond_success search_serializer(@coins)
   end
-  
+
   def search_by_params
     coins = []
     puts params
-    if params[:coinSlugs].present? 
+    if params[:coinSlugs].present?
       coins = Coin.where(slug: params[:coinSlugs])
     elsif params[:name].present?
       coins = Coin.find_by_sql("
@@ -46,7 +46,9 @@ class Api::CoinsController < ApiController
 
   def toplist
     coins = Rails.cache.fetch("coins/toplist", expires_in: 1.hour) do
-      Coin.order(:ranking).limit(20)
+      distribute_reads(max_lag: MAX_ACCEPTABLE_REPLICATION_LAG, lag_failover: true) do
+        Coin.order(:ranking).limit(20)
+      end
     end
     respond_success coinlist_serializer(coins)
   end
