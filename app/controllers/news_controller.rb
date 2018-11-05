@@ -4,7 +4,7 @@ class NewsController < ApplicationController
   def index
     distribute_reads(max_lag: MAX_ACCEPTABLE_REPLICATION_LAG, lag_failover: true) do
       @news_items_data = serialize_news_items(
-        NewsItems::WithFilters.call(NewsItem.published)
+        NewsItems::WithFilters.call(NewsItem.published, published_since: 24.hours.ago)
           .includes(:coins, :news_categories)
           .order_by_published
           .limit(25)
@@ -34,16 +34,18 @@ class NewsController < ApplicationController
   end
 
   def show
-    @news_items_data = serialize_news_items(
-      NewsItems::WithFilters.call(NewsItem.published)
-        .includes(:coins, :news_categories)
-        .order_by_published
-        .limit(25)
-    )
-    news_item = NewsItem.published.find(params[:id])
-    @news_item_data = serialize_news_items(news_item)
+    distribute_reads(max_lag: MAX_ACCEPTABLE_REPLICATION_LAG, lag_failover: true) do
+      @news_items_data = serialize_news_items(
+        NewsItems::WithFilters.call(NewsItem.published, published_since: 24.hours.ago)
+          .includes(:coins, :news_categories)
+          .order_by_published
+          .limit(25)
+      )
+      news_item = NewsItem.published.find(params[:id])
+      @news_item_data = serialize_news_items(news_item)
 
-    set_meta_tags canonical: news_item.url
+      set_meta_tags canonical: news_item.url
+    end
   end
 
   protected
