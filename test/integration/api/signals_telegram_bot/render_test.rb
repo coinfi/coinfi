@@ -87,6 +87,20 @@ class Api::SignalsTelegramBot::RenderTest < Api::SignalsTelegramBot::BaseTest
     end
   end
 
+  test "signals_telegram_subscriptions when searching with username" do
+    signals_telegram_users = create_list(:signals_telegram_user, 3, :with_signals_telegram_subscriptions, is_active: true)
+    signals_telegram_user = signals_telegram_users.first
+
+    get "/api/signals_telegram_bot/signals_telegram_users/#{signals_telegram_user.telegram_username}/signals_telegram_subscriptions", headers: auth_headers
+
+    assert_equal 200, status
+    assert_equal 3, response.parsed_body.count
+    expected_ids = response.parsed_body.map { |x| x['id'] }
+    signals_telegram_user.signals_telegram_subscriptions.find_each do |signals_telegram_subscription|
+      assert_includes expected_ids, signals_telegram_subscription.id
+    end
+  end
+
   test "signals_telegram_subscriptions create when valid" do
     signals_telegram_users = create_list(:signals_telegram_user, 3, :with_signals_telegram_subscriptions, is_active: true)
     signals_telegram_user = signals_telegram_users.sample

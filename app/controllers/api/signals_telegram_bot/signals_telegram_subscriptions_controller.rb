@@ -1,6 +1,6 @@
 class Api::SignalsTelegramBot::SignalsTelegramSubscriptionsController < Api::SignalsTelegramBot::BaseController
   before_action :set_signals_telegram_user
-  before_action :set_signals_telegram_subscription, only: [:show, :destroy]
+  before_action :set_signals_telegram_subscription, only: [:show]
 
   def index
     subscriptions = @signals_telegram_user.signals_telegram_subscriptions
@@ -15,31 +15,32 @@ class Api::SignalsTelegramBot::SignalsTelegramSubscriptionsController < Api::Sig
   end
 
   def create
-    coin = Coin.order(ranking: :desc).find_by!(symbol: create_params[:coin_symbol])
-    service = WatchCoinService.new(
-      user: @signals_telegram_user.user,
-      coin: coin,
+    form = ::SignalsTelegramBot::WatchCoinForm.new(
+      create_params.merge(
+        signals_telegram_user: @signals_telegram_user,
+      )
     )
 
-    if service.call
-      json = serialize_signals_telegram_subscription(service.signals_telegram_subscription)
+    if form.save
+      json = serialize_signals_telegram_subscription(form.service.signals_telegram_subscription)
       render json: json, status: :created
     else
-      errors = service&.signals_telegram_subscription&.errors || service&.watchlist_item&.errors
-      render json: errors, status: :unprocessable_entity
+      errors_json = { details: form.errors.details, messages: form.errors.messages }
+      render json: { errors: errors_json }, status: :unprocessable_entity
     end
   end
 
   def destroy
-    service = UnwatchCoinService.new(
-      user: @signals_telegram_user.user,
-      coin: @signals_telegram_subscription.coin
+    form = ::SignalsTelegramBot::UnwatchCoinForm.new(
+      signals_telegram_user: @signals_telegram_user,
+      coin_symbol: params.require(:coin_symbol),
     )
 
-    if service.call
+    if form.save
       head :no_content
     else
-      render json: nil, status: :unprocessable_entity
+      errors_json = { details: form.errors.details, messages: form.errors.messages }
+      render json: { errors: errors_json }, status: :unprocessable_entity
     end
   end
 
@@ -55,12 +56,13 @@ class Api::SignalsTelegramBot::SignalsTelegramSubscriptionsController < Api::Sig
   def set_signals_telegram_subscription
     @signals_telegram_subscription = @signals_telegram_user.signals_telegram_subscriptions
       .joins(:coin)
-      .order('coins.ranking DESC')
       .find_by!(coins: { symbol: params.require(:coin_symbol) })
   end
 
   def create_params
-    params.require(:signals_telegram_subscription).permit(:coin_symbol)
+    params
+      .require(:signals_telegram_subscription)
+      .permit(:coin_symbol)
   end
 
   def serialize_signals_telegram_subscription(signals_telegram_subscription)
