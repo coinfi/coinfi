@@ -1,8 +1,7 @@
 class Api::CoinsController < ApiController
   def index
     @current_page = params[:page] || 1
-    @coins = Coin.default.page(@current_page).per(params[:per]).order(:ranking)
-
+    @coins = Coin.legit.page(@current_page).per(params[:per]).order(:ranking)
     respond_success index_serializer(@coins)
   end
 
@@ -57,20 +56,6 @@ class Api::CoinsController < ApiController
   def watchlist
     coins = current_user.watchlist.coins.order(:ranking)
     respond_success coinlist_serializer(coins)
-  end
-
-  def dominance
-    market_dominance = Coin.market_dominance
-
-    # Bitcoin + top 4
-    bitcoin = market_dominance.extract!('bitcoin.org').flat_map { |v| v[1] }
-    other_coins = market_dominance.dup
-                    .sort_by { |k, v| v[:market_percentage] }
-                    .reverse[0..3]
-                    .flat_map { |v| v[1] }
-    coins = bitcoin + other_coins
-
-    respond_success coins.as_json
   end
 
 private

@@ -47,10 +47,9 @@ Rails.application.routes.draw do
     get '/coins/search_by_params', to: 'coins#search_by_params'
     get '/coins/:id/news', to: 'coins#news'
     get '/coins/by-slug/:slug', to: 'coins#by_slug'
-    resources :coins, only: %i[index show toplist watchlist dominance] do
+    resources :coins, only: %i[index show toplist watchlist] do
       get 'toplist', on: :collection
       get 'watchlist', on: :collection
-      get 'dominance', on: :collection
     end
 
     scope :signals_telegram_bot do
@@ -79,7 +78,7 @@ Rails.application.routes.draw do
     post "#{ENV.fetch('SUPERFEEDR_CALLBACK_URL_SEGMENT_SECRET')}-superfeedr-ingest", to: 'websubs#superfeedr_ingest'
   end
 
-  root to: 'home#index'
+  root to: 'signals#index'
   get '/about', to: 'pages#show', id: 'about', as: 'page_about'
   get '/press', to: 'pages#show', id: 'press', as: 'page_press'
   get '/calendar', to: 'pages#show', id: 'calendar', as: 'page_calendar'

@@ -19,8 +19,7 @@ class FeedSource < ApplicationRecord
   scope :not_reddit, -> { where.not(feed_type: 'reddit') }
   scope :twitter, -> { where(feed_type: 'twitter') }
   scope :not_twitter, -> { where.not(feed_type: 'twitter') }
-  scope :coindesk, -> { where(slug: 'coindesk') }
-  scope :cointelegraph, -> { where(slug: 'cointelegraph') }
+  
 
   def self.feed_types
     pluck(:feed_type).uniq

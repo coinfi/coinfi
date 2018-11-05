@@ -2,16 +2,13 @@ class CoinsController < ApplicationController
   before_action :set_coin, only: [:show]
 
   def index
-    @page = if params.has_key?(:page) then params[:page].to_i else 1 end
-    @limit = if params.has_key?(:limit) then params[:limit].to_i else 100 end
-
     distribute_reads(max_lag: MAX_ACCEPTABLE_REPLICATION_LAG, lag_failover: true) do
-      coins = Coin.default
-      @coin_count = coins.count
+      @coin_count = Coin.listed.count
       @coins = serialize_coins(
-        coins
-          .page(@page)
-          .per(@limit)
+        Coin
+          .legit
+          .page(1)
+          .per(100)
           .order(:ranking)
       )
     end
