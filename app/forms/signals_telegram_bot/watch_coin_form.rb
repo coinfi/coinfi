@@ -9,6 +9,7 @@ class SignalsTelegramBot::WatchCoinForm < Patterns::Form
   validates :signals_telegram_user, presence: true
   validates :coin_symbol, presence: true
   validates :coin, presence: true, :if => proc { |f| f.coin_symbol.present? }
+  validates :signals_telegram_subscription, absence: true, :if => proc { |f| f.coin.present? }
 
   def persist
     @service = WatchCoinService.new(
@@ -19,6 +20,11 @@ class SignalsTelegramBot::WatchCoinForm < Patterns::Form
   end
 
   protected
+
+  def signals_telegram_subscription
+    @signals_telegram_subscription ||= signals_telegram_user.signals_telegram_subscriptions
+      .find_by(coin: coin)
+  end
 
   def coin
     @coin ||= Coin.order(ranking: :desc).find_by(symbol: coin_symbol.upcase)
