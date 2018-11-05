@@ -53,11 +53,14 @@ const styles = (theme) =>
         boxShadow: '0 2px 10px rgba(14, 151, 255, 0.4)',
       },
     },
-    widgetContainer: {
+    widthContainer: {
+      width: '100%',
       backgroundColor: '#fff',
-      marginTop: '0 !important',
-      marginBottom: '0 !important',
+    },
+    widgetContainer: {
       [theme.breakpoints.up('md')]: {
+        margin: '0 auto !important',
+        maxWidth: '1200px',
         padding: `${theme.spacing.unit * 4}px`,
       },
     },
@@ -71,12 +74,13 @@ const styles = (theme) =>
     },
     widgetContainerRight: {
       [theme.breakpoints.up('md')]: {
-        maxWidth: '492px',
+        height: '100%',
       },
     },
     leftContainerInner: {
+      height: '100%',
       flexDirection: 'row',
-      justifyContent: 'space-around',
+      justifyContent: 'space-between',
       alignItems: 'baseline',
       [theme.breakpoints.up('md')]: {
         flexDirection: 'column',
@@ -185,34 +189,41 @@ class CoinIndex extends Component {
           </Grid>
         </Paper>
 
-        <Grid
-          container
-          justify="center"
-          alignItems="stretch"
-          className={classes.widgetContainer}
-          spacing={24}
-        >
-          <Grid item xs={12} md={6} className={classes.widgetContainerLeft}>
-            <Grid container className={classes.leftContainerInner} spacing={8}>
-              <Grid item md>
-                <TotalMarketCap marketCapData={totalMarketCap} />
-              </Grid>
-              <Grid item md>
-                <MarketDominance coinData={marketDominance} />
+        <div className={classes.widthContainer}>
+          <Grid
+            container
+            direction="row"
+            justify="center"
+            alignItems="stretch"
+            className={classes.widgetContainer}
+            spacing={24}
+          >
+            <Grid item xs={12} md={6} className={classes.widgetContainerLeft}>
+              <Grid
+                container
+                className={classes.leftContainerInner}
+                spacing={8}
+              >
+                <Grid item md>
+                  <TotalMarketCap marketCapData={totalMarketCap} />
+                </Grid>
+                <Grid item md>
+                  <MarketDominance coinData={marketDominance} />
+                </Grid>
               </Grid>
             </Grid>
+            <Grid item xs={12} md={6} className={classes.widgetContainerRight}>
+              <Typography
+                variant="h5"
+                align="center"
+                className={classes.newsWidgetHeader}
+              >
+                Latest Cryptocurrency News
+              </Typography>
+              <NewsList />
+            </Grid>
           </Grid>
-          <Grid item xs={12} md={6} className={classes.widgetContainerRight}>
-            <Typography
-              variant="h5"
-              align="center"
-              className={classes.newsWidgetHeader}
-            >
-              Latest Cryptocurrency News
-            </Typography>
-            <NewsList />
-          </Grid>
-        </Grid>
+        </div>
 
         <div className="flex">
           <h1 className="pt3 pl3">Coins</h1>
