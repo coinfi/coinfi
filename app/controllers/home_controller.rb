@@ -9,6 +9,22 @@ class HomeController < ApplicationController
         .order(:ranking)
     )
     @watched_coins = current_user.watchlist.coins.order(:ranking).pluck(:id) if current_user
+    @market_dominance = dominance
+    @market_cap = Coin.historical_total_market_data
+  end
+
+  def dominance
+    market_dominance = Coin.market_dominance
+
+    # Bitcoin + top 4
+    bitcoin = market_dominance.extract!('bitcoin.org').flat_map { |v| v[1] }
+    other_coins = market_dominance.dup
+                    .sort_by { |k, v| v[:market_percentage] }
+                    .reverse[0..3]
+                    .flat_map { |v| v[1] }
+    coins = bitcoin + other_coins
+
+    coins.as_json
   end
 
   def serialize_coins(coins)

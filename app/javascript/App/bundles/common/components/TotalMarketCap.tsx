@@ -6,9 +6,9 @@ import { Typography, Grid } from '@material-ui/core'
 import { withStyles, createStyles } from '@material-ui/core/styles'
 import withWidth, { isWidthDown, isWidthUp } from '@material-ui/core/withWidth'
 import Highcharts from 'highcharts/highcharts'
-import options from '../common/components/CoinCharts/PriceGraph/options'
+import options from './CoinCharts/PriceGraph/options'
 
-interface RawMarketCap {
+export interface RawMarketCap {
   timestamp: string
   total_market_cap: number
   total_volume_24h: number

@@ -1,15 +1,15 @@
 import * as React from 'react'
 import * as _ from 'lodash'
 import timeago from 'timeago.js'
-import localAPI from '../common/utils/localAPI'
+import localAPI from '../utils/localAPI'
 import LoadingIndicator from '~/bundles/common/components/LoadingIndicator'
 import { Typography, Grid } from '@material-ui/core'
 import { withStyles, createStyles } from '@material-ui/core/styles'
 import Favicon from '~/bundles/common/components/Favicon'
 import BulletSpacer from '~/bundles/common/components/BulletSpacer'
 import { formatNewsUrl } from '~/bundles/common/utils/news'
-import { NewsItem } from '../NewsfeedPage/types'
-import CoinTags from '../common/components/CoinTags'
+import { NewsItem } from '../../NewsfeedPage/types'
+import CoinTags from './CoinTags'
 
 enum STATUSES {
   INITIALIZING = 'INITIALIZING',

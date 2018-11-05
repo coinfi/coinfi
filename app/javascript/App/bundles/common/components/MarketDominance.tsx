@@ -6,15 +6,9 @@ import { withStyles, createStyles } from '@material-ui/core/styles'
 import withWidth, { isWidthDown, isWidthUp } from '@material-ui/core/withWidth'
 import BulletSpacer from '~/bundles/common/components/BulletSpacer'
 import Highcharts from 'highcharts/highcharts'
-import options from '../common/components/CoinCharts/PriceGraph/options'
+import options from './CoinCharts/PriceGraph/options'
 
-enum STATUSES {
-  INITIALIZING = 'INITIALIZING',
-  LOADING = 'LOADING',
-  READY = 'READY',
-}
-
-interface CoinDominance {
+export interface CoinDominance {
   id: number
   name: string
   symbol: string
@@ -126,7 +120,7 @@ class MarketDominance extends React.Component<Props, State> {
         {
           chart: {
             type: 'pie',
-            width: null,
+            width: 200,
             height: '100%',
           },
           colors: chartColours,
