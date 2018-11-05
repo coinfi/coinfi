@@ -12,7 +12,7 @@
     "BLAZER_PASSWORD": { "required": true },
     "BLAZER_USERNAME": { "required": true },
     "COINFI_COFI_STAKING_WALLET_ADDRESS": { "required": true },
-    "COINFI_PRICES_API_URL": { "required": true },
+    "COINFI_POSTGREST_URL": { "required": true },
     "CONVERTKIT_API_KEY": { "required": true },
     "CONVERTKIT_API_SECRET": { "required": true },
     "ETHERSCAN_API_KEY": { "required": true },
