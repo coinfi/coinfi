@@ -92,7 +92,7 @@ class Api::SignalsTelegramBot::RenderTest < Api::SignalsTelegramBot::BaseTest
 
     request_params = {
       signals_telegram_subscription: {
-        coin_slug: coin.slug,
+        coin_symbol: coin.symbol,
       },
     }
 

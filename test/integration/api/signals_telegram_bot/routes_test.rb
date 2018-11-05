@@ -27,8 +27,8 @@ class Api::SignalsTelegramBot::RoutesTest < Api::SignalsTelegramBot::BaseTest
 
   test "cannot destroy signals_telegram_subscriptions when unauthenticated" do
     dummy_telegram_username = 'dummy_user'
-    dummy_coin_slug = 'dummy_coin'
-    delete "/api/signals_telegram_bot/signals_telegram_users/#{dummy_telegram_username}/signals_telegram_subscriptions/#{dummy_coin_slug}"
+    dummy_coin_symbol = 'aaa'
+    delete "/api/signals_telegram_bot/signals_telegram_users/#{dummy_telegram_username}/signals_telegram_subscriptions/#{dummy_coin_symbol}"
     assert_equal 401, status
   end
 
@@ -59,9 +59,9 @@ class Api::SignalsTelegramBot::RoutesTest < Api::SignalsTelegramBot::BaseTest
 
   test "can destroy signals_telegram_subscriptions" do
     dummy_telegram_username = 'dummy_user'
-    dummy_coin_slug = 'dummy_coin'
+    dummy_coin_symbol = 'aaa'
     assert_raises(ActiveRecord::RecordNotFound) do
-      delete "/api/signals_telegram_bot/signals_telegram_users/#{dummy_telegram_username}/signals_telegram_subscriptions/#{dummy_coin_slug}", headers: auth_headers
+      delete "/api/signals_telegram_bot/signals_telegram_users/#{dummy_telegram_username}/signals_telegram_subscriptions/#{dummy_coin_symbol}", headers: auth_headers
     end
   end
 end

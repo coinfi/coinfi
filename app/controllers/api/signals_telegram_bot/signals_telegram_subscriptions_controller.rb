@@ -15,7 +15,7 @@ class Api::SignalsTelegramBot::SignalsTelegramSubscriptionsController < Api::Sig
   end
 
   def create
-    coin = Coin.find_by!(slug: create_params[:coin_slug])
+    coin = Coin.find_by!(symbol: create_params[:coin_symbol])
     service = WatchCoinService.new(
       user: @signals_telegram_user.user,
       coin: coin,
@@ -55,11 +55,11 @@ class Api::SignalsTelegramBot::SignalsTelegramSubscriptionsController < Api::Sig
   def set_signals_telegram_subscription
     @signals_telegram_subscription = @signals_telegram_user.signals_telegram_subscriptions
       .joins(:coin)
-      .find_by!(coins: { slug: params.require(:coin_slug) })
+      .find_by!(coins: { symbol: params.require(:coin_symbol) })
   end
 
   def create_params
-    params.require(:signals_telegram_subscription).permit(:coin_slug)
+    params.require(:signals_telegram_subscription).permit(:coin_symbol)
   end
 
   def serialize_signals_telegram_subscription(signals_telegram_subscription)
