@@ -52,7 +52,7 @@ class Api::SignalsTelegramBot::SignalsTelegramUsersController < Api::SignalsTele
 
   def register_params
     params.require(:signals_telegram_user).permit(
-      :telegram_username, :telegram_chat_id, :started_at
+      :telegram_user_id, :telegram_username, :telegram_chat_id, :started_at
     )
   end
 end
