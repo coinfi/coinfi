@@ -1,7 +1,8 @@
 class Api::CoinsController < ApiController
   def index
     @current_page = params[:page] || 1
-    @coins = Coin.legit.page(@current_page).per(params[:per]).order(:ranking)
+    @coins = Coin.default.page(@current_page).per(params[:per]).order(:ranking)
+
     respond_success index_serializer(@coins)
   end
 
@@ -16,11 +17,11 @@ class Api::CoinsController < ApiController
     @coins = Coin.ransack(query).result(distinct: true).limit(params[:limit] || 10).order(:ranking)
     respond_success search_serializer(@coins)
   end
-  
+
   def search_by_params
     coins = []
     puts params
-    if params[:coinSlugs].present? 
+    if params[:coinSlugs].present?
       coins = Coin.where(slug: params[:coinSlugs])
     elsif params[:name].present?
       coins = Coin.find_by_sql("

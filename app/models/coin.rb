@@ -39,6 +39,7 @@ class Coin < ApplicationRecord
   scope :quick_top, -> (limit) { where("coins.ranking >= ?", limit) }
   scope :icos, -> { where(ico_status: ICO_STATUSES).order(:ico_end_date) }
   scope :unslugged, -> { where(slug: nil) }
+  scope :default, -> { legit.listed }
 
   alias_method :industries, :coin_industries
 
@@ -231,7 +232,7 @@ class Coin < ApplicationRecord
     if self.available_supply
       data["available_supply"] = humanize(self.available_supply)
     elsif data["available_supply"]
-      data["available_supply"] = humanize(data["available_supply"]) 
+      data["available_supply"] = humanize(data["available_supply"])
     end
     data["market_cap_usd"] = humanize(data["market_cap_usd"], '$') if data["market_cap_usd"]
     data["total_supply"] = humanize(data["total_supply"]) if data["total_supply"]
