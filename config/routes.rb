@@ -79,6 +79,7 @@ Rails.application.routes.draw do
   end
 
   root to: 'signals#index'
+  get '/home', to: 'home#index', id: 'home'
   get '/about', to: 'pages#show', id: 'about', as: 'page_about'
   get '/press', to: 'pages#show', id: 'press', as: 'page_press'
   get '/calendar', to: 'pages#show', id: 'calendar', as: 'page_calendar'
