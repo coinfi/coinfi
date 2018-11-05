@@ -111,7 +111,7 @@ class Api::SignalsTelegramBot::RenderTest < Api::SignalsTelegramBot::BaseTest
     coin = signals_telegram_user.signals_telegram_subscriptions.sample.coin
 
     assert_difference 'SignalsTelegramSubscription.count', -1 do
-      delete "/api/signals_telegram_bot/signals_telegram_users/#{signals_telegram_user.telegram_username}/signals_telegram_subscriptions/#{coin.slug}", headers: auth_headers
+      delete "/api/signals_telegram_bot/signals_telegram_users/#{signals_telegram_user.telegram_username}/signals_telegram_subscriptions/#{coin.symbol}", headers: auth_headers
     end
     assert_equal 204, status
     assert_not_includes signals_telegram_user.subscribed_coins, coin
