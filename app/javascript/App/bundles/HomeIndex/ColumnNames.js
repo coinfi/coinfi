@@ -1,6 +1,7 @@
 import React from 'react'
 import RedGreenSpan from '../common/components/RedGreenSpan'
 import Icon from '../common/components/Icon'
+import WatchButton from '../common/components/WatchButton'
 import { Sparklines, SparklinesLine } from 'react-sparklines'
 import { formatPrice, formatValue } from '../common/utils/numberFormatters'
 
@@ -17,7 +18,9 @@ function ColumnNames(currency) {
         value: isWatched,
         data: row,
         rowIndex: index,
+        context,
       }) => {
+        const { handleWatchButtonClick } = context
         return (
           <span>
             <Icon
@@ -25,6 +28,7 @@ function ColumnNames(currency) {
               solid={isWatched}
               light={!isWatched}
               className={isWatched ? 'aqua' : 'light-silver'}
+              onClick={() => handleWatchButtonClick(row.id, isWatched)}
             />
           </span>
         )

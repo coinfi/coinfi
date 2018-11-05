@@ -128,6 +128,7 @@ class HomeIndex extends React.Component<Props, State> {
       totalMarketCap,
       coins,
       watchList,
+      loggedIn,
     } = this.props
     const { currency } = this.state
     const isMobile = isWidthDown('sm', this.props.width)
@@ -216,6 +217,7 @@ class HomeIndex extends React.Component<Props, State> {
 
         <CoinTable
           isMobile={isMobile}
+          isLoggedIn={loggedIn}
           currency={currency}
           coins={coins}
           watchList={watchList}

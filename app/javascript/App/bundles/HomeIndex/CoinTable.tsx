@@ -12,7 +12,6 @@ import {
   withStyles,
   Typography,
 } from '@material-ui/core'
-import Icon from '~/bundles/common/components/Icon'
 import ColumnNames from './ColumnNames'
 import {
   formatAbbreviatedPrice,
@@ -20,9 +19,14 @@ import {
 } from '~/bundles/common/utils/numberFormatters'
 import { CoinData, EnhancedCoinData } from './types'
 import SearchCoins from '../common/components/SearchCoins'
+import WatchButton from '../common/components/WatchButton'
+import API from '../common/utils/API'
+import coinsNormalizer from '../common/normalizers/coins'
+import { watch } from 'fs'
 
 interface Props {
   classes: any
+  isLoggedIn: boolean
   isMobile: boolean
   currency: string
   coins: CoinData[]
@@ -32,6 +36,9 @@ interface Props {
 interface State {
   columnDefs: any
   rowData: EnhancedCoinData[]
+  context: any
+  frameworkComponents: any
+  watchList: number[]
 }
 
 const styles = (theme) =>
@@ -150,27 +157,23 @@ class CoinTable extends React.Component<Props, State> {
     super(props)
 
     // combine stars with coins
-    const coins = props.coins || []
-    const enhancedCoins = props.watchList
-      ? coins.map((coin) => {
-          const isWatched =
-            _.findIndex(props.watchList, (id) => coin.id === id) >= 0
-
-          return {
-            ...coin,
-            isWatched,
-          }
-        })
-      : [...props.coins]
+    const enhancedCoins = this.combineCoinsWithWatchList(
+      props.coins,
+      props.watchList,
+    )
 
     const currency = 'USD'
     this.state = {
+      watchList: props.watchList,
       columnDefs: ColumnNames(currency),
       rowData: enhancedCoins,
+      context: {
+        componentParent: this,
+        handleWatchButtonClick: this.handleWatchButtonClick,
+      },
+      frameworkComponents: {},
     }
   }
-
-  // TODO: add lifecycle handlers for updated props
 
   public onGridReady = (params) => {
     this.api = params.api
@@ -179,8 +182,75 @@ class CoinTable extends React.Component<Props, State> {
     this.api.sizeColumnsToFit()
   }
 
+  // NOTE: Manually implementing watch button for now since ag-grid doesn't work well with context
+  public handleWatchButtonClick = (id, isWatched = false) => {
+    if (isWatched) {
+      this.removeCoinFromWatchlist(id)
+    } else {
+      this.addCoinToWatchlist(id)
+    }
+  }
+
+  public fetchWatchlist = () =>
+    API.get('/coins/watchlist', {}, false).then((response) =>
+      Promise.resolve(coinsNormalizer(response.payload)),
+    )
+
+  public persistCoinToWatchlist = (id) =>
+    API.post('/watchlist/coins', { id }, false)
+
+  public addCoinToWatchlist = (coinId) =>
+    this.persistCoinToWatchlist(coinId)
+      .then(this.fetchWatchlist)
+      .then(({ result: watchList }) => {
+        const rowData = this.combineCoinsWithWatchList(
+          this.props.coins,
+          watchList,
+        )
+
+        this.setState({
+          watchList,
+          rowData,
+        })
+      })
+
+  public deleteCoinFromWatchlist = (id) =>
+    API.delete(`/watchlist/coins/${id}`, {}, false)
+
+  public removeCoinFromWatchlist = (coinId) =>
+    this.deleteCoinFromWatchlist(coinId)
+      .then(this.fetchWatchlist)
+      .then(({ result: watchList }) => {
+        const rowData = this.combineCoinsWithWatchList(
+          this.props.coins,
+          watchList,
+        )
+
+        this.setState({
+          watchList,
+          rowData,
+        })
+      })
+
+  public combineCoinsWithWatchList(coins, watchList) {
+    coins = coins || []
+
+    const enhancedCoins = watchList
+      ? coins.map((coin) => {
+          const isWatched = _.findIndex(watchList, (id) => coin.id === id) >= 0
+
+          return {
+            ...coin,
+            isWatched,
+          }
+        })
+      : [...coins]
+
+    return enhancedCoins
+  }
+
   public render() {
-    const { isMobile, currency, classes } = this.props
+    const { isMobile, isLoggedIn, currency, classes } = this.props
     const currencyKey = currency.toLowerCase()
 
     return (
@@ -259,11 +329,10 @@ class CoinTable extends React.Component<Props, State> {
                 return (
                   <TableRow key={id}>
                     <TableCell className={classes.watchedColumn}>
-                      <Icon
-                        name="star"
-                        solid={isWatched}
-                        light={!isWatched}
-                        className={isWatched ? 'aqua' : 'light-silver'}
+                      <WatchButton
+                        coin={row}
+                        loggedIn={isLoggedIn}
+                        hasText={false}
                       />
                     </TableCell>
                     <TableCell className={classes.rankingColumn}>
@@ -350,6 +419,8 @@ class CoinTable extends React.Component<Props, State> {
                 domLayout="autoHeight"
                 columnDefs={this.state.columnDefs}
                 rowData={this.state.rowData}
+                context={this.state.context}
+                frameworkComponents={this.state.frameworkComponents}
                 onGridReady={this.onGridReady}
               />
             </div>
