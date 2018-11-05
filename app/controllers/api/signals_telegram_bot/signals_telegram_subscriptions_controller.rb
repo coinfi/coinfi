@@ -46,9 +46,9 @@ class Api::SignalsTelegramBot::SignalsTelegramSubscriptionsController < Api::Sig
   private
 
   def set_signals_telegram_user
-    telegram_user_id_or_username = params.require(:signals_telegram_user_telegram_user_id_or_username)
+    telegram_id_or_username = params.require(:signals_telegram_user_telegram_id_or_username)
     @signals_telegram_user = SignalsTelegramUser
-      .where('telegram_user_id = ? OR telegram_username ILIKE ?', telegram_user_id_or_username, telegram_user_id_or_username)
+      .where('telegram_id = ? OR telegram_username ILIKE ?', telegram_id_or_username, telegram_id_or_username)
       .first!
   end
 

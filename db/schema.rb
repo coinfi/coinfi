@@ -424,7 +424,7 @@ ActiveRecord::Schema.define(version: 20181105021200) do
     t.boolean "is_active"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "telegram_user_id"
+    t.string "telegram_id"
     t.index ["telegram_chat_id"], name: "index_signals_telegram_users_on_telegram_chat_id", unique: true
     t.index ["telegram_username"], name: "index_signals_telegram_users_on_telegram_username", unique: true
     t.index ["user_id"], name: "index_signals_telegram_users_on_user_id"
