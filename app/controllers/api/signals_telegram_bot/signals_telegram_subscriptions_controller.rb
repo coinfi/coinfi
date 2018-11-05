@@ -15,7 +15,7 @@ class Api::SignalsTelegramBot::SignalsTelegramSubscriptionsController < Api::Sig
   end
 
   def create
-    coin = Coin.find_by!(symbol: create_params[:coin_symbol])
+    coin = Coin.order(ranking: :desc).find_by!(symbol: create_params[:coin_symbol])
     service = WatchCoinService.new(
       user: @signals_telegram_user.user,
       coin: coin,
@@ -55,6 +55,7 @@ class Api::SignalsTelegramBot::SignalsTelegramSubscriptionsController < Api::Sig
   def set_signals_telegram_subscription
     @signals_telegram_subscription = @signals_telegram_user.signals_telegram_subscriptions
       .joins(:coin)
+      .order('coins.ranking DESC')
       .find_by!(coins: { symbol: params.require(:coin_symbol) })
   end
 
