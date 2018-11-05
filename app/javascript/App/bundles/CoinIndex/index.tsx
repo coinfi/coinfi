@@ -220,7 +220,7 @@ class CoinIndex extends Component<Props, State> {
 
     return (
       <Fragment>
-        <div className="flex">
+        <div className="flex" style={{ maxWidth: '1200px', margin: '0 auto' }}>
           <h1 className="pt3 pl3">Coins</h1>
           <span style={{ flexGrow: 1 }} />
           <div className="flex pt3">

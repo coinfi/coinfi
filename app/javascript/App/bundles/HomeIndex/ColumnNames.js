@@ -81,7 +81,7 @@ function ColumnNames(currency) {
 
         if (row.price) {
           const formattedPrice = formatPrice(row.price[currencyKey], currency)
-          return <span>${formattedPrice}</span>
+          return <span>{formattedPrice}</span>
         }
 
         return <span />
