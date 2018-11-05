@@ -56,7 +56,7 @@ class Api::SignalsTelegramBot::SignalsTelegramSubscriptionsController < Api::Sig
   def set_signals_telegram_subscription
     @signals_telegram_subscription = @signals_telegram_user.signals_telegram_subscriptions
       .joins(:coin)
-      .find_by!(coins: { symbol: params.require(:coin_symbol) })
+      .find_by!(coins: { symbol: params.require(:coin_symbol).upcase })
   end
 
   def create_params
