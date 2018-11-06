@@ -175,7 +175,7 @@ class HistoricalPriceDataTable extends React.Component<Props, State> {
             onChangeHandler={this.onDateChangeHandler}
           />
         </Toolbar>
-        <Table className={classes.table}>
+        <Table className={classes.table} padding="none">
           <TableHead>
             <TableRow>
               <TableCell>Date</TableCell>
