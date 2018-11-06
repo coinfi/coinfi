@@ -1,4 +1,5 @@
 import * as React from 'react'
+import * as _ from 'lodash'
 import Icon from '~/bundles/common/components/Icon'
 import { List, ListItem, ListItemIcon, ListItemText } from '@material-ui/core'
 
@@ -17,28 +18,28 @@ class LinksList extends React.Component<Props, {}> {
   public getLinks(coinObj): Link[] {
     const links = []
 
-    if (typeof coinObj.website !== 'undefined') {
+    if (!_.isUndefined(coinObj.website)) {
       links.push({
         linkType: 'Website',
         value: coinObj.website,
         icon: 'link',
       })
     }
-    if (typeof coinObj.whitepaper !== 'undefined') {
+    if (!_.isUndefined(coinObj.whitepaper)) {
       links.push({
         linkType: 'Whitepaper',
         value: coinObj.whitepaper,
         icon: 'file-alt',
       })
     }
-    if (typeof coinObj.explorer !== 'undefined') {
+    if (!_.isUndefined(coinObj.explorer)) {
       links.push({
         linkType: 'Explorer',
         value: coinObj.explorer,
         icon: 'search',
       })
     }
-    if (typeof coinObj.twitter !== 'undefined') {
+    if (!_.isUndefined(coinObj.twitter)) {
       links.push({
         linkType: 'Twitter',
         value: coinObj.twitter,
@@ -46,7 +47,7 @@ class LinksList extends React.Component<Props, {}> {
         brand: true,
       })
     }
-    if (typeof coinObj.reddit !== 'undefined') {
+    if (!_.isUndefined(coinObj.reddit)) {
       links.push({
         linkType: 'Reddit',
         value: coinObj.reddit,
@@ -54,7 +55,7 @@ class LinksList extends React.Component<Props, {}> {
         brand: true,
       })
     }
-    if (typeof coinObj.medium !== 'undefined') {
+    if (!_.isUndefined(coinObj.medium)) {
       links.push({
         linkType: 'Medium',
         value: coinObj.medium,
@@ -62,7 +63,7 @@ class LinksList extends React.Component<Props, {}> {
         brand: true,
       })
     }
-    if (typeof coinObj.github !== 'undefined') {
+    if (!_.isUndefined(coinObj.github)) {
       links.push({
         linkType: 'Github',
         value: coinObj.github,
@@ -70,7 +71,7 @@ class LinksList extends React.Component<Props, {}> {
         brand: true,
       })
     }
-    if (typeof coinObj.telegram !== 'undefined') {
+    if (!_.isUndefined(coinObj.telegram)) {
       links.push({
         linkType: 'Telegram',
         value: coinObj.telegram,

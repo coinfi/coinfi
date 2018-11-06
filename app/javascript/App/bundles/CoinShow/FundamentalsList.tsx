@@ -45,8 +45,8 @@ class FundamentalsList extends React.Component<Props, {}> {
       symbol,
     } = coinObj
     const hasMarketCap = _.has(market_cap, currencyKey)
-    const hasChange24h = typeof change24h !== 'undefined'
-    const hasChange7d = typeof change7d !== 'undefined'
+    const hasChange24h = !_.isUndefined(change24h)
+    const hasChange7d = !_.isUndefined(change7d)
 
     return (
       <Grid container={true} direction="column">
@@ -81,7 +81,7 @@ class FundamentalsList extends React.Component<Props, {}> {
             )}
           </React.Fragment>
         )}
-        {typeof available_supply !== 'undefined' && (
+        {!_.isUndefined(available_supply) && (
           <React.Fragment>
             <Grid item={true} className={classes.title}>
               Available Supply
@@ -91,7 +91,7 @@ class FundamentalsList extends React.Component<Props, {}> {
             </Grid>
           </React.Fragment>
         )}
-        {typeof total_supply !== 'undefined' && (
+        {!_.isUndefined(total_supply) && (
           <React.Fragment>
             <Grid item={true} className={classes.title}>
               Total Supply
@@ -101,7 +101,7 @@ class FundamentalsList extends React.Component<Props, {}> {
             </Grid>
           </React.Fragment>
         )}
-        {typeof max_supply !== 'undefined' && (
+        {!_.isUndefined(max_supply) && (
           <React.Fragment>
             <Grid item={true} className={classes.title}>
               Maximum Supply

@@ -12,7 +12,7 @@ export function formatValue(
   value: number,
   maximumFractionDigits: number = 6,
 ): string {
-  if (typeof value !== 'number' || value === null) {
+  if (isNaN(value)) {
     return ''
   }
   return value.toLocaleString('en-US', { maximumFractionDigits })
@@ -29,7 +29,7 @@ export function formatValueWithCurrency(
   value: number,
   currency: string,
 ): string {
-  if (typeof value !== 'number' || value === null) {
+  if (isNaN(value)) {
     return ''
   }
 
@@ -51,7 +51,7 @@ export function formatValueWithCurrency(
  * formatPrice(10, 'BTC') -> "10.00000000 Ƀ"
  */
 export function formatPrice(price: number, currency: string): string {
-  if (typeof price !== 'number' || price === null) {
+  if (isNaN(price)) {
     return ''
   }
 
@@ -79,7 +79,7 @@ export function formatAbbreviatedPrice(
   price: number,
   maximumFractionDigits: number = 1,
 ): string {
-  if (typeof price !== 'number' || price === null) {
+  if (isNaN(price)) {
     return ''
   }
 
