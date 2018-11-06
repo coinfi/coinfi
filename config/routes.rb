@@ -52,9 +52,12 @@ Rails.application.routes.draw do
       get 'watchlist', on: :collection
     end
 
-    scope :signals_telegram_bot do
-      post 'register', to: 'signals_telegram_bot#register'
-      get 'subscribers', to: 'signals_telegram_bot#subscribers'
+    namespace :signals_telegram_bot do
+      resources :signals_telegram_users, only: %i[index show], param: :telegram_id_or_username do
+        post 'register', on: :collection
+
+        resources :signals_telegram_subscriptions, param: :coin_symbol, only: %i[index show create destroy]
+      end
     end
 
     namespace :watchlist do
