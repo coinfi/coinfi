@@ -143,7 +143,7 @@ export default (Highcharts, data) => {
 
     const textLink = `<a href="${data.url}" target="_blank">${
       data.url
-    }</a> ・ ${timeago().format(data.x)}`
+    }</a> ・ ${moment(data.x).fromNow()}`
     chart.textLink = chart.renderer
       .text(textLink, chart.chartWidth / 2, 110, false)
       .css({
@@ -279,7 +279,10 @@ export default (Highcharts, data) => {
             },
           },
         },
-        enableMouseTracking: false,
+        // enableMouseTracking: false,
+        tooltip: {
+          pointFormat: '{point.title}',
+        },
         color: '#2faeed',
         marker: {
           fillColor: '#fff',
