@@ -53,7 +53,7 @@ export default class TradingViewChart extends Component {
       time_frames: [
         { text: '1d', resolution: '60', description: '3 Days' },
         { text: '7d', resolution: '60', description: '7 Days' },
-        { text: '1m', resolution: '60', description: '1 Month' },
+        { text: '1m', resolution: 'D', description: '1 Month' },
         { text: '3m', resolution: 'D', description: '3 Months' },
         { text: '6m', resolution: 'D', description: '6 Months' },
         { text: '1y', resolution: 'D', description: '1 Year' },

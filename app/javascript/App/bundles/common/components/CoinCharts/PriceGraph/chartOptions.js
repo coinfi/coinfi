@@ -60,7 +60,7 @@ export default (Highcharts, data) => {
           text: '1m',
           events: {
             click: function() {
-              setToHourly()
+              setToDaily()
             },
           },
         },
