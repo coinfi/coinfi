@@ -30,7 +30,7 @@ const styles = (theme) =>
     },
   })
 
-class Fundamentals extends React.Component<Props, {}> {
+class FundamentalsList extends React.Component<Props, {}> {
   public render() {
     const { coinObj, classes } = this.props
     const currency = this.props.currency.toUpperCase()
@@ -116,4 +116,4 @@ class Fundamentals extends React.Component<Props, {}> {
   }
 }
 
-export default withStyles(styles)(Fundamentals)
+export default withStyles(styles)(FundamentalsList)

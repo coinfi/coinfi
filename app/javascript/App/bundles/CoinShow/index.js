@@ -18,8 +18,8 @@ import withWidth, { isWidthDown } from '@material-ui/core/withWidth'
 import axios from 'axios'
 import SearchCoins from '~/bundles/common/components/SearchCoins'
 import CoinCharts from '~/bundles/common/components/CoinCharts'
-import Fundamentals from './Fundamentals'
-import Links from './Links'
+import FundamentalsList from './FundamentalsList'
+import LinksList from './LinksList'
 import HistoricalPriceDataTable from './HistoricalPriceDataTable'
 import Icon from '~/bundles/common/components/Icon'
 
@@ -306,13 +306,13 @@ class CoinShow extends Component {
               className={classes.subCardHeader}
             />
             <CardContent>
-              <Fundamentals coinObj={coinObj} currency={currency} />
+              <FundamentalsList coinObj={coinObj} currency={currency} />
             </CardContent>
           </Card>
           <Card raised={false} square={true} className={classes.subCard}>
             <CardHeader subheader="Links" className={classes.subCardHeader} />
             <CardContent>
-              <Links coinObj={coinObj} />
+              <LinksList coinObj={coinObj} />
             </CardContent>
           </Card>
           <Card raised={false} square={true} className={classes.subCard}>

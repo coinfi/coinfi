@@ -13,7 +13,7 @@ interface Link {
   brand?: boolean
 }
 
-class Links extends React.Component<Props, {}> {
+class LinksList extends React.Component<Props, {}> {
   public getLinks(coinObj): Link[] {
     const links = []
 
@@ -123,4 +123,4 @@ class Links extends React.Component<Props, {}> {
   }
 }
 
-export default Links
+export default LinksList
