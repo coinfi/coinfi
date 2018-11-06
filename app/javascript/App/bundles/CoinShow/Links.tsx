@@ -6,10 +6,6 @@ interface Props {
   coinObj: any
 }
 
-interface State {
-  linkData: Link[]
-}
-
 interface Link {
   linkType: string
   value: string
@@ -17,19 +13,8 @@ interface Link {
   brand?: boolean
 }
 
-class Links extends React.Component<Props, State> {
-  constructor(props) {
-    super(props)
-
-    const linkData = this.getLinks(props)
-
-    this.state = {
-      linkData,
-    }
-  }
-
-  public getLinks(props) {
-    const { coinObj } = props
+class Links extends React.Component<Props, {}> {
+  public getLinks(coinObj): Link[] {
     const links = []
 
     if (typeof coinObj.website !== 'undefined') {
@@ -98,9 +83,11 @@ class Links extends React.Component<Props, State> {
   }
 
   public render() {
+    const linkData = this.getLinks(this.props.coinObj)
+
     return (
       <List dense={true}>
-        {this.state.linkData.map((item, index) => {
+        {linkData.map((item, index) => {
           return (
             <ListItem key={index} style={{ paddingLeft: 0, paddingRight: 0 }}>
               <ListItemIcon style={{ marginRight: 0 }}>

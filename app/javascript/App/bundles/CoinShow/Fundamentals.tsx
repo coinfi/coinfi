@@ -1,4 +1,5 @@
 import * as React from 'react'
+import * as _ from 'lodash'
 import Icon from '~/bundles/common/components/Icon'
 import { Grid, withStyles, createStyles } from '@material-ui/core'
 import {
@@ -43,8 +44,7 @@ class Fundamentals extends React.Component<Props, {}> {
       max_supply,
       symbol,
     } = coinObj
-    const hasMarketCap =
-      typeof market_cap === 'object' && market_cap[currencyKey]
+    const hasMarketCap = _.has(market_cap, currencyKey)
     const hasChange24h = typeof change24h !== 'undefined'
     const hasChange7d = typeof change7d !== 'undefined'
 
