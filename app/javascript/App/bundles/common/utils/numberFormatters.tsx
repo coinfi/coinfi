@@ -1,5 +1,13 @@
 const numericSymbols = ['k', 'M', 'B', 'T', 'P', 'E']
 
+/***
+ * Limits the maximum decimal places for an inputted number.
+ * Defaults to a max of 6 decimal places.
+ *
+ * Examples:
+ * formatValue(10.000001, 2) -> "10.00"
+ * formatValue(10, 2)        -> "10"
+ */
 export function formatValue(
   value: number,
   maximumFractionDigits: number = 6,
@@ -10,6 +18,13 @@ export function formatValue(
   return value.toLocaleString('en-US', { maximumFractionDigits })
 }
 
+/***
+ * Formats a number based on the desired currency with associated currency symbols.
+ *
+ * Examples:
+ * formatValueWithCurrency(10, 'USD') -> "$10.00"
+ * formatValueWithCurrency(10, 'EUR') -> "€10.00"
+ */
 export function formatValueWithCurrency(
   value: number,
   currency: string,
@@ -26,6 +41,15 @@ export function formatValueWithCurrency(
   })
 }
 
+/***
+ * Format a number for use as a price.
+ * This allows us to set our own standard rather than use toLocaleString's.
+ * This can also be useful for cryptocurrencies.
+ *
+ * Examples:
+ * formatPrice(10, 'USD') -> "$10.0000 USD"
+ * formatPrice(10, 'BTC') -> "10.00000000 Ƀ"
+ */
 export function formatPrice(price: number, currency: string): string {
   if (typeof price !== 'number' || price === null) {
     return ''
@@ -43,6 +67,14 @@ export function formatPrice(price: number, currency: string): string {
   }
 }
 
+/***
+ * Formats a number using a letter to denote 10^3N significant places.
+ * Defaults to a max of 1 decimal place.
+ *
+ * Examples:
+ * formatPrice(10003, 3) -> "10.003k"
+ * formatPrice(1000000)  -> "1M"
+ */
 export function formatAbbreviatedPrice(
   price: number,
   maximumFractionDigits: number = 1,
