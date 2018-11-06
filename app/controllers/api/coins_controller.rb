@@ -66,9 +66,11 @@ class Api::CoinsController < ApiController
   end
 
   def watchlist
-    distribute_reads(max_lag: MAX_ACCEPTABLE_REPLICATION_LAG, lag_failover: true) do
-      coins = current_user.watchlist.coins.order(:ranking)
-      respond_success coinlist_serializer(coins)
+    if current_user
+      distribute_reads(max_lag: MAX_ACCEPTABLE_REPLICATION_LAG, lag_failover: true) do
+        coins = current_user.watchlist.coins.order(:ranking)
+        respond_success coinlist_serializer(coins)
+      end
     end
   end
 
