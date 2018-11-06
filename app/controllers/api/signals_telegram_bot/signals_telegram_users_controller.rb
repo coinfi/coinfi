@@ -19,6 +19,17 @@ class Api::SignalsTelegramBot::SignalsTelegramUsersController < Api::SignalsTele
   end
 
   def register
+    # Skip registration if user already exists
+    signals_telegram_user = SignalsTelegramUser.find_by(
+      'telegram_id = ? OR telegram_username ILIKE ?',
+      register_params[:telegram_id].to_s,
+      register_params[:telegram_username]
+    )
+    if signals_telegram_user
+      json = serialize_signals_telegram_user(signals_telegram_user)
+      return render json: json, status: :ok
+    end
+
     form = ::SignalsTelegramBot::RegistrationForm.new(register_params)
     if form.save
       json = serialize_signals_telegram_user(form.signals_telegram_user)
