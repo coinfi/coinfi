@@ -21,6 +21,7 @@ import CoinCharts from '~/bundles/common/components/CoinCharts'
 import Fundamentals from './Fundamentals'
 import Links from './Links'
 import HistoricalPriceDataTable from './HistoricalPriceDataTable'
+import Icon from '~/bundles/common/components/Icon'
 
 const styles = (theme) =>
   createStyles({
@@ -44,6 +45,78 @@ const styles = (theme) =>
     },
     titleBar: {
       backgroundColor: '#fff',
+    },
+    coinImage: {
+      alignSelf: 'flex-start',
+      [theme.breakpoints.up('md')]: {
+        marginRight: `${theme.spacing.unit}px`,
+      },
+      [theme.breakpoints.down('sm')]: {
+        flex: '1 0 100%',
+        textAlign: 'center',
+        marginTop: `${theme.spacing.unit * 1.5}px`,
+        marginBottom: `${theme.spacing.unit * 1.5}px`,
+      },
+    },
+    coinName: {
+      fontSize: '1.5rem',
+      fontWeight: 'bold',
+      [theme.breakpoints.up('md')]: {
+        marginRight: `${theme.spacing.unit}px`,
+      },
+      [theme.breakpoints.down('sm')]: {
+        flex: '1 0 50%',
+        paddingRight: `${theme.spacing.unit * 0.75}px`,
+        textAlign: 'right',
+        marginBottom: `${theme.spacing.unit * 0.5}px`,
+      },
+    },
+    coinSymbol: {
+      fontSize: '1rem',
+      [theme.breakpoints.up('md')]: {
+        marginRight: `${theme.spacing.unit * 1.5}px`,
+      },
+      [theme.breakpoints.down('sm')]: {
+        flex: '1 0 50%',
+        paddingLeft: `${theme.spacing.unit * 0.75}px`,
+        textAlign: 'left',
+        marginBottom: `${theme.spacing.unit * 0.5}px`,
+      },
+    },
+    coinPrice: {
+      fontSize: '1rem',
+      fontWeight: 'bold',
+      [theme.breakpoints.up('md')]: {
+        marginRight: `${theme.spacing.unit * 1.5}px`,
+      },
+      [theme.breakpoints.down('sm')]: {
+        flex: '1 0 33%',
+        textAlign: 'center',
+      },
+    },
+    coinChange: {
+      fontSize: '0.8rem',
+      [theme.breakpoints.up('md')]: {
+        marginRight: `${theme.spacing.unit * 1.5}px`,
+      },
+      [theme.breakpoints.down('sm')]: {
+        flex: '1 0 33%',
+        textAlign: 'center',
+      },
+    },
+    watchButtonContainer: {
+      [theme.breakpoints.down('sm')]: {
+        flex: '1 0 33%',
+        textAlign: 'center',
+      },
+    },
+    watchedButton: {
+      backgroundColor: '#40a9ff',
+      color: '#fff',
+    },
+    unwatchedButton: {
+      backgroundColor: '#fff',
+      color: '#40a9ff',
     },
     mainCard: {
       padding: 0,
@@ -128,18 +201,15 @@ class CoinShow extends Component {
       classes,
     } = this.props
 
-    const percentChange1h = {
-      positive: coinObj.change1h > 0,
-      value: coinObj.change1h,
-    }
-
     const { currency } = this.state
     const prepend = currency === 'USD' ? '$' : ''
     const price = `${prepend}${Number.parseFloat(
       _.get(coinObj, ['price', currency.toLowerCase()], 0),
     ).toPrecision(6)} ${currency}`
-    const isPositive = percentChange1h.value > 0
+    const percentChange1h = _.get(coinObj, ['change1h'], 0)
+    const isPositive = percentChange1h >= 0
     const arrow = isPositive ? '▲' : '▼'
+    const changeStyle = isPositive ? { color: '#12d8b8' } : { color: '#ff6161' }
 
     return (
       <Grid
@@ -158,14 +228,52 @@ class CoinShow extends Component {
             unstyled
           />
         </Grid>
-        <Grid item={true} xs={12} className={classes.titleBar}>
-          <img alt={coinObj.name} src={coinObj.image_url} />
-          {coinObj.name}
-          {symbol}
-          {price}
-          {arrow}
-          {percentChange1h.value}%
-          <Button>Watch Button</Button>
+        <Grid
+          item={true}
+          xs={12}
+          className={classes.titleBar}
+          container={true}
+          alignContent="flex-start"
+          alignItems="baseline"
+        >
+          <Grid item={true} className={classes.coinImage}>
+            <img alt={coinObj.name} src={coinObj.image_url} />
+          </Grid>
+          <Grid item={true} className={classes.coinName}>
+            {coinObj.name}
+          </Grid>
+          <Grid item={true} className={classes.coinSymbol}>
+            {symbol}
+          </Grid>
+          <Grid item={true} className={classes.coinPrice}>
+            {price}
+          </Grid>
+          <Grid item={true} className={classes.coinChange} style={changeStyle}>
+            {arrow}
+            {percentChange1h}%
+          </Grid>
+          <Grid item={true} className={classes.watchButtonContainer}>
+            <Icon
+              name="star"
+              solid={true}
+              className={
+                this.state.watched
+                  ? classes.watchedButton
+                  : classes.unwatchedButton
+              }
+              style={{
+                borderWidth: '1px',
+                borderStyle: 'solid',
+                borderRadius: '4px',
+                padding: '8px',
+                fontSize: '12px',
+                lineHeight: ' 16px',
+              }}
+              onClick={this.watchCoinHandler}
+            >
+              {this.state.watched ? 'Unwatch Coin' : 'Watch Coin'}
+            </Icon>
+          </Grid>
         </Grid>
         <Grid item={true} xs={12} md={8}>
           <Card raised={false} square={true} className={classes.mainCard}>
