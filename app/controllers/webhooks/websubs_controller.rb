@@ -3,6 +3,8 @@ class Webhooks::WebsubsController < ApplicationController
   skip_before_action :verify_authenticity_token
   before_action :verify_signature
 
+  include NewsHelper
+
   def superfeedr_ingest
     items = params[:items]
     head :ok and return if items.blank?
@@ -12,6 +14,19 @@ class Webhooks::WebsubsController < ApplicationController
     end
 
     puts "Received #{items.count} NewsItems from SuperFeedr."
+
+    if items.count > 0
+      Rails.cache.write("news") do
+        distribute_reads(max_lag: MAX_ACCEPTABLE_REPLICATION_LAG, lag_failover: true) do
+          news_items = default_news_query
+          if default_news_query.empty?
+            news_items = backup_default_news_query
+          end
+
+          serialize_news_items(news_items)
+        end
+      end
+    end
 
     head :ok
   end
