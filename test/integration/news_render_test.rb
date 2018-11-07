@@ -13,6 +13,7 @@ class NewsRenderTest < ApplicationIntegrationTest
   end
 
   test "index renders news items" do
+    Rails.cache.clear
     LaunchDarkly::LDClient.stub_any_instance(:variation, true) do
       get news_url
     end
@@ -36,6 +37,7 @@ class NewsRenderTest < ApplicationIntegrationTest
   end
 
   test "show renders news items" do
+    Rails.cache.clear
     news_item = @coins.first.news_items.published.first
     news_item_slug = news_item.title.parameterize
     LaunchDarkly::LDClient.stub_any_instance(:variation, true) do

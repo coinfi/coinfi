@@ -47,7 +47,7 @@ class NewsController < ApplicationController
   end
 
   def set_default_news_items
-    @news_item_data = Rails.cache.fetch("news") do
+    @news_items_data = Rails.cache.fetch("news") do
       distribute_reads(max_lag: MAX_ACCEPTABLE_REPLICATION_LAG, lag_failover: true) do
         news_items = default_news_query
         if default_news_query.empty?
