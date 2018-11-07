@@ -3,6 +3,7 @@ import { MuiThemeProvider } from '@material-ui/core/styles'
 import theme from './theme'
 import { DeviceProvider } from '~/bundles/common/contexts/DeviceContext'
 import { RailsProvider } from '~/bundles/common/contexts/RailsContext'
+import { CurrencyProvider } from '~/bundles/common/contexts/CurrencyContext'
 import JssProvider from 'react-jss/lib/JssProvider'
 import getOrCreateStylesContext from '~/getOrCreateStylesContext'
 import ClearJssServerSide from '~/ClearJssServerSide'
@@ -34,7 +35,11 @@ const withRootProviders = (
           <ClearJssServerSide stylesNamespace={stylesNamespace}>
             <RailsProvider railsContext={railsContext}>
               <DeviceProvider {...railsContext.deviceProviderProps}>
-                <TargetComponent {...props} />
+                <CurrencyProvider
+                  initialCurrency={railsContext.initialCurrency}
+                >
+                  <TargetComponent {...props} />
+                </CurrencyProvider>
               </DeviceProvider>
             </RailsProvider>
           </ClearJssServerSide>

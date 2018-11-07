@@ -1,21 +1,34 @@
 import * as React from 'react'
 import * as _ from 'lodash'
-import { Select } from '@material-ui/core'
+import { Select, createStyles, withStyles } from '@material-ui/core'
 
 interface Props {
   initialCurrency?: string
   onChange?: (selected: string) => string | void
+  value?: string
+  classes: any
 }
 
 interface State {
   selectedCurrency: string
 }
 
+const styles = (theme) =>
+  createStyles({
+    root: {
+      color: '#fff',
+    },
+    icon: {
+      color: '#fff',
+    },
+  })
+
 class CurrencySelector extends React.Component<Props, State> {
   constructor(props) {
     super(props)
 
-    const selectedCurrency = props.initialCurrency || CURRENCIES[0]
+    const selectedCurrency =
+      props.initialCurrency || props.value || CURRENCIES[0]
     this.state = {
       selectedCurrency,
     }
@@ -38,9 +51,26 @@ class CurrencySelector extends React.Component<Props, State> {
     })
   }
 
+  public componentDidUpdate(prevProps, prevState) {
+    // override value with externally dictated value
+    if (
+      !_.isUndefined(this.props.value) &&
+      this.state.selectedCurrency !== this.props.value
+    ) {
+      this.setState({
+        selectedCurrency: this.props.value,
+      })
+    }
+  }
+
   public render() {
+    const { classes } = this.props
     return (
-      <Select onChange={this.handleChange} value={this.state.selectedCurrency}>
+      <Select
+        onChange={this.handleChange}
+        value={this.state.selectedCurrency}
+        classes={classes}
+      >
         {CURRENCIES.map((currency) => {
           return (
             <option value={currency} key={currency}>
@@ -89,4 +119,4 @@ const CURRENCIES = [
   'ZAR',
 ]
 
-export default CurrencySelector
+export default withStyles(styles)(CurrencySelector)
