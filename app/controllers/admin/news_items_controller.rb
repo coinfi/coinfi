@@ -1,7 +1,5 @@
 module Admin
   class NewsItemsController < Admin::ApplicationController
-    before_action :default_params, only: :index
-
     def update
       news_item = NewsItem.find(params[:id])
       metadata_params = { user_id: current_user.id, last_human_tagged_on: Time.now }
@@ -13,8 +11,8 @@ module Admin
       respond_to do |format|
         format.html {
           page = Administrate::Page::Collection.new(dashboard)
-          resources = NewsItem.pending.no_category.order_by_published
-            .includes(:coins, :news_coin_mentions, :news_categories, :news_item_categorizations)
+          resources = NewsItem.pending.no_category.where("feed_item_published_at > ?", 1.month.ago).order_by_published
+            .includes(:feed_source)
             .page(params[:page])
             .per(records_per_page)
           render :index, locals: { page: page, resources: resources, search_term: search_term, show_search_bar: show_search_bar? }
@@ -28,8 +26,7 @@ module Admin
       respond_to do |format|
         format.html {
           page = Administrate::Page::Collection.new(dashboard)
-          resources = NewsItem.tagged.order_by_published
-            .includes(:coins, :news_coin_mentions, :news_categories, :news_item_categorizations)
+          resources = NewsItem.tagged.where("feed_item_published_at > ?", 1.month.ago).order_by_published
 
           if params[:categories]
             category_ids = params[:categories].split(',')
@@ -42,6 +39,7 @@ module Admin
           end
 
           resources = resources
+            .includes(:feed_source)
             .page(params[:page])
             .per(records_per_page)
           render :index, locals: { page: page, resources: resources, search_term: search_term, show_search_bar: show_search_bar? }
@@ -58,11 +56,6 @@ module Admin
 
     def search_term
       params[:search].to_s.strip
-    end
-
-    def default_params
-      params[:order] ||= "feed_item_published_at"
-      params[:direction] ||= "desc"
     end
   end
 end
