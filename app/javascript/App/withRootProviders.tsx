@@ -7,6 +7,7 @@ import JssProvider from 'react-jss/lib/JssProvider'
 import getOrCreateStylesContext from '~/getOrCreateStylesContext'
 import ClearJssServerSide from '~/ClearJssServerSide'
 import { CookiesProvider } from 'react-cookie'
+import { CurrencyProvider } from './bundles/common/contexts/CurrencyContext'
 
 interface WithClientProvidersOptions {
   stylesNamespace?: string
@@ -36,7 +37,9 @@ const withRootProviders = (
             <ClearJssServerSide stylesNamespace={stylesNamespace}>
               <RailsProvider railsContext={railsContext}>
                 <DeviceProvider {...railsContext.deviceProviderProps}>
-                  <TargetComponent {...props} />
+                  <CurrencyProvider>
+                    <TargetComponent {...props} />
+                  </CurrencyProvider>
                 </DeviceProvider>
               </RailsProvider>
             </ClearJssServerSide>
