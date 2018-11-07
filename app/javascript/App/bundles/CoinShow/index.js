@@ -341,12 +341,11 @@ class CoinShow extends Component {
               </List>
             </CardContent>
           </Card>
-          {metabaseUrl ? (
-            <Card raised={false} square={true} className={classes.subCard}>
-              <CardHeader
-                subheader="Advanced Token Metrics"
-                className={classes.subCardHeader}
-              />
+        </Grid>
+        {metabaseUrl ? (
+          <Grid item={true} xs={12} className={classes.metabaseContainer}>
+            <Card raised={false} square={true} className={classes.mainCard}>
+              <CardHeader title="Advanced Token Metrics" />
               <CardContent>
                 <iframe
                   title="Advanced Token Metrics"
@@ -358,8 +357,8 @@ class CoinShow extends Component {
                 />
               </CardContent>
             </Card>
-          ) : null}
-        </Grid>
+          </Grid>
+        ) : null}
       </Grid>
     )
   }
