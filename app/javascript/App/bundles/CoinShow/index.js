@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from 'react'
 import * as _ from 'lodash'
+import { withRouter } from 'react-router'
 import compose from 'recompose/compose'
 import {
   Grid,
@@ -25,6 +26,13 @@ import FundamentalsList from './FundamentalsList'
 import LinksList from './LinksList'
 import HistoricalPriceDataTable from './HistoricalPriceDataTable'
 import Icon from '~/bundles/common/components/Icon'
+
+const tabs = [
+  { slug: 'overview' },
+  { slug: 'markets' },
+  { slug: 'historical-data' },
+  { slug: 'advanced-token-metrics' },
+]
 
 const styles = (theme) =>
   createStyles({
@@ -156,12 +164,15 @@ class CoinShow extends Component {
   constructor(props) {
     super(props)
 
+    const hashTag = _.get(props, ['location', 'hash'], '').slice(1) // remove prepended octothorpe
+    const tabIndex = _.findIndex(tabs, ({ slug }) => slug === hashTag)
+
     this.state = {
       liveCoinArr: [],
       currency: 'USD',
       watched: this.props.watching,
       iconLoading: false,
-      tabIndex: 0,
+      tabIndex: tabIndex >= 0 ? tabIndex : 0,
     }
   }
 
@@ -201,6 +212,8 @@ class CoinShow extends Component {
   }
 
   handleTabChange = (e, tabIndex) => {
+    const tabSlug = _.get(tabs, [tabIndex, 'slug'])
+    this.props.history.push(`#${tabSlug}`)
     this.setState({ tabIndex })
   }
 
@@ -423,4 +436,4 @@ class CoinShow extends Component {
 export default compose(
   withWidth(),
   withStyles(styles),
-)(CoinShow)
+)(withRouter(CoinShow))
