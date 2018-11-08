@@ -12,6 +12,7 @@ import SignalFaqPanel from './bundles/signalsPage/SignalFaqPanel'
 import SignalPopoverText from './bundles/signalsPage/SignalPopoverText'
 import SignalTeamMember from './bundles/signalsPage/SignalTeamMember'
 import SignalReservationForm from './bundles/signalsPage/SignalReservationForm'
+import CurrencyWidget from './bundles/CurrencyWidget'
 
 // Register the components so they can be rendered from Rails
 ;(ReactOnRails as any).register({
@@ -21,5 +22,6 @@ import SignalReservationForm from './bundles/signalsPage/SignalReservationForm'
   SignalPopoverText: createServerComponentHash(SignalPopoverText),
   SignalTeamMember: createServerComponentHash(SignalTeamMember),
   SignalReservationForm: createServerComponentHash(SignalReservationForm),
+  CurrencyWidget: createServerComponentHash(CurrencyWidget),
   App: createServerAppHash,
 })
