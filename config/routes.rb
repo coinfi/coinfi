@@ -53,9 +53,12 @@ Rails.application.routes.draw do
       get 'dominance', on: :collection
     end
 
-    scope :signals_telegram_bot do
-      post 'register', to: 'signals_telegram_bot#register'
-      get 'subscribers', to: 'signals_telegram_bot#subscribers'
+    namespace :signals_telegram_bot do
+      resources :signals_telegram_users, only: %i[index show], param: :telegram_id_or_username do
+        post 'register', on: :collection
+
+        resources :signals_telegram_subscriptions, param: :coin_symbol, only: %i[index show create destroy]
+      end
     end
 
     namespace :watchlist do
@@ -90,6 +93,7 @@ Rails.application.routes.draw do
   patch '/signals/reservation', to: 'signals#reservation_update', as: 'signals_reservation_update'
 
   mount Blazer::Engine, at: "blazer"
+  mount PgHero::Engine, at: "pghero"
 
   match '/404', :to => 'errors#not_found', :via => :all
   match '/500', :to => 'errors#internal_server_error', :via => :all
