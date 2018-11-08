@@ -38,6 +38,11 @@ const styles = (theme) =>
     panelExpandIcon: {
       right: 0,
     },
+    activeText: {
+      color: '#2faeed',
+      fontWeight: 'bold',
+      paddingBottom: '0 !important',
+    },
     tableRow: {
       // Table striping is enabled for all `<tr>`s by default with a global and an extremely
       // specific css rule
@@ -72,6 +77,7 @@ interface Props extends DeviceContextType {
   title: string
   buyDescription?: string
   sellDescription?: string
+  active?: boolean
 }
 
 class SignalExamplePanel extends React.Component<Props, State> {
@@ -98,7 +104,13 @@ class SignalExamplePanel extends React.Component<Props, State> {
   }
 
   public render() {
-    const { classes, title, buyDescription, sellDescription } = this.props
+    const {
+      classes,
+      title,
+      buyDescription,
+      sellDescription,
+      active,
+    } = this.props
 
     return (
       <div className={classes.root}>
@@ -120,6 +132,20 @@ class SignalExamplePanel extends React.Component<Props, State> {
           <ExpansionPanelDetails className={classes.panelDetails}>
             <table>
               <tbody>
+                {active && (
+                  <tr className={classes.tableRow}>
+                    <td
+                      className={classnames(
+                        classes.tableCell,
+                        classes.activeText,
+                      )}
+                      colSpan={2}
+                    >
+                      Active! Our beta users are trading with this signal.
+                    </td>
+                  </tr>
+                )}
+
                 {buyDescription && (
                   <tr className={classes.tableRow}>
                     <td

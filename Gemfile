@@ -90,6 +90,8 @@ gem "rails-patterns"
 gem 'skylight'
 # EtherScan API client
 gem 'etherscan_api', require: 'etherscan'
+# Performance dashboard for Postgres
+gem 'pghero'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

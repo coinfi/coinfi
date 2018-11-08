@@ -1,20 +1,30 @@
-class SignalsTelegramBotRegistrationForm < Patterns::Form
-  param_key 'signals_telegram_bot'
+class SignalsTelegramBot::RegistrationForm < Patterns::Form
+  attr_reader :signals_telegram_user
 
+  param_key 'signals_telegram_user'
+
+  attribute :telegram_id
   attribute :telegram_username
-  attribute :chat_id
+  attribute :telegram_chat_id
   attribute :started_at
 
+  validates :telegram_id, presence: true
   validates :telegram_username, presence: true
   validates :user, presence: true, :if => proc { |f| f.telegram_username.present? }
-  validates :chat_id, presence: true
+  validates :telegram_chat_id, presence: true
   validates :started_at, presence: true
   validate :validate_user_access, :if => proc { |f| f.user.present? }
 
   def persist
-    user.token_sale[:signals_telegram_bot_chat_id] = chat_id
-    user.token_sale[:signals_telegram_bot_started_at] = started_at
-    user.save
+    @signals_telegram_user = SignalsTelegramUser.new(
+      user: user,
+      telegram_id: telegram_id,
+      telegram_username: telegram_username,
+      telegram_chat_id: telegram_chat_id,
+      started_at: started_at,
+      is_active: true,
+    )
+    @signals_telegram_user.save
   end
 
   protected

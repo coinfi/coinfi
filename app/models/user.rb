@@ -10,6 +10,7 @@ class User < ApplicationRecord
   has_many :coins, through: :watchlist
   has_many :staked_cofi_transactions
   has_many :confirmed_staked_cofi_transactions, -> { StakedCofiTransaction.confirmed }, class_name: 'StakedCofiTransaction'
+  has_one :signals_telegram_user
 
   alias_method :submissions, :contributor_submissions
 
