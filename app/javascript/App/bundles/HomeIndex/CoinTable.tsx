@@ -12,6 +12,7 @@ import {
   withStyles,
   Typography,
   Paper,
+  Button,
 } from '@material-ui/core'
 import ColumnNames from './ColumnNames'
 import {
@@ -32,6 +33,7 @@ interface Props {
   currency: string
   coins: CoinData[]
   watchList: number[]
+  pageCount?: number
 }
 
 interface State {
@@ -154,6 +156,34 @@ const styles = (theme) =>
       textAlign: 'right',
       color: '#333',
     },
+    footerContainer: {
+      width: '100%',
+      maxWidth: '1200px',
+      [theme.breakpoints.up('md')]: {
+        margin: `${theme.spacing.unit * 2}px auto`,
+      },
+      [theme.breakpoints.up('down')]: {
+        margin: `${theme.spacing.unit * 2}px ${theme.spacing.unit}px`,
+      },
+    },
+    paginationButton: {
+      backgroundColor: '#fff',
+      minWidth: 'unset',
+      minHeight: 'unset',
+      marginLeft: `${theme.spacing.unit * 0.5}px`,
+      marginRight: `${theme.spacing.unit * 0.5}px`,
+      '&:first-child': {
+        marginRight: 0,
+      },
+      '&:last-child': {
+        marginRight: 0,
+      },
+    },
+    paginationSpacer: {
+      paddingLeft: `${theme.spacing.unit * 2}px`,
+      paddingRight: `${theme.spacing.unit * 2}px`,
+      lineHeight: '1.5rem',
+    },
   })
 
 class CoinTable extends React.Component<Props, State> {
@@ -257,8 +287,13 @@ class CoinTable extends React.Component<Props, State> {
   }
 
   public render() {
-    const { isMobile, isLoggedIn, currency, classes } = this.props
+    const { isMobile, isLoggedIn, currency, classes, pageCount } = this.props
     const currencyKey = currency.toLowerCase()
+
+    const pagesToShow = 10
+    const buttons = Array(Math.min(pagesToShow, pageCount))
+      .fill(null)
+      .map((none, index) => index + 1)
 
     return (
       <React.Fragment>
@@ -434,6 +469,39 @@ class CoinTable extends React.Component<Props, State> {
               />
             </div>
           </div>
+        )}
+
+        {!!pageCount && (
+          <Grid
+            container={true}
+            justify="flex-end"
+            className={classes.footerContainer}
+          >
+            {buttons.map((page) => (
+              <Button
+                variant="outlined"
+                size="small"
+                className={classes.paginationButton}
+                key={page}
+                href={`/coins?page=${page}`}
+              >
+                {page}
+              </Button>
+            ))}
+            {pagesToShow < pageCount && (
+              <React.Fragment>
+                <span className={classes.paginationSpacer}>...</span>
+                <Button
+                  variant="outlined"
+                  size="small"
+                  className={classes.paginationButton}
+                  href={`/coins?page=${pageCount}`}
+                >
+                  {pageCount}
+                </Button>
+              </React.Fragment>
+            )}
+          </Grid>
         )}
       </React.Fragment>
     )

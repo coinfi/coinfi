@@ -1,16 +1,16 @@
 class HomeController < ApplicationController
   def index
-    @coins = serialize_coins(
-      Coin
-        .legit
-        .listed
+    distribute_reads(max_lag: MAX_ACCEPTABLE_REPLICATION_LAG, lag_failover: true) do
+      coins = Coin.default
         .page(1)
         .per(100)
         .order(:ranking)
-    )
-    @watched_coins = current_user.watchlist.coins.order(:ranking).pluck(:id) if current_user
-    @market_dominance = dominance
-    @market_cap = Coin.historical_total_market_data
+      @page_count = coins.total_pages
+      @coins = serialize_coins(coins)
+      @watched_coins = current_user.watchlist.coins.order(:ranking).pluck(:id) if current_user
+      @market_dominance = dominance
+      @market_cap = Coin.historical_total_market_data
+    end
   end
 
   def dominance

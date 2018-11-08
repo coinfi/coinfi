@@ -29,6 +29,7 @@ interface Props {
   loggedIn: boolean
   marketDominance: CoinDominance[]
   totalMarketCap: RawMarketCap[]
+  pageCount: number
 }
 
 interface State {
@@ -130,6 +131,7 @@ class HomeIndex extends React.Component<Props, State> {
       coins,
       watchList,
       loggedIn,
+      pageCount,
     } = this.props
     const { currency } = this.state
     const isMobile = isWidthDown('sm', this.props.width)
@@ -222,6 +224,7 @@ class HomeIndex extends React.Component<Props, State> {
           currency={currency}
           coins={coins}
           watchList={watchList}
+          pageCount={pageCount}
         />
 
         <Footer />
