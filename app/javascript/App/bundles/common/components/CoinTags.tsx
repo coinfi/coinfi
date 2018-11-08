@@ -13,6 +13,7 @@ const CoinTags = ({ itemWithCoinLinkData, onClick, getLink }: Props) => (
       const isClickable = !!onClick
       const onClickHandler = isClickable
         ? (e) => {
+            e.preventDefault()
             e.stopPropagation()
             e.nativeEvent.stopImmediatePropagation()
             onClick(data)

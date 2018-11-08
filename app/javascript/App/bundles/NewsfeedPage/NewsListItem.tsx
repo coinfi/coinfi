@@ -79,8 +79,8 @@ const NewsListItem = (props) => {
             </span>
             <a
               href={linkUrl}
-              target="_blank noopener noreferrer"
-              rel="nofollow"
+              target="_blank"
+              rel="noopener noreferrer nofollow"
               className="dib silver"
             >
               {linkText}

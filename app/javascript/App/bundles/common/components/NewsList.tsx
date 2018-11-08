@@ -1,6 +1,6 @@
 import * as React from 'react'
 import * as _ from 'lodash'
-import timeago from 'timeago.js'
+import * as moment from 'moment'
 import localAPI from '../utils/localAPI'
 import LoadingIndicator from '~/bundles/common/components/LoadingIndicator'
 import { Typography, Grid } from '@material-ui/core'
@@ -8,8 +8,10 @@ import { withStyles, createStyles } from '@material-ui/core/styles'
 import Favicon from '~/bundles/common/components/Favicon'
 import BulletSpacer from '~/bundles/common/components/BulletSpacer'
 import { formatNewsUrl } from '~/bundles/common/utils/news'
-import { NewsItem } from '../../NewsfeedPage/types'
 import CoinTags from './CoinTags'
+import slugify from '~/bundles/common/utils/slugify'
+import { NewsItem } from '../../NewsfeedPage/types'
+import { CoinLinkData } from '../types'
 
 enum STATUSES {
   INITIALIZING = 'INITIALIZING',
@@ -109,6 +111,14 @@ class NewsList extends React.Component<Props, State> {
     this.fetchNewsItems()
   }
 
+  public handleCoinClick = (coinData: CoinLinkData) => {
+    window.location.href = `/news/${coinData.slug}`
+  }
+
+  public handleNewsClick = (newsItem: NewsItem) => {
+    window.location.href = `/news/${newsItem.id}/${slugify(newsItem.title)}`
+  }
+
   public render() {
     const { classes } = this.props
     const { sortedNewsItems, status } = this.state
@@ -136,6 +146,7 @@ class NewsList extends React.Component<Props, State> {
               justify="center"
               alignItems="stretch"
               className={classes.listItem}
+              onClick={() => this.handleNewsClick(newsItem)}
             >
               <Grid item={true}>
                 <Typography variant="h6" className={classes.listItemHeader}>
@@ -159,18 +170,21 @@ class NewsList extends React.Component<Props, State> {
                     />
                     <a
                       href={linkUrl}
-                      target="_blank noopener noreferrer"
-                      rel="nofollow"
+                      target="_blank"
+                      rel="noopener noreferrer nofollow"
                       className="dib silver"
                     >
                       {linkText}
                     </a>
                     <BulletSpacer />
-                    {timeago().format(newsItem.feed_item_published_at)}
+                    {moment(newsItem.feed_item_published_at).fromNow()}
                   </Typography>
                 </Grid>
                 <Grid item={true}>
-                  <CoinTags itemWithCoinLinkData={newsItem} />
+                  <CoinTags
+                    itemWithCoinLinkData={newsItem}
+                    onClick={this.handleCoinClick}
+                  />
                 </Grid>
               </Grid>
             </Grid>
