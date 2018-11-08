@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20181105021200) do
+ActiveRecord::Schema.define(version: 20181108095001) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -498,6 +498,7 @@ ActiveRecord::Schema.define(version: 20181105021200) do
     t.jsonb "token_sale"
     t.string "username"
     t.string "role"
+    t.string "default_currency"
     t.index "((token_sale ->> 'signals_telegram_bot_chat_id'::text))", name: "index_users_on_token_sale_signals_telegram_bot_chat_id"
     t.index "((token_sale ->> 'telegram_username'::text)) gin_trgm_ops", name: "index_users_on_token_sale_telegram_username", using: :gin
     t.index ["email"], name: "index_users_on_email", unique: true
