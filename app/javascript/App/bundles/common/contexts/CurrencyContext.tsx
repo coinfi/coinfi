@@ -1,5 +1,7 @@
 import * as React from 'react'
+import * as _ from 'lodash'
 import { withCookies, Cookies } from 'react-cookie'
+import API from '~/bundles/common/utils/API'
 
 export interface CurrencyContextType {
   currency: string
@@ -10,6 +12,8 @@ const CurrencyContext = React.createContext<CurrencyContextType>(null)
 
 export interface Props {
   cookies: Cookies
+  user?: any
+  loggedIn?: boolean
 }
 
 export interface State {
@@ -20,8 +24,9 @@ class CurrencyProvider extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props)
 
-    const { cookies } = props
-    const currency = cookies.get('currency') || 'USD'
+    const { cookies, user } = props
+    const defaultCurrency = _.get(user, 'default_currency')
+    const currency = defaultCurrency || cookies.get('currency') || 'USD'
     this.state = {
       currency,
     }
@@ -52,10 +57,14 @@ class CurrencyProvider extends React.Component<Props, State> {
   }
 
   public changeCurrency = (currency) => {
-    const { cookies } = this.props
+    const { cookies, loggedIn, user } = this.props
 
     cookies.set('currency', currency)
     this.setState({ currency })
+
+    if (loggedIn || user) {
+      API.patch('/user', { currency }, false)
+    }
 
     const event = new CustomEvent('currencyChange', { detail: { currency } })
     document.dispatchEvent(event)

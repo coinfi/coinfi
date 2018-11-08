@@ -37,7 +37,7 @@ const withRootProviders = (
             <ClearJssServerSide stylesNamespace={stylesNamespace}>
               <RailsProvider railsContext={railsContext}>
                 <DeviceProvider {...railsContext.deviceProviderProps}>
-                  <CurrencyProvider>
+                  <CurrencyProvider {...props}>
                     <TargetComponent {...props} />
                   </CurrencyProvider>
                 </DeviceProvider>
