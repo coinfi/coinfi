@@ -11,6 +11,9 @@ import {
   List,
   ListItem,
   ListItemText,
+  Tabs,
+  Tab,
+  TabContainer,
   withStyles,
   createStyles,
 } from '@material-ui/core'
@@ -45,6 +48,16 @@ const styles = (theme) =>
     },
     titleBar: {
       backgroundColor: '#fff',
+    },
+    tabBar: {
+      padding: '0 !important',
+      backgroundColor: '#fff',
+    },
+    tabsRoot: {},
+    tabRoot: {
+      [theme.breakpoints.down('sm')]: {
+        fontSize: '0.7rem',
+      },
     },
     coinImage: {
       alignSelf: 'flex-start',
@@ -140,11 +153,16 @@ const styles = (theme) =>
 class CoinShow extends Component {
   chart = undefined
 
-  state = {
-    liveCoinArr: [],
-    currency: 'USD',
-    watched: this.props.watching,
-    iconLoading: false,
+  constructor(props) {
+    super(props)
+
+    this.state = {
+      liveCoinArr: [],
+      currency: 'USD',
+      watched: this.props.watching,
+      iconLoading: false,
+      tabIndex: 0,
+    }
   }
 
   watchlistHandler(coin) {
@@ -182,6 +200,10 @@ class CoinShow extends Component {
     this.priceChart = priceChart
   }
 
+  handleTabChange = (e, tabIndex) => {
+    this.setState({ tabIndex })
+  }
+
   componentDidMount() {
     setTimeout(() => {
       this.priceChart.setSize()
@@ -200,8 +222,9 @@ class CoinShow extends Component {
       relatedCoins,
       classes,
     } = this.props
+    const { currency, tabIndex } = this.state
 
-    const { currency } = this.state
+    const isMobile = isWidthDown('sm', this.props.width)
     const prepend = currency === 'USD' ? '$' : ''
     const price = `${prepend}${Number.parseFloat(
       _.get(coinObj, ['price', currency.toLowerCase()], 0),
@@ -210,6 +233,7 @@ class CoinShow extends Component {
     const isPositive = percentChange1h >= 0
     const arrow = isPositive ? '▲' : '▼'
     const changeStyle = isPositive ? { color: '#12d8b8' } : { color: '#ff6161' }
+    const hasAdvancedMetrics = !!metabaseUrl
 
     return (
       <Grid
@@ -275,29 +299,78 @@ class CoinShow extends Component {
             </Icon>
           </Grid>
         </Grid>
+        <Grid
+          item={true}
+          xs={12}
+          className={classes.tabBar}
+          container={true}
+          alignContent="flex-start"
+          alignItems="baseline"
+        >
+          <Tabs
+            value={tabIndex}
+            onChange={this.handleTabChange}
+            indicatorColor="primary"
+            textColor="primary"
+            fullWidth
+            className={classes.tabsRoot}
+          >
+            <Tab label="Overview" className={classes.tabRoot} />
+            <Tab label="Markets" className={classes.tabRoot} />
+            <Tab label="Historical Data" className={classes.tabRoot} />
+            {hasAdvancedMetrics && (
+              <Tab label="Advanced Metrics" className={classes.tabRoot} />
+            )}
+          </Tabs>
+        </Grid>
         <Grid item={true} xs={12} md={8}>
-          <Card raised={false} square={true} className={classes.mainCard}>
-            <CardHeader title="Price Chart" />
-            <CardContent>
-              <CoinCharts
-                symbol={symbol}
-                priceData={priceData}
-                annotations={annotations}
-                isTradingViewVisible={isTradingViewVisible}
-                onPriceChartCreated={this.handlePriceChartCreated}
-              />
-            </CardContent>
-          </Card>
-          <Card raised={false} square={true} className={classes.mainCard}>
-            <CardHeader title="Historical Data" />
-            <CardContent>
-              <HistoricalPriceDataTable
-                initialData={priceData}
-                availableSupply={availableSupply}
-                symbol={symbol}
-              />
-            </CardContent>
-          </Card>
+          {tabIndex === 0 && (
+            <Card raised={false} square={true} className={classes.mainCard}>
+              <CardHeader title="Price Chart" />
+              <CardContent>
+                <CoinCharts
+                  symbol={symbol}
+                  priceData={priceData}
+                  annotations={annotations}
+                  isTradingViewVisible={isTradingViewVisible}
+                  onPriceChartCreated={this.handlePriceChartCreated}
+                />
+              </CardContent>
+            </Card>
+          )}
+          {tabIndex === 1 && (
+            <Card raised={false} square={true} className={classes.mainCard}>
+              <CardHeader title="Markets" />
+              <CardContent>Coming soon!</CardContent>
+            </Card>
+          )}
+          {tabIndex === 2 && (
+            <Card raised={false} square={true} className={classes.mainCard}>
+              <CardHeader title="Historical Data" />
+              <CardContent>
+                <HistoricalPriceDataTable
+                  initialData={priceData}
+                  availableSupply={availableSupply}
+                  symbol={symbol}
+                />
+              </CardContent>
+            </Card>
+          )}
+          {tabIndex === 3 && (
+            <Card raised={false} square={true} className={classes.mainCard}>
+              <CardHeader title="Advanced Token Metrics" />
+              <CardContent>
+                <iframe
+                  title="Advanced Token Metrics"
+                  src={metabaseUrl}
+                  frameBorder="0"
+                  width="100%"
+                  height={isMobile ? '900' : '2000'}
+                  scrolling="no"
+                />
+              </CardContent>
+            </Card>
+          )}
         </Grid>
         <Grid item={true} xs={12} md={8} className={classes.widgetContainer}>
           <Card raised={false} square={true} className={classes.subCard}>
@@ -342,23 +415,6 @@ class CoinShow extends Component {
             </CardContent>
           </Card>
         </Grid>
-        {metabaseUrl ? (
-          <Grid item={true} xs={12} className={classes.metabaseContainer}>
-            <Card raised={false} square={true} className={classes.mainCard}>
-              <CardHeader title="Advanced Token Metrics" />
-              <CardContent>
-                <iframe
-                  title="Advanced Token Metrics"
-                  src={metabaseUrl}
-                  frameBorder="0"
-                  width="100%"
-                  height="900"
-                  scrolling="no"
-                />
-              </CardContent>
-            </Card>
-          </Grid>
-        ) : null}
       </Grid>
     )
   }
