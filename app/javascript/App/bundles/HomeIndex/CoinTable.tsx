@@ -221,6 +221,11 @@ class CoinTable extends React.Component<Props, State> {
 
   // NOTE: Manually implementing watch button for now since ag-grid doesn't work well with context
   public handleWatchButtonClick = (id, isWatched = false) => {
+    if (!this.props.isLoggedIn) {
+      window.location.href = '/login'
+      return
+    }
+
     if (isWatched) {
       this.removeCoinFromWatchlist(id)
     } else {
