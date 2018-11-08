@@ -11,6 +11,7 @@ import {
   createStyles,
   withStyles,
   Typography,
+  Paper,
 } from '@material-ui/core'
 import ColumnNames from './ColumnNames'
 import {
@@ -76,6 +77,9 @@ const styles = (theme) =>
         backgroundColor: '#fff',
       },
     },
+    searchWrapper: {
+      padding: '10px',
+    },
     nav: {
       backgroundColor: '#fff',
       paddingTop: `${theme.spacing.unit}px !important`,
@@ -88,6 +92,9 @@ const styles = (theme) =>
         padding: `${theme.spacing.unit * 2}px !important`,
         textAlign: 'right',
       },
+      display: 'flex',
+      justifyContent: 'flex-end',
+      alignItems: 'flex-end',
     },
     tableHeader: {
       height: '32px',
@@ -262,12 +269,14 @@ class CoinTable extends React.Component<Props, State> {
             </Typography>
           </Grid>
           <Grid item={true} xs={12} md={9} className={classes.search}>
-            <SearchCoins
-              onSelect={(suggestion) =>
-                (window.location.href = `/coins/${suggestion.slug}`)
-              }
-              unstyled={true}
-            />
+            <Paper square={true} className={classes.searchWrapper}>
+              <SearchCoins
+                onSelect={(suggestion) =>
+                  (window.location.href = `/coins/${suggestion.slug}`)
+                }
+                unstyled={true}
+              />
+            </Paper>
           </Grid>
           <Grid item={true} xs={12} md={3} className={classes.nav}>
             <a href="/coins?page=2">Next</a>
