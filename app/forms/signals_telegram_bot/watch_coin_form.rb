@@ -23,16 +23,18 @@ class SignalsTelegramBot::WatchCoinForm < Patterns::Form
   protected
 
   def validate_signals_telegram_subscriptions_count
-    max_watchlist_items = ENV.fetch('SIGNALS_MAX_WATCHLIST_ITEMS').to_i
+    max_signals_telegram_subscriptions_count = ENV.fetch('SIGNALS_MAX_WATCHLIST_ITEMS').to_i
 
     # Check the `count + 1` because we have not yet appended the new record to the collection and
     # will not append until after `persist`
-    if signals_telegram_subscriptions.count + 1 > max_watchlist_items
+    signals_telegram_subscriptions_count = signals_telegram_subscriptions.count
+    if signals_telegram_subscriptions_count + 1 > max_signals_telegram_subscriptions_count
       errors.add(
         :signals_telegram_subscriptions,
         :length,
-        maximum: max_watchlist_items,
-        message: "cannot contain more than #{max_watchlist_items} coins"
+        current: signals_telegram_subscriptions_count,
+        maximum: max_signals_telegram_subscriptions_count,
+        message: "cannot contain more than #{max_signals_telegram_subscriptions_count} coins"
       )
     end
   end

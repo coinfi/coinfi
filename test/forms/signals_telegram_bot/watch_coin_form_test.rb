@@ -42,7 +42,7 @@ class SignalsTelegramBot::WatchCoinFormTest < ActiveSupport::TestCase
 
   test 'invalid with too many subscriptions' do
     max_watchlist_items = ENV.fetch('SIGNALS_MAX_WATCHLIST_ITEMS').to_i
-    additional_subscriptions_count = max_watchlist_items - @signals_telegram_user.signals_telegram_subscriptions.count + 1
+    additional_subscriptions_count = max_watchlist_items - @signals_telegram_user.signals_telegram_subscriptions.count
     additional_subscriptions = create_list(
       :signals_telegram_subscription,
       additional_subscriptions_count,
@@ -55,6 +55,9 @@ class SignalsTelegramBot::WatchCoinFormTest < ActiveSupport::TestCase
     refute form.valid?
 
     assert_includes form.errors.keys, :signals_telegram_subscriptions
-    assert_equal [{ error: :length, maximum: 20 }], form.errors.details[:signals_telegram_subscriptions]
+    assert_equal(
+      [{ error: :length, current: max_watchlist_items, maximum: max_watchlist_items }],
+      form.errors.details[:signals_telegram_subscriptions]
+    )
   end
 end
