@@ -12,7 +12,7 @@ class User < ApplicationRecord
   has_many :confirmed_staked_cofi_transactions, -> { StakedCofiTransaction.confirmed }, class_name: 'StakedCofiTransaction'
   has_one :signals_telegram_user
 
-  validates :default_currency, presence: false, length: { is: 3 }
+  validates :default_currency, presence: false, length: { is: 3 }, allow_nil: true
 
   alias_method :submissions, :contributor_submissions
 
