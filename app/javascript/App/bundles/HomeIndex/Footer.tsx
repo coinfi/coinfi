@@ -1,5 +1,6 @@
 import * as React from 'react'
-import { createStyles, withStyles } from '@material-ui/core'
+import { createStyles, withStyles, withWidth } from '@material-ui/core'
+import compose from 'recompose/compose'
 
 interface Props {
   classes: any
@@ -12,6 +13,10 @@ const styles = (theme) =>
       width: '100%',
       backgroundColor: '#071d29',
       color: '#fff',
+      [theme.breakpoints.down('sm')]: {
+        paddingLeft: '12px',
+        paddingRight: '12px',
+      },
     },
     footerWrapper: {
       maxWidth: '1200px',
@@ -28,6 +33,12 @@ const styles = (theme) =>
         textDecoration: 'none',
         border: 0,
         padding: '1rem .5rem',
+        [theme.breakpoints.down('sm')]: {
+          lineHeight: '2rem',
+        },
+      },
+      [theme.breakpoints.down('sm')]: {
+        paddingBottom: '0.5rem',
       },
     },
   })
@@ -100,4 +111,7 @@ const Footer: React.StatelessComponent<Props> = ({ classes }) => {
   )
 }
 
-export default withStyles(styles)(Footer)
+export default compose(
+  withWidth(),
+  withStyles(styles),
+)(Footer)
