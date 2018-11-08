@@ -17,7 +17,7 @@
     "CALENDAR_DB_USER": { "required": true },
     "CALENDAR_DB_PASSWORD": { "required": true },
     "COINFI_COFI_STAKING_WALLET_ADDRESS": { "required": true },
-    "COINFI_NEW_PRICES_URL": { "required": true },
+    "COINFI_POSTGREST_URL": { "required": true },
     "CONVERTKIT_API_KEY": { "required": true },
     "CONVERTKIT_API_SECRET": { "required": true },
     "ETHERSCAN_API_KEY": { "required": true },
