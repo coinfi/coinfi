@@ -243,8 +243,16 @@ class Coin < ApplicationRecord
     current_user && current_user.coins.include?(self)
   end
 
+  def is_signals_supported_erc20?
+    self.eth_address.present?
+  end
+
   def is_erc20?
-    return false unless token_type
-    token_type.start_with?("ERC") || token_type.start_with?("EIP")
+    re = /(\b(ETH|ETHER|ER[A-Z]?\d*|EIP\d*)\b)|(ETHEREUM)/i
+    (
+      self.eth_address ||
+      re.match(self.blockchain_tech) ||
+      re.match(self.token_type)
+    ).present?
   end
 end
