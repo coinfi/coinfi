@@ -19,6 +19,7 @@ import TotalMarketCap, {
 } from '~/bundles/common/components/TotalMarketCap'
 import NewsList from '~/bundles/common/components/NewsList'
 import { CoinData } from './types'
+import Footer from './Footer'
 
 interface Props {
   classes: any
@@ -222,6 +223,8 @@ class HomeIndex extends React.Component<Props, State> {
           coins={coins}
           watchList={watchList}
         />
+
+        <Footer />
       </React.Fragment>
     )
   }
