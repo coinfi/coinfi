@@ -244,7 +244,11 @@ class Coin < ApplicationRecord
   end
 
   def is_erc20?
-    return false unless token_type
-    token_type.start_with?("ERC") || token_type.start_with?("EIP")
+    re = /(\b(ETH|ETHER|ER[A-Z]?\d*|EIP\d*)\b)|(ETHEREUM)/i
+    (
+      self.eth_address ||
+      re.match(self.blockchain_tech) ||
+      re.match(self.token_type)
+    ).present?
   end
 end
