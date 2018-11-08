@@ -346,6 +346,8 @@ GEM
     parser (2.5.1.0)
       ast (~> 2.4.0)
     pg (0.20.0)
+    pghero (2.2.0)
+      activerecord
     polyamorous (1.3.3)
       activerecord (>= 3.0)
     pony (1.11)
@@ -618,6 +620,7 @@ DEPENDENCIES
   omniauth
   omniauth-twitter
   pg (~> 0.18)
+  pghero
   pony
   pry-byebug
   pry-rails
@@ -660,4 +663,4 @@ RUBY VERSION
    ruby 2.4.1p111
 
 BUNDLED WITH
-   1.16.5
+   1.17.1
