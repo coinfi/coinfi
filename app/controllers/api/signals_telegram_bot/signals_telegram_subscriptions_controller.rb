@@ -67,7 +67,7 @@ class Api::SignalsTelegramBot::SignalsTelegramSubscriptionsController < Api::Sig
 
   def serialize_signals_telegram_subscription(signals_telegram_subscription)
     coin_json = signals_telegram_subscription.coin.as_json(
-      only: %i[id name symbol slug]
+      only: %i[id name symbol slug token_type]
     )
     signals_telegram_subscription
       .as_json(
