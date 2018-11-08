@@ -243,6 +243,10 @@ class Coin < ApplicationRecord
     current_user && current_user.coins.include?(self)
   end
 
+  def is_signals_supported_erc20?
+    self.eth_address.present?
+  end
+
   def is_erc20?
     re = /(\b(ETH|ETHER|ER[A-Z]?\d*|EIP\d*)\b)|(ETHEREUM)/i
     (

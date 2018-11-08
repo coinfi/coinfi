@@ -71,7 +71,7 @@ class Api::SignalsTelegramBot::SignalsTelegramSubscriptionsController < Api::Sig
         only: %i[id name symbol slug]
       )
       .merge({
-        is_erc20: signals_telegram_subscription.coin.is_erc20?
+        is_signals_supported_erc20: signals_telegram_subscription.coin.is_signals_supported_erc20?
       })
 
     signals_telegram_subscription
