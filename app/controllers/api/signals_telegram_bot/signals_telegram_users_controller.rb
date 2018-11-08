@@ -9,10 +9,10 @@ class Api::SignalsTelegramBot::SignalsTelegramUsersController < Api::SignalsTele
       signals_telegram_users = SignalsTelegramUser.all
     end
 
-    if subscribed_coin_symbol = index_params[:subscribed_coin_symbol]
+    if subscribed_coin_key = index_params[:subscribed_coin_key]
       signals_telegram_users = signals_telegram_users
         .joins(signals_telegram_subscriptions: :coin)
-        .where(signals_telegram_subscriptions: { coins: { symbol: subscribed_coin_symbol }})
+        .where(signals_telegram_subscriptions: { coins: { coin_key: subscribed_coin_key }})
     end
 
     json = signals_telegram_users.map { |u| serialize_signals_telegram_user(u) }
@@ -64,7 +64,7 @@ class Api::SignalsTelegramBot::SignalsTelegramUsersController < Api::SignalsTele
   def index_params
     params.permit(
       :is_active,
-      :subscribed_coin_symbol
+      :subscribed_coin_key
     )
   end
 
