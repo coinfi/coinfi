@@ -37,6 +37,7 @@
     "NEWS_COIN_MENTION_TAG_SCOPE": { "required": true },
     "PGHERO_PASSWORD": { "required": true },
     "PGHERO_USERNAME": { "required": true },
+    "POSTGRES_STATEMENT_TIMEOUT": { "required": true },
     "RACK_ENV": { "required": true },
     "RAILS_ENV": { "required": true },
     "RAILS_LOG_TO_STDOUT": { "required": true },
