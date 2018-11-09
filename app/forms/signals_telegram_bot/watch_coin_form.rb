@@ -27,6 +27,6 @@ class SignalsTelegramBot::WatchCoinForm < Patterns::Form
   end
 
   def coin
-    @coin ||= Coin.order(ranking: :desc).find_by(symbol: coin_symbol.upcase)
+    @coin ||= Coin.order(ranking: :asc).find_by(symbol: coin_symbol.upcase)
   end
 end
