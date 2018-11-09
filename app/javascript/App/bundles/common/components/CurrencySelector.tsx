@@ -4,7 +4,8 @@ import { Select, createStyles, withStyles } from '@material-ui/core'
 
 interface Props {
   initialCurrency?: string
-  onChange?: (selected: string) => string | void
+  isManagedState?: boolean
+  onChange?: (selected: string) => void
   value?: string
   classes: any
 }
@@ -27,8 +28,10 @@ class CurrencySelector extends React.Component<Props, State> {
   constructor(props) {
     super(props)
 
-    const selectedCurrency =
-      props.initialCurrency || props.value || CURRENCIES[0]
+    const managedCurrency = props.isManagedState
+      ? props.value
+      : props.initialCurrency
+    const selectedCurrency = managedCurrency || CURRENCIES[0]
     this.state = {
       selectedCurrency,
     }
@@ -37,28 +40,28 @@ class CurrencySelector extends React.Component<Props, State> {
   public handleChange = (e) => {
     e.preventDefault()
     e.stopPropagation()
-    let value = e.target.value
+    const { onChange, isManagedState } = this.props
+    const value = e.target.value
 
-    if (this.props.onChange) {
-      const returnedValue = this.props.onChange(value)
-      if (_.isString(returnedValue)) {
-        value = returnedValue
-      }
+    if (onChange) {
+      onChange(value)
     }
-
-    this.setState({
-      selectedCurrency: value,
-    })
+    if (!isManagedState) {
+      this.setState({
+        selectedCurrency: value,
+      })
+    }
   }
 
   public componentDidUpdate(prevProps, prevState) {
-    // override value with externally dictated value
+    const { isManagedState, value } = this.props
     if (
-      !_.isUndefined(this.props.value) &&
-      this.state.selectedCurrency !== this.props.value
+      isManagedState &&
+      _.isString(value) &&
+      this.state.selectedCurrency !== value
     ) {
       this.setState({
-        selectedCurrency: this.props.value,
+        selectedCurrency: value,
       })
     }
   }
