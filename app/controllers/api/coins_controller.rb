@@ -71,6 +71,8 @@ class Api::CoinsController < ApiController
         coins = current_user.watchlist.coins.order(:ranking)
         respond_success coinlist_serializer(coins)
       end
+    else
+      render json: {}, status: :unauthorized
     end
   end
 
