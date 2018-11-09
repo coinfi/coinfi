@@ -35,7 +35,7 @@ default: &default
   url: <%= ENV["DATABASE_URL"] %>
   <% end %>
   variables:
-    statement_timeout: <%= ENV.fetch("POSTGRES_STATEMENT_TIMEOUT", 300_000.seconds) %>
+    statement_timeout: <%= ENV.fetch("POSTGRES_STATEMENT_TIMEOUT", 300_000) %>
 
 development:
   <<: *default
