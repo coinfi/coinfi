@@ -39,6 +39,15 @@ const styles = (theme) =>
       display: 'flex',
       alignItems: 'center',
     },
+    mobileCoinButton: {
+      borderRadius: 0,
+      display: 'inline-flex',
+      padding: '16px',
+      textTransform: 'none',
+      background: '#2495ce',
+      marginLeft: '0 !important',
+      flex: 0,
+    },
     titleBar: {
       backgroundColor: '#fff',
     },
