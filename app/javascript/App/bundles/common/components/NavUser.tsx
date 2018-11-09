@@ -127,7 +127,11 @@ const NavUser: React.StatelessComponent<Props> = (props) => {
         anchorEl={menuAnchor}
         anchorOrigin={{
           vertical: 'bottom',
-          horizontal: 'left',
+          horizontal: 'right',
+        }}
+        transformOrigin={{
+          vertical: 'top',
+          horizontal: 'right',
         }}
         getContentAnchorEl={null}
         open={menuOpen}
