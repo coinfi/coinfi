@@ -16,11 +16,14 @@ function onClickOutside(selector, fn) {
 
 $(document).ready(() => {
   let navMenuIsOpen = false
-  let navMenuMoreIsOpen = false
+  let navMenuCoinsIsOpen = false
+  let navMenuCompanyIsOpen = false
   const $navMenu = $('.nav-menu')
   const $navMenuToggle = $('.nav-menu-toggle')
-  const $navMenuMore = $('.nav-menu-more')
-  const $navMenuMoreToggle = $('.nav-menu-more-toggle')
+  const $navMenuCoins = $('.nav-menu-coins')
+  const $navMenuCoinsToggle = $('.nav-menu-coins-toggle')
+  const $navMenuCompany = $('.nav-menu-company')
+  const $navMenuCompanyToggle = $('.nav-menu-company-toggle')
 
   const closeNavMenu = () => {
     $navMenu.removeClass('nav-menu--in')
@@ -35,15 +38,29 @@ $(document).ready(() => {
     onClickOutside('.nav-menu, .nav-menu-toggle', closeNavMenu)
   }
 
-  const closeNavMenuMore = () => {
-    $navMenuMore.removeClass('nav-menu-more--active')
-    navMenuMoreIsOpen = false
+  const closeNavMenuCoins = () => {
+    $navMenuCoins.removeClass('nav-menu-coins--active')
+    navMenuCoinsIsOpen = false
   }
 
-  const openNavMenuMore = () => {
-    $navMenuMore.addClass('nav-menu-more--active')
-    navMenuMoreIsOpen = true
-    onClickOutside('.nav-menu-more, .nav-menu-more-toggle', closeNavMenuMore)
+  const openNavMenuCoins = () => {
+    $navMenuCoins.addClass('nav-menu-coins--active')
+    navMenuCoinsIsOpen = true
+    onClickOutside('.nav-menu-coins, .nav-menu-coins-toggle', closeNavMenuCoins)
+  }
+
+  const closeNavMenuCompany = () => {
+    $navMenuCompany.removeClass('nav-menu-company--active')
+    navMenuCompanyIsOpen = false
+  }
+
+  const openNavMenuCompany = () => {
+    $navMenuCompany.addClass('nav-menu-company--active')
+    navMenuCompanyIsOpen = true
+    onClickOutside(
+      '.nav-menu-company, .nav-menu-company-toggle',
+      closeNavMenuCompany,
+    )
   }
 
   // Bind click handler to menu toggle
@@ -57,14 +74,25 @@ $(document).ready(() => {
     }
   })
 
-  // Bind click handler to more toggle
-  $navMenuMoreToggle.click((e) => {
+  // Bind click handler to coins toggle
+  $navMenuCoinsToggle.click((e) => {
     e.preventDefault()
 
-    if (navMenuMoreIsOpen) {
-      closeNavMenuMore()
+    if (navMenuCoinsIsOpen) {
+      closeNavMenuCoins()
     } else {
-      openNavMenuMore()
+      openNavMenuCoins()
+    }
+  })
+
+  // Bind click handler to company toggle
+  $navMenuCompanyToggle.click((e) => {
+    e.preventDefault()
+
+    if (navMenuCompanyIsOpen) {
+      closeNavMenuCompany()
+    } else {
+      openNavMenuCompany()
     }
   })
 

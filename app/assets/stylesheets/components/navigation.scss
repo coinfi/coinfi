@@ -32,16 +32,12 @@ $nav-menu-more-width: 150px;
   width: $nav-menu-width;
   top: $nav-height;
   left: 0;
+  padding-top: 0.5rem;
   &__item {
     font-size: 14px;
     font-weight: 600;
-    color: $white-80;
-    padding: 0.75rem;
-    @extend .hover-white;
-    &.active {
-      background: $sky-blue;
-      color: $white;
-    }
+    padding: 0.75rem 1.5rem;
+    color: white;
   }
   &--in {
     left: 0;
@@ -81,14 +77,31 @@ $nav-menu-more-width: 150px;
   margin-bottom: 0.75rem;
   color: rgba(255, 255, 255, 0.8);
 }
-
-.nav-menu-more-toggle {
-  display: hidden;
+.nav-menu-company,
+.nav-menu-coins {
+  display: none;
+  background: $dark-pine-green;
+  &--active {
+    display: block;
+  }
 }
-
-.nav-menu-more__inner {
+.nav-menu-company__inner,
+.nav-menu-coins__inner {
   flex-direction: column;
   display: flex;
+  .nav-menu__item {
+    padding-left: 2.75rem;
+  }
+}
+.nav-menu-company-toggle,
+.nav-menu-coins-toggle {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+
+  i {
+    margin-left: 0.5rem;
+  }
 }
 
 main {
@@ -104,7 +117,12 @@ main {
     position: relative;
   }
   .nav__inner {
-    justify-content: flex-start;
+    justify-content: flex-end;
+  }
+  .nav-logo {
+    position: absolute;
+    top: 0;
+    left: 0;
   }
   .nav-menu {
     overflow-y: initial;
@@ -116,19 +134,19 @@ main {
     position: static;
     top: initial;
     left: initial;
-  }
-  .nav-menu__item {
-    height: 100%;
-    display: flex;
-    align-items: center;
-    padding: 0.5rem;
-    &.active {
+    width: unset;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+    &__item {
+      height: 100%;
+      display: flex;
+      align-items: center;
+      padding: 0.5rem;
+      color: white;
       background: none;
-      color: $aqua;
+      cursor: pointer;
+      flex: 0 0 auto;
     }
-  }
-  .nav-menu-more-toggle {
-    display: none;
   }
   .nav-menu-actions {
     display: none;
@@ -136,45 +154,35 @@ main {
   .nav-menu-toggle {
     display: none;
   }
-  .nav-actions {
+  .nav-menu-item-company,
+  .nav-menu-item-coins {
+    position: relative;
+    display: inline-block;
+  }
+  .nav-menu-company,
+  .nav-menu-coins {
     position: absolute;
-    top: 0;
-    right: 0;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    padding: 12px 0;
+    width: 100%;
+    margin-left: -0.5rem;
+    z-index: 1;
+  }
+  .nav-menu-company__inner,
+  .nav-menu-coins__inner {
+    .nav-menu__item {
+      padding-left: 0.5rem;
+    }
+  }
+  .nav-menu-coins {
+    min-width: 80px;
+  }
+  .nav-actions {
     height: 100%;
     display: flex;
     align-items: center;
-  }
-  .nav-menu-more__inner {
-    flex-direction: row;
-  }
-}
-
-// Medium Screens
-@media screen and (min-width: #{$screen-ns}) and (max-width: #{$screen-m - 1px}) {
-  .nav-menu-more-toggle {
-    height: 100%;
-    display: flex;
-    align-self: center;
-  }
-  .nav-menu-more {
-    position: relative;
-    display: none;
-    &--active {
-      display: block;
+    > div:first-child {
+      margin-left: 10px;
     }
-  }
-  .nav-menu-more__inner {
-    position: absolute;
-    z-index: 1;
-    left: -20px;
-    top: 50px;
-    width: $nav-menu-more-width;
-    background: $dark-pine-green;
-    flex-direction: column;
-    align-items: flex-start;
-    display: flex;
-  }
-  .nav-menu__item {
-    padding: 0.75rem;
   }
 }
