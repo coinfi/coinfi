@@ -50,7 +50,7 @@ FactoryBot.define do
     end
 
     trait :with_confirmed_signals_reservation do
-      with_completed_signals_reservation
+      with_transferred_signals_reservation
 
       after(:build) do |user, evaluator|
         user.token_sale = user.token_sale.merge({

@@ -33,7 +33,7 @@
           </ul>
 
           <a class="btn btn-blue signals-section__cta-btn" href="<%= signals_reservation_path %>">
-            Reserve My Spot
+            Get Access
           </a>
 
           <div class="signals-section__cta-btn-note">
@@ -73,6 +73,41 @@
   </div>
 </section>
 
+<section class="signals-section sponsors-signals-section">
+  <div class="bs-container bs-container--default">
+    <div class="row widest-gutter">
+      <div class="col-sm-12 signals-section__col">
+        <div class="signals-section-content--center">
+          <h2 class="signals-section__title title__black">Featured In</h2>
+        </div>
+        <div class="signals-section-content--center signals-sponsors-panel">
+          <div class="signal-sponsor-image-wrapper">
+            <img src="<%= image_path('signals/press-logos/bloomberg.png') %>" class="signal-sponsor-image" />
+          </div>
+          <div class="signal-sponsor-image-wrapper">
+            <img src="<%= image_path('signals/press-logos/huffingtonpost.png') %>" class="signal-sponsor-image" />
+          </div>
+          <div class="signal-sponsor-image-wrapper">
+            <img src="<%= image_path('signals/press-logos/forbes.png') %>" class="signal-sponsor-image" />
+          </div>
+          <div class="signal-sponsor-image-wrapper desktop-only">
+            <img src="<%= image_path('signals/press-logos/washingtonpost.png') %>" class="signal-sponsor-image" />
+          </div>
+          <div class="signal-sponsor-image-wrapper desktop-only">
+            <img src="<%= image_path('signals/press-logos/entrepreneur.png') %>" class="signal-sponsor-image" />
+          </div>
+          <div class="signal-sponsor-image-wrapper desktop-only">
+            <img src="<%= image_path('signals/press-logos/venturebeat.png') %>" class="signal-sponsor-image" />
+          </div>
+          <div class="signal-sponsor-image-wrapper">
+            <img src="<%= image_path('signals/press-logos/cnbc.png') %>" class="signal-sponsor-image" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <section class="signals-section">
   <div class="bs-container bs-container--default">
     <div class="row widest-gutter">
@@ -94,6 +129,7 @@
                 title: "ETH movement in and out of exchanges",
                 buyDescription: "When an abnormally high amount of ETH moves out of exchanges and into cold storage wallets, it likely indicates that the holders don’t plan to sell soon.",
                 sellDescription: "When an abnormally high amount of ETH moves into exchanges, it likely indicates that holders are looking to sell.",
+                active: true,
               },
               html_options: {
                 class: 'signal-example-panels__item'
@@ -129,7 +165,7 @@
   </div>
 </section>
 
-<section class="signals-section">
+<section class="signals-section signals-section--white">
   <div class="bs-container bs-container--default">
     <div class="row widest-gutter">
       <div class="col-sm-6 last-sm signals-section__col">
@@ -559,7 +595,7 @@
       <p class="signals-section__lead cta-signals-section__lead">Reserve one of the 2,000 spots</p>
 
       <a class="btn btn-blue signals-section__cta-btn" href="<%= signals_reservation_path %>">
-        Reserve My Spot
+        Get Access
       </a>
     </div>
   </div>

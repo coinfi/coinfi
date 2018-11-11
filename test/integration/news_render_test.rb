@@ -17,7 +17,7 @@ class NewsRenderTest < ApplicationIntegrationTest
       get news_url
     end
 
-    expected_news_items = NewsItems::WithFilters.call(NewsItem.published).order_by_published.limit(25)
+    expected_news_items = NewsItems::WithFilters.call(NewsItem.published, published_since: 24.hours.ago).order_by_published.limit(25)
     expected_news_items.each do |news_item|
       assert_select "*", text: news_item.title
     end
@@ -42,7 +42,7 @@ class NewsRenderTest < ApplicationIntegrationTest
       get news_item_url(news_item, news_item_slug)
     end
 
-    expected_news_items = NewsItems::WithFilters.call(NewsItem.published).order_by_published.limit(25)
+    expected_news_items = NewsItems::WithFilters.call(NewsItem.published, published_since: 24.hours.ago).order_by_published.limit(25)
     expected_news_items.each do |news_item|
       assert_select "*", text: news_item.title
     end

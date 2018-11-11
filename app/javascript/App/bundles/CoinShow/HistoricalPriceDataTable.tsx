@@ -74,14 +74,14 @@ class HistoricalPriceDataTable extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props)
 
-    const initialSortedData = props.initialData
+    const initialSortedData = Array.isArray(props.initialData)
       ? props.initialData
           .map<PriceData>(this.parseData.bind(this))
           .sort(this.sortDataFunc)
       : undefined
 
     // Set initial status
-    const statusIsReady = !_.isUndefined(props.initialData)
+    const statusIsReady = !_.isUndefined(initialSortedData)
     const initialStatus = statusIsReady ? STATUSES.READY : undefined
     const currency = props.initialData
       ? _.get(props, ['initialData', '0', 'to_currency'])

@@ -2,12 +2,14 @@ class NewsController < ApplicationController
   before_action :check_permissions, :set_body_class, :set_view_data
 
   def index
-    @news_items_data = serialize_news_items(
-      NewsItems::WithFilters.call(NewsItem.published)
-        .includes(:coins, :news_categories)
-        .order_by_published
-        .limit(25)
-    )
+    distribute_reads(max_lag: MAX_ACCEPTABLE_REPLICATION_LAG, lag_failover: true) do
+      @news_items_data = serialize_news_items(
+        NewsItems::WithFilters.call(NewsItem.published, published_since: 24.hours.ago)
+          .includes(:coins, :news_categories)
+          .order_by_published
+          .limit(25)
+      )
+    end
 
     set_meta_tags(
       title: "Latest Cryptocurrency News Today - Current Crypto News Today",
@@ -32,16 +34,18 @@ class NewsController < ApplicationController
   end
 
   def show
-    @news_items_data = serialize_news_items(
-      NewsItems::WithFilters.call(NewsItem.published)
-        .includes(:coins, :news_categories)
-        .order_by_published
-        .limit(25)
-    )
-    news_item = NewsItem.published.find(params[:id])
-    @news_item_data = serialize_news_items(news_item)
+    distribute_reads(max_lag: MAX_ACCEPTABLE_REPLICATION_LAG, lag_failover: true) do
+      @news_items_data = serialize_news_items(
+        NewsItems::WithFilters.call(NewsItem.published, published_since: 24.hours.ago)
+          .includes(:coins, :news_categories)
+          .order_by_published
+          .limit(25)
+      )
+      news_item = NewsItem.published.find(params[:id])
+      @news_item_data = serialize_news_items(news_item)
 
-    set_meta_tags canonical: news_item.url
+      set_meta_tags canonical: news_item.url
+    end
   end
 
   protected
@@ -115,6 +119,7 @@ class NewsController < ApplicationController
       symbol: coin.symbol,
       slug: coin.slug,
       prices_data: coin.prices_data,
+      hourly_prices_data: coin.hourly_prices_data,
       news_data: coin.news_data,
       market_info: coin.market_info,
       is_being_watched: coin.is_being_watched,

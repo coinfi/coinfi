@@ -58,6 +58,7 @@ gem 'kaminari'
 gem 'api-pagination'
 gem 'ldclient-rb', '5.0.1'
 gem 'lograge'
+gem 'marginalia'
 gem 'meta-tags'
 gem 'nokogiri', '~> 1.8.1'
 gem 'omniauth'
@@ -90,6 +91,8 @@ gem "rails-patterns"
 gem 'skylight'
 # EtherScan API client
 gem 'etherscan_api', require: 'etherscan'
+# Performance dashboard for Postgres
+gem 'pghero'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
@@ -121,8 +124,8 @@ end
 
 group :production do
   gem 'rails_12factor'
-  gem 'scout_apm'
   gem 'rack-attack'
+  gem 'rack-timeout'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem

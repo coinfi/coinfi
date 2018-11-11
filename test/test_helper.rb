@@ -1,4 +1,6 @@
 require File.expand_path('../../config/environment', __FILE__)
+abort "The Rails environment is running in production mode!" if Rails.env.production?
+abort "Running specs on a remote DB is prohibited." if ENV["DATABASE_URL"]
 require 'rails/test_help'
 require "factory_bot_rails"
 require 'minitest/autorun'

@@ -3,7 +3,6 @@ import Highcharts from 'highcharts/highstock'
 import Switch from '~/bundles/common/components/Switch'
 import options from './options'
 import chartOptions from './chartOptions'
-import moment from 'moment'
 
 const containerID = 'highcharts'
 
@@ -17,19 +16,18 @@ class PriceGraph extends Component {
   }
 
   componentDidMount() {
-    let { priceData, annotations } = this.props
-
-    const epochPrices = priceData.map((datum) => {
-      return {
-        ...datum,
-        timestamp: moment.utc(datum.time).valueOf(),
-      }
-    })
+    let { priceData, priceDataHourly, annotations } = this.props
 
     this.Highcharts.setOptions(options)
     const chart = this.Highcharts.stockChart(
       containerID,
-      chartOptions(this.Highcharts, { priceData: epochPrices, annotations }),
+      chartOptions(this.Highcharts, {
+        priceData,
+        priceDataHourly,
+        annotations,
+        setPriceData: this.setPriceData,
+        setVolumeData: this.setVolumeData,
+      }),
     )
     this.priceChart = chart
     this.setState({ chart: chart })
@@ -42,6 +40,14 @@ class PriceGraph extends Component {
 
     const annotatedChart = this.getAnnotatedChart(chart)
     annotatedChart.show()
+  }
+
+  setPriceData = (data) => {
+    this.state.chart.series[0].setData(data)
+  }
+
+  setVolumeData = (data) => {
+    this.state.chart.series[2].setData(data)
   }
 
   getAnnotatedChart(stockChart = null) {
