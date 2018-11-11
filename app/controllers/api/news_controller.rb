@@ -38,21 +38,21 @@ class Api::NewsController < ApiController
       end
 
       news_items = if no_filters?
-        get_default_news_items
-      else
-        serialize_news_items(NewsItems::WithFilters.call(
-          NewsItem.published,
-          coins: coins || nil,
-          feed_sources: feed_sources || nil,
-          news_categories: news_categories || nil,
-          keywords: params[:keywords],
-          published_since: params[:publishedSince],
-          published_until: params[:publishedUntil],
-        )
-          .includes(:coins, :news_categories)
-          .order_by_published
-          .limit(25))
-      end
+          get_default_news_items
+        else
+          serialize_news_items(NewsItems::WithFilters.call(
+            NewsItem.published,
+            coins: coins || nil,
+            feed_sources: feed_sources || nil,
+            news_categories: news_categories || nil,
+            keywords: params[:keywords],
+            published_since: params[:publishedSince],
+            published_until: params[:publishedUntil],
+          )
+            .includes(:coins, :news_categories)
+            .order_by_published
+            .limit(25))
+        end
 
       respond_success news_items
     end
@@ -87,16 +87,5 @@ class Api::NewsController < ApiController
     end
 
     true
-  end
-
-  def get_default_news_items
-    Rails.cache.fetch("news") do
-      news_items = default_news_query
-      if default_news_query.empty?
-        news_items = backup_default_news_query
-      end
-
-      serialize_news_items(news_items)
-    end
   end
 end

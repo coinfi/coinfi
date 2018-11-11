@@ -33,4 +33,15 @@ module NewsHelper
       formatted_data = format_item.call(data)
     end
   end
+
+  def get_default_news_items
+    Rails.cache.fetch("news") do
+      news_items = default_news_query
+      if default_news_query.empty?
+        news_items = backup_default_news_query
+      end
+
+      serialize_news_items(news_items)
+    end
+  end
 end
