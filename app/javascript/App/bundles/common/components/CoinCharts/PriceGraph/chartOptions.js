@@ -1,6 +1,5 @@
 import _ from 'lodash'
 import moment from 'moment'
-import timeago from 'timeago.js'
 
 const parseData = (priceData) => {
   const prices = []
