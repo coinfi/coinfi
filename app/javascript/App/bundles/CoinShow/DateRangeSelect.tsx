@@ -1,7 +1,8 @@
 import * as React from 'react'
 import * as moment from 'moment'
 import { Select, MenuItem, FormControl } from '@material-ui/core'
-import { start } from 'repl'
+
+type DateValues = '7-days' | '30-days' | '3-months' | '12-months' | 'all-time'
 
 const dates = [
   { value: '7-days', label: 'Last 7 Days' },
@@ -13,21 +14,29 @@ const dates = [
 
 interface Props {
   className: any
+  initialValue?: DateValues
   minDate?: string
   maxDate?: string
   onChangeHandler?: (startDate: string, endDate: string) => void
 }
 
 interface State {
-  selectValue: string
+  selectValue: DateValues
 }
 
 class DateRangeSelect extends React.Component<Props, State> {
   constructor(props) {
     super(props)
 
+    const selectValue = props.initialValue || 'all-time'
+
+    if (props.initialValue && props.onChangeHandler) {
+      const { startDate, endDate } = this.getDateRange(selectValue)
+      props.onChangeHandler(startDate, endDate)
+    }
+
     this.state = {
-      selectValue: 'all-time',
+      selectValue,
     }
   }
 
@@ -61,12 +70,11 @@ class DateRangeSelect extends React.Component<Props, State> {
     return min <= candidate ? candidate : min
   }
 
-  public onChangeHandler = (event) => {
-    const selectValue = event.target.value
+  public getDateRange(dateValue: DateValues) {
     let startDate
     let endDate
 
-    switch (selectValue) {
+    switch (dateValue) {
       case '7-days': {
         startDate = this.getStartDate(moment().subtract(7, 'days'))
         endDate = this.getEndDate(moment())
@@ -101,6 +109,16 @@ class DateRangeSelect extends React.Component<Props, State> {
     if (endDate) {
       endDate = endDate.format('YYYY-MM-DD')
     }
+
+    return {
+      startDate,
+      endDate,
+    }
+  }
+
+  public onChangeHandler = (event) => {
+    const selectValue = event.target.value
+    const { startDate, endDate } = this.getDateRange(selectValue)
 
     if (this.props.onChangeHandler) {
       this.props.onChangeHandler(startDate, endDate)
