@@ -370,6 +370,8 @@ GEM
     rack-attack (5.4.1)
       rack (>= 1.0, < 3)
     rack-cors (1.0.2)
+    rack-protection (2.0.4)
+      rack
     rack-proxy (0.6.4)
       rack
     rack-rewrite (1.5.1)
@@ -486,6 +488,10 @@ GEM
       childprocess (~> 0.5)
       rubyzip (~> 1.2, >= 1.2.2)
     semantic (1.6.1)
+    sidekiq (5.2.3)
+      connection_pool (~> 2.2, >= 2.2.2)
+      rack-protection (>= 1.5.0)
+      redis (>= 3.3.5, < 5)
     simple_form (3.5.0)
       actionpack (> 4, < 5.2)
       activemodel (> 4, < 5.2)
@@ -645,6 +651,7 @@ DEPENDENCIES
   sass-rails (~> 5.0)
   scout_apm
   selenium-webdriver (>= 3.14.0)
+  sidekiq
   simple_form
   sitemap_generator
   skylight
