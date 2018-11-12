@@ -56,10 +56,14 @@ class CoinMarketCapService
     quote = data.dig("quote", "USD")
     coin_hash = {
       :price => quote["price"],
+      :market_cap => quote["market_cap"],
       :volume24h => quote["volume_24h"],
       :change1h => quote["percent_change_1h"],
       :change24h => quote["percent_change_24h"],
       :change7d => quote["percent_change_7d"],
+      :total_supply => data["total_supply"],
+      :available_supply => data['circulating_supply'],
+      :max_supply => data['max_supply'],
       :last_retrieved => Time.now.utc.to_s,
     }
     Rails.cache.write("#{data['slug']}:snapshot", coin_hash)

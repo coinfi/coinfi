@@ -4,7 +4,7 @@ namespace :coinmarketcap do
   namespace :cronjobs do
     # Direct suppy access
     desc "Daily suppy update"
-    task :suppy_update => :environment do
+    task :ticker_update => :environment do
       CoinMarketCapService.new.supply_update
     end
 
