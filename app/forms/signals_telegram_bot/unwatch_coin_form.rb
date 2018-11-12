@@ -23,6 +23,6 @@ class SignalsTelegramBot::UnwatchCoinForm < Patterns::Form
   def signals_telegram_subscription
     @signals_telegram_subscription ||= signals_telegram_user.signals_telegram_subscriptions
       .joins(:coin)
-      .find_by(coins: { symbol: self.coin_symbol })
+      .find_by(coins: { symbol: self.coin_symbol.upcase })
   end
 end
