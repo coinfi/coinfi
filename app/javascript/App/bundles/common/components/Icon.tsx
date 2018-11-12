@@ -45,7 +45,12 @@ export default ({
   )
 }
 
-const IconWrapper = ({ onClick, children, className }: IconWrapperProps) => {
+const IconWrapper = ({
+  onClick,
+  children,
+  style,
+  className,
+}: IconWrapperProps) => {
   const klass = className || ''
   if (onClick) {
     return (
@@ -53,11 +58,16 @@ const IconWrapper = ({ onClick, children, className }: IconWrapperProps) => {
         data-heap="news-add-coin-to-watchlist-button"
         className={`btn-icon icon ${klass}`}
         onClick={onClick}
+        style={style}
       >
         {children}
       </button>
     )
   } else {
-    return <div className={`icon ${klass}`}>{children}</div>
+    return (
+      <div className={`icon ${klass}`} style={style}>
+        {children}
+      </div>
+    )
   }
 }
