@@ -1,10 +1,9 @@
 import * as React from 'react'
 import * as _ from 'lodash'
-import { Select, createStyles, withStyles } from '@material-ui/core'
+import { Select, MenuItem, createStyles, withStyles } from '@material-ui/core'
 
 interface Props {
   initialCurrency?: string
-  isManagedState?: boolean
   onChange?: (selected: string) => void
   value?: string
   classes: any
@@ -28,7 +27,7 @@ class CurrencySelector extends React.Component<Props, State> {
   constructor(props) {
     super(props)
 
-    const managedCurrency = props.isManagedState
+    const managedCurrency = this.isManagedState()
       ? props.value
       : props.initialCurrency
     const selectedCurrency = managedCurrency || CURRENCIES[0]
@@ -37,16 +36,20 @@ class CurrencySelector extends React.Component<Props, State> {
     }
   }
 
+  public isManagedState = () => {
+    return _.isString(this.props.value)
+  }
+
   public handleChange = (e) => {
     e.preventDefault()
     e.stopPropagation()
-    const { onChange, isManagedState } = this.props
+    const { onChange } = this.props
     const value = e.target.value
 
     if (onChange) {
       onChange(value)
     }
-    if (!isManagedState) {
+    if (!this.isManagedState()) {
       this.setState({
         selectedCurrency: value,
       })
@@ -54,12 +57,8 @@ class CurrencySelector extends React.Component<Props, State> {
   }
 
   public componentDidUpdate(prevProps, prevState) {
-    const { isManagedState, value } = this.props
-    if (
-      isManagedState &&
-      _.isString(value) &&
-      this.state.selectedCurrency !== value
-    ) {
+    const { value } = this.props
+    if (this.isManagedState() && this.state.selectedCurrency !== value) {
       this.setState({
         selectedCurrency: value,
       })
@@ -76,9 +75,9 @@ class CurrencySelector extends React.Component<Props, State> {
       >
         {CURRENCIES.map((currency) => {
           return (
-            <option value={currency} key={currency}>
+            <MenuItem value={currency} key={currency}>
               {currency}
-            </option>
+            </MenuItem>
           )
         })}
       </Select>
