@@ -166,6 +166,7 @@ class HistoricalPriceDataTable extends React.Component<Props, State> {
           )}
           <div className={classes.grow} />
           <DateRangeSelect
+            initialValue="30-days"
             className={classes.picker}
             onChangeHandler={this.onDateChangeHandler}
           />
