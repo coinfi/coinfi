@@ -5,28 +5,31 @@
 import moment from 'moment'
 
 export default class Datafeed {
-  constructor(data) {
+  constructor(data, hourlyData) {
     this.data = data
+    this.hourlyData = hourlyData
   }
   onReady(callback) {
     setTimeout(() => {
       callback({
         supports_search: false,
         supports_group_request: false,
-        supported_resolutions: ['D'],
+        supported_resolutions: ['60', 'D'],
         supports_marks: false,
         supports_timescale_marks: false,
       })
     }, 0)
   }
   resolveSymbol(ticker, resolve, reject) {
-    // https://github.com/tradingview/charting_library/wiki/Symbology#symbolinfo-structure
+    // https://medium.com/@jonchurch/tradingview-charting-library-js-api-setup-for-crypto-part-1-57e37f5b3d5a
     setTimeout(() => {
       resolve({
         name: ticker,
         ticker,
         minmov: 1,
-        pricescale: 100,
+        pricescale: 1000000,
+        has_intraday: true,
+        supported_resolutions: ['60', 'D'],
         session: '24x7',
         timezone: 'UTC',
       })
@@ -41,25 +44,35 @@ export default class Datafeed {
     onErrorCallback,
     firstDataRequest,
   ) {
-    /*
-     * Doc: https://github.com/tradingview/charting_library/wiki/JS-Api#getbarssymbolinfo-resolution-from-to-onhistorycallback-onerrorcallback-firstdatarequest
-     * Example: https://github.com/tradingview/charting_library/blob/e7771668fcb61b5f99d79103d2cc7e27452cae12/datafeeds/udf/lib/history-provider.js#L7
+    /***
+     * Examples
+     * https://tw.saowen.com/a/68a2551d57bb26bf6be8e806c599a8269c0ad1691b11c7410e642822921a985c
+     * http://www.hihubs.com/article/340
      */
-    if (!firstDataRequest) return
-    const bars = this.data.map((bar) => {
-      // Need to convert `time` which is a date string into unix timestamp
-      const timestamp = moment.utc(bar.time).valueOf()
+    const data = resolution === 'D' ? this.data : this.hourlyData
 
-      return {
-        time: timestamp,
-        volume: Number(bar.volume_from),
-        open: Number(bar.open),
-        close: Number(bar.close),
-        low: Number(bar.low),
-        high: Number(bar.high),
-      }
-    })
-    onHistoryCallback(bars)
+    const bars = data
+      .map((bar) => {
+        return {
+          time: bar.timestamp,
+          volume: Number(bar.volume_from),
+          open: Number(bar.open),
+          close: Number(bar.close),
+          low: Number(bar.low),
+          high: Number(bar.high),
+        }
+      })
+      .filter((data) => {
+        const time = data.time / 1000
+        return time >= from && time <= to
+      })
+
+    const isDataInRange = bars.length > 0
+    const meta = {
+      noData: !isDataInRange,
+    }
+
+    onHistoryCallback(bars, meta)
   }
   subscribeBars() {}
 }

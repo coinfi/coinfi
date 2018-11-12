@@ -58,6 +58,7 @@ gem 'kaminari'
 gem 'api-pagination'
 gem 'ldclient-rb', '5.0.1'
 gem 'lograge'
+gem 'marginalia'
 gem 'meta-tags'
 gem 'nokogiri', '~> 1.8.1'
 gem 'omniauth'
@@ -125,7 +126,6 @@ group :production do
   gem 'rails_12factor'
   gem 'rack-attack'
   gem 'rack-timeout'
-  gem 'scout_apm'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem

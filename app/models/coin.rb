@@ -160,7 +160,7 @@ class Coin < ApplicationRecord
     if self.available_supply
       data["available_supply"] = humanize(self.available_supply)
     elsif data["available_supply"]
-      data["available_supply"] = humanize(data["available_supply"]) 
+      data["available_supply"] = humanize(data["available_supply"])
     end
     data["market_cap_usd"] = humanize(data["market_cap_usd"], '$') if data["market_cap_usd"]
     data["total_supply"] = humanize(data["total_supply"]) if data["total_supply"]
@@ -181,10 +181,19 @@ class Coin < ApplicationRecord
     {'available_supply' => available_supply, 'max_supply' => max_supply}
   end
 
+  def hourly_prices_data
+    # TODO: expires_in should probably be at midnight
+    Rails.cache.fetch("coins/#{id}/hourly_prices", expires_in: 1.hour) do
+      url = "#{ENV.fetch('COINFI_POSTGREST_URL')}/hourly_ohcl_prices?coin_key=eq.#{coin_key}&to_currency=eq.USD&order=time.asc"
+      response = HTTParty.get(url)
+      JSON.parse(response.body)
+    end
+  end
+
   def prices_data
     # TODO: expires_in should probably be at midnight
     Rails.cache.fetch("coins/#{id}/prices", expires_in: 1.day) do
-      url = "#{ENV.fetch('COINFI_NEW_PRICES_URL')}?coin_key=eq.#{coin_key}&to_currency=eq.USD&order=time.asc"
+      url = "#{ENV.fetch('COINFI_POSTGREST_URL')}/daily_ohcl_prices?coin_key=eq.#{coin_key}&to_currency=eq.USD&order=time.asc"
       response = HTTParty.get(url)
       JSON.parse(response.body)
     end
@@ -192,7 +201,7 @@ class Coin < ApplicationRecord
 
   def sparkline
     Rails.cache.fetch("coins/#{id}/sparkline", expires_in: 1.day) do
-      url = "#{ENV.fetch('COINFI_NEW_PRICES_URL')}?coin_key=eq.#{coin_key}&select=close&to_currency=eq.USD&limit=7&order=time.desc"
+      url = "#{ENV.fetch('COINFI_POSTGREST_URL')}/daily_ohcl_prices?coin_key=eq.#{coin_key}&select=close&to_currency=eq.USD&limit=7&order=time.desc"
       response = HTTParty.get(url)
       results = JSON.parse(response.body)
       results.map! { |result| result["close"] }
@@ -234,8 +243,16 @@ class Coin < ApplicationRecord
     current_user && current_user.coins.include?(self)
   end
 
+  def is_signals_supported_erc20?
+    self.eth_address.present?
+  end
+
   def is_erc20?
-    return false unless token_type
-    token_type.start_with?("ERC") || token_type.start_with?("EIP")
+    re = /(\b(ETH|ETHER|ER[A-Z]?\d*|EIP\d*)\b)|(ETHEREUM)/i
+    (
+      self.eth_address ||
+      re.match(self.blockchain_tech) ||
+      re.match(self.token_type)
+    ).present?
   end
 end
