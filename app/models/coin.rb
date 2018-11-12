@@ -149,12 +149,19 @@ class Coin < ApplicationRecord
     Rails.cache.fetch("coins/#{id}/market_data", expires_in: 1.minute) do
       url = "https://api.coinmarketcap.com/v1/ticker/#{slug}/?convert=BTC"
       response = HTTParty.get(url)
-      data = JSON.parse(response.body)[0] || {}
-      default_market_data.merge(data)
+      if response.code == 200
+        data = JSON.parse(response.body)[0] || {}
+        default_market_data.merge(data)
+      else # Retry using North Pole proxy.
+        url = "https://coinmarketcap.northpole.ro/ticker.json?identifier=#{slug}"
+        response = HTTParty.get(url)
+        data = NorthPoleToCoinMarketCapService.new(response).convert
+        default_market_data.merge(data)
+      end
     end
   end
 
-  def market_info market_data = nil
+  def market_info(market_data = nil)
     data = market_data || live_market_data.dup
     data["24h_volume_usd"] = humanize(data["24h_volume_usd"], '$') if data["24h_volume_usd"]
     if self.available_supply
