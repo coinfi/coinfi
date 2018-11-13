@@ -1,4 +1,5 @@
 import * as React from 'react'
+import * as _ from 'lodash'
 import classNames from 'classnames'
 import PercentageChange from '~/bundles/common/components/PercentageChange'
 import WatchButton from '~/bundles/common/components/WatchButton'
@@ -14,16 +15,16 @@ interface Props {
 export default (props: Props) => {
   const { coin, loggedIn } = props
 
-  const coinPrice = coin.market_info.price_usd
+  const coinPrice = _.get(coin, ['market_info', 'price_usd'])
   let fixedCount = 0
   if (coinPrice !== undefined) {
+    const splitCoinPrice = `#{coinPrice}`.split('.')
+    const fraction = splitCoinPrice[1] || ''
     fixedCount =
-      coinPrice && coinPrice.split('.')[1].length > 3
-        ? 4
-        : coinPrice.split('.')[1].length
+      !_.isUndefined(fraction) && fraction.length > 3 ? 4 : fraction.length
   }
   const coinPriceFixed = parseFloat(coinPrice).toFixed(fixedCount)
-  const percentChange = coin.market_info.percent_change_24h
+  const percentChange = _.get(coin, ['market_info', 'percent_change_24h'])
   return (
     <a
       href={`/news/${coin.slug}`}
