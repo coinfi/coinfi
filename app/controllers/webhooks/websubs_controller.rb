@@ -19,9 +19,7 @@ class Webhooks::WebsubsController < ApplicationController
       Rails.cache.write("news") do
         distribute_reads(max_lag: MAX_ACCEPTABLE_REPLICATION_LAG, lag_failover: true) do
           news_items = default_news_query
-          if default_news_query.empty?
-            news_items = backup_default_news_query
-          end
+          news_items = backup_default_news_query if news_items.empty?
 
           serialize_news_items(news_items)
         end
