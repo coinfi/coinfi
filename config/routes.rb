@@ -1,4 +1,12 @@
 Rails.application.routes.draw do
+  constraints subdomain: 'blazer' do
+    mount Blazer::Engine => '/'
+  end
+  
+  constraints subdomain: 'pghero' do
+    mount PgHero::Engine => '/'
+  end
+
   require 'sidekiq/web'
   constraints subdomain: 'sidekiq' do
     Sidekiq::Web.use Rack::Auth::Basic do |username, password|
@@ -104,9 +112,6 @@ Rails.application.routes.draw do
   get '/signals', to: 'signals#index'
   get '/signals/reservation', to: 'signals#reservation'
   patch '/signals/reservation', to: 'signals#reservation_update', as: 'signals_reservation_update'
-
-  mount Blazer::Engine, at: "blazer"
-  mount PgHero::Engine, at: "pghero"
 
   match '/404', :to => 'errors#not_found', :via => :all
   match '/500', :to => 'errors#internal_server_error', :via => :all
