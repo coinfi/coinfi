@@ -37,24 +37,24 @@ class Api::NewsController < ApiController
         news_categories = NewsCategory.where(name: news_category_names)
       end
 
-      news_items = if no_filters?
-          get_default_news_items
-        else
-          serialize_news_items(NewsItems::WithFilters.call(
-            NewsItem.published,
-            coins: coins || nil,
-            feed_sources: feed_sources || nil,
-            news_categories: news_categories || nil,
-            keywords: params[:keywords],
-            published_since: params[:publishedSince],
-            published_until: params[:publishedUntil],
-          )
-            .includes(:coins, :news_categories)
-            .order_by_published
-            .limit(25))
-        end
+      if no_filters?
+        @news_items = get_default_news_items
+      else
+        @news_items = serialize_news_items(NewsItems::WithFilters.call(
+          NewsItem.published,
+          coins: coins || nil,
+          feed_sources: feed_sources || nil,
+          news_categories: news_categories || nil,
+          keywords: params[:keywords],
+          published_since: params[:publishedSince],
+          published_until: params[:publishedUntil],
+        )
+          .includes(:coins, :news_categories)
+          .order_by_published
+          .limit(25))
+      end
 
-      respond_success news_items
+      respond_success @news_items
     end
   end
 

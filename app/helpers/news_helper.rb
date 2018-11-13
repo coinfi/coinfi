@@ -36,12 +36,12 @@ module NewsHelper
 
   def get_default_news_items
     Rails.cache.fetch("news") do
-      news_items = default_news_query
-      if default_news_query.empty?
-        news_items = backup_default_news_query
-      end
+      distribute_reads(max_lag: ApplicationController::MAX_ACCEPTABLE_REPLICATION_LAG, lag_failover: true) do
+        news_items = default_news_query
+        news_items = backup_default_news_query if news_items.empty?
 
-      serialize_news_items(news_items)
+        serialize_news_items(news_items)
+      end
     end
   end
 end
