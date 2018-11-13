@@ -110,6 +110,7 @@ group :development, :test do
   gem 'faker', :git => 'https://github.com/stympy/faker.git', :branch => 'master'
   gem 'minitest-stub_any_instance'
   gem 'database_cleaner'
+  gem 'webmock'
 end
 
 group :development do
