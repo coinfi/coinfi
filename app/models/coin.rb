@@ -132,6 +132,30 @@ class Coin < ApplicationRecord
     self.previous_name = name_was if name_changed?
   end
 
+  def price
+    live_market_data.dig("price") || 0
+  end
+
+  def market_cap
+    live_market_data.dig("market_cap") || 0
+  end
+
+  def change1h
+    live_market_data.dig("change1h") || 0
+  end
+
+  def change24h
+    live_market_data.dig("change24h") || 0
+  end
+
+  def change7d
+    live_market_data.dig("change7d") || 0
+  end
+
+  def volume24
+    live_market_data.dig("volume24") || 0
+  end
+
   def available_supply
     live_market_data.dig("available_supply") || 0
   end

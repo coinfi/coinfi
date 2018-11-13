@@ -31,30 +31,23 @@ export default (currency) => {
       dataIndex: 'price',
       align: 'right',
       render: (text, row, index) => {
-        const currencyKey = currency.toLowerCase()
         if (currency === 'USD' && row.price) {
-          const formattedPrice = row.price[currencyKey].toLocaleString(
-            'en-US',
-            {
-              maximumFractionDigits: 4,
-            },
-          )
+          const formattedPrice = row.price.toLocaleString('en-US', {
+            maximumFractionDigits: 4,
+          })
           return <span>${formattedPrice} USD</span>
         }
         if (currency === 'BTC' && row.price) {
-          const formattedPrice = row.price[currencyKey].toLocaleString(
-            'en-US',
-            {
-              maximumFractionDigits: 8,
-            },
-          )
+          const formattedPrice = row.price.toLocaleString('en-US', {
+            maximumFractionDigits: 8,
+          })
           return <span>{formattedPrice} &#579;</span>
         }
       },
     },
     {
       title: 'Market Cap',
-      dataIndex: 'market_cap.usd',
+      dataIndex: 'market_cap',
       align: 'right',
       render: (text, row, index) =>
         text ? (
@@ -85,7 +78,7 @@ export default (currency) => {
     },
     {
       title: 'Volume (24hr)',
-      dataIndex: 'volume24.usd',
+      dataIndex: 'volume24',
       align: 'right',
       render: (text, row, index) =>
         text ? (
