@@ -185,7 +185,7 @@ class CoinMarketCapService
     }')
 
     # ping health check if api error
-    # json_response_code = contents.dig('status', 'error_code')
+    # json_response_code = contents.dig('status', 'error_code') || 0
     # error_message = contents.dig('status', 'error_message')
 
     # if response.success? && json_response_code == 0 then
