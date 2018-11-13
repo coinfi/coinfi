@@ -16,7 +16,7 @@ class Webhooks::WebsubsController < ApplicationController
     puts "Received #{items.count} NewsItems from SuperFeedr."
 
     if items.count > 0
-      Rails.cache.write("news") do
+      Rails.cache.write("default_news_items") do
         distribute_reads(max_lag: MAX_ACCEPTABLE_REPLICATION_LAG, lag_failover: true) do
           news_items = default_news_query
           news_items = backup_default_news_query if news_items.empty?
