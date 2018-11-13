@@ -2,12 +2,17 @@ class NewsItem < ApplicationRecord
   belongs_to :feed_source
   has_one :user # References the Admin user who tagged this NewsItem
   has_one :news_item_raw
-  has_many :news_coin_mentions, class_name: 'NewsCoinMention'
-  has_many :coins, through: :news_coin_mentions
   has_many :news_item_categorizations, dependent: :destroy
   has_many :news_categories, through: :news_item_categorizations
+  has_many :news_coin_mentions, class_name: 'NewsCoinMention'
+  has_many :machine_tagged_news_coin_mentions, -> { NewsCoinMention.machine_tagged }, class_name: 'NewsCoinMention'
+  has_many :human_tagged_news_coin_mentions, -> { NewsCoinMention.human_tagged }, class_name: 'NewsCoinMention'
+  has_many :coins, through: :news_coin_mentions
+  has_many :machine_tagged_coins, through: :machine_tagged_news_coin_mentions, source: :coin
+  has_many :human_tagged_coins, through: :human_tagged_news_coin_mentions, source: :coin
 
   scope :general, -> { where(feed_source: FeedSource.general) }
+  scope :no_category, -> { where("news_items.id NOT IN (SELECT news_item_categorizations.news_item_id FROM news_item_categorizations)") }
   scope :pending, -> { where(is_human_tagged: nil) }
   scope :published, -> { where(is_published: true) }
   scope :reddit, -> { where(feed_source: FeedSource.reddit) }
@@ -18,7 +23,10 @@ class NewsItem < ApplicationRecord
   alias_method :categories, :news_categories
   alias_method :mentions, :news_coin_mentions
 
-  before_create :set_unpublished_if_feed_source_inactive, :set_unpublished_if_duplicate
+  before_create :set_unpublished_if_feed_source_inactive
+  before_create :set_unpublished_if_duplicate
+  before_create :assign_default_news_categories
+
   after_create_commit :notify_news_tagger, :link_coin_from_feedsource
 
   def self.categorized(categories = nil)
@@ -31,7 +39,7 @@ class NewsItem < ApplicationRecord
 
   def self.chart_data(is_topcoin = false)
     if is_topcoin
-      categories = ["Exchange Listing", "Regulatory", "Security (Vulnerabilities)", "Product Release", "Token Supply Changes", "Forks"]
+      categories = ["Exchange Announcements", "Regulatory", "Project Announcements"]
     else
       categories = nil
     end
@@ -43,8 +51,25 @@ class NewsItem < ApplicationRecord
       .order_by_published(:asc)
   end
 
-  def coin_link_data
-    coins.map { |coin| coin.as_json(only: [:symbol, :slug, :id] ) }
+  def tag_scoped_coins
+    case ENV.fetch('NEWS_COIN_MENTION_TAG_SCOPE')
+    when 'human'
+      self.human_tagged_coins
+    when 'machine'
+      self.machine_tagged_coins
+    when 'combo'
+      self.human_tagged_coins.or(self.machine_tagged_coins).distinct()
+    else
+      raise "Invalid NEWS_COIN_MENTION_TAG_SCOPE environment variable"
+    end
+  end
+
+  def tag_scoped_coin_link_data
+    tag_scoped_coins.map { |coin| coin.as_json(only: [:symbol, :slug, :id] ) }
+  end
+
+  def tag_scoped_coin_symbols
+    tag_scoped_coins.pluck(:symbol).join(', ')
   end
 
   def coin_symbols
@@ -98,6 +123,11 @@ class NewsItem < ApplicationRecord
     end
   end
 
+  def assign_default_news_categories
+    assign_service = AssignNewsItemDefaultNewsCategories.new(news_item: self)
+    assign_service.call
+  end
+
   def link_coin_from_feedsource
     if feed_source.coin.present?
       feed_source.coin.news_items |= [self]
@@ -105,6 +135,11 @@ class NewsItem < ApplicationRecord
   end
 
   def notify_news_tagger
+    # Don't want to notify news tagger when running tests
+    if Rails.env.test?
+      return
+    end
+
     news_tagger_endpoint = ENV['NEWS_TAGGER_ENDPOINT']
     return unless news_tagger_endpoint.present?
 

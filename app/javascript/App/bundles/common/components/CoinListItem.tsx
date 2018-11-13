@@ -2,16 +2,16 @@ import * as React from 'react'
 import classNames from 'classnames'
 import PercentageChange from '~/bundles/common/components/PercentageChange'
 import WatchButton from '~/bundles/common/components/WatchButton'
-import { ICoin } from '~/bundles/common/types'
+import { Coin } from '~/bundles/common/types'
 
-interface IProps {
-  coin: ICoin
+interface Props {
+  coin: Coin
   loggedIn: boolean
   isSelected: boolean
-  onSelectCoin: (c: ICoin) => void
+  onSelectCoin: (c: Coin) => void
 }
 
-export default (props: IProps) => {
+export default (props: Props) => {
   const { coin, loggedIn } = props
 
   const coinPrice = coin.market_info.price_usd
@@ -25,13 +25,16 @@ export default (props: IProps) => {
   const coinPriceFixed = parseFloat(coinPrice).toFixed(fixedCount)
   const percentChange = coin.market_info.percent_change_24h
   return (
-    // TODO: Change to "Control" component for accessibility.
-    <div
+    <a
+      href={`/news/${coin.slug}`}
       className={classNames('pa-default b--b flex items-center pointer', {
         'bg-foam': props.isSelected,
       })}
       style={{ minHeight: 57, color: '#555' }}
-      onClick={() => props.onSelectCoin(coin)}
+      onClick={(event) => {
+        event.preventDefault()
+        props.onSelectCoin(coin)
+      }}
     >
       <div className="tooltipped">
         {!loggedIn && <div className="tooltip from-right">Login to watch</div>}
@@ -51,6 +54,6 @@ export default (props: IProps) => {
           </div>
         )}
       </div>
-    </div>
+    </a>
   )
 }

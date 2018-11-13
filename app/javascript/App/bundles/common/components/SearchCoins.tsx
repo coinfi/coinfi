@@ -1,13 +1,11 @@
-import { IWindowScreenType } from '../../common/types'
-declare const window: IWindowScreenType
-
 import * as React from 'react'
 import classNames from 'classnames'
 import Autosuggest from 'react-autosuggest'
-import Icon from '../../../components/Icon'
-import localApi from '../../../lib/localAPI'
+import Icon from './Icon'
+import localApi from '../utils/localAPI'
+import withDevice from '~/bundles/common/utils/withDevice'
 
-interface ICoin {
+interface Coin {
   id: number
   name: string
   symbol: string
@@ -15,37 +13,45 @@ interface ICoin {
   image_url: string
 }
 
-interface IProps {
+interface Props {
   unstyled?: boolean
   coinShow?: boolean
-  onSelect: (suggestion: ICoin) => void
+  isMobile: boolean
+  onSelect: (suggestion: Coin) => void
 }
 
-interface IState {
-  suggestions: ICoin[]
+interface State {
+  suggestions: Coin[]
   value: string
 }
 
-const getSuggestionValue = (suggestion: ICoin) => suggestion.slug
+const getSuggestionValue = (suggestion: Coin) => suggestion.slug
 
-const renderSuggestion = (suggestion: ICoin) => (
-  <div className="flex items-center">
-    <a>
-      <img
-        src={suggestion.image_url}
-        style={{ width: '20px', height: '20px', marginRight: '5px' }}
-      />
-      <span>
-        {suggestion.name} ({suggestion.symbol})
-      </span>
-    </a>
-  </div>
-)
+const renderSuggestion = (suggestion: Coin) => {
+  const label = suggestion.symbol
+    ? `${suggestion.name} (${suggestion.symbol})`
+    : suggestion.name
+  const imageStyle: React.CSSProperties = {
+    width: '20px',
+    height: '20px',
+    marginRight: '5px',
+    ...(!suggestion.image_url && { visibility: 'hidden' }),
+  }
+
+  return (
+    <div className="flex items-center">
+      <a>
+        <img src={suggestion.image_url} style={imageStyle} />
+        <span>{label}</span>
+      </a>
+    </div>
+  )
+}
 
 const renderSuggestionsContainer = ({ containerProps, children, query }) =>
   !!children && <ul {...containerProps}>{children}</ul>
 
-class SearchCoins extends React.Component<IProps, IState> {
+class SearchCoins extends React.Component<Props, State> {
   private autosuggestRef = null
 
   constructor(props) {
@@ -125,7 +131,7 @@ class SearchCoins extends React.Component<IProps, IState> {
         className={classNames('search-field autosuggest', {
           unstyled: !!this.props.unstyled,
         })}
-        style={this.props.coinShow && window.isMobile ? styleObj : {}}
+        style={this.props.coinShow && this.props.isMobile ? styleObj : {}}
       >
         <div className="flex items-center f5 tiber">
           <Icon
@@ -160,4 +166,4 @@ class SearchCoins extends React.Component<IProps, IState> {
   }
 }
 
-export default SearchCoins
+export default withDevice(SearchCoins)

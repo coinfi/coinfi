@@ -18,7 +18,12 @@ class Coin < ApplicationRecord
   has_many :feed_sources
   has_many :influencer_reviews
   has_many :mentions, class_name: 'NewsCoinMention'
+  has_many :machine_tagged_mentions, -> { NewsCoinMention.machine_tagged }, class_name: 'NewsCoinMention'
+  has_many :human_tagged_mentions, -> { NewsCoinMention.human_tagged }, class_name: 'NewsCoinMention'
   has_many :news_items, through: :mentions
+  has_many :machine_tagged_news_items, through: :machine_tagged_mentions, source: :news_item
+  has_many :human_tagged_news_items, through: :human_tagged_mentions, source: :news_item
+
   has_many :calendar_event_coins
   has_many :calendar_events, through: :calendar_event_coins
 
@@ -31,7 +36,9 @@ class Coin < ApplicationRecord
 
   scope :legit, -> { where.not(price: nil, image_url: nil) }
   scope :top, -> (limit) { order(ranking: :asc).limit(limit) }
+  scope :quick_top, -> (limit) { where("coins.ranking >= ?", limit) }
   scope :icos, -> { where(ico_status: ICO_STATUSES).order(:ico_end_date) }
+  scope :unslugged, -> { where(slug: nil) }
 
   alias_method :industries, :coin_industries
 
@@ -49,6 +56,76 @@ class Coin < ApplicationRecord
   def self.symbols
     # Reject any symbols that are nil or not all uppercase.
     pluck(:symbol).uniq.compact.sort.reject { |symbol| /[[:lower:]]/.match(symbol) }
+  end
+
+  def most_common_news_category
+    NewsCategory
+      .joins(news_items: :news_coin_mentions)
+      .where(news_coin_mentions: { coin_id: self })
+      .group(:id)
+      .order('COUNT(DISTINCT news_items.id) DESC')
+      .limit(1)
+      .first
+  end
+
+  def most_common_feed_source
+    FeedSource
+      .joins(news_items: :news_coin_mentions)
+      .where(news_coin_mentions: { coin_id: self })
+      .group(:id)
+      .order('COUNT(DISTINCT news_items.id) DESC')
+      .limit(1)
+      .first
+  end
+
+  def summary
+    result = [];
+
+    if self.ranking && self.market_info["market_cap_usd"]
+      result << %W[
+        #{self.name} (#{self.symbol}) is currently the ##{self.ranking} cryptocurrency by market cap
+        at #{(self.market_info["market_cap_usd"])} USD.
+      ]
+    end
+
+    if self.market_info["24h_volume_usd"]
+      result << %W[
+        Trading volume for #{self.name} over the last 24 hours is
+        #{(self.market_info["24h_volume_usd"])} USD.
+      ]
+    end
+
+    recent_news_count = self.news_items.where('feed_item_published_at >= ?', 7.days.ago).count
+    formatted_recent_news_count = recent_news_count == 0 ? 'no' : recent_news_count
+    if recent_news_count > 1
+      result << %W[
+        There have been #{recent_news_count} news stories on #{self.name} over the last 7 days.
+      ]
+    elsif recent_news_count == 1
+      result << %W[
+        There has been 1 news story on #{self.name} over the last 7 days.
+      ]
+    else
+      result << %W[
+        There have been no news stories on #{self.name} over the last 7 days.
+      ]
+    end
+
+    most_common_feed_source_name = self.most_common_feed_source&.name
+    most_common_news_category_name = self.most_common_news_category&.name
+    if most_common_feed_source_name && most_common_news_category_name
+      result << %W[
+        The most common news source covering #{self.name} is #{most_common_feed_source_name} and the
+        most common news category is #{most_common_news_category_name}.
+      ]
+    end
+
+    # Merge the result into a single line string
+    result.flatten.join(' ')
+  end
+
+  def related_coins
+    Coins::RelatedToQuery.call(coin: self)
   end
 
   def update_previous_name
@@ -80,7 +157,11 @@ class Coin < ApplicationRecord
   def market_info market_data = nil
     data = market_data || live_market_data.dup
     data["24h_volume_usd"] = humanize(data["24h_volume_usd"], '$') if data["24h_volume_usd"]
-    data["available_supply"] = humanize(data["available_supply"]) if data["available_supply"]
+    if self.available_supply
+      data["available_supply"] = humanize(self.available_supply)
+    elsif data["available_supply"]
+      data["available_supply"] = humanize(data["available_supply"])
+    end
     data["market_cap_usd"] = humanize(data["market_cap_usd"], '$') if data["market_cap_usd"]
     data["total_supply"] = humanize(data["total_supply"]) if data["total_supply"]
     data["max_supply"] = humanize(data["max_supply"]) if data["max_supply"]
@@ -100,10 +181,19 @@ class Coin < ApplicationRecord
     {'available_supply' => available_supply, 'max_supply' => max_supply}
   end
 
+  def hourly_prices_data
+    # TODO: expires_in should probably be at midnight
+    Rails.cache.fetch("coins/#{id}/hourly_prices", expires_in: 1.hour) do
+      url = "#{ENV.fetch('COINFI_POSTGREST_URL')}/hourly_ohcl_prices?coin_key=eq.#{coin_key}&to_currency=eq.USD&order=time.asc"
+      response = HTTParty.get(url)
+      JSON.parse(response.body)
+    end
+  end
+
   def prices_data
     # TODO: expires_in should probably be at midnight
     Rails.cache.fetch("coins/#{id}/prices", expires_in: 1.day) do
-      url = "#{ENV.fetch('COINFI_NEW_PRICES_URL')}?coin_key=eq.#{coin_key}&to_currency=eq.USD&order=time.asc"
+      url = "#{ENV.fetch('COINFI_POSTGREST_URL')}/daily_ohcl_prices?coin_key=eq.#{coin_key}&to_currency=eq.USD&order=time.asc"
       response = HTTParty.get(url)
       JSON.parse(response.body)
     end
@@ -111,7 +201,7 @@ class Coin < ApplicationRecord
 
   def sparkline
     Rails.cache.fetch("coins/#{id}/sparkline", expires_in: 1.day) do
-      url = "#{ENV.fetch('COINFI_NEW_PRICES_URL')}?coin_key=eq.#{coin_key}&select=close&to_currency=eq.USD&limit=7&order=time.desc"
+      url = "#{ENV.fetch('COINFI_POSTGREST_URL')}/daily_ohcl_prices?coin_key=eq.#{coin_key}&select=close&to_currency=eq.USD&limit=7&order=time.desc"
       response = HTTParty.get(url)
       results = JSON.parse(response.body)
       results.map! { |result| result["close"] }
@@ -151,5 +241,18 @@ class Coin < ApplicationRecord
   def is_being_watched
     # Only use this for serialization
     current_user && current_user.coins.include?(self)
+  end
+
+  def is_signals_supported_erc20?
+    self.eth_address.present?
+  end
+
+  def is_erc20?
+    re = /(\b(ETH|ETHER|ER[A-Z]?\d*|EIP\d*)\b)|(ETHEREUM)/i
+    (
+      self.eth_address ||
+      re.match(self.blockchain_tech) ||
+      re.match(self.token_type)
+    ).present?
   end
 end

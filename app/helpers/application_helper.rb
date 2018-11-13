@@ -77,19 +77,31 @@ module ApplicationHelper
     d
   end
 
-  def react_component name, opts = {}
-    locals = { 
-      name: name, 
-      props: opts[:props] || {}, 
-      withStore: opts[:withStore] 
-    }
-    render partial: 'components/react_component', locals: locals 
-  end
-
   def flash_messages
     flash.map do |type, text|
       { id: text.object_id, type: type, text: text }
     end
   end
 
+  # Renders a react component and update `@jss_server_side_css` with css. Should be used in place of
+  # `react_component` for components that return hashes with `componentHtml` and `componentCss`
+  def react_component_with_jss(component_name, options = {})
+    new_options = options.deep_merge(props: { stylesNamespace: component_name })
+
+    unless options[:prerender]
+      return react_component(component_name, new_options)
+    end
+
+    component_hash = react_component_hash(component_name, new_options)
+    component_html = component_hash['componentHtml']
+    component_css = component_hash['componentCss']
+    component_styles_namespace = component_hash['componentStylesNamespace']
+
+    # `componentCss` should include the combined css of all the rendered components so we only need
+    # to store one copy of this
+    @jss_server_side_css ||= {}
+    @jss_server_side_css[component_styles_namespace] = component_css
+
+    return component_html
+  end
 end

@@ -1,26 +1,30 @@
-declare var window: {
-  isMobile?: boolean
-}
-
 import * as React from 'react'
-import Icon from '../../components/Icon'
-import SectionHeader from '../../components/SectionHeader'
+import * as _ from 'lodash'
+import Icon from '~/bundles/common/components/Icon'
+import SectionHeader from '~/bundles/common/components/SectionHeader'
 import CoinTipsTab from '../common/components/CoinTipsTab'
 import FilterPanel from './FilterPanel'
-import { IFilters } from './types'
+import CoinSelector, {
+  CoinOption,
+} from '~/bundles/common/components/CoinSelector'
+import { Filters } from './types'
+import withDevice from '~/bundles/common/utils/withDevice'
 
-// tslint:disable-next-line
-const filterBtn = require('../../images/filter-btn.svg')
+const filterBtn = require('~/images/filterBtn.svg') // tslint:disable-line
 
-interface IProps {
+interface Props {
   showFilters: boolean
   categories: string[]
   feedSources: string[]
-  filters: IFilters
-  applyFilters: (filters: IFilters) => void
+  topCoinSlugs: string[]
+  filters: Filters
+  applyFilters: (filters: Filters) => void
   toggleFilters: () => void
   toggleNewsfeedTips: () => void
-  showCoinListDrawer: () => void
+  showCoinListDrawer?: () => void
+  onCoinChange: (selectedOption: CoinOption) => void
+  selectedCoin: string
+  isMobile: boolean
 }
 
 const btnStyle: React.CSSProperties = {
@@ -30,11 +34,18 @@ const btnStyle: React.CSSProperties = {
   textTransform: 'none',
 }
 
-export default class NewsListHeader extends React.Component<IProps, {}> {
+const searchStyle: React.CSSProperties = {
+  flex: '1 1 auto',
+  marginLeft: '1em',
+  minWidth: '160px',
+  maxWidth: '300px',
+}
+
+class NewsListHeader extends React.Component<Props, {}> {
   public render() {
     return (
       <>
-        {window.isMobile && (
+        {this.props.isMobile && (
           <CoinTipsTab
             showCoinListDrawer={this.props.showCoinListDrawer}
             showTips={this.props.toggleNewsfeedTips}
@@ -45,12 +56,15 @@ export default class NewsListHeader extends React.Component<IProps, {}> {
             id="panel-header"
             className="flex items-center flex-auto search-coin-wrapper"
           >
-            {!window.isMobile && (
+            {!this.props.isMobile && (
               <button
                 className="btn btn-blue btn-xs coins-btn mr2"
-                onClick={() => this.props.showCoinListDrawer()}
+                onClick={() =>
+                  !!this.props.showCoinListDrawer &&
+                  this.props.showCoinListDrawer()
+                }
                 style={
-                  window.isMobile
+                  this.props.isMobile
                     ? {
                         ...btnStyle,
                         ...{
@@ -73,6 +87,13 @@ export default class NewsListHeader extends React.Component<IProps, {}> {
               <img style={{ height: 10, marginRight: 10 }} src={filterBtn} />
               Filters
             </button>
+            <div style={searchStyle}>
+              <CoinSelector
+                selectedCoin={this.props.selectedCoin}
+                onChange={this.props.onCoinChange}
+                placeholder="Search Coins"
+              />
+            </div>
           </div>
         </SectionHeader>
         {this.props.showFilters && (
@@ -89,3 +110,5 @@ export default class NewsListHeader extends React.Component<IProps, {}> {
     )
   }
 }
+
+export default withDevice(NewsListHeader)

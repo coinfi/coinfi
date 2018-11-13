@@ -1,4 +1,4 @@
-export interface ICoin {
+export interface Coin {
   id: number
   market_info: any
   name: string
@@ -6,19 +6,21 @@ export interface ICoin {
   symbol: string
 }
 
-export interface ICoinLinkData {
+export type CoinSlug = string
+
+export interface CoinLinkData {
   id: number
   symbol: string
   slug: string
 }
 
-export interface IItemWithCoinLinkData {
-  coin_link_data: ICoinLinkData[]
+export interface ItemWithCoinLinkData {
+  coin_link_data: CoinLinkData[]
 }
 
-export type CoinList = ICoin[]
+export type CoinList = Coin[]
 
-export interface IUser {
+export interface User {
   created_at: string
   email: string
   id: number
@@ -30,17 +32,15 @@ export interface IUser {
   username: string
 }
 
-export interface IWindowScreenType extends Window {
-  isMobile?: boolean
-  isTablet?: boolean
-}
-
-export interface ICoinWithDetails extends ICoin {
+export interface CoinWithDetails extends Coin {
   image_url: string
   price_usd: any
   prices_data: any
+  hourly_prices_data: any
   news_data: any
   is_being_watched: any
+  related_coins_data: Array<Pick<Coin, 'id' | 'name' | 'slug' | 'symbol'>>
+  summary: string
 }
 
 export interface FlashMessage {
@@ -48,3 +48,5 @@ export interface FlashMessage {
   type: string
   text: string
 }
+
+export type CoinClickHandler = (coinData: CoinLinkData) => void

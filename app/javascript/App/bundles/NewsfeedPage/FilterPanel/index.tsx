@@ -1,43 +1,36 @@
 import * as React from 'react'
-import _ from 'lodash'
+import * as _ from 'lodash'
 import Layout from './Layout'
 import MarketMoving from './filterComponents/MarketMoving'
-import Coins from './filterComponents/Coins'
 import Dates from './filterComponents/Dates'
 import FeedSources from './filterComponents/FeedSources'
 import Social from './filterComponents/Social'
 import Categories from './filterComponents/Categories'
-import { IFilters } from '../types'
+import { Filters } from '../types'
 
-import getDefaultFilters from '../defaultFilters'
+import { getDefaultFilters } from '../utils'
 
-interface IProps {
+interface Props {
   categories: string[]
   feedSources: string[]
-  filters: IFilters
+  filters: Filters
   closeFilterPanel: () => void
-  applyFilters: (filters: IFilters) => void
+  applyFilters: (filters: Filters) => void
   children?: any
   newsFeedStyle?: boolean
 }
 
-interface IState {
-  form: IFilters
+interface State {
+  form: Filters
 }
 
-class FilterPanel extends React.Component<IProps, IState> {
+class FilterPanel extends React.Component<Props, State> {
   constructor(props) {
     super(props)
 
     this.state = {
-      form: getDefaultFilters(),
-    }
-  }
-
-  public componentDidMount() {
-    this.setState({
       form: _.cloneDeep(this.props.filters),
-    })
+    }
   }
 
   public applyFilters = () => {
@@ -68,12 +61,10 @@ class FilterPanel extends React.Component<IProps, IState> {
       return state
     })
 
-  public onCagetoryToggle = (category: string) =>
+  public onCategoryToggle = (category: string) =>
     this.setState((state) => {
       if (state.form.categories.includes(category)) {
-        state.form.categories = state.form.categories.filter(
-          (cat) => cat !== category,
-        )
+        state.form.categories = _.without(state.form.categories, category)
       } else {
         state.form.categories.push(category)
       }
@@ -83,21 +74,12 @@ class FilterPanel extends React.Component<IProps, IState> {
   public onFeedSourceToggle = (source: string) =>
     this.setState((state) => {
       if (state.form.feedSources.includes(source)) {
-        state.form.feedSources = state.form.feedSources.filter(
-          (src) => src !== source,
-        )
+        state.form.feedSources = _.without(state.form.feedSources, source)
       } else {
         state.form.feedSources.push(source)
       }
       return state
     })
-
-  public onCoinsChange = (selectedOptions: any[]) => {
-    this.setState((state) => {
-      state.form.coinSlugs = selectedOptions.map((elem) => elem.value)
-      return state
-    })
-  }
 
   public render() {
     return (
@@ -125,14 +107,7 @@ class FilterPanel extends React.Component<IProps, IState> {
           <Categories
             items={this.props.categories}
             selectedItems={this.state.form.categories}
-            onChange={this.onCagetoryToggle}
-          />
-        </div>
-        <div className="pb3">
-          <h4 className="mb2 f5">Coins</h4>
-          <Coins
-            selectedCoins={this.state.form.coinSlugs}
-            onChange={this.onCoinsChange}
+            onChange={this.onCategoryToggle}
           />
         </div>
         <div className="pb3">

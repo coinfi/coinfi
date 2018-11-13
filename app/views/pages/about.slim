@@ -96,6 +96,21 @@ section#team.phr.pv5.pv6-m.bg-white.tiber
             .icons
               a.icon.hover-silver href=member.linkedin target="_blank"
                 i.fab.fa-linkedin.dark-gray.hover-silver.f2
+  .container-narrow.pt5
+    h1.tc.tl-m Advisory Board
+    - Advisor.all.each do |member|
+      .row.wide-gutter.mt5
+        .col-xs-12.col-md-3.tc
+          img class="br-100 dib w-100 max-w10e max-w15e-m" src=member.img alt=member.name
+        .col-xs-12.col-md-9.tc.tl-m
+          h3.db.pt3.pt0-m
+            = member.name
+            .pa3.pb0.f5.fw1.db.dib-m=(member.try(:title) ? member.title : 'Advisor')
+          .lh-copy.mb3= member.bio.html_safe
+          - unless member.linkedin.empty?
+            .icons
+              a.icon.hover-silver href=member.linkedin target="_blank"
+                i.fab.fa-linkedin.dark-gray.hover-silver.f2
 
 section.phr.pv5.pv6-m.bg-bright-gray.white-90
   .container-narrow

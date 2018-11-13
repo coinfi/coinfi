@@ -1,7 +1,6 @@
 import * as React from 'react'
 import Drawer from './Drawer'
-import CoinList from './CoinList'
-import Icon from '../../../components/Icon'
+import Icon from './Icon'
 import CoinListWrapper from '~/bundles/common/components/CoinListWrapper'
 
 const CoinListDrawer = (props) => (

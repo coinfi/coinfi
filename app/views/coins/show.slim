@@ -1,1 +1,15 @@
-.antd= react_component "CoinShow", withStore: true, props: { symbol: @coin.symbol, priceData: @coin.prices_data, annotations: @coin.news_data, isTradingViewVisible: true, coinObj: @coin, modeAnalyticsUrl: @mode_analytics_url, user: current_user, watching: user_is_watching?(@coin) }
+.bg-pearl-gray= react_component_with_jss "CoinShow",
+    props: { \
+      symbol: @coin.symbol,
+      priceData: @coin.prices_data,
+      priceDataHourly: @coin.hourly_prices_data,
+      availableSupply: @coin.available_supply,
+      annotations: @coin.news_data,
+      isTradingViewVisible: true,
+      coinObj: @coin,
+      relatedCoins: @related_coins,
+      metabaseUrl: @metabase_url,
+      user: current_user,
+      watching: user_is_watching?(@coin),
+    },
+    prerender: true

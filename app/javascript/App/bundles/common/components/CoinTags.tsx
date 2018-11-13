@@ -1,21 +1,36 @@
 import * as React from 'react'
-import { IItemWithCoinLinkData } from '../types'
+import { ItemWithCoinLinkData, CoinLinkData, CoinClickHandler } from '../types'
 
-interface IProps {
-  itemWithCoinLinkData: IItemWithCoinLinkData
-  // selectCoin: (CoinLinkData) => void, // FIXME
+interface Props {
+  itemWithCoinLinkData: ItemWithCoinLinkData
+  onClick?: CoinClickHandler
+  getLink?: (coinData: CoinLinkData) => string
 }
 
-const CoinTags = ({ itemWithCoinLinkData /*selectCoin*/ }: IProps) => (
+const CoinTags = ({ itemWithCoinLinkData, onClick, getLink }: Props) => (
   <div>
-    {itemWithCoinLinkData.coin_link_data.map((data, index) => (
-      <a
-        key={index}
-        className="tag pointer" /* onClick={() => selectCoin(data)}*/
-      >
-        {data.symbol}
-      </a>
-    ))}
+    {itemWithCoinLinkData.coin_link_data.map((data, index) => {
+      const isClickable = !!onClick
+      const onClickHandler = isClickable
+        ? (e) => {
+            e.stopPropagation()
+            e.nativeEvent.stopImmediatePropagation()
+            onClick(data)
+          }
+        : undefined
+      const link = getLink ? getLink(data) : undefined
+
+      return (
+        <a
+          key={index}
+          className="tag pointer"
+          onClick={onClickHandler}
+          href={link}
+        >
+          {data.symbol}
+        </a>
+      )
+    })}
   </div>
 )
 

@@ -1,3 +1,22 @@
+BLACKLISTED_ROUTING_REGEX = %r{
+  ^/assets/|
+  ^/images/|
+  ^/signup/|
+  ^/u/|
+  ^/ahoy/|
+  ^/admin/|
+  wp-login\.php|
+  xmlrpc\.php|
+  ads\.txt
+}x.freeze
+
+before_process_handler = proc do |options|
+  url = options[:exception].message[/.*"([^"]*)"/,1]
+  if options[:exception].is_a?(ActionController::RoutingError)
+    raise Rollbar::Ignore if url =~ BLACKLISTED_ROUTING_REGEX
+  end
+end
+
 Rollbar.configure do |config|
   # Without configuration, Rollbar is enabled in all environments.
   # To disable in specific environments, set config.enabled=false.
@@ -31,6 +50,13 @@ Rollbar.configure do |config|
   #
   # You can also specify a callable, which will be called with the exception instance.
   # config.exception_level_filters.merge!('MyCriticalException' => lambda { |e| 'critical' })
+  config.exception_level_filters.merge!({
+    'ActionController::InvalidAuthenticityToken' => 'ignore',
+    'SignalException: SIGTERM' => 'ignore',
+  })
+  
+  # Use before process handler to ignore routing errors to specified paths
+  config.before_process << before_process_handler
 
   # Enable asynchronous reporting (uses girl_friday or Threading if girl_friday
   # is not installed)
@@ -59,7 +85,9 @@ Rollbar.configure do |config|
   config.js_options = {
     accessToken: ENV.fetch('ROLLBAR_CLIENT_ACCESS_TOKEN'),
     captureUncaught: true,
-    hostWhiteList: ['staging.coinfi.com', 'www.coinfi.com', 'sale.coinfi.com'],
+    captureUnhandledRejections: true,
+    logLevel: 'error',
+    hostWhiteList: ['coinfi.com', 'herokuapp.com'],
     payload: {
       environment: "production"
     }

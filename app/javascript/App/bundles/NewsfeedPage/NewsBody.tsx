@@ -1,47 +1,61 @@
 import * as React from 'react'
 import timeago from 'timeago.js'
 import sanitizeHtml from 'sanitize-html'
-import _ from 'lodash'
-import CoinTags from '../common/components/CoinTags'
-import BulletSpacer from '../../components/BulletSpacer'
-import Icon from '../../components/Icon'
-import localAPI from '../../lib/localAPI'
+import * as _ from 'lodash'
+import CoinTags from '~/bundles/common/components/CoinTags'
+import BulletSpacer from '~/bundles/common/components/BulletSpacer'
+import Icon from '~/bundles/common/components/Icon'
+import localAPI from '../common/utils/localAPI'
 
 import TwitterBody from './TwitterBody'
-import LoadingIndicator from '../../components/LoadingIndicator'
-import { getDomainType } from '../../lib/utils/url'
+import LoadingIndicator from '../common/components/LoadingIndicator'
+import {
+  getDomainType,
+  isTwitter,
+  getTwitterUsername,
+} from '~/bundles/common/utils/url'
 
-import { INewsItem } from './types'
+import { NewsItem } from './types'
+import { CoinClickHandler } from '~/bundles/common/types'
+import NewsBodyShareButtons from './NewsBodyShareButtons'
+import { RailsConsumer } from '~/bundles/common/contexts/RailsContext'
 
-interface IProps {
-  newsItemId: string,
+interface Props {
+  initialNewsItem?: NewsItem
+  newsItemId?: string
+  onCoinClick?: CoinClickHandler
 }
 
-interface IState {
-  newsItem: INewsItem,
+interface State {
+  newsItem: NewsItem
 }
 
-export default class NewsBody extends React.Component<IProps, IState>  {
+export default class NewsBody extends React.Component<Props, State> {
+  constructor(props) {
+    super(props)
 
-  public state = {
-    newsItem: null,
+    this.state = {
+      newsItem: props.initialNewsItem || null,
+    }
   }
 
   public componentDidMount() {
-    if (!!this.props.newsItemId) {
+    if (this.props.newsItemId) {
       this.fetchNewsItemDetails()
     }
   }
 
-  public componentDidUpdate(prevProps: IProps, prevState: IState, snapshot) {
-    if (!this.props.newsItemId) {
-      if (!!prevState.newsItem) {
-        this.setState({ newsItem: null })
-      }
-    } else {
-      if (!prevProps.newsItemId || prevProps.newsItemId !== this.props.newsItemId) {
-        this.setState({ newsItem: null }, () => this.fetchNewsItemDetails())
-      }
+  public componentDidUpdate(prevProps: Props, prevState: State, snapshot) {
+    // Check if news item is unselected
+    if (!this.props.newsItemId && prevState.newsItem) {
+      return this.setState({ newsItem: null })
+    }
+
+    // Check if news item is selected/changed
+    if (this.props.newsItemId !== prevProps.newsItemId) {
+      return this.setState({ newsItem: null }, () =>
+        this.fetchNewsItemDetails(),
+      )
     }
   }
 
@@ -55,17 +69,19 @@ export default class NewsBody extends React.Component<IProps, IState>  {
 
   public render() {
     const { newsItem } = this.state
-  
-    if(!newsItem) {
+
+    if (!newsItem) {
       return (
         <div className="pa3 tc mt4">
           <LoadingIndicator />
         </div>
-      ) 
+      )
     }
 
     if (getDomainType(newsItem.url) === 'twitter') {
-      return <TwitterBody newsItem={newsItem} />
+      return (
+        <TwitterBody newsItem={newsItem} onCoinClick={this.props.onCoinClick} />
+      )
     }
 
     const categories = newsItem.categories
@@ -74,7 +90,12 @@ export default class NewsBody extends React.Component<IProps, IState>  {
 
     return (
       <div className="pa3 bg-white min-h-100 selected-news-content">
-        <CoinTags itemWithCoinLinkData={newsItem} />
+        {/* Header */}
+        <CoinTags
+          itemWithCoinLinkData={newsItem}
+          getLink={(data) => `/news/${data.slug}`}
+          onClick={this.props.onCoinClick}
+        />
         <h1 className="break-word f4">{newsItem.title}</h1>
         <div className="mb3 f6">
           <a
@@ -104,7 +125,10 @@ export default class NewsBody extends React.Component<IProps, IState>  {
             ))}
           </div>
         )}
+
         <div className="mv3 b--b" />
+
+        {/* Content */}
         <div
           className="lh-copy"
           dangerouslySetInnerHTML={{
@@ -113,6 +137,34 @@ export default class NewsBody extends React.Component<IProps, IState>  {
             }),
           }}
         />
+
+        <div className="mv3 b--b" />
+
+        {/* Footer */}
+        <div className="mb3">
+          <h2 className="f5">Share This Article</h2>
+          <RailsConsumer>
+            {({ href }) => {
+              const initialHref = href
+              const hasWindow = !_.isError(_.attempt(() => window))
+              const url = hasWindow ? window.location.href : initialHref
+
+              const twitterUsername = isTwitter(newsItem.url)
+                ? getTwitterUsername(newsItem.url)
+                : undefined
+
+              return (
+                <NewsBodyShareButtons
+                  url={url}
+                  twitterButtonProps={{
+                    title: newsItem.title,
+                    via: twitterUsername,
+                  }}
+                />
+              )
+            }}
+          </RailsConsumer>
+        </div>
       </div>
     )
   }

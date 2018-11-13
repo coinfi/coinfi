@@ -1,12 +1,12 @@
 import * as React from 'react'
-import Icon from '../../../components/Icon'
+import Icon from './Icon'
 
-interface IProps {
+interface Props {
   value: string
   className: string
 }
 
-const PercentageChange = ({ value, className }: IProps) => {
+const PercentageChange = ({ value, className }: Props) => {
   const n = parseFloat(value)
   let iconName = 'caret-up'
   let klass = 'green'

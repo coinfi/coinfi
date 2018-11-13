@@ -1,33 +1,45 @@
 <!DOCTYPE html>
 <html lang="en">
-
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <%= display_meta_tags site: "CoinFi", reverse: true %>
     <link rel="manifest" href="/manifest.json">
     <link rel="apple-touch-icon" href="<%= image_path('apple-touch-icon.png') %>">
+    <link rel="apple-touch-icon-precomposed" href="<%= image_path('apple-touch-icon-precomposed.png') %>">
     <link rel="icon" href="<%= image_path('favicon.png') %>">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-9ralMzdK1QYsk4yBY680hmsb4/hJ98xK3w0TIaJ3ll4POWpWUYaA2bRjGGujGT8w" crossorigin="anonymous">
-    <%= canonical_tag %>
     <%= stylesheet_link_tag 'application' %>
+
+    <%# This should really be included but currently conflicts with a lot of our the css styles %>
+    <%#= stylesheet_pack_tag 'vendor-bundle', media: 'all' %>
+
     <%= csrf_meta_tags %>
   </head>
-  <body id='<%= @body_id %>'>
+  <body id="<%= @body_id %>" class="<%= @body_class %>">
     <header>
       <%= render partial: "components/nav" %>
     </header>
     <main>
       <%= render partial: "components/flash" %>
       <%= yield %>
+
+      <%#
+      Output each of the sheet styles as separate `style` tags. Note that is must always be included
+      after any component renders in order to ensure `@jss_server_side_css` is correctly populated
+      %>
+      <% if @jss_server_side_css %>
+        <% @jss_server_side_css.each do |styles_namespace, sheet_css| %>
+          <style data-jss-server-side data-meta="<%= styles_namespace %>">
+            <%= sheet_css %>
+          </style>
+        <% end %>
+      <% end %>
     </main>
-    <%= javascript_tag do %>
-      window.pricesURL = '<%= ENV.fetch('COINFI_PRICES_URL') %>';
-    <% end %>
     <script src="/tradingview/charting_library.min.js"></script>
-    <%= javascript_pack_tag 'application' %>
+    <%= javascript_pack_tag 'vendor-bundle' %>
+    <%= javascript_pack_tag 'app-bundle' %>
     <%= render 'layouts/tracking_scripts' %>
-    <script src="https://modeanalytics.com/embed/embed.js"></script>
   </body>
 </html>

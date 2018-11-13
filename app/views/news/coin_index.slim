@@ -1,0 +1,13 @@
+= react_component_with_jss "App",
+    withStore: true,
+    props: { \
+      user: current_user,
+      topCoinSlugs: @top_coin_slugs,
+      feedSources: @feed_sources,
+      categories: @categories,
+      initialTopCoinsData: @top_coins_data,
+      initialWatchedCoinsData: @watched_coins_data,
+      initialNewsItems: @news_items_data,
+      initialCoinWithDetails: @coin_with_details_data,
+    },
+    prerender: true

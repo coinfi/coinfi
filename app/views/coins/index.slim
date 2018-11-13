@@ -1,1 +1,8 @@
-.antd= react_component "CoinIndex", withStore: true, props: { loggedIn: !!current_user, coinCount: @coin_count }
+.antd= react_component_with_jss "App",
+    withStore: true,
+    props: { \
+      loggedIn: !!current_user,
+      coinCount: @coin_count,
+      initialCoins: @coins,
+    },
+    prerender: true

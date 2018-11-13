@@ -1,19 +1,22 @@
 import * as React from 'react'
+import withDevice from '~/bundles/common/utils/withDevice'
 
-interface IProps {
+interface Props {
   closeFilterPanel: () => void
   resetFilters: () => void
   applyFilters: () => void
   children: any
   newsFeedStyle?: boolean
+  isMobile: boolean
 }
 
-const Layout = (props: IProps) => {
+const Layout = (props: Props) => {
   let containerClass = 'modal bg-athens'
-  // @ts-ignore
-  if (!window.isMobile) {
+
+  if (!props.isMobile) {
     containerClass = 'overlay z-999 bg-athens overflow-y-auto'
   }
+
   return (
     <div className={containerClass}>
       <div className="pa3 bb b--geyser flex justify-between items-center filter-panel-header">
@@ -73,4 +76,4 @@ const Layout = (props: IProps) => {
   )
 }
 
-export default Layout
+export default withDevice(Layout)

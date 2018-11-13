@@ -34,6 +34,8 @@ gem 'redis-rails' # Remove when upgrading to Rails 5.2 since it is built-in
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
+gem 'react_on_rails', '11.1.4'
+
 gem 'active_hash'
 gem 'acts-as-taggable-on'
 gem 'administrate'
@@ -42,18 +44,21 @@ gem 'administrate-field-json', github: 'eddietejeda/administrate-field-json'
 gem 'administrate-field-nested_has_many', github: 'nickcharlton/administrate-field-nested_has_many'
 gem 'aws-sdk', '~> 2'
 gem 'blazer'
-gem 'canonical-rails'
 gem 'convertkit-ruby', require: 'convertkit', git: 'https://github.com/hanchang/convertkit-ruby.git'
 gem 'cryptocompare'
 gem 'devise'
+gem 'distribute_reads'
 gem 'email_address'
 gem 'feedjira'
+gem 'fog-aws'
 gem 'friendly_id', '~> 5.2.1'
 gem 'httparty'
+gem 'jwt'
 gem 'kaminari'
 gem 'api-pagination'
 gem 'ldclient-rb', '5.0.1'
 gem 'lograge'
+gem 'marginalia'
 gem 'meta-tags'
 gem 'nokogiri', '~> 1.8.1'
 gem 'omniauth'
@@ -73,6 +78,23 @@ gem 'unidecoder'
 gem 'wombat'
 gem 'twitter'
 gem 'webpacker', '~> 3.3'
+# Used by ReactOnRails for rendering javascript
+gem 'mini_racer', platforms: :ruby
+# For parsing browser stats from user-agent
+gem 'browser'
+# Used to produce sitemap.xml
+gem 'sitemap_generator'
+# Library for Rails best practise patterns
+# see https://medium.com/selleo/essential-rubyonrails-patterns-part-1-service-objects-1af9f9573ca1
+gem "rails-patterns"
+# Rails application performance monitoring
+gem 'skylight'
+# EtherScan API client
+gem 'etherscan_api', require: 'etherscan'
+# Performance dashboard for Postgres
+gem 'pghero'
+# Job queue
+gem 'sidekiq'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
@@ -84,7 +106,12 @@ group :development, :test do
   gem 'pry-rails'
   gem 'rubocop'
   gem 'reek'
-  gem 'selenium-webdriver'
+  gem 'selenium-webdriver', '>= 3.14.0'
+  gem 'chromedriver-helper'
+  gem 'factory_bot_rails'
+  gem 'faker', :git => 'https://github.com/stympy/faker.git', :branch => 'master'
+  gem 'minitest-stub_any_instance'
+  gem 'database_cleaner'
 end
 
 group :development do
@@ -99,9 +126,9 @@ end
 
 group :production do
   gem 'rails_12factor'
-  gem 'scout_apm'
+  gem 'rack-attack'
+  gem 'rack-timeout'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 # gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
-

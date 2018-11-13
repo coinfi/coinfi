@@ -1,22 +1,51 @@
 {
   "presets": [
     [
-      "env",
+      "@babel/preset-env",
       {
-        "modules": false,
+        "modules": "auto",
         "targets": {
-          "browsers": "> 1%",
-          "uglify": true
+          "browsers": "> 1%"
         },
-        "useBuiltIns": true
+        "useBuiltIns": "usage"
       }
     ],
-    "react"
+    "@babel/preset-typescript",
+    "@babel/preset-react"
   ],
+  "env": {
+    "test": {
+      "presets": [
+        [
+          "@babel/preset-env"
+        ],
+        "@babel/preset-typescript",
+        "@babel/preset-react"
+      ],
+      "plugins": [
+        "babel-plugin-styled-components",
+        "@babel/plugin-syntax-dynamic-import",
+        "@babel/plugin-proposal-object-rest-spread",
+        [
+          "babel-plugin-root-import",
+          {
+            "rootPathSuffix": "./app/javascript/App/",
+            "rootPathPrefix": "~"
+          }
+        ],
+        [
+          "@babel/plugin-proposal-class-properties",
+          {
+            "spec": true
+          }
+        ]
+      ]
+    }
+  },
   "plugins": [
     "babel-plugin-styled-components",
-    "syntax-dynamic-import",
-    "transform-object-rest-spread",
+    "@babel/plugin-syntax-dynamic-import",
+    "@babel/plugin-proposal-object-rest-spread",
     [
       "babel-plugin-root-import",
       {
@@ -25,11 +54,17 @@
       }
     ],
     [
-      "transform-class-properties",
+      "@babel/plugin-proposal-class-properties",
       {
         "spec": true
       }
+    ],
+    [
+      "import",
+      {
+        "libraryName": "antd",
+        "style": "css"
+      }
     ]
   ]
-  
 }

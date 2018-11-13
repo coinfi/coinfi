@@ -6,7 +6,7 @@
     </a>
 
     <!-- Logo -->
-    <a class="nav-logo link pa2 ma2 ma0-ns mr4-ns h-70" href="#" title="Home">
+    <a class="nav-logo link pa2 ma2 ma0-ns mr4-ns h-70" href="<%= root_path %>" title="Home">
       <img src="<%= image_path('logo.svg') %>" class="nav-logo__img">
       <span class="white-90 f6">beta</span>
     </a>
@@ -38,14 +38,31 @@
         </div>
       </div>
 
-      <div class="nav-menu__actions pa2">
-        <%= render partial: "components/user_actions" %>
+      <div class="nav-menu-actions pa2">
+        <% if user_signed_in? %>
+          <div class="nav-menu-actions-account">
+            <div class="fw9">
+              Account
+            </div>
+            <div class="nav-menu-actions-account__email">
+              <%= current_user.email %>
+            </div>
+          </div>
+          <%= link_to "My Profile", profile_path, class: "nav-menu-actions__btn nav-menu-actions--primary" %>
+          <%= button_to "Logout", destroy_user_session_path, method: :delete, class: "nav-menu-actions__btn nav-menu-actions--secondary", form_class: "nav-menu-actions__logout-form" %>
+        <% else %>
+          <%= link_to "Login", new_user_session_path, class: "nav-menu-actions__btn nav-menu-actions--secondary" %>
+        <% end %>
       </div>
     </div>
 
     <!-- Actions -->
     <div class="nav-actions">
-      <%= render partial: "components/user_actions" %>
+      <% if user_signed_in? %>
+        <%= react_component "NavUserContainer", { props: { formAuthenticityToken: form_authenticity_token, userEmail: current_user.email } } %>
+      <% else %>
+        <%= link_to "Login", new_user_session_path, class: "btn btn-xs btn-gray" %>
+      <% end %>
     </div>
   </div>
 </nav>

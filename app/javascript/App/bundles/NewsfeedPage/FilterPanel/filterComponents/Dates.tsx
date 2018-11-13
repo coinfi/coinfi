@@ -2,15 +2,17 @@ import * as React from 'react'
 import * as moment from 'moment'
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker-cssmodules.css'
+import withDevice from '~/bundles/common/utils/withDevice'
 
-interface IProps {
+interface Props {
   publishedSince?: string
   publishedUntil?: string
   onSinceChange: (since: string) => void
   onUntilChange: (until: string) => void
+  isMobile: boolean
 }
 
-export default class Dates extends React.Component<IProps, {}> {
+class Dates extends React.Component<Props, {}> {
   public sinceChange = (item: moment.Moment) => {
     this.props.onSinceChange(item.format('YYYY-MM-DD'))
   }
@@ -27,18 +29,20 @@ export default class Dates extends React.Component<IProps, {}> {
   }
 
   public render() {
+    const publishedSince = !!this.props.publishedSince
+      ? moment(this.props.publishedSince)
+      : null
 
-    const publishedSince = !!this.props.publishedSince ? moment(this.props.publishedSince) : null
-
-    const publishedUntil = !!this.props.publishedUntil ? moment(this.props.publishedUntil) : null
+    const publishedUntil = !!this.props.publishedUntil
+      ? moment(this.props.publishedUntil)
+      : null
 
     return (
       <div className="item-selector-alt nh1 nt1">
         <div className="pv4">
           <div
             className="w-50 dib"
-            // @ts-ignore
-            style={!window.isMobile ? { maxWidth: '50%' } : {}}
+            style={!this.props.isMobile ? { maxWidth: '50%' } : {}}
           >
             <DatePicker
               selected={publishedSince}
@@ -52,8 +56,7 @@ export default class Dates extends React.Component<IProps, {}> {
           </div>
           <div
             className="w-50 dib"
-            // @ts-ignore
-            style={!window.isMobile ? { maxWidth: '50%' } : {}}
+            style={!this.props.isMobile ? { maxWidth: '50%' } : {}}
           >
             <DatePicker
               selected={publishedUntil}
@@ -70,3 +73,5 @@ export default class Dates extends React.Component<IProps, {}> {
     )
   }
 }
+
+export default withDevice(Dates)

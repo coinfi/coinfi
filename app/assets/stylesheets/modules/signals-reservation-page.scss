@@ -1,0 +1,44 @@
+.reservation-page__inner {
+  padding-top: 32px;
+  padding-bottom: 32px;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+.reservation-header {
+  text-align: center;
+  &__title {
+    font-weight: 700;
+  }
+  &__lead {
+    margin-bottom: 32px;
+  }
+}
+
+.reservation-section {
+  margin-bottom: 40px;
+  &--last {
+    margin-bottom: 0;
+  }
+  &__title {
+    text-align: center;
+    font-size: 30px;
+    font-weight: 600;
+  }
+}
+
+.reservation-card {
+  background: white;
+  border: solid 1px rgba(0, 0, 0, 0.15);
+  padding: 32px;
+}
+
+@media (max-width: 767px) {
+  .reservation-page__inner {
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+  .reservation-card {
+    padding: 32px 24px;
+  }
+}

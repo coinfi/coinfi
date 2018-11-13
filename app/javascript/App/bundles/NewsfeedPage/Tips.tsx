@@ -1,12 +1,8 @@
 import * as React from 'react'
-import Icon from '../../components/Icon'
-
-// tslint:disable-next-line
-const chartIcon = require('../../images/chartIcon.svg')
-// tslint:disable-next-line
-const filterIcon = require('../../images/filterIcon.svg')
-// tslint:disable-next-line
-const listIcon = require('./../../images/listIcon.svg')
+import Icon from '~/bundles/common/components/Icon'
+const chartIcon = require('~/images/chartIcon.svg') // tslint:disable-line
+const filterIcon = require('~/images/filterIcon.svg') // tslint:disable-line
+const listIcon = require('~/images/listIcon.svg') // tslint:disable-line
 
 const titleStyle = {
   fontSize: '1.13rem',
@@ -29,12 +25,12 @@ const listNumberStyle = {
   width: 18,
 }
 
-interface IProps {
+interface Props {
   closeTips?: () => void
   loggedIn?: boolean
 }
 
-export default ({ closeTips, loggedIn }: IProps) => {
+export default ({ closeTips, loggedIn }: Props) => {
   return (
     <div className="lh-copy">
       <div>
@@ -55,9 +51,9 @@ export default ({ closeTips, loggedIn }: IProps) => {
               />
             )}
           </div>
-          <h2 className="mt0" style={titleStyle}>
-            CoinFi News
-          </h2>
+          <h1 className="mt0" style={titleStyle}>
+            CoinFi News: Cryptocurrency News Today
+          </h1>
         </div>
         <div className="pa3">
           <div style={{ fontSize: '.8rem' }}>

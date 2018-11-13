@@ -1,0 +1,269 @@
+.signals-section {
+  padding-top: 60px;
+  padding-bottom: 100px;
+  line-height: 1.28;
+  font-size: 16px;
+
+  &__col {
+    width: 100%;
+  }
+  &__title {
+    margin-bottom: 40px;
+    font-size: 27px;
+    font-weight: 600;
+  }
+  &__lead {
+    margin-top: 0;
+    margin-bottom: 20px;
+    font-weight: 600;
+  }
+  &__cta-btn {
+    margin-bottom: 20px;
+    font-size: 1rem;
+  }
+  &__cta-btn-note {
+    font-size: 14px;
+    font-weight: 500;
+  }
+}
+.signals-section--dark {
+  @extend .bg-tiber;
+  color: white;
+
+  .signals-section__title {
+    color: white;
+  }
+}
+
+.signals-section-content {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+
+  &--center {
+    align-items: center;
+  }
+}
+
+.featured-signals-section {
+  font-size: 18px;
+
+  &__title {
+    font-size: 36px;
+    max-width: 480px;
+  }
+}
+.faq-signals-section {
+  background: white;
+  text-align: center;
+}
+.cta-signals-section {
+  text-align: center;
+
+  &__title {
+    font-size: 42px;
+    margin-bottom: 24px;
+  }
+
+  &__lead {
+    margin-bottom: 72px;
+  }
+}
+
+.sponsors-signals-section {
+  background: white;
+  color: black;
+  text-align: center;
+}
+.title__black {
+  color: black;
+}
+.signals-sponsors-panel {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: no-wrap;
+}
+.signal-sponsor-image-wrapper {
+  flex: 1 1 calc(100% / 7);
+  padding: 0 10px;
+  box-sizing: border-box;
+}
+
+.signals-section-description {
+  font-size: 18px;
+  margin-bottom: 24px;
+  line-height: 32px;
+
+  &__paragraph {
+    margin-top: 0;
+    margin-bottom: 40px;
+
+    &--last {
+      margin-bottom: 0px;
+    }
+  }
+}
+
+.telegram-message {
+  text-align: left;
+  margin-bottom: 16px;
+  padding: 16px;
+  background: #e8e7ea;
+  border-radius: 15px;
+  color: initial;
+
+  &__title {
+    margin-bottom: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    color: black;
+  }
+  &__message {
+    font-size: 14px;
+    color: black;
+  }
+}
+.telegram-message-header {
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+
+  &__icon {
+    margin-right: 10px;
+  }
+  &__label {
+    font-size: 10px;
+    font-weight: 500;
+    color: #4a4a4a;
+    text-transform: uppercase;
+  }
+}
+
+.signal-highlight-list {
+  margin-bottom: 40px;
+  padding-inline-start: 0;
+}
+.signal-highlight-item {
+  margin-bottom: 20px;
+  list-style: none;
+  line-height: 32px;
+
+  &__label {
+    font-weight: bold;
+  }
+  &__separator {
+  }
+}
+
+.signal-popover-text {
+  display: inline-block;
+}
+
+.signal-example-panels {
+  text-align: left;
+
+  &__item {
+    margin-bottom: 20px;
+  }
+}
+
+.signal-team-members {
+  width: 100%;
+
+  &__item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+}
+
+.signal-faqs {
+  text-align: left;
+}
+.signal-faqs-item {
+  &__paragraph {
+    margin-top: 0;
+    margin-bottom: 24px;
+
+    &--last {
+      margin-bottom: 0;
+    }
+  }
+}
+
+.signal-market-image {
+  max-height: 340px;
+}
+.signal-exclusive-image {
+  max-height: 340px;
+}
+.signal-blockchain-image {
+  max-height: 250px;
+}
+
+.signal-beta-badge {
+  display: inline-block;
+  padding: 5px 12px 2px 12px;
+  border: solid 1px white;
+  border-radius: 4px;
+  color: white;
+  font-size: 12px;
+  vertical-align: middle;
+}
+
+.signal-coin-icon {
+  height: 14px;
+  margin: 0 3px;
+}
+
+@media (max-width: 767px) {
+  .signals-section {
+    padding-top: 80px;
+    padding-bottom: 80px;
+  }
+  .signals-section__cta-btn {
+    font-size: 0.8rem;
+  }
+  .signals-section__cta-btn-note {
+    font-size: 12px;
+  }
+  .featured-signals-section {
+    font-size: 16px;
+  }
+  .featured-signals-section__title {
+    font-size: 30px;
+    max-width: 420px;
+  }
+  .cta-signals-section__title {
+    font-size: 25px;
+  }
+  .signals-section-content {
+    text-align: center;
+    align-items: center;
+    padding-bottom: 32px;
+  }
+  .featured-signals-section-content {
+    padding-bottom: 64px;
+  }
+  .signals-section-content--xs-last {
+    padding-bottom: 0;
+  }
+  .signal-highlight-list {
+    align-self: flex-start;
+    text-align: left;
+  }
+  .desktop-only {
+    display: none;
+  }
+  .signals-sponsors-panel {
+    flex-wrap: wrap;
+  }
+  .signal-sponsor-image-wrapper {
+    flex: 1 1 calc(100% / 2);
+  }
+
+}

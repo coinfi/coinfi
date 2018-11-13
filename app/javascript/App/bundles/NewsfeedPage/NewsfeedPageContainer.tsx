@@ -1,36 +1,37 @@
 import * as React from 'react'
 import NewsfeedPage from './NewsfeedPage'
 import CoinListContext, {
-  ICoinListContextType,
-} from '../../contexts/CoinListContext'
-import NewsfeedContext, {
-  INewsfeedContextType,
-} from '../../contexts/NewsfeedContext'
+  CoinListContextType,
+} from '../common/contexts/CoinListContext'
+import NewsfeedContext, { NewsfeedContextType } from './NewsfeedContext'
+import { CoinWithDetails } from '~/bundles/common/types'
+import { NewsItem } from '~/bundles/NewsfeedPage/types'
 
-interface IProps {
+interface Props {
   loggedIn: boolean
   categories: string[]
   feedSources: string[]
   coinSlug?: string
+  topCoinSlugs: string[]
   newsItemId?: string
+  initialNewsItem?: NewsItem
+  initialCoinWithDetails?: CoinWithDetails
 }
 
-const NewsfeedPageContainer = (props: IProps) => (
+const NewsfeedPageContainer = (props: Props) => (
   <NewsfeedContext.Consumer>
-    {(newsfeedPayload: INewsfeedContextType) => (
+    {(newsfeedPayload: NewsfeedContextType) => (
       <CoinListContext.Consumer>
-        {(coinlistPayload: ICoinListContextType) => (
+        {(coinlistPayload: CoinListContextType) => (
           <NewsfeedPage
             loggedIn={props.loggedIn}
             coinSlug={props.coinSlug}
+            topCoinSlugs={props.topCoinSlugs}
             newsItemId={props.newsItemId}
-            coinlist={coinlistPayload.coinlist}
             newslist={newsfeedPayload.newslist}
+            initialNewsItem={props.initialNewsItem}
+            initialCoinWithDetails={props.initialCoinWithDetails}
             isNewsfeedLoading={newsfeedPayload.isLoading}
-            isNewsfeedLoadingMoreItems={newsfeedPayload.isLoadingMoreItems}
-            isNewsfeedReady={newsfeedPayload.isReady}
-            isCoinlistLoading={coinlistPayload.isLoading}
-            isCoinlistReady={coinlistPayload.isReady}
             fetchNewsItems={newsfeedPayload.fetchNewsItems}
             fetchMoreNewsItems={newsfeedPayload.fetchMoreNewsItems}
             fetchNewNewsItems={newsfeedPayload.fetchNewNewsItems}
@@ -42,6 +43,7 @@ const NewsfeedPageContainer = (props: IProps) => (
             isWatchlistSelected={coinlistPayload.isWatchlist}
             getWatchlist={coinlistPayload.getWatchlist}
             watchlist={coinlistPayload.watchlist}
+            hasMore={newsfeedPayload.hasMore}
           />
         )}
       </CoinListContext.Consumer>
