@@ -133,48 +133,48 @@ class Coin < ApplicationRecord
   end
 
   def price
-    live_market_data.dig("price") || 0
+    cached_market_data.dig("price") || 0
   end
 
   def market_cap
-    live_market_data.dig("market_cap") || 0
+    cached_market_data.dig("market_cap") || 0
   end
 
   def change1h
-    live_market_data.dig("change1h") || 0
+    cached_market_data.dig("change1h") || 0
   end
 
   def change24h
-    live_market_data.dig("change24h") || 0
+    cached_market_data.dig("change24h") || 0
   end
 
   def change7d
-    live_market_data.dig("change7d") || 0
+    cached_market_data.dig("change7d") || 0
   end
 
   def volume24
-    live_market_data.dig("volume24") || 0
+    cached_market_data.dig("volume24") || 0
   end
 
   def available_supply
-    live_market_data.dig("available_supply") || 0
+    cached_market_data.dig("available_supply") || 0
   end
 
   def max_supply
-    live_market_data.dig("max_supply") || 0
+    cached_market_data.dig("max_supply") || 0
   end
 
   def total_supply
-    live_market_data.dig("total_supply") || 0
+    cached_market_data.dig("total_supply") || 0
   end
 
-  def live_market_data
+  def cached_market_data
     @snap_data ||= Rails.cache.read("#{slug}:snapshot") || {}
     @snap_data.with_indifferent_access
   end
 
   def market_info market_data = nil
-    data = market_data || live_market_data.dup
+    data = market_data || cached_market_data.dup
     data["24h_volume_usd"] = humanize(data["volume24"], '$') if data["volume24"]
     data["market_cap_usd"] = humanize(data["market_cap"], '$') if data["market_cap"]
     data["price_usd"] = data["price"] if data["price"]
