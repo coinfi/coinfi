@@ -205,7 +205,7 @@ class CoinShow extends Component {
     const { currency } = this.state
     const prepend = currency === 'USD' ? '$' : ''
     const price = `${prepend}${Number.parseFloat(
-      _.get(coinObj, ['price', currency.toLowerCase()], 0),
+      _.get(coinObj, ['price'], 0),
     ).toPrecision(6)} ${currency}`
     const percentChange1h = _.get(coinObj, ['change1h'], 0)
     const isPositive = percentChange1h >= 0
