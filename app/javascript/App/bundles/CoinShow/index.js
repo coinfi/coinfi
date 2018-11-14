@@ -37,6 +37,40 @@ const tabs = [
   { slug: 'advanced-token-metrics' },
 ]
 
+const MainCard = withStyles(styles)(
+  ({ children, classes, className, ...props }) => {
+    const classNames = classnames(classes.mainCard, className)
+    return (
+      <Card
+        raised={false}
+        square={true}
+        elevation={0}
+        className={classNames}
+        {...props}
+      >
+        {children}
+      </Card>
+    )
+  },
+)
+
+const SubCard = withStyles(styles)(
+  ({ children, classes, className, ...props }) => {
+    const classNames = classnames(classes.subCard, className)
+    return (
+      <Card
+        raised={false}
+        square={true}
+        elevation={0}
+        className={classNames}
+        {...props}
+      >
+        {children}
+      </Card>
+    )
+  },
+)
+
 class CoinShow extends Component {
   chart = undefined
 
@@ -269,11 +303,7 @@ class CoinShow extends Component {
                     md={9}
                     className={classes.chartContainer}
                   >
-                    <Card
-                      raised={false}
-                      square={true}
-                      className={classes.mainCard}
-                    >
+                    <MainCard>
                       <CardHeader title="Price Chart" />
                       <CardContent>
                         <CoinCharts
@@ -285,7 +315,7 @@ class CoinShow extends Component {
                           onPriceChartCreated={this.handlePriceChartCreated}
                         />
                       </CardContent>
-                    </Card>
+                    </MainCard>
                   </Grid>
                   <Grid
                     item={true}
@@ -293,11 +323,7 @@ class CoinShow extends Component {
                     md={3}
                     className={classes.widgetContainer}
                   >
-                    <Card
-                      raised={false}
-                      square={true}
-                      className={classes.subCard}
-                    >
+                    <SubCard>
                       <CardHeader
                         subheader="Fundamentals"
                         className={classes.subCardHeader}
@@ -308,12 +334,8 @@ class CoinShow extends Component {
                           currency={currency}
                         />
                       </CardContent>
-                    </Card>
-                    <Card
-                      raised={false}
-                      square={true}
-                      className={classes.subCard}
-                    >
+                    </SubCard>
+                    <SubCard>
                       <CardHeader
                         subheader="Links"
                         className={classes.subCardHeader}
@@ -321,12 +343,8 @@ class CoinShow extends Component {
                       <CardContent>
                         <LinksList coinObj={coinObj} />
                       </CardContent>
-                    </Card>
-                    <Card
-                      raised={false}
-                      square={true}
-                      className={classes.subCard}
-                    >
+                    </SubCard>
+                    <SubCard>
                       <CardHeader
                         subheader="Related Coins"
                         className={classes.subCardHeader}
@@ -354,29 +372,21 @@ class CoinShow extends Component {
                           })}
                         </List>
                       </CardContent>
-                    </Card>
+                    </SubCard>
                   </Grid>
                 </React.Fragment>
               )}
               {tabIndex === 1 && (
                 <Grid item={true} xs={12}>
-                  <Card
-                    raised={false}
-                    square={true}
-                    className={classes.mainCard}
-                  >
+                  <MainCard>
                     <CardHeader title="Markets" />
                     <CardContent>Coming soon!</CardContent>
-                  </Card>
+                  </MainCard>
                 </Grid>
               )}
               {tabIndex === 2 && (
                 <Grid item={true} xs={12}>
-                  <Card
-                    raised={false}
-                    square={true}
-                    className={classes.mainCard}
-                  >
+                  <MainCard>
                     <CardHeader title="Historical Data" />
                     <CardContent>
                       <HistoricalPriceDataTable
@@ -385,16 +395,12 @@ class CoinShow extends Component {
                         symbol={symbol}
                       />
                     </CardContent>
-                  </Card>
+                  </MainCard>
                 </Grid>
               )}
               {tabIndex === 3 && (
                 <Grid item={true} xs={12}>
-                  <Card
-                    raised={false}
-                    square={true}
-                    className={classes.mainCard}
-                  >
+                  <MainCard>
                     <CardHeader title="Advanced Token Metrics" />
                     <CardContent>
                       <iframe
@@ -406,7 +412,7 @@ class CoinShow extends Component {
                         scrolling="no"
                       />
                     </CardContent>
-                  </Card>
+                  </MainCard>
                 </Grid>
               )}
             </Grid>

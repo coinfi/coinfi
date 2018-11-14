@@ -139,6 +139,8 @@ const styles = (theme) =>
       '&:last-child': {
         marginBottom: 0,
       },
+      borderRadius: '2px',
+      border: '1px solid #e5e8ed',
     },
     subCard: {
       padding: 0,
@@ -147,6 +149,8 @@ const styles = (theme) =>
         marginBottom: 0,
       },
       width: '100%',
+      borderRadius: '2px',
+      border: '1px solid #e5e8ed',
     },
     subCardHeader: {
       paddingBottom: 0,
