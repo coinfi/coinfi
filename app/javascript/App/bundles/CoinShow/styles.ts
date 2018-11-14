@@ -57,8 +57,10 @@ const styles = (theme) =>
     },
     tabsRoot: {},
     tabRoot: {
+      textTransform: 'none',
       [theme.breakpoints.down('sm')]: {
-        fontSize: '0.7rem',
+        fontSize: '0.75rem',
+        whiteSpace: 'nowrap',
       },
     },
     coinImage: {
