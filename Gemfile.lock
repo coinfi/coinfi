@@ -181,6 +181,8 @@ GEM
     equalizer (0.0.11)
     errbase (0.0.3)
     erubi (1.7.1)
+    et-orbi (1.1.6)
+      tzinfo
     etherscan_api (0.4.0)
       faraday
       json (~> 2.1)
@@ -222,6 +224,9 @@ GEM
     formatador (0.2.5)
     friendly_id (5.2.1)
       activerecord (>= 4.0.0)
+    fugit (1.1.6)
+      et-orbi (~> 1.1, >= 1.1.6)
+      raabro (~> 1.1)
     globalid (0.4.1)
       activesupport (>= 4.2.0)
     hashdiff (0.3.7)
@@ -367,6 +372,7 @@ GEM
       pry (>= 0.9.10)
     public_suffix (2.0.5)
     puma (3.8.2)
+    raabro (1.1.6)
     rack (2.0.5)
     rack-affiliates (0.4.0)
       rack
@@ -471,6 +477,8 @@ GEM
     ruby-progressbar (1.9.0)
     ruby_dep (1.5.0)
     rubyzip (1.2.2)
+    rufus-scheduler (3.5.2)
+      fugit (~> 1.1, >= 1.1.5)
     safely_block (0.2.0)
       errbase
     sass (3.5.6)
@@ -494,6 +502,11 @@ GEM
       connection_pool (~> 2.2, >= 2.2.2)
       rack-protection (>= 1.5.0)
       redis (>= 3.3.5, < 5)
+    sidekiq-scheduler (3.0.0)
+      redis (>= 3, < 5)
+      rufus-scheduler (~> 3.2)
+      sidekiq (>= 3)
+      tilt (>= 1.4.0)
     simple_form (3.5.0)
       actionpack (> 4, < 5.2)
       activemodel (> 4, < 5.2)
@@ -654,6 +667,7 @@ DEPENDENCIES
   sass-rails (~> 5.0)
   selenium-webdriver (>= 3.14.0)
   sidekiq
+  sidekiq-scheduler
   simple_form
   sitemap_generator
   skylight
