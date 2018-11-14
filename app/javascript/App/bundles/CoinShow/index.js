@@ -5,8 +5,6 @@ import compose from 'recompose/compose'
 import classnames from 'classnames'
 import {
   Grid,
-  Typography,
-  Button,
   Card,
   CardHeader,
   CardContent,
@@ -15,11 +13,10 @@ import {
   ListItemText,
   Tabs,
   Tab,
-  TabContainer,
   withStyles,
 } from '@material-ui/core'
 import withWidth, { isWidthDown } from '@material-ui/core/withWidth'
-import axios from 'axios'
+import API from '../common/utils/localAPI'
 import SearchCoins from '~/bundles/common/components/SearchCoins'
 import CoinCharts from '~/bundles/common/components/CoinCharts'
 import FundamentalsList from './FundamentalsList'
@@ -28,6 +25,7 @@ import HistoricalPriceDataTable from './HistoricalPriceDataTable'
 import Icon from '~/bundles/common/components/Icon'
 import CoinListWrapper from '~/bundles/common/components/CoinListWrapper'
 import CoinListDrawer from '~/bundles/common/components/CoinListDrawer'
+import { WATCHLIST_CHANGE_EVENT } from '~/bundles/common/containers/CoinListContainer'
 import styles from './styles'
 
 const tabs = [
@@ -85,40 +83,82 @@ class CoinShow extends Component {
       currency: 'USD',
       watched: this.props.watching,
       iconLoading: false,
+      watchlistIndex: [],
       tabIndex: tabIndex >= 0 ? tabIndex : 0,
       showCoinList: false,
     }
   }
 
-  watchlistHandler(coin) {
-    if (window.location === `/coins/${coin.get('name')}`) {
-      window.location = `/coins/${coin
-        .get('name')
-        .replace(/ /, '-')
-        .toLowerCase()}`
-    }
+  componentDidMount() {
+    this.fetchWatchlist().then((coins) => {
+      this.setState({
+        watchlistIndex: coins,
+      })
+    })
+    document.addEventListener(WATCHLIST_CHANGE_EVENT, this.onWatchlistChange)
+
+    setTimeout(() => {
+      this.priceChart.setSize()
+    }, 100)
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener(WATCHLIST_CHANGE_EVENT, this.onWatchlistChange)
   }
 
   watchCoinHandler = () => {
+    if (!this.props.user) {
+      window.location.href = `/login`
+      return
+    }
+
     this.setState((prevState) => ({
       watched: !prevState.watched,
       iconLoading: true,
     }))
 
-    let params
-    !this.state.watched
-      ? (params = { watchCoin: this.props.coinObj.id })
-      : (params = { unwatchCoin: this.props.coinObj.id })
-    axios
-      .patch('/api/user', params)
+    const params = !this.state.watched
+      ? { watchCoin: this.props.coinObj.id }
+      : { unwatchCoin: this.props.coinObj.id }
+    API.patch('/user', params)
       .then((data) => {
         this.setState({
           iconLoading: false,
         })
+
+        const coins = _.get(data, ['payload', 'coin_ids'], [])
+        const event = new CustomEvent(WATCHLIST_CHANGE_EVENT, {
+          detail: { coins },
+        })
+        document.dispatchEvent(event)
       })
       .catch((error) => {
         console.log(error)
       })
+  }
+
+  fetchWatchlist = () =>
+    API.get('/user').then((data) => _.get(data, ['payload', 'coin_ids'], []))
+
+  onWatchlistChange = (e) => {
+    const { coins } = e.detail
+    const coinDifferenceList = _.xor(this.state.watchlistIndex, coins)
+    if (coinDifferenceList.length <= 0) {
+      return
+    }
+
+    this.setState({ iconLoading: true }, () =>
+      this.fetchWatchlist().then((coins) => {
+        const watched =
+          _.findIndex(coins, (id) => id === this.props.coinObj.id) >= 0
+
+        this.setState({
+          watched,
+          watchlistIndex: coins,
+          iconLoading: false,
+        })
+      }),
+    )
   }
 
   showCoinListDrawer = () => {
@@ -143,12 +183,6 @@ class CoinShow extends Component {
     const tabSlug = _.get(tabs, [tabIndex, 'slug'])
     this.props.history.push(`#${tabSlug}`)
     this.setState({ tabIndex })
-  }
-
-  componentDidMount() {
-    setTimeout(() => {
-      this.priceChart.setSize()
-    }, 100)
   }
 
   render() {
