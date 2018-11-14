@@ -14,7 +14,7 @@ namespace :redis do
     redisSrc = Redis.new :url => ENV.fetch('PRODUCTION_REDIS_URL')
     redisDest = Redis.new :url => ENV.fetch('REDIS_URL')
 
-    redisSrc.keys("*").each do |key|
+    redisSrc.keys("*:snapshot").each do |key|
       data = redisSrc.dump key
       redisDest.restore key, 0, data
     end
