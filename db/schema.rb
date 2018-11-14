@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20181108032049) do
+ActiveRecord::Schema.define(version: 20181113094453) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -389,6 +389,24 @@ ActiveRecord::Schema.define(version: 20181108032049) do
     t.index ["user_id"], name: "index_news_items_on_user_id"
   end
 
+  create_table "signal_triggers", force: :cascade do |t|
+    t.string "type"
+    t.jsonb "params", default: {}, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["type"], name: "index_signal_triggers_on_type"
+  end
+
+  create_table "signals", force: :cascade do |t|
+    t.string "external_id"
+    t.bigint "signal_trigger_id"
+    t.jsonb "extra", default: {}, null: false
+    t.datetime "timestamp"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["signal_trigger_id"], name: "index_signals_on_signal_trigger_id"
+  end
+
   create_table "signals_telegram_subscriptions", force: :cascade do |t|
     t.bigint "signals_telegram_user_id"
     t.bigint "coin_id"
@@ -521,6 +539,7 @@ ActiveRecord::Schema.define(version: 20181108032049) do
   add_foreign_key "news_item_categorizations", "news_items"
   add_foreign_key "news_items", "feed_sources"
   add_foreign_key "news_items", "users"
+  add_foreign_key "signals", "signal_triggers"
   add_foreign_key "signals_telegram_subscriptions", "coins"
   add_foreign_key "signals_telegram_subscriptions", "signals_telegram_users"
   add_foreign_key "signals_telegram_users", "users"
