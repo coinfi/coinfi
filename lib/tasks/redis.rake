@@ -11,8 +11,8 @@ namespace :redis do
 
   desc "One-time copy of production redis"
   task :copy_prod => :environment do
-    redisSrc = Redis.connect :url => ENV.fetch('PRODUCTION_REDIS_URL')
-    redisDest = Redis.connect :url => ENV.fetch('REDIS_URL')
+    redisSrc = Redis.new :url => ENV.fetch('PRODUCTION_REDIS_URL')
+    redisDest = Redis.new :url => ENV.fetch('REDIS_URL')
 
     redisSrc.keys("*").each do |key|
       data = redisSrc.dump key
