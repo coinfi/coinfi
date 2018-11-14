@@ -96,6 +96,8 @@ gem 'pghero'
 # Job queue
 gem 'sidekiq'
 gem 'sidekiq-scheduler'
+# App metrics and statistics
+gem 'librato-rails', '~> 1'
 # Ruby runtime metrics
 gem 'barnes'
 
