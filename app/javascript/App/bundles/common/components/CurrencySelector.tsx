@@ -1,10 +1,10 @@
 import * as React from 'react'
 import * as _ from 'lodash'
-import { Select, createStyles, withStyles } from '@material-ui/core'
+import { Select, MenuItem, createStyles, withStyles } from '@material-ui/core'
 
 interface Props {
   initialCurrency?: string
-  onChange?: (selected: string) => string | void
+  onChange?: (selected: string) => void
   value?: string
   classes: any
 }
@@ -27,38 +27,40 @@ class CurrencySelector extends React.Component<Props, State> {
   constructor(props) {
     super(props)
 
-    const selectedCurrency =
-      props.initialCurrency || props.value || CURRENCIES[0]
+    const managedCurrency = this.isManagedState()
+      ? props.value
+      : props.initialCurrency
+    const selectedCurrency = managedCurrency || CURRENCIES[0]
     this.state = {
       selectedCurrency,
     }
   }
 
+  public isManagedState = () => {
+    return _.isString(this.props.value)
+  }
+
   public handleChange = (e) => {
     e.preventDefault()
     e.stopPropagation()
-    let value = e.target.value
+    const { onChange } = this.props
+    const value = e.target.value
 
-    if (this.props.onChange) {
-      const returnedValue = this.props.onChange(value)
-      if (_.isString(returnedValue)) {
-        value = returnedValue
-      }
+    if (onChange) {
+      onChange(value)
     }
-
-    this.setState({
-      selectedCurrency: value,
-    })
+    if (!this.isManagedState()) {
+      this.setState({
+        selectedCurrency: value,
+      })
+    }
   }
 
   public componentDidUpdate(prevProps, prevState) {
-    // override value with externally dictated value
-    if (
-      !_.isUndefined(this.props.value) &&
-      this.state.selectedCurrency !== this.props.value
-    ) {
+    const { value } = this.props
+    if (this.isManagedState() && this.state.selectedCurrency !== value) {
       this.setState({
-        selectedCurrency: this.props.value,
+        selectedCurrency: value,
       })
     }
   }
@@ -73,9 +75,9 @@ class CurrencySelector extends React.Component<Props, State> {
       >
         {CURRENCIES.map((currency) => {
           return (
-            <option value={currency} key={currency}>
+            <MenuItem value={currency} key={currency}>
               {currency}
-            </option>
+            </MenuItem>
           )
         })}
       </Select>

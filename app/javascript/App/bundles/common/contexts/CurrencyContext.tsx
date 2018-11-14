@@ -10,18 +10,23 @@ export interface CurrencyContextType {
 
 const CurrencyContext = React.createContext<CurrencyContextType>(null)
 
-export interface Props {
+export interface CurrencyContextProps {
   cookies: Cookies
   user?: any
   loggedIn?: boolean
 }
 
-export interface State {
+export interface CurrencyContextState {
   currency: string
 }
 
-class CurrencyProvider extends React.Component<Props, State> {
-  constructor(props: Props) {
+export const CURRENCY_CHANGE_EVENT = 'currencyChange'
+
+class CurrencyProvider extends React.Component<
+  CurrencyContextProps,
+  CurrencyContextState
+> {
+  constructor(props: CurrencyContextProps) {
     super(props)
 
     const { cookies, user } = props
@@ -33,10 +38,13 @@ class CurrencyProvider extends React.Component<Props, State> {
   }
 
   public componentDidMount() {
-    document.addEventListener('currencyChange', this.onCurrencyChange)
+    document.addEventListener(CURRENCY_CHANGE_EVENT, this.onCurrencyChange)
   }
 
-  public componentDidUpdate(prevProps, prevState) {
+  public componentDidUpdate(
+    prevProps: CurrencyContextProps,
+    prevState: CurrencyContextState,
+  ) {
     const { cookies } = this.props
     const currency = cookies.get('currency')
 
@@ -46,7 +54,7 @@ class CurrencyProvider extends React.Component<Props, State> {
   }
 
   public componentWillUnmount() {
-    document.removeEventListener('currencyChange', this.onCurrencyChange)
+    document.removeEventListener(CURRENCY_CHANGE_EVENT, this.onCurrencyChange)
   }
 
   public onCurrencyChange = (e: CustomEvent) => {
@@ -66,7 +74,9 @@ class CurrencyProvider extends React.Component<Props, State> {
       API.patch('/user', { currency }, false)
     }
 
-    const event = new CustomEvent('currencyChange', { detail: { currency } })
+    const event = new CustomEvent(CURRENCY_CHANGE_EVENT, {
+      detail: { currency },
+    })
     document.dispatchEvent(event)
   }
 

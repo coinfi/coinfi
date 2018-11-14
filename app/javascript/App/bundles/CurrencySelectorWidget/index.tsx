@@ -4,7 +4,7 @@ import CurrencyContext, {
   CurrencyContextType,
 } from '~/bundles/common/contexts/CurrencyContext'
 
-const CurrencyWidget = () => (
+const CurrencySelectorWidget = () => (
   <CurrencyContext.Consumer>
     {({ currency, changeCurrency }: CurrencyContextType) => (
       <CurrencySelector value={currency} onChange={changeCurrency} />
@@ -12,4 +12,4 @@ const CurrencyWidget = () => (
   </CurrencyContext.Consumer>
 )
 
-export default CurrencyWidget
+export default CurrencySelectorWidget
