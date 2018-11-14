@@ -111,6 +111,9 @@ GEM
       descendants_tracker (~> 0.0.4)
       ice_nine (~> 0.11.0)
       thread_safe (~> 0.3, >= 0.3.1)
+    barnes (0.0.7)
+      multi_json (~> 1)
+      statsd-ruby (~> 1.1)
     bcrypt (3.1.11)
     bindex (0.5.0)
     blazer (1.8.0)
@@ -540,6 +543,7 @@ GEM
       actionpack (>= 4.0)
       activesupport (>= 4.0)
       sprockets (>= 3.0.0)
+    statsd-ruby (1.4.0)
     strong_migrations (0.2.3)
       activerecord (>= 3.2.0)
     temple (0.7.7)
@@ -606,6 +610,7 @@ DEPENDENCIES
   administrate-field-nested_has_many!
   api-pagination
   aws-sdk (~> 2)
+  barnes
   blazer
   browser
   bullet
