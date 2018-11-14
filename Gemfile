@@ -98,6 +98,8 @@ gem 'sidekiq'
 gem 'sidekiq-scheduler'
 # App metrics and statistics
 gem 'librato-rails', '~> 1'
+# Ruby runtime metrics
+gem 'barnes'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
