@@ -90,11 +90,11 @@ class CoinSelector extends React.Component<Props, State> {
           .then((response) => this.mapPayloadToOptions(response.payload))
       : new Promise((resolve) => resolve([]))
 
-  public fetchCoinsByName = (name, cb): Promise<CoinOption[]> =>
+  public fetchCoinsByName = (name, callback): Promise<CoinOption[]> =>
     localApi.get(`/coins/search_by_params`, { name }).then((response) => {
       const results = this.mapPayloadToOptions(response.payload)
 
-      cb(results)
+      callback(results)
 
       return results
     })
@@ -115,11 +115,11 @@ class CoinSelector extends React.Component<Props, State> {
       }
     })
 
-  public loadOptions = (input, cb) => {
+  public loadOptions = (input, callback) => {
     if (_.isEmpty(input)) {
-      return cb(null, [])
+      return callback(null, [])
     }
-    this.debouncedFetchCoinsByName(input, cb)
+    this.debouncedFetchCoinsByName(input, callback)
   }
 
   public componentDidUpdate(prevProps: Props, prevState: State) {
