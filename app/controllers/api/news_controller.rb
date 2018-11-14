@@ -15,14 +15,12 @@ class Api::NewsController < ApiController
 
         # Exclude reddit unless specified
         unless reddit = feed_source_keys.delete('reddit')
-          feed_sources = feed_sources
-            .where.not(id: FeedSource.reddit)
+          feed_sources = feed_sources.not_reddit
         end
 
         # Exclude twitter unless specified
         unless twitter = feed_source_keys.delete('twitter')
-          feed_sources = feed_sources
-            .where.not(id: FeedSource.twitter)
+          feed_sources = feed_sources.not_twitter
         end
 
         # Include remaining feed sources after removing twitter and reddit

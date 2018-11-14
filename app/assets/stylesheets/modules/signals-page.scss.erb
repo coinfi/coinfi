@@ -1,5 +1,5 @@
 .signals-section {
-  padding-top: 100px;
+  padding-top: 60px;
   padding-bottom: 100px;
   line-height: 1.28;
   font-size: 16px;
@@ -14,7 +14,7 @@
   }
   &__lead {
     margin-top: 0;
-    margin-bottom: 40px;
+    margin-bottom: 20px;
     font-weight: 600;
   }
   &__cta-btn {
@@ -34,6 +34,7 @@
     color: white;
   }
 }
+
 .signals-section-content {
   height: 100%;
   width: 100%;
@@ -70,6 +71,26 @@
   &__lead {
     margin-bottom: 72px;
   }
+}
+
+.sponsors-signals-section {
+  background: white;
+  color: black;
+  text-align: center;
+}
+.title__black {
+  color: black;
+}
+.signals-sponsors-panel {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: no-wrap;
+}
+.signal-sponsor-image-wrapper {
+  flex: 1 1 calc(100% / 7);
+  padding: 0 10px;
+  box-sizing: border-box;
 }
 
 .signals-section-description {
@@ -235,4 +256,14 @@
     align-self: flex-start;
     text-align: left;
   }
+  .desktop-only {
+    display: none;
+  }
+  .signals-sponsors-panel {
+    flex-wrap: wrap;
+  }
+  .signal-sponsor-image-wrapper {
+    flex: 1 1 calc(100% / 2);
+  }
+
 }

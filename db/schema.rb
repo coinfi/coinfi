@@ -10,12 +10,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20181004013839) do
+ActiveRecord::Schema.define(version: 20181108032049) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "dblink"
   enable_extension "pg_stat_statements"
+  enable_extension "pg_trgm"
 
   create_table "articles", force: :cascade do |t|
     t.bigint "coin_id"
@@ -28,7 +29,6 @@ ActiveRecord::Schema.define(version: 20181004013839) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["coin_id"], name: "index_articles_on_coin_id"
-    t.index ["importance"], name: "index_articles_on_importance"
   end
 
   create_table "author_profiles", force: :cascade do |t|
@@ -53,7 +53,6 @@ ActiveRecord::Schema.define(version: 20181004013839) do
     t.text "statement"
     t.string "data_source"
     t.datetime "created_at"
-    t.index ["query_id"], name: "index_blazer_audits_on_query_id"
     t.index ["user_id"], name: "index_blazer_audits_on_user_id"
   end
 
@@ -68,7 +67,6 @@ ActiveRecord::Schema.define(version: 20181004013839) do
     t.datetime "last_run_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["creator_id"], name: "index_blazer_checks_on_creator_id"
     t.index ["query_id"], name: "index_blazer_checks_on_query_id"
   end
 
@@ -78,7 +76,6 @@ ActiveRecord::Schema.define(version: 20181004013839) do
     t.integer "position"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["dashboard_id"], name: "index_blazer_dashboard_queries_on_dashboard_id"
     t.index ["query_id"], name: "index_blazer_dashboard_queries_on_query_id"
   end
 
@@ -87,7 +84,6 @@ ActiveRecord::Schema.define(version: 20181004013839) do
     t.text "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["creator_id"], name: "index_blazer_dashboards_on_creator_id"
   end
 
   create_table "blazer_queries", force: :cascade do |t|
@@ -98,20 +94,17 @@ ActiveRecord::Schema.define(version: 20181004013839) do
     t.string "data_source"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["creator_id"], name: "index_blazer_queries_on_creator_id"
   end
 
   create_table "calendar_event_categorizations", force: :cascade do |t|
     t.bigint "calendar_event_id"
     t.bigint "news_category_id"
-    t.index ["calendar_event_id"], name: "index_calendar_event_categorizations_on_calendar_event_id"
     t.index ["news_category_id"], name: "index_calendar_event_categorizations_on_news_category_id"
   end
 
   create_table "calendar_event_coins", force: :cascade do |t|
     t.bigint "calendar_event_id"
     t.bigint "coin_id"
-    t.index ["calendar_event_id"], name: "index_calendar_event_coins_on_calendar_event_id"
     t.index ["coin_id"], name: "index_calendar_event_coins_on_coin_id"
   end
 
@@ -128,7 +121,6 @@ ActiveRecord::Schema.define(version: 20181004013839) do
     t.bigint "disapprovals"
     t.integer "confidence"
     t.bigint "import_id"
-    t.index ["import_id"], name: "index_calendar_events_on_import_id"
     t.index ["user_id"], name: "index_calendar_events_on_user_id"
   end
 
@@ -229,15 +221,11 @@ ActiveRecord::Schema.define(version: 20181004013839) do
     t.text "description"
     t.jsonb "team"
     t.jsonb "external_rating"
-    t.index ["category"], name: "index_coins_on_category"
     t.index ["coin_key"], name: "index_coins_on_coin_key", unique: true
     t.index ["influencer_reviews_count"], name: "index_coins_on_influencer_reviews_count"
-    t.index ["market_cap"], name: "index_coins_on_market_cap", using: :gin
     t.index ["name"], name: "index_coins_on_name"
-    t.index ["price"], name: "index_coins_on_price", using: :gin
     t.index ["ranking"], name: "index_coins_on_ranking"
     t.index ["slug"], name: "index_coins_on_slug"
-    t.index ["volume24"], name: "index_coins_on_volume24", using: :gin
   end
 
   create_table "contributor_submissions", force: :cascade do |t|
@@ -250,7 +238,6 @@ ActiveRecord::Schema.define(version: 20181004013839) do
     t.text "disclosure"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["submission_category_id"], name: "index_contributor_submissions_on_submission_category_id"
     t.index ["user_id"], name: "index_contributor_submissions_on_user_id"
   end
 
@@ -274,7 +261,6 @@ ActiveRecord::Schema.define(version: 20181004013839) do
     t.datetime "updated_at", null: false
     t.index ["base_symbol_id"], name: "index_exchange_listings_on_base_symbol_id"
     t.index ["detected_at"], name: "index_exchange_listings_on_detected_at"
-    t.index ["exchange_id"], name: "index_exchange_listings_on_exchange_id"
     t.index ["quote_symbol"], name: "index_exchange_listings_on_quote_symbol"
     t.index ["quote_symbol_id"], name: "index_exchange_listings_on_quote_symbol_id"
   end
@@ -316,9 +302,6 @@ ActiveRecord::Schema.define(version: 20181004013839) do
     t.string "scope"
     t.datetime "created_at"
     t.index ["slug", "sluggable_type", "scope"], name: "index_friendly_id_slugs_on_slug_and_sluggable_type_and_scope", unique: true
-    t.index ["slug", "sluggable_type"], name: "index_friendly_id_slugs_on_slug_and_sluggable_type"
-    t.index ["sluggable_id"], name: "index_friendly_id_slugs_on_sluggable_id"
-    t.index ["sluggable_type"], name: "index_friendly_id_slugs_on_sluggable_type"
   end
 
   create_table "influencer_reviews", force: :cascade do |t|
@@ -374,6 +357,7 @@ ActiveRecord::Schema.define(version: 20181004013839) do
     t.boolean "is_processed", default: false
     t.integer "news_item_id"
     t.boolean "was_replaced_by_an_update"
+    t.index ["news_item_id"], name: "index_news_item_raws_on_news_item_id"
   end
 
   create_table "news_items", force: :cascade do |t|
@@ -401,7 +385,50 @@ ActiveRecord::Schema.define(version: 20181004013839) do
     t.index ["feed_source_id", "feed_item_id"], name: "index_news_items_on_feed_source_id_and_feed_item_id", unique: true
     t.index ["feed_source_id"], name: "index_news_items_on_feed_source_id"
     t.index ["is_published"], name: "index_news_items_on_is_published"
+    t.index ["title"], name: "index_news_items_on_title"
     t.index ["user_id"], name: "index_news_items_on_user_id"
+  end
+
+  create_table "signals_telegram_subscriptions", force: :cascade do |t|
+    t.bigint "signals_telegram_user_id"
+    t.bigint "coin_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["coin_id"], name: "index_signals_telegram_subscriptions_on_coin_id"
+    t.index ["signals_telegram_user_id"], name: "index_sts_on_signals_telegram_user_id"
+  end
+
+  create_table "signals_telegram_users", force: :cascade do |t|
+    t.bigint "user_id"
+    t.string "telegram_username"
+    t.string "telegram_chat_id"
+    t.datetime "started_at"
+    t.boolean "is_active"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "telegram_id"
+    t.index ["telegram_chat_id"], name: "index_signals_telegram_users_on_telegram_chat_id", unique: true
+    t.index ["telegram_username"], name: "index_signals_telegram_users_on_telegram_username", unique: true
+    t.index ["user_id"], name: "index_signals_telegram_users_on_user_id"
+  end
+
+  create_table "staked_cofi_transactions", force: :cascade do |t|
+    t.bigint "user_id"
+    t.string "txn_block_number"
+    t.datetime "txn_timestamp"
+    t.string "txn_hash"
+    t.string "txn_block_hash"
+    t.string "txn_from"
+    t.string "txn_to"
+    t.string "txn_value"
+    t.integer "txn_token_decimal"
+    t.boolean "is_txn_confirmations_gte_10"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["is_txn_confirmations_gte_10"], name: "index_staked_cofi_transactions_on_is_txn_confirmations_gte_10"
+    t.index ["txn_block_number"], name: "index_staked_cofi_transactions_on_txn_block_number"
+    t.index ["txn_hash"], name: "index_staked_cofi_transactions_on_txn_hash", unique: true
+    t.index ["user_id"], name: "index_staked_cofi_transactions_on_user_id"
   end
 
   create_table "submission_categories", force: :cascade do |t|
@@ -418,15 +445,9 @@ ActiveRecord::Schema.define(version: 20181004013839) do
     t.integer "tagger_id"
     t.string "context", limit: 128
     t.datetime "created_at"
-    t.index ["context"], name: "index_taggings_on_context"
     t.index ["tag_id", "taggable_id", "taggable_type", "context", "tagger_id", "tagger_type"], name: "taggings_idx", unique: true
     t.index ["tag_id"], name: "index_taggings_on_tag_id"
-    t.index ["taggable_id", "taggable_type", "context"], name: "index_taggings_on_taggable_id_and_taggable_type_and_context"
-    t.index ["taggable_id", "taggable_type", "tagger_id", "context"], name: "taggings_idy"
     t.index ["taggable_id"], name: "index_taggings_on_taggable_id"
-    t.index ["taggable_type"], name: "index_taggings_on_taggable_type"
-    t.index ["tagger_id", "tagger_type"], name: "index_taggings_on_tagger_id_and_tagger_type"
-    t.index ["tagger_id"], name: "index_taggings_on_tagger_id"
   end
 
   create_table "tags", id: :serial, force: :cascade do |t|
@@ -453,6 +474,8 @@ ActiveRecord::Schema.define(version: 20181004013839) do
     t.jsonb "token_sale"
     t.string "username"
     t.string "role"
+    t.index "((token_sale ->> 'signals_telegram_bot_chat_id'::text))", name: "index_users_on_token_sale_signals_telegram_bot_chat_id"
+    t.index "((token_sale ->> 'telegram_username'::text)) gin_trgm_ops", name: "index_users_on_token_sale_telegram_username", using: :gin
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["provider"], name: "index_users_on_provider"
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
@@ -465,7 +488,6 @@ ActiveRecord::Schema.define(version: 20181004013839) do
     t.bigint "coin_id", null: false
     t.integer "position", default: 0
     t.index ["coin_id"], name: "index_watchlist_items_on_coin_id"
-    t.index ["position"], name: "index_watchlist_items_on_position"
     t.index ["watchlist_id"], name: "index_watchlist_items_on_watchlist_id"
   end
 
@@ -499,6 +521,10 @@ ActiveRecord::Schema.define(version: 20181004013839) do
   add_foreign_key "news_item_categorizations", "news_items"
   add_foreign_key "news_items", "feed_sources"
   add_foreign_key "news_items", "users"
+  add_foreign_key "signals_telegram_subscriptions", "coins"
+  add_foreign_key "signals_telegram_subscriptions", "signals_telegram_users"
+  add_foreign_key "signals_telegram_users", "users"
+  add_foreign_key "staked_cofi_transactions", "users"
   add_foreign_key "watchlist_items", "coins"
   add_foreign_key "watchlist_items", "watchlists"
   add_foreign_key "watchlists", "users"

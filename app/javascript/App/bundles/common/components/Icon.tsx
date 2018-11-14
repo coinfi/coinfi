@@ -5,47 +5,69 @@ import * as React from 'react'
  * Wrapping div/button required to prevent error on unmount.
  */
 
-interface Props {
+export interface IconProps {
   name: string
-  styleType?: string
-  onClick?: (event) => void
-  className?: string
-  children?: React.ReactNode
+  brand?: boolean
+  regular?: boolean
+  solid?: boolean
+  [x: string]: any
 }
 
-const Icon = (props: Props) => {
-  let prefix = 'far'
-  switch (props.styleType) {
-    case 'light':
-      prefix = 'fal'
-      break
-    case 'solid':
-      prefix = 'fas'
-      break
-    case 'brand':
-      prefix = 'fab'
-      break
-  }
+export interface IconWrapperProps {
+  onClick?: () => void
+  className?: string
+  [x: string]: any
+}
 
+export default ({
+  name,
+  brand,
+  regular,
+  solid,
+  children,
+  ...rest
+}: IconProps) => {
+  let prefix = 'fal'
+  if (regular) {
+    prefix = 'far'
+  }
+  if (solid) {
+    prefix = 'fas'
+  }
+  if (brand) {
+    prefix = 'fab'
+  }
   return (
-    <IconWrapper onClick={props.onClick}>
-      <i className={`${props.className} pr1 ${prefix} fa-${props.name}`} />
-      {props.children}
+    <IconWrapper {...rest}>
+      <i className={`pr1 ${prefix} fa-${name}`} />
+      {children}
     </IconWrapper>
   )
 }
 
-const IconWrapper = ({ onClick, children }) =>
-  onClick ? (
-    <button
-      data-heap="news-add-coin-to-watchlist-button"
-      className="btn-icon icon"
-      onClick={onClick}
-    >
-      {children}
-    </button>
-  ) : (
-    <div className="btn-icon icon">{children}</div>
-  )
-
-export default Icon
+const IconWrapper = ({
+  onClick,
+  children,
+  style,
+  className,
+}: IconWrapperProps) => {
+  const klass = className || ''
+  if (onClick) {
+    return (
+      <button
+        data-heap="news-add-coin-to-watchlist-button"
+        className={`btn-icon icon ${klass}`}
+        onClick={onClick}
+        style={style}
+      >
+        {children}
+      </button>
+    )
+  } else {
+    return (
+      <div className={`icon ${klass}`} style={style}>
+        {children}
+      </div>
+    )
+  }
+}

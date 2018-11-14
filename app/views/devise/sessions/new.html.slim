@@ -9,10 +9,9 @@
         .field
           = f.label :password
           = f.password_field :password, autocomplete: "off", class: 'form-control'
-        /- if devise_mapping.rememberable?
+        - if devise_mapping.rememberable?
           .field
-            = f.check_box :remember_me
-            = f.label :remember_me
+            = f.hidden_field :remember_me, :value => '1'
         .actions
           = f.submit "Login", class: 'btn btn-blue w-100'
       = render "devise/shared/links"

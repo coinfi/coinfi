@@ -99,4 +99,8 @@ Rails.application.configure do
 
   # TODO: Switch to standard Rails 5.2 redis_cache_store once upgraded.
   config.cache_store = :redis_store, ENV.fetch('REDIS_URL')
+
+  # Rack middleware for blocking & throttling abusive requests
+  # Only enable on production https://github.com/kickstarter/rack-attack/issues/220
+  config.middleware.use Rack::Attack
 end
