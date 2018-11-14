@@ -217,7 +217,11 @@ class CoinShow extends Component {
       <React.Fragment>
         <Grid container={true} className={classes.container} wrap="nowrap">
           {!isMobile && (
-            <Grid item={true} md={2} className={classes.leftPanel}>
+            <Grid
+              item={true}
+              md={2}
+              className={classnames('bg-white', classes.leftPanel)}
+            >
               <CoinListWrapper
                 loggedIn={isLoggedIn}
                 onClick={this.handleClickCoin}
