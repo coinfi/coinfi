@@ -156,8 +156,8 @@ class CoinSelector extends React.Component<Props, State> {
         value={this.state.selectedOption}
         placeholder={this.props.placeholder}
         formatOptionLabel={formatLabel}
-        noOptionsMessage={() =>
-          _.isEmpty(this.state.q) ? null : 'No results found.'
+        noOptionsMessage={(element) =>
+          _.isEmpty(element.inputValue) ? null : 'No results found.'
         }
         components={{
           DropdownIndicator: () => null,
