@@ -389,37 +389,6 @@ ActiveRecord::Schema.define(version: 20181113095522) do
     t.index ["user_id"], name: "index_news_items_on_user_id"
   end
 
-  create_table "signal_notifications", force: :cascade do |t|
-    t.string "external_id"
-    t.bigint "signal_id"
-    t.string "signal_external_id"
-    t.bigint "user_id"
-    t.datetime "timestamp"
-    t.jsonb "extra", default: {}, null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["signal_id"], name: "index_signal_notifications_on_signal_id"
-    t.index ["user_id"], name: "index_signal_notifications_on_user_id"
-  end
-
-  create_table "signal_triggers", force: :cascade do |t|
-    t.string "type"
-    t.jsonb "params", default: {}, null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["type"], name: "index_signal_triggers_on_type"
-  end
-
-  create_table "signals", force: :cascade do |t|
-    t.string "external_id"
-    t.bigint "signal_trigger_id"
-    t.jsonb "extra", default: {}, null: false
-    t.datetime "timestamp"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["signal_trigger_id"], name: "index_signals_on_signal_trigger_id"
-  end
-
   create_table "signals_telegram_subscriptions", force: :cascade do |t|
     t.bigint "signals_telegram_user_id"
     t.bigint "coin_id"
@@ -487,6 +456,37 @@ ActiveRecord::Schema.define(version: 20181113095522) do
     t.index ["name"], name: "index_tags_on_name", unique: true
   end
 
+  create_table "trading_signal_notifications", force: :cascade do |t|
+    t.string "external_id"
+    t.bigint "trading_signal_id"
+    t.string "trading_signal_external_id"
+    t.bigint "user_id"
+    t.datetime "timestamp"
+    t.jsonb "extra", default: {}, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["trading_signal_id"], name: "index_trading_signal_notifications_on_trading_signal_id"
+    t.index ["user_id"], name: "index_trading_signal_notifications_on_user_id"
+  end
+
+  create_table "trading_signal_triggers", force: :cascade do |t|
+    t.string "type"
+    t.jsonb "params", default: {}, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["type"], name: "index_trading_signal_triggers_on_type"
+  end
+
+  create_table "trading_signals", force: :cascade do |t|
+    t.string "external_id"
+    t.bigint "trading_signal_trigger_id"
+    t.jsonb "extra", default: {}, null: false
+    t.datetime "timestamp"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["trading_signal_trigger_id"], name: "index_trading_signals_on_trading_signal_trigger_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -552,13 +552,13 @@ ActiveRecord::Schema.define(version: 20181113095522) do
   add_foreign_key "news_item_categorizations", "news_items"
   add_foreign_key "news_items", "feed_sources"
   add_foreign_key "news_items", "users"
-  add_foreign_key "signal_notifications", "signals"
-  add_foreign_key "signal_notifications", "users"
-  add_foreign_key "signals", "signal_triggers"
   add_foreign_key "signals_telegram_subscriptions", "coins"
   add_foreign_key "signals_telegram_subscriptions", "signals_telegram_users"
   add_foreign_key "signals_telegram_users", "users"
   add_foreign_key "staked_cofi_transactions", "users"
+  add_foreign_key "trading_signal_notifications", "trading_signals"
+  add_foreign_key "trading_signal_notifications", "users"
+  add_foreign_key "trading_signals", "trading_signal_triggers"
   add_foreign_key "watchlist_items", "coins"
   add_foreign_key "watchlist_items", "watchlists"
   add_foreign_key "watchlists", "users"
