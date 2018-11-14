@@ -3,10 +3,11 @@ import * as _ from 'lodash'
 import AsyncSelect from 'react-select/lib/Async'
 import { CoinSlug } from '~/bundles/common/types'
 import localApi from '../utils/localAPI'
+import { ActionTypes, ActionMeta } from 'react-select/lib/types'
 
 interface Props {
   selectedCoin: CoinSlug
-  onChange: (selectedOption: CoinOption) => void
+  onChange: (selectedOption: CoinOption, action?: ActionTypes) => void
   placeholder?: string
 }
 
@@ -123,7 +124,13 @@ class CoinSelector extends React.Component<Props, State> {
 
   public componentDidUpdate(prevProps: Props, prevState: State) {
     if (!_.isEqual(prevProps.selectedCoin, this.props.selectedCoin)) {
-      this.refreshCoin(this.props.selectedCoin)
+      if (this.props.selectedCoin === null) {
+        this.setState({
+          selectedOption: null,
+        })
+      } else {
+        this.refreshCoin(this.props.selectedCoin)
+      }
     }
   }
 
@@ -133,13 +140,18 @@ class CoinSelector extends React.Component<Props, State> {
     }
   }
 
+  public onChangeHandler = (selectedOption, actionObj: ActionMeta): void => {
+    const { action } = actionObj
+    this.props.onChange(selectedOption, action)
+  }
+
   public render() {
     return (
       <AsyncSelect
         isMulti={false}
         isClearable={true}
         cacheOptions={true}
-        onChange={this.props.onChange}
+        onChange={this.onChangeHandler}
         loadOptions={this.loadOptions}
         value={this.state.selectedOption}
         placeholder={this.props.placeholder}

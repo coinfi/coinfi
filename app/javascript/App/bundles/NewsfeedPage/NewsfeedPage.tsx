@@ -234,7 +234,7 @@ class NewsfeedPage extends React.Component<Props, State> {
                 this.props.topCoinSlugs,
               ),
             },
-            selectedCoin: null,
+            selectedCoin: this.props.coinSlug,
           }
 
           this.props.fetchNewsItems(newState.filters)
