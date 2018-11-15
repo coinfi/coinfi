@@ -9,13 +9,13 @@ namespace :data_migrations do
         subscribed_coins = signals_telegram_user.subscribed_coins
         watchlist_coins = watchlist.coins
 
-        watchlist_coins_to_add = subscribed_coins.select do |subscribed_coin|
-          watched = watchlist_coins.any? { |watchlist_coin| watchlist_coin.id == subscribed_coin.id }
-          next !watched
+        watchlist_coins_to_add = subscribed_coins.reject do |subscribed_coin|
+          # Exclude if already watched
+          watchlist_coins.any? { |watchlist_coin| watchlist_coin.id == subscribed_coin.id }
         end
-        watchlist_coins_to_remove = watchlist_coins.select do |watchlist_coin|
-          subscribed = subscribed_coins.any? { |subscribed_coin| subscribed_coin.id == watchlist_coin.id }
-          next !subscribed
+        watchlist_coins_to_remove = watchlist_coins.reject do |watchlist_coin|
+          # Exclude if already subscribed
+          subscribed_coins.any? { |subscribed_coin| subscribed_coin.id == watchlist_coin.id }
         end
 
         if watchlist_coins_to_add.length
