@@ -5,7 +5,6 @@ namespace :data_migrations do
   task :sync_watchlist_items_with_signals_telegram_subscriptions => :environment do
     ActiveRecord::Base.transaction do
       SignalsTelegramUser.find_each do |signals_telegram_user|
-        byebug
         watchlist = signals_telegram_user.user.watchlist
         subscribed_coins = signals_telegram_user.subscribed_coins
         watchlist_coins = watchlist.coins
