@@ -234,7 +234,7 @@ class NewsfeedPage extends React.Component<Props, State> {
                 this.props.topCoinSlugs,
               ),
             },
-            selectedCoin: null,
+            selectedCoin: this.props.coinSlug,
           }
 
           this.props.fetchNewsItems(newState.filters)
@@ -359,6 +359,10 @@ class NewsfeedPage extends React.Component<Props, State> {
         this.props.fetchNewsItems(this.state.filters)
       },
     )
+
+    value
+      ? this.props.history.push(`/news/${value}`)
+      : this.props.history.push(`/news`)
   }
 
   public closeTips = () => {
