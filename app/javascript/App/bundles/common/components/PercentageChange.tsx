@@ -23,7 +23,7 @@ const PercentageChange = ({ value, className }: Props) => {
   }
   return (
     <span className={klass}>
-      <Icon name={iconName} solid={true} className="mr1" />
+      <Icon name={iconName} styleType="solid" className="mr1" />
       {percentage}
     </span>
   )

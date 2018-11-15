@@ -254,7 +254,11 @@ class NewsfeedPage extends React.Component<Props, State> {
     }
 
     // Check if watchlist tab changed to active
-    if (!!this.props.isWatchlistSelected && !prevProps.isWatchlistSelected) {
+    if (
+      !!this.props.isWatchlistSelected &&
+      !prevProps.isWatchlistSelected &&
+      this.props.loggedIn
+    ) {
       this.setState((state) => {
         const newState = {
           ...state,
@@ -278,7 +282,8 @@ class NewsfeedPage extends React.Component<Props, State> {
       // Check if watchlist tab changed to inactive
     } else if (
       !!prevProps.isWatchlistSelected &&
-      !this.props.isWatchlistSelected
+      !this.props.isWatchlistSelected &&
+      this.props.loggedIn
     ) {
       this.setState((state) => {
         const newState = {
@@ -548,7 +553,12 @@ class NewsfeedPage extends React.Component<Props, State> {
           onFocus={this.handleOnFocus}
         >
           <LayoutDesktop
-            leftSection={<CoinListWrapper loggedIn={this.props.loggedIn} />}
+            leftSection={
+              <CoinListWrapper
+                isWatchlist={this.props.isWatchlistSelected}
+                loggedIn={this.props.loggedIn}
+              />
+            }
             centerSection={
               <>
                 <NewsListHeader

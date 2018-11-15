@@ -343,7 +343,12 @@ class ExchangeListingsPage extends React.Component<Props, State> {
     } else {
       return (
         <LayoutDesktop
-          leftSection={<CoinListWrapper loggedIn={this.props.loggedIn} />}
+          leftSection={
+            <CoinListWrapper
+              loggedIn={this.props.loggedIn}
+              isWatchlist={true}
+            />
+          }
           centerSection={
             <>
               <ExchangeListingsContext.Provider value={context}>

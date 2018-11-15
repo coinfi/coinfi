@@ -2,7 +2,7 @@ import * as React from 'react'
 import CoinCharts from './CoinCharts'
 import Currency from './Currency'
 import PercentageChange from './PercentageChange'
-import WatchButton from './WatchButton'
+import WatchStar from '~/bundles/common/components/WatchStar'
 import NewsRelatedCoinList from './NewsRelatedCoinList'
 import LoadingIndicator from './LoadingIndicator'
 import localAPI from '../utils/localAPI'
@@ -97,7 +97,7 @@ class CoinBody extends React.Component<Props, State> {
             News
           </a>
           <div className="tooltipped">
-            <WatchButton
+            <WatchStar
               coin={coinWithDetails}
               loggedIn={loggedIn}
               hasText={true}

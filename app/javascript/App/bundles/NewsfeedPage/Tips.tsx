@@ -43,12 +43,7 @@ export default ({ closeTips, loggedIn }: Props) => {
         >
           <div style={{ float: 'right', marginRight: '15px' }}>
             {closeTips && (
-              <Icon
-                name="times"
-                className="f4 slate"
-                regular={true}
-                onClick={closeTips}
-              />
+              <Icon name="times" className="f4 slate" onClick={closeTips} />
             )}
           </div>
           <h1 className="mt0" style={titleStyle}>
@@ -102,32 +97,18 @@ export default ({ closeTips, loggedIn }: Props) => {
         </div>
 
         {!loggedIn && (
-          <div style={{ paddingTop: '15px' }} className="signup-cta-wrap">
-            <h2 className="tc mt0">Get the most out of CoinFi News</h2>
-            <div style={{ margin: '0 20px 20px', display: 'grid' }}>
-              <div
-                style={{
-                  fontSize: '.8rem',
-                  marginBottom: 20,
-                  marginTop: 10,
-                  textAlign: 'center',
-                }}
-              >
-                Be the first to know about the latest market moving news
-              </div>
-              <button
-                className="btn btn-blue btn-l w-100"
-                style={{
-                  fontWeight: 'bold',
-                  margin: 'auto',
-                  padding: '.8rem 2rem',
-                  textTransform: 'none',
-                }}
-                onClick={() => (window.location.href = '/sign_up')}
-              >
-                Sign up
-              </button>
+          <div className="ph3 tc signup-cta-wrap">
+            <h2 className="m0 pv3">Get the most out of CoinFi News!</h2>
+            <div className="f6">
+              Save coins into your Watchlist and be the first to know about the
+              latest market moving news.
             </div>
+            <button
+              className="btn btn-blue mv3 b ttn"
+              onClick={() => (window.location.href = '/register')}
+            >
+              Sign Up Now
+            </button>
           </div>
         )}
       </div>
