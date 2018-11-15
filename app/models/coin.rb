@@ -149,7 +149,7 @@ class Coin < ApplicationRecord
     Rails.cache.fetch("coins/#{id}/market_data", expires_in: 1.minute) do
       url = "https://api.coinmarketcap.com/v1/ticker/#{slug}/?convert=BTC"
       response = HTTParty.get(url)
-      if response.code == 200
+      if response.success?
         data = JSON.parse(response.body)[0] || {}
         default_market_data.merge(data)
       else # Retry using North Pole proxy.
