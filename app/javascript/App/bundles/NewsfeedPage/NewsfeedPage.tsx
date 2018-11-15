@@ -551,7 +551,7 @@ class NewsfeedPage extends React.Component<Props, State> {
           <LayoutDesktop
             leftSection={
               <CoinListWrapper
-                isWatchlist={this.props.loggedIn}
+                isWatchlist={this.props.isWatchlistSelected}
                 loggedIn={this.props.loggedIn}
               />
             }
