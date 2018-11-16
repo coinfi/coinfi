@@ -11,7 +11,7 @@ namespace :coinmarketcap do
     # Top 1-100 (updated every 1 minute)
     desc "Top 1-100 update"
     task :ticker_update_1 => :environment do
-      CoinMarketCapService.new.ticker_update(0, 100)
+      CoinMarketCapService.new.ticker_update(1, 100)
     end
 
     # Top 101-200 (updated every 2 minutes)
