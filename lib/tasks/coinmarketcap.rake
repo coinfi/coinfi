@@ -8,32 +8,6 @@ namespace :coinmarketcap do
       CoinMarketCapService.new.supply_update
     end
 
-    # Top 1-100 (updated every 1 minute)
-    desc "Top 1-100 update"
-    task :ticker_update_1 => :environment do
-      CoinMarketCapService.new.ticker_update(1, 100)
-    end
-
-    # Top 101-200 (updated every 2 minutes)
-    task :ticker_update_2 => :environment do
-      CoinMarketCapService.new.ticker_update(100, 100)
-    end
-
-    # Top 201-500 (updated every 3 minutes)
-    task :ticker_update_3 => :environment do
-      CoinMarketCapService.new.ticker_update(200, 300)
-    end
-
-    # Top 501-1000 (updated every 4 minutes)
-    task :ticker_update_4 => :environment do
-      CoinMarketCapService.new.ticker_update(500, 500)
-    end
-
-    # Top 1001+ (updated every 5 minutes)
-    task :ticker_update_5 => :environment do
-      CoinMarketCapService.new.ticker_update(1000, 5000) # 5000 is CMC's max limit
-    end
-
     # Grab history but only keep most recent day.
     desc "Most recent daily price update"
     task :last_daily_update, [:coin] => :environment do |task, args|
