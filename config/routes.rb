@@ -75,7 +75,7 @@ Rails.application.routes.draw do
     end
 
     namespace :signals_telegram_bot do
-      resources :trading_signal_notifications, only: %i[create]
+      resources :trading_signal_notifications, only: %i[show create]
       resources :signals_telegram_users, only: %i[index show], param: :telegram_id_or_username do
         post 'register', on: :collection
 
