@@ -1,7 +1,7 @@
 import * as React from 'react'
 import classNames from 'classnames'
 import PercentageChange from '~/bundles/common/components/PercentageChange'
-import WatchButton from '~/bundles/common/components/WatchButton'
+import WatchStar from '~/bundles/common/components/WatchStar'
 import { Coin } from '~/bundles/common/types'
 
 interface Props {
@@ -36,10 +36,7 @@ export default (props: Props) => {
         props.onSelectCoin(coin)
       }}
     >
-      <div className="tooltipped">
-        {!loggedIn && <div className="tooltip from-right">Login to watch</div>}
-        <WatchButton {...props} hasText={false} />
-      </div>
+      <WatchStar coin={coin} hasText={false} loggedIn={loggedIn} />
       <div className="flex-auto flex justify-between items-center">
         <div className="b f5 pl2">{coin.symbol}</div>
         {coin.market_info && (

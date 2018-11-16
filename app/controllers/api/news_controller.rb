@@ -1,8 +1,6 @@
 # This is the new version of the API endpoint to retrieve NewsItems
 # based on a more sane query parameter setup.
 class Api::NewsController < ApiController
-  before_action :detect_news_feature
-
   def index
     # Ensure fresh response on every request
     headers['Last-Modified'] = Time.now.httpdate

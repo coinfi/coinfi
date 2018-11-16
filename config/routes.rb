@@ -8,6 +8,7 @@ Rails.application.routes.draw do
   end
 
   require 'sidekiq/web'
+  require 'sidekiq-scheduler/web'
   constraints subdomain: 'sidekiq' do
     Sidekiq::Web.use Rack::Auth::Basic do |username, password|
       # Protect against timing attacks:
