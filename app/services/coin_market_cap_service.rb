@@ -54,7 +54,7 @@ class CoinMarketCapService
     if quote["price"].blank? || quote["market_cap"].blank? || quote["volume_24h"].blank? ||
       quote["percent_change_1h"].blank? || quote["percent_change_24h"].blank? ||
       quote["percent_change_7d"].blank? || data["total_supply"].blank? ||
-      data['circulating_supply'].blank? || data['max_supply'].blank? then
+      data['circulating_supply'].blank? then
       return true
     else
       return false
