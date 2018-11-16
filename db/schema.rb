@@ -470,11 +470,11 @@ ActiveRecord::Schema.define(version: 20181113095522) do
   end
 
   create_table "trading_signal_triggers", force: :cascade do |t|
-    t.string "type"
+    t.string "type_key"
     t.jsonb "params", default: {}, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["type"], name: "index_trading_signal_triggers_on_type"
+    t.index ["type_key"], name: "index_trading_signal_triggers_on_type_key"
   end
 
   create_table "trading_signals", force: :cascade do |t|
