@@ -29,7 +29,7 @@ class Api::SignalsTelegramBot::TradingSignalsController < Api::SignalsTelegramBo
         :external_id,
         :trading_signal_trigger_id,
         :timestamp,
-        :extra,
+        extra: {},
       )
   end
 

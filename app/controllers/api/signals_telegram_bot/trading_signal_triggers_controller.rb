@@ -32,7 +32,7 @@ class Api::SignalsTelegramBot::TradingSignalTriggersController < Api::SignalsTel
       .require(:trading_signal_trigger)
       .permit(
         :type_key,
-        :params,
+        params: {},
       )
   end
 

@@ -31,7 +31,7 @@ class Api::SignalsTelegramBot::TradingSignalNotificationsController < Api::Signa
         :trading_signal_external_id,
         :user_id,
         :timestamp,
-        :extra,
+        extra: {},
       )
   end
 
