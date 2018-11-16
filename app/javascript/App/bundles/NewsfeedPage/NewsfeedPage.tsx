@@ -79,7 +79,7 @@ class NewsfeedPage extends React.Component<Props, State> {
       newsfeedTips: true,
       showFilters: false,
       unseenNewsIds: [],
-      selectedCoin: null,
+      selectedCoin: props.coinSlug || null,
     }
   }
 
@@ -339,9 +339,7 @@ class NewsfeedPage extends React.Component<Props, State> {
     // get previous coin slug based on component update logic
     const defaultCoinSlugs = this.props.isWatchlistSelected
       ? this.props.getWatchlist().map((elem) => elem.slug)
-      : !!this.props.coinSlug
-        ? [this.props.coinSlug]
-        : []
+      : []
 
     const coinSlugs = value ? [value] : defaultCoinSlugs
     const feedSources = mergeInitialSocialSourcesForCoinsFilter(
