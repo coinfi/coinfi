@@ -1,11 +1,12 @@
 require_relative '../../lib/tasks/batch_process'
 
 class CoinMarketCapService
-  attr_accessor :failed_updates
+  attr_accessor :db_missing_coins
+  attr_accessor :cmc_missing_data
 
   def initialize
-    @failed_updates = []
-    @missing_data = []
+    @db_missing_coins = []
+    @cmc_missing_data = []
   end
 
   def supply_update
@@ -14,42 +15,58 @@ class CoinMarketCapService
       identifier = coin['identifier']
       update_coin_supply(identifier, coin)
     end
-    log_failed_updates
+    log_db_missing_coins
   end
 
-  def ticker_update(start = 0, limit = 100)
+  def ticker_update(start = 1, limit = 100) # 1-indexed
     coins = load_cmc_latest_data(start, limit)
     unless coins.nil?
       batch_process(coins) do |coin|
         identifier = coin['slug']
         update_coin_prices(identifier, coin)
       end
-      log_failed_updates
-      log_missing_data
+      log_db_missing_coins
+      log_missing_snap_data
     end
+  end
+
+  def pairs_update(start = 0, limit = 20) # 0-indexed
+    coins = Coin.top(limit).offset(start)
+    batch_process(coins) do |coin|
+      update_coin_pairs(coin)
+    end
+    log_missing_pairs_data
   end
 
   private
 
-  def log_failed_updates
-    @failed_updates.sort! { |left, right| left[:ranking] <=> right[:ranking] }
-    @failed_updates.each do |update|
+  def log_db_missing_coins
+    @db_missing_coins.sort! { |left, right| left[:ranking] <=> right[:ranking] }
+    @db_missing_coins.each do |update|
       Rails.logger.info "MISSING COIN: Rank #{update[:ranking]} #{update[:identifier]} coin from CMC is missing from the `coins` table."
     end
-    unless @failed_updates.empty?
-      Rollbar.error('Coins table missing CMC coins', :coins => @failed_updates)
+    unless @db_missing_coins.empty?
+      Rollbar.error('Coins table missing CMC coins', :coins => @db_missing_coins)
     end
   end
 
-  def log_missing_data
-    if @missing_data.empty?
+  def log_missing_snap_data
+    if @cmc_missing_data.empty?
       Net::HTTP.get(URI.parse(ENV.fetch('HEALTHCHECK_SNAP_PRICES')))
     else
-      Net::HTTP.post(URI.parse("#{ENV.fetch('HEALTHCHECK_SNAP_PRICES')}/fail"), @missing_data.to_json)
+      Net::HTTP.post(URI.parse("#{ENV.fetch('HEALTHCHECK_SNAP_PRICES')}/fail"), @cmc_missing_data.to_json)
     end
   end
 
-  def has_missing_data(data)
+  def log_missing_pairs_data
+    if @cmc_missing_data.empty?
+      Net::HTTP.get(URI.parse(ENV.fetch('HEALTHCHECK_MARKET_PAIRS')))
+    else
+      Net::HTTP.post(URI.parse("#{ENV.fetch('HEALTHCHECK_MARKET_PAIRS')}/fail"), @cmc_missing_data.to_json)
+    end
+  end
+
+  def has_missing_snap_data(data)
     quote = data.dig("quote", currency)
     if quote["price"].blank? || quote["market_cap"].blank? || quote["volume_24h"].blank? ||
       quote["percent_change_1h"].blank? || quote["percent_change_24h"].blank? ||
@@ -62,15 +79,15 @@ class CoinMarketCapService
   end
 
   def update_coin_prices(identifier, data)
-    if has_missing_data(data)
-      @missing_data << { identifier: identifier, data: data }
+    if has_missing_snap_data(data)
+      @cmc_missing_data << { identifier: identifier, data: data }
     else
       perform_update_prices(data)
     end
 
     coin = Coin.find_by(slug: identifier)
     if !coin
-      @failed_updates << { identifier: identifier, ranking: data['cmc_rank'] }
+      @db_missing_coins << { identifier: identifier, ranking: data['cmc_rank'] }
     else
       perform_update_ranking(coin, data)
     end
@@ -79,10 +96,21 @@ class CoinMarketCapService
   def update_coin_supply(identifier, data)
     coin = Coin.find_by(slug: identifier)
     if !coin
-      @failed_updates << { identifier: identifier, ranking: data['position'].to_i }
+      @db_missing_coins << { identifier: identifier, ranking: data['position'].to_i }
     else
       perform_update_supply(coin, data)
     end
+  end
+
+  def update_coin_pairs(coin)
+    if coin.cmc_id
+      @data = load_cmc_pair_data(id: coin.cmc_id)
+    else
+      @data = load_cmc_pair_data(symbol: coin.symbol)
+    end
+
+    identifier = coin.slug
+    perform_update_pairs(identifier, @data)
   end
 
   def perform_update_prices(data)
@@ -102,12 +130,40 @@ class CoinMarketCapService
     Rails.cache.write("#{data['slug']}:snapshot", coin_hash)
   end
 
+  def perform_update_pairs(identifier, data)
+    snapshot = Rails.cache.read("#{identifier}:snapshot")
+    base_volume24 = snapshot[:volume24h] unless snapshot.blank?
+
+    raw_market_pairs = data.dig("market_pairs")
+    market_pairs = raw_market_pairs.map do |pair|
+      quote = pair.dig("quote", currency)
+      volume24 = quote["volume_24h"]
+      {
+        :exchange => {
+          :name => pair.dig("exchange", "name"),
+          :slug => pair.dig("exchange", "slug"),
+        },
+        :pair => pair["market_pair"],
+        :price => quote["price"],
+        :volume24h => volume24,
+        :volume_percentage => (volume24 / base_volume24 unless base_volume24.blank?),
+      }
+    end
+
+    coin_hash = {
+      :total_pairs => data["num_market_pairs"],
+      :market_pairs => market_pairs,
+      :last_retrieved => Time.now.utc.to_s,
+    }
+    Rails.cache.write("#{identifier}:pairs", coin_hash)
+  end
+
   def perform_update_ranking(coin, data)
     coin.update(
-        ranking: data['cmc_rank'],
-        last_synced: data['last_updated'],
-        ico_status: 'listed'
-      )
+      ranking: data['cmc_rank'],
+      last_synced: data['last_updated'],
+      ico_status: 'listed'
+    )
   end
 
   def perform_update_supply(coin, data)
@@ -140,18 +196,46 @@ class CoinMarketCapService
     contents = JSON.parse(response.body)
 
     # ping health check if api error
-    json_response_code = contents.dig('status', 'error_code') || 0
-    error_message = contents.dig('status', 'error_message')
+    json_response_code = get_json_response_code(contents)
 
     if response.success? && json_response_code == 0 then
       Net::HTTP.get(URI.parse(ENV.fetch('HEALTHCHECK_SNAP_PRICES')))
       return contents['data']
     else
+      error_message = get_error_message(contents)
       Net::HTTP.post(URI.parse("#{ENV.fetch('HEALTHCHECK_SNAP_PRICES')}/fail"), "ERROR HTTP(#{response.code}) JSON(#{json_response_code}): #{error_message}")
       return nil
     end
+  end
 
-    contents['data']
+  def load_cmc_pair_data(id: nil, symbol: nil)
+    return nil if id.nil? and symbol.nil?
+
+    api_url = "https://pro-api.coinmarketcap.com/v1/cryptocurrency/market-pairs/latest"
+    query = unless id.nil? then { :id => id } else { :symbol => symbol } end
+    headers = { "X-CMC_PRO_API_KEY" => ENV.fetch('COINMARKETCAP_API_KEY') }
+    response = HTTParty.get(api_url, :query => query, :headers => headers)
+    contents = JSON.parse(response.body)
+
+    # ping health check if api error
+    json_response_code = get_json_response_code(contents)
+
+    if response.success? && json_response_code == 0 then
+      Net::HTTP.get(URI.parse(ENV.fetch('HEALTHCHECK_MARKET_PAIRS')))
+      return contents['data']
+    else
+      error_message = get_error_message(contents)
+      Net::HTTP.post(URI.parse("#{ENV.fetch('HEALTHCHECK_MARKET_PAIRS')}/fail"), "ERROR HTTP(#{response.code}) JSON(#{json_response_code}): #{error_message}")
+      return nil
+    end
+  end
+
+  def get_json_response_code(contents)
+    contents.dig('status', 'error_code') || 0
+  end
+
+  def get_error_message(contents)
+    contents.dig('status', 'error_message')
   end
 
   def currency
