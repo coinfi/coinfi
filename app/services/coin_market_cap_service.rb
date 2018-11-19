@@ -137,16 +137,17 @@ class CoinMarketCapService
     raw_market_pairs = data.dig("market_pairs")
     market_pairs = raw_market_pairs.map do |pair|
       quote = pair.dig("quote", currency)
+      volume_24h_quote =
       volume24 = quote["volume_24h"]
       {
-        :exchange => {
-          :name => pair.dig("exchange", "name"),
-          :slug => pair.dig("exchange", "slug"),
-        },
+        :exchange_name => pair.dig("exchange", "name"),
+        :exchange_slug => pair.dig("exchange", "slug"),
         :pair => pair["market_pair"],
         :price => quote["price"],
         :volume24h => volume24,
         :volume_percentage => (volume24 / base_volume24 unless base_volume24.blank?),
+        :volume24h_quote => pair.dig("quote", "exchange_reported", "volume_24h_quote"),
+        :quote_currency_symbol => pair.dig("market_pair_quote", "currency_symbol"),
       }
     end
 
