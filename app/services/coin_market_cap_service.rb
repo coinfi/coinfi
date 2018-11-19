@@ -103,14 +103,9 @@ class CoinMarketCapService
   end
 
   def update_coin_pairs(coin)
-    if coin.cmc_id
-      @data = load_cmc_pair_data(id: coin.cmc_id)
-    else
-      @data = load_cmc_pair_data(symbol: coin.symbol)
-    end
-
+    data = coin.cmc_id ? load_cmc_pair_data(id: coin.cmc_id) : load_cmc_pair_data(symbol: coin.symbol)
     identifier = coin.slug
-    perform_update_pairs(identifier, @data)
+    perform_update_pairs(identifier, data)
   end
 
   def perform_update_prices(data)
@@ -213,7 +208,7 @@ class CoinMarketCapService
     return nil if id.nil? and symbol.nil?
 
     api_url = "https://pro-api.coinmarketcap.com/v1/cryptocurrency/market-pairs/latest"
-    query = unless id.nil? then { :id => id } else { :symbol => symbol } end
+    query = if id.nil? then { :symbol => symbol } else { :id => id } end
     headers = { "X-CMC_PRO_API_KEY" => ENV.fetch('COINMARKETCAP_API_KEY') }
     response = HTTParty.get(api_url, :query => query, :headers => headers)
     contents = JSON.parse(response.body)
