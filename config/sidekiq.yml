@@ -1,25 +1,70 @@
 :schedule:
-  cmc_update1_scheduler:
+  cmc_update_prices1_scheduler:
     cron: '0 * * * * *'   # Runs once per minute
     class: CmcUpdateScheduler
-    args: 1
+    args: ['prices', 1]
 
-  cmc_update2_scheduler:
+  cmc_update_prices2_scheduler:
     cron: '0 */2 * * * *' # Runs once every other minute
     class: CmcUpdateScheduler
-    args: 2
+    args: ['prices', 2]
 
-  cmc_update3_scheduler:
+  cmc_update_prices3_scheduler:
     cron: '0 */3 * * * *' # Runs once every 3 minutes
     class: CmcUpdateScheduler
-    args: 3
+    args: ['prices', 3]
 
-  cmc_update4_scheduler:
+  cmc_update_prices4_scheduler:
     cron: '0 */5 * * * *' # Runs once every 4 minutes
     class: CmcUpdateScheduler
-    args: 4
+    args: ['prices', 4]
 
-  cmc_update5_scheduler:
+  cmc_update_prices5_scheduler:
     cron: '0 */5 * * * *' # Runs once every 5 minutes
     class: CmcUpdateScheduler
-    args: 5
+    args: ['prices', 5]
+
+  # cmc_update_pairs1_scheduler:
+  #   cron: '30 */2 * * * *' # Runs once every other minute
+  #   class: CmcUpdateScheduler
+  #   args: ['pairs', 1]
+
+  # cmc_update_pairs2_scheduler:
+  #   cron: '30 */5 * * * *' # Runs once every 5 minutes
+  #   class: CmcUpdateScheduler
+  #   args: ['pairs', 2]
+
+  # cmc_update_pairs3_scheduler:
+  #   cron: '30 */5 * * * *' # Runs once every 15 minutes
+  #   class: CmcUpdateScheduler
+  #   args: ['pairs', 3]
+
+  # cmc_update_pairs4_scheduler:
+  #   cron: '30 */5 * * * *' # Runs once every 30 minutes
+  #   class: CmcUpdateScheduler
+  #   args: ['pairs', 4]
+
+  # cmc_update_pairs5_scheduler:
+  #   cron: '30 */5 * * * *' # Runs once every 45 minutes
+  #   class: CmcUpdateScheduler
+  #   args: ['pairs', 5]
+
+  # cmc_update_pairs6_scheduler:
+  #   cron: '30 0 * * * *' # Runs once every 1 hour
+  #   class: CmcUpdateScheduler
+  #   args: ['pairs', 6]
+
+  # cmc_update_pairs7_scheduler:
+  #   cron: '30 0 */2 * * *' # Runs once every 2 hours
+  #   class: CmcUpdateScheduler
+  #   args: ['pairs', 7]
+
+  # cmc_update_pairs8_scheduler:
+  #   cron: '30 0 */4 * * *' # Runs once every 4 hours
+  #   class: CmcUpdateScheduler
+  #   args: ['pairs', 8]
+
+  # cmc_update_pairs9_scheduler:
+  #   cron: '30 0 */5 * * *' # Runs once every 5 hours
+  #   class: CmcUpdateScheduler
+  #   args: ['pairs', 9]
