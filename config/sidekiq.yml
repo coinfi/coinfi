@@ -1,0 +1,25 @@
+:schedule:
+  cmc_update1_scheduler:
+    cron: '0 * * * * *'   # Runs once per minute
+    class: CmcUpdateScheduler
+    args: 1
+
+  cmc_update2_scheduler:
+    cron: '0 */2 * * * *' # Runs once every other minute
+    class: CmcUpdateScheduler
+    args: 2
+
+  cmc_update3_scheduler:
+    cron: '0 */3 * * * *' # Runs once every 3 minutes
+    class: CmcUpdateScheduler
+    args: 3
+
+  cmc_update4_scheduler:
+    cron: '0 */5 * * * *' # Runs once every 4 minutes
+    class: CmcUpdateScheduler
+    args: 4
+
+  cmc_update5_scheduler:
+    cron: '0 */5 * * * *' # Runs once every 5 minutes
+    class: CmcUpdateScheduler
+    args: 5

@@ -2,10 +2,10 @@ require 'httparty'
 
 namespace :coinmarketcap do
   namespace :cronjobs do
-    # Direct ticker access
-    desc "10min ticker price update"
+    # Direct suppy access
+    desc "Daily suppy update"
     task :ticker_update => :environment do
-      CoinMarketCapService.new.ticker_update
+      CoinMarketCapService.new.supply_update
     end
 
     # Grab history but only keep most recent day.
