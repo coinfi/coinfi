@@ -1,0 +1,18 @@
+SparklineScheduler:               # rake cache_refresh:sparkline
+  cron: '0 0 19 * * * Etc/UTC'
+
+CoinSlugsScheduler:               # rake generate_coin_slugs
+  cron: '0 0 1 * * * Etc/UTC'
+
+SitemapScheduler:                 # rake sitemap:refresh
+  cron: '0 0 0 * * * Etc/UTC'
+
+staked_cofi_perform_actions:      # rake staked_cofi:perform_actions
+  cron: '0 30 * * * *'
+  class: StakedCofiScheduler
+  args: 'perform_actions'
+
+staked_cofi_refresh_transactions: # rake staked_cofi:refresh_transactions
+  cron: '0 0 * * * *'
+  lass: StakedCofiScheduler
+  args: 'refresh_transactions'
