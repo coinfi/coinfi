@@ -8,7 +8,7 @@ RefreshSitemap:                 # rake sitemap:refresh
   cron: '0 0 0 * * * Etc/UTC'
 
 StakedCofiPerformActions:       # rake staked_cofi:perform_actions
-  cron: '0 30 * * * *'
+  cron: '0 30 * * * * Etc/UTC'
 
 StakedCofiRefreshTransactions:  # rake staked_cofi:refresh_transactions
-  cron: '0 0 * * * *'
+  cron: '0 0 * * * * Etc/UTC'
