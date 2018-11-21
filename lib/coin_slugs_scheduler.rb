@@ -2,7 +2,7 @@
 # so this job should be run at 01:00 UTC
 # in Sidekiq Scheduler.
 require 'sidekiq-scheduler'
-class SparklineScheduler
+class CoinSlugsScheduler
   include Sidekiq::Worker
 
   # Generate Coin slugs from ETL upsert
