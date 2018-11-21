@@ -1,2 +1,2 @@
 web: bundle exec puma -C config/puma.rb
-worker: bundle exec sidekiq -e production -C config/sidekiq.yml
+worker: env MALLOC_ARENA_MAX=2 bundle exec sidekiq -e production -C config/sidekiq.yml
