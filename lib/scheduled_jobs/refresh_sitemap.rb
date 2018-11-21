@@ -1,7 +1,7 @@
 require 'sidekiq-scheduler'
 require 'rake'
 # Invoking rake task based on https://stackoverflow.com/a/9943895
-class SitemapScheduler
+class RefreshSitemap
   include Sidekiq::Worker
 
   def initialize

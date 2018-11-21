@@ -1,5 +1,5 @@
 require 'sidekiq-scheduler'
-class SparklineScheduler
+class CacheRefreshSparkline
   include Sidekiq::Worker
 
   #Refresh Sparkline Chart Data Cache

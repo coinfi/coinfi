@@ -1,27 +1,9 @@
 require 'sidekiq-scheduler'
-class StakedCofiScheduler
+class StakedCofiRefreshTransactions
   include Sidekiq::Worker
 
-  def perform(action)
-    case action
-    when 'perform_actions'
-      perform_actions
-    when 'refresh_transactions'
-      refresh_transactions
-    end
-  end
-
-  # Perform any checks or actions associated with staked COFI
-  def perform_actions
-    associate_transactions_service = AssociateUnassignedStakedCofiTransactionsService.call
-    puts "Associated #{associate_transactions_service.staked_cofi_transactions_updated.length} unassigned staked COFI transactions"
-
-    send_emails_service = SendSignalsStakingConfirmationEmailsService.call(use_job_queue: false)
-    puts "Sent signals staking confirmation email to #{send_emails_service.users_sent.length} users"
-  end
-
   # Refresh staked cofi transactions by querying etherscan
-  def refresh_transactions
+  def perform
     # Since `is_txn_confirmations_gte_10` is the only field that may change, we can limit our query
     # to use that as a starting block
     earliest_unconfirmed_block_number = StakedCofiTransaction
