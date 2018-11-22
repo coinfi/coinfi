@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20181108032049) do
+ActiveRecord::Schema.define(version: 20181113053237) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -217,7 +217,7 @@ ActiveRecord::Schema.define(version: 20181108032049) do
     t.jsonb "external_key"
     t.string "facebook"
     t.string "telegram"
-    t.bigint "total_supply"
+    t.decimal "total_supply", precision: 32, scale: 2
     t.text "description"
     t.jsonb "team"
     t.jsonb "external_rating"
