@@ -188,7 +188,7 @@ ActiveRecord::Schema.define(version: 20181108032049) do
     t.bigint "ico_usd_raised"
     t.bigint "ico_start_epoch"
     t.bigint "ico_end_epoch"
-    t.decimal "ico_token_price_usd", precision: 10, scale: 2
+    t.decimal "ico_token_price_usd", precision: 24, scale: 16
     t.decimal "ico_token_price_btc", precision: 24, scale: 16
     t.decimal "ico_token_price_eth", precision: 24, scale: 16
     t.string "ico_personal_cap_min"
