@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20181113053237) do
+ActiveRecord::Schema.define(version: 20181122014025) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -225,7 +225,7 @@ ActiveRecord::Schema.define(version: 20181113053237) do
     t.index ["influencer_reviews_count"], name: "index_coins_on_influencer_reviews_count"
     t.index ["name"], name: "index_coins_on_name"
     t.index ["ranking"], name: "index_coins_on_ranking"
-    t.index ["slug"], name: "index_coins_on_slug"
+    t.index ["slug"], name: "index_coins_on_slug", unique: true
   end
 
   create_table "contributor_submissions", force: :cascade do |t|
