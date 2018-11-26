@@ -32,4 +32,17 @@ namespace :redis do
     end
     puts "Finished redis copy."
   end
+
+  desc "Add local key prefix"
+  task :copy_local => :environment do
+    redis_uri = ENV.fetch('REDIS_URL')
+    parsed_redis_url = URI.parse(redis_uri)
+    prefix = parsed_redis_url.path.match(/\/\d+\/(.+)/)[1]
+    next if prefix.blank?
+
+    redis = Redis.new :url => redis_uri
+    redis.keys("*:snapshot").each do |key|
+      redis.rename key, "#{prefix}:#{key}"
+    end
+  end
 end
