@@ -16,7 +16,7 @@ FactoryBot.define do
         {
           "telegram": {
             "message": {
-              "chat_id": Faker::Number.number(9),
+              "chat_id": telegram_chat_id,
               "text": Faker::Markdown.emphasis,
               "parse_mode": 'Markdown',
               "disable_web_page_preview": true,
