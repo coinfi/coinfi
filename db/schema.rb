@@ -462,7 +462,7 @@ ActiveRecord::Schema.define(version: 20181123072657) do
     t.bigint "trading_signal_id"
     t.string "trading_signal_external_id"
     t.bigint "user_id"
-    t.jsonb "extra", default: {}, null: false
+    t.jsonb "extra"
     t.datetime "timestamp"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -473,21 +473,25 @@ ActiveRecord::Schema.define(version: 20181123072657) do
   end
 
   create_table "trading_signal_triggers", force: :cascade do |t|
+    t.string "external_id"
     t.string "type_key"
-    t.jsonb "params", default: {}, null: false
+    t.jsonb "params"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["external_id"], name: "index_trading_signal_triggers_on_external_id"
     t.index ["type_key"], name: "index_trading_signal_triggers_on_type_key"
   end
 
   create_table "trading_signals", force: :cascade do |t|
     t.string "external_id"
     t.bigint "trading_signal_trigger_id"
-    t.jsonb "extra", default: {}, null: false
+    t.string "trading_signal_trigger_external_id"
+    t.jsonb "extra"
     t.datetime "timestamp"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["external_id"], name: "index_trading_signals_on_external_id"
+    t.index ["trading_signal_trigger_external_id"], name: "index_ts_on_trading_signal_trigger_external_id"
     t.index ["trading_signal_trigger_id"], name: "index_trading_signals_on_trading_signal_trigger_id"
   end
 

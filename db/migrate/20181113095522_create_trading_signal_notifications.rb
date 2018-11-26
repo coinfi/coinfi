@@ -5,7 +5,7 @@ class CreateTradingSignalNotifications < ActiveRecord::Migration[5.1]
       t.references :trading_signal, foreign_key: true
       t.string :trading_signal_external_id, index: { name: 'index_tsn_on_trading_signal_external_id' }
       t.references :user, foreign_key: true
-      t.jsonb :extra, null: false, default: {}
+      t.jsonb :extra
       t.timestamp :timestamp
 
       t.timestamps

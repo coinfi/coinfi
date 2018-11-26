@@ -31,6 +31,7 @@ class Api::SignalsTelegramBot::TradingSignalTriggersController < Api::SignalsTel
     params
       .require(:trading_signal_trigger)
       .permit(
+        :external_id,
         :type_key,
         params: {},
       )
@@ -40,6 +41,7 @@ class Api::SignalsTelegramBot::TradingSignalTriggersController < Api::SignalsTel
     trading_signal_trigger.as_json(
       only: [
         :id,
+        :external_id,
         :type_key,
         :params,
       ],

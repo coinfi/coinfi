@@ -28,6 +28,7 @@ class Api::SignalsTelegramBot::TradingSignalsController < Api::SignalsTelegramBo
       .permit(
         :external_id,
         :trading_signal_trigger_id,
+        :trading_signal_trigger_external_id,
         :timestamp,
         extra: {},
       )
@@ -39,6 +40,7 @@ class Api::SignalsTelegramBot::TradingSignalsController < Api::SignalsTelegramBo
         :id,
         :external_id,
         :trading_signal_trigger_id,
+        :trading_signal_trigger_external_id,
         :timestamp,
         :extra,
       ],

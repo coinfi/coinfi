@@ -10,6 +10,7 @@ class TradingSignalTriggerDashboard < Administrate::BaseDashboard
   ATTRIBUTE_TYPES = {
     trading_signals: Field::HasMany,
     id: Field::Number,
+    external_id: Field::String,
     type_key: Field::String,
     params: Field::String.with_options(searchable: false),
     created_at: Field::DateTime,
@@ -23,6 +24,7 @@ class TradingSignalTriggerDashboard < Administrate::BaseDashboard
   # Feel free to add, remove, or rearrange items.
   COLLECTION_ATTRIBUTES = [
     :id,
+    :external_id,
     :type_key,
     :params,
   ].freeze
@@ -32,6 +34,7 @@ class TradingSignalTriggerDashboard < Administrate::BaseDashboard
   SHOW_PAGE_ATTRIBUTES = [
     :trading_signals,
     :id,
+    :external_id,
     :type_key,
     :params,
     :created_at,
@@ -42,6 +45,7 @@ class TradingSignalTriggerDashboard < Administrate::BaseDashboard
   # an array of attributes that will be displayed
   # on the model's form (`new` and `edit`) pages.
   FORM_ATTRIBUTES = [
+    :external_id,
     :type_key,
     :params,
   ].freeze
