@@ -26,7 +26,7 @@ module CoinMarketCapPro
     end
 
     private
-    
+
     def log_db_missing_coins
       @db_missing_coins.sort! { |left, right| left[:ranking] <=> right[:ranking] }
       @db_missing_coins.each do |update|
@@ -47,7 +47,7 @@ module CoinMarketCapPro
 
     def has_missing_data(data)
       quote = data.dig("quote", currency)
-      if quote["price"].blank? || quote["market_cap"].blank? || quote["volume_24h"].blank? ||
+      if quote["price"].blank? || quote["market_cap"].blank? ||
         quote["percent_change_1h"].blank? || quote["percent_change_24h"].blank? ||
         quote["percent_change_7d"].blank? || data["total_supply"].blank? ||
         data['circulating_supply'].blank? then
@@ -77,7 +77,7 @@ module CoinMarketCapPro
       coin_hash = {
         :price => quote["price"],
         :market_cap => quote["market_cap"],
-        :volume24h => quote["volume_24h"],
+        :volume24h => quote["volume_24h"] || 0,
         :change1h => quote["percent_change_1h"],
         :change24h => quote["percent_change_24h"],
         :change7d => quote["percent_change_7d"],
