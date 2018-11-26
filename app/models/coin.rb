@@ -153,7 +153,7 @@ class Coin < ApplicationRecord
   end
 
   def volume24
-    cached_market_data.dig("volume24") || 0
+    cached_market_data.dig("volume24h") || 0
   end
 
   def available_supply
@@ -175,7 +175,7 @@ class Coin < ApplicationRecord
 
   def market_info(market_data = nil)
     data = market_data || cached_market_data.dup
-    data["24h_volume_usd"] = humanize(data["volume24"], '$') if data["volume24"]
+    data["24h_volume_usd"] = humanize(data["volume24"], '$') if data["volume24h"]
     data["market_cap_usd"] = humanize(data["market_cap"], '$') if data["market_cap"]
     data["price_usd"] = data["price"] if data["price"]
     data["total_supply"] = humanize(data["total_supply"]) if data["total_supply"]
