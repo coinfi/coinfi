@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20181108032049) do
+ActiveRecord::Schema.define(version: 20181123072657) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -188,7 +188,7 @@ ActiveRecord::Schema.define(version: 20181108032049) do
     t.bigint "ico_usd_raised"
     t.bigint "ico_start_epoch"
     t.bigint "ico_end_epoch"
-    t.decimal "ico_token_price_usd", precision: 10, scale: 2
+    t.decimal "ico_token_price_usd", precision: 24, scale: 16
     t.decimal "ico_token_price_btc", precision: 24, scale: 16
     t.decimal "ico_token_price_eth", precision: 24, scale: 16
     t.string "ico_personal_cap_min"
@@ -217,15 +217,17 @@ ActiveRecord::Schema.define(version: 20181108032049) do
     t.jsonb "external_key"
     t.string "facebook"
     t.string "telegram"
-    t.bigint "total_supply"
+    t.decimal "total_supply", precision: 32, scale: 2
     t.text "description"
     t.jsonb "team"
     t.jsonb "external_rating"
+    t.integer "cmc_id"
+    t.integer "token_decimals"
     t.index ["coin_key"], name: "index_coins_on_coin_key", unique: true
     t.index ["influencer_reviews_count"], name: "index_coins_on_influencer_reviews_count"
     t.index ["name"], name: "index_coins_on_name"
     t.index ["ranking"], name: "index_coins_on_ranking"
-    t.index ["slug"], name: "index_coins_on_slug"
+    t.index ["slug"], name: "index_coins_on_slug", unique: true
   end
 
   create_table "contributor_submissions", force: :cascade do |t|

@@ -93,6 +93,13 @@ gem 'skylight'
 gem 'etherscan_api', require: 'etherscan'
 # Performance dashboard for Postgres
 gem 'pghero'
+# Job queue
+gem 'sidekiq'
+gem 'sidekiq-scheduler'
+# App metrics and statistics
+gem 'librato-rails', '~> 1'
+# Ruby runtime metrics
+gem 'barnes'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
@@ -110,6 +117,7 @@ group :development, :test do
   gem 'faker', :git => 'https://github.com/stympy/faker.git', :branch => 'master'
   gem 'minitest-stub_any_instance'
   gem 'database_cleaner'
+  gem 'webmock'
 end
 
 group :development do

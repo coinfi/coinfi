@@ -173,7 +173,7 @@ class Coin < ApplicationRecord
     @snap_data.with_indifferent_access
   end
 
-  def market_info market_data = nil
+  def market_info(market_data = nil)
     data = market_data || cached_market_data.dup
     data["24h_volume_usd"] = humanize(data["volume24"], '$') if data["volume24"]
     data["market_cap_usd"] = humanize(data["market_cap"], '$') if data["market_cap"]

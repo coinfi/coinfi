@@ -2,7 +2,7 @@ import * as React from 'react'
 import * as _ from 'lodash'
 import classNames from 'classnames'
 import PercentageChange from '~/bundles/common/components/PercentageChange'
-import WatchButton from '~/bundles/common/components/WatchButton'
+import WatchStar from '~/bundles/common/components/WatchStar'
 import { Coin } from '~/bundles/common/types'
 
 interface Props {
@@ -12,18 +12,14 @@ interface Props {
   onSelectCoin: (c: Coin) => void
 }
 
+const roundToDecimalPlaces = (num, places) =>
+  Math.round(num * 10 ** places) / 10 ** places
+
 export default (props: Props) => {
   const { coin, loggedIn } = props
 
   const coinPrice = _.get(coin, ['market_info', 'price_usd'])
-  let fixedCount = 0
-  if (coinPrice !== undefined) {
-    const splitCoinPrice = `#{coinPrice}`.split('.')
-    const fraction = splitCoinPrice[1] || ''
-    fixedCount =
-      !_.isUndefined(fraction) && fraction.length > 3 ? 4 : fraction.length
-  }
-  const coinPriceFixed = parseFloat(coinPrice).toFixed(fixedCount)
+  const coinPriceFixed = roundToDecimalPlaces(coinPrice, 4)
   const percentChange = _.get(coin, ['market_info', 'percent_change_24h'])
   return (
     <a
@@ -37,10 +33,7 @@ export default (props: Props) => {
         props.onSelectCoin(coin)
       }}
     >
-      <div className="tooltipped">
-        {!loggedIn && <div className="tooltip from-right">Login to watch</div>}
-        <WatchButton {...props} hasText={false} />
-      </div>
+      <WatchStar coin={coin} hasText={false} loggedIn={loggedIn} />
       <div className="flex-auto flex justify-between items-center">
         <div className="b f5 pl2">{coin.symbol}</div>
         {coin.market_info && (
