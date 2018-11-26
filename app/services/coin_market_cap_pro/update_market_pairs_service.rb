@@ -35,6 +35,7 @@ module CoinMarketCapPro
     end
 
     def perform_update_pairs(identifier, data)
+      # Grabbing data from snapshot cache
       snapshot = Rails.cache.read("#{identifier}:snapshot")
       base_volume24 = snapshot[:volume24h] unless snapshot.blank?
 
