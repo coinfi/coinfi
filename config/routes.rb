@@ -59,6 +59,7 @@ Rails.application.routes.draw do
     resources :contributor_submissions
     resources :countries
     resources :influencers
+    resources :trading_signal_triggers
     get 'reddit' => 'articles#reddit'
     root to: 'coins#index'
   end
