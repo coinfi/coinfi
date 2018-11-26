@@ -461,10 +461,12 @@ ActiveRecord::Schema.define(version: 20181113095522) do
     t.bigint "trading_signal_id"
     t.string "trading_signal_external_id"
     t.bigint "user_id"
-    t.datetime "timestamp"
     t.jsonb "extra", default: {}, null: false
+    t.datetime "timestamp"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["external_id"], name: "index_trading_signal_notifications_on_external_id"
+    t.index ["trading_signal_external_id"], name: "index_tsn_on_trading_signal_external_id"
     t.index ["trading_signal_id"], name: "index_trading_signal_notifications_on_trading_signal_id"
     t.index ["user_id"], name: "index_trading_signal_notifications_on_user_id"
   end
@@ -484,6 +486,7 @@ ActiveRecord::Schema.define(version: 20181113095522) do
     t.datetime "timestamp"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["external_id"], name: "index_trading_signals_on_external_id"
     t.index ["trading_signal_trigger_id"], name: "index_trading_signals_on_trading_signal_trigger_id"
   end
 
