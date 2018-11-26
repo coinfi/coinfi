@@ -38,6 +38,7 @@ module CoinMarketCapPro
       # Grabbing data from snapshot cache
       snapshot = Rails.cache.read("#{identifier}:snapshot")
       base_volume24 = snapshot[:volume24h] unless snapshot.blank?
+      has_base_volume24 = !base_volume24.blank? && base_volume24 != 0
 
       raw_market_pairs = data.dig("market_pairs")
       market_pairs = raw_market_pairs.map do |pair|
@@ -50,7 +51,7 @@ module CoinMarketCapPro
           :pair => pair["market_pair"],
           :price => quote["price"],
           :volume24h => volume24,
-          :volume_percentage => (volume24 / base_volume24 unless base_volume24.blank?),
+          :volume_percentage => (volume24 / base_volume24 if has_base_volume24),
           :volume24h_quote => pair.dig("quote", "exchange_reported", "volume_24h_quote"),
           :quote_currency_symbol => pair.dig("market_pair_quote", "currency_symbol"),
         }
