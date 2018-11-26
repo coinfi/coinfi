@@ -221,6 +221,7 @@ ActiveRecord::Schema.define(version: 20181123072657) do
     t.text "description"
     t.jsonb "team"
     t.jsonb "external_rating"
+    t.integer "cmc_id"
     t.integer "token_decimals"
     t.index ["coin_key"], name: "index_coins_on_coin_key", unique: true
     t.index ["influencer_reviews_count"], name: "index_coins_on_influencer_reviews_count"
