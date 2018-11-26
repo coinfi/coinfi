@@ -29,7 +29,7 @@ class Api::SignalsTelegramBot::TradingSignalNotificationsTest < Api::SignalsTele
     assert_equal 201, status
     assert_equal(
       trading_signal_notification_attrs.except("id", "updated_at", "created_at").as_json,
-      response.parsed_body.except("id", "updated_at", "created_at")
+      response.parsed_body.except("id")
     )
   end
 end
