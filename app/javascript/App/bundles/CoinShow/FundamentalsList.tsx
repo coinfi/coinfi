@@ -34,7 +34,6 @@ class FundamentalsList extends React.Component<Props, {}> {
   public render() {
     const { coinObj, classes } = this.props
     const currency = this.props.currency.toUpperCase()
-    const currencyKey = currency.toLowerCase()
     const {
       market_cap,
       change24h,
@@ -44,7 +43,7 @@ class FundamentalsList extends React.Component<Props, {}> {
       max_supply,
       symbol,
     } = coinObj
-    const hasMarketCap = _.has(market_cap, currencyKey)
+    const hasMarketCap = !_.isUndefined(market_cap)
     const hasChange24h = !_.isUndefined(change24h)
     const hasChange7d = !_.isUndefined(change7d)
 
@@ -56,8 +55,7 @@ class FundamentalsList extends React.Component<Props, {}> {
               Market Cap
             </Grid>
             <Grid item={true} className={classes.value}>
-              {formatValueWithCurrency(market_cap[currencyKey], currency)}{' '}
-              {currency}
+              {formatValueWithCurrency(market_cap, currency)} {currency}
             </Grid>
             {(hasChange24h || hasChange7d) && (
               <Grid

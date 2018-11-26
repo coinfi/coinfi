@@ -132,63 +132,56 @@ class Coin < ApplicationRecord
     self.previous_name = name_was if name_changed?
   end
 
-  def market_cap_by_currency(currency)
-    market_cap.try(:[], currency)
+  def price
+    cached_market_data.dig("price") || 0
   end
 
-  def volume24_by_currency(currency)
-    volume24.try(:[], currency)
+  def market_cap
+    cached_market_data.dig("market_cap") || 0
   end
 
-  def price_by_currency(currency)
-    price.try(:[], currency)
+  def change1h
+    cached_market_data.dig("change1h") || 0
   end
 
-  def live_market_data
-    return default_market_data unless ico_listed?
-    Rails.cache.fetch("coins/#{id}/market_data", expires_in: 1.minute) do
-      url = "https://api.coinmarketcap.com/v1/ticker/#{slug}/?convert=BTC"
-      response = HTTParty.get(url)
-      if response.success?
-        data = JSON.parse(response.body)[0] || {}
-        default_market_data.merge(data)
-      else # Retry using North Pole proxy.
-        url = "https://coinmarketcap.northpole.ro/ticker.json?identifier=#{slug}"
-        response = HTTParty.get(url)
-        service_object = NorthPoleToCoinMarketCapService.call(response)
-        if service_object.result["rank"] == "-"
-          Rollbar.log("warning", "NorthPole proxy failed to retreive data", slug: slug, name: name, id: id)
-        end
-        default_market_data.merge(service_object.result)
-      end
-    end
+  def change24h
+    cached_market_data.dig("change24h") || 0
+  end
+
+  def change7d
+    cached_market_data.dig("change7d") || 0
+  end
+
+  def volume24
+    cached_market_data.dig("volume24") || 0
+  end
+
+  def available_supply
+    cached_market_data.dig("available_supply") || 0
+  end
+
+  def max_supply
+    cached_market_data.dig("max_supply") || 0
+  end
+
+  def total_supply
+    cached_market_data.dig("total_supply") || 0
+  end
+
+  def cached_market_data
+    @snap_data ||= Rails.cache.read("#{slug}:snapshot") || {}
+    @snap_data.with_indifferent_access
   end
 
   def market_info(market_data = nil)
-    data = market_data || live_market_data.dup
-    data["24h_volume_usd"] = humanize(data["24h_volume_usd"], '$') if data["24h_volume_usd"]
-    if self.available_supply
-      data["available_supply"] = humanize(self.available_supply)
-    elsif data["available_supply"]
-      data["available_supply"] = humanize(data["available_supply"])
-    end
-    data["market_cap_usd"] = humanize(data["market_cap_usd"], '$') if data["market_cap_usd"]
+    data = market_data || cached_market_data.dup
+    data["24h_volume_usd"] = humanize(data["volume24"], '$') if data["volume24"]
+    data["market_cap_usd"] = humanize(data["market_cap"], '$') if data["market_cap"]
+    data["price_usd"] = data["price"] if data["price"]
     data["total_supply"] = humanize(data["total_supply"]) if data["total_supply"]
     data["max_supply"] = humanize(data["max_supply"]) if data["max_supply"]
+    data["available_supply"] = humanize(data["available_supply"]) if data["available_supply"]
     data
-  end
-
-  def stored_market_info
-    market_info({
-      "24h_volume_usd": self.volume24_by_currency('usd'),
-      "available_supply": display_available_supply(self),
-      "market_cap_usd": self.market_cap_by_currency('usd'),
-      "price_usd": "$#{self.price_by_currency('usd')}"
-    }.stringify_keys)
-  end
-
-  def default_market_data
-    {'available_supply' => available_supply, 'max_supply' => max_supply}
   end
 
   def hourly_prices_data
