@@ -15,9 +15,13 @@ namespace :redis do
 
   desc "One-time copy of production redis"
   task :copy_prod => :environment do
+    puts "Starting redis copy."
     prod_redis_uri = ENV['PRODUCTION_REDIS_URL']
     local_redis_uri = ENV.fetch('REDIS_URL')
-    next if prod_redis_uri.blank? || prod_redis_uri == local_redis_uri
+    if prod_redis_uri.blank? || prod_redis_uri == local_redis_uri
+      puts "Skipping redis copy for production."
+      next
+    end
 
     redisSrc = Redis.new :url => prod_redis_uri
     redisDest = Redis.new :url => local_redis_uri
@@ -26,5 +30,6 @@ namespace :redis do
       data = redisSrc.dump key
       redisDest.restore key, 0, data
     end
+    puts "Finished redis copy."
   end
 end
