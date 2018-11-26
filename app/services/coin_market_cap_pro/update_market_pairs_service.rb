@@ -38,7 +38,7 @@ module CoinMarketCapPro
       # Grabbing data from snapshot cache
       snapshot = Rails.cache.read("#{identifier}:snapshot")
       base_volume24 = snapshot[:volume24h] unless snapshot.blank?
-      has_base_volume24 = base_volume24.present?
+      has_base_volume24 = base_volume24.present? && base_volume24 != 0
 
       raw_market_pairs = data.dig("market_pairs")
       market_pairs = raw_market_pairs.map do |pair|
