@@ -11,18 +11,14 @@ interface Props {
   onSelectCoin: (c: Coin) => void
 }
 
+const roundToDecimalPlaces = (num, places) =>
+  Math.round(num * 10 ** places) / 10 ** places
+
 export default (props: Props) => {
   const { coin, loggedIn } = props
 
   const coinPrice = coin.market_info.price_usd
-  let fixedCount = 0
-  if (coinPrice !== undefined) {
-    fixedCount =
-      coinPrice && coinPrice.split('.')[1].length > 3
-        ? 4
-        : coinPrice.split('.')[1].length
-  }
-  const coinPriceFixed = parseFloat(coinPrice).toFixed(fixedCount)
+  const coinPriceFixed = roundToDecimalPlaces(coinPrice, 4)
   const percentChange = coin.market_info.percent_change_24h
   return (
     <a

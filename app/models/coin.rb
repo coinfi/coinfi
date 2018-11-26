@@ -155,8 +155,11 @@ class Coin < ApplicationRecord
       else # Retry using North Pole proxy.
         url = "https://coinmarketcap.northpole.ro/ticker.json?identifier=#{slug}"
         response = HTTParty.get(url)
-        data = NorthPoleToCoinMarketCapService.new(response).convert
-        default_market_data.merge(data)
+        service_object = NorthPoleToCoinMarketCapService.call(response)
+        if service_object.result["rank"] == "-"
+          Rollbar.log("warning", "NorthPole proxy failed to retreive data", slug: slug, name: name, id: id)
+        end
+        default_market_data.merge(service_object.result)
       end
     end
   end
