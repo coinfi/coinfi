@@ -1,4 +1,5 @@
 import React from 'react'
+import _ from 'lodash'
 import RedGreenSpan from './RedGreenSpan'
 import { Sparklines, SparklinesLine } from 'react-sparklines'
 
@@ -31,14 +32,14 @@ export default (currency) => {
       dataIndex: 'price',
       align: 'right',
       render: (text, row, index) => {
-        if (currency === 'USD' && row.price) {
-          const formattedPrice = row.price.toLocaleString('en-US', {
+        if (currency === 'USD' && !_.isUndefined(text)) {
+          const formattedPrice = text.toLocaleString('en-US', {
             maximumFractionDigits: 4,
           })
           return <span>${formattedPrice} USD</span>
         }
-        if (currency === 'BTC' && row.price) {
-          const formattedPrice = row.price.toLocaleString('en-US', {
+        if (currency === 'BTC' && !_.isUndefined(text)) {
+          const formattedPrice = text.toLocaleString('en-US', {
             maximumFractionDigits: 8,
           })
           return <span>{formattedPrice} &#579;</span>
@@ -50,7 +51,7 @@ export default (currency) => {
       dataIndex: 'market_cap',
       align: 'right',
       render: (text, row, index) =>
-        text ? (
+        !_.isUndefined(text) ? (
           <span>
             ${text.toLocaleString('en-US', {
               maximumFractionDigits: 0,
@@ -81,7 +82,7 @@ export default (currency) => {
       dataIndex: 'volume24',
       align: 'right',
       render: (text, row, index) =>
-        text ? (
+        !_.isUndefined(text) ? (
           <span>
             {text.toLocaleString('en-US', { maximumFractionDigits: 0 })}
           </span>
