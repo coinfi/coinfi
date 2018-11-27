@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20181105021200) do
+ActiveRecord::Schema.define(version: 20181123072657) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -29,7 +29,6 @@ ActiveRecord::Schema.define(version: 20181105021200) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["coin_id"], name: "index_articles_on_coin_id"
-    t.index ["importance"], name: "index_articles_on_importance"
   end
 
   create_table "author_profiles", force: :cascade do |t|
@@ -54,7 +53,6 @@ ActiveRecord::Schema.define(version: 20181105021200) do
     t.text "statement"
     t.string "data_source"
     t.datetime "created_at"
-    t.index ["query_id"], name: "index_blazer_audits_on_query_id"
     t.index ["user_id"], name: "index_blazer_audits_on_user_id"
   end
 
@@ -69,7 +67,6 @@ ActiveRecord::Schema.define(version: 20181105021200) do
     t.datetime "last_run_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["creator_id"], name: "index_blazer_checks_on_creator_id"
     t.index ["query_id"], name: "index_blazer_checks_on_query_id"
   end
 
@@ -79,7 +76,6 @@ ActiveRecord::Schema.define(version: 20181105021200) do
     t.integer "position"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["dashboard_id"], name: "index_blazer_dashboard_queries_on_dashboard_id"
     t.index ["query_id"], name: "index_blazer_dashboard_queries_on_query_id"
   end
 
@@ -88,7 +84,6 @@ ActiveRecord::Schema.define(version: 20181105021200) do
     t.text "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["creator_id"], name: "index_blazer_dashboards_on_creator_id"
   end
 
   create_table "blazer_queries", force: :cascade do |t|
@@ -99,20 +94,17 @@ ActiveRecord::Schema.define(version: 20181105021200) do
     t.string "data_source"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["creator_id"], name: "index_blazer_queries_on_creator_id"
   end
 
   create_table "calendar_event_categorizations", force: :cascade do |t|
     t.bigint "calendar_event_id"
     t.bigint "news_category_id"
-    t.index ["calendar_event_id"], name: "index_calendar_event_categorizations_on_calendar_event_id"
     t.index ["news_category_id"], name: "index_calendar_event_categorizations_on_news_category_id"
   end
 
   create_table "calendar_event_coins", force: :cascade do |t|
     t.bigint "calendar_event_id"
     t.bigint "coin_id"
-    t.index ["calendar_event_id"], name: "index_calendar_event_coins_on_calendar_event_id"
     t.index ["coin_id"], name: "index_calendar_event_coins_on_coin_id"
   end
 
@@ -129,7 +121,6 @@ ActiveRecord::Schema.define(version: 20181105021200) do
     t.bigint "disapprovals"
     t.integer "confidence"
     t.bigint "import_id"
-    t.index ["import_id"], name: "index_calendar_events_on_import_id"
     t.index ["user_id"], name: "index_calendar_events_on_user_id"
   end
 
@@ -197,7 +188,7 @@ ActiveRecord::Schema.define(version: 20181105021200) do
     t.bigint "ico_usd_raised"
     t.bigint "ico_start_epoch"
     t.bigint "ico_end_epoch"
-    t.decimal "ico_token_price_usd", precision: 10, scale: 2
+    t.decimal "ico_token_price_usd", precision: 24, scale: 16
     t.decimal "ico_token_price_btc", precision: 24, scale: 16
     t.decimal "ico_token_price_eth", precision: 24, scale: 16
     t.string "ico_personal_cap_min"
@@ -226,19 +217,17 @@ ActiveRecord::Schema.define(version: 20181105021200) do
     t.jsonb "external_key"
     t.string "facebook"
     t.string "telegram"
-    t.bigint "total_supply"
+    t.decimal "total_supply", precision: 32, scale: 2
     t.text "description"
     t.jsonb "team"
     t.jsonb "external_rating"
-    t.index ["category"], name: "index_coins_on_category"
+    t.integer "cmc_id"
+    t.integer "token_decimals"
     t.index ["coin_key"], name: "index_coins_on_coin_key", unique: true
     t.index ["influencer_reviews_count"], name: "index_coins_on_influencer_reviews_count"
-    t.index ["market_cap"], name: "index_coins_on_market_cap", using: :gin
     t.index ["name"], name: "index_coins_on_name"
-    t.index ["price"], name: "index_coins_on_price", using: :gin
     t.index ["ranking"], name: "index_coins_on_ranking"
-    t.index ["slug"], name: "index_coins_on_slug"
-    t.index ["volume24"], name: "index_coins_on_volume24", using: :gin
+    t.index ["slug"], name: "index_coins_on_slug", unique: true
   end
 
   create_table "contributor_submissions", force: :cascade do |t|
@@ -251,7 +240,6 @@ ActiveRecord::Schema.define(version: 20181105021200) do
     t.text "disclosure"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["submission_category_id"], name: "index_contributor_submissions_on_submission_category_id"
     t.index ["user_id"], name: "index_contributor_submissions_on_user_id"
   end
 
@@ -275,7 +263,6 @@ ActiveRecord::Schema.define(version: 20181105021200) do
     t.datetime "updated_at", null: false
     t.index ["base_symbol_id"], name: "index_exchange_listings_on_base_symbol_id"
     t.index ["detected_at"], name: "index_exchange_listings_on_detected_at"
-    t.index ["exchange_id"], name: "index_exchange_listings_on_exchange_id"
     t.index ["quote_symbol"], name: "index_exchange_listings_on_quote_symbol"
     t.index ["quote_symbol_id"], name: "index_exchange_listings_on_quote_symbol_id"
   end
@@ -317,9 +304,6 @@ ActiveRecord::Schema.define(version: 20181105021200) do
     t.string "scope"
     t.datetime "created_at"
     t.index ["slug", "sluggable_type", "scope"], name: "index_friendly_id_slugs_on_slug_and_sluggable_type_and_scope", unique: true
-    t.index ["slug", "sluggable_type"], name: "index_friendly_id_slugs_on_slug_and_sluggable_type"
-    t.index ["sluggable_id"], name: "index_friendly_id_slugs_on_sluggable_id"
-    t.index ["sluggable_type"], name: "index_friendly_id_slugs_on_sluggable_type"
   end
 
   create_table "influencer_reviews", force: :cascade do |t|
@@ -463,21 +447,53 @@ ActiveRecord::Schema.define(version: 20181105021200) do
     t.integer "tagger_id"
     t.string "context", limit: 128
     t.datetime "created_at"
-    t.index ["context"], name: "index_taggings_on_context"
     t.index ["tag_id", "taggable_id", "taggable_type", "context", "tagger_id", "tagger_type"], name: "taggings_idx", unique: true
     t.index ["tag_id"], name: "index_taggings_on_tag_id"
-    t.index ["taggable_id", "taggable_type", "context"], name: "index_taggings_on_taggable_id_and_taggable_type_and_context"
-    t.index ["taggable_id", "taggable_type", "tagger_id", "context"], name: "taggings_idy"
     t.index ["taggable_id"], name: "index_taggings_on_taggable_id"
-    t.index ["taggable_type"], name: "index_taggings_on_taggable_type"
-    t.index ["tagger_id", "tagger_type"], name: "index_taggings_on_tagger_id_and_tagger_type"
-    t.index ["tagger_id"], name: "index_taggings_on_tagger_id"
   end
 
   create_table "tags", id: :serial, force: :cascade do |t|
     t.string "name"
     t.integer "taggings_count", default: 0
     t.index ["name"], name: "index_tags_on_name", unique: true
+  end
+
+  create_table "trading_signal_notifications", force: :cascade do |t|
+    t.string "external_id"
+    t.bigint "trading_signal_id"
+    t.string "trading_signal_external_id"
+    t.bigint "user_id"
+    t.jsonb "extra"
+    t.datetime "timestamp"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["external_id"], name: "index_trading_signal_notifications_on_external_id"
+    t.index ["trading_signal_external_id"], name: "index_tsn_on_trading_signal_external_id"
+    t.index ["trading_signal_id"], name: "index_trading_signal_notifications_on_trading_signal_id"
+    t.index ["user_id"], name: "index_trading_signal_notifications_on_user_id"
+  end
+
+  create_table "trading_signal_triggers", force: :cascade do |t|
+    t.string "external_id"
+    t.string "type_key"
+    t.jsonb "params"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["external_id"], name: "index_trading_signal_triggers_on_external_id"
+    t.index ["type_key"], name: "index_trading_signal_triggers_on_type_key"
+  end
+
+  create_table "trading_signals", force: :cascade do |t|
+    t.string "external_id"
+    t.bigint "trading_signal_trigger_id"
+    t.string "trading_signal_trigger_external_id"
+    t.jsonb "extra"
+    t.datetime "timestamp"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["external_id"], name: "index_trading_signals_on_external_id"
+    t.index ["trading_signal_trigger_external_id"], name: "index_ts_on_trading_signal_trigger_external_id"
+    t.index ["trading_signal_trigger_id"], name: "index_trading_signals_on_trading_signal_trigger_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -512,7 +528,6 @@ ActiveRecord::Schema.define(version: 20181105021200) do
     t.bigint "coin_id", null: false
     t.integer "position", default: 0
     t.index ["coin_id"], name: "index_watchlist_items_on_coin_id"
-    t.index ["position"], name: "index_watchlist_items_on_position"
     t.index ["watchlist_id"], name: "index_watchlist_items_on_watchlist_id"
   end
 
@@ -550,6 +565,9 @@ ActiveRecord::Schema.define(version: 20181105021200) do
   add_foreign_key "signals_telegram_subscriptions", "signals_telegram_users"
   add_foreign_key "signals_telegram_users", "users"
   add_foreign_key "staked_cofi_transactions", "users"
+  add_foreign_key "trading_signal_notifications", "trading_signals"
+  add_foreign_key "trading_signal_notifications", "users"
+  add_foreign_key "trading_signals", "trading_signal_triggers"
   add_foreign_key "watchlist_items", "coins"
   add_foreign_key "watchlist_items", "watchlists"
   add_foreign_key "watchlists", "users"

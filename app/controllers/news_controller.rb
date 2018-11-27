@@ -1,5 +1,5 @@
 class NewsController < ApplicationController
-  before_action :check_permissions, :set_body_class, :set_view_data
+  before_action :set_body_class, :set_view_data
   before_action :set_default_news_items, only: [:index, :show]
 
   include NewsHelper
@@ -38,14 +38,6 @@ class NewsController < ApplicationController
 
   protected
 
-  def check_permissions
-    if !user_signed_in?
-      redirect_to '/login', alert: "Please login first"
-    elsif !has_news_feature?
-      render_404
-    end
-  end
-
   def set_default_news_items
     @news_items_data = get_default_news_items
   end
@@ -56,11 +48,9 @@ class NewsController < ApplicationController
     @top_coin_slugs = Coin.top(5).pluck(:slug)
     @categories = NewsCategory.pluck(:name)
 
-    @top_coins_data = serialize_coins(
-      Rails.cache.fetch("coins/toplist", expires_in: 1.hour) do
-        Coin.order(:ranking).limit(20)
-      end
-    )
+    @top_coins_data = Rails.cache.fetch("coins/toplist", expires_in: 1.hour) do
+      serialize_coins(Coin.order(:ranking).limit(20))
+    end
     @watched_coins_data = serialize_coins(
       current_user.watchlist.coins.order(:ranking)
     ) if current_user
@@ -90,6 +80,7 @@ class NewsController < ApplicationController
       symbol: coin.symbol,
       slug: coin.slug,
       prices_data: coin.prices_data,
+      hourly_prices_data: coin.hourly_prices_data,
       news_data: coin.news_data,
       market_info: coin.market_info,
       is_being_watched: coin.is_being_watched,
