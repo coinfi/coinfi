@@ -164,6 +164,7 @@ class HomeIndex extends React.Component<Props, State> {
             <Grid item={true} md={true}>
               <Button
                 className={classes.cta}
+                data-heap="homepage-click-signals-cta"
                 onClick={() => {
                   window.location.href = `/signals`
                 }}
