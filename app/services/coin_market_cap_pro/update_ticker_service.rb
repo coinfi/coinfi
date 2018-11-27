@@ -46,15 +46,10 @@ module CoinMarketCapPro
     end
 
     def has_missing_data(data)
-      quote = data.dig("quote", currency)
-      if quote["price"].blank? || quote["market_cap"].blank? ||
-        quote["percent_change_1h"].blank? || quote["percent_change_24h"].blank? ||
-        quote["percent_change_7d"].blank? || data["total_supply"].blank? ||
-        data['circulating_supply'].blank? then
-        return true
-      else
-        return false
-      end
+      quote = data.dig('quote', currency)
+      quote['price'].blank? || quote['market_cap'].blank? ||
+        quote['percent_change_1h'].blank? || quote['percent_change_24h'].blank? ||
+        quote['percent_change_7d'].blank?
     end
 
     def update_coin_prices(identifier, data)
@@ -73,19 +68,20 @@ module CoinMarketCapPro
     end
 
     def perform_update_prices(data)
-      quote = data.dig("quote", currency)
+      quote = data.dig('quote', currency)
       coin_hash = {
-        :price => quote["price"],
-        :market_cap => quote["market_cap"],
-        :volume24h => quote["volume_24h"] || 0,
-        :change1h => quote["percent_change_1h"],
-        :change24h => quote["percent_change_24h"],
-        :change7d => quote["percent_change_7d"],
-        :total_supply => data["total_supply"],
-        :available_supply => data['circulating_supply'],
-        :max_supply => data['max_supply'],
+        :price => quote['price'],
+        :market_cap => quote['market_cap'],
+        :volume24h => quote['volume_24h'] || 0,
+        :change1h => quote['percent_change_1h'],
+        :change24h => quote['percent_change_24h'],
+        :change7d => quote['percent_change_7d'],
+        :total_supply => data['total_supply'] || 0,
+        :available_supply => data['circulating_supply'] || 0,
+        :max_supply => data['max_supply'] || 0,
         :last_retrieved => Time.now.utc.to_s,
       }
+
       Rails.cache.write("#{data['slug']}:snapshot", coin_hash)
     end
 

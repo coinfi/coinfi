@@ -79,36 +79,39 @@ class FundamentalsList extends React.Component<Props, {}> {
             )}
           </React.Fragment>
         )}
-        {!_.isUndefined(available_supply) && (
-          <React.Fragment>
-            <Grid item={true} className={classes.title}>
-              Available Supply
-            </Grid>
-            <Grid item={true} className={classes.value}>
-              {formatValue(available_supply, 0)} {symbol}
-            </Grid>
-          </React.Fragment>
-        )}
-        {!_.isUndefined(total_supply) && (
-          <React.Fragment>
-            <Grid item={true} className={classes.title}>
-              Total Supply
-            </Grid>
-            <Grid item={true} className={classes.value}>
-              {formatValue(total_supply, 0)} {symbol}
-            </Grid>
-          </React.Fragment>
-        )}
-        {!_.isUndefined(max_supply) && (
-          <React.Fragment>
-            <Grid item={true} className={classes.title}>
-              Maximum Supply
-            </Grid>
-            <Grid item={true} className={classes.value}>
-              {formatValue(max_supply, 0)} {symbol}
-            </Grid>
-          </React.Fragment>
-        )}
+        {!_.isUndefined(available_supply) &&
+          available_supply > 0 && (
+            <React.Fragment>
+              <Grid item={true} className={classes.title}>
+                Available Supply
+              </Grid>
+              <Grid item={true} className={classes.value}>
+                {formatValue(available_supply, 0)} {symbol}
+              </Grid>
+            </React.Fragment>
+          )}
+        {!_.isUndefined(total_supply) &&
+          total_supply > 0 && (
+            <React.Fragment>
+              <Grid item={true} className={classes.title}>
+                Total Supply
+              </Grid>
+              <Grid item={true} className={classes.value}>
+                {formatValue(total_supply, 0)} {symbol}
+              </Grid>
+            </React.Fragment>
+          )}
+        {!_.isUndefined(max_supply) &&
+          max_supply > 0 && (
+            <React.Fragment>
+              <Grid item={true} className={classes.title}>
+                Maximum Supply
+              </Grid>
+              <Grid item={true} className={classes.value}>
+                {formatValue(max_supply, 0)} {symbol}
+              </Grid>
+            </React.Fragment>
+          )}
       </Grid>
     )
   }
