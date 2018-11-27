@@ -11,8 +11,8 @@ BLACKLISTED_ROUTING_REGEX = %r{
 }x.freeze
 
 before_process_handler = proc do |options|
-  url = options[:exception].message[/.*"([^"]*)"/,1]
-  if options[:exception].is_a?(ActionController::RoutingError)
+  if !options[:exception].nil? && options[:exception].is_a?(ActionController::RoutingError)
+    url = options[:exception].message[/.*"([^"]*)"/,1]
     raise Rollbar::Ignore if url =~ BLACKLISTED_ROUTING_REGEX
   end
 end

@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { Route, Switch } from 'react-router-dom'
 import ExchangeListingsPage from '~/bundles/ExchangeListings/ExchangeListingsCointainer'
-import NewsfeedPageNew from '~/bundles/NewsfeedPage/NewsfeedPageContainer'
+import NewsfeedPageContainer from '~/bundles/NewsfeedPage/NewsfeedPageContainer'
 import CoinIndex from '../bundles/CoinIndex'
 
 const AppRoutes = (props) => {
@@ -11,7 +11,7 @@ const AppRoutes = (props) => {
         exact={true}
         path="/news/:coinSlug?"
         render={(routeProps) => (
-          <NewsfeedPageNew
+          <NewsfeedPageContainer
             loggedIn={!!props.user}
             coinSlug={routeProps.match.params.coinSlug}
             topCoinSlugs={props.topCoinSlugs}
@@ -25,7 +25,7 @@ const AppRoutes = (props) => {
         exact={true}
         path="/news/:newsItemId/:newsItemSlug"
         render={(routeProps) => (
-          <NewsfeedPageNew
+          <NewsfeedPageContainer
             loggedIn={!!props.user}
             newsItemId={routeProps.match.params.newsItemId}
             topCoinSlugs={props.topCoinSlugs}
