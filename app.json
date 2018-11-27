@@ -26,6 +26,8 @@
     "ETL_DB_PORT": { "required": true },
     "ETL_DB_USER": { "required": true },
     "ETL_DB_PASSWORD": { "required": true },
+    "HEALTHCHECK_DAILY_PRICES": { "required": true },
+    "HEALTHCHECK_HOURLY_PRICES": { "required": true },
     "HEAP_APP_ID": { "required": true },
     "LANG": { "required": true },
     "LAUNCHDARKLY_SDK_KEY": { "required": true },

@@ -12,14 +12,14 @@ namespace :etldb do
     {
       'title' => "Daily",
       'name' => "daily_ohcl_prices",
-      'interval' => "''1 day''",
-      'url' => ENV['HEALTHCHECK_DAILY_PRICES']
+      'interval' => "''3 days''",
+      'url' => ENV.fetch('HEALTHCHECK_DAILY_PRICES')
     },
     {
       'title' => "Hourly",
       'name' => "hourly_ohcl_prices",
-      'interval' => "''1 hour''",
-      'url' => ENV['HEALTHCHECK_HOURLY_PRICES']
+      'interval' => "''2 days''",
+      'url' => ENV.fetch('HEALTHCHECK_HOURLY_PRICES')
     }
   ]
 
