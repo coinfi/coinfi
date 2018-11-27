@@ -9,13 +9,31 @@ const styles = (theme) =>
     },
     container: {
       marginTop: '0 !important',
+      marginBottom: '0 !important',
+      minHeight: '100vh',
     },
     leftPanelGrid: {
       paddingTop: '0 !important',
+      paddingBottom: '0 !important',
     },
     leftPanelCard: {
+      height: '100%',
       borderLeft: '1px solid #e5e8ed',
       borderRight: '1px solid #e5e8ed',
+      '& .fa-star': {
+        fontSize: '10px',
+      },
+      '& .f5': {
+        fontSize: '14px',
+      },
+      '& .right-align': {
+        fontSize: '14px',
+        '& .smaller2': {
+          fontSize: '12px !important',
+          fontWeight: 500,
+          marginTop: '8px',
+        },
+      },
     },
     mainPanel: {
       // margin: '0 !important',
@@ -43,12 +61,13 @@ const styles = (theme) =>
       },
     },
     mobileCoinButton: {
-      borderRadius: 0,
+      borderRadius: '2px',
       display: 'inline-flex',
       padding: '16px',
       textTransform: 'none',
       background: '#2495ce',
-      marginLeft: '0 !important',
+      marginLeft: '16px !important',
+      marginRight: '0 !important',
       flex: 0,
     },
     topBarWrapper: {

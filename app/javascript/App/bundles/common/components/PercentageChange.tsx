@@ -8,10 +8,8 @@ interface Props {
 
 const PercentageChange = ({ value, className }: Props) => {
   const n = parseFloat(value)
-  let iconName = 'caret-up'
   let klass = 'green'
   if (n < 0) {
-    iconName = 'caret-down'
     klass = 'sunset'
   }
   if (className) {
@@ -23,7 +21,7 @@ const PercentageChange = ({ value, className }: Props) => {
   }
   return (
     <span className={klass}>
-      <Icon name={iconName} solid={true} className="mr1" />
+      {n < 0 && '-'}
       {percentage}
     </span>
   )

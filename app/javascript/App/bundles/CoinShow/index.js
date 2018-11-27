@@ -219,6 +219,7 @@ class CoinShow extends Component {
           container={true}
           spacing={16}
           className={classes.container}
+          alignContent="stretch"
           wrap="nowrap"
         >
           {!isMobile && (
