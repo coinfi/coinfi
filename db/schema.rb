@@ -458,6 +458,44 @@ ActiveRecord::Schema.define(version: 20181123072657) do
     t.index ["name"], name: "index_tags_on_name", unique: true
   end
 
+  create_table "trading_signal_notifications", force: :cascade do |t|
+    t.string "external_id"
+    t.bigint "trading_signal_id"
+    t.string "trading_signal_external_id"
+    t.bigint "user_id"
+    t.jsonb "extra"
+    t.datetime "timestamp"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["external_id"], name: "index_trading_signal_notifications_on_external_id"
+    t.index ["trading_signal_external_id"], name: "index_tsn_on_trading_signal_external_id"
+    t.index ["trading_signal_id"], name: "index_trading_signal_notifications_on_trading_signal_id"
+    t.index ["user_id"], name: "index_trading_signal_notifications_on_user_id"
+  end
+
+  create_table "trading_signal_triggers", force: :cascade do |t|
+    t.string "external_id"
+    t.string "type_key"
+    t.jsonb "params"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["external_id"], name: "index_trading_signal_triggers_on_external_id"
+    t.index ["type_key"], name: "index_trading_signal_triggers_on_type_key"
+  end
+
+  create_table "trading_signals", force: :cascade do |t|
+    t.string "external_id"
+    t.bigint "trading_signal_trigger_id"
+    t.string "trading_signal_trigger_external_id"
+    t.jsonb "extra"
+    t.datetime "timestamp"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["external_id"], name: "index_trading_signals_on_external_id"
+    t.index ["trading_signal_trigger_external_id"], name: "index_ts_on_trading_signal_trigger_external_id"
+    t.index ["trading_signal_trigger_id"], name: "index_trading_signals_on_trading_signal_trigger_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -527,6 +565,9 @@ ActiveRecord::Schema.define(version: 20181123072657) do
   add_foreign_key "signals_telegram_subscriptions", "signals_telegram_users"
   add_foreign_key "signals_telegram_users", "users"
   add_foreign_key "staked_cofi_transactions", "users"
+  add_foreign_key "trading_signal_notifications", "trading_signals"
+  add_foreign_key "trading_signal_notifications", "users"
+  add_foreign_key "trading_signals", "trading_signal_triggers"
   add_foreign_key "watchlist_items", "coins"
   add_foreign_key "watchlist_items", "watchlists"
   add_foreign_key "watchlists", "users"
