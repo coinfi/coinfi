@@ -43,8 +43,8 @@ module CoinMarketCapPro
       raw_market_pairs = data.dig("market_pairs")
       market_pairs = raw_market_pairs.map do |pair|
         quote = pair.dig("quote", currency)
-        volume_24h_quote =
         volume24 = quote["volume_24h"]
+
         {
           :exchange_name => pair.dig("exchange", "name"),
           :exchange_slug => pair.dig("exchange", "slug"),
