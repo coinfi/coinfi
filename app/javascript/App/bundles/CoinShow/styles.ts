@@ -56,6 +56,11 @@ const styles = (theme) =>
       height: '60px', // taken from CoinListHeader.js (+! for bottom border)
       display: 'flex',
       alignItems: 'center',
+      '& .search-field': {
+        '& .f5': {
+          fontSize: '14px !important',
+        },
+      },
       [theme.breakpoints.up('md')]: {
         padding: '8px 16px',
       },

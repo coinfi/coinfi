@@ -268,6 +268,7 @@ class CoinShow extends Component {
                     onSelect={(suggestion) =>
                       (window.location.href = `/coins/${suggestion.slug}`)
                     }
+                    placeholder="Search"
                     coinShow
                     unstyled
                   />
