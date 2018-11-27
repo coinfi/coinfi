@@ -47,13 +47,9 @@ module CoinMarketCapPro
 
     def has_missing_data(data)
       quote = data.dig('quote', currency)
-      if quote['price'].blank? || quote['market_cap'].blank? ||
+      quote['price'].blank? || quote['market_cap'].blank? ||
         quote['percent_change_1h'].blank? || quote['percent_change_24h'].blank? ||
-        quote['percent_change_7d'].blank? then
-        return true
-      else
-        return false
-      end
+        quote['percent_change_7d'].blank?
     end
 
     def update_coin_prices(identifier, data)
