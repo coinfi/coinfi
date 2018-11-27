@@ -47,9 +47,19 @@ module CoinMarketCapPro
 
     def has_missing_data(data)
       quote = data.dig('quote', currency)
+      added_at = if data['date_added'].present? then Time.parse(data['date_added']) else Time.now end
+      updated_at = if quote['last_updated'].present? then Time.parse(quote['last_updated']) else Time.now end
+      duration_in_seconds = updated_at - added_at
+      # Include threshold; doesn't seem to have data at exactly 1h/24h/7d
+      # Will need to empircally determine validity threshold
+      has_1h = duration_in_seconds >= 2 * 60 * 60 # 2 hours
+      has_24h = duration_in_seconds >= 2 * 24 * 60 * 60 # 2 days
+      has_7d = duration_in_seconds >= 8 * 24 * 60 * 60 # 8 days
+
       quote['price'].blank? || quote['market_cap'].blank? ||
-        quote['percent_change_1h'].blank? || quote['percent_change_24h'].blank? ||
-        quote['percent_change_7d'].blank?
+        (has_1h && quote['percent_change_1h'].blank?) ||
+        (has_24h && quote['percent_change_24h'].blank?) ||
+        (has_7d && quote['percent_change_7d'].blank?)
     end
 
     def update_coin_prices(identifier, data)
