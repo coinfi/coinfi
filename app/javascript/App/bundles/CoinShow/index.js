@@ -214,18 +214,26 @@ class CoinShow extends Component {
     const hasAdvancedMetrics = !!metabaseUrl
 
     return (
-      <React.Fragment>
-        <Grid container={true} className={classes.container} wrap="nowrap">
+      <div className={classes.root}>
+        <Grid
+          container={true}
+          spacing={16}
+          className={classes.container}
+          wrap="nowrap"
+        >
           {!isMobile && (
-            <Grid
-              item={true}
-              md={2}
-              className={classnames('bg-white', classes.leftPanel)}
-            >
-              <CoinListWrapper
-                loggedIn={isLoggedIn}
-                onClick={this.handleClickCoin}
-              />
+            <Grid item={true} md={2} className={classes.leftPanelGrid}>
+              <Card
+                raised={false}
+                square={true}
+                elevation={0}
+                className={classnames('bg-white', classes.leftPanelCard)}
+              >
+                <CoinListWrapper
+                  loggedIn={isLoggedIn}
+                  onClick={this.handleClickCoin}
+                />
+              </Card>
             </Grid>
           )}
           <Grid item={true} xs={12} md={10} className={classes.mainPanel}>
@@ -233,106 +241,111 @@ class CoinShow extends Component {
               container={true}
               alignContent="stretch"
               alignItems="flex-start"
-              spacing={24}
+              spacing={16}
               className={classes.mainContainer}
             >
-              <Grid item={true} xs={12} className={classes.searchBar}>
-                {isMobile && (
-                  <button
-                    className={classnames(
-                      'btn btn-blue btn-xs coins-btn mr2',
-                      classes.mobileCoinButton,
-                    )}
-                    onClick={this.showCoinListDrawer}
-                  >
-                    <Icon name="list" className="mr2" />
-                    <span>Coins</span>
-                  </button>
-                )}
-                <SearchCoins
-                  onSelect={(suggestion) =>
-                    (window.location.href = `/coins/${suggestion.slug}`)
-                  }
-                  coinShow
-                  unstyled
-                />
-              </Grid>
-              <Grid
-                item={true}
-                xs={12}
-                className={classes.titleBar}
-                container={true}
-                alignContent="flex-start"
-                alignItems="baseline"
-              >
-                <Grid item={true} className={classes.coinImage}>
-                  <img alt={coinObj.name} src={coinObj.image_url} />
-                </Grid>
-                <Grid item={true} className={classes.coinName}>
-                  {coinObj.name}
-                </Grid>
-                <Grid item={true} className={classes.coinSymbol}>
-                  {symbol}
-                </Grid>
-                <Grid item={true} className={classes.coinPrice}>
-                  {price}
-                </Grid>
-                <Grid
-                  item={true}
-                  className={classes.coinChange}
-                  style={changeStyle}
+              <Grid item={true} xs={12} className={classes.header}>
+                <Card
+                  raised={false}
+                  square={true}
+                  elevation={0}
+                  className={classes.searchBarCard}
                 >
-                  {arrow}
-                  {percentChange1h}%
-                </Grid>
-                <Grid item={true} className={classes.watchButtonContainer}>
-                  <Icon
-                    name="star"
-                    solid={true}
-                    className={
-                      this.state.watched
-                        ? classes.watchedButton
-                        : classes.unwatchedButton
-                    }
-                    style={{
-                      borderWidth: '1px',
-                      borderStyle: 'solid',
-                      borderRadius: '4px',
-                      padding: '8px',
-                      fontSize: '12px',
-                      lineHeight: ' 16px',
-                    }}
-                    onClick={this.watchCoinHandler}
-                  >
-                    {this.state.watched ? 'Unwatch Coin' : 'Watch Coin'}
-                  </Icon>
-                </Grid>
-              </Grid>
-              <Grid
-                item={true}
-                xs={12}
-                className={classes.tabBar}
-                container={true}
-                alignContent="flex-start"
-                alignItems="baseline"
-              >
-                <Tabs
-                  value={tabIndex}
-                  onChange={this.handleTabChange}
-                  indicatorColor="primary"
-                  textColor="primary"
-                  fullWidth
-                  className={classes.tabsRoot}
-                >
-                  <Tab label="Overview" className={classes.tabRoot} />
-                  <Tab label="Markets" className={classes.tabRoot} />
-                  <Tab label="Historical Data" className={classes.tabRoot} />
-                  {hasAdvancedMetrics && (
-                    <Tab label="Advanced Metrics" className={classes.tabRoot} />
+                  {isMobile && (
+                    <button
+                      className={classnames(
+                        'btn btn-blue btn-xs coins-btn mr2',
+                        classes.mobileCoinButton,
+                      )}
+                      onClick={this.showCoinListDrawer}
+                    >
+                      <Icon name="list" className="mr2" />
+                      <span>Coins</span>
+                    </button>
                   )}
-                </Tabs>
+                  <SearchCoins
+                    onSelect={(suggestion) =>
+                      (window.location.href = `/coins/${suggestion.slug}`)
+                    }
+                    coinShow
+                    unstyled
+                  />
+                </Card>
+                <Card
+                  raised={false}
+                  square={true}
+                  elevation={0}
+                  className={classes.topBarWrapper}
+                >
+                  <Grid
+                    container={true}
+                    alignContent="flex-start"
+                    alignItems="baseline"
+                    className={classes.titleBar}
+                  >
+                    <Grid item={true} className={classes.coinImage}>
+                      <img alt={coinObj.name} src={coinObj.image_url} />
+                    </Grid>
+                    <Grid item={true} className={classes.coinName}>
+                      {coinObj.name}
+                    </Grid>
+                    <Grid item={true} className={classes.coinSymbol}>
+                      {symbol}
+                    </Grid>
+                    <Grid item={true} className={classes.coinPrice}>
+                      {price}
+                    </Grid>
+                    <Grid
+                      item={true}
+                      className={classes.coinChange}
+                      style={changeStyle}
+                    >
+                      {arrow}
+                      {percentChange1h}%
+                    </Grid>
+                    <Grid item={true} className={classes.watchButtonContainer}>
+                      <Icon
+                        name="star"
+                        solid={true}
+                        className={
+                          this.state.watched
+                            ? classes.watchedButton
+                            : classes.unwatchedButton
+                        }
+                        style={{
+                          borderWidth: '1px',
+                          borderStyle: 'solid',
+                          borderRadius: '4px',
+                          padding: '8px',
+                          fontSize: '12px',
+                          lineHeight: ' 16px',
+                        }}
+                        onClick={this.watchCoinHandler}
+                      >
+                        {this.state.watched ? 'Unwatch Coin' : 'Watch Coin'}
+                      </Icon>
+                    </Grid>
+                  </Grid>
+                  <Tabs
+                    value={tabIndex}
+                    onChange={this.handleTabChange}
+                    indicatorColor="primary"
+                    textColor="primary"
+                    fullWidth
+                    className={classes.tabsRoot}
+                  >
+                    <Tab label="Overview" className={classes.tabRoot} />
+                    <Tab label="Markets" className={classes.tabRoot} />
+                    <Tab label="Historical Data" className={classes.tabRoot} />
+                    {hasAdvancedMetrics && (
+                      <Tab
+                        label="Advanced Metrics"
+                        className={classes.tabRoot}
+                      />
+                    )}
+                  </Tabs>
+                </Card>
               </Grid>
-
               {tabIndex === 0 && (
                 <React.Fragment>
                   <Grid
@@ -462,7 +475,7 @@ class CoinShow extends Component {
           loggedIn={isLoggedIn}
           onClick={this.handleClickCoin}
         />
-      </React.Fragment>
+      </div>
     )
   }
 }

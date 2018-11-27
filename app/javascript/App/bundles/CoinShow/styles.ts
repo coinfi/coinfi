@@ -2,42 +2,45 @@ import { createStyles } from '@material-ui/core'
 
 const styles = (theme) =>
   createStyles({
-    container: {
+    root: {
       width: '100%',
       maxWidth: '1200px',
       margin: '0 auto',
     },
-    leftPanel: {
+    container: {
+      marginTop: '0 !important',
+    },
+    leftPanelGrid: {
+      paddingTop: '0 !important',
+    },
+    leftPanelCard: {
       borderLeft: '1px solid #e5e8ed',
       borderRight: '1px solid #e5e8ed',
-      minWidth: '250px',
     },
-    mainPanel: {},
+    mainPanel: {
+      // margin: '0 !important',
+      paddingTop: '0 !important',
+      paddingBottom: '0 !important',
+    },
     mainContainer: {
-      margin: '0 !important',
-      width: '100% !important',
+      // margin: '0 !important',
     },
-    chartContainer: {
-      [theme.breakpoints.up('md')]: {
-        maxWidth: '700px',
-      },
-    },
+    chartContainer: {},
     widgetContainer: {
-      [theme.breakpoints.up('md')]: {
-        maxWidth: '250px',
-      },
       [theme.breakpoints.down('sm')]: {
         paddingTop: '0 !important',
       },
     },
-    searchBar: {
+    header: {},
+    searchBarCard: {
       backgroundColor: '#f7f8fa', // athens
       border: '1px solid #e5e8ed', // athens-darker
-      borderLeft: 'none',
-      borderTop: 'none',
       height: '60px', // taken from CoinListHeader.js (+! for bottom border)
       display: 'flex',
       alignItems: 'center',
+      [theme.breakpoints.up('md')]: {
+        padding: '8px 16px',
+      },
     },
     mobileCoinButton: {
       borderRadius: 0,
@@ -48,14 +51,17 @@ const styles = (theme) =>
       marginLeft: '0 !important',
       flex: 0,
     },
+    topBarWrapper: {
+      border: '1px solid #e5e8ed', // athens-darker
+      marginTop: '-1px !important', // hide top border
+    },
     titleBar: {
       backgroundColor: '#fff',
+      padding: '8px',
     },
-    tabBar: {
-      padding: '0 !important',
+    tabsRoot: {
       backgroundColor: '#fff',
     },
-    tabsRoot: {},
     tabRoot: {
       textTransform: 'none',
       [theme.breakpoints.down('sm')]: {
