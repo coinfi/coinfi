@@ -1,4 +1,5 @@
 import * as React from 'react'
+import * as _ from 'lodash'
 import classNames from 'classnames'
 import PercentageChange from '~/bundles/common/components/PercentageChange'
 import WatchStar from '~/bundles/common/components/WatchStar'
@@ -17,9 +18,9 @@ const roundToDecimalPlaces = (num, places) =>
 export default (props: Props) => {
   const { coin, loggedIn } = props
 
-  const coinPrice = coin.market_info.price_usd
+  const coinPrice = _.get(coin, ['market_info', 'price_usd'])
   const coinPriceFixed = roundToDecimalPlaces(coinPrice, 4)
-  const percentChange = coin.market_info.percent_change_24h
+  const percentChange = _.get(coin, ['market_info', 'percent_change_24h'])
   return (
     <a
       href={`/news/${coin.slug}`}
