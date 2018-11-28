@@ -10,6 +10,7 @@ import { Coin } from '~/bundles/common/types'
 interface Props {
   loggedIn: boolean
   onClick?: (slug: string) => void
+  isWatchlist?: boolean
 }
 
 const CoinListWrapper = (props: Props) => (
@@ -28,6 +29,7 @@ const CoinListWrapper = (props: Props) => (
           <CoinList
             list={payload.coinlist}
             loggedIn={props.loggedIn}
+            isWatchlist={props.isWatchlist}
             selectedCoinSlug={payload.selectedCoinSlug}
             onSelectCoin={(coin: Coin) => {
               payload.selectCoinBySlug(coin.slug)

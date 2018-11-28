@@ -1,16 +1,10 @@
 class NewsController < ApplicationController
-  before_action :check_permissions, :set_body_class, :set_view_data
+  before_action :set_body_class, :set_view_data
+  before_action :set_default_news_items, only: [:index, :show]
+
+  include NewsHelper
 
   def index
-    distribute_reads(max_lag: MAX_ACCEPTABLE_REPLICATION_LAG, lag_failover: true) do
-      @news_items_data = serialize_news_items(
-        NewsItems::WithFilters.call(NewsItem.published, published_since: 24.hours.ago)
-          .includes(:coins, :news_categories)
-          .order_by_published
-          .limit(25)
-      )
-    end
-
     set_meta_tags(
       title: "Latest Cryptocurrency News Today - Current Crypto News Today",
       description: "CoinFi’s #1 crypto news aggregator gives you the latest cryptocurrency news, so you can be the first to know what news moved the crypto markets today."
@@ -35,12 +29,6 @@ class NewsController < ApplicationController
 
   def show
     distribute_reads(max_lag: MAX_ACCEPTABLE_REPLICATION_LAG, lag_failover: true) do
-      @news_items_data = serialize_news_items(
-        NewsItems::WithFilters.call(NewsItem.published, published_since: 24.hours.ago)
-          .includes(:coins, :news_categories)
-          .order_by_published
-          .limit(25)
-      )
       news_item = NewsItem.published.find(params[:id])
       @news_item_data = serialize_news_items(news_item)
 
@@ -50,12 +38,8 @@ class NewsController < ApplicationController
 
   protected
 
-  def check_permissions
-    if !user_signed_in?
-      redirect_to '/login', alert: "Please login first"
-    elsif !has_news_feature?
-      render_404
-    end
+  def set_default_news_items
+    @news_items_data = get_default_news_items
   end
 
   def set_view_data
@@ -64,11 +48,9 @@ class NewsController < ApplicationController
     @top_coin_slugs = Coin.top(5).pluck(:slug)
     @categories = NewsCategory.pluck(:name)
 
-    @top_coins_data = serialize_coins(
-      Rails.cache.fetch("coins/toplist", expires_in: 1.hour) do
-        Coin.order(:ranking).limit(20)
-      end
-    )
+    @top_coins_data = Rails.cache.fetch("coins/toplist", expires_in: 1.hour) do
+      serialize_coins(Coin.order(:ranking).limit(20))
+    end
     @watched_coins_data = serialize_coins(
       current_user.watchlist.coins.order(:ranking)
     ) if current_user
@@ -83,27 +65,6 @@ class NewsController < ApplicationController
       only: %i[id name symbol slug price_usd],
       methods: %i[market_info]
     )
-  end
-
-  def serialize_news_items(news_items)
-    data = news_items.as_json(
-      only: %i[id title summary feed_item_published_at updated_at url content],
-      methods: %i[tag_scoped_coin_link_data categories]
-    )
-    format_item = Proc.new do |item, *args|
-      item
-        .except('tag_scoped_coin_link_data')
-        .merge({
-          coin_link_data: item['tag_scoped_coin_link_data'],
-        })
-    end
-
-    # Handle both hashes and arrays of hashes
-    if (data.kind_of?(Array))
-      formatted_data = data.map(&format_item)
-    else
-      formatted_data = format_item.call(data)
-    end
   end
 
   def serialize_coin_with_details(coin)

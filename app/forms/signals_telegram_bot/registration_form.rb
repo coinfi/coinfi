@@ -24,6 +24,9 @@ class SignalsTelegramBot::RegistrationForm < Patterns::Form
       started_at: started_at,
       is_active: true,
     )
+    user.watchlist.coins.find_each do |coin|
+      @signals_telegram_user.signals_telegram_subscriptions.build(coin: coin)
+    end
     @signals_telegram_user.save
   end
 

@@ -3,7 +3,7 @@ require 'httparty'
 namespace :coinmarketcap do
   namespace :cronjobs do
     # Direct ticker access
-    desc "10min ticker price update"
+    desc "Daily ticker price update"
     task :ticker_update => :environment do
       CoinMarketCapService.new.ticker_update
     end

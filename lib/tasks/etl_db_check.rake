@@ -12,14 +12,14 @@ namespace :etldb do
     {
       'title' => "Daily",
       'name' => "daily_ohcl_prices",
-      'interval' => "''1 day''",
-      'url' => "https://hc-ping.com/772bacf5-958e-4541-b8ca-a81fe24c63d0"
+      'interval' => "''3 days''",
+      'url' => ENV.fetch('HEALTHCHECK_DAILY_PRICES')
     },
     {
       'title' => "Hourly",
       'name' => "hourly_ohcl_prices",
-      'interval' => "''1 hour''",
-      'url' => "https://hc-ping.com/c49dcf87-c6e5-4881-95f8-3bfad31d33ff"
+      'interval' => "''2 days''",
+      'url' => ENV.fetch('HEALTHCHECK_HOURLY_PRICES')
     }
   ]
 
@@ -43,7 +43,7 @@ namespace :etldb do
     {
       'title' => "Random 3",
       'query' => lambda { Coin.listed.order("RANDOM()").limit(3).pluck(:coin_key, :ranking) }
-    }      
+    }
   ]
 
   desc "check for recent entries in specified table of etl database"
@@ -58,9 +58,9 @@ namespace :etldb do
       SELECT *
       FROM dblink('
         dbname=#{db_name}
-        port=#{db_port} 
-        host=#{db_host} 
-        user=#{db_user} 
+        port=#{db_port}
+        host=#{db_host}
+        user=#{db_user}
         password=#{db_pass}',
         'SELECT coin_key, to_currency, time, volume_from, volume_to FROM staging.#{table["name"]} WHERE time >= NOW() - #{table["interval"]}::INTERVAL'
       )
@@ -83,12 +83,12 @@ namespace :etldb do
         puts "Checking #{label}"
 
         query = "
-          SELECT 
-            COUNT(*) AS count, 
-            MIN(volume_from) AS from, 
-            MIN(volume_to) AS to, 
-            coin_key 
-          FROM #{table["name"]}_view 
+          SELECT
+            COUNT(*) AS count,
+            MIN(volume_from) AS from,
+            MIN(volume_to) AS to,
+            coin_key
+          FROM #{table["name"]}_view
           WHERE coin_key = '#{coin_key}'
           GROUP BY coin_key;"
         result = @connection.exec_query(query)
@@ -102,14 +102,14 @@ namespace :etldb do
             check_volume = !coin[1].nil? && coin[1] < 100
             has_volume = row["from"].to_f > 0 && row["to"].to_f > 0
             has_results = row["count"] > 0
-          
+
             # there should be at least one entry and if ranking < 100 volume should be non-zero
             if !has_results || (check_volume && !has_volume) then
               success = false
               params["coins"] << coin_key
             end
           end
-        end           
+        end
       end
     end
 

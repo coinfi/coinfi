@@ -1,3 +1,5 @@
-export const PROFILE_EDIT_URL = '/profile'
+export const LOGIN_URL = '/login'
 export const LOGOUT_URL = '/logout'
+export const PROFILE_EDIT_URL = '/profile'
+export const REGISTRATION_URL = '/register'
 export const SIGNALS_RESERVATION_URL = '/signals/reservation'

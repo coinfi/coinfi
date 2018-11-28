@@ -2,7 +2,7 @@
   "name": "coinfi-rails",
   "scripts": {
     "postdeploy":
-      "pg_dump $STAGING_DATABASE_URL | psql $DATABASE_URL && bundle exec rake db:migrate"
+      "pg_dump $STAGING_DATABASE_URL | psql $DATABASE_URL && bundle exec rake db:migrate; bundle exec rake redis:copy_prod"
   },
   "env": {
     "ADMINISTRATE_PASSWORD": { "required": true },
@@ -26,6 +26,8 @@
     "ETL_DB_PORT": { "required": true },
     "ETL_DB_USER": { "required": true },
     "ETL_DB_PASSWORD": { "required": true },
+    "HEALTHCHECK_DAILY_PRICES": { "required": true },
+    "HEALTHCHECK_HOURLY_PRICES": { "required": true },
     "HEAP_APP_ID": { "required": true },
     "LANG": { "required": true },
     "LAUNCHDARKLY_SDK_KEY": { "required": true },
@@ -37,6 +39,8 @@
     "NEWS_COIN_MENTION_TAG_SCOPE": { "required": true },
     "PGHERO_PASSWORD": { "required": true },
     "PGHERO_USERNAME": { "required": true },
+    "PRODUCTION_REDIS_URL": { "required": true },
+    "POSTGRES_STATEMENT_TIMEOUT": { "required": true },
     "RACK_ENV": { "required": true },
     "RAILS_ENV": { "required": true },
     "RAILS_LOG_TO_STDOUT": { "required": true },
@@ -48,7 +52,10 @@
     "ROOT_DOMAIN": { "required": true },
     "S3_BUCKET": { "required": true },
     "SECRET_KEY_BASE": { "required": true },
+    "SIDEKIQ_PASSWORD": { "required": true },
+    "SIDEKIQ_USERNAME": { "required": true },
     "SIGNALS_STAKING_AMOUNT": { "required": true },
+    "SIGNALS_MAX_WATCHLIST_ITEMS": { "required": true },
     "SIGNALS_MIN_STAKING_AMOUNT": { "required": true },
     "SIGNALS_TELEGRAM_BOT_API_USERNAME": { "required": true },
     "SIGNALS_TELEGRAM_BOT_API_PASSWORD": { "required": true },

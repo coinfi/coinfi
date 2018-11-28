@@ -1,7 +1,7 @@
 # This is the new version of the API endpoint to retrieve NewsItems
 # based on a more sane query parameter setup.
 class Api::NewsController < ApiController
-  before_action :detect_news_feature
+  include NewsHelper
 
   def index
     # Ensure fresh response on every request
@@ -35,20 +35,24 @@ class Api::NewsController < ApiController
         news_categories = NewsCategory.where(name: news_category_names)
       end
 
-      news_items = NewsItems::WithFilters.call(
-        NewsItem.published,
-        coins: coins || nil,
-        feed_sources: feed_sources || nil,
-        news_categories: news_categories || nil,
-        keywords: params[:keywords],
-        published_since: params[:publishedSince],
-        published_until: params[:publishedUntil],
-      )
-        .includes(:coins, :news_categories)
-        .order_by_published
-        .limit(25)
+      if no_filters?
+        @news_items = get_default_news_items
+      else
+        @news_items = serialize_news_items(NewsItems::WithFilters.call(
+          NewsItem.published,
+          coins: coins || nil,
+          feed_sources: feed_sources || nil,
+          news_categories: news_categories || nil,
+          keywords: params[:keywords],
+          published_since: params[:publishedSince],
+          published_until: params[:publishedUntil],
+        )
+          .includes(:coins, :news_categories)
+          .order_by_published
+          .limit(25))
+      end
 
-      respond_success serialized(news_items)
+      respond_success @news_items
     end
   end
 
@@ -60,30 +64,26 @@ class Api::NewsController < ApiController
     distribute_reads(max_lag: MAX_ACCEPTABLE_REPLICATION_LAG, lag_failover: true) do
       @news_item = NewsItem.published.find(params[:id])
 
-      respond_success serialized(@news_item)
+      respond_success serialize_news_items(@news_item)
     end
   end
 
   private
-
-  def serialized(obj)
-    data = obj.as_json(
-      only: %i[id title summary feed_item_published_at updated_at url content],
-      methods: %i[tag_scoped_coin_link_data categories]
-    )
-    format_item = Proc.new do |item, *args|
-      item
-        .except('tag_scoped_coin_link_data')
-        .merge({
-          coin_link_data: item['tag_scoped_coin_link_data'],
-        })
+  def no_filters?
+    if params[:coinSlugs]
+      return false
+    elsif params[:feedSources]
+      return false
+    elsif params[:categories]
+      return false
+    elsif params[:keywords]
+      return false
+    elsif params[:publishedSince]
+      return false
+    elsif params[:publishedUntil]
+      return false
     end
 
-    # Handle both hashes and arrays of hashes
-    if (data.kind_of?(Array))
-      formatted_data = data.map(&format_item)
-    else
-      formatted_data = format_item.call(data)
-    end
+    true
   end
 end

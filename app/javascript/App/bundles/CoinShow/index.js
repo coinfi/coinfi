@@ -242,9 +242,8 @@ class CoinShow extends Component {
     const isMobile = isWidthDown('sm', this.props.width)
     const isLoggedIn = !!user
     const prepend = currency === 'USD' ? '$' : ''
-    const price = `${prepend}${Number.parseFloat(
-      _.get(coinObj, ['price', currency.toLowerCase()], 0),
-    ).toPrecision(6)} ${currency}`
+    const price = Number.parseFloat(_.get(coinObj, ['price'], 0)).toPrecision(6)
+    const priceString = `${prepend}${price} ${currency}`
     const percentChange1h = _.get(coinObj, ['change1h'], 0)
     const isPositive = percentChange1h >= 0
     const arrow = isPositive ? '▲' : '▼'
@@ -333,7 +332,7 @@ class CoinShow extends Component {
                       {symbol}
                     </Grid>
                     <Grid item={true} className={classes.coinPrice}>
-                      {price}
+                      {priceString}
                     </Grid>
                     <Grid
                       item={true}

@@ -1,7 +1,7 @@
 // https://gist.github.com/mathewbyrne/1280286
 
 export default function slugify(text) {
-  return text
+  return (text || '')
     .toString()
     .toLowerCase()
     .replace(/\s+/g, '-') // Replace spaces with -
