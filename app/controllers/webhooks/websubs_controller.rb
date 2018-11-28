@@ -15,8 +15,8 @@ class Webhooks::WebsubsController < ApplicationController
 
     puts "Received #{items.count} NewsItems from SuperFeedr."
 
-    # Rewrite default_news_items cache if any items are from general FeedSources.
-    if items.general.count > 0
+    # Rewrite default_news_items cache if any items.
+    if items.count > 0
       get_default_news_items(rewrite_cache: true)
     end
 
