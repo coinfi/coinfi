@@ -203,6 +203,14 @@ const styles = (theme) =>
     subCardHeader: {
       paddingBottom: 0,
     },
+    subCardTitle: {
+      color: 'rgba(0, 0, 0, 0.87)',
+      fontSize: '16px',
+      fontWeight: 500,
+    },
+    subCardContent: {
+      paddingTop: '12px',
+    },
   })
 
 export default styles

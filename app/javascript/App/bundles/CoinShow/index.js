@@ -474,28 +474,37 @@ class CoinShow extends Component {
               >
                 <SubCard>
                   <CardHeader
-                    subheader="Fundamentals"
-                    className={classes.subCardHeader}
+                    title="Fundamentals"
+                    classes={{
+                      root: classes.subCardHeader,
+                      title: classes.subCardTitle,
+                    }}
                   />
-                  <CardContent>
+                  <CardContent className={classes.subCardContent}>
                     <FundamentalsList coinObj={coinObj} currency={currency} />
                   </CardContent>
                 </SubCard>
                 <SubCard>
                   <CardHeader
-                    subheader="Links"
-                    className={classes.subCardHeader}
+                    title="Links"
+                    classes={{
+                      root: classes.subCardHeader,
+                      title: classes.subCardTitle,
+                    }}
                   />
-                  <CardContent>
+                  <CardContent className={classes.subCardContent}>
                     <LinksList coinObj={coinObj} />
                   </CardContent>
                 </SubCard>
                 <SubCard>
                   <CardHeader
-                    subheader="Related Coins"
-                    className={classes.subCardHeader}
+                    title="Related Coins"
+                    classes={{
+                      root: classes.subCardHeader,
+                      title: classes.subCardTitle,
+                    }}
                   />
-                  <CardContent>
+                  <CardContent className={classes.subCardContent}>
                     <List dense={true} disablePadding={true}>
                       {relatedCoins.map((item, index) => {
                         return (
