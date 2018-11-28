@@ -22,6 +22,7 @@ import NewsBodyShareButtons from './NewsBodyShareButtons'
 import { RailsConsumer } from '~/bundles/common/contexts/RailsContext'
 
 interface Props {
+  loggedIn: boolean
   initialNewsItem?: NewsItem
   newsItemId?: string
   onCoinClick?: CoinClickHandler
@@ -81,7 +82,11 @@ export default class NewsBody extends React.Component<Props, State> {
 
     if (getDomainType(newsItem.url) === 'twitter') {
       return (
-        <TwitterBody newsItem={newsItem} onCoinClick={this.props.onCoinClick} />
+        <TwitterBody
+          newsItem={newsItem}
+          onCoinClick={this.props.onCoinClick}
+          loggedIn={this.props.loggedIn}
+        />
       )
     }
 
@@ -168,7 +173,7 @@ export default class NewsBody extends React.Component<Props, State> {
         </div>
 
         <br />
-        <CallToAction />
+        {!this.props.loggedIn && <CallToAction />}
       </div>
     )
   }

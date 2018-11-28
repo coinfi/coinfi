@@ -8,12 +8,13 @@ import CallToAction from './CallToAction'
 
 interface Props {
   newsItem: NewsItem
+  loggedIn: boolean
   onCoinClick?: CoinClickHandler
 }
 
 export default class NewsBody extends React.Component<Props, {}> {
   public render() {
-    const { newsItem } = this.props
+    const { newsItem, loggedIn } = this.props
 
     if (!newsItem) {
       return null
@@ -24,26 +25,24 @@ export default class NewsBody extends React.Component<Props, {}> {
     const categories = newsItem.categories
 
     return (
-      <>
-        <div className="pa4 bg-white min-h-100">
-          <CoinTags
-            itemWithCoinLinkData={newsItem}
-            getLink={(data) => `/news/${data.slug}`}
-            onClick={this.props.onCoinClick}
-          />
-          {categories.length > 0 && (
-            <div className="mt3">
-              {categories.map((category, index) => (
-                <div key={index} className="tag-alt">
-                  {category.name}
-                </div>
-              ))}
-            </div>
-          )}
-          <Tweet tweetId={tweetId} />
-          <CallToAction alignLeft={true} />
-        </div>
-      </>
+      <div className="pa4 bg-white min-h-100">
+        <CoinTags
+          itemWithCoinLinkData={newsItem}
+          getLink={(data) => `/news/${data.slug}`}
+          onClick={this.props.onCoinClick}
+        />
+        {categories.length > 0 && (
+          <div className="mt3">
+            {categories.map((category, index) => (
+              <div key={index} className="tag-alt">
+                {category.name}
+              </div>
+            ))}
+          </div>
+        )}
+        <Tweet tweetId={tweetId} />
+        {!loggedIn && <CallToAction alignLeft={true} />}
+      </div>
     )
   }
 }
