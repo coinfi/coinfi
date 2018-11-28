@@ -406,85 +406,29 @@ class CoinShow extends Component {
                 </Card>
               </Grid>
               {tabSlug === TAB_SLUGS.priceChart && (
-                <React.Fragment>
-                  <Grid
-                    item={true}
-                    xs={12}
-                    md={9}
-                    className={classes.chartContainer}
-                  >
-                    <MainCard>
-                      <CardHeader title="Price Chart" />
-                      <CardContent>
-                        <CoinCharts
-                          symbol={symbol}
-                          priceData={priceData}
-                          priceDataHourly={priceDataHourly}
-                          annotations={annotations}
-                          isTradingViewVisible={isTradingViewVisible}
-                          onPriceChartCreated={this.handlePriceChartCreated}
-                        />
-                      </CardContent>
-                    </MainCard>
-                  </Grid>
-                  <Grid
-                    item={true}
-                    xs={12}
-                    md={3}
-                    className={classes.widgetContainer}
-                  >
-                    <SubCard>
-                      <CardHeader
-                        subheader="Fundamentals"
-                        className={classes.subCardHeader}
+                <Grid
+                  item={true}
+                  xs={12}
+                  md={8}
+                  className={classnames(
+                    classes.contentContainer,
+                    classes.chartContainer,
+                  )}
+                >
+                  <MainCard>
+                    <CardHeader title="Price Chart" />
+                    <CardContent>
+                      <CoinCharts
+                        symbol={symbol}
+                        priceData={priceData}
+                        priceDataHourly={priceDataHourly}
+                        annotations={annotations}
+                        isTradingViewVisible={isTradingViewVisible}
+                        onPriceChartCreated={this.handlePriceChartCreated}
                       />
-                      <CardContent>
-                        <FundamentalsList
-                          coinObj={coinObj}
-                          currency={currency}
-                        />
-                      </CardContent>
-                    </SubCard>
-                    <SubCard>
-                      <CardHeader
-                        subheader="Links"
-                        className={classes.subCardHeader}
-                      />
-                      <CardContent>
-                        <LinksList coinObj={coinObj} />
-                      </CardContent>
-                    </SubCard>
-                    <SubCard>
-                      <CardHeader
-                        subheader="Related Coins"
-                        className={classes.subCardHeader}
-                      />
-                      <CardContent>
-                        <List dense={true} disablePadding={true}>
-                          {relatedCoins.map((item, index) => {
-                            return (
-                              <ListItem
-                                key={index}
-                                style={{ padding: '4px 0' }}
-                              >
-                                <ListItemText>
-                                  <a
-                                    href={`/coins/${item.slug}`}
-                                    style={{
-                                      marginTop: '-.25rem',
-                                    }}
-                                  >
-                                    {item.name}
-                                  </a>
-                                </ListItemText>
-                              </ListItem>
-                            )
-                          })}
-                        </List>
-                      </CardContent>
-                    </SubCard>
-                  </Grid>
-                </React.Fragment>
+                    </CardContent>
+                  </MainCard>
+                </Grid>
               )}
               {/*tabIndex === 2 && (
                 <Grid item={true} xs={12}>
@@ -501,7 +445,12 @@ class CoinShow extends Component {
                 </Grid>
               )*/}
               {tabSlug === TAB_SLUGS.tokenMetrics && (
-                <Grid item={true} xs={12}>
+                <Grid
+                  item={true}
+                  xs={12}
+                  md={8}
+                  className={classes.contentContainer}
+                >
                   <MainCard>
                     <CardHeader title="Advanced Token Metrics" />
                     <CardContent>
@@ -517,6 +466,57 @@ class CoinShow extends Component {
                   </MainCard>
                 </Grid>
               )}
+              <Grid
+                item={true}
+                xs={12}
+                md={4}
+                className={classes.widgetContainer}
+              >
+                <SubCard>
+                  <CardHeader
+                    subheader="Fundamentals"
+                    className={classes.subCardHeader}
+                  />
+                  <CardContent>
+                    <FundamentalsList coinObj={coinObj} currency={currency} />
+                  </CardContent>
+                </SubCard>
+                <SubCard>
+                  <CardHeader
+                    subheader="Links"
+                    className={classes.subCardHeader}
+                  />
+                  <CardContent>
+                    <LinksList coinObj={coinObj} />
+                  </CardContent>
+                </SubCard>
+                <SubCard>
+                  <CardHeader
+                    subheader="Related Coins"
+                    className={classes.subCardHeader}
+                  />
+                  <CardContent>
+                    <List dense={true} disablePadding={true}>
+                      {relatedCoins.map((item, index) => {
+                        return (
+                          <ListItem key={index} style={{ padding: '4px 0' }}>
+                            <ListItemText>
+                              <a
+                                href={`/coins/${item.slug}`}
+                                style={{
+                                  marginTop: '-.25rem',
+                                }}
+                              >
+                                {item.name}
+                              </a>
+                            </ListItemText>
+                          </ListItem>
+                        )
+                      })}
+                    </List>
+                  </CardContent>
+                </SubCard>
+              </Grid>
             </Grid>
           </Grid>
         </Grid>

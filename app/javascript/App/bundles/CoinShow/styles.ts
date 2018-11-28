@@ -36,17 +36,21 @@ const styles = (theme) =>
       },
     },
     mainPanel: {
-      // margin: '0 !important',
       paddingTop: '0 !important',
       paddingBottom: '0 !important',
     },
-    mainContainer: {
-      // margin: '0 !important',
+    mainContainer: {},
+    contentContainer: {
+      [theme.breakpoints.up('md')]: {
+        maxWidth: '70%',
+        flexBasis: '70%',
+      },
     },
     chartContainer: {},
     widgetContainer: {
-      [theme.breakpoints.down('sm')]: {
-        paddingTop: '0 !important',
+      [theme.breakpoints.up('md')]: {
+        maxWidth: '30%',
+        flexBasis: '30%',
       },
     },
     header: {},
