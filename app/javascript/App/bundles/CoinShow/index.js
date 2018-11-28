@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react'
+import React, { Component } from 'react'
 import * as _ from 'lodash'
 import { withRouter } from 'react-router'
 import compose from 'recompose/compose'
@@ -28,12 +28,11 @@ import CoinListDrawer from '~/bundles/common/components/CoinListDrawer'
 import { WATCHLIST_CHANGE_EVENT } from '~/bundles/common/containers/CoinListContainer'
 import styles from './styles'
 
-const tabs = [
-  { slug: 'overview' },
-  { slug: 'markets' },
-  { slug: 'historical-data' },
-  { slug: 'advanced-token-metrics' },
-]
+const TAB_SLUGS = {
+  tokenMetrics: 'token-metrics',
+  priceChart: 'price-chart',
+  news: 'news',
+}
 
 const MainCard = withStyles(styles)(
   ({ children, classes, className, ...props }) => {
@@ -69,22 +68,40 @@ const SubCard = withStyles(styles)(
   },
 )
 
+const NewsLabel = withStyles(styles)(({ classes }) => {
+  return (
+    <React.Fragment>
+      <span>News</span>
+      <Icon
+        name="external-link-alt"
+        regular
+        className={classes.newsLabelIcon}
+      />
+    </React.Fragment>
+  )
+})
+
 class CoinShow extends Component {
   chart = undefined
 
   constructor(props) {
     super(props)
 
-    const hashTag = _.get(props, ['location', 'hash'], '').slice(1) // remove prepended octothorpe
-    const tabIndex = _.findIndex(tabs, ({ slug }) => slug === hashTag)
+    const { metabaseUrl } = props
+    const hasTokenMetrics = !!metabaseUrl
+    const hashTag = _.get(props, ['location', 'hash']).slice(1) // remove prepended octothorpe
+    const defaultTabSlug = hasTokenMetrics
+      ? TAB_SLUGS.tokenMetrics
+      : TAB_SLUGS.priceChart
 
     this.state = {
+      priceChartSizeSet: false,
       liveCoinArr: [],
       currency: 'USD',
       watched: this.props.watching,
       iconLoading: false,
       watchlistIndex: [],
-      tabIndex: tabIndex >= 0 ? tabIndex : 0,
+      tabSlug: hashTag || defaultTabSlug,
       showCoinList: false,
     }
   }
@@ -98,7 +115,12 @@ class CoinShow extends Component {
     document.addEventListener(WATCHLIST_CHANGE_EVENT, this.onWatchlistChange)
 
     setTimeout(() => {
-      this.priceChart.setSize()
+      if (this.priceChart && !this.state.priceChartSizeSet) {
+        this.priceChart.setSize()
+        this.setState({
+          priceChartSizeSet: true,
+        })
+      }
     }, 100)
   }
 
@@ -179,10 +201,26 @@ class CoinShow extends Component {
     this.priceChart = priceChart
   }
 
-  handleTabChange = (e, tabIndex) => {
-    const tabSlug = _.get(tabs, [tabIndex, 'slug'])
+  handleTabChange = (e, tabSlug) => {
+    if (tabSlug === TAB_SLUGS.news) {
+      const coinSlug = _.get(this.props, ['coinObj', 'slug'])
+      window.location.href = `/news/${coinSlug}`
+      return
+    }
+
     this.props.history.push(`#${tabSlug}`)
-    this.setState({ tabIndex })
+    this.setState({ tabSlug })
+
+    if (tabSlug === TAB_SLUGS.priceChart) {
+      setTimeout(() => {
+        if (this.priceChart && !this.state.priceChartSizeSet) {
+          this.priceChart.setSize()
+          this.setState({
+            priceChartSizeSet: true,
+          })
+        }
+      }, 100)
+    }
   }
 
   render() {
@@ -199,7 +237,7 @@ class CoinShow extends Component {
       classes,
       user,
     } = this.props
-    const { currency, tabIndex } = this.state
+    const { currency, tabSlug } = this.state
 
     const isMobile = isWidthDown('sm', this.props.width)
     const isLoggedIn = !!user
@@ -211,7 +249,7 @@ class CoinShow extends Component {
     const isPositive = percentChange1h >= 0
     const arrow = isPositive ? '▲' : '▼'
     const changeStyle = isPositive ? { color: '#12d8b8' } : { color: '#ff6161' }
-    const hasAdvancedMetrics = !!metabaseUrl
+    const hasTokenMetrics = !!metabaseUrl
 
     return (
       <div className={classes.root}>
@@ -329,26 +367,45 @@ class CoinShow extends Component {
                     </Grid>
                   </Grid>
                   <Tabs
-                    value={tabIndex}
+                    value={tabSlug}
                     onChange={this.handleTabChange}
                     indicatorColor="primary"
                     textColor="primary"
-                    fullWidth
                     className={classes.tabsRoot}
                   >
-                    <Tab label="Overview" className={classes.tabRoot} />
-                    <Tab label="Markets" className={classes.tabRoot} />
-                    <Tab label="Historical Data" className={classes.tabRoot} />
-                    {hasAdvancedMetrics && (
+                    {hasTokenMetrics && (
                       <Tab
-                        label="Advanced Metrics"
-                        className={classes.tabRoot}
+                        label="Token Metrics"
+                        value={TAB_SLUGS.tokenMetrics}
+                        classes={{
+                          root: classes.tabRoot,
+                          selected: classes.tabSelected,
+                          labelContainer: classes.tabLabelContainer,
+                        }}
                       />
                     )}
+                    <Tab
+                      label="Price Chart"
+                      value={TAB_SLUGS.priceChart}
+                      classes={{
+                        root: classes.tabRoot,
+                        selected: classes.tabSelected,
+                        labelContainer: classes.tabLabelContainer,
+                      }}
+                    />
+                    <Tab
+                      label={<NewsLabel />}
+                      value={TAB_SLUGS.news}
+                      classes={{
+                        root: classes.tabRoot,
+                        selected: classes.tabSelected,
+                        labelContainer: classes.tabLabelContainer,
+                      }}
+                    />
                   </Tabs>
                 </Card>
               </Grid>
-              {tabIndex === 0 && (
+              {tabSlug === TAB_SLUGS.priceChart && (
                 <React.Fragment>
                   <Grid
                     item={true}
@@ -429,15 +486,7 @@ class CoinShow extends Component {
                   </Grid>
                 </React.Fragment>
               )}
-              {tabIndex === 1 && (
-                <Grid item={true} xs={12}>
-                  <MainCard>
-                    <CardHeader title="Markets" />
-                    <CardContent>Coming soon!</CardContent>
-                  </MainCard>
-                </Grid>
-              )}
-              {tabIndex === 2 && (
+              {/*tabIndex === 2 && (
                 <Grid item={true} xs={12}>
                   <MainCard>
                     <CardHeader title="Historical Data" />
@@ -450,8 +499,8 @@ class CoinShow extends Component {
                     </CardContent>
                   </MainCard>
                 </Grid>
-              )}
-              {tabIndex === 3 && (
+              )*/}
+              {tabSlug === TAB_SLUGS.tokenMetrics && (
                 <Grid item={true} xs={12}>
                   <MainCard>
                     <CardHeader title="Advanced Token Metrics" />

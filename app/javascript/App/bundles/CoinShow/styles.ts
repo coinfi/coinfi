@@ -88,10 +88,22 @@ const styles = (theme) =>
     },
     tabRoot: {
       textTransform: 'none',
+      minWidth: 'unset',
+      fontSize: '14px',
       [theme.breakpoints.down('sm')]: {
-        fontSize: '0.75rem',
         whiteSpace: 'nowrap',
       },
+    },
+    tabSelected: {
+      fontWeight: 600,
+    },
+    tabLabelContainer: {
+      paddingRight: '12px',
+      paddingLeft: '12px',
+    },
+    newsLabelIcon: {
+      marginLeft: '0.25rem',
+      marginBottom: '0.25rem',
     },
     coinImage: {
       alignSelf: 'flex-start',
