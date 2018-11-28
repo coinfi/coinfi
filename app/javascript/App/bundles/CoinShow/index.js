@@ -31,9 +31,6 @@ const styles = (theme) =>
       margin: '0 auto',
     },
     widgetContainer: {
-      [theme.breakpoints.up('md')]: {
-        maxWidth: '300px',
-      },
       [theme.breakpoints.down('sm')]: {
         paddingTop: '0 !important',
       },
@@ -276,7 +273,7 @@ class CoinShow extends Component {
             </Icon>
           </Grid>
         </Grid>
-        <Grid item={true} xs={12} md={8}>
+        <Grid item={true} xs={12} md={9}>
           <Card raised={false} square={true} className={classes.mainCard}>
             <CardHeader title="Price Chart" />
             <CardContent>
@@ -301,7 +298,7 @@ class CoinShow extends Component {
             </CardContent>
           </Card>
         </Grid>
-        <Grid item={true} xs={12} md={8} className={classes.widgetContainer}>
+        <Grid item={true} xs={12} md={3} className={classes.widgetContainer}>
           <Card raised={false} square={true} className={classes.subCard}>
             <CardHeader
               subheader="Fundamentals"
