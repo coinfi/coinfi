@@ -8,6 +8,7 @@ import Icon from '~/bundles/common/components/Icon'
 import localAPI from '../common/utils/localAPI'
 
 import TwitterBody from './TwitterBody'
+import CallToAction from './CallToAction'
 import LoadingIndicator from '../common/components/LoadingIndicator'
 import {
   getDomainType,
@@ -165,6 +166,9 @@ export default class NewsBody extends React.Component<Props, State> {
             }}
           </RailsConsumer>
         </div>
+
+        <br />
+        <CallToAction />
       </div>
     )
   }
