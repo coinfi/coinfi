@@ -1,4 +1,5 @@
 import * as React from 'react'
+import CallToAction from './CallToAction'
 import Icon from '~/bundles/common/components/Icon'
 const chartIcon = require('~/images/chartIcon.svg') // tslint:disable-line
 const filterIcon = require('~/images/filterIcon.svg') // tslint:disable-line
@@ -96,21 +97,7 @@ export default ({ closeTips, loggedIn }: Props) => {
           </ol>
         </div>
 
-        {!loggedIn && (
-          <div className="ph3 tc signup-cta-wrap">
-            <h2 className="m0 pv3">Get the most out of CoinFi News!</h2>
-            <div className="f6">
-              Save coins into your Watchlist and be the first to know about the
-              latest market moving news.
-            </div>
-            <button
-              className="btn btn-blue mv3 b ttn"
-              onClick={() => (window.location.href = '/register')}
-            >
-              Sign Up Now
-            </button>
-          </div>
-        )}
+        {!loggedIn && <CallToAction />}
       </div>
     </div>
   )
