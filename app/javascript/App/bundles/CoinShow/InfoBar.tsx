@@ -97,7 +97,7 @@ const styles = (theme) =>
     detailsValue: {
       fontSize: '14px',
       lineHeight: 1.25,
-      // whiteSpace: 'nowrap',
+      whiteSpace: 'pre-wrap',
       [theme.breakpoints.down('sm')]: {
         marginBottom: '10px',
       },
@@ -145,7 +145,7 @@ class InfoBar extends React.Component<Props, {}> {
         <Grid
           item={true}
           xs={12}
-          md={4}
+          md={3}
           container={true}
           justify="flex-start"
           alignItems="baseline"
@@ -199,7 +199,7 @@ class InfoBar extends React.Component<Props, {}> {
         <Grid
           item={true}
           xs={12}
-          md={4}
+          md={5}
           container={true}
           justify="flex-start"
           alignItems="stretch"
