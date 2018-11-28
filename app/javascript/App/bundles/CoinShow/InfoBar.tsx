@@ -27,6 +27,7 @@ const styles = (theme) =>
 
       [theme.breakpoints.up('md')]: {
         padding: '24px',
+        paddingBottom: '0',
       },
       [theme.breakpoints.down('sm')]: {
         padding: '40px 16px 0',
@@ -96,7 +97,7 @@ const styles = (theme) =>
     detailsValue: {
       fontSize: '14px',
       lineHeight: 1.25,
-      whiteSpace: 'nowrap',
+      // whiteSpace: 'nowrap',
       [theme.breakpoints.down('sm')]: {
         marginBottom: '10px',
       },
