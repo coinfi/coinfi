@@ -15,7 +15,7 @@ class Api::SignalsTelegramBot::SignalsTelegramUsersController < Api::SignalsTele
 
   def for_trading_signal_notifications
     signals_telegram_users = SignalsTelegramUsers::ForTradingSignalNotificationsQuery.call(
-      coin_key: for_trading_signal_notifications_params[:coin_key]
+      coin_key: for_trading_signal_notifications_params[:coin_key],
       trading_signal_trigger_external_id: for_trading_signal_notifications_params[:trading_signal_trigger_external_id]
     )
 
