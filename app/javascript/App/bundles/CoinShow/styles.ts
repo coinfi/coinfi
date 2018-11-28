@@ -135,6 +135,46 @@ const styles = (theme) =>
     subCardContent: {
       paddingTop: '12px',
     },
+    ctaCardContent: {
+      padding: '0 !important',
+    },
+    ctaRoot: {
+      fontSize: '16px',
+      padding: '30px 20px 25px',
+      '& > *': {
+        marginBottom: '25px',
+      },
+    },
+    ctaImage: {
+      textAlign: 'center',
+      '& img': {
+        height: '65px',
+      },
+    },
+    ctaTitle: {
+      textAlign: 'center',
+      fontSize: '20px',
+      fontWeight: 500,
+    },
+    ctaIconContainer: {
+      textAlign: 'right',
+      paddingRight: '10px',
+      alignSelf: 'center',
+    },
+    ctaIcon: {
+      color: '#50ba53',
+    },
+    ctaButtonContainer: {
+      textAlign: 'center',
+    },
+    ctaButton: {
+      textTransform: 'none',
+      boxShadow: 'none !important',
+      backgroundColor: '#2faeed !important', // sky-blue
+      color: '#fff !important',
+      fontSize: '16px',
+      fontWeight: 600,
+    },
     linkListItem: {
       padding: '0',
     },

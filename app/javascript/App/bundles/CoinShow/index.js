@@ -5,6 +5,7 @@ import compose from 'recompose/compose'
 import classnames from 'classnames'
 import {
   Grid,
+  Button,
   Card,
   CardHeader,
   CardContent,
@@ -28,6 +29,8 @@ import CoinListWrapper from '~/bundles/common/components/CoinListWrapper'
 import CoinListDrawer from '~/bundles/common/components/CoinListDrawer'
 import { WATCHLIST_CHANGE_EVENT } from '~/bundles/common/containers/CoinListContainer'
 import styles from './styles'
+
+const lightbulb = require('~/images/lightbulb.svg') // tslint:disable-line
 
 const TAB_SLUGS = {
   tokenMetrics: 'token-metrics',
@@ -449,6 +452,79 @@ class CoinShow extends Component {
                   />
                   <CardContent className={classes.subCardContent}>
                     <LinksList coinObj={coinObj} />
+                  </CardContent>
+                </SubCard>
+                <SubCard>
+                  <CardContent
+                    className={classnames(
+                      classes.subCardContent,
+                      classes.ctaCardContent,
+                    )}
+                  >
+                    <Grid
+                      container={true}
+                      direction="row"
+                      justify="center"
+                      className={classes.ctaRoot}
+                    >
+                      <Grid item={true} xs={12} className={classes.ctaImage}>
+                        <img src={lightbulb} alt="Lightbulb" />
+                      </Grid>
+                      <Grid item={true} xs={12} className={classes.ctaTitle}>
+                        Know when to buy or sell {symbol}
+                      </Grid>
+                      <Grid
+                        item={true}
+                        xs={2}
+                        className={classes.ctaIconContainer}
+                      >
+                        <Icon
+                          name="check"
+                          regular
+                          className={classes.ctaIcon}
+                        />
+                      </Grid>
+                      <Grid item={true} xs={10}>
+                        When whales want to dump
+                      </Grid>
+                      <Grid
+                        item={true}
+                        xs={2}
+                        className={classes.ctaIconContainer}
+                      >
+                        <Icon
+                          name="check"
+                          regular
+                          className={classes.ctaIcon}
+                        />
+                      </Grid>
+                      <Grid item={true} xs={10}>
+                        When founder tokens unlock
+                      </Grid>
+                      <Grid
+                        item={true}
+                        xs={2}
+                        className={classes.ctaIconContainer}
+                      >
+                        <Icon
+                          name="check"
+                          regular
+                          className={classes.ctaIcon}
+                        />
+                      </Grid>
+                      <Grid item={true} xs={10}>
+                        When the market is bearish or bullish
+                      </Grid>
+                      <Grid item={true} className={classes.ctaButtonContainer}>
+                        <Button
+                          href="/signals/reservation"
+                          variant="contained"
+                          className={classes.ctaButton}
+                        >
+                          Get CoinFi Trading Signals
+                        </Button>
+                      </Grid>
+                    </Grid>
                   </CardContent>
                 </SubCard>
                 <SubCard>
