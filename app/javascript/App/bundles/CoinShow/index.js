@@ -20,6 +20,7 @@ import API from '../common/utils/localAPI'
 import SearchCoins from '~/bundles/common/components/SearchCoins'
 import CoinCharts from '~/bundles/common/components/CoinCharts'
 import FundamentalsList from './FundamentalsList'
+import InfoBar from './InfoBar'
 import LinksList from './LinksList'
 import HistoricalPriceDataTable from './HistoricalPriceDataTable'
 import Icon from '~/bundles/common/components/Icon'
@@ -241,13 +242,6 @@ class CoinShow extends Component {
 
     const isMobile = isWidthDown('sm', this.props.width)
     const isLoggedIn = !!user
-    const prepend = currency === 'USD' ? '$' : ''
-    const price = Number.parseFloat(_.get(coinObj, ['price'], 0)).toPrecision(6)
-    const priceString = `${prepend}${price} ${currency}`
-    const percentChange1h = _.get(coinObj, ['change1h'], 0)
-    const isPositive = percentChange1h >= 0
-    const arrow = isPositive ? '▲' : '▼'
-    const changeStyle = isPositive ? { color: '#12d8b8' } : { color: '#ff6161' }
     const hasTokenMetrics = !!metabaseUrl
 
     return (
@@ -316,55 +310,12 @@ class CoinShow extends Component {
                   elevation={0}
                   className={classes.topBarWrapper}
                 >
-                  <Grid
-                    container={true}
-                    alignContent="flex-start"
-                    alignItems="baseline"
-                    className={classes.titleBar}
-                  >
-                    <Grid item={true} className={classes.coinImage}>
-                      <img alt={coinObj.name} src={coinObj.image_url} />
-                    </Grid>
-                    <Grid item={true} className={classes.coinName}>
-                      {coinObj.name}
-                    </Grid>
-                    <Grid item={true} className={classes.coinSymbol}>
-                      {symbol}
-                    </Grid>
-                    <Grid item={true} className={classes.coinPrice}>
-                      {priceString}
-                    </Grid>
-                    <Grid
-                      item={true}
-                      className={classes.coinChange}
-                      style={changeStyle}
-                    >
-                      {arrow}
-                      {percentChange1h}%
-                    </Grid>
-                    <Grid item={true} className={classes.watchButtonContainer}>
-                      <Icon
-                        name="star"
-                        solid={true}
-                        className={
-                          this.state.watched
-                            ? classes.watchedButton
-                            : classes.unwatchedButton
-                        }
-                        style={{
-                          borderWidth: '1px',
-                          borderStyle: 'solid',
-                          borderRadius: '4px',
-                          padding: '8px',
-                          fontSize: '12px',
-                          lineHeight: ' 16px',
-                        }}
-                        onClick={this.watchCoinHandler}
-                      >
-                        {this.state.watched ? 'Unwatch Coin' : 'Watch Coin'}
-                      </Icon>
-                    </Grid>
-                  </Grid>
+                  <InfoBar
+                    isWatched={this.state.watched}
+                    watchCoinHandler={this.watchCoinHandler}
+                    currency={currency}
+                    coinObj={coinObj}
+                  />
                   <Tabs
                     value={tabSlug}
                     onChange={this.handleTabChange}

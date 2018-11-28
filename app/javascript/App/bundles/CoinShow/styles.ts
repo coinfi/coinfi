@@ -83,10 +83,6 @@ const styles = (theme) =>
       border: '1px solid #e5e8ed', // athens-darker
       marginTop: '-1px !important', // hide top border
     },
-    titleBar: {
-      backgroundColor: '#fff',
-      padding: '8px',
-    },
     tabsRoot: {
       backgroundColor: '#fff',
     },
@@ -108,78 +104,6 @@ const styles = (theme) =>
     newsLabelIcon: {
       marginLeft: '0.25rem',
       marginBottom: '0.25rem',
-    },
-    coinImage: {
-      alignSelf: 'flex-start',
-      [theme.breakpoints.up('md')]: {
-        marginRight: `${theme.spacing.unit}px`,
-      },
-      [theme.breakpoints.down('sm')]: {
-        flex: '1 0 100%',
-        textAlign: 'center',
-        marginTop: `${theme.spacing.unit * 1.5}px`,
-        marginBottom: `${theme.spacing.unit * 1.5}px`,
-      },
-    },
-    coinName: {
-      fontSize: '1.5rem',
-      fontWeight: 'bold',
-      [theme.breakpoints.up('md')]: {
-        marginRight: `${theme.spacing.unit}px`,
-      },
-      [theme.breakpoints.down('sm')]: {
-        flex: '1 0 50%',
-        paddingRight: `${theme.spacing.unit * 0.75}px`,
-        textAlign: 'right',
-        marginBottom: `${theme.spacing.unit * 0.5}px`,
-      },
-    },
-    coinSymbol: {
-      fontSize: '1rem',
-      [theme.breakpoints.up('md')]: {
-        marginRight: `${theme.spacing.unit * 1.5}px`,
-      },
-      [theme.breakpoints.down('sm')]: {
-        flex: '1 0 50%',
-        paddingLeft: `${theme.spacing.unit * 0.75}px`,
-        textAlign: 'left',
-        marginBottom: `${theme.spacing.unit * 0.5}px`,
-      },
-    },
-    coinPrice: {
-      fontSize: '1rem',
-      fontWeight: 'bold',
-      [theme.breakpoints.up('md')]: {
-        marginRight: `${theme.spacing.unit * 1.5}px`,
-      },
-      [theme.breakpoints.down('sm')]: {
-        flex: '1 0 33%',
-        textAlign: 'center',
-      },
-    },
-    coinChange: {
-      fontSize: '0.8rem',
-      [theme.breakpoints.up('md')]: {
-        marginRight: `${theme.spacing.unit * 1.5}px`,
-      },
-      [theme.breakpoints.down('sm')]: {
-        flex: '1 0 33%',
-        textAlign: 'center',
-      },
-    },
-    watchButtonContainer: {
-      [theme.breakpoints.down('sm')]: {
-        flex: '1 0 33%',
-        textAlign: 'center',
-      },
-    },
-    watchedButton: {
-      backgroundColor: '#40a9ff',
-      color: '#fff',
-    },
-    unwatchedButton: {
-      backgroundColor: '#fff',
-      color: '#40a9ff',
     },
     mainCard: {
       padding: 0,
