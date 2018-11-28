@@ -81,6 +81,7 @@ Rails.application.routes.draw do
       resources :trading_signals, only: %i[show create]
       resources :trading_signal_notifications, only: %i[show create]
       resources :signals_telegram_users, only: %i[index show], param: :telegram_id_or_username do
+        get 'for_trading_signal_notifications', on: :collection
         post 'register', on: :collection
 
         resources :signals_telegram_subscriptions, param: :coin_symbol, only: %i[index show create destroy]
