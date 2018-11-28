@@ -507,8 +507,11 @@ class CoinShow extends Component {
                     <List dense={true} disablePadding={true}>
                       {relatedCoins.map((item, index) => {
                         return (
-                          <ListItem key={index} style={{ padding: '4px 0' }}>
-                            <ListItemText>
+                          <ListItem
+                            key={index}
+                            className={classes.linkListItem}
+                          >
+                            <ListItemText className={classes.linkListText}>
                               <a
                                 href={`/coins/${item.slug}`}
                                 style={{

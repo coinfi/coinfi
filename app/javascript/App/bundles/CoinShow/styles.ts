@@ -211,6 +211,12 @@ const styles = (theme) =>
     subCardContent: {
       paddingTop: '12px',
     },
+    linkListItem: {
+      padding: '0',
+    },
+    linkListText: {
+      fontSize: '16px',
+    },
   })
 
 export default styles
