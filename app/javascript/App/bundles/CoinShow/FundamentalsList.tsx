@@ -1,11 +1,8 @@
 import * as React from 'react'
 import * as _ from 'lodash'
-import Icon from '~/bundles/common/components/Icon'
+import * as moment from 'moment'
 import { Grid, withStyles, createStyles } from '@material-ui/core'
-import {
-  formatValueWithCurrency,
-  formatValue,
-} from '~/bundles/common/utils/numberFormatters'
+import { formatValue } from '~/bundles/common/utils/numberFormatters'
 
 interface Props {
   coinObj: any
@@ -16,9 +13,9 @@ interface Props {
 const styles = (theme) =>
   createStyles({
     title: {
-      color: 'rgba(0,0,0,0.38)',
+      color: 'rgba(0,0,0,0.54)',
       marginBottom: '4px',
-      fontSize: '14px',
+      fontSize: '12px',
       lineHeight: '22px',
     },
     value: {
@@ -34,85 +31,79 @@ const styles = (theme) =>
 class FundamentalsList extends React.Component<Props, {}> {
   public render() {
     const { coinObj, classes } = this.props
-    const currency = this.props.currency.toUpperCase()
     const {
-      market_cap,
-      change24h,
-      change7d,
       available_supply,
       total_supply,
-      max_supply,
-      symbol,
+      release_date,
+      blockchain_tech,
+      algorithm,
+      ico_start_epoch,
+      ico_end_epoch,
     } = coinObj
-    const hasMarketCap = !_.isUndefined(market_cap)
-    const hasChange24h = !_.isUndefined(change24h)
-    const hasChange7d = !_.isUndefined(change7d)
+
+    const hasStartDate = _.isString(release_date)
+    const hasSupply =
+      !_.isUndefined(available_supply) &&
+      !_.isUndefined(total_supply) &&
+      total_supply > 0
+    const hasBlockchainType = _.isString(blockchain_tech)
+    const hasAlgorithm = _.isString(algorithm)
+
+    const hasIco = _.isNumber(ico_start_epoch)
+    const hasIcoEnded = ico_end_epoch < moment().unix()
 
     return (
       <Grid container={true} direction="column">
-        {hasMarketCap && (
-          <React.Fragment>
+        {hasStartDate && (
+          <>
             <Grid item={true} className={classes.title}>
-              Market Cap
+              Start date
             </Grid>
             <Grid item={true} className={classes.value}>
-              {formatValueWithCurrency(market_cap, currency)} {currency}
+              {moment.utc(release_date, 'YYYY-MM-DD').format('MMMM DD, YYYY')}
             </Grid>
-            {(hasChange24h || hasChange7d) && (
-              <Grid
-                item={true}
-                container={true}
-                alignContent="space-between"
-                alignItems="flex-start"
-                className={classes.title}
-              >
-                {hasChange24h && (
-                  <Grid item={true} xs={12} md={6}>
-                    24HR {formatValue(change24h, 2)}%
-                  </Grid>
-                )}
-                {hasChange7d && (
-                  <Grid item={true} xs={12} md={6}>
-                    7D {formatValue(change7d, 2)}%
-                  </Grid>
-                )}
-              </Grid>
-            )}
-          </React.Fragment>
+          </>
         )}
-        {!_.isUndefined(available_supply) &&
-          available_supply > 0 && (
-            <React.Fragment>
-              <Grid item={true} className={classes.title}>
-                Available Supply
-              </Grid>
-              <Grid item={true} className={classes.value}>
-                {formatValue(available_supply, 0)} {symbol}
-              </Grid>
-            </React.Fragment>
-          )}
-        {!_.isUndefined(total_supply) &&
-          total_supply > 0 && (
-            <React.Fragment>
-              <Grid item={true} className={classes.title}>
-                Total Supply
-              </Grid>
-              <Grid item={true} className={classes.value}>
-                {formatValue(total_supply, 0)} {symbol}
-              </Grid>
-            </React.Fragment>
-          )}
-        {!_.isUndefined(max_supply) &&
-          max_supply > 0 && (
-            <React.Fragment>
-              <Grid item={true} className={classes.title}>
-                Maximum Supply
-              </Grid>
-              <Grid item={true} className={classes.value}>
-                {formatValue(max_supply, 0)} {symbol}
-              </Grid>
-            </React.Fragment>
-          )}
+        {hasSupply && (
+          <>
+            <Grid item={true} className={classes.title}>
+              % of supply in circulation
+            </Grid>
+            <Grid item={true} className={classes.value}>
+              {formatValue((available_supply / total_supply) * 100, 1)}%
+            </Grid>
+          </>
+        )}
+        {hasBlockchainType && (
+          <>
+            <Grid item={true} className={classes.title}>
+              Blockchain
+            </Grid>
+            <Grid item={true} className={classes.value}>
+              {blockchain_tech}
+            </Grid>
+          </>
+        )}
+        {hasAlgorithm && (
+          <>
+            <Grid item={true} className={classes.title}>
+              Algorithm
+            </Grid>
+            <Grid item={true} className={classes.value}>
+              {algorithm}
+            </Grid>
+          </>
+        )}
+        {hasIco && (
+          <>
+            <Grid item={true} className={classes.title}>
+              Completed ICO
+            </Grid>
+            <Grid item={true} className={classes.value}>
+              {hasIcoEnded ? 'Yes' : 'No'}
+            </Grid>
+          </>
+        )}
       </Grid>
     )
   }
