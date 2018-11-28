@@ -198,6 +198,10 @@ class CoinShow extends Component {
     // this.props.history.push(`/coins/${coinSlug}`)
   }
 
+  generateCoinLink = (coin) => {
+    return `/coins/${coin.slug || ''}`
+  }
+
   handlePriceChartCreated = (priceChart) => {
     this.priceChart = priceChart
   }
@@ -264,6 +268,7 @@ class CoinShow extends Component {
                 <CoinListWrapper
                   loggedIn={isLoggedIn}
                   onClick={this.handleClickCoin}
+                  generateLink={this.generateCoinLink}
                 />
               </Card>
             </Grid>

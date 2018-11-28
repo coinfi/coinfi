@@ -11,6 +11,7 @@ interface Props {
   loggedIn: boolean
   onClick?: (slug: string) => void
   isWatchlist?: boolean
+  generateLink?: (coin: Coin) => string
 }
 
 const CoinListWrapper = (props: Props) => (
@@ -31,6 +32,7 @@ const CoinListWrapper = (props: Props) => (
             loggedIn={props.loggedIn}
             isWatchlist={props.isWatchlist}
             selectedCoinSlug={payload.selectedCoinSlug}
+            generateLink={props.generateLink}
             onSelectCoin={(coin: Coin) => {
               payload.selectCoinBySlug(coin.slug)
               if (props.onClick) {
