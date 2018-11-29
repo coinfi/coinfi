@@ -113,7 +113,7 @@ class CoinBody extends React.Component<Props, State> {
               </span>
               <span className="ml2">
                 <PercentageChange
-                  value={coinWithDetails.market_info.percent_change_24h}
+                  value={coinWithDetails.market_info.change24h}
                   className="b db"
                 />
               </span>

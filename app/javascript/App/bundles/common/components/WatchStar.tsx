@@ -20,7 +20,7 @@ const WatchButton = ({ coin, hasText, loggedIn }: Props) => {
             return (
               <Icon
                 name="star"
-                styleType="solid"
+                solid={true}
                 className={`aqua ${hasText ? hasTextClassNames : ''}`}
                 onClick={(e) => {
                   e.preventDefault()
