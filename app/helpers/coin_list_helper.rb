@@ -10,6 +10,10 @@ module CoinListHelper
   end
 
   def watchlist_coins
+    unless current_user
+      return []
+    end
+
     distribute_reads(max_lag: ApplicationController::MAX_ACCEPTABLE_REPLICATION_LAG, lag_failover: true) do
       coins = current_user.watchlist.coins.order(:ranking)
       coinlist_serializer(coins)
