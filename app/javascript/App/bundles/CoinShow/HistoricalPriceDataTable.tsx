@@ -67,6 +67,14 @@ const styles = (theme) =>
       overflowX: 'scroll',
     },
     table: {},
+    tableRow: {
+      '& > *:first-child': {
+        paddingLeft: '8px',
+      },
+      '& > *:last-child': {
+        paddingRight: '8px',
+      },
+    },
     toolbar: {
       padding: '0 !important',
     },
@@ -179,7 +187,7 @@ class HistoricalPriceDataTable extends React.Component<Props, State> {
         <div className={classes.tableWrapper}>
           <Table className={classes.table} padding="none">
             <TableHead>
-              <TableRow>
+              <TableRow className={classes.tableRow}>
                 <TableCell>Date</TableCell>
                 <TableCell numeric={true}>Open</TableCell>
                 <TableCell numeric={true}>High</TableCell>
@@ -194,10 +202,8 @@ class HistoricalPriceDataTable extends React.Component<Props, State> {
             <TableBody>
               {filteredData.map((row, index) => {
                 return (
-                  <TableRow key={index}>
-                    <TableCell component="th" scope="row">
-                      {row.formattedTime}
-                    </TableCell>
+                  <TableRow key={index} className={classes.tableRow}>
+                    <TableCell scope="row">{row.formattedTime}</TableCell>
                     <TableCell numeric={true}>
                       {prepend}
                       {row.open}
