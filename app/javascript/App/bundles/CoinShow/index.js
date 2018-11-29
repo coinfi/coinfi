@@ -96,7 +96,7 @@ class CoinShow extends Component {
     super(props)
 
     const { metabaseUrls } = props
-    const hasTokenMetrics = _.isArray(metabaseUrls) && metabaseUrls.length > 0
+    const hasTokenMetrics = _.isArray(metabaseUrls) && metabaseUrls.length >= 15
     const hashTag = _.get(props, ['location', 'hash']).slice(1) // remove prepended octothorpe
     const defaultTabSlug = hasTokenMetrics
       ? TAB_SLUGS.tokenMetrics
@@ -253,7 +253,7 @@ class CoinShow extends Component {
 
     const isMobile = isWidthDown('sm', this.props.width)
     const isLoggedIn = !!user
-    const hasTokenMetrics = _.isArray(metabaseUrls) && metabaseUrls.length > 0
+    const hasTokenMetrics = _.isArray(metabaseUrls) && metabaseUrls.length >= 15
     const fullWidthDesktopIframeHeight = 471
     const halfWidthDesktopIframeHeight = 240
     const fullWidthMobileIframeHeight = 259
@@ -465,6 +465,186 @@ class CoinShow extends Component {
                     <iframe
                       title="Advanced Token Metrics"
                       src={metabaseUrls[2]}
+                      frameBorder="0"
+                      width={isMobile ? '100%' : '50%'}
+                      height={
+                        isMobile
+                          ? fullWidthMobileIframeHeight
+                          : halfWidthDesktopIframeHeight
+                      }
+                      scrolling="no"
+                    />
+                  </Grid>
+                  <Grid
+                    item={true}
+                    xs={12}
+                    className={classes.tokenMetricHeader}
+                  >
+                    Percentage of Early Investors Still Holding
+                  </Grid>
+                  <Grid item={true} xs={12}>
+                    <iframe
+                      title="Advanced Token Metrics"
+                      src={metabaseUrls[3]}
+                      frameBorder="0"
+                      width="100%"
+                      height={
+                        isMobile
+                          ? fullWidthMobileIframeHeight
+                          : fullWidthDesktopIframeHeight
+                      }
+                      scrolling="no"
+                    />
+                    <iframe
+                      title="Advanced Token Metrics"
+                      src={metabaseUrls[4]}
+                      frameBorder="0"
+                      width={isMobile ? '100%' : '50%'}
+                      height={
+                        isMobile
+                          ? fullWidthMobileIframeHeight
+                          : halfWidthDesktopIframeHeight
+                      }
+                      scrolling="no"
+                    />
+                    <iframe
+                      title="Advanced Token Metrics"
+                      src={metabaseUrls[5]}
+                      frameBorder="0"
+                      width={isMobile ? '100%' : '50%'}
+                      height={
+                        isMobile
+                          ? fullWidthMobileIframeHeight
+                          : halfWidthDesktopIframeHeight
+                      }
+                      scrolling="no"
+                    />
+                  </Grid>
+                  <Grid
+                    item={true}
+                    xs={12}
+                    className={classes.tokenMetricHeader}
+                  >
+                    Unique Wallets Holding Token
+                  </Grid>
+                  <Grid item={true} xs={12}>
+                    <iframe
+                      title="Advanced Token Metrics"
+                      src={metabaseUrls[6]}
+                      frameBorder="0"
+                      width="100%"
+                      height={
+                        isMobile
+                          ? fullWidthMobileIframeHeight
+                          : fullWidthDesktopIframeHeight
+                      }
+                      scrolling="no"
+                    />
+                    <iframe
+                      title="Advanced Token Metrics"
+                      src={metabaseUrls[7]}
+                      frameBorder="0"
+                      width={isMobile ? '100%' : '50%'}
+                      height={
+                        isMobile
+                          ? fullWidthMobileIframeHeight
+                          : halfWidthDesktopIframeHeight
+                      }
+                      scrolling="no"
+                    />
+                    <iframe
+                      title="Advanced Token Metrics"
+                      src={metabaseUrls[8]}
+                      frameBorder="0"
+                      width={isMobile ? '100%' : '50%'}
+                      height={
+                        isMobile
+                          ? fullWidthMobileIframeHeight
+                          : halfWidthDesktopIframeHeight
+                      }
+                      scrolling="no"
+                    />
+                  </Grid>
+                  <Grid
+                    item={true}
+                    xs={12}
+                    className={classes.tokenMetricHeader}
+                  >
+                    Percentage of Tokens Held By Top 100 Wallets
+                  </Grid>
+                  <Grid item={true} xs={12}>
+                    <iframe
+                      title="Advanced Token Metrics"
+                      src={metabaseUrls[9]}
+                      frameBorder="0"
+                      width="100%"
+                      height={
+                        isMobile
+                          ? fullWidthMobileIframeHeight
+                          : fullWidthDesktopIframeHeight
+                      }
+                      scrolling="no"
+                    />
+                    <iframe
+                      title="Advanced Token Metrics"
+                      src={metabaseUrls[10]}
+                      frameBorder="0"
+                      width={isMobile ? '100%' : '50%'}
+                      height={
+                        isMobile
+                          ? fullWidthMobileIframeHeight
+                          : halfWidthDesktopIframeHeight
+                      }
+                      scrolling="no"
+                    />
+                    <iframe
+                      title="Advanced Token Metrics"
+                      src={metabaseUrls[11]}
+                      frameBorder="0"
+                      width={isMobile ? '100%' : '50%'}
+                      height={
+                        isMobile
+                          ? fullWidthMobileIframeHeight
+                          : halfWidthDesktopIframeHeight
+                      }
+                      scrolling="no"
+                    />
+                  </Grid>
+                  <Grid
+                    item={true}
+                    xs={12}
+                    className={classes.tokenMetricHeader}
+                  >
+                    Percentage of Supply Transacted on Blockchain
+                  </Grid>
+                  <Grid item={true} xs={12}>
+                    <iframe
+                      title="Advanced Token Metrics"
+                      src={metabaseUrls[12]}
+                      frameBorder="0"
+                      width="100%"
+                      height={
+                        isMobile
+                          ? fullWidthMobileIframeHeight
+                          : fullWidthDesktopIframeHeight
+                      }
+                      scrolling="no"
+                    />
+                    <iframe
+                      title="Advanced Token Metrics"
+                      src={metabaseUrls[13]}
+                      frameBorder="0"
+                      width={isMobile ? '100%' : '50%'}
+                      height={
+                        isMobile
+                          ? fullWidthMobileIframeHeight
+                          : halfWidthDesktopIframeHeight
+                      }
+                      scrolling="no"
+                    />
+                    <iframe
+                      title="Advanced Token Metrics"
+                      src={metabaseUrls[14]}
                       frameBorder="0"
                       width={isMobile ? '100%' : '50%'}
                       height={

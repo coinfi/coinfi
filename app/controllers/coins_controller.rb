@@ -27,7 +27,7 @@ class CoinsController < ApplicationController
     end
 
     if @coin.symbol && @coin.is_erc20? && ENV['METABASE_SECRET_KEY']
-      dashboards = [48, 50, 49]
+      dashboards = [48, 50, 49, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62]
 
       @metabase_urls = dashboards.map { |id| "https://metabase.coinfi.com/embed/dashboard/#{get_token(id)}#bordered=false&titled=false" }
     else

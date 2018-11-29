@@ -123,10 +123,13 @@ const styles = (theme) =>
       color: 'rgba(0, 0, 0, 0.87)',
     },
     tokenMetricHeader: {
-      textSize: '20px',
+      fontSize: '20px',
       fontWeight: 500,
       color: 'rgba(0, 0, 0, 0.87)',
       paddingLeft: '8px',
+      '&:not(:first-child)': {
+        marginTop: '16px',
+      },
     },
     expansionRoot: {
       '&:before': {
