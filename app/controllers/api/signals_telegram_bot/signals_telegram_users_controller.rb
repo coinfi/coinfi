@@ -67,8 +67,7 @@ class Api::SignalsTelegramBot::SignalsTelegramUsersController < Api::SignalsTele
 
   def index_params
     params.permit(
-      :is_active,
-      :subscribed_coin_key
+      :is_active
     )
   end
 
