@@ -39,7 +39,9 @@ const styles = (theme) =>
       paddingTop: '0 !important',
       paddingBottom: '0 !important',
     },
-    mainContainer: {},
+    mainContainer: {
+      marginBottom: '0 !important',
+    },
     contentContainer: {
       [theme.breakpoints.up('md')]: {
         maxWidth: '70%',
@@ -113,6 +115,19 @@ const styles = (theme) =>
       },
       borderRadius: '2px',
       border: '1px solid #e5e8ed',
+    },
+    cardHeader: {
+      fontSize: '16px',
+      fontWeight: 500,
+      color: 'rgba(0, 0, 0, 0.87)',
+    },
+    expansionRoot: {
+      '&:before': {
+        backgroundColor: 'unset',
+      },
+    },
+    expansionDetails: {
+      display: 'block',
     },
     subCard: {
       padding: 0,

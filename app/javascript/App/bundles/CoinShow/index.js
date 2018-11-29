@@ -14,8 +14,12 @@ import {
   ListItemText,
   Tabs,
   Tab,
+  ExpansionPanel,
+  ExpansionPanelSummary,
+  ExpansionPanelDetails,
   withStyles,
 } from '@material-ui/core'
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import withWidth, { isWidthDown } from '@material-ui/core/withWidth'
 import API from '../common/utils/localAPI'
 import SearchCoins from '~/bundles/common/components/SearchCoins'
@@ -374,7 +378,10 @@ class CoinShow extends Component {
                   )}
                 >
                   <MainCard>
-                    <CardHeader title="Price Chart" />
+                    <CardHeader
+                      title="Price Chart"
+                      classes={{ title: classes.cardHeader }}
+                    />
                     <CardContent>
                       <CoinCharts
                         symbol={symbol}
@@ -386,22 +393,33 @@ class CoinShow extends Component {
                       />
                     </CardContent>
                   </MainCard>
-                </Grid>
-              )}
-              {/*tabIndex === 2 && (
-                <Grid item={true} xs={12}>
-                  <MainCard>
-                    <CardHeader title="Historical Data" />
-                    <CardContent>
+                  <ExpansionPanel
+                    square={true}
+                    elevation={0}
+                    className={classnames(
+                      classes.mainCard,
+                      classes.expansionRoot,
+                    )}
+                  >
+                    <ExpansionPanelSummary
+                      expandIcon={<ExpandMoreIcon />}
+                      className={classnames(
+                        classes.expansionSummary,
+                        classes.cardHeader,
+                      )}
+                    >
+                      Historical Data
+                    </ExpansionPanelSummary>
+                    <ExpansionPanelDetails className={classes.expansionDetails}>
                       <HistoricalPriceDataTable
                         initialData={priceData}
                         availableSupply={availableSupply}
                         symbol={symbol}
                       />
-                    </CardContent>
-                  </MainCard>
+                    </ExpansionPanelDetails>
+                  </ExpansionPanel>
                 </Grid>
-              )*/}
+              )}
               {tabSlug === TAB_SLUGS.tokenMetrics && (
                 <Grid
                   item={true}

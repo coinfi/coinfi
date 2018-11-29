@@ -63,8 +63,13 @@ interface State {
 
 const styles = (theme) =>
   createStyles({
+    tableWrapper: {
+      overflowX: 'scroll',
+    },
     table: {},
-    toolbar: {},
+    toolbar: {
+      padding: '0 !important',
+    },
     grow: {
       flexGrow: 1,
     },
@@ -158,7 +163,7 @@ class HistoricalPriceDataTable extends React.Component<Props, State> {
 
     return (
       <React.Fragment>
-        <Toolbar>
+        <Toolbar className={classes.toolbar}>
           {currency ? (
             <Typography component="div">Prices in {currency}</Typography>
           ) : (
@@ -171,55 +176,57 @@ class HistoricalPriceDataTable extends React.Component<Props, State> {
             onChangeHandler={this.onDateChangeHandler}
           />
         </Toolbar>
-        <Table className={classes.table} padding="none">
-          <TableHead>
-            <TableRow>
-              <TableCell>Date</TableCell>
-              <TableCell numeric={true}>Open</TableCell>
-              <TableCell numeric={true}>High</TableCell>
-              <TableCell numeric={true}>Low</TableCell>
-              <TableCell numeric={true}>Close</TableCell>
-              <TableCell numeric={true}>Volume ({symbol})</TableCell>
-              {!!availableSupply && (
-                <TableCell numeric={true}>Market Cap</TableCell>
-              )}
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {filteredData.map((row, index) => {
-              return (
-                <TableRow key={index}>
-                  <TableCell component="th" scope="row">
-                    {row.formattedTime}
-                  </TableCell>
-                  <TableCell numeric={true}>
-                    {prepend}
-                    {row.open}
-                  </TableCell>
-                  <TableCell numeric={true}>
-                    {prepend}
-                    {row.high}
-                  </TableCell>
-                  <TableCell numeric={true}>
-                    {prepend}
-                    {row.low}
-                  </TableCell>
-                  <TableCell numeric={true}>
-                    {prepend}
-                    {row.close}
-                  </TableCell>
-                  <TableCell numeric={true}>{row.volume}</TableCell>
-                  {!!availableSupply && (
+        <div className={classes.tableWrapper}>
+          <Table className={classes.table} padding="none">
+            <TableHead>
+              <TableRow>
+                <TableCell>Date</TableCell>
+                <TableCell numeric={true}>Open</TableCell>
+                <TableCell numeric={true}>High</TableCell>
+                <TableCell numeric={true}>Low</TableCell>
+                <TableCell numeric={true}>Close</TableCell>
+                <TableCell numeric={true}>Volume ({symbol})</TableCell>
+                {!!availableSupply && (
+                  <TableCell numeric={true}>Market Cap</TableCell>
+                )}
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {filteredData.map((row, index) => {
+                return (
+                  <TableRow key={index}>
+                    <TableCell component="th" scope="row">
+                      {row.formattedTime}
+                    </TableCell>
                     <TableCell numeric={true}>
                       {prepend}
-                      {row.marketCap}
+                      {row.open}
                     </TableCell>
-                  )}
-                </TableRow>
-              )
-            })}
-          </TableBody>
-        </Table>
+                    <TableCell numeric={true}>
+                      {prepend}
+                      {row.high}
+                    </TableCell>
+                    <TableCell numeric={true}>
+                      {prepend}
+                      {row.low}
+                    </TableCell>
+                    <TableCell numeric={true}>
+                      {prepend}
+                      {row.close}
+                    </TableCell>
+                    <TableCell numeric={true}>{row.volume}</TableCell>
+                    {!!availableSupply && (
+                      <TableCell numeric={true}>
+                        {prepend}
+                        {row.marketCap}
+                      </TableCell>
+                    )}
+                  </TableRow>
+                )
+              })}
+            </TableBody>
+          </Table>
+        </div>
       </React.Fragment>
     )
   }
