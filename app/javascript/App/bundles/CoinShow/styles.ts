@@ -121,6 +121,12 @@ const styles = (theme) =>
       fontWeight: 500,
       color: 'rgba(0, 0, 0, 0.87)',
     },
+    tokenMetricHeader: {
+      textSize: '20px',
+      fontWeight: 500,
+      color: 'rgba(0, 0, 0, 0.87)',
+      paddingLeft: '8px',
+    },
     expansionRoot: {
       '&:before': {
         backgroundColor: 'unset',

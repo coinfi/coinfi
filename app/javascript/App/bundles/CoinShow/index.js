@@ -95,8 +95,8 @@ class CoinShow extends Component {
   constructor(props) {
     super(props)
 
-    const { metabaseUrl } = props
-    const hasTokenMetrics = !!metabaseUrl
+    const { metabaseUrls } = props
+    const hasTokenMetrics = _.isArray(metabaseUrls) && metabaseUrls.length > 0
     const hashTag = _.get(props, ['location', 'hash']).slice(1) // remove prepended octothorpe
     const defaultTabSlug = hasTokenMetrics
       ? TAB_SLUGS.tokenMetrics
@@ -243,7 +243,7 @@ class CoinShow extends Component {
       availableSupply,
       annotations,
       isTradingViewVisible,
-      metabaseUrl,
+      metabaseUrls,
       coinObj,
       relatedCoins,
       classes,
@@ -253,7 +253,10 @@ class CoinShow extends Component {
 
     const isMobile = isWidthDown('sm', this.props.width)
     const isLoggedIn = !!user
-    const hasTokenMetrics = !!metabaseUrl
+    const hasTokenMetrics = _.isArray(metabaseUrls) && metabaseUrls.length > 0
+    const fullWidthDesktopIframeHeight = 471
+    const halfWidthDesktopIframeHeight = 240
+    const fullWidthMobileIframeHeight = 259
 
     return (
       <div className={classes.root}>
@@ -427,19 +430,51 @@ class CoinShow extends Component {
                   md={8}
                   className={classes.contentContainer}
                 >
-                  <MainCard>
-                    <CardHeader title="Advanced Token Metrics" />
-                    <CardContent>
-                      <iframe
-                        title="Advanced Token Metrics"
-                        src={metabaseUrl}
-                        frameBorder="0"
-                        width="100%"
-                        height="900"
-                        scrolling="no"
-                      />
-                    </CardContent>
-                  </MainCard>
+                  <Grid
+                    item={true}
+                    xs={12}
+                    className={classes.tokenMetricHeader}
+                  >
+                    Percentage of {symbol} on Exchange
+                  </Grid>
+                  <Grid item={true} xs={12}>
+                    <iframe
+                      title="Advanced Token Metrics"
+                      src={metabaseUrls[0]}
+                      frameBorder="0"
+                      width="100%"
+                      height={
+                        isMobile
+                          ? fullWidthMobileIframeHeight
+                          : fullWidthDesktopIframeHeight
+                      }
+                      scrolling="no"
+                    />
+                    <iframe
+                      title="Advanced Token Metrics"
+                      src={metabaseUrls[1]}
+                      frameBorder="0"
+                      width={isMobile ? '100%' : '50%'}
+                      height={
+                        isMobile
+                          ? fullWidthMobileIframeHeight
+                          : halfWidthDesktopIframeHeight
+                      }
+                      scrolling="no"
+                    />
+                    <iframe
+                      title="Advanced Token Metrics"
+                      src={metabaseUrls[2]}
+                      frameBorder="0"
+                      width={isMobile ? '100%' : '50%'}
+                      height={
+                        isMobile
+                          ? fullWidthMobileIframeHeight
+                          : halfWidthDesktopIframeHeight
+                      }
+                      scrolling="no"
+                    />
+                  </Grid>
                 </Grid>
               )}
               <Grid

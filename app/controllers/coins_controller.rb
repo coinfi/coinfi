@@ -27,17 +27,11 @@ class CoinsController < ApplicationController
     end
 
     if @coin.symbol && @coin.is_erc20? && ENV['METABASE_SECRET_KEY']
-      payload = {
-        resource: { dashboard: 3 },
-        params: {
-          "coin_key" => @coin.coin_key
-        }
-      }
-      token = JWT.encode payload, ENV['METABASE_SECRET_KEY']
+      dashboards = [48, 50, 49]
 
-      @metabase_url = "https://metabase.coinfi.com/embed/dashboard/#{token}#bordered=false&titled=false"
+      @metabase_urls = dashboards.map { |id| "https://metabase.coinfi.com/embed/dashboard/#{get_token(id)}#bordered=false&titled=false" }
     else
-      @metabase_url = nil
+      @metabase_urls = []
     end
 
     # TODO: Flag if a non-listed coin gets routed to this controller.
@@ -81,6 +75,16 @@ class CoinsController < ApplicationController
       # 301 redirect to the same action with the coin slug for SEO purposes
       redirect_to action: action_name, id_or_slug: coin_by_id.slug, status: :moved_permanently
     end
+  end
+
+  def get_token(dashboard_id)
+    payload = {
+      resource: { dashboard: dashboard_id },
+      params: {
+        "coin_key" => @coin.coin_key
+      }
+    }
+    JWT.encode payload, ENV['METABASE_SECRET_KEY']
   end
 
   def serialize_coins(coins)
