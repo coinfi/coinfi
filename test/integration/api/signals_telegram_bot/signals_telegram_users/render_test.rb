@@ -2,7 +2,7 @@ require 'application_integration_test'
 require 'test_helper'
 require_relative './base_test'
 
-class Api::SignalsTelegramBot::RenderTest < Api::SignalsTelegramBot::BaseTest
+class Api::SignalsTelegramBot::SignalsTelegramUsers::RenderTest < Api::SignalsTelegramBot::BaseTest
   test "register when valid" do
     unregistered_user = create(:user, :with_confirmed_signals_reservation)
     telegram_id = Faker::Number.number(9)

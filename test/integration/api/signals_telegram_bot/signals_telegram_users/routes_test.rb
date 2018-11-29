@@ -2,7 +2,7 @@ require 'application_integration_test'
 require 'test_helper'
 require_relative './base_test'
 
-class Api::SignalsTelegramBot::RoutesTest < Api::SignalsTelegramBot::BaseTest
+class Api::SignalsTelegramBot::SignalsTelegramUsers::RoutesTest < Api::SignalsTelegramBot::BaseTest
   test "cannot visit register when unauthenticated" do
     post "/api/signals_telegram_bot/signals_telegram_users/register"
     assert_equal 401, status

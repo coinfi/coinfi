@@ -77,6 +77,7 @@ Rails.application.routes.draw do
     end
 
     namespace :signals_telegram_bot do
+      resources :coins, only: %i[show], param: :coin_key
       resources :trading_signal_triggers, only: %i[index show create]
       resources :trading_signals, only: %i[show create]
       resources :trading_signal_notifications, only: %i[show create]
