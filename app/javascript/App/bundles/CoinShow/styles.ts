@@ -62,6 +62,7 @@ const styles = (theme) =>
       height: '60px', // taken from CoinListHeader.js (+! for bottom border)
       display: 'flex',
       alignItems: 'center',
+      overflow: 'unset',
       '& .search-field': {
         '& .f5': {
           fontSize: '14px !important',
