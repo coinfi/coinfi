@@ -3,6 +3,7 @@ class NewsController < ApplicationController
   before_action :set_default_news_items, only: [:index, :show]
 
   include NewsHelper
+  include CoinListHelper
 
   def index
     set_meta_tags(
@@ -56,23 +57,12 @@ class NewsController < ApplicationController
     @top_coin_slugs = Coin.top(5).pluck(:slug)
     @categories = NewsCategory.pluck(:name)
 
-    @top_coins_data = Rails.cache.fetch("coins/toplist", expires_in: 1.hour) do
-      serialize_coins(Coin.order(:ranking).limit(20))
-    end
-    @watched_coins_data = serialize_coins(
-      current_user.watchlist.coins.order(:ranking)
-    ) if current_user
+    @top_coins_data = toplist_coins
+    @watched_coins_data = watchlist_coins if current_user
   end
 
   def set_body_class
     @body_class = 'page page--fullscreen'
-  end
-
-  def serialize_coins(coins)
-    coins.as_json(
-      only: %i[id name symbol slug price_usd],
-      methods: %i[market_info]
-    )
   end
 
   def serialize_coin_with_details(coin)
