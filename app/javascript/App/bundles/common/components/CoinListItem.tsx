@@ -20,7 +20,8 @@ export default (props: Props) => {
 
   const coinPrice = _.get(coin, ['market_info', 'price_usd'])
   const coinPriceFixed = roundToDecimalPlaces(coinPrice, 4)
-  const percentChange = _.get(coin, ['market_info', 'percent_change_24h'])
+  const percentChange = _.get(coin, ['market_info', 'change24h'])
+
   return (
     <a
       href={`/news/${coin.slug}`}
@@ -38,12 +39,13 @@ export default (props: Props) => {
         <div className="b f5 pl2">{coin.symbol}</div>
         {coin.market_info && (
           <div className="right-align">
-            {coinPrice && (
+            {coinPrice ? (
               <div>
                 $<span>{coinPriceFixed}</span>
               </div>
+            ) : (
+              <div className="smaller3">UNLISTED</div>
             )}
-            {coinPrice ? null : <div className="smaller3">UNLISTED</div>}
             <PercentageChange value={percentChange} className="smaller2 b db" />
           </div>
         )}
