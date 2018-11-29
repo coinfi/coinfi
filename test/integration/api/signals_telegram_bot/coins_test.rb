@@ -3,7 +3,7 @@ require 'test_helper'
 require 'uri'
 require_relative './base_test'
 
-class Api::SignalsTelegramBot::TradingSignalsTest < Api::SignalsTelegramBot::BaseTest
+class Api::SignalsTelegramBot::CoinsTest < Api::SignalsTelegramBot::BaseTest
   setup do
     @coins = create_list(:coin, 3)
   end
