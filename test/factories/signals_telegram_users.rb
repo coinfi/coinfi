@@ -21,9 +21,11 @@ FactoryBot.define do
         signals_telegram_subscription_count { 3 }
       end
 
-      signals_telegram_subscriptions {
-        build_list(:signals_telegram_subscription, signals_telegram_subscription_count)
-      }
+      after(:build) do |signals_telegram_user, evaluator|
+        signals_telegram_user.signals_telegram_subscriptions = build_list(:signals_telegram_subscription, evaluator.signals_telegram_subscription_count,
+          signals_telegram_user: signals_telegram_user
+        )
+      end
     end
   end
 end

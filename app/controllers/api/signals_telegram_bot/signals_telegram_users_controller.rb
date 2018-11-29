@@ -9,11 +9,15 @@ class Api::SignalsTelegramBot::SignalsTelegramUsersController < Api::SignalsTele
       signals_telegram_users = SignalsTelegramUser.all
     end
 
-    if subscribed_coin_key = index_params[:subscribed_coin_key]
-      signals_telegram_users = signals_telegram_users
-        .joins(signals_telegram_subscriptions: :coin)
-        .where(signals_telegram_subscriptions: { coins: { coin_key: subscribed_coin_key }})
-    end
+    json = signals_telegram_users.map { |u| serialize_signals_telegram_user(u) }
+    render json: json, status: :ok
+  end
+
+  def for_trading_signal_notifications
+    signals_telegram_users = SignalsTelegramUsers::ForTradingSignalNotificationsQuery.call(
+      coin_key: for_trading_signal_notifications_params[:coin_key],
+      trading_signal_trigger_external_id: for_trading_signal_notifications_params[:trading_signal_trigger_external_id]
+    )
 
     json = signals_telegram_users.map { |u| serialize_signals_telegram_user(u) }
     render json: json, status: :ok
@@ -63,8 +67,14 @@ class Api::SignalsTelegramBot::SignalsTelegramUsersController < Api::SignalsTele
 
   def index_params
     params.permit(
-      :is_active,
-      :subscribed_coin_key
+      :is_active
+    )
+  end
+
+  def for_trading_signal_notifications_params
+    params.permit(
+      :coin_key,
+      :trading_signal_trigger_external_id
     )
   end
 
