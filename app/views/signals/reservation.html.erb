@@ -99,21 +99,7 @@
             class: "signal-faqs-item",
           },
           prerender: false
-        %>
-        <%= react_component "SignalFaqPanel",
-          props: {
-            question: "Is there a timeline for delivery?",
-            answerHtml: <<~HTML
-              <p class="signal-faqs-item__paragraph signal-faqs-item__paragraph--last">
-                The first signal is already active and our beta users are trading with it. We will release additional signals as they complete thorough backtesting.
-              </p>
-            HTML
-          },
-          html_options: {
-            class: "signal-faqs-item",
-          },
-          prerender: false
-        %>
+        %> 
         <%= react_component "SignalFaqPanel",
           props: {
             question: "What signals will I receive during the beta?",
@@ -133,7 +119,7 @@
             question: "Do the signals really work?",
             answerHtml: <<~HTML
               <p class="signal-faqs-item__paragraph signal-faqs-item__paragraph--last">
-                It’s important to understand that no signal will work 100% of the time. However, each signal goes through a rigorous backtesting process using historical data. We test many signals and only release the ones that have shown to have a positive correlation to price movements. In addition, we constantly optimize each signal based on ever changing market conditions.
+                It’s important to understand that no signal will work 100% of the time. However, each signal goes through a rigorous backtesting process using historical data. We test many signals and only release the ones that meet our high quality bar. In addition, we constantly optimize each signal based on ever changing market conditions.
               </p>
             HTML
           },

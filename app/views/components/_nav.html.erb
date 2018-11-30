@@ -13,9 +13,7 @@
     <!-- Menu -->
     <div class="nav-menu nav-menu--out ph0-ns">
       <%= nav_link "Trading Signals", "/signals", { class: "nav-menu__item" } %>
-      <% if has_news_feature? %>
-        <%= nav_link "News", "/news", { class: "nav-menu__item" } %>
-      <% end %>
+      <%= nav_link "News", "/news", { class: "nav-menu__item" } %>
       <div class="nav-menu-item-coins">
         <div class="nav-menu__item nav-menu-coins-toggle"><span>Coins </span><i class="fa fa-angle-down"></i></div>
         <div class="nav-menu-coins">

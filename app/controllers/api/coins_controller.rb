@@ -1,4 +1,6 @@
 class Api::CoinsController < ApiController
+  include ::CoinListHelper
+
   def index
     distribute_reads(max_lag: MAX_ACCEPTABLE_REPLICATION_LAG, lag_failover: true) do
       @current_page = params[:page] || 1
@@ -55,32 +57,18 @@ class Api::CoinsController < ApiController
   end
 
   def toplist
-    distribute_reads(max_lag: MAX_ACCEPTABLE_REPLICATION_LAG, lag_failover: true) do
-      coins = Rails.cache.fetch("coins/toplist", expires_in: 1.hour) do
-        distribute_reads(max_lag: MAX_ACCEPTABLE_REPLICATION_LAG, lag_failover: true) do
-          Coin.order(:ranking).limit(20)
-        end
-      end
-      respond_success coinlist_serializer(coins)
-    end
+    respond_success toplist_coins
   end
 
   def watchlist
-    distribute_reads(max_lag: MAX_ACCEPTABLE_REPLICATION_LAG, lag_failover: true) do
-      coins = current_user.watchlist.coins.order(:ranking)
-      respond_success coinlist_serializer(coins)
+    if current_user
+      respond_success watchlist_coins
+    else
+      render json: {}, status: :unauthorized
     end
   end
 
 private
-
-  def coinlist_serializer(coins)
-    coins.as_json(
-      only: %i[id name symbol slug price_usd],
-      methods: %i[market_info]
-    )
-  end
-
   def index_serializer(coins)
     coins.as_json(
       only: %i[id name symbol slug coin_key ranking image_url price market_cap change1h change24h change7d volume24],

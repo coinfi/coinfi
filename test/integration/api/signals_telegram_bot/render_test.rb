@@ -18,7 +18,7 @@ class Api::SignalsTelegramBot::RenderTest < Api::SignalsTelegramBot::BaseTest
         started_at: started_at.iso8601,
       }
     }
-    post "/api/signals_telegram_bot/signals_telegram_users/register", params: request_params, headers: auth_headers
+    post "/api/signals_telegram_bot/signals_telegram_users/register", params: request_params, headers: auth_headers, as: :json
 
     assert_equal 200, status
     unregistered_user.reload
@@ -73,12 +73,12 @@ class Api::SignalsTelegramBot::RenderTest < Api::SignalsTelegramBot::BaseTest
     end
   end
 
-  test "signals_telegram_users when `subscribed_coin_key` is set" do
+  test "signals_telegram_users for notifications when `coin_key` is set" do
     signals_telegram_users = create_list(:signals_telegram_user, 3, :with_signals_telegram_subscriptions, is_active: true)
     signals_telegram_user = signals_telegram_users.sample
     coin_key = signals_telegram_user.signals_telegram_subscriptions.sample.coin.coin_key
 
-    get "/api/signals_telegram_bot/signals_telegram_users?is_active=true&subscribed_coin_key=#{coin_key}", headers: auth_headers
+    get "/api/signals_telegram_bot/signals_telegram_users/for_trading_signal_notifications?coin_key=#{coin_key}", headers: auth_headers
 
     assert_equal 200, status
     expected_ids = response.parsed_body.map { |x| x['id'] }
@@ -126,7 +126,7 @@ class Api::SignalsTelegramBot::RenderTest < Api::SignalsTelegramBot::BaseTest
     }
 
     assert_difference 'SignalsTelegramSubscription.count', 1 do
-      post "/api/signals_telegram_bot/signals_telegram_users/#{signals_telegram_user.telegram_id}/signals_telegram_subscriptions", params: request_params, headers: auth_headers
+      post "/api/signals_telegram_bot/signals_telegram_users/#{signals_telegram_user.telegram_id}/signals_telegram_subscriptions", params: request_params, headers: auth_headers, as: :json
     end
     assert_equal 201, status
     assert_equal coin.id, response.parsed_body['coin']['id']

@@ -14,6 +14,7 @@ import LoadingIndicator from '../common/components/LoadingIndicator'
 import * as moment from 'moment'
 import { Moment } from 'moment'
 import DateRangeSelect from './DateRangeSelect'
+import { formatValue } from '~/bundles/common/utils/numberFormatters'
 
 enum STATUSES {
   INITIALIZING = 'INITIALIZING',
@@ -98,24 +99,18 @@ class HistoricalPriceDataTable extends React.Component<Props, State> {
     return y.datetime.diff(x.datetime)
   }
 
-  public formatPrice(price: number, decimal: number = 6): string {
-    return price.toLocaleString('en-US', {
-      maximumFractionDigits: decimal,
-    })
-  }
-
   public parseData(d: RawPriceData): PriceData {
     const datetime = moment.utc(d.time)
     const formattedTime = datetime.format('MMM DD, YYYY')
-    const marketCap = this.formatPrice(
+    const marketCap = formatValue(
       Math.round(this.props.availableSupply * d.close),
       0,
     )
-    const open = this.formatPrice(d.open)
-    const high = this.formatPrice(d.high)
-    const low = this.formatPrice(d.low)
-    const close = this.formatPrice(d.close)
-    const volume = this.formatPrice(d.volume_from)
+    const open = formatValue(d.open)
+    const high = formatValue(d.high)
+    const low = formatValue(d.low)
+    const close = formatValue(d.close)
+    const volume = formatValue(d.volume_from)
 
     return {
       open,
@@ -171,11 +166,12 @@ class HistoricalPriceDataTable extends React.Component<Props, State> {
           )}
           <div className={classes.grow} />
           <DateRangeSelect
+            initialValue="30-days"
             className={classes.picker}
             onChangeHandler={this.onDateChangeHandler}
           />
         </Toolbar>
-        <Table className={classes.table}>
+        <Table className={classes.table} padding="none">
           <TableHead>
             <TableRow>
               <TableCell>Date</TableCell>
@@ -184,10 +180,8 @@ class HistoricalPriceDataTable extends React.Component<Props, State> {
               <TableCell numeric={true}>Low</TableCell>
               <TableCell numeric={true}>Close</TableCell>
               <TableCell numeric={true}>Volume ({symbol})</TableCell>
-              {!!availableSupply ? (
+              {!!availableSupply && (
                 <TableCell numeric={true}>Market Cap</TableCell>
-              ) : (
-                ''
               )}
             </TableRow>
           </TableHead>
@@ -215,13 +209,11 @@ class HistoricalPriceDataTable extends React.Component<Props, State> {
                     {row.close}
                   </TableCell>
                   <TableCell numeric={true}>{row.volume}</TableCell>
-                  {!!availableSupply ? (
+                  {!!availableSupply && (
                     <TableCell numeric={true}>
                       {prepend}
                       {row.marketCap}
                     </TableCell>
-                  ) : (
-                    ''
                   )}
                 </TableRow>
               )
