@@ -39,7 +39,9 @@
       </div>
 
       <div class="nav-menu-actions pa2">
-        <%= react_component "CurrencySelectorWidget", props: { user: current_user }, prerender: false %>
+        <% unless @hide_currency %>
+          <%= react_component "CurrencySelectorWidget", props: { user: current_user }, prerender: false %>
+        <% end %>
         <% if user_signed_in? %>
           <div class="nav-menu-actions-account">
             <div class="fw9">
@@ -59,7 +61,9 @@
 
     <!-- Actions -->
     <div class="nav-actions">
-      <%= react_component "CurrencySelectorWidget", props: { user: current_user }, prerender: false %>
+      <% unless @hide_currency %>
+        <%= react_component "CurrencySelectorWidget", props: { user: current_user }, prerender: false %>
+      <% end %>
       <% if user_signed_in? %>
         <%= react_component "NavUserContainer", { props: { formAuthenticityToken: form_authenticity_token, userEmail: current_user.email } } %>
       <% else %>

@@ -2,6 +2,7 @@ class CoinsController < ApplicationController
   before_action :set_coin, only: [:show]
 
   def index
+    @hide_currency = true
     distribute_reads(max_lag: MAX_ACCEPTABLE_REPLICATION_LAG, lag_failover: true) do
       @coin_count = Coin.listed.count
       @coins = serialize_coins(
