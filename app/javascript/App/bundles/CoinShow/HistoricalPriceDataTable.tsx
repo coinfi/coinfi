@@ -68,6 +68,9 @@ const styles = (theme) =>
     },
     table: {},
     tableRow: {
+      '& > *': {
+        whiteSpace: 'nowrap',
+      },
       '& > *:first-child': {
         paddingLeft: '8px',
       },
@@ -188,12 +191,12 @@ class HistoricalPriceDataTable extends React.Component<Props, State> {
           <Table className={classes.table} padding="none">
             <TableHead>
               <TableRow className={classes.tableRow}>
-                <TableCell>Date</TableCell>
+                <TableCell numeric={true}>Date</TableCell>
                 <TableCell numeric={true}>Open</TableCell>
                 <TableCell numeric={true}>High</TableCell>
                 <TableCell numeric={true}>Low</TableCell>
                 <TableCell numeric={true}>Close</TableCell>
-                <TableCell numeric={true}>Volume ({symbol})</TableCell>
+                <TableCell numeric={true}>Volume ({currency})</TableCell>
                 {!!availableSupply && (
                   <TableCell numeric={true}>Market Cap</TableCell>
                 )}
@@ -203,7 +206,9 @@ class HistoricalPriceDataTable extends React.Component<Props, State> {
               {filteredData.map((row, index) => {
                 return (
                   <TableRow key={index} className={classes.tableRow}>
-                    <TableCell scope="row">{row.formattedTime}</TableCell>
+                    <TableCell numeric={true} scope="row">
+                      {row.formattedTime}
+                    </TableCell>
                     <TableCell numeric={true}>
                       {prepend}
                       {row.open}
