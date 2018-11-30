@@ -118,8 +118,10 @@ main {
   }
   .nav__inner {
     justify-content: flex-end;
-    max-width: 1200px;
     margin: 0 auto;
+    &.fixed-width {
+      max-width: 1200px;
+    }
   }
   .nav-logo {
     position: absolute;
