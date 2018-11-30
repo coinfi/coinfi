@@ -1,8 +1,12 @@
 require 'httparty'
+require 'sidekiq-scheduler'
 
-namespace :currency do
-  task :update_currencies => :environment do
+class UpdateCurrencies
+  include Sidekiq::Worker
+
+  def perform
     currency_url = "https://api.exchangeratesapi.io/latest?base=USD"
+    
     begin
       response = HTTParty.get(currency_url)
       contents = JSON.parse(response.body, :symbolize_names => true)
