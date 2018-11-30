@@ -196,7 +196,7 @@ class HistoricalPriceDataTable extends React.Component<Props, State> {
                 <TableCell numeric={true}>High</TableCell>
                 <TableCell numeric={true}>Low</TableCell>
                 <TableCell numeric={true}>Close</TableCell>
-                <TableCell numeric={true}>Volume ({currency})</TableCell>
+                <TableCell numeric={true}>Volume</TableCell>
                 {!!availableSupply && (
                   <TableCell numeric={true}>Market Cap</TableCell>
                 )}
@@ -225,7 +225,10 @@ class HistoricalPriceDataTable extends React.Component<Props, State> {
                       {prepend}
                       {row.close}
                     </TableCell>
-                    <TableCell numeric={true}>{row.volume}</TableCell>
+                    <TableCell numeric={true}>
+                      {prepend}
+                      {row.volume}
+                    </TableCell>
                     {!!availableSupply && (
                       <TableCell numeric={true}>
                         {prepend}
