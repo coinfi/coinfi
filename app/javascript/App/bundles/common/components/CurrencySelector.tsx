@@ -17,10 +17,19 @@ interface State {
 const styles = (theme) =>
   createStyles({
     root: {
-      color: '#fff',
+      backgroundColor: '#f6f8fa', // pearl-gray
+      borderRadius: '4px',
+      color: '#333333', // dark-gray
+    },
+    selectMenu: {
+      marginLeft: '10px',
     },
     icon: {
-      color: '#fff',
+      color: '#333333',
+    },
+    menuListRoot: {
+      paddingTop: 0,
+      paddingBottom: 0,
     },
   })
 
@@ -72,7 +81,18 @@ class CurrencySelector extends React.Component<Props, State> {
       <Select
         onChange={this.handleChange}
         value={this.state.selectedCurrency}
-        classes={classes}
+        classes={{
+          root: classes.root,
+          selectMenu: classes.selectMenu,
+          icon: classes.icon,
+        }}
+        MenuProps={{
+          MenuListProps: {
+            classes: {
+              root: classes.menuListRoot,
+            },
+          },
+        }}
       >
         {CURRENCIES.map((currency) => {
           return (
