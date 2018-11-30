@@ -1,6 +1,7 @@
 import * as React from 'react'
 import * as _ from 'lodash'
 import { Select, MenuItem, createStyles, withStyles } from '@material-ui/core'
+import currencyMap from '~/bundles/common/constants/currencyMap'
 
 interface Props {
   initialCurrency?: string
@@ -76,7 +77,7 @@ class CurrencySelector extends React.Component<Props, State> {
         {CURRENCIES.map((currency) => {
           return (
             <MenuItem value={currency} key={currency}>
-              {currency}
+              {currencyMap[currency]} {currency}
             </MenuItem>
           )
         })}
@@ -94,31 +95,31 @@ const CURRENCIES = [
   'CAD',
   'KRW',
   'CNY',
-  'BGN',
-  'BRL',
-  'CHF',
-  'CZK',
-  'DKK',
-  'HKD',
-  'HRK',
-  'HUF',
-  'IDR',
-  'ILS',
-  'INR',
-  'ISK',
-  'MXN',
-  'MYR',
-  'NOK',
-  'NZD',
-  'PHP',
-  'PLN',
-  'RON',
-  'RUB',
-  'SEK',
   'SGD',
-  'THB',
-  'TRY',
-  'ZAR',
+  // 'BGN',
+  // 'BRL',
+  // 'CHF',
+  // 'CZK',
+  // 'DKK',
+  // 'HKD',
+  // 'HRK',
+  // 'HUF',
+  // 'IDR',
+  // 'ILS',
+  // 'INR',
+  // 'ISK',
+  // 'MXN',
+  // 'MYR',
+  // 'NOK',
+  // 'NZD',
+  // 'PHP',
+  // 'PLN',
+  // 'RON',
+  // 'RUB',
+  // 'SEK',
+  // 'THB',
+  // 'TRY',
+  // 'ZAR',
 ]
 
 export default withStyles(styles)(CurrencySelector)
