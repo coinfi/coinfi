@@ -1,5 +1,7 @@
 import { createStyles } from '@material-ui/core'
 
+const borderColor = 'rgb(0, 0, 0, 0.18)'
+
 const styles = (theme) =>
   createStyles({
     root: {
@@ -18,8 +20,8 @@ const styles = (theme) =>
     },
     leftPanelCard: {
       height: '100%',
-      borderLeft: '1px solid #e5e8ed',
-      borderRight: '1px solid #e5e8ed',
+      borderLeft: `1px solid ${borderColor}`,
+      borderRight: `1px solid ${borderColor}`,
       '& .fa-star': {
         fontSize: '10px',
       },
@@ -58,7 +60,7 @@ const styles = (theme) =>
     header: {},
     searchBarCard: {
       backgroundColor: '#f7f8fa', // athens
-      border: '1px solid #e5e8ed', // athens-darker
+      border: `1px solid ${borderColor}`,
       height: '60px', // taken from CoinListHeader.js (+! for bottom border)
       display: 'flex',
       alignItems: 'center',
@@ -83,7 +85,7 @@ const styles = (theme) =>
       flex: 0,
     },
     topBarWrapper: {
-      border: '1px solid #e5e8ed', // athens-darker
+      border: `1px solid ${borderColor}`,
       marginTop: '-1px !important', // hide top border
     },
     tabsRoot: {
@@ -115,7 +117,7 @@ const styles = (theme) =>
         marginBottom: 0,
       },
       borderRadius: '2px',
-      border: '1px solid #e5e8ed',
+      border: `1px solid ${borderColor}`,
     },
     cardHeader: {
       fontSize: '16px',
@@ -157,7 +159,7 @@ const styles = (theme) =>
       },
       width: '100%',
       borderRadius: '2px',
-      border: '1px solid #e5e8ed',
+      border: `1px solid ${borderColor}`,
     },
     subCardHeader: {
       paddingBottom: 0,
