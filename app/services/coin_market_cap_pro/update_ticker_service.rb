@@ -29,11 +29,8 @@ module CoinMarketCapPro
 
     def log_db_missing_coins
       @db_missing_coins.sort! { |left, right| left[:ranking] <=> right[:ranking] }
-      @db_missing_coins.each do |update|
-        Rails.logger.info "MISSING COIN: Rank #{update[:ranking]} #{update[:identifier]} coin from CMC is missing from the `coins` table."
-      end
-      unless @db_missing_coins.empty?
-        Rollbar.error('Coins table missing CMC coins', :coins => @db_missing_coins)
+      @db_missing_coins.each do |coin_hash|
+        puts "WARNING - MISSING COIN: Rank #{coin_hash[:ranking]} #{coin_hash[:identifier]} coin from CMC is missing from the `coins` table."
       end
     end
 

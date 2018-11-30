@@ -8,6 +8,7 @@ import Icon from '~/bundles/common/components/Icon'
 import localAPI from '../common/utils/localAPI'
 
 import TwitterBody from './TwitterBody'
+import CallToAction from './CallToAction'
 import LoadingIndicator from '../common/components/LoadingIndicator'
 import {
   getDomainType,
@@ -21,6 +22,7 @@ import NewsBodyShareButtons from './NewsBodyShareButtons'
 import { RailsConsumer } from '~/bundles/common/contexts/RailsContext'
 
 interface Props {
+  loggedIn: boolean
   initialNewsItem?: NewsItem
   newsItemId?: string
   onCoinClick?: CoinClickHandler
@@ -80,7 +82,11 @@ export default class NewsBody extends React.Component<Props, State> {
 
     if (getDomainType(newsItem.url) === 'twitter') {
       return (
-        <TwitterBody newsItem={newsItem} onCoinClick={this.props.onCoinClick} />
+        <TwitterBody
+          newsItem={newsItem}
+          onCoinClick={this.props.onCoinClick}
+          loggedIn={this.props.loggedIn}
+        />
       )
     }
 
@@ -165,6 +171,9 @@ export default class NewsBody extends React.Component<Props, State> {
             }}
           </RailsConsumer>
         </div>
+
+        <br />
+        {!this.props.loggedIn && <CallToAction />}
       </div>
     )
   }

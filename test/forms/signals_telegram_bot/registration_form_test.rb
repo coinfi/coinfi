@@ -47,7 +47,7 @@ class SignalsTelegramBot::RegistrationFormTest < ActiveSupport::TestCase
     assert_difference 'SignalsTelegramSubscription.count', watchlist_item_count do
       form.save!
     end
-    assert_equal @user.watchlist.coins, form.signals_telegram_user.subscribed_coins
+    assert_equal @user.watchlist.coins.order(:id), form.signals_telegram_user.subscribed_coins.order(:id)
   end
 
   test 'invalid with empty `telegram_id`' do
