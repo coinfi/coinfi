@@ -17,12 +17,21 @@ interface State {
 const styles = (theme) =>
   createStyles({
     root: {
+      minWidth: '100px',
       backgroundColor: '#f6f8fa', // pearl-gray
       borderRadius: '4px',
       color: '#333333', // dark-gray
+      '& > div': {
+        paddingLeft: '10px !important',
+        paddingTop: '8px !important',
+        paddingBottom: '6px !important',
+      },
     },
     selectMenu: {
-      marginLeft: '10px',
+      // textAlign: 'center',
+      // paddingLeft: '10px !important',
+      // paddingTop: '8px !important',
+      // paddingBottom: '6px !important',
     },
     icon: {
       color: '#333333',
