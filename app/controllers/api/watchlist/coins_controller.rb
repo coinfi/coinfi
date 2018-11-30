@@ -8,19 +8,18 @@ class Api::Watchlist::CoinsController < ApiController
 
   def create
     @coin = Coin.find(params[:id])
-    if @watchlist.coins.find_by_id(@coin.id)
+    if @watchlist.coins.where(id: @coin.id).exists?
       respond_warning "Coin already added"
     else
-      @watchlist.items.create(coin: @coin)
-      @watchlist.save
+      WatchCoinService.call(user: current_user, coin: @coin)
       respond_success "Coin added to watchlist"
     end
   end
 
   def destroy
-    if @item = @watchlist.items.find_by_coin_id(params[:id])
-      @item.destroy
-      respond_success({ id: @item.coin_id }, "Coin removed from watchlist")
+    if @coin = @watchlist.coins.find_by_id(params[:id])
+      UnwatchCoinService.call(user: current_user, coin: @coin)
+      respond_success({ id: @coin.id }, "Coin removed from watchlist")
     else
       respond_warning "Coin already removed"
     end

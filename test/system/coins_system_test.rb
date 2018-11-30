@@ -32,7 +32,7 @@ class CoinsSystemTest < ApplicationSystemTestCase
     # Check title
     assert_selector "span", text: coin.name
     assert_selector "span", text: coin.symbol
-    assert_selector "span", text: coin.price['usd'].round(6)
+    assert_selector "span", text: coin.price.round(6)
     # Check chart tabs
     assert_text "News + Price Chart"
     assert_text "TradingView Chart"

@@ -3,8 +3,12 @@
 
     <div class="reservation-section">
       <div class="reservation-header">
-        <h1 class="reservation-header__title">Reserve Your Spot</h1>
-        <p class="reservation-header__lead">Get first access to professional, data-backed trading signals by staking <%= number_with_delimiter(ENV.fetch('SIGNALS_STAKING_AMOUNT')) %> COFI tokens.</p>
+        <h1 class="reservation-header__title">
+          Get Access By Staking <%= number_with_delimiter(ENV.fetch('SIGNALS_STAKING_AMOUNT')) %> COFI Tokens
+        </h1>
+        <p class="reservation-header__lead">
+          You can withdraw your tokens after 3 months or when the beta ends, whichever comes first.
+        </p>
       </div>
 
       <div class="reservation-card">
@@ -95,21 +99,7 @@
             class: "signal-faqs-item",
           },
           prerender: false
-        %>
-        <%= react_component "SignalFaqPanel",
-          props: {
-            question: "Is there a timeline for delivery?",
-            answerHtml: <<~HTML
-              <p class="signal-faqs-item__paragraph signal-faqs-item__paragraph--last">
-                We have existing signals such as large Ethereum transactions as well as large Ethereum deposits / withdrawals that will be delivered via private Telegram chat. We're on track to provide additional signals by the beginning of November, and already have infrastructure in place (which we've deemed the Signals Factory) to quickly test and iterate on testing signals to determine whether they have price predictive potential.
-              </p>
-            HTML
-          },
-          html_options: {
-            class: "signal-faqs-item",
-          },
-          prerender: false
-        %>
+        %> 
         <%= react_component "SignalFaqPanel",
           props: {
             question: "What signals will I receive during the beta?",
@@ -129,7 +119,7 @@
             question: "Do the signals really work?",
             answerHtml: <<~HTML
               <p class="signal-faqs-item__paragraph signal-faqs-item__paragraph--last">
-                It’s important to understand that no signal will work 100% of the time. However, each signal goes through a rigorous backtesting process using historical data. We test many signals and only release the ones that have shown to have a positive correlation to price movements. In addition, we constantly optimize each signal based on ever changing market conditions.
+                It’s important to understand that no signal will work 100% of the time. However, each signal goes through a rigorous backtesting process using historical data. We test many signals and only release the ones that meet our high quality bar. In addition, we constantly optimize each signal based on ever changing market conditions.
               </p>
             HTML
           },

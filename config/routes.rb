@@ -1,4 +1,27 @@
 Rails.application.routes.draw do
+  constraints subdomain: 'blazer' do
+    mount Blazer::Engine => '/'
+  end
+
+  constraints subdomain: 'pghero' do
+    mount PgHero::Engine => '/'
+  end
+
+  require 'sidekiq/web'
+  require 'sidekiq-scheduler/web'
+  constraints subdomain: 'sidekiq' do
+    Sidekiq::Web.use Rack::Auth::Basic do |username, password|
+      # Protect against timing attacks:
+      # - See https://codahale.com/a-lesson-in-timing-attacks/
+      # - See https://thisdata.com/blog/timing-attacks-against-string-comparison/
+      # - Use & (do not use &&) so that it doesn't short circuit.
+      # - Use digests to stop length information leaking (see also ActiveSupport::SecurityUtils.variable_size_secure_compare)
+      ActiveSupport::SecurityUtils.secure_compare(::Digest::SHA256.hexdigest(username), ::Digest::SHA256.hexdigest(ENV.fetch("SIDEKIQ_USERNAME"))) &
+      ActiveSupport::SecurityUtils.secure_compare(::Digest::SHA256.hexdigest(password), ::Digest::SHA256.hexdigest(ENV.fetch("SIDEKIQ_PASSWORD")))
+    end if Rails.env.production?
+    mount Sidekiq::Web => '/'
+  end
+
   devise_for :users,
     path: '',
     path_names: { sign_in: 'login', sign_out: 'logout', sign_up: 'register' }
@@ -36,6 +59,7 @@ Rails.application.routes.draw do
     resources :contributor_submissions
     resources :countries
     resources :influencers
+    resources :trading_signal_triggers
     get 'reddit' => 'articles#reddit'
     root to: 'coins#index'
   end
@@ -53,7 +77,11 @@ Rails.application.routes.draw do
     end
 
     namespace :signals_telegram_bot do
+      resources :trading_signal_triggers, only: %i[index show create]
+      resources :trading_signals, only: %i[show create]
+      resources :trading_signal_notifications, only: %i[show create]
       resources :signals_telegram_users, only: %i[index show], param: :telegram_id_or_username do
+        get 'for_trading_signal_notifications', on: :collection
         post 'register', on: :collection
 
         resources :signals_telegram_subscriptions, param: :coin_symbol, only: %i[index show create destroy]
@@ -90,8 +118,6 @@ Rails.application.routes.draw do
   get '/signals', to: 'signals#index'
   get '/signals/reservation', to: 'signals#reservation'
   patch '/signals/reservation', to: 'signals#reservation_update', as: 'signals_reservation_update'
-
-  mount Blazer::Engine, at: "blazer"
 
   match '/404', :to => 'errors#not_found', :via => :all
   match '/500', :to => 'errors#internal_server_error', :via => :all

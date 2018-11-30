@@ -1,72 +1,74 @@
 class Api::CoinsController < ApiController
+  include ::CoinListHelper
+
   def index
-    @current_page = params[:page] || 1
-    @coins = Coin.legit.page(@current_page).per(params[:per]).order(:ranking)
-    respond_success index_serializer(@coins)
+    distribute_reads(max_lag: MAX_ACCEPTABLE_REPLICATION_LAG, lag_failover: true) do
+      @current_page = params[:page] || 1
+      @coins = Coin.legit.page(@current_page).per(params[:per]).order(:ranking)
+      respond_success index_serializer(@coins)
+    end
   end
 
   def show
-    coin = Coin.find(params[:id])
-    coin.current_user = current_user
-    respond_success show_serializer(coin)
+    distribute_reads(max_lag: MAX_ACCEPTABLE_REPLICATION_LAG, lag_failover: true) do
+      coin = Coin.find(params[:id])
+      coin.current_user = current_user
+      respond_success show_serializer(coin)
+    end
   end
 
   def search
-    query = params[:q] || {}
-    @coins = Coin.ransack(query).result(distinct: true).limit(params[:limit] || 10).order(:ranking)
-    respond_success search_serializer(@coins)
+    distribute_reads(max_lag: MAX_ACCEPTABLE_REPLICATION_LAG, lag_failover: true) do
+      query = params[:q] || {}
+      @coins = Coin.ransack(query).result(distinct: true).limit(params[:limit] || 10).order(:ranking)
+      respond_success search_serializer(@coins)
+    end
   end
 
   def search_by_params
-    coins = []
-    puts params
-    if params[:coinSlugs].present?
-      coins = Coin.where(slug: params[:coinSlugs])
-    elsif params[:name].present?
-      coins = Coin.find_by_sql("
-        SELECT *, CASE
-            WHEN UPPER(symbol) = UPPER('#{params[:name]}') THEN 1
-            WHEN UPPER(name) = UPPER('#{params[:name]}') THEN 1
-            ELSE 3
-          END as match
-          FROM coins
-          WHERE UPPER(symbol) LIKE UPPER('#{params[:name]}%')
-            OR UPPER(name) LIKE UPPER('#{params[:name]}%')
-          ORDER BY match ASC, ranking ASC
-          LIMIT 10")
+    distribute_reads(max_lag: MAX_ACCEPTABLE_REPLICATION_LAG, lag_failover: true) do
+      coins = []
+      puts params
+      if params[:coinSlugs].present?
+        coins = Coin.where(slug: params[:coinSlugs])
+      elsif params[:name].present?
+        coins = Coin.find_by_sql("
+          SELECT *, CASE
+              WHEN UPPER(symbol) = UPPER('#{params[:name]}') THEN 1
+              WHEN UPPER(name) = UPPER('#{params[:name]}') THEN 1
+              ELSE 3
+            END as match
+            FROM coins
+            WHERE UPPER(symbol) LIKE UPPER('#{params[:name]}%')
+              OR UPPER(name) LIKE UPPER('#{params[:name]}%')
+            ORDER BY match ASC, ranking ASC
+            LIMIT 10")
+      end
+      respond_success search_serializer(coins)
     end
-    respond_success search_serializer(coins)
   end
 
   def by_slug
-    coin = Coin.find_by(slug: params[:slug])
-    coin.current_user = current_user
-    respond_success show_serializer(coin)
+    distribute_reads(max_lag: MAX_ACCEPTABLE_REPLICATION_LAG, lag_failover: true) do
+      coin = Coin.find_by(slug: params[:slug])
+      coin.current_user = current_user
+      respond_success show_serializer(coin)
+    end
   end
 
   def toplist
-    coins = Rails.cache.fetch("coins/toplist", expires_in: 1.hour) do
-      distribute_reads(max_lag: MAX_ACCEPTABLE_REPLICATION_LAG, lag_failover: true) do
-        Coin.order(:ranking).limit(20)
-      end
-    end
-    respond_success coinlist_serializer(coins)
+    respond_success toplist_coins
   end
 
   def watchlist
-    coins = current_user.watchlist.coins.order(:ranking)
-    respond_success coinlist_serializer(coins)
+    if current_user
+      respond_success watchlist_coins
+    else
+      render json: {}, status: :unauthorized
+    end
   end
 
 private
-
-  def coinlist_serializer(coins)
-    coins.as_json(
-      only: %i[id name symbol slug price_usd],
-      methods: %i[market_info]
-    )
-  end
-
   def index_serializer(coins)
     coins.as_json(
       only: %i[id name symbol slug coin_key ranking image_url price market_cap change1h change24h change7d volume24],
