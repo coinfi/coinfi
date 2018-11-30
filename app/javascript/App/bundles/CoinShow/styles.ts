@@ -131,6 +131,16 @@ const styles = (theme) =>
         marginTop: '16px',
       },
     },
+    progressWrapper: {
+      width: '100%',
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      flexDirection: 'column',
+      '& *:not(:first-child)': {
+        marginTop: '10px',
+      },
+    },
     expansionRoot: {
       '&:before': {
         backgroundColor: 'unset',

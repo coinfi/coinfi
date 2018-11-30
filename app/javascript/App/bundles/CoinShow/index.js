@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import update from 'react-addons-update'
 import * as _ from 'lodash'
 import { withRouter } from 'react-router'
 import compose from 'recompose/compose'
@@ -9,6 +10,7 @@ import {
   Card,
   CardHeader,
   CardContent,
+  CircularProgress,
   List,
   ListItem,
   ListItemText,
@@ -101,6 +103,7 @@ class CoinShow extends Component {
     const defaultTabSlug = hasTokenMetrics
       ? TAB_SLUGS.tokenMetrics
       : TAB_SLUGS.priceChart
+    const loadedIframes = hasTokenMetrics ? metabaseUrls.map(() => false) : []
 
     this.state = {
       priceChartSizeSet: false,
@@ -111,6 +114,7 @@ class CoinShow extends Component {
       watchlistIndex: [],
       tabSlug: hashTag || defaultTabSlug,
       showCoinList: false,
+      loadedIframes,
     }
   }
 
@@ -223,6 +227,12 @@ class CoinShow extends Component {
     this.props.history.push(`#${tabSlug}`)
     this.setState({ tabSlug })
 
+    // reset iframe loaded state when changing away from token metrics tab
+    if (tabSlug !== TAB_SLUGS.tokenMetrics) {
+      const loadedIframes = this.props.metabaseUrls.map(() => false)
+      this.setState({ loadedIframes })
+    }
+
     if (tabSlug === TAB_SLUGS.priceChart) {
       setTimeout(() => {
         if (this.priceChart && !this.state.priceChartSizeSet) {
@@ -233,6 +243,14 @@ class CoinShow extends Component {
         }
       }, 100)
     }
+  }
+
+  handleIframeLoaded = (index) => {
+    this.setState({
+      loadedIframes: update(this.state.loadedIframes, {
+        [index]: { $set: true },
+      }),
+    })
   }
 
   render() {
@@ -249,7 +267,7 @@ class CoinShow extends Component {
       classes,
       user,
     } = this.props
-    const { currency, tabSlug } = this.state
+    const { currency, tabSlug, loadedIframes } = this.state
 
     const isMobile = isWidthDown('sm', this.props.width)
     const isLoggedIn = !!user
@@ -257,6 +275,34 @@ class CoinShow extends Component {
     const fullWidthDesktopIframeHeight = 471
     const halfWidthDesktopIframeHeight = 240
     const fullWidthMobileIframeHeight = 259
+    const iframeGroupDesktopHeight =
+      fullWidthDesktopIframeHeight + halfWidthDesktopIframeHeight
+    const iframeGroupMobileHeight =
+      fullWidthMobileIframeHeight + 2 * fullWidthMobileIframeHeight
+    const loadingMessage = 'Loading lots of data...'
+
+    const groupIsLoaded = [
+      hasTokenMetrics &&
+        _.get(loadedIframes, 0) &&
+        _.get(loadedIframes, 1) &&
+        _.get(loadedIframes, 2),
+      hasTokenMetrics &&
+        _.get(loadedIframes, 3) &&
+        _.get(loadedIframes, 4) &&
+        _.get(loadedIframes, 5),
+      hasTokenMetrics &&
+        _.get(loadedIframes, 6) &&
+        _.get(loadedIframes, 7) &&
+        _.get(loadedIframes, 8),
+      hasTokenMetrics &&
+        _.get(loadedIframes, 9) &&
+        _.get(loadedIframes, 10) &&
+        _.get(loadedIframes, 11),
+      hasTokenMetrics &&
+        _.get(loadedIframes, 12) &&
+        _.get(loadedIframes, 13) &&
+        _.get(loadedIframes, 14),
+    ]
 
     return (
       <div className={classes.root}>
@@ -438,6 +484,19 @@ class CoinShow extends Component {
                     Percentage of {symbol} on Exchange
                   </Grid>
                   <Grid item={true} xs={12}>
+                    {!groupIsLoaded[0] && (
+                      <div
+                        className={classes.progressWrapper}
+                        style={
+                          isMobile
+                            ? { height: iframeGroupMobileHeight }
+                            : { height: iframeGroupDesktopHeight }
+                        }
+                      >
+                        <CircularProgress className={classes.progress} />
+                        {loadingMessage && <div>{loadingMessage}</div>}
+                      </div>
+                    )}
                     <iframe
                       title="Advanced Token Metrics"
                       src={metabaseUrls[0]}
@@ -448,6 +507,8 @@ class CoinShow extends Component {
                           ? fullWidthMobileIframeHeight
                           : fullWidthDesktopIframeHeight
                       }
+                      style={groupIsLoaded[0] ? {} : { display: 'none' }}
+                      onLoad={() => this.handleIframeLoaded(0)}
                       scrolling="no"
                     />
                     <iframe
@@ -460,6 +521,8 @@ class CoinShow extends Component {
                           ? fullWidthMobileIframeHeight
                           : halfWidthDesktopIframeHeight
                       }
+                      style={groupIsLoaded[0] ? {} : { display: 'none' }}
+                      onLoad={() => this.handleIframeLoaded(1)}
                       scrolling="no"
                     />
                     <iframe
@@ -472,6 +535,8 @@ class CoinShow extends Component {
                           ? fullWidthMobileIframeHeight
                           : halfWidthDesktopIframeHeight
                       }
+                      style={groupIsLoaded[0] ? {} : { display: 'none' }}
+                      onLoad={() => this.handleIframeLoaded(2)}
                       scrolling="no"
                     />
                   </Grid>
@@ -483,6 +548,19 @@ class CoinShow extends Component {
                     Percentage of Early Investors Still Holding
                   </Grid>
                   <Grid item={true} xs={12}>
+                    {!groupIsLoaded[1] && (
+                      <div
+                        className={classes.progressWrapper}
+                        style={
+                          isMobile
+                            ? { height: iframeGroupMobileHeight }
+                            : { height: iframeGroupDesktopHeight }
+                        }
+                      >
+                        <CircularProgress className={classes.progress} />
+                        {loadingMessage && <div>{loadingMessage}</div>}
+                      </div>
+                    )}
                     <iframe
                       title="Advanced Token Metrics"
                       src={metabaseUrls[3]}
@@ -493,6 +571,8 @@ class CoinShow extends Component {
                           ? fullWidthMobileIframeHeight
                           : fullWidthDesktopIframeHeight
                       }
+                      style={groupIsLoaded[1] ? {} : { display: 'none' }}
+                      onLoad={() => this.handleIframeLoaded(3)}
                       scrolling="no"
                     />
                     <iframe
@@ -505,6 +585,8 @@ class CoinShow extends Component {
                           ? fullWidthMobileIframeHeight
                           : halfWidthDesktopIframeHeight
                       }
+                      style={groupIsLoaded[1] ? {} : { display: 'none' }}
+                      onLoad={() => this.handleIframeLoaded(4)}
                       scrolling="no"
                     />
                     <iframe
@@ -517,6 +599,8 @@ class CoinShow extends Component {
                           ? fullWidthMobileIframeHeight
                           : halfWidthDesktopIframeHeight
                       }
+                      style={groupIsLoaded[1] ? {} : { display: 'none' }}
+                      onLoad={() => this.handleIframeLoaded(5)}
                       scrolling="no"
                     />
                   </Grid>
@@ -528,6 +612,19 @@ class CoinShow extends Component {
                     Unique Wallets Holding Token
                   </Grid>
                   <Grid item={true} xs={12}>
+                    {!groupIsLoaded[2] && (
+                      <div
+                        className={classes.progressWrapper}
+                        style={
+                          isMobile
+                            ? { height: iframeGroupMobileHeight }
+                            : { height: iframeGroupDesktopHeight }
+                        }
+                      >
+                        <CircularProgress className={classes.progress} />
+                        {loadingMessage && <div>{loadingMessage}</div>}
+                      </div>
+                    )}
                     <iframe
                       title="Advanced Token Metrics"
                       src={metabaseUrls[6]}
@@ -538,6 +635,8 @@ class CoinShow extends Component {
                           ? fullWidthMobileIframeHeight
                           : fullWidthDesktopIframeHeight
                       }
+                      style={groupIsLoaded[2] ? {} : { display: 'none' }}
+                      onLoad={() => this.handleIframeLoaded(6)}
                       scrolling="no"
                     />
                     <iframe
@@ -550,6 +649,8 @@ class CoinShow extends Component {
                           ? fullWidthMobileIframeHeight
                           : halfWidthDesktopIframeHeight
                       }
+                      style={groupIsLoaded[2] ? {} : { display: 'none' }}
+                      onLoad={() => this.handleIframeLoaded(7)}
                       scrolling="no"
                     />
                     <iframe
@@ -562,6 +663,8 @@ class CoinShow extends Component {
                           ? fullWidthMobileIframeHeight
                           : halfWidthDesktopIframeHeight
                       }
+                      style={groupIsLoaded[2] ? {} : { display: 'none' }}
+                      onLoad={() => this.handleIframeLoaded(8)}
                       scrolling="no"
                     />
                   </Grid>
@@ -573,6 +676,19 @@ class CoinShow extends Component {
                     Percentage of Tokens Held By Top 100 Wallets
                   </Grid>
                   <Grid item={true} xs={12}>
+                    {!groupIsLoaded[3] && (
+                      <div
+                        className={classes.progressWrapper}
+                        style={
+                          isMobile
+                            ? { height: iframeGroupMobileHeight }
+                            : { height: iframeGroupDesktopHeight }
+                        }
+                      >
+                        <CircularProgress className={classes.progress} />
+                        {loadingMessage && <div>{loadingMessage}</div>}
+                      </div>
+                    )}
                     <iframe
                       title="Advanced Token Metrics"
                       src={metabaseUrls[9]}
@@ -583,6 +699,8 @@ class CoinShow extends Component {
                           ? fullWidthMobileIframeHeight
                           : fullWidthDesktopIframeHeight
                       }
+                      style={groupIsLoaded[3] ? {} : { display: 'none' }}
+                      onLoad={() => this.handleIframeLoaded(9)}
                       scrolling="no"
                     />
                     <iframe
@@ -595,6 +713,8 @@ class CoinShow extends Component {
                           ? fullWidthMobileIframeHeight
                           : halfWidthDesktopIframeHeight
                       }
+                      style={groupIsLoaded[3] ? {} : { display: 'none' }}
+                      onLoad={() => this.handleIframeLoaded(10)}
                       scrolling="no"
                     />
                     <iframe
@@ -607,6 +727,8 @@ class CoinShow extends Component {
                           ? fullWidthMobileIframeHeight
                           : halfWidthDesktopIframeHeight
                       }
+                      style={groupIsLoaded[3] ? {} : { display: 'none' }}
+                      onLoad={() => this.handleIframeLoaded(11)}
                       scrolling="no"
                     />
                   </Grid>
@@ -618,6 +740,19 @@ class CoinShow extends Component {
                     Percentage of Supply Transacted on Blockchain
                   </Grid>
                   <Grid item={true} xs={12}>
+                    {!groupIsLoaded[4] && (
+                      <div
+                        className={classes.progressWrapper}
+                        style={
+                          isMobile
+                            ? { height: iframeGroupMobileHeight }
+                            : { height: iframeGroupDesktopHeight }
+                        }
+                      >
+                        <CircularProgress className={classes.progress} />
+                        {loadingMessage && <div>{loadingMessage}</div>}
+                      </div>
+                    )}
                     <iframe
                       title="Advanced Token Metrics"
                       src={metabaseUrls[12]}
@@ -628,6 +763,8 @@ class CoinShow extends Component {
                           ? fullWidthMobileIframeHeight
                           : fullWidthDesktopIframeHeight
                       }
+                      style={groupIsLoaded[4] ? {} : { display: 'none' }}
+                      onLoad={() => this.handleIframeLoaded(12)}
                       scrolling="no"
                     />
                     <iframe
@@ -640,6 +777,8 @@ class CoinShow extends Component {
                           ? fullWidthMobileIframeHeight
                           : halfWidthDesktopIframeHeight
                       }
+                      style={groupIsLoaded[4] ? {} : { display: 'none' }}
+                      onLoad={() => this.handleIframeLoaded(13)}
                       scrolling="no"
                     />
                     <iframe
@@ -652,6 +791,8 @@ class CoinShow extends Component {
                           ? fullWidthMobileIframeHeight
                           : halfWidthDesktopIframeHeight
                       }
+                      style={groupIsLoaded[4] ? {} : { display: 'none' }}
+                      onLoad={() => this.handleIframeLoaded(14)}
                       scrolling="no"
                     />
                   </Grid>
