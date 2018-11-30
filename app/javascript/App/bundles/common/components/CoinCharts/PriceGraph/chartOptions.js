@@ -10,13 +10,7 @@ const parseData = (priceData) => {
 }
 
 export default (Highcharts, data) => {
-  const {
-    annotations,
-    priceData,
-    priceDataHourly,
-    setPriceData,
-    setVolumeData,
-  } = data
+  const { priceData, priceDataHourly, setPriceData, setVolumeData } = data
   const { prices, volume } = parseData(priceDataHourly)
 
   const setToHourly = () => {
@@ -32,7 +26,7 @@ export default (Highcharts, data) => {
 
   return {
     rangeSelector: {
-      selected: 0,
+      selected: 1,
       buttons: [
         {
           type: 'day',
@@ -182,20 +176,9 @@ export default (Highcharts, data) => {
         data: prices,
       },
       {
-        type: 'flags',
-        name: 'Annotations',
-        useHTML: true,
-        dataLabels: {
-          useHTML: true,
-        },
-        data: annotations,
-        onSeries: 'price',
-        shape: 'circlepin',
-      },
-      {
         id: 'volume',
         type: 'column',
-        name: 'Volume',
+        name: 'USD Volume',
         data: volume,
         color: Highcharts.getOptions().colors[2],
         yAxis: 1,

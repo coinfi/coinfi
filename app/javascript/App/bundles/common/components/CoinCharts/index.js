@@ -58,18 +58,14 @@ class CoinCharts extends Component {
   render() {
     const { isTradingViewVisible } = this.props
     const { priceData, priceDataHourly, ...remainingProps } = this.props
-    const {
-      processedPriceData,
-      processedPriceDataHourly,
-      epochPrices,
-    } = this.state
+    const { processedPriceData, epochPrices } = this.state
 
     return (
       <div>
         {isTradingViewVisible && (
           <Tabs
             target="coin-charts"
-            items={['News + Price Chart', 'TradingView Chart']}
+            items={['Line Chart', 'TradingView Chart']}
             className="flex-auto justify-center justify-start-l"
           />
         )}

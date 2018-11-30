@@ -2,8 +2,6 @@
  * Implementation of the JS API
  * See: https://github.com/tradingview/charting_library/wiki/JS-Api
  */
-import moment from 'moment'
-
 export default class Datafeed {
   constructor(data, hourlyData) {
     this.data = data
