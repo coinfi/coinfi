@@ -2,7 +2,7 @@ const parseData = (priceData) => {
   const prices = []
   const volume = []
   priceData.forEach((day) => {
-    let { timestamp: time, close: price, volume_from: vol } = day
+    let { timestamp: time, close: price, volume_to: vol } = day
     prices.push([time, price])
     volume.push([time, vol])
   })

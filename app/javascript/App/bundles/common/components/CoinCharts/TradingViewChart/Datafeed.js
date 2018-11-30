@@ -53,7 +53,7 @@ export default class Datafeed {
       .map((bar) => {
         return {
           time: bar.timestamp,
-          volume: Number(bar.volume_from),
+          volume: Number(bar.volume_to),
           open: Number(bar.open),
           close: Number(bar.close),
           low: Number(bar.low),

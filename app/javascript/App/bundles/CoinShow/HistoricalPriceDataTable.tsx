@@ -126,7 +126,7 @@ class HistoricalPriceDataTable extends React.Component<Props, State> {
     const high = formatValue(d.high)
     const low = formatValue(d.low)
     const close = formatValue(d.close)
-    const volume = formatValue(d.volume_from)
+    const volume = formatValue(d.volume_to)
 
     return {
       open,
