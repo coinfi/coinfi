@@ -97,12 +97,13 @@ class CoinShow extends Component {
   constructor(props) {
     super(props)
 
-    const { metabaseUrls, priceData, priceDataHourly } = props
+    const { metabaseUrls } = props
     const hasTokenMetrics = _.isArray(metabaseUrls) && metabaseUrls.length >= 15
     const hashTag = _.get(props, ['location', 'hash']).slice(1) // remove prepended octothorpe
     const defaultTabSlug = hasTokenMetrics
       ? TAB_SLUGS.tokenMetrics
       : TAB_SLUGS.priceChart
+    const tabSlug = hashTag || defaultTabSlug
     const loadedIframes = hasTokenMetrics ? metabaseUrls.map(() => false) : []
 
     this.state = {
@@ -112,12 +113,13 @@ class CoinShow extends Component {
       watched: this.props.watching,
       iconLoading: false,
       watchlistIndex: [],
-      tabSlug: hashTag || defaultTabSlug,
+      tabSlug,
       showCoinList: false,
       loadedIframes,
-      priceData,
-      priceDataHourly,
     }
+
+    // Eagerly load price data
+    this.getPriceData()
   }
 
   componentDidMount() {
@@ -195,6 +197,24 @@ class CoinShow extends Component {
         })
       }),
     )
+  }
+
+  fetchPriceData = () => {
+    const id = _.get(this.props, ['coinObj', 'id'])
+    return API.get(`/coins/prices?id=${id}`).then((data) =>
+      _.get(data, ['payload']),
+    )
+  }
+
+  getPriceData() {
+    this.fetchPriceData().then((data) => {
+      const { priceData, priceDataHourly } = data
+
+      this.setState({
+        priceData,
+        priceDataHourly,
+      })
+    })
   }
 
   showCoinListDrawer = () => {

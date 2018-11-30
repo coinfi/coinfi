@@ -71,6 +71,7 @@ Rails.application.routes.draw do
     get '/coins/search_by_params', to: 'coins#search_by_params'
     get '/coins/:id/news', to: 'coins#news'
     get '/coins/by-slug/:slug', to: 'coins#by_slug'
+    get '/coins/prices', to: 'coins#prices'
     resources :coins, only: %i[index show toplist watchlist] do
       get 'toplist', on: :collection
       get 'watchlist', on: :collection
