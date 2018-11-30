@@ -97,7 +97,7 @@ class CoinShow extends Component {
   constructor(props) {
     super(props)
 
-    const { metabaseUrls } = props
+    const { metabaseUrls, priceData, priceDataHourly } = props
     const hasTokenMetrics = _.isArray(metabaseUrls) && metabaseUrls.length >= 15
     const hashTag = _.get(props, ['location', 'hash']).slice(1) // remove prepended octothorpe
     const defaultTabSlug = hasTokenMetrics
@@ -115,6 +115,8 @@ class CoinShow extends Component {
       tabSlug: hashTag || defaultTabSlug,
       showCoinList: false,
       loadedIframes,
+      priceData,
+      priceDataHourly,
     }
   }
 
@@ -256,8 +258,6 @@ class CoinShow extends Component {
   render() {
     const {
       symbol,
-      priceData,
-      priceDataHourly,
       availableSupply,
       annotations,
       isTradingViewVisible,
@@ -267,7 +267,13 @@ class CoinShow extends Component {
       classes,
       user,
     } = this.props
-    const { currency, tabSlug, loadedIframes } = this.state
+    const {
+      currency,
+      tabSlug,
+      loadedIframes,
+      priceData,
+      priceDataHourly,
+    } = this.state
 
     const isMobile = isWidthDown('sm', this.props.width)
     const isLoggedIn = !!user

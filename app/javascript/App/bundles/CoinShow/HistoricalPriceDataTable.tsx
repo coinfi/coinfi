@@ -91,23 +91,48 @@ class HistoricalPriceDataTable extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props)
 
-    const initialSortedData = Array.isArray(props.initialData)
-      ? props.initialData
+    const { initialData } = props
+    const initialSortedData = Array.isArray(initialData)
+      ? initialData
           .map<PriceData>(this.parseData.bind(this))
           .sort(this.sortDataFunc)
       : undefined
 
     // Set initial status
     const statusIsReady = !_.isUndefined(initialSortedData)
-    const initialStatus = statusIsReady ? STATUSES.READY : undefined
-    const currency = props.initialData
-      ? _.get(props, ['initialData', '0', 'to_currency'])
+    const initialStatus = statusIsReady ? STATUSES.READY : STATUSES.INITIALIZING
+    const currency = initialData
+      ? _.get(initialData, ['0', 'to_currency'])
       : undefined
 
     this.state = {
-      status: initialStatus || STATUSES.INITIALIZING,
+      status: initialStatus,
       data: initialSortedData || [],
       currency,
+    }
+  }
+
+  public componentDidUpdate() {
+    if (
+      this.state.status === STATUSES.INITIALIZING &&
+      Array.isArray(this.props.initialData)
+    ) {
+      const { initialData } = this.props
+      this.setState({ status: STATUSES.LOADING }, () => {
+        const sortedData = initialData
+          .map<PriceData>(this.parseData.bind(this))
+          .sort(this.sortDataFunc)
+
+        const currency = initialData
+          ? _.get(initialData, ['0', 'to_currency'])
+          : undefined
+
+        this.setState({
+          status: STATUSES.READY,
+          data: sortedData,
+          currency,
+        })
+      })
     }
   }
 
