@@ -3,6 +3,8 @@ class Webhooks::WebsubsController < ApplicationController
   skip_before_action :verify_authenticity_token
   before_action :verify_signature
 
+  include NewsHelper
+
   def superfeedr_ingest
     items = params[:items]
     head :ok and return if items.blank?
@@ -12,6 +14,11 @@ class Webhooks::WebsubsController < ApplicationController
     end
 
     puts "Received #{items.count} NewsItems from SuperFeedr."
+
+    # Rewrite default_news_items cache if any items.
+    if items.count > 0
+      get_default_news_items(rewrite_cache: true)
+    end
 
     head :ok
   end

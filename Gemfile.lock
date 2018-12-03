@@ -92,6 +92,7 @@ GEM
       administrate (>= 0.3, < 1.0)
       rails (>= 4.2, < 5.2)
       selectize-rails (~> 0.6)
+    aggregate (0.2.2)
     api-pagination (4.8.1)
     archive-zip (0.11.0)
       io-like (~> 0.3.0)
@@ -111,6 +112,9 @@ GEM
       descendants_tracker (~> 0.0.4)
       ice_nine (~> 0.11.0)
       thread_safe (~> 0.3, >= 0.3.1)
+    barnes (0.0.7)
+      multi_json (~> 1)
+      statsd-ruby (~> 1.1)
     bcrypt (3.1.11)
     bindex (0.5.0)
     blazer (1.8.0)
@@ -152,6 +156,8 @@ GEM
     coffee-script-source (1.12.2)
     concurrent-ruby (1.0.5)
     connection_pool (2.2.2)
+    crack (0.4.3)
+      safe_yaml (~> 1.0.0)
     crass (1.0.4)
     cryptocompare (0.12.0)
       faraday
@@ -181,6 +187,8 @@ GEM
     equalizer (0.0.11)
     errbase (0.0.3)
     erubi (1.7.1)
+    et-orbi (1.1.6)
+      tzinfo
     etherscan_api (0.4.0)
       faraday
       json (~> 2.1)
@@ -222,10 +230,14 @@ GEM
     formatador (0.2.5)
     friendly_id (5.2.1)
       activerecord (>= 4.0.0)
+    fugit (1.1.6)
+      et-orbi (~> 1.1, >= 1.1.6)
+      raabro (~> 1.1)
     globalid (0.4.1)
       activesupport (>= 4.2.0)
     hashdiff (0.3.7)
     hashie (3.5.6)
+    hetchy (1.0.0)
     hiredis (0.6.1)
     hitimes (1.3.0)
     http (3.0.0)
@@ -278,6 +290,17 @@ GEM
       semantic (~> 1.6.0)
       socketry (~> 0.5.1)
       thread_safe (~> 0.3)
+    librato-metrics (1.6.1)
+      aggregate (~> 0.2.2)
+      faraday (~> 0.7)
+      multi_json
+    librato-rack (1.1.1)
+      hetchy (~> 1.0)
+      librato-metrics (~> 1.6)
+    librato-rails (1.4.2)
+      activesupport (>= 3.0)
+      librato-rack (~> 1.1.0)
+      railties (>= 3.0)
     libv8 (6.3.292.48.1)
     listen (3.1.5)
       rb-fsevent (~> 0.9, >= 0.9.4)
@@ -295,6 +318,9 @@ GEM
       mime-types (>= 1.16, < 4)
     makara (0.4.0)
       activerecord (>= 3.0.0)
+    marginalia (1.6.0)
+      actionpack (>= 2.3)
+      activerecord (>= 2.3)
     mechanize (2.7.5)
       domain_name (~> 0.5, >= 0.5.1)
       http-cookie (~> 1.0)
@@ -346,6 +372,8 @@ GEM
     parser (2.5.1.0)
       ast (~> 2.4.0)
     pg (0.20.0)
+    pghero (2.2.0)
+      activerecord
     polyamorous (1.3.3)
       activerecord (>= 3.0)
     pony (1.11)
@@ -362,12 +390,15 @@ GEM
       pry (>= 0.9.10)
     public_suffix (2.0.5)
     puma (3.8.2)
-    rack (2.0.5)
+    raabro (1.1.6)
+    rack (2.0.6)
     rack-affiliates (0.4.0)
       rack
     rack-attack (5.4.1)
       rack (>= 1.0, < 3)
     rack-cors (1.0.2)
+    rack-protection (2.0.4)
+      rack
     rack-proxy (0.6.4)
       rack
     rack-rewrite (1.5.1)
@@ -464,6 +495,9 @@ GEM
     ruby-progressbar (1.9.0)
     ruby_dep (1.5.0)
     rubyzip (1.2.2)
+    rufus-scheduler (3.5.2)
+      fugit (~> 1.1, >= 1.1.5)
+    safe_yaml (1.0.4)
     safely_block (0.2.0)
       errbase
     sass (3.5.6)
@@ -478,12 +512,20 @@ GEM
       sprockets-rails (>= 2.0, < 4.0)
       tilt (>= 1.1, < 3)
     sax-machine (1.3.2)
-    scout_apm (2.4.14)
     selectize-rails (0.12.4.1)
     selenium-webdriver (3.14.1)
       childprocess (~> 0.5)
       rubyzip (~> 1.2, >= 1.2.2)
     semantic (1.6.1)
+    sidekiq (5.2.3)
+      connection_pool (~> 2.2, >= 2.2.2)
+      rack-protection (>= 1.5.0)
+      redis (>= 3.3.5, < 5)
+    sidekiq-scheduler (3.0.0)
+      redis (>= 3, < 5)
+      rufus-scheduler (~> 3.2)
+      sidekiq (>= 3)
+      tilt (>= 1.4.0)
     simple_form (3.5.0)
       actionpack (> 4, < 5.2)
       activemodel (> 4, < 5.2)
@@ -517,6 +559,7 @@ GEM
       actionpack (>= 4.0)
       activesupport (>= 4.0)
       sprockets (>= 3.0.0)
+    statsd-ruby (1.4.0)
     strong_migrations (0.2.3)
       activerecord (>= 3.2.0)
     temple (0.7.7)
@@ -556,6 +599,10 @@ GEM
       activemodel (>= 5.0)
       bindex (>= 0.4.0)
       railties (>= 5.0)
+    webmock (3.4.2)
+      addressable (>= 2.3.6)
+      crack (>= 0.3.2)
+      hashdiff
     webpacker (3.3.1)
       activesupport (>= 4.2)
       rack-proxy (>= 0.6.1)
@@ -583,6 +630,7 @@ DEPENDENCIES
   administrate-field-nested_has_many!
   api-pagination
   aws-sdk (~> 2)
+  barnes
   blazer
   browser
   bullet
@@ -609,8 +657,10 @@ DEPENDENCIES
   jwt
   kaminari
   ldclient-rb (= 5.0.1)
+  librato-rails (~> 1)
   listen (>= 3.0.5, < 3.2)
   lograge
+  marginalia
   meta-tags
   mini_racer
   minitest-stub_any_instance
@@ -618,6 +668,7 @@ DEPENDENCIES
   omniauth
   omniauth-twitter
   pg (~> 0.18)
+  pghero
   pony
   pry-byebug
   pry-rails
@@ -640,8 +691,9 @@ DEPENDENCIES
   rubocop
   ruby-progressbar
   sass-rails (~> 5.0)
-  scout_apm
   selenium-webdriver (>= 3.14.0)
+  sidekiq
+  sidekiq-scheduler
   simple_form
   sitemap_generator
   skylight
@@ -653,6 +705,7 @@ DEPENDENCIES
   uglifier (>= 1.3.0)
   unidecoder
   web-console (>= 3.3.0)
+  webmock
   webpacker (~> 3.3)
   wombat
 
@@ -660,4 +713,4 @@ RUBY VERSION
    ruby 2.4.1p111
 
 BUNDLED WITH
-   1.16.5
+   1.17.1

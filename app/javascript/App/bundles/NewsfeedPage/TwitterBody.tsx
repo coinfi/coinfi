@@ -4,15 +4,17 @@ import CoinTags from '../common/components/CoinTags'
 import { NewsItem } from './types'
 import { getTweetId } from '~/bundles/common/utils/url'
 import { CoinClickHandler } from '../common/types'
+import CallToAction from './CallToAction'
 
 interface Props {
   newsItem: NewsItem
+  loggedIn: boolean
   onCoinClick?: CoinClickHandler
 }
 
 export default class NewsBody extends React.Component<Props, {}> {
   public render() {
-    const { newsItem } = this.props
+    const { newsItem, loggedIn } = this.props
 
     if (!newsItem) {
       return null
@@ -39,6 +41,7 @@ export default class NewsBody extends React.Component<Props, {}> {
           </div>
         )}
         <Tweet tweetId={tweetId} />
+        {!loggedIn && <CallToAction alignLeft={true} />}
       </div>
     )
   }

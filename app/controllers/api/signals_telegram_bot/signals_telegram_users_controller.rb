@@ -13,6 +13,16 @@ class Api::SignalsTelegramBot::SignalsTelegramUsersController < Api::SignalsTele
     render json: json, status: :ok
   end
 
+  def for_trading_signal_notifications
+    signals_telegram_users = SignalsTelegramUsers::ForTradingSignalNotificationsQuery.call(
+      coin_key: for_trading_signal_notifications_params[:coin_key],
+      trading_signal_trigger_external_id: for_trading_signal_notifications_params[:trading_signal_trigger_external_id]
+    )
+
+    json = signals_telegram_users.map { |u| serialize_signals_telegram_user(u) }
+    render json: json, status: :ok
+  end
+
   def show
     json = serialize_signals_telegram_user(@signals_telegram_user)
     render json: json, status: :ok
@@ -58,6 +68,13 @@ class Api::SignalsTelegramBot::SignalsTelegramUsersController < Api::SignalsTele
   def index_params
     params.permit(
       :is_active
+    )
+  end
+
+  def for_trading_signal_notifications_params
+    params.permit(
+      :coin_key,
+      :trading_signal_trigger_external_id
     )
   end
 

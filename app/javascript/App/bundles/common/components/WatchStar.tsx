@@ -35,7 +35,7 @@ const WatchButton = ({ coin, hasText, loggedIn }: Props) => {
             return (
               <Icon
                 name="star"
-                light={true}
+                styleType="light"
                 className={`light-silver ${hasText ? hasTextClassNames : ''}`}
                 onClick={(e) => {
                   e.preventDefault()
@@ -53,7 +53,7 @@ const WatchButton = ({ coin, hasText, loggedIn }: Props) => {
           <div className="div tooltipped">
             <Icon
               name="star"
-              light={true}
+              styleType="light"
               className={`light-silver ${hasText ? hasTextClassNames : ''}`}
               onClick={(e) => {
                 e.preventDefault()
