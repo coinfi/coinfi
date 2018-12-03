@@ -47,6 +47,7 @@
     "RAILS_LOG_TO_STDOUT": { "required": true },
     "RAILS_SERVE_STATIC_FILES": { "required": true },
     "REDIS_URL": { "required": true },
+    "REDISCLOUD_URL": { "required": true },
     "ROLLBAR_ACCESS_TOKEN": { "required": true },
     "ROLLBAR_CLIENT_ACCESS_TOKEN": { "required": true },
     "ROLLBAR_ENDPOINT": { "required": true },
