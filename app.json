@@ -29,6 +29,7 @@
     "HEALTHCHECK_DAILY_PRICES": { "required": true },
     "HEALTHCHECK_HOURLY_PRICES": { "required": true },
     "HEAP_APP_ID": { "required": true },
+    "IS_PRODUCTION": { "required": true },
     "LANG": { "required": true },
     "LAUNCHDARKLY_SDK_KEY": { "required": true },
     "LAUNCHDARKLY_CLIENT_KEY": { "required": true },
