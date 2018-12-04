@@ -113,7 +113,6 @@ class Coin < ApplicationRecord
         :query => query,
         :headers => headers,
       )
-      pp response
       data = JSON.parse(response.body) || {}
 
       processed_data = (data.dig('data', 'quotes') || []).map { |x| {
