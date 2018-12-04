@@ -1,9 +1,18 @@
 import React, { Component } from 'react'
+import _ from 'lodash'
 import Datafeed from './Datafeed'
 
 const containerID = 'tradingview'
 
 export default class TradingViewChart extends Component {
+  TradingView
+  tvWidget
+  resetHandler
+
+  state = {
+    ready: false,
+  }
+
   getTradingView = () => {
     if (this.TradingView) {
       return this.TradingView
@@ -15,17 +24,21 @@ export default class TradingViewChart extends Component {
 
   componentDidMount() {
     // TODO: inject TV lib here
-    const { symbol, priceData, priceDataHourly } = this.props
+    const { symbol } = this.props
     const TradingView = this.getTradingView()
 
     // Options resource https://github.com/stevenGame/jr-chart/wiki/Widget-Constructor
-    const tvWidget = new TradingView.widget({
+    this.tvWidget = new TradingView.widget({
       debug: false,
       fullscreen: false,
       symbol: symbol,
       interval: '60',
       container_id: containerID,
-      datafeed: new Datafeed(priceData, priceDataHourly),
+      datafeed: new Datafeed(
+        this.getData,
+        this.getHourlyData,
+        this.setResetHandler,
+      ),
       library_path: '/tradingview/',
       // locale: 'en',
       // disabled_features: [
@@ -60,7 +73,50 @@ export default class TradingViewChart extends Component {
         { text: '1000y', resolution: 'D', description: 'All', title: 'All' },
       ],
     })
+
+    this.tvWidget.onChartReady(() => {
+      this.setState({ ready: true })
+      document.chart = this.tvWidget.chart()
+    })
   }
+
+  getData = () => {
+    return this.props.priceData
+  }
+
+  getHourlyData = () => {
+    return this.props.priceDataHourly
+  }
+
+  setResetHandler = (onResetCacheNeededCallback) => {
+    this.resetHandler = onResetCacheNeededCallback
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (
+      this.state.ready &&
+      (!_.isEqual(prevProps.priceData, this.props.priceData) ||
+        !_.isEqual(prevProps.priceDataHourly, this.props.priceDataHourly))
+    ) {
+      const { priceData, priceDataHourly, annotations } = this.props
+      const datafeed = new Datafeed(priceData, priceDataHourly)
+
+      try {
+        if (this.tvWidget && this.tvWidget.chart && this.resetHandler) {
+          const chart = this.tvWidget.chart()
+          this.resetHandler()
+          chart.resetData()
+        }
+      } catch (e) {
+        console.error(e)
+      }
+    }
+
+    if (prevProps.currency !== this.props.currency) {
+      // currency change logic here
+    }
+  }
+
   render() {
     return <div id={containerID} />
   }

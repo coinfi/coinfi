@@ -5,9 +5,10 @@
 import moment from 'moment'
 
 export default class Datafeed {
-  constructor(data, hourlyData) {
-    this.data = data
-    this.hourlyData = hourlyData
+  constructor(getData, getHourlyData, setResetHandler) {
+    this.getData = getData
+    this.getHourlyData = getHourlyData
+    this.setResetHandler = setResetHandler
   }
   onReady(callback) {
     setTimeout(() => {
@@ -49,7 +50,7 @@ export default class Datafeed {
      * https://tw.saowen.com/a/68a2551d57bb26bf6be8e806c599a8269c0ad1691b11c7410e642822921a985c
      * http://www.hihubs.com/article/340
      */
-    const data = resolution === 'D' ? this.data : this.hourlyData
+    const data = resolution === 'D' ? this.getData() : this.getHourlyData()
 
     const bars = data
       .map((bar) => {
@@ -74,5 +75,16 @@ export default class Datafeed {
 
     onHistoryCallback(bars, meta)
   }
-  subscribeBars() {}
+  subscribeBars(
+    symbolInfo,
+    resolution,
+    onRealtimeCallback,
+    subscriberUID,
+    onResetCacheNeededCallback,
+  ) {
+    this.setResetHandler(onResetCacheNeededCallback)
+  }
+  unsubscribeBars(subscriberUID) {
+    this.setResetHandler(undefined)
+  }
 }

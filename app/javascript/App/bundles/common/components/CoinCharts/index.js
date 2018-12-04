@@ -106,7 +106,7 @@ class CoinCharts extends Component {
 
   render() {
     const { isTradingViewVisible } = this.props
-    const { annotations, currency } = this.props
+    const { annotations, symbol, currency } = this.props
     const {
       processedPriceData,
       processedPriceDataHourly,
@@ -137,6 +137,7 @@ class CoinCharts extends Component {
               <TradingViewChart
                 priceData={processedPriceData}
                 priceDataHourly={epochPrices}
+                symbol={symbol}
               />
             </div>
           )}
