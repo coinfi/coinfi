@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <% if ENV.fetch("IS_PRODUCTION") != "true" %><meta name="robots" content="noindex,nofollow"><% end %>
+    <% unless is_production? %><meta name="robots" content="noindex,nofollow"><% end %>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <%= display_meta_tags site: "CoinFi", reverse: true %>
     <link rel="manifest" href="/manifest.json">
