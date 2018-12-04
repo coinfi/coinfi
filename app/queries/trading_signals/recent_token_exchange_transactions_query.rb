@@ -1,5 +1,5 @@
 module TradingSignals
-  class RecentAbnormalTokenMovementsQuery
+  class RecentTokenExchangeTransactionsQuery
     DEFAULT_TIME_WINDOW = 24.hours
 
     def self.call(

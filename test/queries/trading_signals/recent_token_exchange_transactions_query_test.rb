@@ -1,7 +1,7 @@
 require 'test_helper'
 require 'faker'
 
-class TradingSignals::RecentAbnormalTokenMovementsQueryTest < ActiveSupport::TestCase
+class TradingSignals::RecentTokenExchangeTransactionsQueryTest < ActiveSupport::TestCase
   test 'correctly filters with default values' do
     included_trading_signals = 3.times.map do
       timestamp = Faker::Time.between(23.hours.ago, 5.minutes.ago, :between)
@@ -12,7 +12,7 @@ class TradingSignals::RecentAbnormalTokenMovementsQueryTest < ActiveSupport::Tes
       create(:token_exchange_transactions_trading_signal, timestamp: timestamp)
     end
 
-    actual_trading_signals = TradingSignals::RecentAbnormalTokenMovementsQuery.call()
+    actual_trading_signals = TradingSignals::RecentTokenExchangeTransactionsQuery.call()
     assert_equal included_trading_signals.sort_by(&:id), actual_trading_signals.sort_by(&:id)
   end
 
@@ -26,7 +26,7 @@ class TradingSignals::RecentAbnormalTokenMovementsQueryTest < ActiveSupport::Tes
       create(:token_exchange_transactions_trading_signal, timestamp: timestamp)
     end
 
-    actual_trading_signals = TradingSignals::RecentAbnormalTokenMovementsQuery.call(time_window: 3.hours)
+    actual_trading_signals = TradingSignals::RecentTokenExchangeTransactionsQuery.call(time_window: 3.hours)
     assert_equal included_trading_signals.sort_by(&:id), actual_trading_signals.sort_by(&:id)
   end
 end
