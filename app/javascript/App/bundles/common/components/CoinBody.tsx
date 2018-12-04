@@ -1,4 +1,5 @@
 import * as React from 'react'
+import * as _ from 'lodash'
 import CoinCharts from './CoinCharts'
 import Currency from './Currency'
 import PercentageChange from './PercentageChange'
@@ -7,6 +8,10 @@ import NewsRelatedCoinList from './NewsRelatedCoinList'
 import LoadingIndicator from './LoadingIndicator'
 import localAPI from '../utils/localAPI'
 import { withStyles, createStyles } from '@material-ui/core/styles'
+import CurrencyContext, {
+  CurrencyContextType,
+} from '~/bundles/common/contexts/CurrencyContext'
+import { formatAbbreviatedPrice } from '~/bundles/common/utils/numberFormatters'
 
 import { CoinWithDetails } from '../types'
 
@@ -78,68 +83,90 @@ class CoinBody extends React.Component<Props, State> {
         </div>
       )
     }
+
     return (
-      <div className="pa4 bg-white">
-        <div className="flex justify-between items-center">
-          <a
-            href={`/coins/${coinWithDetails.slug}`}
-            className="f4 fw6 flex items-center color-inherit"
-          >
-            {coinWithDetails.image_url && (
-              <img
-                className="w2e h2e mr3"
-                src={coinWithDetails.image_url}
-                alt=""
+      <CurrencyContext.Consumer>
+        {({ currency, currencyRate, currencySymbol }: CurrencyContextType) => {
+          const price =
+            parseFloat(
+              _.get(coinWithDetails, ['market_info', 'price_usd'], 0),
+            ) * currencyRate
+          const percentChange = _.get(
+            coinWithDetails,
+            ['market_info', 'change24h'],
+            0,
+          )
+          const marketCap = formatAbbreviatedPrice(
+            _.get(coinWithDetails, ['market_info', 'market_cap'], 0),
+          )
+
+          return (
+            <div className="pa4 bg-white">
+              <div className="flex justify-between items-center">
+                <a
+                  href={`/coins/${coinWithDetails.slug}`}
+                  className="f4 fw6 flex items-center color-inherit"
+                >
+                  {coinWithDetails.image_url && (
+                    <img
+                      className="w2e h2e mr3"
+                      src={coinWithDetails.image_url}
+                      alt=""
+                    />
+                  )}
+                  {coinWithDetails.name}
+                  <span className="mh2">({coinWithDetails.symbol})</span>
+                  News
+                </a>
+                <div className="tooltipped">
+                  <WatchStar
+                    coin={coinWithDetails}
+                    loggedIn={loggedIn}
+                    hasText={true}
+                  />
+                  {!loggedIn && <div className="tooltip">Login to watch</div>}
+                </div>
+              </div>
+              <div className="min-h12e flex items-center justify-center">
+                <div className="tc">
+                  <div className="flex items-center">
+                    <span className="f2">
+                      <Currency currency={currency}>
+                        {price.toString()}
+                      </Currency>
+                    </span>
+                    <span className="ml2">
+                      <PercentageChange
+                        value={percentChange}
+                        className="b db"
+                      />
+                    </span>
+                  </div>
+                  <div className="dib ph2 pv1 bg-light-gray f6 mt2">
+                    {`Market: ${currencySymbol}${marketCap}`}
+                  </div>
+                </div>
+              </div>
+              <CoinCharts
+                symbol={coinWithDetails.symbol}
+                priceData={coinWithDetails.prices_data}
+                priceDataHourly={coinWithDetails.hourly_prices_data}
+                annotations={coinWithDetails.news_data}
+                isTradingViewVisible={true}
               />
-            )}
-            {coinWithDetails.name}
-            <span className="mh2">({coinWithDetails.symbol})</span>
-            News
-          </a>
-          <div className="tooltipped">
-            <WatchStar
-              coin={coinWithDetails}
-              loggedIn={loggedIn}
-              hasText={true}
-            />
-            {!loggedIn && <div className="tooltip">Login to watch</div>}
-          </div>
-        </div>
-        <div className="min-h12e flex items-center justify-center">
-          <div className="tc">
-            <div className="flex items-center">
-              <span className="f2">
-                <Currency>{coinWithDetails.market_info.price_usd}</Currency>
-              </span>
-              <span className="ml2">
-                <PercentageChange
-                  value={coinWithDetails.market_info.change24h}
-                  className="b db"
+
+              <p className="mt3 mb4">{coinWithDetails.summary}</p>
+
+              <div className="mb3">
+                <h2 className="f5">Read Related News</h2>
+                <NewsRelatedCoinList
+                  relatedCoinsData={coinWithDetails.related_coins_data}
                 />
-              </span>
+              </div>
             </div>
-            <div className="dib ph2 pv1 bg-light-gray f6 mt2">
-              {`Market: ${coinWithDetails.market_info.market_cap_usd}`}
-            </div>
-          </div>
-        </div>
-        <CoinCharts
-          symbol={coinWithDetails.symbol}
-          priceData={coinWithDetails.prices_data}
-          priceDataHourly={coinWithDetails.hourly_prices_data}
-          annotations={coinWithDetails.news_data}
-          isTradingViewVisible={true}
-        />
-
-        <p className="mt3 mb4">{coinWithDetails.summary}</p>
-
-        <div className="mb3">
-          <h2 className="f5">Read Related News</h2>
-          <NewsRelatedCoinList
-            relatedCoinsData={coinWithDetails.related_coins_data}
-          />
-        </div>
-      </div>
+          )
+        }}
+      </CurrencyContext.Consumer>
     )
   }
 }
