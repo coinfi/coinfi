@@ -72,6 +72,10 @@ class CoinBody extends React.Component<Props, State> {
     })
   }
 
+  public parseSummary(tpl, args) {
+    return tpl.replace(/\${(\w+)}/g, (x, v) => args[v])
+  }
+
   public render() {
     const { loggedIn, classes } = this.props
     const { coinWithDetails } = this.state
@@ -96,9 +100,20 @@ class CoinBody extends React.Component<Props, State> {
             ['market_info', 'change24h'],
             0,
           )
-          const marketCap = formatAbbreviatedPrice(
-            _.get(coinWithDetails, ['market_info', 'market_cap'], 0),
+          const volume24h = formatAbbreviatedPrice(
+            _.get(coinWithDetails, ['market_info', 'volume24h'], 0) *
+              currencyRate,
           )
+          const marketCap = formatAbbreviatedPrice(
+            _.get(coinWithDetails, ['market_info', 'market_cap'], 0) *
+              currencyRate,
+          )
+          const summary = this.parseSummary(coinWithDetails.summary, {
+            marketCap,
+            currency,
+            currencySymbol,
+            volume24h,
+          })
 
           return (
             <div className="pa4 bg-white">
@@ -155,7 +170,7 @@ class CoinBody extends React.Component<Props, State> {
                 isTradingViewVisible={true}
               />
 
-              <p className="mt3 mb4">{coinWithDetails.summary}</p>
+              <p className="mt3 mb4">{summary}</p>
 
               <div className="mb3">
                 <h2 className="f5">Read Related News</h2>

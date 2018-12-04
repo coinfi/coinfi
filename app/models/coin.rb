@@ -84,14 +84,14 @@ class Coin < ApplicationRecord
     if self.ranking && self.market_info["market_cap_usd"]
       result << %W[
         #{self.name} (#{self.symbol}) is currently the ##{self.ranking} cryptocurrency by market cap
-        at #{(self.market_info["market_cap_usd"])} USD.
+        at ${currencySymbol}${marketCap} ${currency}.
       ]
     end
 
     if self.market_info["24h_volume_usd"]
       result << %W[
         Trading volume for #{self.name} over the last 24 hours is
-        #{(self.market_info["24h_volume_usd"])} USD.
+        ${currencySymbol}${volume24h} ${currency}.
       ]
     end
 
