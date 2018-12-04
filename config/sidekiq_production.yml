@@ -23,41 +23,41 @@ update_cmc_market_pairs1:
   args: 1
 
 update_cmc_market_pairs2:
-  cron: '30 */5 * * * *' # Runs once every 5 minutes
+  cron: '31 */5 * * * *' # Runs once every 5 minutes
   class: UpdateCmcMarketPairs
   args: 2
 
 update_cmc_market_pairs3:
-  cron: '30 */5 * * * *' # Runs once every 15 minutes
+  cron: '32 */5 * * * *' # Runs once every 15 minutes
   class: UpdateCmcMarketPairs
   args: 3
 
 update_cmc_market_pairs4:
-  cron: '30 */5 * * * *' # Runs once every 30 minutes
+  cron: '33 */5 * * * *' # Runs once every 30 minutes
   class: UpdateCmcMarketPairs
   args: 4
 
 update_cmc_market_pairs5:
-  cron: '30 */5 * * * *' # Runs once every 45 minutes
+  cron: '34 */5 * * * *' # Runs once every 45 minutes
   class: UpdateCmcMarketPairs
   args: 5
 
 update_cmc_market_pairs6:
-  cron: '30 0 * * * *' # Runs once every 1 hour
+  cron: '35 0 * * * *' # Runs once every 1 hour
   class: UpdateCmcMarketPairs
   args: 6
 
 update_cmc_market_pairs7:
-  cron: '30 0 */2 * * *' # Runs once every 2 hours
+  cron: '36 0 */2 * * *' # Runs once every 2 hours
   class: UpdateCmcMarketPairs
   args: 7
 
 update_cmc_market_pairs8:
-  cron: '30 0 */4 * * *' # Runs once every 4 hours
+  cron: '37 0 */4 * * *' # Runs once every 4 hours
   class: UpdateCmcMarketPairs
   args: 8
 
 update_cmc_market_pairs9:
-  cron: '30 0 */5 * * *' # Runs once every 5 hours
+  cron: '38 0 */5 * * *' # Runs once every 5 hours
   class: UpdateCmcMarketPairs
   args: 9
