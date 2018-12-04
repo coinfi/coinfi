@@ -920,6 +920,7 @@ class CoinShow extends Component {
                           href="/signals/reservation"
                           variant="contained"
                           className={classes.ctaButton}
+                          data-heap="coin-details-click-get-trading-signals-button"
                         >
                           Get CoinFi Trading Signals
                         </Button>
