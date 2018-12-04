@@ -99,6 +99,8 @@ gem 'sidekiq-scheduler'
 gem 'librato-rails', '~> 1'
 # Ruby runtime metrics
 gem 'barnes'
+# Google Pub/Sub client
+gem 'google-cloud-pubsub'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
