@@ -256,6 +256,13 @@ class CoinShow extends Component {
     }
 
     if (tabSlug === TAB_SLUGS.priceChart) {
+      if (
+        _.isEmpty(this.state.priceData) ||
+        _.isEmpty(this.state.priceDataHourly)
+      ) {
+        this.getPriceData()
+      }
+
       setTimeout(() => {
         if (this.priceChart && !this.state.priceChartSizeSet) {
           this.priceChart.setSize()

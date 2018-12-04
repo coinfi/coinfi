@@ -24,37 +24,53 @@ class CoinCharts extends Component {
     }
   }
 
+  componentDidMount() {
+    if (this.state.status === STATUSES.INITIALIZING && this.hasData()) {
+      this.processData()
+    }
+  }
+
   componentDidUpdate() {
+    if (this.state.status === STATUSES.INITIALIZING && this.hasData()) {
+      this.processData()
+    }
+  }
+
+  processData() {
+    const { priceData, priceDataHourly } = this.props
+
+    this.setState({ status: STATUSES.LOADING }, () => {
+      const hasHourlyPrice = priceDataHourly && priceDataHourly.length > 0
+      const processedPriceData = Array.isArray(priceData)
+        ? priceData.map(this.formatPriceDataDaily)
+        : []
+      const processedPriceDataHourly = hasHourlyPrice
+        ? priceDataHourly.map(this.formatPriceDataHourly)
+        : [...processedPriceData]
+
+      const sortedPriceData = [
+        ...(hasHourlyPrice ? processedPriceDataHourly : []),
+        ...processedPriceData,
+      ].sort((a, b) => a.timestamp - b.timestamp)
+      const epochPrices = _.sortedUniqBy(
+        sortedPriceData,
+        (datum) => datum.timestamp,
+      )
+
+      this.setState({
+        status: STATUSES.READY,
+        processedPriceData,
+        processedPriceDataHourly,
+        epochPrices,
+      })
+    })
+  }
+
+  hasData() {
     const { priceData, priceDataHourly } = this.props
     const hasData = Array.isArray(priceData) && Array.isArray(priceDataHourly)
 
-    if (this.state.status === STATUSES.INITIALIZING && hasData) {
-      this.setState({ status: STATUSES.LOADING }, () => {
-        const hasHourlyPrice = priceDataHourly && priceDataHourly.length > 0
-        const processedPriceData = Array.isArray(priceData)
-          ? priceData.map(this.formatPriceDataDaily)
-          : []
-        const processedPriceDataHourly = hasHourlyPrice
-          ? priceDataHourly.map(this.formatPriceDataHourly)
-          : [...processedPriceData]
-
-        const sortedPriceData = [
-          ...(hasHourlyPrice ? processedPriceDataHourly : []),
-          ...processedPriceData,
-        ].sort((a, b) => a.timestamp - b.timestamp)
-        const epochPrices = _.sortedUniqBy(
-          sortedPriceData,
-          (datum) => datum.timestamp,
-        )
-
-        this.setState({
-          status: STATUSES.READY,
-          processedPriceData,
-          processedPriceDataHourly,
-          epochPrices,
-        })
-      })
-    }
+    return hasData
   }
 
   formatPriceDataDaily(datum) {
