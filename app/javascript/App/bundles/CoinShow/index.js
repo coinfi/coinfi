@@ -571,7 +571,7 @@ class CoinShow extends Component {
                     xs={12}
                     className={classes.tokenMetricHeader}
                   >
-                    Percentage of Early Investors Still Holding
+                    Percentage of Early Investors Still HODLing
                   </Grid>
                   <Grid item={true} xs={12}>
                     {!groupIsLoaded[1] && (
@@ -635,7 +635,7 @@ class CoinShow extends Component {
                     xs={12}
                     className={classes.tokenMetricHeader}
                   >
-                    Unique Wallets Holding Token
+                    Unique Wallets HODLing Token
                   </Grid>
                   <Grid item={true} xs={12}>
                     {!groupIsLoaded[2] && (
