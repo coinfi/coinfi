@@ -29,6 +29,7 @@
     "HEALTHCHECK_DAILY_PRICES": { "required": true },
     "HEALTHCHECK_HOURLY_PRICES": { "required": true },
     "HEAP_APP_ID": { "required": true },
+    "IS_PRODUCTION": { "required": true },
     "LANG": { "required": true },
     "LAUNCHDARKLY_SDK_KEY": { "required": true },
     "LAUNCHDARKLY_CLIENT_KEY": { "required": true },
@@ -46,6 +47,7 @@
     "RAILS_LOG_TO_STDOUT": { "required": true },
     "RAILS_SERVE_STATIC_FILES": { "required": true },
     "REDIS_URL": { "required": true },
+    "REDISCLOUD_URL": { "required": true },
     "ROLLBAR_ACCESS_TOKEN": { "required": true },
     "ROLLBAR_CLIENT_ACCESS_TOKEN": { "required": true },
     "ROLLBAR_ENDPOINT": { "required": true },
@@ -75,6 +77,7 @@
   "addons": [
     "heroku-postgresql:hobby-basic",
     "heroku-redis:hobby-dev",
+    "rediscloud:30",
     "papertrail",
     "rollbar",
     "librato",
