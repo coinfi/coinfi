@@ -1,4 +1,8 @@
 module ApplicationHelper
+  def is_production?
+    ENV["IS_PRODUCTION"] == "true"
+  end
+
   def nav_link(link_text, link_path, html_options = {})
     klass = html_options[:class] || ''
     klass += ' active' if current_page?(link_path)
