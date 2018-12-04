@@ -27,6 +27,7 @@ const BodySection = (props: Props) => {
         initialNewsItem={props.initialNewsItem}
         newsItemId={props.newsItemId}
         onCoinClick={props.onCoinClick}
+        loggedIn={props.loggedIn}
       />
     )
   }

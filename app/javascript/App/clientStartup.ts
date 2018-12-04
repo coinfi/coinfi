@@ -8,7 +8,7 @@ import ClientApp from './ClientApp'
 import NavUserContainer from './bundles/common/containers/NavUserContainer'
 import CoinShow from './bundles/CoinShow'
 import FlashMessageListContainer from './bundles/common/containers/FlashMessageListContainer'
-import WatchButton from './bundles/common/components/WatchButton'
+import WatchStar from './bundles/common/components/WatchStar'
 import CalendarPage from './bundles/CalendarPage'
 import SignalExamplePanel from './bundles/signalsPage/SignalExamplePanel'
 import SignalFaqPanel from './bundles/signalsPage/SignalFaqPanel'
@@ -22,7 +22,7 @@ ReactOnRails.register({
   NavUserContainer: withRootProviders(NavUserContainer),
   CoinShow: withRootProviders(CoinShow),
   FlashMessageListContainer: withRootProviders(FlashMessageListContainer),
-  WatchButton: withRootProviders(WatchButton),
+  WatchStar: withRootProviders(WatchStar),
   CalendarPage: withRootProviders(CalendarPage),
   SignalExamplePanel: withRootProviders(SignalExamplePanel),
   SignalFaqPanel: withRootProviders(SignalFaqPanel),

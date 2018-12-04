@@ -1,7 +1,7 @@
 import React from 'react'
+import _ from 'lodash'
 import RedGreenSpan from '../common/components/RedGreenSpan'
 import Icon from '../common/components/Icon'
-import WatchButton from '../common/components/WatchButton'
 import { Sparklines, SparklinesLine } from 'react-sparklines'
 import { formatPrice, formatValue } from '../common/utils/numberFormatters'
 
@@ -20,7 +20,7 @@ function ColumnNames(currency) {
         rowIndex: index,
         context,
       }) => {
-        const { handleWatchButtonClick } = context
+        const { handleWatchStarClick } = context
         return (
           <span>
             <Icon
@@ -28,7 +28,7 @@ function ColumnNames(currency) {
               solid={isWatched}
               light={!isWatched}
               className={isWatched ? 'aqua' : 'light-silver'}
-              onClick={() => handleWatchButtonClick(row.id, isWatched)}
+              onClick={() => handleWatchStarClick(row.id, isWatched)}
             />
           </span>
         )
@@ -77,14 +77,12 @@ function ColumnNames(currency) {
     },
     {
       headerName: 'Price',
-      field: `price.${currency.toLowerCase()}`,
+      field: 'price',
       unSortIcon: true,
       type: 'numericColumn',
       cellRendererFramework: ({ value: text, data: row, rowIndex: index }) => {
-        const currencyKey = currency.toLowerCase()
-
-        if (row.price) {
-          const formattedPrice = formatPrice(row.price[currencyKey], currency)
+        if (!_.isUndefined(text)) {
+          const formattedPrice = formatPrice(text, currency)
           return <span>{formattedPrice}</span>
         }
 
@@ -93,11 +91,11 @@ function ColumnNames(currency) {
     },
     {
       headerName: 'Market Cap',
-      field: 'market_cap.usd',
+      field: 'market_cap',
       unSortIcon: true,
       type: 'numericColumn',
       cellRendererFramework: ({ value: text, data: row, rowIndex: index }) =>
-        text ? <span>${formatValue(text, 0)}</span> : null,
+        !_.isUndefined(text) ? <span>${formatValue(text, 0)}</span> : null,
     },
     {
       headerName: '% Move 1H',
@@ -128,12 +126,12 @@ function ColumnNames(currency) {
     },
     {
       headerName: 'Volume (24hr)',
-      field: 'volume24.usd',
+      field: 'volume24',
       unSortIcon: true,
       type: 'numericColumn',
       minWidth: 150,
       cellRendererFramework: ({ value: text, data: row, rowIndex: index }) =>
-        text ? <span>{formatValue(text, 0)}</span> : null,
+        !_.isUndefined(text) ? <span>{formatValue(text, 0)}</span> : null,
     },
     {
       headerName: '7D Chart',

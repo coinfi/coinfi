@@ -64,7 +64,7 @@ class Coin < ApplicationRecord
     total_market_cap = 0
 
     coins.each do |coin|
-      total_market_cap += coin.market_cap_by_currency('usd') || 0
+      total_market_cap += coin.market_cap || 0
     end
 
     total_market_cap
@@ -76,13 +76,13 @@ class Coin < ApplicationRecord
     market_dominance = {}
 
     coins.each do |coin|
-      market_cap = coin.market_cap_by_currency('usd') || 0
+      market_cap = coin.market_cap || 0
       market_dominance[coin.coin_key] = {
         :id => coin.id,
         :name => coin.name,
         :symbol => coin.symbol,
         :slug => coin.slug,
-        :price_usd => coin.price_by_currency('usd') || 0,
+        :price_usd => coin.price || 0,
         :market_percentage => market_cap / total_market_cap
       }
     end
@@ -109,10 +109,11 @@ class Coin < ApplicationRecord
         "X-CMC_PRO_API_KEY" => ENV.fetch('COINMARKETCAP_API_KEY')
       }
       response = HTTParty.get(
-        url, 
+        url,
         :query => query,
-        :headers => headers,  
+        :headers => headers,
       )
+      pp response
       data = JSON.parse(response.body) || {}
 
       processed_data = (data.dig('data', 'quotes') || []).map { |x| {
@@ -204,59 +205,71 @@ class Coin < ApplicationRecord
     self.previous_name = name_was if name_changed?
   end
 
-  def market_cap_by_currency(currency)
-    market_cap.try(:[], currency)
+  def price
+    cached_market_data.dig("price") || 0
   end
 
-  def volume24_by_currency(currency)
-    volume24.try(:[], currency)
+  def market_cap
+    cached_market_data.dig("market_cap") || 0
   end
 
-  def price_by_currency(currency)
-    price.try(:[], currency)
+  def change1h
+    cached_market_data.dig("change1h") || 0
   end
 
-  def live_market_data
-    return default_market_data unless ico_listed?
-    Rails.cache.fetch("coins/#{id}/market_data", expires_in: 1.minute) do
-      url = "https://api.coinmarketcap.com/v1/ticker/#{slug}/?convert=BTC"
-      response = HTTParty.get(url)
-      data = JSON.parse(response.body)[0] || {}
-      default_market_data.merge(data)
-    end
+  def change24h
+    cached_market_data.dig("change24h") || 0
   end
 
-  def market_info market_data = nil
-    data = market_data || live_market_data.dup
-    data["24h_volume_usd"] = humanize(data["24h_volume_usd"], '$') if data["24h_volume_usd"]
-    if self.available_supply
-      data["available_supply"] = humanize(self.available_supply)
-    elsif data["available_supply"]
-      data["available_supply"] = humanize(data["available_supply"])
-    end
-    data["market_cap_usd"] = humanize(data["market_cap_usd"], '$') if data["market_cap_usd"]
+  def change7d
+    cached_market_data.dig("change7d") || 0
+  end
+
+  def volume24
+    cached_market_data.dig("volume24h") || 0
+  end
+
+  def available_supply
+    cached_market_data.dig("available_supply") || 0
+  end
+
+  def max_supply
+    cached_market_data.dig("max_supply") || 0
+  end
+
+  def total_supply
+    cached_market_data.dig("total_supply") || 0
+  end
+
+  def cached_market_data
+    @snap_data ||= Rails.cache.read("#{slug}:snapshot") || {}
+    @snap_data.with_indifferent_access
+  end
+
+  def market_info(market_data = nil)
+    data = market_data || cached_market_data.dup
+    data["24h_volume_usd"] = humanize(data["volume24h"], '$') if data["volume24h"]
+    data["market_cap_usd"] = humanize(data["market_cap"], '$') if data["market_cap"]
+    data["price_usd"] = data["price"] if data["price"]
     data["total_supply"] = humanize(data["total_supply"]) if data["total_supply"]
     data["max_supply"] = humanize(data["max_supply"]) if data["max_supply"]
+    data["available_supply"] = humanize(data["available_supply"]) if data["available_supply"]
     data
   end
 
-  def stored_market_info
-    market_info({
-      "24h_volume_usd": self.volume24_by_currency('usd'),
-      "available_supply": display_available_supply(self),
-      "market_cap_usd": self.market_cap_by_currency('usd'),
-      "price_usd": "$#{self.price_by_currency('usd')}"
-    }.stringify_keys)
-  end
-
-  def default_market_data
-    {'available_supply' => available_supply, 'max_supply' => max_supply}
+  def hourly_prices_data
+    # TODO: expires_in should probably be at midnight
+    Rails.cache.fetch("coins/#{id}/hourly_prices", expires_in: 1.hour) do
+      url = "#{ENV.fetch('COINFI_POSTGREST_URL')}/hourly_ohcl_prices?coin_key=eq.#{coin_key}&to_currency=eq.USD&order=time.asc"
+      response = HTTParty.get(url)
+      JSON.parse(response.body)
+    end
   end
 
   def prices_data
     # TODO: expires_in should probably be at midnight
     Rails.cache.fetch("coins/#{id}/prices", expires_in: 1.day) do
-      url = "#{ENV.fetch('COINFI_NEW_PRICES_URL')}?coin_key=eq.#{coin_key}&to_currency=eq.USD&order=time.asc"
+      url = "#{ENV.fetch('COINFI_POSTGREST_URL')}/daily_ohcl_prices?coin_key=eq.#{coin_key}&to_currency=eq.USD&order=time.asc"
       response = HTTParty.get(url)
       JSON.parse(response.body)
     end
@@ -264,7 +277,7 @@ class Coin < ApplicationRecord
 
   def sparkline
     Rails.cache.fetch("coins/#{id}/sparkline", expires_in: 1.day) do
-      url = "#{ENV.fetch('COINFI_NEW_PRICES_URL')}?coin_key=eq.#{coin_key}&select=close&to_currency=eq.USD&limit=7&order=time.desc"
+      url = "#{ENV.fetch('COINFI_POSTGREST_URL')}/daily_ohcl_prices?coin_key=eq.#{coin_key}&select=close&to_currency=eq.USD&limit=7&order=time.desc"
       response = HTTParty.get(url)
       results = JSON.parse(response.body)
       results.map! { |result| result["close"] }
@@ -306,8 +319,16 @@ class Coin < ApplicationRecord
     current_user && current_user.coins.include?(self)
   end
 
+  def is_signals_supported_erc20?
+    self.eth_address.present?
+  end
+
   def is_erc20?
-    return false unless token_type
-    token_type.start_with?("ERC") || token_type.start_with?("EIP")
+    re = /(\b(ETH|ETHER|ER[A-Z]?\d*|EIP\d*)\b)|(ETHEREUM)/i
+    (
+      self.eth_address ||
+      re.match(self.blockchain_tech) ||
+      re.match(self.token_type)
+    ).present?
   end
 end

@@ -1,7 +1,9 @@
-# Creates or updates StakedCofiTransaction items for every COFI transaction found on EtherScan
-namespace :staked_cofi do
-  desc "Refresh staked cofi transactions by querying etherscan"
-  task :refresh_transactions => :environment do
+require 'sidekiq-scheduler'
+class StakedCofiRefreshTransactions
+  include Sidekiq::Worker
+
+  # Refresh staked cofi transactions by querying etherscan
+  def perform
     # Since `is_txn_confirmations_gte_10` is the only field that may change, we can limit our query
     # to use that as a starting block
     earliest_unconfirmed_block_number = StakedCofiTransaction

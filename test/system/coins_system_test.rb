@@ -13,9 +13,7 @@ class CoinsSystemTest < ApplicationSystemTestCase
   test "can visit index when authenticated" do
     login_as(@user, :scope => :user)
 
-    LaunchDarkly::LDClient.stub_any_instance(:variation, true) do
-      visit coins_url
-    end
+    visit coins_url
 
     # Check title
     assert_selector "h1", text: "Coins"
@@ -25,14 +23,13 @@ class CoinsSystemTest < ApplicationSystemTestCase
     login_as(@user, :scope => :user)
 
     coin = @coins.first
-    LaunchDarkly::LDClient.stub_any_instance(:variation, true) do
-      visit coin_url(coin.slug)
-    end
+
+    visit coin_url(coin.slug)
 
     # Check title
     assert_selector "span", text: coin.name
     assert_selector "span", text: coin.symbol
-    assert_selector "span", text: coin.price['usd'].round(6)
+    assert_selector "span", text: coin.price.round(6)
     # Check chart tabs
     assert_text "News + Price Chart"
     assert_text "TradingView Chart"

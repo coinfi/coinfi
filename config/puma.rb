@@ -38,6 +38,7 @@ preload_app!
 #
 before_fork do
   ActiveRecord::Base.connection_pool.disconnect! if defined?(ActiveRecord)
+  Barnes.start
 end
 
 # The code in the `on_worker_boot` will be called if you are using
@@ -49,7 +50,6 @@ end
 #
 on_worker_boot do
   ActiveRecord::Base.establish_connection if defined?(ActiveRecord)
-  $launch_darkly = LaunchDarkly::LDClient.new(ENV.fetch("LAUNCHDARKLY_SDK_KEY"))
 end
 
 # Allow puma to be restarted by `rails restart` command.

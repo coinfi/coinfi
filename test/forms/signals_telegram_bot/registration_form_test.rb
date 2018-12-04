@@ -37,6 +37,19 @@ class SignalsTelegramBot::RegistrationFormTest < ActiveSupport::TestCase
     assert_equal DateTime.parse(@default_form_params[:started_at]), form.signals_telegram_user.started_at
   end
 
+  test 'creates SignalsTelegramSubscriptions on save' do
+    watchlist_item_count = 5
+    watchlist_items = create_list(:watchlist_item, watchlist_item_count, watchlist: @user.watchlist)
+
+    form_params = @default_form_params
+    form = SignalsTelegramBot::RegistrationForm.new(form_params)
+
+    assert_difference 'SignalsTelegramSubscription.count', watchlist_item_count do
+      form.save!
+    end
+    assert_equal @user.watchlist.coins.order(:id), form.signals_telegram_user.subscribed_coins.order(:id)
+  end
+
   test 'invalid with empty `telegram_id`' do
     form_params = @default_form_params.merge(telegram_id: nil)
     form = SignalsTelegramBot::RegistrationForm.new(form_params)

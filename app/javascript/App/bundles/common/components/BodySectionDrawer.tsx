@@ -17,7 +17,7 @@ const BodySectionDrawer = (props: Props) => (
     isShown={props.isShown}
   >
     <div className="flex-none pv4 tc" onClick={props.onClose}>
-      <Icon name="times" className="f4 slate" regular={true} />
+      <Icon name="times" className="f4 slate" />
     </div>
     <div className="flex-auto bg-white relative">{props.bodySection}</div>
   </Drawer>

@@ -15,9 +15,7 @@
     <div class="nav-menu nav-menu--out ph2 ph0-ns">
       <%= nav_link "Coins", "/coins", { class: "nav-menu__item link" } %>
       <%= nav_link "ICOs", "/icos/upcoming", { class: "nav-menu__item link" } %>
-      <% if has_news_feature? %>
-        <%= nav_link "News", "/news", { class: "nav-menu__item link" } %>
-      <% end %>
+      <%= nav_link "News", "/news", { class: "nav-menu__item link" } %>
       <% if has_calendar_feature? %>
         <%= nav_link "Events", "/calendar", { class: "nav-menu__item link" } %>
       <% end %>

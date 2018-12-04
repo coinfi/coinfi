@@ -21,7 +21,7 @@ import {
 } from '~/bundles/common/utils/numberFormatters'
 import { CoinData, EnhancedCoinData } from './types'
 import SearchCoins from '../common/components/SearchCoins'
-import WatchButton from '../common/components/WatchButton'
+import WatchStar from '../common/components/WatchStar'
 import API from '../common/utils/API'
 import coinsNormalizer from '../common/normalizers/coins'
 import { watch } from 'fs'
@@ -206,7 +206,7 @@ class CoinTable extends React.Component<Props, State> {
       rowData: enhancedCoins,
       context: {
         componentParent: this,
-        handleWatchButtonClick: this.handleWatchButtonClick,
+        handleWatchStarClick: this.handleWatchStarClick,
       },
       frameworkComponents: {},
     }
@@ -220,7 +220,7 @@ class CoinTable extends React.Component<Props, State> {
   }
 
   // NOTE: Manually implementing watch button for now since ag-grid doesn't work well with context
-  public handleWatchButtonClick = (id, isWatched = false) => {
+  public handleWatchStarClick = (id, isWatched = false) => {
     if (!this.props.isLoggedIn) {
       window.location.href = '/login'
       return
@@ -364,21 +364,21 @@ class CoinTable extends React.Component<Props, State> {
 
                 const formattedPrice =
                   typeof price !== 'undefined'
-                    ? `$${formatValue(price[currencyKey], 4)}`
+                    ? `$${formatValue(price, 4)}`
                     : ''
                 const formattedMarketCap =
                   typeof market_cap !== 'undefined'
-                    ? `$${formatAbbreviatedPrice(market_cap[currencyKey])}`
+                    ? `$${formatAbbreviatedPrice(market_cap)}`
                     : ''
                 const formattedVolume =
                   typeof volume24 !== 'undefined'
-                    ? `$${formatAbbreviatedPrice(volume24[currencyKey])}`
+                    ? `$${formatAbbreviatedPrice(volume24)}`
                     : ''
 
                 return (
                   <TableRow key={id}>
                     <TableCell className={classes.watchedColumn}>
-                      <WatchButton
+                      <WatchStar
                         coin={row}
                         loggedIn={isLoggedIn}
                         hasText={false}

@@ -36,6 +36,7 @@ export interface CoinWithDetails extends Coin {
   image_url: string
   price_usd: any
   prices_data: any
+  hourly_prices_data: any
   news_data: any
   is_being_watched: any
   related_coins_data: Array<Pick<Coin, 'id' | 'name' | 'slug' | 'symbol'>>
