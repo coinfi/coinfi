@@ -31,8 +31,6 @@
     "HEAP_APP_ID": { "required": true },
     "IS_PRODUCTION": { "required": true },
     "LANG": { "required": true },
-    "LAUNCHDARKLY_SDK_KEY": { "required": true },
-    "LAUNCHDARKLY_CLIENT_KEY": { "required": true },
     "METABASE_SECRET_KEY": { "required": true },
     "NEWS_TAGGER_ENDPOINT": { "required": true },
     "NEWS_TAGGER_BASIC_AUTH_PASSWORD": { "required": true },
