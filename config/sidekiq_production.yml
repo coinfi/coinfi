@@ -4,7 +4,7 @@ CacheRefreshSparkline:          # rake cache_refresh:sparkline
 GenerateCoinSlugs:              # rake generate_coin_slugs
   cron: '0 0 1 * * * Etc/UTC'
 
-PublishDailyTokenExchangeTransactionsSignal:
+DailyTokenExchangeTransactionsTradingSignalWorker:
   cron: '0 0 * * * * Etc/UTC'
 
 RefreshSitemap:                 # rake sitemap:refresh
