@@ -5,7 +5,7 @@ GenerateCoinSlugs:              # rake generate_coin_slugs
   cron: '0 0 1 * * * Etc/UTC'
 
 DailyTokenExchangeTransactionsTradingSignalWorker:
-  cron: '0 0 * * * * Etc/UTC'
+  cron: '0 0 1 * * * Etc/UTC'
 
 RefreshSitemap:                 # rake sitemap:refresh
   cron: '0 0 0 * * * Etc/UTC'
