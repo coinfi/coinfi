@@ -13,7 +13,7 @@ class PublishTradingSignalWorker
     topic = pubsub.topic ENV.fetch("GOOGLE_PUBSUB_TRADING_SIGNALS_TOPIC_NAME")
 
     # Publish a new pubsub message
-    pubsub_message_data = trading_signal.as_dto
-    pubsub_message = topic.publish(trading_signal.as_dto)
+    pubsub_message_data = trading_signal.as_dto.to_json
+    pubsub_message = topic.publish(pubsub_message_data)
   end
 end

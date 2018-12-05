@@ -15,10 +15,11 @@ class DailyTokenExchangeTransactionsTradingSignalWorkerTest < ActiveJob::TestCas
     # Mock topic
     mocked_topic = Minitest::Mock.new
     mocked_topic.expect(:publish, nil) do |actual_message|
-      assert_match /\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z/, actual_message["timestamp"]
-      assert_match /0x[0-9a-f]{40}/, actual_message["external_id"]
-      assert_equal actual_message["extra"]["token_transfers"].length, 3
-      assert_equal actual_message.except("timestamp", "external_id"), {
+      actual_message_json = JSON.parse(actual_message)
+      assert_match /\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z/, actual_message_json["timestamp"]
+      assert_match /0x[0-9a-f]{40}/, actual_message_json["external_id"]
+      assert_equal actual_message_json["extra"]["token_transfers"].length, 3
+      assert_equal actual_message_json.except("timestamp", "external_id"), {
         "extra" => {
           "token_transfers" => included_trading_signals.map {|ts| ts.extra["token_transfer"]}
         },
