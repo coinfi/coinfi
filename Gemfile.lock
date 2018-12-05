@@ -286,7 +286,7 @@ GEM
       activesupport (>= 3.0)
       librato-rack (~> 1.1.0)
       railties (>= 3.0)
-    libv8 (6.3.292.48.1)
+    libv8 (6.7.288.46.1)
     listen (3.1.5)
       rb-fsevent (~> 0.9, >= 0.9.4)
       rb-inotify (~> 0.9, >= 0.9.7)
@@ -324,8 +324,8 @@ GEM
       mime-types-data (~> 3.2015)
     mime-types-data (3.2016.0521)
     mini_portile2 (2.3.0)
-    mini_racer (0.1.15)
-      libv8 (~> 6.3)
+    mini_racer (0.2.4)
+      libv8 (>= 6.3)
     minitest (5.11.3)
     minitest-stub_any_instance (1.0.2)
     momentjs-rails (2.20.1)
@@ -643,7 +643,7 @@ DEPENDENCIES
   lograge
   marginalia
   meta-tags
-  mini_racer
+  mini_racer (~> 0.2.0)
   minitest-stub_any_instance
   nokogiri (~> 1.8.1)
   omniauth
