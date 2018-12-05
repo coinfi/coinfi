@@ -15,12 +15,12 @@ FactoryBot.define do
 
       extra {
         {
-          "telegram": {
-            "message": {
-              "chat_id": telegram_chat_id,
-              "text": Faker::Markdown.emphasis,
-              "parse_mode": 'Markdown',
-              "disable_web_page_preview": true,
+          "telegram" => {
+            "message" => {
+              "chat_id" => telegram_chat_id,
+              "text" => Faker::Markdown.emphasis,
+              "parse_mode" => 'Markdown',
+              "disable_web_page_preview" => true,
             }
           }
         }
