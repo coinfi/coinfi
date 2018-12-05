@@ -54,7 +54,7 @@ module CoinMarketCapPro
       duration_in_seconds = updated_at - added_at
       # Include threshold; doesn't seem to have data at exactly 1h/24h/7d
       # Will need to empircally determine validity threshold
-      has_1h = duration_in_seconds >= 2 * 60 * 60 # 2 hours
+      has_1h = duration_in_seconds >= 1.5 * 24 * 60 * 60 # 1.5 days
       has_24h = duration_in_seconds >= 2 * 24 * 60 * 60 # 2 days
       has_7d = duration_in_seconds >= 8 * 24 * 60 * 60 # 8 days
 
