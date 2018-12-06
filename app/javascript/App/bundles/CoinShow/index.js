@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import update from 'react-addons-update'
 import * as _ from 'lodash'
+import * as numeral from 'numeral'
 import { withRouter } from 'react-router'
 import compose from 'recompose/compose'
 import classnames from 'classnames'
@@ -97,14 +98,19 @@ class CoinShow extends Component {
   constructor(props) {
     super(props)
 
-    const { metabaseUrls } = props
-    const hasTokenMetrics = _.isArray(metabaseUrls) && metabaseUrls.length >= 15
-    const hashTag = _.get(props, ['location', 'hash']).slice(1) // remove prepended octothorpe
+    const { tokenMetrics } = props
+    const hasTokenMetrics = !_.isEmpty(tokenMetrics)
+    const hashTag = _.get(props, ['location', 'hash'], '').slice(1) // remove prepended octothorpe
+    const isValidHashTag =
+      _.findIndex(
+        Object.values(TAB_SLUGS),
+        (slug) => slug === isValidHashTag,
+      ) >= 0 &&
+      (hasTokenMetrics || hashTag !== TAB_SLUGS.tokenMetrics)
     const defaultTabSlug = hasTokenMetrics
       ? TAB_SLUGS.tokenMetrics
       : TAB_SLUGS.priceChart
-    const tabSlug = hashTag || defaultTabSlug
-    const loadedIframes = hasTokenMetrics ? metabaseUrls.map(() => false) : []
+    const tabSlug = isValidHashTag ? hashTag : defaultTabSlug
 
     this.state = {
       priceChartSizeSet: false,
@@ -115,7 +121,6 @@ class CoinShow extends Component {
       watchlistIndex: [],
       tabSlug,
       showCoinList: false,
-      loadedIframes,
     }
 
     // Eagerly load price data
@@ -249,12 +254,6 @@ class CoinShow extends Component {
     this.props.history.push(`#${tabSlug}`)
     this.setState({ tabSlug })
 
-    // reset iframe loaded state when changing away from token metrics tab
-    if (tabSlug !== TAB_SLUGS.tokenMetrics) {
-      const loadedIframes = this.props.metabaseUrls.map(() => false)
-      this.setState({ loadedIframes })
-    }
-
     if (tabSlug === TAB_SLUGS.priceChart) {
       if (
         _.isEmpty(this.state.priceData) ||
@@ -288,54 +287,17 @@ class CoinShow extends Component {
       availableSupply,
       annotations,
       isTradingViewVisible,
-      metabaseUrls,
+      tokenMetrics,
       coinObj,
       relatedCoins,
       classes,
       user,
     } = this.props
-    const {
-      currency,
-      tabSlug,
-      loadedIframes,
-      priceData,
-      priceDataHourly,
-    } = this.state
+    const { currency, tabSlug, priceData, priceDataHourly } = this.state
 
     const isMobile = isWidthDown('sm', this.props.width)
     const isLoggedIn = !!user
-    const hasTokenMetrics = _.isArray(metabaseUrls) && metabaseUrls.length >= 15
-    const fullWidthDesktopIframeHeight = 471
-    const halfWidthDesktopIframeHeight = 240
-    const fullWidthMobileIframeHeight = 259
-    const iframeGroupDesktopHeight =
-      fullWidthDesktopIframeHeight + halfWidthDesktopIframeHeight
-    const iframeGroupMobileHeight =
-      fullWidthMobileIframeHeight + 2 * fullWidthMobileIframeHeight
-    const loadingMessage = 'Loading lots of data...'
-
-    const groupIsLoaded = [
-      hasTokenMetrics &&
-        _.get(loadedIframes, 0) &&
-        _.get(loadedIframes, 1) &&
-        _.get(loadedIframes, 2),
-      hasTokenMetrics &&
-        _.get(loadedIframes, 3) &&
-        _.get(loadedIframes, 4) &&
-        _.get(loadedIframes, 5),
-      hasTokenMetrics &&
-        _.get(loadedIframes, 6) &&
-        _.get(loadedIframes, 7) &&
-        _.get(loadedIframes, 8),
-      hasTokenMetrics &&
-        _.get(loadedIframes, 9) &&
-        _.get(loadedIframes, 10) &&
-        _.get(loadedIframes, 11),
-      hasTokenMetrics &&
-        _.get(loadedIframes, 12) &&
-        _.get(loadedIframes, 13) &&
-        _.get(loadedIframes, 14),
-    ]
+    const hasTokenMetrics = !_.isEmpty(tokenMetrics)
 
     return (
       <div className={classes.root}>
@@ -509,325 +471,266 @@ class CoinShow extends Component {
                   md={8}
                   className={classes.contentContainer}
                 >
-                  <Grid
-                    item={true}
-                    xs={12}
-                    className={classes.tokenMetricHeader}
-                  >
-                    Percentage of {symbol} on Exchange
-                  </Grid>
-                  <Grid item={true} xs={12}>
-                    {!groupIsLoaded[0] && (
-                      <div
-                        className={classes.progressWrapper}
-                        style={
-                          isMobile
-                            ? { height: iframeGroupMobileHeight }
-                            : { height: iframeGroupDesktopHeight }
-                        }
-                      >
-                        <CircularProgress className={classes.progress} />
-                        {loadingMessage && <div>{loadingMessage}</div>}
-                      </div>
-                    )}
-                    <iframe
-                      title="Advanced Token Metrics"
-                      src={metabaseUrls[0]}
-                      frameBorder="0"
-                      width="100%"
-                      height={
-                        isMobile
-                          ? fullWidthMobileIframeHeight
-                          : fullWidthDesktopIframeHeight
-                      }
-                      style={groupIsLoaded[0] ? {} : { display: 'none' }}
-                      onLoad={() => this.handleIframeLoaded(0)}
-                      scrolling="no"
-                    />
-                    <iframe
-                      title="Advanced Token Metrics"
-                      src={metabaseUrls[1]}
-                      frameBorder="0"
-                      width={isMobile ? '100%' : '50%'}
-                      height={
-                        isMobile
-                          ? fullWidthMobileIframeHeight
-                          : halfWidthDesktopIframeHeight
-                      }
-                      style={groupIsLoaded[0] ? {} : { display: 'none' }}
-                      onLoad={() => this.handleIframeLoaded(1)}
-                      scrolling="no"
-                    />
-                    <iframe
-                      title="Advanced Token Metrics"
-                      src={metabaseUrls[2]}
-                      frameBorder="0"
-                      width={isMobile ? '100%' : '50%'}
-                      height={
-                        isMobile
-                          ? fullWidthMobileIframeHeight
-                          : halfWidthDesktopIframeHeight
-                      }
-                      style={groupIsLoaded[0] ? {} : { display: 'none' }}
-                      onLoad={() => this.handleIframeLoaded(2)}
-                      scrolling="no"
-                    />
-                  </Grid>
-                  <Grid
-                    item={true}
-                    xs={12}
-                    className={classes.tokenMetricHeader}
-                  >
-                    Percentage of Early Investors Still HODLing
-                  </Grid>
-                  <Grid item={true} xs={12}>
-                    {!groupIsLoaded[1] && (
-                      <div
-                        className={classes.progressWrapper}
-                        style={
-                          isMobile
-                            ? { height: iframeGroupMobileHeight }
-                            : { height: iframeGroupDesktopHeight }
-                        }
-                      >
-                        <CircularProgress className={classes.progress} />
-                        {loadingMessage && <div>{loadingMessage}</div>}
-                      </div>
-                    )}
-                    <iframe
-                      title="Advanced Token Metrics"
-                      src={metabaseUrls[3]}
-                      frameBorder="0"
-                      width="100%"
-                      height={
-                        isMobile
-                          ? fullWidthMobileIframeHeight
-                          : fullWidthDesktopIframeHeight
-                      }
-                      style={groupIsLoaded[1] ? {} : { display: 'none' }}
-                      onLoad={() => this.handleIframeLoaded(3)}
-                      scrolling="no"
-                    />
-                    <iframe
-                      title="Advanced Token Metrics"
-                      src={metabaseUrls[4]}
-                      frameBorder="0"
-                      width={isMobile ? '100%' : '50%'}
-                      height={
-                        isMobile
-                          ? fullWidthMobileIframeHeight
-                          : halfWidthDesktopIframeHeight
-                      }
-                      style={groupIsLoaded[1] ? {} : { display: 'none' }}
-                      onLoad={() => this.handleIframeLoaded(4)}
-                      scrolling="no"
-                    />
-                    <iframe
-                      title="Advanced Token Metrics"
-                      src={metabaseUrls[5]}
-                      frameBorder="0"
-                      width={isMobile ? '100%' : '50%'}
-                      height={
-                        isMobile
-                          ? fullWidthMobileIframeHeight
-                          : halfWidthDesktopIframeHeight
-                      }
-                      style={groupIsLoaded[1] ? {} : { display: 'none' }}
-                      onLoad={() => this.handleIframeLoaded(5)}
-                      scrolling="no"
-                    />
-                  </Grid>
-                  <Grid
-                    item={true}
-                    xs={12}
-                    className={classes.tokenMetricHeader}
-                  >
-                    Unique Wallets HODLing Token
-                  </Grid>
-                  <Grid item={true} xs={12}>
-                    {!groupIsLoaded[2] && (
-                      <div
-                        className={classes.progressWrapper}
-                        style={
-                          isMobile
-                            ? { height: iframeGroupMobileHeight }
-                            : { height: iframeGroupDesktopHeight }
-                        }
-                      >
-                        <CircularProgress className={classes.progress} />
-                        {loadingMessage && <div>{loadingMessage}</div>}
-                      </div>
-                    )}
-                    <iframe
-                      title="Advanced Token Metrics"
-                      src={metabaseUrls[6]}
-                      frameBorder="0"
-                      width="100%"
-                      height={
-                        isMobile
-                          ? fullWidthMobileIframeHeight
-                          : fullWidthDesktopIframeHeight
-                      }
-                      style={groupIsLoaded[2] ? {} : { display: 'none' }}
-                      onLoad={() => this.handleIframeLoaded(6)}
-                      scrolling="no"
-                    />
-                    <iframe
-                      title="Advanced Token Metrics"
-                      src={metabaseUrls[7]}
-                      frameBorder="0"
-                      width={isMobile ? '100%' : '50%'}
-                      height={
-                        isMobile
-                          ? fullWidthMobileIframeHeight
-                          : halfWidthDesktopIframeHeight
-                      }
-                      style={groupIsLoaded[2] ? {} : { display: 'none' }}
-                      onLoad={() => this.handleIframeLoaded(7)}
-                      scrolling="no"
-                    />
-                    <iframe
-                      title="Advanced Token Metrics"
-                      src={metabaseUrls[8]}
-                      frameBorder="0"
-                      width={isMobile ? '100%' : '50%'}
-                      height={
-                        isMobile
-                          ? fullWidthMobileIframeHeight
-                          : halfWidthDesktopIframeHeight
-                      }
-                      style={groupIsLoaded[2] ? {} : { display: 'none' }}
-                      onLoad={() => this.handleIframeLoaded(8)}
-                      scrolling="no"
-                    />
-                  </Grid>
-                  <Grid
-                    item={true}
-                    xs={12}
-                    className={classes.tokenMetricHeader}
-                  >
-                    Percentage of Tokens Held By Top 100 Wallets
-                  </Grid>
-                  <Grid item={true} xs={12}>
-                    {!groupIsLoaded[3] && (
-                      <div
-                        className={classes.progressWrapper}
-                        style={
-                          isMobile
-                            ? { height: iframeGroupMobileHeight }
-                            : { height: iframeGroupDesktopHeight }
-                        }
-                      >
-                        <CircularProgress className={classes.progress} />
-                        {loadingMessage && <div>{loadingMessage}</div>}
-                      </div>
-                    )}
-                    <iframe
-                      title="Advanced Token Metrics"
-                      src={metabaseUrls[9]}
-                      frameBorder="0"
-                      width="100%"
-                      height={
-                        isMobile
-                          ? fullWidthMobileIframeHeight
-                          : fullWidthDesktopIframeHeight
-                      }
-                      style={groupIsLoaded[3] ? {} : { display: 'none' }}
-                      onLoad={() => this.handleIframeLoaded(9)}
-                      scrolling="no"
-                    />
-                    <iframe
-                      title="Advanced Token Metrics"
-                      src={metabaseUrls[10]}
-                      frameBorder="0"
-                      width={isMobile ? '100%' : '50%'}
-                      height={
-                        isMobile
-                          ? fullWidthMobileIframeHeight
-                          : halfWidthDesktopIframeHeight
-                      }
-                      style={groupIsLoaded[3] ? {} : { display: 'none' }}
-                      onLoad={() => this.handleIframeLoaded(10)}
-                      scrolling="no"
-                    />
-                    <iframe
-                      title="Advanced Token Metrics"
-                      src={metabaseUrls[11]}
-                      frameBorder="0"
-                      width={isMobile ? '100%' : '50%'}
-                      height={
-                        isMobile
-                          ? fullWidthMobileIframeHeight
-                          : halfWidthDesktopIframeHeight
-                      }
-                      style={groupIsLoaded[3] ? {} : { display: 'none' }}
-                      onLoad={() => this.handleIframeLoaded(11)}
-                      scrolling="no"
-                    />
-                  </Grid>
-                  <Grid
-                    item={true}
-                    xs={12}
-                    className={classes.tokenMetricHeader}
-                  >
-                    Percentage of Supply Transacted on Blockchain
-                  </Grid>
-                  <Grid item={true} xs={12}>
-                    {!groupIsLoaded[4] && (
-                      <div
-                        className={classes.progressWrapper}
-                        style={
-                          isMobile
-                            ? { height: iframeGroupMobileHeight }
-                            : { height: iframeGroupDesktopHeight }
-                        }
-                      >
-                        <CircularProgress className={classes.progress} />
-                        {loadingMessage && <div>{loadingMessage}</div>}
-                      </div>
-                    )}
-                    <iframe
-                      title="Advanced Token Metrics"
-                      src={metabaseUrls[12]}
-                      frameBorder="0"
-                      width="100%"
-                      height={
-                        isMobile
-                          ? fullWidthMobileIframeHeight
-                          : fullWidthDesktopIframeHeight
-                      }
-                      style={groupIsLoaded[4] ? {} : { display: 'none' }}
-                      onLoad={() => this.handleIframeLoaded(12)}
-                      scrolling="no"
-                    />
-                    <iframe
-                      title="Advanced Token Metrics"
-                      src={metabaseUrls[13]}
-                      frameBorder="0"
-                      width={isMobile ? '100%' : '50%'}
-                      height={
-                        isMobile
-                          ? fullWidthMobileIframeHeight
-                          : halfWidthDesktopIframeHeight
-                      }
-                      style={groupIsLoaded[4] ? {} : { display: 'none' }}
-                      onLoad={() => this.handleIframeLoaded(13)}
-                      scrolling="no"
-                    />
-                    <iframe
-                      title="Advanced Token Metrics"
-                      src={metabaseUrls[14]}
-                      frameBorder="0"
-                      width={isMobile ? '100%' : '50%'}
-                      height={
-                        isMobile
-                          ? fullWidthMobileIframeHeight
-                          : halfWidthDesktopIframeHeight
-                      }
-                      style={groupIsLoaded[4] ? {} : { display: 'none' }}
-                      onLoad={() => this.handleIframeLoaded(14)}
-                      scrolling="no"
-                    />
+                  <Grid container={true} spacing={16}>
+                    <Grid
+                      item={true}
+                      xs={12}
+                      className={classes.tokenMetricHeader}
+                    >
+                      Percentage of {symbol} on Exchange
+                    </Grid>
+                    {/* <Grid item={true} xs={12}>
+                      <SubCard>
+                        <CardContent>
+                          Chart
+                        </CardContent>
+                      </SubCard>
+                    </Grid> */}
+                    <Grid item={true} xs={12} md={6}>
+                      <SubCard>
+                        <CardContent className={classes.tokenCardContent}>
+                          <div className={classes.tokenMetricValue}>
+                            {(
+                              _.get(
+                                tokenMetrics,
+                                ['exchange_supply_metadata', 'metric_value'],
+                                0,
+                              ) * 100
+                            ).toFixed(1)}%
+                          </div>
+                          <div className={classes.tokenMetricSubtitle}>
+                            Tokens held on an exchange
+                          </div>
+                        </CardContent>
+                      </SubCard>
+                    </Grid>
+                    <Grid item={true} xs={12} md={6}>
+                      <SubCard>
+                        <CardContent className={classes.tokenCardContent}>
+                          <div className={classes.tokenMetricValue}>
+                            #{_.get(
+                              tokenMetrics,
+                              ['exchange_supply_metadata', 'rank'],
+                              0,
+                            )}
+                          </div>
+                          <div className={classes.tokenMetricSubtitle}>
+                            Rank out of{' '}
+                            {numeral(
+                              _.get(
+                                tokenMetrics,
+                                ['exchange_supply_metadata', 'num_coins'],
+                                0,
+                              ),
+                            ).format('0,0')}{' '}
+                            coins
+                          </div>
+                        </CardContent>
+                      </SubCard>
+                    </Grid>
+                    <Grid
+                      item={true}
+                      xs={12}
+                      className={classes.tokenMetricHeader}
+                    >
+                      Percentage of Early Investors Still HODLing
+                    </Grid>
+                    <Grid item={true} xs={12} md={6}>
+                      <SubCard>
+                        <CardContent className={classes.tokenCardContent}>
+                          <div className={classes.tokenMetricValue}>
+                            {(
+                              _.get(
+                                tokenMetrics,
+                                [
+                                  'token_retention_rate_metadata',
+                                  'metric_value',
+                                ],
+                                0,
+                              ) * 100
+                            ).toFixed(1)}%
+                          </div>
+                          <div className={classes.tokenMetricSubtitle}>
+                            Early investors still HODLing
+                          </div>
+                        </CardContent>
+                      </SubCard>
+                    </Grid>
+                    <Grid item={true} xs={12} md={6}>
+                      <SubCard>
+                        <CardContent className={classes.tokenCardContent}>
+                          <div className={classes.tokenMetricValue}>
+                            #{_.get(
+                              tokenMetrics,
+                              ['token_retention_rate_metadata', 'rank'],
+                              0,
+                            )}
+                          </div>
+                          <div className={classes.tokenMetricSubtitle}>
+                            Rank out of{' '}
+                            {numeral(
+                              _.get(
+                                tokenMetrics,
+                                ['token_retention_rate_metadata', 'num_coins'],
+                                0,
+                              ),
+                            ).format('0,0')}{' '}
+                            coins
+                          </div>
+                        </CardContent>
+                      </SubCard>
+                    </Grid>
+                    <Grid
+                      item={true}
+                      xs={12}
+                      className={classes.tokenMetricHeader}
+                    >
+                      Unique Wallets HODLing Token
+                    </Grid>
+                    <Grid item={true} xs={12} md={6}>
+                      <SubCard>
+                        <CardContent className={classes.tokenCardContent}>
+                          <div className={classes.tokenMetricValue}>
+                            {_.get(
+                              tokenMetrics,
+                              ['unique_wallet_count_metadata', 'metric_value'],
+                              0,
+                            )}
+                          </div>
+                          <div className={classes.tokenMetricSubtitle}>
+                            Wallets
+                          </div>
+                        </CardContent>
+                      </SubCard>
+                    </Grid>
+                    <Grid item={true} xs={12} md={6}>
+                      <SubCard>
+                        <CardContent className={classes.tokenCardContent}>
+                          <div className={classes.tokenMetricValue}>
+                            #{_.get(
+                              tokenMetrics,
+                              ['unique_wallet_count_metadata', 'rank'],
+                              0,
+                            )}
+                          </div>
+                          <div className={classes.tokenMetricSubtitle}>
+                            Rank out of{' '}
+                            {numeral(
+                              _.get(
+                                tokenMetrics,
+                                ['unique_wallet_count_metadata', 'num_coins'],
+                                0,
+                              ),
+                            ).format('0,0')}{' '}
+                            coins
+                          </div>
+                        </CardContent>
+                      </SubCard>
+                    </Grid>
+                    <Grid
+                      item={true}
+                      xs={12}
+                      className={classes.tokenMetricHeader}
+                    >
+                      Percentage of Tokens Held By Top 100 Wallets
+                    </Grid>
+                    <Grid item={true} xs={12} md={6}>
+                      <SubCard>
+                        <CardContent className={classes.tokenCardContent}>
+                          <div className={classes.tokenMetricValue}>
+                            {(
+                              _.get(
+                                tokenMetrics,
+                                [
+                                  'token_distribution_100_metadata',
+                                  'metric_value',
+                                ],
+                                0,
+                              ) * 100
+                            ).toFixed(1)}%
+                          </div>
+                          <div className={classes.tokenMetricSubtitle}>
+                            Tokens held by top 100
+                          </div>
+                        </CardContent>
+                      </SubCard>
+                    </Grid>
+                    <Grid item={true} xs={12} md={6}>
+                      <SubCard>
+                        <CardContent className={classes.tokenCardContent}>
+                          <div className={classes.tokenMetricValue}>
+                            #{_.get(
+                              tokenMetrics,
+                              ['token_distribution_100_metadata', 'rank'],
+                              0,
+                            )}
+                          </div>
+                          <div className={classes.tokenMetricSubtitle}>
+                            Rank out of{' '}
+                            {numeral(
+                              _.get(
+                                tokenMetrics,
+                                [
+                                  'token_distribution_100_metadata',
+                                  'num_coins',
+                                ],
+                                0,
+                              ),
+                            ).format('0,0')}{' '}
+                            coins
+                          </div>
+                        </CardContent>
+                      </SubCard>
+                    </Grid>
+                    <Grid
+                      item={true}
+                      xs={12}
+                      className={classes.tokenMetricHeader}
+                    >
+                      Percentage of Supply Transacted on Blockchain
+                    </Grid>
+                    <Grid item={true} xs={12} md={6}>
+                      <SubCard>
+                        <CardContent className={classes.tokenCardContent}>
+                          <div className={classes.tokenMetricValue}>
+                            {(
+                              _.get(
+                                tokenMetrics,
+                                ['token_velocity_metadata', 'metric_value'],
+                                0,
+                              ) * 100
+                            ).toFixed(2)}%
+                          </div>
+                          <div className={classes.tokenMetricSubtitle}>
+                            Of supply transacted yesterday
+                          </div>
+                        </CardContent>
+                      </SubCard>
+                    </Grid>
+                    <Grid item={true} xs={12} md={6}>
+                      <SubCard>
+                        <CardContent className={classes.tokenCardContent}>
+                          <div className={classes.tokenMetricValue}>
+                            #{_.get(
+                              tokenMetrics,
+                              ['token_velocity_metadata', 'rank'],
+                              0,
+                            )}
+                          </div>
+                          <div className={classes.tokenMetricSubtitle}>
+                            Rank out of{' '}
+                            {numeral(
+                              _.get(
+                                tokenMetrics,
+                                ['token_velocity_metadata', 'num_coins'],
+                                0,
+                              ),
+                            ).format('0,0')}{' '}
+                            coins
+                          </div>
+                        </CardContent>
+                      </SubCard>
+                    </Grid>
                   </Grid>
                 </Grid>
               )}

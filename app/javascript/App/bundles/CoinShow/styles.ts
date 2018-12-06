@@ -128,10 +128,30 @@ const styles = (theme) =>
       fontSize: '20px',
       fontWeight: 500,
       color: 'rgba(0, 0, 0, 0.87)',
-      paddingLeft: '8px',
-      '&:not(:first-child)': {
-        marginTop: '16px',
+      [theme.breakpoints.up('md')]: {
+        '&:not(:first-child)': {
+          marginTop: '30px',
+        },
       },
+      [theme.breakpoints.down('sm')]: {
+        paddingLeft: '16px', // container has a -8px margin
+        '&:not(:first-child)': {
+          marginTop: '10px',
+        },
+      },
+    },
+    tokenCardContent: {
+      padding: '30px 24px !important',
+      textAlign: 'center',
+      color: 'rgba(0, 0, 0, 0.87)',
+    },
+    tokenMetricValue: {
+      fontSize: '35px',
+      fontWeight: 600,
+    },
+    tokenMetricSubtitle: {
+      textAlign: 'center',
+      fontSize: '16px',
     },
     progressWrapper: {
       width: '100%',
