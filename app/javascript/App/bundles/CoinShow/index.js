@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import * as _ from 'lodash'
-import * as numeral from 'numeral'
 import { withRouter } from 'react-router'
 import compose from 'recompose/compose'
 import classnames from 'classnames'
@@ -34,6 +33,10 @@ import Icon from '~/bundles/common/components/Icon'
 import CoinListWrapper from '~/bundles/common/components/CoinListWrapper'
 import CoinListDrawer from '~/bundles/common/components/CoinListDrawer'
 import { WATCHLIST_CHANGE_EVENT } from '~/bundles/common/containers/CoinListContainer'
+import {
+  formatValue,
+  formatValueFixed,
+} from '~/bundles/common/utils/numberFormatters'
 import styles from './styles'
 
 const lightbulb = require('~/images/lightbulb.svg') // tslint:disable-line
@@ -488,13 +491,14 @@ class CoinShow extends Component {
                       <SubCard>
                         <CardContent className={classes.tokenCardContent}>
                           <div className={classes.tokenMetricValue}>
-                            {(
+                            {formatValueFixed(
                               _.get(
                                 tokenMetrics,
                                 ['exchange_supply_metadata', 'metric_value'],
                                 0,
-                              ) * 100
-                            ).toFixed(1)}%
+                              ) * 100,
+                              1,
+                            )}%
                           </div>
                           <div className={classes.tokenMetricSubtitle}>
                             Tokens held on an exchange
@@ -506,23 +510,25 @@ class CoinShow extends Component {
                       <SubCard>
                         <CardContent className={classes.tokenCardContent}>
                           <div className={classes.tokenMetricValue}>
-                            #{numeral(
+                            #{formatValue(
                               _.get(
                                 tokenMetrics,
                                 ['exchange_supply_metadata', 'rank'],
                                 0,
                               ),
-                            ).format('0,0')}
+                              0,
+                            )}
                           </div>
                           <div className={classes.tokenMetricSubtitle}>
                             Rank out of{' '}
-                            {numeral(
+                            {formatValue(
                               _.get(
                                 tokenMetrics,
                                 ['exchange_supply_metadata', 'num_coins'],
                                 0,
                               ),
-                            ).format('0,0')}{' '}
+                              0,
+                            )}{' '}
                             coins
                           </div>
                         </CardContent>
@@ -553,7 +559,7 @@ class CoinShow extends Component {
                       <SubCard>
                         <CardContent className={classes.tokenCardContent}>
                           <div className={classes.tokenMetricValue}>
-                            {(
+                            {formatValueFixed(
                               _.get(
                                 tokenMetrics,
                                 [
@@ -561,8 +567,9 @@ class CoinShow extends Component {
                                   'metric_value',
                                 ],
                                 0,
-                              ) * 100
-                            ).toFixed(1)}%
+                              ) * 100,
+                              1,
+                            )}%
                           </div>
                           <div className={classes.tokenMetricSubtitle}>
                             Early investors still HODLing
@@ -574,23 +581,25 @@ class CoinShow extends Component {
                       <SubCard>
                         <CardContent className={classes.tokenCardContent}>
                           <div className={classes.tokenMetricValue}>
-                            #{numeral(
+                            #{formatValue(
                               _.get(
                                 tokenMetrics,
                                 ['token_retention_rate_metadata', 'rank'],
                                 0,
                               ),
-                            ).format('0,0')}
+                              0,
+                            )}
                           </div>
                           <div className={classes.tokenMetricSubtitle}>
                             Rank out of{' '}
-                            {numeral(
+                            {formatValue(
                               _.get(
                                 tokenMetrics,
                                 ['token_retention_rate_metadata', 'num_coins'],
                                 0,
                               ),
-                            ).format('0,0')}{' '}
+                              0,
+                            )}{' '}
                             coins
                           </div>
                         </CardContent>
@@ -622,7 +631,7 @@ class CoinShow extends Component {
                       <SubCard>
                         <CardContent className={classes.tokenCardContent}>
                           <div className={classes.tokenMetricValue}>
-                            {numeral(
+                            {formatValue(
                               _.get(
                                 tokenMetrics,
                                 [
@@ -631,7 +640,8 @@ class CoinShow extends Component {
                                 ],
                                 0,
                               ),
-                            ).format('0,0')}
+                              0,
+                            )}
                           </div>
                           <div className={classes.tokenMetricSubtitle}>
                             Wallets
@@ -643,23 +653,25 @@ class CoinShow extends Component {
                       <SubCard>
                         <CardContent className={classes.tokenCardContent}>
                           <div className={classes.tokenMetricValue}>
-                            #{numeral(
+                            #{formatValue(
                               _.get(
                                 tokenMetrics,
                                 ['unique_wallet_count_metadata', 'rank'],
                                 0,
                               ),
-                            ).format('0,0')}
+                              0,
+                            )}
                           </div>
                           <div className={classes.tokenMetricSubtitle}>
                             Rank out of{' '}
-                            {numeral(
+                            {formatValue(
                               _.get(
                                 tokenMetrics,
                                 ['unique_wallet_count_metadata', 'num_coins'],
                                 0,
                               ),
-                            ).format('0,0')}{' '}
+                              0,
+                            )}{' '}
                             coins
                           </div>
                         </CardContent>
@@ -690,7 +702,7 @@ class CoinShow extends Component {
                       <SubCard>
                         <CardContent className={classes.tokenCardContent}>
                           <div className={classes.tokenMetricValue}>
-                            {(
+                            {formatValueFixed(
                               _.get(
                                 tokenMetrics,
                                 [
@@ -698,8 +710,9 @@ class CoinShow extends Component {
                                   'metric_value',
                                 ],
                                 0,
-                              ) * 100
-                            ).toFixed(1)}%
+                              ) * 100,
+                              1,
+                            )}%
                           </div>
                           <div className={classes.tokenMetricSubtitle}>
                             Tokens held by top 100
@@ -711,17 +724,18 @@ class CoinShow extends Component {
                       <SubCard>
                         <CardContent className={classes.tokenCardContent}>
                           <div className={classes.tokenMetricValue}>
-                            #{numeral(
+                            #{formatValue(
                               _.get(
                                 tokenMetrics,
                                 ['token_distribution_100_metadata', 'rank'],
                                 0,
                               ),
-                            ).format('0,0')}
+                              0,
+                            )}
                           </div>
                           <div className={classes.tokenMetricSubtitle}>
                             Rank out of{' '}
-                            {numeral(
+                            {formatValue(
                               _.get(
                                 tokenMetrics,
                                 [
@@ -730,7 +744,8 @@ class CoinShow extends Component {
                                 ],
                                 0,
                               ),
-                            ).format('0,0')}{' '}
+                              0,
+                            )}{' '}
                             coins
                           </div>
                         </CardContent>
@@ -761,13 +776,14 @@ class CoinShow extends Component {
                       <SubCard>
                         <CardContent className={classes.tokenCardContent}>
                           <div className={classes.tokenMetricValue}>
-                            {(
+                            {formatValueFixed(
                               _.get(
                                 tokenMetrics,
                                 ['token_velocity_metadata', 'metric_value'],
                                 0,
-                              ) * 100
-                            ).toFixed(2)}%
+                              ) * 100,
+                              2,
+                            )}%
                           </div>
                           <div className={classes.tokenMetricSubtitle}>
                             Of supply transacted yesterday
@@ -779,23 +795,25 @@ class CoinShow extends Component {
                       <SubCard>
                         <CardContent className={classes.tokenCardContent}>
                           <div className={classes.tokenMetricValue}>
-                            #{numeral(
+                            #{formatValue(
                               _.get(
                                 tokenMetrics,
                                 ['token_velocity_metadata', 'rank'],
                                 0,
                               ),
-                            ).format('0,0')}
+                              0,
+                            )}
                           </div>
                           <div className={classes.tokenMetricSubtitle}>
                             Rank out of{' '}
-                            {numeral(
+                            {formatValue(
                               _.get(
                                 tokenMetrics,
                                 ['token_velocity_metadata', 'num_coins'],
                                 0,
                               ),
-                            ).format('0,0')}{' '}
+                              0,
+                            )}{' '}
                             coins
                           </div>
                         </CardContent>
