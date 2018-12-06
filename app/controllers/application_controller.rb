@@ -21,6 +21,11 @@ private
 
 protected
 
+  def is_production?
+    (ENV['IS_PRODUCTION'] || "false").downcase == 'true'
+  end
+  helper_method :is_production?
+
   def has_calendar_feature?
     false
   end
