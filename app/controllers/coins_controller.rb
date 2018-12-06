@@ -75,16 +75,6 @@ class CoinsController < ApplicationController
     end
   end
 
-  def get_token(dashboard_id)
-    payload = {
-      resource: { dashboard: dashboard_id },
-      params: {
-        "coin_key" => @coin.coin_key
-      }
-    }
-    JWT.encode payload, ENV['METABASE_SECRET_KEY']
-  end
-
   def serialize_coins(coins)
     coins.as_json(
       only: %i[id name symbol slug coin_key ranking image_url price market_cap change1h change24h change7d volume24],

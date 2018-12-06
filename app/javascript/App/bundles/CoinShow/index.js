@@ -516,11 +516,13 @@ class CoinShow extends Component {
                       <SubCard>
                         <CardContent className={classes.tokenCardContent}>
                           <div className={classes.tokenMetricValue}>
-                            #{_.get(
-                              tokenMetrics,
-                              ['exchange_supply_metadata', 'rank'],
-                              0,
-                            )}
+                            #{numeral(
+                              _.get(
+                                tokenMetrics,
+                                ['exchange_supply_metadata', 'rank'],
+                                0,
+                              ),
+                            ).format('0,0')}
                           </div>
                           <div className={classes.tokenMetricSubtitle}>
                             Rank out of{' '}
@@ -582,11 +584,13 @@ class CoinShow extends Component {
                       <SubCard>
                         <CardContent className={classes.tokenCardContent}>
                           <div className={classes.tokenMetricValue}>
-                            #{_.get(
-                              tokenMetrics,
-                              ['token_retention_rate_metadata', 'rank'],
-                              0,
-                            )}
+                            #{numeral(
+                              _.get(
+                                tokenMetrics,
+                                ['token_retention_rate_metadata', 'rank'],
+                                0,
+                              ),
+                            ).format('0,0')}
                           </div>
                           <div className={classes.tokenMetricSubtitle}>
                             Rank out of{' '}
@@ -619,6 +623,7 @@ class CoinShow extends Component {
                               [],
                             )}
                             yAxisLabel="Wallets"
+                            isPercentage={false}
                           />
                         </CardContent>
                       </SubCard>
@@ -627,11 +632,16 @@ class CoinShow extends Component {
                       <SubCard>
                         <CardContent className={classes.tokenCardContent}>
                           <div className={classes.tokenMetricValue}>
-                            {_.get(
-                              tokenMetrics,
-                              ['unique_wallet_count_metadata', 'metric_value'],
-                              0,
-                            )}
+                            {numeral(
+                              _.get(
+                                tokenMetrics,
+                                [
+                                  'unique_wallet_count_metadata',
+                                  'metric_value',
+                                ],
+                                0,
+                              ),
+                            ).format('0,0')}
                           </div>
                           <div className={classes.tokenMetricSubtitle}>
                             Wallets
@@ -643,11 +653,13 @@ class CoinShow extends Component {
                       <SubCard>
                         <CardContent className={classes.tokenCardContent}>
                           <div className={classes.tokenMetricValue}>
-                            #{_.get(
-                              tokenMetrics,
-                              ['unique_wallet_count_metadata', 'rank'],
-                              0,
-                            )}
+                            #{numeral(
+                              _.get(
+                                tokenMetrics,
+                                ['unique_wallet_count_metadata', 'rank'],
+                                0,
+                              ),
+                            ).format('0,0')}
                           </div>
                           <div className={classes.tokenMetricSubtitle}>
                             Rank out of{' '}
@@ -679,7 +691,7 @@ class CoinShow extends Component {
                               'token_distribution_100_data',
                               [],
                             )}
-                            yAxisLabel="% Supply Held by Top 100 Wallets"
+                            yAxisLabel={'% Supply Held by Top 100 Wallets'}
                           />
                         </CardContent>
                       </SubCard>
@@ -709,11 +721,13 @@ class CoinShow extends Component {
                       <SubCard>
                         <CardContent className={classes.tokenCardContent}>
                           <div className={classes.tokenMetricValue}>
-                            #{_.get(
-                              tokenMetrics,
-                              ['token_distribution_100_metadata', 'rank'],
-                              0,
-                            )}
+                            #{numeral(
+                              _.get(
+                                tokenMetrics,
+                                ['token_distribution_100_metadata', 'rank'],
+                                0,
+                              ),
+                            ).format('0,0')}
                           </div>
                           <div className={classes.tokenMetricSubtitle}>
                             Rank out of{' '}
@@ -775,11 +789,13 @@ class CoinShow extends Component {
                       <SubCard>
                         <CardContent className={classes.tokenCardContent}>
                           <div className={classes.tokenMetricValue}>
-                            #{_.get(
-                              tokenMetrics,
-                              ['token_velocity_metadata', 'rank'],
-                              0,
-                            )}
+                            #{numeral(
+                              _.get(
+                                tokenMetrics,
+                                ['token_velocity_metadata', 'rank'],
+                                0,
+                              ),
+                            ).format('0,0')}
                           </div>
                           <div className={classes.tokenMetricSubtitle}>
                             Rank out of{' '}

@@ -129,15 +129,16 @@ const styles = (theme) =>
       fontWeight: 500,
       color: 'rgba(0, 0, 0, 0.87)',
       [theme.breakpoints.up('md')]: {
+        '&:first-child': {
+          marginTop: '10px',
+        },
         '&:not(:first-child)': {
           marginTop: '30px',
         },
       },
       [theme.breakpoints.down('sm')]: {
         paddingLeft: '16px', // container has a -8px margin
-        '&:not(:first-child)': {
-          marginTop: '10px',
-        },
+        marginTop: '10px',
       },
     },
     tokenChartCardContent: {

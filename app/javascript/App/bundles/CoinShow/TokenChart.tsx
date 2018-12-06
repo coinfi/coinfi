@@ -1,6 +1,7 @@
 import * as React from 'react'
 import * as moment from 'moment'
 import * as _ from 'lodash'
+import * as numeral from 'numeral'
 import Highcharts from 'highcharts'
 import HighchartsReact from 'highcharts-react-official'
 import defaultOptions from '../common/components/CoinCharts/PriceGraph/options'
@@ -12,6 +13,7 @@ interface TokenData {
 
 interface Props {
   data: TokenData[]
+  isPercentage?: boolean
   title?: string
   yAxisLabel?: string
   xAxisLabel?: string
@@ -19,6 +21,7 @@ interface Props {
 
 interface State {
   options: any
+  isPercentage: boolean
 }
 
 export default class TokenChart extends React.Component<Props, State> {
@@ -26,6 +29,8 @@ export default class TokenChart extends React.Component<Props, State> {
     super(props)
 
     const { data, title, yAxisLabel, xAxisLabel } = props
+
+    const isPercentage = _.get(props, 'isPercentage', true)
 
     const processedData = data.map((datum) => {
       const x = moment.utc(datum.date).valueOf()
@@ -42,20 +47,25 @@ export default class TokenChart extends React.Component<Props, State> {
       {
         title: {
           text: title || '',
+          enabled: !!title,
         },
         xAxis: {
           type: 'datetime',
           title: {
             text: xAxisLabel || '',
           },
+          enabled: !!xAxisLabel,
           gridLineWidth: 0,
         },
-        yAxis: {
-          title: {
-            text: yAxisLabel || '',
+        yAxis: [
+          {
+            title: {
+              text: yAxisLabel || '',
+            },
+            enabled: !!yAxisLabel,
+            gridLineDashStyle: 'Dash',
           },
-          gridLineDashStyle: 'Dash',
-        },
+        ],
         navigator: {
           enabled: false,
         },
@@ -66,15 +76,26 @@ export default class TokenChart extends React.Component<Props, State> {
           useUTC: true,
         },
         tooltip: {
-          valueSuffix: '%',
-          valueDecimals: 4,
+          ...(isPercentage
+            ? {
+                valueSuffix: '%',
+                valueDecimals: 2,
+              }
+            : {
+                pointFormatter() {
+                  return `<span style="color:${this.color}">●</span> ${
+                    this.series.name
+                  }: <b>${numeral(this.y).format('0,0')}</b>`
+                },
+              }),
           xDateFormat: '%Y-%m-%d',
           hideDelay: 1000,
+          useHTML: true,
         },
         series: [
           {
             type: 'line',
-            name: yAxisLabel || 'percentage',
+            name: yAxisLabel || '',
             data: processedData,
           },
         ],
@@ -83,6 +104,7 @@ export default class TokenChart extends React.Component<Props, State> {
 
     this.state = {
       options,
+      isPercentage,
     }
   }
 
@@ -92,8 +114,8 @@ export default class TokenChart extends React.Component<Props, State> {
     return (
       <HighchartsReact
         highcharts={Highcharts}
-        options={options}
-        allowChartUpdate={true}
+        options={{ ...options }}
+        allowChartUpdate={false}
       />
     )
   }
