@@ -192,6 +192,8 @@
   <%# This should be right before closing body tag %>
   <% if controller.controller_name != ('signals') %>
     <script src="https://my.hellobar.com/7700c8817cb197d6aa452a9bf6647ba36e18a9f2.js" type="text/javascript" charset="utf-8" async="async"></script>
-    <script async>(function(s,u,m,o,j,v){j=u.createElement(m);v=u.getElementsByTagName(m)[0];j.async=1;j.src=o;j.dataset.sumoSiteId='0c8b73cba3978d265d963a6f8ccb376405d39e50a5fb59d2e02fb97e1a5c0fbe';v.parentNode.insertBefore(j,v)})(window,document,'script','//load.sumo.com/');</script>
+    <% unless is_production? %>
+      <script async>(function(s,u,m,o,j,v){j=u.createElement(m);v=u.getElementsByTagName(m)[0];j.async=1;j.src=o;j.dataset.sumoSiteId='0c8b73cba3978d265d963a6f8ccb376405d39e50a5fb59d2e02fb97e1a5c0fbe';v.parentNode.insertBefore(j,v)})(window,document,'script','//load.sumo.com/');</script>
+    <% end %>
   <% end %>
 <% end %>
