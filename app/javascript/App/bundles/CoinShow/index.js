@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import update from 'react-addons-update'
 import * as _ from 'lodash'
 import * as numeral from 'numeral'
 import { withRouter } from 'react-router'
@@ -11,7 +10,6 @@ import {
   Card,
   CardHeader,
   CardContent,
-  CircularProgress,
   List,
   ListItem,
   ListItemText,
@@ -123,12 +121,12 @@ class CoinShow extends Component {
       tabSlug,
       showCoinList: false,
     }
-
-    // Eagerly load price data
-    this.getPriceData()
   }
 
   componentDidMount() {
+    // Eagerly load price data
+    this.getPriceData()
+
     this.fetchWatchlist().then((coins) => {
       this.setState({
         watchlistIndex: coins,
@@ -272,14 +270,6 @@ class CoinShow extends Component {
         }
       }, 100)
     }
-  }
-
-  handleIframeLoaded = (index) => {
-    this.setState({
-      loadedIframes: update(this.state.loadedIframes, {
-        [index]: { $set: true },
-      }),
-    })
   }
 
   render() {
@@ -966,6 +956,6 @@ class CoinShow extends Component {
 }
 
 export default compose(
-  withWidth(),
-  withStyles(styles),
+  withWidth({ withTheme: true, initialWidth: 'md' }),
+  withStyles(styles, { withTheme: true }),
 )(withRouter(CoinShow))
