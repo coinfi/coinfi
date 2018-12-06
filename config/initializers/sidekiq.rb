@@ -12,7 +12,7 @@ Sidekiq.configure_server do |config|
     if is_production
       Sidekiq.schedule = YAML.load_file(File.expand_path('../../sidekiq_schedule_production.yml', __FILE__))
     else
-      Sidekiq.schedule = YAML.load_file(File.expand_path('../../sidekiq_schedule_default.yml', __FILE__))
+      Sidekiq.schedule = YAML.load_file(File.expand_path('../../sidekiq_schedule_non_production.yml', __FILE__))
     end
 
     SidekiqScheduler::Scheduler.instance.reload_schedule!
