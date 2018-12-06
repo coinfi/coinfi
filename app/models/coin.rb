@@ -229,79 +229,63 @@ class Coin < ApplicationRecord
   def token_metrics_data(metric_type)
     return nil unless has_token_metrics?
 
-    url = "#{ENV.fetch('COINFI_POSTGREST_URL')}/metrics_chart_view?coin_key=eq.#{coin_key}&metric_type=eq.#{metric_type}&select=percentage,date"
-    response = HTTParty.get(url)
-    JSON.parse(response.body)
+    Rails.cache.fetch("coins/#{id}/#{metric_type}", expires_in: 1.day, race_condition_ttl: 10.seconds) do
+      url = "#{ENV.fetch('COINFI_POSTGREST_URL')}/metrics_chart_view?coin_key=eq.#{coin_key}&metric_type=eq.#{metric_type}&select=percentage,date"
+      response = HTTParty.get(url)
+      JSON.parse(response.body)
+    end
   end
 
   def token_metrics_metadata(metric_type)
     return nil unless has_token_metrics?
 
-    url = "#{ENV.fetch('COINFI_POSTGREST_URL')}/#{metric_type}_metrics_view?coin_key=eq.#{coin_key}"
-    headers = { "Accept": "application/vnd.pgrst.object+json" }
-    response = HTTParty.get(url, headers: headers)
-    results = JSON.parse(response.body)
-    results.except!("coin_key")
+    Rails.cache.fetch("coins/#{id}/#{metric_type}_metadata", expires_in: 1.day, race_condition_ttl: 10.seconds) do
+      url = "#{ENV.fetch('COINFI_POSTGREST_URL')}/#{metric_type}_metrics_view?coin_key=eq.#{coin_key}"
+      headers = { "Accept": "application/vnd.pgrst.object+json" }
+      response = HTTParty.get(url, headers: headers)
+      results = JSON.parse(response.body)
+      results.except!("coin_key")
+    end
   end
 
   def exchange_supply_data
-    Rails.cache.fetch("coins/#{id}/exchange_supply", expires_in: 1.day, race_condition_ttl: 10.seconds) do
-      token_metrics_data('exchange_supply')
-    end
+    token_metrics_data('exchange_supply')
   end
 
   def exchange_supply_metadata
-    Rails.cache.fetch("coins/#{id}/exchange_supply_metadata", expires_in: 1.day, race_condition_ttl: 10.seconds) do
-      token_metrics_metadata('exchange_supply')
-    end
+    token_metrics_metadata('exchange_supply')
   end
 
   def token_retention_rate_data
-    Rails.cache.fetch("coins/#{id}/token_retention_rate", expires_in: 1.day, race_condition_ttl: 10.seconds) do
-      token_metrics_data('token_retention_rate')
-    end
+    token_metrics_data('token_retention_rate')
   end
 
   def token_retention_rate_metadata
-    Rails.cache.fetch("coins/#{id}/token_retention_rate_metadata", expires_in: 1.day, race_condition_ttl: 10.seconds) do
-      token_metrics_metadata('token_retention_rate')
-    end
+    token_metrics_metadata('token_retention_rate')
   end
 
   def unique_wallet_count_data
-    Rails.cache.fetch("coins/#{id}/unique_wallet_count", expires_in: 1.day, race_condition_ttl: 10.seconds) do
-      token_metrics_data('unique_wallet_count')
-    end
+    token_metrics_data('unique_wallet_count')
   end
 
   def unique_wallet_count_metadata
-    Rails.cache.fetch("coins/#{id}/unique_wallet_count_metadata", expires_in: 1.day, race_condition_ttl: 10.seconds) do
-      token_metrics_metadata('unique_wallet_count')
-    end
+    token_metrics_metadata('unique_wallet_count')
   end
 
   def token_distribution_100_data
-    Rails.cache.fetch("coins/#{id}/token_distribution_100", expires_in: 1.day, race_condition_ttl: 10.seconds) do
-      token_metrics_data('token_distribution_100')
-    end
+    token_metrics_data('token_distribution_100')
   end
 
   def token_distribution_100_metadata
-    Rails.cache.fetch("coins/#{id}/token_distribution_100_metadata", expires_in: 1.day, race_condition_ttl: 10.seconds) do
-      token_metrics_metadata('token_distribution_100')
-    end
+    token_metrics_metadata('token_distribution_100')
   end
 
   def token_velocity_data
-    Rails.cache.fetch("coins/#{id}/token_velocity", expires_in: 1.day, race_condition_ttl: 10.seconds) do
-      token_metrics_data('token_velocity')
-    end
+    token_metrics_data('token_velocity')
   end
 
   def token_velocity_metadata
-    Rails.cache.fetch("coins/#{id}/token_velocity_metadata", expires_in: 1.day, race_condition_ttl: 10.seconds) do
-      token_metrics_metadata('token_velocity')
-    end
+    token_metrics_metadata('token_velocity')
   end
 
   def news_data
