@@ -6,11 +6,12 @@ module CoinMarketCapPro
     attr_accessor :db_missing_coins
     attr_accessor :cmc_missing_data
 
-    def initialize(start: 1, limit: 100) # 1-indexed
+    def initialize(start: 1, limit: 100, healthcheck_url: nil) # 1-indexed
       @db_missing_coins = []
       @cmc_missing_data = []
       @start = start
       @limit = limit
+      @healthcheck_url = healthcheck_url
     end
 
     def call
@@ -36,9 +37,13 @@ module CoinMarketCapPro
 
     def log_missing_data
       if @cmc_missing_data.empty?
-        Net::HTTP.get(URI.parse(ENV.fetch('HEALTHCHECK_SNAP_PRICES')))
+        Net::HTTP.get(URI.parse(@healthcheck_url)) unless @healthcheck_url.blank?
       else
-        Net::HTTP.post(URI.parse("#{ENV.fetch('HEALTHCHECK_SNAP_PRICES')}/fail"), @cmc_missing_data.to_json)
+        if @healthcheck_url.present?
+          Net::HTTP.post(URI.parse("#{@healthcheck_url}/fail"), @cmc_missing_data.to_json)
+        else
+          pp @cmc_missing_data
+        end
       end
     end
 
@@ -49,7 +54,7 @@ module CoinMarketCapPro
       duration_in_seconds = updated_at - added_at
       # Include threshold; doesn't seem to have data at exactly 1h/24h/7d
       # Will need to empircally determine validity threshold
-      has_1h = duration_in_seconds >= 2 * 60 * 60 # 2 hours
+      has_1h = duration_in_seconds >= 1.5 * 24 * 60 * 60 # 1.5 days
       has_24h = duration_in_seconds >= 2 * 24 * 60 * 60 # 2 days
       has_7d = duration_in_seconds >= 8 * 24 * 60 * 60 # 8 days
 
@@ -111,11 +116,15 @@ module CoinMarketCapPro
       json_response_code = get_json_response_code(contents)
 
       if response.success? && json_response_code == 0 then
-        Net::HTTP.get(URI.parse(ENV.fetch('HEALTHCHECK_SNAP_PRICES')))
+        Net::HTTP.get(URI.parse(@healthcheck_url)) unless @healthcheck_url.blank?
         return contents['data']
       else
-        error_message = get_error_message(contents)
-        Net::HTTP.post(URI.parse("#{ENV.fetch('HEALTHCHECK_SNAP_PRICES')}/fail"), "ERROR HTTP(#{response.code}) JSON(#{json_response_code}): #{error_message}")
+        error_message = "ERROR HTTP(#{response.code}) JSON(#{json_response_code}): #{get_error_message(contents)}"
+        if @healthcheck_url.present?
+          Net::HTTP.post(URI.parse("#{@healthcheck_url}/fail"), error_message)
+        else
+          puts error_message
+        end
         return nil
       end
     end
