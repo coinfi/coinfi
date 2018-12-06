@@ -4,7 +4,7 @@ require_relative './base_test'
 
 class Api::SignalsTelegramBot::TradingSignalNotificationsTest < Api::SignalsTelegramBot::BaseTest
   test "show" do
-    trading_signal_notifications = create_list(:trading_signal_notification, 3)
+    trading_signal_notifications = create_list(:telegram_trading_signal_notification, 3)
     trading_signal_notification = trading_signal_notifications.sample
 
     get "/api/signals_telegram_bot/trading_signal_notifications/#{trading_signal_notification.id}", headers: auth_headers
@@ -17,8 +17,8 @@ class Api::SignalsTelegramBot::TradingSignalNotificationsTest < Api::SignalsTele
 
   test "create" do
     user = create(:user)
-    trading_signal = create(:telegram_trading_signal)
-    trading_signal_notification_attrs = build(:trading_signal_notification, user: user, trading_signal: trading_signal).attributes
+    trading_signal = create(:trading_signal)
+    trading_signal_notification_attrs = build(:telegram_trading_signal_notification, user: user, trading_signal: trading_signal).attributes
     request_params = {
       trading_signal_notification: trading_signal_notification_attrs
     }
