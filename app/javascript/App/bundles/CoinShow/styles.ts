@@ -140,6 +140,9 @@ const styles = (theme) =>
         },
       },
     },
+    tokenChartCardContent: {
+      padding: '18px 8px 0 0 !important',
+    },
     tokenCardContent: {
       padding: '30px 24px !important',
       textAlign: 'center',

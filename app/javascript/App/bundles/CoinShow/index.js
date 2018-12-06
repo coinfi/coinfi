@@ -31,6 +31,7 @@ import FundamentalsList from './FundamentalsList'
 import InfoBar from './InfoBar'
 import LinksList from './LinksList'
 import HistoricalPriceDataTable from './HistoricalPriceDataTable'
+import TokenChart from './TokenChart'
 import Icon from '~/bundles/common/components/Icon'
 import CoinListWrapper from '~/bundles/common/components/CoinListWrapper'
 import CoinListDrawer from '~/bundles/common/components/CoinListDrawer'
@@ -479,13 +480,20 @@ class CoinShow extends Component {
                     >
                       Percentage of {symbol} on Exchange
                     </Grid>
-                    {/* <Grid item={true} xs={12}>
+                    <Grid item={true} xs={12}>
                       <SubCard>
-                        <CardContent>
-                          Chart
+                        <CardContent className={classes.tokenChartCardContent}>
+                          <TokenChart
+                            data={_.get(
+                              tokenMetrics,
+                              'exchange_supply_data',
+                              [],
+                            )}
+                            yAxisLabel="% Supply on Exchange"
+                          />
                         </CardContent>
                       </SubCard>
-                    </Grid> */}
+                    </Grid>
                     <Grid item={true} xs={12} md={6}>
                       <SubCard>
                         <CardContent className={classes.tokenCardContent}>
@@ -534,6 +542,20 @@ class CoinShow extends Component {
                       className={classes.tokenMetricHeader}
                     >
                       Percentage of Early Investors Still HODLing
+                    </Grid>
+                    <Grid item={true} xs={12}>
+                      <SubCard>
+                        <CardContent className={classes.tokenChartCardContent}>
+                          <TokenChart
+                            data={_.get(
+                              tokenMetrics,
+                              'token_retention_rate_data',
+                              [],
+                            )}
+                            yAxisLabel="% Supply Held by Early Investors"
+                          />
+                        </CardContent>
+                      </SubCard>
                     </Grid>
                     <Grid item={true} xs={12} md={6}>
                       <SubCard>
@@ -587,6 +609,20 @@ class CoinShow extends Component {
                     >
                       Unique Wallets HODLing Token
                     </Grid>
+                    <Grid item={true} xs={12}>
+                      <SubCard>
+                        <CardContent className={classes.tokenChartCardContent}>
+                          <TokenChart
+                            data={_.get(
+                              tokenMetrics,
+                              'unique_wallet_count_data',
+                              [],
+                            )}
+                            yAxisLabel="Wallets"
+                          />
+                        </CardContent>
+                      </SubCard>
+                    </Grid>
                     <Grid item={true} xs={12} md={6}>
                       <SubCard>
                         <CardContent className={classes.tokenCardContent}>
@@ -633,6 +669,20 @@ class CoinShow extends Component {
                       className={classes.tokenMetricHeader}
                     >
                       Percentage of Tokens Held By Top 100 Wallets
+                    </Grid>
+                    <Grid item={true} xs={12}>
+                      <SubCard>
+                        <CardContent className={classes.tokenChartCardContent}>
+                          <TokenChart
+                            data={_.get(
+                              tokenMetrics,
+                              'token_distribution_100_data',
+                              [],
+                            )}
+                            yAxisLabel="% Supply Held by Top 100 Wallets"
+                          />
+                        </CardContent>
+                      </SubCard>
                     </Grid>
                     <Grid item={true} xs={12} md={6}>
                       <SubCard>
@@ -688,6 +738,20 @@ class CoinShow extends Component {
                       className={classes.tokenMetricHeader}
                     >
                       Percentage of Supply Transacted on Blockchain
+                    </Grid>
+                    <Grid item={true} xs={12}>
+                      <SubCard>
+                        <CardContent className={classes.tokenChartCardContent}>
+                          <TokenChart
+                            data={_.get(
+                              tokenMetrics,
+                              'token_velocity_data',
+                              [],
+                            )}
+                            yAxisLabel="% Supply Tx'd on Blockchain"
+                          />
+                        </CardContent>
+                      </SubCard>
                     </Grid>
                     <Grid item={true} xs={12} md={6}>
                       <SubCard>

@@ -102,6 +102,9 @@ export default (Highcharts, data) => {
     navigator: {
       enabled: false,
     },
+    chart: {
+      height: 500,
+    },
 
     legend: {
       enabled: false,
