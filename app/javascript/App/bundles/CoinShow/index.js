@@ -102,17 +102,9 @@ class CoinShow extends Component {
 
     const { tokenMetrics } = props
     const hasTokenMetrics = !_.isEmpty(tokenMetrics)
-    const hashTag = _.get(props, ['location', 'hash'], '').slice(1) // remove prepended octothorpe
-    const isValidHashTag =
-      _.findIndex(
-        Object.values(TAB_SLUGS),
-        (slug) => slug === isValidHashTag,
-      ) >= 0 &&
-      (hasTokenMetrics || hashTag !== TAB_SLUGS.tokenMetrics)
-    const defaultTabSlug = hasTokenMetrics
+    const tabSlug = hasTokenMetrics
       ? TAB_SLUGS.tokenMetrics
       : TAB_SLUGS.priceChart
-    const tabSlug = isValidHashTag ? hashTag : defaultTabSlug
 
     this.state = {
       priceChartSizeSet: false,
@@ -127,6 +119,22 @@ class CoinShow extends Component {
   }
 
   componentDidMount() {
+    // handle tab change here to avoid rendering issues
+    const { props } = this
+    const { tokenMetrics } = props
+    const hasTokenMetrics = !_.isEmpty(tokenMetrics)
+    const hashTag = _.get(props, ['location', 'hash'], '').slice(1) // remove prepended octothorpe
+    const isValidHashTag =
+      _.findIndex(Object.values(TAB_SLUGS), (slug) => slug === hashTag) >= 0 &&
+      (hasTokenMetrics || hashTag !== TAB_SLUGS.tokenMetrics)
+    const defaultTabSlug = hasTokenMetrics
+      ? TAB_SLUGS.tokenMetrics
+      : TAB_SLUGS.priceChart
+    const tabSlug = isValidHashTag ? hashTag : defaultTabSlug
+    if (tabSlug !== this.state.tabSlug) {
+      this.setState({ tabSlug })
+    }
+
     // Eagerly load price data
     this.getPriceData()
 
