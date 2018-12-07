@@ -8,25 +8,18 @@ interface Props {
 
 const PercentageChange = ({ value, className }: Props) => {
   const n = parseFloat(value)
-  let iconName = 'caret-up'
   let klass = 'green'
   if (n < 0) {
-    iconName = 'caret-down'
     klass = 'sunset'
   }
   if (className) {
     klass = `${className} ${klass}`
   }
-  const percentage = `${Math.abs(n)}%`
+  const percentage = `${n}%`
   if (isNaN(n)) {
     return <div />
   }
-  return (
-    <span className={klass}>
-      <Icon name={iconName} solid={true} className="mr1" />
-      {percentage}
-    </span>
-  )
+  return <span className={klass}>{percentage}</span>
 }
 
 export default PercentageChange
