@@ -9,7 +9,7 @@ interface Props {
   loggedIn: boolean
 }
 
-const WatchButton = ({ coin, hasText, loggedIn }: Props) => {
+const WatchStar = ({ coin, hasText, loggedIn }: Props) => {
   const hasTextClassNames = 'btn btn-xs btn-gray'
 
   return (
@@ -69,4 +69,4 @@ const WatchButton = ({ coin, hasText, loggedIn }: Props) => {
   )
 }
 
-export default WatchButton
+export default WatchStar
