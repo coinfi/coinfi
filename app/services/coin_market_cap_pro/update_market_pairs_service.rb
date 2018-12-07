@@ -11,11 +11,10 @@ module CoinMarketCapPro
 
     def call
       coins = Coin.top(@limit).offset(@start)
-      item_name = coins.first.class.name
-      puts "About to process #{coins.count} #{item_name.pluralize}"
+      puts "About to process #{coins.count} coins"
       puts "Nothing to do here. items was empty... bye." and return if coins.none?
 
-      progress = ProgressBar.create(:title => item_name.pluralize, :total => coins.count)
+      progress = ProgressBar.create(:title => "coins", :total => coins.count)
       items_with_errors = []
 
       coins.each do |coin|
@@ -24,7 +23,7 @@ module CoinMarketCapPro
           progress.increment
         rescue StandardError => e
           items_with_errors << coin.id
-          puts "Got an error on #{item_name} id #{coin.id}"
+          puts "Got an error on coin id #{coin.id}"
           puts e
           puts e.backtrace
           puts "#{items_with_errors.length} errors so far"
@@ -35,7 +34,7 @@ module CoinMarketCapPro
       log_missing_data
       if items_with_errors.present?
         puts "Found #{items_with_errors.length} total errors"
-        puts "Encountered errors when trying to process these #{item_name.pluralize} ids: #{items_with_errors}"
+        puts "Encountered errors when trying to process these coins ids: #{items_with_errors}"
       end
     end
 
