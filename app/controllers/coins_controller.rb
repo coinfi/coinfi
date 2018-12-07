@@ -26,18 +26,10 @@ class CoinsController < ApplicationController
       @related_coins = @coin.related_coins.select(:id, :coin_key, :name, :symbol, :slug).to_a # Calling `to_a` ensures query executes on replica.
     end
 
-    if @coin.symbol && @coin.is_erc20? && ENV['METABASE_SECRET_KEY']
-      payload = {
-        resource: { dashboard: 3 },
-        params: {
-          "coin_key" => @coin.coin_key
-        }
-      }
-      token = JWT.encode payload, ENV['METABASE_SECRET_KEY']
-
-      @metabase_url = "https://metabase.coinfi.com/embed/dashboard/#{token}#bordered=false&titled=false"
+    if @coin.has_token_metrics?
+      @token_metrics = @coin.token_metrics
     else
-      @metabase_url = nil
+      @token_metrics = {}
     end
 
     # TODO: Flag if a non-listed coin gets routed to this controller.
