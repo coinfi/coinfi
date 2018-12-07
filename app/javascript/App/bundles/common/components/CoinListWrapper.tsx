@@ -7,14 +7,20 @@ import CoinListContext, {
 import LoadingIndicator from './LoadingIndicator'
 import { Coin } from '~/bundles/common/types'
 
-interface Props {
+interface MobileVersionProps {
   loggedIn: boolean
-  onClick?: (slug: string) => void
-  isWatchlist?: boolean
-  generateLink?: (coin: Coin) => string
+  isWatchlist: boolean
+  forMobile: true
+  onClick: () => void
 }
 
-const CoinListWrapper = (props: Props) => (
+interface Props {
+  loggedIn: boolean
+  isWatchlist: boolean
+  forMobile?: false
+}
+
+const CoinListWrapper = (props: Props | MobileVersionProps) => (
   <CoinListContext.Consumer>
     {(payload: CoinListContextType) => {
       return payload.isInitializing() ? (
@@ -32,11 +38,10 @@ const CoinListWrapper = (props: Props) => (
             loggedIn={props.loggedIn}
             isWatchlist={props.isWatchlist}
             selectedCoinSlug={payload.selectedCoinSlug}
-            generateLink={props.generateLink}
             onSelectCoin={(coin: Coin) => {
               payload.selectCoinBySlug(coin.slug)
-              if (props.onClick) {
-                props.onClick(coin.slug)
+              if (props.forMobile) {
+                props.onClick()
               }
             }}
           />

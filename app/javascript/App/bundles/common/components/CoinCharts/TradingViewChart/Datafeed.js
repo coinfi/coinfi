@@ -2,6 +2,8 @@
  * Implementation of the JS API
  * See: https://github.com/tradingview/charting_library/wiki/JS-Api
  */
+import moment from 'moment'
+
 export default class Datafeed {
   constructor(data, hourlyData) {
     this.data = data
@@ -53,7 +55,7 @@ export default class Datafeed {
       .map((bar) => {
         return {
           time: bar.timestamp,
-          volume: Number(bar.volume_to),
+          volume: Number(bar.volume_from),
           open: Number(bar.open),
           close: Number(bar.close),
           low: Number(bar.low),

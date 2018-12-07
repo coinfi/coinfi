@@ -8,7 +8,6 @@ interface Props {
   list: Coin[]
   loggedIn: boolean
   onSelectCoin: (coin: Coin) => void
-  generateLink?: (coin: Coin) => string
   selectedCoinSlug?: string
 }
 
@@ -28,7 +27,6 @@ const CoinList = (props: Props) => (
           coin={coin}
           loggedIn={props.loggedIn}
           onSelectCoin={props.onSelectCoin}
-          generateLink={props.generateLink}
           isSelected={
             !!props.selectedCoinSlug && props.selectedCoinSlug === coin.slug
           }
