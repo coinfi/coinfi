@@ -229,7 +229,12 @@ class Coin < ApplicationRecord
   def token_metrics_data(metric_type)
     return nil unless has_token_metrics?
 
-    Rails.cache.fetch("coins/#{id}/#{metric_type}", expires_in: 1.day, race_condition_ttl: 10.seconds) do
+    @token_metrics_data ||= {}
+    @token_metrics_data[metric_type] ||= Rails.cache.fetch(
+      "coins/#{id}/#{metric_type}",
+      expires_in: 1.day,
+      race_condition_ttl: 10.seconds
+    ) do
       url = "#{ENV.fetch('COINFI_POSTGREST_URL')}/metrics_chart_view?coin_key=eq.#{coin_key}&metric_type=eq.#{metric_type}&select=percentage,date"
       response = HTTParty.get(url)
       JSON.parse(response.body)
@@ -239,9 +244,14 @@ class Coin < ApplicationRecord
   def token_metrics_metadata(metric_type)
     return nil unless has_token_metrics?
 
-    Rails.cache.fetch("coins/#{id}/#{metric_type}_metadata", expires_in: 1.day, race_condition_ttl: 10.seconds) do
+    @token_metrics_metadata ||= {}
+    @token_metrics_metadata[metric_type] ||= Rails.cache.fetch(
+      "coins/#{id}/#{metric_type}_metadata",
+      expires_in: 1.day,
+      race_condition_ttl: 10.seconds
+    ) do
       url = "#{ENV.fetch('COINFI_POSTGREST_URL')}/#{metric_type}_metrics_view?coin_key=eq.#{coin_key}"
-      headers = { "Accept": "application/vnd.pgrst.object+json" }
+      headers = { "Accept": "application/vnd.pgrst.object+json" } # fetch single object rather than array of objects
       response = HTTParty.get(url, headers: headers)
       results = JSON.parse(response.body)
       results.except!("coin_key")
