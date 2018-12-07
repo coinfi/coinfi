@@ -1,3 +1,6 @@
+import * as numeral from 'numeral'
+import * as _ from 'lodash'
+import currencyMap from '../constants/currencyMap'
 const numericSymbols = ['k', 'M', 'B', 'T', 'P', 'E']
 
 /***
@@ -5,6 +8,7 @@ const numericSymbols = ['k', 'M', 'B', 'T', 'P', 'E']
  * Defaults to a max of 6 decimal places.
  *
  * Examples:
+ * formatValue(10000.0, 2)   -> "10,000"
  * formatValue(10.000001, 2) -> "10.00"
  * formatValue(10, 2)        -> "10"
  */
@@ -15,11 +19,33 @@ export function formatValue(
   if (isNaN(value) || value === null) {
     return ''
   }
-  return value.toLocaleString('en-US', { maximumFractionDigits })
+  const format = `0,0.[${_.repeat('0', maximumFractionDigits)}]`
+  return numeral(value).format(format)
+}
+
+/***
+ * Sets the amount of decimal places for an inputted number.
+ * Defaults to 2 decimal places.
+ *
+ * Examples:
+ * formatValue(10000.0, 2)   -> "10,000.00"
+ * formatValue(10.000001, 2) -> "10.00"
+ * formatValue(10, 2)        -> "10.00"
+ */
+export function formatValueFixed(
+  value: number,
+  fractionDigits: number = 2,
+): string {
+  if (isNaN(value) || value === null) {
+    return ''
+  }
+  const format = `0,0.${_.repeat('0', fractionDigits)}`
+  return numeral(value).format(format)
 }
 
 /***
  * Formats a number based on the desired currency with associated currency symbols.
+ * Note: does not handle if symbol is prefix/suffix and localization
  *
  * Examples:
  * formatValueWithCurrency(10, 'USD') -> "$10.00"
@@ -34,16 +60,14 @@ export function formatValueWithCurrency(
   }
 
   currency = currency.toUpperCase()
+  const currencySymbol = _.get(currencyMap, currency, '')
 
-  return value.toLocaleString('en-US', {
-    style: 'currency',
-    currency,
-  })
+  return `${currencySymbol}${formatValueFixed(value, 2)}`
 }
 
 /***
  * Format a number for use as a price.
- * This allows us to set our own standard rather than use toLocaleString's.
+ * This allows us to set our own standard per currency.
  * This can also be useful for cryptocurrencies.
  *
  * Examples:
