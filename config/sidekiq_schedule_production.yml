@@ -19,6 +19,8 @@ StakedCofiRefreshTransactions:  # rake staked_cofi:refresh_transactions
 UpdateCurrencies:
   cron: '0 0 0 * * * Etc/UTC'
 
+# Paid API routes
+
 UpdateCmcPrices:
   cron: '0 * * * * *'   # Runs once per minute
   include_metadata: true
