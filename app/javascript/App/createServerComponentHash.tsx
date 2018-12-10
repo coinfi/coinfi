@@ -1,7 +1,6 @@
 import * as React from 'react'
 import { renderToString } from 'react-dom/server'
 import * as _ from 'lodash'
-import NoSsr from '@material-ui/core/NoSsr'
 import withRootProviders from '~/withRootProviders'
 import getOrCreateStylesContext from '~/getOrCreateStylesContext'
 
@@ -11,19 +10,8 @@ import getOrCreateStylesContext from '~/getOrCreateStylesContext'
  * @param TargetComponent Component to render. Note that `railsContext` will not be passed as an
  *   argument to this component
  */
-const createServerComponentHash = (
-  TargetComponent: any,
-  noSSR: boolean = false,
-) => {
+const createServerComponentHash = (TargetComponent: any) => {
   return (props, railsContext) => {
-    if (noSSR) {
-      TargetComponent = (
-        <NoSsr>
-          <TargetComponent />
-        </NoSsr>
-      )
-    }
-
     // Render to HTML passing in `context` to be updated
     const stylesNamespace = props.stylesNamespace
     const componentHtml = renderToString(
