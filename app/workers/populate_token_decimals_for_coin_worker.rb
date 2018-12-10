@@ -3,7 +3,7 @@ require 'net/http'
 class PopulateTokenDecimalsForCoinWorker
   include Sidekiq::Worker
 
-  def perform(coin)
+  def perform(coin, trace: false)
     log_message_prefix = "[Coin:#{coin.id}]"
 
     raise "#{log_message_prefix}: `token_decimals` already populated" if coin.token_decimals.present?
@@ -17,7 +17,7 @@ class PopulateTokenDecimalsForCoinWorker
     uri.query = URI.encode_www_form(params)
 
     # Perform request
-    puts "#{log_message_prefix}: Fetching coin info from #{uri}"
+    puts "#{log_message_prefix}: Fetching coin info from #{uri}" if trace
     res = Net::HTTP.get_response(uri)
 
     # Catch any errors
@@ -31,7 +31,7 @@ class PopulateTokenDecimalsForCoinWorker
 
     # Parse token decimals and save to coin
     token_decimals = data.fetch('decimals').to_i
-    puts "#{log_message_prefix}: Setting `token_decimals` to #{token_decimals}"
+    puts "#{log_message_prefix}: Setting `token_decimals` to #{token_decimals}" if trace
     coin.token_decimals = data.fetch('decimals').to_i
     coin.save!
   end
