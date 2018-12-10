@@ -8,6 +8,8 @@ namespace :data_migrations do
 
     batch_process(coins_to_update) do |coin|
       PopulateTokenDecimalsForCoinWorker.new.perform(coin)
+
+      # To ensure we stay under rate limits
       sleep 0.5
     end
   end
