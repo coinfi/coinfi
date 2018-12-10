@@ -30,9 +30,10 @@ class PopulateTokenDecimalsForCoinWorker
     end
 
     # Parse token decimals
-    token_decimals = data.fetch('decimals')
-    unless token_decimals.is_a?(Numeric)
-      raise "`decimals` attribute is not numeric: #{token_decimals.class}"
+    token_decimals_raw = data.fetch('decimals')
+    token_decimals = token_decimals_raw.to_i
+    if token_decimals.to_s != token_decimals_raw.to_s
+      raise "`decimals` attribute is not an integer"
     end
 
     # Save to coin
