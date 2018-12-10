@@ -421,8 +421,6 @@ GEM
     rack-cors (1.0.2)
     rack-protection (2.0.4)
       rack
-    rack-proxy (0.6.5)
-      rack
     rack-rewrite (1.5.1)
     rack-test (0.6.3)
       rack (>= 1.0)
@@ -628,10 +626,6 @@ GEM
       addressable (>= 2.3.6)
       crack (>= 0.3.2)
       hashdiff
-    webpacker (3.5.5)
-      activesupport (>= 4.2)
-      rack-proxy (>= 0.6.1)
-      railties (>= 4.2)
     webrobots (0.1.2)
     websocket-driver (0.6.5)
       websocket-extensions (>= 0.1.0)
@@ -731,7 +725,6 @@ DEPENDENCIES
   unidecoder
   web-console (>= 3.3.0)
   webmock
-  webpacker (~> 3.5)
   wombat
 
 RUBY VERSION

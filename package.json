@@ -19,7 +19,6 @@
     "@babel/runtime": "^7.1.2",
     "@material-ui/core": "^3.6.2",
     "@material-ui/icons": "^3.0.1",
-    "@rails/webpacker": "^3.3.1",
     "@types/axios": "^0.14.0",
     "@types/lodash": "^4.14.116",
     "@types/qs": "^6.5.1",
@@ -105,6 +104,7 @@
     "url-loader": "^1.1.2",
     "url-parse": "^1.4.3",
     "validatorjs": "^3.14.2",
+    "webpack": "^4.27.1",
     "webpack-merge": "^4.1.4",
     "webpack-strip-log-loader": "^0.1.5"
   },
