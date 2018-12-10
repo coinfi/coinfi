@@ -29,10 +29,16 @@ class PopulateTokenDecimalsForCoinWorker
       raise "Request failed with status #{res.code}: #{data_error}"
     end
 
-    # Parse token decimals and save to coin
-    token_decimals = data.fetch('decimals').to_i
+    # Parse token decimals
+    token_decimals_raw = data.fetch('decimals')
+    token_decimals = token_decimals_raw.to_i
+    if token_decimals.to_s != token_decimals_raw.to_s
+      raise "`decimals` attribute is not an integer"
+    end
+
+    # Save to coin
     puts "#{log_message_prefix}: Setting `token_decimals` to #{token_decimals}" if trace
-    coin.token_decimals = data.fetch('decimals').to_i
+    coin.token_decimals = token_decimals
     coin.save!
   end
 end
