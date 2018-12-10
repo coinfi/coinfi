@@ -2,6 +2,7 @@ import * as React from 'react'
 import timeago from 'timeago.js'
 import CoinTags from '../common/components/CoinTags'
 import BulletSpacer from '~/bundles/common/components/BulletSpacer'
+import { withStyles, createStyles } from '@material-ui/core/styles'
 import classNames from 'classnames'
 import Favicon from '~/bundles/common/components/Favicon'
 import * as _ from 'lodash'
@@ -12,6 +13,13 @@ import {
   isTwitter,
   isReddit,
 } from '~/bundles/common/utils/url'
+
+const styles = (theme) =>
+  createStyles({
+    read: {
+      color: '#999',
+    },
+  })
 
 const readNewsHandler = (newsItem) => {
   const newsId = newsItem.id
@@ -33,7 +41,7 @@ const readNewsHandler = (newsItem) => {
 }
 
 const NewsListItem = (props) => {
-  const { newsItem, isSelected, preRender, hasRead, onClick } = props
+  const { newsItem, isSelected, preRender, hasRead, onClick, classes } = props
 
   const newsItemTitle = newsItem.title
     .replace(/<h1>/g, '')
@@ -75,7 +83,9 @@ const NewsListItem = (props) => {
           onClick(newsItem)
         }}
       >
-        <h4 style={hasRead ? { color: '#999' } : {}}>{newsItemTitle}</h4>
+        <h4 className={hasRead ? classes.unread : classes.unread}>
+          {newsItemTitle}
+        </h4>
         <div className="flex justify-between flex-wrap">
           <div className="f6 silver">
             <span className="mr2">
@@ -99,4 +109,4 @@ const NewsListItem = (props) => {
   )
 }
 
-export default NewsListItem
+export default withStyles(styles)(NewsListItem)
