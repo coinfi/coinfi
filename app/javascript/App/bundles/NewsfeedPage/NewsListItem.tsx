@@ -1,5 +1,4 @@
 import * as React from 'react'
-import styled from 'styled-components'
 import timeago from 'timeago.js'
 import CoinTags from '../common/components/CoinTags'
 import BulletSpacer from '~/bundles/common/components/BulletSpacer'
@@ -32,14 +31,6 @@ const readNewsHandler = (newsItem) => {
     document.querySelector('.selected-news-content').parentNode.scrollTop = 0
   }
 }
-
-const Title = styled.h4`
-  ${({ hasRead }: any) =>
-    hasRead &&
-    `
-    color: #999;
-  `};
-`
 
 const NewsListItem = (props) => {
   const { newsItem, isSelected, preRender, hasRead, onClick } = props
@@ -84,7 +75,7 @@ const NewsListItem = (props) => {
           onClick(newsItem)
         }}
       >
-        <Title hasRead={hasRead}>{newsItemTitle}</Title>
+        <h4 style={hasRead ? { color: '#999' } : {}}>{newsItemTitle}</h4>
         <div className="flex justify-between flex-wrap">
           <div className="f6 silver">
             <span className="mr2">
