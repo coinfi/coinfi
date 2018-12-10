@@ -25,15 +25,6 @@ class Api::CoinsController < ApiController
     end
   end
 
-  def prices
-    coin = Coin.find(params[:id])
-    if coin
-      respond_success prices_serializer(coin)
-    else
-      respond_error "Could not find coin prices."
-    end
-  end
-
   def search_by_params
     distribute_reads(max_lag: MAX_ACCEPTABLE_REPLICATION_LAG, lag_failover: true) do
       coins = []
@@ -107,13 +98,6 @@ private
       is_being_watched: coin.is_being_watched,
       related_coins_data: related_coins_data,
       summary: coin.summary,
-    }
-  end
-
-  def prices_serializer(coin)
-    return {
-      priceData: coin.prices_data,
-      priceDataHourly: coin.hourly_prices_data,
     }
   end
 end

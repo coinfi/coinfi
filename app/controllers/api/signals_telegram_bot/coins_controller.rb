@@ -16,7 +16,7 @@ class Api::SignalsTelegramBot::CoinsController < Api::SignalsTelegramBot::BaseCo
   def serialize_coin(coin)
     coin
       .as_json(
-        only: %i[id name symbol slug coin_key],
+        only: %i[id name symbol slug coin_key token_decimals],
         methods: %i[price]
       )
       .merge({

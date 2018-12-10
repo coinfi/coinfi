@@ -9,25 +9,22 @@ interface Props {
   coin: Coin
   loggedIn: boolean
   isSelected: boolean
-  onSelectCoin: (coin: Coin) => void
-  generateLink?: (coin: Coin) => string
+  onSelectCoin: (c: Coin) => void
 }
 
 const roundToDecimalPlaces = (num, places) =>
   Math.round(num * 10 ** places) / 10 ** places
 
 export default (props: Props) => {
-  const { coin, loggedIn, generateLink } = props
+  const { coin, loggedIn } = props
 
   const coinPrice = _.get(coin, ['market_info', 'price_usd'])
   const coinPriceFixed = roundToDecimalPlaces(coinPrice, 4)
   const percentChange = _.get(coin, ['market_info', 'change24h'])
-  const link = !_.isUndefined(generateLink)
-    ? generateLink(coin)
-    : `/news/${coin.slug}`
+
   return (
     <a
-      href={link}
+      href={`/news/${coin.slug}`}
       className={classNames('pa-default b--b flex items-center pointer', {
         'bg-foam': props.isSelected,
       })}
