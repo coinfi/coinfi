@@ -17,21 +17,10 @@ interface WithClientProvidersOptions {
 const withRootProviders = (
   TargetComponent,
   options: WithClientProvidersOptions = {},
-  withoutStyles: boolean = false,
 ) => {
   const WithRootProviders = (props, railsContext) => {
     const stylesNamespace = props.stylesNamespace || options.stylesNamespace
     const stylesContext = getOrCreateStylesContext(stylesNamespace)
-
-    if (withoutStyles) {
-      return (
-        <RailsProvider railsContext={railsContext}>
-          <DeviceProvider {...railsContext.deviceProviderProps}>
-            <TargetComponent {...props} />
-          </DeviceProvider>
-        </RailsProvider>
-      )
-    }
 
     return (
       <JssProvider
