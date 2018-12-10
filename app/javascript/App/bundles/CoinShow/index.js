@@ -17,8 +17,8 @@ import {
   ExpansionPanel,
   ExpansionPanelSummary,
   ExpansionPanelDetails,
-  withStyles,
 } from '@material-ui/core'
+import { withStyles } from '@material-ui/core/styles'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import withWidth, { isWidthDown } from '@material-ui/core/withWidth'
 import API from '../common/utils/localAPI'

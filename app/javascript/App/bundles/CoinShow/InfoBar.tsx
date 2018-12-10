@@ -2,7 +2,8 @@ import * as React from 'react'
 import * as _ from 'lodash'
 import classnames from 'classnames'
 import Icon from '~/bundles/common/components/Icon'
-import { Grid, withStyles, createStyles } from '@material-ui/core'
+import { Grid } from '@material-ui/core'
+import { withStyles, createStyles } from '@material-ui/core/styles'
 import {
   formatValueWithCurrency,
   formatValue,

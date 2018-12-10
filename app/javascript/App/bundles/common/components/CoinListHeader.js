@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { withStyles, createStyles } from '@material-ui/core'
+import { withStyles, createStyles } from '@material-ui/core/styles'
 import CoinListContext from '../contexts/CoinListContext'
 
 const styles = (theme) =>
