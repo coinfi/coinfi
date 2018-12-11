@@ -1,4 +1,4 @@
-.bg-pearl-gray= react_component "App",
+.bg-pearl-gray= react_component_with_jss "App",
     withStore: true,
     props: { \
       symbol: @coin.symbol,
@@ -11,4 +11,4 @@
       user: current_user,
       watching: user_is_watching?(@coin),
     },
-    prerender: false
+    prerender: true
