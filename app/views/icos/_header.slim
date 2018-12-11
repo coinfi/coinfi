@@ -1,7 +1,4 @@
 .bg-white.mb2
-  .pa3.tr
-    - if current_user
-      = react_component 'WatchStar', props: { coinID: @coin.id, watching: user_is_watching?(@coin), loggedIn: !!current_user }
   .pa4.pt0
     .flex.justify-center.items-center.mb3
       - if @coin.image_url.present?
