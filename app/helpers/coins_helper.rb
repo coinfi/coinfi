@@ -42,11 +42,4 @@ module CoinsHelper
   def paged_index(page, page_size, index)
     ((page - 1) * page_size) + index + 1
   end
-
-  def index_serializer(coins)
-    coins.as_json(
-      only: %i[id name symbol slug coin_key ranking image_url],
-      methods: %i[sparkline price market_cap change1h change24h change7d volume24h]
-    )
-  end
 end

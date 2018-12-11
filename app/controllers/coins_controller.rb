@@ -45,6 +45,13 @@ class CoinsController < ApplicationController
 
   protected
 
+  def index_serializer(coins)
+    coins.as_json(
+      only: %i[id name symbol slug coin_key ranking image_url],
+      methods: %i[sparkline price market_cap change1h change24h change7d volume24h]
+    )
+  end
+
   def set_coin
     distribute_reads(max_lag: MAX_ACCEPTABLE_REPLICATION_LAG, lag_failover: true) do
       coin_id_or_slug = params[:id_or_slug]
