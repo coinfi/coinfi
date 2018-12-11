@@ -42,13 +42,16 @@ class StakedCofiRefreshTransactions
           txn_token_decimal: transaction_item['tokenDecimal'].to_i,
         )
         transaction.is_txn_confirmations_gte_10 = (transaction_item['confirmations'].to_i >= 10)
-        transaction.set_user_by_txn_from if transaction.user.blank?
+
         if transaction.changed?
           transaction.save!
           puts "Created/Updated transaction #{transaction_item['hash']}"
         end
       end
     end
+
+    associate_transactions_service = AssociateUnassignedStakedCofiTransactionsService.call(staked_cofi_transactions_scope: transaction_items)
+    puts "Associated #{associate_transactions_service.staked_cofi_transactions_updated.length} unassigned staked COFI transactions"
   end
 
   def fetch_token_transactions(start_block: 0)
