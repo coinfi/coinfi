@@ -50,7 +50,7 @@ class StakedCofiRefreshTransactions
       end
     end
 
-    associate_transactions_service = AssociateUnassignedStakedCofiTransactionsService.call(staked_cofi_transactions_scope: transaction_items)
+    associate_transactions_service = AssociateUnassignedStakedCofiTransactionsService.call
     puts "Associated #{associate_transactions_service.staked_cofi_transactions_updated.length} unassigned staked COFI transactions"
   end
 
