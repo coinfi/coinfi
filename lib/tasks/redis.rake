@@ -26,9 +26,16 @@ namespace :redis do
     redisSrc = Redis.new :url => prod_redis_uri
     redisDest = Redis.new :url => local_redis_uri
 
+    # copy snapshots
     redisSrc.keys("*:snapshot").each do |key|
       data = redisSrc.dump key
-      redisDest.restore key, 0, data
+      redisDest.restore key, 0, data, {replace: true}
+    end
+
+    # copy market pairs
+    redisSrc.keys("*:pairs").each do |key|
+      data = redisSrc.dump key
+      redisDest.restore key, 0, data, {replace: true}
     end
     puts "Finished redis copy."
   end
@@ -41,7 +48,14 @@ namespace :redis do
     next if prefix.blank?
 
     redis = Redis.new :url => redis_uri
+
+    # move snapshots
     redis.keys("*:snapshot").each do |key|
+      redis.rename key, "#{prefix}:#{key}"
+    end
+
+    # move market pairs
+    redis.keys("*:pairs").each do |key|
       redis.rename key, "#{prefix}:#{key}"
     end
   end
