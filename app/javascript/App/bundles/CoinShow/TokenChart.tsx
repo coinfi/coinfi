@@ -8,7 +8,8 @@ import defaultOptions from '../common/components/CoinCharts/PriceGraph/options'
 
 interface TokenData {
   date: string
-  percentage: number
+  percentage?: number
+  number?: number
 }
 
 interface Props {
@@ -34,7 +35,7 @@ export default class TokenChart extends React.Component<Props, State> {
 
     const processedData = data.map((datum) => {
       const x = moment.utc(datum.date).valueOf()
-      const y = datum.percentage
+      const y = isPercentage ? datum.percentage : datum.number
 
       return {
         x,

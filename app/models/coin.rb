@@ -226,7 +226,7 @@ class Coin < ApplicationRecord
     end
   end
 
-  def token_metrics_data(metric_type)
+  def token_metrics_data(metric_type, metric_value = 'percentage')
     return nil unless has_token_metrics?
 
     @token_metrics_data ||= {}
@@ -235,7 +235,7 @@ class Coin < ApplicationRecord
       expires_in: 1.day,
       race_condition_ttl: 10.seconds
     ) do
-      url = "#{ENV.fetch('COINFI_POSTGREST_URL')}/metrics_chart_view?coin_key=eq.#{coin_key}&metric_type=eq.#{metric_type}&select=percentage,date"
+      url = "#{ENV.fetch('COINFI_POSTGREST_URL')}/metrics_chart_view?coin_key=eq.#{coin_key}&metric_type=eq.#{metric_type}&select=#{metric_value},date"
       response = HTTParty.get(url)
       JSON.parse(response.body)
     end
@@ -275,7 +275,7 @@ class Coin < ApplicationRecord
   end
 
   def unique_wallet_count_data
-    token_metrics_data('unique_wallet_count')
+    token_metrics_data('unique_wallet_count', 'number')
   end
 
   def unique_wallet_count_metadata
