@@ -21,6 +21,7 @@
     "CONVERTKIT_API_KEY": { "required": true },
     "CONVERTKIT_API_SECRET": { "required": true },
     "ETHERSCAN_API_KEY": { "required": true },
+    "ETHPLORER_API_KEY": { "required": true },
     "ETL_DB_NAME": { "required": true },
     "ETL_DB_HOST": { "required": true },
     "ETL_DB_PORT": { "required": true },

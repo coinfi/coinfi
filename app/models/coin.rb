@@ -152,7 +152,7 @@ class Coin < ApplicationRecord
     cached_market_data.dig("change7d") || 0
   end
 
-  def volume24
+  def volume24h
     cached_market_data.dig("volume24h") || 0
   end
 

@@ -1,4 +1,4 @@
-import { createStyles } from '@material-ui/core'
+import { createStyles } from '@material-ui/core/styles'
 
 const borderColor = 'rgb(0, 0, 0, 0.18)'
 

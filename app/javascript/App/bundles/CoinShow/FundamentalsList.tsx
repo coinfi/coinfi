@@ -1,7 +1,8 @@
 import * as React from 'react'
 import * as _ from 'lodash'
 import * as moment from 'moment'
-import { Grid, withStyles, createStyles } from '@material-ui/core'
+import { Grid } from '@material-ui/core'
+import { withStyles, createStyles } from '@material-ui/core/styles'
 import { formatValue } from '~/bundles/common/utils/numberFormatters'
 
 interface Props {

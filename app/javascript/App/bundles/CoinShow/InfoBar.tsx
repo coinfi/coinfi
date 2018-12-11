@@ -2,7 +2,8 @@ import * as React from 'react'
 import * as _ from 'lodash'
 import classnames from 'classnames'
 import Icon from '~/bundles/common/components/Icon'
-import { Grid, withStyles, createStyles } from '@material-ui/core'
+import { Grid } from '@material-ui/core'
+import { withStyles, createStyles } from '@material-ui/core/styles'
 import {
   formatValueWithCurrency,
   formatValue,
@@ -112,6 +113,7 @@ class InfoBar extends React.Component<Props, {}> {
       market_cap,
       change1h,
       change24h,
+      volume24h,
       available_supply,
       total_supply,
       symbol,
@@ -120,6 +122,7 @@ class InfoBar extends React.Component<Props, {}> {
     } = coinObj
     const hasMarketCap = !_.isUndefined(market_cap)
     const hasChange24h = !_.isUndefined(change24h)
+    const hasVolume24 = !_.isUndefined(volume24h)
 
     const positiveColour = '#12d8b8'
     const negativeColour = '#ff6161'
@@ -133,7 +136,6 @@ class InfoBar extends React.Component<Props, {}> {
       percentChange24h >= 0
         ? { color: positiveColour }
         : { color: negativeColour }
-    const priceChange24h = (market_cap || 0) * (percentChange24h / 100)
 
     return (
       <Grid
@@ -219,11 +221,8 @@ class InfoBar extends React.Component<Props, {}> {
           </Grid>
           <Grid item={true} xs={6} className={classes.detailsValue}>
             <span>
-              {hasChange24h &&
-                `${formatValueWithCurrency(
-                  priceChange24h,
-                  currency,
-                )} ${currency}`}
+              {hasVolume24 &&
+                `${formatValueWithCurrency(volume24h, currency)} ${currency}`}
             </span>{' '}
             <span style={changeStyle24h}>
               {hasChange24h && `(${formatValue(change24h, 2)}%)`}

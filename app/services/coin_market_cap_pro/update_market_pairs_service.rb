@@ -60,21 +60,21 @@ module CoinMarketCapPro
     def perform_update_pairs(identifier, data)
       # Grabbing data from snapshot cache
       snapshot = Rails.cache.read("#{identifier}:snapshot")
-      base_volume24 = snapshot[:volume24h] unless snapshot.blank?
-      has_base_volume24 = base_volume24.present? && base_volume24 != 0
+      base_volume24h = snapshot[:volume24h] unless snapshot.blank?
+      has_base_volume24h = base_volume24h.present? && base_volume24h != 0
 
       raw_market_pairs = data.dig("market_pairs")
       market_pairs = raw_market_pairs.map do |pair|
         quote = pair.dig("quote", currency)
-        volume24 = quote["volume_24h"] || 0
+        volume24h = quote["volume_24h"] || 0
 
         {
           :exchange_name => pair.dig("exchange", "name"),
           :exchange_slug => pair.dig("exchange", "slug"),
           :pair => pair["market_pair"],
           :price => quote["price"],
-          :volume24h => volume24,
-          :volume_percentage => (if has_base_volume24 then volume24 / base_volume24 else 0 end),
+          :volume24h => volume24h,
+          :volume_percentage => (if has_base_volume24h then volume24h / base_volume24h else 0 end),
           :volume24h_quote => pair.dig("quote", "exchange_reported", "volume_24h_quote"),
           :quote_currency_symbol => pair.dig("market_pair_quote", "currency_symbol"),
         }

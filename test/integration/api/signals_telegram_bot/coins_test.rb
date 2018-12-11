@@ -22,6 +22,7 @@ class Api::SignalsTelegramBot::CoinsTest < Api::SignalsTelegramBot::BaseTest
         "slug" => coin.slug,
         "coin_key" => coin.coin_key,
         "price" => coin.price,
+        "token_decimals" => coin.token_decimals,
         "is_signals_supported_erc20" => coin.is_signals_supported_erc20?,
       },
       response.parsed_body

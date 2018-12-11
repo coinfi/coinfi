@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
-import { withStyles, createStyles } from '@material-ui/core'
+import { withStyles, createStyles } from '@material-ui/core/styles'
+import classnames from 'classnames'
 import CoinListContext from '../contexts/CoinListContext'
 
 const styles = (theme) =>
@@ -13,61 +14,68 @@ const styles = (theme) =>
       display: 'flex !important',
       justifyContent: 'center !important',
       paddingBottom: '12px !important',
+      borderBottom: '2px solid transparent',
+      '&.active': {
+        borderBottom: '2px solid #23adf0 !important',
+      },
     },
     linkRoot: {
       cursor: 'pointer',
       fontWeight: 100,
+      color: '#555',
+      '&.active': {
+        color: '#23adf0 !important',
+      },
     },
   })
-
-const tabStyles = (selected) => ({
-  borderBottom: selected
-    ? '2px solid #23adf0 !important'
-    : '2px solid transparent !important',
-})
-
-const linkStyles = (selected) => ({
-  color: selected ? '#23adf0 !important' : '#555 !important',
-})
-
 class CoinListHeader extends Component {
   render() {
     const { classes } = this.props
     return (
       <CoinListContext.Consumer>
-        {(payload) => (
-          <div
-            id="panel-header"
-            className="b--b flex-none flex justify-between items-center bg-athens tabs"
-          >
+        {(payload) => {
+          return (
             <div
-              className={classes.tabRoot}
-              style={tabStyles(!payload.isWatchlist)}
-              onClick={payload.showToplist}
+              id="panel-header"
+              className="b--b flex-none flex justify-between items-center bg-athens tabs"
             >
-              <a
-                data-head="toplist-toggle"
-                className={classes.linkRoot}
-                style={linkStyles(!payload.isWatchlist)}
+              <div
+                className={classnames(
+                  classes.tabRoot,
+                  !payload.isWatchlist ? 'active' : '',
+                )}
+                onClick={payload.showToplist}
               >
-                Toplist
-              </a>
-            </div>
-            <div
-              className={classes.tabRoot}
-              style={tabStyles(payload.isWatchlist)}
-              onClick={payload.showWatchlist}
-            >
-              <a
-                data-head="watchlist-toggle"
-                className={classes.linkRoot}
-                style={linkStyles(payload.isWatchlist)}
+                <a
+                  data-head="toplist-toggle"
+                  className={classnames(
+                    classes.linkRoot,
+                    !payload.isWatchlist ? 'active' : '',
+                  )}
+                >
+                  Toplist
+                </a>
+              </div>
+              <div
+                className={classnames(
+                  classes.tabRoot,
+                  payload.isWatchlist ? 'active' : '',
+                )}
+                onClick={payload.showWatchlist}
               >
-                Watchlist
-              </a>
+                <a
+                  data-head="watchlist-toggle"
+                  className={classnames(
+                    classes.linkRoot,
+                    payload.isWatchlist ? 'active' : '',
+                  )}
+                >
+                  Watchlist
+                </a>
+              </div>
             </div>
-          </div>
-        )}
+          )
+        }}
       </CoinListContext.Consumer>
     )
   }
