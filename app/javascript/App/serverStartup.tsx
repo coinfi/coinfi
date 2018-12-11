@@ -15,7 +15,6 @@ import SignalReservationForm from './bundles/signalsPage/SignalReservationForm'
 
 // Register the components so they can be rendered from Rails
 ;(ReactOnRails as any).register({
-  CoinShow: createServerComponentHash(CoinShow),
   SignalExamplePanel: createServerComponentHash(SignalExamplePanel),
   SignalFaqPanel: createServerComponentHash(SignalFaqPanel),
   SignalPopoverText: createServerComponentHash(SignalPopoverText),
