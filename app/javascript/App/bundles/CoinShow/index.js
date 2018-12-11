@@ -47,52 +47,47 @@ const TAB_SLUGS = {
   news: 'news',
 }
 
-const MainCard = withStyles(styles)(
-  ({ children, classes, className, ...props }) => {
-    const classNames = classnames(classes.mainCard, className)
-    return (
-      <Card
-        raised={false}
-        square={true}
-        elevation={0}
-        className={classNames}
-        {...props}
-      >
-        {children}
-      </Card>
-    )
-  },
-)
+const MainCard = ({ children, classes, className, ...props }) => {
+  const classNames = classnames(_.get(classes, 'mainCard'), className)
+  return (
+    <Card
+      raised={false}
+      square={true}
+      elevation={0}
+      className={classNames}
+      {...props}
+    >
+      {children}
+    </Card>
+  )
+}
 
-const SubCard = withStyles(styles)(
-  ({ children, classes, className, ...props }) => {
-    const classNames = classnames(classes.subCard, className)
-    return (
-      <Card
-        raised={false}
-        square={true}
-        elevation={0}
-        className={classNames}
-        {...props}
-      >
-        {children}
-      </Card>
-    )
-  },
-)
-
-const NewsLabel = withStyles(styles)(({ classes }) => {
+const SubCard = ({ children, classes, className, ...props }) => {
+  const classNames = classnames(_.get(classes, 'subCard'), className)
+  return (
+    <Card
+      raised={false}
+      square={true}
+      elevation={0}
+      className={classNames}
+      {...props}
+    >
+      {children}
+    </Card>
+  )
+}
+const NewsLabel = ({ classes }) => {
   return (
     <React.Fragment>
       <span>News</span>
       <Icon
         name="external-link-alt"
         regular
-        className={classes.newsLabelIcon}
+        className={_.get(classes, 'newsLabelIcon')}
       />
     </React.Fragment>
   )
-})
+}
 
 class CoinShow extends Component {
   chart = undefined
