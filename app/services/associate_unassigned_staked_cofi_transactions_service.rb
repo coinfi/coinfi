@@ -48,6 +48,6 @@ class AssociateUnassignedStakedCofiTransactionsService < Patterns::Service
       body: body
     }
 
-    HTTParty.post(FeedSource::SUPERFEEDR_API_URL, options)
+    HTTParty.post('https://heapanalytics.com/api/add_user_properties', options)
   end
 end
