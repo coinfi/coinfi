@@ -1,15 +1,14 @@
-.bg-pearl-gray= react_component_with_jss "CoinShow",
+.bg-pearl-gray= react_component "App",
+    withStore: true,
     props: { \
       symbol: @coin.symbol,
-      priceData: @coin.prices_data,
-      priceDataHourly: @coin.hourly_prices_data,
       availableSupply: @coin.available_supply,
       annotations: @coin.news_data,
       isTradingViewVisible: true,
-      coinObj: @coin,
+      coinObj: @coin_obj,
       relatedCoins: @related_coins,
-      metabaseUrl: @metabase_url,
+      tokenMetrics: @token_metrics,
       user: current_user,
       watching: user_is_watching?(@coin),
     },
-    prerender: true
+    prerender: false

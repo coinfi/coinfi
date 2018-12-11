@@ -8,6 +8,8 @@ import CoinListContext, {
 } from '~/bundles/common/contexts/CoinListContext'
 import { Coin } from '~/bundles/common/types'
 
+export const WATCHLIST_CHANGE_EVENT = 'watchlistChange'
+
 const STATUSES = {
   INITIALIZING: 'Initializing',
   REFETCHING_WATCHLIST: 'RefetchingWatchList',
@@ -93,6 +95,12 @@ class CoinListContainer extends React.Component<Props, State> {
     } else {
       this.getToplistOnMount()
     }
+
+    document.addEventListener(WATCHLIST_CHANGE_EVENT, this.onWatchlistChange)
+  }
+
+  public componentWillUnmount = () => {
+    document.removeEventListener(WATCHLIST_CHANGE_EVENT, this.onWatchlistChange)
   }
 
   public getToplistOnMount = () => {
@@ -117,6 +125,24 @@ class CoinListContainer extends React.Component<Props, State> {
         })
       },
     )
+
+  public onWatchlistChange = (e: CustomEvent) => {
+    const { coins } = e.detail
+    const coinDifferenceList = _.xor(this.state.watchlistIndex, coins)
+    if (coinDifferenceList.length <= 0) {
+      return
+    }
+
+    this.setState({ status: STATUSES.REFETCHING_WATCHLIST }, () =>
+      this.fetchWatchlist().then(({ result, entities }) =>
+        this.setState({
+          status: STATUSES.READY,
+          watchlistIndex: result,
+          watchlist: entities.coins,
+        }),
+      ),
+    )
+  }
 
   public showToplist = () => {
     this.setState((state) => ({ isWatchlist: false }))
@@ -143,13 +169,18 @@ class CoinListContainer extends React.Component<Props, State> {
     this.setState({ status: STATUSES.ADDING_NEW_COIN_TO_WATCHLIST }, () =>
       this.persistCoinToWatchlist(coinId)
         .then(this.fetchWatchlist)
-        .then(({ result, entities }) =>
+        .then(({ result, entities }) => {
           this.setState({
             status: STATUSES.READY,
             watchlistIndex: result,
             watchlist: entities.coins,
-          }),
-        ),
+          })
+
+          const event = new CustomEvent(WATCHLIST_CHANGE_EVENT, {
+            detail: { coins: result },
+          })
+          document.dispatchEvent(event)
+        }),
     )
 
   public deleteCoinFromWatchlist = (id) =>
@@ -159,13 +190,18 @@ class CoinListContainer extends React.Component<Props, State> {
     this.setState({ status: STATUSES.REMOVING_COIN_FROM_WATCHLIST }, () =>
       this.deleteCoinFromWatchlist(coinId)
         .then(this.fetchWatchlist)
-        .then(({ result, entities }) =>
+        .then(({ result, entities }) => {
           this.setState({
             status: STATUSES.READY,
             watchlistIndex: result,
             watchlist: entities.coins,
-          }),
-        ),
+          })
+
+          const event = new CustomEvent(WATCHLIST_CHANGE_EVENT, {
+            detail: { coins: result },
+          })
+          document.dispatchEvent(event)
+        }),
     )
 
   public isCoinInWatchlist = (coinId) =>

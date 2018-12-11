@@ -9,7 +9,6 @@ export default {
   // https://raw.githubusercontent.com/jbkunst/highcharts-themes-collection/gh-pages/themes/google.js
   colors: ['#22adef', '#0c212e', '#128b78'],
   chart: {
-    height: 500,
     style: {
       fontFamily: 'Avenir',
       color: '#444444',

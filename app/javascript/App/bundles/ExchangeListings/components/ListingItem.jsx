@@ -1,9 +1,22 @@
 import React from 'react'
 import moment from 'moment'
-import styled from 'styled-components'
+import { withStyles, createStyles } from '@material-ui/core/styles'
+
+const styles = (theme) =>
+  createStyles({
+    spanDate: {
+      color: 'rgba(0, 0, 0, 0.87)',
+      fontSize: '14px',
+    },
+    span: {
+      fontSize: '12px',
+      color: 'rgba(0, 0, 0, 0.54)',
+      marginLeft: '5px',
+    },
+  })
 
 const ListingItem = (props) => {
-  const { listing } = props
+  const { listing, classes } = props
   return (
     <div className="b--b tiber flex flex-auto">
       <div className="fl w-third pa3">
@@ -11,22 +24,15 @@ const ListingItem = (props) => {
       </div>
       <div className="fl w-third pa3">{listing.exchange_name}</div>
       <div className="fl w-third pa3">
-        <SpanDate>{moment(listing.detected_at).format('MMM DD, YYYY')} {' '}</SpanDate>
-        <Span>{moment(listing.detected_at).format('hh:mm')}</Span>
+        <span className={classes.spanDate}>
+          {moment(listing.detected_at).format('MMM DD, YYYY')}{' '}
+        </span>
+        <span className={classes.span}>
+          {moment(listing.detected_at).format('hh:mm')}
+        </span>
       </div>
     </div>
   )
 }
 
-export default ListingItem
-
-const SpanDate = styled.span`
-  color: rgba(0, 0, 0, 0.87);
-  font-size: 14px;
-`
-
-const Span = styled.span`
-  font-size:12px;
-  color:rgba(0, 0, 0, 0.54);
-  margin-left:5px;
-`
+export default withStyles(styles)(ListingItem)

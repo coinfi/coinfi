@@ -3,6 +3,7 @@ import { Route, Switch } from 'react-router-dom'
 import ExchangeListingsPage from '~/bundles/ExchangeListings/ExchangeListingsCointainer'
 import NewsfeedPageContainer from '~/bundles/NewsfeedPage/NewsfeedPageContainer'
 import CoinIndex from '../bundles/CoinIndex'
+import CoinShow from '../bundles/CoinShow'
 
 const AppRoutes = (props) => {
   return (
@@ -44,6 +45,11 @@ const AppRoutes = (props) => {
         exact={true}
         path="/coins"
         render={() => <CoinIndex {...props} />}
+      />
+      <Route
+        exact={true}
+        path="/coins/:coinSlug"
+        render={(routeProps) => <CoinShow {...props} />}
       />
     </Switch>
   )
