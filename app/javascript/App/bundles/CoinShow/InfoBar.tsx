@@ -113,7 +113,7 @@ class InfoBar extends React.Component<Props, {}> {
       market_cap,
       change1h,
       change24h,
-      volume24,
+      volume24h,
       available_supply,
       total_supply,
       symbol,
@@ -122,7 +122,7 @@ class InfoBar extends React.Component<Props, {}> {
     } = coinObj
     const hasMarketCap = !_.isUndefined(market_cap)
     const hasChange24h = !_.isUndefined(change24h)
-    const hasVolume24 = !_.isUndefined(volume24)
+    const hasVolume24 = !_.isUndefined(volume24h)
 
     const positiveColour = '#12d8b8'
     const negativeColour = '#ff6161'
@@ -222,7 +222,7 @@ class InfoBar extends React.Component<Props, {}> {
           <Grid item={true} xs={6} className={classes.detailsValue}>
             <span>
               {hasVolume24 &&
-                `${formatValueWithCurrency(volume24, currency)} ${currency}`}
+                `${formatValueWithCurrency(volume24h, currency)} ${currency}`}
             </span>{' '}
             <span style={changeStyle24h}>
               {hasChange24h && `(${formatValue(change24h, 2)}%)`}

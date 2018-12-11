@@ -78,13 +78,6 @@ class Api::CoinsController < ApiController
   end
 
 private
-  def index_serializer(coins)
-    coins.as_json(
-      only: %i[id name symbol slug coin_key ranking image_url price market_cap change1h change24h change7d volume24],
-      methods: %i[sparkline]
-    )
-  end
-
   def search_serializer(coins)
     coins.as_json(only: %i[id name symbol slug image_url])
   end
