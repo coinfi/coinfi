@@ -1,6 +1,11 @@
 require 'test_helper'
 
 class AssociateUnassignedStakedCofiTransactionsServiceTest < ActiveSupport::TestCase
+  setup do
+    stub_request(:post, "https://heapanalytics.com/api/add_user_properties").
+      to_return(status: 200, body: "", headers: {})
+  end
+
   test 'associates unassigned transactions to the correct user' do
     other_users = create_list(:user, 3, :with_completed_signals_reservation)
     user = create(:user, :with_completed_signals_reservation)
