@@ -23,7 +23,7 @@ class NewsItemRaw < ApplicationRecord
     rescue ActiveRecord::RecordNotUnique => e
       news_item = NewsItem.find_by( feed_item_id: feed_item_id, feed_source: feed_source)
       previous_raw = news_item.news_item_raw
-      self.destroy and return if feed_item_json == previous_raw.feed_item_json
+      self.destroy and return if previous_raw.present? && feed_item_json == previous_raw.feed_item_json
       self.destroy and return if news_item.feed_item_updated_at > feed_item_updated_at
 
       news_item.update!(news_item_params) #something changed and it seems more recent than what we had before so let's update
