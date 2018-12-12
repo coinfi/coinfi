@@ -45,9 +45,6 @@ const styles = (theme) =>
       marginBottom: '0 !important',
     },
     contentContainer: {
-      '&:not(.activeTabContainer)': {
-        display: 'none',
-      },
       [theme.breakpoints.up('md')]: {
         maxWidth: '70%',
         flexBasis: '70%',

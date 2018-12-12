@@ -369,402 +369,420 @@ class CoinShow extends Component {
                   </Tabs>
                 </Card>
               </Grid>
-              <Grid
-                item={true}
-                xs={12}
-                md={8}
-                className={classnames(
-                  classes.contentContainer,
-                  classes.chartContainer,
-                  { activeTabContainer: tabSlug === TAB_SLUGS.priceChart },
-                )}
-              >
-                <MainCard>
-                  <CardHeader
-                    title="Price Chart"
-                    classes={{ title: classes.cardHeader }}
-                  />
-                  <CardContent>
-                    <CoinCharts
-                      symbol={symbol}
-                      priceData={priceData}
-                      priceDataHourly={priceDataHourly}
-                      annotations={annotations}
-                      isTradingViewVisible={isTradingViewVisible}
-                      onPriceChartCreated={this.handlePriceChartCreated}
-                    />
-                  </CardContent>
-                </MainCard>
-                <ExpansionPanel
-                  square={true}
-                  elevation={0}
-                  className={classes.expansionRoot}
+              {tabSlug === TAB_SLUGS.priceChart && (
+                <Grid
+                  item={true}
+                  xs={12}
+                  md={8}
+                  className={classnames(
+                    classes.contentContainer,
+                    classes.chartContainer,
+                  )}
                 >
-                  <ExpansionPanelSummary
-                    expandIcon={<ExpandMoreIcon />}
-                    className={classnames(
-                      classes.expansionSummary,
-                      classes.cardHeader,
-                    )}
-                  >
-                    Historical Data
-                  </ExpansionPanelSummary>
-                  <ExpansionPanelDetails className={classes.expansionDetails}>
-                    <HistoricalPriceDataTable
-                      initialData={priceData}
-                      availableSupply={availableSupply}
-                      symbol={symbol}
+                  <MainCard>
+                    <CardHeader
+                      title="Price Chart"
+                      classes={{ title: classes.cardHeader }}
                     />
-                  </ExpansionPanelDetails>
-                </ExpansionPanel>
-              </Grid>
-              <Grid
-                item={true}
-                xs={12}
-                md={8}
-                className={classnames(classes.contentContainer, {
-                  activeTabContainer: tabSlug === TAB_SLUGS.tokenMetrics,
-                })}
-              >
-                <Grid container={true} spacing={16}>
-                  <Grid
-                    item={true}
-                    xs={12}
-                    className={classes.tokenMetricHeader}
+                    <CardContent>
+                      <CoinCharts
+                        symbol={symbol}
+                        priceData={priceData}
+                        priceDataHourly={priceDataHourly}
+                        annotations={annotations}
+                        isTradingViewVisible={isTradingViewVisible}
+                        onPriceChartCreated={this.handlePriceChartCreated}
+                      />
+                    </CardContent>
+                  </MainCard>
+                  <ExpansionPanel
+                    square={true}
+                    elevation={0}
+                    className={classes.expansionRoot}
                   >
-                    Percentage of {symbol} on Exchange
-                  </Grid>
-                  <Grid item={true} xs={12}>
-                    <SubCard>
-                      <CardContent className={classes.tokenChartCardContent}>
-                        <TokenChart
-                          data={_.get(tokenMetrics, 'exchange_supply_data', [])}
-                          yAxisLabel="% Supply on Exchange"
-                        />
-                      </CardContent>
-                    </SubCard>
-                  </Grid>
-                  <Grid item={true} xs={12} md={6}>
-                    <SubCard>
-                      <CardContent className={classes.tokenCardContent}>
-                        <div className={classes.tokenMetricValue}>
-                          {formatValueFixed(
-                            _.get(
+                    <ExpansionPanelSummary
+                      expandIcon={<ExpandMoreIcon />}
+                      className={classnames(
+                        classes.expansionSummary,
+                        classes.cardHeader,
+                      )}
+                    >
+                      Historical Data
+                    </ExpansionPanelSummary>
+                    <ExpansionPanelDetails className={classes.expansionDetails}>
+                      <HistoricalPriceDataTable
+                        initialData={priceData}
+                        availableSupply={availableSupply}
+                        symbol={symbol}
+                      />
+                    </ExpansionPanelDetails>
+                  </ExpansionPanel>
+                </Grid>
+              )}
+              {tabSlug === TAB_SLUGS.tokenMetrics && (
+                <Grid
+                  item={true}
+                  xs={12}
+                  md={8}
+                  className={classes.contentContainer}
+                >
+                  <Grid container={true} spacing={16}>
+                    <Grid
+                      item={true}
+                      xs={12}
+                      className={classes.tokenMetricHeader}
+                    >
+                      Percentage of {symbol} on Exchange
+                    </Grid>
+                    <Grid item={true} xs={12}>
+                      <SubCard>
+                        <CardContent className={classes.tokenChartCardContent}>
+                          <TokenChart
+                            data={_.get(
                               tokenMetrics,
-                              ['exchange_supply_metadata', 'metric_value'],
+                              'exchange_supply_data',
+                              [],
+                            )}
+                            yAxisLabel="% Supply on Exchange"
+                          />
+                        </CardContent>
+                      </SubCard>
+                    </Grid>
+                    <Grid item={true} xs={12} md={6}>
+                      <SubCard>
+                        <CardContent className={classes.tokenCardContent}>
+                          <div className={classes.tokenMetricValue}>
+                            {formatValueFixed(
+                              _.get(
+                                tokenMetrics,
+                                ['exchange_supply_metadata', 'metric_value'],
+                                0,
+                              ) * 100,
+                              1,
+                            )}%
+                          </div>
+                          <div className={classes.tokenMetricSubtitle}>
+                            Tokens held on an exchange
+                          </div>
+                        </CardContent>
+                      </SubCard>
+                    </Grid>
+                    <Grid item={true} xs={12} md={6}>
+                      <SubCard>
+                        <CardContent className={classes.tokenCardContent}>
+                          <div className={classes.tokenMetricValue}>
+                            #{formatValue(
+                              _.get(
+                                tokenMetrics,
+                                ['exchange_supply_metadata', 'rank'],
+                                0,
+                              ),
                               0,
-                            ) * 100,
-                            1,
-                          )}%
-                        </div>
-                        <div className={classes.tokenMetricSubtitle}>
-                          Tokens held on an exchange
-                        </div>
-                      </CardContent>
-                    </SubCard>
-                  </Grid>
-                  <Grid item={true} xs={12} md={6}>
-                    <SubCard>
-                      <CardContent className={classes.tokenCardContent}>
-                        <div className={classes.tokenMetricValue}>
-                          #{formatValue(
-                            _.get(
+                            )}
+                          </div>
+                          <div className={classes.tokenMetricSubtitle}>
+                            Rank out of{' '}
+                            {formatValue(
+                              _.get(
+                                tokenMetrics,
+                                ['exchange_supply_metadata', 'num_coins'],
+                                0,
+                              ),
+                              0,
+                            )}{' '}
+                            coins
+                          </div>
+                        </CardContent>
+                      </SubCard>
+                    </Grid>
+                    <Grid
+                      item={true}
+                      xs={12}
+                      className={classes.tokenMetricHeader}
+                    >
+                      Percentage of Early Investors Still HODLing
+                    </Grid>
+                    <Grid item={true} xs={12}>
+                      <SubCard>
+                        <CardContent className={classes.tokenChartCardContent}>
+                          <TokenChart
+                            data={_.get(
                               tokenMetrics,
-                              ['exchange_supply_metadata', 'rank'],
+                              'token_retention_rate_data',
+                              [],
+                            )}
+                            yAxisLabel="% Supply Held by Early Investors"
+                          />
+                        </CardContent>
+                      </SubCard>
+                    </Grid>
+                    <Grid item={true} xs={12} md={6}>
+                      <SubCard>
+                        <CardContent className={classes.tokenCardContent}>
+                          <div className={classes.tokenMetricValue}>
+                            {formatValueFixed(
+                              _.get(
+                                tokenMetrics,
+                                [
+                                  'token_retention_rate_metadata',
+                                  'metric_value',
+                                ],
+                                0,
+                              ) * 100,
+                              1,
+                            )}%
+                          </div>
+                          <div className={classes.tokenMetricSubtitle}>
+                            Early investors still HODLing
+                          </div>
+                        </CardContent>
+                      </SubCard>
+                    </Grid>
+                    <Grid item={true} xs={12} md={6}>
+                      <SubCard>
+                        <CardContent className={classes.tokenCardContent}>
+                          <div className={classes.tokenMetricValue}>
+                            #{formatValue(
+                              _.get(
+                                tokenMetrics,
+                                ['token_retention_rate_metadata', 'rank'],
+                                0,
+                              ),
                               0,
-                            ),
-                            0,
-                          )}
-                        </div>
-                        <div className={classes.tokenMetricSubtitle}>
-                          Rank out of{' '}
-                          {formatValue(
-                            _.get(
+                            )}
+                          </div>
+                          <div className={classes.tokenMetricSubtitle}>
+                            Rank out of{' '}
+                            {formatValue(
+                              _.get(
+                                tokenMetrics,
+                                ['token_retention_rate_metadata', 'num_coins'],
+                                0,
+                              ),
+                              0,
+                            )}{' '}
+                            coins
+                          </div>
+                        </CardContent>
+                      </SubCard>
+                    </Grid>
+                    <Grid
+                      item={true}
+                      xs={12}
+                      className={classes.tokenMetricHeader}
+                    >
+                      Unique Wallets HODLing Token
+                    </Grid>
+                    <Grid item={true} xs={12}>
+                      <SubCard>
+                        <CardContent className={classes.tokenChartCardContent}>
+                          <TokenChart
+                            data={_.get(
                               tokenMetrics,
-                              ['exchange_supply_metadata', 'num_coins'],
+                              'unique_wallet_count_data',
+                              [],
+                            )}
+                            yAxisLabel="Wallets"
+                            isPercentage={false}
+                          />
+                        </CardContent>
+                      </SubCard>
+                    </Grid>
+                    <Grid item={true} xs={12} md={6}>
+                      <SubCard>
+                        <CardContent className={classes.tokenCardContent}>
+                          <div className={classes.tokenMetricValue}>
+                            {formatValue(
+                              _.get(
+                                tokenMetrics,
+                                [
+                                  'unique_wallet_count_metadata',
+                                  'metric_value',
+                                ],
+                                0,
+                              ),
                               0,
-                            ),
-                            0,
-                          )}{' '}
-                          coins
-                        </div>
-                      </CardContent>
-                    </SubCard>
-                  </Grid>
-                  <Grid
-                    item={true}
-                    xs={12}
-                    className={classes.tokenMetricHeader}
-                  >
-                    Percentage of Early Investors Still HODLing
-                  </Grid>
-                  <Grid item={true} xs={12}>
-                    <SubCard>
-                      <CardContent className={classes.tokenChartCardContent}>
-                        <TokenChart
-                          data={_.get(
-                            tokenMetrics,
-                            'token_retention_rate_data',
-                            [],
-                          )}
-                          yAxisLabel="% Supply Held by Early Investors"
-                        />
-                      </CardContent>
-                    </SubCard>
-                  </Grid>
-                  <Grid item={true} xs={12} md={6}>
-                    <SubCard>
-                      <CardContent className={classes.tokenCardContent}>
-                        <div className={classes.tokenMetricValue}>
-                          {formatValueFixed(
-                            _.get(
+                            )}
+                          </div>
+                          <div className={classes.tokenMetricSubtitle}>
+                            Wallets
+                          </div>
+                        </CardContent>
+                      </SubCard>
+                    </Grid>
+                    <Grid item={true} xs={12} md={6}>
+                      <SubCard>
+                        <CardContent className={classes.tokenCardContent}>
+                          <div className={classes.tokenMetricValue}>
+                            #{formatValue(
+                              _.get(
+                                tokenMetrics,
+                                ['unique_wallet_count_metadata', 'rank'],
+                                0,
+                              ),
+                              0,
+                            )}
+                          </div>
+                          <div className={classes.tokenMetricSubtitle}>
+                            Rank out of{' '}
+                            {formatValue(
+                              _.get(
+                                tokenMetrics,
+                                ['unique_wallet_count_metadata', 'num_coins'],
+                                0,
+                              ),
+                              0,
+                            )}{' '}
+                            coins
+                          </div>
+                        </CardContent>
+                      </SubCard>
+                    </Grid>
+                    <Grid
+                      item={true}
+                      xs={12}
+                      className={classes.tokenMetricHeader}
+                    >
+                      Percentage of Tokens Held By Top 100 Wallets
+                    </Grid>
+                    <Grid item={true} xs={12}>
+                      <SubCard>
+                        <CardContent className={classes.tokenChartCardContent}>
+                          <TokenChart
+                            data={_.get(
                               tokenMetrics,
-                              ['token_retention_rate_metadata', 'metric_value'],
+                              'token_distribution_100_data',
+                              [],
+                            )}
+                            yAxisLabel={'% Supply Held by Top 100 Wallets'}
+                          />
+                        </CardContent>
+                      </SubCard>
+                    </Grid>
+                    <Grid item={true} xs={12} md={6}>
+                      <SubCard>
+                        <CardContent className={classes.tokenCardContent}>
+                          <div className={classes.tokenMetricValue}>
+                            {formatValueFixed(
+                              _.get(
+                                tokenMetrics,
+                                [
+                                  'token_distribution_100_metadata',
+                                  'metric_value',
+                                ],
+                                0,
+                              ) * 100,
+                              1,
+                            )}%
+                          </div>
+                          <div className={classes.tokenMetricSubtitle}>
+                            Tokens held by top 100
+                          </div>
+                        </CardContent>
+                      </SubCard>
+                    </Grid>
+                    <Grid item={true} xs={12} md={6}>
+                      <SubCard>
+                        <CardContent className={classes.tokenCardContent}>
+                          <div className={classes.tokenMetricValue}>
+                            #{formatValue(
+                              _.get(
+                                tokenMetrics,
+                                ['token_distribution_100_metadata', 'rank'],
+                                0,
+                              ),
                               0,
-                            ) * 100,
-                            1,
-                          )}%
-                        </div>
-                        <div className={classes.tokenMetricSubtitle}>
-                          Early investors still HODLing
-                        </div>
-                      </CardContent>
-                    </SubCard>
-                  </Grid>
-                  <Grid item={true} xs={12} md={6}>
-                    <SubCard>
-                      <CardContent className={classes.tokenCardContent}>
-                        <div className={classes.tokenMetricValue}>
-                          #{formatValue(
-                            _.get(
+                            )}
+                          </div>
+                          <div className={classes.tokenMetricSubtitle}>
+                            Rank out of{' '}
+                            {formatValue(
+                              _.get(
+                                tokenMetrics,
+                                [
+                                  'token_distribution_100_metadata',
+                                  'num_coins',
+                                ],
+                                0,
+                              ),
+                              0,
+                            )}{' '}
+                            coins
+                          </div>
+                        </CardContent>
+                      </SubCard>
+                    </Grid>
+                    <Grid
+                      item={true}
+                      xs={12}
+                      className={classes.tokenMetricHeader}
+                    >
+                      Percentage of Supply Transacted on Blockchain
+                    </Grid>
+                    <Grid item={true} xs={12}>
+                      <SubCard>
+                        <CardContent className={classes.tokenChartCardContent}>
+                          <TokenChart
+                            data={_.get(
                               tokenMetrics,
-                              ['token_retention_rate_metadata', 'rank'],
+                              'token_velocity_data',
+                              [],
+                            )}
+                            yAxisLabel="% Supply Tx'd on Blockchain"
+                          />
+                        </CardContent>
+                      </SubCard>
+                    </Grid>
+                    <Grid item={true} xs={12} md={6}>
+                      <SubCard>
+                        <CardContent className={classes.tokenCardContent}>
+                          <div className={classes.tokenMetricValue}>
+                            {formatValueFixed(
+                              _.get(
+                                tokenMetrics,
+                                ['token_velocity_metadata', 'metric_value'],
+                                0,
+                              ) * 100,
+                              2,
+                            )}%
+                          </div>
+                          <div className={classes.tokenMetricSubtitle}>
+                            Of supply transacted yesterday
+                          </div>
+                        </CardContent>
+                      </SubCard>
+                    </Grid>
+                    <Grid item={true} xs={12} md={6}>
+                      <SubCard>
+                        <CardContent className={classes.tokenCardContent}>
+                          <div className={classes.tokenMetricValue}>
+                            #{formatValue(
+                              _.get(
+                                tokenMetrics,
+                                ['token_velocity_metadata', 'rank'],
+                                0,
+                              ),
                               0,
-                            ),
-                            0,
-                          )}
-                        </div>
-                        <div className={classes.tokenMetricSubtitle}>
-                          Rank out of{' '}
-                          {formatValue(
-                            _.get(
-                              tokenMetrics,
-                              ['token_retention_rate_metadata', 'num_coins'],
+                            )}
+                          </div>
+                          <div className={classes.tokenMetricSubtitle}>
+                            Rank out of{' '}
+                            {formatValue(
+                              _.get(
+                                tokenMetrics,
+                                ['token_velocity_metadata', 'num_coins'],
+                                0,
+                              ),
                               0,
-                            ),
-                            0,
-                          )}{' '}
-                          coins
-                        </div>
-                      </CardContent>
-                    </SubCard>
-                  </Grid>
-                  <Grid
-                    item={true}
-                    xs={12}
-                    className={classes.tokenMetricHeader}
-                  >
-                    Unique Wallets HODLing Token
-                  </Grid>
-                  <Grid item={true} xs={12}>
-                    <SubCard>
-                      <CardContent className={classes.tokenChartCardContent}>
-                        <TokenChart
-                          data={_.get(
-                            tokenMetrics,
-                            'unique_wallet_count_data',
-                            [],
-                          )}
-                          yAxisLabel="Wallets"
-                          isPercentage={false}
-                        />
-                      </CardContent>
-                    </SubCard>
-                  </Grid>
-                  <Grid item={true} xs={12} md={6}>
-                    <SubCard>
-                      <CardContent className={classes.tokenCardContent}>
-                        <div className={classes.tokenMetricValue}>
-                          {formatValue(
-                            _.get(
-                              tokenMetrics,
-                              ['unique_wallet_count_metadata', 'metric_value'],
-                              0,
-                            ),
-                            0,
-                          )}
-                        </div>
-                        <div className={classes.tokenMetricSubtitle}>
-                          Wallets
-                        </div>
-                      </CardContent>
-                    </SubCard>
-                  </Grid>
-                  <Grid item={true} xs={12} md={6}>
-                    <SubCard>
-                      <CardContent className={classes.tokenCardContent}>
-                        <div className={classes.tokenMetricValue}>
-                          #{formatValue(
-                            _.get(
-                              tokenMetrics,
-                              ['unique_wallet_count_metadata', 'rank'],
-                              0,
-                            ),
-                            0,
-                          )}
-                        </div>
-                        <div className={classes.tokenMetricSubtitle}>
-                          Rank out of{' '}
-                          {formatValue(
-                            _.get(
-                              tokenMetrics,
-                              ['unique_wallet_count_metadata', 'num_coins'],
-                              0,
-                            ),
-                            0,
-                          )}{' '}
-                          coins
-                        </div>
-                      </CardContent>
-                    </SubCard>
-                  </Grid>
-                  <Grid
-                    item={true}
-                    xs={12}
-                    className={classes.tokenMetricHeader}
-                  >
-                    Percentage of Tokens Held By Top 100 Wallets
-                  </Grid>
-                  <Grid item={true} xs={12}>
-                    <SubCard>
-                      <CardContent className={classes.tokenChartCardContent}>
-                        <TokenChart
-                          data={_.get(
-                            tokenMetrics,
-                            'token_distribution_100_data',
-                            [],
-                          )}
-                          yAxisLabel={'% Supply Held by Top 100 Wallets'}
-                        />
-                      </CardContent>
-                    </SubCard>
-                  </Grid>
-                  <Grid item={true} xs={12} md={6}>
-                    <SubCard>
-                      <CardContent className={classes.tokenCardContent}>
-                        <div className={classes.tokenMetricValue}>
-                          {formatValueFixed(
-                            _.get(
-                              tokenMetrics,
-                              [
-                                'token_distribution_100_metadata',
-                                'metric_value',
-                              ],
-                              0,
-                            ) * 100,
-                            1,
-                          )}%
-                        </div>
-                        <div className={classes.tokenMetricSubtitle}>
-                          Tokens held by top 100
-                        </div>
-                      </CardContent>
-                    </SubCard>
-                  </Grid>
-                  <Grid item={true} xs={12} md={6}>
-                    <SubCard>
-                      <CardContent className={classes.tokenCardContent}>
-                        <div className={classes.tokenMetricValue}>
-                          #{formatValue(
-                            _.get(
-                              tokenMetrics,
-                              ['token_distribution_100_metadata', 'rank'],
-                              0,
-                            ),
-                            0,
-                          )}
-                        </div>
-                        <div className={classes.tokenMetricSubtitle}>
-                          Rank out of{' '}
-                          {formatValue(
-                            _.get(
-                              tokenMetrics,
-                              ['token_distribution_100_metadata', 'num_coins'],
-                              0,
-                            ),
-                            0,
-                          )}{' '}
-                          coins
-                        </div>
-                      </CardContent>
-                    </SubCard>
-                  </Grid>
-                  <Grid
-                    item={true}
-                    xs={12}
-                    className={classes.tokenMetricHeader}
-                  >
-                    Percentage of Supply Transacted on Blockchain
-                  </Grid>
-                  <Grid item={true} xs={12}>
-                    <SubCard>
-                      <CardContent className={classes.tokenChartCardContent}>
-                        <TokenChart
-                          data={_.get(tokenMetrics, 'token_velocity_data', [])}
-                          yAxisLabel="% Supply Tx'd on Blockchain"
-                        />
-                      </CardContent>
-                    </SubCard>
-                  </Grid>
-                  <Grid item={true} xs={12} md={6}>
-                    <SubCard>
-                      <CardContent className={classes.tokenCardContent}>
-                        <div className={classes.tokenMetricValue}>
-                          {formatValueFixed(
-                            _.get(
-                              tokenMetrics,
-                              ['token_velocity_metadata', 'metric_value'],
-                              0,
-                            ) * 100,
-                            2,
-                          )}%
-                        </div>
-                        <div className={classes.tokenMetricSubtitle}>
-                          Of supply transacted yesterday
-                        </div>
-                      </CardContent>
-                    </SubCard>
-                  </Grid>
-                  <Grid item={true} xs={12} md={6}>
-                    <SubCard>
-                      <CardContent className={classes.tokenCardContent}>
-                        <div className={classes.tokenMetricValue}>
-                          #{formatValue(
-                            _.get(
-                              tokenMetrics,
-                              ['token_velocity_metadata', 'rank'],
-                              0,
-                            ),
-                            0,
-                          )}
-                        </div>
-                        <div className={classes.tokenMetricSubtitle}>
-                          Rank out of{' '}
-                          {formatValue(
-                            _.get(
-                              tokenMetrics,
-                              ['token_velocity_metadata', 'num_coins'],
-                              0,
-                            ),
-                            0,
-                          )}{' '}
-                          coins
-                        </div>
-                      </CardContent>
-                    </SubCard>
+                            )}{' '}
+                            coins
+                          </div>
+                        </CardContent>
+                      </SubCard>
+                    </Grid>
                   </Grid>
                 </Grid>
-              </Grid>
+              )}
               <Grid
                 item={true}
                 xs={12}
