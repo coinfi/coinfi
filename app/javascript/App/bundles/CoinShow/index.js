@@ -385,14 +385,14 @@ class CoinShow extends Component {
                     classes={{ title: classes.cardHeader }}
                   />
                   <CardContent>
-                    {/* <CoinCharts
+                    <CoinCharts
                       symbol={symbol}
                       priceData={priceData}
                       priceDataHourly={priceDataHourly}
                       annotations={annotations}
                       isTradingViewVisible={isTradingViewVisible}
                       onPriceChartCreated={this.handlePriceChartCreated}
-                    /> */}
+                    />
                   </CardContent>
                 </MainCard>
                 <ExpansionPanel
@@ -410,11 +410,11 @@ class CoinShow extends Component {
                     Historical Data
                   </ExpansionPanelSummary>
                   <ExpansionPanelDetails className={classes.expansionDetails}>
-                    {/* <HistoricalPriceDataTable
+                    <HistoricalPriceDataTable
                       initialData={priceData}
                       availableSupply={availableSupply}
                       symbol={symbol}
-                    /> */}
+                    />
                   </ExpansionPanelDetails>
                 </ExpansionPanel>
               </Grid>
