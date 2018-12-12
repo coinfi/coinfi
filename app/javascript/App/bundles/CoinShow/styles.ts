@@ -1,5 +1,4 @@
 import { createStyles } from '@material-ui/core/styles'
-import { NONAME } from 'dns'
 
 export const borderColor = 'rgb(0, 0, 0, 0.18)'
 
