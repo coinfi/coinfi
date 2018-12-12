@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { withStyles, createStyles } from '@material-ui/core/styles'
 import Icon from '~/bundles/common/components/Icon'
-import borderColor from './styles'
+import { borderColor } from './styles'
 
 const styles = (theme) =>
   createStyles({

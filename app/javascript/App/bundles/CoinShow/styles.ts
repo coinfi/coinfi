@@ -1,6 +1,6 @@
 import { createStyles } from '@material-ui/core/styles'
 
-const borderColor = 'rgb(0, 0, 0, 0.18)'
+export const borderColor = 'rgb(0, 0, 0, 0.18)'
 
 const styles = (theme) =>
   createStyles({

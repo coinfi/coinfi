@@ -2,7 +2,7 @@ import * as React from 'react'
 import { withStyles, createStyles } from '@material-ui/core/styles'
 import classnames from 'classnames'
 import { Card } from '@material-ui/core'
-import borderColor from './styles'
+import { borderColor } from './styles'
 
 const styles = (theme) =>
   createStyles({
