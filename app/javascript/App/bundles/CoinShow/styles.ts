@@ -159,6 +159,13 @@ const styles = (theme) =>
       },
     },
     expansionRoot: {
+      padding: 0,
+      marginBottom: `${theme.spacing.unit * 2}px`,
+      '&:last-child': {
+        marginBottom: 0,
+      },
+      borderRadius: '2px',
+      border: `1px solid ${borderColor}`,
       '&:before': {
         backgroundColor: 'unset',
       },

@@ -396,10 +396,7 @@ class CoinShow extends Component {
                   <ExpansionPanel
                     square={true}
                     elevation={0}
-                    className={classnames(
-                      classes.mainCard,
-                      classes.expansionRoot,
-                    )}
+                    className={classes.expansionRoot}
                   >
                     <ExpansionPanelSummary
                       expandIcon={<ExpandMoreIcon />}
