@@ -2,8 +2,6 @@ import { SheetsRegistry } from 'jss'
 import { createGenerateClassName } from '@material-ui/core/styles'
 import * as _ from 'lodash'
 
-const stylesContextStore = {}
-
 const createStylesContext = (seed) => {
   const sheetsRegistry = new SheetsRegistry()
   const sheetsManager = new Map()
@@ -16,7 +14,7 @@ const createStylesContext = (seed) => {
   }
 }
 
-const getOrCreateStylesContext = (seed) => {
+const getOrCreateStylesContext = (seed, stylesContextStore = {}) => {
   if (_.has(stylesContextStore, seed)) {
     return stylesContextStore[seed]
   }

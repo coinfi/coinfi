@@ -1,6 +1,8 @@
 class CoinsController < ApplicationController
   before_action :set_coin, only: [:show]
 
+  include CoinListHelper
+
   def index
     distribute_reads(max_lag: MAX_ACCEPTABLE_REPLICATION_LAG, lag_failover: true) do
       @coin_count = Coin.listed.count
@@ -22,10 +24,15 @@ class CoinsController < ApplicationController
   def show
     distribute_reads(max_lag: MAX_ACCEPTABLE_REPLICATION_LAG, lag_failover: true) do
       @data = @coin.market_info
-      @coin_price = @data["price_usd"] # TODO: Consolidate price and volume from data warehouse and remove from coins table.
-      @related_coins = @coin.related_coins.select(:id, :coin_key, :name, :symbol, :slug).to_a # Calling `to_a` ensures query executes on replica.
-      @token_metrics = @coin.has_token_metrics? ? @coin.token_metrics : {}
-      @coin_obj = show_serializer(@coin)
+
+      if @coin.ico_status == 'listed'
+        @coin_price = @data["price_usd"] # TODO: Consolidate price and volume from data warehouse and remove from coins table.
+        @related_coins = @coin.related_coins.select(:id, :coin_key, :name, :symbol, :slug).to_a # Calling `to_a` ensures query executes on replica.
+        @token_metrics = @coin.has_token_metrics? ? @coin.token_metrics : {}
+        @coin_obj = show_serializer(@coin)
+        @top_coins_data = toplist_coins
+        @watched_coins_data = watchlist_coins if current_user
+      end
     end
 
     # TODO: Flag if a non-listed coin gets routed to this controller.
