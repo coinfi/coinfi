@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import * as _ from 'lodash'
 import { withRouter } from 'react-router'
-import compose from 'recompose/compose'
 import classnames from 'classnames'
 import {
   Grid,
@@ -17,10 +16,10 @@ import {
   ExpansionPanel,
   ExpansionPanelSummary,
   ExpansionPanelDetails,
+  Hidden,
 } from '@material-ui/core'
 import { withStyles } from '@material-ui/core/styles'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
-import withWidth, { isWidthDown } from '@material-ui/core/withWidth'
 import API from '../common/utils/localAPI'
 import SearchCoins from '~/bundles/common/components/SearchCoins'
 import CoinCharts from '~/bundles/common/components/CoinCharts'
@@ -253,7 +252,6 @@ class CoinShow extends Component {
     } = this.props
     const { currency, tabSlug, priceData, priceDataHourly } = this.state
 
-    const isMobile = isWidthDown('sm', this.props.width)
     const isLoggedIn = !!user
     const hasTokenMetrics = !_.isEmpty(tokenMetrics)
 
@@ -266,7 +264,7 @@ class CoinShow extends Component {
           alignContent="stretch"
           wrap="nowrap"
         >
-          {!isMobile && (
+          <Hidden implementation="css" smDown={true}>
             <Grid item={true} md={2} className={classes.leftPanelGrid}>
               <Card
                 raised={false}
@@ -281,7 +279,7 @@ class CoinShow extends Component {
                 />
               </Card>
             </Grid>
-          )}
+          </Hidden>
           <Grid item={true} xs={12} md={10} className={classes.mainPanel}>
             <Grid
               container={true}
@@ -297,7 +295,7 @@ class CoinShow extends Component {
                   elevation={0}
                   className={classes.searchBarCard}
                 >
-                  {isMobile && (
+                  <Hidden implementation="css" mdUp={true}>
                     <button
                       className={classnames(
                         'btn btn-blue btn-xs coins-btn mr2',
@@ -308,7 +306,7 @@ class CoinShow extends Component {
                       <Icon name="list" className="mr2" />
                       <span>Coins</span>
                     </button>
-                  )}
+                  </Hidden>
                   <SearchCoins
                     onSelect={(suggestion) =>
                       (window.location.href = `/coins/${suggestion.slug}`)
@@ -935,7 +933,4 @@ class CoinShow extends Component {
   }
 }
 
-export default compose(
-  withWidth({ withTheme: true, initialWidth: 'md' }),
-  withStyles(styles, { withTheme: true }),
-)(withRouter(CoinShow))
+export default withStyles(styles, { withTheme: true })(withRouter(CoinShow))
