@@ -106,10 +106,6 @@ const styles = (theme) =>
       paddingRight: '12px',
       paddingLeft: '12px',
     },
-    newsLabelIcon: {
-      marginLeft: '0.25rem',
-      marginBottom: '0.25rem',
-    },
     cardHeader: {
       fontSize: '16px',
       fontWeight: 500,

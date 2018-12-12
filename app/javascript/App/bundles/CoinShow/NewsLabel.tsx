@@ -1,18 +1,12 @@
 import * as React from 'react'
 import { withStyles, createStyles } from '@material-ui/core/styles'
 import Icon from '~/bundles/common/components/Icon'
-import { borderColor } from './styles'
 
 const styles = (theme) =>
   createStyles({
     icon: {
-      padding: 0,
-      marginBottom: `${theme.spacing.unit * 2}px`,
-      '&:last-child': {
-        marginBottom: 0,
-      },
-      borderRadius: '2px',
-      border: `1px solid ${borderColor}`,
+      marginLeft: '0.25rem',
+      marginBottom: '0.25rem',
     },
   })
 
