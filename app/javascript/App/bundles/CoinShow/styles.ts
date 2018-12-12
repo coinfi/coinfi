@@ -1,4 +1,5 @@
 import { createStyles } from '@material-ui/core/styles'
+import { NONAME } from 'dns'
 
 export const borderColor = 'rgb(0, 0, 0, 0.18)'
 
@@ -45,6 +46,9 @@ const styles = (theme) =>
       marginBottom: '0 !important',
     },
     contentContainer: {
+      '&:not(.activeTabContainer)': {
+        display: 'none',
+      },
       [theme.breakpoints.up('md')]: {
         maxWidth: '70%',
         flexBasis: '70%',
