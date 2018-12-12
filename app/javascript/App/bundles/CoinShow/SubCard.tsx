@@ -18,7 +18,7 @@ const styles = (theme) =>
     },
   })
 
-const SubCard = ({ children, classes, subClasses, className, ...props }) => {
+const SubCard = ({ children, classes, className, ...props }) => {
   const classNames = classnames(classes.root, className)
   return (
     <Card
@@ -26,7 +26,7 @@ const SubCard = ({ children, classes, subClasses, className, ...props }) => {
       square={true}
       elevation={0}
       className={classNames}
-      classes={subClasses}
+      classes={classes}
       {...props}
     >
       {children}
