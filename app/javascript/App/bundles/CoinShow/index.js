@@ -24,6 +24,9 @@ import withWidth, { isWidthDown } from '@material-ui/core/withWidth'
 import API from '../common/utils/localAPI'
 import SearchCoins from '~/bundles/common/components/SearchCoins'
 import CoinCharts from '~/bundles/common/components/CoinCharts'
+import MainCard from './MainCard'
+import SubCard from './SubCard'
+import NewsLabel from './NewsLabel'
 import FundamentalsList from './FundamentalsList'
 import InfoBar from './InfoBar'
 import LinksList from './LinksList'
@@ -45,48 +48,6 @@ const TAB_SLUGS = {
   tokenMetrics: 'token-metrics',
   priceChart: 'price-chart',
   news: 'news',
-}
-
-const MainCard = ({ children, classes, className, ...props }) => {
-  const classNames = classnames(_.get(classes, 'mainCard'), className)
-  return (
-    <Card
-      raised={false}
-      square={true}
-      elevation={0}
-      className={classNames}
-      {...props}
-    >
-      {children}
-    </Card>
-  )
-}
-
-const SubCard = ({ children, classes, className, ...props }) => {
-  const classNames = classnames(_.get(classes, 'subCard'), className)
-  return (
-    <Card
-      raised={false}
-      square={true}
-      elevation={0}
-      className={classNames}
-      {...props}
-    >
-      {children}
-    </Card>
-  )
-}
-const NewsLabel = ({ classes }) => {
-  return (
-    <React.Fragment>
-      <span>News</span>
-      <Icon
-        name="external-link-alt"
-        regular
-        className={_.get(classes, 'newsLabelIcon')}
-      />
-    </React.Fragment>
-  )
 }
 
 class CoinShow extends Component {
@@ -376,17 +337,15 @@ class CoinShow extends Component {
                     textColor="primary"
                     className={classes.tabsRoot}
                   >
-                    {hasTokenMetrics && (
-                      <Tab
-                        label="Token Metrics"
-                        value={TAB_SLUGS.tokenMetrics}
-                        classes={{
-                          root: classes.tabRoot,
-                          selected: classes.tabSelected,
-                          labelContainer: classes.tabLabelContainer,
-                        }}
-                      />
-                    )}
+                    <Tab
+                      label="Token Metrics"
+                      value={TAB_SLUGS.tokenMetrics}
+                      classes={{
+                        root: classes.tabRoot,
+                        selected: classes.tabSelected,
+                        labelContainer: classes.tabLabelContainer,
+                      }}
+                    />
                     <Tab
                       label="Price Chart"
                       value={TAB_SLUGS.priceChart}

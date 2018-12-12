@@ -110,15 +110,6 @@ const styles = (theme) =>
       marginLeft: '0.25rem',
       marginBottom: '0.25rem',
     },
-    mainCard: {
-      padding: 0,
-      marginBottom: `${theme.spacing.unit * 2}px`,
-      '&:last-child': {
-        marginBottom: 0,
-      },
-      borderRadius: '2px',
-      border: `1px solid ${borderColor}`,
-    },
     cardHeader: {
       fontSize: '16px',
       fontWeight: 500,
@@ -174,16 +165,6 @@ const styles = (theme) =>
     },
     expansionDetails: {
       display: 'block',
-    },
-    subCard: {
-      padding: 0,
-      marginBottom: `${theme.spacing.unit * 2}px`,
-      '&:last-child': {
-        marginBottom: 0,
-      },
-      width: '100%',
-      borderRadius: '2px',
-      border: `1px solid ${borderColor}`,
     },
     subCardHeader: {
       paddingBottom: 0,
