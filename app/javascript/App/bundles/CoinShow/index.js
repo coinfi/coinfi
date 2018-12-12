@@ -337,15 +337,17 @@ class CoinShow extends Component {
                     textColor="primary"
                     className={classes.tabsRoot}
                   >
-                    <Tab
-                      label="Token Metrics"
-                      value={TAB_SLUGS.tokenMetrics}
-                      classes={{
-                        root: classes.tabRoot,
-                        selected: classes.tabSelected,
-                        labelContainer: classes.tabLabelContainer,
-                      }}
-                    />
+                    {hasTokenMetrics && (
+                      <Tab
+                        label="Token Metrics"
+                        value={TAB_SLUGS.tokenMetrics}
+                        classes={{
+                          root: classes.tabRoot,
+                          selected: classes.tabSelected,
+                          labelContainer: classes.tabLabelContainer,
+                        }}
+                      />
+                    )}
                     <Tab
                       label="Price Chart"
                       value={TAB_SLUGS.priceChart}
@@ -383,14 +385,14 @@ class CoinShow extends Component {
                       classes={{ title: classes.cardHeader }}
                     />
                     <CardContent>
-                      <CoinCharts
+                      {/* <CoinCharts
                         symbol={symbol}
                         priceData={priceData}
                         priceDataHourly={priceDataHourly}
                         annotations={annotations}
                         isTradingViewVisible={isTradingViewVisible}
                         onPriceChartCreated={this.handlePriceChartCreated}
-                      />
+                      /> */}
                     </CardContent>
                   </MainCard>
                   <ExpansionPanel
@@ -408,11 +410,11 @@ class CoinShow extends Component {
                       Historical Data
                     </ExpansionPanelSummary>
                     <ExpansionPanelDetails className={classes.expansionDetails}>
-                      <HistoricalPriceDataTable
+                      {/* <HistoricalPriceDataTable
                         initialData={priceData}
                         availableSupply={availableSupply}
                         symbol={symbol}
-                      />
+                      /> */}
                     </ExpansionPanelDetails>
                   </ExpansionPanel>
                 </Grid>
