@@ -64,7 +64,7 @@ export default class NewsBody extends React.Component<Props, State> {
     if (
       this.state.newsItem !== null &&
       (prevState.newsItem === null ||
-        _.isEqual(prevState.newsItem, this.state.newsItem))
+        !_.isEqual(prevState.newsItem, this.state.newsItem))
     ) {
       document.title = `CoinFi News - ${this.state.newsItem.title}`
     }
