@@ -41,7 +41,6 @@ export default class Countdown extends Component {
 
   calculateRemainingTime() {
     const duration = moment.duration(moment(this.props.time).diff(moment()))
-    console.log(duration, moment(this.props.time).diff(moment()))
     const days = duration.days()
     const hours = duration.hours()
     const minutes = duration.minutes()

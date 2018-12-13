@@ -45,8 +45,6 @@ class CoinCharts extends Component {
   processData() {
     const { priceData, priceDataHourly, currency, currencyRate } = this.props
 
-    console.log(priceData, priceDataHourly, currency, currencyRate)
-
     this.setState({ status: STATUSES.LOADING }, () => {
       const hasHourlyPrice = priceDataHourly && priceDataHourly.length > 0
       const processedPriceData = Array.isArray(priceData)

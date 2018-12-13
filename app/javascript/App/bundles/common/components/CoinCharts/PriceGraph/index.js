@@ -29,14 +29,6 @@ class PriceGraph extends Component {
       priceDataHourly,
     )
 
-    console.log(
-      priceData,
-      priceDataHourly,
-      pricesHourly,
-      volumesHourly,
-      currency,
-    )
-
     this.Highcharts.setOptions(options)
     const chart = this.Highcharts.stockChart(
       containerID,
