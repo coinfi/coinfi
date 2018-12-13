@@ -59,6 +59,15 @@ export default class NewsBody extends React.Component<Props, State> {
         this.fetchNewsItemDetails(),
       )
     }
+
+    // Change title if news item changed
+    if (
+      this.state.newsItem !== null &&
+      (prevState.newsItem === null ||
+        _.isEqual(prevState.newsItem, this.state.newsItem))
+    ) {
+      document.title = `CoinFi News - ${this.state.newsItem.title}`
+    }
   }
 
   public fetchNewsItemDetails() {
