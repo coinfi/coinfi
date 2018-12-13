@@ -14,9 +14,8 @@ class NewsRenderTest < ApplicationIntegrationTest
 
   test "index renders news items" do
     Rails.cache.delete("default_news_items")
-    LaunchDarkly::LDClient.stub_any_instance(:variation, true) do
-      get news_url
-    end
+
+    get news_url
 
     expected_news_items = NewsItems::WithFilters.call(NewsItem.published, published_since: 24.hours.ago).order_by_published.limit(25)
     expected_news_items.each do |news_item|
@@ -26,9 +25,8 @@ class NewsRenderTest < ApplicationIntegrationTest
 
   test "coin index renders news items" do
     coin = @coins.first
-    LaunchDarkly::LDClient.stub_any_instance(:variation, true) do
-      get news_coin_url(coin.slug)
-    end
+
+    get news_coin_url(coin.slug)
 
     expected_news_items = NewsItems::WithFilters.call(NewsItem.published, coins: [coin]).order_by_published.limit(25)
     expected_news_items.each do |news_item|
@@ -38,11 +36,11 @@ class NewsRenderTest < ApplicationIntegrationTest
 
   test "show renders news items" do
     Rails.cache.delete("default_news_items")
+
     news_item = @coins.first.news_items.published.first
     news_item_slug = news_item.title.parameterize
-    LaunchDarkly::LDClient.stub_any_instance(:variation, true) do
-      get news_item_url(news_item, news_item_slug)
-    end
+
+    get news_item_url(news_item, news_item_slug)
 
     expected_news_items = NewsItems::WithFilters.call(NewsItem.published, published_since: 24.hours.ago).order_by_published.limit(25)
     expected_news_items.each do |news_item|

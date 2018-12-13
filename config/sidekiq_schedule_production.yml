@@ -1,0 +1,30 @@
+CacheRefreshSparkline:          # rake cache_refresh:sparkline
+  cron: '0 0 19 * * * Etc/UTC'
+
+GenerateCoinSlugs:              # rake generate_coin_slugs
+  cron: '0 0 1 * * * Etc/UTC'
+
+DailyTokenExchangeTransactionsTradingSignalWorker:
+  cron: '0 0 1 * * * Etc/UTC'
+
+RefreshSitemap:                 # rake sitemap:refresh
+  cron: '0 0 0 * * * Etc/UTC'
+
+StakedCofiPerformActions:       # rake staked_cofi:perform_actions
+  cron: '0 30 * * * * Etc/UTC'
+
+StakedCofiRefreshTransactions:  # rake staked_cofi:refresh_transactions
+  cron: '0 0 * * * * Etc/UTC'
+
+UpdateCurrencies:
+  cron: '0 0 0 * * * Etc/UTC'
+
+# Paid API routes
+
+UpdateCmcPrices:
+  cron: '0 * * * * * Etc/UTC'   # Runs once per minute
+  include_metadata: true
+
+UpdateCmcMarketPairs:
+  cron: '30 * * * * * Etc/UTC'  # Runs once per minute
+  include_metadata: true

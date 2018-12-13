@@ -28,6 +28,7 @@ export default class TradingViewChart extends Component {
     const TradingView = this.getTradingView()
 
     // Options resource https://github.com/stevenGame/jr-chart/wiki/Widget-Constructor
+    // chinese translation of the unavailable git wiki https://zlq4863947.gitbooks.io/tradingview/content/
     this.tvWidget = new TradingView.widget({
       debug: false,
       fullscreen: false,
@@ -63,8 +64,9 @@ export default class TradingViewChart extends Component {
       favorites: {
         intervals: ['60', 'D'],
       },
+      timeframe: '7d',
       time_frames: [
-        { text: '1d', resolution: '60', description: '3 Days' },
+        { text: '1d', resolution: '60', description: '1 Day' },
         { text: '7d', resolution: '60', description: '7 Days' },
         { text: '1m', resolution: 'D', description: '1 Month' },
         { text: '3m', resolution: 'D', description: '3 Months' },
@@ -98,7 +100,7 @@ export default class TradingViewChart extends Component {
       (!_.isEqual(prevProps.priceData, this.props.priceData) ||
         !_.isEqual(prevProps.priceDataHourly, this.props.priceDataHourly))
     ) {
-      const { priceData, priceDataHourly, annotations } = this.props
+      const { priceData, priceDataHourly } = this.props
       const datafeed = new Datafeed(priceData, priceDataHourly)
 
       try {

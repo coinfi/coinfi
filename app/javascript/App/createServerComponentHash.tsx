@@ -14,11 +14,12 @@ const createServerComponentHash = (TargetComponent: any) => {
   return (props, railsContext) => {
     // Render to HTML passing in `context` to be updated
     const stylesNamespace = props.stylesNamespace
+    const stylesContextStore = {}
     const componentHtml = renderToString(
-      withRootProviders(TargetComponent, { stylesNamespace })(
-        props,
-        railsContext,
-      ),
+      withRootProviders(TargetComponent, {
+        stylesNamespace,
+        stylesContextStore,
+      })(props, railsContext),
     )
 
     // Return the successful markup as a string for Rails `react_component` and
@@ -31,6 +32,7 @@ const createServerComponentHash = (TargetComponent: any) => {
         // as well
         componentCss: getOrCreateStylesContext(
           stylesNamespace,
+          stylesContextStore,
         ).sheetsRegistry.toString(),
         componentStylesNamespace: stylesNamespace,
       },

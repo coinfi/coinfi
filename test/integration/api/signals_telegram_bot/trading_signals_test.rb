@@ -17,7 +17,7 @@ class Api::SignalsTelegramBot::TradingSignalsTest < Api::SignalsTelegramBot::Bas
 
   test "create" do
     trading_signal_trigger = create(:trading_signal_trigger)
-    trading_signal_attrs = build(:telegram_trading_signal, trading_signal_trigger: trading_signal_trigger).attributes
+    trading_signal_attrs = build(:trading_signal, trading_signal_trigger: trading_signal_trigger).attributes
     request_params = {
       trading_signal: trading_signal_attrs
     }

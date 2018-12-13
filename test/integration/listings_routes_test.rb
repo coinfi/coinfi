@@ -5,6 +5,7 @@ class ListingsRoutesTest < ApplicationIntegrationTest
   include Devise::Test::IntegrationHelpers
 
   setup do
+    skip "Exchange Listings app is temporarily disabled"
     @exchange_listings = create_list(:exchange_listing, 10)
   end
 
@@ -18,9 +19,7 @@ class ListingsRoutesTest < ApplicationIntegrationTest
     user = create(:user)
     login_as(user, :scope => :user)
 
-    LaunchDarkly::LDClient.stub_any_instance(:variation, true) do
-      get "/listings"
-    end
+    get "/listings"
 
     assert_equal 200, status
   end

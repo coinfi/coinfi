@@ -1,11 +1,13 @@
 class CoinsController < ApplicationController
   before_action :set_coin, only: [:show]
 
+  include CoinListHelper
+
   def index
     @hide_currency = true
     distribute_reads(max_lag: MAX_ACCEPTABLE_REPLICATION_LAG, lag_failover: true) do
       @coin_count = Coin.listed.count
-      @coins = serialize_coins(
+      @coins = index_serializer(
         Coin
           .legit
           .page(1)
@@ -23,22 +25,15 @@ class CoinsController < ApplicationController
   def show
     distribute_reads(max_lag: MAX_ACCEPTABLE_REPLICATION_LAG, lag_failover: true) do
       @data = @coin.market_info
-      @coin_price = @data["price_usd"] # TODO: Consolidate price and volume from data warehouse and remove from coins table.
-      @related_coins = @coin.related_coins.select(:id, :coin_key, :name, :symbol, :slug).to_a # Calling `to_a` ensures query executes on replica.
-    end
 
-    if @coin.symbol && @coin.is_erc20? && ENV['METABASE_SECRET_KEY']
-      payload = {
-        resource: { dashboard: 3 },
-        params: {
-          "coin_key" => @coin.coin_key
-        }
-      }
-      token = JWT.encode payload, ENV['METABASE_SECRET_KEY']
-
-      @metabase_url = "https://metabase.coinfi.com/embed/dashboard/#{token}#bordered=false&titled=false"
-    else
-      @metabase_url = nil
+      if @coin.ico_status == 'listed'
+        @coin_price = @data["price_usd"] # TODO: Consolidate price and volume from data warehouse and remove from coins table.
+        @related_coins = @coin.related_coins.select(:id, :coin_key, :name, :symbol, :slug).to_a # Calling `to_a` ensures query executes on replica.
+        @token_metrics = @coin.has_token_metrics? ? @coin.token_metrics : {}
+        @coin_obj = show_serializer(@coin)
+        @top_coins_data = toplist_coins
+        @watched_coins_data = watchlist_coins if current_user
+      end
     end
 
     # TODO: Flag if a non-listed coin gets routed to this controller.
@@ -57,6 +52,13 @@ class CoinsController < ApplicationController
   end
 
   protected
+
+  def index_serializer(coins)
+    coins.as_json(
+      only: %i[id name symbol slug coin_key ranking image_url],
+      methods: %i[sparkline price market_cap change1h change24h change7d volume24h]
+    )
+  end
 
   def set_coin
     distribute_reads(max_lag: MAX_ACCEPTABLE_REPLICATION_LAG, lag_failover: true) do
@@ -84,10 +86,17 @@ class CoinsController < ApplicationController
     end
   end
 
-  def serialize_coins(coins)
-    coins.as_json(
-      only: %i[id name symbol slug coin_key ranking image_url price market_cap change1h change24h change7d volume24],
-      methods: %i[sparkline]
+  def show_serializer(coin)
+    coin.as_json(
+      only: %i[
+        id name coin_key image_url symbol slug ranking ico_status
+        website whitepaper explorer twitter reddit medium github telegram
+        release_date blockchain_tech algorithm ico_start_epoch ico_end_epoch
+      ],
+      methods: %i[
+        prices_data news_data market_info is_being_watched summary price market_cap
+        change1h change24h change7d volume24h available_supply max_supply total_supply
+      ]
     )
   end
 end

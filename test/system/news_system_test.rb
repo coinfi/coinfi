@@ -13,9 +13,7 @@ class NewsSystemTest < ApplicationSystemTestCase
   test "can visit index when authenticated" do
     login_as(@user, :scope => :user)
 
-    LaunchDarkly::LDClient.stub_any_instance(:variation, true) do
-      visit news_url
-    end
+    visit news_url
 
     # Check title
     assert_selector "h1", text: "CoinFi News: Cryptocurrency News Today"
@@ -25,9 +23,8 @@ class NewsSystemTest < ApplicationSystemTestCase
     login_as(@user, :scope => :user)
 
     coin = @coins.first
-    LaunchDarkly::LDClient.stub_any_instance(:variation, true) do
-      visit news_coin_url(coin.slug)
-    end
+
+    visit news_coin_url(coin.slug)
 
     # Check title
     assert_text "#{coin.name} (#{coin.symbol}) News"
@@ -43,9 +40,8 @@ class NewsSystemTest < ApplicationSystemTestCase
 
     news_item = @coins.first.news_items.published.first
     news_item_slug = news_item.title.parameterize
-    LaunchDarkly::LDClient.stub_any_instance(:variation, true) do
-      visit news_item_url(news_item.id, news_item_slug)
-    end
+
+    visit news_item_url(news_item.id, news_item_slug)
 
     # Check title
     assert_selector "h1", text: news_item.title
@@ -54,9 +50,8 @@ class NewsSystemTest < ApplicationSystemTestCase
   test "news items with reddit filter" do
     # Login
     login_as(@user, :scope => :user)
-    LaunchDarkly::LDClient.stub_any_instance(:variation, true) do
-      visit news_url
-    end
+
+    visit news_url
 
     # Open and set filter
     click_button('Filter')
@@ -64,14 +59,14 @@ class NewsSystemTest < ApplicationSystemTestCase
     reddit_button.click
     assert reddit_button[:class].include?("on"), true
     click_button('Apply')
-    
+
     # Check against expected news items
     feed_sources = FeedSource.active.where.not(id: FeedSource.twitter)
     expected_news_items = NewsItems::WithFilters.call(
-        NewsItem.published, 
+        NewsItem.published,
         feed_sources: feed_sources
       ).order_by_published.limit(25)
-    
+
     within '#newsfeed' do
       expected_news_items.each do |news_item|
         assert_text(:all, news_item.title)
@@ -82,9 +77,8 @@ class NewsSystemTest < ApplicationSystemTestCase
   test "news items with twitter filter" do
     # Login
     login_as(@user, :scope => :user)
-    LaunchDarkly::LDClient.stub_any_instance(:variation, true) do
-      visit news_url
-    end
+
+    visit news_url
 
     # Open and set filter
     click_button('Filter')
@@ -92,14 +86,14 @@ class NewsSystemTest < ApplicationSystemTestCase
     twitter_button.click
     assert twitter_button[:class].include?("on"), true
     click_button('Apply')
-    
+
     # Check against expected news items
     feed_sources = FeedSource.active.where.not(id: FeedSource.reddit)
     expected_news_items = NewsItems::WithFilters.call(
-        NewsItem.published, 
+        NewsItem.published,
         feed_sources: feed_sources
       ).order_by_published.limit(25)
-    
+
     within '#newsfeed' do
       expected_news_items.each do |news_item|
         assert_text(:all, news_item.title)
@@ -110,9 +104,8 @@ class NewsSystemTest < ApplicationSystemTestCase
   test "news items with general filter" do
     # Login
     login_as(@user, :scope => :user)
-    LaunchDarkly::LDClient.stub_any_instance(:variation, true) do
-      visit news_url
-    end
+
+    visit news_url
 
     # Get a general filter
     random_feed = nil
@@ -137,7 +130,7 @@ class NewsSystemTest < ApplicationSystemTestCase
       .where.not(id: FeedSource.twitter)
       .where(site_hostname: [random_feed.site_hostname])
     expected_news_items = NewsItems::WithFilters.call(
-        NewsItem.published, 
+        NewsItem.published,
         feed_sources: feed_sources
       ).order_by_published.limit(25)
 
@@ -151,9 +144,8 @@ class NewsSystemTest < ApplicationSystemTestCase
   test "news items with general and reddit filter" do
     # Login
     login_as(@user, :scope => :user)
-    LaunchDarkly::LDClient.stub_any_instance(:variation, true) do
-      visit news_url
-    end
+
+    visit news_url
 
     # Get a general filter
     random_feed = nil
@@ -183,7 +175,7 @@ class NewsSystemTest < ApplicationSystemTestCase
       .where.not(id: FeedSource.twitter)
       .where(site_hostname: [random_feed.site_hostname])
     expected_news_items = NewsItems::WithFilters.call(
-        NewsItem.published, 
+        NewsItem.published,
         feed_sources: feed_sources
       ).order_by_published.limit(25)
 
@@ -197,9 +189,8 @@ class NewsSystemTest < ApplicationSystemTestCase
   test "news items with reddit and twitter filters" do
     # Login
     login_as(@user, :scope => :user)
-    LaunchDarkly::LDClient.stub_any_instance(:variation, true) do
-      visit news_url
-    end
+
+    visit news_url
 
     # Open and set filter
     click_button('Filter')
@@ -213,14 +204,14 @@ class NewsSystemTest < ApplicationSystemTestCase
     assert reddit_button[:class].include?("on"), true
 
     click_button('Apply')
-    
+
     # Check against expected news items
     feed_sources = FeedSource.active
     expected_news_items = NewsItems::WithFilters.call(
-        NewsItem.published, 
+        NewsItem.published,
         feed_sources: feed_sources
       ).order_by_published.limit(25)
-    
+
     within '#newsfeed' do
       expected_news_items.each do |news_item|
         assert_text(:all, news_item.title)
@@ -231,9 +222,8 @@ class NewsSystemTest < ApplicationSystemTestCase
   test "news items with start date filter" do
     # Login
     login_as(@user, :scope => :user)
-    LaunchDarkly::LDClient.stub_any_instance(:variation, true) do
-      visit news_url
-    end
+
+    visit news_url
 
     date_format = "%m/%d/%Y"
     start_date = (Date.current - Random.rand(10)).to_datetime
@@ -247,13 +237,13 @@ class NewsSystemTest < ApplicationSystemTestCase
     assert start_input.value, start_date.strftime(date_format)
 
     click_button('Apply')
-    
+
     # Check against expected news items
     expected_news_items = NewsItems::WithFilters.call(
-      NewsItem.published, 
+      NewsItem.published,
       published_since: start_date
     ).order_by_published.limit(25)
-    
+
     within '#newsfeed' do
       expected_news_items.each do |news_item|
         assert_text(:all, news_item.title)
@@ -264,9 +254,8 @@ class NewsSystemTest < ApplicationSystemTestCase
   test "news items with end date filter" do
     # Login
     login_as(@user, :scope => :user)
-    LaunchDarkly::LDClient.stub_any_instance(:variation, true) do
-      visit news_url
-    end
+
+    visit news_url
 
     date_format = "%m/%d/%Y"
     end_date = (Date.current - Random.rand(10)).to_datetime
@@ -280,13 +269,13 @@ class NewsSystemTest < ApplicationSystemTestCase
     assert end_input.value, end_date.strftime(date_format)
 
     click_button('Apply')
-    
+
     # Check against expected news items
     expected_news_items = NewsItems::WithFilters.call(
-      NewsItem.published, 
+      NewsItem.published,
       published_since: end_date
     ).order_by_published.limit(25)
-    
+
     within '#newsfeed' do
       expected_news_items.each do |news_item|
         assert_text(:all, news_item.title)
@@ -297,9 +286,8 @@ class NewsSystemTest < ApplicationSystemTestCase
   test "news items with date filter" do
     # Login
     login_as(@user, :scope => :user)
-    LaunchDarkly::LDClient.stub_any_instance(:variation, true) do
-      visit news_url
-    end
+
+    visit news_url
 
     date_format = "%m/%d/%Y"
     end_date = (Date.current - Random.rand(4)).to_datetime
@@ -307,7 +295,7 @@ class NewsSystemTest < ApplicationSystemTestCase
 
     # Open and set filter
     click_button('Filter')
-    
+
     end_input = find("input[placeholder='End Date']")
     end_input.set end_date.strftime(date_format)
 
@@ -321,14 +309,14 @@ class NewsSystemTest < ApplicationSystemTestCase
     assert end_input.value, end_date.strftime(date_format)
 
     click_button('Apply')
-    
+
     # Check against expected news items
     expected_news_items = NewsItems::WithFilters.call(
-      NewsItem.published, 
+      NewsItem.published,
       published_since: start_date,
       published_until: end_date
     ).order_by_published.limit(25)
-    
+
     within '#newsfeed' do
       expected_news_items.each do |news_item|
         assert_text(:all, news_item.title)
@@ -339,9 +327,8 @@ class NewsSystemTest < ApplicationSystemTestCase
   test "news items with category filter" do
     # Login
     login_as(@user, :scope => :user)
-    LaunchDarkly::LDClient.stub_any_instance(:variation, true) do
-      visit news_url
-    end
+
+    visit news_url
 
     # Get a category filter
     random_category = NewsCategory.all.sample
@@ -358,7 +345,7 @@ class NewsSystemTest < ApplicationSystemTestCase
     # Check against expected news items
     news_categories = NewsCategory.where(name: [random_category.name])
     expected_news_items = NewsItems::WithFilters.call(
-        NewsItem.published, 
+        NewsItem.published,
         news_categories: news_categories
       ).order_by_published.limit(25)
 

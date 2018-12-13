@@ -21,13 +21,18 @@ private
 
 protected
 
+  def is_production?
+    (ENV['IS_PRODUCTION'] || "false").downcase == 'true'
+  end
+  helper_method :is_production?
+
   def has_calendar_feature?
-    current_user && $launch_darkly.variation('calendar', current_user.launch_darkly_hash, false)
+    false
   end
   helper_method :has_calendar_feature?
 
   def has_listings_feature?
-    current_user && $launch_darkly.variation('listings', current_user.launch_darkly_hash, false)
+    false
   end
   helper_method :has_listings_feature?
 end

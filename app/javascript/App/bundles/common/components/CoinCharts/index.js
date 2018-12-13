@@ -2,62 +2,87 @@ import React, { Component } from 'react'
 import Tabs from './Tabs'
 import PriceGraph from './PriceGraph'
 import TradingViewChart from './TradingViewChart'
+import LoadingIndicator from '../LoadingIndicator'
 import moment from 'moment'
 import * as _ from 'lodash'
 import CurrencyContext from '~/bundles/common/contexts/CurrencyContext'
+
+const STATUSES = {
+  INITIALIZING: 'INITIALIZING',
+  LOADING: 'LOADING',
+  READY: 'READY',
+}
 
 class CoinCharts extends Component {
   constructor(props) {
     super(props)
 
-    const newData = this.processData(props)
-
     this.state = {
-      ...newData,
+      status: STATUSES.INITIALIZING,
+      processedPriceData: [],
+      processedPriceDataHourly: [],
+      epochPrices: [],
+    }
+  }
+
+  componentDidMount() {
+    if (this.state.status === STATUSES.INITIALIZING && this.hasData()) {
+      this.processData()
     }
   }
 
   componentDidUpdate(prevProps, prevState) {
-    const { currencyRate } = this.props
-
-    if (prevProps.currencyRate !== currencyRate) {
-      const newData = this.processData(this.props)
-
-      this.setState({
-        ...newData,
-      })
+    if (this.state.status === STATUSES.INITIALIZING && this.hasData()) {
+      this.processData()
+    } else if (
+      this.state.status === STATUSES.READY &&
+      prevProps.currencyRate !== this.props.currencyRate
+    ) {
+      this.processData()
     }
   }
 
-  processData(props) {
-    const { priceData, priceDataHourly, currency, currencyRate } = props
+  processData() {
+    const { priceData, priceDataHourly, currency, currencyRate } = this.props
 
-    const hasHourlyPrice = priceDataHourly && priceDataHourly.length > 0
-    const processedPriceData = Array.isArray(priceData)
-      ? priceData.map((datum) =>
-          this.formatPriceDataDaily(datum, currencyRate, currency),
-        )
-      : []
-    const processedPriceDataHourly = hasHourlyPrice
-      ? priceDataHourly.map((datum) =>
-          this.formatPriceDataHourly(datum, currencyRate, currency),
-        )
-      : [...processedPriceData]
+    console.log(priceData, priceDataHourly, currency, currencyRate)
 
-    const sortedPriceData = [
-      ...(hasHourlyPrice ? processedPriceDataHourly : []),
-      ...processedPriceData,
-    ].sort((a, b) => a.timestamp - b.timestamp)
-    const epochPrices = _.sortedUniqBy(
-      sortedPriceData,
-      (datum) => datum.timestamp,
-    )
+    this.setState({ status: STATUSES.LOADING }, () => {
+      const hasHourlyPrice = priceDataHourly && priceDataHourly.length > 0
+      const processedPriceData = Array.isArray(priceData)
+        ? priceData.map((datum) =>
+            this.formatPriceDataDaily(datum, currencyRate, currency),
+          )
+        : []
+      const processedPriceDataHourly = hasHourlyPrice
+        ? priceDataHourly.map((datum) =>
+            this.formatPriceDataHourly(datum, currencyRate, currency),
+          )
+        : [...processedPriceData]
 
-    return {
-      processedPriceData,
-      processedPriceDataHourly,
-      epochPrices,
-    }
+      const sortedPriceData = [
+        ...(hasHourlyPrice ? processedPriceDataHourly : []),
+        ...processedPriceData,
+      ].sort((a, b) => a.timestamp - b.timestamp)
+      const epochPrices = _.sortedUniqBy(
+        sortedPriceData,
+        (datum) => datum.timestamp,
+      )
+
+      this.setState({
+        status: STATUSES.READY,
+        processedPriceData,
+        processedPriceDataHourly,
+        epochPrices,
+      })
+    })
+  }
+
+  hasData() {
+    const { priceData, priceDataHourly } = this.props
+    const hasData = Array.isArray(priceData) && Array.isArray(priceDataHourly)
+
+    return hasData
   }
 
   formatPriceDataDaily(datum, currencyRate = 1, currency = 'USD') {
@@ -105,20 +130,28 @@ class CoinCharts extends Component {
   }
 
   render() {
-    const { isTradingViewVisible } = this.props
-    const { annotations, symbol, currency } = this.props
     const {
-      processedPriceData,
-      processedPriceDataHourly,
-      epochPrices,
-    } = this.state
+      isTradingViewVisible,
+      priceData,
+      priceDataHourly,
+      ...remainingProps
+    } = this.props
+    const { status, processedPriceData, epochPrices } = this.state
+
+    if (status !== STATUSES.READY) {
+      return (
+        <div>
+          <LoadingIndicator />
+        </div>
+      )
+    }
 
     return (
       <div>
         {isTradingViewVisible && (
           <Tabs
             target="coin-charts"
-            items={['News + Price Chart', 'TradingView Chart']}
+            items={['Line Chart', 'TradingView Chart']}
             className="flex-auto justify-center justify-start-l"
           />
         )}
@@ -128,8 +161,7 @@ class CoinCharts extends Component {
             <PriceGraph
               priceData={processedPriceData}
               priceDataHourly={epochPrices}
-              annotations={annotations}
-              currency={currency}
+              {...remainingProps}
             />
           </div>
           {isTradingViewVisible && (
@@ -137,7 +169,7 @@ class CoinCharts extends Component {
               <TradingViewChart
                 priceData={processedPriceData}
                 priceDataHourly={epochPrices}
-                symbol={symbol}
+                {...remainingProps}
               />
             </div>
           )}

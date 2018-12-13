@@ -56,7 +56,6 @@ gem 'httparty'
 gem 'jwt'
 gem 'kaminari'
 gem 'api-pagination'
-gem 'ldclient-rb', '5.0.1'
 gem 'lograge'
 gem 'marginalia'
 gem 'meta-tags'
@@ -77,9 +76,9 @@ gem 'strong_migrations'
 gem 'unidecoder'
 gem 'wombat'
 gem 'twitter'
-gem 'webpacker', '~> 3.3'
+gem 'webpacker', '~> 3.5'
 # Used by ReactOnRails for rendering javascript
-gem 'mini_racer', platforms: :ruby
+gem 'mini_racer', '~> 0.2.0', platforms: :ruby
 # For parsing browser stats from user-agent
 gem 'browser'
 # Used to produce sitemap.xml
@@ -100,6 +99,8 @@ gem 'sidekiq-scheduler'
 gem 'librato-rails', '~> 1'
 # Ruby runtime metrics
 gem 'barnes'
+# Google Pub/Sub client
+gem 'google-cloud-pubsub'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

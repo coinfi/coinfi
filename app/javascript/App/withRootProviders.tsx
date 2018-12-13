@@ -11,6 +11,7 @@ import { CurrencyProvider } from './bundles/common/contexts/CurrencyContext'
 
 interface WithClientProvidersOptions {
   stylesNamespace?: string
+  stylesContextStore?: any
 }
 
 /**
@@ -22,7 +23,11 @@ const withRootProviders = (
 ) => {
   const WithRootProviders = (props, railsContext) => {
     const stylesNamespace = props.stylesNamespace || options.stylesNamespace
-    const stylesContext = getOrCreateStylesContext(stylesNamespace)
+    const stylesContextStore = options.stylesContextStore || {}
+    const stylesContext = getOrCreateStylesContext(
+      stylesNamespace,
+      stylesContextStore,
+    )
 
     return (
       <CookiesProvider>

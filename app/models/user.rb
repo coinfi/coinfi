@@ -1,5 +1,5 @@
 class User < ApplicationRecord
-  after_create :add_to_convertkit, :identify_in_launch_darkly
+  after_create :add_to_convertkit
 
   has_many :news_items
   has_many :visits
@@ -95,18 +95,6 @@ class User < ApplicationRecord
 
   def ethereum_address
     token_sale["ethereum_address"] if token_sale && token_sale["ethereum_address"]
-  end
-
-  def launch_darkly_hash
-    {
-      key: email,
-      email: email,
-      anonymous: false,
-    }
-  end
-
-  def identify_in_launch_darkly
-    $launch_darkly.identify(launch_darkly_hash)
   end
 
   # Returns number of staked COFI tokens

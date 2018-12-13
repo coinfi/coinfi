@@ -1,8 +1,5 @@
 export default (Highcharts, data) => {
   const {
-    annotations,
-    pricesDaily,
-    volumesDaily,
     pricesHourly,
     volumesHourly,
     currency,
@@ -12,7 +9,7 @@ export default (Highcharts, data) => {
 
   return {
     rangeSelector: {
-      selected: 0,
+      selected: 1,
       buttons: [
         {
           type: 'day',
@@ -88,6 +85,9 @@ export default (Highcharts, data) => {
     navigator: {
       enabled: false,
     },
+    chart: {
+      height: 500,
+    },
 
     legend: {
       enabled: false,
@@ -162,20 +162,9 @@ export default (Highcharts, data) => {
         data: pricesHourly,
       },
       {
-        type: 'flags',
-        name: 'Annotations',
-        useHTML: true,
-        dataLabels: {
-          useHTML: true,
-        },
-        data: annotations,
-        onSeries: 'price',
-        shape: 'circlepin',
-      },
-      {
         id: 'volume',
         type: 'column',
-        name: 'Volume',
+        name: `${currency} Volume`,
         data: volumesHourly,
         color: Highcharts.getOptions().colors[2],
         yAxis: 1,

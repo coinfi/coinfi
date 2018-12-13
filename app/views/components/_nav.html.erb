@@ -8,33 +8,37 @@
     <!-- Logo -->
     <a class="nav-logo link pa2 ma2 ma0-ns mr4-ns h-70" href="<%= root_path %>" title="Home">
       <img src="<%= image_path('logo.svg') %>" class="nav-logo__img">
-      <span class="white-90 f6">beta</span>
     </a>
 
     <!-- Menu -->
-    <div class="nav-menu nav-menu--out ph2 ph0-ns">
-      <%= nav_link "Coins", "/coins", { class: "nav-menu__item link" } %>
-      <%= nav_link "ICOs", "/icos/upcoming", { class: "nav-menu__item link" } %>
-      <%= nav_link "News", "/news", { class: "nav-menu__item link" } %>
-      <% if has_calendar_feature? %>
-        <%= nav_link "Events", "/calendar", { class: "nav-menu__item link" } %>
-      <% end %>
-      <% if has_listings_feature? %>
-        <%= nav_link "Listings", "/listings", { class: "nav-menu__item link" } %>
-      <% end %>
-      <a class="nav-menu__item nav-menu-more-toggle link dn db-m dn-l" href="#" title="More">
-        <i class="fa fa-ellipsis-h"></i>
-      </a>
-      <div class="nav-menu-more">
-        <div class="nav-menu-more__inner">
-          <%= nav_link "Podcast", "https://blog.coinfi.com/topics/podcast/", { class: "nav-menu__item link" } %>
-          <%= nav_link "Blog", "https://blog.coinfi.com", { class: "nav-menu__item link" } %>
-          <%= nav_link "Careers", "https://careers.coinfi.com", { class: "nav-menu__item link" } %>
-          <%= nav_link "Press", "/press", { class: "nav-menu__item link" } %>
-          <%= nav_link "About", "/about", { class: "nav-menu__item link" } %>
-          <%= nav_link "Feedback", "https://feedback.coinfi.com/feature-requests", { class: "nav-menu__item link" } %>
+    <div class="nav-menu nav-menu--out ph0-ns">
+      <%= nav_link "Trading Signals", "/signals", { class: "nav-menu__item" } %>
+      <%= nav_link "Research", "https://www.coinfi.com/research/", { class: "nav-menu__item" } %>
+      <%= nav_link "News", "/news", { class: "nav-menu__item" } %>
+      <div class="nav-menu-item-coins">
+        <div class="nav-menu__item nav-menu-coins-toggle"><span>Coins </span><i class="fa fa-angle-down"></i></div>
+        <div class="nav-menu-coins">
+          <div class="nav-menu-coins__inner">
+            <%= nav_link "Top Coins", "/coins", { class: "nav-menu__item" } %>
+            <%= nav_link "ICOs", "/icos/upcoming", { class: "nav-menu__item" } %>
+          </div>
         </div>
       </div>
+      <div class="nav-menu-item-company">
+        <div class="nav-menu__item nav-menu-company-toggle"><span>Company </span><i class="fa fa-angle-down"></i></div>
+        <div class="nav-menu-company">
+          <div class="nav-menu-company__inner">
+          <%= nav_link "Podcast", "/podcast", { class: "nav-menu__item" } %>
+          <%= nav_link "Blog", "https://blog.coinfi.com/", { class: "nav-menu__item" } %>
+          <%= nav_link "Careers", "https://careers.coinfi.com", { class: "nav-menu__item" } %>
+          <%= nav_link "Press", "/press", { class: "nav-menu__item" } %>
+          <%= nav_link "About", "/about", { class: "nav-menu__item" } %>
+          <%= nav_link "Feedback", "https://feedback.coinfi.com/feature-requests", { class: "nav-menu__item" } %>
+          <%= nav_link "Contact Us", "/contact-us", { class: "nav-menu__item" } %>
+          </div>
+        </div>
+      </div>
+
 
       <div class="nav-menu-actions pa2">
         <% unless @hide_currency %>
@@ -65,7 +69,7 @@
       <% if user_signed_in? %>
         <%= react_component "NavUserContainer", { props: { formAuthenticityToken: form_authenticity_token, userEmail: current_user.email } } %>
       <% else %>
-        <%= link_to "Login", new_user_session_path, class: "btn btn-xs btn-gray" %>
+        <%= link_to "Login", new_user_session_path, { class: "nav-menu__item nav-menu-login" } %>
       <% end %>
     </div>
   </div>

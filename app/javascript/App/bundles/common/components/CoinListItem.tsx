@@ -12,7 +12,8 @@ interface Props {
   coin: Coin
   loggedIn: boolean
   isSelected: boolean
-  onSelectCoin: (c: Coin) => void
+  onSelectCoin: (coin: Coin) => void
+  generateLink?: (coin: Coin) => string
 }
 
 const roundToDecimalPlaces = (num, places) =>
@@ -21,16 +22,19 @@ const roundToDecimalPlaces = (num, places) =>
 export default (props: Props) => (
   <CurrencyContext.Consumer>
     {({ currencyRate, currencySymbol }: CurrencyContextType) => {
-      const { coin, loggedIn } = props
+      const { coin, loggedIn, generateLink } = props
 
       const coinPrice =
         parseFloat(_.get(coin, ['market_info', 'price_usd'])) * currencyRate
       const coinPriceFixed = roundToDecimalPlaces(coinPrice, 4)
       const percentChange = _.get(coin, ['market_info', 'change24h'])
+      const link = !_.isUndefined(generateLink)
+        ? generateLink(coin)
+        : `/news/${coin.slug}`
 
       return (
         <a
-          href={`/news/${coin.slug}`}
+          href={link}
           className={classNames('pa-default b--b flex items-center pointer', {
             'bg-foam': props.isSelected,
           })}

@@ -9,7 +9,6 @@ import NavUserContainer from './bundles/common/containers/NavUserContainer'
 import CoinShow from './bundles/CoinShow'
 import FlashMessageListContainer from './bundles/common/containers/FlashMessageListContainer'
 import WatchStar from './bundles/common/components/WatchStar'
-import CalendarPage from './bundles/CalendarPage'
 import SignalExamplePanel from './bundles/signalsPage/SignalExamplePanel'
 import SignalFaqPanel from './bundles/signalsPage/SignalFaqPanel'
 import SignalPopoverText from './bundles/signalsPage/SignalPopoverText'
@@ -20,10 +19,8 @@ import CurrencySelectorWidget from './bundles/CurrencySelectorWidget'
 // Register the components so they can be rendered from Rails
 ReactOnRails.register({
   NavUserContainer: withRootProviders(NavUserContainer),
-  CoinShow: withRootProviders(CoinShow),
   FlashMessageListContainer: withRootProviders(FlashMessageListContainer),
   WatchStar: withRootProviders(WatchStar),
-  CalendarPage: withRootProviders(CalendarPage),
   SignalExamplePanel: withRootProviders(SignalExamplePanel),
   SignalFaqPanel: withRootProviders(SignalFaqPanel),
   SignalPopoverText: withRootProviders(SignalPopoverText),

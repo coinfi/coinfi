@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import _ from 'lodash'
 import Highcharts from 'highcharts/highstock'
-import Switch from '~/bundles/common/components/Switch'
 import options from './options'
 import chartOptions from './chartOptions'
 
@@ -22,7 +21,7 @@ class PriceGraph extends Component {
   }
 
   componentDidMount() {
-    const { priceData, priceDataHourly, annotations, currency } = this.props
+    const { priceData, priceDataHourly, currency } = this.props
     const { prices: pricesDaily, volumes: volumesDaily } = this.parseData(
       priceData,
     )
@@ -30,15 +29,20 @@ class PriceGraph extends Component {
       priceDataHourly,
     )
 
+    console.log(
+      priceData,
+      priceDataHourly,
+      pricesHourly,
+      volumesHourly,
+      currency,
+    )
+
     this.Highcharts.setOptions(options)
     const chart = this.Highcharts.stockChart(
       containerID,
       chartOptions(this.Highcharts, {
-        pricesDaily,
-        volumesDaily,
         pricesHourly,
         volumesHourly,
-        annotations,
         currency,
         setToHourly: this.setToHourly,
         setToDaily: this.setToDaily,
@@ -59,9 +63,6 @@ class PriceGraph extends Component {
     if (this.props.onPriceChartCreated) {
       this.props.onPriceChartCreated(chart)
     }
-
-    const annotatedChart = this.getAnnotatedChart(chart)
-    annotatedChart.show()
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -69,7 +70,7 @@ class PriceGraph extends Component {
       !_.isEqual(prevProps.priceData, this.props.priceData) ||
       !_.isEqual(prevProps.priceDataHourly, this.props.priceDataHourly)
     ) {
-      const { priceData, priceDataHourly, annotations } = this.props
+      const { priceData, priceDataHourly } = this.props
       const { prices: pricesDaily, volumes: volumesDaily } = this.parseData(
         priceData,
       )
@@ -128,10 +129,15 @@ class PriceGraph extends Component {
 
   setCurrency = (currency) => {
     const priceLabel = `${currency} Price`
+    const volumeLabel = `${currency} Volume`
     try {
       this.state.chart.series[0].name = priceLabel
       this.state.chart.yAxis[0].setTitle({
         text: priceLabel,
+      })
+      this.state.chart.series[1].name = volumeLabel
+      this.state.chart.yAxis[1].setTitle({
+        text: volumeLabel,
       })
     } catch (e) {
       console.error(e)
@@ -143,36 +149,12 @@ class PriceGraph extends Component {
   }
 
   setVolumeData = (data) => {
-    this.state.chart.series[2].setData(data)
-  }
-
-  getAnnotatedChart(stockChart = null) {
-    if (stockChart) return stockChart.series[1]
-
-    const { chart } = this.state
-    return chart && chart.series[1]
-  }
-
-  handleAnnotationToggle() {
-    const annotatedChart = this.getAnnotatedChart()
-    annotatedChart.visible ? annotatedChart.hide() : annotatedChart.show()
-  }
-
-  isAnnotatedChartVisible() {
-    const annotatedChart = this.getAnnotatedChart()
-    return annotatedChart && annotatedChart.visible
+    this.state.chart.series[1].setData(data)
   }
 
   render() {
     return (
       <div>
-        <div className="flex items-center fr mr4">
-          <span className="mr2 f6 silver">Show Annotations</span>
-          <Switch
-            on={() => this.isAnnotatedChartVisible()}
-            onChange={() => this.handleAnnotationToggle()}
-          />
-        </div>
         <div id={containerID} />
       </div>
     )
