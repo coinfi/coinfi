@@ -69,7 +69,7 @@
       <% if user_signed_in? %>
         <%= react_component "NavUserContainer", { props: { formAuthenticityToken: form_authenticity_token, userEmail: current_user.email } } %>
       <% else %>
-        <%= link_to "Login", new_user_session_path, { class: "nav-menu__item nav-menu-login" } %>
+        <%= link_to "Login", new_user_session_path, { class: "nav-menu__item" } %>
       <% end %>
     </div>
   </div>

@@ -17,21 +17,23 @@ interface State {
 const styles = (theme) =>
   createStyles({
     root: {
-      minWidth: '100px',
+      minWidth: '60px',
       backgroundColor: '#f6f8fa', // pearl-gray
       borderRadius: '4px',
-      color: '#333333', // dark-gray
-      '& > div': {
-        paddingLeft: '10px !important',
-        paddingTop: '8px !important',
-        paddingBottom: '6px !important',
+      color: '#333333', // dark-gray,
+      fontSize: '14px',
+      [theme.breakpoints.down('sm')]: {
+        marginBottom: '8px',
+      },
+      [theme.breakpoints.up('md')]: {
+        marginRight: '12px',
       },
     },
     selectMenu: {
-      // textAlign: 'center',
-      // paddingLeft: '10px !important',
-      // paddingTop: '8px !important',
-      // paddingBottom: '6px !important',
+      textAlign: 'center',
+      paddingTop: '2px !important',
+      paddingLeft: '6px !important',
+      paddingBottom: '0 !important',
     },
     icon: {
       color: '#333333',
@@ -39,6 +41,9 @@ const styles = (theme) =>
     menuListRoot: {
       paddingTop: 0,
       paddingBottom: 0,
+    },
+    menuItem: {
+      fontSize: '14px',
     },
   })
 
@@ -100,12 +105,18 @@ class CurrencySelector extends React.Component<Props, State> {
             classes: {
               root: classes.menuListRoot,
             },
+            disablePadding: true,
           },
         }}
       >
         {CURRENCIES.map((currency) => {
           return (
-            <MenuItem value={currency} key={currency}>
+            <MenuItem
+              value={currency}
+              key={currency}
+              dense={true}
+              className={classes.menuItem}
+            >
               {currencyMap[currency]} {currency}
             </MenuItem>
           )
