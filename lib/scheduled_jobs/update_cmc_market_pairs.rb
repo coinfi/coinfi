@@ -61,7 +61,7 @@ class UpdateCmcMarketPairs
     end
   end
 
-  def perform_update(index, sub_index)
+  def perform_update(index, sub_index = nil)
     case index
     when 1 # Top 0-19
       CoinMarketCapPro::UpdateMarketPairsService.call(start: 0, limit: 20)
