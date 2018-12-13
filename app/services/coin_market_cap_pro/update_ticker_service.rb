@@ -73,7 +73,7 @@ module CoinMarketCapPro
 
       coin = Coin.find_by(slug: identifier)
       if !coin
-        @db_missing_coins << { identifier: identifier, ranking: data['cmc_rank'] }
+        @db_missing_coins << { identifier: identifier, ranking: data['cmc_rank'], id: data['id'] }
       else
         perform_update_ranking(coin, data)
       end
@@ -99,6 +99,7 @@ module CoinMarketCapPro
 
     def perform_update_ranking(coin, data)
       coin.update(
+        cmc_id: data['id'],
         ranking: data['cmc_rank'],
         last_synced: data['last_updated'],
         ico_status: 'listed'
