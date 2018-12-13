@@ -75,6 +75,7 @@ gem 'slim-rails'
 gem 'strong_migrations'
 gem 'unidecoder'
 gem 'wombat'
+gem 'ta-indicator'
 gem 'twitter'
 gem 'webpacker', '~> 3.3'
 # Used by ReactOnRails for rendering javascript
