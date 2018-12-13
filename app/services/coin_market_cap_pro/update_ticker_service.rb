@@ -99,6 +99,7 @@ module CoinMarketCapPro
 
     def perform_update_ranking(coin, data)
       coin.update(
+        cmc_id: data['id'],
         ranking: data['cmc_rank'],
         last_synced: data['last_updated'],
         ico_status: 'listed'
