@@ -40,35 +40,31 @@ class CoinListHeader extends Component {
               className="b--b flex-none flex justify-between items-center bg-athens tabs"
             >
               <div
-                className={classnames(
-                  classes.tabRoot,
-                  !payload.isWatchlist ? 'active' : '',
-                )}
+                className={classnames(classes.tabRoot, {
+                  active: !payload.isWatchlist,
+                })}
                 onClick={payload.showToplist}
               >
                 <a
                   data-head="toplist-toggle"
-                  className={classnames(
-                    classes.linkRoot,
-                    !payload.isWatchlist ? 'active' : '',
-                  )}
+                  className={classnames(classes.linkRoot, {
+                    active: !payload.isWatchlist,
+                  })}
                 >
                   Toplist
                 </a>
               </div>
               <div
-                className={classnames(
-                  classes.tabRoot,
-                  payload.isWatchlist ? 'active' : '',
-                )}
+                className={classnames(classes.tabRoot, {
+                  active: payload.isWatchlist,
+                })}
                 onClick={payload.showWatchlist}
               >
                 <a
                   data-head="watchlist-toggle"
-                  className={classnames(
-                    classes.linkRoot,
-                    payload.isWatchlist ? 'active' : '',
-                  )}
+                  className={classnames(classes.linkRoot, {
+                    active: payload.isWatchlist,
+                  })}
                 >
                   Watchlist
                 </a>

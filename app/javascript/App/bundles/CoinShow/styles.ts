@@ -1,6 +1,6 @@
 import { createStyles } from '@material-ui/core/styles'
 
-const borderColor = 'rgb(0, 0, 0, 0.18)'
+export const borderColor = 'rgb(0, 0, 0, 0.18)'
 
 const styles = (theme) =>
   createStyles({
@@ -106,19 +106,6 @@ const styles = (theme) =>
       paddingRight: '12px',
       paddingLeft: '12px',
     },
-    newsLabelIcon: {
-      marginLeft: '0.25rem',
-      marginBottom: '0.25rem',
-    },
-    mainCard: {
-      padding: 0,
-      marginBottom: `${theme.spacing.unit * 2}px`,
-      '&:last-child': {
-        marginBottom: 0,
-      },
-      borderRadius: '2px',
-      border: `1px solid ${borderColor}`,
-    },
     cardHeader: {
       fontSize: '16px',
       fontWeight: 500,
@@ -168,22 +155,19 @@ const styles = (theme) =>
       },
     },
     expansionRoot: {
+      padding: 0,
+      marginBottom: `${theme.spacing.unit * 2}px`,
+      '&:last-child': {
+        marginBottom: 0,
+      },
+      borderRadius: '2px',
+      border: `1px solid ${borderColor}`,
       '&:before': {
         backgroundColor: 'unset',
       },
     },
     expansionDetails: {
       display: 'block',
-    },
-    subCard: {
-      padding: 0,
-      marginBottom: `${theme.spacing.unit * 2}px`,
-      '&:last-child': {
-        marginBottom: 0,
-      },
-      width: '100%',
-      borderRadius: '2px',
-      border: `1px solid ${borderColor}`,
     },
     subCardHeader: {
       paddingBottom: 0,

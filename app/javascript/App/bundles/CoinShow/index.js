@@ -24,6 +24,9 @@ import withWidth, { isWidthDown } from '@material-ui/core/withWidth'
 import API from '../common/utils/localAPI'
 import SearchCoins from '~/bundles/common/components/SearchCoins'
 import CoinCharts from '~/bundles/common/components/CoinCharts'
+import MainCard from './MainCard'
+import SubCard from './SubCard'
+import NewsLabel from './NewsLabel'
 import FundamentalsList from './FundamentalsList'
 import InfoBar from './InfoBar'
 import LinksList from './LinksList'
@@ -46,53 +49,6 @@ const TAB_SLUGS = {
   priceChart: 'price-chart',
   news: 'news',
 }
-
-const MainCard = withStyles(styles)(
-  ({ children, classes, className, ...props }) => {
-    const classNames = classnames(classes.mainCard, className)
-    return (
-      <Card
-        raised={false}
-        square={true}
-        elevation={0}
-        className={classNames}
-        {...props}
-      >
-        {children}
-      </Card>
-    )
-  },
-)
-
-const SubCard = withStyles(styles)(
-  ({ children, classes, className, ...props }) => {
-    const classNames = classnames(classes.subCard, className)
-    return (
-      <Card
-        raised={false}
-        square={true}
-        elevation={0}
-        className={classNames}
-        {...props}
-      >
-        {children}
-      </Card>
-    )
-  },
-)
-
-const NewsLabel = withStyles(styles)(({ classes }) => {
-  return (
-    <React.Fragment>
-      <span>News</span>
-      <Icon
-        name="external-link-alt"
-        regular
-        className={classes.newsLabelIcon}
-      />
-    </React.Fragment>
-  )
-})
 
 class CoinShow extends Component {
   chart = undefined
@@ -442,10 +398,7 @@ class CoinShow extends Component {
                   <ExpansionPanel
                     square={true}
                     elevation={0}
-                    className={classnames(
-                      classes.mainCard,
-                      classes.expansionRoot,
-                    )}
+                    className={classes.expansionRoot}
                   >
                     <ExpansionPanelSummary
                       expandIcon={<ExpandMoreIcon />}
