@@ -12,9 +12,12 @@ import {
 import { withStyles, createStyles } from '@material-ui/core/styles'
 import LoadingIndicator from '../common/components/LoadingIndicator'
 import * as moment from 'moment'
-import { Moment } from 'moment'
 import DateRangeSelect from './DateRangeSelect'
-import { formatValue } from '~/bundles/common/utils/numberFormatters'
+import {
+  formatValue,
+  formatValueByCurrencyRate,
+} from '~/bundles/common/utils/numberFormatters'
+import { CurrencyContextType } from '~/bundles/common/contexts/CurrencyContext'
 
 enum STATUSES {
   INITIALIZING = 'INITIALIZING',
@@ -42,11 +45,11 @@ interface PriceData {
   close: string
   volume: string
   formattedTime: string
-  datetime: Moment
+  datetime: moment.Moment
   marketCap: string
 }
 
-interface Props {
+interface Props extends CurrencyContextType {
   classes: any
   initialData?: RawPriceData[]
   availableSupply: number
@@ -54,11 +57,11 @@ interface Props {
 }
 
 interface State {
+  rawData: RawPriceData[]
   data: PriceData[]
   status: string
-  currency?: string
-  start?: Moment
-  end?: Moment
+  start?: moment.Moment
+  end?: moment.Moment
 }
 
 const styles = (theme) =>
@@ -70,12 +73,6 @@ const styles = (theme) =>
     tableRow: {
       '& > *': {
         whiteSpace: 'nowrap',
-      },
-      '& > *:first-child': {
-        paddingLeft: '8px',
-      },
-      '& > *:last-child': {
-        paddingRight: '8px',
       },
     },
     toolbar: {
@@ -92,6 +89,7 @@ class HistoricalPriceDataTable extends React.Component<Props, State> {
     super(props)
 
     const { initialData } = props
+
     const initialSortedData = Array.isArray(initialData)
       ? initialData
           .map<PriceData>(this.parseData.bind(this))
@@ -101,36 +99,36 @@ class HistoricalPriceDataTable extends React.Component<Props, State> {
     // Set initial status
     const statusIsReady = !_.isUndefined(initialSortedData)
     const initialStatus = statusIsReady ? STATUSES.READY : STATUSES.INITIALIZING
-    const currency = initialData
-      ? _.get(initialData, ['0', 'to_currency'])
-      : undefined
 
     this.state = {
       status: initialStatus,
       data: initialSortedData || [],
-      currency,
+      rawData: initialData || [],
     }
   }
 
-  public componentDidUpdate() {
-    if (
+  public componentDidUpdate(prevProps, prevState) {
+    const shouldProcessInitialData =
       this.state.status === STATUSES.INITIALIZING &&
       Array.isArray(this.props.initialData)
-    ) {
-      const { initialData } = this.props
+    const currencyHasChanged = this.props.currency !== prevProps.currency
+
+    if (shouldProcessInitialData || currencyHasChanged) {
+      const rawData = shouldProcessInitialData
+        ? _.get(this.props, 'initialData', [])
+        : _.get(this.state, 'rawData', [])
+
       this.setState({ status: STATUSES.LOADING }, () => {
-        const sortedData = initialData
+        const sortedData = rawData
           .map<PriceData>(this.parseData.bind(this))
           .sort(this.sortDataFunc)
-
-        const currency = initialData
-          ? _.get(initialData, ['0', 'to_currency'])
-          : undefined
 
         this.setState({
           status: STATUSES.READY,
           data: sortedData,
-          currency,
+          ...(shouldProcessInitialData && {
+            rawData,
+          }),
         })
       })
     }
@@ -141,17 +139,25 @@ class HistoricalPriceDataTable extends React.Component<Props, State> {
   }
 
   public parseData(d: RawPriceData): PriceData {
+    const { currencyRate } = this.props
+
     const datetime = moment.utc(d.time)
     const formattedTime = datetime.format('MMM DD, YYYY')
     const marketCap = formatValue(
-      Math.round(this.props.availableSupply * d.close),
+      Math.round(this.props.availableSupply * d.close * currencyRate),
       0,
     )
-    const open = formatValue(d.open)
-    const high = formatValue(d.high)
-    const low = formatValue(d.low)
-    const close = formatValue(d.close)
-    const volume = formatValue(d.volume_to)
+    const open = formatValueByCurrencyRate(d.open * currencyRate, currencyRate)
+    const high = formatValueByCurrencyRate(d.high * currencyRate, currencyRate)
+    const low = formatValueByCurrencyRate(d.low * currencyRate, currencyRate)
+    const close = formatValueByCurrencyRate(
+      d.close * currencyRate,
+      currencyRate,
+    )
+    const volume = formatValueByCurrencyRate(
+      d.volume_to * currencyRate,
+      currencyRate,
+    )
 
     return {
       open,
@@ -180,10 +186,8 @@ class HistoricalPriceDataTable extends React.Component<Props, State> {
   }
 
   public render() {
-    const { classes, symbol, availableSupply } = this.props
-    const { data, status, currency, start, end } = this.state
-
-    const prepend = currency === 'USD' ? '$' : ''
+    const { classes, availableSupply, currency } = this.props
+    const { data, status, start, end } = this.state
 
     if (status !== STATUSES.READY) {
       return <LoadingIndicator />
@@ -213,7 +217,7 @@ class HistoricalPriceDataTable extends React.Component<Props, State> {
           />
         </Toolbar>
         <div className={classes.tableWrapper}>
-          <Table className={classes.table} padding="none">
+          <Table className={classes.table} padding="dense">
             <TableHead>
               <TableRow className={classes.tableRow}>
                 <TableCell numeric={true}>Date</TableCell>
@@ -234,31 +238,13 @@ class HistoricalPriceDataTable extends React.Component<Props, State> {
                     <TableCell numeric={true} scope="row">
                       {row.formattedTime}
                     </TableCell>
-                    <TableCell numeric={true}>
-                      {prepend}
-                      {row.open}
-                    </TableCell>
-                    <TableCell numeric={true}>
-                      {prepend}
-                      {row.high}
-                    </TableCell>
-                    <TableCell numeric={true}>
-                      {prepend}
-                      {row.low}
-                    </TableCell>
-                    <TableCell numeric={true}>
-                      {prepend}
-                      {row.close}
-                    </TableCell>
-                    <TableCell numeric={true}>
-                      {prepend}
-                      {row.volume}
-                    </TableCell>
+                    <TableCell numeric={true}>{row.open}</TableCell>
+                    <TableCell numeric={true}>{row.high}</TableCell>
+                    <TableCell numeric={true}>{row.low}</TableCell>
+                    <TableCell numeric={true}>{row.close}</TableCell>
+                    <TableCell numeric={true}>{row.volume}</TableCell>
                     {!!availableSupply && (
-                      <TableCell numeric={true}>
-                        {prepend}
-                        {row.marketCap}
-                      </TableCell>
+                      <TableCell numeric={true}>{row.marketCap}</TableCell>
                     )}
                   </TableRow>
                 )

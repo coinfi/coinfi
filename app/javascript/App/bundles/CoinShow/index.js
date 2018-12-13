@@ -30,7 +30,7 @@ import NewsLabel from './NewsLabel'
 import FundamentalsList from './FundamentalsList'
 import InfoBar from './InfoBar'
 import LinksList from './LinksList'
-import HistoricalPriceDataTable from './HistoricalPriceDataTable'
+import HistoricalPriceDataTableWrapper from './HistoricalPriceDataTableWrapper'
 import TokenChart from './TokenChart'
 import Icon from '~/bundles/common/components/Icon'
 import CoinListWrapper from '~/bundles/common/components/CoinListWrapper'
@@ -40,6 +40,9 @@ import {
   formatValue,
   formatValueFixed,
 } from '~/bundles/common/utils/numberFormatters'
+import CurrencyContext, {
+  CurrencyContextType,
+} from '~/bundles/common/contexts/CurrencyContext'
 import styles from './styles'
 
 const lightbulb = require('~/images/lightbulb.svg') // tslint:disable-line
@@ -65,7 +68,6 @@ class CoinShow extends Component {
     this.state = {
       priceChartSizeSet: false,
       liveCoinArr: [],
-      currency: 'USD',
       watched: this.props.watching,
       iconLoading: false,
       watchlistIndex: [],
@@ -251,7 +253,7 @@ class CoinShow extends Component {
       classes,
       user,
     } = this.props
-    const { currency, tabSlug, priceData, priceDataHourly } = this.state
+    const { tabSlug, priceData, priceDataHourly } = this.state
 
     const isMobile = isWidthDown('sm', this.props.width)
     const isLoggedIn = !!user
@@ -327,7 +329,6 @@ class CoinShow extends Component {
                   <InfoBar
                     isWatched={this.state.watched}
                     watchCoinHandler={this.watchCoinHandler}
-                    currency={currency}
                     coinObj={coinObj}
                   />
                   <Tabs
@@ -410,7 +411,7 @@ class CoinShow extends Component {
                       Historical Data
                     </ExpansionPanelSummary>
                     <ExpansionPanelDetails className={classes.expansionDetails}>
-                      <HistoricalPriceDataTable
+                      <HistoricalPriceDataTableWrapper
                         initialData={priceData}
                         availableSupply={availableSupply}
                         symbol={symbol}
@@ -798,7 +799,7 @@ class CoinShow extends Component {
                     }}
                   />
                   <CardContent className={classes.subCardContent}>
-                    <FundamentalsList coinObj={coinObj} currency={currency} />
+                    <FundamentalsList coinObj={coinObj} />
                   </CardContent>
                 </SubCard>
                 <SubCard>

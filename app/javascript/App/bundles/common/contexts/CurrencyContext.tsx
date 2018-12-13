@@ -2,7 +2,9 @@ import * as React from 'react'
 import * as _ from 'lodash'
 import { withCookies, Cookies } from 'react-cookie'
 import API from '~/bundles/common/utils/localAPI'
-import currencyMap from '~/bundles/common/constants/currencyMap'
+import currencyMap, {
+  defaultCurrency,
+} from '~/bundles/common/constants/currencyMap'
 import { STATUS_CODES } from 'http'
 
 enum STATUS {
@@ -46,9 +48,19 @@ class CurrencyProvider extends React.Component<
     super(props)
 
     const { cookies, user } = props
-    const defaultCurrency = _.get(user, 'default_currency')
-    const currency = defaultCurrency || cookies.get('currency') || 'USD'
+    const userCurrency = _.get(user, 'default_currency')
+    const cookieCurrency = cookies.get('currency')
+    const currency = userCurrency || cookieCurrency || defaultCurrency
     const currencySymbol = _.get(currencyMap, currency, '')
+
+    // remediate server-saved currency and local-saved currency
+    if (
+      _.isString(userCurrency) &&
+      _.isString(cookieCurrency) &&
+      userCurrency !== cookieCurrency
+    ) {
+      cookies.set('currency', userCurrency)
+    }
 
     this.state = {
       status: STATUS.INITIALIZING,

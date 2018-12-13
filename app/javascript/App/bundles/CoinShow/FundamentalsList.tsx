@@ -4,6 +4,9 @@ import * as moment from 'moment'
 import { Grid } from '@material-ui/core'
 import { withStyles, createStyles } from '@material-ui/core/styles'
 import { formatValue } from '~/bundles/common/utils/numberFormatters'
+import CurrencyContext, {
+  CurrencyContextType,
+} from '~/bundles/common/contexts/CurrencyContext'
 
 interface Props {
   coinObj: any
@@ -54,58 +57,66 @@ class FundamentalsList extends React.Component<Props, {}> {
     const hasIcoEnded = ico_end_epoch < moment().unix()
 
     return (
-      <Grid container={true} direction="column">
-        {hasStartDate && (
-          <>
-            <Grid item={true} className={classes.title}>
-              Start date
+      <CurrencyContext.Consumer>
+        {({ currency, currencyRate }: CurrencyContextType) => {
+          return (
+            <Grid container={true} direction="column">
+              {hasStartDate && (
+                <>
+                  <Grid item={true} className={classes.title}>
+                    Start date
+                  </Grid>
+                  <Grid item={true} className={classes.value}>
+                    {moment
+                      .utc(release_date, 'YYYY-MM-DD')
+                      .format('MMMM DD, YYYY')}
+                  </Grid>
+                </>
+              )}
+              {hasSupply && (
+                <>
+                  <Grid item={true} className={classes.title}>
+                    % of supply in circulation
+                  </Grid>
+                  <Grid item={true} className={classes.value}>
+                    {formatValue((available_supply / total_supply) * 100, 1)}%
+                  </Grid>
+                </>
+              )}
+              {hasBlockchainType && (
+                <>
+                  <Grid item={true} className={classes.title}>
+                    Blockchain
+                  </Grid>
+                  <Grid item={true} className={classes.value}>
+                    {blockchain_tech}
+                  </Grid>
+                </>
+              )}
+              {hasAlgorithm && (
+                <>
+                  <Grid item={true} className={classes.title}>
+                    Algorithm
+                  </Grid>
+                  <Grid item={true} className={classes.value}>
+                    {algorithm}
+                  </Grid>
+                </>
+              )}
+              {hasIco && (
+                <>
+                  <Grid item={true} className={classes.title}>
+                    Completed ICO
+                  </Grid>
+                  <Grid item={true} className={classes.value}>
+                    {hasIcoEnded ? 'Yes' : 'No'}
+                  </Grid>
+                </>
+              )}
             </Grid>
-            <Grid item={true} className={classes.value}>
-              {moment.utc(release_date, 'YYYY-MM-DD').format('MMMM DD, YYYY')}
-            </Grid>
-          </>
-        )}
-        {hasSupply && (
-          <>
-            <Grid item={true} className={classes.title}>
-              % of supply in circulation
-            </Grid>
-            <Grid item={true} className={classes.value}>
-              {formatValue((available_supply / total_supply) * 100, 1)}%
-            </Grid>
-          </>
-        )}
-        {hasBlockchainType && (
-          <>
-            <Grid item={true} className={classes.title}>
-              Blockchain
-            </Grid>
-            <Grid item={true} className={classes.value}>
-              {blockchain_tech}
-            </Grid>
-          </>
-        )}
-        {hasAlgorithm && (
-          <>
-            <Grid item={true} className={classes.title}>
-              Algorithm
-            </Grid>
-            <Grid item={true} className={classes.value}>
-              {algorithm}
-            </Grid>
-          </>
-        )}
-        {hasIco && (
-          <>
-            <Grid item={true} className={classes.title}>
-              Completed ICO
-            </Grid>
-            <Grid item={true} className={classes.value}>
-              {hasIcoEnded ? 'Yes' : 'No'}
-            </Grid>
-          </>
-        )}
-      </Grid>
+          )
+        }}
+      </CurrencyContext.Consumer>
     )
   }
 }
