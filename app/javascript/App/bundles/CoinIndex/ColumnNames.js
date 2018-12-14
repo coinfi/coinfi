@@ -79,7 +79,7 @@ export default (currency) => {
     },
     {
       title: 'Volume (24hr)',
-      dataIndex: 'volume24',
+      dataIndex: 'volume24h',
       align: 'right',
       render: (text, row, index) =>
         !_.isUndefined(text) ? (
