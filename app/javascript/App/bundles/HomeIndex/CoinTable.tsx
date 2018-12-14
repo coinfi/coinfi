@@ -158,11 +158,15 @@ const styles = (theme) =>
     footerContainer: {
       width: '100%',
       maxWidth: '1200px',
+      flexWrap: 'nowrap',
       [theme.breakpoints.up('md')]: {
-        margin: `${theme.spacing.unit * 2}px auto`,
+        padding: `${theme.spacing.unit * 2}px auto`,
+        justifyContent: 'flex-end',
       },
-      [theme.breakpoints.up('down')]: {
-        margin: `${theme.spacing.unit * 2}px ${theme.spacing.unit}px`,
+      [theme.breakpoints.down('sm')]: {
+        whiteSpace: 'nowrap',
+        overflowX: 'scroll',
+        padding: `${theme.spacing.unit}px ${theme.spacing.unit}px`,
       },
     },
     paginationButton: {
@@ -172,7 +176,7 @@ const styles = (theme) =>
       marginLeft: `${theme.spacing.unit * 0.5}px`,
       marginRight: `${theme.spacing.unit * 0.5}px`,
       '&:first-child': {
-        marginRight: 0,
+        marginLeft: 0,
       },
       '&:last-child': {
         marginRight: 0,
@@ -478,7 +482,7 @@ class CoinTable extends React.Component<Props, State> {
         {!!pageCount && (
           <Grid
             container={true}
-            justify="flex-end"
+            wrap="nowrap"
             className={classes.footerContainer}
           >
             {buttons.map((page) => (

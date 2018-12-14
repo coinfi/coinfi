@@ -2,14 +2,7 @@ import * as React from 'react'
 import * as _ from 'lodash'
 import compose from 'recompose/compose'
 import withWidth, { isWidthDown } from '@material-ui/core/withWidth'
-import {
-  Grid,
-  Typography,
-  Paper,
-  Button,
-  createStyles,
-  withStyles,
-} from '@material-ui/core'
+import { Grid, Typography, createStyles, withStyles } from '@material-ui/core'
 import CoinTable from './CoinTable'
 import MarketDominance, {
   CoinDominance,
@@ -45,6 +38,7 @@ const styles = (theme) =>
         margin: '0 auto !important',
         maxWidth: '1200px',
         padding: `${theme.spacing.unit * 4}px`,
+        flexWrap: 'nowrap',
       },
       [theme.breakpoints.down('sm')]: {},
     },
@@ -52,24 +46,27 @@ const styles = (theme) =>
       [theme.breakpoints.down('sm')]: {
         backgroundColor: 'rgb(7, 29, 41)',
       },
-      [theme.breakpoints.up('md')]: {
-        maxWidth: '492px',
-      },
+      [theme.breakpoints.up('md')]: {},
     },
     widgetContainerRight: {
-      [theme.breakpoints.up('md')]: {
-        height: '100%',
-      },
+      height: '100%',
     },
     leftContainerInner: {
       height: '100%',
-      flexDirection: 'row',
-      justifyContent: 'space-between',
-      alignItems: 'baseline',
       [theme.breakpoints.up('md')]: {
         flexDirection: 'column',
         justifyContent: 'flex-start',
         alignItems: 'stretch',
+        alignContent: 'stretch',
+        flexWrap: 'nowrap',
+      },
+      [theme.breakpoints.down('sm')]: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'baseline',
+        alignContent: 'baseline',
+        paddingLeft: '8px',
+        paddingRight: '8px',
       },
     },
     newsWidgetHeader: {
@@ -109,22 +106,21 @@ class HomeIndex extends React.Component<Props, State> {
         <Banner />
         <Grid
           container={true}
-          direction="row"
           justify="center"
-          alignItems="stretch"
+          alignContent="flex-end"
           className={classes.widgetContainer}
-          spacing={24}
+          spacing={16}
         >
           <Grid
             item={true}
             xs={12}
-            md={6}
+            md={5}
             className={classes.widgetContainerLeft}
           >
             <Grid
               container={true}
               className={classes.leftContainerInner}
-              spacing={8}
+              spacing={16}
             >
               <Grid item={true} md={true}>
                 <TotalMarketCap marketCapData={totalMarketCap} />
@@ -137,7 +133,7 @@ class HomeIndex extends React.Component<Props, State> {
           <Grid
             item={true}
             xs={12}
-            md={6}
+            md={7}
             className={classes.widgetContainerRight}
           >
             <Typography
