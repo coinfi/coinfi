@@ -64,7 +64,7 @@ class Api::SignalsTelegramBot::SignalsTelegramUsersController < Api::SignalsTele
     signals_telegram_user.as_json(
         only: %i[id user_id telegram_id telegram_username telegram_chat_id started_at is_active],
       )
-      .merge("subscribed_coin_keys": subscribed_coin_keys)
+      .merge("subscribed_coin_keys" => subscribed_coin_keys)
   end
 
   def index_params
