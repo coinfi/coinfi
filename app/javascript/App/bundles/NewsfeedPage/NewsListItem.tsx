@@ -1,13 +1,20 @@
 import * as React from 'react'
-import styled from 'styled-components'
 import timeago from 'timeago.js'
 import CoinTags from '../common/components/CoinTags'
 import BulletSpacer from '~/bundles/common/components/BulletSpacer'
+import { withStyles, createStyles } from '@material-ui/core/styles'
 import classNames from 'classnames'
 import Favicon from '~/bundles/common/components/Favicon'
 import * as _ from 'lodash'
 
 import { formatNewsUrl } from '~/bundles/common/utils/news'
+
+const styles = (theme) =>
+  createStyles({
+    read: {
+      color: '#999',
+    },
+  })
 
 const readNewsHandler = (newsItem) => {
   const newsId = newsItem.id
@@ -28,16 +35,8 @@ const readNewsHandler = (newsItem) => {
   }
 }
 
-const Title = styled.h4`
-  ${({ hasRead }: any) =>
-    hasRead &&
-    `
-    color: #999;
-  `};
-`
-
 const NewsListItem = (props) => {
-  const { newsItem, isSelected, preRender, hasRead, onClick } = props
+  const { newsItem, isSelected, preRender, hasRead, onClick, classes } = props
 
   const newsItemTitle = newsItem.title
     .replace(/<h1>/g, '')
@@ -71,7 +70,9 @@ const NewsListItem = (props) => {
           onClick(newsItem)
         }}
       >
-        <Title hasRead={hasRead}>{newsItemTitle}</Title>
+        <h4 className={hasRead ? classes.unread : classes.unread}>
+          {newsItemTitle}
+        </h4>
         <div className="flex justify-between flex-wrap">
           <div className="f6 silver">
             <span className="mr2">
@@ -95,4 +96,4 @@ const NewsListItem = (props) => {
   )
 }
 
-export default NewsListItem
+export default withStyles(styles)(NewsListItem)

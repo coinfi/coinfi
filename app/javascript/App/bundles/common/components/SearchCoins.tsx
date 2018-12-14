@@ -17,6 +17,7 @@ interface Coin {
 interface Props {
   unstyled?: boolean
   coinShow?: boolean
+  placeholder?: string
   isMobile: boolean
   onSelect: (suggestion: Coin) => void
 }
@@ -114,10 +115,11 @@ class SearchCoins extends React.Component<Props, State> {
 
   public render() {
     const { value, suggestions } = this.state
+    const { placeholder } = this.props
 
     const inputProps = {
       onChange: this.onChange,
-      placeholder: 'Search coins',
+      placeholder: placeholder || 'Search coins',
       value,
     }
 

@@ -34,6 +34,7 @@ class NewsController < ApplicationController
       @news_item_data = serialize_news_items(news_item)
 
       set_meta_tags(
+        title: "CoinFi News - #{news_item.title}",
         canonical: news_item.url,
         twitter: {
           card: "summary",

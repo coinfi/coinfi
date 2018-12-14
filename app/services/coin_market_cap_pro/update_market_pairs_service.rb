@@ -1,7 +1,6 @@
-require_relative '../../../lib/tasks/batch_process'
-
 module CoinMarketCapPro
   class UpdateMarketPairsService < Patterns::Service
+    include CoinMarketCapProHelpers
     attr_accessor :cmc_missing_data
 
     def initialize(start: 0, limit: 20) # 0-indexed
@@ -12,10 +11,31 @@ module CoinMarketCapPro
 
     def call
       coins = Coin.top(@limit).offset(@start)
-      batch_process(coins) do |coin|
-        update_coin_pairs(coin)
+      puts "About to process #{coins.count} coins"
+      puts "Nothing to do here. items was empty... bye." and return if coins.none?
+
+      progress = ProgressBar.create(:title => "coins", :total => coins.count)
+      items_with_errors = []
+
+      coins.each do |coin|
+        begin
+          update_coin_pairs(coin)
+          progress.increment
+        rescue StandardError => e
+          items_with_errors << coin.id
+          puts "Got an error on coin id #{coin.id}"
+          puts e
+          puts e.backtrace
+          puts "#{items_with_errors.length} errors so far"
+        end
       end
+
+      puts "Complete!"
       log_missing_data
+      if items_with_errors.present?
+        puts "Found #{items_with_errors.length} total errors"
+        puts "Encountered errors when trying to process these coins ids: #{items_with_errors}"
+      end
     end
 
     private
@@ -30,28 +50,31 @@ module CoinMarketCapPro
 
     def update_coin_pairs(coin)
       data = coin.cmc_id ? load_cmc_pair_data(id: coin.cmc_id) : load_cmc_pair_data(symbol: coin.symbol)
-      identifier = coin.slug
-      perform_update_pairs(identifier, data)
+
+      if data.present?
+        identifier = coin.slug
+        perform_update_pairs(identifier, data)
+      end
     end
 
     def perform_update_pairs(identifier, data)
       # Grabbing data from snapshot cache
       snapshot = Rails.cache.read("#{identifier}:snapshot")
-      base_volume24 = snapshot[:volume24h] unless snapshot.blank?
-      has_base_volume24 = base_volume24.present? && base_volume24 != 0
+      base_volume24h = snapshot[:volume24h] unless snapshot.blank?
+      has_base_volume24h = base_volume24h.present? && base_volume24h != 0
 
       raw_market_pairs = data.dig("market_pairs")
       market_pairs = raw_market_pairs.map do |pair|
         quote = pair.dig("quote", currency)
-        volume24 = quote["volume_24h"]
+        volume24h = quote["volume_24h"] || 0
 
         {
           :exchange_name => pair.dig("exchange", "name"),
           :exchange_slug => pair.dig("exchange", "slug"),
           :pair => pair["market_pair"],
           :price => quote["price"],
-          :volume24h => volume24,
-          :volume_percentage => (if has_base_volume24 then volume24 / base_volume24 else 0 end),
+          :volume24h => volume24h,
+          :volume_percentage => (if has_base_volume24h then volume24h / base_volume24h else 0 end),
           :volume24h_quote => pair.dig("quote", "exchange_reported", "volume_24h_quote"),
           :quote_currency_symbol => pair.dig("market_pair_quote", "currency_symbol"),
         }
@@ -78,11 +101,10 @@ module CoinMarketCapPro
       json_response_code = get_json_response_code(contents)
 
       if response.success? && json_response_code == 0 then
-        Net::HTTP.get(URI.parse(ENV.fetch('HEALTHCHECK_MARKET_PAIRS')))
         return contents['data']
       else
-        error_message = get_error_message(contents)
-        Net::HTTP.post(URI.parse("#{ENV.fetch('HEALTHCHECK_MARKET_PAIRS')}/fail"), "ERROR HTTP(#{response.code}) JSON(#{json_response_code}): #{error_message}")
+        error_message = "ERROR HTTP(#{response.code}) JSON(#{json_response_code}): #{get_error_message(contents)}"
+        @cmc_missing_data << { id: id, symbol: symbol, error: error_message }
         return nil
       end
     end

@@ -4,6 +4,7 @@ import ExchangeListingsPage from '~/bundles/ExchangeListings/ExchangeListingsCoi
 import NewsfeedPageContainer from '~/bundles/NewsfeedPage/NewsfeedPageContainer'
 import CoinIndex from '../bundles/CoinIndex'
 import HomeIndex from '../bundles/HomeIndex'
+import CoinShow from '../bundles/CoinShow'
 
 const AppRoutes = (props) => {
   return (
@@ -46,6 +47,11 @@ const AppRoutes = (props) => {
         exact={true}
         path="/coins"
         render={() => <CoinIndex {...props} />}
+      />
+      <Route
+        exact={true}
+        path="/coins/:coinSlug"
+        render={(routeProps) => <CoinShow {...props} />}
       />
     </Switch>
   )

@@ -28,6 +28,9 @@ const theme = createMuiTheme({
     MuiInput: {
       disableUnderline: true,
     },
+    MuiButtonBase: {
+      disableRipple: true,
+    },
   },
   overrides: {
     MuiButton: {

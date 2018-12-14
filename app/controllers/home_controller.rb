@@ -1,7 +1,7 @@
 class HomeController < ApplicationController
   def index
     distribute_reads(max_lag: MAX_ACCEPTABLE_REPLICATION_LAG, lag_failover: true) do
-      coins = Coin.default
+      coins = Coin.listed
         .page(1)
         .per(100)
         .order(:ranking)

@@ -68,7 +68,7 @@ class Api::SignalsTelegramBot::SignalsTelegramSubscriptionsController < Api::Sig
   def serialize_signals_telegram_subscription(signals_telegram_subscription)
     coin_json = signals_telegram_subscription.coin
       .as_json(
-        only: %i[id name symbol slug]
+        only: %i[id name symbol slug coin_key]
       )
       .merge({
         is_signals_supported_erc20: signals_telegram_subscription.coin.is_signals_supported_erc20?

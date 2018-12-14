@@ -39,7 +39,6 @@ class Coin < ApplicationRecord
   scope :quick_top, -> (limit) { where("coins.ranking >= ?", limit) }
   scope :icos, -> { where(ico_status: ICO_STATUSES).order(:ico_end_date) }
   scope :unslugged, -> { where(slug: nil) }
-  scope :default, -> { legit.listed }
 
   alias_method :industries, :coin_industries
 
@@ -224,7 +223,7 @@ class Coin < ApplicationRecord
     cached_market_data.dig("change7d") || 0
   end
 
-  def volume24
+  def volume24h
     cached_market_data.dig("volume24h") || 0
   end
 
@@ -256,6 +255,21 @@ class Coin < ApplicationRecord
     data
   end
 
+  def token_metrics
+    {
+      exchange_supply_data: exchange_supply_data,
+      exchange_supply_metadata: exchange_supply_metadata,
+      token_retention_rate_data: token_retention_rate_data,
+      token_retention_rate_metadata: token_retention_rate_metadata,
+      unique_wallet_count_data: unique_wallet_count_data,
+      unique_wallet_count_metadata: unique_wallet_count_metadata,
+      token_distribution_100_data: token_distribution_100_data,
+      token_distribution_100_metadata: token_distribution_100_metadata,
+      token_velocity_data: token_velocity_data,
+      token_velocity_metadata: token_velocity_metadata
+    }
+  end
+
   def hourly_prices_data
     # TODO: expires_in should probably be at midnight
     Rails.cache.fetch("coins/#{id}/hourly_prices", expires_in: 1.hour) do
@@ -281,6 +295,78 @@ class Coin < ApplicationRecord
       results = JSON.parse(response.body)
       results.map! { |result| result["close"] }
     end
+  end
+
+  def token_metrics_data(metric_type, metric_value = 'percentage')
+    return nil unless has_token_metrics?
+
+    @token_metrics_data ||= {}
+    @token_metrics_data[metric_type] ||= Rails.cache.fetch(
+      "coins/#{id}/#{metric_type}",
+      expires_in: 1.day,
+      race_condition_ttl: 10.seconds
+    ) do
+      url = "#{ENV.fetch('COINFI_POSTGREST_URL')}/metrics_chart_view?coin_key=eq.#{coin_key}&metric_type=eq.#{metric_type}&select=#{metric_value},date"
+      response = HTTParty.get(url)
+      JSON.parse(response.body)
+    end
+  end
+
+  def token_metrics_metadata(metric_type)
+    return nil unless has_token_metrics?
+
+    @token_metrics_metadata ||= {}
+    @token_metrics_metadata[metric_type] ||= Rails.cache.fetch(
+      "coins/#{id}/#{metric_type}_metadata",
+      expires_in: 1.day,
+      race_condition_ttl: 10.seconds
+    ) do
+      url = "#{ENV.fetch('COINFI_POSTGREST_URL')}/#{metric_type}_metrics_view?coin_key=eq.#{coin_key}"
+      headers = { "Accept": "application/vnd.pgrst.object+json" } # fetch single object rather than array of objects
+      response = HTTParty.get(url, headers: headers)
+      results = JSON.parse(response.body)
+      results.except!("coin_key")
+    end
+  end
+
+  def exchange_supply_data
+    token_metrics_data('exchange_supply')
+  end
+
+  def exchange_supply_metadata
+    token_metrics_metadata('exchange_supply')
+  end
+
+  def token_retention_rate_data
+    token_metrics_data('token_retention_rate')
+  end
+
+  def token_retention_rate_metadata
+    token_metrics_metadata('token_retention_rate')
+  end
+
+  def unique_wallet_count_data
+    token_metrics_data('unique_wallet_count', 'number')
+  end
+
+  def unique_wallet_count_metadata
+    token_metrics_metadata('unique_wallet_count')
+  end
+
+  def token_distribution_100_data
+    token_metrics_data('token_distribution_100')
+  end
+
+  def token_distribution_100_metadata
+    token_metrics_metadata('token_distribution_100')
+  end
+
+  def token_velocity_data
+    token_metrics_data('token_velocity')
+  end
+
+  def token_velocity_metadata
+    token_metrics_metadata('token_velocity')
   end
 
   def news_data
@@ -329,5 +415,9 @@ class Coin < ApplicationRecord
       re.match(self.blockchain_tech) ||
       re.match(self.token_type)
     ).present?
+  end
+
+  def has_token_metrics?
+    symbol && is_erc20?
   end
 end

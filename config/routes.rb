@@ -40,7 +40,7 @@ Rails.application.routes.draw do
   get '/news/:coin_slug', to: 'news#coin_index', as: 'news_coin'
   get '/news', to: 'news#index'
   get '/news-beta', to: static('/news-beta.html')
-  get '/podcast', to: redirect('https://blog.coinfi.com/topics/podcast/', status: 302), as: 'podcast'
+  get '/podcast', to: redirect('https://www.coinfi.com/research/coinfi-podcast', status: 302), as: 'podcast'
   get '/profile', to: 'users#edit'
   put '/profile', to: 'users#update'
 
@@ -71,6 +71,7 @@ Rails.application.routes.draw do
     get '/coins/search_by_params', to: 'coins#search_by_params'
     get '/coins/:id/news', to: 'coins#news'
     get '/coins/by-slug/:slug', to: 'coins#by_slug'
+    get '/coins/prices', to: 'coins#prices'
     resources :coins, only: %i[index show toplist watchlist dominance] do
       get 'toplist', on: :collection
       get 'watchlist', on: :collection
@@ -114,6 +115,7 @@ Rails.application.routes.draw do
   root to: 'home#index'
   get '/about', to: 'pages#show', id: 'about', as: 'page_about'
   get '/press', to: 'pages#show', id: 'press', as: 'page_press'
+  get '/contact-us', to: 'pages#show', id: 'contact-us', as: 'page_contact_us'
   get '/calendar', to: 'pages#show', id: 'calendar', as: 'page_calendar'
   get '/ambassadors', to: 'pages#show', id: 'ambassadors', as: 'page_ambassadors'
   get '/win-cofi', to: 'pages#show', id: 'win-cofi', as: 'page_win_cofi'

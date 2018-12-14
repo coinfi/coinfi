@@ -29,6 +29,6 @@ class SignalsMailerTest < ActionMailer::TestCase
     # Test the body of the sent email contains what we expect it to
     assert_equal ['signals@coinfi.com'], email.from
     assert_equal [user.email], email.to
-    assert_equal 'Finish reserving your spot for the CoinFi Trading Signals beta', email.subject
+    assert_equal 'Finish signing up for the CoinFi Trading Signals beta', email.subject
   end
 end
