@@ -24,7 +24,6 @@ import SearchCoins from '../common/components/SearchCoins'
 import WatchStar from '../common/components/WatchStar'
 import API from '../common/utils/API'
 import coinsNormalizer from '../common/normalizers/coins'
-import { watch } from 'fs'
 
 interface Props {
   classes: any
@@ -355,7 +354,7 @@ class CoinTable extends React.Component<Props, State> {
                   ranking,
                   price,
                   market_cap,
-                  volume24,
+                  volume24h,
                   name,
                   symbol,
                   slug,
@@ -371,8 +370,8 @@ class CoinTable extends React.Component<Props, State> {
                     ? `$${formatAbbreviatedPrice(market_cap)}`
                     : ''
                 const formattedVolume =
-                  typeof volume24 !== 'undefined'
-                    ? `$${formatAbbreviatedPrice(volume24)}`
+                  typeof volume24h !== 'undefined'
+                    ? `$${formatValue(volume24h, 4)}`
                     : ''
 
                 return (

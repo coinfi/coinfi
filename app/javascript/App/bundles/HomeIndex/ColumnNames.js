@@ -82,8 +82,7 @@ function ColumnNames(currency) {
       type: 'numericColumn',
       cellRendererFramework: ({ value: text, data: row, rowIndex: index }) => {
         if (!_.isUndefined(text)) {
-          const formattedPrice = formatPrice(text, currency)
-          return <span>{formattedPrice}</span>
+          return <span>{`$${text}`}</span>
         }
 
         return <span />
@@ -126,12 +125,12 @@ function ColumnNames(currency) {
     },
     {
       headerName: 'Volume (24hr)',
-      field: 'volume24',
+      field: 'volume24h',
       unSortIcon: true,
       type: 'numericColumn',
       minWidth: 150,
       cellRendererFramework: ({ value: text, data: row, rowIndex: index }) =>
-        !_.isUndefined(text) ? <span>{formatValue(text, 0)}</span> : null,
+        !_.isUndefined(text) ? <span>{`$${text}`}</span> : null,
     },
     {
       headerName: '7D Chart',

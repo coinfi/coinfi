@@ -97,31 +97,9 @@ class Coin < ApplicationRecord
     end
   end
 
+  # TODO: New total market data
   def self.historical_total_market_data
-    Rails.cache.fetch("coins/historical_total_market_data", expires_in: 5.minutes) do
-      url = "https://pro-api.coinmarketcap.com/v1/global-metrics/quotes/historical"
-      query = {
-        "count" => 7,
-        "interval" => "daily",
-      }
-      headers = {
-        "X-CMC_PRO_API_KEY" => ENV.fetch('COINMARKETCAP_API_KEY')
-      }
-      response = HTTParty.get(
-        url,
-        :query => query,
-        :headers => headers,
-      )
-      data = JSON.parse(response.body) || {}
-
-      processed_data = (data.dig('data', 'quotes') || []).map { |x| {
-        "timestamp" => x['timestamp'],
-        "total_market_cap" => x.dig('quote', 'USD', 'total_market_cap'),
-        "total_volume_24h" => x.dig('quote', 'USD', 'total_volume_24h'),
-      } }
-
-      processed_data
-    end
+    []
   end
 
   def market_percentage

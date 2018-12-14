@@ -1,4 +1,6 @@
 class HomeController < ApplicationController
+  include CoinsHelper
+
   def index
     distribute_reads(max_lag: MAX_ACCEPTABLE_REPLICATION_LAG, lag_failover: true) do
       coins = Coin.listed
@@ -6,7 +8,7 @@ class HomeController < ApplicationController
         .per(100)
         .order(:ranking)
       @page_count = coins.total_pages
-      @coins = serialize_coins(coins)
+      @coins = coins_serializer(coins)
       @watched_coins = current_user.watchlist.coins.order(:ranking).pluck(:id) if current_user
       @market_dominance = dominance
       @market_cap = Coin.historical_total_market_data
@@ -25,12 +27,5 @@ class HomeController < ApplicationController
     coins = bitcoin + other_coins
 
     coins.as_json
-  end
-
-  def serialize_coins(coins)
-    coins.as_json(
-      only: %i[id name symbol slug coin_key ranking image_url price market_cap change1h change24h change7d volume24],
-      methods: %i[sparkline]
-    )
   end
 end

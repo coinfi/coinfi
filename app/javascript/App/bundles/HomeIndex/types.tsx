@@ -11,7 +11,7 @@ export interface CoinData {
   change1h: string
   change24h: string
   change7d: string
-  volume24: any
+  volume24h: any
   sparkline: string
 }
 

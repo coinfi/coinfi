@@ -2,6 +2,7 @@ class CoinsController < ApplicationController
   before_action :set_coin, only: [:show]
 
   include CoinListHelper
+  include CoinsHelper
 
   def index
     @page = if params.has_key?(:page) then params[:page].to_i else 1 end
@@ -10,7 +11,7 @@ class CoinsController < ApplicationController
     distribute_reads(max_lag: MAX_ACCEPTABLE_REPLICATION_LAG, lag_failover: true) do
       coins = Coin.listed
       @coin_count = coins.count
-      @coins = serialize_coins(
+      @coins = coins_serializer(
         coins
           .page(@page)
           .per(@limit)
@@ -54,13 +55,6 @@ class CoinsController < ApplicationController
   end
 
   protected
-
-  def index_serializer(coins)
-    coins.as_json(
-      only: %i[id name symbol slug coin_key ranking image_url],
-      methods: %i[sparkline price market_cap change1h change24h change7d volume24h]
-    )
-  end
 
   def set_coin
     distribute_reads(max_lag: MAX_ACCEPTABLE_REPLICATION_LAG, lag_failover: true) do

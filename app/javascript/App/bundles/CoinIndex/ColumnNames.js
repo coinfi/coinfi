@@ -3,6 +3,11 @@ import _ from 'lodash'
 import RedGreenSpan from '~/bundles/common/components/RedGreenSpan'
 import { Sparklines, SparklinesLine } from 'react-sparklines'
 import { Grid } from '@material-ui/core'
+import {
+  formatPrice,
+  formatValue,
+  formatValueWithCurrency,
+} from '~/bundles/common/utils/numberFormatters'
 
 export default (currency) => {
   return [
@@ -53,18 +58,11 @@ export default (currency) => {
       dataIndex: 'price',
       align: 'right',
       render: (text, row, index) => {
-        if (currency === 'USD' && !_.isUndefined(text)) {
-          const formattedPrice = text.toLocaleString('en-US', {
-            maximumFractionDigits: 4,
-          })
-          return <span>${formattedPrice} USD</span>
-        }
-        if (currency === 'BTC' && !_.isUndefined(text)) {
-          const formattedPrice = text.toLocaleString('en-US', {
-            maximumFractionDigits: 8,
-          })
-          return <span>{formattedPrice} &#579;</span>
-        }
+        return (
+          <span style={{ whiteSpace: 'nowrap' }}>
+            {formatPrice(text, currency)}
+          </span>
+        )
       },
     },
     {
@@ -72,13 +70,7 @@ export default (currency) => {
       dataIndex: 'market_cap',
       align: 'right',
       render: (text, row, index) =>
-        !_.isUndefined(text) ? (
-          <span>
-            ${text.toLocaleString('en-US', {
-              maximumFractionDigits: 0,
-            })}
-          </span>
-        ) : null,
+        !_.isUndefined(text) ? <span>${formatValue(text, 0)}</span> : null,
     },
     {
       title: '% Move 1H',
@@ -104,9 +96,7 @@ export default (currency) => {
       align: 'right',
       render: (text, row, index) =>
         !_.isUndefined(text) ? (
-          <span>
-            {text.toLocaleString('en-US', { maximumFractionDigits: 0 })}
-          </span>
+          <span>{formatValueWithCurrency(text, currency)}</span>
         ) : null,
     },
     {
