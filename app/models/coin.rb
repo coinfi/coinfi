@@ -58,20 +58,15 @@ class Coin < ApplicationRecord
     pluck(:symbol).uniq.compact.sort.reject { |symbol| /[[:lower:]]/.match(symbol) }
   end
 
+  # TODO: get from cmc pro route
   def self.live_total_market_cap
-    coins = Coin.all
-    total_market_cap = 0
-
-    coins.each do |coin|
-      total_market_cap += coin.market_cap || 0
-    end
-
-    total_market_cap
+    1
   end
 
   def self.live_market_dominance(no_cache: false)
-    coins = Coin.all
-    total_market_cap = Coin.live_total_market_cap
+    # Top 5 w/ guaranteed bitcoin inclusion
+    coins = Coin.where(id: Coin.legit.top(5)).or(Coin.where(slug: 'bitcoin'))
+    total_market_cap = coins.inject(0){|sum, c| sum + c.market_cap} # TODO: use live_total_market_cap once implemented
     market_dominance = {}
 
     coins.each do |coin|
@@ -86,13 +81,13 @@ class Coin < ApplicationRecord
       }
     end
 
-    Rails.cache.write('market_dominance', market_dominance, expires_in: 1.day) unless no_cache
+    Rails.cache.write('market_dominance', market_dominance, expires_at: 1.day.since.beginning_of_day) unless no_cache
 
     market_dominance
   end
 
   def self.market_dominance
-    Rails.cache.fetch('market_dominance', expires_in: 1.day) do
+    Rails.cache.fetch('market_dominance', expires_at: 1.day.since.beginning_of_day) do
       self.live_market_dominance(no_cache: true)
     end
   end
@@ -249,8 +244,7 @@ class Coin < ApplicationRecord
   end
 
   def hourly_prices_data
-    # TODO: expires_in should probably be at midnight
-    Rails.cache.fetch("coins/#{id}/hourly_prices", expires_in: 1.hour) do
+    Rails.cache.fetch("coins/#{id}/hourly_prices", expires_at: 1.day.since.beginning_of_day) do
       url = "#{ENV.fetch('COINFI_POSTGREST_URL')}/hourly_ohcl_prices?coin_key=eq.#{coin_key}&to_currency=eq.USD&order=time.asc"
       response = HTTParty.get(url)
       JSON.parse(response.body)
@@ -258,8 +252,7 @@ class Coin < ApplicationRecord
   end
 
   def prices_data
-    # TODO: expires_in should probably be at midnight
-    Rails.cache.fetch("coins/#{id}/prices", expires_in: 1.day) do
+    Rails.cache.fetch("coins/#{id}/prices", expires_at: 1.day.since.beginning_of_day) do
       url = "#{ENV.fetch('COINFI_POSTGREST_URL')}/daily_ohcl_prices?coin_key=eq.#{coin_key}&to_currency=eq.USD&order=time.asc"
       response = HTTParty.get(url)
       JSON.parse(response.body)
@@ -267,7 +260,7 @@ class Coin < ApplicationRecord
   end
 
   def sparkline
-    Rails.cache.fetch("coins/#{id}/sparkline", expires_in: 1.day) do
+    Rails.cache.fetch("coins/#{id}/sparkline", expires_at: 1.day.since.beginning_of_day) do
       url = "#{ENV.fetch('COINFI_POSTGREST_URL')}/daily_ohcl_prices?coin_key=eq.#{coin_key}&select=close&to_currency=eq.USD&limit=7&order=time.desc"
       response = HTTParty.get(url)
       results = JSON.parse(response.body)
@@ -281,7 +274,7 @@ class Coin < ApplicationRecord
     @token_metrics_data ||= {}
     @token_metrics_data[metric_type] ||= Rails.cache.fetch(
       "coins/#{id}/#{metric_type}",
-      expires_in: 1.day,
+      expires_at: 1.day.since.beginning_of_day,
       race_condition_ttl: 10.seconds
     ) do
       url = "#{ENV.fetch('COINFI_POSTGREST_URL')}/metrics_chart_view?coin_key=eq.#{coin_key}&metric_type=eq.#{metric_type}&select=#{metric_value},date"
@@ -296,7 +289,7 @@ class Coin < ApplicationRecord
     @token_metrics_metadata ||= {}
     @token_metrics_metadata[metric_type] ||= Rails.cache.fetch(
       "coins/#{id}/#{metric_type}_metadata",
-      expires_in: 1.day,
+      expires_at: 1.day.since.beginning_of_day,
       race_condition_ttl: 10.seconds
     ) do
       url = "#{ENV.fetch('COINFI_POSTGREST_URL')}/#{metric_type}_metrics_view?coin_key=eq.#{coin_key}"
@@ -348,8 +341,7 @@ class Coin < ApplicationRecord
   end
 
   def news_data
-    # TODO: Reduce cache time from 1 day to 1 hour once hourly price data comes in.
-    Rails.cache.fetch("coins/#{id}/news_data", expires_in: 1.day) do
+    Rails.cache.fetch("coins/#{id}/news_data", expires_in: 1.hour) do
       chart_data = news_items.chart_data(self.name == "Bitcoin" || self.name == "Ethereum")
       i = chart_data.length + 1
       chart_data.map do |item|
