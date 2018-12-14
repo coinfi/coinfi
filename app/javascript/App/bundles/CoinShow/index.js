@@ -876,7 +876,7 @@ class CoinShow extends Component {
                       </Grid>
                       <Grid item={true} className={classes.ctaButtonContainer}>
                         <Button
-                          href="/signals/reservation"
+                          href="/signals"
                           variant="contained"
                           className={classes.ctaButton}
                           data-heap="coin-details-click-get-trading-signals-button"
