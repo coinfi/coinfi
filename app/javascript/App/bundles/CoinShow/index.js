@@ -935,6 +935,6 @@ class CoinShow extends Component {
 }
 
 export default compose(
-  withWidth({ withTheme: true, initialWidth: 'md' }),
+  withWidth(),
   withStyles(styles, { withTheme: true }),
 )(withRouter(CoinShow))

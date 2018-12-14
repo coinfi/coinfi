@@ -22,6 +22,11 @@ const theme = createMuiTheme({
     },
   },
   props: {
+    // @ts-ignore this exists in their code, but types haven't been updated yet
+    MuiWithWidth: {
+      initialWidth: 'md',
+      withTheme: true,
+    },
     MuiInputLabel: {
       shrink: true,
     },
