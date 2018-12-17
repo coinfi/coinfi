@@ -3,6 +3,7 @@ class Coin < ApplicationRecord
 
   include ICO
   include CoinsHelper
+  include TokensHelper
   include ActionView::Helpers::NumberHelper
   extend FriendlyId
   friendly_id :name, use: [:slugged, :finders]
@@ -245,17 +246,7 @@ class Coin < ApplicationRecord
     return nil unless has_token_metrics?
 
     @token_metrics_metadata ||= {}
-    @token_metrics_metadata[metric_type] ||= Rails.cache.fetch(
-      "coins/#{id}/#{metric_type}_metadata",
-      expires_in: 1.day,
-      race_condition_ttl: 10.seconds
-    ) do
-      url = "#{ENV.fetch('COINFI_POSTGREST_URL')}/#{metric_type}_metrics_view?coin_key=eq.#{coin_key}"
-      headers = { "Accept": "application/vnd.pgrst.object+json" } # fetch single object rather than array of objects
-      response = HTTParty.get(url, headers: headers)
-      results = JSON.parse(response.body)
-      results.except!("coin_key")
-    end
+    @token_metrics_metadata[metric_type] ||= get_token_metrics_metadata(coin_key, metric_type)
   end
 
   def exchange_supply_data
