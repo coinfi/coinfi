@@ -51,7 +51,7 @@ interface PriceData {
 
 interface Props extends CurrencyContextType {
   classes: any
-  initialData?: RawPriceData[]
+  initialRawData?: RawPriceData[]
   availableSupply: number
   symbol: string
 }
@@ -88,10 +88,10 @@ class HistoricalPriceDataTable extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props)
 
-    const { initialData } = props
+    const { initialRawData } = props
 
-    const initialSortedData = Array.isArray(initialData)
-      ? initialData
+    const initialSortedData = Array.isArray(initialRawData)
+      ? initialRawData
           .map<PriceData>(this.parseData.bind(this))
           .sort(this.sortDataFunc)
       : undefined
@@ -103,19 +103,19 @@ class HistoricalPriceDataTable extends React.Component<Props, State> {
     this.state = {
       status: initialStatus,
       data: initialSortedData || [],
-      rawData: initialData || [],
+      rawData: initialRawData || [],
     }
   }
 
   public componentDidUpdate(prevProps, prevState) {
     const shouldProcessInitialData =
       this.state.status === STATUSES.INITIALIZING &&
-      Array.isArray(this.props.initialData)
+      Array.isArray(this.props.initialRawData)
     const currencyHasChanged = this.props.currency !== prevProps.currency
 
     if (shouldProcessInitialData || currencyHasChanged) {
       const rawData = shouldProcessInitialData
-        ? _.get(this.props, 'initialData', [])
+        ? _.get(this.props, 'initialRawData', [])
         : _.get(this.state, 'rawData', [])
 
       this.setState({ status: STATUSES.LOADING }, () => {

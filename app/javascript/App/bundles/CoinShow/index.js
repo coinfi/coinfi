@@ -412,7 +412,7 @@ class CoinShow extends Component {
                     </ExpansionPanelSummary>
                     <ExpansionPanelDetails className={classes.expansionDetails}>
                       <HistoricalPriceDataTableWrapper
-                        initialData={priceData}
+                        initialRawData={priceData}
                         availableSupply={availableSupply}
                         symbol={symbol}
                       />
