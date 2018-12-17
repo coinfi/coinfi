@@ -91,9 +91,7 @@ class HistoricalPriceDataTable extends React.Component<Props, State> {
     const { initialRawData } = props
 
     const initialSortedData = Array.isArray(initialRawData)
-      ? initialRawData
-          .map<PriceData>(this.parseData.bind(this))
-          .sort(this.sortDataFunc)
+      ? initialRawData.map<PriceData>(this.parseData).sort(this.sortDataFunc)
       : undefined
 
     // Set initial status
@@ -120,7 +118,7 @@ class HistoricalPriceDataTable extends React.Component<Props, State> {
 
       this.setState({ status: STATUSES.LOADING }, () => {
         const sortedData = rawData
-          .map<PriceData>(this.parseData.bind(this))
+          .map<PriceData>(this.parseData)
           .sort(this.sortDataFunc)
 
         this.setState({
@@ -138,7 +136,7 @@ class HistoricalPriceDataTable extends React.Component<Props, State> {
     return y.datetime.diff(x.datetime)
   }
 
-  public parseData(d: RawPriceData): PriceData {
+  public parseData = (d: RawPriceData): PriceData => {
     const { currencyRate } = this.props
 
     const datetime = moment.utc(d.time)
