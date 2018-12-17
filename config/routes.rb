@@ -43,6 +43,7 @@ Rails.application.routes.draw do
   get '/podcast', to: redirect('https://www.coinfi.com/research/coinfi-podcast', status: 302), as: 'podcast'
   get '/profile', to: 'users#edit'
   put '/profile', to: 'users#update'
+  get '/token-metrics(/:metric_type)', to: 'token_metrics#index', as: 'token_metrics'
 
   namespace :admin do
     resources :coins do

@@ -59,6 +59,12 @@ class Coin < ApplicationRecord
     pluck(:symbol).uniq.compact.sort.reject { |symbol| /[[:lower:]]/.match(symbol) }
   end
 
+  def self.erc20_tokens
+    where("coins.blockchain_tech ~* ?", "(\b(ETH|ETHER|ER[A-Z]?\d*|EIP\d*)\b)|(ETHEREUM)")
+      .or(Coin.where("coins.token_type ~* ?", "(\b(ETH|ETHER|ER[A-Z]?\d*|EIP\d*)\b)|(ETHEREUM)"))
+      .or(Coin.where.not(eth_address: nil))
+  end
+
   def most_common_news_category
     NewsCategory
       .joins(news_items: :news_coin_mentions)
