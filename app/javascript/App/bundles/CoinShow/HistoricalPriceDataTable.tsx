@@ -17,7 +17,10 @@ import {
   formatValue,
   formatValueByCurrencyRate,
 } from '~/bundles/common/utils/numberFormatters'
-import { CurrencyContextType } from '~/bundles/common/contexts/CurrencyContext'
+import {
+  CurrencyContextType,
+  withCurrency,
+} from '~/bundles/common/contexts/CurrencyContext'
 
 enum STATUSES {
   INITIALIZING = 'INITIALIZING',
@@ -255,4 +258,4 @@ class HistoricalPriceDataTable extends React.Component<Props, State> {
   }
 }
 
-export default withStyles(styles)(HistoricalPriceDataTable)
+export default withStyles(styles)(withCurrency(HistoricalPriceDataTable))

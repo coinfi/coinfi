@@ -30,7 +30,7 @@ import NewsLabel from './NewsLabel'
 import FundamentalsList from './FundamentalsList'
 import InfoBar from './InfoBar'
 import LinksList from './LinksList'
-import HistoricalPriceDataTableWrapper from './HistoricalPriceDataTableWrapper'
+import HistoricalPriceDataTable from './HistoricalPriceDataTable'
 import TokenChart from './TokenChart'
 import Icon from '~/bundles/common/components/Icon'
 import CoinListWrapper from '~/bundles/common/components/CoinListWrapper'
@@ -411,7 +411,7 @@ class CoinShow extends Component {
                       Historical Data
                     </ExpansionPanelSummary>
                     <ExpansionPanelDetails className={classes.expansionDetails}>
-                      <HistoricalPriceDataTableWrapper
+                      <HistoricalPriceDataTable
                         initialRawData={priceData}
                         availableSupply={availableSupply}
                         symbol={symbol}

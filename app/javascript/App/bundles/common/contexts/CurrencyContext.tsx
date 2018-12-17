@@ -5,7 +5,6 @@ import API from '~/bundles/common/utils/localAPI'
 import currencyMap, {
   defaultCurrency,
 } from '~/bundles/common/constants/currencyMap'
-import { STATUS_CODES } from 'http'
 
 enum STATUS {
   INITIALIZING = 'INITIALIZING',
@@ -195,5 +194,11 @@ class CurrencyProvider extends React.Component<
 }
 const ProviderWithCookies = withCookies(CurrencyProvider)
 export { ProviderWithCookies as CurrencyProvider }
+
+export const withCurrency = (WrappedComponent) => (props) => (
+  <CurrencyContext.Consumer>
+    {(payload) => <WrappedComponent {...payload} {...props} />}
+  </CurrencyContext.Consumer>
+)
 
 export default CurrencyContext
