@@ -17,14 +17,14 @@ import SearchCoins from '~/bundles/common/components/SearchCoins'
 import RedGreenSpan from '~/bundles/common/components/RedGreenSpan'
 
 interface CoinWithTokenData {
-  id: number
+  id?: number
   coin_key: string
-  name: string
-  image_url: string
-  symbol: string
-  slug: string
-  price: number
-  market_cap: number
+  name?: string
+  image_url?: string
+  symbol?: string
+  slug?: string
+  price?: number
+  market_cap?: number
   rank: number
   token_metric: number
   change_1d: number
@@ -237,7 +237,7 @@ class TokenMetricsIndex extends React.Component<Props, State> {
             <TableBody>
               {rows.map((row) => {
                 return (
-                  <TableRow key={row.id}>
+                  <TableRow key={row.coin_key}>
                     <TableCell className={classes.tableCellRank}>
                       {row.rank}
                     </TableCell>

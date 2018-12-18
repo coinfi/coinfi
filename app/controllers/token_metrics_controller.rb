@@ -42,7 +42,7 @@ class TokenMetricsController < ApplicationController
       }
 
       if coin.present?
-        token_hash.merge({
+        token_hash = token_hash.merge({
           id: coin.id,
           coin_key: coin.coin_key,
           name: coin.name,
@@ -53,6 +53,8 @@ class TokenMetricsController < ApplicationController
           market_cap: coin.market_cap,
         })
       end
+
+      token_hash
     end
   end
 end
