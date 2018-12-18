@@ -59,4 +59,23 @@ namespace :redis do
       redis.rename key, "#{prefix}:#{key}"
     end
   end
+
+  desc "Clear cache keys"
+  task :delete_keys, [:key] => :environment do |task, args|
+    next if args[:key].blank?
+
+    redis_uri = ENV.fetch('REDIS_URL')
+    parsed_redis_url = URI.parse(redis_uri)
+    prefix = parsed_redis_url.path.match(/\/\d+\/(.+)/)[1]
+    prefix << ':' if prefix.present?
+
+    search = "#{prefix}#{args[:key]}"
+    puts "Searching for #{search}"
+
+    redis = Redis.new :url => redis_uri
+    redis.keys(search).each do |key|
+      puts "Deleting #{key}"
+      redis.del key
+    end
+  end
 end
