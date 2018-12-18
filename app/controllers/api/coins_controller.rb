@@ -37,21 +37,30 @@ class Api::CoinsController < ApiController
   def search_by_params
     distribute_reads(max_lag: MAX_ACCEPTABLE_REPLICATION_LAG, lag_failover: true) do
       coins = []
-      puts params
+      tokens_only = params[:tokensOnly].present? && params[:tokensOnly].downcase == 'true'
+
       if params[:coinSlugs].present?
         coins = Coin.where(slug: params[:coinSlugs])
+        coins.erc20_tokens if tokens_only
       elsif params[:name].present?
-        coins = Coin.find_by_sql("
+        token_query = '(coins.blockchain_tech ~* \'(\b(ETH|ETHER|ER[A-Z]?\d*|EIP\d*)\b)|(ETHEREUM)\'
+          OR coins.token_type ~* \'(\b(ETH|ETHER|ER[A-Z]?\d*|EIP\d*)\b)|(ETHEREUM)\'
+          OR coins.eth_address IS NOT NULL) AND '
+        coins = Coin.find_by_sql(["
           SELECT *, CASE
-              WHEN UPPER(symbol) = UPPER('#{params[:name]}') THEN 1
-              WHEN UPPER(name) = UPPER('#{params[:name]}') THEN 1
+              WHEN UPPER(symbol) = UPPER(:name) THEN 1
+              WHEN UPPER(name) = UPPER(:name) THEN 1
               ELSE 3
             END as match
             FROM coins
-            WHERE UPPER(symbol) LIKE UPPER('#{params[:name]}%')
-              OR UPPER(name) LIKE UPPER('#{params[:name]}%')
+            WHERE
+              #{token_query if tokens_only}
+              (UPPER(symbol) LIKE UPPER(:name_prefix)
+              OR UPPER(name) LIKE UPPER(:name_prefix))
             ORDER BY match ASC, ranking ASC
-            LIMIT 10")
+            LIMIT 10",
+          { name: params[:name], name_prefix: "#{params[:name]}%" }
+        ])
       end
       respond_success search_serializer(coins)
     end
