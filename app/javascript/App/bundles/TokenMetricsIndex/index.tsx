@@ -125,6 +125,12 @@ const styles = (theme) =>
       fontSize: '14px',
       fontWeight: 500,
     },
+    searchContainer: {
+      [theme.breakpoints.down('sm')]: {
+        width: '100%',
+        marginTop: '16px',
+      },
+    },
     searchPaper: {
       padding: '3px 16px',
       // borderRadius: '4px',
@@ -185,6 +191,8 @@ class TokenMetricsIndex extends React.Component<Props, State> {
           onChange={this.handleTabChange}
           indicatorColor="primary"
           textColor="primary"
+          scrollable={true}
+          scrollButtons="off"
           classes={{
             root: classes.tabsRoot,
             flexContainer: classes.tabsFlexContainer,
@@ -207,14 +215,14 @@ class TokenMetricsIndex extends React.Component<Props, State> {
           <Grid item={true} className={classes.description}>
             {tabInfo.description}
           </Grid>
-          <Grid item={true}>
+          <Grid item={true} className={classes.searchContainer}>
             <Paper className={classes.searchPaper}>
               <SearchCoins
                 onSelect={(suggestion) =>
                   (window.location.href = `/coins/${suggestion.slug}`)
                 }
                 tokensOnly={true}
-                coinShow={true}
+                coinShow={false}
                 unstyled={true}
               />
             </Paper>
