@@ -38,7 +38,11 @@ module TokensHelper
       url = "#{ENV.fetch('COINFI_POSTGREST_URL')}/#{metric_type}_metadata_view?order=rank.asc"
       response = HTTParty.get(url)
       results = JSON.parse(response.body)
-      results.empty? ? nil : results
+      if results.present? and results.is_a?(Array)
+        results
+      else
+        nil
+      end
     end
   end
 
