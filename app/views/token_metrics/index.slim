@@ -1,0 +1,12 @@
+.bg-pearl-gray= react_component_with_jss "App",
+  withStore: true,
+  props: { \
+    page: @page,
+    limit: @limit,
+    count: @tokens_count,
+    user: current_user,
+    metricType: @metric_type,
+    metricTypeSlug: @metric_type_slug,
+    coinsWithTokenData: @tokens_and_coins_data,
+  },
+  prerender: true

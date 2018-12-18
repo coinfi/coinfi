@@ -1,5 +1,26 @@
 module TokensHelper
-  METRIC_TYPES = ['exchange_supply', 'token_retention_rate', 'unique_wallet_count', 'token_distribution_100', 'token_velocity']
+  METRIC_TYPES = [
+    {
+      value: 'exchange_supply',
+      slug: 'exchange-supply',
+    },
+    {
+      value: 'token_retention_rate',
+      slug: 'token-retention',
+    },
+    {
+      value: 'token_distribution_100',
+      slug: 'token-distribution',
+    },
+    {
+      value: 'unique_wallet_count',
+      slug: 'unique-wallet',
+    },
+    {
+      value: 'token_velocity',
+      slug: 'token-velocity',
+    },
+  ]
 
   def get_token_metrics_metadata(coin_key, metric_type)
     metric_metadata = get_all_tokens_metrics_metadata(metric_type) || []
@@ -14,7 +35,7 @@ module TokensHelper
       expires_in: 1.day,
       race_condition_ttl: 10.seconds
     ) do
-      url = "#{ENV.fetch('COINFI_POSTGREST_URL')}/#{metric_type}_metrics_view?order=rank.asc"
+      url = "#{ENV.fetch('COINFI_POSTGREST_URL')}/#{metric_type}_metadata_view?order=rank.asc"
       response = HTTParty.get(url)
       results = JSON.parse(response.body)
       results.empty? ? nil : results
@@ -22,10 +43,30 @@ module TokensHelper
   end
 
   def is_valid_metric_type(metric_type)
-    METRIC_TYPES.detect { |t| t == metric_type }.present?
+    METRIC_TYPES.detect { |t| t[:value] == metric_type }.present?
   end
 
   def default_metric_type
-    METRIC_TYPES.first
+    METRIC_TYPES.first[:value]
+  end
+
+  def get_metric_type_from_slug(slug)
+    metric_type_hash = METRIC_TYPES.detect { |t| t[:slug] == slug }
+
+    if metric_type_hash.present?
+      metric_type_hash[:value]
+    else
+      METRIC_TYPES[0][:value]
+    end
+  end
+
+  def get_slug_from_metric_type(metric_type)
+    metric_type_hash = METRIC_TYPES.detect { |t| t[:value] == metric_type }
+
+    if metric_type_hash.present?
+      metric_type_hash[:slug]
+    else
+      METRIC_TYPES[0][:slug]
+    end
   end
 end

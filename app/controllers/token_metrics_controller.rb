@@ -24,31 +24,35 @@ class TokenMetricsController < ApplicationController
   private
 
   def set_metric_type
-    # TODO: convert from desired slugs to internally used metric types
-    metric_type = params[:metric_type].gsub!('-', '_') if params[:metric_type].present?
-    @metric_type = is_valid_metric_type(metric_type) ? metric_type : default_metric_type
+    @metric_type = params[:metric_type].present? ? get_metric_type_from_slug(params[:metric_type]) : default_metric_type
+    @metric_type_slug = get_slug_from_metric_type(@metric_type)
   end
 
   def index_serialize(tokens, coins)
     tokens.map do |token|
       coin = coins.detect { |c| c.coin_key == token['coin_key'] }
 
-      {
-        id: coin.id,
-        coin_key: coin.coin_key,
-        name: coin.name,
-        image_url: coin.image_url,
-        symbol: coin.symbol,
-        slug: coin.slug,
-        price: coin.price,
-        market_cap: coin.market_cap,
-        change1h: coin.change1h,
-        change24h: coin.change24h,
-        change7d: coin.change7d,
-        volume24h: coin.volume24h,
+      token_hash = {
+        coin_key: token['coin_key'],
         rank: token['rank'],
         token_metric: token['metric_value'],
+        change_1d: token['change_1d'],
+        change_7d: token['change_7d'],
+        change_30d: token['change_30d'],
       }
+
+      if coin.present?
+        token_hash.merge({
+          id: coin.id,
+          coin_key: coin.coin_key,
+          name: coin.name,
+          image_url: coin.image_url,
+          symbol: coin.symbol,
+          slug: coin.slug,
+          price: coin.price,
+          market_cap: coin.market_cap,
+        })
+      end
     end
   end
 end
