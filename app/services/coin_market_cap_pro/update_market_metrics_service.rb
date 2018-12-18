@@ -15,12 +15,17 @@ module CoinMarketCapPro
 
     def perform_update_metrics(data)
       metrics = data.dig('quote', 'USD')
-      MarketMetric.create(
-        total_market_cap: metrics["total_market_cap"],
-        total_volume_24h: metrics["total_volume_24h"],
-        timestamp: metrics["last_updated"],
-      )
-      Net::HTTP.get(URI.parse(ENV.fetch('HEALTHCHECK_MARKET_METRICS')))
+      begin
+        MarketMetric.create!(
+          total_market_cap: metrics["total_market_cap"],
+          total_volume_24h: metrics["total_volume_24h"],
+          timestamp: metrics["last_updated"],
+        )
+      rescue StandardError => e
+        Net::HTTP.post(URI.parse("#{ENV.fetch('HEALTHCHECK_MARKET_METRICS')}/fail"), e.to_json)
+      else
+        Net::HTTP.get(URI.parse(ENV.fetch('HEALTHCHECK_MARKET_METRICS')))
+      end
     end
 
     def load_cmc_data
