@@ -35,6 +35,18 @@ const theme = createMuiTheme({
         },
       },
     },
+    MuiTableCell: {
+      paddingDense: {
+        paddingLeft: '5px',
+        paddingRight: '5px',
+        '&:first-child': {
+          paddingLeft: '8px',
+        },
+        '&:last-child': {
+          paddingRight: '8px',
+        },
+      },
+    },
   },
 })
 

@@ -1,4 +1,4 @@
-class Api::SignalsTelegramBot::SignalsTelegramUsersController < Api::SignalsTelegramBot::BaseController
+class Api::Signals::SignalsTelegramUsersController < Api::Signals::BaseController
   before_action :set_signals_telegram_user, only: [:show]
 
   def index
@@ -60,9 +60,11 @@ class Api::SignalsTelegramBot::SignalsTelegramUsersController < Api::SignalsTele
   end
 
   def serialize_signals_telegram_user(signals_telegram_user)
+    subscribed_coin_keys = signals_telegram_user.subscribed_coins.map(&:coin_key)
     signals_telegram_user.as_json(
-      only: %i[id user_id telegram_id telegram_username telegram_chat_id started_at is_active],
-    )
+        only: %i[id user_id telegram_id telegram_username telegram_chat_id started_at is_active],
+      )
+      .merge("subscribed_coin_keys" => subscribed_coin_keys)
   end
 
   def index_params

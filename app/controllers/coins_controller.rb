@@ -4,6 +4,7 @@ class CoinsController < ApplicationController
   include CoinListHelper
 
   def index
+    @hide_currency = true
     distribute_reads(max_lag: MAX_ACCEPTABLE_REPLICATION_LAG, lag_failover: true) do
       @coin_count = Coin.listed.count
       @coins = index_serializer(

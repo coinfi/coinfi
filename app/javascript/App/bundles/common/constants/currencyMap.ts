@@ -175,4 +175,6 @@ const currencyMap = {
   ZWD: 'Z$',
 }
 
+export const defaultCurrency = 'USD'
+
 export default currencyMap

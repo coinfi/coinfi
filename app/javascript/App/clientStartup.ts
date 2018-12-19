@@ -14,6 +14,7 @@ import SignalFaqPanel from './bundles/signalsPage/SignalFaqPanel'
 import SignalPopoverText from './bundles/signalsPage/SignalPopoverText'
 import SignalTeamMember from './bundles/signalsPage/SignalTeamMember'
 import SignalReservationForm from './bundles/signalsPage/SignalReservationForm'
+import CurrencySelectorWidget from './bundles/CurrencySelectorWidget'
 
 // Register the components so they can be rendered from Rails
 ReactOnRails.register({
@@ -25,5 +26,6 @@ ReactOnRails.register({
   SignalPopoverText: withRootProviders(SignalPopoverText),
   SignalTeamMember: withRootProviders(SignalTeamMember),
   SignalReservationForm: withRootProviders(SignalReservationForm),
+  CurrencySelectorWidget: withRootProviders(CurrencySelectorWidget),
   App: ClientApp,
 })

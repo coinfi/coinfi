@@ -1,4 +1,4 @@
-class Api::SignalsTelegramBot::TradingSignalTriggersController < Api::SignalsTelegramBot::BaseController
+class Api::Signals::TradingSignalTriggersController < Api::Signals::BaseController
   before_action :set_trading_signal_trigger, only: [:show]
 
   def index
