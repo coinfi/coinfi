@@ -2,23 +2,23 @@ module TokensHelper
   METRIC_TYPES = [
     {
       value: 'exchange_supply',
-      slug: 'exchange-supply',
+      slug: 'supply-on-exchange',
     },
     {
       value: 'token_retention_rate',
-      slug: 'token-retention',
+      slug: 'retention',
     },
     {
       value: 'token_distribution_100',
-      slug: 'token-distribution',
+      slug: 'decentralization',
     },
     {
       value: 'unique_wallet_count',
-      slug: 'unique-wallet',
+      slug: 'adoption',
     },
     {
       value: 'token_velocity',
-      slug: 'token-velocity',
+      slug: 'velocity',
     },
   ]
 

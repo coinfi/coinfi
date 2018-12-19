@@ -98,7 +98,7 @@ enum STATUSES {
 
 const TABS: TabData[] = [
   {
-    slug: 'exchange-supply',
+    slug: 'supply-on-exchange',
     label: 'Supply On Exchange',
     description:
       'A high percentage of supply on exchanges could indicate higher intention to sell by holders.',
@@ -106,7 +106,7 @@ const TABS: TabData[] = [
     type: 'percentage',
   },
   {
-    slug: 'token-retention',
+    slug: 'retention',
     label: 'Retention',
     description:
       'A high percentage of early investors still HODLing could indicate strong believe in project.',
@@ -114,7 +114,7 @@ const TABS: TabData[] = [
     type: 'percentage',
   },
   {
-    slug: 'token-distribution',
+    slug: 'decentralization',
     label: 'Decentralization',
     description:
       'A high percentage held by whales could indicate higher vulnerability to price manipulation.',
@@ -122,7 +122,7 @@ const TABS: TabData[] = [
     type: 'percentage',
   },
   {
-    slug: 'unique-wallet',
+    slug: 'adoption',
     label: 'Adoption',
     description:
       'More unique wallets HOLDLing could indicate more adoption by users.',
@@ -130,7 +130,7 @@ const TABS: TabData[] = [
     type: 'number',
   },
   {
-    slug: 'token-velocity',
+    slug: 'velocity',
     label: 'Velocity',
     description:
       'A high percentage of the supply transacted on the blockchain could indicate strong adoption or usage of the token.',
