@@ -81,7 +81,9 @@ Rails.application.routes.draw do
 
     namespace :signals do
       resources :coins, only: %i[show], param: :coin_key
-      resources :trading_signal_triggers, only: %i[index show create]
+      resources :trading_signal_triggers, only: %i[index show create] do
+        post 'bulk_upsert_by_external_id', on: :collection
+      end
       resources :trading_signals, only: %i[show create]
       resources :trading_signal_notifications, only: %i[show create]
       resources :signals_telegram_users, only: %i[index show], param: :telegram_id_or_username do
