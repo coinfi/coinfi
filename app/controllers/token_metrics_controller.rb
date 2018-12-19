@@ -4,17 +4,19 @@ class TokenMetricsController < ApplicationController
   include TokensHelper
 
   def index
-    tokens = get_all_tokens_metrics_metadata(@metric_type) || []
-    @tokens_count = tokens.count
-    start = (@page - 1) * @limit
+    distribute_reads(max_lag: MAX_ACCEPTABLE_REPLICATION_LAG, lag_failover: true) do
+      tokens = get_all_tokens_metrics_metadata(@metric_type) || []
+      @tokens_count = tokens.count
+      start = (@page - 1) * @limit
 
-    tokens_page = tokens[start, @limit]
+      tokens_page = tokens[start, @limit]
 
-    # grab associated coins
-    token_coin_keys = tokens_page.map { |d| d['coin_key'] }
-    coins_data = Coin.where(coin_key: token_coin_keys)
+      # grab associated coins
+      token_coin_keys = tokens_page.map { |d| d['coin_key'] }
+      coins_data = Coin.where(coin_key: token_coin_keys)
 
-    @tokens_and_coins_data = serialize_tokens_with_coins(tokens_page, coins_data)
+      @tokens_and_coins_data = serialize_tokens_with_coins(tokens_page, coins_data)
+    end
   end
 
   private
@@ -37,5 +39,5 @@ class TokenMetricsController < ApplicationController
     end
   end
 
-  
+
 end

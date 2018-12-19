@@ -8,23 +8,25 @@ class Api::TokenMetricsController < ApiController
     @tokens_count = tokens.count
     start = (@page - 1) * @limit
 
-    if is_order_by_coin? # order by coin
-      coins = Coin.legit.erc20_tokens
-      coins = coins.sort { |a, b| a.public_send(@order_by) <=> b.public_send(@order_by) }
-      coins = coins.reverse if @order == 'desc'
-      coins_page = coins[start, @limit]
+    distribute_reads(max_lag: MAX_ACCEPTABLE_REPLICATION_LAG, lag_failover: true) do
+      if is_order_by_coin? # order by coin
+        coins = Coin.legit.erc20_tokens
+        coins = coins.sort { |a, b| a.public_send(@order_by) <=> b.public_send(@order_by) }
+        coins = coins.reverse if @order == 'desc'
+        coins_page = coins[start, @limit]
 
-      @tokens_and_coins_data = serialize_coins_with_tokens(coins_page, tokens)
-    else # order by token
-      tokens = tokens.sort { |a, b| a[@order_by] <=> b[@order_by] }
-      tokens = tokens.reverse if @order == 'desc'
-      tokens_page = tokens[start, @limit]
+        @tokens_and_coins_data = serialize_coins_with_tokens(coins_page, tokens)
+      else # order by token
+        tokens = tokens.sort { |a, b| a[@order_by] <=> b[@order_by] }
+        tokens = tokens.reverse if @order == 'desc'
+        tokens_page = tokens[start, @limit]
 
-      # grab associated coins
-      token_coin_keys = tokens_page.map { |d| d['coin_key'] }
-      coins_data = Coin.where(coin_key: token_coin_keys)
+        # grab associated coins
+        token_coin_keys = tokens_page.map { |d| d['coin_key'] }
+        coins_data = Coin.where(coin_key: token_coin_keys)
 
-      @tokens_and_coins_data = serialize_tokens_with_coins(tokens_page, coins_data)
+        @tokens_and_coins_data = serialize_tokens_with_coins(tokens_page, coins_data)
+      end
     end
 
     respond_success index_payload
