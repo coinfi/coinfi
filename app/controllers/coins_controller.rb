@@ -5,6 +5,7 @@ class CoinsController < ApplicationController
   include CoinsHelper
 
   def index
+    @hide_currency = true
     @page = if params.has_key?(:page) then params[:page].to_i else 1 end
     @limit = if params.has_key?(:limit) then params[:limit].to_i else 100 end
 

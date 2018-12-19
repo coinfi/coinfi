@@ -5,6 +5,7 @@ import TradingViewChart from './TradingViewChart'
 import LoadingIndicator from '../LoadingIndicator'
 import moment from 'moment'
 import * as _ from 'lodash'
+import CurrencyContext from '~/bundles/common/contexts/CurrencyContext'
 
 const STATUSES = {
   INITIALIZING: 'INITIALIZING',
@@ -30,22 +31,31 @@ class CoinCharts extends Component {
     }
   }
 
-  componentDidUpdate() {
+  componentDidUpdate(prevProps, prevState) {
     if (this.state.status === STATUSES.INITIALIZING && this.hasData()) {
+      this.processData()
+    } else if (
+      this.state.status === STATUSES.READY &&
+      prevProps.currencyRate !== this.props.currencyRate
+    ) {
       this.processData()
     }
   }
 
   processData() {
-    const { priceData, priceDataHourly } = this.props
+    const { priceData, priceDataHourly, currency, currencyRate } = this.props
 
     this.setState({ status: STATUSES.LOADING }, () => {
       const hasHourlyPrice = priceDataHourly && priceDataHourly.length > 0
       const processedPriceData = Array.isArray(priceData)
-        ? priceData.map(this.formatPriceDataDaily)
+        ? priceData.map((datum) =>
+            this.formatPriceDataDaily(datum, currencyRate, currency),
+          )
         : []
       const processedPriceDataHourly = hasHourlyPrice
-        ? priceDataHourly.map(this.formatPriceDataHourly)
+        ? priceDataHourly.map((datum) =>
+            this.formatPriceDataHourly(datum, currencyRate, currency),
+          )
         : [...processedPriceData]
 
       const sortedPriceData = [
@@ -73,9 +83,25 @@ class CoinCharts extends Component {
     return hasData
   }
 
-  formatPriceDataDaily(datum) {
+  formatPriceDataDaily(datum, currencyRate = 1, currency = 'USD') {
+    const {
+      open,
+      close,
+      high,
+      low,
+      volume_to,
+      to_currency,
+      ...remainingData
+    } = datum
+
     return {
-      ...datum,
+      ...remainingData,
+      to_currency: currency,
+      open: open * currencyRate,
+      close: close * currencyRate,
+      high: high * currencyRate,
+      low: low * currencyRate,
+      volume_to: volume_to * currencyRate,
       timestamp: moment
         .utc(datum.time)
         .startOf('day')
@@ -83,9 +109,17 @@ class CoinCharts extends Component {
     }
   }
 
-  formatPriceDataHourly(datum) {
+  formatPriceDataHourly(datum, currencyRate = 1, currency = 'USD') {
+    const { open, close, high, low, volume_to, ...remainingData } = datum
+
     return {
-      ...datum,
+      ...remainingData,
+      to_currency: currency,
+      open: open * currencyRate,
+      close: close * currencyRate,
+      high: high * currencyRate,
+      low: low * currencyRate,
+      volume_to: volume_to * currencyRate,
       timestamp: moment
         .utc(datum.time)
         .startOf('hour')
@@ -94,8 +128,12 @@ class CoinCharts extends Component {
   }
 
   render() {
-    const { isTradingViewVisible } = this.props
-    const { priceData, priceDataHourly, ...remainingProps } = this.props
+    const {
+      isTradingViewVisible,
+      priceData,
+      priceDataHourly,
+      ...remainingProps
+    } = this.props
     const { status, processedPriceData, epochPrices } = this.state
 
     if (status !== STATUSES.READY) {
@@ -139,4 +177,8 @@ class CoinCharts extends Component {
   }
 }
 
-export default CoinCharts
+export default (props) => (
+  <CurrencyContext.Consumer>
+    {(payload) => <CoinCharts {...props} {...payload} />}
+  </CurrencyContext.Consumer>
+)

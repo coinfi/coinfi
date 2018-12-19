@@ -67,6 +67,7 @@
     "react": "^16.4.0",
     "react-addons-update": "^15.6.2",
     "react-autosuggest": "^9.4.0",
+    "react-cookie": "^3.0.4",
     "react-currency-formatter": "^1.1.0",
     "react-datepicker": "^1.6.0",
     "react-dom": "^16.2.0",

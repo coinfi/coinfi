@@ -6,7 +6,6 @@ import ClientApp from './ClientApp'
 
 // non-react-router components
 import NavUserContainer from './bundles/common/containers/NavUserContainer'
-import CoinShow from './bundles/CoinShow'
 import FlashMessageListContainer from './bundles/common/containers/FlashMessageListContainer'
 import WatchStar from './bundles/common/components/WatchStar'
 import SignalExamplePanel from './bundles/signalsPage/SignalExamplePanel'
@@ -15,6 +14,7 @@ import SignalPopoverText from './bundles/signalsPage/SignalPopoverText'
 import SignalTeamMember from './bundles/signalsPage/SignalTeamMember'
 import SignalReservationForm from './bundles/signalsPage/SignalReservationForm'
 import HomeIndex from './bundles/HomeIndex'
+import CurrencySelectorWidget from './bundles/CurrencySelectorWidget'
 
 // Register the components so they can be rendered from Rails
 ReactOnRails.register({
@@ -27,5 +27,6 @@ ReactOnRails.register({
   SignalTeamMember: withRootProviders(SignalTeamMember),
   SignalReservationForm: withRootProviders(SignalReservationForm),
   HomeIndex: withRootProviders(HomeIndex),
+  CurrencySelectorWidget: withRootProviders(CurrencySelectorWidget),
   App: ClientApp,
 })

@@ -22,9 +22,12 @@ UpdateCurrencies:
 # Paid API routes
 
 UpdateCmcPrices:
-  cron: '0 * * * * * Etc/UTC'   # Runs once per minute
+  cron: '0 * * * * * Etc/UTC'
   include_metadata: true
 
 UpdateCmcMarketPairs:
-  cron: '30 * * * * * Etc/UTC'  # Runs once per minute
+  cron: '30 * * * * * Etc/UTC'
   include_metadata: true
+
+UpdateCmcMetrics:
+  cron: '50 */5 * * * * Etc/UTC'

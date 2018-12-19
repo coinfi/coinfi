@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import * as _ from 'lodash'
 import { withRouter } from 'react-router'
 import compose from 'recompose/compose'
@@ -40,6 +40,9 @@ import {
   formatValue,
   formatValueFixed,
 } from '~/bundles/common/utils/numberFormatters'
+import CurrencyContext, {
+  CurrencyContextType,
+} from '~/bundles/common/contexts/CurrencyContext'
 import styles from './styles'
 
 const lightbulb = require('~/images/lightbulb.svg') // tslint:disable-line
@@ -49,6 +52,18 @@ const TAB_SLUGS = {
   priceChart: 'price-chart',
   news: 'news',
 }
+
+const token_cta_points = [
+  `When whales want to dump`,
+  `When founder tokens unlock`,
+  `When the market is bearish or bullish`,
+]
+
+const coin_cta_points = [
+  `When the market is bearish or bullish`,
+  `When there's a sudden increase in news mentions`,
+  `When the markets are becoming more volatile`,
+]
 
 class CoinShow extends Component {
   chart = undefined
@@ -65,7 +80,6 @@ class CoinShow extends Component {
     this.state = {
       priceChartSizeSet: false,
       liveCoinArr: [],
-      currency: 'USD',
       watched: this.props.watching,
       iconLoading: false,
       watchlistIndex: [],
@@ -251,11 +265,12 @@ class CoinShow extends Component {
       classes,
       user,
     } = this.props
-    const { currency, tabSlug, priceData, priceDataHourly } = this.state
+    const { tabSlug, priceData, priceDataHourly } = this.state
 
     const isMobile = isWidthDown('sm', this.props.width)
     const isLoggedIn = !!user
     const hasTokenMetrics = !_.isEmpty(tokenMetrics)
+    const ctaPoints = hasTokenMetrics ? token_cta_points : coin_cta_points
 
     return (
       <div className={classes.root}>
@@ -327,7 +342,6 @@ class CoinShow extends Component {
                   <InfoBar
                     isWatched={this.state.watched}
                     watchCoinHandler={this.watchCoinHandler}
-                    currency={currency}
                     coinObj={coinObj}
                   />
                   <Tabs
@@ -411,7 +425,7 @@ class CoinShow extends Component {
                     </ExpansionPanelSummary>
                     <ExpansionPanelDetails className={classes.expansionDetails}>
                       <HistoricalPriceDataTable
-                        initialData={priceData}
+                        initialRawData={priceData}
                         availableSupply={availableSupply}
                         symbol={symbol}
                       />
@@ -798,7 +812,7 @@ class CoinShow extends Component {
                     }}
                   />
                   <CardContent className={classes.subCardContent}>
-                    <FundamentalsList coinObj={coinObj} currency={currency} />
+                    <FundamentalsList coinObj={coinObj} />
                   </CardContent>
                 </SubCard>
                 <SubCard>
@@ -832,51 +846,27 @@ class CoinShow extends Component {
                       <Grid item={true} xs={12} className={classes.ctaTitle}>
                         Know when to buy or sell {symbol}
                       </Grid>
-                      <Grid
-                        item={true}
-                        xs={2}
-                        className={classes.ctaIconContainer}
-                      >
-                        <Icon
-                          name="check"
-                          regular
-                          className={classes.ctaIcon}
-                        />
-                      </Grid>
-                      <Grid item={true} xs={10}>
-                        When whales want to dump
-                      </Grid>
-                      <Grid
-                        item={true}
-                        xs={2}
-                        className={classes.ctaIconContainer}
-                      >
-                        <Icon
-                          name="check"
-                          regular
-                          className={classes.ctaIcon}
-                        />
-                      </Grid>
-                      <Grid item={true} xs={10}>
-                        When founder tokens unlock
-                      </Grid>
-                      <Grid
-                        item={true}
-                        xs={2}
-                        className={classes.ctaIconContainer}
-                      >
-                        <Icon
-                          name="check"
-                          regular
-                          className={classes.ctaIcon}
-                        />
-                      </Grid>
-                      <Grid item={true} xs={10}>
-                        When the market is bearish or bullish
-                      </Grid>
+                      {ctaPoints.map((text, index) => (
+                        <Fragment key={index}>
+                          <Grid
+                            item={true}
+                            xs={2}
+                            className={classes.ctaIconContainer}
+                          >
+                            <Icon
+                              name="check"
+                              regular
+                              className={classes.ctaIcon}
+                            />
+                          </Grid>
+                          <Grid item={true} xs={10}>
+                            {text}
+                          </Grid>
+                        </Fragment>
+                      ))}
                       <Grid item={true} className={classes.ctaButtonContainer}>
                         <Button
-                          href="/signals/reservation"
+                          href="/signals"
                           variant="contained"
                           className={classes.ctaButton}
                           data-heap="coin-details-click-get-trading-signals-button"

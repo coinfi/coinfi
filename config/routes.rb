@@ -78,6 +78,8 @@ Rails.application.routes.draw do
       get 'dominance', on: :collection
     end
 
+    resources :currency, only: %i[index]
+
     namespace :signals_telegram_bot do
       resources :coins, only: %i[show], param: :coin_key
       resources :trading_signal_triggers, only: %i[index show create]
