@@ -50,6 +50,10 @@ module TokensHelper
     METRIC_TYPES.detect { |t| t[:value] == metric_type }.present?
   end
 
+  def is_valid_metric_type_slug(metric_type_slug)
+    METRIC_TYPES.detect { |t| t[:slug] == metric_type_slug }.present?
+  end
+
   def default_metric_type
     METRIC_TYPES.first[:value]
   end
@@ -71,6 +75,65 @@ module TokensHelper
       metric_type_hash[:slug]
     else
       METRIC_TYPES[0][:slug]
+    end
+  end
+
+  def serialize_tokens_with_coins(tokens, coins)
+    tokens.map do |token|
+      coin = coins.detect { |c| c.coin_key == token['coin_key'] }
+
+      token_hash = {
+        coin_key: token['coin_key'],
+        rank: token['rank'],
+        metric_value: token['metric_value'],
+        change_1d: token['change_1d'],
+        change_7d: token['change_7d'],
+        change_30d: token['change_30d'],
+      }
+
+      if coin.present?
+        token_hash = token_hash.merge({
+          id: coin.id,
+          coin_key: coin.coin_key,
+          name: coin.name,
+          image_url: coin.image_url,
+          symbol: coin.symbol,
+          slug: coin.slug,
+          price: coin.price,
+          market_cap: coin.market_cap,
+        })
+      end
+
+      token_hash
+    end
+  end
+
+  def serialize_coins_with_tokens(coins, tokens)
+    coins.map do |coin|
+      token = tokens.detect { |t| coin.coin_key == t['coin_key'] }
+
+      coin_hash = {
+        id: coin.id,
+        coin_key: coin.coin_key,
+        name: coin.name,
+        image_url: coin.image_url,
+        symbol: coin.symbol,
+        slug: coin.slug,
+        price: coin.price,
+        market_cap: coin.market_cap,
+      }
+
+      if token.present?
+        coin_hash = coin_hash.merge({
+          rank: token['rank'],
+          metric_value: token['metric_value'],
+          change_1d: token['change_1d'],
+          change_7d: token['change_7d'],
+          change_30d: token['change_30d'],
+        })
+      end
+
+      coin_hash
     end
   end
 end
