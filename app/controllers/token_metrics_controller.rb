@@ -7,7 +7,7 @@ class TokenMetricsController < ApplicationController
     tokens = get_all_tokens_metrics_metadata(@metric_type) || []
     @tokens_count = tokens.count
     start = (@page - 1) * @limit
-    
+
     tokens_page = tokens[start, @limit]
 
     # grab associated coins
@@ -28,6 +28,12 @@ class TokenMetricsController < ApplicationController
     else
       @metric_type = default_metric_type
       @slug = get_slug_from_metric_type(@metric_type)
+    end
+
+    if !params.has_key?(:metric_type_slug)
+      redirect_to action: action_name, metric_type_slug: @slug, status: :moved_permanently
+    elsif params[:metric_type_slug] != @slug
+      render_404
     end
   end
 
