@@ -565,7 +565,7 @@ class TokenMetricsIndex extends React.Component<Props, State> {
                         </Grid>
                       </TableCell>
                       <TableCell numeric={true}>
-                        {_.isNumber(row.price) &&
+                        {_.isNumber(row.metric_value) &&
                           `${metricFormatter(row.metric_value)}`}
                       </TableCell>
                       <TableCell numeric={true}>
