@@ -32,7 +32,7 @@ module TokensHelper
 
     Rails.cache.fetch(
       "tokens/#{metric_type}_metadata",
-      expires_at: 1.day.since.beginning_of_day + 4 hours, # 1 hour after metrics are processed
+      expires_at: 1.day.since.beginning_of_day + 4.hours, # 1 hour after metrics are processed
       race_condition_ttl: 10.seconds
     ) do
       url = "#{ENV.fetch('COINFI_POSTGREST_URL')}/#{metric_type}_metadata_view?order=rank.asc"
