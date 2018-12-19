@@ -139,6 +139,8 @@ const TABS: TabData[] = [
   },
 ]
 
+const defaultTextColor = 'rgba(0, 0, 0, 0.87)'
+
 const styles = (theme) =>
   createStyles({
     rootContainer: {
@@ -147,6 +149,12 @@ const styles = (theme) =>
       border: '1px solid rgb(0, 0, 0, 0.18)',
       backgroundColor: '#fff',
       padding: '35px 25px',
+      color: defaultTextColor,
+    },
+    title: {
+      color: defaultTextColor,
+      fontSize: '34px',
+      fontWeight: 'normal',
     },
     tabsRoot: {
       backgroundColor: '#fff',
@@ -170,6 +178,9 @@ const styles = (theme) =>
       paddingRight: '12px',
       paddingLeft: '12px',
     },
+    tabTextColorPrimary: {
+      color: defaultTextColor,
+    },
     header: {
       marginBottom: '16px',
     },
@@ -189,6 +200,11 @@ const styles = (theme) =>
     },
     tableWrapper: {
       overflowX: 'scroll',
+      '& td': {
+        fontSize: '14px',
+        fontWeight: 500,
+        color: defaultTextColor,
+      },
     },
     tableHeaderRow: {
       height: '36px',
@@ -196,6 +212,9 @@ const styles = (theme) =>
     tableHeaderCell: {
       backgroundColor: '#f6f8fa', // pearl-gray
       borderTop: '1px solid rgba(224, 224, 224, 1)',
+      color: 'rgba(0, 0, 0, 0.54)',
+      fontSize: '14px',
+      fontWeight: 500,
     },
     tableCellRank: {
       width: '60px',
@@ -208,6 +227,8 @@ const styles = (theme) =>
     },
     rankItem: {
       lineHeight: '18px',
+      fontSize: '12px',
+      fontWeight: 'normal',
     },
     coinTextWrapper: {
       height: '100%',
@@ -216,6 +237,10 @@ const styles = (theme) =>
       flexShrink: 0,
       flexGrow: 0,
       paddingRight: '7px',
+    },
+    coinSymbol: {},
+    coinName: {
+      fontSize: '12px',
     },
   })
 
@@ -343,7 +368,7 @@ class TokenMetricsIndex extends React.Component<Props, State> {
 
     return (
       <div className={classes.rootContainer}>
-        <h1>ERC-20 Advanced Token Metrics</h1>
+        <h1 className={classes.title}>ERC-20 Advanced Token Metrics</h1>
         <Tabs
           value={tabIndex}
           onChange={this.handleTabChange}
@@ -365,6 +390,7 @@ class TokenMetricsIndex extends React.Component<Props, State> {
                 root: classes.tabRoot,
                 selected: classes.tabSelected,
                 labelContainer: classes.tabLabelContainer,
+                textColorPrimary: classes.tabTextColorPrimary,
               }}
             />
           ))}
