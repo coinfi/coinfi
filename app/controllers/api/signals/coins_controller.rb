@@ -1,4 +1,4 @@
-class Api::SignalsTelegramBot::CoinsController < Api::SignalsTelegramBot::BaseController
+class Api::Signals::CoinsController < Api::Signals::BaseController
   before_action :set_coin, only: [:show]
 
   def show

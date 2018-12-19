@@ -79,7 +79,7 @@ Rails.application.routes.draw do
 
     resources :currency, only: %i[index]
 
-    namespace :signals_telegram_bot do
+    namespace :signals do
       resources :coins, only: %i[show], param: :coin_key
       resources :trading_signal_triggers, only: %i[index show create]
       resources :trading_signals, only: %i[show create]
