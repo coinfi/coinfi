@@ -491,7 +491,7 @@ class CoinShow extends Component {
                                       'metric_value',
                                     ],
                                     0,
-                                  ) * 100,
+                                  ),
                                   1,
                                 )}%
                               </div>
@@ -570,7 +570,7 @@ class CoinShow extends Component {
                                       'metric_value',
                                     ],
                                     0,
-                                  ) * 100,
+                                  ),
                                   1,
                                 )}%
                               </div>
@@ -735,7 +735,7 @@ class CoinShow extends Component {
                                       'metric_value',
                                     ],
                                     0,
-                                  ) * 100,
+                                  ),
                                   1,
                                 )}%
                               </div>
@@ -817,7 +817,7 @@ class CoinShow extends Component {
                                     tokenMetrics,
                                     ['token_velocity_metadata', 'metric_value'],
                                     0,
-                                  ) * 100,
+                                  ),
                                   2,
                                 )}%
                               </div>
