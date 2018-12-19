@@ -75,6 +75,43 @@ export function formatValueWithCurrency(
 }
 
 /***
+ * Limits the maximum decimal places for an inputted number.
+ * Adjusts the maximum decimal places according to a given rate.
+ * Also possible to change the limitations; defaults are set based on the defaults for formatValue()
+ * Specifically, 6 decimal places for currencyRate = 1 with min/max of -/+ 4, respectively
+ *
+ * Examples:
+ * formatValueByCurrencyRate(10, 1) -> "10"
+ * formatValueByCurrencyRate(10.00001, 1) -> "10.00001"
+ * formatValueByCurrencyRate(10.00001, 1000) -> "10"
+ * formatValueByCurrencyRate(10000.01, 1000) -> "10,000.01"
+ */
+export function formatValueByCurrencyRate(
+  value: number,
+  currencyRate: number,
+  options?: {
+    minimumFractionDigits: number
+    defaultFractionDigits: number
+    maximumFractionDigits: number
+  },
+): string {
+  const minimumFractionDigits = _.get(options, 'minimumFractionDigits', 2)
+  const defaultFractionDigits = _.get(options, 'defaultFractionDigits', 6)
+  const maximumFractionDigits = _.get(options, 'maximumFractionDigits', 10)
+
+  // adjust decimal places based on currency rate;
+
+  const powerOf10 = Math.round(Math.log10(currencyRate))
+  const currencyAdjustedMaximumFractionDigits = _.clamp(
+    defaultFractionDigits - powerOf10,
+    minimumFractionDigits,
+    maximumFractionDigits,
+  )
+
+  return formatValue(value, currencyAdjustedMaximumFractionDigits)
+}
+
+/***
  * Format a number for use as a price.
  * This allows us to set our own standard per currency.
  * This can also be useful for cryptocurrencies.
@@ -89,13 +126,19 @@ export function formatPrice(price: number, currency: string): string {
   }
 
   currency = currency.toUpperCase()
+  const currencySymbol = _.get(currencyMap, currency, '')
+
   switch (currency) {
     case 'BTC': {
       return `${formatValue(price, 8)} &#579;`
     }
+    case 'JPY':
+    case 'KRW': {
+      return `${currencySymbol}${formatValue(price, 2)} ${currency}`
+    }
     default:
     case 'USD': {
-      return `$${formatValue(price, 4)} ${currency}`
+      return `${currencySymbol}${formatValue(price, 4)} ${currency}`
     }
   }
 }

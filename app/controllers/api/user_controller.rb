@@ -10,6 +10,7 @@ class Api::UserController < ApiController
 
   def update
     respond_warning("User not logged in") and return unless current_user
+    set_default_currency(params[:currency]) if params[:currency]
     watch_coin(params[:watchCoin]) if params[:watchCoin]
     unwatch_coin(params[:unwatchCoin]) if params[:unwatchCoin]
     respond_success(serialized(current_user))
@@ -27,9 +28,14 @@ class Api::UserController < ApiController
     UnwatchCoinService.call(user: current_user, coin: Coin.find(coin_id))
   end
 
+  def set_default_currency(currency)
+    #TODO: compare against master currency list?
+    current_user.update(default_currency: currency)
+  end
+
   def serialized(user)
     user.as_json(
-      only: %i[email],
+      only: %i[email, default_currency],
       methods: %i[coin_ids]
     )
   end

@@ -1,28 +1,11 @@
-const parseData = (priceData) => {
-  const prices = []
-  const volume = []
-  priceData.forEach((day) => {
-    let { timestamp: time, close: price, volume_to: vol } = day
-    prices.push([time, price])
-    volume.push([time, vol])
-  })
-  return { prices, volume }
-}
-
 export default (Highcharts, data) => {
-  const { priceData, priceDataHourly, setPriceData, setVolumeData } = data
-  const { prices, volume } = parseData(priceDataHourly)
-
-  const setToHourly = () => {
-    const { prices, volume } = parseData(priceDataHourly)
-    setPriceData(prices)
-    setVolumeData(volume)
-  }
-  const setToDaily = () => {
-    const { prices, volume } = parseData(priceData)
-    setPriceData(prices)
-    setVolumeData(volume)
-  }
+  const {
+    pricesHourly,
+    volumesHourly,
+    currency,
+    setToHourly,
+    setToDaily,
+  } = data
 
   return {
     rangeSelector: {
@@ -127,7 +110,7 @@ export default (Highcharts, data) => {
           x: -3,
         },
         title: {
-          text: 'USD Price',
+          text: `${currency} Price`,
         },
         height: '60%',
         lineWidth: 2,
@@ -175,14 +158,14 @@ export default (Highcharts, data) => {
     series: [
       {
         id: 'price',
-        name: 'USD Price',
-        data: prices,
+        name: `${currency} Price`,
+        data: pricesHourly,
       },
       {
         id: 'volume',
         type: 'column',
-        name: 'USD Volume',
-        data: volume,
+        name: `${currency} Volume`,
+        data: volumesHourly,
         color: Highcharts.getOptions().colors[2],
         yAxis: 1,
       },

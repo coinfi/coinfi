@@ -79,6 +79,8 @@ Rails.application.routes.draw do
     end
     get '/token-metrics(/:metric_type_slug)', to: 'token_metrics#index'
 
+    resources :currency, only: %i[index]
+
     namespace :signals_telegram_bot do
       resources :coins, only: %i[show], param: :coin_key
       resources :trading_signal_triggers, only: %i[index show create]
