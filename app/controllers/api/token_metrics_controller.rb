@@ -9,7 +9,7 @@ class Api::TokenMetricsController < ApiController
     start = (@page - 1) * @limit
 
     if is_order_by_coin? # order by coin
-      coins = Coin.erc20_tokens
+      coins = Coin.legit.erc20_tokens
       coins = coins.sort { |a, b| a.public_send(@order_by) <=> b.public_send(@order_by) }
       coins = coins.reverse if @order == 'desc'
       coins_page = coins[start, @limit]

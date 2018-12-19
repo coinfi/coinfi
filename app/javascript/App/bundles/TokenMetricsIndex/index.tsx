@@ -260,14 +260,20 @@ class TokenMetricsIndex extends React.Component<Props, State> {
             const { data, metricType, metricTypeSlug, orderBy, order } = payload
             const tabIndex = this.getTabIndexFromSlug(metricTypeSlug)
 
-            this.setState({
-              status: STATUSES.READY,
-              metricType,
-              tabIndex,
-              orderBy,
-              order,
-              rows: data,
-            })
+            if (
+              this.state.tabIndex === tabIndex &&
+              this.state.orderBy === orderBy &&
+              this.state.order === order
+            ) {
+              this.setState({
+                status: STATUSES.READY,
+                metricType,
+                tabIndex,
+                orderBy,
+                order,
+                rows: data,
+              })
+            }
           })
         },
       )
@@ -296,6 +302,8 @@ class TokenMetricsIndex extends React.Component<Props, State> {
   public handleTabChange = (e, tabIndex: number) => {
     this.setState({
       tabIndex,
+      orderBy: 'rank',
+      order: 'asc',
     })
   }
 
@@ -526,7 +534,9 @@ class TokenMetricsIndex extends React.Component<Props, State> {
                           className={classes.coinWrapper}
                         >
                           <Grid item={true} className={classes.coinIcon}>
-                            <img alt={row.name} src={row.image_url} />
+                            {_.isString(row.image_url) && (
+                              <img alt={row.name} src={row.image_url} />
+                            )}
                           </Grid>
                           <Grid item={true}>
                             <Grid
@@ -555,31 +565,39 @@ class TokenMetricsIndex extends React.Component<Props, State> {
                         </Grid>
                       </TableCell>
                       <TableCell numeric={true}>
-                        {metricFormatter(row.metric_value)}
+                        {_.isNumber(row.price) &&
+                          `${metricFormatter(row.metric_value)}`}
                       </TableCell>
                       <TableCell numeric={true}>
-                        <RedGreenSpan
-                          text={formatValue(row.change_1d, 2)}
-                          affix="%"
-                        />
+                        {_.isNumber(row.change_1d) && (
+                          <RedGreenSpan
+                            text={formatValue(row.change_1d, 2)}
+                            affix="%"
+                          />
+                        )}
                       </TableCell>
                       <TableCell numeric={true}>
-                        <RedGreenSpan
-                          text={formatValue(row.change_7d, 2)}
-                          affix="%"
-                        />
+                        {_.isNumber(row.change_7d) && (
+                          <RedGreenSpan
+                            text={formatValue(row.change_7d, 2)}
+                            affix="%"
+                          />
+                        )}
                       </TableCell>
                       <TableCell numeric={true}>
-                        <RedGreenSpan
-                          text={formatValue(row.change_30d, 2)}
-                          affix="%"
-                        />
+                        {_.isNumber(row.change_30d) && (
+                          <RedGreenSpan
+                            text={formatValue(row.change_30d, 2)}
+                            affix="%"
+                          />
+                        )}
                       </TableCell>
                       <TableCell numeric={true}>
-                        ${formatValue(row.price)}
+                        {_.isNumber(row.price) && `$${formatValue(row.price)}`}
                       </TableCell>
                       <TableCell numeric={true}>
-                        ${formatValue(row.market_cap)}
+                        {_.isNumber(row.market_cap) &&
+                          `$${formatValue(row.market_cap)}`}
                       </TableCell>
                     </TableRow>
                   )
