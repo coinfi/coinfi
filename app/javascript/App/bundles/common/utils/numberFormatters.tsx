@@ -29,7 +29,7 @@ export function formatValue(
     return ''
   }
   const format = `0,0.[${_.repeat('0', maximumFractionDigits)}]`
-  return numeral(value.toFixed(maximumFractionDigits)).format(format)
+  return numeral(Number(value).toFixed(maximumFractionDigits)).format(format)
 }
 
 /***
@@ -49,7 +49,7 @@ export function formatValueFixed(
     return ''
   }
   const format = `0,0.${_.repeat('0', fractionDigits)}`
-  return numeral(value.toFixed(fractionDigits)).format(format)
+  return numeral(Number(value).toFixed(fractionDigits)).format(format)
 }
 
 /***
