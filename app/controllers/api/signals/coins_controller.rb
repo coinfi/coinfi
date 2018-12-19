@@ -16,7 +16,7 @@ class Api::Signals::CoinsController < Api::Signals::BaseController
   def serialize_coin(coin)
     coin
       .as_json(
-        only: %i[id name symbol slug coin_key token_decimals],
+        only: %i[id name symbol slug coin_key token_decimals eth_address ranking],
         methods: %i[price]
       )
       .merge({
