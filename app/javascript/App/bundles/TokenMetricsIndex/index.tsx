@@ -15,9 +15,17 @@ import {
   TableSortLabel,
 } from '@material-ui/core'
 import { withStyles, createStyles } from '@material-ui/core/styles'
+import {
+  CurrencyContextType,
+  withCurrency,
+} from '~/bundles/common/contexts/CurrencyContext'
 import Icon from '~/bundles/common/components/Icon'
 import API from '../common/utils/localAPI'
-import { formatValue, formatValueFixed } from '../common/utils/numberFormatters'
+import {
+  formatValue,
+  formatValueFixed,
+  formatValueByCurrencyRate,
+} from '../common/utils/numberFormatters'
 import WatchStar from '../common/components/WatchStar'
 import SearchCoins from '~/bundles/common/components/SearchCoins'
 import RedGreenSpan from '~/bundles/common/components/RedGreenSpan'
@@ -60,7 +68,7 @@ interface TabData {
 
 type DATA_TYPES = 'percentage' | 'number'
 
-interface Props extends RouteComponentProps<any> {
+interface Props extends RouteComponentProps<any>, CurrencyContextType {
   classes: any
   page: number
   limit: number
@@ -322,7 +330,7 @@ class TokenMetricsIndex extends React.Component<Props, State> {
   }
 
   public render() {
-    const { classes, user } = this.props
+    const { classes, user, currencyRate, currencySymbol } = this.props
     const { tabIndex, orderBy, order, status, rows } = this.state
 
     const isLoading = status !== STATUSES.READY
@@ -593,11 +601,18 @@ class TokenMetricsIndex extends React.Component<Props, State> {
                         )}
                       </TableCell>
                       <TableCell numeric={true}>
-                        {_.isNumber(row.price) && `$${formatValue(row.price)}`}
+                        {_.isNumber(row.price) &&
+                          `${currencySymbol}${formatValueByCurrencyRate(
+                            row.price * currencyRate,
+                            currencyRate,
+                          )}`}
                       </TableCell>
                       <TableCell numeric={true}>
                         {_.isNumber(row.market_cap) &&
-                          `$${formatValue(row.market_cap)}`}
+                          `${currencySymbol}${formatValueByCurrencyRate(
+                            row.market_cap * currencyRate,
+                            currencyRate,
+                          )}`}
                       </TableCell>
                     </TableRow>
                   )
@@ -611,4 +626,6 @@ class TokenMetricsIndex extends React.Component<Props, State> {
   }
 }
 
-export default withStyles(styles)(withRouter<Props>(TokenMetricsIndex))
+export default withStyles(styles)(
+  withRouter<Props>(withCurrency(TokenMetricsIndex)),
+)
