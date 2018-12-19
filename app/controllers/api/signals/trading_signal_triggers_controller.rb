@@ -21,13 +21,38 @@ class Api::Signals::TradingSignalTriggersController < Api::Signals::BaseControll
     end
   end
 
+  # Action to support bulk creating/updating records
+  #
+  # A create or update is determined by the `external_id` and whether or not it already corresponds
+  # to an existing record
+  #
+  # Example body
+  #   {
+  #     "trading_signal_triggers": {
+  #       [external_id]: {
+  #         "type_key": "token_exchange_transactions",
+  #         "params": {
+  #           "coin_key": "leverj.io",
+  #           "token_address": "0x0f4ca92660efad97a9a70cb0fe969c755439772c",
+  #           "amount_threshold": 2400590000000000,
+  #           "signal_trigger_count": 1,
+  #           "signal_trigger_period_months": 10
+  #         }
+  #       },
+  #       ...
+  #     }
+  #   }
   def bulk_upsert_by_external_id
     begin
       ActiveRecord::Base.transaction do
         trading_signal_triggers = bulk_upsert_by_external_id_params.to_h.map do |external_id, trading_signal_trigger_attrs|
+          # Attempt to find a record by `external_id`, otherwise build a new record
           trading_signal_trigger = TradingSignalTrigger.find_or_initialize_by(external_id: external_id)
 
+          # Remove any fields that should not be changed
           cleaned_trading_signal_trigger_attrs = trading_signal_trigger_attrs.except(:id, :created_at, :updated_at)
+
+          # Apply the changes and save
           trading_signal_trigger.assign_attributes(cleaned_trading_signal_trigger_attrs)
           trading_signal_trigger.save!
           trading_signal_trigger
