@@ -1,4 +1,4 @@
-class Api::SignalsTelegramBot::TradingSignalNotificationsController < Api::SignalsTelegramBot::BaseController
+class Api::Signals::TradingSignalNotificationsController < Api::Signals::BaseController
   before_action :set_trading_signal_notification, only: [:show]
 
   def show

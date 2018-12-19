@@ -7,11 +7,13 @@ FactoryBot.define do
     symbol { Faker::Internet.slug(name, '').upcase }
     coin_key { "#{symbol.downcase}.com" }
     website { Faker::Internet.url(coin_key) }
+    eth_address { Faker::Crypto.sha256 }
     explorer { "https://etherscan.io/token/#{symbol}" }
-    explorer2 { "https://ethplorer.io/address/#{Faker::Crypto.sha256}" }
+    explorer2 { "https://ethplorer.io/address/#{eth_address}" }
     sequence(:ranking)
     is_listed { Faker::Boolean.boolean(0.9) }
     ico_status { is_listed ? 'listed' : Coin::ICO_STATUSES.without('listed').sample }
+    token_decimals { Faker::Number.between(18, 23) }
 
     after(:build) do |coin, evaluator|
       coin_hash = {
