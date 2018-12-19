@@ -44,7 +44,8 @@ namespace :redis do
   task :copy_local => :environment do
     redis_uri = ENV.fetch('REDIS_URL')
     parsed_redis_url = URI.parse(redis_uri)
-    prefix = parsed_redis_url.path.match(/\/\d+\/(.+)/)[1]
+    prefix_array = parsed_redis_url.path.match(/\/\d+\/(.+)/)
+    prefix = prefix_array[1] if prefix_array.present?
     next if prefix.blank?
 
     redis = Redis.new :url => redis_uri
@@ -60,13 +61,14 @@ namespace :redis do
     end
   end
 
-  desc "Clear cache keys"
+  desc "Clear cache keys. Call with redis:delete_keys['key_search_string']"
   task :delete_keys, [:key] => :environment do |task, args|
     next if args[:key].blank?
 
     redis_uri = ENV.fetch('REDIS_URL')
     parsed_redis_url = URI.parse(redis_uri)
-    prefix = parsed_redis_url.path.match(/\/\d+\/(.+)/)[1]
+    prefix_array = parsed_redis_url.path.match(/\/\d+\/(.+)/)
+    prefix = prefix_array[1] if prefix_array.present?
     prefix << ':' if prefix.present?
 
     search = "#{prefix}#{args[:key]}"
