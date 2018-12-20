@@ -53,7 +53,8 @@ module CoinsHelper
 
   def latest_total_market_cap
     distribute_reads(max_lag: MAX_ACCEPTABLE_REPLICATION_LAG, lag_failover: true) do
-      MarketMetric.latest.total_market_cap
+      latest_market_metric = MarketMetric.latest
+      latest_market_metric.total_market_cap if latest_market_metric.present?
     end
   end
 
@@ -77,26 +78,28 @@ module CoinsHelper
       coins = Coin.from("((#{top_coins.to_sql}) UNION (#{pinned_coin.to_sql})) AS coins")
       market_dominance = coins.map do |coin|
         market_cap = coin.market_cap || 0
+        market_percentage = total_market_cap.present? ? market_cap / total_market_cap : 0
         [coin.coin_key, {
           :id => coin.id,
           :name => coin.name,
           :symbol => coin.symbol,
           :slug => coin.slug,
           :price_usd => coin.price || 0,
-          :market_percentage => market_cap / total_market_cap
+          :market_percentage => market_percentage
         }]
       end.to_h
 
-      Rails.cache.write("market_dominance/#{number_of_other_coins}", market_dominance, expires_at: 1.day.since.beginning_of_day) unless no_cache
+      Rails.cache.write("market_dominance/#{number_of_other_coins}", market_dominance, expires_at: 1.day.since.beginning_of_day) unless no_cache || total_market_cap.blank?
 
       market_dominance
     end
   end
 
   def market_dominance(number_of_other_coins: 4)
-    Rails.cache.fetch("market_dominance/#{number_of_other_coins}", expires_at: 1.day.since.beginning_of_day) do
-      live_market_dominance(number_of_other_coins: number_of_other_coins, no_cache: true)
-    end
+    cached_market_dominance = Rails.cache.read("market_dominance/#{number_of_other_coins}")
+    return cached_market_dominance if cached_market_dominance.present?
+
+    live_market_dominance(number_of_other_coins: number_of_other_coins)
   end
 
   def market_percentage(coin_key)
