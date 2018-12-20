@@ -53,7 +53,7 @@ module CoinsHelper
 
   def latest_total_market_cap
     distribute_reads(max_lag: MAX_ACCEPTABLE_REPLICATION_LAG, lag_failover: true) do
-      MarketMetric.latest[:total_market_cap]
+      MarketMetric.latest.total_market_cap
     end
   end
 
