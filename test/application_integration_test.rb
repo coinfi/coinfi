@@ -10,10 +10,10 @@ class ApplicationIntegrationTest < ActionDispatch::IntegrationTest
     stub_request(:get, Regexp.new('coinmarketcap.northpole.ro/ticker.json')).
       to_return(status: 200, body: File.new(Rails.root.join('test', 'fixtures', 'northpole_ticker.json')))
 
-    stub_request(:get, Regexp.new('postgrest.coinfi.com:3001/daily_ohcl_prices')).
+    stub_request(:get, Regexp.new("#{ENV['COINFI_POSTGREST_URL']}/daily_ohcl_prices")).
       to_return(status: 200, body: File.new(Rails.root.join('test', 'fixtures', 'daily_ohcl_prices.json')))
 
-    stub_request(:get, Regexp.new('postgrest.coinfi.com:3001/hourly_ohcl_prices')).
+    stub_request(:get, Regexp.new("#{ENV['COINFI_POSTGREST_URL']}/hourly_ohcl_prices")).
       to_return(status: 200, body: File.new(Rails.root.join('test', 'fixtures', 'hourly_ohcl_prices.json')))
   end
 end
