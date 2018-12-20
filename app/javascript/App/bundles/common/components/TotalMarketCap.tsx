@@ -267,16 +267,16 @@ class TotalMarketCap extends React.Component<Props, State> {
 
     if (isWidthDown('sm', this.props.width)) {
       return (
-        <React.Fragment>
-          <Grid item={true} className={classes.title}>
+        <Grid container={true} wrap="nowrap" alignItems="baseline">
+          <Grid item={true}>
             <Typography className={classes.title} component="span">
-              Market Cap:{' '}
+              Market Cap:
             </Typography>
           </Grid>
           <Grid item={true} className={classes.marketCap}>
             ${totalMarketCap}
           </Grid>
-        </React.Fragment>
+        </Grid>
       )
     }
 

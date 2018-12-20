@@ -30,6 +30,9 @@ interface State {
 
 const styles = (theme) =>
   createStyles({
+    root: {
+      height: '100%',
+    },
     listItem: {
       borderBottom: '1px solid #e5e8ed',
       marginBottom: `${theme.spacing.unit * 2}px`,
@@ -134,6 +137,7 @@ class NewsList extends React.Component<Props, State> {
         direction="column"
         justify="center"
         alignItems="stretch"
+        className={classes.root}
       >
         {sortedNewsItems.map((newsItem) => {
           const { linkUrl, linkText } = formatNewsUrl(newsItem.url)

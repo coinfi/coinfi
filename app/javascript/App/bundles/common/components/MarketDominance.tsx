@@ -47,6 +47,9 @@ const styles = (theme) =>
     titleLabel: {
       color: '#d7d7d7',
       paddingRight: '5px',
+      [theme.breakpoints.down('sm')]: {
+        whiteSpace: 'nowrap',
+      },
     },
     title: {
       fontWeight: 600,
@@ -180,7 +183,7 @@ class MarketDominance extends React.Component<Props, State> {
 
     if (isWidthDown('sm', width)) {
       return (
-        <React.Fragment>
+        <Grid container={true} wrap="nowrap" alignItems="baseline">
           <Grid item={true} className={classes.title}>
             <Typography className={classes.titleLabel} component="span">
               Bitcoin Dominance:{' '}
@@ -189,7 +192,7 @@ class MarketDominance extends React.Component<Props, State> {
           <Grid item={true} className={classes.title}>
             {this.formatPercentage(marketDominance)}%
           </Grid>
-        </React.Fragment>
+        </Grid>
       )
     }
 

@@ -39,6 +39,7 @@ const styles = (theme) =>
         maxWidth: '1200px',
         padding: `${theme.spacing.unit * 4}px`,
         flexWrap: 'nowrap',
+        alignContent: 'stretch',
       },
       [theme.breakpoints.down('sm')]: {},
     },
@@ -48,11 +49,8 @@ const styles = (theme) =>
       },
       [theme.breakpoints.up('md')]: {},
     },
-    widgetContainerRight: {
-      height: '100%',
-    },
+    widgetContainerRight: {},
     leftContainerInner: {
-      height: '100%',
       [theme.breakpoints.up('md')]: {
         flexDirection: 'column',
         justifyContent: 'flex-start',
@@ -62,6 +60,7 @@ const styles = (theme) =>
       },
       [theme.breakpoints.down('sm')]: {
         flexDirection: 'row',
+        flexWrap: 'nowrap',
         justifyContent: 'space-between',
         alignItems: 'baseline',
         alignContent: 'baseline',
@@ -107,7 +106,6 @@ class HomeIndex extends React.Component<Props, State> {
         <Grid
           container={true}
           justify="center"
-          alignContent="flex-end"
           className={classes.widgetContainer}
           spacing={16}
         >
