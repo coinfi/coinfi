@@ -58,50 +58,6 @@ class Coin < ApplicationRecord
     pluck(:symbol).uniq.compact.sort.reject { |symbol| /[[:lower:]]/.match(symbol) }
   end
 
-  # TODO: get from cmc pro route
-  def self.live_total_market_cap
-    1
-  end
-
-  def self.live_market_dominance(no_cache: false)
-    # Top 5 w/ guaranteed bitcoin inclusion
-    coins = Coin.where(id: Coin.legit.top(5)).or(Coin.where(slug: 'bitcoin'))
-    total_market_cap = coins.inject(0){|sum, c| sum + c.market_cap} # TODO: use live_total_market_cap once implemented
-    market_dominance = {}
-
-    coins.each do |coin|
-      market_cap = coin.market_cap || 0
-      market_dominance[coin.coin_key] = {
-        :id => coin.id,
-        :name => coin.name,
-        :symbol => coin.symbol,
-        :slug => coin.slug,
-        :price_usd => coin.price || 0,
-        :market_percentage => market_cap / total_market_cap
-      }
-    end
-
-    Rails.cache.write('market_dominance', market_dominance, expires_at: 1.day.since.beginning_of_day) unless no_cache
-
-    market_dominance
-  end
-
-  def self.market_dominance
-    Rails.cache.fetch('market_dominance', expires_at: 1.day.since.beginning_of_day) do
-      self.live_market_dominance(no_cache: true)
-    end
-  end
-
-  # TODO: New total market data
-  def self.historical_total_market_data
-    []
-  end
-
-  def market_percentage
-    coin = Coin.market_dominance[self.coin_key]
-    coin[:market_percentage]
-  end
-
   def most_common_news_category
     NewsCategory
       .joins(news_items: :news_coin_mentions)

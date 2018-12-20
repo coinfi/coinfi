@@ -7,6 +7,10 @@ import { withStyles, createStyles } from '@material-ui/core/styles'
 import withWidth, { isWidthDown, isWidthUp } from '@material-ui/core/withWidth'
 import Highcharts from 'highcharts/highcharts'
 import options from './CoinCharts/PriceGraph/options'
+import {
+  formatValue,
+  formatAbbreviatedPrice,
+} from '~/bundles/common/utils/numberFormatters'
 
 export interface RawMarketCap {
   timestamp: string
@@ -43,11 +47,14 @@ const styles = (theme) =>
       padding: `${theme.spacing.unit * 2}px`,
     },
     chartContainer: {},
-    titleLabel: {
-      color: '#d7d7d7',
-      paddingRight: '5px',
-    },
     title: {
+      whiteSpace: 'nowrap',
+      [theme.breakpoints.down('sm')]: {
+        color: '#d7d7d7',
+        paddingRight: '5px',
+      },
+    },
+    marketCap: {
       fontSize: '1.2rem',
       fontWeight: 600,
       display: 'inline-block',
@@ -56,15 +63,16 @@ const styles = (theme) =>
         color: '#fff',
       },
     },
-    titleDetails: {
+    marketCapCurrency: {
       fontSize: '0.8rem',
       fontWeight: 600,
     },
-    subtitle: {
+    change: {
       fontSize: '0.75rem',
       display: 'inline-block',
+      whiteSpace: 'nowrap',
     },
-    subtitleDetails: {
+    changeDuration: {
       fontSize: '0.6rem',
     },
   })
@@ -103,13 +111,11 @@ class TotalMarketCap extends React.Component<Props, State> {
         sortedMarketCapData.length - 1,
       )[0] || empty
 
-    const totalMarketCap = this.formatPrice(latest.total_market_cap, 0)
+    const totalMarketCap = formatValue(latest.total_market_cap, 0)
     const difference = secondLatest.total_market_cap - latest.total_market_cap
     const isPositive = difference >= 0
-    const formattedDifference = this.formatAbbreviatedPrice(
-      Math.abs(difference),
-    )
-    const percentageDifference = this.formatPrice(
+    const formattedDifference = formatAbbreviatedPrice(Math.abs(difference))
+    const percentageDifference = formatValue(
       difference / secondLatest.total_market_cap,
       1,
     )
@@ -250,26 +256,6 @@ class TotalMarketCap extends React.Component<Props, State> {
     }
   }
 
-  public formatPrice(price: number, decimal: number = 6): string {
-    return price.toLocaleString('en-US', {
-      maximumFractionDigits: decimal,
-    })
-  }
-
-  public formatAbbreviatedPrice(price: number): string {
-    let i = -1
-    while (price >= 1) {
-      if (price / 1000 >= 1) {
-        price = price / 1000
-        i++
-      } else {
-        break
-      }
-    }
-
-    return this.formatPrice(price, 1) + (i >= 0 ? `${numericSymbols[i]}` : '')
-  }
-
   public render() {
     const { classes } = this.props
     const {
@@ -283,11 +269,11 @@ class TotalMarketCap extends React.Component<Props, State> {
       return (
         <React.Fragment>
           <Grid item={true} className={classes.title}>
-            <Typography className={classes.titleLabel} component="span">
+            <Typography className={classes.title} component="span">
               Market Cap:{' '}
             </Typography>
           </Grid>
-          <Grid item={true} className={classes.title}>
+          <Grid item={true} className={classes.marketCap}>
             ${totalMarketCap}
           </Grid>
         </React.Fragment>
@@ -313,29 +299,34 @@ class TotalMarketCap extends React.Component<Props, State> {
             wrap="nowrap"
           >
             <Grid item={true}>
-              <Typography variant="h5">Market Cap</Typography>
+              <Typography variant="h5" className={classes.title}>
+                Market Cap
+              </Typography>
             </Grid>
             <Grid item={true}>
-              <Typography component="span" className={classes.title}>
+              <Typography component="span" className={classes.marketCap}>
                 ${totalMarketCap}
               </Typography>
             </Grid>
             <Grid item={true}>
-              <Typography component="span" className={classes.titleDetails}>
+              <Typography
+                component="span"
+                className={classes.marketCapCurrency}
+              >
                 USD
               </Typography>
             </Grid>
             <Grid item={true}>
               <Typography
                 component="span"
-                className={classes.subtitle}
+                className={classes.change}
                 style={colourStyle}
               >
                 {arrow} ${formattedDifference} ({percentageDifference}%)
               </Typography>
             </Grid>
             <Grid item={true}>
-              <Typography component="span" className={classes.subtitleDetails}>
+              <Typography component="span" className={classes.changeDuration}>
                 24h
               </Typography>
             </Grid>

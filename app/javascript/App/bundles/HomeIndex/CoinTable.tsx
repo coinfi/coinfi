@@ -160,7 +160,7 @@ const styles = (theme) =>
       maxWidth: '1200px',
       flexWrap: 'nowrap',
       [theme.breakpoints.up('md')]: {
-        padding: `${theme.spacing.unit * 2}px auto`,
+        margin: `${theme.spacing.unit * 2}px auto`,
         justifyContent: 'flex-end',
       },
       [theme.breakpoints.down('sm')]: {
