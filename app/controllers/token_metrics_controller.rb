@@ -9,13 +9,12 @@ class TokenMetricsController < ApplicationController
       @tokens_count = tokens.count
       start = (@page - 1) * @limit
 
-      tokens_page = tokens[start, @limit]
+      coins = Coin.legit.erc20_tokens
+      coins = coins.sort { |a, b| a.market_cap <=> b.market_cap }
+      coins = coins.reverse
+      coins_page = coins[start, @limit]
 
-      # grab associated coins
-      token_coin_keys = tokens_page.map { |d| d['coin_key'] }
-      coins_data = Coin.where(coin_key: token_coin_keys)
-
-      @tokens_and_coins_data = serialize_tokens_with_coins(tokens_page, coins_data)
+      @tokens_and_coins_data = serialize_coins_with_tokens(coins_page, tokens)
     end
   end
 

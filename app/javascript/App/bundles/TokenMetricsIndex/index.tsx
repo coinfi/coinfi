@@ -256,6 +256,11 @@ const generateSortIcon = ({ property, orderBy, order }) => {
   }
 }
 
+const orderByDefaults = {
+  orderBy: 'market_cap',
+  order: 'desc' as ORDERS,
+}
+
 class TokenMetricsIndex extends React.Component<Props, State> {
   constructor(props) {
     super(props)
@@ -272,8 +277,7 @@ class TokenMetricsIndex extends React.Component<Props, State> {
       status,
       metricType,
       tabIndex,
-      orderBy: 'rank',
-      order: 'asc',
+      ...orderByDefaults,
       rows,
     }
   }
@@ -335,8 +339,7 @@ class TokenMetricsIndex extends React.Component<Props, State> {
   public handleTabChange = (e, tabIndex: number) => {
     this.setState({
       tabIndex,
-      orderBy: 'rank',
-      order: 'asc',
+      ...orderByDefaults,
     })
   }
 
@@ -346,7 +349,7 @@ class TokenMetricsIndex extends React.Component<Props, State> {
       this.setState({ order })
     } else {
       const orderBy = property
-      const order = 'asc'
+      const { order } = orderByDefaults
       this.setState({
         orderBy,
         order,
@@ -638,6 +641,9 @@ class TokenMetricsIndex extends React.Component<Props, State> {
                           `${currencySymbol}${formatValueByCurrencyRate(
                             row.market_cap * currencyRate,
                             currencyRate,
+                            {
+                              defaultFractionDigits: 0,
+                            },
                           )}`}
                       </TableCell>
                     </TableRow>

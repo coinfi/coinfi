@@ -49,12 +49,12 @@ class Api::TokenMetricsController < ApiController
     if params.has_key?(:orderBy) && is_valid_order_by(params[:orderBy])
       @order_by = params[:orderBy]
     else
-      @order_by = 'rank'
+      @order_by = 'market_cap'
     end
-    if params.has_key?(:order) && params[:order] === 'desc'
-      @order = 'desc'
-    else
+    if params.has_key?(:order) && params[:order] === 'asc'
       @order = 'asc'
+    else
+      @order = 'desc'
     end
   end
 
