@@ -28,8 +28,7 @@ class NewsItemRaw < ApplicationRecord
 
       news_item.update!(news_item_params) #something changed and it seems more recent than what we had before so let's update
 
-      previous_raw.update!(news_item: nil, was_replaced_by_an_update: true)
-      update!(is_processed: true, news_item: news_item)
+      previous_raw.update!(news_item: nil, was_replaced_by_an_update: true) if previous_raw.present?
     end
 
     update!(is_processed: true, news_item: news_item)
