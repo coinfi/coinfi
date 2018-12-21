@@ -59,6 +59,9 @@ class CurrencyProvider extends React.Component<
       userCurrency !== cookieCurrency
     ) {
       cookies.set('currency', userCurrency)
+    } else if (_.isUndefined(cookieCurrency)) {
+      // save default currency if not present in cookie
+      cookies.set('currency', currency)
     }
 
     this.state = {
@@ -83,7 +86,10 @@ class CurrencyProvider extends React.Component<
     const { cookies } = this.props
     const cookieCurrency = cookies.get('currency')
 
-    if (prevState.currency !== cookieCurrency) {
+    if (
+      !_.isUndefined(cookieCurrency) &&
+      prevState.currency !== cookieCurrency
+    ) {
       const currencyDetails = this.getCurrencyDetails(cookieCurrency)
 
       this.setState({
