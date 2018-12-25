@@ -25,6 +25,11 @@ class Coin < ApplicationRecord
   has_many :machine_tagged_news_items, through: :machine_tagged_mentions, source: :news_item
   has_many :human_tagged_news_items, through: :human_tagged_mentions, source: :news_item
   has_many :metrics, foreign_key: :eth_address
+  has_one :token_supply, foreign_key: :coin_key, primary_key: :coin_key
+  has_one :token_retention, foreign_key: :coin_key, primary_key: :coin_key
+  has_one :token_decentralization, foreign_key: :coin_key, primary_key: :coin_key
+  has_one :token_adoption, foreign_key: :coin_key, primary_key: :coin_key
+  has_one :token_velocity, foreign_key: :coin_key, primary_key: :coin_key
 
   has_many :calendar_event_coins
   has_many :calendar_events, through: :calendar_event_coins
