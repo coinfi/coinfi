@@ -1,4 +1,4 @@
-class Api::SignalsTelegramBot::CoinsController < Api::SignalsTelegramBot::BaseController
+class Api::Signals::CoinsController < Api::Signals::BaseController
   before_action :set_coin, only: [:show]
 
   def show
@@ -16,7 +16,7 @@ class Api::SignalsTelegramBot::CoinsController < Api::SignalsTelegramBot::BaseCo
   def serialize_coin(coin)
     coin
       .as_json(
-        only: %i[id name symbol slug coin_key token_decimals],
+        only: %i[id name symbol slug coin_key token_decimals eth_address ranking],
         methods: %i[price]
       )
       .merge({

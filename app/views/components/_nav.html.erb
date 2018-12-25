@@ -43,7 +43,7 @@
 
       <div class="nav-menu-actions pa2">
         <% unless @hide_currency %>
-          <%= react_component "CurrencySelectorWidget", props: { user: current_user }, prerender: false %>
+          <%= react_component_with_jss "CurrencySelectorWidget", props: { user: current_user }, prerender: false %>
         <% end %>
         <% if user_signed_in? %>
           <div class="nav-menu-actions-account">
@@ -65,10 +65,10 @@
     <!-- Actions -->
     <div class="nav-actions">
       <% unless @hide_currency %>
-        <%= react_component "CurrencySelectorWidget", props: { user: current_user }, prerender: false %>
+        <%= react_component_with_jss "CurrencySelectorWidget", props: { user: current_user }, prerender: false %>
       <% end %>
       <% if user_signed_in? %>
-        <%= react_component "NavUserContainer", { props: { formAuthenticityToken: form_authenticity_token, userEmail: current_user.email } } %>
+        <%= react_component_with_jss "NavUserContainer", { props: { formAuthenticityToken: form_authenticity_token, userEmail: current_user.email } } %>
       <% else %>
         <%= link_to "Login", new_user_session_path, { class: "nav-menu__item" } %>
       <% end %>

@@ -2,12 +2,12 @@ require 'application_integration_test'
 require 'test_helper'
 require_relative './base_test'
 
-class Api::SignalsTelegramBot::TradingSignalNotificationsTest < Api::SignalsTelegramBot::BaseTest
+class Api::Signals::TradingSignalNotificationsTest < Api::Signals::BaseTest
   test "show" do
     trading_signal_notifications = create_list(:telegram_trading_signal_notification, 3)
     trading_signal_notification = trading_signal_notifications.sample
 
-    get "/api/signals_telegram_bot/trading_signal_notifications/#{trading_signal_notification.id}", headers: auth_headers
+    get "/api/signals/trading_signal_notifications/#{trading_signal_notification.id}", headers: auth_headers
     assert_equal 200, status
     assert_equal(
       trading_signal_notification.attributes.except("updated_at", "created_at").as_json,
@@ -24,7 +24,7 @@ class Api::SignalsTelegramBot::TradingSignalNotificationsTest < Api::SignalsTele
     }
 
     assert_difference 'TradingSignalNotification.count', 1 do
-      post "/api/signals_telegram_bot/trading_signal_notifications", params: request_params, headers: auth_headers, as: :json
+      post "/api/signals/trading_signal_notifications", params: request_params, headers: auth_headers, as: :json
     end
     assert_equal 201, status
     assert_equal(

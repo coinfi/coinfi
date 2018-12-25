@@ -1,4 +1,4 @@
-class Api::SignalsTelegramBot::SignalsTelegramUsersController < Api::SignalsTelegramBot::BaseController
+class Api::Signals::SignalsTelegramUsersController < Api::Signals::BaseController
   before_action :set_signals_telegram_user, only: [:show]
 
   def index
