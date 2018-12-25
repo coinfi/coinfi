@@ -15,3 +15,6 @@ StakedCofiRefreshTransactions:  # rake staked_cofi:refresh_transactions
 
 UpdateCurrencies:
   cron: '0 0 0 * * * Etc/UTC'
+
+RefreshTokenMetricViews:
+  cron: '0 30 4 * * * Etc/UTC'   # Scheduled after metrics data is inserted and later than production, just in case
