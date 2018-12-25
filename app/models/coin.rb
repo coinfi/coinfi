@@ -24,6 +24,7 @@ class Coin < ApplicationRecord
   has_many :news_items, through: :mentions
   has_many :machine_tagged_news_items, through: :machine_tagged_mentions, source: :news_item
   has_many :human_tagged_news_items, through: :human_tagged_mentions, source: :news_item
+  has_many :metrics, foreign_key: :eth_address
 
   has_many :calendar_event_coins
   has_many :calendar_events, through: :calendar_event_coins
