@@ -5,16 +5,17 @@ class TokenMetricsController < ApplicationController
 
   def index
     distribute_reads(max_lag: MAX_ACCEPTABLE_REPLICATION_LAG, lag_failover: true) do
-      tokens = get_all_tokens_metrics_metadata(@metric_type) || []
-      @tokens_count = tokens.count
       start = (@page - 1) * @limit
+      token_model = get_model_from_metric_type(@metric_type)
 
-      coins = Coin.legit.erc20_tokens
-      coins = coins.sort { |a, b| a.market_cap <=> b.market_cap }
-      coins = coins.reverse
-      coins_page = coins[start, @limit]
+      @coins = Coin.legit.erc20_tokens.joins(token_model)
+      @tokens_count = @coins.count
 
-      @tokens_and_coins_data = serialize_coins_with_tokens(coins_page, tokens)
+      @coins = @coins.sort { |a, b| a.market_cap <=> b.market_cap }
+      @coins = @coins.reverse
+      @coins_page = @coins[start, @limit]
+
+      @tokens_and_coins_data = serialize_token_metrics(@coins_page, token_model)
     end
   end
 

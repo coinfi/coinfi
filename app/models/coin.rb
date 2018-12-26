@@ -208,7 +208,7 @@ class Coin < ApplicationRecord
       token_distribution_100_data: token_distribution_100_data,
       token_distribution_100_metadata: token_distribution_100_metadata,
       token_velocity_data: token_velocity_data,
-      token_velocity_metadata: token_velocity_metadata
+      token_velocity_metadata: token_velocity_metadata,
     }
   end
 
@@ -243,22 +243,14 @@ class Coin < ApplicationRecord
     return nil unless has_token_metrics?
 
     @token_metrics_data ||= {}
-    @token_metrics_data[metric_type] ||= Rails.cache.fetch(
-      "coins/#{id}/#{metric_type}",
-      expires_in: 1.day,
-      race_condition_ttl: 10.seconds
-    ) do
-      url = "#{ENV.fetch('COINFI_POSTGREST_URL')}/metrics_chart_view?coin_key=eq.#{coin_key}&metric_type=eq.#{metric_type}&select=#{metric_value},date"
-      response = HTTParty.get(url)
-      JSON.parse(response.body)
-    end
+    @token_metrics_data[metric_type] ||= TokenDailyMetric.where(coin_key: coin_key, metric_type: metric_type).select(:date, metric_value)
   end
 
   def token_metrics_metadata(metric_type)
     return nil unless has_token_metrics?
 
-    @token_metrics_metadata ||= {}
-    @token_metrics_metadata[metric_type] ||= get_token_metrics_metadata(coin_key, metric_type)
+    token_model = get_model_from_metric_type(metric_type)
+    self.try(token_model).try(:attributes)
   end
 
   def exchange_supply_data
