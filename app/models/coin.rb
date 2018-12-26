@@ -243,7 +243,7 @@ class Coin < ApplicationRecord
     return nil unless has_token_metrics?
 
     @token_metrics_data ||= {}
-    @token_metrics_data[metric_type] ||= TokenDailyMetric.where(coin_key: coin_key, metric_type: metric_type).select(:date, metric_value)
+    @token_metrics_data[metric_type] ||= TokenDailyMetric.where(coin_key: coin_key, metric_type: metric_type).order(:date).select(:date, metric_value)
   end
 
   def token_metrics_metadata(metric_type)
