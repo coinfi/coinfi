@@ -20,6 +20,7 @@ namespace :data_migrations do
       SELECT token_address, metric_type, date, metric_value FROM #{@view_name}
       ORDER BY date, token_address, metric_type;
     SQL
-    pp result
+
+    @connection.execute("DROP VIEW #{@view_name};")
   end
 end
