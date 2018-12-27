@@ -13,8 +13,12 @@ class Api::CoinsController < ApiController
   def show
     distribute_reads(max_lag: MAX_ACCEPTABLE_REPLICATION_LAG, lag_failover: true) do
       coin = Coin.find(params[:id])
-      coin.current_user = current_user
-      respond_success show_serializer(coin)
+      if coin.present?
+        coin.current_user = current_user
+        respond_success show_serializer(coin)
+      else
+        respond_error "Could not find coin."
+      end
     end
   end
 
@@ -70,8 +74,12 @@ class Api::CoinsController < ApiController
   def by_slug
     distribute_reads(max_lag: MAX_ACCEPTABLE_REPLICATION_LAG, lag_failover: true) do
       coin = Coin.find_by(slug: params[:slug])
-      coin.current_user = current_user
-      respond_success show_serializer(coin)
+      if coin.present?
+        coin.current_user = current_user
+        respond_success show_serializer(coin)
+      else
+        respond_error "Could not find coin."
+      end
     end
   end
 
