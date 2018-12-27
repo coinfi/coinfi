@@ -105,9 +105,9 @@ module CoinMarketCapPro
       # remove current entry from missing data list; will be added back in anyways if it fails
       @cmc_missing_data = @cmc_missing_data.reject do |e|
         if symbol.present?
-          e.symbol == symbol
+          e[:symbol] == symbol
         elsif id.present?
-          e.id == id
+          e[:id] == id
         else
           false
         end
