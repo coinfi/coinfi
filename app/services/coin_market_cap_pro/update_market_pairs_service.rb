@@ -4,7 +4,7 @@ module CoinMarketCapPro
     attr_accessor :cmc_missing_data
 
     def initialize(start: 0, limit: 20) # 0-indexed
-      @cmc_missing_data = []
+      @cmc_missing_data = Rails.cache.read("tasks/market_pairs/cmc_missing_data") || []
       @start = start
       @limit = limit
     end
@@ -46,6 +46,8 @@ module CoinMarketCapPro
       else
         Net::HTTP.post(URI.parse("#{ENV.fetch('HEALTHCHECK_MARKET_PAIRS')}/fail"), @cmc_missing_data.to_json)
       end
+
+      Rails.cache.write("tasks/market_pairs/cmc_missing_data", @cmc_missing_data)
     end
 
     def update_coin_pairs(coin)
@@ -99,6 +101,17 @@ module CoinMarketCapPro
 
       # ping health check if api error
       json_response_code = get_json_response_code(contents)
+
+      # remove current entry from missing data list; will be added back in anyways if it fails
+      @cmc_missing_data = @cmc_missing_data.reject do |e|
+        if symbol.present?
+          e[:symbol] == symbol
+        elsif id.present?
+          e[:id] == id
+        else
+          false
+        end
+      end
 
       if response.success? && json_response_code == 0 then
         return contents['data']
