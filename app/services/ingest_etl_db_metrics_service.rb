@@ -17,7 +17,6 @@ class IngestEtlDbMetricsService < Patterns::Service
   def call
     create_view!
     ingest!
-    drop_view!
 
     @results
   end
@@ -55,10 +54,6 @@ class IngestEtlDbMetricsService < Patterns::Service
 
       log_results(import_results)
     end
-  end
-
-  def drop_view!
-    @connection.execute("DROP VIEW #{@view_name};")
   end
 
   def log_results(results)

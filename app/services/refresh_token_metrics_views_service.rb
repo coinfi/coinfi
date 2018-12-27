@@ -8,9 +8,8 @@ class RefreshTokenMetricsViewsService < Patterns::Service
     'metrics_chart_view'
   ]
 
-  def initialize(concurrently: true)
+  def initialize
     @connection = ActiveRecord::Base.connection
-    @concurrently = concurrently
   end
 
   def call
@@ -18,9 +17,10 @@ class RefreshTokenMetricsViewsService < Patterns::Service
   end
 
   def refresh_views!
+    # REFRESH MATERIALIZED VIEW CONCURRENTLY exchange_supply_view WITH DATA
     VIEWS.each do |view|
       @connection.execute <<-SQL
-        REFRESH MATERIALIZED VIEW #{'CONCURRENTLY' if @concurrently} #{view} WITH DATA;
+        REFRESH MATERIALIZED VIEW CONCURRENTLY #{view} WITH DATA;
       SQL
     end
   end

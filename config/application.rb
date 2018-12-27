@@ -14,8 +14,6 @@ module CoinfiRails
     config.autoload_paths += %W(#{config.root}/lib #{config.root}/lib/scheduled_jobs)
     config.eager_load_paths += %W(#{config.root}/lib #{config.root}/lib/scheduled_jobs)
 
-    config.active_record.schema_format = :sql
-
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded.

@@ -37,10 +37,6 @@ FactoryBot.define do
     end
 
     trait :with_feed_sources do
-      transient do
-        machine_tagged_news_items_count { 3 }
-        human_tagged_news_items_count { 3 }
-      end
       feed_sources { build_list(:feed_source, 3) }
     end
 
@@ -67,20 +63,6 @@ FactoryBot.define do
             # The record already exists.
           end
         end
-      end
-    end
-
-    factory :coin_with_metrics do
-      transient do
-        metric_types { TokensHelper::METRIC_TYPES.map { |t| t[:value] } }
-      end
-
-      after(:create) do |coin, evaluator|
-        evaluator.metric_types.each do |value|
-          create_list(:metric, 30, token_address: coin.eth_address, metric_type: value)
-        end
-
-        RefreshTokenMetricsViewsService.call(concurrently: false)
       end
     end
   end
