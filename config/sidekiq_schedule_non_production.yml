@@ -15,3 +15,8 @@ StakedCofiRefreshTransactions:  # rake staked_cofi:refresh_transactions
 
 UpdateCurrencies:
   cron: '0 0 0 * * * Etc/UTC'
+
+# Paid API routes
+
+UpdateCmcMetrics:
+  cron: '50 6 1 * * * Etc/UTC'  # update daily
