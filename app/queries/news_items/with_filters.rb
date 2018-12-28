@@ -11,18 +11,6 @@ module NewsItems
     )
       result = relation
 
-      # EXPLAIN ANALYSE SELECT "news_items".* FROM "news_items"
-      # LEFT OUTER JOIN "news_coin_mentions" ON "news_items"."id" = "news_coin_mentions"."news_item_id"
-      # LEFT OUTER JOIN "coins" ON "news_coin_mentions"."coin_id" = "coins"."id"
-      # JOIN "feed_sources" ON "news_items"."feed_source_id" = "feed_sources"."id"
-      # WHERE "news_items"."is_published" = true
-      # AND "feed_sources"."is_active" = true
-      # AND "feed_sources"."feed_type" <> 'reddit'
-      # AND "feed_sources"."feed_type" <> 'twitter'
-      # AND ("coins"."ranking" >= 20 OR "news_coin_mentions"."id" IS NULL)
-      # GROUP BY "news_items"."id"
-      # ORDER BY "news_items"."feed_item_published_at" DESC;
-
       # Apply FeedSources filter
       if feed_sources.blank?
         # Default feed sources
@@ -67,8 +55,6 @@ module NewsItems
       end
 
       result = result.group(:id)
-
-      puts result.to_sql
 
       result
     end
