@@ -1,4 +1,5 @@
 import * as React from 'react'
+import classnames from 'classnames'
 import { withStyles, createStyles } from '@material-ui/core/styles'
 import { Button, Paper, Typography, Grid } from '@material-ui/core'
 
@@ -39,43 +40,46 @@ const styles = (theme) =>
     },
   })
 
-const Banner = ({ classes }) => (
-  <Paper className={classes.mainFeaturedPost} square={true}>
-    <Grid
-      container={true}
-      direction="column"
-      justify="center"
-      alignItems="center"
-      className={classes.mainFeaturedPostContent}
-    >
-      <Grid item={true} md={true}>
-        <Typography className={classes.header} color="inherit">
-          Financial intelligence for cryptocurrency
-        </Typography>
+const Banner = ({ classes, className }) => {
+  const rootClasses = classnames(className, classes.mainFeaturedPost)
+  return (
+    <Paper className={rootClasses} square={true}>
+      <Grid
+        container={true}
+        direction="column"
+        justify="center"
+        alignItems="center"
+        className={classes.mainFeaturedPostContent}
+      >
+        <Grid item={true} md={true}>
+          <Typography className={classes.header} color="inherit">
+            Financial intelligence for cryptocurrency
+          </Typography>
+        </Grid>
+        <Grid item={true} md={true}>
+          <Typography
+            className={classes.subheader}
+            color="inherit"
+            paragraph={true}
+          >
+            Uncover buy and sell opportunities through data science backed
+            blockchain analytics.
+          </Typography>
+        </Grid>
+        <Grid item={true} md={true}>
+          <Button
+            className={classes.cta}
+            data-heap="homepage-click-signals-cta"
+            onClick={() => {
+              window.location.href = `/signals`
+            }}
+          >
+            Learn more
+          </Button>
+        </Grid>
       </Grid>
-      <Grid item={true} md={true}>
-        <Typography
-          className={classes.subheader}
-          color="inherit"
-          paragraph={true}
-        >
-          Uncover buy and sell opportunities through data science backed
-          blockchain analytics.
-        </Typography>
-      </Grid>
-      <Grid item={true} md={true}>
-        <Button
-          className={classes.cta}
-          data-heap="homepage-click-signals-cta"
-          onClick={() => {
-            window.location.href = `/signals`
-          }}
-        >
-          Learn more
-        </Button>
-      </Grid>
-    </Grid>
-  </Paper>
-)
+    </Paper>
+  )
+}
 
 export default withStyles(styles)(Banner)

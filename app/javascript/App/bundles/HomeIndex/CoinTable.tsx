@@ -47,12 +47,13 @@ const styles = (theme) =>
   createStyles({
     tableContainer: {
       width: '100%',
-      maxWidth: '1200px',
       height: '100%',
       display: 'flex',
       flex: 1,
       [theme.breakpoints.up('md')]: {
         margin: '0 auto',
+        marginTop: '-8px',
+        maxWidth: '1200px',
       },
     },
     headerContainer: {
@@ -64,38 +65,49 @@ const styles = (theme) =>
     },
     title: {
       backgroundColor: '#fff',
+      fontSize: '26px',
+      fontWeight: 500,
+      [theme.breakpoints.up('md')]: {
+        paddingTop: '16px !important',
+        paddingBottom: '8px !important',
+      },
       [theme.breakpoints.down('sm')]: {
         borderBottom: '1px solid #e5e8ed',
-        paddingTop: `${theme.spacing.unit * 2}px !important`,
-        paddingBottom: `${theme.spacing.unit}px !important`,
+        paddingTop: `16px !important`,
+        paddingBottom: `16px !important`,
       },
     },
     search: {
-      padding: `${theme.spacing.unit}px !important`,
+      padding: `8px !important`,
       textAlign: 'center',
       [theme.breakpoints.up('md')]: {
-        padding: `${theme.spacing.unit * 2}px !important`,
+        paddingLeft: `16px !important`,
         backgroundColor: '#fff',
+        zIndex: 100,
       },
     },
     searchWrapper: {
-      padding: '10px',
+      padding: '0 10px',
     },
     nav: {
       backgroundColor: '#fff',
-      paddingTop: `${theme.spacing.unit}px !important`,
-      paddingBottom: `${theme.spacing.unit}px !important`,
+      paddingTop: `8px !important`,
+      paddingBottom: `8px !important`,
       textAlign: 'center',
       [theme.breakpoints.down('sm')]: {
         borderBottom: '1px solid #e5e8ed',
+        paddingRight: `8px !important`,
       },
       [theme.breakpoints.up('md')]: {
-        padding: `${theme.spacing.unit * 2}px !important`,
+        paddingRight: `16px !important`,
         textAlign: 'right',
       },
       display: 'flex',
       justifyContent: 'flex-end',
       alignItems: 'flex-end',
+    },
+    nextLink: {
+      marginLeft: '8px',
     },
     tableHeader: {
       height: '32px',
@@ -156,11 +168,13 @@ const styles = (theme) =>
       color: '#333',
     },
     footerContainer: {
+      backgroundColor: '#fff',
       width: '100%',
       maxWidth: '1200px',
       flexWrap: 'nowrap',
       [theme.breakpoints.up('md')]: {
-        margin: `${theme.spacing.unit * 2}px auto`,
+        margin: '0 auto',
+        padding: '16px',
         justifyContent: 'flex-end',
       },
       [theme.breakpoints.down('sm')]: {
@@ -188,6 +202,41 @@ const styles = (theme) =>
       lineHeight: '1.5rem',
     },
   })
+
+const Pagination = ({ classes, pagesToShow, pageCount }) => {
+  const buttons = Array(Math.min(pagesToShow, pageCount))
+    .fill(null)
+    .map((none, index) => index + 1)
+
+  return (
+    <>
+      {buttons.map((page) => (
+        <Button
+          variant="outlined"
+          size="small"
+          className={classes.paginationButton}
+          key={page}
+          href={`/coins?page=${page}`}
+        >
+          {page}
+        </Button>
+      ))}
+      {pagesToShow < pageCount && (
+        <>
+          <span className={classes.paginationSpacer}>...</span>
+          <Button
+            variant="outlined"
+            size="small"
+            className={classes.paginationButton}
+            href={`/coins?page=${pageCount}`}
+          >
+            {pageCount}
+          </Button>
+        </>
+      )}
+    </>
+  )
+}
 
 class CoinTable extends React.Component<Props, State> {
   public api
@@ -296,12 +345,7 @@ class CoinTable extends React.Component<Props, State> {
 
   public render() {
     const { isMobile, isLoggedIn, currency, classes, pageCount } = this.props
-    const currencyKey = currency.toLowerCase()
-
-    const pagesToShow = 10
-    const buttons = Array(Math.min(pagesToShow, pageCount))
-      .fill(null)
-      .map((none, index) => index + 1)
+    const pagesToShow = isMobile ? 7 : 10
 
     return (
       <React.Fragment>
@@ -311,7 +355,7 @@ class CoinTable extends React.Component<Props, State> {
               Cryptocurrency prices today
             </Typography>
           </Grid>
-          <Grid item={true} xs={12} md={9} className={classes.search}>
+          <Grid item={true} xs={12} md={3} className={classes.search}>
             <Paper square={true} className={classes.searchWrapper}>
               <SearchCoins
                 onSelect={(suggestion) =>
@@ -321,8 +365,17 @@ class CoinTable extends React.Component<Props, State> {
               />
             </Paper>
           </Grid>
-          <Grid item={true} xs={12} md={3} className={classes.nav}>
-            <a href="/coins?page=2">Next</a>
+          <Grid item={true} xs={12} md={9} className={classes.nav}>
+            {!isMobile && (
+              <Pagination
+                classes={classes}
+                pagesToShow={pagesToShow}
+                pageCount={pageCount}
+              />
+            )}
+            <a href="/coins?page=2" className={classes.nextLink}>
+              Next
+            </a>
           </Grid>
         </Grid>
 
@@ -463,6 +516,8 @@ class CoinTable extends React.Component<Props, State> {
               className="ag-theme-material"
               style={{
                 width: '100%',
+                paddingLeft: '16px',
+                paddingRight: '16px',
               }}
             >
               <AgGridReact
@@ -485,30 +540,11 @@ class CoinTable extends React.Component<Props, State> {
             wrap="nowrap"
             className={classes.footerContainer}
           >
-            {buttons.map((page) => (
-              <Button
-                variant="outlined"
-                size="small"
-                className={classes.paginationButton}
-                key={page}
-                href={`/coins?page=${page}`}
-              >
-                {page}
-              </Button>
-            ))}
-            {pagesToShow < pageCount && (
-              <React.Fragment>
-                <span className={classes.paginationSpacer}>...</span>
-                <Button
-                  variant="outlined"
-                  size="small"
-                  className={classes.paginationButton}
-                  href={`/coins?page=${pageCount}`}
-                >
-                  {pageCount}
-                </Button>
-              </React.Fragment>
-            )}
+            <Pagination
+              classes={classes}
+              pagesToShow={pagesToShow}
+              pageCount={pageCount}
+            />
           </Grid>
         )}
       </React.Fragment>

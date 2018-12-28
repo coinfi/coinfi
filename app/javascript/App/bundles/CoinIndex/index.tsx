@@ -97,7 +97,7 @@ const styles = (theme) =>
     },
     ranking: {
       width: '30px',
-      maxWidth: '30px',
+      maxWidth: '40px',
     },
     name: {
       width: '240px',

@@ -40,9 +40,12 @@ const styles = (theme) =>
     },
     chartContainer: {
       maxWidth: '200px',
+      marginTop: '-16px',
+      marginBottom: '-16px',
     },
     legend: {
       flexBasis: 'unset !important', // fixes weird height issue
+      height: '100%',
     },
     titleLabel: {
       color: '#d7d7d7',
@@ -203,17 +206,17 @@ class MarketDominance extends React.Component<Props, State> {
         alignItems="stretch"
         className={classes.container}
       >
+        <Grid item={true} xs={12}>
+          <Typography variant="h5">Market Dominance</Typography>
+        </Grid>
         <Grid item={true} xs={6}>
           <Grid
             container={true}
             direction="column"
-            justify="flex-start"
+            justify="space-around"
             alignItems="stretch"
             className={classes.legend}
           >
-            <Grid item={true}>
-              <Typography variant="h5">Market Dominance</Typography>
-            </Grid>
             {coinData.map((coin, index) => {
               const percentage = `${this.formatPercentage(
                 coin.market_percentage,

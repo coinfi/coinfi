@@ -32,12 +32,19 @@ interface State {
 
 const styles = (theme) =>
   createStyles({
+    bannerRoot: {
+      width: '100%',
+      [theme.breakpoints.up('md')]: {
+        margin: '0 auto',
+        maxWidth: '1200px',
+      },
+    },
     widgetContainer: {
       backgroundColor: '#fff',
       [theme.breakpoints.up('md')]: {
         margin: '0 auto !important',
         maxWidth: '1200px',
-        padding: `${theme.spacing.unit * 4}px`,
+        padding: '8px',
         flexWrap: 'nowrap',
         alignContent: 'stretch',
       },
@@ -69,10 +76,12 @@ const styles = (theme) =>
       },
     },
     newsWidgetHeader: {
+      fontWeight: 500,
       [theme.breakpoints.down('sm')]: {
         borderBottom: '1px solid #e5e8ed',
-        paddingTop: `${theme.spacing.unit * 2}px !important`,
-        paddingBottom: `${theme.spacing.unit}px !important`,
+        paddingTop: `16px !important`,
+        paddingBottom: `8px !important`,
+        marginBottom: '16px !important',
       },
     },
   })
@@ -102,7 +111,7 @@ class HomeIndex extends React.Component<Props, State> {
 
     return (
       <React.Fragment>
-        <Banner />
+        <Banner className={classes.bannerRoot} />
         <Grid
           container={true}
           justify="center"

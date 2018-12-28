@@ -31,7 +31,9 @@ interface State {
 const styles = (theme) =>
   createStyles({
     root: {
-      height: '100%',
+      [theme.breakpoints.up('md')]: {
+        height: '100%',
+      },
     },
     listItem: {
       borderBottom: '1px solid #e5e8ed',
@@ -59,8 +61,9 @@ const styles = (theme) =>
         textAlign: 'center',
         backgroundColor: '#f6f8fa',
         borderBottom: '1px solid #e5e8ed',
-        paddingTop: `${theme.spacing.unit * 2}px`,
-        marginTop: `-${theme.spacing.unit * 2}px`,
+        paddingTop: '16px',
+        marginTop: '-16px',
+        paddingBottom: '16px',
       },
     },
   })
@@ -135,7 +138,7 @@ class NewsList extends React.Component<Props, State> {
       <Grid
         container={true}
         direction="column"
-        justify="center"
+        justify="space-evenly"
         alignItems="stretch"
         className={classes.root}
       >
