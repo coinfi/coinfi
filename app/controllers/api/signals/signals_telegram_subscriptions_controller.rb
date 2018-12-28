@@ -1,4 +1,4 @@
-class Api::SignalsTelegramBot::SignalsTelegramSubscriptionsController < Api::SignalsTelegramBot::BaseController
+class Api::Signals::SignalsTelegramSubscriptionsController < Api::Signals::BaseController
   before_action :set_signals_telegram_user
   before_action :set_signals_telegram_subscription, only: [:show]
 

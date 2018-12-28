@@ -13,8 +13,12 @@ class Api::CoinsController < ApiController
   def show
     distribute_reads(max_lag: MAX_ACCEPTABLE_REPLICATION_LAG, lag_failover: true) do
       coin = Coin.find(params[:id])
-      coin.current_user = current_user
-      respond_success show_serializer(coin)
+      if coin.present?
+        coin.current_user = current_user
+        respond_success show_serializer(coin)
+      else
+        respond_error "Could not find coin."
+      end
     end
   end
 
@@ -38,21 +42,22 @@ class Api::CoinsController < ApiController
   def search_by_params
     distribute_reads(max_lag: MAX_ACCEPTABLE_REPLICATION_LAG, lag_failover: true) do
       coins = []
-      puts params
       if params[:coinSlugs].present?
         coins = Coin.where(slug: params[:coinSlugs])
       elsif params[:name].present?
-        coins = Coin.find_by_sql("
+        coins = Coin.find_by_sql(["
           SELECT *, CASE
-              WHEN UPPER(symbol) = UPPER('#{params[:name]}') THEN 1
-              WHEN UPPER(name) = UPPER('#{params[:name]}') THEN 1
+              WHEN UPPER(symbol) = UPPER(:name) THEN 1
+              WHEN UPPER(name) = UPPER(:name) THEN 1
               ELSE 3
             END as match
             FROM coins
-            WHERE UPPER(symbol) LIKE UPPER('#{params[:name]}%')
-              OR UPPER(name) LIKE UPPER('#{params[:name]}%')
+            WHERE UPPER(symbol) LIKE UPPER(:name_prefix)
+              OR UPPER(name) LIKE UPPER(:name_prefix)
             ORDER BY match ASC, ranking ASC
-            LIMIT 10")
+            LIMIT 10",
+            { name: params[:name], name_prefix: "#{params[:name]}%" }
+          ])
       end
       respond_success search_serializer(coins)
     end
@@ -61,8 +66,12 @@ class Api::CoinsController < ApiController
   def by_slug
     distribute_reads(max_lag: MAX_ACCEPTABLE_REPLICATION_LAG, lag_failover: true) do
       coin = Coin.find_by(slug: params[:slug])
-      coin.current_user = current_user
-      respond_success show_serializer(coin)
+      if coin.present?
+        coin.current_user = current_user
+        respond_success show_serializer(coin)
+      else
+        respond_error "Could not find coin."
+      end
     end
   end
 
