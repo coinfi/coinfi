@@ -42,7 +42,7 @@ namespace :etldb do
     },
     {
       'title' => "Random 3",
-      'query' => lambda { Coin.listed.order("RANDOM()").limit(3).pluck(:coin_key, :ranking) }
+      'query' => lambda { Coin.listed.legit.order("RANDOM()").limit(3).pluck(:coin_key, :ranking) }
     }
   ]
 

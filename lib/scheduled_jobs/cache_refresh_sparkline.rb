@@ -4,7 +4,7 @@ class CacheRefreshSparkline
 
   #Refresh Sparkline Chart Data Cache
   def perform
-    Coin.legit.find_each do |coin|
+    Coin.listed.legit.find_each do |coin|
       coin.sparkline
     end
   end

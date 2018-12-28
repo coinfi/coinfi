@@ -73,7 +73,7 @@ module CoinsHelper
 
     distribute_reads(max_lag: MAX_ACCEPTABLE_REPLICATION_LAG, lag_failover: true) do
       pinned_coin_slug = 'bitcoin'
-      top_coins = Coin.listed.top(number_of_other_coins).where.not(slug: pinned_coin_slug)
+      top_coins = Coin.listed.legit.top(number_of_other_coins).where.not(slug: pinned_coin_slug)
       pinned_coin = Coin.where(slug: pinned_coin_slug)
       coins = Coin.from("((#{top_coins.to_sql}) UNION (#{pinned_coin.to_sql})) AS coins")
       market_dominance = coins.map do |coin|

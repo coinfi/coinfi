@@ -5,7 +5,7 @@ class HomeController < ApplicationController
     @hide_currency = true
 
     distribute_reads(max_lag: MAX_ACCEPTABLE_REPLICATION_LAG, lag_failover: true) do
-      coins = Coin.listed
+      coins = Coin.listed.legit
         .page(1)
         .per(100)
         .order(:ranking)

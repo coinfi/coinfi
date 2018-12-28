@@ -5,7 +5,7 @@ class Api::CoinsController < ApiController
   def index
     distribute_reads(max_lag: MAX_ACCEPTABLE_REPLICATION_LAG, lag_failover: true) do
       @current_page = params[:page] || 1
-      @coins = Coin.legit.page(@current_page).per(params[:per]).order(:ranking)
+      @coins = Coin.listed.legit.page(@current_page).per(params[:per]).order(:ranking)
       respond_success coins_serializer(@coins)
     end
   end

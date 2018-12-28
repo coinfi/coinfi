@@ -10,7 +10,7 @@ class CoinsController < ApplicationController
     @limit = if params.has_key?(:limit) then params[:limit].to_i else 100 end
 
     distribute_reads(max_lag: MAX_ACCEPTABLE_REPLICATION_LAG, lag_failover: true) do
-      coins = Coin.listed
+      coins = Coin.listed.legit
       @coin_count = coins.count
       @coins = coins_serializer(
         coins
