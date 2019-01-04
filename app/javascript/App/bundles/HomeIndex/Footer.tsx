@@ -44,6 +44,7 @@ const styles = (theme) =>
   })
 
 const Footer: React.StatelessComponent<Props> = ({ classes }) => {
+  const currentYear = new Date().getFullYear()
   return (
     <div className={classes.footer}>
       <div className={classes.footerWrapper}>
@@ -51,7 +52,7 @@ const Footer: React.StatelessComponent<Props> = ({ classes }) => {
           <img src="/img/logo.svg" />
         </div>
 
-        <p>Copyright © 2018 CoinFi - All rights reserved.</p>
+        <p>Copyright © {currentYear} CoinFi - All rights reserved.</p>
 
         <div className={classes.social}>
           <a href="/coins" className="pv1">

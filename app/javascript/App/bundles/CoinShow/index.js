@@ -40,9 +40,6 @@ import {
   formatValue,
   formatValueFixed,
 } from '~/bundles/common/utils/numberFormatters'
-import CurrencyContext, {
-  CurrencyContextType,
-} from '~/bundles/common/contexts/CurrencyContext'
 import styles from './styles'
 
 const lightbulb = require('~/images/lightbulb.svg') // tslint:disable-line

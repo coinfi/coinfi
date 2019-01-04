@@ -14,6 +14,7 @@ import {
   Paper,
   Button,
 } from '@material-ui/core'
+import classnames from 'classnames'
 import ColumnNames from './ColumnNames'
 import {
   formatAbbreviatedPrice,
@@ -100,14 +101,17 @@ const styles = (theme) =>
       },
       [theme.breakpoints.up('md')]: {
         paddingRight: `16px !important`,
-        textAlign: 'right',
       },
       display: 'flex',
       justifyContent: 'flex-end',
       alignItems: 'flex-end',
     },
     nextLink: {
+      fontWeight: 500,
       marginLeft: '8px',
+      height: '30px',
+      maxHeight: '30px',
+      lineHeight: '30px',
     },
     tableHeader: {
       height: '32px',
@@ -172,10 +176,10 @@ const styles = (theme) =>
       width: '100%',
       maxWidth: '1200px',
       flexWrap: 'nowrap',
+      justifyContent: 'flex-end',
       [theme.breakpoints.up('md')]: {
         margin: '0 auto',
         padding: '16px',
-        justifyContent: 'flex-end',
       },
       [theme.breakpoints.down('sm')]: {
         whiteSpace: 'nowrap',
@@ -196,47 +200,75 @@ const styles = (theme) =>
         marginRight: 0,
       },
     },
+    paginationLink: {
+      fontWeight: 500,
+      width: '30px',
+      maxWidth: '30px',
+      height: '30px',
+      maxHeight: '30px',
+      lineHeight: '30px',
+      textAlign: 'center',
+    },
     paginationSpacer: {
-      paddingLeft: `${theme.spacing.unit * 2}px`,
-      paddingRight: `${theme.spacing.unit * 2}px`,
-      lineHeight: '1.5rem',
+      paddingLeft: '4px',
+      paddingRight: '4px',
+      height: '30px',
+      maxHeight: '30px',
+      lineHeight: '30px',
     },
   })
 
-const Pagination = ({ classes, pagesToShow, pageCount }) => {
-  const buttons = Array(Math.min(pagesToShow, pageCount))
-    .fill(null)
-    .map((none, index) => index + 1)
+const PaginationButton = withStyles(styles)(
+  ({
+    classes,
+    pageNumber,
+    isCurrentPage,
+  }: {
+    classes: any
+    pageNumber: number
+    isCurrentPage?: boolean
+  }) => {
+    const buttonClasses = classnames(classes.paginationLink, {
+      active: isCurrentPage,
+    })
 
-  return (
-    <>
-      {buttons.map((page) => (
-        <Button
-          variant="outlined"
-          size="small"
-          className={classes.paginationButton}
-          key={page}
-          href={`/coins?page=${page}`}
-        >
-          {page}
-        </Button>
-      ))}
-      {pagesToShow < pageCount && (
-        <>
-          <span className={classes.paginationSpacer}>...</span>
-          <Button
-            variant="outlined"
-            size="small"
-            className={classes.paginationButton}
-            href={`/coins?page=${pageCount}`}
-          >
-            {pageCount}
-          </Button>
-        </>
-      )}
-    </>
-  )
-}
+    return (
+      <a href={`/coins?page=${pageNumber}`} className={buttonClasses}>
+        {pageNumber}
+      </a>
+    )
+  },
+)
+
+const Pagination = withStyles(styles)(
+  ({
+    classes,
+    pagesToShow,
+    pageCount,
+  }: {
+    classes: any
+    pagesToShow: number
+    pageCount: number
+  }) => {
+    const buttons = Array(Math.min(pagesToShow, pageCount))
+      .fill(null)
+      .map((none, index) => index + 1)
+
+    return (
+      <>
+        {buttons.map((page) => (
+          <PaginationButton key={page} pageNumber={page} />
+        ))}
+        {pagesToShow < pageCount && (
+          <>
+            <span className={classes.paginationSpacer}>...</span>
+            <PaginationButton pageNumber={pageCount} />
+          </>
+        )}
+      </>
+    )
+  },
+)
 
 class CoinTable extends React.Component<Props, State> {
   public api
@@ -367,11 +399,7 @@ class CoinTable extends React.Component<Props, State> {
           </Grid>
           <Grid item={true} xs={12} md={9} className={classes.nav}>
             {!isMobile && (
-              <Pagination
-                classes={classes}
-                pagesToShow={pagesToShow}
-                pageCount={pageCount}
-              />
+              <Pagination pagesToShow={pagesToShow} pageCount={pageCount} />
             )}
             <a href="/coins?page=2" className={classes.nextLink}>
               Next
@@ -540,11 +568,7 @@ class CoinTable extends React.Component<Props, State> {
             wrap="nowrap"
             className={classes.footerContainer}
           >
-            <Pagination
-              classes={classes}
-              pagesToShow={pagesToShow}
-              pageCount={pageCount}
-            />
+            <Pagination pagesToShow={pagesToShow} pageCount={pageCount} />
           </Grid>
         )}
       </React.Fragment>
