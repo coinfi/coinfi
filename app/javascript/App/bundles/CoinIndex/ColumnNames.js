@@ -1,6 +1,6 @@
 import React from 'react'
 import _ from 'lodash'
-import RedGreenSpan from './RedGreenSpan'
+import RedGreenSpan from '~/bundles/common/components/RedGreenSpan'
 import { Sparklines, SparklinesLine } from 'react-sparklines'
 
 export default (currency) => {
