@@ -36,7 +36,7 @@ const styles = (theme) =>
     container: {
       border: '1px solid #e5e8ed',
       borderRadius: '2px',
-      padding: '8px 8px 8px 16px', // smaller right padding to compensate for chart's whitespace
+      padding: '16px 16px 16px 24px', // smaller right padding to compensate for chart's whitespace
     },
     chartContainer: {
       maxWidth: '200px',

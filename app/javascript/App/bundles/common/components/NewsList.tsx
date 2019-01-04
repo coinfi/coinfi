@@ -5,6 +5,7 @@ import localAPI from '../utils/localAPI'
 import LoadingIndicator from '~/bundles/common/components/LoadingIndicator'
 import { Typography, Grid } from '@material-ui/core'
 import { withStyles, createStyles } from '@material-ui/core/styles'
+import classnames from 'classnames'
 import Favicon from '~/bundles/common/components/Favicon'
 import BulletSpacer from '~/bundles/common/components/BulletSpacer'
 import { formatNewsUrl } from '~/bundles/common/utils/news'
@@ -35,7 +36,7 @@ const styles = (theme) =>
         height: '100%',
         border: '1px solid #e5e8ed',
         borderRadius: '2px',
-        padding: '8px 16px',
+        padding: '16px 24px',
       },
     },
     wrapper: {
@@ -54,14 +55,20 @@ const styles = (theme) =>
       },
       [theme.breakpoints.up('md')]: {
         textAlign: 'left',
+        paddingBottom: '16px !important',
       },
     },
     listItem: {
       borderBottom: '1px solid #e5e8ed',
-      marginBottom: `${theme.spacing.unit * 2}px`,
+      marginBottom: '16px',
       [theme.breakpoints.down('sm')]: {
-        paddingLeft: `${theme.spacing.unit * 2}px`,
-        paddingRight: `${theme.spacing.unit * 2}px`,
+        paddingLeft: '16px',
+        paddingRight: '16px',
+      },
+    },
+    lastListItem: {
+      [theme.breakpoints.up('md')]: {
+        marginBottom: '0 !important',
       },
     },
     listItemHeader: {
@@ -166,7 +173,7 @@ class NewsList extends React.Component<Props, State> {
           <Grid
             container={true}
             direction="column"
-            justify="space-evenly"
+            justify="space-between"
             alignItems="stretch"
             className={classes.container}
           >
@@ -176,8 +183,13 @@ class NewsList extends React.Component<Props, State> {
               </Grid>
             ) : (
               <>
-                {sortedNewsItems.map((newsItem) => {
+                {sortedNewsItems.map((newsItem, index) => {
                   const { linkUrl, linkText } = formatNewsUrl(newsItem.url)
+                  const last = index + 1 === sortedNewsItems.length
+                  const listClassName = classnames(
+                    classes.listItem,
+                    last && classes.lastListItem,
+                  )
                   return (
                     <Grid
                       container={true}
@@ -186,7 +198,7 @@ class NewsList extends React.Component<Props, State> {
                       direction="column"
                       justify="center"
                       alignItems="stretch"
-                      className={classes.listItem}
+                      className={listClassName}
                       onClick={() => this.handleNewsClick(newsItem)}
                     >
                       <Grid item={true}>

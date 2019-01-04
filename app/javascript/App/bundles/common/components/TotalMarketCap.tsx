@@ -45,7 +45,7 @@ const styles = (theme) =>
     container: {
       border: '1px solid #e5e8ed',
       borderRadius: '2px',
-      padding: '8px 16px',
+      padding: '16px 24px',
     },
     chartContainer: {},
     title: {
