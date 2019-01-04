@@ -1,4 +1,5 @@
 module TokensHelper
+  # order-specific; look-ups default to index 0 if no matches
   METRIC_TYPES = [
     {
       value: 'exchange_supply',

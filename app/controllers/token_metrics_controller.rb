@@ -22,8 +22,8 @@ class TokenMetricsController < ApplicationController
   private
 
   def set_params
-    @page = if params.has_key?(:page) then params[:page].to_i else 1 end
-    @limit = if params.has_key?(:limit) then params[:limit].to_i else 100 end
+    @page = params[:page]&.to_i || 1
+    @limit = params[:limit]&.to_i || 100
     if params.has_key?(:metric_type_slug) && is_valid_metric_type_slug(params[:metric_type_slug])
       @slug = params[:metric_type_slug]
       @metric_type = get_metric_type_from_slug(@slug)

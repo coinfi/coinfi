@@ -30,8 +30,8 @@ class Api::TokenMetricsController < ApiController
   ORDER_BY_PROPERTIES = ['rank', 'metric_value', 'change_1d', 'change_7d', 'change_30d', 'price', 'market_cap']
 
   def set_params
-    @page = if params.has_key?(:page) then params[:page].to_i else 1 end
-    @limit = if params.has_key?(:limit) then params[:limit].to_i else 100 end
+    @page = params[:page]&.to_i || 1
+    @limit = params[:limit]&.to_i || 100
     if params.has_key?(:metric_type_slug) && is_valid_metric_type_slug(params[:metric_type_slug])
       @slug = params[:metric_type_slug]
       @metric_type = get_metric_type_from_slug(@slug)
@@ -69,9 +69,6 @@ class Api::TokenMetricsController < ApiController
   end
 
   def is_order_by_coin?
-    if @order_by == 'market_cap' || @order_by == 'price'
-      return true
-    end
-    return false
+    @order_by == 'market_cap' || @order_by == 'price'
   end
 end
