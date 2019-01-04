@@ -1,6 +1,15 @@
 import * as numeral from 'numeral'
 import * as _ from 'lodash'
 import currencyMap from '../constants/currencyMap'
+
+/***
+ * Issue with numeral.js
+ * https://github.com/adamwdraper/Numeral-js/pull/629
+ * really large/small numbers using scientific notation in JS
+ * cannot be formatted by numeraljs and result in NaN
+ * partial fix implemented by using toFixed to limit the size of small digits
+ */
+
 const numericSymbols = ['k', 'M', 'B', 'T', 'P', 'E']
 
 /***
@@ -20,7 +29,7 @@ export function formatValue(
     return ''
   }
   const format = `0,0.[${_.repeat('0', maximumFractionDigits)}]`
-  return numeral(value).format(format)
+  return numeral(Number(value).toFixed(maximumFractionDigits)).format(format)
 }
 
 /***
@@ -40,7 +49,7 @@ export function formatValueFixed(
     return ''
   }
   const format = `0,0.${_.repeat('0', fractionDigits)}`
-  return numeral(value).format(format)
+  return numeral(Number(value).toFixed(fractionDigits)).format(format)
 }
 
 /***
@@ -81,14 +90,23 @@ export function formatValueByCurrencyRate(
   value: number,
   currencyRate: number,
   options?: {
-    minimumFractionDigits: number
-    defaultFractionDigits: number
-    maximumFractionDigits: number
+    minimumFractionDigits?: number
+    defaultFractionDigits?: number
+    maximumFractionDigits?: number
+    threshold?: number
   },
 ): string {
-  const minimumFractionDigits = _.get(options, 'minimumFractionDigits', 2)
+  const threshold = _.get(options, 'threshold', 4)
   const defaultFractionDigits = _.get(options, 'defaultFractionDigits', 6)
-  const maximumFractionDigits = _.get(options, 'maximumFractionDigits', 10)
+  const minimumFractionDigits = Math.max(
+    _.get(options, 'minimumFractionDigits', defaultFractionDigits - threshold),
+    0,
+  )
+  const maximumFractionDigits = _.get(
+    options,
+    'maximumFractionDigits',
+    defaultFractionDigits + threshold,
+  )
 
   // adjust decimal places based on currency rate;
 

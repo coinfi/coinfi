@@ -65,5 +65,19 @@ FactoryBot.define do
         end
       end
     end
+
+    factory :coin_with_metrics do
+      transient do
+        metric_types { TokensHelper::METRIC_TYPES.map { |t| t[:value] } }
+      end
+
+       after(:create) do |coin, evaluator|
+        evaluator.metric_types.each do |value|
+          create_list(:metric, 30, token_address: coin.eth_address, metric_type: value)
+        end
+
+         RefreshTokenMetricsViewsService.call(concurrently: false)
+      end
+    end
   end
 end
