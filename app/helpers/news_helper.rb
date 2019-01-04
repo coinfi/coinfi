@@ -1,16 +1,18 @@
 module NewsHelper
-  def default_news_query
-    NewsItems::WithFilters.call(NewsItem.published, published_since: 24.hours.ago)
-      .includes(:coins, :news_categories)
-      .order_by_published
-      .limit(25)
-  end
+  DEFAULT_NEWS_LIMIT = 25
 
-  def backup_default_news_query
+  def default_news_query
     NewsItems::WithFilters.call(NewsItem.published)
       .includes(:coins, :news_categories)
       .order_by_published
-      .limit(25)
+      .limit(DEFAULT_NEWS_LIMIT)
+  end
+
+  def backup_default_news_query
+    NewsItem.published
+      .includes(:coins, :news_categories)
+      .order_by_published
+      .limit(DEFAULT_NEWS_LIMIT)
   end
 
   def serialize_news_items(news_items)
@@ -38,7 +40,7 @@ module NewsHelper
     Rails.cache.fetch("default_news_items", force: rewrite_cache) do
       distribute_reads(max_lag: ApplicationController::MAX_ACCEPTABLE_REPLICATION_LAG, lag_failover: true) do
         news_items = default_news_query
-        news_items = backup_default_news_query if news_items.empty?
+        news_items = backup_default_news_query if news_items.empty? || news_items.length < DEFAULT_NEWS_LIMIT
 
         serialize_news_items(news_items)
       end

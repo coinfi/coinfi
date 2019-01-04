@@ -18,3 +18,8 @@ UpdateCurrencies:
 
 RefreshTokenMetricViews:
   cron: '0 30 4 * * * Etc/UTC'   # Scheduled after metrics data is inserted and later than production, just in case
+
+# Paid API routes
+
+UpdateCmcMetrics:
+  cron: '50 6 1 * * * Etc/UTC'  # update daily
