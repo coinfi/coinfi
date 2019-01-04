@@ -9,6 +9,7 @@ class MarketMetric < ApplicationRecord
       .order('max_timestamp DESC')
       .limit(num_of_days)
     )
+    .order('date(timestamp) ASC')
   }
   scope :monthly, -> (num_of_months = 12) {
     where(timestamp: MarketMetric
@@ -18,5 +19,6 @@ class MarketMetric < ApplicationRecord
       .order('max_timestamp DESC')
       .limit(num_of_months)
     )
+    .order('date(timestamp) ASC')
   }
 end
