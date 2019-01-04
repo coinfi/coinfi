@@ -35,13 +35,11 @@ const styles = (theme) =>
   createStyles({
     container: {
       border: '1px solid #e5e8ed',
-      padding: `${theme.spacing.unit * 2}px`,
-      paddingRight: `${theme.spacing.unit}px`, // smaller to compensate for chart's whitespace
+      borderRadius: '2px',
+      padding: '8px 8px 8px 16px', // smaller right padding to compensate for chart's whitespace
     },
     chartContainer: {
       maxWidth: '200px',
-      marginTop: '-16px',
-      marginBottom: '-16px',
     },
     legend: {
       flexBasis: 'unset !important', // fixes weird height issue

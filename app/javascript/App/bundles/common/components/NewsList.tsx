@@ -33,6 +33,27 @@ const styles = (theme) =>
     root: {
       [theme.breakpoints.up('md')]: {
         height: '100%',
+        border: '1px solid #e5e8ed',
+        borderRadius: '2px',
+        padding: '8px 16px',
+      },
+    },
+    wrapper: {
+      flex: 1,
+    },
+    container: {
+      height: '100%',
+    },
+    newsWidgetHeader: {
+      [theme.breakpoints.down('sm')]: {
+        textAlign: 'center',
+        borderBottom: '1px solid #e5e8ed',
+        paddingTop: `16px !important`,
+        paddingBottom: `8px !important`,
+        marginBottom: '16px !important',
+      },
+      [theme.breakpoints.up('md')]: {
+        textAlign: 'left',
       },
     },
     listItem: {
@@ -130,77 +151,97 @@ class NewsList extends React.Component<Props, State> {
     const { sortedNewsItems, status } = this.state
     const isLoading = status !== STATUSES.READY
 
-    if (isLoading) {
-      return <LoadingIndicator />
-    }
-
     return (
-      <Grid
-        container={true}
-        direction="column"
-        justify="space-evenly"
-        alignItems="stretch"
-        className={classes.root}
-      >
-        {sortedNewsItems.map((newsItem) => {
-          const { linkUrl, linkText } = formatNewsUrl(newsItem.url)
-          return (
-            <Grid
-              container={true}
-              item={true}
-              key={newsItem.id}
-              direction="column"
-              justify="center"
-              alignItems="stretch"
-              className={classes.listItem}
-              onClick={() => this.handleNewsClick(newsItem)}
-            >
+      <Grid container={true} direction="column" className={classes.root}>
+        <Grid item={true}>
+          <Typography
+            variant="h5"
+            align="center"
+            className={classes.newsWidgetHeader}
+          >
+            Latest Cryptocurrency News
+          </Typography>
+        </Grid>
+        <Grid item={true} className={classes.wrapper}>
+          <Grid
+            container={true}
+            direction="column"
+            justify="space-evenly"
+            alignItems="stretch"
+            className={classes.container}
+          >
+            {isLoading ? (
               <Grid item={true}>
-                <Typography variant="h6" className={classes.listItemHeader}>
-                  {newsItem.title}
-                </Typography>
+                <LoadingIndicator />
               </Grid>
-              <Grid
-                container={true}
-                item={true}
-                justify="space-between"
-                className={classes.listItemFooterContainer}
-              >
-                <Grid item={true}>
-                  <Typography
-                    component="div"
-                    className={classes.listItemFooter}
-                  >
-                    <Favicon
-                      url={linkUrl}
-                      style={{ height: 12, paddingRight: '0.5em' }}
-                    />
-                    <a
-                      href={linkUrl}
-                      target="_blank"
-                      rel="noopener noreferrer nofollow"
-                      className="dib silver"
+            ) : (
+              <>
+                {sortedNewsItems.map((newsItem) => {
+                  const { linkUrl, linkText } = formatNewsUrl(newsItem.url)
+                  return (
+                    <Grid
+                      container={true}
+                      item={true}
+                      key={newsItem.id}
+                      direction="column"
+                      justify="center"
+                      alignItems="stretch"
+                      className={classes.listItem}
+                      onClick={() => this.handleNewsClick(newsItem)}
                     >
-                      {linkText}
-                    </a>
-                    <BulletSpacer />
-                    {moment(newsItem.feed_item_published_at).fromNow()}
+                      <Grid item={true}>
+                        <Typography
+                          variant="h6"
+                          className={classes.listItemHeader}
+                        >
+                          {newsItem.title}
+                        </Typography>
+                      </Grid>
+                      <Grid
+                        container={true}
+                        item={true}
+                        justify="space-between"
+                        className={classes.listItemFooterContainer}
+                      >
+                        <Grid item={true}>
+                          <Typography
+                            component="div"
+                            className={classes.listItemFooter}
+                          >
+                            <Favicon
+                              url={linkUrl}
+                              style={{ height: 12, paddingRight: '0.5em' }}
+                            />
+                            <a
+                              href={linkUrl}
+                              target="_blank"
+                              rel="noopener noreferrer nofollow"
+                              className="dib silver"
+                            >
+                              {linkText}
+                            </a>
+                            <BulletSpacer />
+                            {moment(newsItem.feed_item_published_at).fromNow()}
+                          </Typography>
+                        </Grid>
+                        <Grid item={true}>
+                          <CoinTags
+                            itemWithCoinLinkData={newsItem}
+                            onClick={this.handleCoinClick}
+                          />
+                        </Grid>
+                      </Grid>
+                    </Grid>
+                  )
+                })}
+                <Grid item={true} className={classes.listFooter}>
+                  <Typography>
+                    <a href="/news">View more cryptocurrency news</a>
                   </Typography>
                 </Grid>
-                <Grid item={true}>
-                  <CoinTags
-                    itemWithCoinLinkData={newsItem}
-                    onClick={this.handleCoinClick}
-                  />
-                </Grid>
-              </Grid>
-            </Grid>
-          )
-        })}
-        <Grid item={true} className={classes.listFooter}>
-          <Typography>
-            <a href="/news">View more cryptocurrency news</a>
-          </Typography>
+              </>
+            )}
+          </Grid>
         </Grid>
       </Grid>
     )

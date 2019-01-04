@@ -75,15 +75,6 @@ const styles = (theme) =>
         paddingRight: '8px',
       },
     },
-    newsWidgetHeader: {
-      fontWeight: 500,
-      [theme.breakpoints.down('sm')]: {
-        borderBottom: '1px solid #e5e8ed',
-        paddingTop: `16px !important`,
-        paddingBottom: `8px !important`,
-        marginBottom: '16px !important',
-      },
-    },
   })
 
 class HomeIndex extends React.Component<Props, State> {
@@ -143,13 +134,6 @@ class HomeIndex extends React.Component<Props, State> {
             md={7}
             className={classes.widgetContainerRight}
           >
-            <Typography
-              variant="h5"
-              align="center"
-              className={classes.newsWidgetHeader}
-            >
-              Latest Cryptocurrency News
-            </Typography>
             <NewsList />
           </Grid>
         </Grid>
