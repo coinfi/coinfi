@@ -2,7 +2,7 @@ import * as React from 'react'
 import * as _ from 'lodash'
 import classnames from 'classnames'
 import Icon from '~/bundles/common/components/Icon'
-import { Grid } from '@material-ui/core'
+import { Grid, Typography } from '@material-ui/core'
 import { withStyles, createStyles } from '@material-ui/core/styles'
 import {
   formatValueWithCurrency,
@@ -51,6 +51,7 @@ const styles = (theme) =>
     },
     coinName: {
       fontSize: '34px',
+      fontWeight: 500,
       marginRight: '7px',
     },
     coinSymbol: {
@@ -161,8 +162,10 @@ class InfoBar extends React.Component<Props, {}> {
                 <Grid item={true} className={classes.coinImage}>
                   <img alt={coinObj.name} src={coinObj.image_url} />
                 </Grid>
-                <Grid item={true} className={classes.coinName}>
-                  {coinObj.name}
+                <Grid item={true}>
+                  <Typography variant="h1" className={classes.coinName}>
+                    {coinObj.name}
+                  </Typography>
                 </Grid>
                 <Grid item={true} className={classes.coinSymbol}>
                   {!_.isUndefined(symbol) && `(${symbol})`}

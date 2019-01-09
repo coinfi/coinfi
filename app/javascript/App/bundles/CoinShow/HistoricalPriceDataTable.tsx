@@ -56,7 +56,7 @@ interface Props extends CurrencyContextType {
   classes: any
   initialRawData?: RawPriceData[]
   availableSupply: number
-  symbol: string
+  coinObj: CoinObj
 }
 
 interface State {
@@ -187,8 +187,9 @@ class HistoricalPriceDataTable extends React.Component<Props, State> {
   }
 
   public render() {
-    const { classes, availableSupply, currency } = this.props
+    const { classes, availableSupply, currency, coinObj } = this.props
     const { data, status, start, end } = this.state
+    const { name: coinName } = coinObj
 
     if (status !== STATUSES.READY) {
       return <LoadingIndicator />
@@ -206,7 +207,9 @@ class HistoricalPriceDataTable extends React.Component<Props, State> {
       <React.Fragment>
         <Toolbar className={classes.toolbar}>
           {currency ? (
-            <Typography component="div">Prices in {currency}</Typography>
+            <Typography component="div">
+              {coinName} Prices in {currency}
+            </Typography>
           ) : (
             ''
           )}
