@@ -40,10 +40,10 @@ const TOKEN_METRIC_OBJ_DATA = {
   exchange_supply: {
     titleFormatter: (coinObj) => {
       const { symbol } = coinObj
-      return `Percentage of ${symbol} on Exchange`
+      return `Percentage of ${symbol} on Exchanges`
     },
-    yAxisLabel: '% Supply on Exchange',
-    metricSubtitle: 'Tokens held on an exchange',
+    yAxisLabel: '% Supply on Exchanges',
+    metricSubtitle: 'Tokens held on exchanges',
     dashboardLink: '/token-metrics/supply-on-exchange',
   },
   token_retention_rate: {
