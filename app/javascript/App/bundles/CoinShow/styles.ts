@@ -108,12 +108,12 @@ const styles = (theme) =>
     },
     cardHeader: {
       paddingBottom: 0,
-      marginBottom: 0,
     },
     cardTitle: {
       fontSize: '16px',
       fontWeight: 500,
       color: 'rgba(0, 0, 0, 0.87)',
+      marginBottom: 0,
     },
     tokenMetricHeader: {
       [theme.breakpoints.up('md')]: {

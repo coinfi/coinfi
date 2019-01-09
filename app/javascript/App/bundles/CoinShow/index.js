@@ -393,7 +393,7 @@ class CoinShow extends Component {
                   <MainCard>
                     <CardHeader
                       title={`${coinName} Price Chart`}
-                      component="h2"
+                      titleTypographyProps={{ variant: 'h2', component: 'h2' }}
                       classes={{
                         root: classes.cardHeader,
                         title: classes.cardTitle,
@@ -417,12 +417,11 @@ class CoinShow extends Component {
                   >
                     <ExpansionPanelSummary
                       expandIcon={<ExpandMoreIcon />}
-                      className={classnames(
-                        classes.expansionSummary,
-                        classes.cardTitle,
-                      )}
+                      className={classes.expansionSummary}
                     >
-                      {coinName} Historical Data
+                      <h2 className={classes.cardTitle}>
+                        {coinName} Historical Data
+                      </h2>
                     </ExpansionPanelSummary>
                     <ExpansionPanelDetails className={classes.expansionDetails}>
                       <HistoricalPriceDataTable
@@ -446,7 +445,7 @@ class CoinShow extends Component {
                 <SubCard>
                   <CardHeader
                     title={`${coinName} Fundamentals`}
-                    component="h2"
+                    titleTypographyProps={{ variant: 'h2', component: 'h2' }}
                     classes={{
                       root: classes.subCardHeader,
                       title: classes.subCardTitle,
@@ -459,7 +458,7 @@ class CoinShow extends Component {
                 <SubCard>
                   <CardHeader
                     title={`${coinName} Links`}
-                    component="h2"
+                    titleTypographyProps={{ variant: 'h2', component: 'h2' }}
                     classes={{
                       root: classes.subCardHeader,
                       title: classes.subCardTitle,
@@ -522,7 +521,7 @@ class CoinShow extends Component {
                 <SubCard>
                   <CardHeader
                     title="Related Coins"
-                    component="h2"
+                    titleTypographyProps={{ variant: 'h2', component: 'h2' }}
                     classes={{
                       root: classes.subCardHeader,
                       title: classes.subCardTitle,
