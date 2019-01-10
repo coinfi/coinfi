@@ -76,7 +76,12 @@ module CoinsHelper
     end
   end
 
-  def live_market_dominance(number_of_other_coins: 4, no_cache: false)
+  def market_dominance(number_of_other_coins: 4, no_cache: false)
+    unless no_cache
+      cached_market_dominance = Rails.cache.read("market_dominance/#{number_of_other_coins}")
+      return cached_market_dominance if cached_market_dominance.present?
+    end
+
     total_market_cap = latest_total_market_cap
 
     distribute_reads(max_lag: MAX_ACCEPTABLE_REPLICATION_LAG, lag_failover: true) do
@@ -101,13 +106,6 @@ module CoinsHelper
 
       market_dominance
     end
-  end
-
-  def market_dominance(number_of_other_coins: 4)
-    cached_market_dominance = Rails.cache.read("market_dominance/#{number_of_other_coins}")
-    return cached_market_dominance if cached_market_dominance.present?
-
-    live_market_dominance(number_of_other_coins: number_of_other_coins)
   end
 
   def market_percentage(coin_key)

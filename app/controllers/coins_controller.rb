@@ -6,8 +6,8 @@ class CoinsController < ApplicationController
 
   def index
     @hide_currency = true
-    @page = if params.has_key?(:page) then params[:page].to_i else 1 end
-    @limit = if params.has_key?(:limit) then params[:limit].to_i else 100 end
+    @page = params[:page]&.to_i || 1
+    @limit = params[:limit]&.to_i || 100
 
     distribute_reads(max_lag: MAX_ACCEPTABLE_REPLICATION_LAG, lag_failover: true) do
       coins = Coin.listed.legit
