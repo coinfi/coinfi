@@ -90,14 +90,23 @@ export function formatValueByCurrencyRate(
   value: number,
   currencyRate: number,
   options?: {
-    minimumFractionDigits: number
-    defaultFractionDigits: number
-    maximumFractionDigits: number
+    minimumFractionDigits?: number
+    defaultFractionDigits?: number
+    maximumFractionDigits?: number
+    threshold?: number
   },
 ): string {
-  const minimumFractionDigits = _.get(options, 'minimumFractionDigits', 2)
+  const threshold = _.get(options, 'threshold', 4)
   const defaultFractionDigits = _.get(options, 'defaultFractionDigits', 6)
-  const maximumFractionDigits = _.get(options, 'maximumFractionDigits', 10)
+  const minimumFractionDigits = Math.max(
+    _.get(options, 'minimumFractionDigits', defaultFractionDigits - threshold),
+    0,
+  )
+  const maximumFractionDigits = _.get(
+    options,
+    'maximumFractionDigits',
+    defaultFractionDigits + threshold,
+  )
 
   // adjust decimal places based on currency rate;
 

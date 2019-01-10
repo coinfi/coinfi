@@ -5,6 +5,7 @@ import NewsfeedPageContainer from '~/bundles/NewsfeedPage/NewsfeedPageContainer'
 import CoinIndex from '../bundles/CoinIndex'
 import HomeIndex from '../bundles/HomeIndex'
 import CoinShow from '../bundles/CoinShow'
+import TokenMetricsIndex from '../bundles/TokenMetricsIndex'
 
 const AppRoutes = (props) => {
   return (
@@ -52,6 +53,11 @@ const AppRoutes = (props) => {
         exact={true}
         path="/coins/:coinSlug"
         render={(routeProps) => <CoinShow {...props} />}
+      />
+      <Route
+        exact={true}
+        path="/token-metrics/:metricType?"
+        render={(routeProps) => <TokenMetricsIndex {...props} />}
       />
     </Switch>
   )

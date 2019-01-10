@@ -18,6 +18,7 @@ interface Props {
   unstyled?: boolean
   coinShow?: boolean
   placeholder?: string
+  tokensOnly?: boolean
   isMobile: boolean
   onSelect: (suggestion: Coin) => void
 }
@@ -90,7 +91,10 @@ class SearchCoins extends React.Component<Props, State> {
 
   public onSuggestionsFetchRequested = ({ value }) => {
     localApi
-      .get(`/coins/search_by_params`, { name: value })
+      .get(`/coins/search_by_params`, {
+        name: value,
+        tokensOnly: this.props.tokensOnly,
+      })
       .then((response) => {
         this.setState({
           suggestions: response.payload,

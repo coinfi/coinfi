@@ -3,7 +3,12 @@ require 'test_helper'
 
 class CoinsRoutesTest < ApplicationIntegrationTest
   setup do
-    @coins = create_list(:coin, 10)
+    initialize_views
+    @coins = create_list(:coin_with_metrics, 10)
+  end
+
+  teardown do
+    teardown_views
   end
 
   test "can visit index" do

@@ -1,10 +1,13 @@
 import * as React from 'react'
 import Icon from './Icon'
 import CoinListContext from '../contexts/CoinListContext'
-import { Coin } from '../types'
+
+interface CoinForWatchSatr {
+  id: number
+}
 
 interface Props {
-  coin: Coin
+  coin: CoinForWatchSatr
   hasText: boolean
   loggedIn: boolean
 }

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20181220025108) do
+ActiveRecord::Schema.define(version: 20181225140500) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -331,6 +331,14 @@ ActiveRecord::Schema.define(version: 20181220025108) do
     t.decimal "total_volume_24h", precision: 18, scale: 2
     t.datetime "timestamp", null: false
     t.index ["timestamp"], name: "index_market_metrics_on_timestamp", unique: true
+  end
+
+  create_table "metrics", force: :cascade do |t|
+    t.string "token_address", limit: 66
+    t.string "metric_type", limit: 256
+    t.date "date"
+    t.float "metric_value"
+    t.index ["token_address", "metric_type", "date"], name: "composite_key", unique: true
   end
 
   create_table "news_categories", force: :cascade do |t|

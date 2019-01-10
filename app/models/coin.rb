@@ -3,6 +3,7 @@ class Coin < ApplicationRecord
 
   include ICO
   include CoinsHelper
+  include TokensHelper
   include ActionView::Helpers::NumberHelper
   extend FriendlyId
   friendly_id :name, use: [:slugged, :finders]
@@ -23,6 +24,12 @@ class Coin < ApplicationRecord
   has_many :news_items, through: :mentions
   has_many :machine_tagged_news_items, through: :machine_tagged_mentions, source: :news_item
   has_many :human_tagged_news_items, through: :human_tagged_mentions, source: :news_item
+  has_many :metrics, foreign_key: :eth_address
+  has_one :token_supply, foreign_key: :coin_key, primary_key: :coin_key
+  has_one :token_retention, foreign_key: :coin_key, primary_key: :coin_key
+  has_one :token_decentralization, foreign_key: :coin_key, primary_key: :coin_key
+  has_one :token_adoption, foreign_key: :coin_key, primary_key: :coin_key
+  has_one :token_velocity, foreign_key: :coin_key, primary_key: :coin_key
 
   has_many :calendar_event_coins
   has_many :calendar_events, through: :calendar_event_coins
@@ -56,6 +63,12 @@ class Coin < ApplicationRecord
   def self.symbols
     # Reject any symbols that are nil or not all uppercase.
     pluck(:symbol).uniq.compact.sort.reject { |symbol| /[[:lower:]]/.match(symbol) }
+  end
+
+  def self.erc20_tokens
+    where("coins.blockchain_tech ~* ?", "(\b(ETH|ETHER|ER[A-Z]?\d*|EIP\d*)\b)|(ETHEREUM)")
+      .or(Coin.where("coins.token_type ~* ?", "(\b(ETH|ETHER|ER[A-Z]?\d*|EIP\d*)\b)|(ETHEREUM)"))
+      .or(Coin.where.not(eth_address: nil))
   end
 
   def most_common_news_category
@@ -195,7 +208,7 @@ class Coin < ApplicationRecord
       token_distribution_100_data: token_distribution_100_data,
       token_distribution_100_metadata: token_distribution_100_metadata,
       token_velocity_data: token_velocity_data,
-      token_velocity_metadata: token_velocity_metadata
+      token_velocity_metadata: token_velocity_metadata,
     }
   end
 
@@ -228,32 +241,14 @@ class Coin < ApplicationRecord
     return nil unless has_token_metrics?
 
     @token_metrics_data ||= {}
-    @token_metrics_data[metric_type] ||= Rails.cache.fetch(
-      "coins/#{id}/#{metric_type}",
-      expires_at: 1.day.since.beginning_of_day,
-      race_condition_ttl: 10.seconds
-    ) do
-      url = "#{ENV.fetch('COINFI_POSTGREST_URL')}/metrics_chart_view?coin_key=eq.#{coin_key}&metric_type=eq.#{metric_type}&select=#{metric_value},date"
-      response = HTTParty.get(url)
-      JSON.parse(response.body)
-    end
+    @token_metrics_data[metric_type] ||= TokenDailyMetric.where(coin_key: coin_key, metric_type: metric_type).order(:date).select(:date, metric_value)
   end
 
   def token_metrics_metadata(metric_type)
     return nil unless has_token_metrics?
 
-    @token_metrics_metadata ||= {}
-    @token_metrics_metadata[metric_type] ||= Rails.cache.fetch(
-      "coins/#{id}/#{metric_type}_metadata",
-      expires_at: 1.day.since.beginning_of_day,
-      race_condition_ttl: 10.seconds
-    ) do
-      url = "#{ENV.fetch('COINFI_POSTGREST_URL')}/#{metric_type}_metrics_view?coin_key=eq.#{coin_key}"
-      headers = { "Accept": "application/vnd.pgrst.object+json" } # fetch single object rather than array of objects
-      response = HTTParty.get(url, headers: headers)
-      results = JSON.parse(response.body)
-      results.except!("coin_key")
-    end
+    token_model = get_model_from_metric_type(metric_type)
+    self.try(token_model).try(:attributes)
   end
 
   def exchange_supply_data
