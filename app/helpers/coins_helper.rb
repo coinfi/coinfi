@@ -51,6 +51,14 @@ module CoinsHelper
     )
   end
 
+  def seconds_to_next_day
+    1.day.since.beginning_of_day - Time.now
+  end
+
+  def seconds_to_next_hour
+    1.hour.since.beginning_of_hour - Time.now
+  end
+
   def latest_total_market_cap
     distribute_reads(max_lag: MAX_ACCEPTABLE_REPLICATION_LAG, lag_failover: true) do
       latest_market_metric = MarketMetric.latest
@@ -89,7 +97,7 @@ module CoinsHelper
         }]
       end.to_h
 
-      Rails.cache.write("market_dominance/#{number_of_other_coins}", market_dominance, expires_at: 1.day.since.beginning_of_day) unless no_cache || total_market_cap.blank?
+      Rails.cache.write("market_dominance/#{number_of_other_coins}", market_dominance, expires_in: seconds_to_next_day) unless no_cache || total_market_cap.blank?
 
       market_dominance
     end

@@ -55,6 +55,11 @@ const styles = (theme) =>
       marginLeft: '-10px',
       marginRight: '-12px',
     },
+    headerWrapper: {
+      [theme.breakpoints.up('md')]: {
+        marginBottom: '10px',
+      },
+    },
     title: {
       whiteSpace: 'nowrap',
       [theme.breakpoints.down('sm')]: {
@@ -313,6 +318,7 @@ class TotalMarketCap extends React.Component<Props, State> {
             justify="space-between"
             alignItems="baseline"
             wrap="nowrap"
+            className={classes.headerWrapper}
           >
             <Grid item={true}>
               <Typography variant="h5" className={classes.title}>

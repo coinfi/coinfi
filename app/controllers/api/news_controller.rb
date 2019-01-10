@@ -10,7 +10,10 @@ class Api::NewsController < ApiController
     distribute_reads(max_lag: MAX_ACCEPTABLE_REPLICATION_LAG, lag_failover: true) do
       if params[:frontPage].present? # For Front page
         @news_items = serialize_news_items(NewsItem.published
-          .where(feed_source: FeedSource.coindesk.or(FeedSource.cointelegraph))
+          .where(feed_source: FeedSource.coindesk
+                                .or(FeedSource.cointelegraph)
+                                .or(FeedSource.ambcrypto)
+          )
           .includes(:coins, :news_categories)
           .order_by_published
           .limit(5)

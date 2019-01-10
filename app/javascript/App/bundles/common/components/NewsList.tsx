@@ -46,6 +46,9 @@ const styles = (theme) =>
     container: {
       height: '100%',
     },
+    loadingWrapper: {
+      margin: 'auto',
+    },
     newsWidgetHeader: {
       [theme.breakpoints.down('sm')]: {
         fontSize: '26px',
@@ -183,7 +186,7 @@ class NewsList extends React.Component<Props, State> {
             className={classes.container}
           >
             {isLoading ? (
-              <Grid item={true}>
+              <Grid item={true} className={classes.loadingWrapper}>
                 <LoadingIndicator />
               </Grid>
             ) : (

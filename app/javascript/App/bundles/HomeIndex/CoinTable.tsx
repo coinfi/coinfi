@@ -60,7 +60,12 @@ const styles = (theme) =>
         paddingBottom: '8px',
       },
     },
-    titleWrapper: {},
+    titleWrapper: {
+      [theme.breakpoints.up('md')]: {
+        alignSelf: 'flex-end',
+        paddingBottom: '8px',
+      },
+    },
     title: {
       [theme.breakpoints.up('md')]: {
         fontSize: '24px',
@@ -68,8 +73,6 @@ const styles = (theme) =>
         display: 'inline-block',
         marginLeft: '24px',
         marginRight: '24px',
-        paddingTop: '16px !important',
-        paddingBottom: '8px !important',
       },
       [theme.breakpoints.down('sm')]: {
         fontSize: '26px',
@@ -83,13 +86,16 @@ const styles = (theme) =>
       padding: `8px !important`,
       textAlign: 'center',
       [theme.breakpoints.up('md')]: {
-        paddingRight: `16px !important`,
+        paddingTop: '16px !important',
+        paddingRight: '16px !important',
         zIndex: 100,
         alignSelf: 'flex-end',
       },
     },
     searchWrapper: {
       padding: '0 10px',
+      border: '1px solid #e5e8ed',
+      borderRadius: '2px',
     },
     nav: {
       backgroundColor: '#fff',
@@ -378,7 +384,7 @@ class CoinTable extends React.Component<Props, State> {
       <div className={classes.root}>
         <Grid container={true} className={classes.headerContainer}>
           <Grid item={true} xs={12} md={9} className={classes.titleWrapper}>
-            <Typography variant="h2" align="center" className={classes.title}>
+            <Typography variant="h1" align="center" className={classes.title}>
               Cryptocurrency prices today
             </Typography>
             <a href="/coins?page=2" className={classes.nextLink}>
@@ -386,7 +392,11 @@ class CoinTable extends React.Component<Props, State> {
             </a>
           </Grid>
           <Grid item={true} xs={12} md={3} className={classes.search}>
-            <Paper square={true} className={classes.searchWrapper}>
+            <Paper
+              square={true}
+              elevation={0}
+              className={classes.searchWrapper}
+            >
               <SearchCoins
                 onSelect={(suggestion) =>
                   (window.location.href = `/coins/${suggestion.slug}`)

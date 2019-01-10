@@ -62,6 +62,7 @@ const styles = (theme) =>
       [theme.breakpoints.up('md')]: {
         fontSize: '20px',
         fontWeight: 500,
+        marginBottom: '10px',
       },
     },
     marketDominance: {

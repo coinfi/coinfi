@@ -213,7 +213,7 @@ class Coin < ApplicationRecord
   end
 
   def hourly_prices_data
-    Rails.cache.fetch("coins/#{id}/hourly_prices", expires_at: 1.day.since.beginning_of_day) do
+    Rails.cache.fetch("coins/#{id}/hourly_prices", expires_in: seconds_to_next_hour) do
       url = "#{ENV.fetch('COINFI_POSTGREST_URL')}/hourly_ohcl_prices?coin_key=eq.#{coin_key}&to_currency=eq.USD&order=time.asc"
       response = HTTParty.get(url)
       JSON.parse(response.body)
@@ -221,7 +221,7 @@ class Coin < ApplicationRecord
   end
 
   def prices_data
-    Rails.cache.fetch("coins/#{id}/prices", expires_at: 1.day.since.beginning_of_day) do
+    Rails.cache.fetch("coins/#{id}/prices", expires_in: seconds_to_next_day) do
       url = "#{ENV.fetch('COINFI_POSTGREST_URL')}/daily_ohcl_prices?coin_key=eq.#{coin_key}&to_currency=eq.USD&order=time.asc"
       response = HTTParty.get(url)
       JSON.parse(response.body)
@@ -229,7 +229,7 @@ class Coin < ApplicationRecord
   end
 
   def sparkline
-    Rails.cache.fetch("coins/#{id}/sparkline", expires_at: 1.day.since.beginning_of_day) do
+    Rails.cache.fetch("coins/#{id}/sparkline", expires_in: seconds_to_next_day) do
       url = "#{ENV.fetch('COINFI_POSTGREST_URL')}/daily_ohcl_prices?coin_key=eq.#{coin_key}&select=close&to_currency=eq.USD&limit=7&order=time.desc"
       response = HTTParty.get(url)
       results = JSON.parse(response.body)

@@ -53,7 +53,7 @@ const Banner = ({ classes, className }) => {
         className={classes.mainFeaturedPostContent}
       >
         <Grid item={true} md={true}>
-          <Typography variant="h1" className={classes.header} color="inherit">
+          <Typography className={classes.header} color="inherit">
             Financial intelligence for cryptocurrency
           </Typography>
         </Grid>
