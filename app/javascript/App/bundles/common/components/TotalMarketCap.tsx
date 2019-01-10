@@ -58,6 +58,10 @@ const styles = (theme) =>
         color: '#d7d7d7',
         paddingRight: '5px',
       },
+      [theme.breakpoints.up('md')]: {
+        fontSize: '20px',
+        fontWeight: 500,
+      },
     },
     marketCap: {
       fontSize: '1.2rem',

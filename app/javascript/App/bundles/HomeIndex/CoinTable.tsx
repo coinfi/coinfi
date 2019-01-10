@@ -62,16 +62,18 @@ const styles = (theme) =>
     },
     titleWrapper: {},
     title: {
-      fontSize: '26px',
-      fontWeight: 500,
       [theme.breakpoints.up('md')]: {
+        fontSize: '24px',
+        fontWeight: 500,
         display: 'inline-block',
         marginLeft: '24px',
-        marginRight: '16px',
+        marginRight: '24px',
         paddingTop: '16px !important',
         paddingBottom: '8px !important',
       },
       [theme.breakpoints.down('sm')]: {
+        fontSize: '26px',
+        fontWeight: 400,
         borderBottom: '1px solid #e5e8ed',
         paddingTop: `16px !important`,
         paddingBottom: `16px !important`,
@@ -376,7 +378,7 @@ class CoinTable extends React.Component<Props, State> {
       <div className={classes.root}>
         <Grid container={true} className={classes.headerContainer}>
           <Grid item={true} xs={12} md={9} className={classes.titleWrapper}>
-            <Typography variant="h5" align="center" className={classes.title}>
+            <Typography variant="h2" align="center" className={classes.title}>
               Cryptocurrency prices today
             </Typography>
             <a href="/coins?page=2" className={classes.nextLink}>

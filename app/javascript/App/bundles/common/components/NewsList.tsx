@@ -48,6 +48,8 @@ const styles = (theme) =>
     },
     newsWidgetHeader: {
       [theme.breakpoints.down('sm')]: {
+        fontSize: '26px',
+        fontWeight: 400,
         textAlign: 'center',
         borderBottom: '1px solid #e5e8ed',
         paddingTop: `16px !important`,
@@ -55,6 +57,8 @@ const styles = (theme) =>
         marginBottom: '16px !important',
       },
       [theme.breakpoints.up('md')]: {
+        fontSize: '20px',
+        fontWeight: 500,
         textAlign: 'left',
         paddingBottom: '16px !important',
       },
@@ -163,7 +167,7 @@ class NewsList extends React.Component<Props, State> {
       <Grid container={true} direction="column" className={classes.root}>
         <Grid item={true}>
           <Typography
-            variant="h5"
+            variant="h2"
             align="center"
             className={classes.newsWidgetHeader}
           >

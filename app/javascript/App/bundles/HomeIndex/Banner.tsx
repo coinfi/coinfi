@@ -19,7 +19,8 @@ const styles = (theme) =>
     },
     header: {
       marginBottom: '0.5em !important',
-      fontSize: '1.5rem',
+      fontSize: '24px',
+      fontWeight: 500,
       textAlign: 'center',
     },
     subheader: {
@@ -52,7 +53,7 @@ const Banner = ({ classes, className }) => {
         className={classes.mainFeaturedPostContent}
       >
         <Grid item={true} md={true}>
-          <Typography className={classes.header} color="inherit">
+          <Typography variant="h1" className={classes.header} color="inherit">
             Financial intelligence for cryptocurrency
           </Typography>
         </Grid>

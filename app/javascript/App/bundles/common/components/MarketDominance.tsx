@@ -42,6 +42,10 @@ const styles = (theme) =>
         display: 'none',
       },
     },
+    desktopTitle: {
+      fontSize: '20px',
+      fontWeight: 500,
+    },
     chartContainer: {
       maxWidth: '200px',
     },
@@ -49,19 +53,23 @@ const styles = (theme) =>
       flexBasis: 'unset !important', // fixes weird height issue
       height: '100%',
     },
-    titleLabel: {
-      color: '#d7d7d7',
-      paddingRight: '5px',
+    title: {
       [theme.breakpoints.down('sm')]: {
         whiteSpace: 'nowrap',
+        color: '#d7d7d7',
+        paddingRight: '5px',
+      },
+      [theme.breakpoints.up('md')]: {
+        fontSize: '20px',
+        fontWeight: 500,
       },
     },
-    title: {
-      fontWeight: 600,
+    marketDominance: {
       display: 'inline-block',
       [theme.breakpoints.down('sm')]: {
         fontSize: '0.7rem',
         color: '#fff',
+        fontWeight: 600,
       },
     },
   })
@@ -189,12 +197,12 @@ class MarketDominance extends React.Component<Props, State> {
     if (isWidthDown('sm', width)) {
       return (
         <Grid container={true} wrap="nowrap" alignItems="baseline">
-          <Grid item={true} className={classes.title}>
-            <Typography className={classes.titleLabel} component="span">
+          <Grid item={true}>
+            <Typography className={classes.title} component="span">
               Bitcoin Dominance:{' '}
             </Typography>
           </Grid>
-          <Grid item={true} className={classes.title}>
+          <Grid item={true} className={classes.marketDominance}>
             {this.formatPercentage(marketDominance)}%
           </Grid>
         </Grid>
@@ -209,7 +217,9 @@ class MarketDominance extends React.Component<Props, State> {
         className={classes.desktopContainer}
       >
         <Grid item={true} xs={12}>
-          <Typography variant="h5">Market Dominance</Typography>
+          <Typography variant="h2" className={classes.title}>
+            Market Dominance
+          </Typography>
         </Grid>
         <Grid item={true} xs={6}>
           <Grid
