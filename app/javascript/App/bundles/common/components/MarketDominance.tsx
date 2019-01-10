@@ -137,7 +137,10 @@ class MarketDominance extends React.Component<Props, State> {
           chart: {
             type: 'pie',
             width: 200,
-            height: '100%',
+            height: 170,
+            spacingTop: 0,
+            spacingBottom: 0,
+            spacingRight: 0,
           },
           colors: chartColours,
           title: {
@@ -167,11 +170,12 @@ class MarketDominance extends React.Component<Props, State> {
               name: 'Coins',
               data,
               size: '100%',
-              innerSize: '90%',
+              innerSize: '85%',
               showInLegend: false,
               dataLabels: {
                 enabled: false,
               },
+              center: ['50%', '50%'],
             },
           ],
         },
@@ -258,7 +262,7 @@ class MarketDominance extends React.Component<Props, State> {
             })}
           </Grid>
         </Grid>
-        <Grid item={true} xs={6} className={classes.chartContainer}>
+        <Grid item={true} xs={4} className={classes.chartContainer}>
           <div id={containerId} />
         </Grid>
       </Grid>

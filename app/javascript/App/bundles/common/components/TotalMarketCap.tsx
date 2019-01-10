@@ -51,7 +51,10 @@ const styles = (theme) =>
         display: 'none',
       },
     },
-    chartContainer: {},
+    chartContainer: {
+      marginLeft: '-10px',
+      marginRight: '-12px',
+    },
     title: {
       whiteSpace: 'nowrap',
       [theme.breakpoints.down('sm')]: {
@@ -125,7 +128,7 @@ class TotalMarketCap extends React.Component<Props, State> {
     const isPositive = difference >= 0
     const formattedDifference = formatAbbreviatedPrice(Math.abs(difference))
     const percentageDifference = formatValue(
-      difference / secondLatest.total_market_cap,
+      (difference / secondLatest.total_market_cap) * 100,
       1,
     )
 
@@ -192,6 +195,7 @@ class TotalMarketCap extends React.Component<Props, State> {
             width: null,
             zoomType: 'x',
             height: '40%',
+            spacingRight: 25,
           },
           title: {
             text: '',
@@ -220,9 +224,12 @@ class TotalMarketCap extends React.Component<Props, State> {
             },
             showFirstLabel: true,
             showLastLabel: true,
+            labels: {
+              step: 2,
+            },
             startOnTick: true,
             endOnTick: true,
-            minTickInterval: 24 * 3600 * 1000,
+            tickInterval: 24 * 3600 * 1000,
             ...(data.length > 0 && { min: data[0].x }),
             ...(data.length > 0 && { max: data[data.length - 1].x }),
           },
