@@ -4,6 +4,7 @@ import Autosuggest from 'react-autosuggest'
 import Icon from './Icon'
 import localApi from '../utils/localAPI'
 import withDevice from '~/bundles/common/utils/withDevice'
+import { NONAME } from 'dns'
 
 interface Coin {
   id: number
@@ -132,6 +133,28 @@ class SearchCoins extends React.Component<Props, State> {
       paddingLeft: 10,
     }
 
+    const theme = {
+      container: {
+        width: '100%',
+      },
+      input: {
+        width: '100%',
+        maxWidth: '100%',
+        border: 'none',
+        backgroundColor: 'inherit',
+      },
+      inputFocused: {
+        boxShadow: 'none',
+      },
+      suggestionsContainer: {
+        width: '100%',
+      },
+      suggestionsList: {
+        width: '100%',
+        textAlign: 'left',
+      },
+    }
+
     return (
       <div
         className={classNames('search-field autosuggest', {
@@ -156,6 +179,7 @@ class SearchCoins extends React.Component<Props, State> {
             onSuggestionSelected={this.onSuggestionSelected}
             highlightFirstSuggestion={false}
             inputProps={inputProps}
+            theme={theme}
           />
           {!!value.length && (
             <Icon name="times" className="silver" onClick={this.resetState} />

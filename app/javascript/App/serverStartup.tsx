@@ -11,6 +11,7 @@ import SignalFaqPanel from './bundles/signalsPage/SignalFaqPanel'
 import SignalPopoverText from './bundles/signalsPage/SignalPopoverText'
 import SignalTeamMember from './bundles/signalsPage/SignalTeamMember'
 import SignalReservationForm from './bundles/signalsPage/SignalReservationForm'
+import HomeIndex from './bundles/HomeIndex'
 import CurrencySelectorWidget from './bundles/CurrencySelectorWidget'
 
 // Register the components so they can be rendered from Rails
@@ -20,6 +21,7 @@ import CurrencySelectorWidget from './bundles/CurrencySelectorWidget'
   SignalPopoverText: createServerComponentHash(SignalPopoverText),
   SignalTeamMember: createServerComponentHash(SignalTeamMember),
   SignalReservationForm: createServerComponentHash(SignalReservationForm),
+  HomeIndex: createServerComponentHash(HomeIndex),
   CurrencySelectorWidget: createServerComponentHash(CurrencySelectorWidget),
   App: createServerAppHash,
 })

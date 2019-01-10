@@ -3,12 +3,14 @@ import { Route, Switch } from 'react-router-dom'
 import ExchangeListingsPage from '~/bundles/ExchangeListings/ExchangeListingsCointainer'
 import NewsfeedPageContainer from '~/bundles/NewsfeedPage/NewsfeedPageContainer'
 import CoinIndex from '../bundles/CoinIndex'
+import HomeIndex from '../bundles/HomeIndex'
 import CoinShow from '../bundles/CoinShow'
 import TokenMetricsIndex from '../bundles/TokenMetricsIndex'
 
 const AppRoutes = (props) => {
   return (
     <Switch>
+      <Route exact={true} path="/" render={() => <HomeIndex {...props} />} />
       <Route
         exact={true}
         path="/news/:coinSlug?"

@@ -68,7 +68,7 @@ export function formatValueWithCurrency(
     return ''
   }
 
-  currency = currency.toUpperCase()
+  currency = String(currency).toUpperCase()
   const currencySymbol = _.get(currencyMap, currency, '')
 
   return `${currencySymbol}${formatValueFixed(value, 2)}`
@@ -134,7 +134,7 @@ export function formatPrice(price: number, currency: string): string {
     return ''
   }
 
-  currency = currency.toUpperCase()
+  currency = String(currency).toUpperCase()
   const currencySymbol = _.get(currencyMap, currency, '')
 
   switch (currency) {

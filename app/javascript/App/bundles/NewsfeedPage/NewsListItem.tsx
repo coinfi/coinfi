@@ -6,13 +6,8 @@ import { withStyles, createStyles } from '@material-ui/core/styles'
 import classNames from 'classnames'
 import Favicon from '~/bundles/common/components/Favicon'
 import * as _ from 'lodash'
-import URL from 'url-parse'
-import {
-  getTwitterUsername,
-  getSubredditName,
-  isTwitter,
-  isReddit,
-} from '~/bundles/common/utils/url'
+
+import { formatNewsUrl } from '~/bundles/common/utils/news'
 
 const styles = (theme) =>
   createStyles({
@@ -47,15 +42,7 @@ const NewsListItem = (props) => {
     .replace(/<h1>/g, '')
     .replace(/<\/h1>/g, '')
 
-  const parsedUrl = new URL(newsItem.url)
-  const linkUrl = isTwitter(newsItem.url)
-    ? `https://twitter.com/${parsedUrl.pathname.split('/')[1]}`
-    : newsItem.url
-  const linkText = isTwitter(newsItem.url)
-    ? `@${getTwitterUsername(newsItem.url)}`
-    : isReddit(newsItem.url)
-      ? `/r/${getSubredditName(newsItem.url)}`
-      : parsedUrl.hostname
+  const { linkUrl, linkText } = formatNewsUrl(newsItem.url)
 
   return (
     <div
@@ -93,8 +80,8 @@ const NewsListItem = (props) => {
             </span>
             <a
               href={linkUrl}
-              target="_blank noopener noreferrer"
-              rel="nofollow"
+              target="_blank"
+              rel="noopener noreferrer nofollow"
               className="dib silver"
             >
               {linkText}

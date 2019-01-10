@@ -1209,6 +1209,18 @@ address@1.0.3, address@^1.0.1:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/address/-/address-1.0.3.tgz#b5f50631f8d6cec8bd20c963963afb55e06cbce9"
 
+ag-grid-community@^19.1.1:
+  version "19.1.1"
+  resolved "https://registry.yarnpkg.com/ag-grid-community/-/ag-grid-community-19.1.1.tgz#8a7af68a853faca3ef6f49bd8a4a43b2398b4549"
+  integrity sha512-brnACOi7bPCs+ffTBz7Um0+lCeHUXY7WpGpbG/rDBwnU2fIk+edxqBzpxHO0B3svM3zWCh5ltXi3O+qTTkPPaA==
+
+ag-grid-react@^19.1.1:
+  version "19.1.1"
+  resolved "https://registry.yarnpkg.com/ag-grid-react/-/ag-grid-react-19.1.1.tgz#b716b58106032180c67e03283590101b3453a513"
+  integrity sha512-5iMkPv1iXY5SOahtKJOhShDpFXTPCwBP9KEZP9/HIVi7idVQ037O3XNMVxz2hFZ6eM5vBvY+YeNOfWQctTXNNg==
+  dependencies:
+    prop-types "^15.6.2"
+
 airbnb-js-shims@^1.4.1:
   version "1.6.0"
   resolved "https://registry.yarnpkg.com/airbnb-js-shims/-/airbnb-js-shims-1.6.0.tgz#b0675d05113e928c89bfa5b7b80b7399de8cee2a"

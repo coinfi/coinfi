@@ -8,8 +8,18 @@ class Api::NewsController < ApiController
     headers['Last-Modified'] = Time.now.httpdate
 
     distribute_reads(max_lag: MAX_ACCEPTABLE_REPLICATION_LAG, lag_failover: true) do
-      if params[:coinSlugs]
-        coins = Coin.where(slug: params[:coinSlugs])
+      if params[:frontPage].present? # For Front page
+        @news_items = serialize_news_items(NewsItem.published
+          .where(feed_source: FeedSource.coindesk
+                                .or(FeedSource.cointelegraph)
+                                .or(FeedSource.ambcrypto)
+          )
+          .includes(:coins, :news_categories)
+          .order_by_published
+          .limit(5)
+        )
+
+        return respond_success @news_items
       end
 
       if feed_source_keys = params[:feedSources]
@@ -55,7 +65,6 @@ class Api::NewsController < ApiController
       respond_success @news_items
     end
   end
-
 
   def show
     # Ensure fresh response on every request

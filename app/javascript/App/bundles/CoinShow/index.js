@@ -291,7 +291,7 @@ class CoinShow extends Component {
           container={true}
           spacing={16}
           className={classes.container}
-          alignContent="stretch"
+          alignItems="stretch"
           wrap="nowrap"
         >
           {!isMobile && (
@@ -990,6 +990,6 @@ class CoinShow extends Component {
 }
 
 export default compose(
-  withWidth({ withTheme: true, initialWidth: 'md' }),
+  withWidth(),
   withStyles(styles, { withTheme: true }),
 )(withRouter(CoinShow))

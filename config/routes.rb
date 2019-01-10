@@ -73,9 +73,10 @@ Rails.application.routes.draw do
     get '/coins/:id/news', to: 'coins#news'
     get '/coins/by-slug/:slug', to: 'coins#by_slug'
     get '/coins/prices', to: 'coins#prices'
-    resources :coins, only: %i[index show toplist watchlist] do
+    resources :coins, only: %i[index show toplist watchlist dominance] do
       get 'toplist', on: :collection
       get 'watchlist', on: :collection
+      get 'dominance', on: :collection
     end
     get '/token-metrics(/:metric_type_slug)', to: 'token_metrics#index'
 
@@ -115,7 +116,7 @@ Rails.application.routes.draw do
     post "#{ENV.fetch('SUPERFEEDR_CALLBACK_URL_SEGMENT_SECRET')}-superfeedr-ingest", to: 'websubs#superfeedr_ingest'
   end
 
-  root to: 'signals#index'
+  root to: 'home#index'
   get '/about', to: 'pages#show', id: 'about', as: 'page_about'
   get '/press', to: 'pages#show', id: 'press', as: 'page_press'
   get '/contact-us', to: 'pages#show', id: 'contact-us', as: 'page_contact_us'
