@@ -42,10 +42,14 @@ const numericSymbols = ['k', 'M', 'B', 'T', 'P', 'E']
 
 const styles = (theme) =>
   createStyles({
-    container: {
+    desktopContainer: {
+      background: '#fff',
       border: '1px solid #e5e8ed',
       borderRadius: '2px',
       padding: '16px 24px',
+      [theme.breakpoints.down('sm')]: {
+        display: 'none',
+      },
     },
     chartContainer: {},
     title: {
@@ -290,7 +294,7 @@ class TotalMarketCap extends React.Component<Props, State> {
         direction="column"
         justify="flex-start"
         alignItems="stretch"
-        className={classes.container}
+        className={classes.desktopContainer}
       >
         <Grid item={true}>
           <Grid

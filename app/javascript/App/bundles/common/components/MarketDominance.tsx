@@ -33,10 +33,14 @@ const chartColours = ['#05161f', '#103649', '#135373', '#2495ce', '#2faeed']
 
 const styles = (theme) =>
   createStyles({
-    container: {
+    desktopContainer: {
+      background: '#fff',
       border: '1px solid #e5e8ed',
       borderRadius: '2px',
       padding: '16px 16px 16px 24px', // smaller right padding to compensate for chart's whitespace
+      [theme.breakpoints.down('sm')]: {
+        display: 'none',
+      },
     },
     chartContainer: {
       maxWidth: '200px',
@@ -202,7 +206,7 @@ class MarketDominance extends React.Component<Props, State> {
         container={true}
         justify="space-between"
         alignItems="stretch"
-        className={classes.container}
+        className={classes.desktopContainer}
       >
         <Grid item={true} xs={12}>
           <Typography variant="h5">Market Dominance</Typography>

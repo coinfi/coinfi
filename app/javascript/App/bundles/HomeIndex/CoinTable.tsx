@@ -46,29 +46,28 @@ interface State {
 
 const styles = (theme) =>
   createStyles({
-    tableContainer: {
+    root: {
       width: '100%',
       height: '100%',
-      display: 'flex',
-      flex: 1,
+      backgroundColor: '#fff',
       [theme.breakpoints.up('md')]: {
-        margin: '0 auto',
-        marginTop: '-8px',
-        maxWidth: '1200px',
+        border: '1px solid #e5e8ed',
+        borderRadius: '2px',
       },
     },
     headerContainer: {
       [theme.breakpoints.up('md')]: {
-        width: '100%',
-        maxWidth: '1200px',
-        margin: '0 auto',
+        paddingBottom: '8px',
       },
     },
+    titleWrapper: {},
     title: {
-      backgroundColor: '#fff',
       fontSize: '26px',
       fontWeight: 500,
       [theme.breakpoints.up('md')]: {
+        display: 'inline-block',
+        marginLeft: '24px',
+        marginRight: '16px',
         paddingTop: '16px !important',
         paddingBottom: '8px !important',
       },
@@ -82,9 +81,9 @@ const styles = (theme) =>
       padding: `8px !important`,
       textAlign: 'center',
       [theme.breakpoints.up('md')]: {
-        paddingLeft: `16px !important`,
-        backgroundColor: '#fff',
+        paddingRight: `16px !important`,
         zIndex: 100,
+        alignSelf: 'flex-end',
       },
     },
     searchWrapper: {
@@ -107,12 +106,22 @@ const styles = (theme) =>
       alignItems: 'flex-end',
     },
     nextLink: {
+      fontSize: '14px',
       fontWeight: 500,
-      marginLeft: '8px',
       height: '30px',
       maxHeight: '30px',
       lineHeight: '30px',
+      [theme.breakpoints.down('sm')]: {
+        float: 'right',
+        marginRight: '8px',
+      },
     },
+    desktopTableContainer: {
+      display: 'flex',
+      flex: 1,
+      borderTop: '1px solid #e5e8ed',
+    },
+    mobileTableContainer: {},
     tableHeader: {
       height: '32px',
     },
@@ -172,32 +181,16 @@ const styles = (theme) =>
       color: '#333',
     },
     footerContainer: {
-      backgroundColor: '#fff',
-      width: '100%',
-      maxWidth: '1200px',
       flexWrap: 'nowrap',
       justifyContent: 'flex-end',
       [theme.breakpoints.up('md')]: {
         margin: '0 auto',
-        padding: '16px',
+        padding: '8px',
       },
       [theme.breakpoints.down('sm')]: {
         whiteSpace: 'nowrap',
         overflowX: 'scroll',
-        padding: `${theme.spacing.unit}px ${theme.spacing.unit}px`,
-      },
-    },
-    paginationButton: {
-      backgroundColor: '#fff',
-      minWidth: 'unset',
-      minHeight: 'unset',
-      marginLeft: `${theme.spacing.unit * 0.5}px`,
-      marginRight: `${theme.spacing.unit * 0.5}px`,
-      '&:first-child': {
-        marginLeft: 0,
-      },
-      '&:last-child': {
-        marginRight: 0,
+        padding: `${theme.spacing.unit}px`,
       },
     },
     paginationLink: {
@@ -380,12 +373,15 @@ class CoinTable extends React.Component<Props, State> {
     const pagesToShow = isMobile ? 7 : 10
 
     return (
-      <React.Fragment>
+      <div className={classes.root}>
         <Grid container={true} className={classes.headerContainer}>
-          <Grid item={true} xs={12}>
+          <Grid item={true} xs={12} md={9} className={classes.titleWrapper}>
             <Typography variant="h5" align="center" className={classes.title}>
               Cryptocurrency prices today
             </Typography>
+            <a href="/coins?page=2" className={classes.nextLink}>
+              See more
+            </a>
           </Grid>
           <Grid item={true} xs={12} md={3} className={classes.search}>
             <Paper square={true} className={classes.searchWrapper}>
@@ -397,18 +393,10 @@ class CoinTable extends React.Component<Props, State> {
               />
             </Paper>
           </Grid>
-          <Grid item={true} xs={12} md={9} className={classes.nav}>
-            {!isMobile && (
-              <Pagination pagesToShow={pagesToShow} pageCount={pageCount} />
-            )}
-            <a href="/coins?page=2" className={classes.nextLink}>
-              Next
-            </a>
-          </Grid>
         </Grid>
 
         {isMobile ? (
-          <Table padding="none">
+          <Table padding="none" className={classes.mobileTableContainer}>
             <TableHead>
               <TableRow className={classes.tableHeader}>
                 <TableCell className={classes.watchedColumnHeader} />
@@ -539,13 +527,11 @@ class CoinTable extends React.Component<Props, State> {
             </TableBody>
           </Table>
         ) : (
-          <div className={classes.tableContainer}>
+          <div className={classes.desktopTableContainer}>
             <div
               className="ag-theme-material"
               style={{
                 width: '100%',
-                paddingLeft: '16px',
-                paddingRight: '16px',
               }}
             >
               <AgGridReact
@@ -557,6 +543,7 @@ class CoinTable extends React.Component<Props, State> {
                 context={this.state.context}
                 frameworkComponents={this.state.frameworkComponents}
                 onGridReady={this.onGridReady}
+                gridOptions={{ headerHeight: 30 }}
               />
             </div>
           </div>
@@ -571,7 +558,7 @@ class CoinTable extends React.Component<Props, State> {
             <Pagination pagesToShow={pagesToShow} pageCount={pageCount} />
           </Grid>
         )}
-      </React.Fragment>
+      </div>
     )
   }
 }

@@ -32,23 +32,29 @@ interface State {
 
 const styles = (theme) =>
   createStyles({
-    bannerRoot: {
+    root: {
       width: '100%',
       [theme.breakpoints.up('md')]: {
-        margin: '0 auto',
+        margin: '16px auto',
         maxWidth: '1200px',
       },
     },
-    widgetContainer: {
-      backgroundColor: '#fff',
+    cardWrapper: {
       [theme.breakpoints.up('md')]: {
-        margin: '0 auto !important',
-        maxWidth: '1200px',
-        padding: '8px',
-        flexWrap: 'nowrap',
         alignContent: 'stretch',
       },
       [theme.breakpoints.down('sm')]: {},
+    },
+    bannerContainer: {
+      [theme.breakpoints.down('sm')]: {
+        paddingBottom: '0 !important',
+      },
+    },
+    bannerRoot: {
+      width: '100%',
+      [theme.breakpoints.up('md')]: {
+        borderRadius: '2px',
+      },
     },
     widgetContainerLeft: {
       [theme.breakpoints.down('sm')]: {
@@ -56,7 +62,12 @@ const styles = (theme) =>
       },
       [theme.breakpoints.up('md')]: {},
     },
-    widgetContainerRight: {},
+    widgetContainerRight: {
+      [theme.breakpoints.down('sm')]: {
+        paddingTop: '0 !important',
+        paddingBottom: '0 !important',
+      },
+    },
     leftContainerInner: {
       [theme.breakpoints.up('md')]: {
         flexDirection: 'column',
@@ -73,6 +84,11 @@ const styles = (theme) =>
         alignContent: 'baseline',
         paddingLeft: '8px',
         paddingRight: '8px',
+      },
+    },
+    tableContainer: {
+      [theme.breakpoints.down('sm')]: {
+        paddingTop: '0 !important',
       },
     },
   })
@@ -101,54 +117,58 @@ class HomeIndex extends React.Component<Props, State> {
     const isMobile = isWidthDown('sm', this.props.width)
 
     return (
-      <React.Fragment>
-        <Banner className={classes.bannerRoot} />
-        <Grid
-          container={true}
-          justify="center"
-          className={classes.widgetContainer}
-          spacing={16}
-        >
+      <>
+        <div className={classes.root}>
           <Grid
-            item={true}
-            xs={12}
-            md={5}
-            className={classes.widgetContainerLeft}
+            container={true}
+            justify="center"
+            className={classes.cardWrapper}
+            spacing={16}
           >
+            <Grid item={true} xs={12} className={classes.bannerContainer}>
+              <Banner className={classes.bannerRoot} />
+            </Grid>
             <Grid
-              container={true}
-              className={classes.leftContainerInner}
-              spacing={16}
+              item={true}
+              xs={12}
+              md={5}
+              className={classes.widgetContainerLeft}
             >
-              <Grid item={true} md={true}>
-                <TotalMarketCap marketCapData={totalMarketCap} />
-              </Grid>
-              <Grid item={true} md={true}>
-                <MarketDominance coinData={marketDominance} />
+              <Grid
+                container={true}
+                className={classes.leftContainerInner}
+                spacing={16}
+              >
+                <Grid item={true} md={true}>
+                  <TotalMarketCap marketCapData={totalMarketCap} />
+                </Grid>
+                <Grid item={true} md={true}>
+                  <MarketDominance coinData={marketDominance} />
+                </Grid>
               </Grid>
             </Grid>
+            <Grid
+              item={true}
+              xs={12}
+              md={7}
+              className={classes.widgetContainerRight}
+            >
+              <NewsList />
+            </Grid>
+            <Grid item={true} xs={12} className={classes.tableContainer}>
+              <CoinTable
+                isMobile={isMobile}
+                isLoggedIn={loggedIn}
+                currency={currency}
+                coins={coins}
+                watchList={watchList}
+                pageCount={pageCount}
+              />
+            </Grid>
           </Grid>
-          <Grid
-            item={true}
-            xs={12}
-            md={7}
-            className={classes.widgetContainerRight}
-          >
-            <NewsList />
-          </Grid>
-        </Grid>
-
-        <CoinTable
-          isMobile={isMobile}
-          isLoggedIn={loggedIn}
-          currency={currency}
-          coins={coins}
-          watchList={watchList}
-          pageCount={pageCount}
-        />
-
+        </div>
         <Footer />
-      </React.Fragment>
+      </>
     )
   }
 }

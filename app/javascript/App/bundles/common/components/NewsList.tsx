@@ -32,6 +32,7 @@ interface State {
 const styles = (theme) =>
   createStyles({
     root: {
+      background: '#fff',
       [theme.breakpoints.up('md')]: {
         height: '100%',
         border: '1px solid #e5e8ed',
