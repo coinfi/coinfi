@@ -130,7 +130,7 @@ class TotalMarketCap extends React.Component<Props, State> {
       )[0] || empty
 
     const totalMarketCap = formatPrice(latest.total_market_cap)
-    const difference = secondLatest.total_market_cap - latest.total_market_cap
+    const difference = latest.total_market_cap - secondLatest.total_market_cap
     const isPositive = difference >= 0
     const formattedDifference = formatAbbreviatedPrice(Math.abs(difference))
     const percentageDifference = formatValue(
