@@ -24,7 +24,8 @@ import API from '../common/utils/localAPI'
 import {
   formatValue,
   formatValueFixed,
-  formatValueByCurrencyRate,
+  formatPrice,
+  formatPercentage,
 } from '../common/utils/numberFormatters'
 import WatchStar from '../common/components/WatchStar'
 import SearchCoins from '~/bundles/common/components/SearchCoins'
@@ -608,7 +609,7 @@ class TokenMetricsIndex extends React.Component<Props, State> {
                       <TableCell numeric={true}>
                         {_.isNumber(row.change_1d) && (
                           <RedGreenSpan
-                            text={formatValue(row.change_1d, 2)}
+                            text={formatPercentage(row.change_1d)}
                             affix="%"
                           />
                         )}
@@ -616,7 +617,7 @@ class TokenMetricsIndex extends React.Component<Props, State> {
                       <TableCell numeric={true}>
                         {_.isNumber(row.change_7d) && (
                           <RedGreenSpan
-                            text={formatValue(row.change_7d, 2)}
+                            text={formatPercentage(row.change_7d)}
                             affix="%"
                           />
                         )}
@@ -624,26 +625,21 @@ class TokenMetricsIndex extends React.Component<Props, State> {
                       <TableCell numeric={true}>
                         {_.isNumber(row.change_30d) && (
                           <RedGreenSpan
-                            text={formatValue(row.change_30d, 2)}
+                            text={formatPercentage(row.change_30d)}
                             affix="%"
                           />
                         )}
                       </TableCell>
                       <TableCell numeric={true}>
                         {_.isNumber(row.price) &&
-                          `${currencySymbol}${formatValueByCurrencyRate(
+                          `${currencySymbol}${formatPrice(
                             row.price * currencyRate,
-                            currencyRate,
                           )}`}
                       </TableCell>
                       <TableCell numeric={true}>
                         {_.isNumber(row.market_cap) &&
-                          `${currencySymbol}${formatValueByCurrencyRate(
+                          `${currencySymbol}${formatPrice(
                             row.market_cap * currencyRate,
-                            currencyRate,
-                            {
-                              defaultFractionDigits: 0,
-                            },
                           )}`}
                       </TableCell>
                     </TableRow>
