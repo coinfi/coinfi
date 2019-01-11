@@ -22,45 +22,7 @@ class Api::NewsController < ApiController
         return respond_success @news_items
       end
 
-      if feed_source_keys = params[:feedSources]
-        feed_sources = FeedSource.active
-
-        # Exclude reddit unless specified
-        unless reddit = feed_source_keys.delete('reddit')
-          feed_sources = feed_sources.not_reddit
-        end
-
-        # Exclude twitter unless specified
-        unless twitter = feed_source_keys.delete('twitter')
-          feed_sources = feed_sources.not_twitter
-        end
-
-        # Include remaining feed sources after removing twitter and reddit
-        if feed_source_keys.present?
-          feed_sources = FeedSource.where(site_hostname: feed_source_keys)
-        end
-      end
-
-      if news_category_names = params[:categories]
-        news_categories = NewsCategory.where(name: news_category_names)
-      end
-
-      if no_filters?
-        @news_items = get_default_news_items
-      else
-        @news_items = serialize_news_items(NewsItems::WithFilters.call(
-          NewsItem.published,
-          coins: coins || nil,
-          feed_sources: feed_sources || nil,
-          news_categories: news_categories || nil,
-          keywords: params[:keywords],
-          published_since: params[:publishedSince],
-          published_until: params[:publishedUntil],
-        )
-          .includes(:coins, :news_categories)
-          .order_by_published
-          .limit(25))
-      end
+      apply_news_feed_filters(params)
 
       respond_success @news_items
     end
@@ -78,6 +40,53 @@ class Api::NewsController < ApiController
   end
 
   private
+
+  def apply_news_feed_filters(params)
+    if coin_slugs = params[:coinSlugs]
+      coins = Coin.where(slug: coin_slugs)
+    end
+
+    if feed_source_keys = params[:feedSources]
+      feed_sources = FeedSource.active
+
+      # Exclude reddit unless specified
+      unless reddit = feed_source_keys.delete('reddit')
+        feed_sources = feed_sources.not_reddit
+      end
+
+      # Exclude twitter unless specified
+      unless twitter = feed_source_keys.delete('twitter')
+        feed_sources = feed_sources.not_twitter
+      end
+
+      # Include remaining feed sources after removing twitter and reddit
+      if feed_source_keys.present?
+        feed_sources = FeedSource.where(site_hostname: feed_source_keys)
+      end
+    end
+
+    if news_category_names = params[:categories]
+      news_categories = NewsCategory.where(name: news_category_names)
+    end
+
+    if no_filters?
+      @news_items = get_default_news_items
+    else
+      @news_items = serialize_news_items(NewsItems::WithFilters.call(
+        NewsItem.published,
+        coins: coins || nil,
+        feed_sources: feed_sources || nil,
+        news_categories: news_categories || nil,
+        keywords: params[:keywords],
+        published_since: params[:publishedSince],
+        published_until: params[:publishedUntil],
+      )
+        .includes(:coins, :news_categories)
+        .order_by_published
+        .limit(25))
+    end
+  end
+
   def no_filters?
     if params[:coinSlugs]
       return false
