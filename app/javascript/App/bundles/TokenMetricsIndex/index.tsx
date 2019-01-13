@@ -100,7 +100,7 @@ enum STATUSES {
 const TABS: TabData[] = [
   {
     slug: 'supply-on-exchange',
-    label: 'Supply On Exchange',
+    label: 'Supply On Exchanges',
     description:
       'A high percentage of supply on exchanges could indicate higher intention to sell by holders.',
     columnName: 'Supply on Exchanges',
