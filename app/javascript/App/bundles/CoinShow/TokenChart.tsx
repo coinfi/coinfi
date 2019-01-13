@@ -6,12 +6,6 @@ import Highcharts from 'highcharts'
 import HighchartsReact from 'highcharts-react-official'
 import defaultOptions from '../common/components/CoinCharts/PriceGraph/options'
 
-interface TokenData {
-  date: string
-  percentage?: number
-  number?: number
-}
-
 interface Props {
   data: TokenData[]
   isPercentage?: boolean

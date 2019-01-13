@@ -2,7 +2,7 @@ import * as React from 'react'
 import * as _ from 'lodash'
 import classnames from 'classnames'
 import Icon from '~/bundles/common/components/Icon'
-import { Grid } from '@material-ui/core'
+import { Grid, Typography } from '@material-ui/core'
 import { withStyles, createStyles } from '@material-ui/core/styles'
 import {
   formatValueWithCurrency,
@@ -42,16 +42,17 @@ const styles = (theme) =>
         },
       },
     },
+    coinDetails: {},
     coinImage: {
-      alignSelf: 'flex-start',
       marginRight: '12px',
-      '& img': {
-        maxHeight: '34px',
-      },
+      maxHeight: '34px',
+      verticalAlign: 'sub',
     },
     coinName: {
       fontSize: '34px',
+      fontWeight: 500,
       marginRight: '7px',
+      display: 'inline-block',
     },
     coinSymbol: {
       color: 'rgba(0, 0, 0, 0.54)',
@@ -158,14 +159,18 @@ class InfoBar extends React.Component<Props, {}> {
                 alignItems="baseline"
                 alignContent="flex-start"
               >
-                <Grid item={true} className={classes.coinImage}>
-                  <img alt={coinObj.name} src={coinObj.image_url} />
-                </Grid>
-                <Grid item={true} className={classes.coinName}>
-                  {coinObj.name}
-                </Grid>
-                <Grid item={true} className={classes.coinSymbol}>
-                  {!_.isUndefined(symbol) && `(${symbol})`}
+                <Grid item={true} className={classes.coinDetails}>
+                  <img
+                    alt={coinObj.name}
+                    src={coinObj.image_url}
+                    className={classes.coinImage}
+                  />
+                  <Typography variant="h1" className={classes.coinName}>
+                    {coinObj.name}
+                  </Typography>
+                  {!_.isUndefined(symbol) && (
+                    <span className={classes.coinSymbol}>({symbol})</span>
+                  )}
                 </Grid>
                 <Grid item={true} xs={12} style={{ height: '10px' }} />
                 <Grid item={true} className={classes.coinRanking}>

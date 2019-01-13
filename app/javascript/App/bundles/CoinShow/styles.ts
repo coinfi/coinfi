@@ -107,14 +107,15 @@ const styles = (theme) =>
       paddingLeft: '12px',
     },
     cardHeader: {
+      paddingBottom: 0,
+    },
+    cardTitle: {
       fontSize: '16px',
       fontWeight: 500,
       color: 'rgba(0, 0, 0, 0.87)',
+      marginBottom: 0,
     },
     tokenMetricHeader: {
-      fontSize: '20px',
-      fontWeight: 500,
-      color: 'rgba(0, 0, 0, 0.87)',
       [theme.breakpoints.up('md')]: {
         '&:first-child': {
           marginTop: '10px',
@@ -127,6 +128,11 @@ const styles = (theme) =>
         paddingLeft: '16px', // container has a -8px margin
         marginTop: '10px',
       },
+    },
+    tokenMetricHeaderText: {
+      fontSize: '20px',
+      fontWeight: 500,
+      color: 'rgba(0, 0, 0, 0.87)',
     },
     tokenChartCardContent: {
       padding: '18px 8px 0 0 !important',
@@ -171,6 +177,7 @@ const styles = (theme) =>
     },
     subCardHeader: {
       paddingBottom: 0,
+      marginBottom: 0,
     },
     subCardTitle: {
       color: 'rgba(0, 0, 0, 0.87)',
