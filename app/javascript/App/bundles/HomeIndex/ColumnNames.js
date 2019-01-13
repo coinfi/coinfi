@@ -3,7 +3,11 @@ import _ from 'lodash'
 import RedGreenSpan from '../common/components/RedGreenSpan'
 import Icon from '../common/components/Icon'
 import { Sparklines, SparklinesLine } from 'react-sparklines'
-import { formatPrice, formatValue } from '../common/utils/numberFormatters'
+import {
+  formatVolume,
+  formatPrice,
+  formatPercentage,
+} from '../common/utils/numberFormatters'
 
 function ColumnNames(currency) {
   return [
@@ -82,7 +86,7 @@ function ColumnNames(currency) {
       type: 'numericColumn',
       cellRendererFramework: ({ value: text, data: row, rowIndex: index }) => {
         if (!_.isUndefined(text)) {
-          return <span>{`$${text}`}</span>
+          return <span>{`$${formatPrice(text)}`}</span>
         }
 
         return <span />
@@ -94,7 +98,7 @@ function ColumnNames(currency) {
       unSortIcon: true,
       type: 'numericColumn',
       cellRendererFramework: ({ value: text, data: row, rowIndex: index }) =>
-        !_.isUndefined(text) ? <span>${formatValue(text, 0)}</span> : null,
+        !_.isUndefined(text) ? <span>${formatPrice(text)}</span> : null,
     },
     {
       headerName: '% Move 1H',
@@ -102,7 +106,7 @@ function ColumnNames(currency) {
       unSortIcon: true,
       type: 'numericColumn',
       cellRendererFramework: ({ value: text, data: row, rowIndex: index }) => (
-        <RedGreenSpan text={text} affix="%" />
+        <RedGreenSpan text={formatPercentage(text)} affix="%" />
       ),
     },
     {
@@ -111,7 +115,7 @@ function ColumnNames(currency) {
       unSortIcon: true,
       type: 'numericColumn',
       cellRendererFramework: ({ value: text, data: row, rowIndex: index }) => (
-        <RedGreenSpan text={text} affix="%" />
+        <RedGreenSpan text={formatPercentage(text)} affix="%" />
       ),
     },
     {
@@ -120,7 +124,7 @@ function ColumnNames(currency) {
       unSortIcon: true,
       type: 'numericColumn',
       cellRendererFramework: ({ value: text, data: row, rowIndex: index }) => (
-        <RedGreenSpan text={text} affix="%" />
+        <RedGreenSpan text={formatPercentage(text)} affix="%" />
       ),
     },
     {
@@ -130,7 +134,7 @@ function ColumnNames(currency) {
       type: 'numericColumn',
       minWidth: 150,
       cellRendererFramework: ({ value: text, data: row, rowIndex: index }) =>
-        !_.isUndefined(text) ? <span>{`$${text}`}</span> : null,
+        !_.isUndefined(text) ? <span>{`$${formatVolume(text)}`}</span> : null,
     },
     {
       headerName: '7D Chart',

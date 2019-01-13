@@ -5,8 +5,8 @@ import { Sparklines, SparklinesLine } from 'react-sparklines'
 import { Grid } from '@material-ui/core'
 import {
   formatPrice,
-  formatValue,
-  formatValueWithCurrency,
+  formatPercentage,
+  formatVolume,
 } from '~/bundles/common/utils/numberFormatters'
 
 export default (currency) => {
@@ -59,9 +59,7 @@ export default (currency) => {
       align: 'right',
       render: (text, row, index) => {
         return (
-          <span style={{ whiteSpace: 'nowrap' }}>
-            {formatPrice(text, currency)}
-          </span>
+          <span style={{ whiteSpace: 'nowrap' }}>${formatPrice(text)}</span>
         )
       },
     },
@@ -70,34 +68,38 @@ export default (currency) => {
       dataIndex: 'market_cap',
       align: 'right',
       render: (text, row, index) =>
-        !_.isUndefined(text) ? <span>${formatValue(text, 0)}</span> : null,
+        !_.isUndefined(text) ? <span>${formatPrice(text)}</span> : null,
     },
     {
       title: '% Move 1H',
       dataIndex: 'change1h',
       align: 'right',
-      render: (text, row, index) => <RedGreenSpan text={text} affix="%" />,
+      render: (text, row, index) => (
+        <RedGreenSpan text={formatPercentage(text)} affix="%" />
+      ),
     },
     {
       title: '% Move 1D',
       dataIndex: 'change24h',
       align: 'right',
-      render: (text, row, index) => <RedGreenSpan text={text} affix="%" />,
+      render: (text, row, index) => (
+        <RedGreenSpan text={formatPercentage(text)} affix="%" />
+      ),
     },
     {
       title: '% Move 1W',
       dataIndex: 'change7d',
       align: 'right',
-      render: (text, row, index) => <RedGreenSpan text={text} affix="%" />,
+      render: (text, row, index) => (
+        <RedGreenSpan text={formatPercentage(text)} affix="%" />
+      ),
     },
     {
       title: 'Volume (24hr)',
       dataIndex: 'volume24h',
       align: 'right',
       render: (text, row, index) =>
-        !_.isUndefined(text) ? (
-          <span>{formatValueWithCurrency(text, currency)}</span>
-        ) : null,
+        !_.isUndefined(text) ? <span>${formatVolume(text)}</span> : null,
     },
     {
       title: '7D Chart',

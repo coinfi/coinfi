@@ -9,6 +9,7 @@ import Highcharts from 'highcharts/highcharts'
 import options from './CoinCharts/PriceGraph/options'
 import {
   formatValue,
+  formatPrice,
   formatAbbreviatedPrice,
 } from '~/bundles/common/utils/numberFormatters'
 
@@ -128,8 +129,8 @@ class TotalMarketCap extends React.Component<Props, State> {
         sortedMarketCapData.length - 1,
       )[0] || empty
 
-    const totalMarketCap = formatValue(latest.total_market_cap, 0)
-    const difference = secondLatest.total_market_cap - latest.total_market_cap
+    const totalMarketCap = formatPrice(latest.total_market_cap)
+    const difference = latest.total_market_cap - secondLatest.total_market_cap
     const isPositive = difference >= 0
     const formattedDifference = formatAbbreviatedPrice(Math.abs(difference))
     const percentageDifference = formatValue(

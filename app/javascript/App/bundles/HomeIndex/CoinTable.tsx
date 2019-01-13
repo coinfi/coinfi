@@ -12,13 +12,13 @@ import {
   withStyles,
   Typography,
   Paper,
-  Button,
 } from '@material-ui/core'
 import classnames from 'classnames'
 import ColumnNames from './ColumnNames'
 import {
   formatAbbreviatedPrice,
-  formatValue,
+  formatPrice,
+  formatVolume,
 } from '~/bundles/common/utils/numberFormatters'
 import { CoinData, EnhancedCoinData } from './types'
 import SearchCoins from '../common/components/SearchCoins'
@@ -447,16 +447,14 @@ class CoinTable extends React.Component<Props, State> {
                 } = row
 
                 const formattedPrice =
-                  typeof price !== 'undefined'
-                    ? `$${formatValue(price, 4)}`
-                    : ''
+                  typeof price !== 'undefined' ? `$${formatPrice(price)}` : ''
                 const formattedMarketCap =
                   typeof market_cap !== 'undefined'
                     ? `$${formatAbbreviatedPrice(market_cap)}`
                     : ''
                 const formattedVolume =
                   typeof volume24h !== 'undefined'
-                    ? `$${formatValue(volume24h, 4)}`
+                    ? `$${formatVolume(volume24h)}`
                     : ''
 
                 return (
