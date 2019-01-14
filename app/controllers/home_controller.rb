@@ -15,5 +15,9 @@ class HomeController < ApplicationController
       @market_dominance = serialized_dominance
       @market_cap = historical_total_market_data
     end
+
+    set_meta_tags(
+      title: "Cryptocurrency Prices Live - Crypto Market Cap, Price Charts, News & Trading Signals"
+    )
   end
 end
