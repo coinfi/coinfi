@@ -31,7 +31,7 @@ interface Props {
 
 interface State {
   sortedMarketCapData: MarketCap[]
-  totalMarketCap: string
+  totalMarketCap: number
   formattedDifference: string
   percentageDifference: string
   isPositive: boolean
@@ -84,6 +84,8 @@ const styles = (theme) =>
     marketCapCurrency: {
       fontSize: '0.8rem',
       fontWeight: 600,
+      display: 'inline-block',
+      paddingLeft: '8px',
     },
     change: {
       fontSize: '0.75rem',
@@ -91,7 +93,9 @@ const styles = (theme) =>
       whiteSpace: 'nowrap',
     },
     changeDuration: {
+      paddingLeft: '8px',
       fontSize: '0.6rem',
+      display: 'inline-block',
     },
   })
 
@@ -129,7 +133,7 @@ class TotalMarketCap extends React.Component<Props, State> {
         sortedMarketCapData.length - 1,
       )[0] || empty
 
-    const totalMarketCap = formatPrice(latest.total_market_cap)
+    const totalMarketCap = latest.total_market_cap
     const difference = latest.total_market_cap - secondLatest.total_market_cap
     const isPositive = difference >= 0
     const formattedDifference = formatAbbreviatedPrice(Math.abs(difference))
@@ -282,21 +286,24 @@ class TotalMarketCap extends React.Component<Props, State> {
     const { classes } = this.props
     const {
       isPositive,
-      totalMarketCap,
+      totalMarketCap: totalMarketCapRaw,
       formattedDifference,
       percentageDifference,
     } = this.state
+
+    const totalMarketCap = formatPrice(totalMarketCapRaw)
+    const shortTotalMarketCap = formatAbbreviatedPrice(totalMarketCapRaw, 2)
 
     if (isWidthDown('sm', this.props.width)) {
       return (
         <Grid container={true} wrap="nowrap" alignItems="baseline">
           <Grid item={true}>
             <Typography className={classes.title} component="span">
-              Market Cap:
+              Crypto Market Cap:
             </Typography>
           </Grid>
           <Grid item={true} className={classes.marketCap}>
-            ${totalMarketCap}
+            ${shortTotalMarketCap}
           </Grid>
         </Grid>
       )
@@ -313,6 +320,11 @@ class TotalMarketCap extends React.Component<Props, State> {
         alignItems="stretch"
         className={classes.desktopContainer}
       >
+        {/* <Grid item={true}>
+          <Typography variant="h5" className={classes.title}>
+            Crypto Market Cap
+          </Typography>
+        </Grid> */}
         <Grid item={true}>
           <Grid
             container={true}
@@ -323,36 +335,53 @@ class TotalMarketCap extends React.Component<Props, State> {
           >
             <Grid item={true}>
               <Typography variant="h5" className={classes.title}>
-                Market Cap
+                Crypto Market Cap
               </Typography>
             </Grid>
             <Grid item={true}>
-              <Typography component="span" className={classes.marketCap}>
-                ${totalMarketCap}
-              </Typography>
-            </Grid>
-            <Grid item={true}>
-              <Typography
-                component="span"
-                className={classes.marketCapCurrency}
+              <Grid
+                container={true}
+                direction="column"
+                alignContent="flex-end"
+                alignItems="flex-end"
               >
-                USD
-              </Typography>
+                <Grid item={true}>
+                  <Typography component="span" className={classes.marketCap}>
+                    ${totalMarketCap}
+                  </Typography>
+                  <Typography
+                    component="span"
+                    className={classes.marketCapCurrency}
+                  >
+                    USD
+                  </Typography>
+                </Grid>
+                <Grid item={true}>
+                  <Typography
+                    component="span"
+                    className={classes.change}
+                    style={colourStyle}
+                  >
+                    {arrow} ${formattedDifference} ({percentageDifference}%)
+                  </Typography>
+                  <Typography
+                    component="span"
+                    className={classes.changeDuration}
+                  >
+                    24h
+                  </Typography>
+                </Grid>
+              </Grid>
+            </Grid>
+            {/* <Grid item={true}>
+
             </Grid>
             <Grid item={true}>
-              <Typography
-                component="span"
-                className={classes.change}
-                style={colourStyle}
-              >
-                {arrow} ${formattedDifference} ({percentageDifference}%)
-              </Typography>
+
             </Grid>
             <Grid item={true}>
-              <Typography component="span" className={classes.changeDuration}>
-                24h
-              </Typography>
-            </Grid>
+
+            </Grid> */}
           </Grid>
         </Grid>
         <Grid item={true} className={classes.chartContainer}>

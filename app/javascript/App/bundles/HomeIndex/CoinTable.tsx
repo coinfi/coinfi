@@ -385,7 +385,7 @@ class CoinTable extends React.Component<Props, State> {
         <Grid container={true} className={classes.headerContainer}>
           <Grid item={true} xs={12} md={9} className={classes.titleWrapper}>
             <Typography variant="h1" align="center" className={classes.title}>
-              Cryptocurrency prices today
+              Cryptocurrency Prices Live
             </Typography>
             <a href="/coins?page=2" className={classes.nextLink}>
               See more
