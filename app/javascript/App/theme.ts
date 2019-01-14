@@ -11,7 +11,22 @@ const theme = createMuiTheme({
     fontFamily: ['"Avenir"', 'sans-serif'].join(','),
     useNextVariants: true,
   },
+  breakpoints: {
+    // Align with react breakpoints. Use defaults for sm and xl.
+    values: {
+      xs: 0,
+      sm: 600,
+      md: 992,
+      lg: 1184,
+      xl: 1920,
+    },
+  },
   props: {
+    // @ts-ignore this exists in their code, but types haven't been updated yet
+    MuiWithWidth: {
+      initialWidth: 'md',
+      withTheme: true,
+    },
     MuiInputLabel: {
       shrink: true,
     },

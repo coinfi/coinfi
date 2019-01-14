@@ -68,7 +68,7 @@ export function formatValueWithCurrency(
     return ''
   }
 
-  currency = currency.toUpperCase()
+  currency = String(currency).toUpperCase()
   const currencySymbol = _.get(currencyMap, currency, '')
 
   return `${currencySymbol}${formatValueFixed(value, 2)}`
@@ -126,15 +126,18 @@ export function formatValueByCurrencyRate(
  * This can also be useful for cryptocurrencies.
  *
  * Examples:
- * formatPrice(10, 'USD') -> "$10.0000 USD"
- * formatPrice(10, 'BTC') -> "10.00000000 Ƀ"
+ * formatPriceWithCurrency(10, 'USD') -> "$10.0000 USD"
+ * formatPriceWithCurrency(10, 'BTC') -> "10.00000000 Ƀ"
  */
-export function formatPrice(price: number, currency: string): string {
+export function formatPriceWithCurrency(
+  price: number,
+  currency: string,
+): string {
   if (isNaN(price) || price === null) {
     return ''
   }
 
-  currency = currency.toUpperCase()
+  currency = String(currency).toUpperCase()
   const currencySymbol = _.get(currencyMap, currency, '')
 
   switch (currency) {
@@ -157,8 +160,8 @@ export function formatPrice(price: number, currency: string): string {
  * Defaults to a max of 1 decimal place.
  *
  * Examples:
- * formatPrice(10003, 3) -> "10.003k"
- * formatPrice(1000000)  -> "1M"
+ * formatAbbreviatedPrice(10003, 3) -> "10.003k"
+ * formatAbbreviatedPrice(1000000)  -> "1M"
  */
 export function formatAbbreviatedPrice(
   price: number,
@@ -181,4 +184,52 @@ export function formatAbbreviatedPrice(
     formatValue(price, maximumFractionDigits) +
     (i >= 0 ? `${numericSymbols[i]}` : '')
   )
+}
+
+/***
+ * Default formatters to unify formatting
+ *  - price (including market cap)
+ *  - percentage
+ *  - supply
+ *  - volume
+ */
+
+export function formatPrice(price: number): string {
+  if (isNaN(price) || price === null) {
+    return ''
+  }
+
+  if (price >= 1000000) {
+    return formatValue(price, 0)
+  } else if (price >= 1) {
+    return formatValueFixed(price, 2)
+  } else if (price >= 0.0001) {
+    return formatValue(price, 5)
+  } else {
+    return formatValue(price, 8)
+  }
+}
+
+export function formatPercentage(value: number): string {
+  if (isNaN(value) || value === null) {
+    return ''
+  }
+
+  return formatValue(value, 2)
+}
+
+export function formatSupply(value: number): string {
+  if (isNaN(value) || value === null) {
+    return ''
+  }
+
+  return formatValue(value, 0)
+}
+
+export function formatVolume(value: number): string {
+  if (isNaN(value) || value === null) {
+    return ''
+  }
+
+  return formatValue(value, 0)
 }

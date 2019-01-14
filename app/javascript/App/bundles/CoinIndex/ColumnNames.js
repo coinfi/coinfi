@@ -2,28 +2,54 @@ import React from 'react'
 import _ from 'lodash'
 import RedGreenSpan from '~/bundles/common/components/RedGreenSpan'
 import { Sparklines, SparklinesLine } from 'react-sparklines'
+import { Grid } from '@material-ui/core'
+import {
+  formatPrice,
+  formatPercentage,
+  formatVolume,
+} from '~/bundles/common/utils/numberFormatters'
 
 export default (currency) => {
   return [
     {
       title: '#',
       dataIndex: 'ranking',
-      align: 'right',
-      width: 64,
+      align: 'left',
     },
     {
       title: 'Coin',
       dataIndex: 'name',
-      width: 240,
-      render: (text, row, index) => {
+      render: (text, row, index, classes) => {
         return (
-          <div className="b--r">
-            <img alt={text} src={row.image_url} className="fl mr2" />
-            <div className="fl">
-              <a href={`/coins/${row.slug}`}>{row.symbol}</a>
-              <div>{text}</div>
-            </div>
-          </div>
+          <Grid
+            container={true}
+            direction="row"
+            alignContent="flex-start"
+            alignItems="stretch"
+            wrap="nowrap"
+            className={classes.coinWrapper}
+          >
+            <Grid item={true} className={classes.coinIcon}>
+              <img alt={row.name} src={row.image_url} />
+            </Grid>
+            <Grid item={true}>
+              <Grid container={true} direction="column">
+                <Grid item={true} xs={12} className={classes.coinSymbol}>
+                  <a href={`/coins/${row.slug}`}>{row.symbol}</a>
+                </Grid>
+                <Grid item={true} xs={12} className={classes.coinName}>
+                  {row.name}
+                </Grid>
+              </Grid>
+            </Grid>
+          </Grid>
+        )
+      },
+      mobileRender: (text, row, index) => {
+        return (
+          <span>
+            <a href={`/coins/${row.slug}`}>{row.symbol}</a> {text}
+          </span>
         )
       },
     },
@@ -32,18 +58,9 @@ export default (currency) => {
       dataIndex: 'price',
       align: 'right',
       render: (text, row, index) => {
-        if (currency === 'USD' && !_.isUndefined(text)) {
-          const formattedPrice = text.toLocaleString('en-US', {
-            maximumFractionDigits: 4,
-          })
-          return <span>${formattedPrice} USD</span>
-        }
-        if (currency === 'BTC' && !_.isUndefined(text)) {
-          const formattedPrice = text.toLocaleString('en-US', {
-            maximumFractionDigits: 8,
-          })
-          return <span>{formattedPrice} &#579;</span>
-        }
+        return (
+          <span style={{ whiteSpace: 'nowrap' }}>${formatPrice(text)}</span>
+        )
       },
     },
     {
@@ -51,42 +68,38 @@ export default (currency) => {
       dataIndex: 'market_cap',
       align: 'right',
       render: (text, row, index) =>
-        !_.isUndefined(text) ? (
-          <span>
-            ${text.toLocaleString('en-US', {
-              maximumFractionDigits: 0,
-            })}
-          </span>
-        ) : null,
+        !_.isUndefined(text) ? <span>${formatPrice(text)}</span> : null,
     },
     {
       title: '% Move 1H',
       dataIndex: 'change1h',
       align: 'right',
-      render: (text, row, index) => <RedGreenSpan text={text} affix="%" />,
+      render: (text, row, index) => (
+        <RedGreenSpan text={formatPercentage(text)} affix="%" />
+      ),
     },
     {
       title: '% Move 1D',
       dataIndex: 'change24h',
       align: 'right',
-      render: (text, row, index) => <RedGreenSpan text={text} affix="%" />,
+      render: (text, row, index) => (
+        <RedGreenSpan text={formatPercentage(text)} affix="%" />
+      ),
     },
     {
       title: '% Move 1W',
       dataIndex: 'change7d',
       align: 'right',
-      render: (text, row, index) => <RedGreenSpan text={text} affix="%" />,
+      render: (text, row, index) => (
+        <RedGreenSpan text={formatPercentage(text)} affix="%" />
+      ),
     },
     {
       title: 'Volume (24hr)',
       dataIndex: 'volume24h',
       align: 'right',
       render: (text, row, index) =>
-        !_.isUndefined(text) ? (
-          <span>
-            {text.toLocaleString('en-US', { maximumFractionDigits: 0 })}
-          </span>
-        ) : null,
+        !_.isUndefined(text) ? <span>${formatVolume(text)}</span> : null,
     },
     {
       title: '7D Chart',

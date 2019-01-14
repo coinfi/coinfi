@@ -62,7 +62,7 @@ SitemapGenerator::Sitemap.create do
     add icos_path(status), :changefreq => 'daily'
   end
 
-  Coin.listed.where.not(slug: nil).find_each do |coin|
+  Coin.listed.legit.where.not(slug: nil).find_each do |coin|
     add coin_path(id_or_slug: coin.slug), :changefreq => 'hourly'
     add news_coin_path(coin_slug: coin.slug), :changefreq => 'hourly'
   end

@@ -41,7 +41,7 @@ class Coin < ApplicationRecord
 
   before_save :update_previous_name
 
-  scope :legit, -> { where.not(price: nil, image_url: nil) }
+  scope :legit, -> { where.not(image_url: nil) }
   scope :top, -> (limit) { order(ranking: :asc).limit(limit) }
   scope :quick_top, -> (limit) { where("coins.ranking >= ?", limit) }
   scope :icos, -> { where(ico_status: ICO_STATUSES).order(:ico_end_date) }
@@ -213,8 +213,7 @@ class Coin < ApplicationRecord
   end
 
   def hourly_prices_data
-    # TODO: expires_in should probably be at midnight
-    Rails.cache.fetch("coins/#{id}/hourly_prices", expires_in: 1.hour) do
+    Rails.cache.fetch("coins/#{id}/hourly_prices", expires_in: seconds_to_next_hour) do
       url = "#{ENV.fetch('COINFI_POSTGREST_URL')}/hourly_ohcl_prices?coin_key=eq.#{coin_key}&to_currency=eq.USD&order=time.asc"
       response = HTTParty.get(url)
       JSON.parse(response.body)
@@ -222,8 +221,7 @@ class Coin < ApplicationRecord
   end
 
   def prices_data
-    # TODO: expires_in should probably be at midnight
-    Rails.cache.fetch("coins/#{id}/prices", expires_in: 1.day) do
+    Rails.cache.fetch("coins/#{id}/prices", expires_in: seconds_to_next_day) do
       url = "#{ENV.fetch('COINFI_POSTGREST_URL')}/daily_ohcl_prices?coin_key=eq.#{coin_key}&to_currency=eq.USD&order=time.asc"
       response = HTTParty.get(url)
       JSON.parse(response.body)
@@ -231,7 +229,7 @@ class Coin < ApplicationRecord
   end
 
   def sparkline
-    Rails.cache.fetch("coins/#{id}/sparkline", expires_in: 1.day) do
+    Rails.cache.fetch("coins/#{id}/sparkline", expires_in: seconds_to_next_day) do
       url = "#{ENV.fetch('COINFI_POSTGREST_URL')}/daily_ohcl_prices?coin_key=eq.#{coin_key}&select=close&to_currency=eq.USD&limit=7&order=time.desc"
       response = HTTParty.get(url)
       results = JSON.parse(response.body)
@@ -294,8 +292,7 @@ class Coin < ApplicationRecord
   end
 
   def news_data
-    # TODO: Reduce cache time from 1 day to 1 hour once hourly price data comes in.
-    Rails.cache.fetch("coins/#{id}/news_data", expires_in: 1.day) do
+    Rails.cache.fetch("coins/#{id}/news_data", expires_in: 1.hour) do
       chart_data = news_items.chart_data(self.name == "Bitcoin" || self.name == "Ethereum")
       i = chart_data.length + 1
       chart_data.map do |item|

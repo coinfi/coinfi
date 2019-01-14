@@ -14,8 +14,8 @@ import LoadingIndicator from '../common/components/LoadingIndicator'
 import * as moment from 'moment'
 import DateRangeSelect from './DateRangeSelect'
 import {
-  formatValue,
-  formatValueByCurrencyRate,
+  formatPrice,
+  formatVolume,
 } from '~/bundles/common/utils/numberFormatters'
 import {
   CurrencyContextType,
@@ -56,7 +56,7 @@ interface Props extends CurrencyContextType {
   classes: any
   initialRawData?: RawPriceData[]
   availableSupply: number
-  symbol: string
+  coinObj: CoinObj
 }
 
 interface State {
@@ -140,25 +140,16 @@ class HistoricalPriceDataTable extends React.Component<Props, State> {
   }
 
   public parseData = (d: RawPriceData): PriceData => {
-    const { currencyRate } = this.props
+    const { currencyRate, availableSupply } = this.props
 
     const datetime = moment.utc(d.time)
     const formattedTime = datetime.format('MMM DD, YYYY')
-    const marketCap = formatValue(
-      Math.round(this.props.availableSupply * d.close * currencyRate),
-      0,
-    )
-    const open = formatValueByCurrencyRate(d.open * currencyRate, currencyRate)
-    const high = formatValueByCurrencyRate(d.high * currencyRate, currencyRate)
-    const low = formatValueByCurrencyRate(d.low * currencyRate, currencyRate)
-    const close = formatValueByCurrencyRate(
-      d.close * currencyRate,
-      currencyRate,
-    )
-    const volume = formatValueByCurrencyRate(
-      d.volume_to * currencyRate,
-      currencyRate,
-    )
+    const marketCap = formatPrice(availableSupply * d.close * currencyRate)
+    const open = formatPrice(d.open * currencyRate)
+    const high = formatPrice(d.high * currencyRate)
+    const low = formatPrice(d.low * currencyRate)
+    const close = formatPrice(d.close * currencyRate)
+    const volume = formatVolume(d.volume_to * currencyRate)
 
     return {
       open,
@@ -187,8 +178,9 @@ class HistoricalPriceDataTable extends React.Component<Props, State> {
   }
 
   public render() {
-    const { classes, availableSupply, currency } = this.props
+    const { classes, availableSupply, currency, coinObj } = this.props
     const { data, status, start, end } = this.state
+    const { name: coinName } = coinObj
 
     if (status !== STATUSES.READY) {
       return <LoadingIndicator />
@@ -206,7 +198,9 @@ class HistoricalPriceDataTable extends React.Component<Props, State> {
       <React.Fragment>
         <Toolbar className={classes.toolbar}>
           {currency ? (
-            <Typography component="div">Prices in {currency}</Typography>
+            <Typography component="div">
+              {coinName} Prices in {currency}
+            </Typography>
           ) : (
             ''
           )}

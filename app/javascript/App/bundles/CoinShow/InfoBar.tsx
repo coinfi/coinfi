@@ -2,17 +2,17 @@ import * as React from 'react'
 import * as _ from 'lodash'
 import classnames from 'classnames'
 import Icon from '~/bundles/common/components/Icon'
-import { Grid } from '@material-ui/core'
+import { Grid, Typography } from '@material-ui/core'
 import { withStyles, createStyles } from '@material-ui/core/styles'
 import {
-  formatValueWithCurrency,
-  formatValue,
+  formatPercentage,
+  formatSupply,
   formatPrice,
+  formatVolume,
 } from '~/bundles/common/utils/numberFormatters'
 import CurrencyContext, {
   CurrencyContextType,
 } from '~/bundles/common/contexts/CurrencyContext'
-
 interface Props {
   isWatched: boolean
   watchCoinHandler: () => void
@@ -42,16 +42,17 @@ const styles = (theme) =>
         },
       },
     },
+    coinDetails: {},
     coinImage: {
-      alignSelf: 'flex-start',
       marginRight: '12px',
-      '& img': {
-        maxHeight: '34px',
-      },
+      maxHeight: '34px',
+      verticalAlign: 'sub',
     },
     coinName: {
       fontSize: '34px',
+      fontWeight: 500,
       marginRight: '7px',
+      display: 'inline-block',
     },
     coinSymbol: {
       color: 'rgba(0, 0, 0, 0.54)',
@@ -141,7 +142,7 @@ class InfoBar extends React.Component<Props, {}> {
 
     return (
       <CurrencyContext.Consumer>
-        {({ currency, currencyRate }: CurrencyContextType) => {
+        {({ currency, currencyRate, currencySymbol }: CurrencyContextType) => {
           return (
             <Grid
               container={true}
@@ -158,14 +159,18 @@ class InfoBar extends React.Component<Props, {}> {
                 alignItems="baseline"
                 alignContent="flex-start"
               >
-                <Grid item={true} className={classes.coinImage}>
-                  <img alt={coinObj.name} src={coinObj.image_url} />
-                </Grid>
-                <Grid item={true} className={classes.coinName}>
-                  {coinObj.name}
-                </Grid>
-                <Grid item={true} className={classes.coinSymbol}>
-                  {!_.isUndefined(symbol) && `(${symbol})`}
+                <Grid item={true} className={classes.coinDetails}>
+                  <img
+                    alt={coinObj.name}
+                    src={coinObj.image_url}
+                    className={classes.coinImage}
+                  />
+                  <Typography variant="h1" className={classes.coinName}>
+                    {coinObj.name}
+                  </Typography>
+                  {!_.isUndefined(symbol) && (
+                    <span className={classes.coinSymbol}>({symbol})</span>
+                  )}
                 </Grid>
                 <Grid item={true} xs={12} style={{ height: '10px' }} />
                 <Grid item={true} className={classes.coinRanking}>
@@ -198,10 +203,11 @@ class InfoBar extends React.Component<Props, {}> {
               >
                 <Grid item={true} className={classes.coinPriceRoot}>
                   <span className={classes.price}>
-                    {formatPrice(price * currencyRate, currency)}
+                    {currencySymbol}
+                    {formatPrice(price * currencyRate)}
                   </span>{' '}
                   <span style={changeStyle1h}>
-                    ({formatValue(percentChange1h, 2)}%)
+                    ({formatPercentage(percentChange1h)}%)
                   </span>
                 </Grid>
               </Grid>
@@ -224,21 +230,19 @@ class InfoBar extends React.Component<Props, {}> {
                 </Grid>
                 <Grid item={true} xs={6} className={classes.detailsValue}>
                   {hasMarketCap &&
-                    `${formatValueWithCurrency(
+                    `${currencySymbol}${formatPrice(
                       market_cap * currencyRate,
-                      currency,
                     )} ${currency}`}
                 </Grid>
                 <Grid item={true} xs={6} className={classes.detailsValue}>
                   <span>
                     {hasVolume24 &&
-                      `${formatValueWithCurrency(
+                      `${currencySymbol}${formatVolume(
                         volume24h * currencyRate,
-                        currency,
                       )} ${currency}`}
                   </span>{' '}
                   <span style={changeStyle24h}>
-                    {hasChange24h && `(${formatValue(change24h, 2)}%)`}
+                    {hasChange24h && `(${formatPercentage(change24h)}%)`}
                   </span>
                 </Grid>
                 <Grid item={true} xs={6} className={classes.detailsTitle}>
@@ -249,11 +253,11 @@ class InfoBar extends React.Component<Props, {}> {
                 </Grid>
                 <Grid item={true} xs={6} className={classes.detailsValue}>
                   {!_.isUndefined(available_supply) &&
-                    `${formatValue(available_supply, 0)} ${symbol}`}
+                    `${formatSupply(available_supply)} ${symbol}`}
                 </Grid>
                 <Grid item={true} xs={6} className={classes.detailsValue}>
                   {!_.isUndefined(total_supply) &&
-                    `${formatValue(total_supply, 0)} ${symbol}`}
+                    `${formatSupply(total_supply)} ${symbol}`}
                 </Grid>
               </Grid>
             </Grid>

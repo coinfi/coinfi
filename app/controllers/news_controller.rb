@@ -53,6 +53,7 @@ class NewsController < ApplicationController
   end
 
   def set_view_data
+    @is_fluid = true
     @feed_sources = (FeedSource.feed_types - ['general']) +
       FeedSource.where(feed_type: 'general').pluck(:site_hostname)
     @top_coin_slugs = Coin.top(5).pluck(:slug)

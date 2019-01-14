@@ -117,7 +117,6 @@ module CoinMarketCapPro
       json_response_code = get_json_response_code(contents)
 
       if response.success? && json_response_code == 0 then
-        Net::HTTP.get(URI.parse(@healthcheck_url)) unless @healthcheck_url.blank?
         return contents['data']
       else
         error_message = "ERROR HTTP(#{response.code}) JSON(#{json_response_code}): #{get_error_message(contents)}"

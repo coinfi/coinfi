@@ -19,7 +19,7 @@ class ExchangeListingsController < ApplicationController
   def show
     distribute_reads(max_lag: MAX_ACCEPTABLE_REPLICATION_LAG, lag_failover: true) do
       @listing = ExchangeListing.find(params[:id])
-      @coin = Coin.listed.find_by_symbol(@listing.quote_symbol)
+      @coin = Coin.listed.legit.find_by_symbol(@listing.quote_symbol)
     end
 
     respond_to do |format|

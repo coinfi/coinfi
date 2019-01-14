@@ -1,6 +1,6 @@
 export interface Coin {
   id: number
-  market_info: any
+  market_info?: any
   name: string
   slug: string
   symbol: string

@@ -6,13 +6,16 @@ class CoinsController < ApplicationController
 
   def index
     @hide_currency = true
+    @page = params[:page]&.to_i || 1
+    @limit = params[:limit]&.to_i || 100
+
     distribute_reads(max_lag: MAX_ACCEPTABLE_REPLICATION_LAG, lag_failover: true) do
-      @coin_count = Coin.listed.count
+      coins = Coin.listed.legit
+      @coin_count = coins.count
       @coins = coins_serializer(
-        Coin
-          .legit
-          .page(1)
-          .per(100)
+        coins
+          .page(@page)
+          .per(@limit)
           .order(:ranking)
       )
     end
