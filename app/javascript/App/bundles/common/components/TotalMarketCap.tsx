@@ -320,11 +320,6 @@ class TotalMarketCap extends React.Component<Props, State> {
         alignItems="stretch"
         className={classes.desktopContainer}
       >
-        {/* <Grid item={true}>
-          <Typography variant="h5" className={classes.title}>
-            Crypto Market Cap
-          </Typography>
-        </Grid> */}
         <Grid item={true}>
           <Grid
             container={true}
@@ -373,15 +368,6 @@ class TotalMarketCap extends React.Component<Props, State> {
                 </Grid>
               </Grid>
             </Grid>
-            {/* <Grid item={true}>
-
-            </Grid>
-            <Grid item={true}>
-
-            </Grid>
-            <Grid item={true}>
-
-            </Grid> */}
           </Grid>
         </Grid>
         <Grid item={true} className={classes.chartContainer}>
