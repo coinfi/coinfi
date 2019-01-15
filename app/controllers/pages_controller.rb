@@ -32,15 +32,14 @@ class PagesController < ApplicationController
     end
   end
 
-  def is_privacy_policy?
-    @page == 'privacy-policy'
+  def is_no_seo_page?
+    @page == 'privacy-policy' || @page == 'contact-us' ||
+      @page == 'ambassadors'
   end
 
   def apply_meta_tags_to_page
-    if is_privacy_policy?
-      set_meta_tags(
-        robots: 'noindex,follow'
-      )
+    if is_no_seo_page?
+      set_no_seo
     end
   end
 
