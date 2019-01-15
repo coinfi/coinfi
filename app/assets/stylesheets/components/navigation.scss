@@ -13,11 +13,12 @@ $nav-menu-more-width: 150px;
     display: flex;
     align-items: center;
   }
-}
 
-.nav-logo {
-  &__img {
-    height: 100%;
+  .nav-logo {
+    &__img {
+      width: 100%;
+      height: 100%;
+    }
   }
 }
 
@@ -108,10 +109,46 @@ main {
   margin-top: $nav-height;
 }
 
+.footer {
+  background: $dark-pine-green;
+  color: white;
+  .nav-logo {
+    &__img {
+      width: 100px;
+    }
+  }
+  .container {
+    padding-top: 4rem;
+  }
+}
+
+.footer-flex-container {
+  flex-direction: column;
+}
+
+.footer-item {
+  flex: 1 1 calc(100% / 6);
+  &__header {
+    font-size: 16px;
+    font-weight: 500;
+    margin-bottom: 1rem;
+  }
+}
+
+.footer-copyright {
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  font-size: 0.875rem;
+  text-align: left;
+}
+
 // Not Small Screens
 @media #{$screen-min-ns} {
   main {
     margin: 0;
+  }
+  .fixed-width {
+    max-width: 1200px;
   }
   .nav {
     position: relative;
@@ -119,14 +156,13 @@ main {
   .nav__inner {
     justify-content: flex-end;
     margin: 0 auto;
-    &.fixed-width {
-      max-width: 1200px;
-    }
   }
-  .nav-logo {
-    position: absolute;
-    top: 0;
-    left: 0;
+  .nav {
+    .nav-logo {
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
   }
   .nav-menu {
     overflow-y: initial;
@@ -188,5 +224,72 @@ main {
     > div:first-child {
       margin-left: 10px;
     }
+  }
+  .footer-flex-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    flex-wrap: nowrap;
+    margin-bottom: 1rem;
+  }
+  .footer-item {
+    padding-right: 1rem;
+  }
+}
+
+.nav-x ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  text-align: left;
+}
+
+.nav-x ul li {
+  margin: 0;
+}
+
+.nav-x ul li > * {
+  font-size: 14px;
+  font-weight: 300;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.nav-x ul li a:hover {
+  color: rgba(255, 255, 255, 1);
+}
+
+img.icon-white {
+  filter: invert(1);
+}
+
+@media #{$screen-max-ns} {
+  .footer {
+    .container {
+      padding-top: 1rem;
+    }
+  }
+  .footer-item {
+    margin-left: 2rem;
+    margin-right: 2rem;
+    margin-bottom: 1rem;
+    &__header {
+      margin-bottom: 0.25rem;
+    }
+  }
+  .nav-logo-wrapper {
+    text-align: center;
+  }
+
+  .nav-x ul {
+    margin-left: -0.5rem;
+    display: flex;
+    flex-wrap: wrap;
+  }
+  .nav-x ul li > * {
+    padding-left: 0.5rem;
+    padding-right: 1rem;
+  }
+  .footer-copyright {
+    text-align: center;
   }
 }
