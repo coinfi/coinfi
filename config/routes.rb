@@ -123,6 +123,7 @@ Rails.application.routes.draw do
   get '/calendar', to: 'pages#show', id: 'calendar', as: 'page_calendar'
   get '/ambassadors', to: 'pages#show', id: 'ambassadors', as: 'page_ambassadors'
   get '/win-cofi', to: 'pages#show', id: 'win-cofi', as: 'page_win_cofi'
+  get '/privacy-policy', to: 'pages#show', id: 'privacy-policy', as: 'page_privacy'
   get '/signals', to: 'signals#index'
   get '/signals/reservation', to: 'signals#reservation'
   patch '/signals/reservation', to: 'signals#reservation_update', as: 'signals_reservation_update'
