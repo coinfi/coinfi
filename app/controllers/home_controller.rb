@@ -1,9 +1,9 @@
 class HomeController < ApplicationController
+  before_action :hide_currency
+
   include CoinsHelper
 
   def index
-    @hide_currency = true
-
     distribute_reads(max_lag: MAX_ACCEPTABLE_REPLICATION_LAG, lag_failover: true) do
       coins = Coin.listed.legit
         .page(1)

@@ -1,5 +1,5 @@
 <nav class="nav w-100 border-box ph3 bb b--black-10">
-  <div class="nav__inner<%= ' fixed-width' unless @is_fluid %>">
+  <div class="nav__inner<%= ' fixed-width' unless is_fluid? %>">
     <!-- Menu toggle -->
     <a href="#" class="nav-menu-toggle link">
       <img src="<%= image_path('nav-trigger.svg') %>" class="nav-menu-toggle__img">
@@ -42,7 +42,7 @@
 
 
       <div class="nav-menu-actions pa2">
-        <% unless @hide_currency %>
+        <% unless hide_currency? %>
           <%= react_component_with_jss "CurrencySelectorWidget", props: { user: current_user }, prerender: false %>
         <% end %>
         <% if user_signed_in? %>
@@ -64,7 +64,7 @@
 
     <!-- Actions -->
     <div class="nav-actions">
-      <% unless @hide_currency %>
+      <% unless hide_currency? %>
         <%= react_component_with_jss "CurrencySelectorWidget", props: { user: current_user }, prerender: false %>
       <% end %>
       <% if user_signed_in? %>

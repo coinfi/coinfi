@@ -1,11 +1,11 @@
 class CoinsController < ApplicationController
   before_action :set_coin, only: [:show]
+  before_action :hide_currency, only: [:index]
 
   include CoinListHelper
   include CoinsHelper
 
   def index
-    @hide_currency = true
     @page = params[:page]&.to_i || 1
     @limit = params[:limit]&.to_i || 100
 

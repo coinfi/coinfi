@@ -36,4 +36,31 @@ protected
     false
   end
   helper_method :has_listings_feature?
+
+  def hide_footer
+    @hide_footer = true
+  end
+
+  def hide_footer?
+    @hide_footer
+  end
+  helper_method :hide_footer?
+
+  def hide_currency
+    @hide_currency = true
+  end
+
+  def hide_currency?
+    @hide_currency
+  end
+  helper_method :hide_currency?
+
+  def set_fluid
+    @is_fluid = true
+  end
+
+  def is_fluid?
+    @is_fluid
+  end
+  helper_method :is_fluid?
 end
