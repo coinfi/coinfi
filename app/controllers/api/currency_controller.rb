@@ -1,7 +1,7 @@
 class Api::CurrencyController < ApiController
+  include CurrencyHelper
 
   def index
-    rates = Rails.cache.read('exchange_rates')
-    respond_success rates
+    respond_success exchange_rates
   end
 end
