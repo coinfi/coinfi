@@ -9,9 +9,9 @@
         </div>
 
       </div>
-      <div class="footer-item">
-        <div class="footer-item__header">Coins</div>
-        <nav class="nav-x">
+      <div class="footer-item expandable" data-target="coins">
+        <div class="footer-item__header">Coins<i class="fas fa-angle-down accordion-icon"></i></div>
+        <nav class="nav-x" data-expandable="coins" data-height="80">
           <ul className="flex-wrap">
             <li>
               <a href="/coins">Top Coins</a>
@@ -25,9 +25,9 @@
           </ul>
         </nav>
       </div>
-      <div class="footer-item">
-        <div class="footer-item__header">Research</div>
-        <nav class="nav-x">
+      <div class="footer-item expandable" data-target="research">
+        <div class="footer-item__header">Research<i class="fas fa-angle-down"></i></div>
+        <nav class="nav-x" data-expandable="research" data-height="80">
           <ul className="flex-wrap">
             <li>
               <a href="/signals">Trading Signals</a>
@@ -41,9 +41,9 @@
           </ul>
         </nav>
       </div>
-      <div class="footer-item">
-        <div class="footer-item__header">Calculators</div>
-        <nav class="nav-x">
+      <div class="footer-item expandable" data-target="calculators">
+        <div class="footer-item__header">Calculators<i class="fas fa-angle-down"></i></div>
+        <nav class="nav-x" data-expandable="calculators" data-height="30">
           <ul className="flex-wrap">
             <li>
               <a href="/calculators/bitcoin-investment-calculator">Bitcoin Investment Calculator</a>
@@ -51,9 +51,9 @@
           </ul>
         </nav>
       </div>
-      <div class="footer-item">
-        <div class="footer-item__header">Company</div>
-        <nav class="nav-x">
+      <div class="footer-item expandable" data-target="company">
+        <div class="footer-item__header">Company<i class="fas fa-angle-down"></i></div>
+        <nav class="nav-x" data-expandable="company" data-height="180">
           <ul className="flex-wrap">
             <li>
               <a href="/podcast">Podcast</a>
@@ -79,9 +79,11 @@
           </ul>
         </nav>
       </div>
-      <div class="footer-item">
-        <div class="footer-item__header">Contact</div>
-        <nav class="nav-x">
+      <div class="footer-item expandable" data-target="contact">
+        <div class="footer-item__header">
+          Contact<i class="fas fa-angle-down"></i>
+        </div>
+        <nav class="nav-x" data-expandable="contact" data-height="90">
           <ul className="flex-wrap">
             <li>
               <a href="mailto:contact@coinfi.com">contact@coinfi.com</a>
@@ -113,4 +115,3 @@
     <div class="footer-copyright">Copyright &copy; <%= Date.today.year %> <a class="color-inherit" href="/">CoinFi</a> - All rights reserved.</div>
   </div>
 </div>
-
