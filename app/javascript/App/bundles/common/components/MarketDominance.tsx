@@ -251,7 +251,10 @@ class MarketDominance extends React.Component<Props, State> {
                           fontSize={16}
                           styles={{ color: chartColours[index] }}
                         />
-                        {index + 1}. {coin.name} {coin.symbol}
+                        {index + 1}.{' '}
+                        <a href={`/coins/${coin.slug}`}>
+                          {coin.name} {coin.symbol}
+                        </a>
                       </Typography>
                     </Grid>
                     <Grid item={true}>

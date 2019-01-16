@@ -8,21 +8,11 @@ class Api::NewsController < ApiController
     headers['Last-Modified'] = Time.now.httpdate
 
     distribute_reads(max_lag: MAX_ACCEPTABLE_REPLICATION_LAG, lag_failover: true) do
-      if params[:frontPage].present? # For Front page
-        @news_items = serialize_news_items(NewsItem.published
-          .where(feed_source: FeedSource.coindesk
-                                .or(FeedSource.cointelegraph)
-                                .or(FeedSource.ambcrypto)
-          )
-          .includes(:coins, :news_categories)
-          .order_by_published
-          .limit(5)
-        )
-
-        return respond_success @news_items
-      end
-
       apply_news_feed_filters(params)
+
+      if params[:frontPage].present? # For Front page
+        return respond_success @news_items.slice(0, 5)
+      end
 
       respond_success @news_items
     end
