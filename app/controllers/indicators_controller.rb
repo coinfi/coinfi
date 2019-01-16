@@ -4,7 +4,7 @@ class IndicatorsController < ApplicationController
   include IndicatorsHelper
 
   def show
-    @daily_price_data = @coin.prices_data.map{ |d| { adj_close: d['close'] || 0, high: d['high'] || 0, low: d['low'] || 0 } }
+    @daily_price_data = @coin.prices_data.map{ |d| { adj_close: d['close'] || 0, high: d['high'] || 0, low: d['low'] || 0 } }.last(200)
     @indicators = {
       rsi: rsi(@daily_price_data).round(0),
       stochrsi: stochastic_rsi(@daily_price_data).round(0),
