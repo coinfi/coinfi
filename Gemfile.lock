@@ -1,5 +1,5 @@
 GIT
-  remote: git@github.com:anthotsang/indicators.git
+  remote: https://github.com/anthotsang/indicators.git
   revision: 1e9d8cb3bf8301ca52164f0030502bf605127414
   tag: v1.0.4
   specs:
