@@ -101,6 +101,8 @@ gem 'librato-rails', '~> 1'
 gem 'barnes'
 # Google Pub/Sub client
 gem 'google-cloud-pubsub'
+# technical indicators
+gem "indicators", "~> 1.0", git: 'git@github.com:anthotsang/indicators.git', :tag => 'v1.0.4'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
@@ -141,3 +143,5 @@ end
 # gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 gem "activerecord-import", "~> 0.27.0"
+
+
