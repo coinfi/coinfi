@@ -102,7 +102,7 @@ gem 'barnes'
 # Google Pub/Sub client
 gem 'google-cloud-pubsub'
 # technical indicators
-gem "indicators", "~> 1.0", git: 'git@github.com:anthotsang/indicators.git', :tag => 'v1.0.4'
+gem "indicators", "~> 1.0", git: 'https://github.com/anthotsang/indicators.git', :tag => 'v1.0.4'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
