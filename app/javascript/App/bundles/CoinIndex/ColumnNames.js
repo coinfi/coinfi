@@ -9,7 +9,7 @@ import {
   formatVolume,
 } from '~/bundles/common/utils/numberFormatters'
 
-export default (currency) => {
+export default ({ currency, currencyRate, currencySymbol }) => {
   return [
     {
       title: '#',
@@ -59,7 +59,10 @@ export default (currency) => {
       align: 'right',
       render: (text, row, index) => {
         return (
-          <span style={{ whiteSpace: 'nowrap' }}>${formatPrice(text)}</span>
+          <span style={{ whiteSpace: 'nowrap' }}>
+            {currencySymbol}
+            {formatPrice(text * currencyRate)}
+          </span>
         )
       },
     },
@@ -68,7 +71,12 @@ export default (currency) => {
       dataIndex: 'market_cap',
       align: 'right',
       render: (text, row, index) =>
-        !_.isUndefined(text) ? <span>${formatPrice(text)}</span> : null,
+        !_.isUndefined(text) ? (
+          <span>
+            {currencySymbol}
+            {formatPrice(text * currencyRate)}
+          </span>
+        ) : null,
     },
     {
       title: '% Move 1H',
@@ -99,7 +107,12 @@ export default (currency) => {
       dataIndex: 'volume24h',
       align: 'right',
       render: (text, row, index) =>
-        !_.isUndefined(text) ? <span>${formatVolume(text)}</span> : null,
+        !_.isUndefined(text) ? (
+          <span>
+            {currencySymbol}
+            {formatVolume(text * currencyRate)}
+          </span>
+        ) : null,
     },
     {
       title: '7D Chart',

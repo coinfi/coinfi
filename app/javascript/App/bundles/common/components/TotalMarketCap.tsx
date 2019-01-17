@@ -12,6 +12,10 @@ import {
   formatPrice,
   formatAbbreviatedPrice,
 } from '~/bundles/common/utils/numberFormatters'
+import {
+  CurrencyContextType,
+  withCurrency,
+} from '~/bundles/common/contexts/CurrencyContext'
 
 export interface RawMarketCap {
   timestamp: string
@@ -23,7 +27,7 @@ interface MarketCap extends RawMarketCap {
   time: number
 }
 
-interface Props {
+interface Props extends CurrencyContextType {
   classes: any
   width: any
   marketCapData: RawMarketCap[]
@@ -32,8 +36,8 @@ interface Props {
 interface State {
   sortedMarketCapData: MarketCap[]
   totalMarketCap: number
-  formattedDifference: string
-  percentageDifference: string
+  formattedDifference: number
+  percentageDifference: number
   isPositive: boolean
 }
 
@@ -136,11 +140,9 @@ class TotalMarketCap extends React.Component<Props, State> {
     const totalMarketCap = latest.total_market_cap
     const difference = latest.total_market_cap - secondLatest.total_market_cap
     const isPositive = difference >= 0
-    const formattedDifference = formatAbbreviatedPrice(Math.abs(difference))
-    const percentageDifference = formatValue(
-      (difference / secondLatest.total_market_cap) * 100,
-      1,
-    )
+    const formattedDifference = Math.abs(difference)
+    const percentageDifference =
+      (difference / secondLatest.total_market_cap) * 100
 
     this.state = {
       sortedMarketCapData,
@@ -177,6 +179,10 @@ class TotalMarketCap extends React.Component<Props, State> {
       // switching from desktop to mobile
       this.unmountHighchart()
     }
+
+    if (prevProps.currency !== this.props.currency) {
+      this.setPriceData()
+    }
   }
 
   public componentWillUnmount() {
@@ -184,14 +190,7 @@ class TotalMarketCap extends React.Component<Props, State> {
   }
 
   public mountHighchart() {
-    const { sortedMarketCapData } = this.state
-
-    const data = sortedMarketCapData.map((datum) => {
-      return {
-        x: datum.time,
-        y: datum.total_market_cap,
-      }
-    })
+    const data = this.getMarketCapData()
 
     this.unmountHighchart()
 
@@ -282,17 +281,30 @@ class TotalMarketCap extends React.Component<Props, State> {
     }
   }
 
+  public setPriceData = () => {
+    if (this.chart) {
+      const data = this.getMarketCapData()
+      this.chart.series[0].setData(data)
+    }
+  }
+
   public render() {
-    const { classes } = this.props
+    const { classes, currencyRate, currencySymbol, currency } = this.props
     const {
       isPositive,
       totalMarketCap: totalMarketCapRaw,
-      formattedDifference,
-      percentageDifference,
+      formattedDifference: formattedDifferenceRaw,
+      percentageDifference: percentageDifferenceRaw,
     } = this.state
 
-    const totalMarketCap = formatPrice(totalMarketCapRaw)
-    const shortTotalMarketCap = formatAbbreviatedPrice(totalMarketCapRaw, 2)
+    const currencyAdjustedTMC = totalMarketCapRaw * currencyRate
+    const totalMarketCap = formatPrice(currencyAdjustedTMC)
+    const shortTotalMarketCap = formatAbbreviatedPrice(currencyAdjustedTMC, 2)
+
+    const formattedDifference = formatAbbreviatedPrice(
+      Math.abs(formattedDifferenceRaw * currencyRate),
+    )
+    const percentageDifference = formatValue(percentageDifferenceRaw, 1)
 
     if (isWidthDown('sm', this.props.width)) {
       return (
@@ -342,13 +354,14 @@ class TotalMarketCap extends React.Component<Props, State> {
               >
                 <Grid item={true}>
                   <Typography component="span" className={classes.marketCap}>
-                    ${totalMarketCap}
+                    {currencySymbol}
+                    {totalMarketCap}
                   </Typography>
                   <Typography
                     component="span"
                     className={classes.marketCapCurrency}
                   >
-                    USD
+                    {_.toUpper(currency)}
                   </Typography>
                 </Grid>
                 <Grid item={true}>
@@ -376,9 +389,23 @@ class TotalMarketCap extends React.Component<Props, State> {
       </Grid>
     )
   }
+
+  private getMarketCapData = () => {
+    const { sortedMarketCapData } = this.state
+    const { currencyRate } = this.props
+
+    const data = sortedMarketCapData.map((datum) => {
+      return {
+        x: datum.time,
+        y: datum.total_market_cap * currencyRate,
+      }
+    })
+
+    return data
+  }
 }
 
 export default compose(
   withStyles(styles),
   withWidth(),
-)(TotalMarketCap)
+)(withCurrency(TotalMarketCap))

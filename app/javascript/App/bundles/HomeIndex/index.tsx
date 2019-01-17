@@ -13,7 +13,6 @@ import TotalMarketCap, {
 import NewsList from '~/bundles/common/components/NewsList'
 import { CoinData } from './types'
 import Banner from './Banner'
-import Footer from './Footer'
 
 interface Props {
   classes: any
@@ -24,10 +23,6 @@ interface Props {
   marketDominance: CoinDominance[]
   totalMarketCap: RawMarketCap[]
   pageCount: number
-}
-
-interface State {
-  currency: string
 }
 
 const styles = (theme) =>
@@ -93,16 +88,7 @@ const styles = (theme) =>
     },
   })
 
-class HomeIndex extends React.Component<Props, State> {
-  constructor(props) {
-    super(props)
-
-    const currency = 'USD'
-    this.state = {
-      currency,
-    }
-  }
-
+class HomeIndex extends React.Component<Props> {
   public render() {
     const {
       classes,
@@ -113,7 +99,6 @@ class HomeIndex extends React.Component<Props, State> {
       loggedIn,
       pageCount,
     } = this.props
-    const { currency } = this.state
     const isMobile = isWidthDown('sm', this.props.width)
 
     return (
@@ -158,7 +143,6 @@ class HomeIndex extends React.Component<Props, State> {
             <CoinTable
               isMobile={isMobile}
               isLoggedIn={loggedIn}
-              currency={currency}
               coins={coins}
               watchList={watchList}
               pageCount={pageCount}

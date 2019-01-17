@@ -2,6 +2,9 @@ class HomeController < ApplicationController
   before_action :hide_currency
 
   include CoinsHelper
+  include CurrencyHelper
+
+  before_action :set_exchange_rates
 
   def index
     distribute_reads(max_lag: MAX_ACCEPTABLE_REPLICATION_LAG, lag_failover: true) do

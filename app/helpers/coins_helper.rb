@@ -1,4 +1,6 @@
 module CoinsHelper
+  include ActionView::Helpers::NumberHelper
+
   MAX_ACCEPTABLE_REPLICATION_LAG = ApplicationHelper::MAX_ACCEPTABLE_REPLICATION_LAG
 
   def display_percentage_change(percentage_change)
@@ -38,6 +40,23 @@ module CoinsHelper
         trillion: 'T'
       }
     }
+  end
+
+  # Based on formatPrice in numberFormatters
+  def format_price(price)
+    begin
+      if price >= 1000000
+        number_with_delimiter(number_with_precision(price, precision: 0, raise: true))
+      elsif price >= 1
+        number_with_delimiter(number_with_precision(price, precision: 2, raise: true))
+      elsif price >= 0.0001
+        number_with_precision(price, precision: 5, strip_insignificant_zeros: true, raise: true)
+      else
+        number_with_precision(price, precision: 8, strip_insignificant_zeros: true, raise: true)
+      end
+    rescue ArgumentError, InvalidNumberError
+      0
+    end
   end
 
   def paged_index(page, page_size, index)

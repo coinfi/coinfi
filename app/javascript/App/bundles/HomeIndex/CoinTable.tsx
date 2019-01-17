@@ -25,8 +25,12 @@ import SearchCoins from '../common/components/SearchCoins'
 import WatchStar from '../common/components/WatchStar'
 import API from '../common/utils/API'
 import coinsNormalizer from '../common/normalizers/coins'
+import {
+  CurrencyContextType,
+  withCurrency,
+} from '~/bundles/common/contexts/CurrencyContext'
 
-interface Props {
+interface Props extends CurrencyContextType {
   classes: any
   isLoggedIn: boolean
   isMobile: boolean
@@ -170,15 +174,18 @@ const styles = (theme) =>
       fontWeight: 600,
     },
     coinDetailsLeft: {
-      width: '40px',
+      minWidth: '40px',
+      maxWidth: '40px',
       fontSize: '0.6rem',
     },
     coinDetailsRight: {
-      width: '40px',
+      minWidth: '100px',
       fontSize: '0.6rem',
       textAlign: 'right',
+      flexDirection: 'column',
     },
     priceColumnHeader: {
+      minWidth: '100px',
       paddingRight: '8px !important',
       textAlign: 'right',
       color: '#333',
@@ -284,16 +291,27 @@ class CoinTable extends React.Component<Props, State> {
       props.watchList,
     )
 
-    const currency = 'USD'
+    const { currency, currencyRate, currencySymbol } = props
     this.state = {
       watchList: props.watchList,
-      columnDefs: ColumnNames(currency),
+      columnDefs: ColumnNames({ currency, currencyRate, currencySymbol }),
       rowData: enhancedCoins,
       context: {
         componentParent: this,
         handleWatchStarClick: this.handleWatchStarClick,
       },
       frameworkComponents: {},
+    }
+  }
+
+  public componentDidUpdate(prevProps) {
+    if (prevProps.currency !== this.props.currency) {
+      const { currency, currencyRate, currencySymbol } = this.props
+      const columnDefs = ColumnNames({ currency, currencyRate, currencySymbol })
+      this.setState({ columnDefs }, () => {
+        this.api.setColumnDefs(columnDefs)
+        this.api.sizeColumnsToFit()
+      })
     }
   }
 
@@ -377,7 +395,7 @@ class CoinTable extends React.Component<Props, State> {
   }
 
   public render() {
-    const { isMobile, isLoggedIn, currency, classes, pageCount } = this.props
+    const { isMobile, isLoggedIn, classes, pageCount } = this.props
     const pagesToShow = isMobile ? 7 : 10
 
     return (
@@ -446,15 +464,23 @@ class CoinTable extends React.Component<Props, State> {
                   image_url,
                 } = row
 
+                const { currencyRate, currencySymbol } = this.props
+
                 const formattedPrice =
-                  typeof price !== 'undefined' ? `$${formatPrice(price)}` : ''
+                  typeof price !== 'undefined'
+                    ? `${currencySymbol}${formatPrice(price * currencyRate)}`
+                    : ''
                 const formattedMarketCap =
                   typeof market_cap !== 'undefined'
-                    ? `$${formatAbbreviatedPrice(market_cap)}`
+                    ? `${currencySymbol}${formatAbbreviatedPrice(
+                        market_cap * currencyRate,
+                      )}`
                     : ''
                 const formattedVolume =
                   typeof volume24h !== 'undefined'
-                    ? `$${formatVolume(volume24h)}`
+                    ? `${currencySymbol}${formatVolume(
+                        volume24h * currencyRate,
+                      )}`
                     : ''
 
                 return (
@@ -494,36 +520,30 @@ class CoinTable extends React.Component<Props, State> {
                                 [{symbol}]
                               </span>
                             </Grid>
-                            <Grid
-                              item={true}
-                              xs={3}
-                              className={classes.coinDetailsLeft}
-                            >
-                              Mkt Cap
+                            <Grid item={true} xs={12}>
+                              <Grid container={true}>
+                                <Grid item={true} xs={3}>
+                                  <Grid
+                                    container={true}
+                                    className={classes.coinDetailsLeft}
+                                  >
+                                    <Grid item={true}>Mkt Cap</Grid>
+                                    <Grid item={true}>Volume</Grid>
+                                  </Grid>
+                                </Grid>
+                                <Grid item={true}>
+                                  <Grid
+                                    container={true}
+                                    className={classes.coinDetailsRight}
+                                  >
+                                    <Grid item={true}>
+                                      {formattedMarketCap}
+                                    </Grid>
+                                    <Grid item={true}>{formattedVolume}</Grid>
+                                  </Grid>
+                                </Grid>
+                              </Grid>
                             </Grid>
-                            <Grid
-                              item={true}
-                              xs={3}
-                              className={classes.coinDetailsRight}
-                            >
-                              {formattedMarketCap}
-                            </Grid>
-                            <Grid item={true} xs={6} />
-                            <Grid
-                              item={true}
-                              xs={3}
-                              className={classes.coinDetailsLeft}
-                            >
-                              Volume
-                            </Grid>
-                            <Grid
-                              item={true}
-                              xs={3}
-                              className={classes.coinDetailsRight}
-                            >
-                              {formattedVolume}
-                            </Grid>
-                            <Grid item={true} xs={6} />
                           </Grid>
                         </Grid>
                       </Grid>
@@ -573,4 +593,4 @@ class CoinTable extends React.Component<Props, State> {
   }
 }
 
-export default withStyles(styles)(CoinTable)
+export default withStyles(styles)(withCurrency(CoinTable))

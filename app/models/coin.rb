@@ -4,7 +4,6 @@ class Coin < ApplicationRecord
   include ICO
   include CoinsHelper
   include TokensHelper
-  include ActionView::Helpers::NumberHelper
   extend FriendlyId
   friendly_id :name, use: [:slugged, :finders]
 
