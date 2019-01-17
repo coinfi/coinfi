@@ -1,5 +1,5 @@
 class NewsController < ApplicationController
-  before_action :set_body_class, :set_view_data
+  before_action :set_body_class, :set_view_data, :set_fluid, :hide_footer
   before_action :set_default_news_items, only: [:index, :show]
 
   include NewsHelper
@@ -53,7 +53,6 @@ class NewsController < ApplicationController
   end
 
   def set_view_data
-    @is_fluid = true
     @feed_sources = (FeedSource.feed_types - ['general']) +
       FeedSource.where(feed_type: 'general').pluck(:site_hostname)
     @top_coin_slugs = Coin.top(5).pluck(:slug)

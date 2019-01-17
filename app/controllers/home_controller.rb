@@ -1,4 +1,6 @@
 class HomeController < ApplicationController
+  before_action :hide_currency
+
   include CoinsHelper
   include CurrencyHelper
 

@@ -1,5 +1,6 @@
 class CoinsController < ApplicationController
   before_action :set_coin, only: [:show]
+  before_action :hide_currency, only: [:index]
 
   include CoinListHelper
   include CoinsHelper

@@ -13,7 +13,6 @@ import TotalMarketCap, {
 import NewsList from '~/bundles/common/components/NewsList'
 import { CoinData } from './types'
 import Banner from './Banner'
-import Footer from './Footer'
 
 interface Props {
   classes: any
@@ -90,10 +89,6 @@ const styles = (theme) =>
   })
 
 class HomeIndex extends React.Component<Props> {
-  constructor(props) {
-    super(props)
-  }
-
   public render() {
     const {
       classes,
@@ -107,57 +102,54 @@ class HomeIndex extends React.Component<Props> {
     const isMobile = isWidthDown('sm', this.props.width)
 
     return (
-      <>
-        <div className={classes.root}>
+      <div className={classes.root}>
+        <Grid
+          container={true}
+          justify="center"
+          className={classes.cardWrapper}
+          spacing={16}
+        >
+          <Grid item={true} xs={12} className={classes.bannerContainer}>
+            <Banner className={classes.bannerRoot} />
+          </Grid>
           <Grid
-            container={true}
-            justify="center"
-            className={classes.cardWrapper}
-            spacing={16}
+            item={true}
+            xs={12}
+            md={5}
+            className={classes.widgetContainerLeft}
           >
-            <Grid item={true} xs={12} className={classes.bannerContainer}>
-              <Banner className={classes.bannerRoot} />
-            </Grid>
             <Grid
-              item={true}
-              xs={12}
-              md={5}
-              className={classes.widgetContainerLeft}
+              container={true}
+              className={classes.leftContainerInner}
+              spacing={16}
             >
-              <Grid
-                container={true}
-                className={classes.leftContainerInner}
-                spacing={16}
-              >
-                <Grid item={true} md={true}>
-                  <TotalMarketCap marketCapData={totalMarketCap} />
-                </Grid>
-                <Grid item={true} md={true}>
-                  <MarketDominance coinData={marketDominance} />
-                </Grid>
+              <Grid item={true} md={true}>
+                <TotalMarketCap marketCapData={totalMarketCap} />
+              </Grid>
+              <Grid item={true} md={true}>
+                <MarketDominance coinData={marketDominance} />
               </Grid>
             </Grid>
-            <Grid
-              item={true}
-              xs={12}
-              md={7}
-              className={classes.widgetContainerRight}
-            >
-              <NewsList />
-            </Grid>
-            <Grid item={true} xs={12} className={classes.tableContainer}>
-              <CoinTable
-                isMobile={isMobile}
-                isLoggedIn={loggedIn}
-                coins={coins}
-                watchList={watchList}
-                pageCount={pageCount}
-              />
-            </Grid>
           </Grid>
-        </div>
-        <Footer />
-      </>
+          <Grid
+            item={true}
+            xs={12}
+            md={7}
+            className={classes.widgetContainerRight}
+          >
+            <NewsList />
+          </Grid>
+          <Grid item={true} xs={12} className={classes.tableContainer}>
+            <CoinTable
+              isMobile={isMobile}
+              isLoggedIn={loggedIn}
+              coins={coins}
+              watchList={watchList}
+              pageCount={pageCount}
+            />
+          </Grid>
+        </Grid>
+      </div>
     )
   }
 }

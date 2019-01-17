@@ -38,6 +38,11 @@
         <% end %>
       <% end %>
     </main>
+    <% unless hide_footer? %>
+      <footer>
+        <%= render partial: "components/footer" %>
+      </footer>
+    <% end %>
     <script src="/tradingview/charting_library.min.js"></script>
     <%= javascript_pack_tag 'vendor-bundle' %>
     <%= javascript_pack_tag 'app-bundle' %>

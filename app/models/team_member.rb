@@ -22,20 +22,6 @@ class TeamMember < ActiveHash::Base
       linkedin: 'https://www.linkedin.com/in/nate-tsang-3a493a153/'
     },
     {
-      name: 'Alex Svanevik',
-      title: 'Chief Data Scientist',
-      bio: "Alex Svanevik is Chief Data Scientist at Coinfi, a market intelligence platform for cryptoassets. He is the founder of ICOWhitelists.com, a website for discovering initial coin offerings (ICOs). Alex has 8+ years experience from data science, management consulting, and startups in Schibsted Media Group, BearingPoint, and Codeus. He holds an MSc in Artificial Intelligence from the University of Edinburgh.",
-      img: 'https://res.cloudinary.com/coinfi/image/upload/v1522671943/profile-photos/alexander-svanevik.jpg',
-      linkedin: 'https://www.linkedin.com/in/alex-svanevik-152198a/'
-    },
-    {
-      name: 'Toni Cebrian',
-      title: 'Lead Data Engineer',
-      bio: "Former head of Data Science at Stuart, holds a Master of Science in Artificial Intelligence from the Polytechnic University of Catalonia. Professionally developed software for 18+ years specifically focusing on data projects.",
-      img: 'https://res.cloudinary.com/coinfi/image/upload/v1530362109/profile-photos/Toni_kty0aw.png',
-      linkedin: 'https://www.linkedin.com/in/tonicebrian/'
-    },
-    {
       name: 'Evgeny Medvedev',
       title: 'Data Engineer',
       bio: "Software architect and data engineer with significant experience in architecting, building, and maintaining scalable systems. AWS Certified Solutions architect. Has deep knowledge of Ethereum having written the Ethereum ETL ingest library.",

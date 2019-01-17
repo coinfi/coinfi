@@ -1,62 +1,117 @@
-<div class="bt b--light-gray phr pt4 pb5 bg-white">
-  <div class="container">
-    <div class="flex justify-center flex-wrap mb3">
-      <div class="f6 pv3 o-50 flex-none flex-auto-l">
-        <a href="https://www.facebook.com/CoinFiProject/" class="pv1 ph2" target="_blank">
-          <img height="20" width="20" src="https://unpkg.com/simple-icons@latest/icons/facebook.svg" />
-        </a>
-        <a href="https://twitter.com/coin_fi" class="pv1 ph2" target="_blank">
-          <img height="20" width="20" src="https://unpkg.com/simple-icons@latest/icons/twitter.svg" />
-        </a>
-        <a href="https://www.linkedin.com/company/coinfi/" class="pv1 ph2" target="_blank">
-          <img height="20" width="20" src="https://unpkg.com/simple-icons@latest/icons/linkedin.svg" />
-        </a>
-        <a href="https://angel.co/coinfi" class="pv1 ph2" target="_blank">
-          <img height="20" width="20" src="https://unpkg.com/simple-icons@latest/icons/angellist.svg" />
-        </a>
-        <a href="https://github.com/coinfi" class="pv1 ph2" target="_blank">
-          <img height="20" width="20" src="https://unpkg.com/simple-icons@latest/icons/github.svg" />
-        </a>
-        <br>
+<div class="footer w-100 border-box">
+  <div class="container<%= ' fixed-width' unless is_fluid? %>">
+    <div class="footer-flex-container">
+      <div class="footer-item">
+        <div class="link nav-logo-wrapper">
+          <a href="<%= root_path %>" title="Home">
+            <img src="<%= image_path('logo.svg') %>" class="nav-logo__img">
+          </a>
+        </div>
+
       </div>
-
-      <nav class="nav-x">
-        <ul className="flex-wrap">
-          <li>
-            <a href="/about">About</a>
-          </li>
-          <li>
-            <a href="https://blog.coinfi.com">Blog</a>
-          </li>
-          <li>
-            <a href="/calculators/bitcoin-investment-calculator">Bitcoin Investment Calculator</a>
-          </li>
-          <li>
-            <a href="https://careers.coinfi.com">Careers</a>
-          </li>
-          <li>
-            <a href="mailto:contact@coinfi.com">Contact</a>
-          </li>
-          <li>
-            <a href="#">Terms of Use</a>
-          </li>
-          <li>
-            <a href="#">Privacy Policy</a>
-          </li>
-        </ul>
-      </nav>
+      <div class="footer-item expandable" data-target="coins">
+        <div class="footer-item__header">Coins<i class="fas fa-angle-down accordion-icon"></i></div>
+        <nav class="nav-x" data-expandable="coins" data-height="80">
+          <ul className="flex-wrap">
+            <li>
+              <a href="/coins">Top Coins</a>
+            </li>
+            <li>
+              <a href="/icos/upcoming">ICOs</a>
+            </li>
+            <li>
+              <a href="/token-metrics">ERC-20 Token Metrics</a>
+            </li>
+          </ul>
+        </nav>
+      </div>
+      <div class="footer-item expandable" data-target="research">
+        <div class="footer-item__header">Research<i class="fas fa-angle-down"></i></div>
+        <nav class="nav-x" data-expandable="research" data-height="80">
+          <ul className="flex-wrap">
+            <li>
+              <a href="/signals">Trading Signals</a>
+            </li>
+            <li>
+              <a href="/research/crypto-market">Crypto Analysis</a>
+            </li>
+            <li>
+              <a href="/research/how-coin-fi-tests-trading-signals">Creating Trading Signals</a>
+            </li>
+          </ul>
+        </nav>
+      </div>
+      <div class="footer-item expandable" data-target="calculators">
+        <div class="footer-item__header">Calculators<i class="fas fa-angle-down"></i></div>
+        <nav class="nav-x" data-expandable="calculators" data-height="30">
+          <ul className="flex-wrap">
+            <li>
+              <a href="/calculators/bitcoin-investment-calculator">Bitcoin Investment Calculator</a>
+            </li>
+          </ul>
+        </nav>
+      </div>
+      <div class="footer-item expandable" data-target="company">
+        <div class="footer-item__header">Company<i class="fas fa-angle-down"></i></div>
+        <nav class="nav-x" data-expandable="company" data-height="180">
+          <ul className="flex-wrap">
+            <li>
+              <a href="/podcast">Podcast</a>
+            </li>
+            <li>
+              <a href="https://blog.coinfi.com">Blog</a>
+            </li>
+            <li>
+              <a href="https://careers.coinfi.com">Careers</a>
+            </li>
+            <li>
+              <a href="/press">Press</a>
+            </li>
+            <li>
+              <a href="/about">About</a>
+            </li>
+            <li>
+              <a href="https://feedback.coinfi.com/feature-requests">Feedback</a>
+            </li>
+            <li>
+              <a href="/privacy-policy" rel="nofollow">Privacy Policy</a>
+            </li>
+          </ul>
+        </nav>
+      </div>
+      <div class="footer-item expandable" data-target="contact">
+        <div class="footer-item__header">
+          Contact<i class="fas fa-angle-down"></i>
+        </div>
+        <nav class="nav-x" data-expandable="contact" data-height="90">
+          <ul className="flex-wrap">
+            <li>
+              <a href="mailto:contact@coinfi.com">contact@coinfi.com</a>
+            </li>
+            <li>
+              <div class="f6 pv3 flex-none flex-auto-l">
+                <a href="https://www.facebook.com/CoinFiProject/" class="pv1 pr1" target="_blank">
+                  <img height="20" width="20" src="https://unpkg.com/simple-icons@latest/icons/facebook.svg" class="icon-white" />
+                </a>
+                <a href="https://twitter.com/coin_fi" class="pv1 ph1" target="_blank">
+                  <img height="20" width="20" src="https://unpkg.com/simple-icons@latest/icons/twitter.svg" class="icon-white" />
+                </a>
+                <a href="https://www.linkedin.com/company/coinfi/" class="pv1 ph1" target="_blank">
+                  <img height="20" width="20" src="https://unpkg.com/simple-icons@latest/icons/linkedin.svg" class="icon-white" />
+                </a>
+                <a href="https://angel.co/coinfi" class="pv1 ph1" target="_blank">
+                  <img height="20" width="20" src="https://unpkg.com/simple-icons@latest/icons/angellist.svg" class="icon-white" />
+                </a>
+                <a href="https://github.com/coinfi" class="pv1 pl1" target="_blank">
+                  <img height="20" width="20" src="https://unpkg.com/simple-icons@latest/icons/github.svg" class="icon-white" />
+                </a>
+                <br>
+              </div>
+            </li>
+          </ul>
+        </nav>
+      </div>
     </div>
-
-    <div class="f7 silver">
-      Disclaimer: The findings, ratings and/or opinions expressed herein are the intellectual property of CoinFi and are subject to change without notice. They are not intended to convey any guarantees as to the future performance of the said products. Past performance does not guarantee future results.
-
-      This does not contain investment advice or constitute individualized investment advice relating to your particular circumstances. No investment decision should be made based on this information without first obtaining appropriate professional advice and considering your circumstances.
-
-      This does not constitute an offer or a solicitation of an offer to buy or sell securities, commodities and/or any other financial instruments or products or constitute a solicitation on behalf of any of the investment managers, their affiliates, products or strategies the information of which may be contained herein.
-
-      The information contained herein may not adequately take into account the recipient’s particular investment objectives, financial situations, or needs. Prospective token contributors should consult their legal, tax and financial advisers as to the consequences of an contribution. Any manager mix and portfolio structure which may be provided herein are for illustrative purposes only and subject to change. The inclusion of any contribution herein does not represent a recommendation of that contribution. All contributions experience gain or loss. An contributor may lose all or a substantial part of its contribution.
-    </div>
-    <div class="mt5 f6 tc">Copyright &copy; <%= Date.today.year %> <a class="color-inherit" href="/">CoinFi</a> - All rights reserved.</div>
+    <div class="footer-copyright">Copyright &copy; <%= Date.today.year %> <a class="color-inherit" href="/">CoinFi</a> - All rights reserved.</div>
   </div>
 </div>
-
