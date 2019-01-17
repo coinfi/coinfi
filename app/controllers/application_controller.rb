@@ -4,6 +4,7 @@ class ApplicationController < ActionController::Base
 
   protect_from_forgery with: :exception
   before_action :set_locale
+  before_action :set_no_seo, if: :devise_controller?
 
   def after_sign_in_path_for(resource)
     '/news'
@@ -37,6 +38,12 @@ protected
   end
   helper_method :has_listings_feature?
 
+  def set_no_seo
+    set_meta_tags(
+      robots: 'noindex,follow'
+    )
+  end
+
   def hide_footer
     @hide_footer = true
   end
@@ -63,4 +70,5 @@ protected
     @is_fluid
   end
   helper_method :is_fluid?
+
 end
