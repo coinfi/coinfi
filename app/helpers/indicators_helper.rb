@@ -13,6 +13,16 @@ module IndicatorsHelper
     output.last
   end
 
+  def rsi_signal(value)
+    if value < 30
+      "BUY"
+    elsif value > 70
+      "SELL"
+    else
+      "NEUTRAL"
+    end
+  end
+
   # Stochastic RSI 14
   # https://www.investopedia.com/terms/s/stochrsi.asp
   def stochastic_rsi(data, period = 14)
@@ -26,6 +36,16 @@ module IndicatorsHelper
 
     # Actual value is from 0-1 but we display as 0-100
     output.last * 100
+  end
+
+  def stochrsi_signal(value)
+    if value < 20
+      "BUY"
+    elsif value > 80
+      "SELL"
+    else
+      "NEUTRAL"
+    end
   end
 
   # MACD (12, 26, 9)
@@ -43,6 +63,16 @@ module IndicatorsHelper
     output.last[0]
   end
 
+  def macd_signal(value)
+    if value > 0
+      "BUY"
+    elsif value < 0
+      "SELL"
+    else
+      ""
+    end
+  end
+
   # CCI
   # https://www.investopedia.com/terms/c/commoditychannelindex.asp
   # https://www.investopedia.com/ask/answers/012015/what-are-differences-between-relative-strength-index-rsi-commodity-channel-index-cci.asp
@@ -56,6 +86,16 @@ module IndicatorsHelper
       .calc(:type => :cci, :params => period)
       .output
     output.last
+  end
+
+  def cci_signal(value)
+    if value < -100
+      "BUY"
+    elsif value > 100
+      "SELL"
+    else
+      "NEUTRAL"
+    end
   end
 
   # https://www.investopedia.com/terms/s/stochasticoscillator.asp
@@ -82,9 +122,29 @@ module IndicatorsHelper
     output[0]
   end
 
+  def stochastic_fast_signal(value)
+    if value < 20
+      "BUY"
+    elsif value > 80
+      "SELL"
+    else
+      "NEUTRAL"
+    end
+  end
+
   def stochastic_slow(data, period = 14, k_smoothing = 3, d_smoothing = 3)
     output = stochastic(data, period, k_smoothing, d_smoothing)
     output[1]
+  end
+
+  def stochastic_slow_signal(value)
+    if value < 20
+      "BUY"
+    elsif value > 80
+      "SELL"
+    else
+      "NEUTRAL"
+    end
   end
 
   # Simple Moving Average
@@ -100,6 +160,16 @@ module IndicatorsHelper
     output.last
   end
 
+  def simple_moving_average_signal(value)
+    if value > 0
+      "BUY"
+    elsif value < 0
+      "SELL"
+    else
+      ""
+    end
+  end
+
   # Exponential Moving Average
   # https://www.investopedia.com/terms/e/ema.asp
   def exponential_moving_average(data, period = 12)
@@ -111,5 +181,15 @@ module IndicatorsHelper
       .calc(:type => :ema, :params => period)
       .output
     output.last
+  end
+
+  def exponential_moving_average_signal(value)
+    if value > 0
+      "BUY"
+    elsif value < 0
+      "SELL"
+    else
+      ""
+    end
   end
 end

@@ -1,29 +1,15 @@
 <table>
   <tr>
-    <th></th><th>Sample Value</th>
+    <th></th><th>Sample Value</th><th>Min</th><th>Max</th><th>Signal</th><th>Rule</th>
   </tr>
-  <tr>
-    <td>RSI 14</td><td><%= @indicators[:rsi] %></td>
-  </tr>
-  <tr>
-    <td>Stochastic RSI 14</td><td><%= @indicators[:stochrsi] %></td>
-  </tr>
-  <tr>
-    <td>MACD (12, 26, 9)</td><td><%= @indicators[:macd] %></td>
-  </tr>
-  <tr>
-    <td>CCI</td><td><%= @indicators[:cci] %></td>
-  </tr>
-  <tr>
-    <td>Stochastic fast (14, 3)</td><td><%= @indicators[:stochastic_fast] %></td>
-  </tr>
-  <tr>
-    <td>Stochastic (14, 3, 3)</td><td><%= @indicators[:stochastic_slow] %></td>
-  </tr>
-  <tr>
-    <td>Moving Averages (20 v 50)</td><td><%= @indicators[:sma] %></td>
-  </tr>
-  <tr>
-    <td>Exp Moving Averages (10 v 20)</td><td><%= @indicators[:ema] %></td>
-  </tr>
+  <% @indicator_rows.each do |indicator| %>
+    <tr>
+      <td><%= indicator[:title] %></td>
+      <td><%= indicator[:value] %></td>
+      <td><%= indicator[:min].presence || 'N/A' %></td>
+      <td><%= indicator[:max].presence || 'N/A' %></td>
+      <td><%= indicator[:signal] %></td>
+      <td><%= indicator[:rule] %></td>
+    </tr>
+  <% end %>
 </table>

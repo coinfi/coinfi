@@ -15,6 +15,73 @@ class IndicatorsController < ApplicationController
       sma: (simple_moving_average(@daily_price_data, 20) - simple_moving_average(@daily_price_data, 50)).round(0),
       ema: (exponential_moving_average(@daily_price_data, 10) - exponential_moving_average(@daily_price_data, 20)).round(0)
     }
+
+    @indicator_rows = [
+      {
+        title: "RSI 14",
+        value: @indicators[:rsi],
+        min: 0,
+        max: 100,
+        signal: rsi_signal(@indicators[:rsi]),
+        rule: "<30 buy, >70 sell"
+      },
+      {
+        title: "Stochastic RSI 14",
+        value: @indicators[:stochrsi],
+        min: 0,
+        max: 100,
+        signal: stochrsi_signal(@indicators[:stochrsi]),
+        rule: "<20 buy, >80 sell"
+      },
+      {
+        title: "MACD (12, 26, 9)",
+        value: @indicators[:macd],
+        min: nil,
+        max: nil,
+        signal: macd_signal(@indicators[:macd]),
+        rule: ">0 buy, <0 sell, no netural"
+      },
+      {
+        title: "CCI",
+        value: @indicators[:cci],
+        min: nil,
+        max: nil,
+        signal: cci_signal(@indicators[:cci]),
+        rule: "< -100 buy, >100 sell"
+      },
+      {
+        title: "Stochastic fast (14, 3)",
+        value: @indicators[:stochastic_fast],
+        min: 0,
+        max: 100,
+        signal: stochastic_fast_signal(@indicators[:stochastic_fast]),
+        rule: "<20 buy, >80 sell"
+      },
+      {
+        title: "Stochastic (14, 3, 3)",
+        value: @indicators[:stochastic_slow],
+        min: 0,
+        max: 100,
+        signal: stochastic_slow_signal(@indicators[:stochastic_slow]),
+        rule: "<20 buy, >80 sell"
+      },
+      {
+        title: "Moving Averages (20 v 50)",
+        value: @indicators[:sma],
+        min: nil,
+        max: nil,
+        signal: simple_moving_average_signal(@indicators[:sma]),
+        rule: ">0 buy, <0 sell, no netural"
+      },
+      {
+        title: "Exp Moving Averages (10 v 20)",
+        value: @indicators[:ema],
+        min: nil,
+        max: nil,
+        signal: exponential_moving_average_signal(@indicators[:ema]),
+        rule: ">0 buy, <0 sell, no netural"
+      },
+    ]
   end
 
   protected
