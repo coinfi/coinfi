@@ -3,9 +3,11 @@ class CoinsController < ApplicationController
 
   include CoinListHelper
   include CoinsHelper
+  include CurrencyHelper
+
+  before_action :set_exchange_rates
 
   def index
-    @hide_currency = true
     @page = params[:page]&.to_i || 1
     @limit = params[:limit]&.to_i || 100
 

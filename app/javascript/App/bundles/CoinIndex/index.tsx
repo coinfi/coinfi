@@ -20,6 +20,10 @@ import LoadingIndicator from '~/bundles/common/components/LoadingIndicator'
 import API from '../common/utils/localAPI'
 import * as _ from 'lodash'
 import TablePaginationActions from './TablePaginationActions'
+import {
+  CurrencyContextType,
+  withCurrency,
+} from '~/bundles/common/contexts/CurrencyContext'
 
 interface CoinData {
   id: number
@@ -42,7 +46,7 @@ interface PaginatedCoins {
   [page: number]: CoinData[]
 }
 
-interface Props extends RouteComponentProps<any> {
+interface Props extends RouteComponentProps<any>, CurrencyContextType {
   classes: any
   width: any
   coinCount: number
@@ -56,13 +60,11 @@ interface State {
   pageSize: number
   coinsByPage: PaginatedCoins
   loading: boolean
-  currency: string
 }
 
 const DEFAULTS = {
   page: 1,
   limit: 100,
-  currency: 'USD',
 }
 
 const styles = (theme) =>
@@ -126,7 +128,6 @@ class CoinIndex extends Component<Props, State> {
       currentPage,
       pageSize,
       loading,
-      currency: DEFAULTS.currency,
     }
   }
 
@@ -205,17 +206,17 @@ class CoinIndex extends Component<Props, State> {
     }
   }
 
-  public changeCurrencyHandler = ({ key }) => {
-    this.setState({
-      currency: key,
-    })
-  }
-
   public render() {
-    const { coinCount, classes } = this.props
+    const {
+      coinCount,
+      classes,
+      currency,
+      currencyRate,
+      currencySymbol,
+    } = this.props
     const { loading, pageSize, currentPage, coinsByPage } = this.state
     const rows = coinsByPage[currentPage] || []
-    const columns = ColumnNames(this.state.currency)
+    const columns = ColumnNames({ currency, currencyRate, currencySymbol })
     const isMobile = isWidthDown('sm', this.props.width)
 
     return (
@@ -353,4 +354,4 @@ class CoinIndex extends Component<Props, State> {
 export default compose(
   withWidth(),
   withStyles(styles),
-)(withRouter(CoinIndex))
+)(withRouter(withCurrency(CoinIndex)))

@@ -26,10 +26,6 @@ interface Props {
   pageCount: number
 }
 
-interface State {
-  currency: string
-}
-
 const styles = (theme) =>
   createStyles({
     root: {
@@ -93,14 +89,9 @@ const styles = (theme) =>
     },
   })
 
-class HomeIndex extends React.Component<Props, State> {
+class HomeIndex extends React.Component<Props> {
   constructor(props) {
     super(props)
-
-    const currency = 'USD'
-    this.state = {
-      currency,
-    }
   }
 
   public render() {
@@ -113,7 +104,6 @@ class HomeIndex extends React.Component<Props, State> {
       loggedIn,
       pageCount,
     } = this.props
-    const { currency } = this.state
     const isMobile = isWidthDown('sm', this.props.width)
 
     return (
@@ -159,7 +149,6 @@ class HomeIndex extends React.Component<Props, State> {
               <CoinTable
                 isMobile={isMobile}
                 isLoggedIn={loggedIn}
-                currency={currency}
                 coins={coins}
                 watchList={watchList}
                 pageCount={pageCount}
