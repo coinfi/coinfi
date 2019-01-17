@@ -1,11 +1,14 @@
 class CoinsController < ApplicationController
   before_action :set_coin, only: [:show]
+  before_action :hide_currency, only: [:index]
 
   include CoinListHelper
   include CoinsHelper
+  include CurrencyHelper
+
+  before_action :set_exchange_rates
 
   def index
-    @hide_currency = true
     @page = params[:page]&.to_i || 1
     @limit = params[:limit]&.to_i || 100
 
@@ -28,10 +31,8 @@ class CoinsController < ApplicationController
 
   def show
     distribute_reads(max_lag: MAX_ACCEPTABLE_REPLICATION_LAG, lag_failover: true) do
-      @data = @coin.market_info
-
       if @coin.ico_status == 'listed'
-        @coin_price = @data["price_usd"] # TODO: Consolidate price and volume from data warehouse and remove from coins table.
+        @coin_price = format_price(@coin.price)
         @related_coins = @coin.related_coins.select(:id, :coin_key, :name, :symbol, :slug).to_a # Calling `to_a` ensures query executes on replica.
         @token_metrics = @coin.has_token_metrics? ? @coin.token_metrics : {}
         @coin_obj = show_serializer(@coin)

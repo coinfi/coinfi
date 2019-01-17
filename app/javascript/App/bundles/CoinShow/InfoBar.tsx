@@ -28,10 +28,10 @@ const styles = (theme) =>
       color: 'rgba(0, 0, 0, 0.87)',
       fontSize: '12px',
       fontWeight: 500,
-
       [theme.breakpoints.up('md')]: {
         padding: '24px',
         paddingBottom: '0',
+        alignItems: 'baseline',
       },
       [theme.breakpoints.down('sm')]: {
         padding: '40px 16px 0',
@@ -91,6 +91,7 @@ const styles = (theme) =>
       color: '#40a9ff',
     },
     detailsRoot: {
+      alignSelf: 'flex-start',
       '& > *': {
         paddingBottom: '8px',
       },

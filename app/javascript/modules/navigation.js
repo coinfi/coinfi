@@ -96,6 +96,31 @@ $(document).ready(() => {
     }
   })
 
+  $('.expandable').click(function(e) {
+    e.preventDefault()
+    const $this = $(this)
+    const targetId = $this.data('target')
+
+    if ($this.is('.open')) {
+      $this.removeClass('open')
+      if (targetId) {
+        $(`[data-expandable="${targetId}"`).each(function(index) {
+          $(this).css('max-height', '0px')
+        })
+      }
+    } else {
+      const defaultHeight = 300
+
+      $this.addClass('open')
+      if (targetId) {
+        $(`[data-expandable="${targetId}"`).each(function(index) {
+          const height = $(this).data('height') || defaultHeight
+          $(this).css('max-height', `${height}px`)
+        })
+      }
+    }
+  })
+
   // Close menu when browser resizes
   $(window).resize(() => {
     closeNavMenu()

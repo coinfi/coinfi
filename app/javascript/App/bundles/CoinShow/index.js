@@ -36,6 +36,8 @@ import Icon from '~/bundles/common/components/Icon'
 import CoinListWrapper from '~/bundles/common/components/CoinListWrapper'
 import CoinListDrawer from '~/bundles/common/components/CoinListDrawer'
 import { WATCHLIST_CHANGE_EVENT } from '~/bundles/common/containers/CoinListContainer'
+import { formatPrice } from '~/bundles/common/utils/numberFormatters'
+import { withCurrency } from '~/bundles/common/contexts/CurrencyContext'
 import styles from './styles'
 
 const lightbulb = require('~/images/lightbulb.svg') // tslint:disable-line
@@ -96,6 +98,8 @@ class CoinShow extends Component {
       this.setState({ tabSlug })
     }
 
+    this.updateTitle()
+
     // Eagerly load price data
     this.getPriceData()
 
@@ -116,8 +120,22 @@ class CoinShow extends Component {
     }, 100)
   }
 
+  componentDidUpdate(prevProps) {
+    if (prevProps.currencyRate !== this.props.currencyRate) {
+      this.updateTitle()
+    }
+  }
+
   componentWillUnmount() {
     document.removeEventListener(WATCHLIST_CHANGE_EVENT, this.onWatchlistChange)
+  }
+
+  updateTitle = () => {
+    const { coinObj: coin, currencyRate, currencySymbol } = this.props
+    const price = formatPrice(coin.price * currencyRate)
+    document.title = `${coin.symbol} (${currencySymbol}${price}) - ${
+      coin.name
+    } Price Chart, Value, News, Market Cap`
   }
 
   hasTokenMetrics = () => {
@@ -569,4 +587,4 @@ class CoinShow extends Component {
 export default compose(
   withWidth(),
   withStyles(styles, { withTheme: true }),
-)(withRouter(CoinShow))
+)(withRouter(withCurrency(CoinShow)))

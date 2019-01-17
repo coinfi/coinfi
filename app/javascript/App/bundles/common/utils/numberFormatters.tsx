@@ -187,13 +187,8 @@ export function formatAbbreviatedPrice(
 }
 
 /***
- * Default formatters to unify formatting
- *  - price (including market cap)
- *  - percentage
- *  - supply
- *  - volume
+ * Default formatter to unify price formatting
  */
-
 export function formatPrice(price: number): string {
   if (isNaN(price) || price === null) {
     return ''
@@ -210,6 +205,9 @@ export function formatPrice(price: number): string {
   }
 }
 
+/***
+ * Default formatter to unify percentage formatting
+ */
 export function formatPercentage(value: number): string {
   if (isNaN(value) || value === null) {
     return ''
@@ -218,6 +216,9 @@ export function formatPercentage(value: number): string {
   return formatValue(value, 2)
 }
 
+/***
+ * Default formatter to unify supply formatting
+ */
 export function formatSupply(value: number): string {
   if (isNaN(value) || value === null) {
     return ''
@@ -226,6 +227,9 @@ export function formatSupply(value: number): string {
   return formatValue(value, 0)
 }
 
+/***
+ * Default formatter to unify volume formatting
+ */
 export function formatVolume(value: number): string {
   if (isNaN(value) || value === null) {
     return ''
