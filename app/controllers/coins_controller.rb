@@ -1,6 +1,5 @@
 class CoinsController < ApplicationController
   before_action :set_coin, only: [:show]
-  before_action :hide_currency, only: [:index]
 
   include CoinListHelper
   include CoinsHelper
@@ -48,6 +47,7 @@ class CoinsController < ApplicationController
         keywords: "#{@coin.name} price, #{@coin.name} chart, #{@coin.name} news, #{@coin.name} market cap, #{@coin.name} reddit, #{@coin.name} price prediction"
       )
     else
+      @data = @coin.market_info
       set_meta_tags(
         title: "#{@coin.name} ICO Review, #{@coin.name} Reviews, #{@coin.name} Coin",
         keywords: ''
