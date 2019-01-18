@@ -2,6 +2,7 @@ class IndicatorsController < ApplicationController
   before_action :set_coin, only: [:show]
 
   include IndicatorsHelper
+  include ActionView::Helpers::NumberHelper
 
   def show
     @last_updated = Date.parse(@coin.prices_data.last['time'])
@@ -29,68 +30,60 @@ class IndicatorsController < ApplicationController
 
     @indicator_rows = [
       {
-        title: "RSI 14",
+        symbol: :rsi,
         value: @indicators[:rsi],
         min: 0,
         max: 100,
         signal: @signals[:rsi],
-        rule: "<30 buy, >70 sell"
       },
       {
-        title: "Stochastic RSI 14",
+        symbol: :stochrsi,
         value: @indicators[:stochrsi],
         min: 0,
         max: 100,
         signal: @signals[:stochrsi],
-        rule: "<20 buy, >80 sell"
       },
       {
-        title: "MACD (12, 26, 9)",
+        symbol: :macd,
         value: @indicators[:macd],
         min: nil,
         max: nil,
         signal: @signals[:macd],
-        rule: ">0 buy, <0 sell, no netural"
       },
       {
-        title: "CCI",
+        symbol: :cci,
         value: @indicators[:cci],
         min: nil,
         max: nil,
         signal: @signals[:cci],
-        rule: "< -100 buy, >100 sell"
       },
       {
-        title: "Stochastic fast (14, 3)",
+        symbol: :stochastic_fast,
         value: @indicators[:stochastic_fast],
         min: 0,
         max: 100,
         signal: @signals[:stochastic_fast],
-        rule: "<20 buy, >80 sell"
       },
       {
-        title: "Stochastic (14, 3, 3)",
+        symbol: :stochastic_slow,
         value: @indicators[:stochastic_slow],
         min: 0,
         max: 100,
         signal: @signals[:stochastic_slow],
-        rule: "<20 buy, >80 sell"
       },
       {
-        title: "Moving Averages (20 v 50)",
+        symbol: :sma,
         value: @indicators[:sma],
         min: nil,
         max: nil,
         signal: @signals[:sma],
-        rule: ">0 buy, <0 sell, no netural"
       },
       {
-        title: "Exp Moving Averages (10 v 20)",
+        symbol: :ema,
         value: @indicators[:ema],
         min: nil,
         max: nil,
         signal: @signals[:ema],
-        rule: ">0 buy, <0 sell, no netural"
       }
     ]
 
@@ -112,6 +105,16 @@ class IndicatorsController < ApplicationController
   end
 
   protected
+
+  def format_price(value, precision: 0)
+    number_with_delimiter(number_with_precision(value, precision: precision))
+  end
+  helper_method :format_price
+
+  def format_percentage(value, precision: 2)
+    number_to_percentage(value, precision: precision)
+  end
+  helper_method :format_percentage
 
   def set_coin
     distribute_reads(max_lag: MAX_ACCEPTABLE_REPLICATION_LAG, lag_failover: true) do

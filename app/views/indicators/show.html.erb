@@ -22,19 +22,30 @@
   .gauge-values .gauge-value:nth-child(5) {
     transform: rotate(70deg) translate(5px, -5px);
   }
+  .indicator-signal.buy {
+    color: green;
+  }
+  .indicator-signal.sell {
+    color: red;
+  }
 </style>
 <table>
   <tr>
-    <th></th><th>Sample Value</th><th>Min</th><th>Max</th><th>Signal</th><th>Rule</th>
+    <th></th>
+    <th><%= t :sample_value_label %></th>
+    <th><%= t :min_label %></th>
+    <th><%= t :max_label %></th>
+    <th><%= t :signal_label %></th>
+    <th><%= t :rule_label %></th>
   </tr>
   <% @indicator_rows.each do |indicator| %>
     <tr>
-      <td><%= indicator[:title] %></td>
+      <td><%= t(indicator[:symbol], scope: 'indicators.title') %></td>
       <td><%= indicator[:value] %></td>
-      <td><%= indicator[:min].presence || 'N/A' %></td>
-      <td><%= indicator[:max].presence || 'N/A' %></td>
-      <td><%= indicator[:signal] %></td>
-      <td><%= indicator[:rule] %></td>
+      <td><%= indicator[:min].presence || t(:na) %></td>
+      <td><%= indicator[:max].presence || t(:na) %></td>
+      <td class="indicator-signal <%= indicator[:signal].downcase %>"><%= t(indicator[:signal].downcase).upcase %></td>
+      <td><%= t(indicator[:symbol], scope: 'indicators.rule') %></td>
     </tr>
   <% end %>
 </table>
@@ -44,57 +55,57 @@
 <div class="summary">
   <div>
     <div><%= @summary[:sell] %></div>
-    <div>SELL</div>
+    <div><%= t(:sell).upcase %></div>
   </div>
   <div>
     <div><%= @summary[:neutral] %></div>
-    <div>NEUTRAL</div>
+    <div><%= t(:neutral).upcase %></div>
   </div>
   <div>
     <div><%= @summary[:buy] %></div>
-    <div>BUY</div>
+    <div><%= t(:buy).upcase %></div>
   </div>
 </div>
-<div>Updated on <%= @last_updated.strftime("%A, %B #{@last_updated.day.ordinalize} %Y") %></div>
+<div><%= t(:updated_on_date, date: l(@last_updated, format: :readable_date)) %></div>
 <div class="stats">
   <div>
-    <div>1 day move</div>
-    <div><%= number_to_percentage(@coin.change24h, precision: 2) %></div>
+    <div><%= t(:day_move_label, days: 1) %></div>
+    <div><%= format_percentage(@coin.change24h) %></div>
   </div>
   <div>
-    <div>7 day move</div>
-    <div><%= number_to_percentage(@coin.change7d, precision: 2) %></div>
+    <div><%= t(:day_move_label, days: 7) %></div>
+    <div><%= format_percentage(@coin.change7d) %></div>
   </div>
   <div>
-    <div>30 day move</div>
-    <div><%= number_to_percentage(@coin.change30d, precision: 2) %></div>
+    <div><%= t(:day_move_label, days: 30) %></div>
+    <div><%= format_percentage(@coin.change30d) %></div>
   </div>
   <div>
-    <div>Market Cap ($millions)</div>
-    <div><%= number_with_precision(@coin.market_cap / 1000000, precision: 2, delimiter: ',') %></div>
+    <div><%= t :market_cap_label %></div>
+    <div><%= format_price(@coin.market_cap / 1000000, precision: 2) %></div>
   </div>
   <div>
-    <div>24 hour volume (000s)</div>
-    <div><%= number_with_precision(@coin.volume24h / 1000, precision: 0, delimiter: ',') %></div>
+    <div><%= t :volume_24h_label %></div>
+    <div><%= format_price(@coin.volume24h / 1000) %></div>
   </div>
   <div>
-    <div>Circulating Supply</div>
-    <div><%= @coin.available_supply > 0 ? number_with_precision(@coin.available_supply, precision: 0, delimiter: ',') : "N/A"  %></div>
+    <div><%= t :circulating_supply_label %></div>
+    <div><%= @coin.available_supply > 0 ? format_price(@coin.available_supply) : "N/A"  %></div>
   </div>
   <div>
-    <div>Fixed Supply</div>
-    <div><%= @coin.max_supply > 0 ? number_with_precision(@coin.max_supply, precision: 0, delimiter: ',') : "N/A" %></div>
+    <div><%= t :fixed_supply_label %></div>
+    <div><%= @coin.max_supply > 0 ? format_price(@coin.max_supply) : "N/A" %></div>
   </div>
 </div>
 <script type="text/javascript">
   var options = {
     angle: [180, 360],
     values: {
-      10: 'Strong sell',
-      30: 'Sell',
-      50: 'Neutral',
-      70: 'Buy',
-      90: 'Strong Buy'
+      10: '<%= t(:strong_sell).titleize %>',
+      30: '<%= t(:sell).titleize %>',
+      50: '<%= t(:neutral).titleize %>',
+      70: '<%= t(:buy).titleize %>',
+      90: '<%= t(:strong_buy).titleize %>'
     },
     colors: {
       0: '#2f1b1b',
