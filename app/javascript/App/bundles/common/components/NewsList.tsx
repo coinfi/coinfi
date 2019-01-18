@@ -157,8 +157,12 @@ class NewsList extends React.Component<Props, State> {
     window.location.href = `/news/${coinData.slug}`
   }
 
+  public getNewsLink = (newsItem: NewsItem) => {
+    return `/news/${newsItem.id}/${slugify(newsItem.title)}`
+  }
+
   public handleNewsClick = (newsItem: NewsItem) => {
-    window.location.href = `/news/${newsItem.id}/${slugify(newsItem.title)}`
+    window.location.href = this.getNewsLink(newsItem)
   }
 
   public render() {
@@ -199,59 +203,65 @@ class NewsList extends React.Component<Props, State> {
                     last && classes.lastListItem,
                   )
                   return (
-                    <Grid
-                      container={true}
-                      item={true}
+                    <a
+                      href={this.getNewsLink(newsItem)}
                       key={newsItem.id}
-                      direction="column"
-                      justify="center"
-                      alignItems="stretch"
-                      className={listClassName}
                       onClick={() => this.handleNewsClick(newsItem)}
                     >
-                      <Grid item={true}>
-                        <Typography
-                          variant="h6"
-                          className={classes.listItemHeader}
-                        >
-                          {newsItem.title}
-                        </Typography>
-                      </Grid>
                       <Grid
                         container={true}
                         item={true}
-                        justify="space-between"
-                        className={classes.listItemFooterContainer}
+                        direction="column"
+                        justify="center"
+                        alignItems="stretch"
+                        className={listClassName}
                       >
                         <Grid item={true}>
                           <Typography
-                            component="div"
-                            className={classes.listItemFooter}
+                            variant="h6"
+                            className={classes.listItemHeader}
                           >
-                            <Favicon
-                              url={linkUrl}
-                              style={{ height: 12, paddingRight: '0.5em' }}
-                            />
-                            <a
-                              href={linkUrl}
-                              target="_blank"
-                              rel="noopener noreferrer nofollow"
-                              className="dib silver"
-                            >
-                              {linkText}
-                            </a>
-                            <BulletSpacer />
-                            {moment(newsItem.feed_item_published_at).fromNow()}
+                            {newsItem.title}
                           </Typography>
                         </Grid>
-                        <Grid item={true}>
-                          <CoinTags
-                            itemWithCoinLinkData={newsItem}
-                            onClick={this.handleCoinClick}
-                          />
+                        <Grid
+                          container={true}
+                          item={true}
+                          justify="space-between"
+                          className={classes.listItemFooterContainer}
+                        >
+                          <Grid item={true}>
+                            <Typography
+                              component="div"
+                              className={classes.listItemFooter}
+                            >
+                              <Favicon
+                                url={linkUrl}
+                                style={{ height: 12, paddingRight: '0.5em' }}
+                              />
+                              <a
+                                href={linkUrl}
+                                target="_blank"
+                                rel="noopener noreferrer nofollow"
+                                className="dib silver"
+                              >
+                                {linkText}
+                              </a>
+                              <BulletSpacer />
+                              {moment(
+                                newsItem.feed_item_published_at,
+                              ).fromNow()}
+                            </Typography>
+                          </Grid>
+                          <Grid item={true}>
+                            <CoinTags
+                              itemWithCoinLinkData={newsItem}
+                              onClick={this.handleCoinClick}
+                            />
+                          </Grid>
                         </Grid>
                       </Grid>
-                    </Grid>
+                    </a>
                   )
                 })}
                 <Grid item={true} className={classes.listFooter}>
