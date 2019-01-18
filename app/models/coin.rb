@@ -166,8 +166,8 @@ class Coin < ApplicationRecord
   end
 
   def change30d
-    data = prices_data.last(30)
-    (data.last['close'] - data.first['close']) / data.last['close']
+    close_price_30d = prices_data.slice(-30)['close']
+    (price - close_price_30d) / close_price_30d * 100
   end
 
   def volume24h
