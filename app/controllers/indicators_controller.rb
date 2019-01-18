@@ -108,7 +108,7 @@ class IndicatorsController < ApplicationController
     # how is this determined?
     @summary_value = 70
 
-    render 'indicators/show'
+    render layout: false
   end
 
   protected
