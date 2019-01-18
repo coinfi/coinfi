@@ -4,6 +4,7 @@ app/assets/**/*.js
 # Ignore pre-compiled files
 public/js/calculators/bitcoin-investment-calculator.js
 public/css/calculators/bitcoin-investment-calculator.css
+public/js/gauge.min.js
 
 # Ignore landing pages since they use external JS
 public/landing/**/*.js

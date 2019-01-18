@@ -165,6 +165,11 @@ class Coin < ApplicationRecord
     cached_market_data.dig("change7d") || 0
   end
 
+  def change30d
+    data = prices_data.last(30)
+    (data.last['close'] - data.first['close']) / data.last['close']
+  end
+
   def volume24h
     cached_market_data.dig("volume24h") || 0
   end

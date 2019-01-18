@@ -4,6 +4,7 @@ class IndicatorsController < ApplicationController
   include IndicatorsHelper
 
   def show
+    @last_updated = Date.parse(@coin.prices_data.last['time'])
     @daily_price_data = @coin.prices_data.map{ |d| { adj_close: d['close'] || 0, high: d['high'] || 0, low: d['low'] || 0 } }.last(200)
     @indicators = {
       rsi: rsi(@daily_price_data).round(0),
@@ -15,6 +16,16 @@ class IndicatorsController < ApplicationController
       sma: (simple_moving_average(@daily_price_data, 20) - simple_moving_average(@daily_price_data, 50)).round(0),
       ema: (exponential_moving_average(@daily_price_data, 10) - exponential_moving_average(@daily_price_data, 20)).round(0)
     }
+    @signals = {
+      rsi: rsi_signal(@indicators[:rsi]),
+      stochrsi: stochrsi_signal(@indicators[:stochrsi]),
+      macd: macd_signal(@indicators[:macd]),
+      cci: cci_signal(@indicators[:cci]),
+      stochastic_fast: stochastic_fast_signal(@indicators[:stochastic_fast]),
+      stochastic_slow: stochastic_slow_signal(@indicators[:stochastic_slow]),
+      sma: simple_moving_average_signal(@indicators[:sma]),
+      ema: exponential_moving_average_signal(@indicators[:ema])
+    }
 
     @indicator_rows = [
       {
@@ -22,7 +33,7 @@ class IndicatorsController < ApplicationController
         value: @indicators[:rsi],
         min: 0,
         max: 100,
-        signal: rsi_signal(@indicators[:rsi]),
+        signal: @signals[:rsi],
         rule: "<30 buy, >70 sell"
       },
       {
@@ -30,7 +41,7 @@ class IndicatorsController < ApplicationController
         value: @indicators[:stochrsi],
         min: 0,
         max: 100,
-        signal: stochrsi_signal(@indicators[:stochrsi]),
+        signal: @signals[:stochrsi],
         rule: "<20 buy, >80 sell"
       },
       {
@@ -38,7 +49,7 @@ class IndicatorsController < ApplicationController
         value: @indicators[:macd],
         min: nil,
         max: nil,
-        signal: macd_signal(@indicators[:macd]),
+        signal: @signals[:macd],
         rule: ">0 buy, <0 sell, no netural"
       },
       {
@@ -46,7 +57,7 @@ class IndicatorsController < ApplicationController
         value: @indicators[:cci],
         min: nil,
         max: nil,
-        signal: cci_signal(@indicators[:cci]),
+        signal: @signals[:cci],
         rule: "< -100 buy, >100 sell"
       },
       {
@@ -54,7 +65,7 @@ class IndicatorsController < ApplicationController
         value: @indicators[:stochastic_fast],
         min: 0,
         max: 100,
-        signal: stochastic_fast_signal(@indicators[:stochastic_fast]),
+        signal: @signals[:stochastic_fast],
         rule: "<20 buy, >80 sell"
       },
       {
@@ -62,7 +73,7 @@ class IndicatorsController < ApplicationController
         value: @indicators[:stochastic_slow],
         min: 0,
         max: 100,
-        signal: stochastic_slow_signal(@indicators[:stochastic_slow]),
+        signal: @signals[:stochastic_slow],
         rule: "<20 buy, >80 sell"
       },
       {
@@ -70,7 +81,7 @@ class IndicatorsController < ApplicationController
         value: @indicators[:sma],
         min: nil,
         max: nil,
-        signal: simple_moving_average_signal(@indicators[:sma]),
+        signal: @signals[:sma],
         rule: ">0 buy, <0 sell, no netural"
       },
       {
@@ -78,10 +89,26 @@ class IndicatorsController < ApplicationController
         value: @indicators[:ema],
         min: nil,
         max: nil,
-        signal: exponential_moving_average_signal(@indicators[:ema]),
+        signal: @signals[:ema],
         rule: ">0 buy, <0 sell, no netural"
-      },
+      }
     ]
+
+    @summary = @indicator_rows.inject({buy: 0, neutral: 0, sell: 0}) do |sum, indicator|
+      case indicator[:signal]
+      when "BUY"
+        sum.update(buy: sum[:buy] + 1)
+      when "SELL"
+        sum.update(sell: sum[:sell] + 1)
+      when "NEUTRAL"
+        sum.update(neutral: sum[:neutral] + 1)
+      end
+    end
+
+    # how is this determined?
+    @summary_value = 70
+
+    render 'indicators/show'
   end
 
   protected

@@ -1,3 +1,28 @@
+<script src="/js/gauge.min.js"></script>
+<link rel="stylesheet" href="/css/gauge.css" style="display: none;"></link>
+<style>
+  .gauge {
+    margin: 50px 50px -150px 50px;
+  }
+  .gauge-value {
+    white-space: nowrap;
+  }
+  .gauge-values .gauge-value:nth-child(1) {
+    transform: rotate(-70deg) translate(-5px, -5px);
+  }
+  .gauge-values .gauge-value:nth-child(2) {
+    transform: rotate(-35deg) translate(-2px, -5px);
+  }
+  .gauge-values .gauge-value:nth-child(3) {
+    transform: translate(0px, -5px);
+  }
+  .gauge-values .gauge-value:nth-child(4) {
+    transform: rotate(35deg) translate(2px, -5px);
+  }
+  .gauge-values .gauge-value:nth-child(5) {
+    transform: rotate(70deg) translate(5px, -5px);
+  }
+</style>
 <table>
   <tr>
     <th></th><th>Sample Value</th><th>Min</th><th>Max</th><th>Signal</th><th>Rule</th>
@@ -13,3 +38,73 @@
     </tr>
   <% end %>
 </table>
+<div class="gauge-wrapper">
+  <div class="gauge"></div>
+</div>
+<div class="summary">
+  <div>
+    <div><%= @summary[:sell] %></div>
+    <div>SELL</div>
+  </div>
+  <div>
+    <div><%= @summary[:neutral] %></div>
+    <div>NEUTRAL</div>
+  </div>
+  <div>
+    <div><%= @summary[:buy] %></div>
+    <div>BUY</div>
+  </div>
+</div>
+<div>Updated on <%= @last_updated.strftime("%A, %B #{@last_updated.day.ordinalize} %Y") %></div>
+<div class="stats">
+  <div>
+    <div>1 day move</div>
+    <div><%= number_to_percentage(@coin.change24h, precision: 2) %></div>
+  </div>
+  <div>
+    <div>7 day move</div>
+    <div><%= number_to_percentage(@coin.change7d, precision: 2) %></div>
+  </div>
+  <div>
+    <div>30 day move</div>
+    <div><%= number_to_percentage(@coin.change30d, precision: 2) %></div>
+  </div>
+  <div>
+    <div>Market Cap ($millions)</div>
+    <div><%= number_with_precision(@coin.market_cap / 1000000, precision: 2, delimiter: ',') %></div>
+  </div>
+  <div>
+    <div>24 hour volume (000s)</div>
+    <div><%= number_with_precision(@coin.volume24h / 1000, precision: 0, delimiter: ',') %></div>
+  </div>
+  <div>
+    <div>Circulating Supply</div>
+    <div><%= @coin.available_supply > 0 ? number_with_precision(@coin.available_supply, precision: 0, delimiter: ',') : "N/A"  %></div>
+  </div>
+  <div>
+    <div>Fixed Supply</div>
+    <div><%= @coin.max_supply > 0 ? number_with_precision(@coin.max_supply, precision: 0, delimiter: ',') : "N/A" %></div>
+  </div>
+</div>
+<script type="text/javascript">
+  var options = {
+    angle: [180, 360],
+    values: {
+      10: 'Strong sell',
+      30: 'Sell',
+      50: 'Neutral',
+      70: 'Buy',
+      90: 'Strong Buy'
+    },
+    colors: {
+      0: '#2f1b1b',
+      20: '#7a4d4d',
+      40: '#768d9f',
+      60: '#4d627a',
+      80: '#273249'
+    },
+    marks: [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100],
+    value: <%= @summary_value %>
+  };
+  var gauge = new Gauge(document.querySelector(".gauge"), options);
+</script>
