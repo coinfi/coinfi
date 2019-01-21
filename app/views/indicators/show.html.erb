@@ -4,6 +4,9 @@
   .gauge {
     margin: 50px 50px -150px 50px;
   }
+  .gauge:before {
+    background-color: #000;
+  }
   .gauge-value {
     white-space: nowrap;
   }
@@ -21,6 +24,9 @@
   }
   .gauge-values .gauge-value:nth-child(5) {
     transform: rotate(70deg) translate(5px, -5px);
+  }
+  .gauge-arrow {
+    filter: brightness(0);
   }
   .indicator-signal.buy {
     color: green;
