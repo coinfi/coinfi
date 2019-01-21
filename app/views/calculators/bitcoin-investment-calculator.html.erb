@@ -28,6 +28,7 @@ img + img, a + img {
 }
 main {
   display: block !important;
+  min-height: unset !important;
 }
 </style>
 <section class="phr bg-white tiber">
@@ -35,9 +36,9 @@ main {
     <div class="row pv5 items-center">
       <div class="col-xs-12 col-lg-8 col-lg-offset-2">
         <div class="row items-center">
-          <h1><%= 
-            title "Bitcoin Calculator: Bitcoin Investment Calculator - What If I bought Bitcoin?", 
-            "Bitcoin Investment Calculator: How Does Bitcoin Impact Your Traditional Portfolio?" 
+          <h1><%=
+            title "Bitcoin Calculator: Bitcoin Investment Calculator - What If I bought Bitcoin?",
+            "Bitcoin Investment Calculator: How Does Bitcoin Impact Your Traditional Portfolio?"
           %></h1>
           <p>Use the Bitcoin investment calculator below to find out how your traditional stock/bond portfolio would have performed (on a risk-adjusted basis) if you had invested in Bitcoin. For the traditional portfolio we use SPY and AGG ETFs as proxies.</p>
           <div id="root" style="width: 100% !important;"></div>
@@ -172,7 +173,7 @@ main {
           <p>As we can see adding any portion of Bitcoin to the 60/40 portfolio has generally yielded better results in many measures, and that around 5% allocation seems to yield the best risk adjusted returns.</p>
           <p style="text-decoration: underline;">A lot of this has to do with the fact that from 2014 till now, Bitcoin has gone from $800 to $6700 which trumps the return from holding index ETFs by a far margin.</p>
           <p>So basically holding more Bitcoin is better regardless of volatility - hindsight is 20/20. This however doesn’t mean that we should necessarily expect the same returns going forward.</p>
-          
+
           <h2>From Sep 2017 onwards:</h2>
           <p>To smooth out the effect from the huge surge in price in BTC, we can use the calculator starting from a different point in time when BTC was higher and the net change in price till now is not so large.</p>
           <p>For this example we start at Sep 2017 when Bitcoin price was already at $4,700. From the previous table, it shows that a Bitcoin holding of roughly 5% with Tolerance Based Rebalancing looks to be most optimal on a risk-adjusted basis.</p>
@@ -184,7 +185,7 @@ main {
           <p>A large part of this has to do with the low correlation of Bitcoin to stocks and bonds (more on this another time), which ultimately means that having even a small portion of Bitcoin in a portfolio can be very advantageous. On the flip side, be wary of allocating too much - ultimately you have to be able to stomach the downside should anything catastrophic happen!</p>
           <p>Deciding how much of your portfolio to invest in crypto is a tough choice, but interestingly allocating a small % of your portfolio to Bitcoin and rebalancing has historically increased returns with max drawdown that looks similar to your traditional portfolio.</p>
           <p>With this tool, users can play around to see how adding crypto into your portfolio would have historically performed on a risk-adjusted basis, so please go ahead and give it a try. Also there is a link that saves your personal settings for you to share with your friends!</p>
-          
+
           <h1><a name="definitions"></a>Definitions</h1>
           <p><b>Sharpe Ratio:</b> A measure of risk adjusted returns. More specifically it is the excess returns over the risk free rate per unit of volatility. Formula is as follows:</p>
           <img src="https://res.cloudinary.com/coinfi/image/upload/v1532356994/calculators/bitcoin-investment-calculator-9.png" style="max-width: 50%; max-height: 50%;" />
