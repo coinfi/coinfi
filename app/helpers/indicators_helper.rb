@@ -1,8 +1,35 @@
 module IndicatorsHelper
+  def get_indicator_values(data)
+    {
+      rsi: rsi(data).round(0),
+      stochrsi: stochastic_rsi(data).round(0),
+      macd: macd(data).round(0),
+      cci: cci(data).round(0),
+      stochastic_fast: stochastic_fast(data).round(0),
+      stochastic_slow: stochastic_slow(data).round(0),
+      sma: (simple_moving_average(data, 20) - simple_moving_average(data, 50)).round(0),
+      ema: (exponential_moving_average(data, 10) - exponential_moving_average(data, 20)).round(0)
+    }
+  end
+
+  def get_indicator_signals(indicator_values)
+    {
+      rsi: rsi_signal(indicator_values[:rsi]),
+      stochrsi: stochrsi_signal(indicator_values[:stochrsi]),
+      macd: macd_signal(indicator_values[:macd]),
+      cci: cci_signal(indicator_values[:cci]),
+      stochastic_fast: stochastic_fast_signal(indicator_values[:stochastic_fast]),
+      stochastic_slow: stochastic_slow_signal(indicator_values[:stochastic_slow]),
+      sma: simple_moving_average_signal(indicator_values[:sma]),
+      ema: exponential_moving_average_signal(indicator_values[:ema])
+    }
+  end
+
   # RSI 14
   # https://www.investopedia.com/terms/r/rsi.asp
   # accuracy increases with data set size
   def rsi(data, period = 14)
+    puts "rsi called"
     if data.length < period
       return nil
     end
