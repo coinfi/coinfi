@@ -1,8 +1,10 @@
 import * as React from 'react'
 import * as _ from 'lodash'
 import compose from 'recompose/compose'
-import withWidth, { isWidthDown } from '@material-ui/core/withWidth'
-import { Grid, Typography, createStyles, withStyles } from '@material-ui/core'
+import withDevice, {
+  DeviceContextType,
+} from '~/bundles/common/utils/withDevice'
+import { Grid, createStyles, withStyles } from '@material-ui/core'
 import CoinTable from './CoinTable'
 import MarketDominance, {
   CoinDominance,
@@ -14,9 +16,8 @@ import NewsList from '~/bundles/common/components/NewsList'
 import { CoinData } from './types'
 import Banner from './Banner'
 
-interface Props {
+interface Props extends DeviceContextType {
   classes: any
-  width: any
   coins: CoinData[]
   watchList: number[]
   loggedIn: boolean
@@ -98,8 +99,8 @@ class HomeIndex extends React.Component<Props> {
       watchList,
       loggedIn,
       pageCount,
+      isMobile,
     } = this.props
-    const isMobile = isWidthDown('sm', this.props.width)
 
     return (
       <div className={classes.root}>
@@ -155,6 +156,6 @@ class HomeIndex extends React.Component<Props> {
 }
 
 export default compose(
-  withWidth(),
+  withDevice,
   withStyles(styles),
 )(HomeIndex)

@@ -3,7 +3,9 @@ import * as _ from 'lodash'
 import compose from 'recompose/compose'
 import { Typography, Grid } from '@material-ui/core'
 import { withStyles, createStyles } from '@material-ui/core/styles'
-import withWidth, { isWidthDown, isWidthUp } from '@material-ui/core/withWidth'
+import withDevice, {
+  DeviceContextType,
+} from '~/bundles/common/utils/withDevice'
 import BulletSpacer from '~/bundles/common/components/BulletSpacer'
 import Highcharts from 'highcharts/highcharts'
 import options from './CoinCharts/PriceGraph/options'
@@ -17,9 +19,8 @@ export interface CoinDominance {
   market_percentage: number
 }
 
-interface Props {
+interface Props extends DeviceContextType {
   classes: any
-  width: any
   coinData: CoinDominance[]
 }
 
@@ -100,22 +101,16 @@ class MarketDominance extends React.Component<Props, State> {
   }
 
   public componentDidMount() {
-    if (isWidthUp('md', this.props.width)) {
+    if (!this.props.isMobile) {
       this.mountHighchart()
     }
   }
 
   public componentDidUpdate(prevProps, prevState) {
-    if (
-      isWidthUp('md', this.props.width) &&
-      isWidthDown('sm', prevProps.width)
-    ) {
+    if (prevProps.isMobile && !this.props.isMobile) {
       // switching from mobile to desktop
       this.mountHighchart()
-    } else if (
-      isWidthUp('md', prevProps.width) &&
-      isWidthDown('sm', this.props.width)
-    ) {
+    } else if (!prevProps.isMobile && this.props.isMobile) {
       // switching from desktop to mobile
       this.unmountHighchart()
     }
@@ -196,10 +191,10 @@ class MarketDominance extends React.Component<Props, State> {
   }
 
   public render() {
-    const { classes, coinData, width } = this.props
+    const { classes, coinData, isMobile } = this.props
     const { marketDominance } = this.state
 
-    if (isWidthDown('sm', width)) {
+    if (isMobile) {
       return (
         <Grid container={true} wrap="nowrap" alignItems="baseline">
           <Grid item={true}>
@@ -276,5 +271,5 @@ class MarketDominance extends React.Component<Props, State> {
 
 export default compose(
   withStyles(styles),
-  withWidth(),
+  withDevice,
 )(MarketDominance)

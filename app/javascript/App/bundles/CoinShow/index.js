@@ -20,7 +20,7 @@ import {
 } from '@material-ui/core'
 import { withStyles } from '@material-ui/core/styles'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
-import withWidth, { isWidthDown } from '@material-ui/core/withWidth'
+import withDevice from '~/bundles/common/utils/withDevice'
 import API from '../common/utils/localAPI'
 import SearchCoins from '~/bundles/common/components/SearchCoins'
 import CoinCharts from '~/bundles/common/components/CoinCharts'
@@ -278,10 +278,10 @@ class CoinShow extends Component {
       relatedCoins,
       classes,
       user,
+      isMobile,
     } = this.props
     const { tabSlug, priceData, priceDataHourly } = this.state
 
-    const isMobile = isWidthDown('sm', this.props.width)
     const isLoggedIn = !!user
     const hasTokenMetrics = this.hasTokenMetrics()
     const ctaPoints = hasTokenMetrics ? token_cta_points : coin_cta_points
@@ -585,6 +585,6 @@ class CoinShow extends Component {
 }
 
 export default compose(
-  withWidth(),
+  withDevice,
   withStyles(styles, { withTheme: true }),
 )(withRouter(withCurrency(CoinShow)))
