@@ -14,6 +14,7 @@ const styles = (theme) =>
     read: {
       color: '#999',
     },
+    unread: {},
   })
 
 const readNewsHandler = (newsItem) => {
@@ -43,7 +44,6 @@ const NewsListItem = (props) => {
     .replace(/<\/h1>/g, '')
 
   const { linkUrl, linkText } = formatNewsUrl(newsItem.url)
-
   return (
     <div
       className={classNames(
@@ -70,7 +70,7 @@ const NewsListItem = (props) => {
           onClick(newsItem)
         }}
       >
-        <h4 className={hasRead ? classes.unread : classes.unread}>
+        <h4 className={hasRead ? classes.read : classes.unread}>
           {newsItemTitle}
         </h4>
         <div className="flex justify-between flex-wrap">
@@ -96,4 +96,4 @@ const NewsListItem = (props) => {
   )
 }
 
-export default withStyles(styles)(NewsListItem)
+export default withStyles(styles, { withTheme: true })(NewsListItem)
