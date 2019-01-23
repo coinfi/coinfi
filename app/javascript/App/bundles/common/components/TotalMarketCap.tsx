@@ -4,7 +4,9 @@ import * as moment from 'moment'
 import compose from 'recompose/compose'
 import { Typography, Grid } from '@material-ui/core'
 import { withStyles, createStyles } from '@material-ui/core/styles'
-import withWidth, { isWidthDown, isWidthUp } from '@material-ui/core/withWidth'
+import withDevice, {
+  DeviceContextType,
+} from '~/bundles/common/utils/withDevice'
 import Highcharts from 'highcharts/highcharts'
 import options from './CoinCharts/PriceGraph/options'
 import {
@@ -27,9 +29,8 @@ interface MarketCap extends RawMarketCap {
   time: number
 }
 
-interface Props extends CurrencyContextType {
+interface Props extends CurrencyContextType, DeviceContextType {
   classes: any
-  width: any
   marketCapData: RawMarketCap[]
 }
 
@@ -160,22 +161,16 @@ class TotalMarketCap extends React.Component<Props, State> {
       },
     })
 
-    if (isWidthUp('md', this.props.width)) {
+    if (!this.props.isMobile) {
       this.mountHighchart()
     }
   }
 
   public componentDidUpdate(prevProps, prevState) {
-    if (
-      isWidthUp('md', this.props.width) &&
-      isWidthDown('sm', prevProps.width)
-    ) {
+    if (prevProps.isMobile && !this.props.isMobile) {
       // switching from mobile to desktop
       this.mountHighchart()
-    } else if (
-      isWidthUp('md', prevProps.width) &&
-      isWidthDown('sm', this.props.width)
-    ) {
+    } else if (!prevProps.isMobile && this.props.isMobile) {
       // switching from desktop to mobile
       this.unmountHighchart()
     }
@@ -289,7 +284,13 @@ class TotalMarketCap extends React.Component<Props, State> {
   }
 
   public render() {
-    const { classes, currencyRate, currencySymbol, currency } = this.props
+    const {
+      classes,
+      currencyRate,
+      currencySymbol,
+      currency,
+      isMobile,
+    } = this.props
     const {
       isPositive,
       totalMarketCap: totalMarketCapRaw,
@@ -306,7 +307,7 @@ class TotalMarketCap extends React.Component<Props, State> {
     )
     const percentageDifference = formatValue(percentageDifferenceRaw, 1)
 
-    if (isWidthDown('sm', this.props.width)) {
+    if (isMobile) {
       return (
         <Grid container={true} wrap="nowrap" alignItems="baseline">
           <Grid item={true}>
@@ -407,5 +408,5 @@ class TotalMarketCap extends React.Component<Props, State> {
 
 export default compose(
   withStyles(styles),
-  withWidth(),
+  withDevice,
 )(withCurrency(TotalMarketCap))
