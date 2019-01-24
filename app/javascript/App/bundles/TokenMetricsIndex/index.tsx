@@ -110,7 +110,7 @@ const TABS: TabData[] = [
     slug: 'retention',
     label: 'Retention',
     description:
-      'A high percentage of early investors still HODLing could indicate strong believe in project.',
+      'A high percentage of early investors still HODLing could indicate strong belief in project.',
     columnName: '% of Early Investors Still HODLing',
     type: 'percentage',
   },
@@ -126,7 +126,7 @@ const TABS: TabData[] = [
     slug: 'adoption',
     label: 'Adoption',
     description:
-      'More unique wallets HOLDLing could indicate more adoption by users.',
+      'More unique wallets HODLing could indicate more adoption by users.',
     columnName: 'Unique Wallets HODLing Token',
     type: 'number',
   },

@@ -10,10 +10,11 @@ import {
   TableCell,
   TablePagination,
   TableFooter,
-  Hidden,
 } from '@material-ui/core'
 import { withStyles, createStyles } from '@material-ui/core/styles'
-import withWidth, { isWidthDown } from '@material-ui/core/withWidth'
+import withDevice, {
+  DeviceContextType,
+} from '~/bundles/common/utils/withDevice'
 import ColumnNames from './ColumnNames'
 import SearchCoins from '~/bundles/common/components/SearchCoins'
 import LoadingIndicator from '~/bundles/common/components/LoadingIndicator'
@@ -46,7 +47,10 @@ interface PaginatedCoins {
   [page: number]: CoinData[]
 }
 
-interface Props extends RouteComponentProps<any>, CurrencyContextType {
+interface Props
+  extends RouteComponentProps<any>,
+    CurrencyContextType,
+    DeviceContextType {
   classes: any
   width: any
   coinCount: number
@@ -213,11 +217,11 @@ class CoinIndex extends Component<Props, State> {
       currency,
       currencyRate,
       currencySymbol,
+      isMobile,
     } = this.props
     const { loading, pageSize, currentPage, coinsByPage } = this.state
     const rows = coinsByPage[currentPage] || []
     const columns = ColumnNames({ currency, currencyRate, currencySymbol })
-    const isMobile = isWidthDown('sm', this.props.width)
 
     return (
       <Fragment>
@@ -352,6 +356,6 @@ class CoinIndex extends Component<Props, State> {
 }
 
 export default compose(
-  withWidth(),
+  withDevice,
   withStyles(styles),
 )(withRouter(withCurrency(CoinIndex)))
