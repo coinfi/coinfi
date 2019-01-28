@@ -82,6 +82,9 @@ const styles = (theme) =>
     listItemHeader: {
       fontSize: '1rem',
       marginBottom: '0.25em !important',
+      '& a': {
+        color: 'unset',
+      },
     },
     listItemFooterContainer: {
       marginBottom: '0.5em',
@@ -203,65 +206,63 @@ class NewsList extends React.Component<Props, State> {
                     last && classes.lastListItem,
                   )
                   return (
-                    <a
-                      href={this.getNewsLink(newsItem)}
+                    <Grid
+                      container={true}
+                      item={true}
+                      direction="column"
+                      justify="center"
+                      alignItems="stretch"
+                      className={listClassName}
                       key={newsItem.id}
-                      onClick={() => this.handleNewsClick(newsItem)}
                     >
+                      <Grid item={true}>
+                        <Typography
+                          variant="h6"
+                          className={classes.listItemHeader}
+                        >
+                          <a
+                            href={this.getNewsLink(newsItem)}
+                            onClick={() => this.handleNewsClick(newsItem)}
+                          >
+                            {newsItem.title}
+                          </a>
+                        </Typography>
+                      </Grid>
                       <Grid
                         container={true}
                         item={true}
-                        direction="column"
-                        justify="center"
-                        alignItems="stretch"
-                        className={listClassName}
+                        justify="space-between"
+                        className={classes.listItemFooterContainer}
                       >
                         <Grid item={true}>
                           <Typography
-                            variant="h6"
-                            className={classes.listItemHeader}
+                            component="div"
+                            className={classes.listItemFooter}
                           >
-                            {newsItem.title}
+                            <Favicon
+                              url={linkUrl}
+                              style={{ height: 12, paddingRight: '0.5em' }}
+                            />
+                            <a
+                              href={linkUrl}
+                              target="_blank"
+                              rel="noopener noreferrer nofollow"
+                              className="dib silver"
+                            >
+                              {linkText}
+                            </a>
+                            <BulletSpacer />
+                            {moment(newsItem.feed_item_published_at).fromNow()}
                           </Typography>
                         </Grid>
-                        <Grid
-                          container={true}
-                          item={true}
-                          justify="space-between"
-                          className={classes.listItemFooterContainer}
-                        >
-                          <Grid item={true}>
-                            <Typography
-                              component="div"
-                              className={classes.listItemFooter}
-                            >
-                              <Favicon
-                                url={linkUrl}
-                                style={{ height: 12, paddingRight: '0.5em' }}
-                              />
-                              <a
-                                href={linkUrl}
-                                target="_blank"
-                                rel="noopener noreferrer nofollow"
-                                className="dib silver"
-                              >
-                                {linkText}
-                              </a>
-                              <BulletSpacer />
-                              {moment(
-                                newsItem.feed_item_published_at,
-                              ).fromNow()}
-                            </Typography>
-                          </Grid>
-                          <Grid item={true}>
-                            <CoinTags
-                              itemWithCoinLinkData={newsItem}
-                              onClick={this.handleCoinClick}
-                            />
-                          </Grid>
+                        <Grid item={true}>
+                          <CoinTags
+                            itemWithCoinLinkData={newsItem}
+                            onClick={this.handleCoinClick}
+                          />
                         </Grid>
                       </Grid>
-                    </a>
+                    </Grid>
                   )
                 })}
                 <Grid item={true} className={classes.listFooter}>
