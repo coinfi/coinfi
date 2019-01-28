@@ -96,13 +96,13 @@ $(document).ready(() => {
     }
   })
 
-  $('.expandable').click(function(e) {
+  $('.expandable > .footer-item__header').click(function(e) {
     e.preventDefault()
-    const $this = $(this)
-    const targetId = $this.data('target')
+    const $expandable = $(this).parent()
+    const targetId = $expandable.data('target')
 
-    if ($this.is('.open')) {
-      $this.removeClass('open')
+    if ($expandable.is('.open')) {
+      $expandable.removeClass('open')
       if (targetId) {
         $(`[data-expandable="${targetId}"`).each(function(index) {
           $(this).css('max-height', '0px')
@@ -111,7 +111,7 @@ $(document).ready(() => {
     } else {
       const defaultHeight = 300
 
-      $this.addClass('open')
+      $expandable.addClass('open')
       if (targetId) {
         $(`[data-expandable="${targetId}"`).each(function(index) {
           const height = $(this).data('height') || defaultHeight
