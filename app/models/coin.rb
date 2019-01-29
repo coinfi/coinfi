@@ -233,6 +233,15 @@ class Coin < ApplicationRecord
     end
   end
 
+  # Only supported for a limited number of coins (as of 2019-01-29)
+  def daily_prices_data
+    Rails.cache.fetch("coins/#{id}/daily_prices", expires_in: seconds_to_next_day) do
+      url = "#{ENV.fetch('COINFI_POSTGREST_URL')}/cmc_daily_ohcl_prices?coin_key=eq.#{coin_key}&to_currency=eq.USD&order=time.asc"
+      response = HTTParty.get(url)
+      JSON.parse(response.body)
+    end
+  end
+
   def sparkline
     Rails.cache.fetch("coins/#{id}/sparkline", expires_in: seconds_to_next_day) do
       url = "#{ENV.fetch('COINFI_POSTGREST_URL')}/daily_ohcl_prices?coin_key=eq.#{coin_key}&select=close&to_currency=eq.USD&limit=7&order=time.desc"

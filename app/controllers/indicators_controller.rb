@@ -76,7 +76,7 @@ class IndicatorsController < ApplicationController
   private
 
   def set_indicator_results
-    @daily_price_data = @coin.prices_data
+    @daily_price_data = @coin.daily_prices_data
       .map{ |d| { adj_close: d['close'] || 0, high: d['high'] || 0, low: d['low'] || 0 } }
       .last(200) # limit dataset for easier processing
     @indicators = get_indicator_values(@daily_price_data)
@@ -156,6 +156,8 @@ class IndicatorsController < ApplicationController
         sum.update(sell: sum[:sell] + 1)
       when "NEUTRAL"
         sum.update(neutral: sum[:neutral] + 1)
+      else
+        sum
       end
     end
 

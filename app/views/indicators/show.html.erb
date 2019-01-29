@@ -50,7 +50,9 @@
       <td><%= indicator[:value] %></td>
       <td><%= indicator[:min].presence || t(:na) %></td>
       <td><%= indicator[:max].presence || t(:na) %></td>
-      <td class="indicator-signal <%= indicator[:signal].downcase %>"><%= t(indicator[:signal].downcase).upcase %></td>
+      <td class="indicator-signal <%= indicator[:signal].downcase %>">
+        <%= indicator[:signal].present? ? t(indicator[:signal].downcase).upcase : "" %>
+      </td>
       <td><%= t(indicator[:symbol], scope: 'indicators.rule') %></td>
     </tr>
   <% end %>
