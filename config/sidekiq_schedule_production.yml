@@ -22,6 +22,9 @@ UpdateCurrencies:
 RefreshTokenMetricViews:
   cron: '0 0 4 * * * Etc/UTC'   # Scheduled after metrics data is inserted
 
+CheckCmcOhclv:
+  cron: '0 50 * * * * Etc/UTC'
+
 # Paid API routes
 
 UpdateCmcPrices:

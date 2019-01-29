@@ -4,23 +4,6 @@ class IndicatorsController < ApplicationController
   include IndicatorsHelper
   include ActionView::Helpers::NumberHelper
 
-  INDICATOR_COIN_KEYS = [
-    'bitcoin.org',
-    'ethereum.org',
-    'bitcoincash.org',
-    'ripple.com',
-    'dash.org',
-    'litecoin.com',
-    'ethereumclassic.org',
-    'cardano.org',
-    'iota.org',
-    'stellar.org',
-    'eos.io',
-    'neo.org/neo',
-    'z.cash',
-    'binance.com'
-  ]
-
   def show
     set_indicator_results
     set_summary_results

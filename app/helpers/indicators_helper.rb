@@ -1,4 +1,21 @@
 module IndicatorsHelper
+  INDICATOR_COIN_KEYS = [
+    'bitcoin.org',
+    'ethereum.org',
+    'bitcoincash.org',
+    'ripple.com',
+    'dash.org',
+    'litecoin.com',
+    'ethereumclassic.org',
+    'cardano.org',
+    'iota.org',
+    'stellar.org',
+    'eos.io',
+    'neo.org/neo',
+    'z.cash',
+    'binance.com'
+  ]
+
   def get_indicator_values(data)
     {
       rsi: rsi(data).round(0),
