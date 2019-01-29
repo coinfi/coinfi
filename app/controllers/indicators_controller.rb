@@ -4,6 +4,23 @@ class IndicatorsController < ApplicationController
   include IndicatorsHelper
   include ActionView::Helpers::NumberHelper
 
+  INDICATOR_COIN_KEYS = [
+    'bitcoin.org',
+    'ethereum.org',
+    'bitcoincash.org',
+    'ripple.com',
+    'dash.org',
+    'litecoin.com',
+    'ethereumclassic.org',
+    'cardano.org',
+    'iota.org',
+    'stellar.org',
+    'eos.io',
+    'neo.org/neo',
+    'z.cash',
+    'binance.com'
+  ]
+
   def show
     set_indicator_results
     set_summary_results
@@ -23,6 +40,10 @@ class IndicatorsController < ApplicationController
   end
   helper_method :format_percentage
 
+  def has_indicator?(coin_key: @coin.coin_key)
+    INDICATOR_COIN_KEYS.include? coin_key
+  end
+
   def set_coin
     distribute_reads(max_lag: MAX_ACCEPTABLE_REPLICATION_LAG, lag_failover: true) do
       coin_id_or_slug = params[:id_or_slug]
@@ -31,6 +52,9 @@ class IndicatorsController < ApplicationController
       coin_by_slug = Coin.find_by(slug: coin_id_or_slug)
       if coin_by_slug
         @coin = coin_by_slug
+        unless has_indicator?
+          render_404
+        end
         return
       end
 
@@ -40,7 +64,7 @@ class IndicatorsController < ApplicationController
       Rollbar.silenced {
         coin_by_id = Coin.find(coin_id)
       }
-      if !coin_by_id
+      if !coin_by_id || !has_indicator?(coin_key: coin_by_id.coin_key)
         render_404
       end
 
