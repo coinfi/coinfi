@@ -17,6 +17,11 @@ import {
   ExpansionPanel,
   ExpansionPanelSummary,
   ExpansionPanelDetails,
+  Table,
+  TableHead,
+  TableBody,
+  TableRow,
+  TableCell,
 } from '@material-ui/core'
 import { withStyles } from '@material-ui/core/styles'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
@@ -32,6 +37,7 @@ import InfoBar from './InfoBar'
 import LinksList from './LinksList'
 import HistoricalPriceDataTable from './HistoricalPriceDataTable'
 import TokenMetrics from './TokenMetrics'
+import SignalTable from './SignalTable'
 import Icon from '~/bundles/common/components/Icon'
 import CoinListWrapper from '~/bundles/common/components/CoinListWrapper'
 import CoinListDrawer from '~/bundles/common/components/CoinListDrawer'
@@ -279,6 +285,7 @@ class CoinShow extends Component {
       classes,
       user,
       isMobile,
+      summarySignals,
     } = this.props
     const { tabSlug, priceData, priceDataHourly } = this.state
 
@@ -428,6 +435,24 @@ class CoinShow extends Component {
                       />
                     </CardContent>
                   </MainCard>
+                  {!_.isUndefined(summarySignals) && (
+                    <MainCard>
+                      <CardHeader
+                        title={`Whale ${symbol} Transfers into Exchange (99.999 Percentile)`}
+                        titleTypographyProps={{
+                          variant: 'h2',
+                          component: 'h2',
+                        }}
+                        classes={{
+                          root: classes.cardHeader,
+                          title: classes.cardTitle,
+                        }}
+                      />
+                      <CardContent>
+                        <SignalTable signals={summarySignals} symbol={symbol} />
+                      </CardContent>
+                    </MainCard>
+                  )}
                   <ExpansionPanel
                     square={true}
                     elevation={0}

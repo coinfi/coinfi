@@ -139,4 +139,8 @@ module CoinsHelper
 
     coins.as_json
   end
+
+  def is_ethereum?(coin)
+    coin.present? && coin.coin_key = 'ethereum.org'
+  end
 end

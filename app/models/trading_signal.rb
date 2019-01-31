@@ -8,7 +8,9 @@ class TradingSignal < ApplicationRecord
   validates :trading_signal_trigger_external_id, presence: { unless: :trading_signal_trigger_id? }
 
   ETH_DECIMALS = 18
+  AVAILABILITY_DELAY = 2.hours
 
+  scope :available, -> { where('timestamp < ?', AVAILABILITY_DELAY.ago).where('created_at < ?', AVAILABILITY_DELAY.ago) }
   scope :large_transactions_signal, -> { where(trading_signal_trigger_external_id: '100002') }
   scope :abnormal_transactions_signal, -> { where(trading_signal_trigger_external_id: '100001') }
   scope :order_by_latest, -> { order(timestamp: :desc) }
@@ -18,49 +20,53 @@ class TradingSignal < ApplicationRecord
     if coin.blank? then return nil end
     if period == :daily
       @time_format = "%Y-%m-%d"
+      @expires_in = 1.day.since.beginning_of_day - Time.now
     elsif period == :hourly
       @time_format = "%Y-%m-%d-%H"
+      @expires_in = 1.hour.since.beginning_of_hour - Time.now
     else
       return nil
     end
 
-    signals = self.large_transactions_signal.order(timestamp: :asc)
+    Rails.cache.fetch("daily_signals:#{coin.slug}:#{period}", expires_in: @expires_in) do
+      signals = self.available.large_transactions_signal.order(timestamp: :asc)
 
-    daily_signals = signals.group_by { |s| (s.timestamp || s.created_at).strftime(@time_format) }
-      .sort
-      .map do |date, todays_signals|
-        timestamp = DateTime.strptime(date, @time_format)
+      # refactor to group in SQL instead?
+      daily_signals = signals.group_by { |s| (s.timestamp || s.created_at).strftime(@time_format) }
+        .sort
+        .map do |date, todays_signals|
+          timestamp = DateTime.strptime(date, @time_format)
 
-        # generate representative signal for display
-        first_signal = todays_signals[0]
-        total_signals = todays_signals.length
+          # generate representative signal for display
+          first_signal = todays_signals[0]
+          total_signals = todays_signals.length
 
-        price_data = first_signal.price_data_by_coin(coin)
-        price_data.merge({
-          timestamp: timestamp,
-          total_signals: total_signals,
-        })
-      end
+          price_data = first_signal.price_data_by_coin(coin)
+          price_data.merge({
+            timestamp: timestamp,
+            total_signals: total_signals,
+          })
+        end
+    end
   end
 
-  def self.get_recent_large_transactions(coin: Coin.find_by_coin_key('ethereum.org'), limit: 10, delay: 2.hours)
+  def self.get_recent_large_transactions(coin: Coin.find_by_coin_key('ethereum.org'), limit: 10)
     if coin.blank? then return nil end
 
-    signals = self.large_transactions_signal
-      .where('timestamp < ?', delay.ago)
-      .where('created_at < ?', delay.ago)
-      .order_by_latest.limit(limit)
+    Rails.cache.fetch("recent_signals:#{coin.slug}:#{limit}", expires_in: 1.hour) do
+      signals = self.available.large_transactions_signal.order_by_latest.limit(limit)
 
-    processed_signals = signals.map do |s|
-      price_data = s.price_data_by_coin(coin)
-      to_address_name = s.extra.dig('transactions', 0, 'to_address_name')
-      from_address_name = s.extra.dig('transactions', 0, 'from_address_name')
+      recent_signals = signals.map do |s|
+        price_data = s.price_data_by_coin(coin)
+        to_address_name = s.extra.dig('transactions', 0, 'to_address_name')
+        from_address_name = s.extra.dig('transactions', 0, 'from_address_name')
 
-      price_data.merge({
-        timestamp: s.timestamp,
-        to_address_name: to_address_name,
-        from_address_name: from_address_name,
-      })
+        price_data.merge({
+          timestamp: s.timestamp,
+          to_address_name: to_address_name,
+          from_address_name: from_address_name,
+        })
+      end
     end
   end
 

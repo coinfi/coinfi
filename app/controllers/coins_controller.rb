@@ -38,6 +38,11 @@ class CoinsController < ApplicationController
         @top_coins_data = toplist_coins
         @watched_coins_data = watchlist_coins if current_user
       end
+
+      if is_ethereum?(@coin)
+        @grouped_large_eth_signals = TradingSignal.get_large_transactions_by_period
+        @recent_large_signals = TradingSignal.get_recent_large_transactions
+      end
     end
 
     # TODO: Flag if a non-listed coin gets routed to this controller.
