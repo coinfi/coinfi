@@ -22,15 +22,15 @@ module CoinMarketCapPro
           timestamp: metrics["last_updated"],
         )
       rescue ActiveRecord::RecordNotUnique => e
-        healtcheck_success
+        healthcheck_success
       rescue StandardError => e
         Net::HTTP.post(URI.parse("#{ENV.fetch('HEALTHCHECK_MARKET_METRICS')}/fail"), e.to_json)
       else
-        healtcheck_success
+        healthcheck_success
       end
     end
 
-    def healtcheck_success
+    def healthcheck_success
       Net::HTTP.get(URI.parse(ENV.fetch('HEALTHCHECK_MARKET_METRICS')))
     end
 
