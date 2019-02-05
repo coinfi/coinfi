@@ -43,6 +43,7 @@ const styles = (theme) =>
         display: 'none',
       },
     },
+    mobileContainer: {},
     desktopTitle: {
       fontSize: '20px',
       fontWeight: 500,
@@ -197,7 +198,12 @@ class MarketDominance extends React.Component<Props, State> {
 
     if (isMobile) {
       return (
-        <Grid container={true} wrap="nowrap" alignItems="baseline">
+        <Grid
+          container={true}
+          wrap="nowrap"
+          alignItems="baseline"
+          className={classes.mobileContainer}
+        >
           <Grid item={true}>
             <Typography className={classes.title} component="span">
               Bitcoin Dominance:{' '}

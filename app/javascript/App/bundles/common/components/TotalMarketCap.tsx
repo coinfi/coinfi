@@ -57,6 +57,7 @@ const styles = (theme) =>
         display: 'none',
       },
     },
+    mobileContainer: {},
     chartContainer: {
       marginLeft: '-10px',
       marginRight: '-12px',
@@ -310,7 +311,12 @@ class TotalMarketCap extends React.Component<Props, State> {
 
     if (isMobile) {
       return (
-        <Grid container={true} wrap="nowrap" alignItems="baseline">
+        <Grid
+          container={true}
+          wrap="nowrap"
+          alignItems="baseline"
+          className={classes.mobileContainer}
+        >
           <Grid item={true}>
             <Typography className={classes.title} component="span">
               Crypto Market Cap:
