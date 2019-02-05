@@ -191,8 +191,9 @@ class MarketDominance extends React.Component<Props, State> {
   }
 
   public render() {
-    const { classes, coinData, isMobile } = this.props
+    const { classes, coinData, isDesktop } = this.props
     const { marketDominance } = this.state
+    const isMobile = !isDesktop
 
     if (isMobile) {
       return (

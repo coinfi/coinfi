@@ -289,7 +289,7 @@ class TotalMarketCap extends React.Component<Props, State> {
       currencyRate,
       currencySymbol,
       currency,
-      isMobile,
+      isDesktop,
     } = this.props
     const {
       isPositive,
@@ -297,6 +297,7 @@ class TotalMarketCap extends React.Component<Props, State> {
       formattedDifference: formattedDifferenceRaw,
       percentageDifference: percentageDifferenceRaw,
     } = this.state
+    const isMobile = !isDesktop
 
     const currencyAdjustedTMC = totalMarketCapRaw * currencyRate
     const totalMarketCap = formatPrice(currencyAdjustedTMC)

@@ -4,7 +4,6 @@ import Autosuggest from 'react-autosuggest'
 import Icon from './Icon'
 import localApi from '../utils/localAPI'
 import withDevice from '~/bundles/common/utils/withDevice'
-import { NONAME } from 'dns'
 
 interface Coin {
   id: number
