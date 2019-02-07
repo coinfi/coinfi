@@ -13,6 +13,7 @@ import CurrencyContext, {
 } from '~/bundles/common/contexts/CurrencyContext'
 import { createStyles, withStyles } from '@material-ui/core/styles'
 import {
+  formatValue,
   formatPrice,
   formatVolume,
   formatPercentage,
@@ -57,6 +58,11 @@ function MarketsTable(props: Props) {
   }
 
   const totalNotShown = _.isNumber(total) ? total - data.length : 0
+  const remainingVolume = data.reduce(
+    (difference, pair) =>
+      difference - _.get(pair, 'volume_percentage', 0) * 100,
+    100,
+  )
 
   return (
     <CurrencyContext.Consumer>
@@ -135,7 +141,10 @@ function MarketsTable(props: Props) {
                       classes.remainderTableCell,
                     )}
                   >
-                    {totalNotShown} additional market pairs not shown
+                    {formatValue(totalNotShown)} additional market pairs not
+                    shown
+                    {remainingVolume > 0 &&
+                      ` (${formatPercentage(remainingVolume)}% of volume)`}
                   </TableCell>
                 </TableRow>
               )}
