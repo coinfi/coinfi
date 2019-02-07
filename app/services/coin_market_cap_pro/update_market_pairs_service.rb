@@ -80,6 +80,7 @@ module CoinMarketCapPro
           :volume_percentage => (if has_base_volume24h then volume24h / base_volume24h else 0 end),
           :volume24h_quote => pair.dig("quote", "exchange_reported", "volume_24h_quote"),
           :quote_currency_symbol => pair.dig("market_pair_quote", "currency_symbol"),
+          :last_updated => quote["last_updated"]
         }
       end
 
