@@ -3,8 +3,8 @@ require_relative '../../../lib/tasks/batch_process'
 module CoinMarketCapPro
   class UpdateTickerService < Patterns::Service
     include CoinMarketCapProHelpers
-    attr_accessor :db_missing_coins
-    attr_accessor :cmc_missing_data
+    attr_reader :db_missing_coins
+    attr_reader :cmc_missing_data
 
     def initialize(start: 1, limit: 100, healthcheck_url: nil) # 1-indexed
       @db_missing_coins = []
@@ -22,7 +22,7 @@ module CoinMarketCapPro
           update_coin_prices(identifier, coin)
         end
         log_db_missing_coins
-        log_missing_data
+        log_or_ping_on_missing_data(@cmc_missing_data, @healthcheck_url)
       end
     end
 
@@ -32,18 +32,6 @@ module CoinMarketCapPro
       @db_missing_coins.sort! { |left, right| left[:ranking] <=> right[:ranking] }
       @db_missing_coins.each do |coin_hash|
         puts "WARNING - MISSING COIN: Rank #{coin_hash[:ranking]} #{coin_hash[:identifier]} coin from CMC is missing from the `coins` table."
-      end
-    end
-
-    def log_missing_data
-      if @cmc_missing_data.empty?
-        Net::HTTP.get(URI.parse(@healthcheck_url)) unless @healthcheck_url.blank?
-      else
-        if @healthcheck_url.present?
-          Net::HTTP.post(URI.parse("#{@healthcheck_url}/fail"), @cmc_missing_data.to_json)
-        else
-          pp @cmc_missing_data
-        end
       end
     end
 
@@ -109,24 +97,10 @@ module CoinMarketCapPro
     def load_cmc_latest_data(start, limit)
       ticker_url = "https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest"
       query = { :start => start, :limit => limit }
-      headers = { "X-CMC_PRO_API_KEY" => ENV.fetch('COINMARKETCAP_API_KEY') }
+      headers = get_default_api_headers
       response = HTTParty.get(ticker_url, :query => query, :headers => headers)
-      contents = JSON.parse(response.body)
 
-      # ping health check if api error
-      json_response_code = get_json_response_code(contents)
-
-      if response.success? && json_response_code == 0 then
-        return contents['data']
-      else
-        error_message = "ERROR HTTP(#{response.code}) JSON(#{json_response_code}): #{get_error_message(contents)}"
-        if @healthcheck_url.present?
-          Net::HTTP.post(URI.parse("#{@healthcheck_url}/fail"), error_message)
-        else
-          puts error_message
-        end
-        return nil
-      end
+      extract_api_data(response, @healthcheck_url)
     end
   end
 end

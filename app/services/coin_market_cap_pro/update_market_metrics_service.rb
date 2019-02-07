@@ -2,6 +2,10 @@ module CoinMarketCapPro
   class UpdateMarketMetricsService < Patterns::Service
     include CoinMarketCapProHelpers
 
+    def initialize
+      @healthcheck_url = ENV.fetch('HEALTHCHECK_MARKET_METRICS')
+    end
+
     def call
       update_metrics
     end
@@ -22,27 +26,18 @@ module CoinMarketCapPro
           timestamp: metrics["last_updated"],
         )
       rescue StandardError => e
-        Net::HTTP.post(URI.parse("#{ENV.fetch('HEALTHCHECK_MARKET_METRICS')}/fail"), e.to_json)
+        Net::HTTP.post(URI.parse("#{@healthcheck_url}/fail"), e.to_json)
       else
-        Net::HTTP.get(URI.parse(ENV.fetch('HEALTHCHECK_MARKET_METRICS')))
+        Net::HTTP.get(URI.parse(@healthcheck_url))
       end
     end
 
     def load_cmc_data
       api_url = "https://pro-api.coinmarketcap.com/v1/global-metrics/quotes/latest"
-      headers = { "X-CMC_PRO_API_KEY" => ENV.fetch('COINMARKETCAP_API_KEY') }
+      headers = get_default_api_headers
       response = HTTParty.get(api_url, :headers => headers)
-      contents = JSON.parse(response.body)
 
-      # ping health check if api error
-      json_response_code = get_json_response_code(contents)
-      unless response.success? && json_response_code == 0
-        error_message = get_error_message(contents)
-        Net::HTTP.post(URI.parse("#{ENV.fetch('HEALTHCHECK_MARKET_METRICS')}/fail"), "ERROR HTTP(#{response.code}) JSON(#{json_response_code}): #{error_message}")
-        return nil
-      end
-
-      contents['data']
+      extract_api_data(response, @healthcheck_url)
     end
   end
 end
