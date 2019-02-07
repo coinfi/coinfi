@@ -1,6 +1,5 @@
 import { createStyles } from '@material-ui/core/styles'
-
-export const borderColor = 'rgb(0, 0, 0, 0.18)'
+import { borderColor, black87 } from '~/bundles/common/styles/colors'
 
 const styles = (theme) =>
   createStyles({
@@ -112,7 +111,7 @@ const styles = (theme) =>
     cardTitle: {
       fontSize: '16px',
       fontWeight: 500,
-      color: 'rgba(0, 0, 0, 0.87)',
+      color: black87,
       marginBottom: 0,
     },
     tokenMetricHeader: {
@@ -132,7 +131,7 @@ const styles = (theme) =>
     tokenMetricHeaderText: {
       fontSize: '20px',
       fontWeight: 500,
-      color: 'rgba(0, 0, 0, 0.87)',
+      color: black87,
     },
     tokenChartCardContent: {
       padding: '18px 8px 0 0 !important',
@@ -140,7 +139,7 @@ const styles = (theme) =>
     tokenCardContent: {
       padding: '30px 24px !important',
       textAlign: 'center',
-      color: 'rgba(0, 0, 0, 0.87)',
+      color: black87,
     },
     tokenMetricValue: {
       fontSize: '35px',
@@ -190,7 +189,7 @@ const styles = (theme) =>
       marginBottom: 0,
     },
     subCardTitle: {
-      color: 'rgba(0, 0, 0, 0.87)',
+      color: black87,
       fontSize: '16px',
       fontWeight: 500,
     },

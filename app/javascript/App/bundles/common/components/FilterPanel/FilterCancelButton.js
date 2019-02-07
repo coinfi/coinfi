@@ -1,4 +1,5 @@
 import React from 'react'
+import { black54 } from '../../styles/colors'
 
 export default ({ toggleFilterPanel }) => (
   <button
@@ -10,7 +11,7 @@ export default ({ toggleFilterPanel }) => (
       boxShadow: 'none',
       textTransform: 'none',
       fontSize: '14px',
-      color: 'rgba(0, 0, 0, 0.54)',
+      color: black54,
     }}
   >
     Cancel

@@ -31,6 +31,14 @@ import WatchStar from '../common/components/WatchStar'
 import SearchCoins from '~/bundles/common/components/SearchCoins'
 import RedGreenSpan from '~/bundles/common/components/RedGreenSpan'
 import LoadingIndicator from '~/bundles/common/components/LoadingIndicator'
+import {
+  black54,
+  black87,
+  pearlGray,
+  white,
+  borderColor,
+  muiBorderColor,
+} from '~/bundles/common/styles/colors'
 
 interface CoinWithTokenData {
   id?: number
@@ -140,29 +148,27 @@ const TABS: TabData[] = [
   },
 ]
 
-const defaultTextColor = 'rgba(0, 0, 0, 0.87)'
-
 const styles = (theme) =>
   createStyles({
     rootContainer: {
       maxWidth: '1200px',
       margin: '50px auto 0',
-      border: '1px solid rgb(0, 0, 0, 0.18)',
-      backgroundColor: '#fff',
+      border: `1px solid ${borderColor}`,
+      backgroundColor: white,
       padding: '35px 25px',
-      color: defaultTextColor,
+      color: black87,
     },
     title: {
-      color: defaultTextColor,
+      color: black87,
       fontSize: '34px',
       fontWeight: 'normal',
     },
     tabsRoot: {
-      backgroundColor: '#fff',
+      backgroundColor: white,
       marginBottom: '16px',
     },
     tabsFlexContainer: {
-      borderBottom: '1px solid rgb(0, 0, 0, 0.12)',
+      borderBottom: `1px solid ${borderColor}`,
     },
     tabRoot: {
       textTransform: 'none',
@@ -180,7 +186,7 @@ const styles = (theme) =>
       paddingLeft: '12px',
     },
     tabTextColorPrimary: {
-      color: defaultTextColor,
+      color: black87,
     },
     header: {
       marginBottom: '16px',
@@ -204,16 +210,16 @@ const styles = (theme) =>
       '& td': {
         fontSize: '14px',
         fontWeight: 500,
-        color: defaultTextColor,
+        color: black87,
       },
     },
     tableHeaderRow: {
       height: '36px',
     },
     tableHeaderCell: {
-      backgroundColor: '#f6f8fa', // pearl-gray
-      borderTop: '1px solid rgba(224, 224, 224, 1)',
-      color: 'rgba(0, 0, 0, 0.54)',
+      backgroundColor: pearlGray,
+      borderTop: `1px solid ${muiBorderColor}`,
+      color: black54,
       fontSize: '14px',
       fontWeight: 500,
     },
@@ -224,7 +230,7 @@ const styles = (theme) =>
     tableCellCoin: {
       width: '240px',
       maxWidth: '240px',
-      borderRight: '1px solid rgba(224, 224, 224, 1)',
+      borderRight: `1px solid ${muiBorderColor}`,
     },
     rankItem: {
       lineHeight: '18px',
