@@ -71,6 +71,7 @@ module CoinMarketCapPro
         volume24h = quote["volume_24h"] || 0
 
         {
+          :exchange_id => pair.dig("exchange", "id"),
           :exchange_name => pair.dig("exchange", "name"),
           :exchange_slug => pair.dig("exchange", "slug"),
           :pair => pair["market_pair"],
