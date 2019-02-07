@@ -150,6 +150,16 @@ const styles = (theme) =>
       textAlign: 'center',
       fontSize: '16px',
     },
+    marketsCardContent: {
+      padding: '0 !important',
+    },
+    marketsChartWrapper: {
+      [theme.breakpoints.down('sm')]: {
+        '&:not(:first-child)': {
+          marginTop: '16px',
+        },
+      },
+    },
     progressWrapper: {
       width: '100%',
       display: 'flex',

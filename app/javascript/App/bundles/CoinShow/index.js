@@ -31,6 +31,8 @@ import FundamentalsList from './FundamentalsList'
 import InfoBar from './InfoBar'
 import LinksList from './LinksList'
 import HistoricalPriceDataTable from './HistoricalPriceDataTable'
+import MarketsTable from './MarketsTable'
+import MarketsChart from './MarketsChart'
 import TokenMetrics from './TokenMetrics'
 import Icon from '~/bundles/common/components/Icon'
 import CoinListWrapper from '~/bundles/common/components/CoinListWrapper'
@@ -45,6 +47,7 @@ const lightbulb = require('~/images/lightbulb.svg') // tslint:disable-line
 const TAB_SLUGS = {
   tokenMetrics: 'token-metrics',
   priceChart: 'price-chart',
+  markets: 'markets',
   news: 'news',
 }
 
@@ -141,6 +144,11 @@ class CoinShow extends Component {
   hasTokenMetrics = () => {
     const { tokenMetrics } = this.props
     return !_.isEmpty(tokenMetrics)
+  }
+
+  hasMarkets = () => {
+    const marketPairs = _.get(this.props, ['coinObj', 'market_pairs'])
+    return !_.isEmpty(marketPairs)
   }
 
   watchCoinHandler = () => {
@@ -284,8 +292,17 @@ class CoinShow extends Component {
 
     const isLoggedIn = !!user
     const hasTokenMetrics = this.hasTokenMetrics()
+    const hasMarkets = this.hasMarkets()
+    const showFundamentals =
+      tabSlug == TAB_SLUGS.priceChart || tabSlug == TAB_SLUGS.tokenMetrics
+    const showLinks =
+      tabSlug == TAB_SLUGS.priceChart || tabSlug == TAB_SLUGS.tokenMetrics
     const ctaPoints = hasTokenMetrics ? token_cta_points : coin_cta_points
-    const { name: coinName } = coinObj
+    const {
+      name: coinName,
+      market_pairs: marketPairs,
+      total_market_pairs: totalMarketPairs,
+    } = coinObj
 
     return (
       <div className={classes.root}>
@@ -386,6 +403,17 @@ class CoinShow extends Component {
                         labelContainer: classes.tabLabelContainer,
                       }}
                     />
+                    {hasMarkets && (
+                      <Tab
+                        label="Markets"
+                        value={TAB_SLUGS.markets}
+                        classes={{
+                          root: classes.tabRoot,
+                          selected: classes.tabSelected,
+                          labelContainer: classes.tabLabelContainer,
+                        }}
+                      />
+                    )}
                     <Tab
                       label={<NewsLabel />}
                       value={TAB_SLUGS.news}
@@ -454,38 +482,92 @@ class CoinShow extends Component {
               {tabSlug === TAB_SLUGS.tokenMetrics && (
                 <TokenMetrics tokenMetrics={tokenMetrics} coinObj={coinObj} />
               )}
+              {tabSlug === TAB_SLUGS.markets && (
+                <Grid
+                  item={true}
+                  xs={12}
+                  md={8}
+                  className={classnames(
+                    classes.contentContainer,
+                    classes.chartContainer,
+                  )}
+                >
+                  <MainCard>
+                    <CardContent>
+                      <Grid container={true}>
+                        <Grid
+                          item={true}
+                          xs={12}
+                          md={6}
+                          className={classes.marketsChartWrapper}
+                        >
+                          <MarketsChart
+                            data={marketPairs}
+                            symbol={symbol}
+                            sortBy="exchange"
+                          />
+                        </Grid>
+                        <Grid
+                          item={true}
+                          xs={12}
+                          md={6}
+                          className={classes.marketsChartWrapper}
+                        >
+                          <MarketsChart
+                            data={marketPairs}
+                            symbol={symbol}
+                            sortBy="pair"
+                          />
+                        </Grid>
+                      </Grid>
+                    </CardContent>
+                  </MainCard>
+                  <MainCard>
+                    <CardContent className={classes.marketsCardContent}>
+                      <MarketsTable
+                        data={marketPairs}
+                        total={totalMarketPairs}
+                      />
+                    </CardContent>
+                  </MainCard>
+                </Grid>
+              )}
               <Grid
                 item={true}
                 xs={12}
                 md={4}
                 className={classes.widgetContainer}
               >
-                <SubCard>
-                  <CardHeader
-                    title={`${coinName} Fundamentals`}
-                    titleTypographyProps={{ variant: 'h2', component: 'h2' }}
-                    classes={{
-                      root: classes.subCardHeader,
-                      title: classes.subCardTitle,
-                    }}
-                  />
-                  <CardContent className={classes.subCardContent}>
-                    <FundamentalsList coinObj={coinObj} />
-                  </CardContent>
-                </SubCard>
-                <SubCard>
-                  <CardHeader
-                    title={`${coinName} Links`}
-                    titleTypographyProps={{ variant: 'h2', component: 'h2' }}
-                    classes={{
-                      root: classes.subCardHeader,
-                      title: classes.subCardTitle,
-                    }}
-                  />
-                  <CardContent className={classes.subCardContent}>
-                    <LinksList coinObj={coinObj} />
-                  </CardContent>
-                </SubCard>
+                {showFundamentals && (
+                  <SubCard>
+                    <CardHeader
+                      title={`${coinName} Fundamentals`}
+                      titleTypographyProps={{ variant: 'h2', component: 'h2' }}
+                      classes={{
+                        root: classes.subCardHeader,
+                        title: classes.subCardTitle,
+                      }}
+                    />
+                    <CardContent className={classes.subCardContent}>
+                      <FundamentalsList coinObj={coinObj} />
+                    </CardContent>
+                  </SubCard>
+                )}
+                {showLinks && (
+                  <SubCard>
+                    <CardHeader
+                      title={`${coinName} Links`}
+                      titleTypographyProps={{ variant: 'h2', component: 'h2' }}
+                      classes={{
+                        root: classes.subCardHeader,
+                        title: classes.subCardTitle,
+                      }}
+                    />
+                    <CardContent className={classes.subCardContent}>
+                      <LinksList coinObj={coinObj} />
+                    </CardContent>
+                  </SubCard>
+                )}
                 <SubCard>
                   <CardContent
                     className={classnames(
