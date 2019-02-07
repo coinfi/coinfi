@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20181225140500) do
+ActiveRecord::Schema.define(version: 20190206134200) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -122,6 +122,22 @@ ActiveRecord::Schema.define(version: 20181225140500) do
     t.integer "confidence"
     t.bigint "import_id"
     t.index ["user_id"], name: "index_calendar_events_on_user_id"
+  end
+
+  create_table "cmc_exchanges", force: :cascade do |t|
+    t.string "cmc_id"
+    t.string "name"
+    t.string "slug"
+    t.string "www_url"
+    t.string "twitter_url"
+    t.string "blog_url"
+    t.string "chat_url"
+    t.string "fee_url"
+    t.string "logo_url"
+    t.boolean "is_active"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["cmc_id"], name: "index_cmc_exchanges_on_cmc_id", unique: true
   end
 
   create_table "coin_excluded_countries", force: :cascade do |t|
