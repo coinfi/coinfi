@@ -39,43 +39,7 @@ import {
   borderColor,
   muiBorderColor,
 } from '~/bundles/common/styles/colors'
-
-interface CoinWithTokenData {
-  id?: number
-  coin_key: string
-  name?: string
-  image_url?: string
-  symbol?: string
-  slug?: string
-  price?: number
-  market_cap?: number
-  rank: number
-  metric_value: number
-  change_1d: number
-  change_7d: number
-  change_30d: number
-}
-
-interface TokenMetricsResponsePayload {
-  data: CoinWithTokenData[]
-  page: number
-  limit: number
-  count: number
-  metricType: string
-  metricTypeSlug: string
-  orderBy: string
-  order: ORDERS
-}
-
-interface TabData {
-  slug: string
-  label: string
-  description: string
-  columnName: string
-  type: DATA_TYPES
-}
-
-type DATA_TYPES = 'percentage' | 'number'
+import { TABS, orderByDefaults } from './constants'
 
 interface Props extends RouteComponentProps<any>, CurrencyContextType {
   classes: any
@@ -97,56 +61,11 @@ interface State {
   rows: CoinWithTokenData[]
 }
 
-type ORDERS = 'asc' | 'desc'
-
 enum STATUSES {
   INITIALIZING = 'INITIALIZING',
   LOADING = 'LOADING',
   READY = 'READY',
 }
-
-const TABS: TabData[] = [
-  {
-    slug: 'supply-on-exchange',
-    label: 'Supply On Exchanges',
-    description:
-      'A high percentage of supply on exchanges could indicate higher intention to sell by holders.',
-    columnName: 'Supply on Exchanges',
-    type: 'percentage',
-  },
-  {
-    slug: 'retention',
-    label: 'Retention',
-    description:
-      'A high percentage of early investors still HODLing could indicate strong belief in project.',
-    columnName: '% of Early Investors Still HODLing',
-    type: 'percentage',
-  },
-  {
-    slug: 'decentralization',
-    label: 'Decentralization',
-    description:
-      'A high percentage held by whales could indicate higher vulnerability to price manipulation.',
-    columnName: '% Held by Top 100 Wallets',
-    type: 'percentage',
-  },
-  {
-    slug: 'adoption',
-    label: 'Adoption',
-    description:
-      'More unique wallets HODLing could indicate more adoption by users.',
-    columnName: 'Unique Wallets HODLing Token',
-    type: 'number',
-  },
-  {
-    slug: 'velocity',
-    label: 'Velocity',
-    description:
-      'A high percentage of the supply transacted on the blockchain could indicate strong adoption or usage of the token.',
-    columnName: '% of Supply Transacted on Blockchain',
-    type: 'percentage',
-  },
-]
 
 const styles = (theme) =>
   createStyles({
@@ -261,11 +180,6 @@ const generateSortIcon = ({ property, orderBy, order }) => {
   } else {
     return () => <Icon name="sort" solid={true} />
   }
-}
-
-const orderByDefaults = {
-  orderBy: 'market_cap',
-  order: 'desc' as ORDERS,
 }
 
 class TokenMetricsIndex extends React.Component<Props, State> {
