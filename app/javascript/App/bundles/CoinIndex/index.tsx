@@ -217,11 +217,12 @@ class CoinIndex extends Component<Props, State> {
       currency,
       currencyRate,
       currencySymbol,
-      isMobile,
+      isDesktop,
     } = this.props
     const { loading, pageSize, currentPage, coinsByPage } = this.state
     const rows = coinsByPage[currentPage] || []
     const columns = ColumnNames({ currency, currencyRate, currencySymbol })
+    const isMobile = !isDesktop
 
     return (
       <Fragment>
