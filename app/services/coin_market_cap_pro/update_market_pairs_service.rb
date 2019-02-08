@@ -4,6 +4,7 @@ module CoinMarketCapPro
     attr_reader :cmc_missing_data
 
     def initialize(start: 0, limit: 20) # 0-indexed
+      @healthcheck_url = ENV.fetch('HEALTHCHECK_MARKET_PAIRS')
       @cmc_missing_data = Rails.cache.read("tasks/market_pairs/cmc_missing_data") || []
       @start = start
       @limit = limit
@@ -42,7 +43,7 @@ module CoinMarketCapPro
 
     def cache_and_handle_missing_data
       Rails.cache.write("tasks/market_pairs/cmc_missing_data", @cmc_missing_data)
-      log_or_ping_on_missing_data(@cmc_missing_data, ENV.fetch('HEALTHCHECK_MARKET_PAIRS'))
+      log_or_ping_on_missing_data(@cmc_missing_data, @healthcheck_url)
     end
 
     def update_coin_pairs(coin)
@@ -93,7 +94,17 @@ module CoinMarketCapPro
       api_url = "https://pro-api.coinmarketcap.com/v1/cryptocurrency/market-pairs/latest"
       query = if id.nil? then { :symbol => symbol } else { :id => id } end
       headers = get_default_api_headers
-      response = HTTParty.get(api_url, :query => query, :headers => headers)
+      response = begin
+        HTTParty.get(api_url, :query => query, :headers => headers)
+      rescue HTTParty::Error
+        @cmc_missing_data << { id: id, symbol: symbol, error: 'No API response found.' }
+        nil
+      end
+
+      if response.blank?
+        return nil
+      end
+
       contents = JSON.parse(response.body)
 
       # ping health check if api error

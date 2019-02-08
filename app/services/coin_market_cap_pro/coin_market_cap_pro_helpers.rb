@@ -17,6 +17,11 @@ module CoinMarketCapPro
     end
 
     def extract_api_data(response, healthcheck_url = nil)
+      if response.blank?
+        healthcheck_or_log_error('No API response found.', healthcheck_url)
+        return nil
+      end
+
       contents = JSON.parse(response.body)
 
       # ping health check if api error
@@ -27,12 +32,7 @@ module CoinMarketCapPro
       end
 
       error_message = "ERROR HTTP(#{response.code}) JSON(#{json_response_code}): #{get_error_message(contents)}"
-      if healthcheck_url.present?
-        Net::HTTP.post(URI.parse("#{healthcheck_url}/fail"), error_message)
-      else
-        puts error_message
-      end
-
+      healthcheck_or_log_error(error_message, healthcheck_url)
       nil
     end
 
@@ -40,10 +40,26 @@ module CoinMarketCapPro
       if missing_data.empty?
         Net::HTTP.get(URI.parse(healthcheck_url)) unless healthcheck_url.blank?
       else
-        if healthcheck_url.present?
-          Net::HTTP.post(URI.parse("#{healthcheck_url}/fail"), missing_data.to_json)
+        healthcheck_or_log_error(missing_data, healthcheck_url)
+      end
+    end
+
+    def healthcheck_or_log_error(error, healthcheck_url = nil)
+      if healthcheck_url.present?
+        Net::HTTP.post(URI.parse("#{healthcheck_url}/fail"), error)
+      else
+        if error.is_a?(Hash)
+          puts "Failure with error as Hash:"
+          error.each do |k, v|
+            puts "[#{k}] #{v}"
+          end
+        elsif error.is_a?(Array)
+          puts "Failure with error as Array:"
+          error.each do |v|
+            puts "#{v}"
+          end
         else
-          pp missing_data
+          puts error
         end
       end
     end

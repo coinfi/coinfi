@@ -41,7 +41,11 @@ module CoinMarketCapPro
     def load_cmc_data
       api_url = "https://pro-api.coinmarketcap.com/v1/global-metrics/quotes/latest"
       headers = get_default_api_headers
-      response = HTTParty.get(api_url, :headers => headers)
+      response = begin
+        HTTParty.get(api_url, :headers => headers)
+      rescue HTTParty::Error
+        nil
+      end
 
       extract_api_data(response, @healthcheck_url)
     end

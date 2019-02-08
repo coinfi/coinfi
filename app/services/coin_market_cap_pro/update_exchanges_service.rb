@@ -96,7 +96,12 @@ module CoinMarketCapPro
       id_list = ids.respond_to?(:join) ? ids.join(',') : ids
       query = { :id => id_list }
       headers = get_default_api_headers
-      response = HTTParty.get(api_url, :query => query, :headers => headers)
+
+      response = begin
+        HTTParty.get(api_url, :query => query, :headers => headers)
+      rescue HTTParty::Error
+        nil
+      end
 
       # don't ping hc at this point since we will try to complete
       # as many other responses as possible
