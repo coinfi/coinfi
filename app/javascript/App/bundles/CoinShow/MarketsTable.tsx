@@ -1,5 +1,6 @@
 import * as React from 'react'
 import * as _ from 'lodash'
+import * as moment from 'moment'
 import classnames from 'classnames'
 import {
   Table,
@@ -38,7 +39,13 @@ const styles = (theme) =>
     wrapper: {
       overflowX: 'scroll',
     },
-    quote: {
+    exchangeLogo: {
+      width: '20px',
+      height: '20px',
+      verticalAlign: 'bottom',
+      marginRight: '8px',
+    },
+    subtext: {
       whiteSpace: 'nowrap',
       fontSize: '12px',
       color: 'rgba(0, 0, 0, 0.54)',
@@ -55,6 +62,14 @@ const styles = (theme) =>
     },
     remainderTableCell: {
       textAlign: 'center',
+    },
+    orderCell: {
+      [theme.breakpoints.up('md')]: {
+        paddingLeft: '16px !important',
+      },
+    },
+    exchangeCell: {
+      whiteSpace: 'nowrap',
     },
   })
 
@@ -124,7 +139,14 @@ class MarketsTable extends React.Component<Props, State> {
             <Table padding="dense">
               <TableHead>
                 <TableRow className={classes.tableHeadRow}>
-                  <TableCell className={classes.tableHeadCell}>#</TableCell>
+                  <TableCell
+                    className={classnames(
+                      classes.tableHeadCell,
+                      classes.orderCell,
+                    )}
+                  >
+                    #
+                  </TableCell>
                   <TableCell className={classes.tableHeadCell}>
                     Exchange
                   </TableCell>
@@ -178,6 +200,7 @@ class MarketsTable extends React.Component<Props, State> {
               <TableBody>
                 {data.map((row: MarketData, index: number) => {
                   const {
+                    exchange_id: exchangeId,
                     exchange_name: exchangeName,
                     pair,
                     price: usdPrice,
@@ -185,26 +208,49 @@ class MarketsTable extends React.Component<Props, State> {
                     quote_currency_symbol: quoteSymbol,
                     volume24h_quote: quoteVolume24h,
                     volume_percentage: volumePercentage,
+                    last_updated: lastUpdated,
                   } = row
 
                   const volume24h = usdVolume24h * currencyRate
                   const price = usdPrice * currencyRate
+                  const imageUrl = `https://s2.coinmarketcap.com/static/img/exchanges/32x32/${exchangeId}.png`
 
                   return (
                     <TableRow key={index}>
-                      <TableCell className={classes.tableCell}>
+                      <TableCell
+                        className={classnames(
+                          classes.tableCell,
+                          classes.orderCell,
+                        )}
+                      >
                         {index + 1}
                       </TableCell>
-                      <TableCell className={classes.tableCell}>
+                      <TableCell
+                        className={classnames(
+                          classes.tableCell,
+                          classes.exchangeCell,
+                        )}
+                      >
+                        {_.isNumber(exchangeId) && (
+                          <img
+                            src={imageUrl}
+                            className={classes.exchangeLogo}
+                          />
+                        )}
                         {exchangeName}
                       </TableCell>
                       <TableCell className={classes.tableCell} numeric={true}>
                         {pair}
+                        {!!lastUpdated && (
+                          <div className={classes.subtext}>
+                            {moment(lastUpdated).fromNow()}
+                          </div>
+                        )}
                       </TableCell>
                       <TableCell className={classes.tableCell} numeric={true}>
                         {currencySymbol}
                         {formatVolume(volume24h)}
-                        <div className={classes.quote}>
+                        <div className={classes.subtext}>
                           {formatVolume(quoteVolume24h)} {quoteSymbol}
                         </div>
                       </TableCell>

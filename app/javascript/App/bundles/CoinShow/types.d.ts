@@ -72,6 +72,7 @@ interface MarketInfo {
 }
 
 interface MarketData {
+  exchange_id: number
   exchange_name: string
   exchange_slug: string
   pair: string
@@ -80,6 +81,7 @@ interface MarketData {
   volume_percentage: number
   volume24h_quote: number
   quote_currency_symbol: string
+  last_updated: string
 }
 
 type TokenMetrics = { [Data in TokenDataType]: TokenData[] } &
