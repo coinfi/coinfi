@@ -54,7 +54,7 @@ class NewsController < ApplicationController
 
   def set_view_data
     @feed_sources = (FeedSource.feed_types - ['general']) +
-      FeedSource.where(feed_type: 'general').pluck(:site_hostname)
+      FeedSource.active.general.pluck(:site_hostname)
     @top_coin_slugs = Coin.top(5).pluck(:slug)
     @categories = NewsCategory.pluck(:name)
 

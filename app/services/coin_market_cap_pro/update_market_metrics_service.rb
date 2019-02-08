@@ -25,11 +25,17 @@ module CoinMarketCapPro
           total_volume_24h: metrics["total_volume_24h"],
           timestamp: metrics["last_updated"],
         )
+      rescue ActiveRecord::RecordNotUnique => e
+        healthcheck_success
       rescue StandardError => e
         Net::HTTP.post(URI.parse("#{@healthcheck_url}/fail"), e.to_json)
       else
-        Net::HTTP.get(URI.parse(@healthcheck_url))
+        healthcheck_success
       end
+    end
+
+    def healthcheck_success
+      Net::HTTP.get(URI.parse(@healthcheck_url))
     end
 
     def load_cmc_data
