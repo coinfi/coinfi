@@ -494,7 +494,7 @@ class CoinShow extends Component {
                 >
                   <MainCard>
                     <CardContent>
-                      <Grid container={true}>
+                      <Grid container={true} justify="space-around">
                         <Grid
                           item={true}
                           xs={12}

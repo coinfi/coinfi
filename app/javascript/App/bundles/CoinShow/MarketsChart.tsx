@@ -57,25 +57,28 @@ export default class TokenChart extends React.Component<Props, State> {
 
     // To make pie-chart more pleasant, we try to reduce the total number of slices
     // using various criteria.
-    const { data: reducedData } = processedData.reduce(
-      (acc, slice) => {
-        const { slices, percentage, data } = acc
-        if (slices >= 6 && percentage > 50) {
-          return acc
-        }
+    const reducedData =
+      processedData.length > 5
+        ? processedData.reduce(
+            (acc, slice) => {
+              const { slices, percentage, data } = acc
+              if (slices > 4) {
+                return acc
+              }
 
-        return {
-          data: [...data, slice],
-          slices: slices + 1,
-          percentage: percentage + slice.y,
-        }
-      },
-      {
-        data: [],
-        slices: 0,
-        percentage: 0,
-      },
-    )
+              return {
+                data: [...data, slice],
+                slices: slices + 1,
+                percentage: percentage + slice.y,
+              }
+            },
+            {
+              data: [],
+              slices: 0,
+              percentage: 0,
+            },
+          ).data
+        : processedData
 
     // generate left over portion of pie-chart, if needed
     const [accountedForPercentage, accountedForVolume] = reducedData.reduce(
@@ -96,11 +99,14 @@ export default class TokenChart extends React.Component<Props, State> {
       })
     }
 
+    // sort for better visual presentation
+    const finalData = _.reverse(_.sortBy(reducedData, (slice) => slice.y))
+
     // Generate colours by interpolating between the HSV colour space values of two colours
     const colors = interpolate(
       rgbToHsv(...pineGreen),
       rgbToHsv(...skyBlue),
-      reducedData.length - 1,
+      finalData.length - 1,
       hsvToHex,
     )
 
@@ -139,7 +145,7 @@ export default class TokenChart extends React.Component<Props, State> {
           {
             type: 'pie',
             name: 'Volume',
-            data: reducedData,
+            data: finalData,
             colors,
             size: '100%',
             showInLegend: false,
