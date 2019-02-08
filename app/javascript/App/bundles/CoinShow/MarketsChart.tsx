@@ -28,13 +28,13 @@ export default class TokenChart extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props)
 
-    const { data, sortBy: inputtedSortBy, symbol } = props
+    const { data: rawData, sortBy: inputtedSortBy, symbol } = props
     const sortBy = inputtedSortBy || 'exchange'
 
     const groupedData =
       sortBy === 'pair'
-        ? _.groupBy(data, 'exchange_slug')
-        : _.groupBy(data, 'pair')
+        ? _.groupBy(rawData, 'exchange_slug')
+        : _.groupBy(rawData, 'pair')
 
     const processedData = _.map(groupedData, (group) => {
       const name =
@@ -55,8 +55,30 @@ export default class TokenChart extends React.Component<Props, State> {
       }
     })
 
+    // To make pie-chart more pleasant, we try to reduce the total number of slices
+    // using various criteria.
+    const { data: reducedData } = processedData.reduce(
+      (acc, slice) => {
+        const { slices, percentage, data } = acc
+        if (slices >= 6 && percentage > 50) {
+          return acc
+        }
+
+        return {
+          data: [...data, slice],
+          slices: slices + 1,
+          percentage: percentage + slice.y,
+        }
+      },
+      {
+        data: [],
+        slices: 0,
+        percentage: 0,
+      },
+    )
+
     // generate left over portion of pie-chart, if needed
-    const [accountedForPercentage, accountedForVolume] = processedData.reduce(
+    const [accountedForPercentage, accountedForVolume] = reducedData.reduce(
       (total, slice) => {
         return [total[0] + slice.y, total[1] + slice.volume24h]
       },
@@ -67,7 +89,7 @@ export default class TokenChart extends React.Component<Props, State> {
       const remainingVolume =
         (accountedForVolume / accountedForPercentage) * remainingPercentage
 
-      processedData.push({
+      reducedData.push({
         name: 'Others',
         y: remainingPercentage,
         volume24h: remainingVolume,
@@ -78,7 +100,7 @@ export default class TokenChart extends React.Component<Props, State> {
     const colors = interpolate(
       rgbToHsv(...pineGreen),
       rgbToHsv(...skyBlue),
-      processedData.length - 1,
+      reducedData.length - 1,
       hsvToHex,
     )
 
@@ -102,39 +124,39 @@ export default class TokenChart extends React.Component<Props, State> {
           },
         },
         chart: {
-          type: 'pie',
           width: null,
           height: 250,
           spacingTop: 10,
           spacingBottom: 0,
         },
-        colors,
         navigator: {
           enabled: false,
         },
         legend: {
           enabled: false,
         },
-        tooltip: {
-          headerFormat: '',
-          pointFormatter() {
-            return `<span style="color:${this.color}">●</span> ${
-              this.name
-            }: <b>$${formatAbbreviatedPrice(
-              this.volume24h,
-            )}</b> (${formatPercentage(this.y)}%)`
-          },
-          hideDelay: 1000,
-          useHTML: true,
-        },
         series: [
           {
+            type: 'pie',
             name: 'Volume',
-            data: processedData,
+            data: reducedData,
+            colors,
             size: '100%',
             showInLegend: false,
             dataLabels: {
               enabled: false,
+            },
+            tooltip: {
+              headerFormat: '',
+              pointFormatter() {
+                return `<span style="color:${this.color}">●</span> ${
+                  this.name
+                }: <b>$${formatAbbreviatedPrice(
+                  this.volume24h,
+                )}</b> (${formatPercentage(this.y)}%)`
+              },
+              hideDelay: 1000,
+              useHTML: true,
             },
           },
         ],
