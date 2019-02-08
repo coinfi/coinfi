@@ -59,6 +59,7 @@ module CoinMarketCapPro
       end
     end
 
+    # Some exchange details have redacted market details (indicated with -1).
     def perform_update_pairs(identifier, data)
       # Grabbing data from snapshot cache
       snapshot = Rails.cache.read("#{identifier}:snapshot")
@@ -66,20 +67,39 @@ module CoinMarketCapPro
       has_base_volume24h = base_volume24h.present? && base_volume24h != 0
 
       raw_market_pairs = data.dig("market_pairs")
-      market_pairs = raw_market_pairs.map do |pair|
+      coin_symbol = data.dig("symbol")
+      valid_market_pairs = raw_market_pairs.reject do |pair|
+        pair.dig("quote", currency, "price") == -1 ||
+        pair.dig("quote", currency, "volume_24h") == -1
+      end
+      market_pairs = valid_market_pairs.map do |pair|
         quote = pair.dig("quote", currency)
         volume24h = quote["volume_24h"] || 0
+
+        base_symbol = pair.dig("market_pair_base", "currency_symbol")
+        coin_is_primary = base_symbol == coin_symbol
+
+        volume_percentage = has_base_volume24h ? volume24h.to_f / base_volume24h : 0
+        volume24h_quote = pair.dig("quote", "exchange_reported",
+          coin_is_primary ? "volume_24h_quote" : "volume_24h_base")
+        price = quote["price"]
+        quote_currency_symbol = pair.dig("market_pair_quote", "currency_symbol")
+
+        unless coin_is_primary
+          price /= pair.dig("quote", "exchange_reported", "price")
+          quote_currency_symbol = base_symbol
+        end
 
         {
           :exchange_id => pair.dig("exchange", "id"),
           :exchange_name => pair.dig("exchange", "name"),
           :exchange_slug => pair.dig("exchange", "slug"),
           :pair => pair["market_pair"],
-          :price => quote["price"],
+          :price => price,
           :volume24h => volume24h,
-          :volume_percentage => (if has_base_volume24h then volume24h / base_volume24h else 0 end),
-          :volume24h_quote => pair.dig("quote", "exchange_reported", "volume_24h_quote"),
-          :quote_currency_symbol => pair.dig("market_pair_quote", "currency_symbol"),
+          :volume_percentage => volume_percentage,
+          :volume24h_quote => volume24h_quote,
+          :quote_currency_symbol => quote_currency_symbol,
           :last_updated => quote["last_updated"]
         }
       end
