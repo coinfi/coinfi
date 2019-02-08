@@ -68,7 +68,11 @@ module CoinMarketCapPro
 
       raw_market_pairs = data.dig("market_pairs")
       coin_symbol = data.dig("symbol")
-      market_pairs = raw_market_pairs.map do |pair|
+      valid_market_pairs = raw_market_pairs.reject do |pair|
+        pair.dig("quote", currency, "price") == -1 ||
+        pair.dig("quote", currency, "volume_24h") == -1
+      end
+      market_pairs = valid_market_pairs.map do |pair|
         quote = pair.dig("quote", currency)
         volume24h = quote["volume_24h"] || 0
 
@@ -76,14 +80,13 @@ module CoinMarketCapPro
         coin_is_primary = base_symbol == coin_symbol
 
         volume_percentage = has_base_volume24h ? volume24h / base_volume24h : 0
-        volume24h_quote = pair.dig("quote", "exchange_reported", "volume_24h_quote")
+        volume24h_quote = pair.dig("quote", "exchange_reported",
+          coin_is_primary ? "volume_24h_quote" : "volume_24h_base")
         price = quote["price"]
         quote_currency_symbol = pair.dig("market_pair_quote", "currency_symbol")
 
         unless coin_is_primary
-          exchange_reported_price = pair.dig("quote", "exchange_reported", "price")
-          volume24h_quote /= exchange_reported_price
-          price /= exchange_reported_price
+          price /= pair.dig("quote", "exchange_reported", "price")
           quote_currency_symbol = base_symbol
         end
 
