@@ -3,6 +3,7 @@ export const black65 = 'rgba(0, 0, 0, 0.65)'
 export const black87 = 'rgba(0, 0, 0, 0.87)'
 
 export const borderColor = 'rgb(0, 0, 0, 0.18)'
+export const muiBorderColor = 'rgba(224, 224, 224, 1)'
 
 /*** Brand Colors */
 export const athens = '#f7f8fa'
@@ -23,3 +24,4 @@ export const skyBlue = '#2faeed'
 export const slate = '#7a8991'
 export const sunset = '#ff4954'
 export const tiber = '#092534'
+export const white = '#ffffff'
