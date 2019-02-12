@@ -87,13 +87,14 @@ class CoinsController < ApplicationController
   def show_serializer(coin)
     coin.as_json(
       only: %i[
-        id name coin_key image_url symbol slug ranking ico_status
+        id name coin_key symbol slug ranking ico_status
         website whitepaper explorer twitter reddit medium github telegram
         release_date blockchain_tech algorithm ico_start_epoch ico_end_epoch
       ],
       methods: %i[
         prices_data news_data market_info is_being_watched summary price market_cap
         change1h change24h change7d volume24h available_supply max_supply total_supply
+        image_url
       ]
     )
   end

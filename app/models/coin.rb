@@ -136,6 +136,18 @@ class Coin < ApplicationRecord
     result.flatten.join(' ')
   end
 
+  def image_url
+    image = read_attribute(:image_url)
+    image_re = /s2\.coinmarketcap\.com\/static\/img\/(coins|exchanges)\/[\d]+x[\d]+\/([\d]+)\.png$/i
+    result = image_re.match(image || "")
+
+    if result && result.length >= 3
+      "/static/#{result[1]}/#{result[2]}.png"
+    else
+      image
+    end
+  end
+
   def related_coins
     Coins::RelatedToQuery.call(coin: self)
   end
