@@ -17,11 +17,6 @@ import {
   ExpansionPanel,
   ExpansionPanelSummary,
   ExpansionPanelDetails,
-  Table,
-  TableHead,
-  TableBody,
-  TableRow,
-  TableCell,
 } from '@material-ui/core'
 import { withStyles } from '@material-ui/core/styles'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
@@ -277,7 +272,6 @@ class CoinShow extends Component {
     const {
       symbol,
       availableSupply,
-      annotations,
       isTradingViewVisible,
       tokenMetrics,
       coinObj,
@@ -285,6 +279,7 @@ class CoinShow extends Component {
       classes,
       user,
       isMobile,
+      chartSignals,
       summarySignals,
     } = this.props
     const { tabSlug, priceData, priceDataHourly } = this.state
@@ -426,16 +421,16 @@ class CoinShow extends Component {
                     />
                     <CardContent>
                       <CoinCharts
-                        symbol={symbol}
+                        coinObj={coinObj}
                         priceData={priceData}
                         priceDataHourly={priceDataHourly}
-                        annotations={annotations}
+                        annotations={chartSignals}
                         isTradingViewVisible={isTradingViewVisible}
                         onPriceChartCreated={this.handlePriceChartCreated}
                       />
                     </CardContent>
                   </MainCard>
-                  {!_.isUndefined(summarySignals) && (
+                  {_.isArray(summarySignals) && (
                     <MainCard>
                       <CardHeader
                         title={`Whale ${symbol} Transfers into Exchange (99.999 Percentile)`}

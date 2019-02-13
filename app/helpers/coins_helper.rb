@@ -141,6 +141,6 @@ module CoinsHelper
   end
 
   def is_ethereum?(coin)
-    coin.present? && coin.coin_key = 'ethereum.org'
+    coin.present? && coin.coin_key == 'ethereum.org'
   end
 end

@@ -4,8 +4,8 @@ import PriceGraph from './PriceGraph'
 import TradingViewChart from './TradingViewChart'
 import LoadingIndicator from '../LoadingIndicator'
 import moment from 'moment'
-import * as _ from 'lodash'
-import CurrencyContext from '~/bundles/common/contexts/CurrencyContext'
+import _ from 'lodash'
+import { withCurrency } from '~/bundles/common/contexts/CurrencyContext'
 
 const STATUSES = {
   INITIALIZING: 'INITIALIZING',
@@ -177,8 +177,4 @@ class CoinCharts extends Component {
   }
 }
 
-export default (props) => (
-  <CurrencyContext.Consumer>
-    {(payload) => <CoinCharts {...props} {...payload} />}
-  </CurrencyContext.Consumer>
-)
+export default withCurrency(CoinCharts)

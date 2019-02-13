@@ -78,6 +78,7 @@ class NewsController < ApplicationController
       image_url: coin.image_url,
       symbol: coin.symbol,
       slug: coin.slug,
+      price: coin.price,
       prices_data: coin.prices_data,
       hourly_prices_data: coin.hourly_prices_data,
       news_data: coin.news_data,

@@ -42,9 +42,16 @@ class TradingSignal < ApplicationRecord
           total_signals = todays_signals.length
 
           price_data = first_signal.price_data_by_coin(coin)
+          to_address_name = first_signal.extra.dig('transactions', 0, 'to_address_name')
+          from_address_name = first_signal.extra.dig('transactions', 0, 'from_address_name')
+
           price_data.merge({
             timestamp: timestamp,
             total_signals: total_signals,
+            to_address_name: to_address_name,
+            from_address_name: from_address_name,
+            signal_type_id: 100002,
+            signal_type_name: 'Large Transaction'
           })
         end
     end
