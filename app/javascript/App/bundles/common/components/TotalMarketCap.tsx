@@ -196,7 +196,6 @@ class TotalMarketCap extends React.Component<Props, State> {
         { ...options },
         {
           chart: {
-            type: 'line',
             width: null,
             zoomType: 'x',
             height: '40%',
@@ -205,7 +204,6 @@ class TotalMarketCap extends React.Component<Props, State> {
           title: {
             text: '',
           },
-          colors: chartColours,
           plotOptions: {},
           time: {
             useUTC: true,
@@ -257,7 +255,9 @@ class TotalMarketCap extends React.Component<Props, State> {
           series: [
             {
               name: 'Market Cap',
+              type: 'line',
               data,
+              colors: chartColours,
               size: '100%',
               showInLegend: false,
               dataLabels: {
