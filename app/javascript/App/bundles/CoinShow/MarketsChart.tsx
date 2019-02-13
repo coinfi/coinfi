@@ -149,6 +149,7 @@ export default class TokenChart extends React.Component<Props, State> {
             data: finalData,
             colors,
             size: '100%',
+            borderWidth: 0,
             showInLegend: false,
             dataLabels: {
               enabled: true,
