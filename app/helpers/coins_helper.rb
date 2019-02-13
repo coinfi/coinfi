@@ -65,8 +65,8 @@ module CoinsHelper
 
   def coins_serializer(coins)
     coins.as_json(
-      only: %i[id name symbol slug coin_key ranking image_url],
-      methods: %i[sparkline price market_cap change1h change24h change7d volume24h]
+      only: %i[id name symbol slug coin_key ranking],
+      methods: %i[sparkline price market_cap change1h change24h change7d volume24h image_url]
     )
   end
 

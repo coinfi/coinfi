@@ -44,6 +44,7 @@ Rails.application.routes.draw do
   get '/profile', to: 'users#edit'
   put '/profile', to: 'users#update'
   get '/token-metrics(/:metric_type_slug)', to: 'token_metrics#index', as: 'token_metrics'
+  get '/static/:type/:id', to: 'static#show', format: 'png'
 
   namespace :admin do
     resources :coins do

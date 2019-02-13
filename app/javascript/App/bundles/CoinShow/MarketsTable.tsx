@@ -213,7 +213,7 @@ class MarketsTable extends React.Component<Props, State> {
 
                   const volume24h = usdVolume24h * currencyRate
                   const price = usdPrice * currencyRate
-                  const imageUrl = `https://s2.coinmarketcap.com/static/img/exchanges/32x32/${exchangeId}.png`
+                  const imageUrl = `/static/exchanges/${exchangeId}.png`
 
                   return (
                     <TableRow key={index}>
