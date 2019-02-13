@@ -40,31 +40,6 @@ export default (Highcharts, data) => {
     Highcharts.seriesTypes.line.prototype.drawTracker =
       Highcharts.TrackerMixin.drawTrackerPoint
 
-    Highcharts.Chart.prototype.colorDataLabel = function(point) {
-      Highcharts.each(
-        point.series.chart.series[ANNOTATION_SERIES_INDEX].points,
-        (point) => {
-          point.dataLabel
-            .attr({
-              fill: '#fff',
-              stroke: '#d5d9db',
-              color: '#757575',
-            })
-            .css({
-              color: '#757575',
-            })
-        },
-      )
-      point.dataLabel
-        .attr({
-          fill: '#2faeed',
-          stroke: '#2faeed',
-        })
-        .css({
-          color: '#fff',
-        })
-    }
-
     Highcharts.Chart.prototype.createLabel = function(chart, data) {
       // initialize label
       if (chart.mainGroup) {
@@ -228,12 +203,16 @@ export default (Highcharts, data) => {
           redraw: function() {
             let chart = this
             if (typeof chart.clickedData === 'undefined') {
-              const point = _.get(annotationData, 0)
+              const point = _.get(chart, [
+                'series',
+                ANNOTATION_SERIES_INDEX,
+                'data',
+                0,
+              ])
               if (point) {
                 const clickedData = extractAnnotationData(point)
                 chart.clickedData = clickedData
                 chart.createLabel(chart, clickedData)
-                chart.colorDataLabel(point)
               }
             }
           },
@@ -298,6 +277,9 @@ export default (Highcharts, data) => {
         id: 'price',
         name: `${currency} Price`,
         data: pricesHourly,
+        linecap: 'square',
+        xAxis: 0,
+        yAxis: 0,
       },
       {
         id: 'volume',
@@ -313,8 +295,11 @@ export default (Highcharts, data) => {
             type: 'scatter',
             name: `Signal`,
             data: annotationData,
+            linkedTo: 'price',
             shape: 'circlepin',
             cursor: 'pointer',
+            xAxis: 0,
+            yAxis: 0,
             point: {
               events: {
                 click: function() {
@@ -324,7 +309,6 @@ export default (Highcharts, data) => {
 
                   chart.clickedData = data // used for redraw event
                   chart.createLabel(chart, data)
-                  chart.colorDataLabel(point)
                 },
               },
             },
@@ -336,7 +320,6 @@ export default (Highcharts, data) => {
               useHTML: true,
               split: true,
               pointFormatter() {
-                console.log(this)
                 return `${this.signal_type_name}`
               },
             },
