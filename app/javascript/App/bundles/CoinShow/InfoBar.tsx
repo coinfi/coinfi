@@ -5,6 +5,12 @@ import Icon from '~/bundles/common/components/Icon'
 import { Grid, Typography } from '@material-ui/core'
 import { withStyles, createStyles } from '@material-ui/core/styles'
 import {
+  black54,
+  black87,
+  aquaGreen,
+  grapefruit,
+} from '~/bundles/common/styles/colors'
+import {
   formatPercentage,
   formatSupply,
   formatPrice,
@@ -13,6 +19,7 @@ import {
 import CurrencyContext, {
   CurrencyContextType,
 } from '~/bundles/common/contexts/CurrencyContext'
+
 interface Props {
   isWatched: boolean
   watchCoinHandler: () => void
@@ -25,7 +32,7 @@ const styles = (theme) =>
   createStyles({
     root: {
       backgroundColor: '#fff',
-      color: 'rgba(0, 0, 0, 0.87)',
+      color: black87,
       fontSize: '12px',
       fontWeight: 500,
       [theme.breakpoints.up('md')]: {
@@ -55,7 +62,7 @@ const styles = (theme) =>
       display: 'inline-block',
     },
     coinSymbol: {
-      color: 'rgba(0, 0, 0, 0.54)',
+      color: black54,
     },
     coinRanking: {
       marginRight: '16px',
@@ -97,7 +104,7 @@ const styles = (theme) =>
       },
     },
     detailsTitle: {
-      color: 'rgba(0, 0, 0, 0.54)',
+      color: black54,
       fontSize: '12px',
     },
     detailsValue: {
@@ -128,8 +135,8 @@ class InfoBar extends React.Component<Props, {}> {
     const hasChange24h = !_.isUndefined(change24h)
     const hasVolume24 = !_.isUndefined(volume24h)
 
-    const positiveColour = '#12d8b8'
-    const negativeColour = '#ff6161'
+    const positiveColour = aquaGreen
+    const negativeColour = grapefruit
     const percentChange1h = change1h || 0
     const changeStyle1h =
       percentChange1h >= 0
