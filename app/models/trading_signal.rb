@@ -29,31 +29,38 @@ class TradingSignal < ApplicationRecord
     end
 
     Rails.cache.fetch("daily_signals:#{coin.slug}:#{period}", expires_in: @expires_in) do
-      signals = self.available.large_transactions_signal.order(timestamp: :asc)
+      # WHERE clauses should be equivalent to :available & :large_transactions_signal scopes
+      signals = self.find_by_sql("
+        SELECT * FROM
+        (SELECT MIN(id) AS id, count(*) AS total_signals FROM trading_signals
+          WHERE trading_signal_trigger_external_id = '100002'
+          AND timestamp < '#{AVAILABILITY_DELAY.ago}'
+          AND created_at < '#{AVAILABILITY_DELAY.ago}'
+          GROUP BY CAST(timestamp AS date)
+          ORDER BY CAST(timestamp AS date)
+        ) AS s1
+        JOIN trading_signals AS s2 ON s1.id = s2.id
+        ORDER BY s2.timestamp;
+      ")
+      daily_signals = signals.map do |todays_signal|
+        timestamp = todays_signal.timestamp
 
-      # refactor to group in SQL instead?
-      daily_signals = signals.group_by { |s| (s.timestamp || s.created_at).strftime(@time_format) }
-        .sort
-        .map do |date, todays_signals|
-          timestamp = DateTime.strptime(date, @time_format)
+        # generate representative signal for display
+        total_signals = todays_signal.total_signals
 
-          # generate representative signal for display
-          first_signal = todays_signals[0]
-          total_signals = todays_signals.length
+        price_data = todays_signal.price_data_by_coin(coin)
+        to_address_name = todays_signal.extra.dig('transactions', 0, 'to_address_name')
+        from_address_name = todays_signal.extra.dig('transactions', 0, 'from_address_name')
 
-          price_data = first_signal.price_data_by_coin(coin)
-          to_address_name = first_signal.extra.dig('transactions', 0, 'to_address_name')
-          from_address_name = first_signal.extra.dig('transactions', 0, 'from_address_name')
-
-          price_data.merge({
-            timestamp: timestamp,
-            total_signals: total_signals,
-            to_address_name: to_address_name,
-            from_address_name: from_address_name,
-            signal_type_id: 100002,
-            signal_type_name: 'Large Transaction'
-          })
-        end
+        price_data.merge({
+          timestamp: timestamp,
+          total_signals: total_signals,
+          to_address_name: to_address_name,
+          from_address_name: from_address_name,
+          signal_type_id: 100002,
+          signal_type_name: 'Large Transaction'
+        })
+      end
     end
   end
 
