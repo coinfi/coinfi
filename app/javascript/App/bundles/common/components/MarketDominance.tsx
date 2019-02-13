@@ -132,14 +132,12 @@ class MarketDominance extends React.Component<Props, State> {
         { ...options },
         {
           chart: {
-            type: 'pie',
             width: 200,
             height: 170,
             spacingTop: 0,
             spacingBottom: 0,
             spacingRight: 0,
           },
-          colors: chartColours,
           title: {
             text: `${this.formatPercentage(marketDominance)}%`,
             verticalAlign: 'middle',
@@ -165,7 +163,9 @@ class MarketDominance extends React.Component<Props, State> {
           series: [
             {
               name: 'Coins',
+              type: 'pie',
               data,
+              colors: chartColours,
               size: '100%',
               innerSize: '85%',
               showInLegend: false,

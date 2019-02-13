@@ -180,6 +180,22 @@ class Coin < ApplicationRecord
     cached_market_data.dig("total_supply") || 0
   end
 
+  def total_market_pairs
+    cached_market_pairs.dig("total_pairs") || 0
+  end
+
+  def market_pairs
+    @filtered_market_pairs ||= (cached_market_pairs.dig("market_pairs") || []).select do |pair|
+      price = pair[:price]
+      price.present? && price > 0
+    end
+  end
+
+  def cached_market_pairs
+    @market_pairs ||= Rails.cache.read("#{slug}:pairs") || {}
+    @market_pairs.with_indifferent_access
+  end
+
   def cached_market_data
     @snap_data ||= Rails.cache.read("#{slug}:snapshot") || {}
     @snap_data.with_indifferent_access
