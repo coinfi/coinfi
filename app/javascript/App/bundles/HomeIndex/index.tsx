@@ -99,8 +99,9 @@ class HomeIndex extends React.Component<Props> {
       watchList,
       loggedIn,
       pageCount,
-      isMobile,
+      isDesktop,
     } = this.props
+    const isMobile = !isDesktop
 
     return (
       <div className={classes.root}>

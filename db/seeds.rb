@@ -29,7 +29,6 @@ FeedSource.find_or_create_by(feed_type: 'general', name: 'Howtotoken', feed_url:
 FeedSource.find_or_create_by(feed_type: 'general', name: 'Invest In Blockchain', feed_url: 'https://www.investinblockchain.com/feed/', site_hostname: 'www.investinblockchain.com')
 FeedSource.find_or_create_by(feed_type: 'general', name: 'Live Bitcoin News', feed_url: 'http://www.livebitcoinnews.com/feed/', site_hostname: 'www.livebitcoinnews.com')
 FeedSource.find_or_create_by(feed_type: 'general', name: 'NewsBTC', feed_url: 'https://www.newsbtc.com/feed/', site_hostname: 'www.newsbtc.com')
-FeedSource.find_or_create_by(feed_type: 'general', name: 'Profit Confidential', feed_url: 'https://www.profitconfidential.com/feed/', site_hostname: 'www.profitconfidential.com')
 FeedSource.find_or_create_by(feed_type: 'general', name: 'The Bitcoin News', feed_url: 'https://thebitcoinnews.com/feed/', site_hostname: 'thebitcoinnews.com')
 FeedSource.find_or_create_by(feed_type: 'general', name: 'The Daily Hodl', feed_url: 'https://dailyhodl.com/feed/', site_hostname: 'dailyhodl.com')
 FeedSource.find_or_create_by(feed_type: 'general', name: 'Trustnodes', feed_url: 'https://www.trustnodes.com/feed', site_hostname: 'www.trustnodes.com')

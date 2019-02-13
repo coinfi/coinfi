@@ -286,9 +286,10 @@ class CoinShow extends Component {
       relatedCoins,
       classes,
       user,
-      isMobile,
+      isDesktop,
     } = this.props
     const { tabSlug, priceData, priceDataHourly } = this.state
+    const isMobile = !isDesktop
 
     const isLoggedIn = !!user
     const hasTokenMetrics = this.hasTokenMetrics()

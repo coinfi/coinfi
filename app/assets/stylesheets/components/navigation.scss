@@ -1,6 +1,7 @@
 $nav-height: 50px;
 $nav-menu-width: 300px;
 $nav-menu-more-width: 150px;
+
 .nav {
   background: $dark-pine-green;
   width: 100%;
@@ -12,13 +13,6 @@ $nav-menu-more-width: 150px;
     position: relative;
     display: flex;
     align-items: center;
-  }
-
-  .nav-logo {
-    &__img {
-      width: 100%;
-      height: 100%;
-    }
   }
 }
 
@@ -148,7 +142,7 @@ main {
 }
 
 // Not Small Screens
-@media #{$screen-min-ns} {
+@media #{$screen-min-m} {
   main {
     margin: 0;
   }
@@ -267,7 +261,7 @@ img.icon-white {
   filter: invert(1);
 }
 
-@media #{$screen-max-ns} {
+@media #{$screen-max-m} {
   .footer {
     .container {
       padding-top: 1rem;
