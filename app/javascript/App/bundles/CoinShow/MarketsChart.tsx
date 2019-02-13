@@ -134,6 +134,7 @@ export default class TokenChart extends React.Component<Props, State> {
           height: 250,
           spacingTop: 10,
           spacingBottom: 0,
+          margin: [50, 20, 15, 20],
         },
         navigator: {
           enabled: false,
@@ -150,7 +151,12 @@ export default class TokenChart extends React.Component<Props, State> {
             size: '100%',
             showInLegend: false,
             dataLabels: {
-              enabled: false,
+              enabled: true,
+              alignTo: 'toPlotEdges',
+              crop: false,
+              overflow: 'allow',
+              padding: 0,
+              distance: 10,
             },
             tooltip: {
               headerFormat: '',
