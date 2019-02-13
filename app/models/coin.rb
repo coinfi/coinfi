@@ -186,7 +186,8 @@ class Coin < ApplicationRecord
 
   def market_pairs
     @filtered_market_pairs ||= (cached_market_pairs.dig("market_pairs") || []).select do |pair|
-      pair[:price] > 0
+      price = pair[:price]
+      price.present? && price > 0
     end
   end
 
