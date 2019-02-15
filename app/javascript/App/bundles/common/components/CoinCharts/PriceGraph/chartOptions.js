@@ -1,36 +1,30 @@
 export default (Highcharts, data) => {
-  const {
-    pricesHourly,
-    volumesHourly,
-    currency,
-    setToHourly,
-    setToDaily,
-  } = data
+  const { pricesDaily, volumesDaily, currency, setToHourly, setToDaily } = data
 
   return {
     rangeSelector: {
       selected: 1,
       buttons: [
-        {
-          type: 'day',
-          count: 1,
-          text: '1d',
-          events: {
-            click: function() {
-              setToHourly()
-            },
-          },
-        },
-        {
-          type: 'day',
-          count: 7,
-          text: '7d',
-          events: {
-            click: function() {
-              setToHourly()
-            },
-          },
-        },
+        // {
+        //   type: 'day',
+        //   count: 1,
+        //   text: '1d',
+        //   events: {
+        //     click: function() {
+        //       setToHourly()
+        //     },
+        //   },
+        // },
+        // {
+        //   type: 'day',
+        //   count: 7,
+        //   text: '7d',
+        //   events: {
+        //     click: function() {
+        //       setToHourly()
+        //     },
+        //   },
+        // },
         {
           type: 'month',
           count: 1,
@@ -159,13 +153,13 @@ export default (Highcharts, data) => {
       {
         id: 'price',
         name: `${currency} Price`,
-        data: pricesHourly,
+        data: pricesDaily,
       },
       {
         id: 'volume',
         type: 'column',
         name: `${currency} Volume`,
-        data: volumesHourly,
+        data: volumesDaily,
         color: Highcharts.getOptions().colors[2],
         yAxis: 1,
       },
