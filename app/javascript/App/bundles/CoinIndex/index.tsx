@@ -25,6 +25,7 @@ import {
   CurrencyContextType,
   withCurrency,
 } from '~/bundles/common/contexts/CurrencyContext'
+import { black65 } from '~/bundles/common/styles/colors'
 
 interface CoinData {
   id: number
@@ -82,7 +83,7 @@ const styles = (theme) =>
       margin: '0 auto',
     },
     tableHeader: {
-      color: 'rgba(0,0,0,0.65)',
+      color: black65,
     },
     tableRow: {
       minHeight: `${theme.spacing.unit * 7}px`,
@@ -217,11 +218,12 @@ class CoinIndex extends Component<Props, State> {
       currency,
       currencyRate,
       currencySymbol,
-      isMobile,
+      isDesktop,
     } = this.props
     const { loading, pageSize, currentPage, coinsByPage } = this.state
     const rows = coinsByPage[currentPage] || []
     const columns = ColumnNames({ currency, currencyRate, currencySymbol })
+    const isMobile = !isDesktop
 
     return (
       <Fragment>

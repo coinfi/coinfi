@@ -43,6 +43,7 @@ const styles = (theme) =>
         display: 'none',
       },
     },
+    mobileContainer: {},
     desktopTitle: {
       fontSize: '20px',
       fontWeight: 500,
@@ -131,14 +132,12 @@ class MarketDominance extends React.Component<Props, State> {
         { ...options },
         {
           chart: {
-            type: 'pie',
             width: 200,
             height: 170,
             spacingTop: 0,
             spacingBottom: 0,
             spacingRight: 0,
           },
-          colors: chartColours,
           title: {
             text: `${this.formatPercentage(marketDominance)}%`,
             verticalAlign: 'middle',
@@ -164,7 +163,9 @@ class MarketDominance extends React.Component<Props, State> {
           series: [
             {
               name: 'Coins',
+              type: 'pie',
               data,
+              colors: chartColours,
               size: '100%',
               innerSize: '85%',
               showInLegend: false,
@@ -191,12 +192,18 @@ class MarketDominance extends React.Component<Props, State> {
   }
 
   public render() {
-    const { classes, coinData, isMobile } = this.props
+    const { classes, coinData, isDesktop } = this.props
     const { marketDominance } = this.state
+    const isMobile = !isDesktop
 
     if (isMobile) {
       return (
-        <Grid container={true} wrap="nowrap" alignItems="baseline">
+        <Grid
+          container={true}
+          wrap="nowrap"
+          alignItems="baseline"
+          className={classes.mobileContainer}
+        >
           <Grid item={true}>
             <Typography className={classes.title} component="span">
               Bitcoin Dominance:{' '}

@@ -57,6 +57,7 @@ const styles = (theme) =>
         display: 'none',
       },
     },
+    mobileContainer: {},
     chartContainer: {
       marginLeft: '-10px',
       marginRight: '-12px',
@@ -195,7 +196,6 @@ class TotalMarketCap extends React.Component<Props, State> {
         { ...options },
         {
           chart: {
-            type: 'line',
             width: null,
             zoomType: 'x',
             height: '40%',
@@ -204,7 +204,6 @@ class TotalMarketCap extends React.Component<Props, State> {
           title: {
             text: '',
           },
-          colors: chartColours,
           plotOptions: {},
           time: {
             useUTC: true,
@@ -256,7 +255,9 @@ class TotalMarketCap extends React.Component<Props, State> {
           series: [
             {
               name: 'Market Cap',
+              type: 'line',
               data,
+              colors: chartColours,
               size: '100%',
               showInLegend: false,
               dataLabels: {
@@ -289,7 +290,7 @@ class TotalMarketCap extends React.Component<Props, State> {
       currencyRate,
       currencySymbol,
       currency,
-      isMobile,
+      isDesktop,
     } = this.props
     const {
       isPositive,
@@ -297,6 +298,7 @@ class TotalMarketCap extends React.Component<Props, State> {
       formattedDifference: formattedDifferenceRaw,
       percentageDifference: percentageDifferenceRaw,
     } = this.state
+    const isMobile = !isDesktop
 
     const currencyAdjustedTMC = totalMarketCapRaw * currencyRate
     const totalMarketCap = formatPrice(currencyAdjustedTMC)
@@ -309,7 +311,12 @@ class TotalMarketCap extends React.Component<Props, State> {
 
     if (isMobile) {
       return (
-        <Grid container={true} wrap="nowrap" alignItems="baseline">
+        <Grid
+          container={true}
+          wrap="nowrap"
+          alignItems="baseline"
+          className={classes.mobileContainer}
+        >
           <Grid item={true}>
             <Typography className={classes.title} component="span">
               Crypto Market Cap:

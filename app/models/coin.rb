@@ -136,6 +136,18 @@ class Coin < ApplicationRecord
     result.flatten.join(' ')
   end
 
+  def image_url
+    image = read_attribute(:image_url)
+    image_re = /s2\.coinmarketcap\.com\/static\/img\/(coins|exchanges)\/[\d]+x[\d]+\/([\d]+)\.png$/i
+    result = image_re.match(image || "")
+
+    if result && result.length >= 3
+      "/static/#{result[1]}/#{result[2]}.png"
+    else
+      image
+    end
+  end
+
   def related_coins
     Coins::RelatedToQuery.call(coin: self)
   end
@@ -178,6 +190,22 @@ class Coin < ApplicationRecord
 
   def total_supply
     cached_market_data.dig("total_supply") || 0
+  end
+
+  def total_market_pairs
+    cached_market_pairs.dig("total_pairs") || 0
+  end
+
+  def market_pairs
+    @filtered_market_pairs ||= (cached_market_pairs.dig("market_pairs") || []).select do |pair|
+      price = pair[:price]
+      price.present? && price > 0
+    end
+  end
+
+  def cached_market_pairs
+    @market_pairs ||= Rails.cache.read("#{slug}:pairs") || {}
+    @market_pairs.with_indifferent_access
   end
 
   def cached_market_data

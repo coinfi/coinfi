@@ -40,8 +40,8 @@ class Api::Watchlist::CoinsController < ApiController
 
   def serialized coin
     coin.as_json(only: [
-      :id, :name, :image_url, :symbol, :ico_usd_raised, :ico_fundraising_goal_usd, :ico_end_epoch,
+      :id, :name, :symbol, :ico_usd_raised, :ico_fundraising_goal_usd, :ico_end_epoch,
       :max_supply, :ico_token_price_usd, :ico_start_epoch, :slug
-    ], methods: [:market_info, :category])
+    ], methods: [:market_info, :category, :image_url])
   end
 end
