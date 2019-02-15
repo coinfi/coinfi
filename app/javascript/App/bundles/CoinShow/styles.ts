@@ -233,6 +233,21 @@ const styles = (theme) =>
     linkListText: {
       fontSize: '16px',
     },
+    infoIcon: {
+      verticalAlign: 'baseline',
+      marginLeft: '16px',
+      fontSize: '12px',
+      fontWeight: 500,
+    },
+    alarmClockIcon: {
+      verticalAlign: 'baseline',
+      marginRight: '8px',
+      color: '#23adf0',
+    },
+    signalCtaText: {
+      fontSize: '12px',
+      marginTop: '24px',
+    },
   })
 
 export default styles

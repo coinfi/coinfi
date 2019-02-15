@@ -27,6 +27,7 @@ interface SummarySignal {
   price: number
   to_address_name: string
   from_address_name: string
+  transaction_hash: string
 }
 
 export default function SignalTable(props: Props) {
@@ -45,17 +46,31 @@ export default function SignalTable(props: Props) {
             </TableHead>
             <TableBody>
               {signals.map((row, index) => {
-                const { timestamp, value, price, to_address_name } = row
+                const {
+                  timestamp,
+                  value,
+                  price,
+                  to_address_name,
+                  transaction_hash,
+                } = row
                 const formattedPrice = formatAbbreviatedPrice(
                   price * currencyRate,
                 )
                 const tokens = formatValue(value, 0)
+                const ethScanLink = `https://etherscan.io/tx/${transaction_hash}`
 
                 return (
                   <TableRow key={index}>
                     <TableCell>{moment(timestamp).fromNow()}</TableCell>
                     <TableCell>
-                      {tokens} {symbol} ({currencySymbol}
+                      <a
+                        href={ethScanLink}
+                        target="_blank"
+                        rel="nofollow noopener noreferrer"
+                      >
+                        {tokens}
+                      </a>{' '}
+                      {symbol} ({currencySymbol}
                       {formattedPrice} {currency}) moved into {to_address_name}
                     </TableCell>
                   </TableRow>

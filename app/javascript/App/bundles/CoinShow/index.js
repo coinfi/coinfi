@@ -17,6 +17,7 @@ import {
   ExpansionPanel,
   ExpansionPanelSummary,
   ExpansionPanelDetails,
+  Tooltip,
 } from '@material-ui/core'
 import { withStyles } from '@material-ui/core/styles'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
@@ -433,7 +434,18 @@ class CoinShow extends Component {
                   {_.isArray(summarySignals) && (
                     <MainCard>
                       <CardHeader
-                        title={`Whale ${symbol} Transfers into Exchange (99.999 Percentile)`}
+                        title={
+                          <>
+                            Whale {symbol} Transfers into Exchange (99.999
+                            Percentile)
+                            <Tooltip
+                              title="placeholder text"
+                              className={classes.infoIcon}
+                            >
+                              <Icon name="info-circle" />
+                            </Tooltip>
+                          </>
+                        }
                         titleTypographyProps={{
                           variant: 'h2',
                           component: 'h2',
@@ -445,6 +457,16 @@ class CoinShow extends Component {
                       />
                       <CardContent>
                         <SignalTable signals={summarySignals} symbol={symbol} />
+                        <div className={classes.signalCtaText}>
+                          <Icon
+                            name="alarm-clock"
+                            solid={true}
+                            className={classes.alarmClockIcon}
+                          />
+                          <a href="/signals">Click here</a> to be instantly
+                          alerted when a whale transfers a large amount of{' '}
+                          {symbol} into exchange
+                        </div>
                       </CardContent>
                     </MainCard>
                   )}

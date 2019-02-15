@@ -74,11 +74,13 @@ class TradingSignal < ApplicationRecord
         price_data = s.price_data_by_coin(coin)
         to_address_name = s.extra.dig('transactions', 0, 'to_address_name')
         from_address_name = s.extra.dig('transactions', 0, 'from_address_name')
+        transaction_hash = s.extra.dig('transactions', 0, 'hash')
 
         price_data.merge({
           timestamp: s.timestamp,
           to_address_name: to_address_name,
           from_address_name: from_address_name,
+          transaction_hash: transaction_hash,
         })
       end
     end
