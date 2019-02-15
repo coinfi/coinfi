@@ -1,5 +1,4 @@
 import _ from 'lodash'
-import moment from 'moment'
 
 const PRICE_SERIES_INDEX = 0
 const VOLUME_SERIES_INDEX = 1
@@ -16,6 +15,7 @@ export default (Highcharts, data) => {
   } = data
 
   const hasAnnotations = _.isArray(annotationData) && !_.isEmpty(annotationData)
+  /*
   const extractAnnotationData = function(point) {
     return {
       x: point.x,
@@ -116,6 +116,7 @@ export default (Highcharts, data) => {
         .add()
     }
   }
+  */
 
   return {
     rangeSelector: {
@@ -197,6 +198,7 @@ export default (Highcharts, data) => {
     },
     chart: {
       height: 500,
+      /*
       ...(hasAnnotations && {
         marginTop: 120, // space for inline label
         events: {
@@ -218,6 +220,7 @@ export default (Highcharts, data) => {
           },
         },
       }),
+      */
     },
     legend: {
       enabled: false,
@@ -302,6 +305,7 @@ export default (Highcharts, data) => {
             yAxis: 0,
             point: {
               events: {
+                /*
                 click: function() {
                   const point = this
                   const chart = point.series.chart
@@ -310,6 +314,7 @@ export default (Highcharts, data) => {
                   chart.clickedData = data // used for redraw event
                   chart.createLabel(chart, data)
                 },
+                */
               },
             },
             label: {
@@ -320,7 +325,13 @@ export default (Highcharts, data) => {
               useHTML: true,
               split: true,
               pointFormatter() {
-                return `${this.signal_type_name}`
+                const title = `Whale Transfer Into Exchange`
+                const addendum =
+                  this.total_signals > 1
+                    ? `<br/>+${this.total_signals - 1} other signals`
+                    : ''
+
+                return `<b>${this.text}</b><br/>${title}${addendum}`
               },
             },
             color: '#2faeed',
@@ -330,7 +341,19 @@ export default (Highcharts, data) => {
               lineColor: '#2faeed',
             },
             dataLabels: {
-              enabled: false,
+              enabled: true,
+              useHTML: true,
+              formatter: function() {
+                return this.point.signal_type_id === 100002
+                  ? `<i class="fal fa-whale"></i>`
+                  : null
+              },
+              borderColor: 'rgb(0, 0, 0, 0.18)',
+              borderWidth: 1,
+              borderRadius: 2,
+              backgroundColor: '#fff',
+              y: -15,
+              shape: 'callout',
             },
           }
         : {},

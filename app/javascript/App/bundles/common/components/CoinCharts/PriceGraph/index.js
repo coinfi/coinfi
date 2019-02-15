@@ -4,10 +4,7 @@ import moment from 'moment'
 import Highcharts from 'highcharts/highstock'
 import options from './options'
 import chartOptions from './chartOptions'
-import {
-  formatValue,
-  formatAbbreviatedPrice,
-} from '~/bundles/common/utils/numberFormatters'
+import { formatAbbreviatedPrice } from '~/bundles/common/utils/numberFormatters'
 
 const containerID = 'highcharts'
 
@@ -178,8 +175,10 @@ class PriceGraph extends Component {
         return series
       }
 
-      const formattedPrice = formatAbbreviatedPrice(price * currencyRate)
-      const tokens = formatValue(value, 0)
+      const formattedPrice = formatAbbreviatedPrice(
+        value * price * currencyRate,
+      )
+      const tokens = formatAbbreviatedPrice(value)
       const text = `${tokens} ${symbol} (${currencySymbol}${formattedPrice} ${currency}) moved into ${to_address_name}`
 
       return [

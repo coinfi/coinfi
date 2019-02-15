@@ -58,7 +58,7 @@ class TradingSignal < ApplicationRecord
           to_address_name: to_address_name,
           from_address_name: from_address_name,
           signal_type_id: 100002,
-          signal_type_name: 'Large Transaction'
+          signal_type_name: 'Whale Transfer'
         })
       end
     end
