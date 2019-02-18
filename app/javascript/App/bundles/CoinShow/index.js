@@ -468,8 +468,37 @@ class CoinShow extends Component {
                             Whale {symbol} Transfers into Exchange (99.999
                             Percentile)
                             <Tooltip
-                              title="placeholder text"
+                              title={
+                                <>
+                                  <div>
+                                    Whale Transfers Into Exchange are large
+                                    transfers of ETH that are larger than
+                                    99.999% of all historical ETH transactions
+                                    into exchanges.
+                                  </div>
+                                  <div>
+                                    When this signal fires, it could indicate
+                                    one of the following:
+                                  </div>
+                                  <ul>
+                                    <li>
+                                      The whale has intention to sell but may
+                                      not sell immediately or all at once
+                                    </li>
+                                    <li>
+                                      There is an ongoing pump and the whale
+                                      sees this as an opportunity to sell
+                                    </li>
+                                    <li>
+                                      The whale could be anticipating higher
+                                      volatility in the future and is preparing
+                                      to trade if necessary
+                                    </li>
+                                  </ul>
+                                </>
+                              }
                               className={classes.infoIcon}
+                              classes={{ tooltip: classes.infoTooltip }}
                             >
                               <Icon name="info-circle" />
                             </Tooltip>

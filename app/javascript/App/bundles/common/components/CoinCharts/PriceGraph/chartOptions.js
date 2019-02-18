@@ -328,7 +328,9 @@ export default (Highcharts, data) => {
                 const title = `Whale Transfer Into Exchange`
                 const addendum =
                   this.total_signals > 1
-                    ? `<br/>+${this.total_signals - 1} other signals`
+                    ? `<br/>+${this.total_signals - 1} other signal${
+                        this.total_signals > 2 ? 's' : ''
+                      }`
                     : ''
 
                 return `<b>${this.text}</b><br/>${title}${addendum}`
@@ -341,7 +343,7 @@ export default (Highcharts, data) => {
               lineColor: '#2faeed',
             },
             dataLabels: {
-              enabled: true,
+              enabled: false,
               useHTML: true,
               formatter: function() {
                 return this.point.signal_type_id === 100002

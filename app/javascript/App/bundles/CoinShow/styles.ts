@@ -248,6 +248,17 @@ const styles = (theme) =>
       fontSize: '12px',
       fontWeight: 500,
     },
+    infoTooltip: {
+      fontSize: '12px',
+      fontWeight: 500,
+      textAlign: 'justify',
+      '& div:not(:first-child)': {
+        marginTop: '8px',
+      },
+      '& ul': {
+        marginTop: '0 !important',
+      },
+    },
     alarmClockIcon: {
       verticalAlign: 'baseline',
       marginRight: '8px',
