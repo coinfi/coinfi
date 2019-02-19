@@ -261,14 +261,15 @@ class NewsfeedPage extends React.Component<Props, State> {
       this.props.loggedIn
     ) {
       this.setState((state) => {
+        const coinSlugs = this.props.getWatchlist().map((elem) => elem.slug)
         const newState = {
           ...state,
           filters: {
             ...state.filters,
-            coinSlugs: this.props.getWatchlist().map((elem) => elem.slug),
+            coinSlugs,
             feedSources: mergeInitialSocialSourcesForCoinsFilter(
               state.filters.feedSources,
-              state.filters.coinSlugs,
+              coinSlugs,
               this.props.topCoinSlugs,
             ),
           },
@@ -287,14 +288,15 @@ class NewsfeedPage extends React.Component<Props, State> {
       this.props.loggedIn
     ) {
       this.setState((state) => {
+        const coinSlugs = !!this.props.coinSlug ? [this.props.coinSlug] : []
         const newState = {
           ...state,
           filters: {
             ...state.filters,
-            coinSlugs: !!this.props.coinSlug ? [this.props.coinSlug] : [],
+            coinSlugs,
             feedSources: mergeInitialSocialSourcesForCoinsFilter(
               state.filters.feedSources,
-              state.filters.coinSlugs,
+              coinSlugs,
               this.props.topCoinSlugs,
             ),
           },
@@ -313,14 +315,15 @@ class NewsfeedPage extends React.Component<Props, State> {
       !_.isEqual(this.props.watchlist, prevProps.watchlist)
     ) {
       this.setState((state) => {
+        const coinSlugs = this.props.getWatchlist().map((elem) => elem.slug)
         const newState = {
           ...state,
           filters: {
             ...state.filters,
-            coinSlugs: this.props.getWatchlist().map((elem) => elem.slug),
+            coinSlugs,
             feedSources: mergeInitialSocialSourcesForCoinsFilter(
               state.filters.feedSources,
-              state.filters.coinSlugs,
+              coinSlugs,
               this.props.topCoinSlugs,
             ),
           },
