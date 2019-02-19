@@ -34,7 +34,6 @@ export interface User {
 
 export interface CoinWithDetails extends Coin {
   image_url: string
-  price_usd: any
   prices_data: any
   hourly_prices_data: any
   news_data: any
