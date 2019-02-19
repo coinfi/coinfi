@@ -62,12 +62,12 @@ export default class TradingViewChart extends Component {
       // user_id: 'public_user_id',
       width: '100%',
       favorites: {
-        intervals: ['60', 'D'],
+        intervals: ['D'],
       },
-      timeframe: '7d',
+      timeframe: '1m',
       time_frames: [
-        { text: '1d', resolution: '60', description: '1 Day' },
-        { text: '7d', resolution: '60', description: '7 Days' },
+        // { text: '1d', resolution: '60', description: '1 Day' },
+        // { text: '7d', resolution: '60', description: '7 Days' },
         { text: '1m', resolution: 'D', description: '1 Month' },
         { text: '3m', resolution: 'D', description: '3 Months' },
         { text: '6m', resolution: 'D', description: '6 Months' },
@@ -88,6 +88,8 @@ export default class TradingViewChart extends Component {
 
   getHourlyData = () => {
     return this.props.priceDataHourly
+      ? this.props.priceDataHourly
+      : this.props.priceData
   }
 
   setResetHandler = (onResetCacheNeededCallback) => {
