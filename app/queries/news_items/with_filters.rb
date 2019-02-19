@@ -1,5 +1,4 @@
 module NewsItems
-  NUMBER_OF_TOP_COINS = 
   class WithFilters
     def self.call(
       relation = NewsItem.all,
@@ -21,8 +20,12 @@ module NewsItems
         # then we disable Reddit and Twitter
         # TODO: Reconcile split back/front-end logic
         top_coin_slugs = Coin.top(5).pluck(:slug)
-        has_all_top_coins = coins.length <= top_coin_slugs.length &&
-          coins.all? {|coin| top_coin_slugs.any? {|top_slug| top_slug == coin.slug} } if coins.present?
+        has_all_top_coins = if coins.present?
+          (coins.length <= top_coin_slugs.length) &&
+          coins.all? do |coin|
+            top_coin_slugs.any? { |top_slug| top_slug == coin.slug }
+          end
+        end
 
         # Default feed sources
         if coins.blank? || has_all_top_coins
