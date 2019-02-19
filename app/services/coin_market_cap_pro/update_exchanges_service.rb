@@ -85,7 +85,11 @@ module CoinMarketCapPro
       api_url = "https://pro-api.coinmarketcap.com/v1/exchange/map"
       query = { :listing_status => active ? 'active' : 'inactive' }
       headers = get_default_api_headers
-      response = HTTParty.get(api_url, :query => query, :headers => headers)
+      response = begin
+        HTTParty.get(api_url, :query => query, :headers => headers)
+      rescue HTTParty::Error
+        nil
+      end
 
       # only ping healthcheck regarding active mapping
       extract_api_data(response, active ? @healthcheck_url : nil)
