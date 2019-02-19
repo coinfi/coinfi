@@ -16,7 +16,7 @@ class Api::Newsfeed::CoinsController < ApiController
 
   def index_serializer(coins)
     coins.as_json(
-      only: %i[id name symbol slug price_usd],
+      only: %i[id name symbol slug],
       methods: %i[market_info image_url]
     )
   end
