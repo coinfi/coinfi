@@ -221,20 +221,21 @@ class NewsfeedPage extends React.Component<Props, State> {
     // Check if `coinSlug` in the route changed
     if (this.getContentType() === 'coin') {
       if (this.props.coinSlug !== prevProps.coinSlug && !!this.props.coinSlug) {
-        this.props.selectCoinBySlug(this.props.coinSlug)
+        const { coinSlug } = this.props
+        this.props.selectCoinBySlug(coinSlug)
         this.setState((state) => {
           const newState = {
             ...state,
             filters: {
               ...state.filters,
-              coinSlugs: [this.props.coinSlug],
+              coinSlugs: [coinSlug],
               feedSources: mergeInitialSocialSourcesForCoinsFilter(
                 state.filters.feedSources,
-                state.filters.coinSlugs,
+                [coinSlug],
                 this.props.topCoinSlugs,
               ),
             },
-            selectedCoin: this.props.coinSlug,
+            selectedCoin: coinSlug,
           }
 
           this.props.fetchNewsItems(newState.filters)
