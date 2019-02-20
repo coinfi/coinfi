@@ -65,8 +65,8 @@ module CoinsHelper
 
   def coins_serializer(coins)
     coins.as_json(
-      only: %i[id name symbol slug coin_key ranking image_url],
-      methods: %i[sparkline price market_cap change1h change24h change7d volume24h]
+      only: %i[id name symbol slug coin_key ranking],
+      methods: %i[sparkline price market_cap change1h change24h change7d volume24h image_url]
     )
   end
 
@@ -88,9 +88,9 @@ module CoinsHelper
   def historical_total_market_data(days: 7, months: nil)
     distribute_reads(max_lag: MAX_ACCEPTABLE_REPLICATION_LAG, lag_failover: true) do
       if days.present?
-        MarketMetric.daily(days)
+        MarketMetric.daily(days).to_a
       elsif months.present?
-        MarketMetric.monthly(months)
+        MarketMetric.monthly(months).to_a
       end
     end
   end

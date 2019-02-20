@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190206134200) do
+ActiveRecord::Schema.define(version: 20190219082000) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -169,14 +169,6 @@ ActiveRecord::Schema.define(version: 20190206134200) do
     t.string "symbol"
     t.string "slug"
     t.string "category"
-    t.jsonb "market_cap"
-    t.jsonb "price"
-    t.jsonb "volume24"
-    t.decimal "change1h"
-    t.decimal "change24h"
-    t.decimal "change7d"
-    t.bigint "available_supply"
-    t.bigint "max_supply"
     t.string "website"
     t.string "website2"
     t.string "explorer"
@@ -233,7 +225,6 @@ ActiveRecord::Schema.define(version: 20190206134200) do
     t.jsonb "external_key"
     t.string "facebook"
     t.string "telegram"
-    t.decimal "total_supply", precision: 32, scale: 2
     t.text "description"
     t.jsonb "team"
     t.jsonb "external_rating"
