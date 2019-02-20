@@ -1,9 +1,10 @@
 module CoinMarketCapPro
   class UpdateMarketPairsService < Patterns::Service
     include CoinMarketCapProHelpers
-    attr_accessor :cmc_missing_data
+    attr_reader :cmc_missing_data
 
     def initialize(start: 0, limit: 20) # 0-indexed
+      @healthcheck_url = ENV.fetch('HEALTHCHECK_MARKET_PAIRS')
       @cmc_missing_data = Rails.cache.read("tasks/market_pairs/cmc_missing_data") || []
       @start = start
       @limit = limit
@@ -31,7 +32,7 @@ module CoinMarketCapPro
       end
 
       puts "Complete!"
-      log_missing_data
+      cache_and_handle_missing_data
       if items_with_errors.present?
         puts "Found #{items_with_errors.length} total errors"
         puts "Encountered errors when trying to process these coins ids: #{items_with_errors}"
@@ -40,14 +41,9 @@ module CoinMarketCapPro
 
     private
 
-    def log_missing_data
-      if @cmc_missing_data.empty?
-        Net::HTTP.get(URI.parse(ENV.fetch('HEALTHCHECK_MARKET_PAIRS')))
-      else
-        Net::HTTP.post(URI.parse("#{ENV.fetch('HEALTHCHECK_MARKET_PAIRS')}/fail"), @cmc_missing_data.to_json)
-      end
-
+    def cache_and_handle_missing_data
       Rails.cache.write("tasks/market_pairs/cmc_missing_data", @cmc_missing_data)
+      log_or_ping_on_missing_data(@cmc_missing_data, @healthcheck_url)
     end
 
     def update_coin_pairs(coin)
@@ -117,8 +113,18 @@ module CoinMarketCapPro
 
       api_url = "https://pro-api.coinmarketcap.com/v1/cryptocurrency/market-pairs/latest"
       query = if id.nil? then { :symbol => symbol } else { :id => id } end
-      headers = { "X-CMC_PRO_API_KEY" => ENV.fetch('COINMARKETCAP_API_KEY') }
-      response = HTTParty.get(api_url, :query => query, :headers => headers)
+      headers = get_default_api_headers
+      response = begin
+        HTTParty.get(api_url, :query => query, :headers => headers)
+      rescue HTTParty::Error
+        @cmc_missing_data << { id: id, symbol: symbol, error: 'No API response found.' }
+        nil
+      end
+
+      if response.blank?
+        return nil
+      end
+
       contents = JSON.parse(response.body)
 
       # ping health check if api error
