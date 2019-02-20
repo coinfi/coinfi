@@ -221,20 +221,21 @@ class NewsfeedPage extends React.Component<Props, State> {
     // Check if `coinSlug` in the route changed
     if (this.getContentType() === 'coin') {
       if (this.props.coinSlug !== prevProps.coinSlug && !!this.props.coinSlug) {
-        this.props.selectCoinBySlug(this.props.coinSlug)
+        const { coinSlug } = this.props
+        this.props.selectCoinBySlug(coinSlug)
         this.setState((state) => {
           const newState = {
             ...state,
             filters: {
               ...state.filters,
-              coinSlugs: [this.props.coinSlug],
+              coinSlugs: [coinSlug],
               feedSources: mergeInitialSocialSourcesForCoinsFilter(
                 state.filters.feedSources,
-                state.filters.coinSlugs,
+                [coinSlug],
                 this.props.topCoinSlugs,
               ),
             },
-            selectedCoin: this.props.coinSlug,
+            selectedCoin: coinSlug,
           }
 
           this.props.fetchNewsItems(newState.filters)
@@ -260,14 +261,15 @@ class NewsfeedPage extends React.Component<Props, State> {
       this.props.loggedIn
     ) {
       this.setState((state) => {
+        const coinSlugs = this.props.getWatchlist().map((elem) => elem.slug)
         const newState = {
           ...state,
           filters: {
             ...state.filters,
-            coinSlugs: this.props.getWatchlist().map((elem) => elem.slug),
+            coinSlugs,
             feedSources: mergeInitialSocialSourcesForCoinsFilter(
               state.filters.feedSources,
-              state.filters.coinSlugs,
+              coinSlugs,
               this.props.topCoinSlugs,
             ),
           },
@@ -286,14 +288,15 @@ class NewsfeedPage extends React.Component<Props, State> {
       this.props.loggedIn
     ) {
       this.setState((state) => {
+        const coinSlugs = !!this.props.coinSlug ? [this.props.coinSlug] : []
         const newState = {
           ...state,
           filters: {
             ...state.filters,
-            coinSlugs: !!this.props.coinSlug ? [this.props.coinSlug] : [],
+            coinSlugs,
             feedSources: mergeInitialSocialSourcesForCoinsFilter(
               state.filters.feedSources,
-              state.filters.coinSlugs,
+              coinSlugs,
               this.props.topCoinSlugs,
             ),
           },
@@ -312,14 +315,15 @@ class NewsfeedPage extends React.Component<Props, State> {
       !_.isEqual(this.props.watchlist, prevProps.watchlist)
     ) {
       this.setState((state) => {
+        const coinSlugs = this.props.getWatchlist().map((elem) => elem.slug)
         const newState = {
           ...state,
           filters: {
             ...state.filters,
-            coinSlugs: this.props.getWatchlist().map((elem) => elem.slug),
+            coinSlugs,
             feedSources: mergeInitialSocialSourcesForCoinsFilter(
               state.filters.feedSources,
-              state.filters.coinSlugs,
+              coinSlugs,
               this.props.topCoinSlugs,
             ),
           },

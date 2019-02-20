@@ -12,11 +12,25 @@ module NewsItems
       result = relation
 
       # Apply FeedSources filter
-      if feed_sources.blank?
-        # Default feed sources
-        result = result.joins(:feed_source).merge(FeedSource.active.not_reddit.not_twitter)
-      else
+      if feed_sources.present?
         result = result.where(feed_source: feed_sources)
+      else
+        # Based on app/javascript/App/bundles/NewsfeedPage/utils.ts
+        # If all selected coins are top 5 coins (@top_coin_slugs),
+        # then we disable Reddit and Twitter
+        # TODO: Reconcile split back/front-end logic
+        top_coin_slugs = Coin.top(5).pluck(:slug)
+        has_all_top_coins = if coins.present?
+          (coins.length <= top_coin_slugs.length) &&
+          coins.all? do |coin|
+            top_coin_slugs.any? { |top_slug| top_slug == coin.slug }
+          end
+        end
+
+        # Default feed sources
+        if coins.blank? || has_all_top_coins
+          result = result.joins(:feed_source).merge(FeedSource.active.not_reddit.not_twitter)
+        end
       end
 
       news_coin_mentions = NewsCoinMention.default_tagged
