@@ -10,7 +10,17 @@ import AccountCircle from '@material-ui/icons/AccountCircle'
 import KeyboardArrowDown from '@material-ui/icons/KeyboardArrowDown'
 import KeyboardArrowUp from '@material-ui/icons/KeyboardArrowUp'
 import { MenuProps } from '@material-ui/core/Menu'
-import { PROFILE_EDIT_URL, LOGOUT_URL } from '~/constants'
+import Switch from '@material-ui/core/Switch'
+import {
+  LOGIN_URL,
+  LOGOUT_URL,
+  PROFILE_EDIT_URL,
+  REGISTRATION_URL,
+} from '~/constants'
+import {
+  withThemeType,
+  ThemeContextType,
+} from '~/bundles/common/contexts/ThemeContext'
 
 const styles = (theme) =>
   createStyles({
@@ -57,7 +67,7 @@ const styles = (theme) =>
     },
   })
 
-interface Props {
+interface Props extends ThemeContextType {
   menuOpen: boolean
   menuAnchor: MenuProps['anchorEl']
   onOpenMenu: (event) => void
@@ -76,7 +86,15 @@ const NavUser: React.StatelessComponent<Props> = (props) => {
     formAuthenticityToken,
     userEmail,
     classes,
+    isDarkMode,
+    toggleTheme,
   } = props
+
+  const isLoggedIn = !!userEmail
+
+  const DarkModeToggle = () => (
+    <Switch checked={isDarkMode} onChange={toggleTheme} value={isDarkMode} />
+  )
 
   const LogoutButton = (logoutButtonProps) => (
     <form method="post" action={LOGOUT_URL}>
@@ -90,11 +108,39 @@ const NavUser: React.StatelessComponent<Props> = (props) => {
     </form>
   )
 
+  const LoggedInMenu = [
+    <ListSubheader className={classes.menuHeadingItem} key={1}>
+      <div className={classes.menuAccountLabel}>Account</div>
+      <div className={classes.menuEmail}>{userEmail}</div>
+    </ListSubheader>,
+    <DarkModeToggle key={2} />,
+    <Divider className={classes.menuDivider} key={3} />,
+    <a href={PROFILE_EDIT_URL} key={4}>
+      <MenuItem className={classes.menuItem}>My profile</MenuItem>
+    </a>,
+    <MenuItem component={LogoutButton} className={classes.menuItem} key={5}>
+      Logout
+    </MenuItem>,
+  ]
+
+  const LoggedOutMenu = [
+    <DarkModeToggle key={1} />,
+    <Divider className={classes.menuDivider} key={2} />,
+    <a href={REGISTRATION_URL} key={3}>
+      <MenuItem className={classes.menuItem}>Sign Up</MenuItem>
+    </a>,
+    <a href={LOGIN_URL} key={4}>
+      <MenuItem className={classes.menuItem}>Login</MenuItem>
+    </a>,
+  ]
+
   return (
     <div className={classes.root}>
-      <Avatar className={classes.avatar}>
-        <AccountCircle />
-      </Avatar>
+      {isLoggedIn && (
+        <Avatar className={classes.avatar}>
+          <AccountCircle />
+        </Avatar>
+      )}
 
       {menuOpen ? (
         <IconButton
@@ -137,23 +183,10 @@ const NavUser: React.StatelessComponent<Props> = (props) => {
         open={menuOpen}
         onClose={onCloseMenu}
       >
-        <ListSubheader className={classes.menuHeadingItem}>
-          <div className={classes.menuAccountLabel}>Account</div>
-          <div className={classes.menuEmail}>{userEmail}</div>
-        </ListSubheader>
-
-        <Divider className={classes.menuDivider} />
-
-        <a href={PROFILE_EDIT_URL}>
-          <MenuItem className={classes.menuItem}>My profile</MenuItem>
-        </a>
-
-        <MenuItem component={LogoutButton} className={classes.menuItem}>
-          Logout
-        </MenuItem>
+        {isLoggedIn ? LoggedInMenu : LoggedOutMenu}
       </Menu>
     </div>
   )
 }
 
-export default withTheme()(withStyles(styles)(NavUser))
+export default withTheme()(withStyles(styles)(withThemeType(NavUser)))
