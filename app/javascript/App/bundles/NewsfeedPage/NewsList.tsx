@@ -22,6 +22,7 @@ interface Props {
   onCoinClick: (coinData: CoinLinkData) => void
   hasMore: boolean
   isMobile: boolean
+  loggedIn: boolean
 }
 
 interface State {
@@ -120,7 +121,10 @@ class NewsList extends React.Component<Props, State> {
     return (
       <NewsListWrapper {...this.props}>
         {this.props.initialRenderTips && this.props.isMobile ? (
-          <Tips closeTips={this.props.closeTips} />
+          <Tips
+            closeTips={this.props.closeTips}
+            loggedIn={this.props.loggedIn}
+          />
         ) : this.props.isLoading ? (
           <div className="pa3 tc mt4">
             <LoadingIndicator />

@@ -434,6 +434,7 @@ class NewsfeedPage extends React.Component<Props, State> {
                   }}
                   onCoinClick={coinClickHandler}
                   hasMore={this.props.hasMore}
+                  loggedIn={this.props.loggedIn}
                 />
               </>
             }
