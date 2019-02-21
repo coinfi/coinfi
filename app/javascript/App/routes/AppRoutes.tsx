@@ -16,6 +16,7 @@ const AppRoutes = (props) => {
         path="/news/:coinSlug?"
         render={(routeProps) => (
           <NewsfeedPageContainer
+            user={props.user}
             loggedIn={!!props.user}
             coinSlug={routeProps.match.params.coinSlug}
             topCoinSlugs={props.topCoinSlugs}
@@ -30,6 +31,7 @@ const AppRoutes = (props) => {
         path="/news/:newsItemId/:newsItemSlug"
         render={(routeProps) => (
           <NewsfeedPageContainer
+            user={props.user}
             loggedIn={!!props.user}
             newsItemId={routeProps.match.params.newsItemId}
             topCoinSlugs={props.topCoinSlugs}
