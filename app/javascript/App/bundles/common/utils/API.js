@@ -1,5 +1,10 @@
 import axios from 'axios'
 import qs from 'qs'
+import * as Promise from 'bluebird'
+
+Promise.config({
+  cancellation: true,
+})
 
 axios.defaults.paramsSerializer = (params) => {
   return qs.stringify(params, { arrayFormat: 'brackets' })
