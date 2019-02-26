@@ -11,6 +11,7 @@ import KeyboardArrowDown from '@material-ui/icons/KeyboardArrowDown'
 import KeyboardArrowUp from '@material-ui/icons/KeyboardArrowUp'
 import { MenuProps } from '@material-ui/core/Menu'
 import Switch from '@material-ui/core/Switch'
+import FormControlLabel from '@material-ui/core/FormControlLabel'
 import {
   LOGIN_URL,
   LOGOUT_URL,
@@ -21,6 +22,7 @@ import {
   withThemeType,
   ThemeContextType,
 } from '~/bundles/common/contexts/ThemeContext'
+import { pearlGray } from '../styles/colors'
 
 const styles = (theme) =>
   createStyles({
@@ -30,6 +32,7 @@ const styles = (theme) =>
     },
     avatar: {
       background: 'none',
+      color: pearlGray,
     },
     button: {
       color: 'white',
@@ -43,7 +46,7 @@ const styles = (theme) =>
     menuHeadingItem: {
       color: 'white',
       lineHeight: '24px',
-      paddingLeft: 12,
+      paddingLeft: 16,
       paddingRight: 48,
     },
     menuAccountLabel: {},
@@ -64,6 +67,11 @@ const styles = (theme) =>
     },
     menuDivider: {
       backgroundColor: 'rgba(255, 255, 255, .3)',
+    },
+    darkModeLabel: {
+      color: 'white',
+      fontSize: 14,
+      fontWeight: 500,
     },
   })
 
@@ -93,7 +101,19 @@ const NavUser: React.StatelessComponent<Props> = (props) => {
   const isLoggedIn = !!userEmail
 
   const DarkModeToggle = () => (
-    <Switch checked={isDarkMode} onChange={toggleTheme} value={isDarkMode} />
+    <FormControlLabel
+      control={
+        <Switch
+          checked={isDarkMode}
+          onChange={toggleTheme}
+          value={isDarkMode}
+          color="default"
+        />
+      }
+      labelPlacement="start"
+      label="Dark Mode"
+      classes={{ label: classes.darkModeLabel }}
+    />
   )
 
   const LogoutButton = (logoutButtonProps) => (

@@ -1,4 +1,16 @@
 import * as React from 'react'
+import { withStyles, createStyles } from '@material-ui/core/styles'
+import { midGray } from '~/bundles/common/styles/colors'
+
+const styles = (theme) => {
+  const isDarkMode = theme.palette.type === 'dark'
+
+  return createStyles({
+    itemLink: {
+      color: isDarkMode ? theme.palette.text.secondary : midGray,
+    },
+  })
+}
 
 const itemLabel = (item) => {
   if (/www/.exec(item) !== null) {
@@ -11,7 +23,7 @@ const itemLabel = (item) => {
 }
 
 const ItemLink = (props) => (
-  <label htmlFor={props.item} className="mid-gray">
+  <label htmlFor={props.item} className={props.classes.itemLink}>
     <input
       id={props.item}
       type="checkbox"
@@ -24,6 +36,7 @@ const ItemLink = (props) => (
 )
 
 interface Props {
+  classes: any
   items: string[]
   selectedItems: string[]
   onChange: (item: string) => void
@@ -43,6 +56,7 @@ const ItemSelector = (props: Props) => {
                 item={item}
                 onChange={() => props.onChange(item)}
                 isSelected={props.selectedItems.includes(item)}
+                classes={props.classes}
               />
             </li>
           )
@@ -52,4 +66,4 @@ const ItemSelector = (props: Props) => {
   )
 }
 
-export default ItemSelector
+export default withStyles(styles)(ItemSelector)

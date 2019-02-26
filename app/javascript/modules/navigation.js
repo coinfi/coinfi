@@ -18,7 +18,7 @@ $(document).ready(() => {
   let navMenuIsOpen = false
   let navMenuCoinsIsOpen = false
   let navMenuCompanyIsOpen = false
-  const $navMenu = $('.nav-menu')
+  const $navMenu = $('#nav-menu')
   const $navMenuToggle = $('.nav-menu-toggle')
   const $navMenuCoins = $('.nav-menu-coins')
   const $navMenuCoinsToggle = $('.nav-menu-coins-toggle')
@@ -35,7 +35,7 @@ $(document).ready(() => {
     $navMenu.removeClass('nav-menu--out')
     $navMenu.addClass('nav-menu--in')
     navMenuIsOpen = true
-    onClickOutside('.nav-menu, .nav-menu-toggle', closeNavMenu)
+    onClickOutside('#nav-menu, .nav-menu-toggle', closeNavMenu)
   }
 
   const closeNavMenuCoins = () => {

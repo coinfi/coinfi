@@ -4,15 +4,26 @@ import { withCookies, Cookies } from 'react-cookie'
 import API from '~/bundles/common/utils/localAPI'
 import { MuiThemeProvider } from '@material-ui/core'
 import {
+  athens,
+  aqua,
   black87,
   black54,
   black38,
+  brightGray,
+  darkBorderColor,
   darkPineGreen,
   darkSlateBlue,
   foam,
+  geyser,
   midnight,
-  pearlGray,
+  skyBlue,
   white,
+  white50,
+  white70,
+  athensDarker,
+  white08,
+  white12,
+  silver,
 } from '~/bundles/common/styles/colors'
 
 export interface ThemeContextType {
@@ -93,12 +104,15 @@ class ThemeProvider extends React.Component<
 
   public componentDidMount() {
     document.addEventListener(THEME_TYPE_CHANGE_EVENT, this.onTypeChange)
+
+    this.setBodyClass(this.state.type)
   }
 
   public componentWillUnmount() {
     document.removeEventListener(THEME_TYPE_CHANGE_EVENT, this.onTypeChange)
   }
 
+  // Use this to keep all providers in sync
   public onTypeChange = (e: ThemeTypeChangeEvent) => {
     const { type } = e.detail
 
@@ -111,6 +125,7 @@ class ThemeProvider extends React.Component<
     }
   }
 
+  // Use this to make changes that should only be performed by one provider
   public toggleTheme = () => {
     const { type: oldType } = this.state
     const { cookies, loggedIn, user } = this.props
@@ -129,10 +144,20 @@ class ThemeProvider extends React.Component<
       API.patch('/user', { userKey: newType })
     }
 
+    this.setBodyClass(newType)
+
     const event = new CustomEvent(THEME_TYPE_CHANGE_EVENT, {
       detail: { type: newType },
     }) as ThemeTypeChangeEvent
     document.dispatchEvent(event)
+  }
+
+  public setBodyClass = (type) => {
+    if (type === 'dark') {
+      document.body.classList.add('dark-mode')
+    } else {
+      document.body.classList.remove('dark-mode')
+    }
   }
 
   public render() {
@@ -174,13 +199,25 @@ class ThemeProvider extends React.Component<
             paper: darkPineGreen,
             default: midnight,
             selected: darkSlateBlue,
+            input: white08,
           },
-        },
-        text: {
-          primary: 'rgba(255, 255, 255, 0.87)',
-          secondary: 'rgba(255, 255, 255, 0.54)',
-          disabled: 'rgba(255, 255, 255, 0.38)',
-          hint: 'rgba(255, 255, 255, 0.38)',
+          text: {
+            primary: white,
+            secondary: white70,
+            disabled: white50,
+            hint: white50,
+            inverted: black87,
+            heading: white,
+          },
+          border: {
+            main: darkBorderColor,
+            accent: brightGray,
+            input: white12,
+          },
+          primary: {
+            main: aqua,
+            light: skyBlue,
+          },
         },
       }
     } else {
@@ -190,15 +227,27 @@ class ThemeProvider extends React.Component<
           type: 'light',
           background: {
             paper: white,
-            default: pearlGray,
+            default: athens,
             selected: foam,
+            input: white,
           },
-        },
-        text: {
-          primary: black87,
-          secondary: black54,
-          disabled: black38,
-          hint: black38,
+          text: {
+            primary: black87,
+            secondary: black54,
+            disabled: black38,
+            hint: black38,
+            inverted: white,
+            heading: brightGray,
+          },
+          border: {
+            main: athensDarker,
+            accent: geyser,
+            input: silver,
+          },
+          primary: {
+            main: aqua,
+            light: skyBlue,
+          },
         },
       }
     }

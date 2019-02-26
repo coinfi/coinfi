@@ -2,6 +2,22 @@ $nav-height: 50px;
 $nav-menu-width: 300px;
 $nav-menu-more-width: 150px;
 
+.dark-mode {
+  .nav {
+    background: $evergreen;
+  }
+
+  .b--black-10 {
+    border-color: rgba(255, 255, 255, 0.12);
+  }
+
+  @media #{$screen-max-m} {
+    .nav-menu {
+      background: $dark-pine-green;
+    }
+  }
+}
+
 .nav {
   background: $dark-pine-green;
   width: 100%;
@@ -23,7 +39,7 @@ $nav-menu-more-width: 150px;
   flex-direction: column;
   background: $tiber;
   position: fixed;
-  height: calc(100% - #{$nav-height});
+  min-height: calc(100% - #{$nav-height});
   width: $nav-menu-width;
   top: $nav-height;
   left: 0;
@@ -42,15 +58,17 @@ $nav-menu-more-width: 150px;
   }
 }
 
+.nav-items {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
 .nav-actions {
   display: none;
 }
 
 .nav-menu-actions {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
   padding: 1rem;
 
   &__btn {
@@ -169,6 +187,7 @@ main {
     background: none;
     z-index: initial;
     height: initial;
+    min-height: initial;
     flex-direction: row;
     position: static;
     top: initial;
@@ -176,7 +195,8 @@ main {
     width: unset;
     padding-left: 0.5rem;
     padding-right: 0.5rem;
-    &__item {
+    &__item,
+    .nav-items {
       height: 100%;
       display: flex;
       align-items: center;
@@ -186,6 +206,11 @@ main {
       cursor: pointer;
       flex: 0 0 auto;
     }
+  }
+  .nav-items {
+    display: flex;
+    flex-direction: row;
+    flex: 0 0 auto;
   }
   .nav-menu-actions {
     display: none;

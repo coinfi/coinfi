@@ -5,11 +5,13 @@ import NewsListItem from './NewsListItem'
 import LoadingIndicator from '../common/components/LoadingIndicator'
 import Tips from './Tips'
 import withDevice from '~/bundles/common/utils/withDevice'
+import { withStyles, createStyles } from '@material-ui/core/styles'
 
 import { NewsItem } from './types'
 import { CoinLinkData } from '~/bundles/common/types'
 
 interface Props {
+  classes: any
   isShown: boolean
   isLoading: boolean
   sortedNewsItems: NewsItem[]
@@ -29,6 +31,22 @@ interface State {
   initialRender: boolean
   initialRenderTips: boolean
   readNewsIds: number[]
+}
+
+const styles = (theme) => {
+  const isDarkMode = theme.palette.type === 'dark'
+
+  return createStyles({
+    emptyRoot: {
+      textAlign: 'center',
+      padding: '1rem',
+      marginTop: '2rem',
+      color: theme.palette.text.primary,
+      '& h1, h2, h3, h4, h5': {
+        color: `${theme.palette.text.heading} !important`,
+      },
+    },
+  })
 }
 
 const NewsListWrapper = ({ isMobile, initialRenderTips, children }) => {
@@ -118,8 +136,10 @@ class NewsList extends React.Component<Props, State> {
       return null
     }
 
+    const { classes, ...remainingProps } = this.props
+
     return (
-      <NewsListWrapper {...this.props}>
+      <NewsListWrapper {...remainingProps}>
         {this.props.initialRenderTips && this.props.isMobile ? (
           <Tips
             closeTips={this.props.closeTips}
@@ -130,7 +150,7 @@ class NewsList extends React.Component<Props, State> {
             <LoadingIndicator />
           </div>
         ) : !this.props.sortedNewsItems.length ? (
-          <div className="pa3 tc mt4">
+          <div className={classes.emptyRoot}>
             <div className="pointer">
               <h4 className="fw6 mv3 f4">No results found.</h4>
             </div>
@@ -146,7 +166,7 @@ class NewsList extends React.Component<Props, State> {
           <NewsListItemsContainer
             onSelect={this.onSelect}
             readNewsIds={this.state.readNewsIds}
-            {...this.props}
+            {...remainingProps}
           />
         )}
       </NewsListWrapper>
@@ -154,4 +174,4 @@ class NewsList extends React.Component<Props, State> {
   }
 }
 
-export default withDevice(NewsList)
+export default withStyles(styles)(withDevice(NewsList))

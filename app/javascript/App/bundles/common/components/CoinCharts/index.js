@@ -5,7 +5,7 @@ import TradingViewChart from './TradingViewChart'
 import LoadingIndicator from '../LoadingIndicator'
 import moment from 'moment'
 import * as _ from 'lodash'
-import CurrencyContext from '~/bundles/common/contexts/CurrencyContext'
+import { withCurrency } from '~/bundles/common/contexts/CurrencyContext'
 
 const STATUSES = {
   INITIALIZING: 'INITIALIZING',
@@ -77,7 +77,7 @@ class CoinCharts extends Component {
   }
 
   hasData() {
-    const { priceData, priceDataHourly } = this.props
+    const { priceData } = this.props
     const hasData = Array.isArray(priceData)
 
     return hasData
@@ -134,7 +134,7 @@ class CoinCharts extends Component {
       priceDataHourly,
       ...remainingProps
     } = this.props
-    const { status, processedPriceData, epochPrices } = this.state
+    const { status, processedPriceData } = this.state
 
     if (status !== STATUSES.READY) {
       return (
@@ -153,7 +153,6 @@ class CoinCharts extends Component {
             className="flex-auto justify-center justify-start-l"
           />
         )}
-
         <div id="coin-charts" className="nl3 nr3 mh0-m">
           <div className="tab-content active">
             <PriceGraph
@@ -177,8 +176,4 @@ class CoinCharts extends Component {
   }
 }
 
-export default (props) => (
-  <CurrencyContext.Consumer>
-    {(payload) => <CoinCharts {...props} {...payload} />}
-  </CurrencyContext.Consumer>
-)
+export default withCurrency(CoinCharts)

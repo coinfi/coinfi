@@ -1,12 +1,24 @@
 import * as React from 'react'
+import { withStyles, createStyles } from '@material-ui/core/styles'
 
-const SectionHeader = ({ children }) => (
-  <div
-    className="pa3 b--b flex-none flex justify-between items-center bg-athens"
-    style={{ height: 60 }}
-  >
-    {children}
-  </div>
+const styles = (theme) =>
+  createStyles({
+    root: {
+      background: theme.palette.background.default,
+      borderColor: theme.palette.border.main,
+      borderBottomStyle: 'solid',
+      borderBottomWidth: '1px',
+      height: '60px',
+      padding: '1rem',
+      display: 'flex',
+      flex: 'none',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+    },
+  })
+
+const SectionHeader = ({ children, classes }) => (
+  <div className={classes.root}>{children}</div>
 )
 
-export default SectionHeader
+export default withStyles(styles)(SectionHeader)

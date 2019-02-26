@@ -1,21 +1,43 @@
 import * as React from 'react'
-import timeago from 'timeago.js'
+import * as moment from 'moment'
 import CoinTags from '../common/components/CoinTags'
 import BulletSpacer from '~/bundles/common/components/BulletSpacer'
 import { withStyles, createStyles } from '@material-ui/core/styles'
 import classNames from 'classnames'
 import Favicon from '~/bundles/common/components/Favicon'
 import * as _ from 'lodash'
+import { tiber } from '~/bundles/common/styles/colors'
 
 import { formatNewsUrl } from '~/bundles/common/utils/news'
 
-const styles = (theme) =>
-  createStyles({
+const styles = (theme) => {
+  const isDarkMode = theme.palette.type === 'dark'
+
+  return createStyles({
     read: {
-      color: '#999',
+      color: `${theme.palette.text.secondary} !important`,
     },
-    unread: {},
+    unread: {
+      color: `${theme.palette.text.primary} !important`,
+    },
+    wrapper: {
+      color: isDarkMode ? theme.palette.text.primary : tiber,
+      borderColor: theme.palette.border.main,
+      borderBottomStyle: 'solid',
+      borderBottomWidth: '1px',
+      background: theme.palette.background.paper,
+      overflow: 'hidden',
+      '&.selected': {
+        background: theme.palette.background.selected,
+      },
+    },
+    detailsWrapper: {},
+    details: {
+      fontSize: '0.875rem',
+      color: theme.palette.text.secondary,
+    },
   })
+}
 
 const readNewsHandler = (newsItem) => {
   const newsId = newsItem.id
@@ -37,8 +59,7 @@ const readNewsHandler = (newsItem) => {
 }
 
 const NewsListItem = (props) => {
-  const { newsItem, isSelected, preRender, hasRead, onClick, classes } = props
-
+  const { newsItem, isSelected, hasRead, onClick, classes } = props
   const newsItemTitle = newsItem.title
     .replace(/<h1>/g, '')
     .replace(/<\/h1>/g, '')
@@ -46,11 +67,7 @@ const NewsListItem = (props) => {
   const { linkUrl, linkText } = formatNewsUrl(newsItem.url)
   return (
     <div
-      className={classNames(
-        'b--b tiber overflow-hidden',
-        { 'bg-foam': isSelected },
-        { 'o-0 absolute': preRender },
-      )}
+      className={classNames(classes.wrapper, { selected: isSelected })}
       style={{ height: props.height || 'auto' }}
     >
       <div
@@ -74,7 +91,7 @@ const NewsListItem = (props) => {
           {newsItemTitle}
         </h4>
         <div className="flex justify-between flex-wrap">
-          <div className="f6 silver">
+          <div className={classes.details}>
             <span className="mr2">
               <Favicon url={linkUrl} style={{ height: 12 }} />
             </span>
@@ -87,7 +104,7 @@ const NewsListItem = (props) => {
               {linkText}
             </a>
             <BulletSpacer />
-            {timeago().format(newsItem.feed_item_published_at)}
+            {moment(newsItem.feed_item_published_at).fromNow()}
           </div>
           <CoinTags {...props} itemWithCoinLinkData={newsItem} />
         </div>
@@ -96,4 +113,4 @@ const NewsListItem = (props) => {
   )
 }
 
-export default withStyles(styles, { withTheme: true })(NewsListItem)
+export default withStyles(styles)(NewsListItem)

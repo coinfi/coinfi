@@ -1,10 +1,53 @@
 import React, { Component } from 'react'
+import classname from 'classnames'
+import { withStyles, createStyles } from '@material-ui/core/styles'
+import { sansAlt } from '../../styles/typography'
+import { tiber, white70 } from '../../styles/colors'
+import classnames from 'classnames'
 
-export default class Tabs extends Component {
+const styles = (theme) => {
+  const isDarkMode = theme.palette.type === 'dark'
+
+  return createStyles({
+    tabs: {
+      display: 'flex',
+      '& .tab': {
+        fontSize: '0.9rem',
+        color: isDarkMode ? white70 : tiber,
+        fontFamily: sansAlt,
+        fontWeight: 'bold',
+        textAlign: 'center',
+        cursor: 'pointer',
+        border: 'none',
+        borderBottom: '3px solid transparent',
+        padding: '0.5rem 0',
+        display: 'block',
+        background: 'transparent',
+        '&:not(:last-child)': {
+          marginRight: '2rem',
+        },
+        '&.active': {
+          borderBottomColor: isDarkMode ? white70 : tiber,
+          cursor: 'default',
+        },
+      },
+    },
+    '& .tab-content:not(.active)': {
+      position: 'fixed !important',
+      clip: 'rect(1px, 1px, 1px, 1px)',
+      opacity: 0,
+      overflow: 'hidden',
+    },
+  })
+}
+
+class Tabs extends Component {
   state = { tabKey: 0 }
+
   componentDidMount() {
     this.showTab(0)
   }
+
   showTab = (tabKey) => {
     if (tabKey === this.state.tabKey) return
     const { items, target, onChange } = this.props
@@ -20,18 +63,16 @@ export default class Tabs extends Component {
       }
     })
   }
-  tabClass = (tabKey) => {
-    if (this.state.tabKey === tabKey) return 'tab active'
-    return 'tab'
-  }
+
   render() {
-    const { items, className } = this.props
+    const { items, classes, className } = this.props
+    const { tabKey: activeTabKey } = this.state
     return (
-      <div ref={this.handleRef} className={`tabs ${className || ''}`}>
+      <div ref={this.handleRef} className={classname(classes.tabs, className)}>
         {items.map((label, key) => (
           <button
             key={key}
-            className={this.tabClass(key)}
+            className={classnames('tab', { active: activeTabKey === key })}
             onClick={() => this.showTab(key)}
           >
             {label}
@@ -41,3 +82,5 @@ export default class Tabs extends Component {
     )
   }
 }
+
+export default withStyles(styles)(Tabs)
