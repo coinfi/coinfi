@@ -172,6 +172,11 @@ class CurrencyProvider extends React.Component<
 
   public changeCurrency = (currency) => {
     const { cookies, loggedIn, user } = this.props
+    const { currency: oldCurrency } = this.state
+
+    if (oldCurrency === currency) {
+      return
+    }
 
     cookies.set('currency', currency, cookieOptions)
     const currencyDetails = this.getCurrencyDetails(currency)

@@ -60,6 +60,7 @@ class NewsController < ApplicationController
 
     @top_coins_data = toplist_coins
     @watched_coins_data = watchlist_coins if current_user
+    @theme = cookies[:theme]
   end
 
   def set_body_class

@@ -23,6 +23,7 @@ const AppRoutes = (props) => {
             categories={props.categories}
             feedSources={props.feedSources}
             initialCoinWithDetails={props.initialCoinWithDetails}
+            initialTheme={props.initialTheme}
           />
         )}
       />
@@ -38,6 +39,7 @@ const AppRoutes = (props) => {
             categories={props.categories}
             feedSources={props.feedSources}
             initialNewsItem={props.initialNewsItem}
+            initialTheme={props.initialTheme}
           />
         )}
       />

@@ -42,6 +42,7 @@ export interface ThemeProviderExposedProps {
   user?: any
   loggedIn?: boolean
   hasOuterTheme?: boolean
+  initialTheme?: ThemeTypes
 }
 
 export interface ThemeProviderState {
@@ -60,7 +61,7 @@ export interface ThemeTypeChangeEvent extends CustomEvent {
 
 const defaultThemeType: ThemeTypes = 'light'
 const cookieKey = 'theme'
-const userKey = 'theme_type'
+const userKey = 'theme'
 const cookieOptions = {
   path: '/',
 }
@@ -77,9 +78,9 @@ class ThemeProvider extends React.Component<
   constructor(props: ThemeProviderProps) {
     super(props)
 
-    const { cookies, user } = props
+    const { cookies, user, initialTheme } = props
     const userThemeType = _.get(user, userKey)
-    const cookieThemeType = cookies.get(cookieKey)
+    const cookieThemeType = cookies.get(cookieKey) || initialTheme
     const themeType = userThemeType || cookieThemeType || defaultThemeType
 
     // remediate server-saved theme and local-saved theme
@@ -141,7 +142,7 @@ class ThemeProvider extends React.Component<
     })
 
     if (loggedIn || user) {
-      API.patch('/user', { userKey: newType })
+      API.patch('/user', { [userKey]: newType })
     }
 
     this.setBodyClass(newType)

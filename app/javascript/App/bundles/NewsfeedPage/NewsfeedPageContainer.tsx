@@ -6,7 +6,7 @@ import CoinListContext, {
 import NewsfeedContext, { NewsfeedContextType } from './NewsfeedContext'
 import { CoinWithDetails } from '~/bundles/common/types'
 import { NewsItem } from '~/bundles/NewsfeedPage/types'
-import { ThemeProvider } from '../common/contexts/ThemeContext'
+import { ThemeProvider, ThemeTypes } from '../common/contexts/ThemeContext'
 
 interface Props {
   user: any
@@ -18,10 +18,11 @@ interface Props {
   newsItemId?: string
   initialNewsItem?: NewsItem
   initialCoinWithDetails?: CoinWithDetails
+  initialTheme?: ThemeTypes
 }
 
 const NewsfeedPageContainer = (props: Props) => (
-  <ThemeProvider user={props.user}>
+  <ThemeProvider user={props.user} initialTheme={props.initialTheme}>
     <NewsfeedContext.Consumer>
       {(newsfeedPayload: NewsfeedContextType) => (
         <CoinListContext.Consumer>

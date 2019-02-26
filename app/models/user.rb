@@ -97,6 +97,17 @@ class User < ApplicationRecord
     token_sale["ethereum_address"] if token_sale && token_sale["ethereum_address"]
   end
 
+  def theme
+    token_sale["theme"] if token_sale["theme"]
+  end
+
+  def set_theme(theme)
+    if ['light', 'dark'].any? {|type| type == theme}
+      token_sale["theme"] = theme
+      self.save
+    end
+  end
+
   # Returns number of staked COFI tokens
   # Uses the value in `token_sale` first otherwise fallback onto looking up transactions
   def staked_cofi_amount
