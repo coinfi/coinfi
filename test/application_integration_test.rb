@@ -9,7 +9,7 @@ class ApplicationIntegrationTest < ActionDispatch::IntegrationTest
     stub_request(:get, Regexp.new("#{postgres_url}/daily_ohcl_prices")).
       to_return(status: 200, body: File.new(Rails.root.join('test', 'fixtures', 'daily_ohcl_prices.json')))
 
-    stub_request(:get, Regexp.new("#{postgres_url}/daily_ohcl_prices")).
+    stub_request(:get, Regexp.new("#{postgres_url}/cmc_daily_ohcl_prices")).
       to_return(status: 200, body: File.new(Rails.root.join('test', 'fixtures', 'cmc_daily_ohcl_prices.json')))
 
     stub_request(:get, Regexp.new("#{postgres_url}/hourly_ohcl_prices")).
