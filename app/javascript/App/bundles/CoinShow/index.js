@@ -17,6 +17,7 @@ import {
   ExpansionPanel,
   ExpansionPanelSummary,
   ExpansionPanelDetails,
+  Tooltip,
 } from '@material-ui/core'
 import { withStyles } from '@material-ui/core/styles'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
@@ -34,6 +35,7 @@ import HistoricalPriceDataTable from './HistoricalPriceDataTable'
 import MarketsTable from './MarketsTable'
 import MarketsChart from './MarketsChart'
 import TokenMetrics from './TokenMetrics'
+import SignalTable from './SignalTable'
 import Icon from '~/bundles/common/components/Icon'
 import CoinListWrapper from '~/bundles/common/components/CoinListWrapper'
 import CoinListDrawer from '~/bundles/common/components/CoinListDrawer'
@@ -279,13 +281,14 @@ class CoinShow extends Component {
     const {
       symbol,
       availableSupply,
-      annotations,
       isTradingViewVisible,
       tokenMetrics,
       coinObj,
       relatedCoins,
       classes,
       user,
+      chartSignals,
+      summarySignals,
       isDesktop,
     } = this.props
     const { tabSlug, priceData, priceDataHourly } = this.state
@@ -448,15 +451,83 @@ class CoinShow extends Component {
                     />
                     <CardContent>
                       <CoinCharts
-                        symbol={symbol}
+                        coinObj={coinObj}
                         priceData={priceData}
                         priceDataHourly={priceDataHourly}
-                        annotations={annotations}
+                        annotations={chartSignals}
                         isTradingViewVisible={isTradingViewVisible}
                         onPriceChartCreated={this.handlePriceChartCreated}
                       />
                     </CardContent>
                   </MainCard>
+                  {_.isArray(summarySignals) && (
+                    <MainCard>
+                      <CardHeader
+                        title={
+                          <>
+                            Whale {symbol} Transfers into Exchange (99.999
+                            Percentile)
+                            <Tooltip
+                              title={
+                                <>
+                                  <div>
+                                    Whale Transfers Into Exchange are large
+                                    transfers of ETH that are larger than
+                                    99.999% of all historical ETH transactions
+                                    into exchanges.
+                                  </div>
+                                  <div>
+                                    When this signal fires, it could indicate
+                                    one of the following:
+                                  </div>
+                                  <ul>
+                                    <li>
+                                      The whale has intention to sell but may
+                                      not sell immediately or all at once
+                                    </li>
+                                    <li>
+                                      There is an ongoing pump and the whale
+                                      sees this as an opportunity to sell
+                                    </li>
+                                    <li>
+                                      The whale could be anticipating higher
+                                      volatility in the future and is preparing
+                                      to trade if necessary
+                                    </li>
+                                  </ul>
+                                </>
+                              }
+                              className={classes.infoIcon}
+                              classes={{ tooltip: classes.infoTooltip }}
+                            >
+                              <Icon name="info-circle" />
+                            </Tooltip>
+                          </>
+                        }
+                        titleTypographyProps={{
+                          variant: 'h2',
+                          component: 'h2',
+                        }}
+                        classes={{
+                          root: classes.cardHeader,
+                          title: classes.cardTitle,
+                        }}
+                      />
+                      <CardContent>
+                        <SignalTable signals={summarySignals} symbol={symbol} />
+                        <div className={classes.signalCtaText}>
+                          <Icon
+                            name="alarm-clock"
+                            solid={true}
+                            className={classes.alarmClockIcon}
+                          />
+                          <a href="/signals">Click here</a> to be instantly
+                          alerted when a whale transfers a large amount of{' '}
+                          {symbol} into exchange
+                        </div>
+                      </CardContent>
+                    </MainCard>
+                  )}
                   <ExpansionPanel
                     square={true}
                     elevation={0}

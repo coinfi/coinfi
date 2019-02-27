@@ -48,7 +48,8 @@ class TradingViewChart extends Component {
 
   componentDidMount() {
     // TODO: inject TV lib here
-    const { symbol } = this.props
+    const { coinObj } = this.props
+    const { symbol } = coinObj
     const TradingView = this.getTradingView()
 
     // Options resource https://github.com/stevenGame/jr-chart/wiki/Widget-Constructor
@@ -56,7 +57,7 @@ class TradingViewChart extends Component {
     this.tvWidget = new TradingView.widget({
       debug: false,
       fullscreen: false,
-      symbol: symbol,
+      symbol,
       interval: '60',
       container_id: containerID,
       datafeed: new Datafeed(

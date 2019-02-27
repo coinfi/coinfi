@@ -4,7 +4,7 @@ import PriceGraph from './PriceGraph'
 import TradingViewChart from './TradingViewChart'
 import LoadingIndicator from '../LoadingIndicator'
 import moment from 'moment'
-import * as _ from 'lodash'
+import _ from 'lodash'
 import { withCurrency } from '~/bundles/common/contexts/CurrencyContext'
 
 const STATUSES = {
