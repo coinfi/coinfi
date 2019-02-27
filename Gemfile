@@ -141,3 +141,5 @@ end
 # gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 gem "activerecord-import", "~> 0.27.0"
+
+gem "active_record_upsert", "~> 0.9.4"

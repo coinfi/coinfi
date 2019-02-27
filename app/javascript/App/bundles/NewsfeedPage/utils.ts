@@ -18,7 +18,11 @@ export const getInitialSocialSourcesForCoinsFilter = (
   }
 
   // Disable social sources if there are only top coins or if all coins are displayed
-  if (_.isEmpty(coinSlugs) || _.every(coinSlugs, isTopCoin)) {
+  if (
+    _.isEmpty(coinSlugs) ||
+    coinSlugs.length > topCoinSlugs.length ||
+    _.every(coinSlugs, isTopCoin)
+  ) {
     return []
   }
 

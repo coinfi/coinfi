@@ -59,6 +59,10 @@ GEM
       rails-html-sanitizer (~> 1.0, >= 1.0.3)
     active_hash (2.1.0)
       activesupport (>= 5.0.0)
+    active_record_upsert (0.9.4)
+      activerecord (>= 5.0, < 6.0)
+      arel (> 7.0, < 10.0)
+      pg (>= 0.18, < 2.0)
     activejob (5.1.6)
       activesupport (= 5.1.6)
       globalid (>= 0.3.6)
@@ -650,6 +654,7 @@ PLATFORMS
 
 DEPENDENCIES
   active_hash
+  active_record_upsert (~> 0.9.4)
   activerecord-import (~> 0.27.0)
   acts-as-taggable-on
   administrate

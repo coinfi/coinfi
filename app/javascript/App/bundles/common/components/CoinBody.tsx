@@ -163,9 +163,9 @@ class CoinBody extends React.Component<Props, State> {
                 </div>
               </div>
               <CoinCharts
-                symbol={coinWithDetails.symbol}
+                coinObj={coinWithDetails}
                 priceData={coinWithDetails.prices_data}
-                priceDataHourly={coinWithDetails.hourly_prices_data}
+                // priceDataHourly={coinWithDetails.hourly_prices_data}
                 annotations={coinWithDetails.news_data}
                 isTradingViewVisible={true}
               />

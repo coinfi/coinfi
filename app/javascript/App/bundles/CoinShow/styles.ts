@@ -1,5 +1,5 @@
 import { createStyles } from '@material-ui/core/styles'
-import { borderColor, black87 } from '~/bundles/common/styles/colors'
+import { borderColor, black87, aqua } from '~/bundles/common/styles/colors'
 
 const styles = (theme) =>
   createStyles({
@@ -241,6 +241,32 @@ const styles = (theme) =>
     },
     linkListText: {
       fontSize: '16px',
+    },
+    infoIcon: {
+      verticalAlign: 'baseline',
+      marginLeft: '16px',
+      fontSize: '12px',
+      fontWeight: 500,
+    },
+    infoTooltip: {
+      fontSize: '12px',
+      fontWeight: 500,
+      textAlign: 'justify',
+      '& div:not(:first-child)': {
+        marginTop: '8px',
+      },
+      '& ul': {
+        marginTop: '0 !important',
+      },
+    },
+    alarmClockIcon: {
+      verticalAlign: 'baseline',
+      marginRight: '8px',
+      color: aqua,
+    },
+    signalCtaText: {
+      fontSize: '12px',
+      marginTop: '24px',
     },
   })
 

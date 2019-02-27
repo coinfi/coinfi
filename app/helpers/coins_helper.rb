@@ -88,9 +88,9 @@ module CoinsHelper
   def historical_total_market_data(days: 7, months: nil)
     distribute_reads(max_lag: MAX_ACCEPTABLE_REPLICATION_LAG, lag_failover: true) do
       if days.present?
-        MarketMetric.daily(days)
+        MarketMetric.daily(days).to_a
       elsif months.present?
-        MarketMetric.monthly(months)
+        MarketMetric.monthly(months).to_a
       end
     end
   end
@@ -138,5 +138,9 @@ module CoinsHelper
       .flat_map { |v| v[1] }
 
     coins.as_json
+  end
+
+  def is_ethereum?(coin)
+    coin.present? && coin.coin_key == 'ethereum.org'
   end
 end

@@ -22,7 +22,7 @@ module CoinListHelper
 
   def coinlist_serializer(coins)
     coins.as_json(
-      only: %i[id name symbol slug price_usd],
+      only: %i[id name symbol slug],
       methods: %i[market_info]
     )
   end
