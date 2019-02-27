@@ -46,7 +46,7 @@ module CoinMarketCapPro
 
     def healthcheck_or_log_error(error, healthcheck_url = nil)
       if healthcheck_url.present?
-        Net::HTTP.post(URI.parse("#{healthcheck_url}/fail"), error)
+        Net::HTTP.post(URI.parse("#{healthcheck_url}/fail"), error.try(:to_json))
       else
         if error.is_a?(Hash)
           puts "Failure with error as Hash:"
