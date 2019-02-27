@@ -169,16 +169,17 @@ main {
   }
   .nav {
     position: relative;
-  }
-  .nav__inner {
-    justify-content: flex-end;
-    margin: 0 auto;
-  }
-  .nav {
+    .nav__inner {
+      justify-content: flex-end;
+      margin: 0 auto;
+    }
     .nav-logo {
       position: absolute;
       top: 0;
       left: 0;
+    }
+    .nav-dark-mode-toggle {
+      margin-left: 8px;
     }
   }
   .nav-menu {
@@ -194,7 +195,6 @@ main {
     left: initial;
     width: unset;
     padding-left: 0.5rem;
-    padding-right: 0.5rem;
     &__item,
     .nav-items {
       height: 100%;
@@ -245,8 +245,8 @@ main {
     height: 100%;
     display: flex;
     align-items: center;
-    > div:first-child {
-      margin-left: 10px;
+    .nav-menu-login {
+      margin-right: 16px;
     }
   }
   .footer-flex-container {
@@ -315,6 +315,13 @@ img.icon-white {
       }
     }
   }
+  .nav {
+    .nav-dark-mode-toggle {
+      position: fixed;
+      right: 10px;
+    }
+  }
+
   .nav-logo-wrapper {
     text-align: center;
   }

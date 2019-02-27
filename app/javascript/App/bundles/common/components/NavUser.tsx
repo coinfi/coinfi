@@ -32,11 +32,14 @@ const styles = (theme) =>
     avatar: {
       background: 'none',
       color: pearlGray,
+      width: '30px',
+      height: '30px',
     },
     button: {
       color: 'white',
       width: 'auto',
       fontSize: 20,
+      paddingLeft: '0 !important',
     },
     menuPaper: {
       borderRadius: 0,
@@ -96,10 +99,10 @@ const NavUser: React.StatelessComponent<Props> = (props) => {
     classes,
     isDarkMode,
     toggleTheme,
-    showDarkMode,
   } = props
 
   const isLoggedIn = !!userEmail
+  const showDarkMode = false // disable for now; possibly renable when there are more pages?
 
   const LogoutButton = (logoutButtonProps) => (
     <form method="post" action={LOGOUT_URL}>

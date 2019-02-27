@@ -2,6 +2,8 @@ import * as React from 'react'
 import Switch from '@material-ui/core/Switch'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
 import { createStyles, withStyles } from '@material-ui/core/styles'
+import Icon from '~/bundles/common/components/Icon'
+import classnames from 'classnames'
 
 interface Props {
   isDarkMode: boolean
@@ -20,6 +22,10 @@ const styles = (theme) =>
       color: 'white',
       fontSize: 14,
       fontWeight: 500,
+    },
+    standaloneLabel: {
+      marginRight: '-12px',
+      marginBottom: '4px',
     },
   })
 
@@ -42,9 +48,11 @@ const DarkModeToggle = ({
         />
       }
       labelPlacement="start"
-      label="Dark Mode"
+      label={standAlone ? <Icon name="moon-stars" solid={true} /> : 'Dark Mode'}
       classes={{
-        label: classes.label,
+        label: classnames(classes.label, {
+          [classes.standaloneLabel]: standAlone,
+        }),
         root: standAlone ? classes.standaloneRoot : classes.root,
       }}
     />
