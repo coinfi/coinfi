@@ -62,6 +62,15 @@ protected
   end
   helper_method :hide_currency?
 
+  def show_dark_mode
+    @show_dark_mode = true
+  end
+
+  def show_dark_mode?
+    @show_dark_mode
+  end
+  helper_method :show_dark_mode?
+
   def set_fluid
     @is_fluid = true
   end

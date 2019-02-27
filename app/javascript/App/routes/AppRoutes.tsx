@@ -16,12 +16,14 @@ const AppRoutes = (props) => {
         path="/news/:coinSlug?"
         render={(routeProps) => (
           <NewsfeedPageContainer
+            user={props.user}
             loggedIn={!!props.user}
             coinSlug={routeProps.match.params.coinSlug}
             topCoinSlugs={props.topCoinSlugs}
             categories={props.categories}
             feedSources={props.feedSources}
             initialCoinWithDetails={props.initialCoinWithDetails}
+            initialTheme={props.initialTheme}
           />
         )}
       />
@@ -30,12 +32,14 @@ const AppRoutes = (props) => {
         path="/news/:newsItemId/:newsItemSlug"
         render={(routeProps) => (
           <NewsfeedPageContainer
+            user={props.user}
             loggedIn={!!props.user}
             newsItemId={routeProps.match.params.newsItemId}
             topCoinSlugs={props.topCoinSlugs}
             categories={props.categories}
             feedSources={props.feedSources}
             initialNewsItem={props.initialNewsItem}
+            initialTheme={props.initialTheme}
           />
         )}
       />

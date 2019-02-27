@@ -1,20 +1,53 @@
 import * as React from 'react'
+import * as _ from 'lodash'
+import classnames from 'classnames'
 import Icon from './Icon'
 import CoinListContext from '../contexts/CoinListContext'
+import { withStyles, createStyles } from '@material-ui/core/styles'
+import {
+  btn,
+  btnXs,
+  btnBlueOutline,
+  btnGray,
+  btnBlue,
+} from '~/bundles/common/styles/buttons'
+import { aqua, black12, white12 } from '~/bundles/common/styles/colors'
 
 interface CoinForWatchSatr {
   id: number
 }
 
 interface Props {
+  classes: any
   coin: CoinForWatchSatr
   hasText: boolean
   loggedIn: boolean
 }
 
-const WatchStar = ({ coin, hasText, loggedIn }: Props) => {
-  const hasTextClassNames = 'btn btn-xs btn-gray'
+const styles = (theme) => {
+  const isDarkMode = theme.palette.type === 'dark'
 
+  return createStyles({
+    starIcon: {
+      color: isDarkMode ? white12 : black12,
+    },
+    starIconSelected: {
+      color: _.get(theme, ['palette', 'primary', 'main'], aqua),
+    },
+    starIconButton: {
+      ...btn(theme),
+      ...btnXs(theme),
+      ...(isDarkMode ? btnBlueOutline : btnGray),
+    },
+    starIconButtonSelected: {
+      ...btn(theme),
+      ...btnXs(theme),
+      ...(isDarkMode ? btnBlueOutline : btnBlue),
+    },
+  })
+}
+
+const WatchStar = ({ coin, hasText, loggedIn, classes }: Props) => {
   return (
     <CoinListContext.Consumer>
       {(payload) => {
@@ -24,7 +57,9 @@ const WatchStar = ({ coin, hasText, loggedIn }: Props) => {
               <Icon
                 name="star"
                 solid={true}
-                className={`aqua ${hasText ? hasTextClassNames : ''}`}
+                className={classnames(classes.starIconSelected, {
+                  [classes.starIconButtonSelected]: hasText,
+                })}
                 onClick={(e) => {
                   e.preventDefault()
                   e.stopPropagation()
@@ -38,7 +73,9 @@ const WatchStar = ({ coin, hasText, loggedIn }: Props) => {
             return (
               <Icon
                 name="star"
-                className={`light-silver ${hasText ? hasTextClassNames : ''}`}
+                className={classnames(classes.starIcon, {
+                  [classes.starIconButton]: hasText,
+                })}
                 onClick={(e) => {
                   e.preventDefault()
                   e.stopPropagation()
@@ -55,7 +92,9 @@ const WatchStar = ({ coin, hasText, loggedIn }: Props) => {
           <div className="div tooltipped">
             <Icon
               name="star"
-              className={`light-silver ${hasText ? hasTextClassNames : ''}`}
+              className={classnames(classes.starIcon, {
+                [classes.starIconButton]: hasText,
+              })}
               onClick={(e) => {
                 e.preventDefault()
                 e.stopPropagation()
@@ -72,4 +111,4 @@ const WatchStar = ({ coin, hasText, loggedIn }: Props) => {
   )
 }
 
-export default WatchStar
+export default withStyles(styles)(WatchStar)

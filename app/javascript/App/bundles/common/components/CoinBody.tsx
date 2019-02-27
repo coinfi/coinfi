@@ -12,11 +12,43 @@ import CurrencyContext, {
   CurrencyContextType,
 } from '~/bundles/common/contexts/CurrencyContext'
 import { formatAbbreviatedPrice } from '~/bundles/common/utils/numberFormatters'
+import { foam, brightGray } from '~/bundles/common/styles/colors'
 
 import { CoinWithDetails } from '../types'
 
 const styles = (theme) =>
   createStyles({
+    root: {
+      padding: '2rem',
+      backgroundColor: theme.palette.background.paper,
+      color: theme.palette.text.primary,
+      '& h1, h2, h3, h4, h5': {
+        color: `${_.get(
+          theme,
+          ['palette', 'text', 'heading'],
+          brightGray,
+        )} !important`,
+      },
+    },
+    coinWrapper: {
+      display: 'flex',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      [theme.breakpoints.down('sm')]: {
+        flexDirection: 'column',
+      },
+    },
+    marketCap: {
+      fontSize: '0.875rem',
+      marginTop: '0.5rem',
+      padding: '0.25rem 0.5rem',
+      backgroundColor: _.get(
+        theme,
+        ['palette', 'background', 'selected'],
+        foam,
+      ),
+      display: 'inline-block',
+    },
     relatedCoinList: {
       listStyle: 'none',
       paddingLeft: 0,
@@ -116,8 +148,8 @@ class CoinBody extends React.Component<Props, State> {
           })
 
           return (
-            <div className="pa4 bg-white">
-              <div className="flex justify-between items-center">
+            <div className={classes.root}>
+              <div className={classes.coinWrapper}>
                 <a
                   href={`/coins/${coinWithDetails.slug}`}
                   className="f4 fw6 flex items-center color-inherit"
@@ -157,7 +189,7 @@ class CoinBody extends React.Component<Props, State> {
                       />
                     </span>
                   </div>
-                  <div className="dib ph2 pv1 bg-light-gray f6 mt2">
+                  <div className={classes.marketCap}>
                     {`Market: ${currencySymbol}${marketCap}`}
                   </div>
                 </div>

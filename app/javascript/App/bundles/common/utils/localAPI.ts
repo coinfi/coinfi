@@ -1,16 +1,16 @@
 import API from './API'
 
 export default {
-  get(path, data) {
+  get(path, data?) {
     return API.get(path, data, false)
   },
-  post(path, data) {
+  post(path, data?) {
     return API.post(path, data, false)
   },
-  patch(path, data) {
+  patch(path, data?) {
     return API.patch(path, data, false)
   },
-  delete(path, data) {
+  delete(path, data?) {
     return API.delete(path, data, false)
   },
 }

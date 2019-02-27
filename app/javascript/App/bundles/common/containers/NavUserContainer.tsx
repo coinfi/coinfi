@@ -1,5 +1,6 @@
 import * as React from 'react'
 import NavUser from '~/bundles/common/components/NavUser'
+import { ThemeProvider } from '~/bundles/common/contexts/ThemeContext'
 
 interface State {
   menuOpen: boolean
@@ -7,8 +8,10 @@ interface State {
 }
 
 interface Props {
+  user: any
   userEmail: string
   formAuthenticityToken: string
+  showDarkMode?: boolean
 }
 
 class NavUserContainer extends React.Component<Props, State> {
@@ -32,15 +35,20 @@ class NavUserContainer extends React.Component<Props, State> {
   }
 
   public render() {
+    const showDarkMode = !!this.props.showDarkMode
+
     return (
-      <NavUser
-        menuOpen={this.state.menuOpen}
-        menuAnchor={this.state.menuAnchor}
-        onOpenMenu={this.handleOpenMenu}
-        onCloseMenu={this.handleCloseMenu}
-        userEmail={this.props.userEmail}
-        formAuthenticityToken={this.props.formAuthenticityToken}
-      />
+      <ThemeProvider user={this.props.user}>
+        <NavUser
+          menuOpen={this.state.menuOpen}
+          menuAnchor={this.state.menuAnchor}
+          onOpenMenu={this.handleOpenMenu}
+          onCloseMenu={this.handleCloseMenu}
+          userEmail={this.props.userEmail}
+          formAuthenticityToken={this.props.formAuthenticityToken}
+          showDarkMode={showDarkMode}
+        />
+      </ThemeProvider>
     )
   }
 }

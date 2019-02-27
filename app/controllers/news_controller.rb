@@ -1,5 +1,6 @@
 class NewsController < ApplicationController
-  before_action :set_body_class, :set_view_data, :set_fluid, :hide_footer
+  before_action :set_body_class, :set_fluid, :hide_footer, :show_dark_mode,
+                :set_view_data
   before_action :set_default_news_items, only: [:index, :show]
 
   include NewsHelper
@@ -60,6 +61,7 @@ class NewsController < ApplicationController
 
     @top_coins_data = toplist_coins
     @watched_coins_data = watchlist_coins if current_user
+    @theme = cookies[:theme]
   end
 
   def set_body_class

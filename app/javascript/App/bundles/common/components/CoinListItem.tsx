@@ -4,11 +4,14 @@ import classNames from 'classnames'
 import PercentageChange from '~/bundles/common/components/PercentageChange'
 import WatchStar from '~/bundles/common/components/WatchStar'
 import { Coin } from '~/bundles/common/types'
+import { withStyles, createStyles } from '@material-ui/core/styles'
 import CurrencyContext, {
   CurrencyContextType,
 } from '~/bundles/common/contexts/CurrencyContext'
+import { athensDarker, foam } from '~/bundles/common/styles/colors'
 
 interface Props {
+  classes: any
   coin: Coin
   loggedIn: boolean
   isSelected: boolean
@@ -16,13 +19,33 @@ interface Props {
   generateLink?: (coin: Coin) => string
 }
 
+const styles = (theme) =>
+  createStyles({
+    root: {
+      padding: '0.75rem',
+      display: 'flex',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      flex: '1 1 auto',
+      minWidth: 0,
+      minHeight: 57,
+      borderColor: _.get(theme, ['palette', 'border', 'main'], athensDarker),
+      borderBottomStyle: 'solid',
+      borderBottomWidth: '1px',
+      color: _.get(theme, ['palette', 'text', 'primary'], '#555'),
+    },
+    selected: {
+      background: _.get(theme, ['palette', 'background', 'selected'], foam),
+    },
+  })
+
 const roundToDecimalPlaces = (num, places) =>
   Math.round(num * 10 ** places) / 10 ** places
 
-export default (props: Props) => (
+const CoinListItem = (props: Props) => (
   <CurrencyContext.Consumer>
     {({ currencyRate, currencySymbol }: CurrencyContextType) => {
-      const { coin, loggedIn, generateLink } = props
+      const { coin, loggedIn, generateLink, classes } = props
 
       const coinPrice =
         parseFloat(_.get(coin, ['market_info', 'price_usd'])) * currencyRate
@@ -35,10 +58,9 @@ export default (props: Props) => (
       return (
         <a
           href={link}
-          className={classNames('pa-default b--b flex items-center pointer', {
-            'bg-foam': props.isSelected,
+          className={classNames(classes.root, {
+            [classes.selected]: props.isSelected,
           })}
-          style={{ minHeight: 57, color: '#555' }}
           onClick={(event) => {
             event.preventDefault()
             props.onSelectCoin(coin)
@@ -71,3 +93,5 @@ export default (props: Props) => (
     }}
   </CurrencyContext.Consumer>
 )
+
+export default withStyles(styles)(CoinListItem)

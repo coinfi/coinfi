@@ -1,9 +1,13 @@
 import { createMuiTheme } from '@material-ui/core/styles'
+import { athens } from './bundles/common/styles/colors'
 
 const theme = createMuiTheme({
   palette: {
     primary: {
-      main: '#2096f3',
+      main: '#23adf0',
+    },
+    background: {
+      default: athens,
     },
   },
   typography: {

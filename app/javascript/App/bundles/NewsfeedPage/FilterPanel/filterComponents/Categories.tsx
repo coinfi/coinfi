@@ -1,13 +1,35 @@
 import * as React from 'react'
 import classNames from 'classnames'
 import withDevice from '~/bundles/common/utils/withDevice'
+import { withStyles, createStyles } from '@material-ui/core/styles'
+import { white08 } from '~/bundles/common/styles/colors'
 
 interface Props {
+  classes: any
   items: string[]
   selectedItems: string[]
   onChange: (item: string) => void
   isMobile: boolean
 }
+
+const styles = (theme) =>
+  createStyles({
+    categoryButton: {
+      background: `${theme.palette.background.input} !important`,
+      borderColor: `${theme.palette.border.input} !important`,
+      borderStyle: 'solid',
+      borderWidth: '1px',
+      padding: '0.5rem 0.8rem',
+      color: `${theme.palette.text.hint} !important`,
+      fontSize: '0.88rem',
+      width: '100%',
+      height: '100%',
+      '&.selected': {
+        borderColor: `${theme.palette.primary.main} !important`,
+        color: `${theme.palette.primary.main} !important`,
+      },
+    },
+  })
 
 class Categories extends React.Component<Props, {}> {
   public isSelected = (item) => this.props.selectedItems.includes(item)
@@ -45,7 +67,7 @@ class Categories extends React.Component<Props, {}> {
                   <div className="col category-btn" span={8} key={innerIndex}>
                     <button
                       style={{ cursor: 'pointer' }}
-                      className={classNames({
+                      className={classNames(this.props.classes.categoryButton, {
                         selected: this.isSelected(item),
                       })}
                       onClick={() => this.props.onChange(item)}
@@ -63,4 +85,4 @@ class Categories extends React.Component<Props, {}> {
   }
 }
 
-export default withDevice(Categories)
+export default withStyles(styles)(withDevice(Categories))
