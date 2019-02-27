@@ -11,6 +11,7 @@ interface Props {
   user: any
   userEmail: string
   formAuthenticityToken: string
+  showDarkMode?: boolean
 }
 
 class NavUserContainer extends React.Component<Props, State> {
@@ -34,6 +35,8 @@ class NavUserContainer extends React.Component<Props, State> {
   }
 
   public render() {
+    const showDarkMode = !!this.props.showDarkMode
+
     return (
       <ThemeProvider user={this.props.user}>
         <NavUser
@@ -43,6 +46,7 @@ class NavUserContainer extends React.Component<Props, State> {
           onCloseMenu={this.handleCloseMenu}
           userEmail={this.props.userEmail}
           formAuthenticityToken={this.props.formAuthenticityToken}
+          showDarkMode={showDarkMode}
         />
       </ThemeProvider>
     )

@@ -45,7 +45,9 @@
         <% unless hide_currency? %>
           <%= react_component_with_jss "CurrencySelectorWidget", props: { user: current_user }, prerender: false %>
         <% end %>
-        <%= react_component_with_jss "DarkModeContainer", props: { user: current_user }, prerender: false %>
+        <% if show_dark_mode? %>
+          <%= react_component_with_jss "DarkModeContainer", props: { user: current_user }, prerender: false %>
+        <% end %>
         <% if user_signed_in? %>
           <div class="nav-menu-actions-account">
             <div class="fw9">
@@ -68,7 +70,7 @@
       <% unless hide_currency? %>
         <%= react_component_with_jss "CurrencySelectorWidget", props: { user: current_user }, prerender: false %>
       <% end %>
-      <%= react_component_with_jss "NavUserContainer", { props: { formAuthenticityToken: form_authenticity_token, userEmail: current_user.try(:email), user: current_user } } %>
+      <%= react_component_with_jss "NavUserContainer", { props: { formAuthenticityToken: form_authenticity_token, userEmail: current_user.try(:email), user: current_user, showDarkMode: show_dark_mode? } } %>
     </div>
   </div>
 </nav>

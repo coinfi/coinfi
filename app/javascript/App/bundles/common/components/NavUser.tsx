@@ -81,6 +81,7 @@ interface Props extends ThemeContextType {
   onCloseMenu: (event) => void
   formAuthenticityToken: string
   userEmail: string
+  showDarkMode?: boolean
   classes: any
 }
 
@@ -95,6 +96,7 @@ const NavUser: React.StatelessComponent<Props> = (props) => {
     classes,
     isDarkMode,
     toggleTheme,
+    showDarkMode,
   } = props
 
   const isLoggedIn = !!userEmail
@@ -116,7 +118,15 @@ const NavUser: React.StatelessComponent<Props> = (props) => {
       <div className={classes.menuAccountLabel}>Account</div>
       <div className={classes.menuEmail}>{userEmail}</div>
     </ListSubheader>,
-    <DarkModeToggle key={2} isDarkMode={isDarkMode} onChange={toggleTheme} />,
+    ...(!!showDarkMode
+      ? [
+          <DarkModeToggle
+            key={2}
+            isDarkMode={isDarkMode}
+            onChange={toggleTheme}
+          />,
+        ]
+      : []),
     <Divider className={classes.menuDivider} key={3} />,
     <a href={PROFILE_EDIT_URL} key={4}>
       <MenuItem className={classes.menuItem}>My profile</MenuItem>
@@ -127,7 +137,15 @@ const NavUser: React.StatelessComponent<Props> = (props) => {
   ]
 
   const LoggedOutMenu = [
-    <DarkModeToggle key={1} isDarkMode={isDarkMode} onChange={toggleTheme} />,
+    ...(!!showDarkMode
+      ? [
+          <DarkModeToggle
+            key={1}
+            isDarkMode={isDarkMode}
+            onChange={toggleTheme}
+          />,
+        ]
+      : []),
     <Divider className={classes.menuDivider} key={2} />,
     <a href={REGISTRATION_URL} key={3}>
       <MenuItem className={classes.menuItem}>Sign Up</MenuItem>

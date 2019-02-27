@@ -3,6 +3,13 @@ import Switch from '@material-ui/core/Switch'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
 import { createStyles, withStyles } from '@material-ui/core/styles'
 
+interface Props {
+  isDarkMode: boolean
+  onChange: (event: object, checked: boolean) => void
+  standAlone?: boolean
+  classes: any
+}
+
 const styles = (theme) =>
   createStyles({
     root: {},
@@ -16,7 +23,12 @@ const styles = (theme) =>
     },
   })
 
-const DarkModeToggle = ({ isDarkMode, onChange, standAlone, classes }) => {
+const DarkModeToggle = ({
+  isDarkMode,
+  onChange,
+  standAlone,
+  classes,
+}: Props) => {
   standAlone = !!standAlone
 
   return (
