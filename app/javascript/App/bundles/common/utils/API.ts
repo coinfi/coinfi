@@ -1,8 +1,8 @@
 import axios from 'axios'
-import qs from 'qs'
-import * as Promise from 'bluebird'
+import * as qs from 'qs'
+import * as P from 'bluebird'
 
-Promise.config({
+P.config({
   cancellation: true,
 })
 
@@ -19,9 +19,15 @@ const request = (path, data = {}, remote = true, type = 'get') => {
       .querySelector('meta[name="csrf-token"]')
       .getAttribute('content'),
   }
-  if (type === 'get') params = { params }
-  if (remote) endpoint = window.pricesURL
-  if (!remote) config = { headers }
+  if (type === 'get') {
+    params = { params }
+  }
+  if (remote) {
+    endpoint = (window as any).pricesURL
+  }
+  if (!remote) {
+    config = { headers }
+  }
   const url = `${endpoint}${path}`
   return new Promise((resolve) => {
     if (type === 'delete') {
@@ -31,7 +37,7 @@ const request = (path, data = {}, remote = true, type = 'get') => {
           resolve(response.data || response)
         })
         .catch((error) => {
-          console.log(error)
+          console.log(error) // tslint:disable-line
         })
       return
     }
@@ -40,7 +46,7 @@ const request = (path, data = {}, remote = true, type = 'get') => {
         resolve(response.data || response)
       })
       .catch((error) => {
-        console.log(error)
+        console.log(error) // tslint:disable-line
       })
   })
 }
