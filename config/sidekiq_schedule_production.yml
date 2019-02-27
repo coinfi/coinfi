@@ -22,6 +22,9 @@ UpdateCurrencies:
 RefreshTokenMetricViews:
   cron: '0 0 4 * * * Etc/UTC'   # Scheduled after metrics data is inserted
 
+CheckDailyEtlDb:                # rake etldb:check_daily
+  cron: '0 0 2 * * * Etc/UTC'
+
 # Paid API routes
 
 UpdateCmcPrices:
