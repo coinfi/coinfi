@@ -249,7 +249,7 @@ class Coin < ApplicationRecord
 
   def prices_data
     Rails.cache.fetch("coins/#{id}/prices", expires_in: seconds_to_next_day) do
-      url = "#{ENV.fetch('COINFI_POSTGREST_URL')}/daily_ohcl_prices?coin_key=eq.#{coin_key}&to_currency=eq.USD&order=time.asc"
+      url = "#{ENV.fetch('COINFI_POSTGREST_URL')}/cmc_daily_ohcl_prices?coin_key=eq.#{coin_key}&to_currency=eq.USD&order=time.asc"
       response = HTTParty.get(url)
       JSON.parse(response.body)
     end

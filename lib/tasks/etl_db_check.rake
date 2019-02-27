@@ -11,15 +11,9 @@ namespace :etldb do
   tables = [
     {
       'title' => "Daily",
-      'name' => "daily_ohcl_prices",
-      'interval' => "''3 days''",
-      'url' => ENV.fetch('HEALTHCHECK_DAILY_PRICES')
-    },
-    {
-      'title' => "Hourly",
-      'name' => "hourly_ohcl_prices",
+      'name' => "cmc_daily_ohcl_prices",
       'interval' => "''2 days''",
-      'url' => ENV.fetch('HEALTHCHECK_HOURLY_PRICES')
+      'url' => ENV.fetch('HEALTHCHECK_DAILY_PRICES')
     }
   ]
 
@@ -62,9 +56,9 @@ namespace :etldb do
         host=#{db_host}
         user=#{db_user}
         password=#{db_pass}',
-        'SELECT coin_key, to_currency, time, volume_from, volume_to FROM staging.#{table["name"]} WHERE time >= NOW() - #{table["interval"]}::INTERVAL'
+        'SELECT coin_key, to_currency, time, volume_to FROM staging.#{table["name"]} WHERE time >= NOW() - #{table["interval"]}::INTERVAL'
       )
-      AS t1(coin_key varchar, to_currency varchar, time timestamp, volume_from numeric, volume_to numeric);
+      AS t1(coin_key varchar, to_currency varchar, time timestamp, volume_to numeric);
     ")
 
     # initialize results
@@ -79,13 +73,12 @@ namespace :etldb do
       # Check each individual coin within a test
       data["query"].call.each do |coin|
         coin_key = coin[0].to_s
+        ranking = coin[1]
         label = "#{table["title"]}:#{coin_key}"
         puts "Checking #{label}"
 
         query = "
           SELECT
-            COUNT(*) AS count,
-            MIN(volume_from) AS from,
             MIN(volume_to) AS to,
             coin_key
           FROM #{table["name"]}_view
@@ -99,8 +92,8 @@ namespace :etldb do
         else
           # Check results. This should only be one row since we're only checking one coin at a time.
           result.each do |row|
-            check_volume = !coin[1].nil? && coin[1] < 100
-            has_volume = row["from"].to_f > 0 && row["to"].to_f > 0
+            check_volume = !ranking.nil? && ranking < 100
+            has_volume = row["to"].to_f > 0
             has_results = row["count"] > 0
 
             # there should be at least one entry and if ranking < 100 volume should be non-zero
@@ -122,16 +115,16 @@ namespace :etldb do
     else
       Net::HTTP.post(URI.parse("#{table["url"]}/fail"), params.to_json)
     end
+
+    # clean up
+    @connection.execute("
+      DROP VIEW #{table["name"]}_view;
+    ")
   end
 
   desc "check for recent entries in daily table of etl database"
   task check_daily: :environment do
     Rake::Task["etldb:check"].invoke(0)
-  end
-
-  desc "check for recent entries in hourly table of etl database"
-  task check_hourly: :environment do
-    Rake::Task["etldb:check"].invoke(1)
   end
 
   desc "check for recent entries in all tables of etl database"
