@@ -78,7 +78,7 @@ class CoinCharts extends Component {
 
   hasData() {
     const { priceData, priceDataHourly } = this.props
-    const hasData = Array.isArray(priceData) && Array.isArray(priceDataHourly)
+    const hasData = Array.isArray(priceData)
 
     return hasData
   }
@@ -158,7 +158,7 @@ class CoinCharts extends Component {
           <div className="tab-content active">
             <PriceGraph
               priceData={processedPriceData}
-              priceDataHourly={epochPrices}
+              // priceDataHourly={epochPrices}
               {...remainingProps}
             />
           </div>
@@ -166,7 +166,7 @@ class CoinCharts extends Component {
             <div className="tab-content">
               <TradingViewChart
                 priceData={processedPriceData}
-                priceDataHourly={epochPrices}
+                // priceDataHourly={epochPrices}
                 {...remainingProps}
               />
             </div>

@@ -34,3 +34,6 @@ UpdateCmcMarketPairs:
 
 UpdateCmcMetrics:
   cron: '50 */5 * * * * Etc/UTC'
+
+UpdateCmcExchanges:
+  cron: '0 0 3 * * * Etc/UTC'

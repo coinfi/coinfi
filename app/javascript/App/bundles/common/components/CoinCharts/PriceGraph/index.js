@@ -32,22 +32,26 @@ class PriceGraph extends Component {
     )
     const annotationData = this.parseAnnotationData(annotations, pricesDaily)
 
+    const hasHourlyData = _.isArray(priceDataHourly)
+
     this.Highcharts.setOptions(options)
     const chart = this.Highcharts.stockChart(
       containerID,
       chartOptions(this.Highcharts, {
+        pricesDaily,
+        volumesDaily,
         pricesHourly,
         volumesHourly,
         annotationData,
         currency,
-        setToHourly: this.setToHourly,
+        setToHourly: hasHourlyData ? this.setToHourly : () => {},
         setToDaily: this.setToDaily,
       }),
     )
     this.priceChart = chart
     this.setState({
       chart: chart,
-      type: TYPE.hourly,
+      type: TYPE.daily,
       pricesDaily,
       volumesDaily,
       pricesHourly,
@@ -127,11 +131,13 @@ class PriceGraph extends Component {
   parseData = (priceData) => {
     const prices = []
     const volumes = []
-    priceData.forEach((day) => {
-      let { timestamp: time, close: price, volume_to: vol } = day
-      prices.push([time, price])
-      volumes.push([time, vol])
-    })
+    if (_.isArray(priceData)) {
+      priceData.forEach((day) => {
+        let { timestamp: time, close: price, volume_to: vol } = day
+        prices.push([time, price])
+        volumes.push([time, vol])
+      })
+    }
     return { prices, volumes }
   }
 

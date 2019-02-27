@@ -129,7 +129,7 @@ private
   def prices_serializer(coin)
     return {
       priceData: coin.prices_data,
-      priceDataHourly: coin.hourly_prices_data,
+      # priceDataHourly: coin.hourly_prices_data,
     }
   end
 end

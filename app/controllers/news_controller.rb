@@ -80,7 +80,7 @@ class NewsController < ApplicationController
       slug: coin.slug,
       price: coin.price,
       prices_data: coin.prices_data,
-      hourly_prices_data: coin.hourly_prices_data,
+      # hourly_prices_data: coin.hourly_prices_data,
       news_data: coin.news_data,
       market_info: coin.market_info,
       is_being_watched: coin.is_being_watched,

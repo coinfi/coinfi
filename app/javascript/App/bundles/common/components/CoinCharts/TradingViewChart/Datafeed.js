@@ -13,7 +13,7 @@ export default class Datafeed {
       callback({
         supports_search: false,
         supports_group_request: false,
-        supported_resolutions: ['60', 'D'],
+        supported_resolutions: ['D'],
         supports_marks: false,
         supports_timescale_marks: false,
       })
@@ -28,7 +28,7 @@ export default class Datafeed {
         minmov: 1,
         pricescale: 1000000,
         has_intraday: true,
-        supported_resolutions: ['60', 'D'],
+        supported_resolutions: ['D'],
         session: '24x7',
         timezone: 'UTC',
       })

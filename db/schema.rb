@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20181225140500) do
+ActiveRecord::Schema.define(version: 20190219082000) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -124,6 +124,22 @@ ActiveRecord::Schema.define(version: 20181225140500) do
     t.index ["user_id"], name: "index_calendar_events_on_user_id"
   end
 
+  create_table "cmc_exchanges", force: :cascade do |t|
+    t.string "cmc_id"
+    t.string "name"
+    t.string "slug"
+    t.string "www_url"
+    t.string "twitter_url"
+    t.string "blog_url"
+    t.string "chat_url"
+    t.string "fee_url"
+    t.string "logo_url"
+    t.boolean "is_active"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["cmc_id"], name: "index_cmc_exchanges_on_cmc_id", unique: true
+  end
+
   create_table "coin_excluded_countries", force: :cascade do |t|
     t.bigint "coin_id"
     t.bigint "country_id"
@@ -153,14 +169,6 @@ ActiveRecord::Schema.define(version: 20181225140500) do
     t.string "symbol"
     t.string "slug"
     t.string "category"
-    t.jsonb "market_cap"
-    t.jsonb "price"
-    t.jsonb "volume24"
-    t.decimal "change1h"
-    t.decimal "change24h"
-    t.decimal "change7d"
-    t.bigint "available_supply"
-    t.bigint "max_supply"
     t.string "website"
     t.string "website2"
     t.string "explorer"
@@ -217,7 +225,6 @@ ActiveRecord::Schema.define(version: 20181225140500) do
     t.jsonb "external_key"
     t.string "facebook"
     t.string "telegram"
-    t.decimal "total_supply", precision: 32, scale: 2
     t.text "description"
     t.jsonb "team"
     t.jsonb "external_rating"
