@@ -45,6 +45,7 @@
         <% unless hide_currency? %>
           <%= react_component_with_jss "CurrencySelectorWidget", props: { user: current_user }, prerender: false %>
         <% end %>
+        <%= react_component_with_jss "DarkModeContainer", props: { user: current_user }, prerender: false %>
         <% if user_signed_in? %>
           <div class="nav-menu-actions-account">
             <div class="fw9">

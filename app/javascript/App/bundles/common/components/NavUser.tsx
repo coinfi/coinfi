@@ -5,13 +5,11 @@ import IconButton from '@material-ui/core/IconButton'
 import Menu from '@material-ui/core/Menu'
 import MenuItem from '@material-ui/core/MenuItem'
 import ListSubheader from '@material-ui/core/ListSubheader'
-import { createStyles, withStyles, withTheme } from '@material-ui/core/styles'
+import { createStyles, withStyles } from '@material-ui/core/styles'
 import AccountCircle from '@material-ui/icons/AccountCircle'
 import KeyboardArrowDown from '@material-ui/icons/KeyboardArrowDown'
 import KeyboardArrowUp from '@material-ui/icons/KeyboardArrowUp'
 import { MenuProps } from '@material-ui/core/Menu'
-import Switch from '@material-ui/core/Switch'
-import FormControlLabel from '@material-ui/core/FormControlLabel'
 import {
   LOGIN_URL,
   LOGOUT_URL,
@@ -23,6 +21,7 @@ import {
   ThemeContextType,
 } from '~/bundles/common/contexts/ThemeContext'
 import { pearlGray } from '../styles/colors'
+import DarkModeToggle from './DarkModeToggle'
 
 const styles = (theme) =>
   createStyles({
@@ -100,22 +99,6 @@ const NavUser: React.StatelessComponent<Props> = (props) => {
 
   const isLoggedIn = !!userEmail
 
-  const DarkModeToggle = () => (
-    <FormControlLabel
-      control={
-        <Switch
-          checked={isDarkMode}
-          onChange={toggleTheme}
-          value={isDarkMode}
-          color="default"
-        />
-      }
-      labelPlacement="start"
-      label="Dark Mode"
-      classes={{ label: classes.darkModeLabel }}
-    />
-  )
-
   const LogoutButton = (logoutButtonProps) => (
     <form method="post" action={LOGOUT_URL}>
       <input type="hidden" name="_method" value="delete" />
@@ -133,7 +116,7 @@ const NavUser: React.StatelessComponent<Props> = (props) => {
       <div className={classes.menuAccountLabel}>Account</div>
       <div className={classes.menuEmail}>{userEmail}</div>
     </ListSubheader>,
-    <DarkModeToggle key={2} />,
+    <DarkModeToggle key={2} isDarkMode={isDarkMode} onChange={toggleTheme} />,
     <Divider className={classes.menuDivider} key={3} />,
     <a href={PROFILE_EDIT_URL} key={4}>
       <MenuItem className={classes.menuItem}>My profile</MenuItem>
@@ -144,7 +127,7 @@ const NavUser: React.StatelessComponent<Props> = (props) => {
   ]
 
   const LoggedOutMenu = [
-    <DarkModeToggle key={1} />,
+    <DarkModeToggle key={1} isDarkMode={isDarkMode} onChange={toggleTheme} />,
     <Divider className={classes.menuDivider} key={2} />,
     <a href={REGISTRATION_URL} key={3}>
       <MenuItem className={classes.menuItem}>Sign Up</MenuItem>
@@ -209,4 +192,4 @@ const NavUser: React.StatelessComponent<Props> = (props) => {
   )
 }
 
-export default withTheme()(withStyles(styles)(withThemeType(NavUser)))
+export default withStyles(styles)(withThemeType(NavUser))
