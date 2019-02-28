@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190219082000) do
+ActiveRecord::Schema.define(version: 20190228091100) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -413,6 +413,17 @@ ActiveRecord::Schema.define(version: 20190219082000) do
     t.index ["user_id"], name: "index_news_items_on_user_id"
   end
 
+  create_table "news_votes", force: :cascade do |t|
+    t.bigint "news_item_id"
+    t.bigint "user_id"
+    t.integer "vote"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["news_item_id", "user_id"], name: "index_news_votes_on_news_item_id_and_user_id", unique: true
+    t.index ["news_item_id"], name: "index_news_votes_on_news_item_id"
+    t.index ["user_id"], name: "index_news_votes_on_user_id"
+  end
+
   create_table "signals_telegram_subscriptions", force: :cascade do |t|
     t.bigint "signals_telegram_user_id"
     t.bigint "coin_id"
@@ -584,6 +595,8 @@ ActiveRecord::Schema.define(version: 20190219082000) do
   add_foreign_key "news_item_categorizations", "news_items"
   add_foreign_key "news_items", "feed_sources"
   add_foreign_key "news_items", "users"
+  add_foreign_key "news_votes", "news_items"
+  add_foreign_key "news_votes", "users"
   add_foreign_key "signals_telegram_subscriptions", "coins"
   add_foreign_key "signals_telegram_subscriptions", "signals_telegram_users"
   add_foreign_key "signals_telegram_users", "users"

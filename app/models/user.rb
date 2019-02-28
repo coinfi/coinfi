@@ -11,6 +11,7 @@ class User < ApplicationRecord
   has_many :staked_cofi_transactions
   has_many :confirmed_staked_cofi_transactions, -> { StakedCofiTransaction.confirmed }, class_name: 'StakedCofiTransaction'
   has_one :signals_telegram_user
+  has_many :news_votes
 
   validates :default_currency, presence: false, length: { is: 3 }, allow_nil: true
 
