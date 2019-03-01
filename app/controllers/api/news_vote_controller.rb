@@ -1,15 +1,17 @@
 class Api::NewsVoteController < ApiController
   def index
-    news_vote_summary = NewsVote.votes_for_news_item(news_item_id: params[:news_id])
-    if current_user
-      @news_vote = NewsVote.find_by(user: current_user, news_item_id: params[:news_id])
-    end
+    distribute_reads(max_lag: MAX_ACCEPTABLE_REPLICATION_LAG, lag_failover: true) do
+      news_vote_summary = NewsVote.votes_for_news_item(news_item_id: params[:news_id])
+      if current_user
+        @news_vote = NewsVote.find_by(user: current_user, news_item_id: params[:news_id])
+      end
 
-    if not news_vote_summary
-      return respond_error 'Could not find news item.'
-    end
+      if not news_vote_summary
+        return respond_error 'Could not find news item.'
+      end
 
-    respond_success serialize_vote_summary(summary: news_vote_summary, vote: @news_vote)
+      respond_success serialize_vote_summary(summary: news_vote_summary, vote: @news_vote)
+    end
   end
 
   def create
