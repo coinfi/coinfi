@@ -4,6 +4,7 @@ import FormControlLabel from '@material-ui/core/FormControlLabel'
 import { createStyles, withStyles } from '@material-ui/core/styles'
 import Icon from '~/bundles/common/components/Icon'
 import classnames from 'classnames'
+import { pearlGray, white } from '~/bundles/common/styles/colors'
 
 interface Props {
   isDarkMode: boolean
@@ -19,7 +20,7 @@ const styles = (theme) =>
       marginLeft: '0 !important',
     },
     label: {
-      color: 'white',
+      color: white,
       fontSize: 14,
       fontWeight: 500,
     },
@@ -27,6 +28,15 @@ const styles = (theme) =>
       marginRight: '-12px',
       marginBottom: '4px',
     },
+    colorSwitchBase: {
+      '&:not($colorChecked)': {
+        '& + $colorBar': {
+          backgroundColor: pearlGray,
+        },
+      },
+    },
+    colorChecked: {},
+    colorBar: {},
   })
 
 const DarkModeToggle = ({
@@ -45,6 +55,11 @@ const DarkModeToggle = ({
           onChange={onChange}
           value={isDarkMode}
           color="default"
+          classes={{
+            switchBase: classes.colorSwitchBase,
+            checked: classes.colorChecked,
+            bar: classes.colorBar,
+          }}
         />
       }
       labelPlacement="start"
