@@ -90,24 +90,12 @@ class FilterPanel extends React.Component<Props, State> {
         newsFeedStyle={this.props.newsFeedStyle}
       >
         <div className="pb3">
-          <h4 className="mb2 f5">Market Moving</h4>
-          <MarketMoving />
-        </div>
-        <div className="pb3">
           <h4 className="mb2 f5">Date Range</h4>
           <Dates
             publishedSince={this.state.form.publishedSince}
             publishedUntil={this.state.form.publishedUntil}
             onSinceChange={this.onSinceChange}
             onUntilChange={this.onUntilChange}
-          />
-        </div>
-        <div className="pb3">
-          <h4 className="mb2 f5">Categories</h4>
-          <Categories
-            items={this.props.categories}
-            selectedItems={this.state.form.categories}
-            onChange={this.onCategoryToggle}
           />
         </div>
         <div className="pb3">

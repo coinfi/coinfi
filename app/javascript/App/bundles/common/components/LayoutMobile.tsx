@@ -3,6 +3,15 @@ import { withStyles, createStyles } from '@material-ui/core/styles'
 
 const styles = (theme) =>
   createStyles({
+    container: {
+      backgroundColor: theme.palette.background.paper,
+      display: 'flex',
+      flexDirection: 'column',
+      flex: '1 1 auto',
+      minWidth: 0,
+      minHeight: 0,
+      position: 'relative',
+    },
     modal: {
       position: 'fixed',
       top: 0,
@@ -24,9 +33,7 @@ const LayoutMobile = ({
 }) => {
   return (
     <>
-      <div className="bg-white relative flex-auto flex flex-column">
-        {mainSection}
-      </div>
+      <div className={classes.container}>{mainSection}</div>
       {!!showModal && <div className={classes.modal}>{modalSection}</div>}
       {drawerSection}
     </>

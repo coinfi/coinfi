@@ -7,6 +7,9 @@ export interface DeviceContextType {
   isDesktop: boolean
   screenWidth: number
   screenHeight: number
+  isServerMobile: boolean
+  isServerTablet: boolean
+  isServerDesktop: boolean
 }
 
 const DeviceContext = React.createContext<DeviceContextType>(null)
@@ -39,6 +42,10 @@ export const DeviceProvider: React.StatelessComponent<DeviceProviderProps> = ({
       isDesktop: width >= breakpoints.l,
       screenWidth: width,
       screenHeight: height,
+      isServerMobile: fallback.width < breakpoints.m,
+      isServerTablet:
+        fallback.width >= breakpoints.m && fallback.width < breakpoints.l,
+      isServerDesktop: fallback.width >= breakpoints.l,
     },
   })
 

@@ -8,11 +8,25 @@ import CoinSelector, {
   CoinOption,
 } from '~/bundles/common/components/CoinSelector'
 import { Filters } from './types'
-import withDevice from '~/bundles/common/utils/withDevice'
-
+import withDevice, {
+  DeviceContextType,
+} from '~/bundles/common/utils/withDevice'
+import { withStyles, createStyles } from '@material-ui/core/styles'
+import {
+  btn,
+  btnXs,
+  btnWhite,
+  btnWhiteDark,
+  btnBlue,
+} from '~/bundles/common/styles/buttons'
+import {
+  withThemeType,
+  ThemeContextType,
+} from '~/bundles/common/contexts/ThemeContext'
 const filterBtn = require('~/images/filterBtn.svg') // tslint:disable-line
 
-interface Props {
+interface Props extends ThemeContextType, DeviceContextType {
+  classes: any
   showFilters: boolean
   categories: string[]
   feedSources: string[]
@@ -24,25 +38,55 @@ interface Props {
   showCoinListDrawer?: () => void
   onCoinChange: (selectedOption: CoinOption) => void
   selectedCoin: string
-  isMobile: boolean
 }
 
-const btnStyle: React.CSSProperties = {
-  borderRadius: 0,
-  display: 'inline-flex',
-  padding: '16px',
-  textTransform: 'none',
-}
+const styles = (theme) => {
+  const isDarkMode = theme.palette.type === 'dark'
 
-const searchStyle: React.CSSProperties = {
-  flex: '1 1 auto',
-  marginLeft: '1em',
-  minWidth: '160px',
-  maxWidth: '300px',
+  return createStyles({
+    panelHeader: {
+      alignItems: 'center',
+      flex: '1 1 auto',
+      minWidth: 0,
+      minHeight: 0,
+      display: 'flex',
+    },
+    searchWrapper: {
+      flex: '1 1 auto',
+      marginLeft: '1em',
+      minWidth: '160px',
+      maxWidth: '300px',
+    },
+    filterBtn: {
+      ...btn(theme),
+      ...btnXs(theme),
+      ...(isDarkMode ? btnWhiteDark : btnWhite),
+      ...(isDarkMode && {
+        '& img': {
+          filter: 'invert(100)',
+        },
+      }),
+      fontSize: '14px',
+      fontWeight: 600,
+      textTransform: 'none',
+      marginLeft: '0.5rem',
+    },
+    coinsBtn: {
+      ...btn(theme),
+      ...btnXs(theme),
+      ...btnBlue,
+      fontSize: '14px',
+      fontWeight: 600,
+      textTransform: 'none',
+      marginLeft: 0,
+      marginRight: '0.5rem',
+    },
+  })
 }
 
 class NewsListHeader extends React.Component<Props, {}> {
   public render() {
+    const { classes } = this.props
     return (
       <>
         {this.props.isMobile && (
@@ -52,28 +96,13 @@ class NewsListHeader extends React.Component<Props, {}> {
           />
         )}
         <SectionHeader>
-          <div
-            id="panel-header"
-            className="flex items-center flex-auto search-coin-wrapper"
-          >
-            {!this.props.isMobile && (
+          <div id="panel-header" className={classes.panelHeader}>
+            {this.props.isTablet && (
               <button
-                className="btn btn-blue btn-xs coins-btn mr2"
+                className={classes.coinsBtn}
                 onClick={() =>
                   !!this.props.showCoinListDrawer &&
                   this.props.showCoinListDrawer()
-                }
-                style={
-                  this.props.isMobile
-                    ? {
-                        ...btnStyle,
-                        ...{
-                          background: '#2495ce',
-                          flex: 1,
-                          textTransform: 'none',
-                        },
-                      }
-                    : {}
                 }
               >
                 <Icon name="list" className="mr2" />
@@ -82,16 +111,17 @@ class NewsListHeader extends React.Component<Props, {}> {
             )}
             <button
               onClick={this.props.toggleFilters}
-              className="btn btn-xs btn-white filter-btn ml2"
+              className={classes.filterBtn}
             >
               <img style={{ height: 10, marginRight: 10 }} src={filterBtn} />
               Filters
             </button>
-            <div style={searchStyle}>
+            <div className={classes.searchWrapper}>
               <CoinSelector
                 selectedCoin={this.props.selectedCoin}
                 onChange={this.props.onCoinChange}
                 placeholder="Search Coins"
+                isDarkMode={this.props.isDarkMode}
               />
             </div>
           </div>
@@ -111,4 +141,4 @@ class NewsListHeader extends React.Component<Props, {}> {
   }
 }
 
-export default withDevice(NewsListHeader)
+export default withStyles(styles)(withThemeType(withDevice(NewsListHeader)))

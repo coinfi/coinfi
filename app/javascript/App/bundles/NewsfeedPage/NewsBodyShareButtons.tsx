@@ -19,7 +19,7 @@ const styles = (theme) =>
       marginLeft: 12,
       marginRight: 12,
       fontSize: 20,
-      color: 'rgba(0, 0, 0, .54)',
+      color: theme.palette.text.secondary,
       cursor: 'pointer',
     },
   })

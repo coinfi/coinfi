@@ -1,10 +1,34 @@
 import React, { Component } from 'react'
 import _ from 'lodash'
 import Datafeed from './Datafeed'
+import { withStyles, createStyles } from '@material-ui/core/styles'
 
 const containerID = 'tradingview'
 
-export default class TradingViewChart extends Component {
+/***
+ * Darkmode is implemented by using filters to achieve a reasonable background colour/colour scheme
+ * This calculator was used to get the desired filter: https://codepen.io/sosuke/pen/Pjoqqp
+ * Based off the following stack overflow answer: https://stackoverflow.com/a/43960991/604861
+ * True to background colour (dark-pine-green)
+ *  filter: invert(92%) sepia(16%) saturate(3707%) hue-rotate(166deg) brightness(94%) contrast(96%);
+ * Possibly better looking colours
+ *  filter: invert(92%) sepia(58%) saturate(662%) hue-rotate(157deg) brightness(97%) contrast(98%);
+ */
+
+const styles = (theme) => {
+  const isDarkMode = theme.palette.type === 'dark'
+
+  return createStyles({
+    root: {
+      ...(isDarkMode && {
+        filter:
+          'invert(92%) sepia(58%) saturate(662%) hue-rotate(157deg) brightness(97%) contrast(98%)',
+      }),
+    },
+  })
+}
+
+class TradingViewChart extends Component {
   TradingView
   tvWidget
   resetHandler
@@ -123,6 +147,8 @@ export default class TradingViewChart extends Component {
   }
 
   render() {
-    return <div id={containerID} />
+    return <div id={containerID} className={this.props.classes.root} />
   }
 }
+
+export default withStyles(styles)(TradingViewChart)

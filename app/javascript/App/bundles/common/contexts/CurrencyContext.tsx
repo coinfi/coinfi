@@ -42,6 +42,10 @@ export interface CurrencyInfo {
 
 export const CURRENCY_CHANGE_EVENT = 'currencyChange'
 
+const cookieOptions = {
+  path: '/',
+}
+
 class CurrencyProvider extends React.Component<
   CurrencyContextProps,
   CurrencyContextState
@@ -62,10 +66,10 @@ class CurrencyProvider extends React.Component<
       _.isString(cookieCurrency) &&
       userCurrency !== cookieCurrency
     ) {
-      cookies.set('currency', userCurrency)
+      cookies.set('currency', userCurrency, cookieOptions)
     } else if (_.isUndefined(cookieCurrency)) {
       // save default currency if not present in cookie
-      cookies.set('currency', currency)
+      cookies.set('currency', currency, cookieOptions)
     }
 
     this.state = {
@@ -168,8 +172,13 @@ class CurrencyProvider extends React.Component<
 
   public changeCurrency = (currency) => {
     const { cookies, loggedIn, user } = this.props
+    const { currency: oldCurrency } = this.state
 
-    cookies.set('currency', currency)
+    if (oldCurrency === currency) {
+      return
+    }
+
+    cookies.set('currency', currency, cookieOptions)
     const currencyDetails = this.getCurrencyDetails(currency)
 
     this.setState({

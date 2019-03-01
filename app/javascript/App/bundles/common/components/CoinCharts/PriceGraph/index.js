@@ -4,9 +4,20 @@ import moment from 'moment'
 import Highcharts from 'highcharts/highstock'
 import options from './options'
 import chartOptions from './chartOptions'
+import { withThemeType } from '../../../contexts/ThemeContext'
+import {
+  darkPineGreen,
+  white,
+  white12,
+  white70,
+  skyBlue,
+} from '../../../styles/colors'
 import { formatAbbreviatedPrice } from '~/bundles/common/utils/numberFormatters'
 
 const containerID = 'highcharts'
+const PRICE_INDEX = 0
+const VOLUME_INDEX = 1
+const ANNOTATION_INDEX = 2
 
 const TYPE = {
   hourly: 'hourly',
@@ -23,7 +34,13 @@ class PriceGraph extends Component {
   }
 
   componentDidMount() {
-    const { priceData, priceDataHourly, annotations, currency } = this.props
+    const {
+      priceData,
+      priceDataHourly,
+      annotations,
+      currency,
+      isDarkMode,
+    } = this.props
     const { prices: pricesDaily, volumes: volumesDaily } = this.parseData(
       priceData,
     )
@@ -58,6 +75,8 @@ class PriceGraph extends Component {
       volumesHourly,
       annotationData,
     })
+
+    this.setTheme(isDarkMode)
 
     // Workaround to send a reference to the `priceChart` back up to a parent component. Ideally the
     // parent should not need reference to this `priceChart`
@@ -126,6 +145,10 @@ class PriceGraph extends Component {
     if (prevProps.currency !== this.props.currency) {
       this.setCurrency(this.props.currency)
     }
+
+    if (prevProps.isDarkMode !== this.props.isDarkMode) {
+      this.setTheme(this.props.isDarkMode)
+    }
   }
 
   parseData = (priceData) => {
@@ -134,8 +157,8 @@ class PriceGraph extends Component {
     if (_.isArray(priceData)) {
       priceData.forEach((day) => {
         let { timestamp: time, close: price, volume_to: vol } = day
-        prices.push([time, price])
-        volumes.push([time, vol])
+        prices.push({ x: time, y: price })
+        volumes.push({ x: time, y: vol })
       })
     }
     return { prices, volumes }
@@ -165,7 +188,7 @@ class PriceGraph extends Component {
       let x = baseX
       let foundPrice
       for (let i = 1; i < 6; i++) {
-        foundPrice = _.find(prices, (price) => price[0] == x)
+        foundPrice = _.find(prices, (price) => price.x == x)
         if (!foundPrice) {
           x = moment
             .utc(timestamp)
@@ -193,14 +216,16 @@ class PriceGraph extends Component {
           ...datum,
           text,
           x: foundPrice ? x : baseX,
-          y: foundPrice ? foundPrice[1] : 0,
+          y: foundPrice ? foundPrice.y : 0,
         },
       ]
     }, [])
   }
 
   setToHourly = () => {
-    const { pricesHourly, volumesHourly } = this.state
+    const { pricesHourly, volumesHourly, type } = this.state
+    if (type === TYPE.hourly) return
+
     this.setPriceData(pricesHourly)
     this.setVolumeData(volumesHourly)
     this.setState({
@@ -209,7 +234,9 @@ class PriceGraph extends Component {
   }
 
   setToDaily = () => {
-    const { pricesDaily, volumesDaily } = this.state
+    const { pricesDaily, volumesDaily, type } = this.state
+    if (type === TYPE.daily) return
+
     this.setPriceData(pricesDaily)
     this.setVolumeData(volumesDaily)
     this.setState({
@@ -221,12 +248,12 @@ class PriceGraph extends Component {
     const priceLabel = `${currency} Price`
     const volumeLabel = `${currency} Volume`
     try {
-      this.state.chart.series[0].name = priceLabel
-      this.state.chart.yAxis[0].setTitle({
+      this.priceChart.series[PRICE_INDEX].name = priceLabel
+      this.priceChart.yAxis[PRICE_INDEX].setTitle({
         text: priceLabel,
       })
-      this.state.chart.series[1].name = volumeLabel
-      this.state.chart.yAxis[1].setTitle({
+      this.priceChart.series[VOLUME_INDEX].name = volumeLabel
+      this.priceChart.yAxis[VOLUME_INDEX].setTitle({
         text: volumeLabel,
       })
     } catch (e) {
@@ -234,21 +261,144 @@ class PriceGraph extends Component {
     }
   }
 
+  setTheme = (isDarkMode) => {
+    try {
+      // TODO: setting rangeSelector styles clears out the text
+      const chart = this.priceChart
+      const volumeSeries = this.priceChart.series[VOLUME_INDEX]
+      if (isDarkMode) {
+        const axisColors = {
+          lineColor: white12,
+          gridLineColor: white12,
+          minorGridLineColor: white12,
+          tickColor: white12,
+        }
+        const textStyles = {
+          style: {
+            color: white70,
+          },
+        }
+        chart.update(
+          {
+            chart: {
+              style: {
+                color: white70,
+              },
+              backgroundColor: darkPineGreen,
+            },
+            rangeSelector: {
+              inputBoxBorderColor: white12, // #cccccc
+              inputStyle: {
+                color: white70, // #444444
+              },
+              labelStyle: {
+                color: white, // #666666
+              },
+            },
+            xAxis: {
+              ...axisColors,
+              labels: { ...textStyles },
+              title: { ...textStyles },
+            },
+            yAxis: [
+              {
+                ...axisColors,
+                labels: { ...textStyles },
+                title: { ...textStyles },
+              },
+              {
+                ...axisColors,
+                labels: { ...textStyles },
+                title: { ...textStyles },
+              },
+            ],
+          },
+          false,
+        )
+        volumeSeries.update(
+          {
+            color: skyBlue,
+          },
+          false,
+        )
+      } else {
+        const gridColor = '#F3F3F3'
+        const textColor = '#66666'
+        const axisColors = {
+          lineColor: gridColor,
+          gridLineColor: gridColor,
+          minorGridLineColor: gridColor,
+          tickColor: gridColor,
+        }
+        const textStyles = {
+          style: {
+            color: textColor,
+          },
+        }
+        chart.update(
+          {
+            chart: {
+              color: '#C0C0C0',
+              backgroundColor: white,
+            },
+            rangeSelector: {
+              inputBoxBorderColor: '#cccccc',
+              inputStyle: {
+                color: '#444444',
+              },
+              labelStyle: {
+                color: textColor,
+              },
+            },
+            xAxis: {
+              ...axisColors,
+              labels: { ...textStyles },
+              title: { ...textStyles },
+            },
+            yAxis: [
+              {
+                ...axisColors,
+                labels: { ...textStyles },
+                title: { ...textStyles },
+              },
+              {
+                ...axisColors,
+                labels: { ...textStyles },
+                title: { ...textStyles },
+              },
+            ],
+          },
+          false,
+        )
+        volumeSeries.update(
+          {
+            color: Highcharts.getOptions().colors[2],
+          },
+          false,
+        )
+      }
+
+      chart.render()
+    } catch (e) {
+      console.error(e)
+    }
+  }
+
   setPriceData = (data) => {
-    if (_.get(this.state.chart, ['series', 0])) {
-      this.state.chart.series[0].setData(data)
+    if (_.get(this.priceChart, ['series', PRICE_INDEX])) {
+      this.priceChart.series[PRICE_INDEX].setData(data)
     }
   }
 
   setVolumeData = (data) => {
-    if (_.get(this.state.chart, ['series', 1])) {
-      this.state.chart.series[1].setData(data)
+    if (_.get(this.priceChart, ['series', VOLUME_INDEX])) {
+      this.priceChart.series[VOLUME_INDEX].setData(data)
     }
   }
 
   setAnnotationData = (data) => {
-    if (_.get(this.state.chart, ['series', 2])) {
-      this.state.chart.series[2].setData(data)
+    if (_.get(this.priceChart, ['series', ANNOTATION_INDEX])) {
+      this.priceChart.series[ANNOTATION_INDEX].setData(data)
     }
   }
 
@@ -261,4 +411,4 @@ class PriceGraph extends Component {
   }
 }
 
-export default PriceGraph
+export default withThemeType(PriceGraph)

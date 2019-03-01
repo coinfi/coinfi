@@ -37,6 +37,7 @@
     "babel-loader": "^8.0.0",
     "babel-plugin-import": "^1.10.0",
     "babel-plugin-root-import": "^6.1.0",
+    "bluebird": "^3.5.3",
     "d3-ease": "^1.0.3",
     "dayjs": "^1.6.2",
     "debounce": "^1.1.0",

@@ -12,7 +12,9 @@ import NewsListHeader from './NewsListHeader'
 import BodySection from './BodySection'
 import BodySectionDrawer from '../../bundles/common/components/BodySectionDrawer'
 import * as _ from 'lodash'
-import withDevice from '~/bundles/common/utils/withDevice'
+import withDevice, {
+  DeviceContextType,
+} from '~/bundles/common/utils/withDevice'
 import EventListener from 'react-event-listener'
 
 import { NewsItem, ContentType, Filters } from './types'
@@ -25,7 +27,7 @@ import {
 
 const POLLING_TIMEOUT = 60000
 
-interface Props extends RouteComponentProps<any> {
+interface Props extends RouteComponentProps<any>, DeviceContextType {
   loggedIn: boolean
   categories: string[]
   feedSources: string[]
@@ -46,8 +48,6 @@ interface Props extends RouteComponentProps<any> {
   getWatchlist: any
   watchlist: any
   hasMore: boolean
-  isMobile: boolean
-  isTablet: boolean
 }
 
 type ActiveMobileWindow = 'CoinsList' | 'BodySection' | 'None'
@@ -61,6 +61,9 @@ interface State {
   showFilters: boolean
   unseenNewsIds: number[]
   selectedCoin: string
+  isMobile: boolean
+  isTablet: boolean
+  isDesktop: boolean
 }
 
 class NewsfeedPage extends React.Component<Props, State> {
@@ -80,6 +83,9 @@ class NewsfeedPage extends React.Component<Props, State> {
       showFilters: false,
       unseenNewsIds: [],
       selectedCoin: props.coinSlug || null,
+      isMobile: props.isServerMobile,
+      isTablet: props.isServerTablet,
+      isDesktop: props.isServerDesktop,
     }
   }
 
@@ -215,6 +221,19 @@ class NewsfeedPage extends React.Component<Props, State> {
       // Start polling
       this.startPollingNews()
     }
+
+    // check if server-rendered layout differs from client-rendered layout
+    if (
+      this.props.isServerMobile !== this.props.isMobile ||
+      this.props.isServerTablet !== this.props.isTablet ||
+      this.props.isServerDesktop !== this.props.isDesktop
+    ) {
+      this.setState({
+        isMobile: this.props.isMobile,
+        isTablet: this.props.isTablet,
+        isDesktop: this.props.isDesktop,
+      })
+    }
   }
 
   public componentDidUpdate(prevProps, prevState, snapshot) {
@@ -335,6 +354,19 @@ class NewsfeedPage extends React.Component<Props, State> {
       })
       return
     }
+
+    // Check if layout is updated
+    if (
+      prevProps.isMobile !== this.props.isMobile ||
+      prevProps.isTablet !== this.props.isTablet ||
+      prevProps.isDesktop !== this.props.isDesktop
+    ) {
+      this.setState({
+        isMobile: this.props.isMobile,
+        isTablet: this.props.isTablet,
+        isDesktop: this.props.isDesktop,
+      })
+    }
   }
 
   public onCoinChange = (selectedOption: CoinOption) => {
@@ -385,7 +417,7 @@ class NewsfeedPage extends React.Component<Props, State> {
   }
 
   public render() {
-    if (this.props.isMobile) {
+    if (this.state.isMobile) {
       const coinClickHandler: CoinClickHandler = (coinData) => {
         this.props.history.push(`/news/${coinData.slug}`)
         this.setState({ ActiveMobileWindow: 'None' })
@@ -434,6 +466,7 @@ class NewsfeedPage extends React.Component<Props, State> {
                   }}
                   onCoinClick={coinClickHandler}
                   hasMore={this.props.hasMore}
+                  loggedIn={this.props.loggedIn}
                 />
               </>
             }
@@ -469,7 +502,7 @@ class NewsfeedPage extends React.Component<Props, State> {
           />
         </EventListener>
       )
-    } else if (this.props.isTablet) {
+    } else if (this.state.isTablet) {
       const coinClickHandler: CoinClickHandler = (coinData) => {
         this.props.history.push(`/news/${coinData.slug}`)
       }
