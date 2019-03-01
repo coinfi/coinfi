@@ -79,6 +79,7 @@ namespace :etldb do
 
         query = "
           SELECT
+            COUNT(*) AS count,
             MIN(volume_to) AS to,
             coin_key
           FROM #{table["name"]}_view
