@@ -1,17 +1,17 @@
 import * as React from 'react'
 import {
   NewsItem,
-  NewsItemDict,
+  NewsItemDictionary,
   Filters,
-  VoteSummary,
-  VoteSummaryDict,
+  VoteData,
+  VoteDictionary,
 } from './types'
 
 export interface NewsfeedContextType {
   status: string
   newslist: NewsItem[]
-  newsItemDetails: NewsItemDict
-  voteSummaries: VoteSummaryDict
+  newsItemDetails: NewsItemDictionary
+  voteSummaries: VoteDictionary
   isLoading: boolean
   isLoadingMoreItems: boolean
   isReady: boolean
@@ -19,11 +19,8 @@ export interface NewsfeedContextType {
   fetchNewsItems: (filters: Filters) => Promise<NewsItem[]>
   fetchMoreNewsItems: (filters: Filters) => Promise<NewsItem[]>
   fetchNewsItem: (newsItemId: number) => Promise<NewsItem>
-  fetchVotesforNewsItem: (newsItemId: number) => Promise<VoteSummary>
-  voteOnNewsItem: (
-    newsItemId: number,
-    direction: string,
-  ) => Promise<VoteSummary>
+  fetchVotesforNewsItem: (newsItemId: number) => Promise<VoteData>
+  voteOnNewsItem: (newsItemId: number, direction: string) => Promise<VoteData>
   cleanNewsItems: () => void
   hasMore: boolean
 }

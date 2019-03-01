@@ -25,7 +25,7 @@ class Api::NewsController < ApiController
     distribute_reads(max_lag: MAX_ACCEPTABLE_REPLICATION_LAG, lag_failover: true) do
       @news_item = NewsItem.published.find(params[:id])
 
-      respond_success serialize_news_items(@news_item, with_votes: true)
+      respond_success merge_news_items_with_votes(serialize_news_items(@news_item))
     end
   end
 

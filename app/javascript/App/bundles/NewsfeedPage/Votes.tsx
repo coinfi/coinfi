@@ -7,30 +7,41 @@ import MuiIcon from '@material-ui/core/Icon'
 import classnames from 'classnames'
 import { withNewsfeed, NewsfeedContextType } from './NewsfeedContext'
 
-enum STATUSES {
-  LOADING = 'LOADING',
-  READY = 'READY',
+enum VOTE_DIRECTION {
+  neutral = 'neutral',
+  up = 'up',
+  down = 'down',
 }
 
 const styles = (theme) =>
   createStyles({
     root: {
+      '&.with-controls': {
+        marginLeft: '-8px',
+      },
       display: 'inline-block',
     },
     icon: {
       verticalAlign: 'top',
     },
     iconButton: {
-      color: 'inherit',
+      color: theme.palette.text.secondary,
       padding: '0 8px',
       backgroundColor: 'inherit !important',
       '&:hover': {
+        color: theme.palette.text.primary,
+      },
+      '&.selected': {
         color: theme.palette.primary.main,
+        '&:hover': {
+          color: theme.palette.text.primary,
+        },
       },
     },
     iconButtonUp: {
       marginTop: '-6px',
     },
+    iconButtonDown: {},
     muiIcon: {
       fontSize: '14px',
     },
@@ -39,7 +50,7 @@ const styles = (theme) =>
 interface Props extends NewsfeedContextType {
   classes: any
   newsItemId: number
-  hasControls?: boolean
+  showControls?: boolean
 }
 
 interface State {
@@ -90,22 +101,33 @@ class Votes extends React.Component<Props, State> {
       isLoading,
       newsItemId,
       voteSummaries,
-      hasControls,
+      showControls,
     } = this.props
 
     if (isLoading) {
-      return <></>
+      return null
     }
 
-    const total = _.get(voteSummaries, [newsItemId, 'total'], 0)
+    const total = _.get(voteSummaries, [newsItemId, 'vote_summary', 'total'], 0)
+    const userVote = _.get(
+      voteSummaries,
+      [newsItemId, 'vote'],
+      VOTE_DIRECTION.neutral,
+    )
+    const isUp = userVote === VOTE_DIRECTION.up
+    const isDown = userVote === VOTE_DIRECTION.down
 
     return (
-      <div className={classes.root}>
-        {hasControls && (
+      <div
+        className={classnames(classes.root, { 'with-controls': showControls })}
+      >
+        {showControls && (
           <IconButton
-            className={classnames(classes.iconButton, classes.iconButtonUp)}
+            className={classnames(classes.iconButton, classes.iconButtonUp, {
+              selected: isUp,
+            })}
             disableRipple={true}
-            onClick={() => this.vote('up')}
+            onClick={() => this.vote(VOTE_DIRECTION.up)}
           >
             <MuiIcon
               className={classnames(classes.muiIcon, 'far fa-thumbs-up')}
@@ -113,11 +135,13 @@ class Votes extends React.Component<Props, State> {
           </IconButton>
         )}
         <Icon name="fire-alt" className={classes.icon} /> {total}
-        {hasControls && (
+        {showControls && (
           <IconButton
-            className={classes.iconButton}
+            className={classnames(classes.iconButton, classes.iconButtonDown, {
+              selected: isDown,
+            })}
             disableRipple={true}
-            onClick={() => this.vote('down')}
+            onClick={() => this.vote(VOTE_DIRECTION.down)}
           >
             <MuiIcon
               className={classnames(classes.muiIcon, 'far fa-thumbs-down')}

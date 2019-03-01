@@ -4,10 +4,10 @@ import localAPI from '../common/utils/localAPI'
 import NewsfeedContext, { NewsfeedContextType } from './NewsfeedContext'
 import {
   NewsItem,
-  NewsItemDict,
+  NewsItemDictionary,
   Filters,
-  VoteSummary,
-  VoteSummaryDict,
+  VoteData,
+  VoteDictionary,
 } from './types'
 import * as P from 'bluebird'
 
@@ -31,8 +31,8 @@ interface State {
   sortedNewsItems: NewsItem[]
   status: string
   hasMore: boolean
-  newsItemDetails: NewsItemDict
-  voteSummaries: VoteSummaryDict
+  newsItemDetails: NewsItemDictionary
+  voteSummaries: VoteDictionary
 }
 
 class NewsfeedContainer extends React.Component<Props, State> {
@@ -250,9 +250,9 @@ class NewsfeedContainer extends React.Component<Props, State> {
   }
 
   public getVotesFromNewsItems = (
-    votesDict: VoteSummaryDict,
+    votesDict: VoteDictionary,
     newsItem: NewsItem,
-  ): VoteSummaryDict => {
+  ): VoteDictionary => {
     const { votes, id } = newsItem
     return {
       ...votesDict,
@@ -260,7 +260,7 @@ class NewsfeedContainer extends React.Component<Props, State> {
     }
   }
 
-  public fetchVotesforNewsItem = (newsItemId: number): Promise<VoteSummary> => {
+  public fetchVotesforNewsItem = (newsItemId: number): Promise<VoteData> => {
     return new P((resolve, reject) => {
       const { voteSummaries } = this.state
       const existingVotes = _.get(voteSummaries, newsItemId)
@@ -287,7 +287,7 @@ class NewsfeedContainer extends React.Component<Props, State> {
   public voteOnNewsItem = (
     newsItemId: number,
     direction: string,
-  ): Promise<VoteSummary> => {
+  ): Promise<VoteData> => {
     return new P((resolve, reject) => {
       localAPI
         .post(`/news/${newsItemId}/vote`, { direction })

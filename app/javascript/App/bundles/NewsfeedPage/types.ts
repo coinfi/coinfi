@@ -12,11 +12,16 @@ export interface NewsItem extends ItemWithCoinLinkData {
   url: string
   feed_item_published_at: string
   categories: Category[]
-  votes: VoteSummary
+  votes: VoteData
 }
 
-export interface NewsItemDict {
+export interface NewsItemDictionary {
   [id: number]: NewsItem
+}
+
+export interface VoteData {
+  vote?: string
+  vote_summary: VoteSummary
 }
 
 export interface VoteSummary {
@@ -27,8 +32,8 @@ export interface VoteSummary {
   down: number
 }
 
-export interface VoteSummaryDict {
-  [newsId: number]: VoteSummary
+export interface VoteDictionary {
+  [newsId: number]: VoteData
 }
 
 export type ContentType = 'none' | 'coin' | 'news'

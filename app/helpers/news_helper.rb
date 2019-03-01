@@ -15,14 +15,10 @@ module NewsHelper
       .limit(DEFAULT_NEWS_LIMIT)
   end
 
-  def serialize_news_items(news_items, with_votes: false)
-    methods = %i[tag_scoped_coin_link_data categories]
-    if with_votes
-      methods << :votes
-    end
+  def serialize_news_items(news_items)
     data = news_items.as_json(
       only: %i[id title summary feed_item_published_at updated_at url content],
-      methods: methods
+      methods: %i[tag_scoped_coin_link_data categories]
     )
     format_item = Proc.new do |item, *args|
       item
@@ -41,9 +37,30 @@ module NewsHelper
   end
 
   def merge_news_items_with_votes(json_news_items)
-    vote_hash = NewsVote.votes_by_news_item(news_item_ids: json_news_items.map{|item| item['id']})
-    json_news_items.map do |item|
-      item.merge({votes: vote_hash.dig(item['id'])})
+    news_item_ids = json_news_items.kind_of?(Array) ? json_news_items.map {|item| item['id']} : [json_news_items.dig('id')]
+    vote_summary_hash = NewsVote.votes_by_news_item(news_item_ids: news_item_ids)
+    user_vote_hash = {}
+    if current_user.present?
+      user_vote_hash = NewsVote.where(user: current_user)
+        .where(news_item_id: news_item_ids)
+        .pluck(:news_item_id, :vote)
+        .to_h
+    end
+
+    add_vote_data = Proc.new do |item, *args|
+      news_item_id = item['id']
+      vote_hash = {
+        vote: user_vote_hash.dig(news_item_id),
+        vote_summary: vote_summary_hash.dig(news_item_id),
+      }
+      item.merge({votes: vote_hash})
+    end
+
+    # Handle both json hashes and arrays of json hashes
+    if (json_news_items.kind_of?(Array))
+      json_news_items.map(&add_vote_data)
+    else
+      add_vote_data.call(json_news_items)
     end
   end
 

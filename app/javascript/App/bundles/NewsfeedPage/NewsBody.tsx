@@ -200,9 +200,12 @@ class NewsBody extends React.Component<Props, State> {
         <div className={classes.subtitle}>
           <Icon name="clock" className="mr1 f7" />
           <span>{publishedAt.format('lll')}</span>
-          <BulletSpacer styles={{ paddingRight: 0 }} />
+          <BulletSpacer />
           <span>
-            <Votes newsItemId={newsItem.id} hasControls={true} />
+            <Votes
+              newsItemId={newsItem.id}
+              showControls={this.props.loggedIn}
+            />
           </span>
         </div>
         {categories.length > 0 && (

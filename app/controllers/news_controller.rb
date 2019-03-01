@@ -33,7 +33,7 @@ class NewsController < ApplicationController
   def show
     distribute_reads(max_lag: MAX_ACCEPTABLE_REPLICATION_LAG, lag_failover: true) do
       news_item = NewsItem.published.find(params[:id])
-      @news_item_data = serialize_news_items(news_item, with_votes: true)
+      @news_item_data = merge_news_items_with_votes(serialize_news_items(news_item))
 
       set_meta_tags(
         title: "CoinFi News - #{news_item.title}",

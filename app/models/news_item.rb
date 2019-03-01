@@ -107,10 +107,6 @@ class NewsItem < ApplicationRecord
     feed_item_published_at.to_i * 1000
   end
 
-  def votes
-    NewsVote.votes_for_news_item(news_item: self)
-  end
-
   private
 
   def set_unpublished_if_feed_source_inactive
