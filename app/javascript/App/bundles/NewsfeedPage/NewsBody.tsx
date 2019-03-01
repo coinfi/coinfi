@@ -65,7 +65,7 @@ const styles = (theme) => {
         border: `0.5px solid ${theme.palette.border.main}`,
       },
       '& h1, h2, h3, h4, h5, h6': {
-        color: theme.palette.text.primary,
+        color: theme.palette.text.heading,
       },
     },
     footer: {
