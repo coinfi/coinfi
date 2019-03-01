@@ -15,10 +15,14 @@ module NewsHelper
       .limit(DEFAULT_NEWS_LIMIT)
   end
 
-  def serialize_news_items(news_items)
+  def serialize_news_items(news_items, with_votes: false)
+    methods = %i[tag_scoped_coin_link_data categories]
+    if with_votes
+      methods << :votes
+    end
     data = news_items.as_json(
       only: %i[id title summary feed_item_published_at updated_at url content],
-      methods: %i[tag_scoped_coin_link_data categories]
+      methods: methods
     )
     format_item = Proc.new do |item, *args|
       item
@@ -33,6 +37,13 @@ module NewsHelper
       formatted_data = data.map(&format_item)
     else
       formatted_data = format_item.call(data)
+    end
+  end
+
+  def merge_news_items_with_votes(json_news_items)
+    vote_hash = NewsVote.votes_by_news_item(news_item_ids: json_news_items.map{|item| item['id']})
+    json_news_items.map do |item|
+      item.merge({votes: vote_hash.dig(item['id'])})
     end
   end
 

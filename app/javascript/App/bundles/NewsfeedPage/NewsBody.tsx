@@ -5,7 +5,6 @@ import * as _ from 'lodash'
 import CoinTags from '~/bundles/common/components/CoinTags'
 import BulletSpacer from '~/bundles/common/components/BulletSpacer'
 import Icon from '~/bundles/common/components/Icon'
-import localAPI from '../common/utils/localAPI'
 import classnames from 'classnames'
 import TwitterBody from './TwitterBody'
 import CallToAction from './CallToAction'
@@ -15,14 +14,18 @@ import {
   isTwitter,
   getTwitterUsername,
 } from '~/bundles/common/utils/url'
-
+import Votes from './Votes'
 import { NewsItem } from './types'
 import { CoinClickHandler } from '~/bundles/common/types'
 import NewsBodyShareButtons from './NewsBodyShareButtons'
 import { RailsConsumer } from '~/bundles/common/contexts/RailsContext'
 import { withStyles, createStyles } from '@material-ui/core/styles'
+import {
+  withNewsfeed,
+  NewsfeedContextType,
+} from '~/bundles/NewsfeedPage/NewsfeedContext'
 
-interface Props {
+interface Props extends NewsfeedContextType {
   classes: any
   loggedIn: boolean
   initialNewsItem?: NewsItem
@@ -87,7 +90,9 @@ class NewsBody extends React.Component<Props, State> {
   }
 
   public componentDidMount() {
-    if (this.props.newsItemId) {
+    if (
+      parseInt(this.props.newsItemId, 10) !== _.get(this.state.newsItem, 'id')
+    ) {
       this.fetchNewsItemDetails()
     }
   }
@@ -124,11 +129,11 @@ class NewsBody extends React.Component<Props, State> {
   }
 
   public fetchNewsItemDetails() {
-    const fetchNewsPromise = localAPI
-      .get(`/news/${this.props.newsItemId}`)
-      .then((response) => {
+    const fetchNewsPromise = this.props
+      .fetchNewsItem(parseInt(this.props.newsItemId, 10))
+      .then((newsItem) => {
         this.setState({
-          newsItem: response.payload,
+          newsItem,
         })
         this.cleanupPromiseQueue()
       })
@@ -194,9 +199,11 @@ class NewsBody extends React.Component<Props, State> {
         </div>
         <div className={classes.subtitle}>
           <Icon name="clock" className="mr1 f7" />
-          {publishedAt.fromNow()}
-          <BulletSpacer />
           <span>{publishedAt.format('lll')}</span>
+          <BulletSpacer styles={{ paddingRight: 0 }} />
+          <span>
+            <Votes newsItemId={newsItem.id} hasControls={true} />
+          </span>
         </div>
         {categories.length > 0 && (
           <div className="mv3">
@@ -255,4 +262,4 @@ class NewsBody extends React.Component<Props, State> {
   }
 }
 
-export default withStyles(styles)(NewsBody)
+export default withStyles(styles)(withNewsfeed(NewsBody))

@@ -20,6 +20,8 @@ class NewsItem < ApplicationRecord
   scope :tagged, -> { where(is_human_tagged: true) }
   scope :twitter, -> { where(feed_source: FeedSource.twitter) }
   scope :order_by_published, -> (order = nil) { order(feed_item_published_at: order || :desc) }
+  scope :with_votes, -> { select('news_items.*, coalesce(sum(news_votes.vote), 0) as vote_total')
+                            .left_outer_joins(:news_votes).group(:id) }
 
   alias_method :categories, :news_categories
   alias_method :mentions, :news_coin_mentions
@@ -103,6 +105,10 @@ class NewsItem < ApplicationRecord
 
   def published_epoch
     feed_item_published_at.to_i * 1000
+  end
+
+  def votes
+    NewsVote.votes_for_news_item(news_item: self)
   end
 
   private

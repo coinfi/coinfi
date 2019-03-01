@@ -23,6 +23,7 @@ class NewsController < ApplicationController
         .order_by_published
         .limit(25)
     )
+    @news_items_data = merge_news_items_with_votes(@news_items_data)
 
     set_meta_tags(
       title: "Latest (#{coin.symbol}) #{coin.name} News - #{coin.name} Crypto News (#{Date.today.strftime("%b %e, %Y")})"
@@ -32,7 +33,7 @@ class NewsController < ApplicationController
   def show
     distribute_reads(max_lag: MAX_ACCEPTABLE_REPLICATION_LAG, lag_failover: true) do
       news_item = NewsItem.published.find(params[:id])
-      @news_item_data = serialize_news_items(news_item)
+      @news_item_data = serialize_news_items(news_item, with_votes: true)
 
       set_meta_tags(
         title: "CoinFi News - #{news_item.title}",
@@ -51,6 +52,7 @@ class NewsController < ApplicationController
 
   def set_default_news_items
     @news_items_data = get_default_news_items
+    @news_items_data = merge_news_items_with_votes(@news_items_data)
   end
 
   def set_view_data
