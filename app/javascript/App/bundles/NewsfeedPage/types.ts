@@ -26,10 +26,7 @@ export interface VoteData {
 
 export interface VoteSummary {
   id: number
-  count: number
   total: number
-  up: number
-  down: number
 }
 
 export interface VoteDictionary {

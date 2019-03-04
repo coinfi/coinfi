@@ -19,7 +19,7 @@ class Api::NewsVoteController < ApiController
       respond_error 'Must be logged in to vote.'
     end
 
-    news_vote = NewsVote.cast_vote(current_user, params[:news_id], params[:direction])
+    news_vote = NewsVote.cast_vote(current_user, params[:news_id], params[:direction], current_user.admin?)
     if not news_vote
       return respond_error 'Could not save vote.'
     end
