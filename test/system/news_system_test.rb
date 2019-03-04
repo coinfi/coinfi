@@ -323,36 +323,4 @@ class NewsSystemTest < ApplicationSystemTestCase
       end
     end
   end
-
-  test "news items with category filter" do
-    # Login
-    login_as(@user, :scope => :user)
-
-    visit news_url
-
-    # Get a category filter
-    random_category = NewsCategory.all.sample
-
-    # Open and set filter
-    click_button('Filter')
-
-    category_btn = all('.category-btn').select {|elt| elt.text == random_category.name }.first.find('button')
-    category_btn.click
-    assert category_btn[:class].include?("selected"), true
-
-    click_button('Apply')
-
-    # Check against expected news items
-    news_categories = NewsCategory.where(name: [random_category.name])
-    expected_news_items = NewsItems::WithFilters.call(
-        NewsItem.published,
-        news_categories: news_categories
-      ).order_by_published.limit(25)
-
-    within '#newsfeed' do
-      expected_news_items.each do |news_item|
-        assert_text(:all, news_item.title)
-      end
-    end
-  end
 end
