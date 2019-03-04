@@ -3,7 +3,6 @@ require 'test_helper'
 
 class NewsVotesSystemTest < ApplicationSystemTestCase
   include Devise::Test::IntegrationHelpers
-  include NewsHelper
 
   setup do
     Rails.application.load_seed
@@ -17,6 +16,10 @@ class NewsVotesSystemTest < ApplicationSystemTestCase
 
     @current_user = @users.first
 
+    Rails.cache.clear("default_news_items")
+  end
+
+  teardown do
     Rails.cache.clear("default_news_items")
   end
 
@@ -108,7 +111,7 @@ class NewsVotesSystemTest < ApplicationSystemTestCase
     visit news_url
 
     # Check against expected news items
-    expected_news_items = default_news_query
+    expected_news_items = NewsServices::RetrieveDefaultNewsItems.call.try(:result)
 
     within '#newsfeed' do
       expected_news_items.each do |news_item|

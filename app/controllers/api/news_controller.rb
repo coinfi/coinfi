@@ -11,10 +11,10 @@ class Api::NewsController < ApiController
       apply_news_feed_filters(params)
 
       if params[:frontPage].present? # For Front page
-        return respond_success merge_news_items_with_votes(@news_items.slice(0, 5))
+        return respond_success get_news_items_with_votes(@news_items.slice(0, 5))
       end
 
-      respond_success merge_news_items_with_votes(@news_items)
+      respond_success get_news_items_with_votes(@news_items)
     end
   end
 
@@ -25,7 +25,7 @@ class Api::NewsController < ApiController
     distribute_reads(max_lag: MAX_ACCEPTABLE_REPLICATION_LAG, lag_failover: true) do
       @news_item = NewsItem.published.find(params[:id])
 
-      respond_success merge_news_items_with_votes(serialize_news_items(@news_item))
+      respond_success get_news_items_with_votes(serialize_news_items(@news_item))
     end
   end
 
