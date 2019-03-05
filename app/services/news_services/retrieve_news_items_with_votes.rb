@@ -9,6 +9,10 @@ module NewsServices
     end
 
     def call
+      if @json_news_items.blank?
+        return
+      end
+
       distribute_reads(max_lag: ::ApplicationHelper::MAX_ACCEPTABLE_REPLICATION_LAG, lag_failover: true) do
         news_item_ids = get_news_ids
         vote_summary_hash = convert_active_records_to_id_indexed_hash(
