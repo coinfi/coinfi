@@ -6,9 +6,9 @@ class CoinsSystemTest < ApplicationSystemTestCase
 
   setup do
     Rails.application.load_seed
+    initialize_coin_views
     @user = create(:user)
     @coins = create_list(:coin, 20)
-    initialize_coin_views
   end
 
   teardown do

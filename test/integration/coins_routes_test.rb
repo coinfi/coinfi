@@ -3,8 +3,8 @@ require 'test_helper'
 
 class CoinsRoutesTest < ApplicationIntegrationTest
   setup do
-    @coins = create_list(:coin_with_metrics, 10)
     initialize_coin_views
+    @coins = create_list(:coin_with_metrics, 10)
   end
 
   teardown do
