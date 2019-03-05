@@ -8,7 +8,7 @@ class Api::NewsController < ApiController
     headers['Last-Modified'] = Time.now.httpdate
 
     distribute_reads(max_lag: MAX_ACCEPTABLE_REPLICATION_LAG, lag_failover: true) do
-      apply_news_feed_filters(params)
+      set_news_items_with_filters(params)
 
       if params[:frontPage].present? # For Front page
         return respond_success @news_items.slice(0, 5)
@@ -24,14 +24,20 @@ class Api::NewsController < ApiController
 
     distribute_reads(max_lag: MAX_ACCEPTABLE_REPLICATION_LAG, lag_failover: true) do
       @news_item = NewsItem.published.find(params[:id])
+      @user_vote =  if current_user.present?
+      serialized_news_item = serialize_news_items(@news_item)
 
-      respond_success serialize_news_items(@news_item)
+      if current_user.present?
+        serialized_news_item['user_vote'] = current_user.voted_as_when_voted_for(news_item)
+      end
+
+      respond_success serialized_news_item
     end
   end
 
   private
 
-  def apply_news_feed_filters(params)
+  def set_news_items_with_filters(params)
     if coin_slugs = params[:coinSlugs]
       coins = Coin.where(slug: coin_slugs)
     end
@@ -60,7 +66,8 @@ class Api::NewsController < ApiController
     end
 
     if no_filters?
-      @news_items = get_default_news_items
+      news_item_ids = get_default_news_item_ids
+      @news_items = serialize_news_items(NewsItem.where(id: news_item_ids))
     else
       @news_items = serialize_news_items(NewsItems::WithFilters.call(
         NewsItem.published,

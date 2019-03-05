@@ -5,6 +5,7 @@ import BulletSpacer from '~/bundles/common/components/BulletSpacer'
 import { withStyles, createStyles } from '@material-ui/core/styles'
 import classNames from 'classnames'
 import Favicon from '~/bundles/common/components/Favicon'
+import Votes from './Votes'
 import * as _ from 'lodash'
 import { tiber } from '~/bundles/common/styles/colors'
 
@@ -105,6 +106,8 @@ const NewsListItem = (props) => {
             </a>
             <BulletSpacer />
             {moment(newsItem.feed_item_published_at).fromNow()}
+            <BulletSpacer />
+            <Votes newsItemId={newsItem.id} />
           </div>
           <CoinTags {...props} itemWithCoinLinkData={newsItem} />
         </div>
