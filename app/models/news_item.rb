@@ -109,6 +109,10 @@ class NewsItem < ApplicationRecord
     cached_weighted_score
   end
 
+  def get_vote_by_voter_id(voter_id)
+    votes_for.where(voter_id: voter_id).first
+  end
+
   private
 
   def set_unpublished_if_feed_source_inactive

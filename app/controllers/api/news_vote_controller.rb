@@ -21,47 +21,63 @@ class Api::NewsVoteController < ApiController
     end
 
     distribute_reads(max_lag: MAX_ACCEPTABLE_REPLICATION_LAG, lag_failover: true) do
-      news_item = NewsItem.find_by_id(params[:news_id])
-      if news_item.blank?
+      @news_item = NewsItem.find_by_id(params[:news_id])
+      if @news_item.blank?
         return respond_error 'Could not save vote.'
       end
 
       if current_user.admin?
-        if current_user.voted_for?(news_item)
-          previous_vote = news_item.votes_for.where(voter_id: current_user.id).first
-          previous_weight = previous_vote.vote_weight
-          previous_flag = previous_vote.vote_flag
-          is_same_vote = previous_flag == params[:direction]
-          vote_weight = is_same_vote ? previous_weight + 1 : previous_weight - 1
-          if vote_weight < 1
-            news_item.unvote_by current_user
-          else
-            news_item.vote_by(voter: current_user, vote: previous_flag, vote_weight: vote_weight)
-          end
-        else
-          news_item.vote_by(voter: current_user, vote: params[:direction], vote_weight: 1)
-        end
+        weighted_vote_on_news_item(!!params[:direction])
       else
-        if params[:direction]
-          if current_user.voted_up_on?(news_item)
-            news_item.unvote_by current_user
-          else
-            news_item.upvote_by current_user
-          end
-        else
-          if current_user.voted_down_on?(news_item)
-            news_item.unvote_by current_user
-          else
-            news_item.downvote_by current_user
-          end
-        end
+        vote_on_news_item(!!params[:direction])
       end
 
-      respond_success serialize_votes(news_item)
+      respond_success serialize_votes(@news_item)
     end
   end
 
   private
+
+  def weighted_vote_on_news_item(direction)
+    previous_vote = @news_item.get_vote_by_voter_id(current_user.id)
+
+    if previous_vote.nil? # vote as directed
+      return @news_item.vote_by(
+        voter: current_user,
+        vote: direction,
+        vote_weight: 1
+      )
+    end
+
+    previous_direction = previous_vote.vote_flag
+    previous_weight = previous_vote.vote_weight
+
+    if previous_direction == direction # increase weight
+      return @news_item.vote_by(
+        voter: current_user,
+        vote: previous_direction,
+        vote_weight: previous_weight + 1
+      )
+    end
+
+    if previous_weight > 1 # decrease weight
+      return @news_item.vote_by(
+        voter: current_user,
+        vote: previous_direction,
+        vote_weight: previous_weight - 1
+      )
+    end
+
+    @news_item.unvote_by current_user
+  end
+
+  def vote_on_news_item(direction)
+    if current_user.voted_as_when_voted_for(@news_item) == direction
+      @news_item.unvote_by current_user
+    else
+      @news_item.vote_by(voter: current_user, vote: direction)
+    end
+  end
 
   def serialize_votes(news_item)
     serialized_votes = news_item.as_json(only: %i[id], methods: %i[vote_score])
