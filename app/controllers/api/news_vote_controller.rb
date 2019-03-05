@@ -60,7 +60,6 @@ class Api::NewsVoteController < ApiController
 
   def serialize_votes(news_item)
     serialized_votes = news_item.as_json(only: %i[id], methods: %i[vote_score])
-    pp serialized_votes
 
     if current_user.present?
       serialized_votes['user_vote'] = current_user.voted_as_when_voted_for(news_item)
