@@ -3,6 +3,7 @@ require "test_helper"
 class ApplicationIntegrationTest < ActionDispatch::IntegrationTest
   setup do
     ReactOnRails::TestHelper.ensure_assets_compiled
+    initialize_news_views
 
     postgres_url = ENV.fetch('COINFI_POSTGREST_URL')
 
@@ -16,9 +17,32 @@ class ApplicationIntegrationTest < ActionDispatch::IntegrationTest
       to_return(status: 200, body: File.new(Rails.root.join('test', 'fixtures', 'hourly_ohcl_prices.json')))
   end
 
+  teardown do
+    teardown_news_views
+  end
+
   protected
 
-  def initialize_views
+  def initialize_news_views
+    @connection ||= ActiveRecord::Base.connection
+    @connection.execute <<-SQL
+      CREATE OR REPLACE VIEW news_item_votes_view AS SELECT
+        news_item_id,
+        coalesce(sum(vote), 0) as total
+      FROM news_votes
+      WHERE vote != 0
+      GROUP BY news_item_id;
+    SQL
+  end
+
+  def teardown_news_views
+    @connection ||= ActiveRecord::Base.connection
+    @connection.execute <<-SQL
+      DROP VIEW news_item_votes_view;
+    SQL
+  end
+
+  def initialize_coin_views
     @connection ||= ActiveRecord::Base.connection
     @connection.execute <<-SQL
       CREATE MATERIALIZED VIEW exchange_supply_view AS select
@@ -205,7 +229,7 @@ class ApplicationIntegrationTest < ActionDispatch::IntegrationTest
     SQL
   end
 
-  def teardown_views
+  def teardown_coin_views
     @connection ||= ActiveRecord::Base.connection
     @connection.execute <<-SQL
       DROP MATERIALIZED VIEW exchange_supply_view;

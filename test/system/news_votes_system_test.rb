@@ -26,14 +26,14 @@ class NewsVotesSystemTest < ApplicationSystemTestCase
   test "unauthorized user can't vote" do
     news_item = NewsItem.published.first
     news_item_slug = news_item.title.parameterize
-    votes = NewsVote.votes_for_news_item(news_item_id: news_item.id)
+    votes = NewsItemVote.find_by(news_item_id: news_item.id)
 
     visit news_item_url(news_item, news_item_slug)
 
     within '.selected-news-content' do
       assert_no_selector('.with-controls')
       # no good id/class to identify vote div by
-      vote_div = find('span > div', text: votes[:total])
+      vote_div = find('span > div', text: votes.total)
       assert vote_div.has_no_selector?(:xpath, '..//button')
     end
   end
@@ -44,14 +44,14 @@ class NewsVotesSystemTest < ApplicationSystemTestCase
 
     news_item = NewsItem.published.first
     news_item_slug = news_item.title.parameterize
-    votes = NewsVote.votes_for_news_item(news_item_id: news_item.id)
+    votes = NewsItemVote.find_by(news_item_id: news_item.id)
 
     visit news_item_url(news_item, news_item_slug)
 
     within '.selected-news-content' do
       assert_selector('.with-controls')
       # no good id/class to identify vote div by
-      vote_div = find('span > div', text: votes[:total])
+      vote_div = find('span > div', text: votes.total)
       assert vote_div.has_selector?(:xpath, '..//button', minimum: 2)
     end
   end
@@ -62,22 +62,27 @@ class NewsVotesSystemTest < ApplicationSystemTestCase
 
     news_item = NewsItem.published.first
     news_item_slug = news_item.title.parameterize
-    votes = NewsVote.votes_for_news_item(news_item_id: news_item.id)
+    votes = NewsItemVote.find_by(news_item_id: news_item.id)
 
     visit news_item_url(news_item, news_item_slug)
 
     # check value before clicking
     news_title = find('#newsfeed h4', text: news_item.title)
     news_details = news_title.find(:xpath, './/following-sibling::div')
-    assert news_details.has_text?(:all, votes[:total])
+    original_vote_total = votes.total
+    assert news_details.has_text?(:all, original_vote_total)
 
-    vote_div = find('.selected-news-content div.with-controls', text: votes[:total])
+    vote_div = find('.selected-news-content div.with-controls', text: original_vote_total)
     upvote_button = vote_div.first('button')
     upvote_button.click
 
     #check value after clicking
-    assert news_details.has_no_text?(:all, votes[:total])
-    assert vote_div.has_no_text?(:all, votes[:total])
+    votes = NewsItemVote.find_by(news_item_id: news_item.id)
+    new_vote_total = votes.total
+    assert news_details.has_text?(:all, new_vote_total)
+    assert vote_div.has_text?(:all, new_vote_total)
+    assert news_details.has_no_text?(:all, original_vote_total)
+    assert vote_div.has_no_text?(:all, original_vote_total)
   end
 
   test "authorized user can downvote" do
@@ -86,22 +91,22 @@ class NewsVotesSystemTest < ApplicationSystemTestCase
 
     news_item = NewsItem.published.first
     news_item_slug = news_item.title.parameterize
-    votes = NewsVote.votes_for_news_item(news_item_id: news_item.id)
+    votes = NewsItemVote.find_by(news_item_id: news_item.id)
 
     visit news_item_url(news_item, news_item_slug)
 
     # check value before clicking
     news_title = find('#newsfeed h4', text: news_item.title)
     news_details = news_title.find(:xpath, './/following-sibling::div')
-    assert news_details.has_text?(:all, votes[:total])
+    assert news_details.has_text?(:all, votes.total)
 
-    vote_div = find('.selected-news-content div.with-controls', text: votes[:total])
+    vote_div = find('.selected-news-content div.with-controls', text: votes.total)
     upvote_button = vote_div.find('button:last-of-type')
     upvote_button.click
 
     #check value after clicking
-    assert news_details.has_no_text?(:all, votes[:total])
-    assert vote_div.has_no_text?(:all, votes[:total])
+    assert news_details.has_no_text?(:all, votes.total)
+    assert vote_div.has_no_text?(:all, votes.total)
   end
 
   test "news items with votes" do
@@ -115,10 +120,10 @@ class NewsVotesSystemTest < ApplicationSystemTestCase
 
     within '#newsfeed' do
       expected_news_items.each do |news_item|
-        votes = NewsVote.votes_for_news_item(news_item_id: news_item.id)
+        votes = NewsItemVote.find_by(news_item_id: news_item.id)
         news_title = find('h4', text: news_item.title)
         news_details = news_title.find(:xpath, './/following-sibling::div')
-        assert news_details.has_text?(:all, votes[:total])
+        assert news_details.has_text?(:all, votes.total)
       end
     end
   end

@@ -1,7 +1,5 @@
 module NewsServices
   class RetrieveDefaultNewsItems < Patterns::Service
-    include NewsHelper
-
     def initialize(limit: 25)
       @limit = limit
     end
@@ -9,7 +7,9 @@ module NewsServices
     def call
       distribute_reads(max_lag: ::ApplicationHelper::MAX_ACCEPTABLE_REPLICATION_LAG, lag_failover: true) do
         @news_items = default_news_query.to_a
-        @news_items = backup_default_news_query.to_a if @news_items.empty? || @news_items.length < @limit
+        if @news_items.empty? || @news_items.length < @limit
+          @news_items = backup_default_news_query.to_a
+        end
 
         @news_items
       end

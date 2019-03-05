@@ -6,51 +6,6 @@ class NewsVote < ApplicationRecord
   enum vote: { neutral: 0, up: 1, down: -1 }
   validates :vote, inclusion: { in: votes.keys }
 
-  def self.votes_for_news_item(default = nil, news_item: nil, news_item_id: nil)
-    news_item ||= default
-    if news_item.blank? && news_item_id.blank?
-      return
-    end
-
-    @news_item_id = news_item.try(:id) || news_item_id
-    votes = self.votes_by_news_item(news_item_ids: [@news_item_id])
-    votes.dig(@news_item_id) || self.vote_summary(id: @news_item_id)
-  end
-
-  def self.votes_by_news_item(default = nil, news_items: nil, news_item_ids: nil)
-    news_items ||= default
-    if news_items.blank? && news_item_ids.blank?
-      return
-    end
-
-    @news_item_ids = news_items.try(:map) { |item| item.try(:id) } || news_item_ids
-    # create default hash to ensure all ids are present even if no sql result is present
-    default_hash = @news_item_ids.reduce({}) { |hash, id| hash.merge(Hash[id, self.vote_summary(id: id)]) }
-
-    NewsVote.select(<<-SQL
-        news_item_id,
-        coalesce(sum(vote), 0) as total
-      SQL
-      )
-      .where('vote != 0')
-      .group(:news_item_id)
-      .having(news_item_id: @news_item_ids)
-      .reduce(default_hash) do |hash, item|
-        hash[item.news_item_id] = self.vote_summary(
-          id: item.news_item_id,
-          total: item.total,
-        )
-        hash
-      end
-  end
-
-  def self.vote_summary(id: nil, total: 0)
-    {
-      id: id,
-      total: total,
-    }
-  end
-
   # RETURNS: record if successful, falsey if failed
   def self.cast_vote(user, news_item_id, vote_direction, multi_vote = false)
     vote = vote_direction.try(:downcase)
@@ -99,6 +54,6 @@ class NewsVote < ApplicationRecord
   end
 
   def vote_summary
-    NewsVote.votes_for_news_item(news_item_id: news_item_id)
+    NewsItemVote.find_by(news_item_id: news_item_id)
   end
 end

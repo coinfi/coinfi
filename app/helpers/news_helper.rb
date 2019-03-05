@@ -1,6 +1,4 @@
 module NewsHelper
-  MAX_ACCEPTABLE_REPLICATION_LAG = ApplicationHelper::MAX_ACCEPTABLE_REPLICATION_LAG
-
   def serialize_news_items(news_items)
     data = news_items.as_json(
       only: %i[id title summary feed_item_published_at updated_at url content],
@@ -31,8 +29,8 @@ module NewsHelper
 
   def get_news_items_with_votes(json_news_items)
     NewsServices::RetrieveNewsItemsWithVotes.call(
-        json_news_items: json_news_items,
-        user: current_user
-      ).try(:result)
+      json_news_items: json_news_items,
+      user: current_user
+    ).try(:result)
   end
 end

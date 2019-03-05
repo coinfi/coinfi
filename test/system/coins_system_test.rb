@@ -8,6 +8,11 @@ class CoinsSystemTest < ApplicationSystemTestCase
     Rails.application.load_seed
     @user = create(:user)
     @coins = create_list(:coin, 20)
+    initialize_coin_views
+  end
+
+  teardown do
+    teardown_coin_views
   end
 
   test "can visit index when authenticated" do
