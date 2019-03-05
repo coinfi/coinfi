@@ -26,18 +26,29 @@ class Api::NewsVoteController < ApiController
         return respond_error 'Could not save vote.'
       end
 
-      case params[:direction]
-      when true
-        if current_user.voted_up_on?(news_item)
-          news_item.unvote_by current_user
+      if current_user.admin?
+        if current_user.voted_for?(news_item)
+          previous_vote = news_item.votes_for.where(voter_id: current_user.id).first
+          same_vote = previous_vote.vote_flag == params[:direction]
+          vote = params[:direction]
+          vote_weight = same_vote ? previous_vote.vote_weight + 1 : 1
+          news_item.vote_by(voter: current_user, vote: vote, vote_weight: vote_weight)
         else
-          news_item.upvote_by current_user
+          news_item.vote_by(voter: current_user, vote: params[:direction], vote_weight: 1)
         end
-      when false
-        if current_user.voted_down_on?(news_item)
-          news_item.unvote_by current_user
+      else
+        if params[:direction]
+          if current_user.voted_up_on?(news_item)
+            news_item.unvote_by current_user
+          else
+            news_item.upvote_by current_user
+          end
         else
-          news_item.downvote_by current_user
+          if current_user.voted_down_on?(news_item)
+            news_item.unvote_by current_user
+          else
+            news_item.downvote_by current_user
+          end
         end
       end
 
