@@ -1,4 +1,5 @@
 class NewsItem < ApplicationRecord
+  acts_as_votable
   belongs_to :feed_source
   has_one :user # References the Admin user who tagged this NewsItem
   has_one :news_item_raw

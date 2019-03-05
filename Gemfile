@@ -143,3 +143,5 @@ end
 gem "activerecord-import", "~> 0.27.0"
 
 gem "active_record_upsert", "~> 0.9.4"
+
+gem "acts_as_votable", "~> 0.12.0"
