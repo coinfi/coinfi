@@ -58,6 +58,7 @@
           <%= button_to "Logout", destroy_user_session_path, method: :delete, class: "nav-menu-actions__btn nav-menu-actions--secondary", form_class: "nav-menu-actions__logout-form" %>
         <% else %>
           <%= link_to "Login", new_user_session_path, class: "nav-menu-actions__btn nav-menu-actions--secondary" %>
+          <a href="#sign-up" data-micromodal-trigger="modal-sign-up" class="nav-menu-actions__btn nav-menu-actions--secondary nav-menu-close">Get Started</a>
         <% end %>
       </div>
     </div>
