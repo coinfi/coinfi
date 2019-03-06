@@ -68,6 +68,7 @@
         <%= react_component_with_jss "NavUserContainer", { props: { formAuthenticityToken: form_authenticity_token, userEmail: current_user.try(:email), user: current_user, showDarkMode: show_dark_mode? } } %>
       <% else %>
         <%= link_to "Login", new_user_session_path, { class: "nav-menu__item nav-menu-login" } %>
+        <a href="#sign-up" data-micromodal-trigger="modal-sign-up" class="nav-menu__item nav-menu-login">Get Started</a>
       <% end %>
       <% unless hide_currency? %>
         <%= react_component_with_jss "CurrencySelectorWidget", props: { user: current_user }, prerender: false %>

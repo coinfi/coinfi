@@ -1,0 +1,28 @@
+<div class="micromodal micromodal-slide" id="modal-sign-up" aria-hidden="true">
+  <div class="modal__overlay" tabindex="-1" data-micromodal-close>
+    <div class="modal__container" role="dialog" aria-modal="true" aria-labelledby="modal-sign-up-title">
+      <header class="modal__header">
+        <img src="<%= image_path('logo.svg') %>" class="nav-logo__img">
+        <h2 class="modal__title" id="modal-sign-up-title">
+          Financial Intelligence for Cryptocurrencies
+        </h2>
+      </header>
+      <main class="modal__content" id="modal-sign-up-content">
+        <button class="btn btn-sm btn-fb-blue w-100 btn-logo">
+          <i class="fab fa-facebook-f"></i>
+          <span>Sign up with Facebook</span>
+        </button>
+        <button class="btn btn-sm btn-google-red w-100 btn-logo">
+          <i class="fab fa-google"></i>
+          <span>Sign up with Google</span>
+        </button>
+        <div class="divider-text">OR</div>
+        <input type="text" placeholder="Email" class="email-input w-100" />
+        <button class="btn btn-sm btn-blue w-100">Sign up</button>
+      </main>
+      <footer class="modal__footer">
+        By continuing, you agree to CoinFi's <%= link_to "Privacy Policy", page_privacy_path %>. Don't worry, we won't give your information to anyone else.
+      </footer>
+    </div>
+  </div>
+</div>
