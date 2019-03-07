@@ -43,6 +43,7 @@ export interface ThemeProviderExposedProps {
   loggedIn?: boolean
   hasOuterTheme?: boolean
   initialTheme?: ThemeTypes
+  setCSSClass?: boolean // Nuclear option that can affect all css classes
 }
 
 export interface ThemeProviderState {
@@ -154,6 +155,10 @@ class ThemeProvider extends React.Component<
   }
 
   public setBodyClass = (type) => {
+    if (!this.props.setCSSClass) {
+      return
+    }
+
     if (type === 'dark') {
       document.body.classList.add('dark-mode')
     } else {
