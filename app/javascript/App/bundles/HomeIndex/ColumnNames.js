@@ -30,7 +30,6 @@ function ColumnNames({ currency, currencyRate, currencySymbol }) {
             <Icon
               name="star"
               solid={isWatched}
-              light={!isWatched}
               className={isWatched ? 'aqua' : 'light-silver'}
               onClick={() => handleWatchStarClick(row.id, isWatched)}
             />
