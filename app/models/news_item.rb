@@ -1,4 +1,5 @@
 class NewsItem < ApplicationRecord
+  acts_as_votable cacheable_strategy: :update_columns
   belongs_to :feed_source
   has_one :user # References the Admin user who tagged this NewsItem
   has_one :news_item_raw
@@ -102,6 +103,14 @@ class NewsItem < ApplicationRecord
 
   def published_epoch
     feed_item_published_at.to_i * 1000
+  end
+
+  def vote_score
+    cached_weighted_score
+  end
+
+  def get_vote_by_voter_id(voter_id)
+    votes_for.where(voter_id: voter_id).first
   end
 
   private

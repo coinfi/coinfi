@@ -14,6 +14,12 @@ class ApplicationIntegrationTest < ActionDispatch::IntegrationTest
 
     stub_request(:get, Regexp.new("#{postgres_url}/hourly_ohcl_prices")).
       to_return(status: 200, body: File.new(Rails.root.join('test', 'fixtures', 'hourly_ohcl_prices.json')))
+
+    initialize_views
+  end
+
+  teardown do
+    teardown_views
   end
 
   protected
