@@ -24,7 +24,6 @@ class Api::NewsController < ApiController
 
     distribute_reads(max_lag: MAX_ACCEPTABLE_REPLICATION_LAG, lag_failover: true) do
       @news_item = NewsItem.published.find(params[:id])
-      @user_vote =  if current_user.present?
       serialized_news_item = serialize_news_items(@news_item)
 
       if current_user.present?
