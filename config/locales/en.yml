@@ -34,6 +34,10 @@ en:
     actions:
       new: New
       show: ''
+  activerecord:
+    errors:
+      email:
+        taken: ASDF
   helpers:
     label:
       coin:

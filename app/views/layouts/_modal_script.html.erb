@@ -1,5 +1,50 @@
 <script src="https://unpkg.com/micromodal/dist/micromodal.min.js"></script>
 <script>
+  function registerByEmail(e, modalId) {
+    e.preventDefault();
+
+    const $modal = $(`#${modalId}`);
+    const $form = $modal.find('#new_user');
+
+    hideAndClearErrors($modal);
+
+    $.ajax({
+      url: $form.attr('action'),
+      type: "POST",
+      dataType: "json",
+      data: $form.serialize(),
+      success: function(result) {
+        console.log(result)
+        $modal.find('#modal-sign-up-content').hide();
+        $modal.find('.modal__footer').hide();
+        $modal.find('#modal-signed-up-content').show();
+      },
+      error: function(xhr) {
+        const response = xhr.responseJSON;
+        if (response.errors) {
+          showErrors($modal, response.errors);
+        }
+      },
+    });
+  }
+
+  function hideAndClearErrors($modal) {
+    $modal.find('#form-errors').hide();
+    $modal.find('.alert-container').empty();
+  }
+
+  function showErrors($modal, errors) {
+    $modal.find('#form-errors').show();
+    $alertContainer = $modal.find('.alert-container');
+    errors.forEach(function(message) {
+      if (message === "Email has already been taken") {
+        $alertContainer.append($('<li>').html(`It looks like you already have an account. Please login <a onclick="openLoginModal(event)">here</a>.`))
+      } else {
+        $alertContainer.append($('<li>').text(message))
+      }
+    })
+  }
+
   function removeHash(modal) {
     window.location.hash = ""
   }
@@ -9,6 +54,10 @@
     if (elementsToFocus && elementsToFocus.length > 0) {
       elementsToFocus[0].focus();
     }
+  }
+
+  function openLoginModal() {
+    console.log("login modal placeholder")
   }
 
   function openSignUpModal() {
@@ -33,4 +82,6 @@
       openSignUpModal();
     });
   })
+
+
 </script>
