@@ -1,0 +1,15 @@
+.phr-ns.pv4-ns.flex.items-center
+  .container-narrower.pa3
+    .pa3.pa3-ns.max-w28e.center.ba.b--light-silver.bg-white
+      h2.mt0.black-90 You're almost done!
+      = form_with(model: resource, as: resource_name, url: update_user_confirmation_path, method: 'patch') do |f|
+        = devise_error_messages!
+        - if @requires_password
+          .f6.black-50.mb3 Create a password to complete your account verification.
+          .f6.black-90.mv2.fw5 Create password
+          .mv2
+            = f.password_field :password, autofocus: true, placeholder: 'New password'
+          .mv2
+            = f.password_field :password_confirmation, placeholder: 'Confirm new password'
+        = hidden_field_tag :confirmation_token, @confirmation_token
+        = f.submit "Verify account", class: 'btn btn-blue btn-sm w-100'

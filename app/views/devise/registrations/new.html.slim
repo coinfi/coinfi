@@ -7,9 +7,6 @@
         .field
           = f.label :email
           = f.email_field :email, autofocus: true
-        .field
-          = f.label :password
-          = f.password_field :password, autocomplete: "off"
         .actions
-          = f.submit "Sign Up", class: 'btn btn-blue w-100'
+          = f.submit "Sign Up", class: 'btn btn-blue btn-sm w-100'
       = render "devise/shared/links"

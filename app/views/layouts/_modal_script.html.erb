@@ -1,0 +1,36 @@
+<script src="https://unpkg.com/micromodal/dist/micromodal.min.js"></script>
+<script>
+  function removeHash(modal) {
+    window.location.hash = ""
+  }
+
+  function focusFirst(modal) {
+    const elementsToFocus = modal.getElementsByClassName('focus-first')
+    if (elementsToFocus && elementsToFocus.length > 0) {
+      elementsToFocus[0].focus();
+    }
+  }
+
+  function openSignUpModal() {
+    MicroModal.show('modal-sign-up', {
+      onShow: focusFirst,
+      onClose: removeHash,
+    });
+  }
+
+  window.addEventListener("load", function() {
+    MicroModal.init({
+      onShow: focusFirst,
+      onClose: removeHash
+    });
+
+    const hash = window.location.hash.slice(1);
+    if (hash === 'sign-up') {
+      openSignUpModal();
+    }
+
+    window.addEventListener('show-modal-sign-up', function() {
+      openSignUpModal();
+    });
+  })
+</script>

@@ -101,6 +101,8 @@ gem 'librato-rails', '~> 1'
 gem 'barnes'
 # Google Pub/Sub client
 gem 'google-cloud-pubsub'
+gem "activerecord-import", "~> 0.27.0"
+gem "active_record_upsert", "~> 0.9.4"
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
@@ -129,6 +131,7 @@ group :development do
   gem 'spring'
   gem 'spring-watcher-listen', '~> 2.0.0'
   gem 'bullet'
+  gem "letter_opener", "~> 1.7"
 end
 
 group :production do
@@ -139,7 +142,3 @@ end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 # gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
-
-gem "activerecord-import", "~> 0.27.0"
-
-gem "active_record_upsert", "~> 0.9.4"
