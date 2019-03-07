@@ -76,7 +76,9 @@ const NewsListItemsContainer = (props) => {
       <NewsListItem
         key={newsItem.id}
         newsItem={newsItem}
-        isSelected={props.selectedNewsItemId === newsItem.id.toString()}
+        isSelected={
+          newsItem.id && props.selectedNewsItemId === newsItem.id.toString()
+        }
         hasRead={hasRead}
         onClick={props.onSelect}
         onCoinClick={props.onCoinClick}

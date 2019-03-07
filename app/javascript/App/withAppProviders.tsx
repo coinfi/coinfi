@@ -8,7 +8,10 @@ import NewsfeedContainer from '~/bundles/NewsfeedPage/NewsfeedContainer'
 const withAppProviders = (TargetComponent) => {
   const WithAppProviders = (props) => {
     return (
-      <NewsfeedContainer initialNewsItems={props.initialNewsItems}>
+      <NewsfeedContainer
+        initialNewsItems={props.initialNewsItems}
+        initialVotes={props.initialVotes}
+      >
         <CoinListContainer
           loggedIn={!!props.user}
           initialToplistData={props.initialTopCoinsData}

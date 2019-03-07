@@ -6,6 +6,7 @@ class NewsRenderTest < ApplicationIntegrationTest
 
   setup do
     Rails.application.load_seed
+    Rails.cache.delete("default_news_item_ids")
     @user = create(:user)
     @coins = create_list(:coin_with_news_items, 20)
 
@@ -13,8 +14,6 @@ class NewsRenderTest < ApplicationIntegrationTest
   end
 
   test "index renders news items" do
-    Rails.cache.delete("default_news_items")
-
     get news_url
 
     expected_news_items = NewsItems::WithFilters.call(NewsItem.published, published_since: 24.hours.ago).order_by_published.limit(25)
@@ -35,8 +34,6 @@ class NewsRenderTest < ApplicationIntegrationTest
   end
 
   test "show renders news items" do
-    Rails.cache.delete("default_news_items")
-
     news_item = @coins.first.news_items.published.first
     news_item_slug = news_item.title.parameterize
 
