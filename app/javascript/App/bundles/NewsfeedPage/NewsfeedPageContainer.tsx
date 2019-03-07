@@ -22,7 +22,11 @@ interface Props {
 }
 
 const NewsfeedPageContainer = (props: Props) => (
-  <ThemeProvider user={props.user} initialTheme={props.initialTheme}>
+  <ThemeProvider
+    user={props.user}
+    initialTheme={props.initialTheme}
+    setCSSClass={true}
+  >
     <NewsfeedContext.Consumer>
       {(newsfeedPayload: NewsfeedContextType) => (
         <CoinListContext.Consumer>
