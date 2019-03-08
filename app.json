@@ -74,6 +74,10 @@
     "TWITTER_API_KEY": { "required": true },
     "TWITTER_API_SECRET": { "required": true },
     "TWITTER_APP_ID": { "required": true },
+    "GOOGLE_CLIENT_ID": { "required": true },
+    "GOOGLE_CLIENT_SECRET": { "required": true },
+    "FACEBOOK_APP_ID": { "required": true },
+    "FACEBOOK_APP_SECRET": { "required": true },
     "WEBFACTION_SMTP_PASSWORD": { "required": true }
   },
   "formation": {},
