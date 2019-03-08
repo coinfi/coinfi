@@ -13,6 +13,10 @@ class NewsRenderTest < ApplicationIntegrationTest
     login_as(@user, :scope => :user)
   end
 
+  teardown do
+    Warden.test_reset!
+  end
+
   test "index renders news items" do
     get news_url
 
