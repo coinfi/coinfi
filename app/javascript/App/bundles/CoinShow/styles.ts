@@ -22,7 +22,7 @@ const styles = (theme) =>
       borderLeft: `1px solid ${borderColor}`,
       borderRight: `1px solid ${borderColor}`,
       '& .fa-star': {
-        fontSize: '10px',
+        fontSize: '100%',
       },
       '& .f5': {
         fontSize: '14px',

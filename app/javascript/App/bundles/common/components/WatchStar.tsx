@@ -12,6 +12,7 @@ import {
   btnBlue,
 } from '~/bundles/common/styles/buttons'
 import { aqua, black12, white12 } from '~/bundles/common/styles/colors'
+import { openLoginModal } from '~/bundles/common/utils/modals'
 
 interface CoinForWatchSatr {
   id: number
@@ -99,7 +100,7 @@ const WatchStar = ({ coin, hasText, loggedIn, classes }: Props) => {
                 e.preventDefault()
                 e.stopPropagation()
                 // TODO: Implement new onboarding signup flow.
-                window.location.href = '/login'
+                openLoginModal()
               }}
             >
               {hasText && 'Watch'}

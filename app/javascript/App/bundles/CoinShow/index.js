@@ -42,6 +42,7 @@ import CoinListDrawer from '~/bundles/common/components/CoinListDrawer'
 import { WATCHLIST_CHANGE_EVENT } from '~/bundles/common/containers/CoinListContainer'
 import { formatPrice } from '~/bundles/common/utils/numberFormatters'
 import { withCurrency } from '~/bundles/common/contexts/CurrencyContext'
+import { openLoginModal } from '~/bundles/common/utils/modals'
 import styles from './styles'
 
 const lightbulb = require('~/images/lightbulb.svg') // tslint:disable-line
@@ -155,7 +156,7 @@ class CoinShow extends Component {
 
   watchCoinHandler = () => {
     if (!this.props.user) {
-      window.location.href = `/login`
+      openLoginModal()
       return
     }
 

@@ -1,5 +1,11 @@
 <script src="https://unpkg.com/micromodal/dist/micromodal.min.js"></script>
 <script>
+  var modalState = '';
+  const MODAL_IDS = {
+    'login': 'login',
+    'signup': 'sign-up',
+  };
+
   function registerByEmail(e) {
     e.preventDefault();
 
@@ -87,6 +93,31 @@
     })
   }
 
+  function setState(state) {
+    modalState = state;
+  }
+
+  function clearState(state) {
+    if (!!state) {
+      if (state !== modalState) {
+        return; // don't clear if not equal to specified state
+      }
+    }
+
+    modalState = '';
+  }
+
+  function getHash() {
+    return window.location.hash.slice(1);
+  }
+
+  function setHash(hash) {
+    const oldHash = getHash();
+    if (oldHash !== hash) {
+      window.location.hash = hash;
+    }
+  }
+
   function removeHash() {
     window.location.hash = "";
   }
@@ -98,26 +129,46 @@
     }
   }
 
+  function clearOpenModal() {
+    if (!!modalState) {
+      try {
+        MicroModal.close(`modal-${modalState}`);
+        clearState();
+      } catch (e) {
+        console.log('Failed to close modal ' + modalState);
+      }
+    }
+  }
+
   function openLoginModal(event) {
-    MicroModal.show('modal-login', {
-      onShow: focusFirst,
-      onClose: removeHash,
-    });
+    openModal(event, MODAL_IDS.login);
   }
 
   function closeLoginModal(event) {
-    MicroModal.close('modal-login');
+    closeModal(event,  MODAL_IDS.login);
   }
 
   function openSignUpModal(event) {
-    MicroModal.show('modal-sign-up', {
+    openModal(event, MODAL_IDS.signup);
+  }
+
+  function closeSignUpModal(event) {
+    closeModal(event,  MODAL_IDS.signup);
+  }
+
+  function openModal(event, modalHash) {
+    clearOpenModal();
+    setState(modalHash);
+    setHash(modalHash);
+    MicroModal.show(`modal-${modalHash}`, {
       onShow: focusFirst,
       onClose: removeHash,
     });
   }
 
-  function closeSignUpModal(event) {
-    MicroModal.close('modal-sign-up');
+  function closeModal(event, modalHash) {
+    clearState(modalHash);
+    MicroModal.close(`modal-${modalHash}`);
   }
 
   function switchFromLoginToSignup(e) {
@@ -131,7 +182,7 @@
   }
 
   window.addEventListener("DOMContentLoaded", function() {
-    const hash = window.location.hash.slice(1);
+    const hash = getHash();
     if (hash === 'sign-up') {
       openSignUpModal();
     } else if (hash === 'login') {
