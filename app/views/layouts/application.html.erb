@@ -43,9 +43,12 @@
         <%= render partial: "components/footer" %>
       </footer>
     <% end %>
-    <%= render partial: "components/sign_up_modal" %>
+    <% unless user_signed_in? %>
+      <%= render partial: "components/login_modal" %>
+      <%= render partial: "components/sign_up_modal" %>
+      <%= render partial: 'layouts/modal_script' %>
+    <% end %>
     <script src="/tradingview/charting_library.min.js"></script>
-    <%= render 'layouts/modal_script' %>
     <%= javascript_pack_tag 'vendor-bundle' %>
     <%= javascript_pack_tag 'app-bundle' %>
     <%= render 'layouts/tracking_scripts' %>

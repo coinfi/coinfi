@@ -1,31 +1,73 @@
 <script src="https://unpkg.com/micromodal/dist/micromodal.min.js"></script>
 <script>
-  function registerByEmail(e, modalId) {
+  function registerByEmail(e) {
     e.preventDefault();
 
-    const $modal = $(`#${modalId}`);
-    const $form = $modal.find('#new_user');
+    const $modal = $('#modal-sign-up');
+    const $form = $modal.find('#sign_up_form');
 
     hideAndClearErrors($modal);
 
     $.ajax({
       url: $form.attr('action'),
       type: "POST",
+      contentType: "application/json",
       dataType: "json",
-      data: $form.serialize(),
+      data: JSON.stringify($form.serializeJSON()),
       success: function(result) {
-        console.log(result)
         $modal.find('#modal-sign-up-content').hide();
         $modal.find('.modal__footer').hide();
         $modal.find('#modal-signed-up-content').show();
       },
       error: function(xhr) {
-        const response = xhr.responseJSON;
-        if (response.errors) {
-          showErrors($modal, response.errors);
-        }
+        handleErrors(xhr, $modal);
       },
     });
+  }
+
+  function loginByEmail(e) {
+    e.preventDefault();
+
+    const $modal = $('#modal-login');
+    const $form = $modal.find('#login_form');
+
+    hideAndClearErrors($modal);
+
+    $.ajax({
+      url: $form.attr('action'),
+      type: "POST",
+      contentType: "application/json",
+      dataType: "json",
+      data: JSON.stringify($form.serializeJSON()),
+      success: function(result) {
+        if (typeof result === 'string') {
+          result = JSON.parse(result)
+        }
+        if (result && result.location) {
+          window.location.href = result.location;
+        } else {
+          removeHash();
+          window.location.reload();
+        }
+      },
+      error: function(xhr) {
+        handleErrors(xhr, $modal);
+      },
+    });
+  }
+
+  function handleErrors(response, $modal) {
+    if (!response) return;
+
+    const json = response.responseJSON;
+    const text = response.responseText;
+    if (json && json.errors) {
+      showErrors($modal, json.errors);
+    } else if (typeof text === 'string' && text.match(new RegExp('ActionController::InvalidAuthenticityToken'))) {
+      window.location.reload();
+    } else {
+      showErrors($modal, ['An unknown error has occurred.']);
+    }
   }
 
   function hideAndClearErrors($modal) {
@@ -38,15 +80,15 @@
     $alertContainer = $modal.find('.alert-container');
     errors.forEach(function(message) {
       if (message === "Email has already been taken") {
-        $alertContainer.append($('<li>').html(`It looks like you already have an account. Please login <a onclick="openLoginModal(event)">here</a>.`))
+        $alertContainer.append($('<li>').html(`It looks like you already have an account. Please login <a href="#login" onclick="switchFromSignUpToLogin(event)">here</a>.`))
       } else {
         $alertContainer.append($('<li>').text(message))
       }
     })
   }
 
-  function removeHash(modal) {
-    window.location.hash = ""
+  function removeHash() {
+    window.location.hash = "";
   }
 
   function focusFirst(modal) {
@@ -56,32 +98,60 @@
     }
   }
 
-  function openLoginModal() {
-    console.log("login modal placeholder")
+  function openLoginModal(event) {
+    MicroModal.show('modal-login', {
+      onShow: focusFirst,
+      onClose: removeHash,
+    });
   }
 
-  function openSignUpModal() {
+  function closeLoginModal(event) {
+    MicroModal.close('modal-login');
+  }
+
+  function openSignUpModal(event) {
     MicroModal.show('modal-sign-up', {
       onShow: focusFirst,
       onClose: removeHash,
     });
   }
 
-  window.addEventListener("load", function() {
-    MicroModal.init({
-      onShow: focusFirst,
-      onClose: removeHash
-    });
+  function closeSignUpModal(event) {
+    MicroModal.close('modal-sign-up');
+  }
 
+  function switchFromLoginToSignup(e) {
+    closeLoginModal(e);
+    openSignUpModal(e);
+  }
+
+  function switchFromSignUpToLogin(e) {
+    closeSignUpModal(e);
+    openLoginModal(e);
+  }
+
+  window.addEventListener("DOMContentLoaded", function() {
     const hash = window.location.hash.slice(1);
     if (hash === 'sign-up') {
       openSignUpModal();
+    } else if (hash === 'login') {
+      openLoginModal();
     }
+  });
 
-    window.addEventListener('show-modal-sign-up', function() {
-      openSignUpModal();
-    });
-  })
+  window.addEventListener('show-modal-sign-up', function() {
+    openSignUpModal();
+  });
 
+  window.addEventListener('hide-modal-sign-up', function() {
+    closeSignUpModal();
+  });
 
+  window.addEventListener('show-modal-login', function() {
+    openLoginModal();
+  });
+
+  window.addEventListener('hide-modal-login', function() {
+    closeLoginModal();
+  });
 </script>

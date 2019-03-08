@@ -119,6 +119,11 @@ button {
     }
   }
 }
+a.btn {
+  text-transform: unset;
+  text-align: center;
+  align-items: center;
+}
 form.button_to {
   display: inline-block;
 }

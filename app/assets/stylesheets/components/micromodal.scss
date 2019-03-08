@@ -61,40 +61,20 @@
     line-height: 1.5;
     color: $black-80;
 
-    .email-input {
+    /* !important is necessary to ignore dark mode */
+    input {
       margin-bottom: 8px;
-      border-color: $black-40;
+      color: $black-70 !important;
+      border-color: $black-40 !important;
     }
 
     .btn {
       font-size: 14px;
       font-weight: 600;
-      text-transform: unset;
     }
 
     .btn + .btn {
       margin-top: 8px;
-    }
-
-    .divider-text {
-      width: 100%;
-      margin: 16px auto;
-      overflow: hidden;
-      text-align: center;
-      font-weight: 500;
-      color: $black-30;
-    }
-    .divider-text::before,
-    .divider-text::after {
-      content: '';
-      display: inline-block;
-      width: 50%;
-      margin: 0 0.5em 0 -55%;
-      vertical-align: middle;
-      border-bottom: 1px solid $black-10;
-    }
-    .divider-text::after {
-      margin: 0 -55% 0 0.5em;
     }
   }
 

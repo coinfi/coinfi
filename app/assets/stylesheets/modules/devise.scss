@@ -27,3 +27,24 @@
 .modal__content .devise-error {
   margin-top: 0;
 }
+
+.divider-text {
+  width: 100%;
+  margin: 16px auto;
+  overflow: hidden;
+  text-align: center;
+  font-weight: 500;
+  color: $black-30;
+}
+.divider-text::before,
+.divider-text::after {
+  content: '';
+  display: inline-block;
+  width: 50%;
+  margin: 0 0.5em 0 -55%;
+  vertical-align: middle;
+  border-bottom: 1px solid $black-10;
+}
+.divider-text::after {
+  margin: 0 -55% 0 0.5em;
+}

@@ -6,10 +6,6 @@ class ApplicationController < ActionController::Base
   before_action :set_locale
   before_action :set_no_seo, if: :devise_controller?
 
-  def after_sign_in_path_for(resource)
-    '/news'
-  end
-
 private
 
   def set_locale
@@ -22,6 +18,10 @@ private
   end
 
 protected
+
+  def after_sign_in_path_for(resource)
+    request.env['omniauth.origin'] || stored_location_for(resource) || root_path
+  end
 
   def is_production?
     (ENV['IS_PRODUCTION'] || "false").downcase == 'true'

@@ -28,7 +28,8 @@ Rails.application.routes.draw do
   devise_for :users,
     path: '',
     path_names: { sign_in: 'login', sign_out: 'logout', sign_up: 'register', confirmation: 'verification' },
-    controllers: { confirmations: 'confirmations', registrations: 'registrations' }
+    controllers: { confirmations: 'users/confirmations', registrations: 'users/registrations',
+                   omniauth_callbacks: 'users/omniauth_callbacks', sessions: 'users/sessions' }
 
   resources :author_profiles, only: %i[index show create update], path: 'authors'
   get '/calculators/:id', to: 'calculators#show', as: 'calculator'

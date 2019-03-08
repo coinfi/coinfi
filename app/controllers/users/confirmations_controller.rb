@@ -1,4 +1,4 @@
-class ConfirmationsController < Devise::ConfirmationsController
+class Users::ConfirmationsController < Devise::ConfirmationsController
   # Don't allow logged in users to access the confirmation page.
   # skip_before_action :require_no_authentication
   # skip_before_action :authenticate_user!

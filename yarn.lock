@@ -7160,6 +7160,11 @@ jest@^23.6.0:
     import-local "^1.0.0"
     jest-cli "^23.6.0"
 
+jquery-serializejson@^2.9.0:
+  version "2.9.0"
+  resolved "https://registry.yarnpkg.com/jquery-serializejson/-/jquery-serializejson-2.9.0.tgz#03e3764e3a4b42c1c5aae9f93d7f19320c5f35a6"
+  integrity sha512-xR7rjl0tRKIVioV5lOkOSv7K8BHMvGzYzC7Ech1iAYuZiYf0ksEpLC8OqjA5VApXf/qn/49O9hTmW70+/EA0vA==
+
 jquery-ujs@^1.2.2:
   version "1.2.2"
   resolved "https://registry.yarnpkg.com/jquery-ujs/-/jquery-ujs-1.2.2.tgz#6a8ef1020e6b6dda385b90a4bddc128c21c56397"
