@@ -1,4 +1,5 @@
 class User < ApplicationRecord
+  acts_as_voter
   after_create :add_to_convertkit
 
   has_many :news_items

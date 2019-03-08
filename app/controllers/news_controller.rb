@@ -33,6 +33,7 @@ class NewsController < ApplicationController
     distribute_reads(max_lag: MAX_ACCEPTABLE_REPLICATION_LAG, lag_failover: true) do
       news_item = NewsItem.published.find(params[:id])
       @news_item_data = serialize_news_items(news_item)
+      @news_item_data['user_score'] = current_user.voted_as_when_voted_for(news_item) if current_user.present?
 
       set_meta_tags(
         title: "CoinFi News - #{news_item.title}",
@@ -50,7 +51,8 @@ class NewsController < ApplicationController
   protected
 
   def set_default_news_items
-    @news_items_data = get_default_news_items
+    news_item_ids = get_default_news_item_ids
+    @news_items_data = serialize_news_items(NewsItem.where(id: news_item_ids))
   end
 
   def set_view_data
@@ -62,6 +64,7 @@ class NewsController < ApplicationController
     @top_coins_data = toplist_coins
     @watched_coins_data = watchlist_coins if current_user
     @theme = cookies[:theme]
+    @user_votes = serialize_user_news_votes(current_user.votes.for_type(NewsItem)) if current_user
   end
 
   def set_body_class

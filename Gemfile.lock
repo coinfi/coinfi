@@ -81,6 +81,7 @@ GEM
       tzinfo (~> 1.1)
     acts-as-taggable-on (5.0.0)
       activerecord (>= 4.2.8)
+    acts_as_votable (0.12.0)
     addressable (2.5.1)
       public_suffix (~> 2.0, >= 2.0.2)
     administrate (0.10.0)
@@ -676,6 +677,7 @@ DEPENDENCIES
   active_record_upsert (~> 0.9.4)
   activerecord-import (~> 0.27.0)
   acts-as-taggable-on
+  acts_as_votable (~> 0.12.0)
   administrate
   administrate-field-belongs_to_search
   administrate-field-json!

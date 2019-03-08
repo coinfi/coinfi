@@ -16,6 +16,11 @@ import withDevice, {
   DeviceContextType,
 } from '~/bundles/common/utils/withDevice'
 import EventListener from 'react-event-listener'
+import * as P from 'bluebird'
+
+P.config({
+  cancellation: true,
+})
 
 import { NewsItem, ContentType, Filters } from './types'
 import { CoinWithDetails, CoinClickHandler } from '../common/types'
@@ -138,7 +143,7 @@ class NewsfeedPage extends React.Component<Props, State> {
 
   public fetchNewNewsItems = () => {
     return this.props.fetchNewNewsItems(this.state.filters).then((news) => {
-      return new Promise((resolve, reject) => {
+      return new P((resolve, reject) => {
         if (!this.state.isWindowFocused) {
           const ids = news.map((elem) => elem.id)
           const unseenNewsIds = _.uniq(this.state.unseenNewsIds.concat(ids))

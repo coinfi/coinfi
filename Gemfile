@@ -105,6 +105,7 @@ gem 'barnes'
 gem 'google-cloud-pubsub'
 gem "activerecord-import", "~> 0.27.0"
 gem "active_record_upsert", "~> 0.9.4"
+gem "acts_as_votable", "~> 0.12.0"
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

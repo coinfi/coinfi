@@ -107,7 +107,9 @@ Rails.application.routes.draw do
 
     resources :exchange_listings, only: %i[index show]
 
-    resources :news, only: %i[index show]
+    resources :news, only: %i[index show] do
+      resources :news_vote, :path => 'vote', only: %i[index create]
+    end
     namespace :newsfeed do
       resources :coins, only: %i[index]
     end
