@@ -23,7 +23,7 @@ Rails.application.routes.draw do
   end
 
   devise_scope :user do
-    patch '/verification', to: 'confirmations#update', as: :update_user_confirmation
+    patch '/verification', to: 'users/confirmations#update', as: :update_user_confirmation
   end
   devise_for :users,
     path: '',
