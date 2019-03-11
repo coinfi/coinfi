@@ -84,10 +84,14 @@
     font-size: 10px;
     font-weight: 500;
     line-height: 1.4;
+
+    .important {
+      font-size: 14px;
+    }
   }
 
   .modal__content + .modal__footer {
-    padding-top: 0 !important;
+    padding-top: 0;
   }
 
   // specific styles
