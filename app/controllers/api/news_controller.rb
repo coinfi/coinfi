@@ -99,6 +99,8 @@ class Api::NewsController < ApiController
       return false
     elsif params[:publishedUntil]
       return false
+    elsif params[:trending]
+      return false
     end
 
     true

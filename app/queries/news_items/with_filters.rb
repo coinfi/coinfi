@@ -8,7 +8,7 @@ module NewsItems
       keywords: nil,
       published_since: nil,
       published_until: nil,
-      trending: false,
+      trending: false
     )
       result = relation
 
@@ -70,7 +70,7 @@ module NewsItems
       end
 
       if trending
-        result = result.join(:news_vote_trending)
+        result = result.joins(:news_vote_trending)
       end
 
       result = result.group(:id)
