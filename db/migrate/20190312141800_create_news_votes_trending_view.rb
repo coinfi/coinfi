@@ -6,7 +6,7 @@ class CreateNewsVotesTrendingView < ActiveRecord::Migration[5.1]
       execute <<-SQL
         CREATE MATERIALIZED VIEW news_votes_trending_view AS SELECT
           COUNT(*) AS total,
-          SUM(CASE WHEN vote_flag THEN vote_weight ELSE vote_weight * -1 END),
+          SUM(CASE WHEN vote_flag THEN vote_weight ELSE vote_weight * -1 END) AS score,
           votable_id AS id
         FROM votes
         WHERE votable_type = 'NewsItem'
