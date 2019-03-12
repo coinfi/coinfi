@@ -1,4 +1,4 @@
-class CreateNewsVoteTrendingView < ActiveRecord::Migration[5.1]
+class CreateNewsVotesTrendingView < ActiveRecord::Migration[5.1]
   disable_ddl_transaction!
 
   def up
@@ -13,6 +13,10 @@ class CreateNewsVoteTrendingView < ActiveRecord::Migration[5.1]
         AND updated_at >= now() - interval '1 day'
         GROUP BY votable_id
         WITH DATA;
+      SQL
+
+      execute <<-SQL
+        CREATE UNIQUE INDEX CONCURRENTLY index_news_votes_trending_view ON news_votes_trending_view(id);
       SQL
     end
   end
