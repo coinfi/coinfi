@@ -7,7 +7,8 @@ module NewsItems
       news_categories: nil,
       keywords: nil,
       published_since: nil,
-      published_until: nil
+      published_until: nil,
+      trending: false,
     )
       result = relation
 
@@ -66,6 +67,10 @@ module NewsItems
 
       if published_until.present?
         result = result.where('news_items.feed_item_published_at < ?', published_until.to_datetime)
+      end
+
+      if trending
+        result = result.join(:news_vote_trending)
       end
 
       result = result.group(:id)

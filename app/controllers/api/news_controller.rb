@@ -64,6 +64,8 @@ class Api::NewsController < ApiController
       news_categories = NewsCategory.where(name: news_category_names)
     end
 
+    trending = ActiveRecord::Type::Boolean.new.deserialize(params[:trending])
+
     if no_filters?
       news_item_ids = get_default_news_item_ids
       @news_items = serialize_news_items(NewsItem.where(id: news_item_ids))
@@ -76,6 +78,7 @@ class Api::NewsController < ApiController
         keywords: params[:keywords],
         published_since: params[:publishedSince],
         published_until: params[:publishedUntil],
+        trending: trending || false,
       )
         .includes(:coins, :news_categories)
         .order_by_published
