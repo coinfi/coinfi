@@ -11,6 +11,7 @@ class NewsItem < ApplicationRecord
   has_many :coins, through: :news_coin_mentions
   has_many :machine_tagged_coins, through: :machine_tagged_news_coin_mentions, source: :coin
   has_many :human_tagged_coins, through: :human_tagged_news_coin_mentions, source: :coin
+  has_one :news_vote_trending, foreign_key: :id
 
   scope :general, -> { where(feed_source: FeedSource.general) }
   scope :no_category, -> { where("news_items.id NOT IN (SELECT news_item_categorizations.news_item_id FROM news_item_categorizations)") }
