@@ -68,7 +68,10 @@ class Api::NewsController < ApiController
 
     if no_filters?
       news_item_ids = get_default_news_item_ids
-      @news_items = serialize_news_items(NewsItem.where(id: news_item_ids))
+      @news_items = serialize_news_items(NewsItem.where(id: news_item_ids)
+        .includes(:coins, :news_categories)
+        .order_by_published
+        .limit(25))
     else
       @news_items = serialize_news_items(NewsItems::WithFilters.call(
         NewsItem.published,
