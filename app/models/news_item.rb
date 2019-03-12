@@ -139,7 +139,11 @@ class NewsItem < ApplicationRecord
 
   def link_coin_from_feedsource
     if feed_source.coin.present?
-      feed_source.coin.news_items |= [self]
+      begin
+        feed_source.coin.news_items << self
+      rescue ActiveRecord::RecordNotUnique
+        nil
+      end
     end
   end
 
