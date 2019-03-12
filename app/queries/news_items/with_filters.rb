@@ -70,7 +70,7 @@ module NewsItems
       end
 
       if trending
-        result = result.joins(:news_vote_trending)
+        result = result.joins(:news_votes_trending)
       end
 
       result = result.group(:id)
