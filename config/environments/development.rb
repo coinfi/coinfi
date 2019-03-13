@@ -1,4 +1,5 @@
 Rails.application.configure do
+  puts "development.rb"
   # Verifies that versions and hashed value of the package contents in the project's package.json
   config.webpacker.check_yarn_integrity = true
 
@@ -32,8 +33,13 @@ Rails.application.configure do
 
   # Use letter opener to preview emails
   config.action_mailer.perform_caching = false
-  config.action_mailer.delivery_method = :letter_opener
-  config.action_mailer.perform_deliveries = true
+
+  if ENV["PREVIEW_EMAIL_LOCALLY"].present?
+    config.action_mailer.delivery_method = :letter_opener
+    config.action_mailer.perform_deliveries = true
+  else
+    config.action_mailer.raise_delivery_errors = false
+  end
 
   # Print deprecation notices to the Rails logger.
   config.active_support.deprecation = :log
