@@ -6,7 +6,7 @@ import IconButton from '@material-ui/core/IconButton'
 import MuiIcon from '@material-ui/core/Icon'
 import classnames from 'classnames'
 import { withNewsfeed, NewsfeedContextType } from './NewsfeedContext'
-import { openLoginModal } from '~/bundles/common/utils/modals'
+import { openSignUpModal } from '~/bundles/common/utils/modals'
 
 const VOTE_DIRECTION = {
   up: true,
@@ -114,7 +114,7 @@ class Votes extends React.Component<Props, State> {
   }
 
   public handleLogin = () => {
-    openLoginModal()
+    openSignUpModal()
   }
 
   public render() {
