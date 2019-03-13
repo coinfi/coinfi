@@ -6,6 +6,7 @@ import IconButton from '@material-ui/core/IconButton'
 import MuiIcon from '@material-ui/core/Icon'
 import classnames from 'classnames'
 import { withNewsfeed, NewsfeedContextType } from './NewsfeedContext'
+import { openLoginModal } from '~/bundles/common/utils/modals'
 
 const VOTE_DIRECTION = {
   up: true,
@@ -50,6 +51,7 @@ interface Props extends NewsfeedContextType {
   classes: any
   newsItemId: number
   showControls?: boolean
+  isLoggedIn?: boolean
 }
 
 interface State {
@@ -95,6 +97,26 @@ class Votes extends React.Component<Props, State> {
     return this.props.voteOnNewsItem(this.props.newsItemId, direction)
   }
 
+  public handleUpvote = () => {
+    if (!this.props.isLoggedIn) {
+      return this.handleLogin()
+    }
+
+    this.vote(VOTE_DIRECTION.up)
+  }
+
+  public handleDownvote = () => {
+    if (!this.props.isLoggedIn) {
+      return this.handleLogin()
+    }
+
+    this.vote(VOTE_DIRECTION.down)
+  }
+
+  public handleLogin = () => {
+    openLoginModal()
+  }
+
   public render() {
     const {
       classes,
@@ -123,7 +145,7 @@ class Votes extends React.Component<Props, State> {
               selected: isUp,
             })}
             disableRipple={true}
-            onClick={() => this.vote(VOTE_DIRECTION.up)}
+            onClick={this.handleUpvote}
           >
             <MuiIcon
               className={classnames(classes.muiIcon, 'far fa-thumbs-up')}
@@ -137,7 +159,7 @@ class Votes extends React.Component<Props, State> {
               selected: isDown,
             })}
             disableRipple={true}
-            onClick={() => this.vote(VOTE_DIRECTION.down)}
+            onClick={this.handleDownvote}
           >
             <MuiIcon
               className={classnames(classes.muiIcon, 'far fa-thumbs-down')}
