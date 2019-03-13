@@ -79,19 +79,19 @@ class User < ApplicationRecord
   end
 
   def id_doc_image_key
-    token_sale["id_doc_image"].sub("//#{ENV.fetch('S3_BUCKET')}.s3.amazonaws.com/", "") if token_sale["id_doc_image"]
+    token_sale["id_doc_image"].sub("//#{ENV.fetch('S3_BUCKET')}.s3.amazonaws.com/", "") if token_sale && token_sale["id_doc_image"]
   end
 
   def selfie_image_key
-    token_sale["selfie_image"].sub("//#{ENV.fetch('S3_BUCKET')}.s3.amazonaws.com/", "") if token_sale["selfie_image"]
+    token_sale["selfie_image"].sub("//#{ENV.fetch('S3_BUCKET')}.s3.amazonaws.com/", "") if token_sale && token_sale["selfie_image"]
   end
 
   def approval_status
-    token_sale["individual_risk_approval_status"] if token_sale["individual_risk_approval_status"]
+    token_sale["individual_risk_approval_status"] if token_sale && token_sale["individual_risk_approval_status"]
   end
 
   def similarity_score
-    token_sale["facial_recognition_similarity_score"] if token_sale["facial_recognition_similarity_score"]
+    token_sale["facial_recognition_similarity_score"] if token_sale && token_sale["facial_recognition_similarity_score"]
   end
 
   def ethereum_address
@@ -99,12 +99,13 @@ class User < ApplicationRecord
   end
 
   def theme
-    token_sale["theme"] if token_sale["theme"]
+    token_sale["theme"] if token_sale && token_sale["theme"]
   end
 
   def set_theme(theme)
     if ['light', 'dark'].any? {|type| type == theme}
-      token_sale["theme"] = theme
+      self.token_sale = {} if self.token_sale.nil?
+      self.token_sale["theme"] = theme
       self.save
     end
   end
