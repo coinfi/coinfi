@@ -46,7 +46,8 @@
     <% unless user_signed_in? %>
       <%= render partial: "components/login_modal" %>
       <%= render partial: "components/sign_up_modal" %>
-      <%= render partial: 'layouts/modal_script' %>
+      <script src="https://unpkg.com/micromodal/dist/micromodal.min.js"></script>
+      <%= javascript_include_tag "modals" %>
     <% end %>
     <script src="/tradingview/charting_library.min.js"></script>
     <%= javascript_pack_tag 'vendor-bundle' %>
