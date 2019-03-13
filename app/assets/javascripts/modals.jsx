@@ -1,4 +1,6 @@
-var modalState = ''
+/* global MicroModal:false */
+
+let modalState = ''
 const MODAL_IDS = {
   login: 'login',
   signup: 'sign-up',
@@ -84,8 +86,8 @@ function hideAndClearErrors($modal) {
 
 function showErrors($modal, errors) {
   $modal.find('#form-errors').show()
-  $alertContainer = $modal.find('.alert-container')
-  errors.forEach(function(message) {
+  const $alertContainer = $modal.find('.alert-container')
+  errors.forEach((message) => {
     if (message === 'Email has already been taken') {
       $alertContainer.append(
         $('<li>').html(
@@ -140,7 +142,7 @@ function clearOpenModal() {
       MicroModal.close(`modal-${modalState}`)
       clearState()
     } catch (e) {
-      console.log('Failed to close modal ' + modalState)
+      console.log(`Failed to close modal ${modalState}`)
     }
   }
 }
@@ -186,11 +188,11 @@ function switchFromSignUpToLogin(e) {
   openLoginModal(e)
 }
 
-window.addEventListener('DOMContentLoaded', function() {
+window.addEventListener('DOMContentLoaded', () => {
   // add event listeners to forms
-  Object.values(MODAL_IDS).forEach(function(name) {
-    $(`#modal-${name} form`).bind('keypress', function(e) {
-      if (e.keyCode == 13) {
+  Object.values(MODAL_IDS).forEach((name) => {
+    $(`#modal-${name} form`).bind('keypress', (e) => {
+      if (e.keyCode === 13) {
         e.preventDefault()
         $(`#modal-${name} .btn-enter`).click()
       }
@@ -204,18 +206,18 @@ window.addEventListener('DOMContentLoaded', function() {
   }
 })
 
-window.addEventListener('show-modal-sign-up', function() {
+window.addEventListener('show-modal-sign-up', () => {
   openSignUpModal()
 })
 
-window.addEventListener('hide-modal-sign-up', function() {
+window.addEventListener('hide-modal-sign-up', () => {
   closeSignUpModal()
 })
 
-window.addEventListener('show-modal-login', function() {
+window.addEventListener('show-modal-login', () => {
   openLoginModal()
 })
 
-window.addEventListener('hide-modal-login', function() {
+window.addEventListener('hide-modal-login', () => {
   closeLoginModal()
 })
