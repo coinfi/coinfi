@@ -22,13 +22,13 @@
           <span>Login with Google</span>
         </a>
         <div class="divider-text">OR</div>
-        <%= form_for(resource, as: resource_name, url: user_session_path, remote: true, html: {'data-type': :json, id: "login_form"}) do |f| %>
+        <%= form_for(resource, as: resource_name, url: user_session_url, remote: true, html: {'data-type': :json, id: "login_form"}) do |f| %>
           <%= f.email_field :email, autofocus: true, placeholder: "Email", class: "email-input w-100 focus-first", id: "login_user_email" %>
           <%= f.password_field :password, placeholder: "Password", class: "password-input w-100", id: "login_user_password" %>
           <%= f.hidden_field :remember_me, value: '1', id: "login_user_remember_me" %>
         <% end %>
         <% link_to "Forgot password?", new_user_password_path %>
-        <button class="btn btn-sm btn-blue w-100" onclick="loginByEmail(event)">Login</button>
+        <button class="btn btn-sm btn-blue w-100 btn-enter" onclick="loginByEmail(event)">Login</button>
       </main>
       <footer class="modal__footer">
         <span class="important">Don't have an account? <a href="#sign-up" onclick="switchFromLoginToSignup(event)">Sign up</a></span>

@@ -9,7 +9,7 @@
   function registerByEmail(e) {
     e.preventDefault();
 
-    const $modal = $('#modal-sign-up');
+    const $modal = $(`#modal-${MODAL_IDS.signup}`);
     const $form = $modal.find('#sign_up_form');
 
     hideAndClearErrors($modal);
@@ -34,7 +34,7 @@
   function loginByEmail(e) {
     e.preventDefault();
 
-    const $modal = $('#modal-login');
+    const $modal = $(`#modal-${MODAL_IDS.login}`);
     const $form = $modal.find('#login_form');
 
     hideAndClearErrors($modal);
@@ -70,7 +70,7 @@
     if (json && json.errors) {
       showErrors($modal, json.errors);
     } else if (typeof text === 'string' && text.match(new RegExp('ActionController::InvalidAuthenticityToken'))) {
-      window.location.reload();
+      showErrors($modal, ['Your session has timedout. Try refreshing the page.']);
     } else {
       showErrors($modal, ['An unknown error has occurred.']);
     }
@@ -141,22 +141,22 @@
   }
 
   function openLoginModal(event) {
-    openModal(event, MODAL_IDS.login);
+    openModal(MODAL_IDS.login);
   }
 
   function closeLoginModal(event) {
-    closeModal(event,  MODAL_IDS.login);
+    closeModal(MODAL_IDS.login);
   }
 
   function openSignUpModal(event) {
-    openModal(event, MODAL_IDS.signup);
+    openModal(MODAL_IDS.signup);
   }
 
   function closeSignUpModal(event) {
-    closeModal(event,  MODAL_IDS.signup);
+    closeModal( MODAL_IDS.signup);
   }
 
-  function openModal(event, modalHash) {
+  function openModal(modalHash) {
     clearOpenModal();
     setState(modalHash);
     setHash(modalHash);
@@ -166,7 +166,7 @@
     });
   }
 
-  function closeModal(event, modalHash) {
+  function closeModal(modalHash) {
     clearState(modalHash);
     MicroModal.close(`modal-${modalHash}`);
   }
@@ -182,11 +182,20 @@
   }
 
   window.addEventListener("DOMContentLoaded", function() {
+    // add event listeners to forms
+    Object.values(MODAL_IDS).forEach(function (name) {
+      $(`#modal-${name} form`).bind('keypress', function(e) {
+        if ( e.keyCode == 13 ) {
+          e.preventDefault();
+          $(`#modal-${name} .btn-enter`).click();
+        }
+      });
+    })
+
+    // check if URL includes modal hash
     const hash = getHash();
-    if (hash === 'sign-up') {
-      openSignUpModal();
-    } else if (hash === 'login') {
-      openLoginModal();
+    if (Object.values(MODAL_IDS).includes(hash)) {
+      openModal(hash);
     }
   });
 
