@@ -104,7 +104,8 @@ class User < ApplicationRecord
 
   def set_theme(theme)
     if ['light', 'dark'].any? {|type| type == theme}
-      token_sale["theme"] = theme
+      self.token_sale = {} if self.token_sale.nil?
+      self.token_sale["theme"] = theme
       self.save
     end
   end
