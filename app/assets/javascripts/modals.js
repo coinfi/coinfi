@@ -147,7 +147,7 @@ function clearOpenModal() {
   }
 }
 
-function openLoginModal(event) {
+export function openLoginModal(event) {
   openModal(MODAL_IDS.login)
 }
 
