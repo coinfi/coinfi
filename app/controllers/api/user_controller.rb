@@ -41,7 +41,7 @@ class Api::UserController < ApiController
   def serialized(user)
     user.as_json(
       only: %i[email, default_currency],
-      methods: %i[coin_ids]
+      methods: %i[coin_ids theme]
     )
   end
 
