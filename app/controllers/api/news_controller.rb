@@ -8,12 +8,12 @@ class Api::NewsController < ApiController
     headers['Last-Modified'] = Time.now.httpdate
 
     distribute_reads(max_lag: MAX_ACCEPTABLE_REPLICATION_LAG, lag_failover: true) do
-      set_news_items_with_filters(params)
-
       if params[:frontPage].present? # For Front page
-        return respond_success @news_items.slice(0, 5)
+        set_front_page_news_items
+        return respond_success @news_items
       end
 
+      set_news_items_with_filters(params)
       respond_success @news_items
     end
   end
@@ -27,7 +27,7 @@ class Api::NewsController < ApiController
       serialized_news_item = serialize_news_items(@news_item)
 
       if current_user.present?
-        serialized_news_item['user_vote'] = current_user.voted_as_when_voted_for(news_item)
+        serialized_news_item['user_vote'] = current_user.voted_as_when_voted_for(@news_item)
       end
 
       respond_success serialized_news_item
@@ -35,6 +35,21 @@ class Api::NewsController < ApiController
   end
 
   private
+
+  def set_front_page_news_items(limit = 5)
+    @news_items = serialize_news_items(NewsItems::WithFilters.call(
+      NewsItem.published,
+      trending: true
+    )
+      .includes(:coins, :news_categories)
+      .order_by_published
+      .limit(limit))
+
+    if @news_items.length < limit
+      @news_items = @news_items + get_default_serialized_news_items
+      @news_items = @news_items.uniq { |item| item['id'] }.slice(0, limit)
+    end
+  end
 
   def set_news_items_with_filters(params)
     if coin_slugs = params[:coinSlugs]
@@ -64,9 +79,10 @@ class Api::NewsController < ApiController
       news_categories = NewsCategory.where(name: news_category_names)
     end
 
+    trending = ActiveRecord::Type::Boolean.new.deserialize(params[:trending])
+
     if no_filters?
-      news_item_ids = get_default_news_item_ids
-      @news_items = serialize_news_items(NewsItem.where(id: news_item_ids))
+      @news_items = get_default_serialized_news_items
     else
       @news_items = serialize_news_items(NewsItems::WithFilters.call(
         NewsItem.published,
@@ -76,11 +92,20 @@ class Api::NewsController < ApiController
         keywords: params[:keywords],
         published_since: params[:publishedSince],
         published_until: params[:publishedUntil],
+        trending: trending || false,
       )
         .includes(:coins, :news_categories)
         .order_by_published
         .limit(25))
     end
+  end
+
+  def get_default_serialized_news_items
+    news_item_ids = get_default_news_item_ids
+    serialize_news_items(NewsItem.where(id: news_item_ids)
+      .includes(:coins, :news_categories)
+      .order_by_published
+      .limit(25))
   end
 
   def no_filters?
@@ -95,6 +120,8 @@ class Api::NewsController < ApiController
     elsif params[:publishedSince]
       return false
     elsif params[:publishedUntil]
+      return false
+    elsif params[:trending]
       return false
     end
 
