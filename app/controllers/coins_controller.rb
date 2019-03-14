@@ -30,7 +30,7 @@ class CoinsController < ApplicationController
 
   def show
     distribute_reads(max_lag: MAX_ACCEPTABLE_REPLICATION_LAG, lag_failover: true) do
-      if @coin.ico_status == 'listed'
+      if @coin.ico_listed?
         @coin_price = format_price(@coin.price)
         @related_coins = @coin.related_coins.select(:id, :coin_key, :name, :symbol, :slug).to_a # Calling `to_a` ensures query executes on replica.
         @token_metrics = @coin.has_token_metrics? ? @coin.token_metrics : {}
@@ -46,7 +46,7 @@ class CoinsController < ApplicationController
     end
 
     # TODO: Flag if a non-listed coin gets routed to this controller.
-    if @coin.ico_status == 'listed'
+    if @coin.ico_listed?
       set_meta_tags(
         title: "#{@coin.symbol} ($#{@coin_price}) - #{@coin.name} Price Chart, Value, News, Market Cap",
         keywords: "#{@coin.name} price, #{@coin.name} chart, #{@coin.name} news, #{@coin.name} market cap, #{@coin.name} reddit, #{@coin.name} price prediction"
