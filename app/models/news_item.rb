@@ -11,6 +11,7 @@ class NewsItem < ApplicationRecord
   has_many :coins, through: :news_coin_mentions
   has_many :machine_tagged_coins, through: :machine_tagged_news_coin_mentions, source: :coin
   has_many :human_tagged_coins, through: :human_tagged_news_coin_mentions, source: :coin
+  has_one :news_votes_trending, foreign_key: :id
 
   scope :general, -> { where(feed_source: FeedSource.general) }
   scope :no_category, -> { where("news_items.id NOT IN (SELECT news_item_categorizations.news_item_id FROM news_item_categorizations)") }
@@ -139,7 +140,11 @@ class NewsItem < ApplicationRecord
 
   def link_coin_from_feedsource
     if feed_source.coin.present?
-      feed_source.coin.news_items |= [self]
+      begin
+        feed_source.coin.news_items << self
+      rescue ActiveRecord::RecordNotUnique
+        nil
+      end
     end
   end
 

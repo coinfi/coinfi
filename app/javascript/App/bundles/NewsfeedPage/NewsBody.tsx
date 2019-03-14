@@ -19,6 +19,7 @@ import { NewsItem } from './types'
 import { CoinClickHandler } from '~/bundles/common/types'
 import NewsBodyShareButtons from './NewsBodyShareButtons'
 import { RailsConsumer } from '~/bundles/common/contexts/RailsContext'
+import { Tooltip } from '@material-ui/core'
 import { withStyles, createStyles } from '@material-ui/core/styles'
 import {
   withNewsfeed,
@@ -67,6 +68,9 @@ const styles = (theme) => {
       '& hr': {
         border: `0.5px solid ${theme.palette.border.main}`,
       },
+    },
+    localTime: {
+      cursor: 'default',
     },
     footer: {
       marginBottom: '1rem',
@@ -199,7 +203,12 @@ class NewsBody extends React.Component<Props, State> {
         </div>
         <div className={classes.subtitle}>
           <Icon name="clock" className="mr1 f7" />
-          <span>{publishedAt.format('lll')}</span>
+          <Tooltip
+            title={moment.utc(publishedAt).format('lll z')}
+            className={classes.localTime}
+          >
+            <span>{publishedAt.format('lll Z')}</span>
+          </Tooltip>
           <BulletSpacer />
           <span>
             <Votes
