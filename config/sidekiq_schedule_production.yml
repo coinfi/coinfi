@@ -23,7 +23,7 @@ RefreshTokenMetricViews:
   cron: '0 0 4 * * * Etc/UTC'   # Scheduled after metrics data is inserted
 
 RefreshTrendingNews:
-  cron: '20 5 * * * * Etc/UTC'  # Stagger start time
+  cron: '20 */5 * * * * Etc/UTC'  # Stagger start time
 
 CheckDailyEtlDb:                # rake etldb:check_daily
   cron: '0 0 2 * * * Etc/UTC'
