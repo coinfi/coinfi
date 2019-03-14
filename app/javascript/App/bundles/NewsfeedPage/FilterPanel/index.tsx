@@ -95,9 +95,8 @@ class FilterPanel extends React.Component<Props, State> {
         newsFeedStyle={this.props.newsFeedStyle}
       >
         <div className="pb3">
-          <h4 className="mb2 f5">Trending News</h4>
           <div className="pv2">
-            <span className="mr2">Trending News Only</span>
+            <span className="mr2">Only show me Trending News</span>
             <Switch
               on={this.state.form.trending}
               onChange={this.onTrendingToggle}
