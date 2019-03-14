@@ -50,6 +50,7 @@ interface Props extends NewsfeedContextType {
   classes: any
   newsItemId: number
   showControls?: boolean
+  initialVote?: number
 }
 
 interface State {
@@ -60,9 +61,9 @@ class Votes extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props)
 
-    const { newsItemId, voteSummaries, showControls } = props
+    const { newsItemId, voteSummaries, showControls, initialVote } = props
 
-    const hasInitialVotes = !!voteSummaries[newsItemId]
+    const hasInitialVotes = !!voteSummaries[newsItemId] || initialVote
     const isLoading = !hasInitialVotes
 
     this.state = {
@@ -102,13 +103,15 @@ class Votes extends React.Component<Props, State> {
       newsItemId,
       voteSummaries,
       showControls,
+      initialVote,
     } = this.props
 
     if (isLoading) {
       return null
     }
 
-    const total = _.get(voteSummaries, [newsItemId, 'vote_score'], 0)
+    const defaultTotal = initialVote || 0
+    const total = _.get(voteSummaries, [newsItemId, 'vote_score'], defaultTotal)
     const userVote = _.get(voteSummaries, [newsItemId, 'user_vote'], null)
     const isUp = userVote === VOTE_DIRECTION.up
     const isDown = userVote === VOTE_DIRECTION.down

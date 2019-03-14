@@ -40,4 +40,5 @@ export interface Filters {
   publishedUntil?: string | null
   categories: string[]
   feedSources: string[]
+  trending: boolean
 }

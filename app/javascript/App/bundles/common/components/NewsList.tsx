@@ -12,6 +12,7 @@ import { formatNewsUrl } from '~/bundles/common/utils/news'
 import CoinTags from './CoinTags'
 import slugify from '~/bundles/common/utils/slugify'
 import { NewsItem } from '../../NewsfeedPage/types'
+import Votes from '../../NewsfeedPage/Votes'
 import { CoinLinkData } from '../types'
 
 enum STATUSES {
@@ -253,6 +254,8 @@ class NewsList extends React.Component<Props, State> {
                             </a>
                             <BulletSpacer />
                             {moment(newsItem.feed_item_published_at).fromNow()}
+                            <BulletSpacer />
+                            <Votes initialVote={newsItem.vote_score} />
                           </Typography>
                         </Grid>
                         <Grid item={true}>
