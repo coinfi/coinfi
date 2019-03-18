@@ -1,7 +1,6 @@
 import * as React from 'react'
 import * as _ from 'lodash'
 import LayoutDesktop from '~/bundles/common/components/LayoutDesktop'
-import LayoutTablet from '~/bundles/common/components/LayoutTablet'
 import LayoutMobile from '~/bundles/common/components/LayoutMobile'
 import ListingsHeader from './components/ListingsHeader'
 import ListingsList from './components/ListingsList'
@@ -28,7 +27,6 @@ interface Props {
   exchanges: string[]
   initialListings: Listing[]
   isMobile: boolean
-  isTablet: boolean
 }
 
 interface State {
@@ -317,27 +315,6 @@ class ExchangeListingsPage extends React.Component<Props, State> {
             />
           }
           showModal={this.state.ActiveMobileWindow === 'Modal'}
-        />
-      )
-    } else if (props.isTablet) {
-      return (
-        <LayoutTablet
-          {...props}
-          leftSection={
-            <>
-              <ExchangeListingsContext.Provider value={context}>
-                <ListingsHeader showFilterPanel={this.state.showFilterPanel} />
-              </ExchangeListingsContext.Provider>
-              <ListingsList
-                listings={listings}
-                hasMore={hasMore}
-                fetchOlderExchangeListings={this.fetchOlderExchangeListings}
-                isLoading={this.state.status === STATUSES.LOADING}
-              />
-            </>
-          }
-          rightSection={<BodySection />}
-          drawerSection={null}
         />
       )
     } else {
