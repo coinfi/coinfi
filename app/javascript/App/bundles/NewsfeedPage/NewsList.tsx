@@ -9,6 +9,7 @@ import { withStyles, createStyles } from '@material-ui/core/styles'
 
 import { NewsItem } from './types'
 import { CoinLinkData } from '~/bundles/common/types'
+import { classNames } from 'react-select/lib/utils'
 
 interface Props {
   classes: any
@@ -46,14 +47,29 @@ const styles = (theme) => {
         color: `${theme.palette.text.heading} !important`,
       },
     },
+    newsfeed: {
+      flex: '1 1 auto',
+      minWidth: 0,
+      minHeight: 0,
+      position: 'relative',
+      overflowY: 'scroll',
+      [theme.breakpoints.up('md')]: {
+        overflowY: 'auto',
+      },
+    },
   })
 }
 
-const NewsListWrapper = ({ isMobile, initialRenderTips, children }) => {
+const NewsListWrapper = ({
+  classes,
+  isMobile,
+  initialRenderTips,
+  children,
+}) => {
   return (
     <div
       id="newsfeed"
-      className="flex-auto relative overflow-y-scroll overflow-y-auto-m"
+      className={classes.newsfeed}
       style={
         isMobile && initialRenderTips
           ? {
@@ -141,7 +157,7 @@ class NewsList extends React.Component<Props, State> {
     const { classes, ...remainingProps } = this.props
 
     return (
-      <NewsListWrapper {...remainingProps}>
+      <NewsListWrapper {...this.props}>
         {this.props.initialRenderTips && this.props.isMobile ? (
           <Tips
             closeTips={this.props.closeTips}
