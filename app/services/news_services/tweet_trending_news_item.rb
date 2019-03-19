@@ -5,15 +5,16 @@ module NewsServices
     MAX_ACCEPTABLE_REPLICATION_LAG = ::ApplicationHelper::MAX_ACCEPTABLE_REPLICATION_LAG
 
     # Test run will not send to Twitter or save to database, but will still notify on slack
-    def initialize(min_tweet_interval: 4.hours, max_tweets_per_day: 4, min_votes_required: 10, leading_text: "", max_coin_tag_count: 3, test_run: false)
+    def initialize(min_tweet_interval: 4.hours, max_tweets_per_day: 4, min_votes_required: 10, leading_text: "", max_coin_tag_count: 3, test_run: false, store_test_run: false)
       @min_tweet_interval = min_tweet_interval
       @max_tweets_per_day = max_tweets_per_day
       @min_votes_required = min_votes_required
       @leading_text = leading_text
       @max_coin_tag_count = max_coin_tag_count
       @test_run = test_run
-      @slack_channel = '#' + ENV.fetch('SLACK_CHANNEL_TRENDING_NEWS').gsub('#', '')
+      @store_test_run = store_test_run
 
+      @slack_channel = '#' + ENV.fetch('SLACK_CHANNEL_TRENDING_NEWS').gsub('#', '')
       @news_votes = nil
       @news_item = nil
     end
@@ -30,20 +31,24 @@ module NewsServices
         return
       end
 
-      tweet_obj = send_news_item_tweet
+      response = send_news_item_tweet
       if !@test_run
-        if tweet_obj.present?
-          store_news_item_tweet(tweet_obj)
+        if response.present?
+          store_news_item_tweet(response)
         else
           error_message = "Failed to send tweet ##{@news_item.try(:id)}: #{@news_item.try(:title)}."
           puts "#{LOG_PREFIX} #{error_message}"
           slack_client.chat_postMessage(channel: @slack_channel, text: error_message, as_user: true)
         end
       else
-        puts "#{LOG_PREFIX} Test run; not storing tweet."
+        if @store_test_run && response.present?
+          store_news_item_tweet(response)
+        else
+          puts "#{LOG_PREFIX} Test run; not storing tweet."
+        end
       end
 
-      tweet_obj
+      response
     end
 
     private
@@ -101,25 +106,35 @@ module NewsServices
       end
     end
 
-    def store_news_item_tweet(tweet_obj)
+    def store_news_item_tweet(response_hash)
       metadata = {
         score: @news_votes.score,
         total: @news_votes.total,
-        tweet_id: tweet_obj.id,
       }
+      if response_hash['twitter'].present?
+        metadata[:tweet_id] = response_hash['twitter'].try(:id)
+      end
+      if @test_run
+        metadata[:test_run] = true
+      end
+      tweet_body = response_hash['twitter'].present? ? response_hash['twitter'].try(:text) : response_hash['body']
+
       NewsTweet.create!(news_item_id: @news_item.id,
-        tweet_body: tweet_obj.text,
+        tweet_body: tweet_body,
         metadata: metadata)
     end
 
     def send_news_item_tweet
       tweet_body = build_tweet
+      tweet_response = {'body': tweet_body}
 
-      slack_client.chat_postMessage(channel: @slack_channel, text: tweet_body, as_user: true)
+      tweet_response['slack'] = slack_client.chat_postMessage(channel: @slack_channel, text: tweet_body, as_user: true)
 
       if !@test_run
-        twitter_client.update(tweet_body)
+        tweet_response['twitter'] = twitter_client.update(tweet_body)
       end
+
+      tweet_response
     end
 
     def shorten_text(text, max_length)
