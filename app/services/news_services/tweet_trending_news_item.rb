@@ -14,6 +14,7 @@ module NewsServices
       @test_run = test_run
       @store_test_run = store_test_run
 
+      # Don't worry about whether env var has hashtag; remove and add our own.
       @slack_channel = '#' + ENV.fetch('SLACK_CHANNEL_TRENDING_NEWS').gsub('#', '')
       @news_votes = nil
       @news_item = nil
@@ -119,9 +120,11 @@ module NewsServices
       end
       tweet_body = response_hash['twitter'].present? ? response_hash['twitter'].try(:text) : response_hash['body']
 
-      NewsTweet.create!(news_item_id: @news_item.id,
+      NewsTweet.create!(
+        news_item_id: @news_item.id,
         tweet_body: tweet_body,
-        metadata: metadata)
+        metadata: metadata,
+      )
     end
 
     def send_news_item_tweet
