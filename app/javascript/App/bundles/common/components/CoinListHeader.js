@@ -54,7 +54,7 @@ class CoinListHeader extends Component {
           return (
             <div id="panel-header" className={classes.panelHeader}>
               <div
-                className={classnames(classes.tabRoot, {
+                className={classnames(classes.tabRoot, 'coinlist-tab', {
                   active: !payload.isWatchlist,
                 })}
                 onClick={payload.showToplist}
@@ -69,7 +69,7 @@ class CoinListHeader extends Component {
                 </a>
               </div>
               <div
-                className={classnames(classes.tabRoot, {
+                className={classnames(classes.tabRoot, 'coinlist-tab', {
                   active: payload.isWatchlist,
                 })}
                 onClick={payload.showWatchlist}

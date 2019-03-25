@@ -1,9 +1,37 @@
 import * as React from 'react'
 import CoinListItem from '~/bundles/common/components/CoinListItem'
+import classnames from 'classnames'
+import { withStyles, createStyles } from '@material-ui/core/styles'
 import { Coin } from '~/bundles/common/types'
 import { REGISTRATION_URL } from '~/constants'
+import { btn, btnBlue, btnBlueDark } from '../styles/buttons'
+
+const styles = (theme) => {
+  const isDarkMode = theme.palette.type === 'dark'
+
+  return createStyles({
+    root: {
+      flex: '1 1 auto',
+      minWidth: 0,
+      minHeight: 0,
+      position: 'relative',
+      overflowY: 'scroll',
+    },
+    ctaText: {
+      color: theme.palette.text.primary,
+      padding: '1rem',
+      textAlign: 'center',
+    },
+    ctaBtn: {
+      ...btn(theme),
+      ...(isDarkMode ? btnBlueDark : btnBlue),
+      marginTop: '1rem',
+    },
+  })
+}
 
 interface Props {
+  classes: any
   isWatchlist: boolean
   list: Coin[]
   loggedIn: boolean
@@ -13,11 +41,14 @@ interface Props {
 }
 
 const CoinList = (props: Props) => (
-  <div className="flex-auto relative overflow-y-scroll coin-watch-list">
+  <div className={classnames(props.classes.root, 'coinlist-root')}>
     {!props.loggedIn && props.isWatchlist ? (
-      <div className="pa3 tc">
+      <div className={classnames(props.classes.ctaText, 'coinlist-cta')}>
         Sign up to see coins on your Watchlist here.
-        <a className="btn btn-md btn-blue mt3" href={REGISTRATION_URL}>
+        <a
+          className={classnames(props.classes.ctaBtn, 'coinlist-cta-btn')}
+          href={REGISTRATION_URL}
+        >
           Sign Up Now
         </a>
       </div>
@@ -38,4 +69,4 @@ const CoinList = (props: Props) => (
   </div>
 )
 
-export default CoinList
+export default withStyles(styles)(CoinList)

@@ -2,7 +2,6 @@ import React, { Component, Fragment } from 'react'
 import debounce from 'debounce'
 import axios from 'axios'
 import LayoutDesktop from '../../bundles/common/components/LayoutDesktop'
-import LayoutTablet from '../../bundles/common/components/LayoutTablet'
 import LayoutMobile from '../../bundles/common/components/LayoutMobile'
 // TODO: Fix CoinList
 import CoinList from '~/bundles/common/components/CoinList'
@@ -109,23 +108,6 @@ class CalendarPage extends Component {
                 />
               </Fragment>
             }
-          />
-        </EventListener>
-      )
-    } else if (this.props.isTablet) {
-      return (
-        <EventListener target="window" onResize={this.handleWindowResize}>
-          <LayoutTablet
-            {...enhancedProps}
-            initialRenderTips={this.state.initialRenderTips}
-            leftSection={
-              <Fragment>
-                <CalendarListHeader {...enhancedProps} />
-                <CalendarList {...enhancedProps} />
-              </Fragment>
-            }
-            rightSection={<BodySection {...enhancedProps} />}
-            drawerSection={<CoinListDrawer {...enhancedProps} />}
           />
         </EventListener>
       )

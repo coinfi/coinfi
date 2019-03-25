@@ -27,7 +27,7 @@ class CalendarList extends Component {
 
   componentDidUpdate() {
     const timer = setInterval(() => {
-      if (!this.props.isMobile && !this.props.isTablet) {
+      if (!this.props.isMobile) {
         this.props.fetchMoreCalendarEvents()
       }
     }, 60000)
