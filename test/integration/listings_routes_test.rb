@@ -9,6 +9,10 @@ class ListingsRoutesTest < ApplicationIntegrationTest
     @exchange_listings = create_list(:exchange_listing, 10)
   end
 
+  teardown do
+    Warden.test_reset!
+  end
+
   test "cannot visit index when not authenticated" do
     assert_raises(ActionController::RoutingError) do
       get "/listings"

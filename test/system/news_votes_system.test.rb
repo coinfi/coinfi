@@ -22,6 +22,7 @@ class NewsVotesSystemTest < ApplicationSystemTestCase
 
   teardown do
     Rails.cache.clear("default_news_item_ids")
+    Warden.test_reset!
   end
 
   test "unauthorized user can't vote" do

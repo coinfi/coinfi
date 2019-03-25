@@ -1,9 +1,7 @@
 # Load the Rails application.
 require_relative 'application'
 
-# Initialize the Rails application.
-Rails.application.initialize!
-
+# Before environment specific configuration
 ActionMailer::Base.smtp_settings = {
   :port           => 587,
   :address        => 'smtp.webfaction.com',
@@ -13,3 +11,8 @@ ActionMailer::Base.smtp_settings = {
   :authentication => :plain,
 }
 ActionMailer::Base.delivery_method = :smtp
+
+# Initialize the Rails application.
+Rails.application.initialize!
+
+# After environment specific configuration

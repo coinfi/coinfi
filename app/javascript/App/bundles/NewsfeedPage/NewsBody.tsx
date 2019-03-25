@@ -213,7 +213,8 @@ class NewsBody extends React.Component<Props, State> {
           <span>
             <Votes
               newsItemId={newsItem.id}
-              showControls={this.props.loggedIn}
+              showControls={true}
+              isLoggedIn={this.props.loggedIn}
             />
           </span>
         </div>

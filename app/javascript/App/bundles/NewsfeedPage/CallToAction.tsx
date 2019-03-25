@@ -1,6 +1,7 @@
 import * as React from 'react'
 import { withStyles, createStyles } from '@material-ui/core/styles'
 import { btn, btnBlue, btnBlueDark } from '~/bundles/common/styles/buttons'
+import { openSignUpModal } from '~/bundles/common/utils/modals'
 import classnames from 'classnames'
 
 interface Props {
@@ -67,7 +68,7 @@ const CallToAction = ({ alignLeft, classes }: Props) => {
       <button
         className={classes.ctaBtn}
         data-heap="news-click-signup-button"
-        onClick={() => (window.location.href = '/register')}
+        onClick={openSignUpModal}
       >
         Sign Up Now
       </button>

@@ -10,6 +10,10 @@ class CoinsSystemTest < ApplicationSystemTestCase
     @coins = create_list(:coin, 20)
   end
 
+  teardown do
+    Warden.test_reset!
+  end
+
   test "can visit index when authenticated" do
     login_as(@user, :scope => :user)
 

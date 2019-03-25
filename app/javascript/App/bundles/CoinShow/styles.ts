@@ -34,7 +34,7 @@ const styles = (theme) =>
         },
       },
       '& .fa-star': {
-        fontSize: '10px',
+        fontSize: '100%',
       },
       '& .coinlist-coin-symbol': {
         fontSize: '14px',

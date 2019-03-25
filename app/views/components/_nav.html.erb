@@ -57,7 +57,8 @@
           <%= link_to "My Profile", profile_path, class: "nav-menu-actions__btn nav-menu-actions--primary" %>
           <%= button_to "Logout", destroy_user_session_path, method: :delete, class: "nav-menu-actions__btn nav-menu-actions--secondary", form_class: "nav-menu-actions__logout-form" %>
         <% else %>
-          <%= link_to "Login", new_user_session_path, class: "nav-menu-actions__btn nav-menu-actions--secondary" %>
+          <a href="#login" onclick="openLoginModal(event)" class="nav-menu-actions__btn nav-menu-actions--secondary">Login</a>
+          <a href="#sign-up" onclick="openSignUpModal(event)" class="nav-menu-actions--primary nav-menu-actions--primary nav-menu-close">Get Started</a>
         <% end %>
       </div>
     </div>
@@ -67,7 +68,8 @@
       <% if user_signed_in? %>
         <%= react_component_with_jss "NavUserContainer", { props: { formAuthenticityToken: form_authenticity_token, userEmail: current_user.try(:email), user: current_user, showDarkMode: show_dark_mode? } } %>
       <% else %>
-        <%= link_to "Login", new_user_session_path, { class: "nav-menu__item nav-menu-login" } %>
+        <a href="#login" onclick="openLoginModal(event)" class="nav-menu__item nav-menu-login">Login</a>
+        <a href="#sign-up" onclick="openSignUpModal(event)" class="nav-menu__item nav-menu--primary">Get Started</a>
       <% end %>
       <% unless hide_currency? %>
         <%= react_component_with_jss "CurrencySelectorWidget", props: { user: current_user }, prerender: false %>

@@ -6,6 +6,7 @@ import IconButton from '@material-ui/core/IconButton'
 import MuiIcon from '@material-ui/core/Icon'
 import classnames from 'classnames'
 import { withNewsfeed, NewsfeedContextType } from './NewsfeedContext'
+import { openSignUpModal } from '~/bundles/common/utils/modals'
 
 const VOTE_DIRECTION = {
   up: true,
@@ -50,6 +51,7 @@ interface Props extends NewsfeedContextType {
   classes: any
   newsItemId: number
   showControls?: boolean
+  isLoggedIn?: boolean
   initialVote?: number
 }
 
@@ -61,7 +63,7 @@ class Votes extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props)
 
-    const { newsItemId, voteSummaries, showControls, initialVote } = props
+    const { newsItemId, voteSummaries, initialVote } = props
 
     const hasInitialVotes = !!voteSummaries[newsItemId] || initialVote
     const isLoading = !hasInitialVotes
@@ -96,6 +98,26 @@ class Votes extends React.Component<Props, State> {
     return this.props.voteOnNewsItem(this.props.newsItemId, direction)
   }
 
+  public handleUpvote = () => {
+    if (!this.props.isLoggedIn) {
+      return this.handleLogin()
+    }
+
+    this.vote(VOTE_DIRECTION.up)
+  }
+
+  public handleDownvote = () => {
+    if (!this.props.isLoggedIn) {
+      return this.handleLogin()
+    }
+
+    this.vote(VOTE_DIRECTION.down)
+  }
+
+  public handleLogin = () => {
+    openSignUpModal()
+  }
+
   public render() {
     const {
       classes,
@@ -126,7 +148,7 @@ class Votes extends React.Component<Props, State> {
               selected: isUp,
             })}
             disableRipple={true}
-            onClick={() => this.vote(VOTE_DIRECTION.up)}
+            onClick={this.handleUpvote}
           >
             <MuiIcon
               className={classnames(classes.muiIcon, 'far fa-thumbs-up')}
@@ -140,7 +162,7 @@ class Votes extends React.Component<Props, State> {
               selected: isDown,
             })}
             disableRipple={true}
-            onClick={() => this.vote(VOTE_DIRECTION.down)}
+            onClick={this.handleDownvote}
           >
             <MuiIcon
               className={classnames(classes.muiIcon, 'far fa-thumbs-down')}

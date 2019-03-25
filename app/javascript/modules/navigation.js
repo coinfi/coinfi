@@ -20,6 +20,7 @@ $(document).ready(() => {
   let navMenuCompanyIsOpen = false
   const $navMenu = $('#nav-menu')
   const $navMenuToggle = $('.nav-menu-toggle')
+  const $navMenuClose = $('.nav-menu-close')
   const $navMenuCoins = $('.nav-menu-coins')
   const $navMenuCoinsToggle = $('.nav-menu-coins-toggle')
   const $navMenuCompany = $('.nav-menu-company')
@@ -72,6 +73,11 @@ $(document).ready(() => {
     } else {
       openNavMenu()
     }
+  })
+
+  // Bind click handler to menu close
+  $navMenuClose.click((e) => {
+    closeNavMenu()
   })
 
   // Bind click handler to coins toggle

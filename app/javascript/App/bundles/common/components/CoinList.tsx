@@ -3,7 +3,7 @@ import CoinListItem from '~/bundles/common/components/CoinListItem'
 import classnames from 'classnames'
 import { withStyles, createStyles } from '@material-ui/core/styles'
 import { Coin } from '~/bundles/common/types'
-import { REGISTRATION_URL } from '~/constants'
+import { openSignUpModal } from '~/bundles/common/utils/modals'
 import { btn, btnBlue, btnBlueDark } from '../styles/buttons'
 
 const styles = (theme) => {
@@ -47,7 +47,7 @@ const CoinList = (props: Props) => (
         Sign up to see coins on your Watchlist here.
         <a
           className={classnames(props.classes.ctaBtn, 'coinlist-cta-btn')}
-          href={REGISTRATION_URL}
+          onClick={openSignUpModal}
         >
           Sign Up Now
         </a>

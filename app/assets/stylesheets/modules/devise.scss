@@ -1,0 +1,50 @@
+.devise-error {
+  display: flex;
+  align-items: center;
+  padding: 8px 8px 8px 0;
+
+  li {
+    list-style: none;
+    color: rgba(0, 0, 0, 0.87);
+    font-size: 12px;
+    line-height: 1.33;
+  }
+
+  strong {
+    text-transform: uppercase;
+    font-size: 12px;
+  }
+
+  i {
+    padding: 0 16px;
+  }
+
+  .fa-exclamation-triangle {
+    color: #ff6161;
+  }
+}
+
+.modal__content .devise-error {
+  margin-top: 0;
+}
+
+.divider-text {
+  width: 100%;
+  margin: 16px auto;
+  overflow: hidden;
+  text-align: center;
+  font-weight: 500;
+  color: $black-30;
+}
+.divider-text::before,
+.divider-text::after {
+  content: '';
+  display: inline-block;
+  width: 50%;
+  margin: 0 0.5em 0 -55%;
+  vertical-align: middle;
+  border-bottom: 1px solid $black-10;
+}
+.divider-text::after {
+  margin: 0 -55% 0 0.5em;
+}
