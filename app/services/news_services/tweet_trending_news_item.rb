@@ -5,10 +5,10 @@ module NewsServices
     MAX_ACCEPTABLE_REPLICATION_LAG = ::ApplicationHelper::MAX_ACCEPTABLE_REPLICATION_LAG
 
     # Test run will not send to Twitter or save to database, but will still notify on slack
-    def initialize(min_tweet_interval: 4.hours, max_tweets_per_day: 4, min_votes_required: 10, leading_text: "", max_coin_tag_count: 3, test_run: false, store_test_run: false)
+    def initialize(min_tweet_interval: 4.hours, max_tweets_per_day: 4, min_score_required: 10, leading_text: "", max_coin_tag_count: 3, test_run: false, store_test_run: false)
       @min_tweet_interval = min_tweet_interval
       @max_tweets_per_day = max_tweets_per_day
-      @min_votes_required = min_votes_required
+      @min_score_required = min_score_required
       @leading_text = leading_text
       @max_coin_tag_count = max_coin_tag_count
       @test_run = test_run
@@ -79,6 +79,9 @@ module NewsServices
       "#{protocol}#{ENV.fetch('ROOT_DOMAIN')}#{relative_path}"
     end
 
+    # Requirements to tweet:
+    # - Less than max # of tweets in a 24 hour window
+    # - More than min time interval since last tweet
     def can_tweet?
       distribute_reads(max_lag: MAX_ACCEPTABLE_REPLICATION_LAG, lag_failover: true) do
         recent_tweets = NewsTweet.where("updated_at >= now() - interval '1 day'").order("updated_at DESC")
@@ -148,12 +151,20 @@ module NewsServices
       end
     end
 
+    # Conditions to tweet:
+    # - News item to tweet exists
+    # - Wasn't already tweeted previously
+    # - Has a score greater than or equal to the minimum required score
     def should_tweet?
+      if @news_votes.blank? || @news_item.blank?
+        return false
+      end
+
       if NewsTweet.exists?(news_item_id: @news_item.id)
         return false
       end
 
-      if @news_votes.score < @min_votes_required
+      if @news_votes.score < @min_score_required
         return false
       end
 
