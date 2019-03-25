@@ -238,6 +238,7 @@ GEM
     fugit (1.1.6)
       et-orbi (~> 1.1, >= 1.1.6)
       raabro (~> 1.1)
+    gli (2.18.0)
     globalid (0.4.1)
       activesupport (>= 4.2.0)
     google-cloud-core (1.2.7)
@@ -571,6 +572,13 @@ GEM
       skylight-core (= 3.1.0)
     skylight-core (3.1.0)
       activesupport (>= 4.2.0)
+    slack-ruby-client (0.14.1)
+      activesupport
+      faraday (>= 0.9)
+      faraday_middleware
+      gli
+      hashie
+      websocket-driver
     slim (3.0.7)
       temple (~> 0.7.6)
       tilt (>= 1.3.3, < 2.1)
@@ -732,6 +740,7 @@ DEPENDENCIES
   simple_form
   sitemap_generator
   skylight
+  slack-ruby-client
   slim-rails
   spring
   spring-watcher-listen (~> 2.0.0)
