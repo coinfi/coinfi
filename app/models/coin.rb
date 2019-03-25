@@ -41,6 +41,7 @@ class Coin < ApplicationRecord
   before_save :update_previous_name
 
   scope :legit, -> { where.not(image_url: nil) }
+  scope :listed, -> { where(is_listed: true) }
   scope :top, -> (limit) { order(ranking: :asc).limit(limit) }
   scope :quick_top, -> (limit) { where("coins.ranking >= ?", limit) }
   scope :icos, -> { where(ico_status: ICO_STATUSES).order(:ico_end_date) }
@@ -49,7 +50,7 @@ class Coin < ApplicationRecord
   alias_method :industries, :coin_industries
 
   ICO_STATUSES.each do |status|
-    scope status, -> { where(ico_status: status) }
+    scope "ico_#{status}", -> { where(ico_status: status) }
     define_method "ico_#{status}?" do
       ico_status == status
     end
