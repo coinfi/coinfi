@@ -31,7 +31,6 @@
     "@types/validatorjs": "^3.7.1",
     "ag-grid-community": "^19.1.1",
     "ag-grid-react": "^19.1.1",
-    "antd": "^3.7.3",
     "axios": "^0.18.0",
     "babel-core": "^7.0.0-bridge.0",
     "babel-loader": "^8.0.0",

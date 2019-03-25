@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { withStyles, createStyles } from '@material-ui/core/styles'
-import { btn, btnBlue } from '~/bundles/common/styles/buttons'
+import { btn, btnBlue, btnBlueDark } from '~/bundles/common/styles/buttons'
 import { openSignUpModal } from '~/bundles/common/utils/modals'
 import classnames from 'classnames'
 
@@ -10,6 +10,8 @@ interface Props {
 }
 
 const styles = (theme) => {
+  const isDarkMode = theme.palette.type === 'dark'
+
   return createStyles({
     root: {
       background: theme.palette.background.paper,
@@ -47,7 +49,7 @@ const styles = (theme) => {
     },
     ctaBtn: {
       ...btn(theme),
-      ...btnBlue,
+      ...(isDarkMode ? btnBlueDark : btnBlue),
       marginTop: '1rem',
       marginBottom: '1rem',
     },

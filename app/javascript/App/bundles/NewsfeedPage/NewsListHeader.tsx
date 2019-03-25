@@ -1,6 +1,5 @@
 import * as React from 'react'
 import * as _ from 'lodash'
-import Icon from '~/bundles/common/components/Icon'
 import SectionHeader from '~/bundles/common/components/SectionHeader'
 import CoinTipsTab from '../common/components/CoinTipsTab'
 import FilterPanel from './FilterPanel'
@@ -97,18 +96,6 @@ class NewsListHeader extends React.Component<Props, {}> {
         )}
         <SectionHeader>
           <div id="panel-header" className={classes.panelHeader}>
-            {this.props.isTablet && (
-              <button
-                className={classes.coinsBtn}
-                onClick={() =>
-                  !!this.props.showCoinListDrawer &&
-                  this.props.showCoinListDrawer()
-                }
-              >
-                <Icon name="list" className="mr2" />
-                <span>Coins</span>
-              </button>
-            )}
             <button
               onClick={this.props.toggleFilters}
               className={classes.filterBtn}

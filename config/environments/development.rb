@@ -30,6 +30,11 @@ Rails.application.configure do
     config.cache_store = :null_store
   end
 
+  # Allow CORS
+  config.action_dispatch.default_headers = {
+    'Access-Control-Allow-Origin' => '*',
+  }
+
   # Use letter opener to preview emails
   config.action_mailer.perform_caching = false
 

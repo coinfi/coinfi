@@ -90,7 +90,7 @@ module CoinMarketCapPro
         cmc_id: data['id'],
         ranking: data['cmc_rank'],
         last_synced: data['last_updated'],
-        ico_status: 'listed'
+        is_listed: true
       )
     end
 

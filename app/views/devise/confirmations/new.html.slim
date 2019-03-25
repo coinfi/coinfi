@@ -3,7 +3,7 @@
     .pa3.pa3-ns.max-w28e.center.ba.b--light-silver.bg-white
       h2.mt0.black-90 Resend verification instructions
       = form_for(resource, as: resource_name, url: user_confirmation_path, html: { method: :post }) do |f|
-        = devise_error_messages!
+        = render "devise/shared/error_messages", resource: resource
         = f.email_field :email, required: true, autofocus: true, placeholder: 'Email', class: 'mb2'
         = f.submit "Resend verification instructions", class: 'btn btn-blue btn-sm w-100'
         = render "devise/shared/links"

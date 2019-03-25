@@ -43,7 +43,7 @@ class NewsSystemTest < ApplicationSystemTestCase
     login_as(@user, :scope => :user)
 
     news_item = @coins.first.news_items.published.first
-    news_item_slug = news_item.title.parameterize
+    news_item_slug = news_item.slug
 
     visit news_item_url(news_item.id, news_item_slug)
 

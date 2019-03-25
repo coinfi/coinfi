@@ -3,7 +3,7 @@
     .pa3.pa3-ns.max-w28e.center.ba.b--light-gray.shadow-s1.bg-white
       h2.mt0.tc Register
       = form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f|
-        = devise_error_messages!
+        = render "devise/shared/error_messages", resource: resource
         a.btn.btn-sm.btn-fb-blue.w-100.btn-logo href=user_facebook_omniauth_authorize_path
           i.fab.fa-facebook-f
           span Sign up with Facebook

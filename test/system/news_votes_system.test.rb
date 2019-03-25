@@ -27,7 +27,7 @@ class NewsVotesSystemTest < ApplicationSystemTestCase
 
   test "unauthorized user can't vote" do
     news_item = NewsItem.published.first
-    news_item_slug = news_item.title.parameterize
+    news_item_slug = news_item.slug
     vote_score = news_item.weighted_score
 
     visit news_item_url(news_item, news_item_slug)
@@ -45,7 +45,7 @@ class NewsVotesSystemTest < ApplicationSystemTestCase
     login_as(@current_user, :scope => :user)
 
     news_item = NewsItem.published.first
-    news_item_slug = news_item.title.parameterize
+    news_item_slug = news_item.slug
     vote_score = news_item.weighted_score
 
     visit news_item_url(news_item, news_item_slug)
@@ -63,7 +63,7 @@ class NewsVotesSystemTest < ApplicationSystemTestCase
     login_as(@current_user, :scope => :user)
 
     news_item = NewsItem.published.first
-    news_item_slug = news_item.title.parameterize
+    news_item_slug = news_item.slug
 
     visit news_item_url(news_item, news_item_slug)
 
@@ -91,7 +91,7 @@ class NewsVotesSystemTest < ApplicationSystemTestCase
     login_as(@current_user, :scope => :user)
 
     news_item = NewsItem.published.first
-    news_item_slug = news_item.title.parameterize
+    news_item_slug = news_item.slug
 
     visit news_item_url(news_item, news_item_slug)
 

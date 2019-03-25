@@ -1,6 +1,6 @@
 import * as React from 'react'
 import * as _ from 'lodash'
-import classNames from 'classnames'
+import classnames from 'classnames'
 import PercentageChange from '~/bundles/common/components/PercentageChange'
 import WatchStar from '~/bundles/common/components/WatchStar'
 import { Coin } from '~/bundles/common/types'
@@ -33,9 +33,37 @@ const styles = (theme) =>
       borderBottomStyle: 'solid',
       borderBottomWidth: '1px',
       color: _.get(theme, ['palette', 'text', 'primary'], '#555'),
+      fontSize: '16px',
+      [theme.breakpoints.between('md', 'lg')]: {
+        padding: '0.5rem',
+        fontSize: '14px',
+      },
     },
     selected: {
       background: _.get(theme, ['palette', 'background', 'selected'], foam),
+    },
+    textContainer: {
+      display: 'flex',
+      flex: '1 1 auto',
+      minWidth: 0,
+      minHeight: 0,
+      justifyContent: 'space-between',
+      alignItems: 'center',
+    },
+    coinSymbol: {
+      paddingLeft: '0.5rem',
+      fontWeight: 'bold',
+      [theme.breakpoints.between('md', 'lg')]: {
+        paddingLeft: '0.25rem',
+      },
+    },
+    coinDetails: {
+      textAlign: 'right',
+    },
+    coinDetailsSubtitle: {
+      display: 'block',
+      fontSize: '0.8em',
+      fontWeight: 'bold',
     },
   })
 
@@ -58,7 +86,7 @@ const CoinListItem = (props: Props) => (
       return (
         <a
           href={link}
-          className={classNames(classes.root, {
+          className={classnames(classes.root, {
             [classes.selected]: props.isSelected,
           })}
           onClick={(event) => {
@@ -67,10 +95,19 @@ const CoinListItem = (props: Props) => (
           }}
         >
           <WatchStar coin={coin} hasText={false} loggedIn={loggedIn} />
-          <div className="flex-auto flex justify-between items-center">
-            <div className="b f5 pl2">{coin.symbol}</div>
+          <div className={classes.textContainer}>
+            <div
+              className={classnames(classes.coinSymbol, 'coinlist-coin-symbol')}
+            >
+              {coin.symbol}
+            </div>
             {coin.market_info && (
-              <div className="right-align">
+              <div
+                className={classnames(
+                  classes.coinDetails,
+                  'coinlist-coin-details',
+                )}
+              >
                 {coinPrice ? (
                   <>
                     <div>
@@ -79,7 +116,10 @@ const CoinListItem = (props: Props) => (
                     </div>
                     <PercentageChange
                       value={percentChange}
-                      className="smaller2 b db"
+                      className={classnames(
+                        classes.coinDetailsSubtitle,
+                        'coinlist-coin-change',
+                      )}
                     />
                   </>
                 ) : (

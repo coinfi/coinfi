@@ -39,7 +39,7 @@ class NewsRenderTest < ApplicationIntegrationTest
 
   test "show renders news items" do
     news_item = @coins.first.news_items.published.first
-    news_item_slug = news_item.title.parameterize
+    news_item_slug = news_item.slug
 
     get news_item_url(news_item, news_item_slug)
 

@@ -41,6 +41,7 @@ class Coin < ApplicationRecord
   before_save :update_previous_name
 
   scope :legit, -> { where.not(image_url: nil) }
+  scope :listed, -> { where(is_listed: true) }
   scope :top, -> (limit) { order(ranking: :asc).limit(limit) }
   scope :quick_top, -> (limit) { where("coins.ranking >= ?", limit) }
   scope :icos, -> { where(ico_status: ICO_STATUSES).order(:ico_end_date) }
@@ -49,7 +50,7 @@ class Coin < ApplicationRecord
   alias_method :industries, :coin_industries
 
   ICO_STATUSES.each do |status|
-    scope status, -> { where(ico_status: status) }
+    scope "ico_#{status}", -> { where(ico_status: status) }
     define_method "ico_#{status}?" do
       ico_status == status
     end
@@ -257,7 +258,7 @@ class Coin < ApplicationRecord
 
   def sparkline
     Rails.cache.fetch("coins/#{id}/sparkline", expires_in: seconds_to_next_day) do
-      url = "#{ENV.fetch('COINFI_POSTGREST_URL')}/daily_ohcl_prices?coin_key=eq.#{coin_key}&select=close&to_currency=eq.USD&limit=7&order=time.desc"
+      url = "#{ENV.fetch('COINFI_POSTGREST_URL')}/cmc_daily_ohcl_prices?coin_key=eq.#{coin_key}&select=close&to_currency=eq.USD&limit=7&order=time.desc"
       response = HTTParty.get(url)
       results = JSON.parse(response.body)
       results.map! { |result| result["close"] }

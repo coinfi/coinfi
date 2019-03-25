@@ -74,6 +74,22 @@ const DEFAULTS = {
 
 const styles = (theme) =>
   createStyles({
+    headerWrapper: {
+      maxWidth: '1200px',
+      width: '100%',
+      margin: '0 auto',
+      display: 'flex',
+      justifyContent: 'space-between',
+      alignItems: 'flex-end',
+      padding: '1rem 0 0 1rem',
+    },
+    headerTitle: {
+      margin: 0,
+      lineHeight: 1,
+    },
+    headerSearch: {
+      display: 'flex',
+    },
     tableWrapper: {
       width: '100%',
     },
@@ -227,18 +243,15 @@ class CoinIndex extends Component<Props, State> {
 
     return (
       <Fragment>
-        <div className="flex" style={{ maxWidth: '1200px', margin: '0 auto' }}>
-          <h1 className="pt3 pl3">Coins</h1>
-          <span style={{ flexGrow: 1 }} />
-          <div className="flex pt3">
-            <div className="ma2">
-              <SearchCoins
-                onSelect={(suggestion) =>
-                  (window.location.href = `/coins/${suggestion.slug}`)
-                }
-                unstyled={true}
-              />
-            </div>
+        <div className={classes.headerWrapper}>
+          <h1 className={classes.headerTitle}>Coins</h1>
+          <div className={classes.headerSearch}>
+            <SearchCoins
+              onSelect={(suggestion) =>
+                (window.location.href = `/coins/${suggestion.slug}`)
+              }
+              unstyled={true}
+            />
           </div>
         </div>
 

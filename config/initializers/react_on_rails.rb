@@ -28,9 +28,7 @@ module RenderingExtension
 
     default_props = {
       'breakpoints': {
-        'ns': 480,
         'm': 992,
-        'l': 1184
       }
     }
 
@@ -39,15 +37,6 @@ module RenderingExtension
         'fallback': {
           'width': 360,
           'height': 640,
-        },
-      })
-    end
-
-    if browser.device.tablet?
-      return default_props.merge({
-        'fallback': {
-          'width': 1024,
-          'height': 768,
         },
       })
     end
