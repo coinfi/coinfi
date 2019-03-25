@@ -2,19 +2,25 @@ require 'application_integration_test'
 require 'test_helper'
 
 class AuthenticationTest < ApplicationIntegrationTest
-  teardown do
-    Warden.test_reset!
-  end
+  include Devise::Test::IntegrationHelpers
 
   test "verified user can sign in" do
     user = create(:user)
-    login_as(user, :scope => :user)
-    assert_nothing_raised { get '/' }
+    sign_in(user)
+
+    get '/'
+
+    assert_response :success
+    assert_equal 200, status
   end
 
   test "unverified user cannot sign in" do
     user = create(:user, :unverified)
-    login_as(user, :scope => :user)
-    assert_throws :warden { get '/' }
+    sign_in(user)
+
+    get '/'
+
+    assert_response :redirect
+    assert_equal 302, status
   end
 end
