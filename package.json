@@ -53,6 +53,7 @@
     "imports-loader": "^0.8.0",
     "jest-enzyme": "^6.1.2",
     "jquery": "^3.3.1",
+    "jquery-serializejson": "^2.9.0",
     "jquery-ujs": "^1.2.2",
     "jss": "^9.8.7",
     "lodash": "^4.17.10",

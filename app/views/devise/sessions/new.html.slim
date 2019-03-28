@@ -1,17 +1,20 @@
 .phr-ns.pv4-ns.flex.items-center
   .container-narrower
-    .pa4.pa5-ns.max-w28e.center.ba.b--light-gray.shadow-s1.bg-white
+    .pa3.pa3-ns.max-w28e.center.ba.b--light-gray.shadow-s1.bg-white
       h2.mt0.tc Login
       = form_for(resource, as: resource_name, url: session_path(resource_name)) do |f|
-        .field
-          = f.label :email
-          = f.email_field :email, autofocus: true, class: 'form-control'
-        .field
-          = f.label :password
-          = f.password_field :password, autocomplete: "off", class: 'form-control'
+        = devise_error_messages!
+        a.btn.btn-sm.btn-fb-blue.w-100.btn-logo href=user_facebook_omniauth_authorize_path
+          i.fab.fa-facebook-f
+          span Login with Facebook
+        a.btn.btn-sm.btn-google-red.w-100.btn-logo.mt2 href=user_google_oauth2_omniauth_authorize_path
+          i.fab.fa-google
+          span Login with Google
+        .divider-text OR
+        = f.email_field :email, autofocus: true, class: 'form-control', placeholder: 'Email', class: 'mb2'
+        = f.password_field :password, autocomplete: "off", class: 'form-control', placeholder: 'Password', class: 'mb2'
         - if devise_mapping.rememberable?
-          .field
             = f.hidden_field :remember_me, :value => '1'
         .actions
-          = f.submit "Login", class: 'btn btn-blue w-100'
+          = f.submit "Login", class: 'btn btn-blue btn-sm w-100'
       = render "devise/shared/links"

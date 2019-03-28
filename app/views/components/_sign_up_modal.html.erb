@@ -1,0 +1,41 @@
+<div class="micromodal micromodal-slide" id="modal-sign-up" aria-hidden="true">
+  <div class="modal__overlay" tabindex="-1" data-micromodal-close>
+    <div class="modal__container" role="dialog" aria-modal="true" aria-labelledby="modal-sign-up-title">
+      <header class="modal__header">
+      <img src="<%= image_path('logo.svg') %>" class="nav-logo__img">
+        <h2 class="modal__title" id="modal-sign-up-title">
+          Financial Intelligence for Cryptocurrencies
+        </h2>
+      </header>
+      <main class="modal__content" id="modal-sign-up-content">
+        <div id="form-errors" class="devise-error show ba b--light-silver mv3 pa2" style="display:none;">
+          <i class="fas fa-exclamation-triangle"></i>
+          <div class="alert-container">
+          </div>
+        </div>
+        <a class="btn btn-sm btn-fb-blue w-100 btn-logo" href="<%= user_facebook_omniauth_authorize_path %>">
+          <i class="fab fa-facebook-f"></i>
+          <span>Sign up with Facebook</span>
+        </a>
+        <a class="btn btn-sm btn-google-red w-100 btn-logo" href="<%= user_google_oauth2_omniauth_authorize_path %>">
+          <i class="fab fa-google"></i>
+          <span>Sign up with Google</span>
+        </a>
+        <div class="divider-text">OR</div>
+        <%= form_for(resource, as: resource_name, url: registration_path(resource_name), remote: true, html: {'data-type': :json, id: "sign_up_form"}) do |f| %>
+          <%= f.email_field :email, autofocus: true, placeholder: "Email", class: "email-input w-100 focus-first", id: 'sign_up_user_email' %>
+        <% end %>
+        <button class="btn btn-sm btn-blue w-100 btn-enter" onclick="registerByEmail(event)">Sign up</button>
+      </main>
+      <main class="modal__content" id="modal-signed-up-content" style="display: none;">
+        <i class="fas fa-check-circle"></i>
+        <h4>Success!</h4>
+        <div>We've sent a verification email. Please check it and verify your account. You'll also be asked to set your password.</div>
+      </main>
+      <footer class="modal__footer">
+        <div class="important mb2">Already have an account? <a href="#sign-up" onclick="switchFromSignUpToLogin(event)">Login</a></div>
+        By continuing, you agree to CoinFi's <%= link_to "Privacy Policy", page_privacy_path %>. Don't worry, we won't give your information to anyone else.
+      </footer>
+    </div>
+  </div>
+</div>

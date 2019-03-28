@@ -23,19 +23,53 @@ button {
   &.btn-xs {
     font-size: 0.6rem;
     padding: 0.5rem 0.7rem;
+    &.btn-logo {
+      i {
+        float: left;
+        margin: -0.5rem -0.7rem;
+        padding: 0.5rem 0;
+        width: 1.75rem;
+      }
+    }
   }
   &.btn-sm {
     font-size: 0.75rem;
     padding: 0.75rem 1.5rem;
+    &.btn-logo {
+      i {
+        float: left;
+        margin: -0.75rem -1.5rem;
+        padding: 0.75rem 0;
+        width: 2.5rem;
+      }
+    }
   }
   &.btn-lg {
     font-size: 0.9rem;
     padding: 1.5rem 2.5rem;
+    &.btn-logo {
+      i {
+        float: left;
+        margin: -1.5rem -2.5rem;
+        padding: 1.5rem 0;
+        width: 4rem;
+      }
+    }
   }
   &.btn-blue {
     background-color: $aqua;
     color: $white;
-    &:hover {
+    &:hover,
+    &:focus {
+      box-shadow: 0 2px 10px rgba(14, 151, 255, 0.4);
+      -webkit-box-shadow: 0 2px 10px rgba(14, 151, 255, 0.4);
+    }
+  }
+  &.btn-fb-blue {
+    background-color: #4c6ba4;
+    color: $white;
+    &:hover,
+    &:focus {
       box-shadow: 0 2px 10px rgba(14, 151, 255, 0.4);
       -webkit-box-shadow: 0 2px 10px rgba(14, 151, 255, 0.4);
     }
@@ -43,7 +77,17 @@ button {
   &.btn-red {
     background-color: $sunset;
     color: $white;
-    &:hover {
+    &:hover,
+    &:focus {
+      box-shadow: 0 2px 10px rgba(255, 73, 84, 0.4);
+      -webkit-box-shadow: 0 2px 10px rgba(255, 73, 84, 0.4);
+    }
+  }
+  &.btn-google-red {
+    background-color: #e94235;
+    color: $white;
+    &:hover,
+    &:focus {
       box-shadow: 0 2px 10px rgba(255, 73, 84, 0.4);
       -webkit-box-shadow: 0 2px 10px rgba(255, 73, 84, 0.4);
     }
@@ -51,7 +95,8 @@ button {
   &.btn-green {
     background: $emerald;
     color: $white;
-    &:hover {
+    &:hover,
+    &:focus {
       box-shadow: 0 2px 10px rgba(70, 218, 96, 0.4);
       -webkit-box-shadow: 0 2px 10px rgba(70, 218, 96, 0.4);
     }
@@ -64,6 +109,20 @@ button {
     background: $white;
     box-shadow: inset 0 0 1px $gray;
   }
+  &.btn-logo {
+    i {
+      float: left;
+      margin: ($sp3 * -1.2) ($sp4 * -1);
+      padding: ($sp3 * 1.2) 0;
+      width: $sp3 * 3.5;
+      border-right: 1px solid $black-10;
+    }
+  }
+}
+a.btn {
+  text-transform: unset;
+  text-align: center;
+  align-items: center;
 }
 form.button_to {
   display: inline-block;

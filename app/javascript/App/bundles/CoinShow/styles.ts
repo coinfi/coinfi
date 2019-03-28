@@ -1,5 +1,6 @@
 import { createStyles } from '@material-ui/core/styles'
 import { borderColor, black87, aqua } from '~/bundles/common/styles/colors'
+import { btnSm } from '~/bundles/common/styles/buttons'
 
 const styles = (theme) =>
   createStyles({
@@ -21,19 +22,36 @@ const styles = (theme) =>
       height: '100%',
       borderLeft: `1px solid ${borderColor}`,
       borderRight: `1px solid ${borderColor}`,
+      fontSize: '14px',
+      '& .coinlist-tab': {
+        height: '45px',
+      },
+      '& .coinlist-root': {
+        scrollbarWidth: 'none', // firefox no scrollbars
+        '&::-webkit-scrollbar': {
+          // webkit no scrollbars
+          display: 'none',
+        },
+      },
       '& .fa-star': {
-        fontSize: '10px',
+        fontSize: '100%',
       },
-      '& .f5': {
+      '& .coinlist-coin-symbol': {
         fontSize: '14px',
       },
-      '& .right-align': {
+      '& .coinlist-coin-details': {
         fontSize: '14px',
-        '& .smaller2': {
+        '& .coinlist-coin-change': {
           fontSize: '12px !important',
           fontWeight: 500,
           marginTop: '8px',
         },
+      },
+      '& .coinlist-cta': {
+        fontSize: '14px',
+      },
+      '& .coinlist-cta-btn': {
+        ...btnSm(theme),
       },
     },
     mainPanel: {
@@ -60,7 +78,7 @@ const styles = (theme) =>
     searchBarCard: {
       backgroundColor: '#f7f8fa', // athens
       border: `1px solid ${borderColor}`,
-      height: '60px', // taken from CoinListHeader.js (+! for bottom border)
+      height: '47px', // to match with .coinlist-tab
       display: 'flex',
       alignItems: 'center',
       overflow: 'unset',

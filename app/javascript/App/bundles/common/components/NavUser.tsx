@@ -10,12 +10,8 @@ import AccountCircle from '@material-ui/icons/AccountCircle'
 import KeyboardArrowDown from '@material-ui/icons/KeyboardArrowDown'
 import KeyboardArrowUp from '@material-ui/icons/KeyboardArrowUp'
 import { MenuProps } from '@material-ui/core/Menu'
-import {
-  LOGIN_URL,
-  LOGOUT_URL,
-  PROFILE_EDIT_URL,
-  REGISTRATION_URL,
-} from '~/constants'
+import { LOGOUT_URL, PROFILE_EDIT_URL } from '~/constants'
+import { openLoginModal, openSignUpModal } from '~/bundles/common/utils/modals'
 import {
   withThemeType,
   ThemeContextType,
@@ -150,10 +146,10 @@ const NavUser: React.StatelessComponent<Props> = (props) => {
         ]
       : []),
     <Divider className={classes.menuDivider} key={2} />,
-    <a href={REGISTRATION_URL} key={3}>
+    <a onClick={openSignUpModal} key={3}>
       <MenuItem className={classes.menuItem}>Sign Up</MenuItem>
     </a>,
-    <a href={LOGIN_URL} key={4}>
+    <a onClick={openLoginModal} key={4}>
       <MenuItem className={classes.menuItem}>Login</MenuItem>
     </a>,
   ]

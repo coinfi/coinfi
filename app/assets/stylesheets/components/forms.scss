@@ -98,14 +98,14 @@ textarea {
   input:not([type='checkbox']):not([type='submit']),
   select,
   textarea {
-    background-color: $white-08 !important;
-    border-color: $white-12 !important;
-    color: $white !important;
+    background-color: $white-08;
+    border-color: $white-12;
+    color: $white;
   }
   ::-webkit-input-placeholder,
   ::-moz-placeholder,
   :-ms-input-placeholder,
   :-moz-placeholder {
-    color: $white-70 !important;
+    color: $white-70;
   }
 }

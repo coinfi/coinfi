@@ -17,6 +17,8 @@ interface Props {
 const CoinListWrapper = (props: Props) => (
   <CoinListContext.Consumer>
     {(payload: CoinListContextType) => {
+      const isWatchlist = props.isWatchlist || payload.isWatchlist
+
       return payload.isInitializing() ? (
         <>
           <CoinListHeader />
@@ -30,7 +32,7 @@ const CoinListWrapper = (props: Props) => (
           <CoinList
             list={payload.coinlist}
             loggedIn={props.loggedIn}
-            isWatchlist={props.isWatchlist}
+            isWatchlist={isWatchlist}
             selectedCoinSlug={payload.selectedCoinSlug}
             generateLink={props.generateLink}
             onSelectCoin={(coin: Coin) => {

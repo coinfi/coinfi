@@ -3,7 +3,6 @@ import { withRouter, RouteComponentProps } from 'react-router'
 import debounce from 'debounce'
 import slugify from '~/bundles/common/utils/slugify'
 import LayoutDesktop from '~/bundles/common/components/LayoutDesktop'
-import LayoutTablet from '~/bundles/common/components/LayoutTablet'
 import LayoutMobile from '~/bundles/common/components/LayoutMobile'
 import CoinListWrapper from '../common/components/CoinListWrapper'
 import CoinListDrawer from '../common/components/CoinListDrawer'
@@ -67,7 +66,6 @@ interface State {
   unseenNewsIds: number[]
   selectedCoin: string
   isMobile: boolean
-  isTablet: boolean
   isDesktop: boolean
 }
 
@@ -89,7 +87,6 @@ class NewsfeedPage extends React.Component<Props, State> {
       unseenNewsIds: [],
       selectedCoin: props.coinSlug || null,
       isMobile: props.isServerMobile,
-      isTablet: props.isServerTablet,
       isDesktop: props.isServerDesktop,
     }
   }
@@ -230,12 +227,10 @@ class NewsfeedPage extends React.Component<Props, State> {
     // check if server-rendered layout differs from client-rendered layout
     if (
       this.props.isServerMobile !== this.props.isMobile ||
-      this.props.isServerTablet !== this.props.isTablet ||
       this.props.isServerDesktop !== this.props.isDesktop
     ) {
       this.setState({
         isMobile: this.props.isMobile,
-        isTablet: this.props.isTablet,
         isDesktop: this.props.isDesktop,
       })
     }
@@ -363,12 +358,10 @@ class NewsfeedPage extends React.Component<Props, State> {
     // Check if layout is updated
     if (
       prevProps.isMobile !== this.props.isMobile ||
-      prevProps.isTablet !== this.props.isTablet ||
       prevProps.isDesktop !== this.props.isDesktop
     ) {
       this.setState({
         isMobile: this.props.isMobile,
-        isTablet: this.props.isTablet,
         isDesktop: this.props.isDesktop,
       })
     }
@@ -503,78 +496,6 @@ class NewsfeedPage extends React.Component<Props, State> {
                   }
                 />
               </>
-            }
-          />
-        </EventListener>
-      )
-    } else if (this.state.isTablet) {
-      const coinClickHandler: CoinClickHandler = (coinData) => {
-        this.props.history.push(`/news/${coinData.slug}`)
-      }
-      return (
-        <EventListener
-          target="window"
-          onResize={this.handleResize}
-          onBlur={this.handleOnBlur}
-          onFocus={this.handleOnFocus}
-        >
-          <LayoutTablet
-            leftSection={
-              <>
-                <NewsListHeader
-                  feedSources={this.props.feedSources}
-                  topCoinSlugs={this.props.topCoinSlugs}
-                  showFilters={this.state.showFilters}
-                  toggleFilters={this.toggleFilters}
-                  toggleNewsfeedTips={this.toggleTips}
-                  applyFilters={this.applyFilters}
-                  filters={this.state.filters}
-                  categories={this.props.categories}
-                  showCoinListDrawer={() =>
-                    this.setState({ ActiveMobileWindow: 'CoinsList' })
-                  }
-                  onCoinChange={this.onCoinChange}
-                  selectedCoin={this.state.selectedCoin}
-                />
-                <NewsList
-                  isShown={!this.state.showFilters}
-                  isWindowFocused={this.state.isWindowFocused}
-                  sortedNewsItems={this.props.newslist}
-                  initialRenderTips={this.state.initialRenderTips}
-                  isLoading={this.props.isNewsfeedLoading}
-                  fetchMoreNewsFeed={() =>
-                    this.props.fetchMoreNewsItems(this.state.filters)
-                  }
-                  closeTips={this.closeTips}
-                  selectedNewsItemId={this.props.newsItemId}
-                  onNewsItemClick={(newsItem: NewsItem) => {
-                    this.props.history.push(
-                      `/news/${newsItem.id}/${slugify(newsItem.title)}`,
-                    )
-                  }}
-                  onCoinClick={coinClickHandler}
-                  hasMore={this.props.hasMore}
-                />
-              </>
-            }
-            rightSection={
-              <BodySection
-                coinSlug={this.props.coinSlug}
-                newsItemId={this.props.newsItemId}
-                initialNewsItem={this.props.initialNewsItem}
-                initialCoinWithDetails={this.props.initialCoinWithDetails}
-                contentType={this.getContentType()}
-                loggedIn={this.props.loggedIn}
-                onCoinClick={coinClickHandler}
-              />
-            }
-            drawerSection={
-              <CoinListDrawer
-                isShown={this.state.ActiveMobileWindow === 'CoinsList'}
-                onClose={() => this.setState({ ActiveMobileWindow: 'None' })}
-                loggedIn={this.props.loggedIn}
-                onClick={() => this.setState({ ActiveMobileWindow: 'None' })}
-              />
             }
           />
         </EventListener>

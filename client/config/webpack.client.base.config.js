@@ -24,6 +24,7 @@ module.exports = {
       'es5-shim/es5-shim',
       'es5-shim/es5-sham',
       'jquery',
+      'jquery-serializejson',
     ],
 
     // This will contain the app entry points defined by webpack.hot.config and webpack.rails.config

@@ -1,0 +1,13 @@
+<% if resource.errors.any? %>
+  <div class="devise-error show ba b--light-silver mv3 pa2">
+    <i class="fas fa-exclamation-triangle"></i>
+    <div class="alert-container">
+      <strong>
+        <%= pluralize(resource.errors.count, "error") %> must be fixed
+      </strong>
+      <% resource.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+    </div>
+  </div>
+<% end %>
