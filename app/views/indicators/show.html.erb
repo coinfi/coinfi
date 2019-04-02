@@ -105,6 +105,24 @@
     <div><%= @coin.max_supply > 0 ? format_price(@coin.max_supply) : "N/A" %></div>
   </div>
 </div>
+<% unless @news_items.blank? %>
+<div class="news">
+  <h2 class="news__title">Market News Research</h2>
+  <% @news_items.each do |news_item| %>
+  <div class="news-item">
+    <h4 class="news_item__title">
+      <%= news_item.title %>
+    </h4>
+    <div class="news_item__summary">
+      <%= news_item.short_summary %>
+    </div>
+    <div class="news_item__link">
+      <%= link_to "Read More", news_item_url(id: news_item.id, slug: news_item.slug) %>
+    </div>
+  </div>
+  <% end %>
+</div>
+<% end %>
 <script type="text/javascript">
   var options = {
     angle: [180, 360],

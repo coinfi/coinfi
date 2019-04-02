@@ -7,6 +7,7 @@ class IndicatorsController < ApplicationController
   def show
     set_indicator_results
     set_summary_results
+    set_news_items
 
     render layout: false
   end
@@ -57,6 +58,17 @@ class IndicatorsController < ApplicationController
   end
 
   private
+
+  def set_news_items
+    distribute_reads(max_lag: MAX_ACCEPTABLE_REPLICATION_LAG, lag_failover: true) do
+      @news_items = NewsItem.published
+        .joins(:coins)
+        .where("coins.id = ?", @coin.id)
+        .order_by_published
+        .limit(5)
+        .to_a
+    end
+  end
 
   def set_indicator_results
     @daily_price_data = @coin.daily_prices_data
