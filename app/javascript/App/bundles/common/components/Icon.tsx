@@ -50,6 +50,7 @@ const IconWrapper = ({
   children,
   style,
   className,
+  ...rest
 }: IconWrapperProps) => {
   const klass = className || ''
   if (onClick) {
@@ -59,13 +60,14 @@ const IconWrapper = ({
         className={`btn-icon icon ${klass}`}
         onClick={onClick}
         style={style}
+        {...rest}
       >
         {children}
       </button>
     )
   } else {
     return (
-      <div className={`icon ${klass}`} style={style}>
+      <div className={`icon ${klass}`} style={style} {...rest}>
         {children}
       </div>
     )

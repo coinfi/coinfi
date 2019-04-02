@@ -4,11 +4,20 @@ import AsyncSelect from 'react-select/lib/Async'
 import { CoinSlug } from '~/bundles/common/types'
 import localApi from '../utils/localAPI'
 import { ActionTypes, ActionMeta } from 'react-select/lib/types'
+import {
+  midnight,
+  darkPineGreen,
+  lightNavy,
+  white,
+  darkBorderColor,
+  white70,
+} from '~/bundles/common/styles/colors'
 
 interface Props {
   selectedCoin: CoinSlug
   onChange: (selectedOption: CoinOption, action?: ActionTypes) => void
   placeholder?: string
+  isDarkMode?: boolean
 }
 
 export interface CoinOption {
@@ -19,20 +28,6 @@ export interface CoinOption {
 
 interface State {
   selectedOption: CoinOption
-}
-
-const customStyles = {
-  option: (base, state) => ({
-    ...base,
-  }),
-  control: (base, state) => ({
-    ...base,
-    height: '30px',
-    minHeight: '30px',
-  }),
-  singleValue: (base, state) => ({
-    ...base,
-  }),
 }
 
 const labelStyles = {
@@ -146,6 +141,51 @@ class CoinSelector extends React.Component<Props, State> {
   }
 
   public render() {
+    const isDarkMode = this.props.isDarkMode || false
+    const customStyles = {
+      placeholder: (base, state) => ({
+        ...base,
+        ...(isDarkMode && {
+          color: white70,
+        }),
+      }),
+      input: (base, state) => ({
+        ...base,
+        ...(isDarkMode && {
+          color: white,
+        }),
+      }),
+      option: (base, state) => ({
+        ...base,
+        ...(isDarkMode && {
+          backgroundColor: state.isFocused ? lightNavy : darkPineGreen,
+        }),
+      }),
+      control: (base, state) => ({
+        ...base,
+        height: '30px',
+        minHeight: '30px',
+        ...(isDarkMode && {
+          color: white,
+          backgroundColor: midnight,
+          borderColor: darkBorderColor,
+        }),
+      }),
+      menu: (base, state) => ({
+        ...base,
+        ...(isDarkMode && {
+          color: white,
+          backgroundColor: darkPineGreen,
+        }),
+      }),
+      singleValue: (base, state) => ({
+        ...base,
+        ...(isDarkMode && {
+          color: white,
+        }),
+      }),
+    }
+
     return (
       <AsyncSelect
         isMulti={false}

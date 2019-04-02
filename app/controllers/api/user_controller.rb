@@ -11,6 +11,7 @@ class Api::UserController < ApiController
   def update
     respond_warning("User not logged in") and return unless current_user
     set_default_currency(params[:currency]) if params[:currency]
+    set_theme(params[:theme]) if params[:theme]
     watch_coin(params[:watchCoin]) if params[:watchCoin]
     unwatch_coin(params[:unwatchCoin]) if params[:unwatchCoin]
     respond_success(serialized(current_user))
@@ -33,10 +34,14 @@ class Api::UserController < ApiController
     current_user.update(default_currency: currency)
   end
 
+  def set_theme(theme)
+    current_user.set_theme(theme)
+  end
+
   def serialized(user)
     user.as_json(
       only: %i[email, default_currency],
-      methods: %i[coin_ids]
+      methods: %i[coin_ids theme]
     )
   end
 

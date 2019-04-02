@@ -1,4 +1,6 @@
 module CoinsHelper
+  include ActionView::Helpers::NumberHelper
+
   MAX_ACCEPTABLE_REPLICATION_LAG = ApplicationHelper::MAX_ACCEPTABLE_REPLICATION_LAG
 
   def display_percentage_change(percentage_change)
@@ -40,14 +42,31 @@ module CoinsHelper
     }
   end
 
+  # Based on formatPrice in numberFormatters
+  def format_price(price)
+    begin
+      if price >= 1000000
+        number_with_delimiter(number_with_precision(price, precision: 0, raise: true))
+      elsif price >= 1
+        number_with_delimiter(number_with_precision(price, precision: 2, raise: true))
+      elsif price >= 0.0001
+        number_with_precision(price, precision: 5, strip_insignificant_zeros: true, raise: true)
+      else
+        number_with_precision(price, precision: 8, strip_insignificant_zeros: true, raise: true)
+      end
+    rescue ArgumentError, InvalidNumberError
+      0
+    end
+  end
+
   def paged_index(page, page_size, index)
     ((page - 1) * page_size) + index + 1
   end
 
   def coins_serializer(coins)
     coins.as_json(
-      only: %i[id name symbol slug coin_key ranking image_url],
-      methods: %i[sparkline price market_cap change1h change24h change7d volume24h]
+      only: %i[id name symbol slug coin_key ranking],
+      methods: %i[sparkline price market_cap change1h change24h change7d volume24h image_url]
     )
   end
 
@@ -69,9 +88,9 @@ module CoinsHelper
   def historical_total_market_data(days: 7, months: nil)
     distribute_reads(max_lag: MAX_ACCEPTABLE_REPLICATION_LAG, lag_failover: true) do
       if days.present?
-        MarketMetric.daily(days)
+        MarketMetric.daily(days).to_a
       elsif months.present?
-        MarketMetric.monthly(months)
+        MarketMetric.monthly(months).to_a
       end
     end
   end
@@ -119,5 +138,9 @@ module CoinsHelper
       .flat_map { |v| v[1] }
 
     coins.as_json
+  end
+
+  def is_ethereum?(coin)
+    coin.present? && coin.coin_key == 'ethereum.org'
   end
 end

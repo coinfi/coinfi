@@ -12,6 +12,7 @@ import { formatNewsUrl } from '~/bundles/common/utils/news'
 import CoinTags from './CoinTags'
 import slugify from '~/bundles/common/utils/slugify'
 import { NewsItem } from '../../NewsfeedPage/types'
+import Votes from '../../NewsfeedPage/Votes'
 import { CoinLinkData } from '../types'
 
 enum STATUSES {
@@ -82,6 +83,9 @@ const styles = (theme) =>
     listItemHeader: {
       fontSize: '1rem',
       marginBottom: '0.25em !important',
+      '& a': {
+        color: 'unset',
+      },
     },
     listItemFooterContainer: {
       marginBottom: '0.5em',
@@ -157,8 +161,12 @@ class NewsList extends React.Component<Props, State> {
     window.location.href = `/news/${coinData.slug}`
   }
 
+  public getNewsLink = (newsItem: NewsItem) => {
+    return `/news/${newsItem.id}/${slugify(newsItem.title)}`
+  }
+
   public handleNewsClick = (newsItem: NewsItem) => {
-    window.location.href = `/news/${newsItem.id}/${slugify(newsItem.title)}`
+    window.location.href = this.getNewsLink(newsItem)
   }
 
   public render() {
@@ -202,19 +210,23 @@ class NewsList extends React.Component<Props, State> {
                     <Grid
                       container={true}
                       item={true}
-                      key={newsItem.id}
                       direction="column"
                       justify="center"
                       alignItems="stretch"
                       className={listClassName}
-                      onClick={() => this.handleNewsClick(newsItem)}
+                      key={newsItem.id}
                     >
                       <Grid item={true}>
                         <Typography
                           variant="h6"
                           className={classes.listItemHeader}
                         >
-                          {newsItem.title}
+                          <a
+                            href={this.getNewsLink(newsItem)}
+                            onClick={() => this.handleNewsClick(newsItem)}
+                          >
+                            {newsItem.title}
+                          </a>
                         </Typography>
                       </Grid>
                       <Grid
@@ -242,6 +254,8 @@ class NewsList extends React.Component<Props, State> {
                             </a>
                             <BulletSpacer />
                             {moment(newsItem.feed_item_published_at).fromNow()}
+                            <BulletSpacer />
+                            <Votes initialVote={newsItem.vote_score} />
                           </Typography>
                         </Grid>
                         <Grid item={true}>

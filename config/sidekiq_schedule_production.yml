@@ -22,7 +22,13 @@ UpdateCurrencies:
 RefreshTokenMetricViews:
   cron: '0 0 4 * * * Etc/UTC'   # Scheduled after metrics data is inserted
 
-CheckCmcOhclv:
+RefreshTrendingNews:
+  cron: '20 */5 * * * * Etc/UTC'  # Stagger start time
+
+TweetTrendingNews:
+  cron: '30 0 * * * * Etc/UTC'  # Slightly after RefreshTrendingNews
+
+CheckCmcOhclv:                  # Replaces rake etldb
   cron: '0 50 * * * * Etc/UTC'
 
 # Paid API routes
@@ -37,3 +43,6 @@ UpdateCmcMarketPairs:
 
 UpdateCmcMetrics:
   cron: '50 */5 * * * * Etc/UTC'
+
+UpdateCmcExchanges:
+  cron: '0 0 3 * * * Etc/UTC'

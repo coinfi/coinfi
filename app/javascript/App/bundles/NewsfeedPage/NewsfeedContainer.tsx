@@ -2,7 +2,19 @@ import * as React from 'react'
 import * as _ from 'lodash'
 import localAPI from '../common/utils/localAPI'
 import NewsfeedContext, { NewsfeedContextType } from './NewsfeedContext'
-import { NewsItem, Filters } from './types'
+import {
+  NewsItem,
+  NewsItemDictionary,
+  Filters,
+  VoteData,
+  VoteDictionary,
+  UserVoteItem,
+} from './types'
+import * as P from 'bluebird'
+
+P.config({
+  cancellation: true,
+})
 
 const STATUSES = {
   INITIALIZING: 'INITIALIZING',
@@ -13,13 +25,16 @@ const STATUSES = {
 }
 
 interface Props {
-  initialNewsItems?: any
+  initialNewsItems?: NewsItem[]
+  initialVotes?: UserVoteItem[]
 }
 
 interface State {
   sortedNewsItems: NewsItem[]
   status: string
   hasMore: boolean
+  newsItemDetails: NewsItemDictionary
+  voteSummaries: VoteDictionary
 }
 
 class NewsfeedContainer extends React.Component<Props, State> {
@@ -30,6 +45,20 @@ class NewsfeedContainer extends React.Component<Props, State> {
       ? props.initialNewsItems.sort(this.sortNewsFunc)
       : undefined
 
+    let initialVoteSummaries = {}
+    if (initialSortedNewsItems) {
+      initialVoteSummaries = initialSortedNewsItems.reduce(
+        this.getVotesFromNewsItems,
+        initialVoteSummaries,
+      )
+    }
+    if (props.initialVotes) {
+      initialVoteSummaries = props.initialVotes.reduce(
+        this.getVotesFromUserVotes,
+        initialVoteSummaries,
+      )
+    }
+
     // Set initial status
     const statusIsReady = !_.isUndefined(props.initialNewsItems)
     const initialStatus = statusIsReady ? STATUSES.READY : undefined
@@ -37,6 +66,8 @@ class NewsfeedContainer extends React.Component<Props, State> {
     this.state = {
       status: initialStatus || STATUSES.INITIALIZING,
       sortedNewsItems: initialSortedNewsItems || [],
+      newsItemDetails: {},
+      voteSummaries: initialVoteSummaries,
       hasMore: true,
     }
   }
@@ -65,7 +96,7 @@ class NewsfeedContainer extends React.Component<Props, State> {
 
     const firstNewsItem = this.state.sortedNewsItems[0]
 
-    return new Promise((resolve, reject) => {
+    return new P((resolve, reject) => {
       this.setState(
         {
           status: STATUSES.NEW_NEWS_ITEMS_LOADING,
@@ -94,12 +125,17 @@ class NewsfeedContainer extends React.Component<Props, State> {
                     !existingNewsIds.includes(newsItem.id),
                 )
                 .sort(this.sortNewsFunc)
+              const voteSummaries = newNews.reduce(
+                this.getVotesFromNewsItems,
+                this.state.voteSummaries,
+              )
               this.setState(
                 {
                   sortedNewsItems: this.uniqNews([
                     ...newNews,
                     ...this.state.sortedNewsItems,
                   ]),
+                  voteSummaries,
                   status: STATUSES.READY,
                 },
                 () => resolve(newNews),
@@ -111,7 +147,7 @@ class NewsfeedContainer extends React.Component<Props, State> {
   }
 
   public fetchNewsItems = (filters: Filters): Promise<NewsItem[]> => {
-    return new Promise((resolve, reject) => {
+    return new P((resolve, reject) => {
       this.setState(
         {
           status: STATUSES.LOADING,
@@ -122,9 +158,14 @@ class NewsfeedContainer extends React.Component<Props, State> {
             const sortedNewsItems = this.uniqNews(
               response.payload.sort(this.sortNewsFunc),
             )
+            const voteSummaries = sortedNewsItems.reduce(
+              this.getVotesFromNewsItems,
+              {},
+            )
             this.setState(
               {
                 sortedNewsItems,
+                voteSummaries,
                 status: STATUSES.READY,
                 hasMore: sortedNewsItems.length > 0,
               },
@@ -145,7 +186,7 @@ class NewsfeedContainer extends React.Component<Props, State> {
       this.state.sortedNewsItems.length - 1
     ]
 
-    return new Promise((resolve, reject) => {
+    return new P((resolve, reject) => {
       this.setState(
         {
           status: STATUSES.LOADING_MORE_ITEMS,
@@ -166,12 +207,17 @@ class NewsfeedContainer extends React.Component<Props, State> {
                 return
               }
               const moreNewsItems = response.payload.sort(this.sortNewsFunc)
+              const voteSummaries = moreNewsItems.reduce(
+                this.getVotesFromNewsItems,
+                this.state.voteSummaries,
+              )
               this.setState(
                 {
                   sortedNewsItems: this.uniqNews([
                     ...this.state.sortedNewsItems,
                     ...moreNewsItems,
                   ]),
+                  voteSummaries,
                   status: STATUSES.READY,
                   hasMore: moreNewsItems.length > 0,
                 },
@@ -182,16 +228,136 @@ class NewsfeedContainer extends React.Component<Props, State> {
     })
   }
 
+  public fetchNewsItem = (newsItemId: number): Promise<NewsItem> => {
+    return new P((resolve, reject) => {
+      const { sortedNewsItems, newsItemDetails } = this.state
+      // sorted news can be used because both index/show news serializers are the same right now
+      const existingNewsItem =
+        _.find(sortedNewsItems, (item) => item.id === newsItemId) ||
+        _.get(newsItemDetails, newsItemId)
+
+      if (!_.isUndefined(existingNewsItem)) {
+        return resolve(existingNewsItem)
+      }
+
+      localAPI.get(`/news/${newsItemId}`).then((response) => {
+        const newsItem = response.payload
+        const voteSummaries = this.getVotesFromNewsItems(
+          this.state.voteSummaries,
+          newsItem,
+        )
+        this.setState(
+          {
+            status: STATUSES.READY,
+            newsItemDetails: {
+              ...this.state.newsItemDetails,
+              [newsItem.id]: newsItem,
+            },
+            voteSummaries,
+          },
+          () => resolve(newsItem),
+        )
+      })
+    })
+  }
+
+  public getVotesFromNewsItems = (
+    votesDict: VoteDictionary,
+    newsItem: NewsItem,
+  ): VoteDictionary => {
+    const { vote_score, user_vote, id } = newsItem
+    const newVoteData = {
+      vote_score,
+      ...(!_.isUndefined(user_vote) && { user_vote }),
+    }
+    return {
+      ...votesDict,
+      [id]: {
+        ...votesDict[id],
+        ...newVoteData,
+      },
+    }
+  }
+
+  public getVotesFromUserVotes = (
+    votesDict: VoteDictionary,
+    userVoteItem: UserVoteItem,
+  ): VoteDictionary => {
+    const { user_vote, news_item_id } = userVoteItem
+    const newVoteData = {
+      user_vote,
+    }
+    return {
+      ...votesDict,
+      [news_item_id]: {
+        ...votesDict[news_item_id],
+        ...newVoteData,
+      },
+    }
+  }
+
+  public fetchVotesforNewsItem = (newsItemId: number): Promise<VoteData> => {
+    return new P((resolve, reject) => {
+      const { voteSummaries } = this.state
+      const existingVotes = _.get(voteSummaries, newsItemId)
+      if (!_.isUndefined(existingVotes)) {
+        return resolve(existingVotes)
+      }
+
+      localAPI.get(`/news/${newsItemId}/vote`).then((response) => {
+        const votes = response.payload
+
+        this.setState(
+          {
+            voteSummaries: {
+              ...voteSummaries,
+              [newsItemId]: votes,
+            },
+          },
+          () => resolve(votes),
+        )
+      })
+    })
+  }
+
+  public voteOnNewsItem = (
+    newsItemId: number,
+    direction: boolean,
+  ): Promise<VoteData> => {
+    return new P((resolve, reject) => {
+      localAPI
+        .post(`/news/${newsItemId}/vote`, { direction })
+        .then((response) => {
+          const votes = response.payload
+          const { voteSummaries } = this.state
+          this.setState(
+            {
+              voteSummaries: {
+                ...voteSummaries,
+                [newsItemId]: votes,
+              },
+            },
+            () => resolve(votes),
+          )
+        })
+    })
+  }
+
   public render = () => {
     const payload: NewsfeedContextType = {
       cleanNewsItems: this.cleanNewsItems,
       fetchMoreNewsItems: this.fetchMoreNewsItems,
       fetchNewNewsItems: this.fetchNewNewsItems,
       fetchNewsItems: this.fetchNewsItems,
+      fetchNewsItem: this.fetchNewsItem,
+      voteOnNewsItem: this.voteOnNewsItem,
+      fetchVotesforNewsItem: this.fetchVotesforNewsItem,
       isLoading: this.state.status === STATUSES.LOADING,
       isLoadingMoreItems: this.state.status === STATUSES.LOADING_MORE_ITEMS,
       isReady: this.state.status === STATUSES.READY,
       newslist: this.state.sortedNewsItems,
+      newsItemDetails: this.state.newsItemDetails,
+      voteSummaries: this.state.voteSummaries,
       status: this.state.status,
       hasMore: this.state.hasMore,
     }

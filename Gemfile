@@ -16,7 +16,7 @@ gem 'puma', '~> 3.7'
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5.0'
 # Use Uglifier as compressor for JavaScript assets
-gem 'uglifier', '>= 1.3.0'
+gem 'uglifier', '~> 4.0'
 # See https://github.com/rails/execjs#readme for more supported runtimes
 # gem 'therubyracer', platforms: :ruby
 
@@ -46,7 +46,7 @@ gem 'aws-sdk', '~> 2'
 gem 'blazer'
 gem 'convertkit-ruby', require: 'convertkit', git: 'https://github.com/hanchang/convertkit-ruby.git'
 gem 'cryptocompare'
-gem 'devise'
+gem 'devise', '>= 4.6.0'
 gem 'distribute_reads'
 gem 'email_address'
 gem 'feedjira'
@@ -62,7 +62,10 @@ gem 'meta-tags'
 gem 'nokogiri', '~> 1.8.1'
 gem 'omniauth'
 gem 'omniauth-twitter'
+gem 'omniauth-facebook'
+gem 'omniauth-google-oauth2'
 gem 'pony'
+gem 'slack-ruby-client'
 gem 'rack-affiliates'
 gem 'rack-cors'
 gem 'rack-rewrite'
@@ -103,6 +106,9 @@ gem 'barnes'
 gem 'google-cloud-pubsub'
 # technical indicators
 gem "indicators", "~> 1.0", git: 'https://github.com/anthotsang/indicators.git', :tag => 'v1.0.4'
+gem "activerecord-import", "~> 0.27.0"
+gem "active_record_upsert", "~> 0.9.4"
+gem "acts_as_votable", "~> 0.12.0"
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
@@ -131,6 +137,7 @@ group :development do
   gem 'spring'
   gem 'spring-watcher-listen', '~> 2.0.0'
   gem 'bullet'
+  gem "letter_opener", "~> 1.7"
 end
 
 group :production do
@@ -141,7 +148,3 @@ end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 # gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
-
-gem "activerecord-import", "~> 0.27.0"
-
-

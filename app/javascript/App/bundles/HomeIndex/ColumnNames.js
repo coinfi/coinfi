@@ -9,7 +9,7 @@ import {
   formatPercentage,
 } from '../common/utils/numberFormatters'
 
-function ColumnNames(currency) {
+function ColumnNames({ currency, currencyRate, currencySymbol }) {
   return [
     {
       headerName: '',
@@ -30,7 +30,6 @@ function ColumnNames(currency) {
             <Icon
               name="star"
               solid={isWatched}
-              light={!isWatched}
               className={isWatched ? 'aqua' : 'light-silver'}
               onClick={() => handleWatchStarClick(row.id, isWatched)}
             />
@@ -86,7 +85,11 @@ function ColumnNames(currency) {
       type: 'numericColumn',
       cellRendererFramework: ({ value: text, data: row, rowIndex: index }) => {
         if (!_.isUndefined(text)) {
-          return <span>{`$${formatPrice(text)}`}</span>
+          return (
+            <span>{`${currencySymbol}${formatPrice(
+              text * currencyRate,
+            )}`}</span>
+          )
         }
 
         return <span />
@@ -97,8 +100,14 @@ function ColumnNames(currency) {
       field: 'market_cap',
       unSortIcon: true,
       type: 'numericColumn',
+      minWidth: 160,
       cellRendererFramework: ({ value: text, data: row, rowIndex: index }) =>
-        !_.isUndefined(text) ? <span>${formatPrice(text)}</span> : null,
+        !_.isUndefined(text) ? (
+          <span>
+            {currencySymbol}
+            {formatPrice(text * currencyRate)}
+          </span>
+        ) : null,
     },
     {
       headerName: '% Move 1H',
@@ -134,7 +143,9 @@ function ColumnNames(currency) {
       type: 'numericColumn',
       minWidth: 150,
       cellRendererFramework: ({ value: text, data: row, rowIndex: index }) =>
-        !_.isUndefined(text) ? <span>{`$${formatVolume(text)}`}</span> : null,
+        !_.isUndefined(text) ? (
+          <span>{`${currencySymbol}${formatVolume(text * currencyRate)}`}</span>
+        ) : null,
     },
     {
       headerName: '7D Chart',

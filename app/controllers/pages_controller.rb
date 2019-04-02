@@ -7,6 +7,8 @@ class PagesController < ApplicationController
     if !has_feature?
       render_404
     else
+      apply_meta_tags_to_page
+
       render "pages/#{@page}"
     end
   end
@@ -30,12 +32,23 @@ class PagesController < ApplicationController
     end
   end
 
+  def is_no_seo_page?
+    @page == 'privacy-policy' || @page == 'contact-us' ||
+      @page == 'ambassadors'
+  end
+
+  def apply_meta_tags_to_page
+    if is_no_seo_page?
+      set_no_seo
+    end
+  end
+
   def pages
     public_pages + member_pages
   end
 
   def public_pages
-    %w[home about press contact-us calendar ambassadors win-cofi]
+    %w[home about press contact-us calendar ambassadors win-cofi privacy-policy unstake]
   end
 
   def member_pages

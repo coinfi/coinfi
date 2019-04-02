@@ -3,7 +3,6 @@
     props: { \
       symbol: @coin.symbol,
       availableSupply: @coin.available_supply,
-      annotations: @coin.news_data,
       isTradingViewVisible: true,
       coinObj: @coin_obj,
       relatedCoins: @related_coins,
@@ -12,5 +11,8 @@
       watching: user_is_watching?(@coin),
       initialTopCoinsData: @top_coins_data,
       initialWatchedCoinsData: @watched_coins_data,
+      currencies: @exchange_rates,
+      chartSignals: @grouped_large_eth_signals,
+      summarySignals: @recent_large_signals,
     },
     prerender: true

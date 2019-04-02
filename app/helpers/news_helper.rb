@@ -1,24 +1,8 @@
 module NewsHelper
-  DEFAULT_NEWS_LIMIT = 25
-
-  def default_news_query
-    NewsItems::WithFilters.call(NewsItem.published)
-      .includes(:coins, :news_categories)
-      .order_by_published
-      .limit(DEFAULT_NEWS_LIMIT)
-  end
-
-  def backup_default_news_query
-    NewsItem.published
-      .includes(:coins, :news_categories)
-      .order_by_published
-      .limit(DEFAULT_NEWS_LIMIT)
-  end
-
   def serialize_news_items(news_items)
     data = news_items.as_json(
       only: %i[id title summary feed_item_published_at updated_at url content],
-      methods: %i[tag_scoped_coin_link_data categories]
+      methods: %i[tag_scoped_coin_link_data categories vote_score]
     )
     format_item = Proc.new do |item, *args|
       item
@@ -36,14 +20,19 @@ module NewsHelper
     end
   end
 
-  def get_default_news_items(rewrite_cache: false)
-    Rails.cache.fetch("default_news_items", force: rewrite_cache) do
-      distribute_reads(max_lag: ApplicationController::MAX_ACCEPTABLE_REPLICATION_LAG, lag_failover: true) do
-        news_items = default_news_query
-        news_items = backup_default_news_query if news_items.empty? || news_items.length < DEFAULT_NEWS_LIMIT
+  def serialize_user_news_votes(votable_items)
+    votable_items.map do |item|
+      {
+        "news_item_id": item.votable_id,
+        "user_vote": item.vote_flag,
+      }
+    end
+  end
 
-        serialize_news_items(news_items)
-      end
+  def get_default_news_item_ids(rewrite_cache: false)
+    Rails.cache.fetch("default_news_item_ids", force: rewrite_cache) do
+      news_items = NewsServices::RetrieveDefaultNewsItems.call.try(:result)
+      news_items.pluck(:id) if news_items.present?
     end
   end
 end

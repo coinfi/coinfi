@@ -1,6 +1,6 @@
 import { createStyles } from '@material-ui/core/styles'
-
-export const borderColor = 'rgb(0, 0, 0, 0.18)'
+import { borderColor, black87, aqua } from '~/bundles/common/styles/colors'
+import { btnSm } from '~/bundles/common/styles/buttons'
 
 const styles = (theme) =>
   createStyles({
@@ -22,19 +22,36 @@ const styles = (theme) =>
       height: '100%',
       borderLeft: `1px solid ${borderColor}`,
       borderRight: `1px solid ${borderColor}`,
+      fontSize: '14px',
+      '& .coinlist-tab': {
+        height: '45px',
+      },
+      '& .coinlist-root': {
+        scrollbarWidth: 'none', // firefox no scrollbars
+        '&::-webkit-scrollbar': {
+          // webkit no scrollbars
+          display: 'none',
+        },
+      },
       '& .fa-star': {
-        fontSize: '10px',
+        fontSize: '100%',
       },
-      '& .f5': {
+      '& .coinlist-coin-symbol': {
         fontSize: '14px',
       },
-      '& .right-align': {
+      '& .coinlist-coin-details': {
         fontSize: '14px',
-        '& .smaller2': {
+        '& .coinlist-coin-change': {
           fontSize: '12px !important',
           fontWeight: 500,
           marginTop: '8px',
         },
+      },
+      '& .coinlist-cta': {
+        fontSize: '14px',
+      },
+      '& .coinlist-cta-btn': {
+        ...btnSm(theme),
       },
     },
     mainPanel: {
@@ -61,7 +78,7 @@ const styles = (theme) =>
     searchBarCard: {
       backgroundColor: '#f7f8fa', // athens
       border: `1px solid ${borderColor}`,
-      height: '60px', // taken from CoinListHeader.js (+! for bottom border)
+      height: '47px', // to match with .coinlist-tab
       display: 'flex',
       alignItems: 'center',
       overflow: 'unset',
@@ -112,7 +129,7 @@ const styles = (theme) =>
     cardTitle: {
       fontSize: '16px',
       fontWeight: 500,
-      color: 'rgba(0, 0, 0, 0.87)',
+      color: black87,
       marginBottom: 0,
     },
     tokenMetricHeader: {
@@ -132,7 +149,7 @@ const styles = (theme) =>
     tokenMetricHeaderText: {
       fontSize: '20px',
       fontWeight: 500,
-      color: 'rgba(0, 0, 0, 0.87)',
+      color: black87,
     },
     tokenChartCardContent: {
       padding: '18px 8px 0 0 !important',
@@ -140,7 +157,7 @@ const styles = (theme) =>
     tokenCardContent: {
       padding: '30px 24px !important',
       textAlign: 'center',
-      color: 'rgba(0, 0, 0, 0.87)',
+      color: black87,
     },
     tokenMetricValue: {
       fontSize: '35px',
@@ -149,6 +166,16 @@ const styles = (theme) =>
     tokenMetricSubtitle: {
       textAlign: 'center',
       fontSize: '16px',
+    },
+    marketsCardContent: {
+      padding: '0 !important',
+    },
+    marketsChartWrapper: {
+      [theme.breakpoints.down('sm')]: {
+        '&:not(:first-child)': {
+          marginTop: '16px',
+        },
+      },
     },
     progressWrapper: {
       width: '100%',
@@ -180,7 +207,7 @@ const styles = (theme) =>
       marginBottom: 0,
     },
     subCardTitle: {
-      color: 'rgba(0, 0, 0, 0.87)',
+      color: black87,
       fontSize: '16px',
       fontWeight: 500,
     },
@@ -232,6 +259,32 @@ const styles = (theme) =>
     },
     linkListText: {
       fontSize: '16px',
+    },
+    infoIcon: {
+      verticalAlign: 'baseline',
+      marginLeft: '16px',
+      fontSize: '12px',
+      fontWeight: 500,
+    },
+    infoTooltip: {
+      fontSize: '12px',
+      fontWeight: 500,
+      textAlign: 'justify',
+      '& div:not(:first-child)': {
+        marginTop: '8px',
+      },
+      '& ul': {
+        marginTop: '0 !important',
+      },
+    },
+    alarmClockIcon: {
+      verticalAlign: 'baseline',
+      marginRight: '8px',
+      color: aqua,
+    },
+    signalCtaText: {
+      fontSize: '12px',
+      marginTop: '24px',
     },
   })
 

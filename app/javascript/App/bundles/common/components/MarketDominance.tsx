@@ -3,7 +3,9 @@ import * as _ from 'lodash'
 import compose from 'recompose/compose'
 import { Typography, Grid } from '@material-ui/core'
 import { withStyles, createStyles } from '@material-ui/core/styles'
-import withWidth, { isWidthDown, isWidthUp } from '@material-ui/core/withWidth'
+import withDevice, {
+  DeviceContextType,
+} from '~/bundles/common/utils/withDevice'
 import BulletSpacer from '~/bundles/common/components/BulletSpacer'
 import Highcharts from 'highcharts/highcharts'
 import options from './CoinCharts/PriceGraph/options'
@@ -17,9 +19,8 @@ export interface CoinDominance {
   market_percentage: number
 }
 
-interface Props {
+interface Props extends DeviceContextType {
   classes: any
-  width: any
   coinData: CoinDominance[]
 }
 
@@ -42,6 +43,7 @@ const styles = (theme) =>
         display: 'none',
       },
     },
+    mobileContainer: {},
     desktopTitle: {
       fontSize: '20px',
       fontWeight: 500,
@@ -100,22 +102,16 @@ class MarketDominance extends React.Component<Props, State> {
   }
 
   public componentDidMount() {
-    if (isWidthUp('md', this.props.width)) {
+    if (!this.props.isMobile) {
       this.mountHighchart()
     }
   }
 
   public componentDidUpdate(prevProps, prevState) {
-    if (
-      isWidthUp('md', this.props.width) &&
-      isWidthDown('sm', prevProps.width)
-    ) {
+    if (prevProps.isMobile && !this.props.isMobile) {
       // switching from mobile to desktop
       this.mountHighchart()
-    } else if (
-      isWidthUp('md', prevProps.width) &&
-      isWidthDown('sm', this.props.width)
-    ) {
+    } else if (!prevProps.isMobile && this.props.isMobile) {
       // switching from desktop to mobile
       this.unmountHighchart()
     }
@@ -136,14 +132,12 @@ class MarketDominance extends React.Component<Props, State> {
         { ...options },
         {
           chart: {
-            type: 'pie',
             width: 200,
             height: 170,
             spacingTop: 0,
             spacingBottom: 0,
             spacingRight: 0,
           },
-          colors: chartColours,
           title: {
             text: `${this.formatPercentage(marketDominance)}%`,
             verticalAlign: 'middle',
@@ -169,7 +163,9 @@ class MarketDominance extends React.Component<Props, State> {
           series: [
             {
               name: 'Coins',
+              type: 'pie',
               data,
+              colors: chartColours,
               size: '100%',
               innerSize: '85%',
               showInLegend: false,
@@ -196,12 +192,18 @@ class MarketDominance extends React.Component<Props, State> {
   }
 
   public render() {
-    const { classes, coinData, width } = this.props
+    const { classes, coinData, isDesktop } = this.props
     const { marketDominance } = this.state
+    const isMobile = !isDesktop
 
-    if (isWidthDown('sm', width)) {
+    if (isMobile) {
       return (
-        <Grid container={true} wrap="nowrap" alignItems="baseline">
+        <Grid
+          container={true}
+          wrap="nowrap"
+          alignItems="baseline"
+          className={classes.mobileContainer}
+        >
           <Grid item={true}>
             <Typography className={classes.title} component="span">
               Bitcoin Dominance:{' '}
@@ -276,5 +278,5 @@ class MarketDominance extends React.Component<Props, State> {
 
 export default compose(
   withStyles(styles),
-  withWidth(),
+  withDevice,
 )(MarketDominance)

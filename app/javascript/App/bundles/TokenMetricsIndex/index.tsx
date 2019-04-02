@@ -31,43 +31,15 @@ import WatchStar from '../common/components/WatchStar'
 import SearchCoins from '~/bundles/common/components/SearchCoins'
 import RedGreenSpan from '~/bundles/common/components/RedGreenSpan'
 import LoadingIndicator from '~/bundles/common/components/LoadingIndicator'
-
-interface CoinWithTokenData {
-  id?: number
-  coin_key: string
-  name?: string
-  image_url?: string
-  symbol?: string
-  slug?: string
-  price?: number
-  market_cap?: number
-  rank: number
-  metric_value: number
-  change_1d: number
-  change_7d: number
-  change_30d: number
-}
-
-interface TokenMetricsResponsePayload {
-  data: CoinWithTokenData[]
-  page: number
-  limit: number
-  count: number
-  metricType: string
-  metricTypeSlug: string
-  orderBy: string
-  order: ORDERS
-}
-
-interface TabData {
-  slug: string
-  label: string
-  description: string
-  columnName: string
-  type: DATA_TYPES
-}
-
-type DATA_TYPES = 'percentage' | 'number'
+import {
+  black54,
+  black87,
+  pearlGray,
+  white,
+  borderColor,
+  muiBorderColor,
+} from '~/bundles/common/styles/colors'
+import { TABS, orderByDefaults } from './constants'
 
 interface Props extends RouteComponentProps<any>, CurrencyContextType {
   classes: any
@@ -89,80 +61,33 @@ interface State {
   rows: CoinWithTokenData[]
 }
 
-type ORDERS = 'asc' | 'desc'
-
 enum STATUSES {
   INITIALIZING = 'INITIALIZING',
   LOADING = 'LOADING',
   READY = 'READY',
 }
 
-const TABS: TabData[] = [
-  {
-    slug: 'supply-on-exchange',
-    label: 'Supply On Exchanges',
-    description:
-      'A high percentage of supply on exchanges could indicate higher intention to sell by holders.',
-    columnName: 'Supply on Exchanges',
-    type: 'percentage',
-  },
-  {
-    slug: 'retention',
-    label: 'Retention',
-    description:
-      'A high percentage of early investors still HODLing could indicate strong believe in project.',
-    columnName: '% of Early Investors Still HODLing',
-    type: 'percentage',
-  },
-  {
-    slug: 'decentralization',
-    label: 'Decentralization',
-    description:
-      'A high percentage held by whales could indicate higher vulnerability to price manipulation.',
-    columnName: '% Held by Top 100 Wallets',
-    type: 'percentage',
-  },
-  {
-    slug: 'adoption',
-    label: 'Adoption',
-    description:
-      'More unique wallets HOLDLing could indicate more adoption by users.',
-    columnName: 'Unique Wallets HODLing Token',
-    type: 'number',
-  },
-  {
-    slug: 'velocity',
-    label: 'Velocity',
-    description:
-      'A high percentage of the supply transacted on the blockchain could indicate strong adoption or usage of the token.',
-    columnName: '% of Supply Transacted on Blockchain',
-    type: 'percentage',
-  },
-]
-
-const defaultTextColor = 'rgba(0, 0, 0, 0.87)'
-
 const styles = (theme) =>
   createStyles({
     rootContainer: {
       maxWidth: '1200px',
       margin: '50px auto 0',
-      border: '1px solid rgb(0, 0, 0, 0.18)',
-      backgroundColor: '#fff',
+      border: `1px solid ${borderColor}`,
+      backgroundColor: white,
       padding: '35px 25px',
-      color: defaultTextColor,
+      color: black87,
     },
     title: {
-      color: defaultTextColor,
+      color: black87,
       fontSize: '34px',
       fontWeight: 'normal',
     },
     tabsRoot: {
-      backgroundColor: '#fff',
+      backgroundColor: white,
       marginBottom: '16px',
     },
     tabsFlexContainer: {
-      borderBottom: '1px solid rgb(0, 0, 0, 0.12)',
+      borderBottom: `1px solid ${borderColor}`,
     },
     tabRoot: {
       textTransform: 'none',
@@ -180,7 +105,7 @@ const styles = (theme) =>
       paddingLeft: '12px',
     },
     tabTextColorPrimary: {
-      color: defaultTextColor,
+      color: black87,
     },
     header: {
       marginBottom: '16px',
@@ -204,16 +129,16 @@ const styles = (theme) =>
       '& td': {
         fontSize: '14px',
         fontWeight: 500,
-        color: defaultTextColor,
+        color: black87,
       },
     },
     tableHeaderRow: {
       height: '36px',
     },
     tableHeaderCell: {
-      backgroundColor: '#f6f8fa', // pearl-gray
-      borderTop: '1px solid rgba(224, 224, 224, 1)',
-      color: 'rgba(0, 0, 0, 0.54)',
+      backgroundColor: pearlGray,
+      borderTop: `1px solid ${muiBorderColor}`,
+      color: black54,
       fontSize: '14px',
       fontWeight: 500,
     },
@@ -224,7 +149,7 @@ const styles = (theme) =>
     tableCellCoin: {
       width: '240px',
       maxWidth: '240px',
-      borderRight: '1px solid rgba(224, 224, 224, 1)',
+      borderRight: `1px solid ${muiBorderColor}`,
     },
     rankItem: {
       lineHeight: '18px',
@@ -255,11 +180,6 @@ const generateSortIcon = ({ property, orderBy, order }) => {
   } else {
     return () => <Icon name="sort" solid={true} />
   }
-}
-
-const orderByDefaults = {
-  orderBy: 'market_cap',
-  order: 'desc' as ORDERS,
 }
 
 class TokenMetricsIndex extends React.Component<Props, State> {

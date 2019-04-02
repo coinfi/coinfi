@@ -93,3 +93,19 @@ textarea {
   color: $silver;
   opacity: 1;
 }
+
+.dark-mode {
+  input:not([type='checkbox']):not([type='submit']),
+  select,
+  textarea {
+    background-color: $white-08;
+    border-color: $white-12;
+    color: $white;
+  }
+  ::-webkit-input-placeholder,
+  ::-moz-placeholder,
+  :-ms-input-placeholder,
+  :-moz-placeholder {
+    color: $white-70;
+  }
+}

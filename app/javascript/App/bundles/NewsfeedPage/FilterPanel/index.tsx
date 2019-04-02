@@ -1,11 +1,10 @@
 import * as React from 'react'
 import * as _ from 'lodash'
 import Layout from './Layout'
-import MarketMoving from './filterComponents/MarketMoving'
 import Dates from './filterComponents/Dates'
 import FeedSources from './filterComponents/FeedSources'
 import Social from './filterComponents/Social'
-import Categories from './filterComponents/Categories'
+import Switch from './components/Switch'
 import { Filters } from '../types'
 
 import { getDefaultFilters } from '../utils'
@@ -81,6 +80,12 @@ class FilterPanel extends React.Component<Props, State> {
       return state
     })
 
+  public onTrendingToggle = () =>
+    this.setState((state) => {
+      state.form.trending = !state.form.trending
+      return state
+    })
+
   public render() {
     return (
       <Layout
@@ -90,8 +95,13 @@ class FilterPanel extends React.Component<Props, State> {
         newsFeedStyle={this.props.newsFeedStyle}
       >
         <div className="pb3">
-          <h4 className="mb2 f5">Market Moving</h4>
-          <MarketMoving />
+          <div className="pv2">
+            <span className="mr2">Only show me Trending News</span>
+            <Switch
+              on={this.state.form.trending}
+              onChange={this.onTrendingToggle}
+            />
+          </div>
         </div>
         <div className="pb3">
           <h4 className="mb2 f5">Date Range</h4>
@@ -100,14 +110,6 @@ class FilterPanel extends React.Component<Props, State> {
             publishedUntil={this.state.form.publishedUntil}
             onSinceChange={this.onSinceChange}
             onUntilChange={this.onUntilChange}
-          />
-        </div>
-        <div className="pb3">
-          <h4 className="mb2 f5">Categories</h4>
-          <Categories
-            items={this.props.categories}
-            selectedItems={this.state.form.categories}
-            onChange={this.onCategoryToggle}
           />
         </div>
         <div className="pb3">

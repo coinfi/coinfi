@@ -4,7 +4,9 @@ import * as moment from 'moment'
 import compose from 'recompose/compose'
 import { Typography, Grid } from '@material-ui/core'
 import { withStyles, createStyles } from '@material-ui/core/styles'
-import withWidth, { isWidthDown, isWidthUp } from '@material-ui/core/withWidth'
+import withDevice, {
+  DeviceContextType,
+} from '~/bundles/common/utils/withDevice'
 import Highcharts from 'highcharts/highcharts'
 import options from './CoinCharts/PriceGraph/options'
 import {
@@ -12,6 +14,10 @@ import {
   formatPrice,
   formatAbbreviatedPrice,
 } from '~/bundles/common/utils/numberFormatters'
+import {
+  CurrencyContextType,
+  withCurrency,
+} from '~/bundles/common/contexts/CurrencyContext'
 
 export interface RawMarketCap {
   timestamp: string
@@ -23,17 +29,16 @@ interface MarketCap extends RawMarketCap {
   time: number
 }
 
-interface Props {
+interface Props extends CurrencyContextType, DeviceContextType {
   classes: any
-  width: any
   marketCapData: RawMarketCap[]
 }
 
 interface State {
   sortedMarketCapData: MarketCap[]
   totalMarketCap: number
-  formattedDifference: string
-  percentageDifference: string
+  formattedDifference: number
+  percentageDifference: number
   isPositive: boolean
 }
 
@@ -52,6 +57,7 @@ const styles = (theme) =>
         display: 'none',
       },
     },
+    mobileContainer: {},
     chartContainer: {
       marginLeft: '-10px',
       marginRight: '-12px',
@@ -136,11 +142,9 @@ class TotalMarketCap extends React.Component<Props, State> {
     const totalMarketCap = latest.total_market_cap
     const difference = latest.total_market_cap - secondLatest.total_market_cap
     const isPositive = difference >= 0
-    const formattedDifference = formatAbbreviatedPrice(Math.abs(difference))
-    const percentageDifference = formatValue(
-      (difference / secondLatest.total_market_cap) * 100,
-      1,
-    )
+    const formattedDifference = Math.abs(difference)
+    const percentageDifference =
+      (difference / secondLatest.total_market_cap) * 100
 
     this.state = {
       sortedMarketCapData,
@@ -158,24 +162,22 @@ class TotalMarketCap extends React.Component<Props, State> {
       },
     })
 
-    if (isWidthUp('md', this.props.width)) {
+    if (!this.props.isMobile) {
       this.mountHighchart()
     }
   }
 
   public componentDidUpdate(prevProps, prevState) {
-    if (
-      isWidthUp('md', this.props.width) &&
-      isWidthDown('sm', prevProps.width)
-    ) {
+    if (prevProps.isMobile && !this.props.isMobile) {
       // switching from mobile to desktop
       this.mountHighchart()
-    } else if (
-      isWidthUp('md', prevProps.width) &&
-      isWidthDown('sm', this.props.width)
-    ) {
+    } else if (!prevProps.isMobile && this.props.isMobile) {
       // switching from desktop to mobile
       this.unmountHighchart()
+    }
+
+    if (prevProps.currency !== this.props.currency) {
+      this.setPriceData()
     }
   }
 
@@ -184,14 +186,7 @@ class TotalMarketCap extends React.Component<Props, State> {
   }
 
   public mountHighchart() {
-    const { sortedMarketCapData } = this.state
-
-    const data = sortedMarketCapData.map((datum) => {
-      return {
-        x: datum.time,
-        y: datum.total_market_cap,
-      }
-    })
+    const data = this.getMarketCapData()
 
     this.unmountHighchart()
 
@@ -201,7 +196,6 @@ class TotalMarketCap extends React.Component<Props, State> {
         { ...options },
         {
           chart: {
-            type: 'line',
             width: null,
             zoomType: 'x',
             height: '40%',
@@ -210,7 +204,6 @@ class TotalMarketCap extends React.Component<Props, State> {
           title: {
             text: '',
           },
-          colors: chartColours,
           plotOptions: {},
           time: {
             useUTC: true,
@@ -262,7 +255,9 @@ class TotalMarketCap extends React.Component<Props, State> {
           series: [
             {
               name: 'Market Cap',
+              type: 'line',
               data,
+              colors: chartColours,
               size: '100%',
               showInLegend: false,
               dataLabels: {
@@ -282,21 +277,46 @@ class TotalMarketCap extends React.Component<Props, State> {
     }
   }
 
+  public setPriceData = () => {
+    if (this.chart) {
+      const data = this.getMarketCapData()
+      this.chart.series[0].setData(data)
+    }
+  }
+
   public render() {
-    const { classes } = this.props
+    const {
+      classes,
+      currencyRate,
+      currencySymbol,
+      currency,
+      isDesktop,
+    } = this.props
     const {
       isPositive,
       totalMarketCap: totalMarketCapRaw,
-      formattedDifference,
-      percentageDifference,
+      formattedDifference: formattedDifferenceRaw,
+      percentageDifference: percentageDifferenceRaw,
     } = this.state
+    const isMobile = !isDesktop
 
-    const totalMarketCap = formatPrice(totalMarketCapRaw)
-    const shortTotalMarketCap = formatAbbreviatedPrice(totalMarketCapRaw, 2)
+    const currencyAdjustedTMC = totalMarketCapRaw * currencyRate
+    const totalMarketCap = formatPrice(currencyAdjustedTMC)
+    const shortTotalMarketCap = formatAbbreviatedPrice(currencyAdjustedTMC, 2)
 
-    if (isWidthDown('sm', this.props.width)) {
+    const formattedDifference = formatAbbreviatedPrice(
+      Math.abs(formattedDifferenceRaw * currencyRate),
+    )
+    const percentageDifference = formatValue(percentageDifferenceRaw, 1)
+
+    if (isMobile) {
       return (
-        <Grid container={true} wrap="nowrap" alignItems="baseline">
+        <Grid
+          container={true}
+          wrap="nowrap"
+          alignItems="baseline"
+          className={classes.mobileContainer}
+        >
           <Grid item={true}>
             <Typography className={classes.title} component="span">
               Crypto Market Cap:
@@ -342,13 +362,14 @@ class TotalMarketCap extends React.Component<Props, State> {
               >
                 <Grid item={true}>
                   <Typography component="span" className={classes.marketCap}>
-                    ${totalMarketCap}
+                    {currencySymbol}
+                    {totalMarketCap}
                   </Typography>
                   <Typography
                     component="span"
                     className={classes.marketCapCurrency}
                   >
-                    USD
+                    {_.toUpper(currency)}
                   </Typography>
                 </Grid>
                 <Grid item={true}>
@@ -376,9 +397,23 @@ class TotalMarketCap extends React.Component<Props, State> {
       </Grid>
     )
   }
+
+  private getMarketCapData = () => {
+    const { sortedMarketCapData } = this.state
+    const { currencyRate } = this.props
+
+    const data = sortedMarketCapData.map((datum) => {
+      return {
+        x: datum.time,
+        y: datum.total_market_cap * currencyRate,
+      }
+    })
+
+    return data
+  }
 }
 
 export default compose(
   withStyles(styles),
-  withWidth(),
-)(TotalMarketCap)
+  withDevice,
+)(withCurrency(TotalMarketCap))

@@ -22,29 +22,40 @@ Rails.application.routes.draw do
     mount Sidekiq::Web => '/'
   end
 
+  devise_scope :user do
+    patch '/verification', to: 'users/confirmations#update', as: :update_user_confirmation
+  end
   devise_for :users,
     path: '',
-    path_names: { sign_in: 'login', sign_out: 'logout', sign_up: 'register' }
+    path_names: { sign_in: 'login', sign_out: 'logout', sign_up: 'register', confirmation: 'verification' },
+    controllers: { confirmations: 'users/confirmations', registrations: 'users/registrations',
+                   omniauth_callbacks: 'users/omniauth_callbacks', sessions: 'users/sessions' }
 
   resources :author_profiles, only: %i[index show create update], path: 'authors'
-  get '/calculators/:id', to: 'calculators#show', as: 'calculator'
-  get '/coins/:id_or_slug', to: 'coins#show', as: 'coin'
-  resources :coins, only: %i[index]
-  resources :contributor_submissions, path: 'contributor-submissions'
-  resources :exchange_listings, only: :index, path: 'listings'
-  resources :calendar_events, only: :index, path: 'calendar'
-  get '/indicators/:id_or_slug', to: 'indicators#show', as: 'indicators'
-  get '/icos', to: redirect('/icos/upcoming'), as: 'icos_root'
-  get '/icos(/:status)', to: 'icos#index', as: 'icos'
-  get '/news/beta', to: static('/news-beta.html')
-  get '/news/:id/:slug', to: 'news#show', as: 'news_item'
-  get '/news/:coin_slug', to: 'news#coin_index', as: 'news_coin'
-  get '/news', to: 'news#index'
-  get '/news-beta', to: static('/news-beta.html')
-  get '/podcast', to: redirect('https://www.coinfi.com/research/coinfi-podcast', status: 302), as: 'podcast'
-  get '/profile', to: 'users#edit'
-  put '/profile', to: 'users#update'
-  get '/token-metrics(/:metric_type_slug)', to: 'token_metrics#index', as: 'token_metrics'
+
+  # HTML only routes
+  scope defaults: { format: 'html' }, constraints: { format: 'html' } do
+    get '/calculators/:id', to: 'calculators#show', as: 'calculator'
+    get '/coins/:id_or_slug', to: 'coins#show', as: 'coin'
+    resources :coins, only: %i[index]
+    resources :contributor_submissions, path: 'contributor-submissions'
+    resources :exchange_listings, only: :index, path: 'listings'
+    resources :calendar_events, only: :index, path: 'calendar'
+    get '/indicators/:id_or_slug', to: 'indicators#show', as: 'indicators'
+    get '/icos', to: redirect('/icos/upcoming'), as: 'icos_root'
+    get '/icos(/:status)', to: 'icos#index', as: 'icos'
+    get '/news/beta', to: static('/news-beta.html')
+    get '/news/:id/:slug', to: 'news#show', as: 'news_item'
+    get '/news/:coin_slug', to: 'news#coin_index', as: 'news_coin'
+    get '/news', to: 'news#index'
+    get '/news-beta', to: static('/news-beta.html')
+    get '/podcast', to: redirect('https://www.coinfi.com/research/coinfi-podcast', status: 302), as: 'podcast'
+    get '/profile', to: 'users#edit'
+    put '/profile', to: 'users#update'
+    get '/token-metrics(/:metric_type_slug)', to: 'token_metrics#index', as: 'token_metrics'
+  end
+
+  get '/static/:type/:id', to: 'static#show', format: 'png'
 
   namespace :admin do
     resources :coins do
@@ -102,7 +113,9 @@ Rails.application.routes.draw do
 
     resources :exchange_listings, only: %i[index show]
 
-    resources :news, only: %i[index show]
+    resources :news, only: %i[index show] do
+      resources :news_vote, :path => 'vote', only: %i[index create]
+    end
     namespace :newsfeed do
       resources :coins, only: %i[index]
     end
@@ -124,6 +137,8 @@ Rails.application.routes.draw do
   get '/calendar', to: 'pages#show', id: 'calendar', as: 'page_calendar'
   get '/ambassadors', to: 'pages#show', id: 'ambassadors', as: 'page_ambassadors'
   get '/win-cofi', to: 'pages#show', id: 'win-cofi', as: 'page_win_cofi'
+  get '/privacy-policy', to: 'pages#show', id: 'privacy-policy', as: 'page_privacy'
+  get '/unstake', to: 'pages#show', id: 'unstake', as: 'page_unstake'
   get '/signals', to: 'signals#index'
   get '/signals/reservation', to: 'signals#reservation'
   patch '/signals/reservation', to: 'signals#reservation_update', as: 'signals_reservation_update'

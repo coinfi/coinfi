@@ -101,7 +101,8 @@ class Api::CoinsController < ApiController
 
 private
   def search_serializer(coins)
-    coins.as_json(only: %i[id name symbol slug image_url])
+    coins.as_json(only: %i[id name symbol slug],
+      methods: %i[image_url])
   end
 
   def show_serializer(coin)
@@ -128,7 +129,7 @@ private
   def prices_serializer(coin)
     return {
       priceData: coin.prices_data,
-      priceDataHourly: coin.hourly_prices_data,
+      # priceDataHourly: coin.hourly_prices_data,
     }
   end
 end

@@ -3,9 +3,11 @@ class CoinsController < ApplicationController
 
   include CoinListHelper
   include CoinsHelper
+  include CurrencyHelper
+
+  before_action :set_exchange_rates
 
   def index
-    @hide_currency = true
     @page = params[:page]&.to_i || 1
     @limit = params[:limit]&.to_i || 100
 
@@ -28,25 +30,29 @@ class CoinsController < ApplicationController
 
   def show
     distribute_reads(max_lag: MAX_ACCEPTABLE_REPLICATION_LAG, lag_failover: true) do
-      @data = @coin.market_info
-
-      if @coin.ico_status == 'listed'
-        @coin_price = @data["price_usd"] # TODO: Consolidate price and volume from data warehouse and remove from coins table.
+      if @coin.ico_listed?
+        @coin_price = format_price(@coin.price)
         @related_coins = @coin.related_coins.select(:id, :coin_key, :name, :symbol, :slug).to_a # Calling `to_a` ensures query executes on replica.
         @token_metrics = @coin.has_token_metrics? ? @coin.token_metrics : {}
         @coin_obj = show_serializer(@coin)
         @top_coins_data = toplist_coins
         @watched_coins_data = watchlist_coins if current_user
       end
+
+      if is_ethereum?(@coin)
+        @grouped_large_eth_signals = TradingSignal.get_large_transactions_by_period
+        @recent_large_signals = TradingSignal.get_recent_large_transactions
+      end
     end
 
     # TODO: Flag if a non-listed coin gets routed to this controller.
-    if @coin.ico_status == 'listed'
+    if @coin.ico_listed?
       set_meta_tags(
         title: "#{@coin.symbol} ($#{@coin_price}) - #{@coin.name} Price Chart, Value, News, Market Cap",
         keywords: "#{@coin.name} price, #{@coin.name} chart, #{@coin.name} news, #{@coin.name} market cap, #{@coin.name} reddit, #{@coin.name} price prediction"
       )
     else
+      @data = @coin.market_info
       set_meta_tags(
         title: "#{@coin.name} ICO Review, #{@coin.name} Reviews, #{@coin.name} Coin",
         keywords: ''
@@ -86,13 +92,14 @@ class CoinsController < ApplicationController
   def show_serializer(coin)
     coin.as_json(
       only: %i[
-        id name coin_key image_url symbol slug ranking ico_status
+        id name coin_key symbol slug ranking ico_status
         website whitepaper explorer twitter reddit medium github telegram
         release_date blockchain_tech algorithm ico_start_epoch ico_end_epoch
       ],
       methods: %i[
         prices_data news_data market_info is_being_watched summary price market_cap
         change1h change24h change7d volume24h available_supply max_supply total_supply
+        image_url market_pairs total_market_pairs
       ]
     )
   end

@@ -50,8 +50,8 @@ class Api::ExchangeListingsController < ApiController
 
   def show_serializer(listing)
     listing.as_json(
-      only: %i[id name image_url symbol slug price_usd],
-      methods: %i[prices_data news_data market_info is_being_watched]
+      only: %i[id name symbol slug],
+      methods: %i[prices_data news_data market_info is_being_watched image_url]
     )
   end
 end

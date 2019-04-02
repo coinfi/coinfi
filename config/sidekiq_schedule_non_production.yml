@@ -17,9 +17,18 @@ UpdateCurrencies:
   cron: '0 0 0 * * * Etc/UTC'
 
 RefreshTokenMetricViews:
-  cron: '0 30 4 * * * Etc/UTC'   # Scheduled after metrics data is inserted and later than production, just in case
+  cron: '0 30 4 * * * Etc/UTC'  # Scheduled after metrics data is inserted and later than production, just in case
+
+RefreshTrendingNews:
+  cron: '20 */5 * * * * Etc/UTC'  # Stagger start time
+
+TweetTrendingNews:
+  cron: '30 0 * * * * Etc/UTC'  # Slightly after RefreshTrendingNews
 
 # Paid API routes
 
 UpdateCmcMetrics:
   cron: '50 6 1 * * * Etc/UTC'  # update daily
+
+UpdateCmcExchanges:
+  cron: '0 30 3 1 * * Etc/UTC'   # update monthly

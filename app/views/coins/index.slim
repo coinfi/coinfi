@@ -1,4 +1,4 @@
-.antd= react_component_with_jss "App",
+= react_component_with_jss "App",
     withStore: true,
     props: { \
       loggedIn: !!current_user,
@@ -6,5 +6,6 @@
       initialCoins: @coins,
       page: @page,
       limit: @limit,
+      currencies: @exchange_rates,
     },
     prerender: true

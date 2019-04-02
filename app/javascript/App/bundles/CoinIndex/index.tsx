@@ -10,16 +10,22 @@ import {
   TableCell,
   TablePagination,
   TableFooter,
-  Hidden,
 } from '@material-ui/core'
 import { withStyles, createStyles } from '@material-ui/core/styles'
-import withWidth, { isWidthDown } from '@material-ui/core/withWidth'
+import withDevice, {
+  DeviceContextType,
+} from '~/bundles/common/utils/withDevice'
 import ColumnNames from './ColumnNames'
 import SearchCoins from '~/bundles/common/components/SearchCoins'
 import LoadingIndicator from '~/bundles/common/components/LoadingIndicator'
 import API from '../common/utils/localAPI'
 import * as _ from 'lodash'
 import TablePaginationActions from './TablePaginationActions'
+import {
+  CurrencyContextType,
+  withCurrency,
+} from '~/bundles/common/contexts/CurrencyContext'
+import { black65 } from '~/bundles/common/styles/colors'
 
 interface CoinData {
   id: number
@@ -42,7 +48,10 @@ interface PaginatedCoins {
   [page: number]: CoinData[]
 }
 
-interface Props extends RouteComponentProps<any> {
+interface Props
+  extends RouteComponentProps<any>,
+    CurrencyContextType,
+    DeviceContextType {
   classes: any
   width: any
   coinCount: number
@@ -56,17 +65,31 @@ interface State {
   pageSize: number
   coinsByPage: PaginatedCoins
   loading: boolean
-  currency: string
 }
 
 const DEFAULTS = {
   page: 1,
   limit: 100,
-  currency: 'USD',
 }
 
 const styles = (theme) =>
   createStyles({
+    headerWrapper: {
+      maxWidth: '1200px',
+      width: '100%',
+      margin: '0 auto',
+      display: 'flex',
+      justifyContent: 'space-between',
+      alignItems: 'flex-end',
+      padding: '1rem 0 0 1rem',
+    },
+    headerTitle: {
+      margin: 0,
+      lineHeight: 1,
+    },
+    headerSearch: {
+      display: 'flex',
+    },
     tableWrapper: {
       width: '100%',
     },
@@ -76,7 +99,7 @@ const styles = (theme) =>
       margin: '0 auto',
     },
     tableHeader: {
-      color: 'rgba(0,0,0,0.65)',
+      color: black65,
     },
     tableRow: {
       minHeight: `${theme.spacing.unit * 7}px`,
@@ -126,7 +149,6 @@ class CoinIndex extends Component<Props, State> {
       currentPage,
       pageSize,
       loading,
-      currency: DEFAULTS.currency,
     }
   }
 
@@ -205,33 +227,31 @@ class CoinIndex extends Component<Props, State> {
     }
   }
 
-  public changeCurrencyHandler = ({ key }) => {
-    this.setState({
-      currency: key,
-    })
-  }
-
   public render() {
-    const { coinCount, classes } = this.props
+    const {
+      coinCount,
+      classes,
+      currency,
+      currencyRate,
+      currencySymbol,
+      isDesktop,
+    } = this.props
     const { loading, pageSize, currentPage, coinsByPage } = this.state
     const rows = coinsByPage[currentPage] || []
-    const columns = ColumnNames(this.state.currency)
-    const isMobile = isWidthDown('sm', this.props.width)
+    const columns = ColumnNames({ currency, currencyRate, currencySymbol })
+    const isMobile = !isDesktop
 
     return (
       <Fragment>
-        <div className="flex" style={{ maxWidth: '1200px', margin: '0 auto' }}>
-          <h1 className="pt3 pl3">Coins</h1>
-          <span style={{ flexGrow: 1 }} />
-          <div className="flex pt3">
-            <div className="ma2">
-              <SearchCoins
-                onSelect={(suggestion) =>
-                  (window.location.href = `/coins/${suggestion.slug}`)
-                }
-                unstyled={true}
-              />
-            </div>
+        <div className={classes.headerWrapper}>
+          <h1 className={classes.headerTitle}>Coins</h1>
+          <div className={classes.headerSearch}>
+            <SearchCoins
+              onSelect={(suggestion) =>
+                (window.location.href = `/coins/${suggestion.slug}`)
+              }
+              unstyled={true}
+            />
           </div>
         </div>
 
@@ -351,6 +371,6 @@ class CoinIndex extends Component<Props, State> {
 }
 
 export default compose(
-  withWidth(),
+  withDevice,
   withStyles(styles),
-)(withRouter(CoinIndex))
+)(withRouter(withCurrency(CoinIndex)))

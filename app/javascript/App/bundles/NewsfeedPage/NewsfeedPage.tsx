@@ -3,7 +3,6 @@ import { withRouter, RouteComponentProps } from 'react-router'
 import debounce from 'debounce'
 import slugify from '~/bundles/common/utils/slugify'
 import LayoutDesktop from '~/bundles/common/components/LayoutDesktop'
-import LayoutTablet from '~/bundles/common/components/LayoutTablet'
 import LayoutMobile from '~/bundles/common/components/LayoutMobile'
 import CoinListWrapper from '../common/components/CoinListWrapper'
 import CoinListDrawer from '../common/components/CoinListDrawer'
@@ -12,8 +11,15 @@ import NewsListHeader from './NewsListHeader'
 import BodySection from './BodySection'
 import BodySectionDrawer from '../../bundles/common/components/BodySectionDrawer'
 import * as _ from 'lodash'
-import withDevice from '~/bundles/common/utils/withDevice'
+import withDevice, {
+  DeviceContextType,
+} from '~/bundles/common/utils/withDevice'
 import EventListener from 'react-event-listener'
+import * as P from 'bluebird'
+
+P.config({
+  cancellation: true,
+})
 
 import { NewsItem, ContentType, Filters } from './types'
 import { CoinWithDetails, CoinClickHandler } from '../common/types'
@@ -25,7 +31,7 @@ import {
 
 const POLLING_TIMEOUT = 60000
 
-interface Props extends RouteComponentProps<any> {
+interface Props extends RouteComponentProps<any>, DeviceContextType {
   loggedIn: boolean
   categories: string[]
   feedSources: string[]
@@ -46,8 +52,6 @@ interface Props extends RouteComponentProps<any> {
   getWatchlist: any
   watchlist: any
   hasMore: boolean
-  isMobile: boolean
-  isTablet: boolean
 }
 
 type ActiveMobileWindow = 'CoinsList' | 'BodySection' | 'None'
@@ -61,6 +65,8 @@ interface State {
   showFilters: boolean
   unseenNewsIds: number[]
   selectedCoin: string
+  isMobile: boolean
+  isDesktop: boolean
 }
 
 class NewsfeedPage extends React.Component<Props, State> {
@@ -80,6 +86,8 @@ class NewsfeedPage extends React.Component<Props, State> {
       showFilters: false,
       unseenNewsIds: [],
       selectedCoin: props.coinSlug || null,
+      isMobile: props.isServerMobile,
+      isDesktop: props.isServerDesktop,
     }
   }
 
@@ -132,7 +140,7 @@ class NewsfeedPage extends React.Component<Props, State> {
 
   public fetchNewNewsItems = () => {
     return this.props.fetchNewNewsItems(this.state.filters).then((news) => {
-      return new Promise((resolve, reject) => {
+      return new P((resolve, reject) => {
         if (!this.state.isWindowFocused) {
           const ids = news.map((elem) => elem.id)
           const unseenNewsIds = _.uniq(this.state.unseenNewsIds.concat(ids))
@@ -215,26 +223,38 @@ class NewsfeedPage extends React.Component<Props, State> {
       // Start polling
       this.startPollingNews()
     }
+
+    // check if server-rendered layout differs from client-rendered layout
+    if (
+      this.props.isServerMobile !== this.props.isMobile ||
+      this.props.isServerDesktop !== this.props.isDesktop
+    ) {
+      this.setState({
+        isMobile: this.props.isMobile,
+        isDesktop: this.props.isDesktop,
+      })
+    }
   }
 
   public componentDidUpdate(prevProps, prevState, snapshot) {
     // Check if `coinSlug` in the route changed
     if (this.getContentType() === 'coin') {
       if (this.props.coinSlug !== prevProps.coinSlug && !!this.props.coinSlug) {
-        this.props.selectCoinBySlug(this.props.coinSlug)
+        const { coinSlug } = this.props
+        this.props.selectCoinBySlug(coinSlug)
         this.setState((state) => {
           const newState = {
             ...state,
             filters: {
               ...state.filters,
-              coinSlugs: [this.props.coinSlug],
+              coinSlugs: [coinSlug],
               feedSources: mergeInitialSocialSourcesForCoinsFilter(
                 state.filters.feedSources,
-                state.filters.coinSlugs,
+                [coinSlug],
                 this.props.topCoinSlugs,
               ),
             },
-            selectedCoin: this.props.coinSlug,
+            selectedCoin: coinSlug,
           }
 
           this.props.fetchNewsItems(newState.filters)
@@ -260,14 +280,15 @@ class NewsfeedPage extends React.Component<Props, State> {
       this.props.loggedIn
     ) {
       this.setState((state) => {
+        const coinSlugs = this.props.getWatchlist().map((elem) => elem.slug)
         const newState = {
           ...state,
           filters: {
             ...state.filters,
-            coinSlugs: this.props.getWatchlist().map((elem) => elem.slug),
+            coinSlugs,
             feedSources: mergeInitialSocialSourcesForCoinsFilter(
               state.filters.feedSources,
-              state.filters.coinSlugs,
+              coinSlugs,
               this.props.topCoinSlugs,
             ),
           },
@@ -286,14 +307,15 @@ class NewsfeedPage extends React.Component<Props, State> {
       this.props.loggedIn
     ) {
       this.setState((state) => {
+        const coinSlugs = !!this.props.coinSlug ? [this.props.coinSlug] : []
         const newState = {
           ...state,
           filters: {
             ...state.filters,
-            coinSlugs: !!this.props.coinSlug ? [this.props.coinSlug] : [],
+            coinSlugs,
             feedSources: mergeInitialSocialSourcesForCoinsFilter(
               state.filters.feedSources,
-              state.filters.coinSlugs,
+              coinSlugs,
               this.props.topCoinSlugs,
             ),
           },
@@ -312,14 +334,15 @@ class NewsfeedPage extends React.Component<Props, State> {
       !_.isEqual(this.props.watchlist, prevProps.watchlist)
     ) {
       this.setState((state) => {
+        const coinSlugs = this.props.getWatchlist().map((elem) => elem.slug)
         const newState = {
           ...state,
           filters: {
             ...state.filters,
-            coinSlugs: this.props.getWatchlist().map((elem) => elem.slug),
+            coinSlugs,
             feedSources: mergeInitialSocialSourcesForCoinsFilter(
               state.filters.feedSources,
-              state.filters.coinSlugs,
+              coinSlugs,
               this.props.topCoinSlugs,
             ),
           },
@@ -330,6 +353,17 @@ class NewsfeedPage extends React.Component<Props, State> {
         return newState
       })
       return
+    }
+
+    // Check if layout is updated
+    if (
+      prevProps.isMobile !== this.props.isMobile ||
+      prevProps.isDesktop !== this.props.isDesktop
+    ) {
+      this.setState({
+        isMobile: this.props.isMobile,
+        isDesktop: this.props.isDesktop,
+      })
     }
   }
 
@@ -381,7 +415,7 @@ class NewsfeedPage extends React.Component<Props, State> {
   }
 
   public render() {
-    if (this.props.isMobile) {
+    if (this.state.isMobile) {
       const coinClickHandler: CoinClickHandler = (coinData) => {
         this.props.history.push(`/news/${coinData.slug}`)
         this.setState({ ActiveMobileWindow: 'None' })
@@ -430,6 +464,7 @@ class NewsfeedPage extends React.Component<Props, State> {
                   }}
                   onCoinClick={coinClickHandler}
                   hasMore={this.props.hasMore}
+                  loggedIn={this.props.loggedIn}
                 />
               </>
             }
@@ -461,78 +496,6 @@ class NewsfeedPage extends React.Component<Props, State> {
                   }
                 />
               </>
-            }
-          />
-        </EventListener>
-      )
-    } else if (this.props.isTablet) {
-      const coinClickHandler: CoinClickHandler = (coinData) => {
-        this.props.history.push(`/news/${coinData.slug}`)
-      }
-      return (
-        <EventListener
-          target="window"
-          onResize={this.handleResize}
-          onBlur={this.handleOnBlur}
-          onFocus={this.handleOnFocus}
-        >
-          <LayoutTablet
-            leftSection={
-              <>
-                <NewsListHeader
-                  feedSources={this.props.feedSources}
-                  topCoinSlugs={this.props.topCoinSlugs}
-                  showFilters={this.state.showFilters}
-                  toggleFilters={this.toggleFilters}
-                  toggleNewsfeedTips={this.toggleTips}
-                  applyFilters={this.applyFilters}
-                  filters={this.state.filters}
-                  categories={this.props.categories}
-                  showCoinListDrawer={() =>
-                    this.setState({ ActiveMobileWindow: 'CoinsList' })
-                  }
-                  onCoinChange={this.onCoinChange}
-                  selectedCoin={this.state.selectedCoin}
-                />
-                <NewsList
-                  isShown={!this.state.showFilters}
-                  isWindowFocused={this.state.isWindowFocused}
-                  sortedNewsItems={this.props.newslist}
-                  initialRenderTips={this.state.initialRenderTips}
-                  isLoading={this.props.isNewsfeedLoading}
-                  fetchMoreNewsFeed={() =>
-                    this.props.fetchMoreNewsItems(this.state.filters)
-                  }
-                  closeTips={this.closeTips}
-                  selectedNewsItemId={this.props.newsItemId}
-                  onNewsItemClick={(newsItem: NewsItem) => {
-                    this.props.history.push(
-                      `/news/${newsItem.id}/${slugify(newsItem.title)}`,
-                    )
-                  }}
-                  onCoinClick={coinClickHandler}
-                  hasMore={this.props.hasMore}
-                />
-              </>
-            }
-            rightSection={
-              <BodySection
-                coinSlug={this.props.coinSlug}
-                newsItemId={this.props.newsItemId}
-                initialNewsItem={this.props.initialNewsItem}
-                initialCoinWithDetails={this.props.initialCoinWithDetails}
-                contentType={this.getContentType()}
-                loggedIn={this.props.loggedIn}
-                onCoinClick={coinClickHandler}
-              />
-            }
-            drawerSection={
-              <CoinListDrawer
-                isShown={this.state.ActiveMobileWindow === 'CoinsList'}
-                onClose={() => this.setState({ ActiveMobileWindow: 'None' })}
-                loggedIn={this.props.loggedIn}
-                onClick={() => this.setState({ ActiveMobileWindow: 'None' })}
-              />
             }
           />
         </EventListener>

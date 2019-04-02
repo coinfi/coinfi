@@ -1,10 +1,34 @@
 import React, { Component } from 'react'
 import _ from 'lodash'
 import Datafeed from './Datafeed'
+import { withStyles, createStyles } from '@material-ui/core/styles'
 
 const containerID = 'tradingview'
 
-export default class TradingViewChart extends Component {
+/***
+ * Darkmode is implemented by using filters to achieve a reasonable background colour/colour scheme
+ * This calculator was used to get the desired filter: https://codepen.io/sosuke/pen/Pjoqqp
+ * Based off the following stack overflow answer: https://stackoverflow.com/a/43960991/604861
+ * True to background colour (dark-pine-green)
+ *  filter: invert(92%) sepia(16%) saturate(3707%) hue-rotate(166deg) brightness(94%) contrast(96%);
+ * Possibly better looking colours
+ *  filter: invert(92%) sepia(58%) saturate(662%) hue-rotate(157deg) brightness(97%) contrast(98%);
+ */
+
+const styles = (theme) => {
+  const isDarkMode = theme.palette.type === 'dark'
+
+  return createStyles({
+    root: {
+      ...(isDarkMode && {
+        filter:
+          'invert(92%) sepia(58%) saturate(662%) hue-rotate(157deg) brightness(97%) contrast(98%)',
+      }),
+    },
+  })
+}
+
+class TradingViewChart extends Component {
   TradingView
   tvWidget
   resetHandler
@@ -24,7 +48,8 @@ export default class TradingViewChart extends Component {
 
   componentDidMount() {
     // TODO: inject TV lib here
-    const { symbol } = this.props
+    const { coinObj } = this.props
+    const { symbol } = coinObj
     const TradingView = this.getTradingView()
 
     // Options resource https://github.com/stevenGame/jr-chart/wiki/Widget-Constructor
@@ -32,7 +57,7 @@ export default class TradingViewChart extends Component {
     this.tvWidget = new TradingView.widget({
       debug: false,
       fullscreen: false,
-      symbol: symbol,
+      symbol,
       interval: '60',
       container_id: containerID,
       datafeed: new Datafeed(
@@ -62,12 +87,12 @@ export default class TradingViewChart extends Component {
       // user_id: 'public_user_id',
       width: '100%',
       favorites: {
-        intervals: ['60', 'D'],
+        intervals: ['D'],
       },
-      timeframe: '7d',
+      timeframe: '1m',
       time_frames: [
-        { text: '1d', resolution: '60', description: '1 Day' },
-        { text: '7d', resolution: '60', description: '7 Days' },
+        // { text: '1d', resolution: '60', description: '1 Day' },
+        // { text: '7d', resolution: '60', description: '7 Days' },
         { text: '1m', resolution: 'D', description: '1 Month' },
         { text: '3m', resolution: 'D', description: '3 Months' },
         { text: '6m', resolution: 'D', description: '6 Months' },
@@ -88,6 +113,8 @@ export default class TradingViewChart extends Component {
 
   getHourlyData = () => {
     return this.props.priceDataHourly
+      ? this.props.priceDataHourly
+      : this.props.priceData
   }
 
   setResetHandler = (onResetCacheNeededCallback) => {
@@ -120,6 +147,8 @@ export default class TradingViewChart extends Component {
   }
 
   render() {
-    return <div id={containerID} />
+    return <div id={containerID} className={this.props.classes.root} />
   }
 }
+
+export default withStyles(styles)(TradingViewChart)

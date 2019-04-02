@@ -1,11 +1,21 @@
-import axios from 'axios'
-import qs from 'qs'
+import axios, { AxiosResponse } from 'axios'
+import * as qs from 'qs'
+import * as P from 'bluebird'
+
+P.config({
+  cancellation: true,
+})
 
 axios.defaults.paramsSerializer = (params) => {
   return qs.stringify(params, { arrayFormat: 'brackets' })
 }
 
-const request = (path, data = {}, remote = true, type = 'get') => {
+const request = (
+  path,
+  data = {},
+  remote = true,
+  type = 'get',
+): any | AxiosResponse<any> => {
   let config = {}
   let endpoint = '/api'
   let params = data
@@ -14,11 +24,17 @@ const request = (path, data = {}, remote = true, type = 'get') => {
       .querySelector('meta[name="csrf-token"]')
       .getAttribute('content'),
   }
-  if (type === 'get') params = { params }
-  if (remote) endpoint = window.pricesURL
-  if (!remote) config = { headers }
+  if (type === 'get') {
+    params = { params }
+  }
+  if (remote) {
+    endpoint = (window as any).pricesURL
+  }
+  if (!remote) {
+    config = { headers }
+  }
   const url = `${endpoint}${path}`
-  return new Promise((resolve) => {
+  return new P((resolve) => {
     if (type === 'delete') {
       axios
         .delete(url, { data, headers })
@@ -26,7 +42,7 @@ const request = (path, data = {}, remote = true, type = 'get') => {
           resolve(response.data || response)
         })
         .catch((error) => {
-          console.log(error)
+          console.log(error) // tslint:disable-line
         })
       return
     }
@@ -35,22 +51,22 @@ const request = (path, data = {}, remote = true, type = 'get') => {
         resolve(response.data || response)
       })
       .catch((error) => {
-        console.log(error)
+        console.log(error) // tslint:disable-line
       })
   })
 }
 
 export default {
-  get(path, data, remote) {
+  get(path, data?, remote?) {
     return request(path, data, remote, 'get')
   },
-  post(path, data, remote) {
+  post(path, data?, remote?) {
     return request(path, data, remote, 'post')
   },
-  patch(path, data, remote) {
+  patch(path, data?, remote?) {
     return request(path, data, remote, 'patch')
   },
-  delete(path, data, remote) {
+  delete(path, data?, remote?) {
     return request(path, data, remote, 'delete')
   },
 }

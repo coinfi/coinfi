@@ -4,10 +4,7 @@ class ApplicationController < ActionController::Base
 
   protect_from_forgery with: :exception
   before_action :set_locale
-
-  def after_sign_in_path_for(resource)
-    '/news'
-  end
+  before_action :set_no_seo, if: :devise_controller?
 
 private
 
@@ -21,6 +18,10 @@ private
   end
 
 protected
+
+  def after_sign_in_path_for(resource)
+    request.env['omniauth.origin'] || stored_location_for(resource) || root_path
+  end
 
   def is_production?
     (ENV['IS_PRODUCTION'] || "false").downcase == 'true'
@@ -36,4 +37,66 @@ protected
     false
   end
   helper_method :has_listings_feature?
+
+  def set_no_seo
+    set_meta_tags(
+      robots: 'noindex,follow'
+    )
+  end
+
+  def hide_footer
+    @hide_footer = true
+  end
+
+  def hide_footer?
+    @hide_footer
+  end
+  helper_method :hide_footer?
+
+  def hide_currency
+    @hide_currency = true
+  end
+
+  def hide_currency?
+    @hide_currency
+  end
+  helper_method :hide_currency?
+
+  def show_dark_mode
+    @show_dark_mode = true
+  end
+
+  def show_dark_mode?
+    @show_dark_mode
+  end
+  helper_method :show_dark_mode?
+
+  def set_fluid
+    @is_fluid = true
+  end
+
+  def is_fluid?
+    @is_fluid
+  end
+  helper_method :is_fluid?
+
+  # Helpers to use devise forms anywhere
+  # https://github.com/plataformatec/devise/wiki/How-To:-Display-a-custom-sign_in-form-anywhere-in-your-app
+  helper_method :resource_name, :resource, :devise_mapping, :resource_class
+
+  def resource_name
+    :user
+  end
+
+  def resource
+    @resource ||= User.new
+  end
+
+  def resource_class
+    User
+  end
+
+  def devise_mapping
+    @devise_mapping ||= Devise.mappings[:user]
+  end
 end

@@ -1,10 +1,12 @@
 import React, { Component } from 'react'
+import * as _ from 'lodash'
 import { withStyles, createStyles } from '@material-ui/core/styles'
 import classnames from 'classnames'
 import CoinListContext from '../contexts/CoinListContext'
+import { athensDarker } from '../styles/colors'
 
-const styles = (theme) =>
-  createStyles({
+const styles = (theme) => {
+  return createStyles({
     tabRoot: {
       padding: '0 !important',
       margin: '0 !important',
@@ -15,19 +17,34 @@ const styles = (theme) =>
       justifyContent: 'center !important',
       paddingBottom: '12px !important',
       borderBottom: '2px solid transparent',
+      color: theme.palette.text.primary,
       '&.active': {
-        borderBottom: '2px solid #23adf0 !important',
+        borderColor: theme.palette.primary.main,
+        borderBottomStyle: 'solid',
+        borderBottomWidth: '2px',
       },
     },
     linkRoot: {
       cursor: 'pointer',
       fontWeight: 100,
-      color: '#555',
+      color: theme.palette.text.secondary,
       '&.active': {
-        color: '#23adf0 !important',
+        color: theme.palette.primary.main,
       },
     },
+    panelHeader: {
+      display: 'flex',
+      flex: 'none',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      borderColor: _.get(theme, ['palette', 'border', 'main'], athensDarker),
+      borderBottomStyle: 'solid',
+      borderBottomWidth: '1px',
+      backgroundColor: theme.palette.background.default,
+    },
   })
+}
+
 class CoinListHeader extends Component {
   render() {
     const { classes } = this.props
@@ -35,12 +52,9 @@ class CoinListHeader extends Component {
       <CoinListContext.Consumer>
         {(payload) => {
           return (
-            <div
-              id="panel-header"
-              className="b--b flex-none flex justify-between items-center bg-athens tabs"
-            >
+            <div id="panel-header" className={classes.panelHeader}>
               <div
-                className={classnames(classes.tabRoot, {
+                className={classnames(classes.tabRoot, 'coinlist-tab', {
                   active: !payload.isWatchlist,
                 })}
                 onClick={payload.showToplist}
@@ -55,7 +69,7 @@ class CoinListHeader extends Component {
                 </a>
               </div>
               <div
-                className={classnames(classes.tabRoot, {
+                className={classnames(classes.tabRoot, 'coinlist-tab', {
                   active: payload.isWatchlist,
                 })}
                 onClick={payload.showWatchlist}

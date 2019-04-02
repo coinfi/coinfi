@@ -1,5 +1,5 @@
 <nav class="nav w-100 border-box ph3 bb b--black-10">
-  <div class="nav__inner<%= ' fixed-width' unless @is_fluid %>">
+  <div class="nav__inner<%= ' fixed-width' unless is_fluid? %>">
     <!-- Menu toggle -->
     <a href="#" class="nav-menu-toggle link">
       <img src="<%= image_path('nav-trigger.svg') %>" class="nav-menu-toggle__img">
@@ -11,38 +11,38 @@
     </a>
 
     <!-- Menu -->
-    <div class="nav-menu nav-menu--out ph0-ns">
-      <%= nav_link "Trading Signals", "/signals", { class: "nav-menu__item" } %>
-      <%= nav_link "Research", "https://www.coinfi.com/research/", { class: "nav-menu__item" } %>
-      <%= nav_link "News", "/news", { class: "nav-menu__item" } %>
-      <div class="nav-menu-item-coins">
-        <div class="nav-menu__item nav-menu-coins-toggle"><span>Coins </span><i class="fa fa-angle-down"></i></div>
-        <div class="nav-menu-coins">
-          <div class="nav-menu-coins__inner">
-            <%= nav_link "Top Coins", "/coins", { class: "nav-menu__item" } %>
-            <%= nav_link "ICOs", "/icos/upcoming", { class: "nav-menu__item" } %>
-            <%= nav_link "ERC-20 Token Metrics", "/token-metrics", { class: "nav-menu__item" } %>
+    <div id="nav-menu" class="nav-menu nav-menu--out ph0-ns">
+      <div class="nav-items">
+        <%= nav_link "Trading Signals", "/signals", { class: "nav-menu__item" } %>
+        <%= nav_link "Research", "https://www.coinfi.com/research/", { class: "nav-menu__item" } %>
+        <%= nav_link "News", "/news", { class: "nav-menu__item" } %>
+        <div class="nav-menu-item-coins">
+          <div class="nav-menu__item nav-menu-coins-toggle"><span>Coins </span><i class="fa fa-angle-down"></i></div>
+          <div class="nav-menu-coins">
+            <div class="nav-menu-coins__inner">
+              <%= nav_link "Top Coins", "/coins", { class: "nav-menu__item" } %>
+              <%= nav_link "ERC-20 Token Metrics", "/token-metrics", { class: "nav-menu__item" } %>
+            </div>
+          </div>
+        </div>
+        <div class="nav-menu-item-company">
+          <div class="nav-menu__item nav-menu-company-toggle"><span>Company </span><i class="fa fa-angle-down"></i></div>
+          <div class="nav-menu-company">
+            <div class="nav-menu-company__inner">
+            <%= nav_link "Podcast", "/podcast", { class: "nav-menu__item" } %>
+            <%= nav_link "Blog", "https://blog.coinfi.com/", { class: "nav-menu__item" } %>
+            <%= nav_link "Careers", "https://careers.coinfi.com", { class: "nav-menu__item" } %>
+            <%= nav_link "Press", "/press", { class: "nav-menu__item" } %>
+            <%= nav_link "About", "/about", { class: "nav-menu__item" } %>
+            <%= nav_link "Feedback", "https://feedback.coinfi.com/feature-requests", { class: "nav-menu__item" } %>
+            <%= nav_link "Contact Us", "/contact-us", { class: "nav-menu__item" } %>
+            </div>
           </div>
         </div>
       </div>
-      <div class="nav-menu-item-company">
-        <div class="nav-menu__item nav-menu-company-toggle"><span>Company </span><i class="fa fa-angle-down"></i></div>
-        <div class="nav-menu-company">
-          <div class="nav-menu-company__inner">
-          <%= nav_link "Podcast", "/podcast", { class: "nav-menu__item" } %>
-          <%= nav_link "Blog", "https://blog.coinfi.com/", { class: "nav-menu__item" } %>
-          <%= nav_link "Careers", "https://careers.coinfi.com", { class: "nav-menu__item" } %>
-          <%= nav_link "Press", "/press", { class: "nav-menu__item" } %>
-          <%= nav_link "About", "/about", { class: "nav-menu__item" } %>
-          <%= nav_link "Feedback", "https://feedback.coinfi.com/feature-requests", { class: "nav-menu__item" } %>
-          <%= nav_link "Contact Us", "/contact-us", { class: "nav-menu__item" } %>
-          </div>
-        </div>
-      </div>
-
 
       <div class="nav-menu-actions pa2">
-        <% unless @hide_currency %>
+        <% unless hide_currency? %>
           <%= react_component_with_jss "CurrencySelectorWidget", props: { user: current_user }, prerender: false %>
         <% end %>
         <% if user_signed_in? %>
@@ -57,21 +57,29 @@
           <%= link_to "My Profile", profile_path, class: "nav-menu-actions__btn nav-menu-actions--primary" %>
           <%= button_to "Logout", destroy_user_session_path, method: :delete, class: "nav-menu-actions__btn nav-menu-actions--secondary", form_class: "nav-menu-actions__logout-form" %>
         <% else %>
-          <%= link_to "Login", new_user_session_path, class: "nav-menu-actions__btn nav-menu-actions--secondary" %>
+          <a href="#login" onclick="openLoginModal(event)" class="nav-menu-actions__btn nav-menu-actions--secondary">Login</a>
+          <a href="#sign-up" onclick="openSignUpModal(event)" class="nav-menu-actions--primary nav-menu-actions--primary nav-menu-close">Get Started</a>
         <% end %>
       </div>
     </div>
 
     <!-- Actions -->
     <div class="nav-actions">
-      <% unless @hide_currency %>
+      <% if user_signed_in? %>
+        <%= react_component_with_jss "NavUserContainer", { props: { formAuthenticityToken: form_authenticity_token, userEmail: current_user.try(:email), user: current_user, showDarkMode: show_dark_mode? } } %>
+      <% else %>
+        <a href="#login" onclick="openLoginModal(event)" class="nav-menu__item nav-menu-login">Login</a>
+        <a href="#sign-up" onclick="openSignUpModal(event)" class="nav-menu__item nav-menu--primary">Get Started</a>
+      <% end %>
+      <% unless hide_currency? %>
         <%= react_component_with_jss "CurrencySelectorWidget", props: { user: current_user }, prerender: false %>
       <% end %>
-      <% if user_signed_in? %>
-        <%= react_component_with_jss "NavUserContainer", { props: { formAuthenticityToken: form_authenticity_token, userEmail: current_user.email } } %>
-      <% else %>
-        <%= link_to "Login", new_user_session_path, { class: "nav-menu__item" } %>
-      <% end %>
     </div>
+
+    <% if show_dark_mode? %>
+      <div class="nav-dark-mode-toggle">
+        <%= react_component_with_jss "DarkModeContainer", props: { user: current_user }, prerender: false %>
+      </div>
+    <% end %>
   </div>
 </nav>

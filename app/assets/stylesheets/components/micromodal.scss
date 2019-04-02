@@ -1,0 +1,192 @@
+/**************************\
+  Basic Modal Styles
+\**************************/
+
+.micromodal {
+  .modal__overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999999;
+  }
+
+  .modal__container {
+    background-color: $white;
+    max-width: 400px;
+    max-height: 100vh;
+    border-radius: 4px;
+    overflow-y: auto;
+    box-sizing: border-box;
+    margin-left: 16px;
+    margin-right: 17px;
+  }
+
+  .modal__header {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    color: $black-80;
+    background-color: $pearl-gray;
+    border-bottom: 1px solid $black-10;
+    padding: 16px;
+    min-height: 88px;
+  }
+
+  .modal__title {
+    margin-top: 0;
+    margin-bottom: 0;
+    font-size: 12px;
+    line-height: 1.25;
+    box-sizing: border-box;
+  }
+
+  .modal__close {
+    background: transparent;
+    border: 0;
+  }
+
+  .modal__header .modal__close:before {
+    content: '\2715';
+  }
+
+  .modal__content {
+    padding: 16px;
+    line-height: 1.5;
+    color: $black-80;
+
+    /* !important is necessary to ignore dark mode */
+    input {
+      margin-bottom: 8px;
+      color: $black-70 !important;
+      border-color: $black-40 !important;
+    }
+
+    .btn {
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .btn + .btn {
+      margin-top: 8px;
+    }
+  }
+
+  .modal__footer {
+    padding: 16px;
+    color: $black-60;
+    font-size: 10px;
+    font-weight: 500;
+    line-height: 1.4;
+
+    .important {
+      font-size: 14px;
+    }
+  }
+
+  .modal__content + .modal__footer {
+    padding-top: 0;
+  }
+
+  // specific styles
+  #modal-signed-up-content {
+    display: none;
+    min-height: 300px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    i {
+      color: #12d8b8;
+      font-size: 33px;
+    }
+
+    h4 {
+      font-size: 16px;
+      font-weight: 500;
+      color: $black-90;
+      margin-top: 16px;
+      margin-bottom: 8px;
+    }
+
+    div {
+      font-size: 14px;
+      color: $black-50;
+    }
+  }
+}
+
+/**************************\
+  Demo Animation Style
+\**************************/
+@keyframes mmfadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes mmfadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes mmslideIn {
+  from {
+    transform: translateY(15%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+@keyframes mmslideOut {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(-10%);
+  }
+}
+
+.micromodal-slide {
+  display: none;
+}
+
+.micromodal-slide.is-open {
+  display: block;
+}
+
+.micromodal-slide[aria-hidden='false'] .modal__overlay {
+  animation: mmfadeIn 0.3s cubic-bezier(0, 0, 0.2, 1);
+}
+
+.micromodal-slide[aria-hidden='false'] .modal__container {
+  animation: mmslideIn 0.3s cubic-bezier(0, 0, 0.2, 1);
+}
+
+.micromodal-slide[aria-hidden='true'] .modal__overlay {
+  animation: mmfadeOut 0.3s cubic-bezier(0, 0, 0.2, 1);
+}
+
+.micromodal-slide[aria-hidden='true'] .modal__container {
+  animation: mmslideOut 0.3s cubic-bezier(0, 0, 0.2, 1);
+}
+
+.micromodal-slide .modal__container,
+.micromodal-slide .modal__overlay {
+  will-change: transform;
+}

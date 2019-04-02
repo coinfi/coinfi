@@ -1,12 +1,11 @@
 import * as React from 'react'
-import timeago from 'timeago.js'
+import * as moment from 'moment'
 import sanitizeHtml from 'sanitize-html'
 import * as _ from 'lodash'
 import CoinTags from '~/bundles/common/components/CoinTags'
 import BulletSpacer from '~/bundles/common/components/BulletSpacer'
 import Icon from '~/bundles/common/components/Icon'
-import localAPI from '../common/utils/localAPI'
-
+import classnames from 'classnames'
 import TwitterBody from './TwitterBody'
 import CallToAction from './CallToAction'
 import LoadingIndicator from '../common/components/LoadingIndicator'
@@ -15,13 +14,20 @@ import {
   isTwitter,
   getTwitterUsername,
 } from '~/bundles/common/utils/url'
-
+import Votes from './Votes'
 import { NewsItem } from './types'
 import { CoinClickHandler } from '~/bundles/common/types'
 import NewsBodyShareButtons from './NewsBodyShareButtons'
 import { RailsConsumer } from '~/bundles/common/contexts/RailsContext'
+import { Tooltip } from '@material-ui/core'
+import { withStyles, createStyles } from '@material-ui/core/styles'
+import {
+  withNewsfeed,
+  NewsfeedContextType,
+} from '~/bundles/NewsfeedPage/NewsfeedContext'
 
-interface Props {
+interface Props extends NewsfeedContextType {
+  classes: any
   loggedIn: boolean
   initialNewsItem?: NewsItem
   newsItemId?: string
@@ -32,7 +38,53 @@ interface State {
   newsItem: NewsItem
 }
 
-export default class NewsBody extends React.Component<Props, State> {
+const styles = (theme) => {
+  return createStyles({
+    root: {
+      background: theme.palette.background.paper,
+      color: theme.palette.text.primary,
+      minHeight: '100%',
+      padding: '1rem',
+    },
+    hr: {
+      borderColor: theme.palette.border.main,
+      borderBottomStyle: 'solid',
+      borderBottomWidth: '1px',
+      marginTop: '1rem',
+      marginBottom: '1rem',
+    },
+    title: {
+      wordBreak: 'break-word',
+      fontSize: '1.25rem',
+      color: `${theme.palette.text.primary} !important`,
+    },
+    subtitle: {
+      color: theme.palette.text.secondary,
+      fontSize: '0.875rem',
+      marginBottom: '1rem',
+    },
+    article: {
+      lineHeight: 1.5,
+      '& hr': {
+        border: `0.5px solid ${theme.palette.border.main}`,
+      },
+    },
+    localTime: {
+      cursor: 'default',
+    },
+    footer: {
+      marginBottom: '1rem',
+    },
+    footerShare: {
+      fontSize: '1rem',
+      color: theme.palette.text.primary,
+    },
+  })
+}
+
+class NewsBody extends React.Component<Props, State> {
+  public pendingPromises = []
+
   constructor(props) {
     super(props)
 
@@ -42,7 +94,9 @@ export default class NewsBody extends React.Component<Props, State> {
   }
 
   public componentDidMount() {
-    if (this.props.newsItemId) {
+    if (
+      parseInt(this.props.newsItemId, 10) !== _.get(this.state.newsItem, 'id')
+    ) {
       this.fetchNewsItemDetails()
     }
   }
@@ -70,16 +124,34 @@ export default class NewsBody extends React.Component<Props, State> {
     }
   }
 
-  public fetchNewsItemDetails() {
-    localAPI.get(`/news/${this.props.newsItemId}`).then((response) => {
-      this.setState({
-        newsItem: response.payload,
-      })
+  public componentWillUnmount() {
+    this.pendingPromises.map((p) => {
+      if (p.isPending()) {
+        p.cancel()
+      }
     })
+  }
+
+  public fetchNewsItemDetails() {
+    const fetchNewsPromise = this.props
+      .fetchNewsItem(parseInt(this.props.newsItemId, 10))
+      .then((newsItem) => {
+        this.setState({
+          newsItem,
+        })
+        this.cleanupPromiseQueue()
+      })
+
+    this.pendingPromises.push(fetchNewsPromise)
+  }
+
+  public cleanupPromiseQueue = () => {
+    this.pendingPromises = this.pendingPromises.filter((p) => !p.isPending())
   }
 
   public render() {
     const { newsItem } = this.state
+    const { classes } = this.props
 
     if (!newsItem) {
       return (
@@ -102,17 +174,23 @@ export default class NewsBody extends React.Component<Props, State> {
     const categories = newsItem.categories
 
     const content = _.trim(newsItem.content) || _.trim(newsItem.summary)
+    const publishedAt = moment(newsItem.feed_item_published_at)
 
     return (
-      <div className="pa3 bg-white min-h-100 selected-news-content">
+      <div
+        className={classnames(
+          classes.root,
+          'selected-news-content', // for query selectors
+        )}
+      >
         {/* Header */}
         <CoinTags
           itemWithCoinLinkData={newsItem}
           getLink={(data) => `/news/${data.slug}`}
           onClick={this.props.onCoinClick}
         />
-        <h1 className="break-word f4">{newsItem.title}</h1>
-        <div className="mb3 f6">
+        <h1 className={classes.title}>{newsItem.title}</h1>
+        <div className={classes.subtitle}>
           <a
             href={newsItem.url}
             target="_blank"
@@ -123,12 +201,21 @@ export default class NewsBody extends React.Component<Props, State> {
             {newsItem.url}
           </a>
         </div>
-        <div className="mb3 f6">
+        <div className={classes.subtitle}>
           <Icon name="clock" className="mr1 f7" />
-          {timeago().format(newsItem.feed_item_published_at)}
+          <Tooltip
+            title={moment.utc(publishedAt).format('lll z')}
+            className={classes.localTime}
+          >
+            <span>{publishedAt.format('lll Z')}</span>
+          </Tooltip>
           <BulletSpacer />
           <span>
-            {new Date(newsItem.feed_item_published_at).toLocaleString()}
+            <Votes
+              newsItemId={newsItem.id}
+              showControls={true}
+              isLoggedIn={this.props.loggedIn}
+            />
           </span>
         </div>
         {categories.length > 0 && (
@@ -141,11 +228,11 @@ export default class NewsBody extends React.Component<Props, State> {
           </div>
         )}
 
-        <div className="mv3 b--b" />
+        <div className={classes.hr} />
 
         {/* Content */}
         <div
-          className="lh-copy"
+          className={classes.article}
           dangerouslySetInnerHTML={{
             __html: sanitizeHtml(content, {
               allowedTags: sanitizeHtml.defaults.allowedTags.concat(['img']),
@@ -153,11 +240,11 @@ export default class NewsBody extends React.Component<Props, State> {
           }}
         />
 
-        <div className="mv3 b--b" />
+        <div className={classes.hr} />
 
         {/* Footer */}
-        <div className="mb3">
-          <h2 className="f5">Share This Article</h2>
+        <div className={classes.footer}>
+          <h2 className={classes.footerShare}>Share This Article</h2>
           <RailsConsumer>
             {({ href }) => {
               const initialHref = href
@@ -187,3 +274,5 @@ export default class NewsBody extends React.Component<Props, State> {
     )
   }
 }
+
+export default withStyles(styles)(withNewsfeed(NewsBody))

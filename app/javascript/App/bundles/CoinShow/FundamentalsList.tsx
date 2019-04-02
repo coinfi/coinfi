@@ -4,6 +4,7 @@ import * as moment from 'moment'
 import { Grid } from '@material-ui/core'
 import { withStyles, createStyles } from '@material-ui/core/styles'
 import { formatValue } from '~/bundles/common/utils/numberFormatters'
+import { black54 } from '~/bundles/common/styles/colors'
 
 interface Props {
   coinObj: any
@@ -14,7 +15,7 @@ interface Props {
 const styles = (theme) =>
   createStyles({
     title: {
-      color: 'rgba(0,0,0,0.54)',
+      color: black54,
       marginBottom: '4px',
       fontSize: '12px',
       lineHeight: '22px',

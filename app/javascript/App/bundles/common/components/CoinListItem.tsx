@@ -1,14 +1,17 @@
 import * as React from 'react'
 import * as _ from 'lodash'
-import classNames from 'classnames'
+import classnames from 'classnames'
 import PercentageChange from '~/bundles/common/components/PercentageChange'
 import WatchStar from '~/bundles/common/components/WatchStar'
 import { Coin } from '~/bundles/common/types'
+import { withStyles, createStyles } from '@material-ui/core/styles'
 import CurrencyContext, {
   CurrencyContextType,
 } from '~/bundles/common/contexts/CurrencyContext'
+import { athensDarker, foam } from '~/bundles/common/styles/colors'
 
 interface Props {
+  classes: any
   coin: Coin
   loggedIn: boolean
   isSelected: boolean
@@ -16,13 +19,61 @@ interface Props {
   generateLink?: (coin: Coin) => string
 }
 
+const styles = (theme) =>
+  createStyles({
+    root: {
+      padding: '0.75rem',
+      display: 'flex',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      flex: '1 1 auto',
+      minWidth: 0,
+      minHeight: 57,
+      borderColor: _.get(theme, ['palette', 'border', 'main'], athensDarker),
+      borderBottomStyle: 'solid',
+      borderBottomWidth: '1px',
+      color: _.get(theme, ['palette', 'text', 'primary'], '#555'),
+      fontSize: '16px',
+      [theme.breakpoints.between('md', 'lg')]: {
+        padding: '0.5rem',
+        fontSize: '14px',
+      },
+    },
+    selected: {
+      background: _.get(theme, ['palette', 'background', 'selected'], foam),
+    },
+    textContainer: {
+      display: 'flex',
+      flex: '1 1 auto',
+      minWidth: 0,
+      minHeight: 0,
+      justifyContent: 'space-between',
+      alignItems: 'center',
+    },
+    coinSymbol: {
+      paddingLeft: '0.5rem',
+      fontWeight: 'bold',
+      [theme.breakpoints.between('md', 'lg')]: {
+        paddingLeft: '0.25rem',
+      },
+    },
+    coinDetails: {
+      textAlign: 'right',
+    },
+    coinDetailsSubtitle: {
+      display: 'block',
+      fontSize: '0.8em',
+      fontWeight: 'bold',
+    },
+  })
+
 const roundToDecimalPlaces = (num, places) =>
   Math.round(num * 10 ** places) / 10 ** places
 
-export default (props: Props) => (
+const CoinListItem = (props: Props) => (
   <CurrencyContext.Consumer>
     {({ currencyRate, currencySymbol }: CurrencyContextType) => {
-      const { coin, loggedIn, generateLink } = props
+      const { coin, loggedIn, generateLink, classes } = props
 
       const coinPrice =
         parseFloat(_.get(coin, ['market_info', 'price_usd'])) * currencyRate
@@ -35,20 +86,28 @@ export default (props: Props) => (
       return (
         <a
           href={link}
-          className={classNames('pa-default b--b flex items-center pointer', {
-            'bg-foam': props.isSelected,
+          className={classnames(classes.root, {
+            [classes.selected]: props.isSelected,
           })}
-          style={{ minHeight: 57, color: '#555' }}
           onClick={(event) => {
             event.preventDefault()
             props.onSelectCoin(coin)
           }}
         >
           <WatchStar coin={coin} hasText={false} loggedIn={loggedIn} />
-          <div className="flex-auto flex justify-between items-center">
-            <div className="b f5 pl2">{coin.symbol}</div>
+          <div className={classes.textContainer}>
+            <div
+              className={classnames(classes.coinSymbol, 'coinlist-coin-symbol')}
+            >
+              {coin.symbol}
+            </div>
             {coin.market_info && (
-              <div className="right-align">
+              <div
+                className={classnames(
+                  classes.coinDetails,
+                  'coinlist-coin-details',
+                )}
+              >
                 {coinPrice ? (
                   <>
                     <div>
@@ -57,7 +116,10 @@ export default (props: Props) => (
                     </div>
                     <PercentageChange
                       value={percentChange}
-                      className="smaller2 b db"
+                      className={classnames(
+                        classes.coinDetailsSubtitle,
+                        'coinlist-coin-change',
+                      )}
                     />
                   </>
                 ) : (
@@ -71,3 +133,5 @@ export default (props: Props) => (
     }}
   </CurrencyContext.Consumer>
 )
+
+export default withStyles(styles)(CoinListItem)

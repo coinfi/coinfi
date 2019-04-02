@@ -1,25 +1,38 @@
 import * as React from 'react'
-import Icon from './Icon'
+import { green, sunset } from '~/bundles/common/styles/colors'
+import { withStyles, createStyles } from '@material-ui/core/styles'
+import classnames from 'classnames'
+
+const styles = (theme) =>
+  createStyles({
+    positiveValue: {
+      color: green,
+    },
+    negativeValue: {
+      color: sunset,
+    },
+  })
 
 interface Props {
+  classes: any
   value: string
   className: string
 }
 
-const PercentageChange = ({ value, className }: Props) => {
+const PercentageChange = ({ classes, value, className }: Props) => {
   const n = parseFloat(value)
-  let klass = 'green'
-  if (n < 0) {
-    klass = 'sunset'
-  }
-  if (className) {
-    klass = `${className} ${klass}`
-  }
-  const percentage = `${n}%`
+
   if (isNaN(n)) {
     return <div />
   }
-  return <span className={klass}>{percentage}</span>
+
+  const isPositive = n >= 0
+  const klasses = classnames(
+    className,
+    isPositive ? classes.positiveValue : classes.negativeValue,
+  )
+  const percentage = `${n}%`
+  return <span className={klasses}>{percentage}</span>
 }
 
-export default PercentageChange
+export default withStyles(styles)(PercentageChange)

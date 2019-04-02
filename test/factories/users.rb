@@ -2,7 +2,14 @@ FactoryBot.define do
   factory :user do
     sequence(:email) { |n| "user#{n}@example.com" }
     password { "password" }
+    confirmed_at { DateTime.now }
     token_sale {{}}
+
+    trait :unverified do
+      confirmed_at { nil }
+      password { "" }
+      encrypted_password { "" }
+    end
 
     trait :with_token_sale do
       after(:build) do |user, evaluator|

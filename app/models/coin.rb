@@ -4,7 +4,6 @@ class Coin < ApplicationRecord
   include ICO
   include CoinsHelper
   include TokensHelper
-  include ActionView::Helpers::NumberHelper
   extend FriendlyId
   friendly_id :name, use: [:slugged, :finders]
 
@@ -42,6 +41,7 @@ class Coin < ApplicationRecord
   before_save :update_previous_name
 
   scope :legit, -> { where.not(image_url: nil) }
+  scope :listed, -> { where(is_listed: true) }
   scope :top, -> (limit) { order(ranking: :asc).limit(limit) }
   scope :quick_top, -> (limit) { where("coins.ranking >= ?", limit) }
   scope :icos, -> { where(ico_status: ICO_STATUSES).order(:ico_end_date) }
@@ -50,7 +50,7 @@ class Coin < ApplicationRecord
   alias_method :industries, :coin_industries
 
   ICO_STATUSES.each do |status|
-    scope status, -> { where(ico_status: status) }
+    scope "ico_#{status}", -> { where(ico_status: status) }
     define_method "ico_#{status}?" do
       ico_status == status
     end
@@ -137,6 +137,18 @@ class Coin < ApplicationRecord
     result.flatten.join(' ')
   end
 
+  def image_url
+    image = read_attribute(:image_url)
+    image_re = /s2\.coinmarketcap\.com\/static\/img\/(coins|exchanges)\/[\d]+x[\d]+\/([\d]+)\.png$/i
+    result = image_re.match(image || "")
+
+    if result && result.length >= 3
+      "/static/#{result[1]}/#{result[2]}.png"
+    else
+      image
+    end
+  end
+
   def related_coins
     Coins::RelatedToQuery.call(coin: self)
   end
@@ -186,6 +198,22 @@ class Coin < ApplicationRecord
     cached_market_data.dig("total_supply") || 0
   end
 
+  def total_market_pairs
+    cached_market_pairs.dig("total_pairs") || 0
+  end
+
+  def market_pairs
+    @filtered_market_pairs ||= (cached_market_pairs.dig("market_pairs") || []).select do |pair|
+      price = pair[:price]
+      price.present? && price > 0
+    end
+  end
+
+  def cached_market_pairs
+    @market_pairs ||= Rails.cache.read("#{slug}:pairs") || {}
+    @market_pairs.with_indifferent_access
+  end
+
   def cached_market_data
     @snap_data ||= Rails.cache.read("#{slug}:snapshot") || {}
     @snap_data.with_indifferent_access
@@ -227,7 +255,7 @@ class Coin < ApplicationRecord
 
   def prices_data
     Rails.cache.fetch("coins/#{id}/prices", expires_in: seconds_to_next_day) do
-      url = "#{ENV.fetch('COINFI_POSTGREST_URL')}/daily_ohcl_prices?coin_key=eq.#{coin_key}&to_currency=eq.USD&order=time.asc"
+      url = "#{ENV.fetch('COINFI_POSTGREST_URL')}/cmc_daily_ohcl_prices?coin_key=eq.#{coin_key}&to_currency=eq.USD&order=time.asc"
       response = HTTParty.get(url)
       JSON.parse(response.body)
     end
@@ -244,7 +272,7 @@ class Coin < ApplicationRecord
 
   def sparkline
     Rails.cache.fetch("coins/#{id}/sparkline", expires_in: seconds_to_next_day) do
-      url = "#{ENV.fetch('COINFI_POSTGREST_URL')}/daily_ohcl_prices?coin_key=eq.#{coin_key}&select=close&to_currency=eq.USD&limit=7&order=time.desc"
+      url = "#{ENV.fetch('COINFI_POSTGREST_URL')}/cmc_daily_ohcl_prices?coin_key=eq.#{coin_key}&select=close&to_currency=eq.USD&limit=7&order=time.desc"
       response = HTTParty.get(url)
       results = JSON.parse(response.body)
       results.map! { |result| result["close"] }

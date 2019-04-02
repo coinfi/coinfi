@@ -5,16 +5,33 @@ import { NewsItem } from './types'
 import { getTweetId } from '~/bundles/common/utils/url'
 import { CoinClickHandler } from '../common/types'
 import CallToAction from './CallToAction'
+import { withStyles, createStyles } from '@material-ui/core/styles'
+import {
+  withThemeType,
+  ThemeContextType,
+} from '~/bundles/common/contexts/ThemeContext'
 
-interface Props {
+interface Props extends ThemeContextType {
+  classes: any
   newsItem: NewsItem
   loggedIn: boolean
   onCoinClick?: CoinClickHandler
 }
 
-export default class NewsBody extends React.Component<Props, {}> {
+const styles = (theme) => {
+  return createStyles({
+    root: {
+      color: theme.palette.text.secondary,
+      backgroundColor: theme.palette.background.paper,
+      padding: '2rem',
+      minHeight: '100%',
+    },
+  })
+}
+
+class NewsBody extends React.Component<Props, {}> {
   public render() {
-    const { newsItem, loggedIn } = this.props
+    const { newsItem, loggedIn, classes, isDarkMode } = this.props
 
     if (!newsItem) {
       return null
@@ -24,8 +41,12 @@ export default class NewsBody extends React.Component<Props, {}> {
 
     const categories = newsItem.categories
 
+    const tweetOptions = {
+      ...(isDarkMode && { theme: 'dark' }),
+    }
+
     return (
-      <div className="pa4 bg-white min-h-100">
+      <div className={classes.root}>
         <CoinTags
           itemWithCoinLinkData={newsItem}
           getLink={(data) => `/news/${data.slug}`}
@@ -40,9 +61,11 @@ export default class NewsBody extends React.Component<Props, {}> {
             ))}
           </div>
         )}
-        <Tweet tweetId={tweetId} />
+        <Tweet tweetId={tweetId} options={tweetOptions} />
         {!loggedIn && <CallToAction alignLeft={true} />}
       </div>
     )
   }
 }
+
+export default withStyles(styles)(withThemeType(NewsBody))

@@ -1,4 +1,5 @@
 class NewsItem < ApplicationRecord
+  acts_as_votable cacheable_strategy: :update_columns
   belongs_to :feed_source
   has_one :user # References the Admin user who tagged this NewsItem
   has_one :news_item_raw
@@ -10,6 +11,7 @@ class NewsItem < ApplicationRecord
   has_many :coins, through: :news_coin_mentions
   has_many :machine_tagged_coins, through: :machine_tagged_news_coin_mentions, source: :coin
   has_many :human_tagged_coins, through: :human_tagged_news_coin_mentions, source: :coin
+  has_one :news_votes_trending, foreign_key: :id
 
   scope :general, -> { where(feed_source: FeedSource.general) }
   scope :no_category, -> { where("news_items.id NOT IN (SELECT news_item_categorizations.news_item_id FROM news_item_categorizations)") }
@@ -76,6 +78,10 @@ class NewsItem < ApplicationRecord
     coins.pluck(:symbol).join(', ')
   end
 
+  def slug
+    self.title.parameterize
+  end
+
   # This is used in Administrate to override the `categories` and `coins` filters.
   def all_coin_symbols
     mentions = NewsCoinMention.where(news_item_id: id)
@@ -104,6 +110,14 @@ class NewsItem < ApplicationRecord
     feed_item_published_at.to_i * 1000
   end
 
+  def vote_score
+    cached_weighted_score
+  end
+
+  def get_vote_by_voter_id(voter_id)
+    votes_for.where(voter_id: voter_id).first
+  end
+
   private
 
   def set_unpublished_if_feed_source_inactive
@@ -130,7 +144,11 @@ class NewsItem < ApplicationRecord
 
   def link_coin_from_feedsource
     if feed_source.coin.present?
-      feed_source.coin.news_items |= [self]
+      begin
+        feed_source.coin.news_items << self
+      rescue ActiveRecord::RecordNotUnique
+        nil
+      end
     end
   end
 

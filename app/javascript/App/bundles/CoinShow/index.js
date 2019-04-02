@@ -17,10 +17,11 @@ import {
   ExpansionPanel,
   ExpansionPanelSummary,
   ExpansionPanelDetails,
+  Tooltip,
 } from '@material-ui/core'
 import { withStyles } from '@material-ui/core/styles'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
-import withWidth, { isWidthDown } from '@material-ui/core/withWidth'
+import withDevice from '~/bundles/common/utils/withDevice'
 import API from '../common/utils/localAPI'
 import SearchCoins from '~/bundles/common/components/SearchCoins'
 import CoinCharts from '~/bundles/common/components/CoinCharts'
@@ -31,11 +32,17 @@ import FundamentalsList from './FundamentalsList'
 import InfoBar from './InfoBar'
 import LinksList from './LinksList'
 import HistoricalPriceDataTable from './HistoricalPriceDataTable'
+import MarketsTable from './MarketsTable'
+import MarketsChart from './MarketsChart'
 import TokenMetrics from './TokenMetrics'
+import SignalTable from './SignalTable'
 import Icon from '~/bundles/common/components/Icon'
 import CoinListWrapper from '~/bundles/common/components/CoinListWrapper'
 import CoinListDrawer from '~/bundles/common/components/CoinListDrawer'
 import { WATCHLIST_CHANGE_EVENT } from '~/bundles/common/containers/CoinListContainer'
+import { formatPrice } from '~/bundles/common/utils/numberFormatters'
+import { withCurrency } from '~/bundles/common/contexts/CurrencyContext'
+import { openSignUpModal } from '~/bundles/common/utils/modals'
 import styles from './styles'
 
 const lightbulb = require('~/images/lightbulb.svg') // tslint:disable-line
@@ -43,6 +50,7 @@ const lightbulb = require('~/images/lightbulb.svg') // tslint:disable-line
 const TAB_SLUGS = {
   tokenMetrics: 'token-metrics',
   priceChart: 'price-chart',
+  markets: 'markets',
   news: 'news',
 }
 
@@ -96,6 +104,8 @@ class CoinShow extends Component {
       this.setState({ tabSlug })
     }
 
+    this.updateTitle()
+
     // Eagerly load price data
     this.getPriceData()
 
@@ -116,8 +126,22 @@ class CoinShow extends Component {
     }, 100)
   }
 
+  componentDidUpdate(prevProps) {
+    if (prevProps.currencyRate !== this.props.currencyRate) {
+      this.updateTitle()
+    }
+  }
+
   componentWillUnmount() {
     document.removeEventListener(WATCHLIST_CHANGE_EVENT, this.onWatchlistChange)
+  }
+
+  updateTitle = () => {
+    const { coinObj: coin, currencyRate, currencySymbol } = this.props
+    const price = formatPrice(coin.price * currencyRate)
+    document.title = `${coin.symbol} (${currencySymbol}${price}) - ${
+      coin.name
+    } Price Chart, Value, News, Market Cap`
   }
 
   hasTokenMetrics = () => {
@@ -125,9 +149,14 @@ class CoinShow extends Component {
     return !_.isEmpty(tokenMetrics)
   }
 
+  hasMarkets = () => {
+    const marketPairs = _.get(this.props, ['coinObj', 'market_pairs'])
+    return !_.isEmpty(marketPairs)
+  }
+
   watchCoinHandler = () => {
     if (!this.props.user) {
-      window.location.href = `/login`
+      openSignUpModal()
       return
     }
 
@@ -253,21 +282,32 @@ class CoinShow extends Component {
     const {
       symbol,
       availableSupply,
-      annotations,
       isTradingViewVisible,
       tokenMetrics,
       coinObj,
       relatedCoins,
       classes,
       user,
+      chartSignals,
+      summarySignals,
+      isDesktop,
     } = this.props
     const { tabSlug, priceData, priceDataHourly } = this.state
+    const isMobile = !isDesktop
 
-    const isMobile = isWidthDown('sm', this.props.width)
     const isLoggedIn = !!user
     const hasTokenMetrics = this.hasTokenMetrics()
+    const hasMarkets = this.hasMarkets()
+    const showFundamentals =
+      tabSlug == TAB_SLUGS.priceChart || tabSlug == TAB_SLUGS.tokenMetrics
+    const showLinks =
+      tabSlug == TAB_SLUGS.priceChart || tabSlug == TAB_SLUGS.tokenMetrics
     const ctaPoints = hasTokenMetrics ? token_cta_points : coin_cta_points
-    const { name: coinName } = coinObj
+    const {
+      name: coinName,
+      market_pairs: marketPairs,
+      total_market_pairs: totalMarketPairs,
+    } = coinObj
 
     return (
       <div className={classes.root}>
@@ -368,6 +408,17 @@ class CoinShow extends Component {
                         labelContainer: classes.tabLabelContainer,
                       }}
                     />
+                    {hasMarkets && (
+                      <Tab
+                        label="Markets"
+                        value={TAB_SLUGS.markets}
+                        classes={{
+                          root: classes.tabRoot,
+                          selected: classes.tabSelected,
+                          labelContainer: classes.tabLabelContainer,
+                        }}
+                      />
+                    )}
                     <Tab
                       label={<NewsLabel />}
                       value={TAB_SLUGS.news}
@@ -401,15 +452,83 @@ class CoinShow extends Component {
                     />
                     <CardContent>
                       <CoinCharts
-                        symbol={symbol}
+                        coinObj={coinObj}
                         priceData={priceData}
                         priceDataHourly={priceDataHourly}
-                        annotations={annotations}
+                        annotations={chartSignals}
                         isTradingViewVisible={isTradingViewVisible}
                         onPriceChartCreated={this.handlePriceChartCreated}
                       />
                     </CardContent>
                   </MainCard>
+                  {_.isArray(summarySignals) && (
+                    <MainCard>
+                      <CardHeader
+                        title={
+                          <>
+                            Whale {symbol} Transfers into Exchange (99.999
+                            Percentile)
+                            <Tooltip
+                              title={
+                                <>
+                                  <div>
+                                    Whale Transfers Into Exchange are large
+                                    transfers of ETH that are larger than
+                                    99.999% of all historical ETH transactions
+                                    into exchanges.
+                                  </div>
+                                  <div>
+                                    When this signal fires, it could indicate
+                                    one of the following:
+                                  </div>
+                                  <ul>
+                                    <li>
+                                      The whale has intention to sell but may
+                                      not sell immediately or all at once
+                                    </li>
+                                    <li>
+                                      There is an ongoing pump and the whale
+                                      sees this as an opportunity to sell
+                                    </li>
+                                    <li>
+                                      The whale could be anticipating higher
+                                      volatility in the future and is preparing
+                                      to trade if necessary
+                                    </li>
+                                  </ul>
+                                </>
+                              }
+                              className={classes.infoIcon}
+                              classes={{ tooltip: classes.infoTooltip }}
+                            >
+                              <Icon name="info-circle" />
+                            </Tooltip>
+                          </>
+                        }
+                        titleTypographyProps={{
+                          variant: 'h2',
+                          component: 'h2',
+                        }}
+                        classes={{
+                          root: classes.cardHeader,
+                          title: classes.cardTitle,
+                        }}
+                      />
+                      <CardContent>
+                        <SignalTable signals={summarySignals} symbol={symbol} />
+                        <div className={classes.signalCtaText}>
+                          <Icon
+                            name="alarm-clock"
+                            solid={true}
+                            className={classes.alarmClockIcon}
+                          />
+                          <a href="/signals">Click here</a> to be instantly
+                          alerted when a whale transfers a large amount of{' '}
+                          {symbol} into exchange
+                        </div>
+                      </CardContent>
+                    </MainCard>
+                  )}
                   <ExpansionPanel
                     square={true}
                     elevation={0}
@@ -436,38 +555,92 @@ class CoinShow extends Component {
               {tabSlug === TAB_SLUGS.tokenMetrics && (
                 <TokenMetrics tokenMetrics={tokenMetrics} coinObj={coinObj} />
               )}
+              {tabSlug === TAB_SLUGS.markets && (
+                <Grid
+                  item={true}
+                  xs={12}
+                  md={8}
+                  className={classnames(
+                    classes.contentContainer,
+                    classes.chartContainer,
+                  )}
+                >
+                  <MainCard>
+                    <CardContent>
+                      <Grid container={true} justify="space-around">
+                        <Grid
+                          item={true}
+                          xs={12}
+                          md={6}
+                          className={classes.marketsChartWrapper}
+                        >
+                          <MarketsChart
+                            data={marketPairs}
+                            symbol={symbol}
+                            sortBy="exchange"
+                          />
+                        </Grid>
+                        <Grid
+                          item={true}
+                          xs={12}
+                          md={6}
+                          className={classes.marketsChartWrapper}
+                        >
+                          <MarketsChart
+                            data={marketPairs}
+                            symbol={symbol}
+                            sortBy="pair"
+                          />
+                        </Grid>
+                      </Grid>
+                    </CardContent>
+                  </MainCard>
+                  <MainCard>
+                    <CardContent className={classes.marketsCardContent}>
+                      <MarketsTable
+                        data={marketPairs}
+                        total={totalMarketPairs}
+                      />
+                    </CardContent>
+                  </MainCard>
+                </Grid>
+              )}
               <Grid
                 item={true}
                 xs={12}
                 md={4}
                 className={classes.widgetContainer}
               >
-                <SubCard>
-                  <CardHeader
-                    title={`${coinName} Fundamentals`}
-                    titleTypographyProps={{ variant: 'h2', component: 'h2' }}
-                    classes={{
-                      root: classes.subCardHeader,
-                      title: classes.subCardTitle,
-                    }}
-                  />
-                  <CardContent className={classes.subCardContent}>
-                    <FundamentalsList coinObj={coinObj} />
-                  </CardContent>
-                </SubCard>
-                <SubCard>
-                  <CardHeader
-                    title={`${coinName} Links`}
-                    titleTypographyProps={{ variant: 'h2', component: 'h2' }}
-                    classes={{
-                      root: classes.subCardHeader,
-                      title: classes.subCardTitle,
-                    }}
-                  />
-                  <CardContent className={classes.subCardContent}>
-                    <LinksList coinObj={coinObj} />
-                  </CardContent>
-                </SubCard>
+                {showFundamentals && (
+                  <SubCard>
+                    <CardHeader
+                      title={`${coinName} Fundamentals`}
+                      titleTypographyProps={{ variant: 'h2', component: 'h2' }}
+                      classes={{
+                        root: classes.subCardHeader,
+                        title: classes.subCardTitle,
+                      }}
+                    />
+                    <CardContent className={classes.subCardContent}>
+                      <FundamentalsList coinObj={coinObj} />
+                    </CardContent>
+                  </SubCard>
+                )}
+                {showLinks && (
+                  <SubCard>
+                    <CardHeader
+                      title={`${coinName} Links`}
+                      titleTypographyProps={{ variant: 'h2', component: 'h2' }}
+                      classes={{
+                        root: classes.subCardHeader,
+                        title: classes.subCardTitle,
+                      }}
+                    />
+                    <CardContent className={classes.subCardContent}>
+                      <LinksList coinObj={coinObj} />
+                    </CardContent>
+                  </SubCard>
+                )}
                 <SubCard>
                   <CardContent
                     className={classnames(
@@ -567,6 +740,6 @@ class CoinShow extends Component {
 }
 
 export default compose(
-  withWidth(),
+  withDevice,
   withStyles(styles, { withTheme: true }),
-)(withRouter(CoinShow))
+)(withRouter(withCurrency(CoinShow)))

@@ -1,8 +1,11 @@
 import * as React from 'react'
-import { createStyles, withStyles, withWidth } from '@material-ui/core'
+import { createStyles, withStyles } from '@material-ui/core'
+import withDevice, {
+  DeviceContextType,
+} from '~/bundles/common/utils/withDevice'
 import compose from 'recompose/compose'
 
-interface Props {
+interface Props extends DeviceContextType {
   classes: any
 }
 
@@ -113,6 +116,6 @@ const Footer: React.StatelessComponent<Props> = ({ classes }) => {
 }
 
 export default compose(
-  withWidth(),
+  withDevice,
   withStyles(styles),
 )(Footer)

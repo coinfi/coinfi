@@ -1,9 +1,10 @@
 module CoinMarketCapPro
   class UpdateMarketPairsService < Patterns::Service
     include CoinMarketCapProHelpers
-    attr_accessor :cmc_missing_data
+    attr_reader :cmc_missing_data
 
     def initialize(start: 0, limit: 20) # 0-indexed
+      @healthcheck_url = ENV.fetch('HEALTHCHECK_MARKET_PAIRS')
       @cmc_missing_data = Rails.cache.read("tasks/market_pairs/cmc_missing_data") || []
       @start = start
       @limit = limit
@@ -31,7 +32,7 @@ module CoinMarketCapPro
       end
 
       puts "Complete!"
-      log_missing_data
+      cache_and_handle_missing_data
       if items_with_errors.present?
         puts "Found #{items_with_errors.length} total errors"
         puts "Encountered errors when trying to process these coins ids: #{items_with_errors}"
@@ -40,14 +41,9 @@ module CoinMarketCapPro
 
     private
 
-    def log_missing_data
-      if @cmc_missing_data.empty?
-        Net::HTTP.get(URI.parse(ENV.fetch('HEALTHCHECK_MARKET_PAIRS')))
-      else
-        Net::HTTP.post(URI.parse("#{ENV.fetch('HEALTHCHECK_MARKET_PAIRS')}/fail"), @cmc_missing_data.to_json)
-      end
-
+    def cache_and_handle_missing_data
       Rails.cache.write("tasks/market_pairs/cmc_missing_data", @cmc_missing_data)
+      log_or_ping_on_missing_data(@cmc_missing_data, @healthcheck_url)
     end
 
     def update_coin_pairs(coin)
@@ -59,6 +55,7 @@ module CoinMarketCapPro
       end
     end
 
+    # Some exchange details have redacted market details (indicated with -1).
     def perform_update_pairs(identifier, data)
       # Grabbing data from snapshot cache
       snapshot = Rails.cache.read("#{identifier}:snapshot")
@@ -66,19 +63,40 @@ module CoinMarketCapPro
       has_base_volume24h = base_volume24h.present? && base_volume24h != 0
 
       raw_market_pairs = data.dig("market_pairs")
-      market_pairs = raw_market_pairs.map do |pair|
+      coin_symbol = data.dig("symbol")
+      valid_market_pairs = raw_market_pairs.reject do |pair|
+        pair.dig("quote", currency, "price") == -1 ||
+        pair.dig("quote", currency, "volume_24h") == -1
+      end
+      market_pairs = valid_market_pairs.map do |pair|
         quote = pair.dig("quote", currency)
         volume24h = quote["volume_24h"] || 0
 
+        base_symbol = pair.dig("market_pair_base", "currency_symbol")
+        coin_is_primary = base_symbol == coin_symbol
+
+        volume_percentage = has_base_volume24h ? volume24h.to_f / base_volume24h : 0
+        volume24h_quote = pair.dig("quote", "exchange_reported",
+          coin_is_primary ? "volume_24h_quote" : "volume_24h_base")
+        price = quote["price"]
+        quote_currency_symbol = pair.dig("market_pair_quote", "currency_symbol")
+
+        unless coin_is_primary
+          price /= pair.dig("quote", "exchange_reported", "price")
+          quote_currency_symbol = base_symbol
+        end
+
         {
+          :exchange_id => pair.dig("exchange", "id"),
           :exchange_name => pair.dig("exchange", "name"),
           :exchange_slug => pair.dig("exchange", "slug"),
           :pair => pair["market_pair"],
-          :price => quote["price"],
+          :price => price,
           :volume24h => volume24h,
-          :volume_percentage => (if has_base_volume24h then volume24h / base_volume24h else 0 end),
-          :volume24h_quote => pair.dig("quote", "exchange_reported", "volume_24h_quote"),
-          :quote_currency_symbol => pair.dig("market_pair_quote", "currency_symbol"),
+          :volume_percentage => volume_percentage,
+          :volume24h_quote => volume24h_quote,
+          :quote_currency_symbol => quote_currency_symbol,
+          :last_updated => quote["last_updated"]
         }
       end
 
@@ -95,8 +113,18 @@ module CoinMarketCapPro
 
       api_url = "https://pro-api.coinmarketcap.com/v1/cryptocurrency/market-pairs/latest"
       query = if id.nil? then { :symbol => symbol } else { :id => id } end
-      headers = { "X-CMC_PRO_API_KEY" => ENV.fetch('COINMARKETCAP_API_KEY') }
-      response = HTTParty.get(api_url, :query => query, :headers => headers)
+      headers = get_default_api_headers
+      response = begin
+        HTTParty.get(api_url, :query => query, :headers => headers)
+      rescue HTTParty::Error
+        @cmc_missing_data << { id: id, symbol: symbol, error: 'No API response found.' }
+        nil
+      end
+
+      if response.blank?
+        return nil
+      end
+
       contents = JSON.parse(response.body)
 
       # ping health check if api error

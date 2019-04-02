@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20181225140500) do
+ActiveRecord::Schema.define(version: 20190319095900) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -124,6 +124,22 @@ ActiveRecord::Schema.define(version: 20181225140500) do
     t.index ["user_id"], name: "index_calendar_events_on_user_id"
   end
 
+  create_table "cmc_exchanges", force: :cascade do |t|
+    t.string "cmc_id"
+    t.string "name"
+    t.string "slug"
+    t.string "www_url"
+    t.string "twitter_url"
+    t.string "blog_url"
+    t.string "chat_url"
+    t.string "fee_url"
+    t.string "logo_url"
+    t.boolean "is_active"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["cmc_id"], name: "index_cmc_exchanges_on_cmc_id", unique: true
+  end
+
   create_table "coin_excluded_countries", force: :cascade do |t|
     t.bigint "coin_id"
     t.bigint "country_id"
@@ -153,14 +169,6 @@ ActiveRecord::Schema.define(version: 20181225140500) do
     t.string "symbol"
     t.string "slug"
     t.string "category"
-    t.jsonb "market_cap"
-    t.jsonb "price"
-    t.jsonb "volume24"
-    t.decimal "change1h"
-    t.decimal "change24h"
-    t.decimal "change7d"
-    t.bigint "available_supply"
-    t.bigint "max_supply"
     t.string "website"
     t.string "website2"
     t.string "explorer"
@@ -217,7 +225,6 @@ ActiveRecord::Schema.define(version: 20181225140500) do
     t.jsonb "external_key"
     t.string "facebook"
     t.string "telegram"
-    t.decimal "total_supply", precision: 32, scale: 2
     t.text "description"
     t.jsonb "team"
     t.jsonb "external_rating"
@@ -398,12 +405,28 @@ ActiveRecord::Schema.define(version: 20181225140500) do
     t.datetime "last_machine_tagged_on"
     t.bigint "user_id"
     t.jsonb "coin_ids"
+    t.integer "cached_votes_total", default: 0
+    t.integer "cached_votes_score", default: 0
+    t.integer "cached_votes_up", default: 0
+    t.integer "cached_votes_down", default: 0
+    t.integer "cached_weighted_score", default: 0
+    t.integer "cached_weighted_total", default: 0
+    t.float "cached_weighted_average", default: 0.0
     t.index ["feed_item_published_at"], name: "index_news_items_on_feed_item_published_at"
     t.index ["feed_source_id", "feed_item_id"], name: "index_news_items_on_feed_source_id_and_feed_item_id", unique: true
     t.index ["feed_source_id"], name: "index_news_items_on_feed_source_id"
     t.index ["is_published"], name: "index_news_items_on_is_published"
     t.index ["title"], name: "index_news_items_on_title"
     t.index ["user_id"], name: "index_news_items_on_user_id"
+  end
+
+  create_table "news_tweets", force: :cascade do |t|
+    t.bigint "news_item_id"
+    t.string "tweet_body"
+    t.json "metadata"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["news_item_id"], name: "index_news_tweets_on_news_item_id", unique: true
   end
 
   create_table "signals_telegram_subscriptions", force: :cascade do |t|
@@ -530,13 +553,32 @@ ActiveRecord::Schema.define(version: 20181225140500) do
     t.string "username"
     t.string "role"
     t.string "default_currency"
+    t.string "confirmation_token"
+    t.datetime "confirmed_at"
+    t.datetime "confirmation_sent_at"
+    t.string "unconfirmed_email"
     t.index "((token_sale ->> 'signals_telegram_bot_chat_id'::text))", name: "index_users_on_token_sale_signals_telegram_bot_chat_id"
     t.index "((token_sale ->> 'telegram_username'::text)) gin_trgm_ops", name: "index_users_on_token_sale_telegram_username", using: :gin
+    t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["provider"], name: "index_users_on_provider"
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
     t.index ["uid"], name: "index_users_on_uid"
     t.index ["username"], name: "index_users_on_username"
+  end
+
+  create_table "votes", id: :serial, force: :cascade do |t|
+    t.string "votable_type"
+    t.integer "votable_id"
+    t.string "voter_type"
+    t.integer "voter_id"
+    t.boolean "vote_flag"
+    t.string "vote_scope"
+    t.integer "vote_weight"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.index ["votable_id", "votable_type", "vote_scope"], name: "index_votes_on_votable_id_and_votable_type_and_vote_scope"
+    t.index ["voter_id", "voter_type", "vote_scope"], name: "index_votes_on_voter_id_and_voter_type_and_vote_scope"
   end
 
   create_table "watchlist_items", force: :cascade do |t|
@@ -577,6 +619,7 @@ ActiveRecord::Schema.define(version: 20181225140500) do
   add_foreign_key "news_item_categorizations", "news_items"
   add_foreign_key "news_items", "feed_sources"
   add_foreign_key "news_items", "users"
+  add_foreign_key "news_tweets", "news_items"
   add_foreign_key "signals_telegram_subscriptions", "coins"
   add_foreign_key "signals_telegram_subscriptions", "signals_telegram_users"
   add_foreign_key "signals_telegram_users", "users"
