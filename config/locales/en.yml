@@ -59,6 +59,8 @@ en:
   max_label: "Max"
   signal_label: "Signal"
   rule_label: "Rule"
+  market_news_research: "Market News Research"
+  read_more: "Read More"
   indicators:
       title:
         rsi: "RSI 14"
