@@ -61,9 +61,7 @@ class IndicatorsController < ApplicationController
 
   def set_news_items
     distribute_reads(max_lag: MAX_ACCEPTABLE_REPLICATION_LAG, lag_failover: true) do
-      @news_items = NewsItem.published
-        .joins(:coins)
-        .where("coins.id = ?", @coin.id)
+      @news_items = NewsItems::WithFilters.call(NewsItem.published, coins: [@coin])
         .order_by_published
         .limit(5)
         .to_a
