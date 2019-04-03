@@ -31,7 +31,7 @@ class TweetTrendingNewsItemTest < ActiveSupport::TestCase
     NewsServices::RefreshNewsVotesTrendingView.call
 
     Twitter::REST::Client.stub :new, ->(*_args) { @twitter_mock } do
-      Slack::Web::Client.stub :new, @slack_mock do
+      # Slack::Web::Client.stub :new, @slack_mock do
         tweet_news_service = NewsServices::TweetTrendingNewsItem.call
         response_hash = tweet_news_service.result
 
@@ -39,7 +39,7 @@ class TweetTrendingNewsItemTest < ActiveSupport::TestCase
         assert response_hash.present? && response_hash['twitter'].present?
         # Tweet stored
         assert NewsTweet.exists?(news_item_id: @news_item.id)
-      end
+      # end
     end
   end
 
@@ -56,7 +56,7 @@ class TweetTrendingNewsItemTest < ActiveSupport::TestCase
     NewsServices::RefreshNewsVotesTrendingView.call
 
     Twitter::REST::Client.stub :new, ->(*_args) { @twitter_mock } do
-      Slack::Web::Client.stub :new, @slack_mock do
+      # Slack::Web::Client.stub :new, @slack_mock do
         tweet_news_service = NewsServices::TweetTrendingNewsItem.call
         response_hash = tweet_news_service.result
 
@@ -64,7 +64,7 @@ class TweetTrendingNewsItemTest < ActiveSupport::TestCase
         assert response_hash.blank?
         # Tweet not stored
         refute NewsTweet.exists?(news_item_id: @news_item.id)
-      end
+      # end
     end
   end
 
@@ -88,7 +88,7 @@ class TweetTrendingNewsItemTest < ActiveSupport::TestCase
     NewsServices::RefreshNewsVotesTrendingView.call
 
     Twitter::REST::Client.stub :new, ->(*_args) { @twitter_mock } do
-      Slack::Web::Client.stub :new, @slack_mock do
+      # Slack::Web::Client.stub :new, @slack_mock do
         tweet_news_service = NewsServices::TweetTrendingNewsItem.call
         response_hash = tweet_news_service.result
 
@@ -96,7 +96,7 @@ class TweetTrendingNewsItemTest < ActiveSupport::TestCase
         assert response_hash.blank?
         # Tweet not stored
         refute NewsTweet.exists?(news_item_id: @news_item.id)
-      end
+      # end
     end
   end
 
@@ -116,7 +116,7 @@ class TweetTrendingNewsItemTest < ActiveSupport::TestCase
     NewsServices::RefreshNewsVotesTrendingView.call
 
     Twitter::REST::Client.stub :new, ->(*_args) { @twitter_mock } do
-      Slack::Web::Client.stub :new, @slack_mock do
+      # Slack::Web::Client.stub :new, @slack_mock do
         tweet_news_service = NewsServices::TweetTrendingNewsItem.call
         response_hash = tweet_news_service.result
 
@@ -124,7 +124,7 @@ class TweetTrendingNewsItemTest < ActiveSupport::TestCase
         assert response_hash.blank?
         # Tweet already stored
         assert NewsTweet.exists?(news_item_id: @news_item.id)
-      end
+      # end
     end
   end
 
@@ -138,7 +138,7 @@ class TweetTrendingNewsItemTest < ActiveSupport::TestCase
     NewsServices::RefreshNewsVotesTrendingView.call
 
     Twitter::REST::Client.stub :new, ->(*_args) { @twitter_mock } do
-      Slack::Web::Client.stub :new, @slack_mock do
+      # Slack::Web::Client.stub :new, @slack_mock do
         tweet_news_service = NewsServices::TweetTrendingNewsItem.call
         response_hash = tweet_news_service.result
 
@@ -146,7 +146,7 @@ class TweetTrendingNewsItemTest < ActiveSupport::TestCase
         assert response_hash.blank?
         # Tweet not stored
         refute NewsTweet.exists?(news_item_id: @news_item.id)
-      end
+      # end
     end
   end
 
