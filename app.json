@@ -92,5 +92,9 @@
     "librato",
     "scheduler:standard"
   ],
-  "buildpacks": [{ "url": "heroku/nodejs" }, { "url": "heroku/ruby" }]
+  "buildpacks": [
+    { "url": "heroku/metrics" },
+    { "url": "heroku/nodejs" },
+    { "url": "heroku/ruby" }
+  ]
 }
