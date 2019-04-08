@@ -59,6 +59,11 @@ en:
   max_label: "Max"
   signal_label: "Signal"
   rule_label: "Rule"
+  stats: "Stats"
+  technical_analysis_and_price_movements: "Technical Analysis & Price Movements"
+  technical_indicators: "Technical Indicators"
+  technical_analysis_summary: "Technical Analysis Summary"
+  latest_research: "Latest Research"
   market_news_research: "Market News Research"
   read_more: "Read More"
   indicators:

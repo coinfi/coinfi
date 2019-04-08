@@ -42,6 +42,16 @@ module IndicatorsHelper
     }
   end
 
+  def get_buy_sell_class(value)
+    if value > 0
+      'buy'
+    elsif value < 0
+      'sell'
+    else
+      'neutral'
+    end
+  end
+
   # RSI 14
   # https://www.investopedia.com/terms/r/rsi.asp
   # accuracy increases with data set size
