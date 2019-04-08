@@ -1,6 +1,10 @@
 class IndicatorsController < ApplicationController
   before_action :set_coin, only: [:show]
 
+  # Temporary password protection
+  skip_before_action :verify_authenticity_token
+  http_basic_authenticate_with name: ENV.fetch('INDICATORS_USERNAME'), password: ENV.fetch('INDICATORS_PASSWORD')
+
   include IndicatorsHelper
   include ActionView::Helpers::NumberHelper
 
