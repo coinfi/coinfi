@@ -5,6 +5,9 @@ class IndicatorsController < ApplicationController
   include ActionView::Helpers::NumberHelper
 
   def show
+    calculations = CalculateIndicatorsAndSignals.call(@coin)
+    @indicators, @signals = calculations.result
+
     set_indicator_results
     set_summary_results
     set_news_items
@@ -69,12 +72,6 @@ class IndicatorsController < ApplicationController
   end
 
   def set_indicator_results
-    @daily_price_data = @coin.daily_prices_data
-      .map{ |d| { adj_close: d['close'] || 0, high: d['high'] || 0, low: d['low'] || 0 } }
-      .last(200) # limit dataset for easier processing
-    @indicators = get_indicator_values(@daily_price_data)
-    @signals = get_indicator_signals(@indicators)
-
     @indicator_rows = [
       {
         symbol: :rsi,
