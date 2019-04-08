@@ -1,5 +1,5 @@
 GIT
-  remote: https://github.com/anthotsang/indicators.git
+  remote: https://github.com/coinfi/indicators.git
   revision: 1e9d8cb3bf8301ca52164f0030502bf605127414
   tag: v1.0.4
   specs:
@@ -71,8 +71,8 @@ GEM
       activerecord (>= 5.0, < 6.0)
       arel (> 7.0, < 10.0)
       pg (>= 0.18, < 2.0)
-    activejob (5.1.6)
-      activesupport (= 5.1.6)
+    activejob (5.1.6.1)
+      activesupport (= 5.1.6.1)
       globalid (>= 0.3.6)
     activemodel (5.1.6.1)
       activesupport (= 5.1.6.1)
@@ -169,7 +169,7 @@ GEM
       coffee-script-source
       execjs
     coffee-script-source (1.12.2)
-    concurrent-ruby (1.1.4)
+    concurrent-ruby (1.1.5)
     connection_pool (2.2.2)
     crack (0.4.3)
       safe_yaml (~> 1.0.0)
@@ -247,7 +247,7 @@ GEM
       et-orbi (~> 1.1, >= 1.1.6)
       raabro (~> 1.1)
     gli (2.18.0)
-    globalid (0.4.1)
+    globalid (0.4.2)
       activesupport (>= 4.2.0)
     google-cloud-core (1.2.7)
       google-cloud-env (~> 1.0)
@@ -299,7 +299,7 @@ GEM
     http_parser.rb (0.6.0)
     httparty (0.15.6)
       multi_xml (>= 0.5.2)
-    i18n (1.5.2)
+    i18n (1.6.0)
       concurrent-ruby (~> 1.0)
     ice_nine (0.11.2)
     io-like (0.3.0)
