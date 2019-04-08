@@ -15,7 +15,7 @@ class CalculateIndicatorsAndSignals < Patterns::Service
   private
 
   def parse_daily_prices(coin)
-    coin.daily_prices_data
+    coin.prices_data
       .map do |d|
         { adj_close: d['close'] || 0, high: d['high'] || 0, low: d['low'] || 0 }
       end
