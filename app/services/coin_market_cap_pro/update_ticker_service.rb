@@ -3,6 +3,7 @@ require_relative '../../../lib/tasks/batch_process'
 module CoinMarketCapPro
   class UpdateTickerService < Patterns::Service
     include CoinMarketCapProHelpers
+    include CoinListHelper
     attr_reader :db_missing_coins
     attr_reader :cmc_missing_data
 
@@ -15,11 +16,11 @@ module CoinMarketCapPro
     end
 
     def call
-      coins = load_cmc_latest_data(@start, @limit)
-      unless coins.nil?
-        batch_process(coins) do |coin|
-          identifier = coin['slug']
-          update_coin_prices(identifier, coin)
+      cmc_coins = load_cmc_latest_data(@start, @limit)
+      unless cmc_coins.nil?
+        batch_process(cmc_coins) do |cmc_coin|
+          identifier = cmc_coin['slug']
+          update_coin_prices(identifier, cmc_coin)
         end
         log_db_missing_coins
         log_or_ping_on_missing_data(@cmc_missing_data, @healthcheck_url)
@@ -64,6 +65,10 @@ module CoinMarketCapPro
         @db_missing_coins << { identifier: identifier, ranking: data['cmc_rank'], id: data['id'] }
       else
         perform_update_ranking(coin, data)
+        if is_toplist_coin?(coin)
+          puts "Refreshing toplist"
+          toplist_coins(force_cache_refresh: true)
+        end
       end
     end
 

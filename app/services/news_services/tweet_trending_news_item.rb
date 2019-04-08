@@ -39,7 +39,7 @@ module NewsServices
         else
           error_message = "Failed to send tweet ##{@news_item.try(:id)}: #{@news_item.try(:title)}."
           puts "#{LOG_PREFIX} #{error_message}"
-          # slack_client.chat_postMessage(channel: @slack_channel, text: error_message, as_user: true)
+          slack_client.chat_postMessage(channel: @slack_channel, text: error_message, as_user: true)
         end
       else
         if @store_test_run && response.present?
@@ -134,7 +134,7 @@ module NewsServices
       tweet_body = build_tweet
       tweet_response = {'body': tweet_body}
 
-      # tweet_response['slack'] = slack_client.chat_postMessage(channel: @slack_channel, text: tweet_body, as_user: true)
+      tweet_response['slack'] = slack_client.chat_postMessage(channel: @slack_channel, text: tweet_body, as_user: true)
 
       if !@test_run
         tweet_response['twitter'] = twitter_client.update(tweet_body)
@@ -180,8 +180,8 @@ module NewsServices
       end
     end
 
-    # def slack_client
-    #   @slack_client ||= Slack::Web::Client.new
-    # end
+    def slack_client
+      @slack_client ||= Slack::Web::Client.new
+    end
   end
 end

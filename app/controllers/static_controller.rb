@@ -1,6 +1,6 @@
 class StaticController < ApplicationController
   TYPES = ['coins', 'exchanges']
-  CACHE_TIME = 1.day
+  CACHE_TIME = 1.year
 
   before_action :set_type, :set_id, only: [:show]
 

@@ -29,6 +29,11 @@ class CoinsController < ApplicationController
   end
 
   def show
+    # Leave ICO logic intact incase we relist them
+    unless @coin.ico_listed?
+      render_404
+    end
+
     distribute_reads(max_lag: MAX_ACCEPTABLE_REPLICATION_LAG, lag_failover: true) do
       if @coin.ico_listed?
         @coin_price = format_price(@coin.price)

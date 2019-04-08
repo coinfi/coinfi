@@ -62,8 +62,6 @@ const readNewsHandler = (newsItem) => {
 const NewsListItem = (props) => {
   const { newsItem, isSelected, hasRead, onClick, classes } = props
   const newsItemTitle = newsItem.title
-    .replace(/<h1>/g, '')
-    .replace(/<\/h1>/g, '')
 
   const { linkUrl, linkText } = formatNewsUrl(newsItem.url)
   return (

@@ -151,14 +151,19 @@ class PriceGraph extends Component {
     }
   }
 
+  /***
+   * The price and volume arrays need to be kept as an array of arrays
+   * in case datapoints exceeds the turboThreshold
+   * https://www.highcharts.com/errors/12/
+   */
   parseData = (priceData) => {
     const prices = []
     const volumes = []
     if (_.isArray(priceData)) {
       priceData.forEach((day) => {
         let { timestamp: time, close: price, volume_to: vol } = day
-        prices.push({ x: time, y: price })
-        volumes.push({ x: time, y: vol })
+        prices.push([time, price])
+        volumes.push([time, price])
       })
     }
     return { prices, volumes }
@@ -188,7 +193,7 @@ class PriceGraph extends Component {
       let x = baseX
       let foundPrice
       for (let i = 1; i < 6; i++) {
-        foundPrice = _.find(prices, (price) => price.x == x)
+        foundPrice = _.find(prices, (price) => price[0] == x)
         if (!foundPrice) {
           x = moment
             .utc(timestamp)
@@ -216,7 +221,7 @@ class PriceGraph extends Component {
           ...datum,
           text,
           x: foundPrice ? x : baseX,
-          y: foundPrice ? foundPrice.y : 0,
+          y: foundPrice ? foundPrice[1] : 0,
         },
       ]
     }, [])
