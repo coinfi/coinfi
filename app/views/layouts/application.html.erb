@@ -9,10 +9,10 @@
     <link rel="apple-touch-icon" href="<%= image_path('apple-touch-icon.png') %>">
     <link rel="apple-touch-icon-precomposed" href="<%= image_path('apple-touch-icon-precomposed.png') %>">
     <link rel="icon" href="<%= image_path('favicon.png') %>">
+    <%= render 'layouts/tracking_scripts_preconnect' %>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-6jHF7Z3XI3fF4XZixAuSu0gGKrXwoX/w3uFPxC56OtjChio7wtTGJWRW53Nhx6Ev" crossorigin="anonymous">
     <%= stylesheet_link_tag 'application' %>
-
     <%# This should really be included but currently conflicts with a lot of our the css styles %>
     <%#= stylesheet_pack_tag 'vendor-bundle', media: 'all' %>
 
@@ -47,7 +47,7 @@
       <%= render partial: "components/login_modal" %>
       <%= render partial: "components/sign_up_modal" %>
       <script src="https://unpkg.com/micromodal/dist/micromodal.min.js"></script>
-      <%= javascript_include_tag "modals" %>
+      <%= render "components/modal_script" %>
     <% end %>
     <script src="/tradingview/charting_library.min.js"></script>
     <%= javascript_pack_tag 'vendor-bundle' %>

@@ -50,9 +50,19 @@ namespace :redis do
 
     redis = Redis.new :url => redis_uri
 
+    # remove old snapshots
+    redis.keys("#{prefix}:*:snapshot").each do |key|
+      redis.del key
+    end
+
     # move snapshots
     redis.keys("*:snapshot").each do |key|
       redis.rename key, "#{prefix}:#{key}"
+    end
+
+    # remove old pairs
+    redis.keys("#{prefix}:*:pairs").each do |key|
+      redis.del key
     end
 
     # move market pairs

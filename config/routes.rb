@@ -42,8 +42,8 @@ Rails.application.routes.draw do
     resources :exchange_listings, only: :index, path: 'listings'
     resources :calendar_events, only: :index, path: 'calendar'
     get '/indicators/:id_or_slug', to: 'indicators#show', as: 'indicators'
-    get '/icos', to: redirect('/icos/upcoming'), as: 'icos_root'
-    get '/icos(/:status)', to: 'icos#index', as: 'icos'
+    # get '/icos', to: redirect('/icos/upcoming'), as: 'icos_root'
+    # get '/icos(/:status)', to: 'icos#index', as: 'icos'
     get '/news/beta', to: static('/news-beta.html')
     get '/news/:id/:slug', to: 'news#show', as: 'news_item'
     get '/news/:coin_slug', to: 'news#coin_index', as: 'news_coin'
