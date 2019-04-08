@@ -17,6 +17,12 @@ class NewsItemRaw < ApplicationRecord
     parsed_content_html.to_html()
   end
 
+  def self.strip_title_html(title_html)
+    parsed_title_html = Nokogiri::HTML::DocumentFragment.parse(title_html)
+
+    parsed_title_html.text
+  end
+
   def process!
     begin
       news_item = NewsItem.create!(news_item_params)
@@ -48,7 +54,7 @@ class NewsItemRaw < ApplicationRecord
       feed_item_id: feed_item_id,
       feed_source: feed_source,
       url: item[:permalinkUrl],
-      title: item[:title],
+      title: self.class.strip_title_html(item[:title]),
       summary: item[:summary],
       content: self.class.clean_content_html(item[:content]),
       actor_id: actor_id,
