@@ -104,6 +104,8 @@ gem 'librato-rails', '~> 1'
 gem 'barnes'
 # Google Pub/Sub client
 gem 'google-cloud-pubsub'
+# technical indicators
+gem "indicators", "~> 1.0", git: 'https://github.com/coinfi/indicators.git', :tag => 'v1.0.4'
 gem "activerecord-import", "~> 0.27.0"
 gem "active_record_upsert", "~> 0.9.4"
 gem "acts_as_votable", "~> 0.12.0"

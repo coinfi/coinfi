@@ -1,0 +1,554 @@
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width">
+    <script src="/js/gauge.js"></script>
+    <link rel="stylesheet" href="/css/gauge.css" style="display: none;"></link>
+    <style>
+      /* Main */
+      @font-face {
+        font-family: 'Open Sans';
+        font-style: normal;
+        font-weight: 300;
+        src: local('Open Sans Light'), local('OpenSans-Light'), url('https://fonts.googleapis.com/css?family=Open+Sans:300')
+      }
+
+      @font-face {
+        font-family: 'Open Sans';
+        font-style: italic;
+        font-weight: 300;
+        src: local('Open Sans Light Italic'), local('OpenSans-LightItalic'), url('https://fonts.googleapis.com/css?family=Open+Sans:300i')
+      }
+
+      @font-face {
+        font-family: 'Open Sans';
+        font-style: normal;
+        font-weight: 400;
+        src: local('Open Sans Regular'), local('OpenSans-Regular'), url('https://fonts.googleapis.com/css?family=Open+Sans:400')
+      }
+
+      @font-face {
+        font-family: 'Open Sans';
+        font-style: italic;
+        font-weight: 400;
+        src: local('Open Sans Italic'), local('OpenSans-Italic'), url('https://fonts.googleapis.com/css?family=Open+Sans:400i')
+      }
+
+      @font-face {
+        font-family: 'Open Sans';
+        font-style: normal;
+        font-weight: 600;
+        src: local('Open Sans SemiBold'), local('OpenSans-SemiBold'), url('https://fonts.googleapis.com/css?family=Open+Sans:600')
+      }
+
+      @font-face {
+        font-family: 'Open Sans';
+        font-style: italic;
+        font-weight: 600;
+        src: local('Open Sans SemiBold Italic'), local('OpenSans-SemiBoldItalic'), url('https://fonts.googleapis.com/css?family=Open+Sans:600i')
+      }
+
+      @font-face {
+        font-family: 'Open Sans';
+        font-style: normal;
+        font-weight: 700;
+        src: local('Open Sans Bold'), local('OpenSans-Bold'), url('https://fonts.googleapis.com/css?family=Open+Sans:700')
+      }
+
+      @font-face {
+        font-family: 'Open Sans';
+        font-style: italic;
+        font-weight: 700;
+        src: local('Open Sans Bold Italic'), local('OpenSans-BoldItalic'), url('https://fonts.googleapis.com/css?family=Open+Sans:700i')
+      }
+
+      @font-face {
+        font-family: 'Open Sans';
+        font-style: normal;
+        font-weight: 800;
+        src: local('Open Sans ExtraBold'), local('OpenSans-ExtraBold'), url('https://fonts.googleapis.com/css?family=Open+Sans:800')
+      }
+
+      @font-face {
+        font-family: 'Open Sans';
+        font-style: italic;
+        font-weight: 800;
+        src: local('Open Sans ExtraBold Italic'), local('OpenSans-ExtraBoldItalic'), url('https://fonts.googleapis.com/css?family=Open+Sans:800i')
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        border: 0;
+        box-sizing: border-box;
+        font-family: 'num', 'Open Sans', ariel, sans-serif
+      }
+
+      html, body {
+        height: 100%;
+        width: 100%;
+        background-color: #f0f0f0
+      }
+
+      textarea, input {
+        font-family: 'num', 'Open Sans', ariel, sans-serif
+      }
+
+      a {
+        text-decoration: none;
+        outline: 0;
+        color: #0079b9;
+      }
+
+      body[orient="portrait"] {
+        min-height: 540px
+      }
+
+      body[orient="landscape"] {
+        min-height: 400px
+      }
+
+      body {
+        color: #2c2c2c;
+        -webkit-text-size-adjust: 100%;
+        -ms-text-size-adjust: 100%;
+        text-size-adjust: 100%;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -khtml-user-select: none;
+        -ms-user-select: none
+      }
+
+      h2 {
+        color: #777;
+        font-size: 28px;
+        font-weight: 400;
+        margin-top: 10px;
+        margin-bottom: 10px;
+        min-height: 40px;
+      }
+
+      h3 {
+        color: #777;
+        font-size: 16px;
+        font-weight: 400;
+        text-transform: uppercase;
+        margin-bottom: 10px;
+        min-height: 28px;
+      }
+
+      /* Custom */
+      .main-container {
+        margin: 20px auto 40px;
+        padding-left: 20px;
+        padding-right: 20px;
+        min-height: 300px;
+        max-width: 1082px;
+      }
+      .flex-container {
+        display: flex;
+        flex: 0 0 auto;
+        margin: 15px 0;
+      }
+      .flex-container + h2 {
+        margin-top: 30px;
+      }
+      .half-width-container {
+        display: flex;
+        -webkit-flex-basis: 50%;
+        -ms-flex-preferred-size: 50%;
+        flex-basis: 50%;
+        max-width: 50%;
+        padding-left: 10px;
+        padding-right: 10px;
+      }
+      .half-width-container:first-child {
+        padding-left: 0;
+      }
+      .half-width-container:last-child {
+        padding-right: 0;
+      }
+      .paper {
+        background-color: #fff;
+        border: 1px solid #e0e0e0;
+        width: 100%;
+        padding: 20px;
+      }
+      .main-title {
+        position: relative;
+      }
+      .main-title .coinfi-link {
+        position: absolute;
+        right: 0;
+        bottom: -5px;
+        font-size: 10px;
+      }
+      .main-title .coinfi-link__img {
+        width: 50px;
+        margin-bottom: -2px;
+      }
+      .indicators-desktop {
+        width: 100%;
+        border-spacing: 0;
+        font-size: 14px;
+      }
+      .indicators-desktop th {
+        padding-bottom: 4px;
+        border-bottom: 2px solid #d4d5d8;
+        text-align: center;
+      }
+      .indicators-desktop .indicators__rule {
+        width: 200px;
+      }
+      .odd {
+        background-color: #e0e0e0;
+      }
+      .indicators-desktop td {
+        padding: 2px 4px;
+        font-weight: 600;
+      }
+      .indicators-desktop td.number {
+        text-align: center;
+      }
+      .indicators-mobile {
+        display: none;
+      }
+      .indicators-mobile .indicators-mobile__row {
+        display: flex;
+        justify-content: space-between;
+        padding: 6px 8px;
+      }
+      .indicators-mobile .indicators-mobile__col-values {
+        width: 30%;
+        text-align: right;
+      }
+      .indicators-mobile .indicators__title {
+        font-size: 14px;
+        font-weight: 600;
+      }
+      .indicators-mobile .indicators__signal {
+        font-size: 14px;
+        font-weight: 600;
+      }
+      .buy {
+        color: #6aac0e;
+      }
+      .sell {
+        color: #ce1d1d;
+      }
+      .indicators-copy {
+        margin: 20px -20px -20px;
+        padding: 20px;
+        font-size: 14px;
+        border-top: 1px solid #e0e0e0;
+        background-color: #f8f8f8;
+      }
+      .indicators-summary {
+        display: flex;
+        justify-content: space-between;
+        max-width: 200px;
+        margin: 0 auto;
+        text-align: center;
+        margin-top: 30px;
+      }
+      .indicators-updated {
+        margin-top: 20px;
+        text-align: center;
+        font-style: italic;
+        font-size: 12px;
+      }
+      .stats__row {
+        display: flex;
+        justify-content: space-between;
+        padding: 2px 4px;
+        margin-bottom: 2px;
+        border-bottom: 2px solid #d4d5d8;
+      }
+      .stats__row:last-child {
+        margin-bottom: 0;
+        border-bottom: none;
+      }
+      .stats__row div:first-child {
+        font-weight: 600;
+      }
+      .news-item {
+        padding-top: 10px;
+        margin-bottom: 10px;
+      }
+      .news-item:last-child {
+        margin-bottom: 0;
+      }
+      .news-item__link {
+        float: right;
+      }
+      .news-item::after {
+        content: "";
+        clear: both;
+        display: table;
+      }
+
+      /* Gauge */
+      .gauge-wrapper {
+        width: 300px;
+        height: 160px;
+        margin: 50px auto 20px;
+      }
+      .gauge:before {
+        background-color: #2c2c2c;
+      }
+      .gauge-value {
+        white-space: nowrap;
+      }
+      .gauge-values .gauge-value:nth-child(1) {
+        transform: rotate(-70deg) translate(-5px, -5px);
+      }
+      .gauge-values .gauge-value:nth-child(2) {
+        transform: rotate(-35deg) translate(-2px, -5px);
+      }
+      .gauge-values .gauge-value:nth-child(3) {
+        transform: translate(0px, -5px);
+      }
+      .gauge-values .gauge-value:nth-child(4) {
+        transform: rotate(35deg) translate(2px, -5px);
+      }
+      .gauge-values .gauge-value:nth-child(5) {
+        transform: rotate(70deg) translate(5px, -5px);
+      }
+      .gauge-arrow {
+        filter: invert(17%) sepia(7%) saturate(0%) hue-rotate(261deg) brightness(87%) contrast(93%);
+      }
+
+      /* Desktop */
+      @media screen and (min-width:1025px) {
+
+      }
+
+      /* Tablet */
+      @media screen and (min-width:741px) and (max-width:1024px) {
+      }
+
+      /* Mobile */
+      @media screen and (max-width:740px) {
+        h2 {
+          text-align: center;
+          font-weight: 600;
+          font-size: 20px;
+          min-height: 32px;
+        }
+        .main-container {
+          padding: 0;
+        }
+        .flex-container {
+          flex-wrap: wrap;
+        }
+        .half-width-container {
+          display: flex;
+          -webkit-flex-basis: 100%;
+          -ms-flex-preferred-size: 100%;
+          flex-basis: 100%;
+          max-width: 100%;
+          padding-left: 0;
+          padding-right: 0;
+        }
+        .half-width-container + .half-width-container {
+          margin-top: 15px;
+        }
+        .paper {
+          overflow: hidden;
+        }
+        .main-title {
+          min-height: 30px;
+        }
+        .main-title .coinfi-link {
+          right: 2px;
+          bottom: -10px;
+        }
+        .indicators-desktop {
+          display: none;
+        }
+        .indicators-mobile {
+          display: block;
+          font-size: 12px;
+        }
+        .news-item__title {
+          margin-bottom: 8px;
+        }
+        .gauge-wrapper {
+          width: 250px;
+          height: 135px;
+          margin: 50px auto 20px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="main-container">
+
+      <h2 class="main-title">
+        <%= t(:technical_analysis_and_price_movements) %>
+        <a class="coinfi-link" href="<%= root_url %>">
+          Powered by <img src="<%= image_path('logo.svg') %>" class="coinfi-link__img" />
+        </a>
+      </h2>
+
+      <div class="flex-container">
+        <div class="paper">
+          <h3><%= t(:technical_indicators) %></h3>
+          <table class="indicators-desktop">
+            <thead>
+              <tr>
+                <th></th>
+                <th><%= t :sample_value_label %></th>
+                <th><%= t :min_label %></th>
+                <th><%= t :max_label %></th>
+                <th><%= t :signal_label %></th>
+                <th class="indicators__rule"><%= t :rule_label %></th>
+              </tr>
+            </thead>
+            <tbody>
+            <% @indicator_rows.each do |indicator| %>
+              <tr class="<%= cycle('even', 'odd') %>">
+                <td><%= t(indicator[:symbol], scope: 'indicators.title') %></td>
+                <td class="number"><%= indicator[:value] %></td>
+                <td class="number"><%= indicator[:min].presence || t(:na) %></td>
+                <td class="number"><%= indicator[:max].presence || t(:na) %></td>
+                <td class="number indicator-signal <%= indicator[:signal].downcase %>">
+                  <%= indicator[:signal].present? ? t(indicator[:signal].downcase).upcase : "" %>
+                </td>
+                <td class="indicators__rule"><%= t(indicator[:symbol], scope: 'indicators.rule') %></td>
+              </tr>
+            <% end %>
+            </tbody>
+          </table>
+          <div class="indicators-mobile">
+          <% @indicator_rows.each do |indicator| %>
+            <div class="indicators-mobile__row <%= cycle('even', 'odd') %>">
+              <div class="indicators-mobile__col-titles">
+                <div class="indicators__title"><%= t(indicator[:symbol], scope: 'indicators.title') %></div>
+                <div class="indicators__rule-title"><%= t :rule_label %>:</div>
+                <div class="indicators__rule"><%= t(indicator[:symbol], scope: 'indicators.rule') %></div>
+              </div>
+              <div class="indicators-mobile__col-values">
+                <div class="indicators__signal <%= indicator[:signal].downcase %>">
+                  <%= indicator[:signal].present? ? t(indicator[:signal].downcase).upcase : "" %>
+                </div>
+                <div><%= t :min_label %>: <%= indicator[:value] %></div>
+                <div><%= t :max_label %>: <%= indicator[:min].presence || t(:na) %></div>
+                <div><%= t :signal_label %>: <%= indicator[:max].presence || t(:na) %></div>
+              </div>
+            </div>
+          <% end %>
+          </div>
+          <div class="indicators-copy">
+            Technical indicators are calculations based on price and volume frequently used in the analysis of market direction. Traders often use them to analyze short-term price movements and identify entry and exit points. Technical indicators are often used in conjunction with other forms of financial analysis. Learn more about technical indicators here.
+          </div>
+        </div>
+      </div>
+      <div class="flex-container">
+        <div class="half-width-container">
+          <div class="paper">
+            <h3><%= t(:technical_analysis_summary) %></h3>
+            <div class="gauge-wrapper">
+              <div class="gauge"></div>
+            </div>
+            <div class="indicators-summary">
+              <div>
+                <div class="sell"><%= @summary[:sell] %></div>
+                <div><%= t(:sell).upcase %></div>
+              </div>
+              <div>
+                <div><%= @summary[:neutral] %></div>
+                <div><%= t(:neutral).upcase %></div>
+              </div>
+              <div>
+                <div class="buy"><%= @summary[:buy] %></div>
+                <div><%= t(:buy).upcase %></div>
+              </div>
+            </div>
+            <div class="indicators-updated"><%= t(:updated_on_date, date: l(@last_updated, format: :readable_date)) %></div>
+          </div>
+        </div>
+        <div class="half-width-container">
+          <div class="paper">
+            <h3><%= @coin.name %> <%= t(:stats) %></h3>
+            <div class="stats">
+              <div class="stats__row">
+                <div><%= t(:day_move_label, days: 1) %></div>
+                <div class="<%= get_buy_sell_class(@coin.change24h) %>"><%= format_percentage(@coin.change24h) %></div>
+              </div>
+              <div class="stats__row">
+                <div><%= t(:day_move_label, days: 7) %></div>
+                <div class="<%= get_buy_sell_class(@coin.change7d) %>"><%= format_percentage(@coin.change7d) %></div>
+              </div>
+              <div class="stats__row">
+                <div><%= t(:day_move_label, days: 30) %></div>
+                <div class="<%= get_buy_sell_class(@coin.change30d) %>"><%= format_percentage(@coin.change30d) %></div>
+              </div>
+              <div class="stats__row">
+                <div><%= t :market_cap_label %></div>
+                <div><%= format_price(@coin.market_cap / 1000000, precision: 2) %></div>
+              </div>
+              <div class="stats__row">
+                <div><%= t :volume_24h_label %></div>
+                <div><%= format_price(@coin.volume24h / 1000) %></div>
+              </div>
+              <div class="stats__row">
+                <div><%= t :circulating_supply_label %></div>
+                <div><%= @coin.available_supply > 0 ? format_price(@coin.available_supply) : "N/A"  %></div>
+              </div>
+              <div class="stats__row">
+                <div><%= t :fixed_supply_label %></div>
+                <div><%= @coin.max_supply > 0 ? format_price(@coin.max_supply) : "N/A" %></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <% unless @news_items.blank? %>
+      <h2><%= t(:latest_research) %></h2>
+      <div class="flex-container">
+        <div class="paper">
+          <h3><%= t(:market_news_research) %></h3>
+          <div class="news">
+            <% @news_items.each do |news_item| %>
+            <div class="news-item">
+              <h4 class="news-item__title">
+                <%= news_item.title %>
+              </h4>
+              <div class="news-item__summary">
+                <%= news_item.short_summary %>
+              </div>
+              <div class="news-item__link">
+                  <%= link_to t(:read_more), news_item_url(id: news_item.id, slug: news_item.slug) %>
+                </div>
+            </div>
+            <% end %>
+          </div>
+        </div>
+      </div>
+      <% end %>
+    </div>
+
+    <script type="text/javascript">
+      var options = {
+        angle: [180, 360],
+        values: {
+          10: '<%= t(:strong_sell).titleize %>',
+          30: '<%= t(:sell).titleize %>',
+          50: '<%= t(:neutral).titleize %>',
+          70: '<%= t(:buy).titleize %>',
+          90: '<%= t(:strong_buy).titleize %>'
+        },
+        colors: {
+          0: '#ce1d1d',
+          20: '#de6160',
+          40: '#d4d5d8',
+          60: '#9ac854',
+          80: '#6aac0e'
+        },
+        marks: [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100],
+        value: <%= @summary_value %>
+      };
+      var gauge = new Gauge(document.querySelector(".gauge"), options);
+    </script>
+  </body>
+</html>
