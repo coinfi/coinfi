@@ -49,7 +49,7 @@ class CheckCmcOhclvService < Patterns::Service
       @table = {
         name: "cmc_daily_ohcl_prices",
         interval: "''2 days''",
-        url: ENV.fetch('HEALTHCHECK_CMC_DAILY_PRICES')
+        url: ENV.fetch('HEALTHCHECK_DAILY_PRICES')
       }
       @coin_tests = [
         {
