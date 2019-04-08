@@ -33,8 +33,8 @@ export default class TokenChart extends React.Component<Props, State> {
 
     const groupedData =
       sortBy === 'pair'
-        ? _.groupBy(rawData, 'exchange_slug')
-        : _.groupBy(rawData, 'pair')
+        ? _.groupBy(rawData, 'pair')
+        : _.groupBy(rawData, 'exchange_slug')
 
     const processedData = _.map(groupedData, (group) => {
       const name =
