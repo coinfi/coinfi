@@ -82,6 +82,15 @@ class NewsItem < ApplicationRecord
     self.title.parameterize
   end
 
+  def short_summary(max_words: 50)
+    parsed_content_html = Nokogiri::HTML::DocumentFragment.parse(self.summary)
+    if parsed_content_html.text.blank?
+      parsed_content_html = Nokogiri::HTML::DocumentFragment.parse(self.content)
+    end
+
+    parsed_content_html.text.truncate_words(max_words)
+  end
+
   # This is used in Administrate to override the `categories` and `coins` filters.
   def all_coin_symbols
     mentions = NewsCoinMention.where(news_item_id: id)

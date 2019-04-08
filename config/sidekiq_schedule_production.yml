@@ -28,8 +28,8 @@ RefreshTrendingNews:
 TweetTrendingNews:
   cron: '30 0 * * * * Etc/UTC'  # Slightly after RefreshTrendingNews
 
-CheckDailyEtlDb:                # rake etldb:check_daily
-  cron: '0 0 2 * * * Etc/UTC'
+CheckCmcOhclv:                  # Replaces rake etldb
+  cron: '0 50 * * * * Etc/UTC'
 
 # Paid API routes
 

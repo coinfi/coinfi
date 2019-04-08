@@ -38,3 +38,50 @@ en:
     label:
       coin:
         coin_excluded_countries: Excluded Countries
+  number:
+    format:
+      delimiter: ","
+      separator: "."
+  buy: buy
+  sell: sell
+  neutral: neutral
+  strong_buy: "strong buy"
+  strong_sell: "strong sell"
+  na: "N/A"
+  updated_on_date: "Updated on %{date}"
+  day_move_label: "%{days} day move"
+  market_cap_label: "Market Cap ($millions)"
+  volume_24h_label: "24 hour volume (000s)"
+  circulating_supply_label: "Circulating Supply"
+  fixed_supply_label: "Fixed Supply"
+  sample_value_label: "Sample Value"
+  min_label: "Min"
+  max_label: "Max"
+  signal_label: "Signal"
+  rule_label: "Rule"
+  stats: "Stats"
+  technical_analysis_and_price_movements: "Technical Analysis & Price Movements"
+  technical_indicators: "Technical Indicators"
+  technical_analysis_summary: "Technical Analysis Summary"
+  latest_research: "Latest Research"
+  market_news_research: "Market News Research"
+  read_more: "Read More"
+  indicators:
+      title:
+        rsi: "RSI 14"
+        stochrsi: "Stochastic RSI 14"
+        macd: "MACD (12, 26, 9)"
+        cci: "CCI"
+        stochastic_fast: "Stochastic fast (14, 3)"
+        stochastic_slow: "Stochastic (14, 3, 3)"
+        sma: "Moving Averages (20 v 50)"
+        ema: "Exp Moving Averages (10 v 20)"
+      rule:
+        rsi: "<30 buy, >70 sell"
+        stochrsi: "<20 buy, >80 sell"
+        macd: ">0 buy, <0 sell, no netural"
+        cci: "< -100 buy, >100 sell"
+        stochastic_fast: "<20 buy, >80 sell"
+        stochastic_slow: "<20 buy, >80 sell"
+        sma: ">0 buy, <0 sell, no netural"
+        ema: ">0 buy, <0 sell, no netural"
