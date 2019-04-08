@@ -23,16 +23,18 @@ class CalculateIndicatorsAndSignals < Patterns::Service
   end
 
   def get_indicator_values(data)
-    {
-      rsi: rsi(data).round(0),
-      stochrsi: stochastic_rsi(data).round(0),
-      macd: macd(data).round(0),
-      cci: cci(data).round(0),
-      stochastic_fast: stochastic_fast(data).round(0),
-      stochastic_slow: stochastic_slow(data).round(0),
-      sma: (simple_moving_average(data, 20) - simple_moving_average(data, 50)).round(0),
-      ema: (exponential_moving_average(data, 10) - exponential_moving_average(data, 20)).round(0)
+    indicators = {
+      rsi: rsi(data),
+      stochrsi: stochastic_rsi(data),
+      macd: macd(data),
+      cci: cci(data),
+      stochastic_fast: stochastic_fast(data),
+      stochastic_slow: stochastic_slow(data),
+      sma: (simple_moving_average(data, 20) - simple_moving_average(data, 50)),
+      ema: (exponential_moving_average(data, 10) - exponential_moving_average(data, 20))
     }
+
+    indicators.each { |k, v| indicators[k] = v.round(0) }
   end
 
   def get_indicator_signals(indicator_values)
