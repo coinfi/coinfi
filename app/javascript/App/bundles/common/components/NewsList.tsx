@@ -23,6 +23,7 @@ enum STATUSES {
 
 interface Props {
   classes: any
+  maxNewsItems?: number
 }
 
 interface State {
@@ -130,6 +131,8 @@ class NewsList extends React.Component<Props, State> {
   }
 
   public fetchNewsItems = (): Promise<NewsItem[]> => {
+    const maxNewsItems = this.props.maxNewsItems || 5
+
     return new Promise((resolve, reject) => {
       this.setState(
         {
@@ -139,7 +142,7 @@ class NewsList extends React.Component<Props, State> {
           localAPI.get('/news', { frontPage: true }).then((response) => {
             const sortedNewsItems = this.uniqNews(
               response.payload.sort(this.sortNewsFunc),
-            )
+            ).slice(0, maxNewsItems)
             this.setState(
               {
                 sortedNewsItems,
@@ -155,6 +158,12 @@ class NewsList extends React.Component<Props, State> {
 
   public componentDidMount() {
     this.fetchNewsItems()
+  }
+
+  public componentDidUpdate(prevProps) {
+    if (prevProps.maxNewsItems !== this.props.maxNewsItems) {
+      this.fetchNewsItems()
+    }
   }
 
   public handleCoinClick = (coinData: CoinLinkData) => {
