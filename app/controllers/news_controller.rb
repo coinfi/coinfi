@@ -33,7 +33,6 @@ class NewsController < ApplicationController
     distribute_reads(max_lag: MAX_ACCEPTABLE_REPLICATION_LAG, lag_failover: true) do
       news_item = NewsItem.published.find(params[:id])
       @news_item_data = serialize_news_items(news_item)
-      @news_item_data['user_score'] = current_user.voted_as_when_voted_for(news_item) if current_user.present?
 
       set_meta_tags(
         title: "CoinFi News - #{news_item.title}",
