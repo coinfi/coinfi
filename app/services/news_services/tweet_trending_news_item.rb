@@ -132,7 +132,7 @@ module NewsServices
 
     def send_news_item_tweet
       tweet_body = build_tweet
-      tweet_response = {'body': tweet_body}
+      tweet_response = {'body' => tweet_body}
 
       tweet_response['slack'] = slack_client.chat_postMessage(channel: @slack_channel, text: tweet_body, as_user: true)
 
