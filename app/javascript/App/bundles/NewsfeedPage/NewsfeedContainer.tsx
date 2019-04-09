@@ -26,6 +26,7 @@ const STATUSES = {
 
 interface Props {
   initialNewsItems?: NewsItem[]
+  initialNewsItem?: NewsItem
   initialVotes?: UserVoteItem[]
 }
 
@@ -50,6 +51,12 @@ class NewsfeedContainer extends React.Component<Props, State> {
       initialVoteSummaries = initialSortedNewsItems.reduce(
         this.getVotesFromNewsItems,
         initialVoteSummaries,
+      )
+    }
+    if (props.initialNewsItem) {
+      initialVoteSummaries = this.getVotesFromNewsItems(
+        initialVoteSummaries,
+        props.initialNewsItem,
       )
     }
     if (props.initialVotes) {
