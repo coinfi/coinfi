@@ -11,7 +11,7 @@ FactoryBot.define do
     explorer { "https://etherscan.io/token/#{symbol}" }
     explorer2 { "https://ethplorer.io/address/#{eth_address}" }
     sequence(:ranking)
-    is_listed { Faker::Boolean.boolean(0.9) }
+    is_listed { true } # Not clear what this is for, but it shouldn't be the default: Faker::Boolean.boolean(0.9)
     ico_status { is_listed ? 'listed' : Coin::ICO_STATUSES.without('listed').sample }
     token_decimals { Faker::Number.between(18, 23) }
 
