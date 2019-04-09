@@ -134,7 +134,6 @@ Rails.application.routes.draw do
   get '/about', to: 'pages#show', id: 'about', as: 'page_about'
   get '/press', to: 'pages#show', id: 'press', as: 'page_press'
   get '/contact-us', to: 'pages#show', id: 'contact-us', as: 'page_contact_us'
-  get '/calendar', to: 'pages#show', id: 'calendar', as: 'page_calendar'
   get '/ambassadors', to: 'pages#show', id: 'ambassadors', as: 'page_ambassadors'
   get '/win-cofi', to: 'pages#show', id: 'win-cofi', as: 'page_win_cofi'
   get '/privacy-policy', to: 'pages#show', id: 'privacy-policy', as: 'page_privacy'

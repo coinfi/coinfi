@@ -45,22 +45,26 @@ SitemapGenerator::Sitemap.create do
   #   Article.find_each do |article|
   #     add article_path(article), :lastmod => article.updated_at
   #   end
+  page_paths = [page_about_path, page_press_path, page_contact_us_path, page_ambassadors_path,
+                page_win_cofi_path, page_privacy_path]
 
   add root_path, :priority => 1.0, :changefreq => 'always'
-  add page_about_path, :priority => 0.8, :changefreq => 'daily'
-  add page_press_path, :priority => 0.8, :changefreq => 'daily'
-  add page_calendar_path, :priority => 0.8, :changefreq => 'daily'
-  add page_ambassadors_path, :priority => 0.8, :changefreq => 'daily'
-  add page_win_cofi_path, :priority => 0.8, :changefreq => 'daily'
+  page_paths.each do |page_path|
+    add page_path, :priority => 0.8, :changefreq => 'daily'
+  end
 
   add calculator_path('bitcoin-investment-calculator'), :changefreq => 'daily'
   add podcast_path, :changefreq => 'daily'
   add coins_path, :changefreq => 'hourly'
   add news_path, :changefreq => 'hourly'
 
-  Coin::ICO_STATUSES.each do |status|
-    add icos_path(status), :changefreq => 'daily'
+  TokensHelper::METRIC_TYPES.each do |type_obj|
+    add token_metrics_path(type_obj[:slug]), :changefreq => 'daily'
   end
+
+  # Coin::ICO_STATUSES.each do |status|
+  #   add icos_path(status), :changefreq => 'daily'
+  # end
 
   Coin.listed.legit.where.not(slug: nil).find_each do |coin|
     add coin_path(id_or_slug: coin.slug), :changefreq => 'hourly'

@@ -30,6 +30,7 @@ TweetTrendingNews:
 
 CheckCmcOhclv:                  # Replaces rake etldb
   cron: '0 50 * * * * Etc/UTC'
+  include_metadata: true
 
 # Paid API routes
 
