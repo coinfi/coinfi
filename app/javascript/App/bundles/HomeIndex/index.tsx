@@ -111,9 +111,9 @@ class HomeIndex extends React.Component<Props> {
           className={classes.cardWrapper}
           spacing={16}
         >
-          <Grid item={true} xs={12} className={classes.bannerContainer}>
+          {/* <Grid item={true} xs={12} className={classes.bannerContainer}>
             <Banner className={classes.bannerRoot} />
-          </Grid>
+          </Grid> */}
           <Grid
             item={true}
             xs={12}

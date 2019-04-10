@@ -642,56 +642,6 @@ class CoinShow extends Component {
                   </SubCard>
                 )}
                 <SubCard>
-                  <CardContent
-                    className={classnames(
-                      classes.subCardContent,
-                      classes.ctaCardContent,
-                    )}
-                  >
-                    <Grid
-                      container={true}
-                      direction="row"
-                      justify="center"
-                      className={classes.ctaRoot}
-                    >
-                      <Grid item={true} xs={12} className={classes.ctaImage}>
-                        <img src={lightbulb} alt="Lightbulb" />
-                      </Grid>
-                      <Grid item={true} xs={12} className={classes.ctaTitle}>
-                        Know when to buy or sell {symbol}
-                      </Grid>
-                      {ctaPoints.map((text, index) => (
-                        <Fragment key={index}>
-                          <Grid
-                            item={true}
-                            xs={2}
-                            className={classes.ctaIconContainer}
-                          >
-                            <Icon
-                              name="check"
-                              regular
-                              className={classes.ctaIcon}
-                            />
-                          </Grid>
-                          <Grid item={true} xs={10}>
-                            {text}
-                          </Grid>
-                        </Fragment>
-                      ))}
-                      <Grid item={true} className={classes.ctaButtonContainer}>
-                        <Button
-                          href="/signals"
-                          variant="contained"
-                          className={classes.ctaButton}
-                          data-heap="coin-details-click-get-trading-signals-button"
-                        >
-                          Get CoinFi Trading Signals
-                        </Button>
-                      </Grid>
-                    </Grid>
-                  </CardContent>
-                </SubCard>
-                <SubCard>
                   <CardHeader
                     title="Related Coins"
                     titleTypographyProps={{ variant: 'h2', component: 'h2' }}
