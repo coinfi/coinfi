@@ -37,18 +37,7 @@ class Api::NewsController < ApiController
   private
 
   def set_front_page_news_items(limit = 5)
-    @news_items = serialize_news_items(NewsItems::WithFilters.call(
-      NewsItem.published,
-      trending: true
-    )
-      .includes(:coins, :news_categories)
-      .order_by_published
-      .limit(limit))
-
-    if @news_items.length < limit
-      @news_items = @news_items + get_default_serialized_news_items
-      @news_items = @news_items.uniq { |item| item['id'] }.slice(0, limit)
-    end
+    @news_items = get_default_serialized_news_items(limit)
   end
 
   def set_news_items_with_filters(params)
@@ -100,12 +89,12 @@ class Api::NewsController < ApiController
     end
   end
 
-  def get_default_serialized_news_items
+  def get_default_serialized_news_items(limit = 25)
     news_item_ids = get_default_news_item_ids
     serialize_news_items(NewsItem.where(id: news_item_ids)
       .includes(:coins, :news_categories)
       .order_by_published
-      .limit(25))
+      .limit(limit))
   end
 
   def no_filters?

@@ -10,6 +10,7 @@ const withAppProviders = (TargetComponent) => {
     return (
       <NewsfeedContainer
         initialNewsItems={props.initialNewsItems}
+        initialNewsItem={props.initialNewsItem}
         initialVotes={props.initialVotes}
       >
         <CoinListContainer
