@@ -32,12 +32,6 @@ const styles = (theme) => {
         },
       },
     },
-    '& .tab-content:not(.active)': {
-      position: 'fixed !important',
-      clip: 'rect(1px, 1px, 1px, 1px)',
-      opacity: 0,
-      overflow: 'hidden',
-    },
   })
 }
 
@@ -51,32 +45,19 @@ class Tabs extends Component {
     this.state = {
       tabKey,
     }
-  }
-
-  componentDidMount() {
-    this.showTab(this.state.tabKey)
+    this.handleOnChange(tabKey)
   }
 
   setTab = (tabKey) => {
     if (tabKey === this.state.tabKey) return
-    const { items, onChange } = this.props
     this.setState({ tabKey })
-    if (onChange) onChange({ key: tabKey, label: items[tabKey] })
+    this.handleOnChange(tabKey)
     this.props.setDefaultToTradingView(tabKey === 1)
-    this.showTab(tabKey)
   }
 
-  showTab = (tabKey) => {
-    const { target } = this.props
-    const container = document.getElementById(target)
-    const tabs = container.querySelectorAll(`.tab-content`)
-    tabs.forEach((tab, key) => {
-      if (tabKey === key) {
-        tab.classList.add('active')
-      } else {
-        tab.classList.remove('active')
-      }
-    })
+  handleOnChange(tabKey) {
+    const { items, onChange } = this.props
+    if (onChange) onChange({ key: tabKey, label: items[tabKey] })
   }
 
   render() {

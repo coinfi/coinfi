@@ -5,12 +5,29 @@ import TradingViewChart from './TradingViewChart'
 import LoadingIndicator from '../LoadingIndicator'
 import moment from 'moment'
 import _ from 'lodash'
+import classnames from 'classnames'
 import { withCurrency } from '~/bundles/common/contexts/CurrencyContext'
+import { withStyles, createStyles } from '@material-ui/core/styles'
 
 const STATUSES = {
   INITIALIZING: 'INITIALIZING',
   LOADING: 'LOADING',
   READY: 'READY',
+}
+
+const styles = (theme) => {
+  const isDarkMode = theme.palette.type === 'dark'
+
+  return createStyles({
+    tabContent: {
+      '&:not(.active)': {
+        position: 'fixed !important',
+        clip: 'rect(1px, 1px, 1px, 1px)',
+        opacity: 0,
+        overflow: 'hidden',
+      },
+    },
+  })
 }
 
 class CoinCharts extends Component {
@@ -22,6 +39,7 @@ class CoinCharts extends Component {
       processedPriceData: [],
       processedPriceDataHourly: [],
       epochPrices: [],
+      tabKey: 0,
     }
   }
 
@@ -127,14 +145,21 @@ class CoinCharts extends Component {
     }
   }
 
+  handleTabChange = ({ key, label }) => {
+    this.setState({
+      tabKey: key,
+    })
+  }
+
   render() {
     const {
       isTradingViewVisible,
       priceData,
       priceDataHourly,
+      classes,
       ...remainingProps
     } = this.props
-    const { status, processedPriceData } = this.state
+    const { status, processedPriceData, tabKey: activeTabKey } = this.state
 
     if (status !== STATUSES.READY) {
       return (
@@ -150,11 +175,16 @@ class CoinCharts extends Component {
           <Tabs
             target="coin-charts"
             items={['Line Chart', 'TradingView Chart']}
+            onChange={this.handleTabChange}
             className="flex-auto justify-center justify-start-l"
           />
         )}
         <div id="coin-charts" className="nl3 nr3 mh0-m">
-          <div className="tab-content active">
+          <div
+            className={classnames(classes.tabContent, {
+              active: activeTabKey === 0,
+            })}
+          >
             <PriceGraph
               priceData={processedPriceData}
               // priceDataHourly={epochPrices}
@@ -162,7 +192,11 @@ class CoinCharts extends Component {
             />
           </div>
           {isTradingViewVisible && (
-            <div className="tab-content">
+            <div
+              className={classnames(classes.tabContent, {
+                active: activeTabKey === 1,
+              })}
+            >
               <TradingViewChart
                 priceData={processedPriceData}
                 // priceDataHourly={epochPrices}
@@ -176,4 +210,4 @@ class CoinCharts extends Component {
   }
 }
 
-export default withCurrency(CoinCharts)
+export default withStyles(styles)(withCurrency(CoinCharts))
