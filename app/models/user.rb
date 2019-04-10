@@ -106,6 +106,16 @@ class User < ApplicationRecord
     end
   end
 
+  def trading_view
+    token_sale && token_sale["default_trading_view"].presence || false
+  end
+
+  def set_default_to_trading_view(default_setting)
+    self.token_sale = {} if self.token_sale.nil?
+    self.token_sale["default_trading_view"] = !!default_setting
+    self.save
+  end
+
   # Returns number of staked COFI tokens
   # Uses the value in `token_sale` first otherwise fallback onto looking up transactions
   def staked_cofi_amount

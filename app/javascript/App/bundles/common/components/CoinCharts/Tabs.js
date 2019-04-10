@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
-import classname from 'classnames'
+import classnames from 'classnames'
 import { withStyles, createStyles } from '@material-ui/core/styles'
 import { sansAlt } from '../../styles/typography'
 import { tiber, white70 } from '../../styles/colors'
-import classnames from 'classnames'
+import { withUserSettings } from '../../contexts/UserSettingsContext'
 
 const styles = (theme) => {
   const isDarkMode = theme.palette.type === 'dark'
@@ -42,17 +42,32 @@ const styles = (theme) => {
 }
 
 class Tabs extends Component {
-  state = { tabKey: 0 }
+  constructor(props) {
+    super(props)
+
+    const { defaultToTradingView } = props
+    const tabKey = defaultToTradingView ? 1 : 0
+
+    this.state = {
+      tabKey,
+    }
+  }
 
   componentDidMount() {
-    this.showTab(0)
+    this.showTab(this.state.tabKey)
+  }
+
+  setTab = (tabKey) => {
+    if (tabKey === this.state.tabKey) return
+    const { items, onChange } = this.props
+    this.setState({ tabKey })
+    if (onChange) onChange({ key: tabKey, label: items[tabKey] })
+    this.props.setDefaultToTradingView(tabKey === 1)
+    this.showTab(tabKey)
   }
 
   showTab = (tabKey) => {
-    if (tabKey === this.state.tabKey) return
-    const { items, target, onChange } = this.props
-    this.setState({ tabKey })
-    if (onChange) onChange({ key: tabKey, label: items[tabKey] })
+    const { target } = this.props
     const container = document.getElementById(target)
     const tabs = container.querySelectorAll(`.tab-content`)
     tabs.forEach((tab, key) => {
@@ -68,12 +83,12 @@ class Tabs extends Component {
     const { items, classes, className } = this.props
     const { tabKey: activeTabKey } = this.state
     return (
-      <div ref={this.handleRef} className={classname(classes.tabs, className)}>
+      <div ref={this.handleRef} className={classnames(classes.tabs, className)}>
         {items.map((label, key) => (
           <button
             key={key}
             className={classnames('tab', { active: activeTabKey === key })}
-            onClick={() => this.showTab(key)}
+            onClick={() => this.setTab(key)}
           >
             {label}
           </button>
@@ -83,4 +98,4 @@ class Tabs extends Component {
   }
 }
 
-export default withStyles(styles)(Tabs)
+export default withStyles(styles)(withUserSettings(Tabs))
