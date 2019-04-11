@@ -12,10 +12,16 @@ const styles = (theme) => {
   })
 }
 
-const itemLabel = (item) => {
-  if (/www/.exec(item) !== null) {
-    item = item.replace('www.', '')
+const stripWww = (text) => {
+  if (/www/.exec(text) !== null) {
+    return text.replace('www.', '')
+  } else {
+    return text
   }
+}
+
+const itemLabel = (item) => {
+  item = stripWww(item)
   if (item instanceof Object) {
     return item.name || item.title || item.label
   }
@@ -47,9 +53,7 @@ const ItemSelector = (props: Props) => {
     <div className="item-selector-alt">
       <ul>
         {props.items.map((item, i) => {
-          if (/www/.exec(item) !== null) {
-            item = item.replace('.www', '').replace(/^/, 'www.')
-          }
+          item = stripWww(item)
           return (
             <li className="mv2" key={i}>
               <ItemLink

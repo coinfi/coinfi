@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
-import classname from 'classnames'
+import classnames from 'classnames'
 import { withStyles, createStyles } from '@material-ui/core/styles'
 import { sansAlt } from '../../styles/typography'
 import { tiber, white70 } from '../../styles/colors'
-import classnames from 'classnames'
+import { withUserSettings } from '../../contexts/UserSettingsContext'
 
 const styles = (theme) => {
   const isDarkMode = theme.palette.type === 'dark'
@@ -32,48 +32,44 @@ const styles = (theme) => {
         },
       },
     },
-    '& .tab-content:not(.active)': {
-      position: 'fixed !important',
-      clip: 'rect(1px, 1px, 1px, 1px)',
-      opacity: 0,
-      overflow: 'hidden',
-    },
   })
 }
 
 class Tabs extends Component {
-  state = { tabKey: 0 }
+  constructor(props) {
+    super(props)
 
-  componentDidMount() {
-    this.showTab(0)
+    const { defaultToTradingView } = props
+    const tabKey = defaultToTradingView ? 1 : 0
+
+    this.state = {
+      tabKey,
+    }
+    this.handleOnChange(tabKey)
   }
 
-  showTab = (tabKey) => {
+  setTab = (tabKey) => {
     if (tabKey === this.state.tabKey) return
-    const { items, target, onChange } = this.props
     this.setState({ tabKey })
+    this.handleOnChange(tabKey)
+    this.props.setDefaultToTradingView(tabKey === 1)
+  }
+
+  handleOnChange(tabKey) {
+    const { items, onChange } = this.props
     if (onChange) onChange({ key: tabKey, label: items[tabKey] })
-    const container = document.getElementById(target)
-    const tabs = container.querySelectorAll(`.tab-content`)
-    tabs.forEach((tab, key) => {
-      if (tabKey === key) {
-        tab.classList.add('active')
-      } else {
-        tab.classList.remove('active')
-      }
-    })
   }
 
   render() {
     const { items, classes, className } = this.props
     const { tabKey: activeTabKey } = this.state
     return (
-      <div ref={this.handleRef} className={classname(classes.tabs, className)}>
+      <div ref={this.handleRef} className={classnames(classes.tabs, className)}>
         {items.map((label, key) => (
           <button
             key={key}
             className={classnames('tab', { active: activeTabKey === key })}
-            onClick={() => this.showTab(key)}
+            onClick={() => this.setTab(key)}
           >
             {label}
           </button>
@@ -83,4 +79,4 @@ class Tabs extends Component {
   }
 }
 
-export default withStyles(styles)(Tabs)
+export default withStyles(styles)(withUserSettings(Tabs))
