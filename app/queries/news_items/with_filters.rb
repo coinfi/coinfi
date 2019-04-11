@@ -41,11 +41,17 @@ module NewsItems
         result = result
           .joins(:news_coin_mentions)
           .where("news_coin_mentions.id IN (?)", news_coin_mentions.where(coin: coins).select(:id))
-      else
+      elsif feed_sources.nil? && news_categories.nil?
+        # Only top 20 coins or no coins exist
         result = result
-          .joins('LEFT OUTER JOIN "news_coin_mentions" ON "news_items"."id" = "news_coin_mentions"."news_item_id"
-          LEFT OUTER JOIN "coins" ON "news_coin_mentions"."coin_id" = "coins"."id"')
-          .merge(Coin.quick_top(20).or(news_coin_mentions.where(id: nil)))
+          .where(
+            news_coin_mentions.joins(:coin)
+              .where("news_coin_mentions.news_item_id = news_items.id")
+              .merge(
+                Coin.where("coins.ranking < ?", 20)
+                  .or(Coin.where(ranking: nil))
+              ).exists.not
+          )
       end
 
       # Apply NewsCategories filter
