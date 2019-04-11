@@ -78,7 +78,7 @@ module CoinMarketCapPro
         volume_percentage = has_base_volume24h ? volume24h.to_f / base_volume24h : 0
         volume24h_quote = pair.dig("quote", "exchange_reported",
           coin_is_primary ? "volume_24h_quote" : "volume_24h_base")
-        price = quote["price"]
+        price = quote["price"] || 0
         quote_currency_symbol = pair.dig("market_pair_quote", "currency_symbol")
 
         unless coin_is_primary
