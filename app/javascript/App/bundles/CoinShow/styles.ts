@@ -132,6 +132,14 @@ const styles = (theme) =>
       color: black87,
       marginBottom: 0,
     },
+    priceChart: {
+      '&:not(.active)': {
+        position: 'fixed',
+        clip: 'rect(1px, 1px, 1px, 1px)',
+        opacity: 0,
+        overflow: 'hidden',
+      },
+    },
     tokenMetricHeader: {
       [theme.breakpoints.up('md')]: {
         '&:first-child': {
