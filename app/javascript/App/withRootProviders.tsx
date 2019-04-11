@@ -8,6 +8,7 @@ import getOrCreateStylesContext from '~/getOrCreateStylesContext'
 import ClearJssServerSide from '~/ClearJssServerSide'
 import { CookiesProvider } from 'react-cookie'
 import { CurrencyProvider } from './bundles/common/contexts/CurrencyContext'
+import { UserSettingsProvider } from './bundles/common/contexts/UserSettingsContext'
 
 interface WithClientProvidersOptions {
   stylesNamespace?: string
@@ -42,9 +43,11 @@ const withRootProviders = (
             <ClearJssServerSide stylesNamespace={stylesNamespace}>
               <RailsProvider railsContext={railsContext}>
                 <DeviceProvider {...railsContext.deviceProviderProps}>
-                  <CurrencyProvider {...props}>
-                    <TargetComponent {...props} />
-                  </CurrencyProvider>
+                  <UserSettingsProvider {...props}>
+                    <CurrencyProvider {...props}>
+                      <TargetComponent {...props} />
+                    </CurrencyProvider>
+                  </UserSettingsProvider>
                 </DeviceProvider>
               </RailsProvider>
             </ClearJssServerSide>

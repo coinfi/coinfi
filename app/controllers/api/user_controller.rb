@@ -1,4 +1,5 @@
 class Api::UserController < ApiController
+  include CurrencyHelper
 
   skip_before_action :verify_authenticity_token
   before_action :set_watchlist
@@ -12,6 +13,7 @@ class Api::UserController < ApiController
     respond_warning("User not logged in") and return unless current_user
     set_default_currency(params[:currency]) if params[:currency]
     set_theme(params[:theme]) if params[:theme]
+    set_default_to_trading_view(params[:trading_view]) unless params[:trading_view].nil?
     watch_coin(params[:watchCoin]) if params[:watchCoin]
     unwatch_coin(params[:unwatchCoin]) if params[:unwatchCoin]
     respond_success(serialized(current_user))
@@ -30,18 +32,23 @@ class Api::UserController < ApiController
   end
 
   def set_default_currency(currency)
-    #TODO: compare against master currency list?
-    current_user.update(default_currency: currency)
+    if has_currency?(currency)
+      current_user.update(default_currency: currency)
+    end
   end
 
   def set_theme(theme)
     current_user.set_theme(theme)
   end
 
+  def set_default_to_trading_view(setting)
+    current_user.set_default_to_trading_view(setting)
+  end
+
   def serialized(user)
     user.as_json(
       only: %i[email, default_currency],
-      methods: %i[coin_ids theme]
+      methods: %i[coin_ids theme trading_view]
     )
   end
 

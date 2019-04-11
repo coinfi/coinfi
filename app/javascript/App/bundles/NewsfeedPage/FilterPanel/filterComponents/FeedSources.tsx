@@ -11,6 +11,9 @@ interface Props {
 const FeedSources = (props: Props) => {
   const sortedSources = _.sortBy(
     props.feedSources.map((item) => {
+      if (!item) {
+        return item
+      }
       if (/www/.exec(item) !== null) {
         return item.replace('www.', '').concat('.www')
       }
