@@ -22,7 +22,18 @@ class CalculateIndicatorsAndSignals < Patterns::Service
       .last(@limit) # limit dataset for easier processing
   end
 
+  def get_rounding_places(latest_price)
+    if latest_price >= 100
+      0
+    elsif latest_price >= 1
+      1
+    else
+      6
+    end
+  end
+
   def get_indicator_values(data)
+    rounding_places = get_rounding_places(data.last[:adj_close])
     indicators = {
       rsi: rsi(data),
       stochrsi: stochastic_rsi(data),
@@ -34,7 +45,7 @@ class CalculateIndicatorsAndSignals < Patterns::Service
       ema: (exponential_moving_average(data, 10) - exponential_moving_average(data, 20))
     }
 
-    indicators.each { |k, v| indicators[k] = v.round(0) }
+    indicators.each { |k, v| indicators[k] = v.round(rounding_places) }
   end
 
   def get_indicator_signals(indicator_values)
