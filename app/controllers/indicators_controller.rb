@@ -68,7 +68,11 @@ class IndicatorsController < ApplicationController
 
   def set_news_items
     distribute_reads(max_lag: MAX_ACCEPTABLE_REPLICATION_LAG, lag_failover: true) do
-      @news_items = NewsItems::WithFilters.call(NewsItem.published, coins: [@coin])
+      @news_items = NewsItem.published
+        .joins(:feed_source)
+        .merge(FeedSource.active.not_reddit.not_twitter)
+        .joins(:news_coin_mentions)
+        .where("news_coin_mentions.id IN (?)", NewsCoinMention.default_tagged.where(coin: @coin).select(:id))
         .order_by_published
         .limit(5)
         .to_a

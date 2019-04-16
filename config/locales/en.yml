@@ -79,9 +79,9 @@ en:
       rule:
         rsi: "<30 buy, >70 sell"
         stochrsi: "<20 buy, >80 sell"
-        macd: ">0 buy, <0 sell, no netural"
+        macd: ">0 buy, <0 sell, no neutral"
         cci: "< -100 buy, >100 sell"
         stochastic_fast: "<20 buy, >80 sell"
         stochastic_slow: "<20 buy, >80 sell"
-        sma: ">0 buy, <0 sell, no netural"
-        ema: ">0 buy, <0 sell, no netural"
+        sma: ">0 buy, <0 sell, no neutral"
+        ema: ">0 buy, <0 sell, no neutral"
