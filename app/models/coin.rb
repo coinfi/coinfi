@@ -198,6 +198,10 @@ class Coin < ApplicationRecord
     cached_market_data.dig("total_supply") || 0
   end
 
+  def fixed_supply
+    max_supply > 0 ? max_supply : total_supply
+  end
+
   def total_market_pairs
     cached_market_pairs.dig("total_pairs") || 0
   end
