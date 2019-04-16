@@ -13,7 +13,8 @@ module IndicatorsHelper
     'eos.io',
     'neo.org/neo',
     'z.cash',
-    'binance.com'
+    'binance.com',
+    'tron.network'
   ]
 
   def get_buy_sell_class(value)
