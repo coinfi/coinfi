@@ -65,7 +65,7 @@ en:
   technical_indicators: "Technical Indicators"
   technical_analysis_summary: "Technical Analysis Summary"
   technical_indicator_copy: "Technical indicators are calculations based on price and volume frequently used in the analysis of market direction. Traders often use them to analyze short-term price movements and identify entry and exit points. Technical indicators are often used in conjunction with other forms of financial analysis. Learn more about technical indicators here."
-  indicator_summary_copy: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla vel metus metus. Cras tincidunt aliquet nisi, quis condimentum lorem tristique ac. Nullam ultricies lectus sit amet enim consequat, vitae consectetur sapien lobortis. Cras laoreet, justo ac consequat volutpat, enim risus lobortis orci, et aliquam ligula leo eu sapien."
+  indicator_summary_copy: "We aggregate sell/buy/hold signals from 8 of the most commonly used technical indicators to give you a quick pulse of the market."
   latest_research: "Latest Research"
   market_news_research: "Market News Research"
   time_ago: "%{time_words} ago"

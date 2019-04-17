@@ -224,12 +224,15 @@
       .sell {
         color: #ce1d1d;
       }
-      .indicators-copy {
+      .paper .copy-container {
         margin: 20px -20px -20px;
         padding: 20px;
         font-size: 14px;
         border-top: 1px solid #e0e0e0;
         background-color: #f8f8f8;
+      }
+      .indicator-summary-copy {
+        margin-left: 8px;
       }
       .indicators-summary {
         display: flex;
@@ -480,7 +483,12 @@
         </div>
         <div class="half-width-container">
           <div class="paper">
-            <h3><%= t(:technical_analysis_summary) %></h3>
+            <h3>
+              <%= t(:technical_analysis_summary) %>
+              <a class="indicator-summary-copy" data-tippy="<%= t :indicator_summary_copy %>">
+                <i class="far fa-info-circle"></i>
+              </a>
+            </h3>
             <div class="gauge-wrapper">
               <div class="gauge"></div>
             </div>
@@ -499,9 +507,6 @@
               </div>
             </div>
             <div class="indicators-updated"><%= t(:updated_on_date, date: l(@last_updated, format: :readable_date)) %></div>
-            <div class="indicators-copy">
-            <%= t :indicator_summary_copy %>
-          </div>
           </div>
         </div>
       </div>
@@ -552,7 +557,7 @@
             </div>
           <% end %>
           </div>
-          <div class="indicators-copy">
+          <div class="copy-container">
             <%= t :technical_indicator_copy %>
           </div>
         </div>
