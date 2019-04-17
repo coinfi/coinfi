@@ -396,9 +396,9 @@
             <h3><%= @coin.name %> <%= t(:stats) %></h3>
             <div class="stats">
               <div class="stats__row">
-                <div><%= t(:day_move_label, days: 1) %></div>
-                <div class="<%= get_buy_sell_class(@coin.change24h) %>">
-                  <%= link_to format_percentage(@coin.change24h), coin_url(@coin.slug), class: 'plain-link' %>
+                <div><%= t(:crypto_rank) %></div>
+                <div>
+                  <%= link_to @crypo_rank, coin_url(@coin.slug), class: 'plain-link' %>
                 </div>
               </div>
               <div class="stats__row">

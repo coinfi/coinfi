@@ -51,6 +51,7 @@ en:
   strong_sell: "sell"
   na: "N/A"
   updated_on_date: "Updated on %{date}"
+  crypto_rank: "Crypto Rank"
   day_move_label: "%{days} day move"
   market_cap_label: "Market Cap ($millions)"
   volume_24h_label: "24 hour volume (000s)"

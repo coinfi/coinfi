@@ -11,6 +11,7 @@ class IndicatorsController < ApplicationController
   def show
     calculations = CalculateIndicatorsAndSignals.call(@coin)
     @indicators, @signals = calculations.result
+    @crypo_rank = get_crypto_rank(coin_key: @coin.coin_key)
 
     set_indicator_results
     set_summary_results
@@ -65,6 +66,14 @@ class IndicatorsController < ApplicationController
   end
 
   private
+
+  def get_crypto_rank(coin_key: @coin.coin_key)
+    distribute_reads(max_lag: MAX_ACCEPTABLE_REPLICATION_LAG, lag_failover: true) do
+      ordered_coins = Coin.where(coin_key: INDICATOR_COIN_KEYS).order(:ranking).pluck('coin_key')
+
+      ordered_coins.index(coin_key) + 1
+    end
+  end
 
   def set_news_items
     distribute_reads(max_lag: MAX_ACCEPTABLE_REPLICATION_LAG, lag_failover: true) do
