@@ -57,7 +57,7 @@ en:
   volume_24h_label: "24 hour volume (000s)"
   circulating_supply_label: "Circulating Supply"
   fixed_supply_label: "Fixed Supply"
-  sample_value_label: "Sample Value"
+  sample_value_label: "Value"
   min_label: "Min"
   max_label: "Max"
   signal_label: "Signal"
@@ -70,6 +70,7 @@ en:
   indicator_summary_copy: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla vel metus metus. Cras tincidunt aliquet nisi, quis condimentum lorem tristique ac. Nullam ultricies lectus sit amet enim consequat, vitae consectetur sapien lobortis. Cras laoreet, justo ac consequat volutpat, enim risus lobortis orci, et aliquam ligula leo eu sapien."
   latest_research: "Latest Research"
   market_news_research: "Market News Research"
+  time_ago: "%{time_words} ago"
   read_more: "Read More"
   indicators:
       title:
@@ -82,11 +83,35 @@ en:
         sma: "Moving Averages (20 v 50)"
         ema: "Exp Moving Averages (10 v 20)"
       rule:
-        rsi: "<30 buy, >70 sell"
-        stochrsi: "<20 buy, >80 sell"
-        macd: ">0 buy, <0 sell, no hold"
-        cci: "< -100 buy, >100 sell"
-        stochastic_fast: "<20 buy, >80 sell"
-        stochastic_slow: "<20 buy, >80 sell"
-        sma: ">0 buy, <0 sell, no hold"
-        ema: ">0 buy, <0 sell, no hold"
+        rsi: |
+          Buy when lesser than 30
+          Sell when greater than 70
+          Hold between 30 and 70 (inclusive)
+        stochrsi: |
+          Buy when lesser than 20
+          Sell when greater than 80
+          Hold between 20 and 80 (inclusive)
+        macd: |
+          Buy when greater than 0
+          Sell when lesser than 0
+          No hold signal
+        cci: |
+          Buy when lesser than -100
+          Sell when greater than 100
+          Hold between -100 and 100 (inclusive)
+        stochastic_fast: |
+          Buy when lesser than 20
+          Sell when greater than 80
+          Hold between 20 and 80 (inclusive)
+        stochastic_slow: |
+          Buy when lesser than 20
+          Sell when greater than 80
+          Hold between 20 and 80 (inclusive)
+        sma: |
+          Buy when greater than 0
+          Sell when lesser than 0
+          No hold signal
+        ema: |
+          Buy when greater than 0
+          Sell when lesser than 0
+          No hold signal

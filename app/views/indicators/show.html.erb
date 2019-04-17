@@ -1,8 +1,8 @@
 <html>
   <head>
     <meta name="viewport" content="width=device-width">
-    <script src="/js/gauge.js"></script>
-    <link rel="stylesheet" href="/css/gauge.css" style="display: none;"></link>
+    <link rel="stylesheet" href="/css/gauge.css">
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-6jHF7Z3XI3fF4XZixAuSu0gGKrXwoX/w3uFPxC56OtjChio7wtTGJWRW53Nhx6Ev" crossorigin="anonymous">
     <style>
       /* Main */
       @font-face {
@@ -198,12 +198,18 @@
       .odd {
         background-color: #e0e0e0;
       }
+      .indicators-desktop th {
+        padding: 2px 4px;
+      }
       .indicators-desktop td {
         padding: 2px 4px;
         font-weight: 600;
       }
-      .indicators-desktop td.number {
+      .indicators-desktop .number {
         text-align: center;
+      }
+      .indicators-desktop .indicator-signal {
+        text-align: right;
       }
       .indicators-mobile {
         display: none;
@@ -220,10 +226,15 @@
       .indicators-mobile .indicators__title {
         font-size: 14px;
         font-weight: 600;
+        margin-bottom: 4px;
       }
       .indicators-mobile .indicators__signal {
         font-size: 14px;
         font-weight: 600;
+        margin-bottom: 4px;
+      }
+      .fa-info-circle {
+        color: #00a5ee;
       }
       .buy {
         color: #6aac0e;
@@ -268,13 +279,26 @@
       }
       .news-item {
         padding-top: 10px;
-        margin-bottom: 10px;
       }
-      .news-item:last-child {
-        margin-bottom: 0;
+      .news-item:not(:last-child) {
+        padding-bottom: 20px;
+        border-bottom: 1px solid #e0e0e0;
+        margin-bottom: 15px;
       }
-      .news-item__link {
-        float: right;
+      .news-item__title {
+        margin-bottom: 8px;
+      }
+      .news-item__summary {
+        font-size: 15px;
+        line-height: 1.3rem;
+        text-align: justify;
+        margin-bottom: 6px;
+      }
+      .news-item__footer {
+        color: #777777;
+        font-size: 13px;
+        display: flex;
+        justify-content: space-between;
       }
       .news-item::after {
         content: "";
@@ -369,7 +393,15 @@
           font-size: 12px;
         }
         .news-item__title {
-          margin-bottom: 8px;
+          font-size: 15px;
+        }
+        .news-item__summary {
+          font-size: 14px;
+          line-height: 1.15rem;
+          text-align: justify;
+        }
+        .news-item__footer {
+          font-size: 12px;
         }
         .gauge-wrapper {
           width: 250px;
@@ -478,8 +510,7 @@
                 <th><%= t :sample_value_label %></th>
                 <th><%= t :min_label %></th>
                 <th><%= t :max_label %></th>
-                <th><%= t :signal_label %></th>
-                <th class="indicators__rule"><%= t :rule_label %></th>
+                <th class="indicator-signal"><%= t :signal_label %></th>
               </tr>
             </thead>
             <tbody>
@@ -489,10 +520,10 @@
                 <td class="number"><%= indicator[:value] %></td>
                 <td class="number"><%= indicator[:min].presence || t(:na) %></td>
                 <td class="number"><%= indicator[:max].presence || t(:na) %></td>
-                <td class="number indicator-signal <%= indicator[:signal].downcase %>">
+                <td class="indicator-signal <%= indicator[:signal].downcase %>">
                   <%= indicator[:signal].present? ? t(indicator[:signal].downcase).upcase : "" %>
+                  <a data-tippy="<%= simple_format(t(indicator[:symbol], scope: 'indicators.rule')) %>"><i class="far fa-info-circle"></i></a>
                 </td>
-                <td class="indicators__rule"><%= t(indicator[:symbol], scope: 'indicators.rule') %></td>
               </tr>
             <% end %>
             </tbody>
@@ -502,16 +533,15 @@
             <div class="indicators-mobile__row <%= cycle('even', 'odd') %>">
               <div class="indicators-mobile__col-titles">
                 <div class="indicators__title"><%= t(indicator[:symbol], scope: 'indicators.title') %></div>
-                <div class="indicators__rule-title"><%= t :rule_label %>:</div>
-                <div class="indicators__rule"><%= t(indicator[:symbol], scope: 'indicators.rule') %></div>
+                <div><%= t :min_label %>: <%= indicator[:min].presence || t(:na) %></div>
+                <div><%= t :max_label %>: <%= indicator[:max].presence || t(:na) %></div>
               </div>
               <div class="indicators-mobile__col-values">
                 <div class="indicators__signal <%= indicator[:signal].downcase %>">
+                  <a data-tippy="<%= simple_format(t(indicator[:symbol], scope: 'indicators.rule')) %>"><i class="far fa-info-circle"></i></a>
                   <%= indicator[:signal].present? ? t(indicator[:signal].downcase).upcase : "" %>
                 </div>
-                <div><%= t :min_label %>: <%= indicator[:value] %></div>
-                <div><%= t :max_label %>: <%= indicator[:min].presence || t(:na) %></div>
-                <div><%= t :signal_label %>: <%= indicator[:max].presence || t(:na) %></div>
+                <div><%= t :sample_value_label %>: <%= indicator[:value] %></div>
               </div>
             </div>
           <% end %>
@@ -536,9 +566,14 @@
               <div class="news-item__summary">
                 <%= news_item.short_summary %>
               </div>
-              <div class="news-item__link">
+              <div class="news-item__footer">
+                <div class="news-item__details">
+                  <%= t(:time_ago, time_words: time_ago_in_words(news_item.feed_item_published_at)) %>
+                </div>
+                <div class="news-item__link">
                   <%= link_to t(:read_more), news_item_url(id: news_item.id, slug: news_item.slug) %>
                 </div>
+              </div>
             </div>
             <% end %>
           </div>
@@ -547,6 +582,9 @@
       <% end %>
     </div>
 
+    <script src="https://unpkg.com/popper.js@1"></script>
+    <script src="https://unpkg.com/tippy.js@4"></script>
+    <script src="/js/gauge.js"></script>
     <script type="text/javascript">
       var options = {
         angle: [180, 360],
