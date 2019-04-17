@@ -389,6 +389,82 @@
         </a>
       </h2>
 
+
+      <div class="flex-container">
+        <div class="half-width-container">
+          <div class="paper">
+            <h3><%= @coin.name %> <%= t(:stats) %></h3>
+            <div class="stats">
+              <div class="stats__row">
+                <div><%= t(:day_move_label, days: 1) %></div>
+                <div class="<%= get_buy_sell_class(@coin.change24h) %>">
+                  <%= link_to format_percentage(@coin.change24h), coin_url(@coin.slug), class: 'plain-link' %>
+                </div>
+              </div>
+              <div class="stats__row">
+                <div><%= t(:day_move_label, days: 7) %></div>
+                <div class="<%= get_buy_sell_class(@coin.change7d) %>">
+                  <%= link_to format_percentage(@coin.change7d), coin_url(@coin.slug), class: 'plain-link' %>
+                </div>
+              </div>
+              <div class="stats__row">
+                <div><%= t(:day_move_label, days: 30) %></div>
+                <div class="<%= get_buy_sell_class(@coin.change30d) %>">
+                  <%= link_to format_percentage(@coin.change30d), coin_url(@coin.slug), class: 'plain-link' %>
+                </div>
+              </div>
+              <div class="stats__row">
+                <div><%= t :market_cap_label %></div>
+                <div>
+                  <%= link_to format_price(@coin.market_cap / 1000000, precision: 2), coin_url(@coin.slug), class: 'plain-link' %>
+                </div>
+              </div>
+              <div class="stats__row">
+                <div><%= t :volume_24h_label %></div>
+                <div>
+                  <%= link_to format_price(@coin.volume24h / 1000), coin_url(@coin.slug), class: 'plain-link' %>
+                </div>
+              </div>
+              <div class="stats__row">
+                <div><%= t :circulating_supply_label %></div>
+                <div>
+                  <%= link_to @coin.available_supply > 0 ? format_price(@coin.available_supply) : "N/A", coin_url(@coin.slug), class: 'plain-link' %>
+                </div>
+              </div>
+              <div class="stats__row">
+                <div><%= t :fixed_supply_label %></div>
+                <div>
+                  <%= link_to @coin.fixed_supply > 0 ? format_price(@coin.fixed_supply) : "N/A", coin_url(@coin.slug), class: 'plain-link' %>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="half-width-container">
+          <div class="paper">
+            <h3><%= t(:technical_analysis_summary) %></h3>
+            <div class="gauge-wrapper">
+              <div class="gauge"></div>
+            </div>
+            <div class="indicators-summary">
+              <div>
+                <div class="sell"><%= @summary[:sell] %></div>
+                <div><%= t(:sell).upcase %></div>
+              </div>
+              <div>
+                <div><%= @summary[:neutral] %></div>
+                <div><%= t(:neutral).upcase %></div>
+              </div>
+              <div>
+                <div class="buy"><%= @summary[:buy] %></div>
+                <div><%= t(:buy).upcase %></div>
+              </div>
+            </div>
+            <div class="indicators-updated"><%= t(:updated_on_date, date: l(@last_updated, format: :readable_date)) %></div>
+          </div>
+        </div>
+      </div>
+
       <div class="flex-container">
         <div class="paper">
           <h3><%= t(:technical_indicators) %></h3>
@@ -442,80 +518,7 @@
           </div>
         </div>
       </div>
-      <div class="flex-container">
-        <div class="half-width-container">
-          <div class="paper">
-            <h3><%= t(:technical_analysis_summary) %></h3>
-            <div class="gauge-wrapper">
-              <div class="gauge"></div>
-            </div>
-            <div class="indicators-summary">
-              <div>
-                <div class="sell"><%= @summary[:sell] %></div>
-                <div><%= t(:sell).upcase %></div>
-              </div>
-              <div>
-                <div><%= @summary[:neutral] %></div>
-                <div><%= t(:neutral).upcase %></div>
-              </div>
-              <div>
-                <div class="buy"><%= @summary[:buy] %></div>
-                <div><%= t(:buy).upcase %></div>
-              </div>
-            </div>
-            <div class="indicators-updated"><%= t(:updated_on_date, date: l(@last_updated, format: :readable_date)) %></div>
-          </div>
-        </div>
-        <div class="half-width-container">
-          <div class="paper">
-            <h3><%= @coin.name %> <%= t(:stats) %></h3>
-            <div class="stats">
-              <div class="stats__row">
-                <div><%= t(:day_move_label, days: 1) %></div>
-                <div class="<%= get_buy_sell_class(@coin.change24h) %>">
-                  <%= link_to format_percentage(@coin.change24h), coin_url(@coin.slug), class: 'plain-link' %>
-                </div>
-              </div>
-              <div class="stats__row">
-                <div><%= t(:day_move_label, days: 7) %></div>
-                <div class="<%= get_buy_sell_class(@coin.change7d) %>">
-                  <%= link_to format_percentage(@coin.change7d), coin_url(@coin.slug), class: 'plain-link' %>
-                </div>
-              </div>
-              <div class="stats__row">
-                <div><%= t(:day_move_label, days: 30) %></div>
-                <div class="<%= get_buy_sell_class(@coin.change30d) %>">
-                  <%= link_to format_percentage(@coin.change30d), coin_url(@coin.slug), class: 'plain-link' %>
-                </div>
-              </div>
-              <div class="stats__row">
-                <div><%= t :market_cap_label %></div>
-                <div>
-                  <%= link_to format_price(@coin.market_cap / 1000000, precision: 2), coin_url(@coin.slug), class: 'plain-link' %>
-                </div>
-              </div>
-              <div class="stats__row">
-                <div><%= t :volume_24h_label %></div>
-                <div>
-                  <%= link_to format_price(@coin.volume24h / 1000), coin_url(@coin.slug), class: 'plain-link' %>
-                </div>
-              </div>
-              <div class="stats__row">
-                <div><%= t :circulating_supply_label %></div>
-                <div>
-                  <%= link_to @coin.available_supply > 0 ? format_price(@coin.available_supply) : "N/A", coin_url(@coin.slug), class: 'plain-link' %>
-                </div>
-              </div>
-              <div class="stats__row">
-                <div><%= t :fixed_supply_label %></div>
-                <div>
-                  <%= link_to @coin.fixed_supply > 0 ? format_price(@coin.fixed_supply) : "N/A", coin_url(@coin.slug), class: 'plain-link' %>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+
       <% unless @news_items.blank? %>
       <h2><%= t(:latest_research) %></h2>
       <div class="flex-container">
