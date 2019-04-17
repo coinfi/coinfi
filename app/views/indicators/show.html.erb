@@ -1,6 +1,7 @@
 <html>
   <head>
     <meta name="viewport" content="width=device-width">
+    <%= render 'layouts/tracking_scripts_preconnect' %>
     <link rel="stylesheet" href="/css/gauge.css">
     <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-6jHF7Z3XI3fF4XZixAuSu0gGKrXwoX/w3uFPxC56OtjChio7wtTGJWRW53Nhx6Ev" crossorigin="anonymous">
     <style>
@@ -607,5 +608,9 @@
       };
       var gauge = new Gauge(document.querySelector(".gauge"), options);
     </script>
+
+    <%= render 'layouts/tracking_scripts' %>
+    <% if Rails.env.production? %>
+    <% end %>
   </body>
 </html>
