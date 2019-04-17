@@ -200,10 +200,10 @@
         background-color: #e0e0e0;
       }
       .indicators-desktop th {
-        padding: 2px 4px;
+        padding: 4px 4px;
       }
       .indicators-desktop td {
-        padding: 2px 4px;
+        padding: 8px 4px;
         font-weight: 600;
       }
       .indicators-desktop .number {
@@ -214,25 +214,6 @@
       }
       .indicators-mobile {
         display: none;
-      }
-      .indicators-mobile .indicators-mobile__row {
-        display: flex;
-        justify-content: space-between;
-        padding: 6px 8px;
-      }
-      .indicators-mobile .indicators-mobile__col-values {
-        width: 30%;
-        text-align: right;
-      }
-      .indicators-mobile .indicators__title {
-        font-size: 14px;
-        font-weight: 600;
-        margin-bottom: 4px;
-      }
-      .indicators-mobile .indicators__signal {
-        font-size: 14px;
-        font-weight: 600;
-        margin-bottom: 4px;
       }
       .fa-info-circle {
         color: #00a5ee;
@@ -259,7 +240,7 @@
         margin-top: 30px;
       }
       .indicators-updated {
-        margin-top: 20px;
+        margin-top: 10px;
         text-align: center;
         font-style: italic;
         font-size: 12px;
@@ -267,13 +248,9 @@
       .stats__row {
         display: flex;
         justify-content: space-between;
-        padding: 2px 4px;
-        margin-bottom: 2px;
+        padding: 2px 2px 4px;
+        margin-bottom: 12px;
         border-bottom: 2px solid #d4d5d8;
-      }
-      .stats__row:last-child {
-        margin-bottom: 0;
-        border-bottom: none;
       }
       .stats__row div:first-child {
         font-weight: 600;
@@ -314,7 +291,7 @@
       .gauge-wrapper {
         width: 300px;
         height: 160px;
-        margin: 50px auto 20px;
+        margin: 40px auto 20px;
       }
       .gauge:before {
         background-color: #2c2c2c;
@@ -386,12 +363,40 @@
           right: 2px;
           bottom: -10px;
         }
+        .stats {
+          font-size: 14px;
+        }
         .indicators-desktop {
           display: none;
         }
         .indicators-mobile {
           display: block;
           font-size: 12px;
+          margin-left: -20px;
+          margin-right: -20px;
+          margin-top: -8px;
+        }
+        .indicators-mobile .indicators-mobile__row {
+          display: flex;
+          justify-content: space-between;
+          padding: 10px 20px 14px;
+        }
+        .indicators-mobile .indicators-mobile__col-values {
+          width: 30%;
+          text-align: right;
+        }
+        .indicators-mobile .indicators__title {
+          font-size: 14px;
+          font-weight: 600;
+          margin-bottom: 4px;
+        }
+        .indicators-mobile .indicators__signal {
+          font-size: 14px;
+          font-weight: 600;
+          margin-bottom: 4px;
+        }
+        .news {
+          margin-top: -8px;
         }
         .news-item__title {
           font-size: 15px;
@@ -407,7 +412,7 @@
         .gauge-wrapper {
           width: 250px;
           height: 135px;
-          margin: 50px auto 20px;
+          margin: 40px auto 20px;
         }
       }
     </style>
