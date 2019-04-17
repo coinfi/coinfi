@@ -44,8 +44,6 @@ en:
       separator: "."
   buy: buy
   sell: sell
-  weak_sell: "moderate sell"
-  weak_buy: "moderate buy"
   neutral: hold
   strong_buy: "buy"
   strong_sell: "sell"
