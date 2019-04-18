@@ -44,17 +44,18 @@ en:
       separator: "."
   buy: buy
   sell: sell
-  neutral: neutral
-  strong_buy: "strong buy"
-  strong_sell: "strong sell"
+  neutral: hold
+  strong_buy: "buy"
+  strong_sell: "sell"
   na: "N/A"
   updated_on_date: "Updated on %{date}"
+  crypto_rank: "Market Rank"
   day_move_label: "%{days} day move"
   market_cap_label: "Market Cap ($millions)"
   volume_24h_label: "24 hour volume (000s)"
   circulating_supply_label: "Circulating Supply"
   fixed_supply_label: "Fixed Supply"
-  sample_value_label: "Sample Value"
+  sample_value_label: "Value"
   min_label: "Min"
   max_label: "Max"
   signal_label: "Signal"
@@ -64,9 +65,27 @@ en:
   technical_indicators: "Technical Indicators"
   technical_analysis_summary: "Technical Analysis Summary"
   technical_indicator_copy: "Technical indicators are calculations based on price and volume frequently used in the analysis of market direction. Traders often use them to analyze short-term price movements and identify entry and exit points. Technical indicators are often used in conjunction with other forms of financial analysis. Learn more about technical indicators here."
+  indicator_summary_copy: "We aggregate sell/buy/hold signals from 8 of the most commonly used technical indicators to give you a quick pulse of the market."
   latest_research: "Latest Research"
   market_news_research: "Market News Research"
+  time_ago: "%{time_words} ago"
   read_more: "Read More"
+  coins:
+    ethereum: Ethereum
+    litecoin: Litecoin
+    zcash: Zcash
+    cardano: Cardano
+    ethereum-classic: Ethereum Classic
+    binance-coin: Binance
+    stellar: Stellar
+    bitcoin: Bitcoin
+    ripple: Ripple
+    dash: Dash
+    neo: NEO
+    bitcoin-cash: Bitcoin Cash
+    eos: EOS
+    tron: Tron
+    iota: IOTA
   indicators:
       title:
         rsi: "RSI 14"
@@ -78,11 +97,35 @@ en:
         sma: "Moving Averages (20 v 50)"
         ema: "Exp Moving Averages (10 v 20)"
       rule:
-        rsi: "<30 buy, >70 sell"
-        stochrsi: "<20 buy, >80 sell"
-        macd: ">0 buy, <0 sell, no neutral"
-        cci: "< -100 buy, >100 sell"
-        stochastic_fast: "<20 buy, >80 sell"
-        stochastic_slow: "<20 buy, >80 sell"
-        sma: ">0 buy, <0 sell, no neutral"
-        ema: ">0 buy, <0 sell, no neutral"
+        rsi: |
+          Buy when lesser than 30
+          Sell when greater than 70
+          Hold between 30 and 70 (inclusive)
+        stochrsi: |
+          Buy when lesser than 20
+          Sell when greater than 80
+          Hold between 20 and 80 (inclusive)
+        macd: |
+          Buy when greater than 0
+          Sell when lesser than 0
+          No hold signal
+        cci: |
+          Buy when lesser than -100
+          Sell when greater than 100
+          Hold between -100 and 100 (inclusive)
+        stochastic_fast: |
+          Buy when lesser than 20
+          Sell when greater than 80
+          Hold between 20 and 80 (inclusive)
+        stochastic_slow: |
+          Buy when lesser than 20
+          Sell when greater than 80
+          Hold between 20 and 80 (inclusive)
+        sma: |
+          Buy when greater than 0
+          Sell when lesser than 0
+          No hold signal
+        ema: |
+          Buy when greater than 0
+          Sell when lesser than 0
+          No hold signal
