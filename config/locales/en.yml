@@ -49,7 +49,7 @@ en:
   strong_sell: "sell"
   na: "N/A"
   updated_on_date: "Updated on %{date}"
-  crypto_rank: "Crypto Rank"
+  crypto_rank: "Market Rank"
   day_move_label: "%{days} day move"
   market_cap_label: "Market Cap ($millions)"
   volume_24h_label: "24 hour volume (000s)"
@@ -70,6 +70,22 @@ en:
   market_news_research: "Market News Research"
   time_ago: "%{time_words} ago"
   read_more: "Read More"
+  coins:
+    ethereum: Ethereum
+    litecoin: Litecoin
+    zcash: Zcash
+    cardano: Cardano
+    ethereum-classic: Ethereum Classic
+    binance-coin: Binance
+    stellar: Stellar
+    bitcoin: Bitcoin
+    ripple: Ripple
+    dash: Dash
+    neo: NEO
+    bitcoin-cash: Bitcoin Cash
+    eos: EOS
+    tron: Tron
+    iota: IOTA
   indicators:
       title:
         rsi: "RSI 14"

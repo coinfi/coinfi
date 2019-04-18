@@ -433,11 +433,10 @@
         </a>
       </h2>
 
-
       <div class="flex-container">
         <div class="half-width-container">
           <div class="paper">
-            <h3><%= @coin.name %> <%= t(:stats) %></h3>
+            <h3><%= t(@coin.slug, scope:'coins') %> <%= t(:stats) %></h3>
             <div class="stats">
               <div class="stats__row">
                 <div><%= t(:crypto_rank) %></div>
