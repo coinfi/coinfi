@@ -258,7 +258,8 @@ class Coin < ApplicationRecord
   end
 
   def prices_data
-    Rails.cache.fetch("coins/#{id}/prices", expires_in: seconds_to_next_day) do
+    # Expire cache 30 minutes after UTC midnight; new daily data is expected slightly after the midnight-scheduled job
+    Rails.cache.fetch("coins/#{id}/prices", expires_in: seconds_to_next_day + 1800) do
       url = "#{ENV.fetch('COINFI_POSTGREST_URL')}/cmc_daily_ohcl_prices?coin_key=eq.#{coin_key}&to_currency=eq.USD&order=time.asc"
       response = HTTParty.get(url)
       JSON.parse(response.body)
@@ -266,7 +267,8 @@ class Coin < ApplicationRecord
   end
 
   def sparkline
-    Rails.cache.fetch("coins/#{id}/sparkline", expires_in: seconds_to_next_day) do
+    # Expire cache 30 minutes after UTC midnight; new daily data is expected slightly after the midnight-scheduled job
+    Rails.cache.fetch("coins/#{id}/sparkline", expires_in: seconds_to_next_day + 1800) do
       url = "#{ENV.fetch('COINFI_POSTGREST_URL')}/cmc_daily_ohcl_prices?coin_key=eq.#{coin_key}&select=close&to_currency=eq.USD&limit=7&order=time.desc"
       response = HTTParty.get(url)
       results = JSON.parse(response.body)
