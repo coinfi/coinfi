@@ -1,5 +1,6 @@
 class IndicatorsController < ApplicationController
   before_action :set_coin, only: [:show]
+  after_action :set_allow_iframe, only: [:show]
 
   # Temporary password protection
   skip_before_action :verify_authenticity_token
@@ -34,6 +35,11 @@ class IndicatorsController < ApplicationController
 
   def has_indicator?(coin_key: @coin.coin_key)
     INDICATOR_COIN_KEYS.include? coin_key
+  end
+
+  def set_allow_iframe
+    # Single domain is done using response.set_header('X-Frame-Options', 'allow-from https://example.com')
+    response.delete_header('X-Frame-Options') # Allowing all iframe embedding is done by deleting sameorigin policy
   end
 
   def set_coin
