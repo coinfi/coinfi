@@ -1,0 +1,5 @@
+# Based on https://github.com/mperham/sidekiq/blob/master/examples/config.yml
+:concurrency: 10
+
+# Set timeout to 8 on Heroku, longer if you manage your own systems.
+:timeout: 8
