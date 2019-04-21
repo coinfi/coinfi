@@ -512,7 +512,7 @@ GEM
       execjs (~> 2.5)
       rails (>= 3.2)
       rainbow (~> 3.0)
-    redis (4.0.1)
+    redis (4.1.0)
     redis-actionpack (5.0.2)
       actionpack (>= 4.0, < 6)
       redis-rack (>= 1, < 3)
@@ -758,7 +758,7 @@ DEPENDENCIES
   rails_12factor
   ransack
   react_on_rails (= 11.1.4)
-  redis
+  redis (~> 4.1)
   redis-rails
   reek
   rest-client
