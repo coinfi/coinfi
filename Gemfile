@@ -25,7 +25,7 @@ gem 'coffee-rails', '~> 4.2'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 2.5'
 # Use Redis adapter to run Action Cable in production
-gem 'redis'
+gem 'redis', '~> 4.1'
 gem 'hiredis'
 gem 'redis-rails' # Remove when upgrading to Rails 5.2 since it is built-in
 # Use ActiveModel has_secure_password
