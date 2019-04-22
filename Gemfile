@@ -45,15 +45,13 @@ gem 'administrate-field-nested_has_many', github: 'nickcharlton/administrate-fie
 gem 'aws-sdk', '~> 2'
 gem 'blazer'
 gem 'convertkit-ruby', require: 'convertkit', git: 'https://github.com/hanchang/convertkit-ruby.git'
-gem 'cryptocompare'
 gem 'devise', '>= 4.6.0'
 gem 'distribute_reads'
-gem 'email_address'
 gem 'feedjira'
+# fog-aws is used by sitemap generator
 gem 'fog-aws'
 gem 'friendly_id', '~> 5.2.1'
 gem 'httparty'
-gem 'jwt'
 gem 'kaminari'
 gem 'api-pagination'
 gem 'lograge'
@@ -61,23 +59,19 @@ gem 'marginalia'
 gem 'meta-tags'
 gem 'nokogiri', '~> 1.8.1'
 gem 'omniauth'
-gem 'omniauth-twitter'
 gem 'omniauth-facebook'
 gem 'omniauth-google-oauth2'
-gem 'pony'
 gem 'slack-ruby-client'
 gem 'rack-affiliates'
 gem 'rack-cors'
 gem 'rack-rewrite'
 gem 'ransack'
-gem 'rest-client'
 gem 'rollbar'
 gem 'ruby-progressbar'
 gem 'simple_form'
 gem 'slim-rails'
 gem 'strong_migrations'
 gem 'unidecoder'
-gem 'wombat'
 gem 'twitter'
 gem 'webpacker', '~> 3.5'
 # Used by ReactOnRails for rendering javascript
@@ -89,8 +83,6 @@ gem 'sitemap_generator'
 # Library for Rails best practise patterns
 # see https://medium.com/selleo/essential-rubyonrails-patterns-part-1-service-objects-1af9f9573ca1
 gem "rails-patterns"
-# Rails application performance monitoring
-gem 'skylight'
 # EtherScan API client
 gem 'etherscan_api', require: 'etherscan'
 # Performance dashboard for Postgres
@@ -138,6 +130,8 @@ group :development do
   gem 'spring-watcher-listen', '~> 2.0.0'
   gem 'bullet'
   gem "letter_opener", "~> 1.7"
+  gem 'derailed_benchmarks'
+  gem 'stackprof'
 end
 
 group :production do
