@@ -712,7 +712,6 @@ DEPENDENCIES
   httparty
   indicators (~> 1.0)!
   jbuilder (~> 2.5)
-  jwt
   kaminari
   letter_opener (~> 1.7)
   librato-rails (~> 1)
