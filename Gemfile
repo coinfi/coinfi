@@ -48,7 +48,6 @@ gem 'convertkit-ruby', require: 'convertkit', git: 'https://github.com/hanchang/
 gem 'cryptocompare'
 gem 'devise', '>= 4.6.0'
 gem 'distribute_reads'
-gem 'email_address'
 gem 'feedjira'
 # fog-aws is used by sitemap generator
 gem 'fog-aws'
