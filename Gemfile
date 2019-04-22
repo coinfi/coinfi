@@ -83,8 +83,6 @@ gem 'sitemap_generator'
 # Library for Rails best practise patterns
 # see https://medium.com/selleo/essential-rubyonrails-patterns-part-1-service-objects-1af9f9573ca1
 gem "rails-patterns"
-# Rails application performance monitoring
-gem 'skylight'
 # EtherScan API client
 gem 'etherscan_api', require: 'etherscan'
 # Performance dashboard for Postgres

@@ -20,7 +20,6 @@
 .byebug_history
 
 .env
-config/skylight.yml
 /public/packs
 /public/packs-test
 /public/webpack
