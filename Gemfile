@@ -77,7 +77,6 @@ gem 'simple_form'
 gem 'slim-rails'
 gem 'strong_migrations'
 gem 'unidecoder'
-gem 'wombat'
 gem 'twitter'
 gem 'webpacker', '~> 3.5'
 # Used by ReactOnRails for rendering javascript

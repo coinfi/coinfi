@@ -372,15 +372,6 @@ GEM
     marginalia (1.6.0)
       actionpack (>= 2.3)
       activerecord (>= 2.3)
-    mechanize (2.7.5)
-      domain_name (~> 0.5, >= 0.5.1)
-      http-cookie (~> 1.0)
-      mime-types (>= 1.17.2)
-      net-http-digest_auth (~> 1.1, >= 1.1.1)
-      net-http-persistent (~> 2.5, >= 2.5.2)
-      nokogiri (~> 1.6)
-      ntlm-http (~> 0.1, >= 0.1.1)
-      webrobots (>= 0.0.9, < 0.2)
     memoist (0.16.0)
     memoizable (0.4.2)
       thread_safe (~> 0.3, >= 0.3.1)
@@ -403,14 +394,11 @@ GEM
     multi_xml (0.6.0)
     multipart-post (2.0.0)
     naught (1.1.0)
-    net-http-digest_auth (1.4.1)
-    net-http-persistent (2.9.4)
     netaddr (1.5.1)
     netrc (0.11.0)
     nio4r (2.3.1)
     nokogiri (1.8.5)
       mini_portile2 (~> 2.3.0)
-    ntlm-http (0.1.1)
     oauth (0.5.3)
     oauth2 (1.4.1)
       faraday (>= 0.8, < 0.16.0)
@@ -688,14 +676,9 @@ GEM
       activesupport (>= 4.2)
       rack-proxy (>= 0.6.1)
       railties (>= 4.2)
-    webrobots (0.1.2)
     websocket-driver (0.6.5)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.3)
-    wombat (2.6.0)
-      activesupport
-      mechanize
-      rest-client
     xpath (2.1.0)
       nokogiri (~> 1.3)
 
@@ -798,7 +781,6 @@ DEPENDENCIES
   web-console (>= 3.3.0)
   webmock
   webpacker (~> 3.5)
-  wombat
 
 RUBY VERSION
    ruby 2.4.1p111
