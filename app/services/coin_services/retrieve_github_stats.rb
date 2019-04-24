@@ -2,8 +2,8 @@ module CoinServices
   class RetrieveGithubStats < Patterns::Service
     def initialize(coin: nil)
       @coin = coin
-      @client_id = ENV.fetch('GITHUB_APP_CLIENT_ID')
-      @client_secret = ENV.fetch('GITHUB_APP_CLIENT_SECRET')
+      @client_id = ENV.fetch('GITHUB_OAUTH_APP_CLIENT_ID')
+      @client_secret = ENV.fetch('GITHUB_OAUTH_APP_CLIENT_SECRET')
 
       @client = Octokit::Client.new(
         client_id: @client_id,
@@ -32,6 +32,8 @@ module CoinServices
 
     def retrieve_commit_activity_data(repo_path)
       data = @client.commit_activity_stats repo_path
+      return nil unless data.present?
+
       parsed_data = data.flat_map do |weekly_data|
         start_ts = weekly_data[:week]
         weekly_data[:days].map.with_index do |daily_data, index|
@@ -43,6 +45,7 @@ module CoinServices
 
     def retrieve_code_frequency_data(repo_path)
       data = @client.code_frequency_stats repo_path
+      return nil unless data.present?
 
       additions = data.map do |weekly_data|
         [weekly_data[0], weekly_data[1]]
@@ -56,6 +59,7 @@ module CoinServices
 
     def retrieve_repository_stats(repo_path)
       repository = @client.repo repo_path
+      return nil unless repository.present?
       contributors = begin
         @client.contribs repo_path, true
       rescue Octokit::Unauthorized
