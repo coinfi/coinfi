@@ -5,6 +5,11 @@
     <link rel="stylesheet" href="/css/gauge.css">
     <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-6jHF7Z3XI3fF4XZixAuSu0gGKrXwoX/w3uFPxC56OtjChio7wtTGJWRW53Nhx6Ev" crossorigin="anonymous">
     <style>
+      /* Variables */
+      :root {
+        --sidebar-width: 300px;
+      }
+
       /* Main */
       @font-face {
         font-family: 'Open Sans';
@@ -115,8 +120,11 @@
         text-size-adjust: 100%;
       }
 
-      h2 {
+      h1, h2, h3, h4, h5, h6 {
         color: #777;
+      }
+
+      h2 {
         font-size: 28px;
         font-weight: 400;
         margin-top: 10px;
@@ -125,7 +133,6 @@
       }
 
       h3 {
-        color: #777;
         font-size: 16px;
         font-weight: 400;
         text-transform: uppercase;
@@ -169,6 +176,29 @@
         border: 1px solid #e0e0e0;
         width: 100%;
         padding: 20px;
+      }
+      .paper.with-sidebar {
+        max-width: calc(100% - var(--sidebar-width));
+        flex: 0 1 calc(100% - var(--sidebar-width));
+      }
+      .paper.with-sidebar:not(:first-child) {
+        padding-left: 30px;
+      }
+      .paper.with-sidebar:not(:last-child) {
+        padding-right: 30px;
+      }
+      .sidebar {
+        background-color: #f8f8f8;
+        border: 1px solid #e0e0e0;
+        max-width: var(--sidebar-width);
+        flex: 0 1 var(--sidebar-width);
+        padding: 20px 30px;
+      }
+      .sidebar:not(:first-child) {
+        border-left: none;
+      }
+      .sidebar:not(:last-child) {
+        border-right: none;
       }
       .main-title {
         position: relative;
@@ -231,7 +261,7 @@
         border-top: 1px solid #e0e0e0;
         background-color: #f8f8f8;
       }
-      .indicator-summary-copy {
+      .header-info-icon {
         margin-left: 8px;
       }
       .indicators-summary {
@@ -257,6 +287,33 @@
       }
       .stats__row div:first-child {
         font-weight: 600;
+      }
+      .github-tab-bar {
+        max-width: 500px;
+      }
+      .graph-container {
+        min-height: 340px;
+      }
+      .github-stats__row {
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+      }
+      .github-stats__row:not(:last-child) {
+        padding-bottom: 6px;
+        margin-bottom: 12px;
+        border-bottom: 1px solid #d4d5d8;
+      }
+      .github-stats__value {
+        font-size: 30px;
+        color: #000;
+      }
+      .github-stats__label {
+        font-size: 14px;
+        color: #777777;
+      }
+      .github-stats__label i {
+        margin-right: 2px;
       }
       .news-item {
         padding-top: 10px;
@@ -288,6 +345,30 @@
       }
       a.plain-link {
         color: inherit;
+      }
+      .tab-bar {
+        display: flex;
+        padding-bottom: 12px;
+      }
+      .tab {
+        flex: 1 1 auto;
+        border-bottom: 1px solid #e0e0e0;
+        cursor: pointer;
+        color: #777;
+      }
+      .tab.active {
+        color: #6aac0e;
+        border-bottom: 2px solid #6aac0e;
+      }
+      .tab > * {
+        text-align: center;
+        line-height: 35px;
+      }
+      .tab i {
+        margin-right: 8px;
+      }
+      .tab-container:not(.active) {
+        display: none;
       }
 
       /* Gauge */
@@ -492,7 +573,7 @@
           <div class="paper">
             <h3>
               <%= t(:technical_analysis_summary) %>
-              <a class="indicator-summary-copy" data-tippy="<%= t :indicator_summary_copy %>">
+              <a class="header-info-icon" data-tippy="<%= t :indicator_summary_copy %>">
                 <i class="far fa-info-circle"></i>
               </a>
             </h3>
@@ -571,6 +652,64 @@
         </div>
       </div>
 
+      <div class="flex-container">
+        <div class="paper with-sidebar">
+          <h3>
+            <%= t :development_activity %>
+            <a class="header-info-icon" data-tippy="<%= t :development_activity_copy %>">
+              <i class="far fa-info-circle"></i>
+            </a>
+          </h3>
+          <div class="tab-bar github-tab-bar">
+            <a onclick="switchToTab(this, 'commit-activity')" class="tab active">
+              <div><i class="far fa-code-commit"></i><%= t :commit_activity %></div>
+            </a>
+            <a onclick="switchToTab(this, 'code-frequency')" class="tab">
+              <div><i class="far fa-code"></i><%= t :code_frequency %></div>
+            </a>
+          </div>
+          <div id="commit-activity" class="graph-container tab-container active"></div>
+          <div id="code-frequency" class="graph-container tab-container"></div>
+          <div>
+            <i class="fab fa-github"></i> <%= t :github_repo %>:
+            <%= link_to @coin.github_repo, github_url(@coin.github_repo), rel: "nofollow noopener noreferrer", target: "_blank" %>
+          </div>
+        </div>
+        <div class="sidebar">
+          <h3><%= t :developer_community %></h3>
+          <div class="github-stats">
+            <div class="github-stats__row">
+              <div class="github-stats__label">
+                <i class="far fa-users"></i>
+                <%= t(:contributors).capitalize %>
+              </div>
+              <div class="github-stats__value"><%= @github_stats[:snapshot][:contributors] %></div>
+            </div>
+            <div class="github-stats__row">
+              <div class="github-stats__label">
+                <i class="far fa-code-branch"></i>
+                <%= t(:forks).capitalize %>
+              </div>
+              <div class="github-stats__value"><%= @github_stats[:snapshot][:forks] %></div>
+            </div>
+            <div class="github-stats__row">
+              <div class="github-stats__label">
+                <i class="far fa-eye"></i>
+                <%= t(:watchers).capitalize %>
+              </div>
+              <div class="github-stats__value"><%= @github_stats[:snapshot][:watchers] %></div>
+            </div>
+            <div class="github-stats__row">
+              <div class="github-stats__label">
+                <i class="far fa-star"></i>
+                <%= t(:stargazers).capitalize %>
+              </div>
+              <div class="github-stats__value"><%= @github_stats[:snapshot][:stargazers] %></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <% unless @news_items.blank? %>
       <h2><%= t(:latest_research) %></h2>
       <div class="flex-container">
@@ -625,6 +764,29 @@
         value: <%= @summary_value %>
       };
       var gauge = new Gauge(document.querySelector(".gauge"), options);
+    </script>
+    <script type="text/javascript">
+      function switchToTab(target, id) {
+        if (target) {
+          // Set tab to active
+          var tabs = document.getElementsByClassName('tab');
+          for (let tab of tabs) {
+            tab.classList.remove('active');
+          }
+          target.classList.add('active');
+
+          // Set tab container to active
+          var targetContainer = document.getElementById(id);
+          if (targetContainer) {
+            var tabContainers = document.getElementsByClassName('tab-container');
+            for (let container of tabContainers) {
+              if (container && container.id === id) continue;
+              container.classList.remove('active');
+            }
+            targetContainer.classList.add('active');
+          }
+        }
+      }
     </script>
 
     <%= render 'layouts/tracking_scripts' %>
