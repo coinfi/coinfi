@@ -33,7 +33,7 @@ class Coin < ApplicationRecord
   has_many :calendar_event_coins
   has_many :calendar_events, through: :calendar_event_coins
 
-  validates :name, uniqueness: true, presence: true
+  validates :name, presence: true
 
   accepts_nested_attributes_for :coin_excluded_countries, allow_destroy: true, reject_if: :all_blank
   accepts_nested_attributes_for :influencer_reviews, allow_destroy: true, reject_if: :all_blank
