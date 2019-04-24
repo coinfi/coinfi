@@ -430,7 +430,7 @@ GEM
     pry-rails (0.3.4)
       pry (>= 0.9.10)
     public_suffix (2.0.5)
-    puma (3.8.2)
+    puma (3.12.1)
     raabro (1.1.6)
     rack (2.0.7)
     rack-affiliates (0.4.0)
@@ -671,7 +671,7 @@ DEPENDENCIES
   administrate-field-nested_has_many!
   api-pagination
   aws-sdk (~> 2)
-  barnes
+  barnes (~> 0.0.7)
   blazer
   browser
   bullet
@@ -713,7 +713,7 @@ DEPENDENCIES
   pghero
   pry-byebug
   pry-rails
-  puma (~> 3.7)
+  puma (~> 3.12)
   rack-affiliates
   rack-attack
   rack-cors

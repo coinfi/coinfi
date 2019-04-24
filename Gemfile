@@ -12,7 +12,7 @@ gem 'rails', '~> 5.1.6.2'
 # Use postgresql as the database for Active Record
 gem 'pg', '~> 0.18'
 # Use Puma as the app server
-gem 'puma', '~> 3.7'
+gem 'puma', '~> 3.12'
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5.0'
 # Use Uglifier as compressor for JavaScript assets
@@ -93,7 +93,7 @@ gem 'sidekiq-scheduler'
 # App metrics and statistics
 gem 'librato-rails', '~> 1'
 # Ruby runtime metrics
-gem 'barnes'
+gem 'barnes', '~> 0.0.7'
 # Google Pub/Sub client
 gem 'google-cloud-pubsub'
 # technical indicators
