@@ -67,7 +67,7 @@ module CoinServices
       end
 
       {
-        watchers: repository[:watchers_count],
+        watchers: repository[:subscribers_count],
         stargazers: repository[:stargazers_count],
         forks: repository[:forks_count],
         contributors: contributors.length,
