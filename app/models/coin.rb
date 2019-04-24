@@ -276,6 +276,15 @@ class Coin < ApplicationRecord
     end
   end
 
+  def github_stats(force_refresh: false)
+    return nil unless github_repo.present?
+
+    Rails.cache.fetch("coins/#{id}/github_stats", force: force_refresh) do
+      response = CoinServices::RetrieveGithubStats.call(coin: self)
+      response.try(:result)
+    end
+  end
+
   def token_metrics_data(metric_type, metric_value = 'percentage')
     return nil unless has_token_metrics?
 
