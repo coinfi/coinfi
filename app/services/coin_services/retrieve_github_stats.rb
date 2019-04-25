@@ -37,7 +37,10 @@ module CoinServices
       parsed_data = data.map do |weekly_data|
         timestamp = weekly_data[:week]
         commits = weekly_data[:total]
-        [timestamp, commits]
+        {
+          timestamp: timestamp,
+          commits: commits,
+        }
       end
     end
 
@@ -45,14 +48,13 @@ module CoinServices
       data = @client.code_frequency_stats repo_path
       return nil unless data.present?
 
-      additions = data.map do |weekly_data|
-        [weekly_data[0], weekly_data[1]]
+      parsed_data = data.map do |weekly_data|
+        {
+          timestamp: weekly_data[0],
+          additions: weekly_data[1],
+          deletions: weekly_data[2],
+        }
       end
-      deletions = data.map do |weekly_data|
-        [weekly_data[0], weekly_data[2]]
-      end
-
-      [additions, deletions]
     end
 
     def retrieve_repository_stats(repo_path)
