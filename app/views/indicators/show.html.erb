@@ -847,6 +847,8 @@
       var widthCA = outerWidthCA - marginCA.left - marginCA.right;
       var outerHeightCA = 340
       var heightCA = outerHeightCA - marginCA.top - marginCA.bottom;
+      var barWidth = Math.floor(widthCA / dataCA.length) - 1;
+
       var datesCA = dataCA.map(function(d) { return d[0]; });
       var minDateCA = d3.min(datesCA)
       var maxDateCA = d3.max(datesCA)
@@ -886,7 +888,7 @@
       var rectCA = barCA.append('rect')
             .attr('y', heightCA)
             .attr('height', 0)
-            .attr('width', 10)
+            .attr('width', barWidth)
             .on('mouseover', function() {
               d3.select(this).attr('opacity', 0.7);
               tipCA.show.apply(this, arguments);
