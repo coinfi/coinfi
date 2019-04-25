@@ -1012,7 +1012,6 @@
 
       // Tooltip
       var tipFactoryAdditionCF = d3scription(function(d, a, b, c) {
-        console.log(d, a, b, c);
         return "Week of " + d3.timeFormat('%b %d, %Y')(getXCF(d)) + "<br/><b>" + d.data.additions + "</b> additions";
       }, {
         class: 'chart-tooltip',
@@ -1020,7 +1019,6 @@
       var tipAdditionCF = tipFactoryAdditionCF().element(chartCF);
 
       var tipFactoryDeletionCF = d3scription(function(d, a, b, c) {
-        console.log(d, a, b, c);
         return "Week of " + d3.timeFormat('%b %d, %Y')(getXCF(d)) + "<br/><b>" + Math.abs(d.data.deletions) + "</b> deletions";
       }, {
         class: 'chart-tooltip',
