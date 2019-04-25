@@ -34,12 +34,10 @@ module CoinServices
       data = @client.commit_activity_stats repo_path
       return nil unless data.present?
 
-      parsed_data = data.flat_map do |weekly_data|
-        start_ts = weekly_data[:week]
-        weekly_data[:days].map.with_index do |daily_data, index|
-          timestamp = start_ts + index * 24 * 60 * 60 # i.e., day of week in seconds
-          [timestamp, daily_data]
-        end
+      parsed_data = data.map do |weekly_data|
+        timestamp = weekly_data[:week]
+        commits = weekly_data[:total]
+        [timestamp, commits]
       end
     end
 
