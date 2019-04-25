@@ -2,6 +2,8 @@
   <head>
     <meta name="viewport" content="width=device-width">
     <%= render 'layouts/tracking_scripts_preconnect' %>
+    <link rel="preconnect" href="https://unpkg.com" crossorigin>
+    <link rel="preconnect" href="https://d3js.org" crossorigin>
     <link rel="stylesheet" href="/css/gauge.css">
     <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-6jHF7Z3XI3fF4XZixAuSu0gGKrXwoX/w3uFPxC56OtjChio7wtTGJWRW53Nhx6Ev" crossorigin="anonymous">
     <style>
@@ -293,6 +295,7 @@
       }
       .graph-container {
         min-height: 340px;
+        width: 100%;
       }
       .github-stats__row {
         display: flex;
@@ -369,6 +372,40 @@
       }
       .tab-container:not(.active) {
         display: none;
+      }
+
+      /* Graph */
+      .graph-container rect {
+        fill: #6aac0e;
+      }
+      .graph-container .axis .tick text {
+        fill: #777;
+        font-size: 10px;
+        text-anchor: middle;
+      }
+      .graph-container .x.axis .tick:first-of-type text {
+        text-anchor: start;
+      }
+      .graph-container .axis path,
+      .graph-container .axis line {
+        fill: none;
+        stroke: #777;
+        shape-rendering: crispEdges;
+      }
+      .graph-container .axis text.title {
+        fill: #777;
+        font-size: 12px;
+        font-weight: 600;
+      }
+      .chart-tooltip {
+        font-size: 11px;
+        line-height: 1.15rem;
+        color: white;
+        background: #3d404a;
+        box-shadow: 0 0 10px rgba(0,0,0,.7);
+        border-radius: 3px;
+        padding: 5px 10px;
+        min-width: 100px;
       }
 
       /* Gauge */
@@ -656,7 +693,7 @@
         <div class="paper with-sidebar">
           <h3>
             <%= t :development_activity %>
-            <a class="header-info-icon" data-tippy="<%= t :development_activity_copy %>">
+            <a class="header-info-icon" data-tippy="<%= t(:development_activity_copy, name: @coin.name, symbol: @coin.symbol) %>">
               <i class="far fa-info-circle"></i>
             </a>
           </h3>
@@ -668,8 +705,8 @@
               <div><i class="far fa-code"></i><%= t :code_frequency %></div>
             </a>
           </div>
-          <div id="commit-activity" class="graph-container tab-container active"></div>
-          <div id="code-frequency" class="graph-container tab-container"></div>
+          <svg id="commit-activity" class="graph-container tab-container active"></svg>
+          <svg id="code-frequency" class="graph-container tab-container"></svg>
           <div>
             <i class="fab fa-github"></i> <%= t :github_repo %>:
             <%= link_to @coin.github_repo, github_url(@coin.github_repo), rel: "nofollow noopener noreferrer", target: "_blank" %>
@@ -743,7 +780,10 @@
     <script src="https://unpkg.com/popper.js@1"></script>
     <script src="https://unpkg.com/tippy.js@4"></script>
     <script src="/js/gauge.js"></script>
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+    <script src="/js/d3scription.js"></script>
     <script type="text/javascript">
+      /* GAUGE */
       var options = {
         angle: [180, 360],
         values: {
@@ -766,6 +806,7 @@
       var gauge = new Gauge(document.querySelector(".gauge"), options);
     </script>
     <script type="text/javascript">
+      /* TAB CONTROL */
       function switchToTab(target, id) {
         if (target) {
           // Set tab to active
@@ -788,9 +829,112 @@
         }
       }
     </script>
+    <script type="text/javascript">
+      /* CHARTS */
 
+      // Commit Activity
+      var idCA = 'commit-activity';
+      var commitActivity = <%= @github_stats[:commit_activity].to_json.html_safe %>;
+      var dataCA = commitActivity.map(function(d) {
+        var timestamp = new Date(d[0] * 1000);
+        var datum = d[1];
+        return [timestamp, datum];
+      })
+
+      // Dimensions and scale
+      var marginCA = {top: 20, right: 30, bottom: 50, left: 40};
+      var outerWidthCA = document.getElementById(idCA).getBoundingClientRect()['width']
+      var widthCA = outerWidthCA - marginCA.left - marginCA.right;
+      var outerHeightCA = 340
+      var heightCA = outerHeightCA - marginCA.top - marginCA.bottom;
+      var datesCA = dataCA.map(function(d) { return d[0]; });
+      var minDateCA = d3.min(datesCA)
+      var maxDateCA = d3.max(datesCA)
+      var xCA = d3.scaleTime()
+                  .domain([
+                    minDateCA,
+                    new Date(maxDateCA.valueOf() + 7*24*60*60*1000) // add one week to max
+                  ])
+                  .range([0, widthCA]);
+      var yCA = d3.scaleLinear()
+                  .domain([0, d3.max(dataCA.map(function(d) { return d[1]; }))])
+                  .range([heightCA, 0]);
+
+      // Chart
+      var chartCA = d3.select('#' + idCA)
+                      .attr('width', outerWidthCA)
+                      .attr('height', outerHeightCA)
+                      .attr('viewBox', '0 0 ' + outerWidthCA + ' ' + outerHeightCA)
+                    .append('g')
+                      .attr('transform', 'translate(' + marginCA.left + ', ' + marginCA.top + ')');
+
+      // Tooltip
+      var tipFactoryCA = d3scription(function(d) {
+        return "Week of " + d3.timeFormat('%b %d, %Y')(d[0]) + "<br/><b>" + d[1] + "</b> commits";
+      }, {
+        class: 'chart-tooltip',
+      });
+      var tipCA = tipFactoryCA().element(chartCA);
+
+      // Bars
+      var barCA = chartCA.selectAll('g.bar').data(dataCA)
+                          .enter().append('g')
+                          .attr('class', 'bar')
+                          .attr('transform', function(d, i) {
+                            return "translate(" + xCA(d[0]) + ", 0)";
+                          });
+      var rectCA = barCA.append('rect')
+            .attr('y', heightCA)
+            .attr('height', 0)
+            .attr('width', 10)
+            .on('mouseover', function() {
+              d3.select(this).attr('opacity', 0.7);
+              tipCA.show.apply(this, arguments);
+            })
+            .on('mouseout', function() {
+              d3.select(this).attr('opacity', 1);
+              tipCA.hide.apply(this, arguments);
+            });
+
+      // Starting animation
+      rectCA.transition()
+            .duration(800)
+            .attr("y", function(d) { return  yCA(d[1]); })
+            .attr("height", function(d) { return heightCA - yCA(d[1]); })
+            .delay(0)
+
+      // X Axis
+      var tickValuesCA = d3.timeMonth.range(minDateCA, maxDateCA, 3);
+      tickValuesCA.push(maxDateCA);
+      var xAxisCA = d3.axisBottom(xCA)
+                      .tickValues(tickValuesCA)
+                      .tickFormat(d3.timeFormat('%B %Y'));
+      chartCA.append('g')
+                .attr('class', 'x axis')
+                .attr('transform', 'translate(0, ' + heightCA + ')')
+                .call(xAxisCA)
+              .append('text')
+                .attr('class', 'title')
+                .attr('y', 40)
+                .attr('x', widthCA/2)
+                .style('text-anchor', 'middle')
+                .text('Date');
+
+      // Y Axis
+      var yAxisCA = d3.axisLeft(yCA)
+                      .ticks(4)
+                      .tickPadding(10);
+      chartCA.append('g')
+                .attr('class', 'y axis')
+                .call(yAxisCA)
+              .append('text')
+                .attr('class', 'title')
+                .attr('transform', 'rotate(-90)')
+                .attr('y', -30)
+                .attr('x', -heightCA/2)
+                .style('text-anchor', 'middle')
+                .text('Commits');
+    </script>
     <%= render 'layouts/tracking_scripts' %>
-    <% if Rails.env.production? %>
-    <% end %>
   </body>
 </html>
