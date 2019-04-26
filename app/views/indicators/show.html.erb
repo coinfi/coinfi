@@ -334,6 +334,8 @@
         fill: #777;
         font-size: 12px;
         font-weight: 600;
+        text-anchor: middle;
+        text-transform: capitalize;
       }
       .chart-tooltip {
         font-size: 11px;
@@ -668,6 +670,7 @@
         </div>
       </div>
 
+      <h2><%= t(:fundamentals) %></h2>
       <div class="flex-container">
         <div class="paper with-sidebar">
           <h3>
@@ -841,6 +844,37 @@
       var defaultChartWidth = 620;
       var widthToHeightRatio = 4/3;
 
+      /* Localization */
+      var i18nDays = <%= t(:day_names, scope: :date ).to_json.html_safe %>;
+      var i18nShortDays = <%= t(:abbr_day_names, scope: :date ).to_json.html_safe %>;
+      var i18nMonths = <%= t(:month_names, scope: :date ).to_json.html_safe %>;
+      var i18nShortMonths = <%= t(:abbr_month_names, scope: :date ).to_json.html_safe %>;
+      var i18nDelimiter = <%= t(:delimiter, scope: 'number.format' ).to_json.html_safe %>;
+      var i18nSeparator = <%= t(:separator, scope: 'number.format' ).to_json.html_safe %>;
+      d3.timeFormatDefaultLocale({
+        "dateTime": "%a %b %e %X %Y",
+        "date": "%Y-%m-%d",
+        "time": "%H:%M:%S",
+        "periods": ["AM", "PM"],
+        "days": i18nDays,
+        "shortDays": i18nShortDays,
+        "months": i18nMonths.slice(1),
+        "shortMonths": i18nShortMonths.slice(1),
+      });
+      d3.formatLocale({
+        "decimal": i18nDelimiter,
+        "thousands": i18nSeparator,
+        "grouping": [3],
+        "currency": ["$", ""],
+      })
+
+      var i18nDateLabel = <%= t(:date_label).to_json.html_safe %>;
+      var i18nCommitsLabel = <%= t(:commits).to_json.html_safe %>;
+      var i18nChangesLabel = <%= t(:changes).to_json.html_safe %>;
+      var i18nCommitActivityTooltip = <%= t(:commit_activity_tooltip).to_json.html_safe %>;
+      var i18nAdditionsTooltip = <%= t(:additions_tooltip).to_json.html_safe %>;
+      var i18nDeletionsTooltip = <%= t(:deletions_tooltip).to_json.html_safe %>;
+
       /* Commit Activity */
 
       // Functions
@@ -888,7 +922,12 @@
 
       // Tooltip
       var tipFactoryCA = d3scription(function(d) {
-        return "Week of " + d3.timeFormat('%b %d, %Y')(getXCA(d)) + "<br/><b>" + getYCA(d) + "</b> commits";
+        var date = d3.timeFormat('%b %d, %Y')(getXCA(d));
+        var value = getYCA(d);
+        var tooltip = i18nCommitActivityTooltip
+                        .replace('{date}', date)
+                        .replace('{value}', value);
+        return tooltip;
       }, {
         class: 'chart-tooltip',
       });
@@ -935,9 +974,8 @@
                 .attr('class', 'title')
                 .attr('y', 40)
                 .attr('x', widthCA/2)
-                .style('text-anchor', 'middle')
                 .style('font-size', '12px')
-                .text('Date');
+                .text(i18nDateLabel);
 
       // Y Axis
       var yAxisCA = d3.axisLeft(yCA)
@@ -951,9 +989,8 @@
                 .attr('transform', 'rotate(-90)')
                 .attr('y', -30)
                 .attr('x', -heightCA/2)
-                .style('text-anchor', 'middle')
                 .style('font-size', '12px')
-                .text('Commits');
+                .text(i18nCommitsLabel);
 
 
       /* Code Frequency */
@@ -1014,15 +1051,25 @@
                       .attr('transform', 'translate(' + marginCF.left + ', ' + marginCF.top + ')');
 
       // Tooltip
-      var tipFactoryAdditionCF = d3scription(function(d, a, b, c) {
-        return "Week of " + d3.timeFormat('%b %d, %Y')(getXCF(d)) + "<br/><b>" + d.data.additions + "</b> additions";
+      var tipFactoryAdditionCF = d3scription(function(d) {
+        var date = d3.timeFormat('%b %d, %Y')(getXCF(d));
+        var value = d.data.additions;
+        var tooltip = i18nAdditionsTooltip
+                        .replace('{date}', date)
+                        .replace('{value}', value);
+        return tooltip;
       }, {
         class: 'chart-tooltip',
       });
       var tipAdditionCF = tipFactoryAdditionCF().element(chartCF);
 
-      var tipFactoryDeletionCF = d3scription(function(d, a, b, c) {
-        return "Week of " + d3.timeFormat('%b %d, %Y')(getXCF(d)) + "<br/><b>" + Math.abs(d.data.deletions) + "</b> deletions";
+      var tipFactoryDeletionCF = d3scription(function(d) {
+        var date = d3.timeFormat('%b %d, %Y')(getXCF(d));
+        var value = Math.abs(d.data.deletions);
+        var tooltip = i18nDeletionsTooltip
+                        .replace('{date}', date)
+                        .replace('{value}', value);
+        return tooltip;
       }, {
         class: 'chart-tooltip',
       });
@@ -1093,14 +1140,13 @@
                 .attr('class', 'title')
                 .attr('y', 40)
                 .attr('x', widthCF/2)
-                .style('text-anchor', 'middle')
-                .text('Date');
+                .text(i18nDateLabel);
 
       // Y Axis
       var yAxisCF = d3.axisLeft(yCF)
                       .ticks(5)
                       .tickPadding(10)
-                      .tickFormat(d3.format(".2s"));
+                      .tickFormat(d3.format("~s"));
       chartCF.append('g')
                 .attr('class', 'y axis')
                 .call(yAxisCF)
@@ -1109,8 +1155,7 @@
                 .attr('transform', 'rotate(-90)')
                 .attr('y', -30)
                 .attr('x', -heightCF/2)
-                .style('text-anchor', 'middle')
-                .text('Changes');
+                .text(i18nChangesLabel);
 
     </script>
     <%= render 'layouts/tracking_scripts' %>
