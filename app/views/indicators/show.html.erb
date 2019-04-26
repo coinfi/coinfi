@@ -183,24 +183,12 @@
         max-width: calc(100% - var(--sidebar-width));
         flex: 0 1 calc(100% - var(--sidebar-width));
       }
-      .paper.with-sidebar:not(:first-child) {
-        padding-left: 30px;
-      }
-      .paper.with-sidebar:not(:last-child) {
-        padding-right: 30px;
-      }
       .sidebar {
         background-color: #f8f8f8;
         border: 1px solid #e0e0e0;
         max-width: var(--sidebar-width);
         flex: 0 1 var(--sidebar-width);
         padding: 20px 30px;
-      }
-      .sidebar:not(:first-child) {
-        border-left: none;
-      }
-      .sidebar:not(:last-child) {
-        border-right: none;
       }
       .main-title {
         position: relative;
@@ -451,6 +439,22 @@
       @media screen and (min-width:741px) and (max-width:1024px) {
       }
 
+      /* Non-Mobile */
+      @media screen and (min-width:741px) {
+        .paper.with-sidebar:not(:first-child) {
+          padding-left: 30px;
+        }
+        .paper.with-sidebar:not(:last-child) {
+          padding-right: 30px;
+        }
+        .sidebar:not(:first-child) {
+          border-left: none;
+        }
+        .sidebar:not(:last-child) {
+          border-right: none;
+        }
+      }
+
       /* Mobile */
       @media screen and (max-width:740px) {
         h2 {
@@ -464,6 +468,14 @@
         }
         .flex-container {
           flex-wrap: wrap;
+        }
+        .paper.with-sidebar {
+          max-width: 100%;
+          flex: 1 1 100%;
+        }
+        .sidebar {
+          max-width: 100%;
+          flex: 1 1 100%;
         }
         .half-width-container {
           display: flex;
@@ -545,6 +557,15 @@
           width: 250px;
           height: 135px;
           margin: 40px auto 20px;
+        }
+        .graph-container {
+          margin-left: -10px;
+          margin-right: -10px;
+          width: calc(100% + 20px);
+        }
+        .graph-container .x.axis .tick text {
+          transform: rotate(-20deg);
+          text-anchor: end !important;
         }
       }
     </style>
@@ -708,8 +729,8 @@
               <div><i class="far fa-code"></i><%= t :code_frequency %></div>
             </a>
           </div>
-          <svg id="commit-activity" class="graph-container tab-container active"></svg>
-          <svg id="code-frequency" class="graph-container tab-container"></svg>
+          <svg id="commit-activity" class="graph-container tab-container active" preserveAspectRatio="xMidYMid meet"></svg>
+          <svg id="code-frequency" class="graph-container tab-container" preserveAspectRatio="xMidYMid meet"></svg>
           <div>
             <i class="fab fa-github"></i> <%= t :github_repo %>:
             <%= link_to @coin.github_repo, github_url(@coin.github_repo), rel: "nofollow noopener noreferrer", target: "_blank" %>
@@ -835,6 +856,7 @@
     <script type="text/javascript">
       /* CHARTS */
       var defaultChartWidth = 620;
+      var widthToHeightRatio = 4/3;
 
       /* Commit Activity */
 
@@ -855,10 +877,10 @@
       });
 
       // Dimensions and scale
-      var marginCA = {top: 20, right: 30, bottom: 50, left: 40};
+      var marginCA = {top: 20, right: 20, bottom: 50, left: 40};
       var outerWidthCA = document.getElementById(idCA).getBoundingClientRect()['width'] || defaultChartWidth;
       var widthCA = outerWidthCA - marginCA.left - marginCA.right;
-      var outerHeightCA = 340;
+      var outerHeightCA = outerWidthCA / widthToHeightRatio;
       var heightCA = outerHeightCA - marginCA.top - marginCA.bottom;
       var barWidthCA = Math.floor(widthCA / dataCA.length) - 1;
 
@@ -877,8 +899,6 @@
 
       // Chart
       var chartCA = d3.select('#' + idCA)
-                      .attr('width', outerWidthCA)
-                      .attr('height', outerHeightCA)
                       .attr('viewBox', '0 0 ' + outerWidthCA + ' ' + outerHeightCA)
                     .append('g')
                       .attr('transform', 'translate(' + marginCA.left + ', ' + marginCA.top + ')');
@@ -923,7 +943,7 @@
       tickValuesCA.push(maxDateCA);
       var xAxisCA = d3.axisBottom(xCA)
                       .tickValues(tickValuesCA)
-                      .tickFormat(d3.timeFormat('%B %Y'));
+                      .tickFormat(d3.timeFormat('%b %Y'));
       chartCA.append('g')
                 .attr('class', 'x axis')
                 .attr('transform', 'translate(0, ' + heightCA + ')')
@@ -933,6 +953,7 @@
                 .attr('y', 40)
                 .attr('x', widthCA/2)
                 .style('text-anchor', 'middle')
+                .style('font-size', '12px')
                 .text('Date');
 
       // Y Axis
@@ -948,6 +969,7 @@
                 .attr('y', -30)
                 .attr('x', -heightCA/2)
                 .style('text-anchor', 'middle')
+                .style('font-size', '12px')
                 .text('Commits');
 
 
@@ -981,7 +1003,7 @@
       var outerWidthCF = document.getElementById(idCF)
                                   .getBoundingClientRect()['width'] || outerWidthCA // Assume the same width as CA since this is not initially visible
       var widthCF = outerWidthCF - marginCF.left - marginCF.right;
-      var outerHeightCF = 340;
+      var outerHeightCF = outerWidthCF / widthToHeightRatio;
       var heightCF = outerHeightCF - marginCF.top - marginCF.bottom;
       var barWidthCF = widthCF / dataCF.length - 1;
 
@@ -1004,8 +1026,6 @@
 
       // Chart
       var chartCF = d3.select('#' + idCF)
-                      .attr('width', outerWidthCF)
-                      .attr('height', outerHeightCF)
                       .attr('viewBox', '0 0 ' + outerWidthCF + ' ' + outerHeightCF)
                     .append('g')
                       .attr('transform', 'translate(' + marginCF.left + ', ' + marginCF.top + ')');
@@ -1081,7 +1101,7 @@
       tickValuesCF.push(maxDateCF);
       var xAxisCF = d3.axisBottom(xCF)
                       .tickValues(tickValuesCF)
-                      .tickFormat(d3.timeFormat('%B %Y'));
+                      .tickFormat(d3.timeFormat('%b %Y'));
       chartCF.append('g')
                 .attr('class', 'x axis')
                 .attr('transform', 'translate(0, ' + heightCF + ')')
