@@ -288,20 +288,27 @@
       .github-stats__row {
         display: flex;
         justify-content: space-between;
-        align-items: baseline;
+        align-items: flex-end;
+        flex-wrap: wrap;
       }
       .github-stats__row:not(:last-child) {
-        padding-bottom: 6px;
+        padding-bottom: 12px;
         margin-bottom: 12px;
         border-bottom: 1px solid #d4d5d8;
       }
       .github-stats__value {
         font-size: 30px;
         color: #000;
+        text-align: right;
       }
       .github-stats__label {
         font-size: 14px;
         color: #777777;
+      }
+      .github-stats__rank {
+        padding-right: 2px;
+        color: #000;
+        font-size: 14px;
       }
       .github-stats__label i {
         margin-right: 2px;
@@ -476,6 +483,8 @@
         .sidebar {
           max-width: 100%;
           flex: 1 1 100%;
+          padding: 20px;
+          padding-bottom: 30px;
         }
         .half-width-container {
           display: flex;
@@ -566,6 +575,9 @@
         .graph-container .x.axis .tick text {
           transform: rotate(-20deg);
           text-anchor: end !important;
+        }
+        .github-stats__value {
+          font-size: 24px;
         }
       }
     </style>
@@ -744,28 +756,48 @@
                 <i class="far fa-users"></i>
                 <%= t(:contributors).capitalize %>
               </div>
-              <div class="github-stats__value"><%= @github_stats[:snapshot][:contributors] %></div>
+              <div class="github-stats__right">
+                <div class="github-stats__value"><%= @github_stats[:snapshot][:contributors] %></div>
+                <div class="github-stats__rank">
+                  <%= t(:ranked_out_of, rank: @github_stats[:snapshot][:contributors_rank], total: @github_stats[:snapshot][:contributors_total])%>
+                </div>
+              </div>
             </div>
             <div class="github-stats__row">
               <div class="github-stats__label">
                 <i class="far fa-code-branch"></i>
                 <%= t(:forks).capitalize %>
               </div>
-              <div class="github-stats__value"><%= @github_stats[:snapshot][:forks] %></div>
+              <div class="github-stats__right">
+                <div class="github-stats__value"><%= @github_stats[:snapshot][:forks] %></div>
+                <div class="github-stats__rank">
+                  <%= t(:ranked_out_of, rank: @github_stats[:snapshot][:forks_rank], total: @github_stats[:snapshot][:forks_total])%>
+                </div>
+              </div>
             </div>
             <div class="github-stats__row">
               <div class="github-stats__label">
                 <i class="far fa-eye"></i>
                 <%= t(:watchers).capitalize %>
               </div>
-              <div class="github-stats__value"><%= @github_stats[:snapshot][:watchers] %></div>
+              <div class="github-stats__right">
+                <div class="github-stats__value"><%= @github_stats[:snapshot][:watchers] %></div>
+                <div class="github-stats__rank">
+                  <%= t(:ranked_out_of, rank: @github_stats[:snapshot][:watchers_rank], total: @github_stats[:snapshot][:watchers_total])%>
+                </div>
+              </div>
             </div>
             <div class="github-stats__row">
               <div class="github-stats__label">
                 <i class="far fa-star"></i>
                 <%= t(:stargazers).capitalize %>
               </div>
-              <div class="github-stats__value"><%= @github_stats[:snapshot][:stargazers] %></div>
+              <div class="github-stats__right">
+                <div class="github-stats__value"><%= @github_stats[:snapshot][:stargazers] %></div>
+                <div class="github-stats__rank">
+                  <%= t(:ranked_out_of, rank: @github_stats[:snapshot][:stargazers_rank], total: @github_stats[:snapshot][:stargazers_total])%>
+                </div>
+              </div>
             </div>
           </div>
         </div>

@@ -5,5 +5,6 @@ class RefreshGithub
 
   def perform
     CoinServices::RefreshGithubStats.call
+    CoinServices::CalculateGithubRankings.call
   end
 end

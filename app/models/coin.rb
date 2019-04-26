@@ -285,6 +285,15 @@ class Coin < ApplicationRecord
     end
   end
 
+  def merge_github_stats(stats_to_merge)
+    return nil unless github_repo.present?
+
+    base_stats = github_stats
+    merged_stats = base_stats.deep_merge(stats_to_merge)
+
+    Rails.cache.write("coins/#{id}/github_stats", merged_stats)
+  end
+
   def token_metrics_data(metric_type, metric_value = 'percentage')
     return nil unless has_token_metrics?
 

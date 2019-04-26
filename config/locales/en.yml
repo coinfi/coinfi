@@ -76,6 +76,7 @@ en:
   forks: forks
   watchers: watchers
   stargazers: stars
+  ranked_out_of: "#%{rank} out of %{total}"
   latest_research: "Latest Research"
   market_news_research: "Market News Research"
   time_ago: "%{time_words} ago"
