@@ -688,9 +688,11 @@
               </div>
               <div class="github-stats__right">
                 <div class="github-stats__value"><%= @github_stats[:snapshot][:contributors] %></div>
+                <% if @github_stats[:snapshot][:contributors_rank].present? and @github_stats[:snapshot][:contributors_total].present? %>
                 <div class="github-stats__rank">
                   <%= t(:ranked_out_of, rank: @github_stats[:snapshot][:contributors_rank], total: @github_stats[:snapshot][:contributors_total])%>
                 </div>
+                <% end %>
               </div>
             </div>
             <div class="github-stats__row">
@@ -700,9 +702,11 @@
               </div>
               <div class="github-stats__right">
                 <div class="github-stats__value"><%= @github_stats[:snapshot][:forks] %></div>
+                <% if @github_stats[:snapshot][:forks_rank].present? and @github_stats[:snapshot][:forks_total].present? %>
                 <div class="github-stats__rank">
                   <%= t(:ranked_out_of, rank: @github_stats[:snapshot][:forks_rank], total: @github_stats[:snapshot][:forks_total])%>
                 </div>
+                <% end %>
               </div>
             </div>
             <div class="github-stats__row">
@@ -712,9 +716,11 @@
               </div>
               <div class="github-stats__right">
                 <div class="github-stats__value"><%= @github_stats[:snapshot][:watchers] %></div>
+                <% if @github_stats[:snapshot][:watchers_rank].present? and @github_stats[:snapshot][:watchers_total].present? %>
                 <div class="github-stats__rank">
                   <%= t(:ranked_out_of, rank: @github_stats[:snapshot][:watchers_rank], total: @github_stats[:snapshot][:watchers_total])%>
                 </div>
+                <% end %>
               </div>
             </div>
             <div class="github-stats__row">
@@ -724,9 +730,11 @@
               </div>
               <div class="github-stats__right">
                 <div class="github-stats__value"><%= @github_stats[:snapshot][:stargazers] %></div>
+                <% if @github_stats[:snapshot][:stargazers_rank].present? and @github_stats[:snapshot][:stargazers_total].present? %>
                 <div class="github-stats__rank">
                   <%= t(:ranked_out_of, rank: @github_stats[:snapshot][:stargazers_rank], total: @github_stats[:snapshot][:stargazers_total])%>
                 </div>
+                <% end %>
               </div>
             </div>
           </div>
