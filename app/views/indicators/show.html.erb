@@ -1051,11 +1051,11 @@
                                     .attr('width', barWidthCF)
                                     .on('mouseover', function() {
                                       d3.select(this).attr('opacity', 0.7);
-                                      tipAdditionCF.show.apply(this, arguments);
+                                      tipDeletionCF.show.apply(this, arguments);
                                     })
                                     .on('mouseout', function() {
                                       d3.select(this).attr('opacity', 1);
-                                      tipAdditionCF.hide.apply(this, arguments);
+                                      tipDeletionCF.hide.apply(this, arguments);
                                     });
 
       // Starting animation
