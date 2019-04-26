@@ -550,6 +550,7 @@ GEM
       sprockets-rails (>= 2.0, < 4.0)
       tilt (>= 1.1, < 3)
     sax-machine (1.3.2)
+    scout_apm (2.4.24)
     selectize-rails (0.12.4.1)
     selenium-webdriver (3.14.1)
       childprocess (~> 0.5)
@@ -731,6 +732,7 @@ DEPENDENCIES
   rubocop
   ruby-progressbar
   sass-rails (~> 5.0)
+  scout_apm
   selenium-webdriver (>= 3.14.0)
   sidekiq
   sidekiq-scheduler

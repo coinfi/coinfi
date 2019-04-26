@@ -39,6 +39,7 @@
     "HEALTHCHECK_HOURLY_PRICES": { "required": true },
     "HEALTHCHECK_MARKET_METRICS": { "required": true },
     "HEAP_APP_ID": { "required": true },
+    "HEROKU_APP_NAME": { "required": true },
     "INDICATORS_USERNAME": { "required": true },
     "INDICATORS_PASSWORD": { "required": true },
     "IS_PRODUCTION": { "required": true },
