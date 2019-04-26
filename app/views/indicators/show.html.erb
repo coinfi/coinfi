@@ -10,7 +10,7 @@
     <style>
       /* Variables */
       :root {
-        --sidebar-width: 300px;
+        --sidebar-width: 350px;
       }
 
       * {
@@ -119,6 +119,9 @@
         max-width: var(--sidebar-width);
         flex: 0 1 var(--sidebar-width);
         padding: 20px 30px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
       }
       .main-title {
         position: relative;
@@ -209,11 +212,14 @@
         font-weight: 600;
       }
       .github-tab-bar {
-        max-width: 500px;
+        width: 100%;
       }
       .graph-container {
         min-height: 340px;
         width: 100%;
+      }
+      .github-stats {
+        flex: 1 0 auto;
       }
       .github-stats__row {
         display: flex;
@@ -221,7 +227,7 @@
         align-items: flex-end;
         flex-wrap: wrap;
       }
-      .github-stats__row:not(:last-child) {
+      .github-stats__row {
         padding-bottom: 12px;
         margin-bottom: 12px;
         border-bottom: 1px solid #d4d5d8;
@@ -236,12 +242,16 @@
         color: #777777;
       }
       .github-stats__rank {
-        padding-right: 2px;
-        color: #000;
+        color: rgba(61, 64, 74, 0.5);
         font-size: 14px;
       }
       .github-stats__label i {
         margin-right: 2px;
+      }
+      .github-repo-link {
+        color: #777;
+        align-self: flex-start;
+        text-align: left;
       }
       .news-item {
         padding-top: 10px;
@@ -509,6 +519,9 @@
         .github-stats__value {
           font-size: 24px;
         }
+        .github-repo-link {
+          margin-top: 36px;
+        }
       }
     </style>
   </head>
@@ -673,10 +686,6 @@
           </div>
           <svg id="commit-activity" class="graph-container tab-container active" preserveAspectRatio="xMidYMid meet"></svg>
           <svg id="code-frequency" class="graph-container tab-container" preserveAspectRatio="xMidYMid meet"></svg>
-          <div>
-            <i class="fab fa-github"></i> <%= t :github_repo %>:
-            <%= link_to @coin.github_repo, github_url(@coin.github_repo), rel: "nofollow noopener noreferrer", target: "_blank" %>
-          </div>
         </div>
         <div class="sidebar">
           <h3><%= t :developer_community %></h3>
@@ -737,6 +746,10 @@
                 <% end %>
               </div>
             </div>
+          </div>
+          <div class="github-repo-link">
+            <i class="fab fa-github"></i> <%= t :github_repo %>:
+            <%= link_to @coin.github_repo, github_url(@coin.github_repo), rel: "nofollow noopener noreferrer", target: "_blank" %>
           </div>
         </div>
       </div>
