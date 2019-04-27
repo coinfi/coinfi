@@ -277,7 +277,7 @@ class Coin < ApplicationRecord
   end
 
   def github_stats(force_refresh: false)
-    return nil unless github_repo.present?
+    return unless github_repo.present?
 
     Rails.cache.fetch("coins/#{id}/github_stats", force: force_refresh) do
       response = CoinServices::RetrieveGithubStats.call(coin: self)
@@ -286,7 +286,7 @@ class Coin < ApplicationRecord
   end
 
   def merge_github_stats(stats_to_merge)
-    return nil unless github_repo.present?
+    return unless github_repo.present?
 
     base_stats = github_stats
     merged_stats = base_stats.deep_merge(stats_to_merge)
@@ -295,14 +295,14 @@ class Coin < ApplicationRecord
   end
 
   def token_metrics_data(metric_type, metric_value = 'percentage')
-    return nil unless has_token_metrics?
+    return unless has_token_metrics?
 
     @token_metrics_data ||= {}
     @token_metrics_data[metric_type] ||= TokenDailyMetric.where(coin_key: coin_key, metric_type: metric_type).order(:date).select(:date, metric_value)
   end
 
   def token_metrics_metadata(metric_type)
-    return nil unless has_token_metrics?
+    return unless has_token_metrics?
 
     token_model = get_model_from_metric_type(metric_type)
     self.try(token_model).try(:attributes)
