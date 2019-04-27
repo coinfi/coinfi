@@ -33,7 +33,7 @@ class Coin < ApplicationRecord
   has_many :calendar_event_coins
   has_many :calendar_events, through: :calendar_event_coins
 
-  validates :name, uniqueness: true, presence: true
+  validates :name, presence: true
 
   accepts_nested_attributes_for :coin_excluded_countries, allow_destroy: true, reject_if: :all_blank
   accepts_nested_attributes_for :influencer_reviews, allow_destroy: true, reject_if: :all_blank
@@ -276,15 +276,33 @@ class Coin < ApplicationRecord
     end
   end
 
+  def github_stats(force_refresh: false)
+    return unless github_repo.present?
+
+    Rails.cache.fetch("coins/#{id}/github_stats", force: force_refresh) do
+      response = CoinServices::RetrieveGithubStats.call(coin: self)
+      response.try(:result)
+    end
+  end
+
+  def merge_github_stats(stats_to_merge)
+    return unless github_repo.present?
+
+    base_stats = github_stats
+    merged_stats = base_stats.deep_merge(stats_to_merge)
+
+    Rails.cache.write("coins/#{id}/github_stats", merged_stats)
+  end
+
   def token_metrics_data(metric_type, metric_value = 'percentage')
-    return nil unless has_token_metrics?
+    return unless has_token_metrics?
 
     @token_metrics_data ||= {}
     @token_metrics_data[metric_type] ||= TokenDailyMetric.where(coin_key: coin_key, metric_type: metric_type).order(:date).select(:date, metric_value)
   end
 
   def token_metrics_metadata(metric_type)
-    return nil unless has_token_metrics?
+    return unless has_token_metrics?
 
     token_model = get_model_from_metric_type(metric_type)
     self.try(token_model).try(:attributes)

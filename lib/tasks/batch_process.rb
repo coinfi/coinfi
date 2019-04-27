@@ -30,4 +30,6 @@ def batch_process(items)
     puts "Found #{items_with_errors.length} total errors"
     puts "Encountered errors when trying to process these #{item_name.pluralize} ids: #{items_with_errors}"
   end
+
+  items_with_errors
 end
