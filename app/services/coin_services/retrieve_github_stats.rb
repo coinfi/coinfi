@@ -32,7 +32,7 @@ module CoinServices
 
     def retrieve_commit_activity_data(repo_path)
       data = @client.commit_activity_stats repo_path
-      return nil unless data.present?
+      return unless data.present?
 
       parsed_data = data.map do |weekly_data|
         timestamp = weekly_data[:week]
@@ -46,7 +46,7 @@ module CoinServices
 
     def retrieve_code_frequency_data(repo_path)
       data = @client.code_frequency_stats repo_path
-      return nil unless data.present?
+      return unless data.present?
 
       parsed_data = data.map do |weekly_data|
         {
@@ -59,7 +59,7 @@ module CoinServices
 
     def retrieve_repository_stats(repo_path)
       repository = @client.repo repo_path
-      return nil unless repository.present?
+      return unless repository.present?
       contributors = begin
         @client.contribs repo_path, true
       rescue Octokit::Unauthorized
