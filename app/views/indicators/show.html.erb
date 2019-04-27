@@ -2,78 +2,15 @@
   <head>
     <meta name="viewport" content="width=device-width">
     <%= render 'layouts/tracking_scripts_preconnect' %>
+    <link rel="preconnect" href="https://unpkg.com" crossorigin>
+    <link rel="preconnect" href="https://d3js.org" crossorigin>
     <link rel="stylesheet" href="/css/gauge.css">
     <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-6jHF7Z3XI3fF4XZixAuSu0gGKrXwoX/w3uFPxC56OtjChio7wtTGJWRW53Nhx6Ev" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i&amp;subset=cyrillic,cyrillic-ext,greek,greek-ext,latin-ext,vietnamese" rel="stylesheet">
     <style>
-      /* Main */
-      @font-face {
-        font-family: 'Open Sans';
-        font-style: normal;
-        font-weight: 300;
-        src: local('Open Sans Light'), local('OpenSans-Light'), url('https://fonts.googleapis.com/css?family=Open+Sans:300')
-      }
-
-      @font-face {
-        font-family: 'Open Sans';
-        font-style: italic;
-        font-weight: 300;
-        src: local('Open Sans Light Italic'), local('OpenSans-LightItalic'), url('https://fonts.googleapis.com/css?family=Open+Sans:300i')
-      }
-
-      @font-face {
-        font-family: 'Open Sans';
-        font-style: normal;
-        font-weight: 400;
-        src: local('Open Sans Regular'), local('OpenSans-Regular'), url('https://fonts.googleapis.com/css?family=Open+Sans:400')
-      }
-
-      @font-face {
-        font-family: 'Open Sans';
-        font-style: italic;
-        font-weight: 400;
-        src: local('Open Sans Italic'), local('OpenSans-Italic'), url('https://fonts.googleapis.com/css?family=Open+Sans:400i')
-      }
-
-      @font-face {
-        font-family: 'Open Sans';
-        font-style: normal;
-        font-weight: 600;
-        src: local('Open Sans SemiBold'), local('OpenSans-SemiBold'), url('https://fonts.googleapis.com/css?family=Open+Sans:600')
-      }
-
-      @font-face {
-        font-family: 'Open Sans';
-        font-style: italic;
-        font-weight: 600;
-        src: local('Open Sans SemiBold Italic'), local('OpenSans-SemiBoldItalic'), url('https://fonts.googleapis.com/css?family=Open+Sans:600i')
-      }
-
-      @font-face {
-        font-family: 'Open Sans';
-        font-style: normal;
-        font-weight: 700;
-        src: local('Open Sans Bold'), local('OpenSans-Bold'), url('https://fonts.googleapis.com/css?family=Open+Sans:700')
-      }
-
-      @font-face {
-        font-family: 'Open Sans';
-        font-style: italic;
-        font-weight: 700;
-        src: local('Open Sans Bold Italic'), local('OpenSans-BoldItalic'), url('https://fonts.googleapis.com/css?family=Open+Sans:700i')
-      }
-
-      @font-face {
-        font-family: 'Open Sans';
-        font-style: normal;
-        font-weight: 800;
-        src: local('Open Sans ExtraBold'), local('OpenSans-ExtraBold'), url('https://fonts.googleapis.com/css?family=Open+Sans:800')
-      }
-
-      @font-face {
-        font-family: 'Open Sans';
-        font-style: italic;
-        font-weight: 800;
-        src: local('Open Sans ExtraBold Italic'), local('OpenSans-ExtraBoldItalic'), url('https://fonts.googleapis.com/css?family=Open+Sans:800i')
+      /* Variables */
+      :root {
+        --sidebar-width: 350px;
       }
 
       * {
@@ -115,8 +52,11 @@
         text-size-adjust: 100%;
       }
 
-      h2 {
+      h1, h2, h3, h4, h5, h6 {
         color: #777;
+      }
+
+      h2 {
         font-size: 28px;
         font-weight: 400;
         margin-top: 10px;
@@ -125,7 +65,6 @@
       }
 
       h3 {
-        color: #777;
         font-size: 16px;
         font-weight: 400;
         text-transform: uppercase;
@@ -169,6 +108,20 @@
         border: 1px solid #e0e0e0;
         width: 100%;
         padding: 20px;
+      }
+      .paper.with-sidebar {
+        max-width: calc(100% - var(--sidebar-width));
+        flex: 0 1 calc(100% - var(--sidebar-width));
+      }
+      .sidebar {
+        background-color: #f8f8f8;
+        border: 1px solid #e0e0e0;
+        max-width: var(--sidebar-width);
+        flex: 0 1 var(--sidebar-width);
+        padding: 20px 30px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
       }
       .main-title {
         position: relative;
@@ -231,7 +184,7 @@
         border-top: 1px solid #e0e0e0;
         background-color: #f8f8f8;
       }
-      .indicator-summary-copy {
+      .header-info-icon {
         margin-left: 8px;
       }
       .indicators-summary {
@@ -257,6 +210,48 @@
       }
       .stats__row div:first-child {
         font-weight: 600;
+      }
+      .github-tab-bar {
+        width: 100%;
+      }
+      .graph-container {
+        min-height: 340px;
+        width: 100%;
+      }
+      .github-stats {
+        flex: 1 0 auto;
+      }
+      .github-stats__row {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+        flex-wrap: wrap;
+      }
+      .github-stats__row {
+        padding-bottom: 12px;
+        margin-bottom: 12px;
+        border-bottom: 1px solid #d4d5d8;
+      }
+      .github-stats__value {
+        font-size: 30px;
+        color: #000;
+        text-align: right;
+      }
+      .github-stats__label {
+        font-size: 14px;
+        color: #777777;
+      }
+      .github-stats__rank {
+        color: rgba(61, 64, 74, 0.5);
+        font-size: 14px;
+      }
+      .github-stats__label i {
+        margin-right: 2px;
+      }
+      .github-repo-link {
+        color: #777;
+        align-self: flex-start;
+        text-align: left;
       }
       .news-item {
         padding-top: 10px;
@@ -288,6 +283,69 @@
       }
       a.plain-link {
         color: inherit;
+      }
+      .tab-bar {
+        display: flex;
+        padding-bottom: 12px;
+      }
+      .tab {
+        flex: 1 1 auto;
+        border-bottom: 1px solid #e0e0e0;
+        cursor: pointer;
+        color: #777;
+      }
+      .tab.active {
+        color: #6aac0e;
+        border-bottom: 2px solid #6aac0e;
+      }
+      .tab > * {
+        text-align: center;
+        line-height: 35px;
+      }
+      .tab i {
+        margin-right: 8px;
+      }
+      .tab-container:not(.active) {
+        display: none;
+      }
+
+      /* Graph */
+      .graph-container rect {
+        fill: #6aac0e;
+      }
+      .graph-container .deletions rect {
+        fill: #00a5ee;
+      }
+      .graph-container .axis .tick text {
+        fill: #777;
+        font-size: 10px;
+        text-anchor: middle;
+      }
+      .graph-container .x.axis .tick:first-of-type text {
+        text-anchor: start;
+      }
+      .graph-container .axis path,
+      .graph-container .axis line {
+        fill: none;
+        stroke: #777;
+        shape-rendering: crispEdges;
+      }
+      .graph-container .axis text.title {
+        fill: #777;
+        font-size: 12px;
+        font-weight: 600;
+        text-anchor: middle;
+        text-transform: capitalize;
+      }
+      .chart-tooltip {
+        font-size: 11px;
+        line-height: 1.15rem;
+        color: white;
+        background: #3d404a;
+        box-shadow: 0 0 10px rgba(0,0,0,.7);
+        border-radius: 3px;
+        padding: 5px 10px;
+        min-width: 100px;
       }
 
       /* Gauge */
@@ -330,6 +388,22 @@
       @media screen and (min-width:741px) and (max-width:1024px) {
       }
 
+      /* Non-Mobile */
+      @media screen and (min-width:741px) {
+        .paper.with-sidebar:not(:first-child) {
+          padding-left: 30px;
+        }
+        .paper.with-sidebar:not(:last-child) {
+          padding-right: 30px;
+        }
+        .sidebar:not(:first-child) {
+          border-left: none;
+        }
+        .sidebar:not(:last-child) {
+          border-right: none;
+        }
+      }
+
       /* Mobile */
       @media screen and (max-width:740px) {
         h2 {
@@ -343,6 +417,16 @@
         }
         .flex-container {
           flex-wrap: wrap;
+        }
+        .paper.with-sidebar {
+          max-width: 100%;
+          flex: 1 1 100%;
+        }
+        .sidebar {
+          max-width: 100%;
+          flex: 1 1 100%;
+          padding: 20px;
+          padding-bottom: 30px;
         }
         .half-width-container {
           display: flex;
@@ -425,6 +509,21 @@
           height: 135px;
           margin: 40px auto 20px;
         }
+        .graph-container {
+          margin-left: -10px;
+          margin-right: -10px;
+          width: calc(100% + 20px);
+        }
+        .graph-container .x.axis .tick text {
+          transform: rotate(-20deg);
+          text-anchor: end !important;
+        }
+        .github-stats__value {
+          font-size: 24px;
+        }
+        .github-repo-link {
+          margin-top: 36px;
+        }
       }
     </style>
   </head>
@@ -492,7 +591,7 @@
           <div class="paper">
             <h3>
               <%= t(:technical_analysis_summary) %>
-              <a class="indicator-summary-copy" data-tippy="<%= t :indicator_summary_copy %>">
+              <a class="header-info-icon" data-tippy="<%= t :indicator_summary_copy %>">
                 <i class="far fa-info-circle"></i>
               </a>
             </h3>
@@ -571,6 +670,93 @@
         </div>
       </div>
 
+      <h2><%= t(:fundamentals) %></h2>
+      <div class="flex-container">
+        <div class="paper with-sidebar">
+          <h3>
+            <%= t :development_activity %>
+            <a class="header-info-icon" data-tippy="<%= t(:development_activity_copy, name: @coin.name, symbol: @coin.symbol) %>">
+              <i class="far fa-info-circle"></i>
+            </a>
+          </h3>
+          <div class="tab-bar github-tab-bar">
+            <a onclick="switchToTab(this, 'commit-activity')" class="tab active">
+              <div><i class="far fa-code-commit"></i><%= t :commit_activity %></div>
+            </a>
+            <a onclick="switchToTab(this, 'code-frequency')" class="tab">
+              <div><i class="far fa-code"></i><%= t :code_frequency %></div>
+            </a>
+          </div>
+          <svg id="commit-activity" class="graph-container tab-container active" preserveAspectRatio="xMidYMid meet"></svg>
+          <svg id="code-frequency" class="graph-container tab-container" preserveAspectRatio="xMidYMid meet"></svg>
+        </div>
+        <div class="sidebar">
+          <h3><%= t :developer_community %></h3>
+          <div class="github-stats">
+            <div class="github-stats__row">
+              <div class="github-stats__label">
+                <i class="far fa-users"></i>
+                <%= t(:contributors).capitalize %>
+              </div>
+              <div class="github-stats__right">
+                <div class="github-stats__value"><%= @github_stats[:snapshot][:contributors] %></div>
+                <% if @github_stats[:snapshot][:contributors_rank].present? and @github_stats[:snapshot][:contributors_total].present? %>
+                <div class="github-stats__rank">
+                  <%= t(:ranked_out_of, rank: @github_stats[:snapshot][:contributors_rank], total: @github_stats[:snapshot][:contributors_total])%>
+                </div>
+                <% end %>
+              </div>
+            </div>
+            <div class="github-stats__row">
+              <div class="github-stats__label">
+                <i class="far fa-code-branch"></i>
+                <%= t(:forks).capitalize %>
+              </div>
+              <div class="github-stats__right">
+                <div class="github-stats__value"><%= @github_stats[:snapshot][:forks] %></div>
+                <% if @github_stats[:snapshot][:forks_rank].present? and @github_stats[:snapshot][:forks_total].present? %>
+                <div class="github-stats__rank">
+                  <%= t(:ranked_out_of, rank: @github_stats[:snapshot][:forks_rank], total: @github_stats[:snapshot][:forks_total])%>
+                </div>
+                <% end %>
+              </div>
+            </div>
+            <div class="github-stats__row">
+              <div class="github-stats__label">
+                <i class="far fa-eye"></i>
+                <%= t(:watchers).capitalize %>
+              </div>
+              <div class="github-stats__right">
+                <div class="github-stats__value"><%= @github_stats[:snapshot][:watchers] %></div>
+                <% if @github_stats[:snapshot][:watchers_rank].present? and @github_stats[:snapshot][:watchers_total].present? %>
+                <div class="github-stats__rank">
+                  <%= t(:ranked_out_of, rank: @github_stats[:snapshot][:watchers_rank], total: @github_stats[:snapshot][:watchers_total])%>
+                </div>
+                <% end %>
+              </div>
+            </div>
+            <div class="github-stats__row">
+              <div class="github-stats__label">
+                <i class="far fa-star"></i>
+                <%= t(:stargazers).capitalize %>
+              </div>
+              <div class="github-stats__right">
+                <div class="github-stats__value"><%= @github_stats[:snapshot][:stargazers] %></div>
+                <% if @github_stats[:snapshot][:stargazers_rank].present? and @github_stats[:snapshot][:stargazers_total].present? %>
+                <div class="github-stats__rank">
+                  <%= t(:ranked_out_of, rank: @github_stats[:snapshot][:stargazers_rank], total: @github_stats[:snapshot][:stargazers_total])%>
+                </div>
+                <% end %>
+              </div>
+            </div>
+          </div>
+          <div class="github-repo-link">
+            <i class="fab fa-github"></i> <%= t :github_repo %>:
+            <%= link_to @coin.github_repo, github_url(@coin.github_repo), rel: "nofollow noopener noreferrer", target: "_blank" %>
+          </div>
+        </div>
+      </div>
+
       <% unless @news_items.blank? %>
       <h2><%= t(:latest_research) %></h2>
       <div class="flex-container">
@@ -604,7 +790,10 @@
     <script src="https://unpkg.com/popper.js@1"></script>
     <script src="https://unpkg.com/tippy.js@4"></script>
     <script src="/js/gauge.js"></script>
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+    <script src="/js/d3scription.js"></script>
     <script type="text/javascript">
+      /* GAUGE */
       var options = {
         angle: [180, 360],
         values: {
@@ -626,9 +815,349 @@
       };
       var gauge = new Gauge(document.querySelector(".gauge"), options);
     </script>
+    <script type="text/javascript">
+      /* TAB CONTROL */
+      function switchToTab(target, id) {
+        if (target) {
+          // Set tab to active
+          var tabs = document.getElementsByClassName('tab');
+          for (let tab of tabs) {
+            tab.classList.remove('active');
+          }
+          target.classList.add('active');
 
+          // Set tab container to active
+          var targetContainer = document.getElementById(id);
+          if (targetContainer) {
+            var tabContainers = document.getElementsByClassName('tab-container');
+            for (let container of tabContainers) {
+              if (container && container.id === id) continue;
+              container.classList.remove('active');
+            }
+            targetContainer.classList.add('active');
+          }
+        }
+      }
+    </script>
+    <script type="text/javascript">
+      /* CHARTS */
+      var defaultChartWidth = 620;
+      var widthToHeightRatio = 4/3;
+
+      /* Localization */
+      var i18nDays = <%= t(:day_names, scope: :date ).to_json.html_safe %>;
+      var i18nShortDays = <%= t(:abbr_day_names, scope: :date ).to_json.html_safe %>;
+      var i18nMonths = <%= t(:month_names, scope: :date ).to_json.html_safe %>;
+      var i18nShortMonths = <%= t(:abbr_month_names, scope: :date ).to_json.html_safe %>;
+      var i18nDelimiter = <%= t(:delimiter, scope: 'number.format' ).to_json.html_safe %>;
+      var i18nSeparator = <%= t(:separator, scope: 'number.format' ).to_json.html_safe %>;
+      d3.timeFormatDefaultLocale({
+        "dateTime": "%a %b %e %X %Y",
+        "date": "%Y-%m-%d",
+        "time": "%H:%M:%S",
+        "periods": ["AM", "PM"],
+        "days": i18nDays,
+        "shortDays": i18nShortDays,
+        "months": i18nMonths.slice(1),
+        "shortMonths": i18nShortMonths.slice(1),
+      });
+      d3.formatLocale({
+        "decimal": i18nDelimiter,
+        "thousands": i18nSeparator,
+        "grouping": [3],
+        "currency": ["$", ""],
+      })
+
+      var i18nDateLabel = <%= t(:date_label).to_json.html_safe %>;
+      var i18nCommitsLabel = <%= t(:commits).to_json.html_safe %>;
+      var i18nChangesLabel = <%= t(:changes).to_json.html_safe %>;
+      var i18nCommitActivityTooltip = <%= t(:commit_activity_tooltip).to_json.html_safe %>;
+      var i18nAdditionsTooltip = <%= t(:additions_tooltip).to_json.html_safe %>;
+      var i18nDeletionsTooltip = <%= t(:deletions_tooltip).to_json.html_safe %>;
+
+      /* Commit Activity */
+
+      // Functions
+      function getXCA(d) { return d.timestamp; }
+      function getYCA(d) { return d.commits; }
+
+      // Data
+      var idCA = 'commit-activity';
+      var commitActivity = <%= @github_stats[:commit_activity].to_json.html_safe %>;
+      var dataCA = commitActivity.map(function(d) {
+        var timestamp = new Date(getXCA(d) * 1000);
+        var commits = getYCA(d);
+        return {
+          timestamp: timestamp,
+          commits: commits
+        };
+      });
+
+      // Dimensions and scale
+      var marginCA = {top: 20, right: 20, bottom: 50, left: 40};
+      var outerWidthCA = document.getElementById(idCA).getBoundingClientRect()['width'] || defaultChartWidth;
+      var widthCA = outerWidthCA - marginCA.left - marginCA.right;
+      var outerHeightCA = outerWidthCA / widthToHeightRatio;
+      var heightCA = outerHeightCA - marginCA.top - marginCA.bottom;
+      var barWidthCA = Math.floor(widthCA / dataCA.length) - 1;
+
+      var datesCA = dataCA.map(getXCA);
+      var minDateCA = d3.min(datesCA)
+      var maxDateCA = d3.max(datesCA)
+      var xCA = d3.scaleTime()
+                  .domain([
+                    minDateCA,
+                    new Date(maxDateCA.valueOf() + 7*24*60*60*1000) // add one week to max
+                  ])
+                  .range([0, widthCA]);
+      var yCA = d3.scaleLinear()
+                  .domain([0, d3.max(dataCA.map(getYCA))])
+                  .range([heightCA, 0]);
+
+      // Chart
+      var chartCA = d3.select('#' + idCA)
+                      .attr('viewBox', '0 0 ' + outerWidthCA + ' ' + outerHeightCA)
+                    .append('g')
+                      .attr('transform', 'translate(' + marginCA.left + ', ' + marginCA.top + ')');
+
+      // Tooltip
+      var tipFactoryCA = d3scription(function(d) {
+        var date = d3.timeFormat('%b %d, %Y')(getXCA(d));
+        var value = getYCA(d);
+        var tooltip = i18nCommitActivityTooltip
+                        .replace('{date}', date)
+                        .replace('{value}', value);
+        return tooltip;
+      }, {
+        class: 'chart-tooltip',
+      });
+      var tipCA = tipFactoryCA().element(chartCA);
+
+      // Bars
+      var barCA = chartCA.selectAll('g.bar').data(dataCA)
+                          .enter().append('g')
+                          .attr('class', 'bar')
+                          .attr('transform', function(d, i) {
+                            return "translate(" + xCA(getXCA(d)) + ", 0)";
+                          });
+      var rectCA = barCA.append('rect')
+            .attr('y', heightCA)
+            .attr('height', 0)
+            .attr('width', barWidthCA)
+            .on('mouseover', function() {
+              d3.select(this).attr('opacity', 0.7);
+              tipCA.show.apply(this, arguments);
+            })
+            .on('mouseout', function() {
+              d3.select(this).attr('opacity', 1);
+              tipCA.hide.apply(this, arguments);
+            });
+
+      // Starting animation
+      rectCA.transition()
+            .duration(800)
+            .attr("y", function(d) { return yCA(getYCA(d)); })
+            .attr("height", function(d) { return heightCA - yCA(getYCA(d)); })
+            .delay(0)
+
+      // X Axis
+      var tickValuesCA = d3.timeMonth.range(minDateCA, maxDateCA, 3);
+      tickValuesCA.push(maxDateCA);
+      var xAxisCA = d3.axisBottom(xCA)
+                      .tickValues(tickValuesCA)
+                      .tickFormat(d3.timeFormat('%b %Y'));
+      chartCA.append('g')
+                .attr('class', 'x axis')
+                .attr('transform', 'translate(0, ' + heightCA + ')')
+                .call(xAxisCA)
+              .append('text')
+                .attr('class', 'title')
+                .attr('y', 40)
+                .attr('x', widthCA/2)
+                .style('font-size', '12px')
+                .text(i18nDateLabel);
+
+      // Y Axis
+      var yAxisCA = d3.axisLeft(yCA)
+                      .ticks(4)
+                      .tickPadding(10);
+      chartCA.append('g')
+                .attr('class', 'y axis')
+                .call(yAxisCA)
+              .append('text')
+                .attr('class', 'title')
+                .attr('transform', 'rotate(-90)')
+                .attr('y', -30)
+                .attr('x', -heightCA/2)
+                .style('font-size', '12px')
+                .text(i18nCommitsLabel);
+
+
+      /* Code Frequency */
+
+      // Functions
+      function getXCF(d) { return d.timestamp || d.data.timestamp; }
+      function getYCF(d) { return d[1]; }
+
+      // Data
+      var idCF = 'code-frequency';
+      var codeFrequency = <%= @github_stats[:code_frequency].last(52*2).to_json.html_safe %>;
+      var dataCF = codeFrequency.map(function(d) {
+        var timestamp = new Date(getXCF(d) * 1000);
+        var additions = d.additions;
+        var deletions = d.deletions;
+        return {
+          timestamp: timestamp,
+          additions: additions,
+          deletions: deletions,
+        };
+      });
+      var stackKeysCF = ['additions', 'deletions'];
+      var stackCF = d3.stack()
+                      .keys(stackKeysCF)
+                      .offset(d3.stackOffsetDiverging);
+      var seriesCF = stackCF(dataCF);
+
+      // Dimensions and scale
+      var marginCF = {top: 20, right: 30, bottom: 50, left: 40};
+      var outerWidthCF = document.getElementById(idCF)
+                                  .getBoundingClientRect()['width'] || outerWidthCA // Assume the same width as CA since this is not initially visible
+      var widthCF = outerWidthCF - marginCF.left - marginCF.right;
+      var outerHeightCF = outerWidthCF / widthToHeightRatio;
+      var heightCF = outerHeightCF - marginCF.top - marginCF.bottom;
+      var barWidthCF = widthCF / dataCF.length - 1;
+
+      var datesCF = dataCF.map(getXCF);
+      var minDateCF = d3.min(datesCF)
+      var maxDateCF = d3.max(datesCF)
+      var xCF = d3.scaleTime()
+                  .domain([
+                    minDateCF,
+                    new Date(maxDateCF.valueOf() + 7*24*60*60*1000) // add one week to max
+                  ])
+                  .range([0, widthCF]);
+      var minValueCF = d3.min(seriesCF, function(dOuter) { return d3.min(dOuter, function(d) { return d[0]; }) });
+      var yCF = d3.scaleLinear()
+                  .domain([
+                    minValueCF - Math.abs(Math.floor(minValueCF * 0.05)), // Make sure there's a gap between the smallest number and the x-axis
+                    d3.max(seriesCF, function(dOuter) { return d3.max(dOuter, function(d) { return d[1]; }) })
+                  ])
+                  .range([heightCF, 0]);
+
+      // Chart
+      var chartCF = d3.select('#' + idCF)
+                      .attr('viewBox', '0 0 ' + outerWidthCF + ' ' + outerHeightCF)
+                    .append('g')
+                      .attr('transform', 'translate(' + marginCF.left + ', ' + marginCF.top + ')');
+
+      // Tooltip
+      var tipFactoryAdditionCF = d3scription(function(d) {
+        var date = d3.timeFormat('%b %d, %Y')(getXCF(d));
+        var value = d.data.additions;
+        var tooltip = i18nAdditionsTooltip
+                        .replace('{date}', date)
+                        .replace('{value}', value);
+        return tooltip;
+      }, {
+        class: 'chart-tooltip',
+      });
+      var tipAdditionCF = tipFactoryAdditionCF().element(chartCF);
+
+      var tipFactoryDeletionCF = d3scription(function(d) {
+        var date = d3.timeFormat('%b %d, %Y')(getXCF(d));
+        var value = Math.abs(d.data.deletions);
+        var tooltip = i18nDeletionsTooltip
+                        .replace('{date}', date)
+                        .replace('{value}', value);
+        return tooltip;
+      }, {
+        class: 'chart-tooltip',
+      });
+      var tipDeletionCF = tipFactoryDeletionCF().element(chartCF);
+
+      // Bars
+      var barGroupCF = chartCF.selectAll('g.series')
+                              .data(seriesCF)
+                              .enter().append('g')
+                                .attr('class', function(d, i) {
+                                  return 'series ' + stackKeysCF[i];
+                                })
+      var barCF = barGroupCF.selectAll('g.bar')
+                            .data(function(d) { return d; })
+                            .enter().append('g')
+                              .attr('class', 'bar')
+                              .attr('transform', function(d, i) {
+                                return "translate(" + xCF(getXCF(d)) + ", 0)";
+                              });
+
+      var additionRectCF = barGroupCF.selectAll('.additions g')
+                                  .append('rect')
+                                    .attr('y', function(d) { return yCF(d[0]) })
+                                    .attr('height', 0)
+                                    .attr('width', barWidthCF)
+                                    .on('mouseover', function() {
+                                      d3.select(this).attr('opacity', 0.7);
+                                      tipAdditionCF.show.apply(this, arguments);
+                                    })
+                                    .on('mouseout', function() {
+                                      d3.select(this).attr('opacity', 1);
+                                      tipAdditionCF.hide.apply(this, arguments);
+                                    });
+
+      var deletionRectCF = barGroupCF.selectAll('.deletions g')
+                                  .append('rect')
+                                    .attr('y', function(d) { return yCF(d[1]) })
+                                    .attr('height', 0)
+                                    .attr('width', barWidthCF)
+                                    .on('mouseover', function() {
+                                      d3.select(this).attr('opacity', 0.7);
+                                      tipDeletionCF.show.apply(this, arguments);
+                                    })
+                                    .on('mouseout', function() {
+                                      d3.select(this).attr('opacity', 1);
+                                      tipDeletionCF.hide.apply(this, arguments);
+                                    });
+
+      // Starting animation
+      barCF.selectAll('rect')
+            .transition()
+            .duration(800)
+            .attr("y", function(d, i) { return yCF(d[1]); })
+            .attr("height", function(d) { return yCF(d[0]) - yCF(d[1]); })
+            .delay(0);
+
+      // X Axis
+      var tickValuesCF = d3.timeMonth.range(minDateCF, maxDateCF, 6);
+      tickValuesCF.push(maxDateCF);
+      var xAxisCF = d3.axisBottom(xCF)
+                      .tickValues(tickValuesCF)
+                      .tickFormat(d3.timeFormat('%b %Y'));
+      chartCF.append('g')
+                .attr('class', 'x axis')
+                .attr('transform', 'translate(0, ' + heightCF + ')')
+                .call(xAxisCF)
+              .append('text')
+                .attr('class', 'title')
+                .attr('y', 40)
+                .attr('x', widthCF/2)
+                .text(i18nDateLabel);
+
+      // Y Axis
+      var yAxisCF = d3.axisLeft(yCF)
+                      .ticks(5)
+                      .tickPadding(10)
+                      .tickFormat(d3.format("~s"));
+      chartCF.append('g')
+                .attr('class', 'y axis')
+                .call(yAxisCF)
+              .append('text')
+                .attr('class', 'title')
+                .attr('transform', 'rotate(-90)')
+                .attr('y', -30)
+                .attr('x', -heightCF/2)
+                .text(i18nChangesLabel);
+
+    </script>
     <%= render 'layouts/tracking_scripts' %>
-    <% if Rails.env.production? %>
-    <% end %>
   </body>
 </html>

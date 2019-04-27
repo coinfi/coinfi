@@ -26,4 +26,8 @@ module IndicatorsHelper
       'neutral'
     end
   end
+
+  def github_url(repo)
+    "https://github.com/#{repo}"
+  end
 end

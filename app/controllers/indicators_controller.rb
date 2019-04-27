@@ -17,6 +17,7 @@ class IndicatorsController < ApplicationController
     set_indicator_results
     set_summary_results
     set_news_items
+    set_github_stats
 
     render layout: false
   end
@@ -79,6 +80,10 @@ class IndicatorsController < ApplicationController
 
       ordered_coins.index(coin_key) + 1
     end
+  end
+
+  def set_github_stats
+    @github_stats = @coin.github_stats
   end
 
   def set_news_items

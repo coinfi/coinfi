@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190319095900) do
+ActiveRecord::Schema.define(version: 20190424100700) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -230,6 +230,7 @@ ActiveRecord::Schema.define(version: 20190319095900) do
     t.jsonb "external_rating"
     t.integer "token_decimals"
     t.integer "cmc_id"
+    t.string "github_repo"
     t.index ["coin_key"], name: "index_coins_on_coin_key", unique: true
     t.index ["influencer_reviews_count"], name: "index_coins_on_influencer_reviews_count"
     t.index ["name"], name: "index_coins_on_name"

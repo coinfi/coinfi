@@ -5,6 +5,7 @@
 public/js/calculators/bitcoin-investment-calculator.js
 public/css/calculators/bitcoin-investment-calculator.css
 public/js/gauge.js
+public/js/d3scription.js
 
 dist
 node_modules
