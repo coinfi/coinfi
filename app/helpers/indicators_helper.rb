@@ -28,6 +28,6 @@ module IndicatorsHelper
   end
 
   def github_url(repo)
-    "https://www.github.com/#{repo}"
+    "https://github.com/#{repo}"
   end
 end
