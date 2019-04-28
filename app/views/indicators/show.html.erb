@@ -681,7 +681,7 @@
           </h3>
           <div class="tab-bar github-tab-bar">
             <% if @commit_activity.present? %>
-            <a onclick="switchToTab(this, 'commit-activity')" class="tab active">
+            <a onclick="switchToTab(this, 'commit-activity')" class="tab">
               <div><i class="far fa-code-commit"></i><%= t :commit_activity %></div>
             </a>
             <% end %>
@@ -692,7 +692,7 @@
             <% end %>
           </div>
           <% if @commit_activity.present? %>
-          <svg id="commit-activity" class="graph-container tab-container active" preserveAspectRatio="xMidYMid meet"></svg>
+          <svg id="commit-activity" class="graph-container tab-container" preserveAspectRatio="xMidYMid meet"></svg>
           <% end %>
           <% if @code_frequency.present? %>
           <svg id="code-frequency" class="graph-container tab-container" preserveAspectRatio="xMidYMid meet"></svg>
@@ -847,6 +847,16 @@
             targetContainer.classList.add('active');
           }
         }
+      }
+
+      /* TAB SETUP */
+      var initialTabs = document.getElementsByClassName('tab')
+      if (initialTabs.length > 0) {
+        initialTabs[0].classList.add('active');
+      }
+      var initialTabContainers = document.getElementsByClassName('tab-container')
+      if (initialTabContainers.length > 0) {
+        initialTabContainers[0].classList.add('active');
       }
     </script>
     <script type="text/javascript">
