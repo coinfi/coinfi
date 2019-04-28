@@ -83,7 +83,10 @@ class IndicatorsController < ApplicationController
   end
 
   def set_github_stats
-    @github_stats = @coin.github_stats
+    github_stats = @coin.github_stats
+    @commit_activity = github_stats[:commit_activity]
+    @code_frequency = github_stats[:code_frequency].last(52*2) if github_stats[:code_frequency].present? # two years 
+    @github_snapshot = github_stats[:snapshot]
   end
 
   def set_news_items
