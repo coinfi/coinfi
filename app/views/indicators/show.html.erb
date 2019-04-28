@@ -680,18 +680,27 @@
             </a>
           </h3>
           <div class="tab-bar github-tab-bar">
-            <a onclick="switchToTab(this, 'commit-activity')" class="tab active">
+            <% if @commit_activity.present? %>
+            <a onclick="switchToTab(this, 'commit-activity')" class="tab">
               <div><i class="far fa-code-commit"></i><%= t :commit_activity %></div>
             </a>
+            <% end %>
+            <% if @code_frequency.present? %>
             <a onclick="switchToTab(this, 'code-frequency')" class="tab">
               <div><i class="far fa-code"></i><%= t :code_frequency %></div>
             </a>
+            <% end %>
           </div>
-          <svg id="commit-activity" class="graph-container tab-container active" preserveAspectRatio="xMidYMid meet"></svg>
+          <% if @commit_activity.present? %>
+          <svg id="commit-activity" class="graph-container tab-container" preserveAspectRatio="xMidYMid meet"></svg>
+          <% end %>
+          <% if @code_frequency.present? %>
           <svg id="code-frequency" class="graph-container tab-container" preserveAspectRatio="xMidYMid meet"></svg>
+          <% end %>
         </div>
         <div class="sidebar">
           <h3><%= t :developer_community %></h3>
+          <% if @github_snapshot.present? %>
           <div class="github-stats">
             <div class="github-stats__row">
               <div class="github-stats__label">
@@ -699,10 +708,10 @@
                 <%= t(:contributors).capitalize %>
               </div>
               <div class="github-stats__right">
-                <div class="github-stats__value"><%= @github_stats[:snapshot][:contributors] %></div>
-                <% if @github_stats[:snapshot][:contributors_rank].present? and @github_stats[:snapshot][:contributors_total].present? %>
+                <div class="github-stats__value"><%= @github_snapshot[:contributors] %></div>
+                <% if @github_snapshot[:contributors_rank].present? and @github_snapshot[:contributors_total].present? %>
                 <div class="github-stats__rank">
-                  <%= t(:ranked_out_of, rank: @github_stats[:snapshot][:contributors_rank], total: @github_stats[:snapshot][:contributors_total])%>
+                  <%= t(:ranked_out_of, rank: @github_snapshot[:contributors_rank], total: @github_snapshot[:contributors_total])%>
                 </div>
                 <% end %>
               </div>
@@ -713,10 +722,10 @@
                 <%= t(:forks).capitalize %>
               </div>
               <div class="github-stats__right">
-                <div class="github-stats__value"><%= @github_stats[:snapshot][:forks] %></div>
-                <% if @github_stats[:snapshot][:forks_rank].present? and @github_stats[:snapshot][:forks_total].present? %>
+                <div class="github-stats__value"><%= @github_snapshot[:forks] %></div>
+                <% if @github_snapshot[:forks_rank].present? and @github_snapshot[:forks_total].present? %>
                 <div class="github-stats__rank">
-                  <%= t(:ranked_out_of, rank: @github_stats[:snapshot][:forks_rank], total: @github_stats[:snapshot][:forks_total])%>
+                  <%= t(:ranked_out_of, rank: @github_snapshot[:forks_rank], total: @github_snapshot[:forks_total])%>
                 </div>
                 <% end %>
               </div>
@@ -727,10 +736,10 @@
                 <%= t(:watchers).capitalize %>
               </div>
               <div class="github-stats__right">
-                <div class="github-stats__value"><%= @github_stats[:snapshot][:watchers] %></div>
-                <% if @github_stats[:snapshot][:watchers_rank].present? and @github_stats[:snapshot][:watchers_total].present? %>
+                <div class="github-stats__value"><%= @github_snapshot[:watchers] %></div>
+                <% if @github_snapshot[:watchers_rank].present? and @github_snapshot[:watchers_total].present? %>
                 <div class="github-stats__rank">
-                  <%= t(:ranked_out_of, rank: @github_stats[:snapshot][:watchers_rank], total: @github_stats[:snapshot][:watchers_total])%>
+                  <%= t(:ranked_out_of, rank: @github_snapshot[:watchers_rank], total: @github_snapshot[:watchers_total])%>
                 </div>
                 <% end %>
               </div>
@@ -741,15 +750,16 @@
                 <%= t(:stargazers).capitalize %>
               </div>
               <div class="github-stats__right">
-                <div class="github-stats__value"><%= @github_stats[:snapshot][:stargazers] %></div>
-                <% if @github_stats[:snapshot][:stargazers_rank].present? and @github_stats[:snapshot][:stargazers_total].present? %>
+                <div class="github-stats__value"><%= @github_snapshot[:stargazers] %></div>
+                <% if @github_snapshot[:stargazers_rank].present? and @github_snapshot[:stargazers_total].present? %>
                 <div class="github-stats__rank">
-                  <%= t(:ranked_out_of, rank: @github_stats[:snapshot][:stargazers_rank], total: @github_stats[:snapshot][:stargazers_total])%>
+                  <%= t(:ranked_out_of, rank: @github_snapshot[:stargazers_rank], total: @github_snapshot[:stargazers_total])%>
                 </div>
                 <% end %>
               </div>
             </div>
           </div>
+          <% end %>
           <div class="github-repo-link">
             <i class="fab fa-github"></i> <%= t :github_repo %>:
             <%= link_to @coin.github_repo, github_url(@coin.github_repo), rel: "nofollow noopener noreferrer", target: "_blank" %>
@@ -838,6 +848,16 @@
           }
         }
       }
+
+      /* TAB SETUP */
+      var initialTabs = document.getElementsByClassName('tab')
+      if (initialTabs.length > 0) {
+        initialTabs[0].classList.add('active');
+      }
+      var initialTabContainers = document.getElementsByClassName('tab-container')
+      if (initialTabContainers.length > 0) {
+        initialTabContainers[0].classList.add('active');
+      }
     </script>
     <script type="text/javascript">
       /* CHARTS */
@@ -875,6 +895,7 @@
       var i18nAdditionsTooltip = <%= t(:additions_tooltip).to_json.html_safe %>;
       var i18nDeletionsTooltip = <%= t(:deletions_tooltip).to_json.html_safe %>;
 
+      <% if @commit_activity.present? %>
       /* Commit Activity */
 
       // Functions
@@ -883,7 +904,7 @@
 
       // Data
       var idCA = 'commit-activity';
-      var commitActivity = <%= @github_stats[:commit_activity].to_json.html_safe %>;
+      var commitActivity = <%= @commit_activity.to_json.html_safe %>;
       var dataCA = commitActivity.map(function(d) {
         var timestamp = new Date(getXCA(d) * 1000);
         var commits = getYCA(d);
@@ -991,8 +1012,9 @@
                 .attr('x', -heightCA/2)
                 .style('font-size', '12px')
                 .text(i18nCommitsLabel);
+      <% end %>
 
-
+      <% if @code_frequency.present? %>
       /* Code Frequency */
 
       // Functions
@@ -1001,7 +1023,7 @@
 
       // Data
       var idCF = 'code-frequency';
-      var codeFrequency = <%= @github_stats[:code_frequency].last(52*2).to_json.html_safe %>;
+      var codeFrequency = <%= @code_frequency.to_json.html_safe %>;
       var dataCF = codeFrequency.map(function(d) {
         var timestamp = new Date(getXCF(d) * 1000);
         var additions = d.additions;
@@ -1020,8 +1042,7 @@
 
       // Dimensions and scale
       var marginCF = {top: 20, right: 30, bottom: 50, left: 40};
-      var outerWidthCF = document.getElementById(idCF)
-                                  .getBoundingClientRect()['width'] || outerWidthCA // Assume the same width as CA since this is not initially visible
+      var outerWidthCF = document.getElementById(idCF).getBoundingClientRect()['width'] || defaultChartWidth;
       var widthCF = outerWidthCF - marginCF.left - marginCF.right;
       var outerHeightCF = outerWidthCF / widthToHeightRatio;
       var heightCF = outerHeightCF - marginCF.top - marginCF.bottom;
@@ -1156,7 +1177,7 @@
                 .attr('y', -30)
                 .attr('x', -heightCF/2)
                 .text(i18nChangesLabel);
-
+      <% end %>
     </script>
     <%= render 'layouts/tracking_scripts' %>
   </body>
