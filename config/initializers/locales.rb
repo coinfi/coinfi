@@ -1,1 +1,1 @@
-I18n.available_locales = [:en, :cn]
+I18n.available_locales = [:en, :es, :it, :de, :cn, :hk, :fr, :ar, :pl, :nl, :nb, :pt, :sw, :cs, :ml, :da, :ro, :th, :vi, :fi]

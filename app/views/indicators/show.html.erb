@@ -1,4 +1,4 @@
-<html>
+\<html>
   <head>
     <meta name="viewport" content="width=device-width">
     <%= render 'layouts/tracking_scripts_preconnect' %>
@@ -252,6 +252,9 @@
         color: #777;
         align-self: flex-start;
         text-align: left;
+      }
+      .github-repo-link a {
+        white-space: nowrap;
       }
       .news-item {
         padding-top: 10px;
@@ -612,7 +615,7 @@
                 <div><%= t(:buy).upcase %></div>
               </div>
             </div>
-            <div class="indicators-updated"><%= t(:updated_on_date, date: l(@last_updated, format: :readable_date)) %></div>
+            <div class="indicators-updated"><%= t(:updated_on_date, date: l(@last_updated, format: :readable_date, default: l(@last_updated))) %></div>
           </div>
         </div>
       </div>
