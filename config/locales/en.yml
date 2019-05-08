@@ -38,6 +38,13 @@ en:
     label:
       coin:
         coin_excluded_countries: Excluded Countries
+  abbreviated_numbers:
+    unit: ""
+    thousand: K
+    million: M
+    billion: B
+    trillion: T
+    quadrillion: Q
   number:
     format:
       delimiter: ","
@@ -51,8 +58,8 @@ en:
   updated_on_date: "Updated on %{date}"
   crypto_rank: "Market Rank"
   day_move_label: "%{days} day move"
-  market_cap_label: "Market Cap ($millions)"
-  volume_24h_label: "24 hour volume (000s)"
+  market_cap_label: "Market Cap"
+  volume_24h_label: "24 hour volume"
   circulating_supply_label: "Circulating Supply"
   fixed_supply_label: "Fixed Supply"
   sample_value_label: "Value"
