@@ -58,14 +58,6 @@ class Advisor < ActiveHash::Base
       linkedin: 'https://www.linkedin.com/in/nathanielginsburg/'
     },
     {
-      name: 'Zachary Pardes',
-      bio: 'Integrated communications professional with 10 years of experience leading earned media campaigns for Virgin,
-      E*TRADE, B2R Finance, Citi, and Investing.com. Managed $1M+ digital strategies for NYC / Silicon Valley startups.
-      Master\'s from Northwestern University.',
-      img: 'https://res.cloudinary.com/coinfi/image/upload/v1522674036/profile-photos/zachary-pardes.jpg',
-      linkedin: 'https://www.linkedin.com/in/zpardes/'
-    },
-    {
       name: 'Bernard Huang',
       bio: 'Distribution Hacker in Residence at 500 Startups, a Silicon Valley seed fund that was an early stage investor
       in companies like Twilio, Credit Karma, and Grab. Previously, lead growth marketer at 42Floors. Currently
