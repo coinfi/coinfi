@@ -7,7 +7,6 @@ class IndicatorsController < ApplicationController
   http_basic_authenticate_with name: ENV.fetch('INDICATORS_USERNAME'), password: ENV.fetch('INDICATORS_PASSWORD')
 
   include IndicatorsHelper
-  include ActionView::Helpers::NumberHelper
 
   def show
     calculations = CalculateIndicatorsAndSignals.call(@coin)
@@ -23,16 +22,6 @@ class IndicatorsController < ApplicationController
   end
 
   protected
-
-  def format_price(value, precision: 0)
-    number_with_delimiter(number_with_precision(value, precision: precision))
-  end
-  helper_method :format_price
-
-  def format_percentage(value, precision: 2)
-    number_to_percentage(value, precision: precision)
-  end
-  helper_method :format_percentage
 
   def has_indicator?(coin_key: @coin.coin_key)
     INDICATOR_COIN_KEYS.include? coin_key
@@ -85,7 +74,7 @@ class IndicatorsController < ApplicationController
   def set_github_stats
     github_stats = @coin.github_stats
     @commit_activity = github_stats[:commit_activity]
-    @code_frequency = github_stats[:code_frequency].last(52*2) if github_stats[:code_frequency].present? # two years 
+    @code_frequency = github_stats[:code_frequency].last(52*2) if github_stats[:code_frequency].present? # two years
     @github_snapshot = github_stats[:snapshot]
   end
 
