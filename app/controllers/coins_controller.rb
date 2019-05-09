@@ -7,9 +7,13 @@ class CoinsController < ApplicationController
 
   before_action :set_exchange_rates
 
+  MAX_PAGE_LIMIT = 100
+  DEFAULT_PAGE_LIMIT = 100
+
   def index
     @page = params[:page]&.to_i || 1
-    @limit = params[:limit]&.to_i || 100
+    @limit = params[:limit]&.to_i || DEFAULT_PAGE_LIMIT
+    @limit = MAX_PAGE_LIMIT if @limit > MAX_PAGE_LIMIT
 
     distribute_reads(max_lag: MAX_ACCEPTABLE_REPLICATION_LAG, lag_failover: true) do
       coins = Coin.listed.legit
