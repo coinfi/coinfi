@@ -2,10 +2,16 @@ class Api::CoinsController < ApiController
   include ::CoinListHelper
   include ::CoinsHelper
 
+  MAX_PAGE_LIMIT = 100
+  DEFAULT_PAGE_LIMIT = 100
+
   def index
+    @current_page = params[:page]&.to_i || 1
+    @limit = params[:per]&.to_i || DEFAULT_PAGE_LIMIT
+    @limit = MAX_PAGE_LIMIT if @limit > MAX_PAGE_LIMIT
+
     distribute_reads(max_lag: MAX_ACCEPTABLE_REPLICATION_LAG, lag_failover: true) do
-      @current_page = params[:page] || 1
-      @coins = Coin.listed.legit.page(@current_page).per(params[:per]).order(:ranking)
+      @coins = Coin.listed.legit.page(@current_page).per(@limit).order(:ranking)
       respond_success coins_serializer(@coins)
     end
   end
