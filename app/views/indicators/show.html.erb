@@ -152,6 +152,35 @@
         </div>
       </div>
 
+      <% unless @news_items.blank? %>
+      <h2><%= t(:latest_research) %></h2>
+      <div class="flex-container">
+        <div class="paper">
+          <h3><%= t(:market_news_research) %></h3>
+          <div class="news">
+            <% @news_items.each do |news_item| %>
+            <div class="news-item">
+              <h4 class="news-item__title">
+                <%= link_to news_item.title, news_item_url(id: news_item.id, slug: news_item.slug) %>
+              </h4>
+              <div class="news-item__summary">
+                <%= news_item.short_summary %>
+              </div>
+              <div class="news-item__footer">
+                <div class="news-item__details">
+                  <%= t(:time_ago, time_words: time_ago_in_words(news_item.feed_item_published_at)) %>
+                </div>
+                <div class="news-item__link">
+                  <%= link_to t(:read_more), news_item_url(id: news_item.id, slug: news_item.slug) %>
+                </div>
+              </div>
+            </div>
+            <% end %>
+          </div>
+        </div>
+      </div>
+      <% end %>
+
       <h2><%= t(:fundamentals) %></h2>
       <div class="flex-container">
         <div class="paper with-sidebar">
@@ -248,35 +277,6 @@
           </div>
         </div>
       </div>
-
-      <% unless @news_items.blank? %>
-      <h2><%= t(:latest_research) %></h2>
-      <div class="flex-container">
-        <div class="paper">
-          <h3><%= t(:market_news_research) %></h3>
-          <div class="news">
-            <% @news_items.each do |news_item| %>
-            <div class="news-item">
-              <h4 class="news-item__title">
-                <%= link_to news_item.title, news_item_url(id: news_item.id, slug: news_item.slug) %>
-              </h4>
-              <div class="news-item__summary">
-                <%= news_item.short_summary %>
-              </div>
-              <div class="news-item__footer">
-                <div class="news-item__details">
-                  <%= t(:time_ago, time_words: time_ago_in_words(news_item.feed_item_published_at)) %>
-                </div>
-                <div class="news-item__link">
-                  <%= link_to t(:read_more), news_item_url(id: news_item.id, slug: news_item.slug) %>
-                </div>
-              </div>
-            </div>
-            <% end %>
-          </div>
-        </div>
-      </div>
-      <% end %>
 
       <div class="footer">
         <a class="coinfi-link" href="<%= root_url %>">
