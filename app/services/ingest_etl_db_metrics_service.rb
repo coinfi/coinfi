@@ -1,7 +1,8 @@
 class IngestEtlDbMetricsService < Patterns::Service
   attr_reader :log_errors
 
-  def initialize
+  def initialize(full_refresh: false)
+    @full_refresh = full_refresh
     @results = 0
     @log_errors = []
 
@@ -31,7 +32,7 @@ class IngestEtlDbMetricsService < Patterns::Service
   end
 
   def ingest!
-    latest = Metric.maximum(:date)
+    latest = Metric.maximum(:date) unless @full_refresh
     puts "Ingesting metrics data from #{latest.present? ? latest.to_formatted_s(:db) : "inception"}"
 
     query = "SELECT * FROM #{@view_name}
