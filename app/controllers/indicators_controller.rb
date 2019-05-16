@@ -172,7 +172,8 @@ class IndicatorsController < ApplicationController
     end
 
     @summary_value = get_summary_value(@summary)
-    @last_updated = Date.parse(@coin.prices_data.last['time'])
+    # Update must occur after the date of the last data point
+    @last_updated = Date.parse(@coin.prices_data.last['time']) + 1.day
   end
 
   def get_summary_value(summary_signals, strong_threshold: 0.5, weak_threshold: 0.1, neutral_weight: 0.5)
