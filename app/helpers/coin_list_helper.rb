@@ -12,7 +12,7 @@ module CoinListHelper
   end
 
   def is_toplist_coin?(coin)
-    coin && coin.try(:ranking) <= TOP_LIST_LIMIT
+    coin.try(:ranking).present? && coin.ranking <= TOP_LIST_LIMIT
   end
 
   def watchlist_coins

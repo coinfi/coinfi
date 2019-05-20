@@ -30,4 +30,22 @@ module IndicatorsHelper
   def github_url(repo)
     "https://github.com/#{repo}"
   end
+
+  def format_price(value, precision: 0)
+    number_to_human(value,
+      precision: precision,
+      significant: false,
+      units: :abbreviated_numbers,
+      format: '%n%u',
+      locale: :en
+    )
+  end
+
+  def format_supply(value, precision: 0)
+    number_with_delimiter(number_with_precision(value, precision: precision))
+  end
+
+  def format_percentage(value, precision: 2)
+    number_to_percentage(value, precision: precision)
+  end
 end

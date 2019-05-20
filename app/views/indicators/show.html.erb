@@ -7,528 +7,7 @@
     <link rel="stylesheet" href="/css/gauge.css">
     <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-6jHF7Z3XI3fF4XZixAuSu0gGKrXwoX/w3uFPxC56OtjChio7wtTGJWRW53Nhx6Ev" crossorigin="anonymous">
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i&amp;subset=cyrillic,cyrillic-ext,greek,greek-ext,latin-ext,vietnamese" rel="stylesheet">
-    <style>
-      /* Variables */
-      :root {
-        --sidebar-width: 350px;
-      }
-
-      * {
-        margin: 0;
-        padding: 0;
-        border: 0;
-        box-sizing: border-box;
-        font-family: 'num', 'Open Sans', ariel, sans-serif
-      }
-
-      html, body {
-        height: 100%;
-        width: 100%;
-        background-color: #f0f0f0
-      }
-
-      textarea, input {
-        font-family: 'num', 'Open Sans', ariel, sans-serif
-      }
-
-      a {
-        text-decoration: none;
-        outline: 0;
-        color: #0079b9;
-      }
-
-      body[orient="portrait"] {
-        min-height: 540px
-      }
-
-      body[orient="landscape"] {
-        min-height: 400px
-      }
-
-      body {
-        color: #2c2c2c;
-        -webkit-text-size-adjust: 100%;
-        -ms-text-size-adjust: 100%;
-        text-size-adjust: 100%;
-      }
-
-      h1, h2, h3, h4, h5, h6 {
-        color: #777;
-      }
-
-      h2 {
-        font-size: 28px;
-        font-weight: 400;
-        margin-top: 10px;
-        margin-bottom: 10px;
-        min-height: 40px;
-      }
-
-      h3 {
-        font-size: 16px;
-        font-weight: 400;
-        text-transform: uppercase;
-        margin-bottom: 10px;
-        min-height: 28px;
-      }
-
-      /* Custom */
-      .main-container {
-        margin: 20px auto 40px;
-        padding-left: 20px;
-        padding-right: 20px;
-        min-height: 300px;
-        max-width: 1082px;
-      }
-      .flex-container {
-        display: flex;
-        flex: 0 0 auto;
-        margin: 15px 0;
-      }
-      .flex-container + h2 {
-        margin-top: 30px;
-      }
-      .half-width-container {
-        display: flex;
-        -webkit-flex-basis: 50%;
-        -ms-flex-preferred-size: 50%;
-        flex-basis: 50%;
-        max-width: 50%;
-        padding-left: 10px;
-        padding-right: 10px;
-      }
-      .half-width-container:first-child {
-        padding-left: 0;
-      }
-      .half-width-container:last-child {
-        padding-right: 0;
-      }
-      .paper {
-        background-color: #fff;
-        border: 1px solid #e0e0e0;
-        width: 100%;
-        padding: 20px;
-      }
-      .paper.with-sidebar {
-        max-width: calc(100% - var(--sidebar-width));
-        flex: 0 1 calc(100% - var(--sidebar-width));
-      }
-      .sidebar {
-        background-color: #f8f8f8;
-        border: 1px solid #e0e0e0;
-        max-width: var(--sidebar-width);
-        flex: 0 1 var(--sidebar-width);
-        padding: 20px 30px;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-      }
-      .main-title {
-        position: relative;
-      }
-      .main-title .coinfi-link {
-        position: absolute;
-        right: 0;
-        bottom: -5px;
-        font-size: 10px;
-      }
-      .main-title .coinfi-link__img {
-        width: 50px;
-        margin-bottom: -2px;
-      }
-      .indicators-desktop {
-        width: 100%;
-        border-spacing: 0;
-        font-size: 14px;
-      }
-      .indicators-desktop th {
-        padding-bottom: 4px;
-        border-bottom: 2px solid #d4d5d8;
-        text-align: center;
-      }
-      .indicators-desktop .indicators__rule {
-        width: 200px;
-      }
-      .odd {
-        background-color: #e0e0e0;
-      }
-      .indicators-desktop th {
-        padding: 4px 4px;
-      }
-      .indicators-desktop td {
-        padding: 8px 4px;
-        font-weight: 600;
-      }
-      .indicators-desktop .number {
-        text-align: center;
-      }
-      .indicators-desktop .indicator-signal {
-        text-align: right;
-      }
-      .indicators-mobile {
-        display: none;
-      }
-      .fa-info-circle {
-        color: #00a5ee;
-      }
-      .buy {
-        color: #6aac0e;
-      }
-      .sell {
-        color: #ce1d1d;
-      }
-      .paper .copy-container {
-        margin: 20px -20px -20px;
-        padding: 20px;
-        font-size: 14px;
-        border-top: 1px solid #e0e0e0;
-        background-color: #f8f8f8;
-      }
-      .header-info-icon {
-        margin-left: 8px;
-      }
-      .indicators-summary {
-        display: flex;
-        justify-content: space-between;
-        max-width: 200px;
-        margin: 0 auto;
-        text-align: center;
-        margin-top: 30px;
-      }
-      .indicators-updated {
-        margin-top: 10px;
-        text-align: center;
-        font-style: italic;
-        font-size: 12px;
-      }
-      .stats__row {
-        display: flex;
-        justify-content: space-between;
-        padding: 2px 2px 4px;
-        margin-bottom: 12px;
-        border-bottom: 2px solid #d4d5d8;
-      }
-      .stats__row div:first-child {
-        font-weight: 600;
-      }
-      .github-tab-bar {
-        width: 100%;
-      }
-      .graph-container {
-        min-height: 340px;
-        width: 100%;
-      }
-      .github-stats {
-        flex: 1 0 auto;
-      }
-      .github-stats__row {
-        display: flex;
-        justify-content: space-between;
-        align-items: flex-end;
-        flex-wrap: wrap;
-      }
-      .github-stats__row {
-        padding-bottom: 12px;
-        margin-bottom: 12px;
-        border-bottom: 1px solid #d4d5d8;
-      }
-      .github-stats__value {
-        font-size: 30px;
-        color: #000;
-        text-align: right;
-      }
-      .github-stats__label {
-        font-size: 14px;
-        color: #777777;
-      }
-      .github-stats__rank {
-        color: rgba(61, 64, 74, 0.5);
-        font-size: 14px;
-      }
-      .github-stats__label i {
-        margin-right: 2px;
-      }
-      .github-repo-link {
-        color: #777;
-        align-self: flex-start;
-        text-align: left;
-      }
-      .github-repo-link a {
-        white-space: nowrap;
-      }
-      .news-item {
-        padding-top: 10px;
-      }
-      .news-item:not(:last-child) {
-        padding-bottom: 20px;
-        border-bottom: 1px solid #e0e0e0;
-        margin-bottom: 15px;
-      }
-      .news-item__title {
-        margin-bottom: 8px;
-      }
-      .news-item__summary {
-        font-size: 15px;
-        line-height: 1.3rem;
-        text-align: justify;
-        margin-bottom: 6px;
-      }
-      .news-item__footer {
-        color: #777777;
-        font-size: 13px;
-        display: flex;
-        justify-content: space-between;
-      }
-      .news-item::after {
-        content: "";
-        clear: both;
-        display: table;
-      }
-      a.plain-link {
-        color: inherit;
-      }
-      .tab-bar {
-        display: flex;
-        padding-bottom: 12px;
-      }
-      .tab {
-        flex: 1 1 auto;
-        border-bottom: 1px solid #e0e0e0;
-        cursor: pointer;
-        color: #777;
-      }
-      .tab.active {
-        color: #6aac0e;
-        border-bottom: 2px solid #6aac0e;
-      }
-      .tab > * {
-        text-align: center;
-        line-height: 35px;
-      }
-      .tab i {
-        margin-right: 8px;
-      }
-      .tab-container:not(.active) {
-        display: none;
-      }
-
-      /* Graph */
-      .graph-container rect {
-        fill: #6aac0e;
-      }
-      .graph-container .deletions rect {
-        fill: #00a5ee;
-      }
-      .graph-container .axis .tick text {
-        fill: #777;
-        font-size: 10px;
-        text-anchor: middle;
-      }
-      .graph-container .x.axis .tick:first-of-type text {
-        text-anchor: start;
-      }
-      .graph-container .axis path,
-      .graph-container .axis line {
-        fill: none;
-        stroke: #777;
-        shape-rendering: crispEdges;
-      }
-      .graph-container .axis text.title {
-        fill: #777;
-        font-size: 12px;
-        font-weight: 600;
-        text-anchor: middle;
-        text-transform: capitalize;
-      }
-      .chart-tooltip {
-        font-size: 11px;
-        line-height: 1.15rem;
-        color: white;
-        background: #3d404a;
-        box-shadow: 0 0 10px rgba(0,0,0,.7);
-        border-radius: 3px;
-        padding: 5px 10px;
-        min-width: 100px;
-      }
-
-      /* Gauge */
-      .gauge-wrapper {
-        width: 300px;
-        height: 160px;
-        margin: 40px auto 20px;
-      }
-      .gauge:before {
-        background-color: #2c2c2c;
-      }
-      .gauge-value {
-        white-space: nowrap;
-      }
-      .gauge-values .gauge-value:nth-child(1) {
-        transform: rotate(-70deg) translate(-5px, -5px);
-      }
-      .gauge-values .gauge-value:nth-child(2) {
-        transform: rotate(-35deg) translate(-4px, -5px);
-      }
-      .gauge-values .gauge-value:nth-child(3) {
-        transform: translate(0px, -5px);
-      }
-      .gauge-values .gauge-value:nth-child(4) {
-        transform: rotate(37deg) translate(4px, -5px);
-      }
-      .gauge-values .gauge-value:nth-child(5) {
-        transform: rotate(70deg) translate(5px, -5px);
-      }
-      .gauge-arrow {
-        filter: invert(17%) sepia(7%) saturate(0%) hue-rotate(261deg) brightness(87%) contrast(93%);
-      }
-
-      /* Desktop */
-      @media screen and (min-width:1025px) {
-
-      }
-
-      /* Tablet */
-      @media screen and (min-width:741px) and (max-width:1024px) {
-      }
-
-      /* Non-Mobile */
-      @media screen and (min-width:741px) {
-        .paper.with-sidebar:not(:first-child) {
-          padding-left: 30px;
-        }
-        .paper.with-sidebar:not(:last-child) {
-          padding-right: 30px;
-        }
-        .sidebar:not(:first-child) {
-          border-left: none;
-        }
-        .sidebar:not(:last-child) {
-          border-right: none;
-        }
-      }
-
-      /* Mobile */
-      @media screen and (max-width:740px) {
-        h2 {
-          text-align: center;
-          font-weight: 600;
-          font-size: 20px;
-          min-height: 32px;
-        }
-        .main-container {
-          padding: 0;
-        }
-        .flex-container {
-          flex-wrap: wrap;
-        }
-        .paper.with-sidebar {
-          max-width: 100%;
-          flex: 1 1 100%;
-        }
-        .sidebar {
-          max-width: 100%;
-          flex: 1 1 100%;
-          padding: 20px;
-          padding-bottom: 30px;
-        }
-        .half-width-container {
-          display: flex;
-          -webkit-flex-basis: 100%;
-          -ms-flex-preferred-size: 100%;
-          flex-basis: 100%;
-          max-width: 100%;
-          padding-left: 0;
-          padding-right: 0;
-        }
-        .half-width-container + .half-width-container {
-          margin-top: 15px;
-        }
-        .paper {
-          overflow: hidden;
-        }
-        .main-title {
-          padding: 0 4px;
-          font-size: 19px;
-        }
-        .main-title .coinfi-link {
-          right: 2px;
-          bottom: -10px;
-        }
-        .stats {
-          font-size: 14px;
-        }
-        .indicators-desktop {
-          display: none;
-        }
-        .indicators-mobile {
-          display: block;
-          font-size: 12px;
-          margin-left: -20px;
-          margin-right: -20px;
-          margin-top: -8px;
-        }
-        .indicators-mobile .indicators-mobile__row {
-          display: flex;
-          justify-content: space-between;
-          padding: 10px 20px 14px;
-        }
-        .indicators-mobile .indicators-mobile__col-values {
-          width: 30%;
-          text-align: right;
-        }
-        .indicators-mobile .indicators__title {
-          font-size: 14px;
-          font-weight: 600;
-          margin-bottom: 4px;
-        }
-        .indicators-mobile .indicators__signal {
-          font-size: 14px;
-          font-weight: 600;
-          margin-bottom: 4px;
-        }
-        .indicators-mobile .indicators__signal-value {
-          font-size: 14px;
-        }
-        .paper .copy-container {
-          text-align: justify;
-        }
-        .news {
-          margin-top: -8px;
-        }
-        .news-item__title {
-          font-size: 15px;
-        }
-        .news-item__summary {
-          display: none;
-        }
-        .news-item__footer {
-          font-size: 12px;
-        }
-        .news-item__link {
-          display: none;
-        }
-        .gauge-wrapper {
-          width: 250px;
-          height: 135px;
-          margin: 40px auto 20px;
-        }
-        .graph-container {
-          margin-left: -10px;
-          margin-right: -10px;
-          width: calc(100% + 20px);
-        }
-        .graph-container .x.axis .tick text {
-          transform: rotate(-20deg);
-          text-anchor: end !important;
-        }
-        .github-stats__value {
-          font-size: 24px;
-        }
-        .github-repo-link {
-          margin-top: 36px;
-        }
-      }
-    </style>
+    <%= stylesheet_link_tag 'indicators' %>
   </head>
   <body>
     <div class="main-container">
@@ -565,26 +44,26 @@
               </div>
               <div class="stats__row">
                 <div><%= t :market_cap_label %></div>
-                <div>
-                  <%= link_to format_price(@coin.market_cap / 1000000, precision: 2), coin_url(@coin.slug), class: 'plain-link' %>
+                <div class="price">
+                  <%= link_to format_price(@coin.market_cap, precision: 2), coin_url(@coin.slug), class: 'plain-link' %>
                 </div>
               </div>
               <div class="stats__row">
                 <div><%= t :volume_24h_label %></div>
-                <div>
-                  <%= link_to format_price(@coin.volume24h / 1000), coin_url(@coin.slug), class: 'plain-link' %>
+                <div class="price">
+                  <%= link_to format_price(@coin.volume24h, precision: 2), coin_url(@coin.slug), class: 'plain-link' %>
                 </div>
               </div>
               <div class="stats__row">
                 <div><%= t :circulating_supply_label %></div>
                 <div>
-                  <%= link_to @coin.available_supply > 0 ? format_price(@coin.available_supply) : "N/A", coin_url(@coin.slug), class: 'plain-link' %>
+                  <%= link_to @coin.available_supply > 0 ? format_supply(@coin.available_supply) : "N/A", coin_url(@coin.slug), class: 'plain-link' %>
                 </div>
               </div>
               <div class="stats__row">
                 <div><%= t :fixed_supply_label %></div>
                 <div>
-                  <%= link_to @coin.fixed_supply > 0 ? format_price(@coin.fixed_supply) : "N/A", coin_url(@coin.slug), class: 'plain-link' %>
+                  <%= link_to @coin.fixed_supply > 0 ? format_supply(@coin.fixed_supply) : "N/A", coin_url(@coin.slug), class: 'plain-link' %>
                 </div>
               </div>
             </div>
@@ -672,6 +151,35 @@
           </div>
         </div>
       </div>
+
+      <% unless @news_items.blank? %>
+      <h2><%= t(:latest_research) %></h2>
+      <div class="flex-container">
+        <div class="paper">
+          <h3><%= t(:market_news_research) %></h3>
+          <div class="news">
+            <% @news_items.each do |news_item| %>
+            <div class="news-item">
+              <h4 class="news-item__title">
+                <%= link_to news_item.title, news_item_url(id: news_item.id, slug: news_item.slug) %>
+              </h4>
+              <div class="news-item__summary">
+                <%= news_item.short_summary %>
+              </div>
+              <div class="news-item__footer">
+                <div class="news-item__details">
+                  <%= t(:time_ago, time_words: time_ago_in_words(news_item.feed_item_published_at)) %>
+                </div>
+                <div class="news-item__link">
+                  <%= link_to t(:read_more), news_item_url(id: news_item.id, slug: news_item.slug) %>
+                </div>
+              </div>
+            </div>
+            <% end %>
+          </div>
+        </div>
+      </div>
+      <% end %>
 
       <h2><%= t(:fundamentals) %></h2>
       <div class="flex-container">
@@ -770,34 +278,11 @@
         </div>
       </div>
 
-      <% unless @news_items.blank? %>
-      <h2><%= t(:latest_research) %></h2>
-      <div class="flex-container">
-        <div class="paper">
-          <h3><%= t(:market_news_research) %></h3>
-          <div class="news">
-            <% @news_items.each do |news_item| %>
-            <div class="news-item">
-              <h4 class="news-item__title">
-                <%= link_to news_item.title, news_item_url(id: news_item.id, slug: news_item.slug) %>
-              </h4>
-              <div class="news-item__summary">
-                <%= news_item.short_summary %>
-              </div>
-              <div class="news-item__footer">
-                <div class="news-item__details">
-                  <%= t(:time_ago, time_words: time_ago_in_words(news_item.feed_item_published_at)) %>
-                </div>
-                <div class="news-item__link">
-                  <%= link_to t(:read_more), news_item_url(id: news_item.id, slug: news_item.slug) %>
-                </div>
-              </div>
-            </div>
-            <% end %>
-          </div>
-        </div>
+      <div class="footer">
+        <a class="coinfi-link" href="<%= root_url %>">
+          Powered by <img src="<%= image_path('logo.svg') %>" class="coinfi-link__img" />
+        </a>
       </div>
-      <% end %>
     </div>
 
     <script src="https://unpkg.com/popper.js@1"></script>
