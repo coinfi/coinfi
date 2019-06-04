@@ -20,15 +20,75 @@ module CoinServices
       commit_activity = retrieve_commit_activity_data(@github_repo)
       code_frequency = retrieve_code_frequency_data(@github_repo)
       snapshot = retrieve_repository_stats(@github_repo)
-
-      {
+      result = {
         commit_activity: commit_activity,
         code_frequency: code_frequency,
         snapshot: snapshot,
       }
+
+      check_result(result) ? result : nil
     end
 
     private
+
+    def check_result(result)
+      # Perform all possible checks to get a better sense of what is failing
+      has_results = true
+      coin_slug = @coin.slug
+
+      if result.blank?
+        puts "No results for #{coin_slug}"
+        has_results = false
+      else
+        if result[:commit_activity].blank?
+          puts "No commit activity for #{coin_slug}"
+          has_results = false
+        end
+
+        if result[:code_frequency].blank?
+          puts "No code frequency for #{coin_slug}"
+          has_results = false
+        end
+
+        if result[:snapshot].blank?
+          puts "No snapshot for #{coin_slug}"
+          has_results = false
+        elsif !has_stats?(result[:snapshot])
+          puts "Incomplete snapshot for #{coin_slug}"
+          has_results = false
+        end
+      end
+
+      has_results
+    end
+
+    def has_stats?(snapshot)
+      # Perform all possible checks to get a better sense of what is failing
+      has_stats = true
+      coin_slug = @coin.slug
+
+      if snapshot[:watchers].blank?
+        puts "No watchers for #{coin_slug}"
+        has_stats = false
+      end
+
+      if snapshot[:stargazers].blank?
+        puts "No stars for #{coin_slug}"
+        has_stats = false
+      end
+
+      if snapshot[:forks].blank?
+        puts "No forks for #{coin_slug}"
+        has_stats = false
+      end
+
+      if snapshot[:contributors].blank?
+        puts "No contributors for #{coin_slug}"
+        has_stats = false
+      end
+
+      has_stats
+    end
 
     def retrieve_commit_activity_data(repo_path)
       data = @client.commit_activity_stats repo_path
