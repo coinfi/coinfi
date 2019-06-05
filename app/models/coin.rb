@@ -296,7 +296,7 @@ class Coin < ApplicationRecord
     return unless github_repo.present?
 
     base_stats = github_stats
-    merged_stats = base_stats.present ? base_stats.deep_merge(stats_to_merge) : stats_to_merge
+    merged_stats = base_stats.present? ? base_stats.deep_merge(stats_to_merge) : stats_to_merge
 
     Rails.cache.write("coins/#{id}/github_stats", merged_stats)
   end
