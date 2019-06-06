@@ -101,7 +101,12 @@
 
       <div class="flex-container">
         <div class="paper">
-          <h3><%= t(:technical_indicators) %></h3>
+          <h3>
+            <%= t(:technical_indicators) %>
+            <a data-tippy="<% @indicator_rows.each do |indicator| %>
+              <b><%= t(indicator[:symbol], scope: 'indicators.title') %>:</b> <%= t(indicator[:symbol], scope: 'indicators.rule') %><br/>
+            <% end %>" data-tippy-maxWidth="700"><i class="far fa-info-circle"></i></a>
+          </h3>
           <table class="indicators-desktop">
             <thead>
               <tr>
@@ -109,19 +114,18 @@
                 <th><%= t :sample_value_label %></th>
                 <th><%= t :min_label %></th>
                 <th><%= t :max_label %></th>
-                <th class="indicator-signal"><%= t :signal_label %></th>
+                <th class="indicators__signal"><%= t :signal_label %></th>
               </tr>
             </thead>
             <tbody>
             <% @indicator_rows.each do |indicator| %>
-              <tr class="<%= cycle('even', 'odd') %>">
+              <tr>
                 <td><%= t(indicator[:symbol], scope: 'indicators.title') %></td>
                 <td class="number"><%= indicator[:value] %></td>
                 <td class="number"><%= indicator[:min].presence || t(:na) %></td>
                 <td class="number"><%= indicator[:max].presence || t(:na) %></td>
-                <td class="indicator-signal <%= indicator[:signal].downcase %>">
-                  <%= indicator[:signal].present? ? t(indicator[:signal].downcase).upcase : "" %>
-                  <a data-tippy="<%= simple_format(t(indicator[:symbol], scope: 'indicators.rule')) %>"><i class="far fa-info-circle"></i></a>
+                <td class="indicators__signal <%= indicator[:signal].downcase %>">
+                  <span><%= indicator[:signal].present? ? t(indicator[:signal].downcase).upcase : "" %></span>
                 </td>
               </tr>
             <% end %>
@@ -129,19 +133,25 @@
           </table>
           <div class="indicators-mobile">
           <% @indicator_rows.each do |indicator| %>
-            <div class="indicators-mobile__row <%= cycle('even', 'odd') %>">
+            <div class="indicators-mobile__row">
               <div class="indicators-mobile__col-titles">
-                <div class="indicators__title"><%= t(indicator[:symbol], scope: 'indicators.title') %></div>
+                <div class="indicators__title">
+                  <%= t(indicator[:symbol], scope: 'indicators.title') %>
+                </div>
+                <% if indicator[:min].present? || indicator[:max].present? %>
+                  <div class="indicators__rule">
+                    (<%= t(:min_label) %>: <%= indicator[:min].presence || t(:na) %>,
+                    <%= t(:max_label) %>: <%= indicator[:max].presence || t(:na) %>)
+                  </div>
+                <% end %>
               </div>
               <div class="indicators-mobile__col-values">
                 <div class="indicators__signal <%= indicator[:signal].downcase %>">
-                  <a data-tippy="<%= simple_format("#{t(indicator[:symbol], scope: 'indicators.rule')}
-                    #{t(:min_label)}: #{indicator[:min].presence || t(:na)}
-                    #{t(:max_label)}: #{indicator[:max].presence || t(:na)}")
-                  %>"><i class="far fa-info-circle"></i></a>
-                  <%= indicator[:signal].present? ? t(indicator[:signal].downcase).upcase : "" %>
+                  <span><%= indicator[:signal].present? ? t(indicator[:signal].downcase).upcase : "" %> (<%= indicator[:value] %>)</span>
                 </div>
-                <div class="indicators__signal-value"><%= indicator[:value] %></div>
+                <div class="indicators__signal-value">
+
+                </div>
               </div>
             </div>
           <% end %>
