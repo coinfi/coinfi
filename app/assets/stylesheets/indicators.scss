@@ -1,4 +1,8 @@
 /* Variables */
+$blue: #00a5ee;
+$green: #6aac0e;
+$red: #ce1d1d;
+$dark-grey: #777;
 :root {
   --sidebar-width: 350px;
 }
@@ -50,7 +54,7 @@ h3,
 h4,
 h5,
 h6 {
-  color: #777;
+  color: $dark-grey;
 }
 
 h2 {
@@ -179,13 +183,13 @@ h3 {
   display: none;
 }
 .fa-info-circle {
-  color: #00a5ee;
+  color: $blue;
 }
 .buy {
-  color: #6aac0e;
+  color: $green;
 }
 .sell {
-  color: #ce1d1d;
+  color: $red;
 }
 .paper .copy-container {
   margin: 20px -20px -20px;
@@ -249,7 +253,7 @@ h3 {
 }
 .github-stats__label {
   font-size: 14px;
-  color: #777777;
+  color: $dark-grey;
 }
 .github-stats__rank {
   color: rgba(61, 64, 74, 0.5);
@@ -259,7 +263,7 @@ h3 {
   margin-right: 2px;
 }
 .github-repo-link {
-  color: #777;
+  color: $dark-grey;
   align-self: flex-start;
   text-align: left;
 }
@@ -281,7 +285,7 @@ h3 {
   margin-bottom: 6px;
 }
 .news-item__footer {
-  color: #777777;
+  color: $dark-grey;
   font-size: 13px;
   display: flex;
   justify-content: space-between;
@@ -294,40 +298,16 @@ h3 {
 a.plain-link {
   color: inherit;
 }
-.tab-bar {
-  display: flex;
-  padding-bottom: 12px;
-}
-.tab {
-  flex: 1 1 auto;
-  border-bottom: 1px solid #e0e0e0;
-  cursor: pointer;
-  color: #777;
-}
-.tab.active {
-  color: #6aac0e;
-  border-bottom: 2px solid #6aac0e;
-}
-.tab > * {
-  text-align: center;
-  line-height: 35px;
-}
-.tab i {
-  margin-right: 8px;
-}
-.tab-container:not(.active) {
-  display: none;
-}
 
 /* Graph */
 .graph-container rect {
-  fill: #6aac0e;
+  fill: $blue;
 }
 .graph-container .deletions rect {
-  fill: #00a5ee;
+  fill: $green;
 }
 .graph-container .axis .tick text {
-  fill: #777;
+  fill: $dark-grey;
   font-size: 10px;
   text-anchor: middle;
 }
@@ -337,11 +317,11 @@ a.plain-link {
 .graph-container .axis path,
 .graph-container .axis line {
   fill: none;
-  stroke: #777;
+  stroke: $dark-grey;
   shape-rendering: crispEdges;
 }
 .graph-container .axis text.title {
-  fill: #777;
+  fill: $dark-grey;
   font-size: 12px;
   font-weight: 600;
   text-anchor: middle;
