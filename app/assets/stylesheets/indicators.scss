@@ -248,7 +248,7 @@ h3 {
 .github-stats__row {
   display: flex;
   justify-content: space-between;
-  align-items: flex-end;
+  align-self: flex-start;
   flex-wrap: wrap;
 }
 .github-stats__row {
@@ -262,6 +262,7 @@ h3 {
   text-align: right;
 }
 .github-stats__label {
+  padding-top: 2px;
   font-size: 14px;
   color: $dark-grey;
 }
