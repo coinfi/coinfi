@@ -168,7 +168,7 @@
             <% @news_items.each do |news_item| %>
             <div class="news-item">
               <h4 class="news-item__title">
-                <%= link_to news_item.title, news_item_url(id: news_item.id, slug: news_item.slug) %>
+                <%= link_to news_item.title, news_item_url(id: news_item.id, slug: news_item.slug, force_drawer: true), target: "_blank" %>
               </h4>
               <div class="news-item__summary">
                 <%= news_item.short_summary %>
@@ -178,7 +178,7 @@
                   <%= t(:time_ago, time_words: time_ago_in_words(news_item.feed_item_published_at)) %>
                 </div>
                 <div class="news-item__link">
-                  <%= link_to t(:read_more), news_item_url(id: news_item.id, slug: news_item.slug) %>
+                  <%= link_to t(:read_more), news_item_url(id: news_item.id, slug: news_item.slug, force_drawer: true), target: "_blank" %>
                 </div>
               </div>
             </div>
