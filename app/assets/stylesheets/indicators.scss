@@ -92,6 +92,9 @@ h3 {
   flex: 0 0 auto;
   margin: 15px 0;
 }
+.flex-container.flex-wrap {
+  flex-wrap: wrap;
+}
 .flex-container + h2 {
   margin-top: 30px;
 }
@@ -191,12 +194,19 @@ h3 {
 .sell {
   color: $red;
 }
-.paper .copy-container {
-  margin: 20px -20px -20px;
+.copy-container {
   padding: 20px;
   font-size: 14px;
-  border-top: 1px solid #e0e0e0;
   background-color: #f8f8f8;
+}
+.paper .copy-container {
+  margin: 20px -20px -20px;
+  border-top: 1px solid #e0e0e0;
+}
+.flex-container > .copy-container {
+  width: 100%;
+  border: 1px solid #e0e0e0;
+  border-top: none;
 }
 .header-info-icon {
   margin-left: 8px;
@@ -386,10 +396,10 @@ a.plain-link {
   .paper.with-sidebar:not(:last-child) {
     padding-right: 30px;
   }
-  .sidebar:not(:first-child) {
+  .sidebar.sidebar-right {
     border-left: none;
   }
-  .sidebar:not(:last-child) {
+  .sidebar.sidebar-left {
     border-right: none;
   }
 }
@@ -476,7 +486,7 @@ a.plain-link {
   .indicators-mobile .indicators__signal-value {
     font-size: 14px;
   }
-  .paper .copy-container {
+  .copy-container {
     text-align: justify;
   }
   .news {
