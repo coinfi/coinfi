@@ -124,34 +124,34 @@ en:
         ema: "Exp Moving Averages (10 v 20)"
       rule:
         rsi: |
-          Buy when lesser than 30
-          Sell when greater than 70
-          Hold between 30 and 70 (inclusive)
+          Buy when lesser than 30.
+          Sell when greater than 70.
+          Hold between 30 and 70 (inclusive).
         stochrsi: |
-          Buy when lesser than 20
-          Sell when greater than 80
-          Hold between 20 and 80 (inclusive)
+          Buy when lesser than 20.
+          Sell when greater than 80.
+          Hold between 20 and 80 (inclusive).
         macd: |
-          Buy when greater than 0
-          Sell when lesser than 0
-          No hold signal
+          Buy when greater than 0.
+          Sell when lesser than 0.
+          No hold signal.
         cci: |
-          Buy when lesser than -100
-          Sell when greater than 100
-          Hold between -100 and 100 (inclusive)
+          Buy when lesser than -100.
+          Sell when greater than 100.
+          Hold between -100 and 100 (inclusive).
         stochastic_fast: |
-          Buy when lesser than 20
-          Sell when greater than 80
-          Hold between 20 and 80 (inclusive)
+          Buy when lesser than 20.
+          Sell when greater than 80.
+          Hold between 20 and 80 (inclusive).
         stochastic_slow: |
-          Buy when lesser than 20
-          Sell when greater than 80
-          Hold between 20 and 80 (inclusive)
+          Buy when lesser than 20.
+          Sell when greater than 80.
+          Hold between 20 and 80 (inclusive).
         sma: |
-          Buy when greater than 0
-          Sell when lesser than 0
-          No hold signal
+          Buy when greater than 0.
+          Sell when lesser than 0.
+          No hold signal.
         ema: |
-          Buy when greater than 0
-          Sell when lesser than 0
-          No hold signal
+          Buy when greater than 0.
+          Sell when lesser than 0.
+          No hold signal.

@@ -226,11 +226,15 @@ h3 {
 }
 .indicators-summary {
   display: flex;
-  justify-content: space-between;
-  max-width: 200px;
+  justify-content: center;
+  max-width: 100%;
   margin: 0 auto;
   text-align: center;
   margin-top: 30px;
+  > * {
+    margin-left: 10px;
+    margin-right: 10px;
+  }
 }
 .indicators-updated {
   margin-top: 10px;

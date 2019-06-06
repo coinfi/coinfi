@@ -149,9 +149,6 @@
                 <div class="indicators__signal <%= indicator[:signal].downcase %>">
                   <span><%= indicator[:signal].present? ? t(indicator[:signal].downcase).upcase : "" %> (<%= indicator[:value] %>)</span>
                 </div>
-                <div class="indicators__signal-value">
-
-                </div>
               </div>
             </div>
           <% end %>
