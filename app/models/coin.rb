@@ -278,10 +278,17 @@ class Coin < ApplicationRecord
 
   def github_stats(force_refresh: false)
     return unless github_repo.present?
+    cache_key = "coins/#{id}/github_stats"
+    stats = Rails.cache.read(cache_key) || {}
 
-    Rails.cache.fetch("coins/#{id}/github_stats", force: force_refresh) do
+    if force_refresh || stats.blank?
       response = CoinServices::RetrieveGithubStats.call(coin: self)
-      response.try(:result)
+      updated_stats = response.try(:result) || stats
+      Rails.cache.write(cache_key, updated_stats)
+
+      updated_stats
+    else
+      stats
     end
   end
 
@@ -289,7 +296,7 @@ class Coin < ApplicationRecord
     return unless github_repo.present?
 
     base_stats = github_stats
-    merged_stats = base_stats.deep_merge(stats_to_merge)
+    merged_stats = base_stats.present? ? base_stats.deep_merge(stats_to_merge) : stats_to_merge
 
     Rails.cache.write("coins/#{id}/github_stats", merged_stats)
   end
