@@ -16,6 +16,7 @@ interface Props {
   coinSlug?: string
   topCoinSlugs: string[]
   newsItemId?: string
+  initialDrawer: boolean
   initialNewsItem?: NewsItem
   initialCoinWithDetails?: CoinWithDetails
   initialTheme?: ThemeTypes
@@ -37,6 +38,7 @@ const NewsfeedPageContainer = (props: Props) => (
               topCoinSlugs={props.topCoinSlugs}
               newsItemId={props.newsItemId}
               newslist={newsfeedPayload.newslist}
+              initialDrawer={props.initialDrawer}
               initialNewsItem={props.initialNewsItem}
               initialCoinWithDetails={props.initialCoinWithDetails}
               isNewsfeedLoading={newsfeedPayload.isLoading}

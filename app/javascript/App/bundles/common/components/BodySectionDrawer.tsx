@@ -12,14 +12,16 @@ const BodySectionDrawer = (props: Props) => (
   <Drawer
     {...props}
     position="bottom"
-    className="overflow-y-auto flex flex-column"
+    className="flex flex-column"
     onClose={props.onClose}
     isShown={props.isShown}
   >
     <div className="flex-none pv4 tc" onClick={props.onClose}>
       <Icon name="times" className="f4 slate" />
     </div>
-    <div className="flex-auto bg-white relative">{props.bodySection}</div>
+    <div className="flex-auto overflow-y-auto bg-white relative">
+      {props.bodySection}
+    </div>
   </Drawer>
 )
 

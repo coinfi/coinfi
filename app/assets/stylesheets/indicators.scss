@@ -1,4 +1,8 @@
 /* Variables */
+$blue: #00a5ee;
+$green: #6aac0e;
+$red: #ce1d1d;
+$dark-grey: #777;
 :root {
   --sidebar-width: 350px;
 }
@@ -50,7 +54,7 @@ h3,
 h4,
 h5,
 h6 {
-  color: #777;
+  color: $dark-grey;
 }
 
 h2 {
@@ -67,6 +71,8 @@ h3 {
   text-transform: uppercase;
   margin-bottom: 10px;
   min-height: 28px;
+  display: flex;
+  justify-content: space-between;
 }
 
 @font-face {
@@ -87,6 +93,9 @@ h3 {
   display: flex;
   flex: 0 0 auto;
   margin: 15px 0;
+}
+.flex-container.flex-wrap {
+  flex-wrap: wrap;
 }
 .flex-container + h2 {
   margin-top: 30px;
@@ -146,64 +155,89 @@ h3 {
   width: 50px;
   margin-bottom: -2px;
 }
-.indicators-desktop {
+.indicators-table {
   width: 100%;
   border-spacing: 0;
   font-size: 14px;
 }
-.indicators-desktop th {
+.indicators-table th {
   padding-bottom: 4px;
   border-bottom: 2px solid #d4d5d8;
   text-align: center;
 }
-.indicators-desktop .indicators__rule {
-  width: 200px;
+.indicators__rule {
+  font-weight: normal;
 }
 .odd {
   background-color: #e0e0e0;
 }
-.indicators-desktop th {
+.indicators-table th {
   padding: 4px 4px;
 }
-.indicators-desktop td {
+.indicators-table td {
   padding: 8px 4px;
   font-weight: 600;
 }
-.indicators-desktop .number {
+.indicators-table .number {
   text-align: center;
 }
-.indicators-desktop .indicator-signal {
+.indicators-table .indicators__signal {
   text-align: right;
+}
+.indicators__signal > span {
+  border-radius: 4px;
+  border-style: solid;
+  border-width: 1px;
+  padding: 3px 8px;
+  display: inline-block;
+  text-align: center;
+}
+.indicators-table .indicators__signal > span {
+  min-width: 60px;
 }
 .indicators-mobile {
   display: none;
 }
 .fa-info-circle {
-  color: #00a5ee;
+  color: $blue;
 }
 .buy {
-  color: #6aac0e;
+  color: $green;
 }
 .sell {
-  color: #ce1d1d;
+  color: $red;
+}
+.neutral {
+  color: #ffc956;
+}
+.copy-container {
+  padding: 20px;
+  font-size: 14px;
+  background-color: #f8f8f8;
 }
 .paper .copy-container {
   margin: 20px -20px -20px;
-  padding: 20px;
-  font-size: 14px;
   border-top: 1px solid #e0e0e0;
-  background-color: #f8f8f8;
+}
+.flex-container > .copy-container {
+  width: 100%;
+  border: 1px solid #e0e0e0;
+  border-top: none;
 }
 .header-info-icon {
   margin-left: 8px;
 }
 .indicators-summary {
   display: flex;
-  justify-content: space-between;
-  max-width: 200px;
+  justify-content: center;
+  max-width: 100%;
   margin: 0 auto;
   text-align: center;
   margin-top: 30px;
+  > * {
+    margin-left: 10px;
+    margin-right: 10px;
+  }
 }
 .indicators-updated {
   margin-top: 10px;
@@ -234,7 +268,7 @@ h3 {
 .github-stats__row {
   display: flex;
   justify-content: space-between;
-  align-items: flex-end;
+  align-self: flex-start;
   flex-wrap: wrap;
 }
 .github-stats__row {
@@ -248,8 +282,10 @@ h3 {
   text-align: right;
 }
 .github-stats__label {
+  padding-top: 2px;
   font-size: 14px;
-  color: #777777;
+  color: $dark-grey;
+  font-weight: 600;
 }
 .github-stats__rank {
   color: rgba(61, 64, 74, 0.5);
@@ -259,7 +295,7 @@ h3 {
   margin-right: 2px;
 }
 .github-repo-link {
-  color: #777;
+  color: $dark-grey;
   align-self: flex-start;
   text-align: left;
 }
@@ -281,7 +317,7 @@ h3 {
   margin-bottom: 6px;
 }
 .news-item__footer {
-  color: #777777;
+  color: $dark-grey;
   font-size: 13px;
   display: flex;
   justify-content: space-between;
@@ -294,40 +330,16 @@ h3 {
 a.plain-link {
   color: inherit;
 }
-.tab-bar {
-  display: flex;
-  padding-bottom: 12px;
-}
-.tab {
-  flex: 1 1 auto;
-  border-bottom: 1px solid #e0e0e0;
-  cursor: pointer;
-  color: #777;
-}
-.tab.active {
-  color: #6aac0e;
-  border-bottom: 2px solid #6aac0e;
-}
-.tab > * {
-  text-align: center;
-  line-height: 35px;
-}
-.tab i {
-  margin-right: 8px;
-}
-.tab-container:not(.active) {
-  display: none;
-}
 
 /* Graph */
 .graph-container rect {
-  fill: #6aac0e;
+  fill: $blue;
 }
 .graph-container .deletions rect {
-  fill: #00a5ee;
+  fill: $green;
 }
 .graph-container .axis .tick text {
-  fill: #777;
+  fill: $dark-grey;
   font-size: 10px;
   text-anchor: middle;
 }
@@ -337,11 +349,11 @@ a.plain-link {
 .graph-container .axis path,
 .graph-container .axis line {
   fill: none;
-  stroke: #777;
+  stroke: $dark-grey;
   shape-rendering: crispEdges;
 }
 .graph-container .axis text.title {
-  fill: #777;
+  fill: $dark-grey;
   font-size: 12px;
   font-weight: 600;
   text-anchor: middle;
@@ -406,10 +418,10 @@ a.plain-link {
   .paper.with-sidebar:not(:last-child) {
     padding-right: 30px;
   }
-  .sidebar:not(:first-child) {
+  .sidebar.sidebar-right {
     border-left: none;
   }
-  .sidebar:not(:last-child) {
+  .sidebar.sidebar-left {
     border-right: none;
   }
 }
@@ -464,20 +476,16 @@ a.plain-link {
   .stats {
     font-size: 14px;
   }
-  .indicators-desktop {
-    display: none;
-  }
-  .indicators-mobile {
-    display: block;
-    font-size: 12px;
-    margin-left: -20px;
-    margin-right: -20px;
-    margin-top: -8px;
+  .indicators-table {
+    .indicators__min,
+    .indicators__max {
+      display: none;
+    }
   }
   .indicators-mobile .indicators-mobile__row {
     display: flex;
     justify-content: space-between;
-    padding: 10px 20px 14px;
+    padding: 14px 20px 18px;
   }
   .indicators-mobile .indicators-mobile__col-values {
     width: 30%;
@@ -486,17 +494,17 @@ a.plain-link {
   .indicators-mobile .indicators__title {
     font-size: 14px;
     font-weight: 600;
-    margin-bottom: 4px;
+    margin-bottom: 2px;
   }
   .indicators-mobile .indicators__signal {
     font-size: 14px;
     font-weight: 600;
-    margin-bottom: 4px;
+    margin-bottom: 8px;
   }
-  .indicators-mobile .indicators__signal-value {
-    font-size: 14px;
+  .indicators__signal > span {
+    min-width: 100px;
   }
-  .paper .copy-container {
+  .copy-container {
     text-align: justify;
   }
   .news {
@@ -532,6 +540,7 @@ a.plain-link {
     font-size: 24px;
   }
   .github-repo-link {
-    margin-top: 36px;
+    margin: 36px auto 0;
+    text-align: center;
   }
 }
