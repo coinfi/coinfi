@@ -86,7 +86,7 @@
                 <div><%= t(:sell).upcase %></div>
               </div>
               <div>
-                <div><%= @summary[:neutral] %></div>
+                <div class="neutral"><%= @summary[:neutral] %></div>
                 <div><%= t(:neutral).upcase %></div>
               </div>
               <div>
@@ -107,23 +107,23 @@
               <b><%= t(indicator[:symbol], scope: 'indicators.title') %>:</b> <%= t(indicator[:symbol], scope: 'indicators.rule') %><br/>
             <% end %>" data-tippy-maxWidth="700"><i class="far fa-info-circle"></i></a>
           </h3>
-          <table class="indicators-desktop">
+          <table class="indicators-table">
             <thead>
               <tr>
-                <th></th>
-                <th><%= t :sample_value_label %></th>
-                <th><%= t :min_label %></th>
-                <th><%= t :max_label %></th>
+                <th class="indicators__title"></th>
+                <th class="indicators__value"><%= t :sample_value_label %></th>
+                <th class="indicators__min"><%= t :min_label %></th>
+                <th class="indicators__max"><%= t :max_label %></th>
                 <th class="indicators__signal"><%= t :signal_label %></th>
               </tr>
             </thead>
             <tbody>
             <% @indicator_rows.each do |indicator| %>
               <tr>
-                <td><%= t(indicator[:symbol], scope: 'indicators.title') %></td>
-                <td class="number"><%= indicator[:value] %></td>
-                <td class="number"><%= indicator[:min].presence || t(:na) %></td>
-                <td class="number"><%= indicator[:max].presence || t(:na) %></td>
+                <td class="indicators__title"><%= t(indicator[:symbol], scope: 'indicators.title') %></td>
+                <td class="indicators__value number"><%= indicator[:value] %></td>
+                <td class="indicators__min number"><%= indicator[:min].presence || t(:na) %></td>
+                <td class="indicators__max number"><%= indicator[:max].presence || t(:na) %></td>
                 <td class="indicators__signal <%= indicator[:signal].downcase %>">
                   <span><%= indicator[:signal].present? ? t(indicator[:signal].downcase).upcase : "" %></span>
                 </td>
@@ -131,28 +131,6 @@
             <% end %>
             </tbody>
           </table>
-          <div class="indicators-mobile">
-          <% @indicator_rows.each do |indicator| %>
-            <div class="indicators-mobile__row">
-              <div class="indicators-mobile__col-titles">
-                <div class="indicators__title">
-                  <%= t(indicator[:symbol], scope: 'indicators.title') %>
-                </div>
-                <% if indicator[:min].present? || indicator[:max].present? %>
-                  <div class="indicators__rule">
-                    (<%= t(:min_label) %>: <%= indicator[:min].presence || t(:na) %>,
-                    <%= t(:max_label) %>: <%= indicator[:max].presence || t(:na) %>)
-                  </div>
-                <% end %>
-              </div>
-              <div class="indicators-mobile__col-values">
-                <div class="indicators__signal <%= indicator[:signal].downcase %>">
-                  <span><%= indicator[:signal].present? ? t(indicator[:signal].downcase).upcase : "" %> (<%= indicator[:value] %>)</span>
-                </div>
-              </div>
-            </div>
-          <% end %>
-          </div>
           <div class="copy-container">
             <%= t :technical_indicator_copy %>
           </div>
@@ -201,7 +179,7 @@
         <div class="sidebar sidebar-right">
           <h3>
             <%= t :developer_community %>
-            <a class="header-info-icon" data-tippy="<%= t(:developer_community_copy) %>">
+            <a class="header-info-icon" data-tippy-maxWidth="500" data-tippy="<%= simple_format(t(:developer_community_copy)) %>">
               <i class="far fa-info-circle"></i>
             </a>
           </h3>
@@ -301,7 +279,7 @@
         colors: {
           0: '#ce1d1d',
           20: '#de6160',
-          40: '#d4d5d8',
+          40: '#ffc956',
           60: '#9ac854',
           80: '#6aac0e'
         },

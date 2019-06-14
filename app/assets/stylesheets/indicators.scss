@@ -155,12 +155,12 @@ h3 {
   width: 50px;
   margin-bottom: -2px;
 }
-.indicators-desktop {
+.indicators-table {
   width: 100%;
   border-spacing: 0;
   font-size: 14px;
 }
-.indicators-desktop th {
+.indicators-table th {
   padding-bottom: 4px;
   border-bottom: 2px solid #d4d5d8;
   text-align: center;
@@ -171,17 +171,17 @@ h3 {
 .odd {
   background-color: #e0e0e0;
 }
-.indicators-desktop th {
+.indicators-table th {
   padding: 4px 4px;
 }
-.indicators-desktop td {
+.indicators-table td {
   padding: 8px 4px;
   font-weight: 600;
 }
-.indicators-desktop .number {
+.indicators-table .number {
   text-align: center;
 }
-.indicators-desktop .indicators__signal {
+.indicators-table .indicators__signal {
   text-align: right;
 }
 .indicators__signal > span {
@@ -192,7 +192,7 @@ h3 {
   display: inline-block;
   text-align: center;
 }
-.indicators-desktop .indicators__signal > span {
+.indicators-table .indicators__signal > span {
   min-width: 60px;
 }
 .indicators-mobile {
@@ -206,6 +206,9 @@ h3 {
 }
 .sell {
   color: $red;
+}
+.neutral {
+  color: #ffc956;
 }
 .copy-container {
   padding: 20px;
@@ -282,6 +285,7 @@ h3 {
   padding-top: 2px;
   font-size: 14px;
   color: $dark-grey;
+  font-weight: 600;
 }
 .github-stats__rank {
   color: rgba(61, 64, 74, 0.5);
@@ -472,15 +476,11 @@ a.plain-link {
   .stats {
     font-size: 14px;
   }
-  .indicators-desktop {
-    display: none;
-  }
-  .indicators-mobile {
-    display: block;
-    font-size: 12px;
-    margin-left: -20px;
-    margin-right: -20px;
-    margin-top: -8px;
+  .indicators-table {
+    .indicators__min,
+    .indicators__max {
+      display: none;
+    }
   }
   .indicators-mobile .indicators-mobile__row {
     display: flex;
@@ -540,6 +540,7 @@ a.plain-link {
     font-size: 24px;
   }
   .github-repo-link {
-    margin-top: 36px;
+    margin: 36px auto 0;
+    text-align: center;
   }
 }
