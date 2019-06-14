@@ -33,6 +33,7 @@ class NewsController < ApplicationController
   end
 
   def show
+    @force_drawer = params[:force_drawer].present?
     distribute_reads(max_lag: MAX_ACCEPTABLE_REPLICATION_LAG, lag_failover: true) do
       news_item = NewsItem.published.find(params[:id])
       @news_item_data = serialize_news_items(news_item)

@@ -86,7 +86,7 @@
                 <div><%= t(:sell).upcase %></div>
               </div>
               <div>
-                <div><%= @summary[:neutral] %></div>
+                <div class="neutral"><%= @summary[:neutral] %></div>
                 <div><%= t(:neutral).upcase %></div>
               </div>
               <div>
@@ -101,51 +101,36 @@
 
       <div class="flex-container">
         <div class="paper">
-          <h3><%= t(:technical_indicators) %></h3>
-          <table class="indicators-desktop">
+          <h3>
+            <%= t(:technical_indicators) %>
+            <a data-tippy="<% @indicator_rows.each do |indicator| %>
+              <b><%= t(indicator[:symbol], scope: 'indicators.title') %>:</b> <%= t(indicator[:symbol], scope: 'indicators.rule') %><br/>
+            <% end %>" data-tippy-maxWidth="700"><i class="far fa-info-circle"></i></a>
+          </h3>
+          <table class="indicators-table">
             <thead>
               <tr>
-                <th></th>
-                <th><%= t :sample_value_label %></th>
-                <th><%= t :min_label %></th>
-                <th><%= t :max_label %></th>
-                <th class="indicator-signal"><%= t :signal_label %></th>
+                <th class="indicators__title"></th>
+                <th class="indicators__value"><%= t :sample_value_label %></th>
+                <th class="indicators__min"><%= t :min_label %></th>
+                <th class="indicators__max"><%= t :max_label %></th>
+                <th class="indicators__signal"><%= t :signal_label %></th>
               </tr>
             </thead>
             <tbody>
             <% @indicator_rows.each do |indicator| %>
-              <tr class="<%= cycle('even', 'odd') %>">
-                <td><%= t(indicator[:symbol], scope: 'indicators.title') %></td>
-                <td class="number"><%= indicator[:value] %></td>
-                <td class="number"><%= indicator[:min].presence || t(:na) %></td>
-                <td class="number"><%= indicator[:max].presence || t(:na) %></td>
-                <td class="indicator-signal <%= indicator[:signal].downcase %>">
-                  <%= indicator[:signal].present? ? t(indicator[:signal].downcase).upcase : "" %>
-                  <a data-tippy="<%= simple_format(t(indicator[:symbol], scope: 'indicators.rule')) %>"><i class="far fa-info-circle"></i></a>
+              <tr>
+                <td class="indicators__title"><%= t(indicator[:symbol], scope: 'indicators.title') %></td>
+                <td class="indicators__value number"><%= indicator[:value] %></td>
+                <td class="indicators__min number"><%= indicator[:min].presence || t(:na) %></td>
+                <td class="indicators__max number"><%= indicator[:max].presence || t(:na) %></td>
+                <td class="indicators__signal <%= indicator[:signal].downcase %>">
+                  <span><%= indicator[:signal].present? ? t(indicator[:signal].downcase).upcase : "" %></span>
                 </td>
               </tr>
             <% end %>
             </tbody>
           </table>
-          <div class="indicators-mobile">
-          <% @indicator_rows.each do |indicator| %>
-            <div class="indicators-mobile__row <%= cycle('even', 'odd') %>">
-              <div class="indicators-mobile__col-titles">
-                <div class="indicators__title"><%= t(indicator[:symbol], scope: 'indicators.title') %></div>
-              </div>
-              <div class="indicators-mobile__col-values">
-                <div class="indicators__signal <%= indicator[:signal].downcase %>">
-                  <a data-tippy="<%= simple_format("#{t(indicator[:symbol], scope: 'indicators.rule')}
-                    #{t(:min_label)}: #{indicator[:min].presence || t(:na)}
-                    #{t(:max_label)}: #{indicator[:max].presence || t(:na)}")
-                  %>"><i class="far fa-info-circle"></i></a>
-                  <%= indicator[:signal].present? ? t(indicator[:signal].downcase).upcase : "" %>
-                </div>
-                <div class="indicators__signal-value"><%= indicator[:value] %></div>
-              </div>
-            </div>
-          <% end %>
-          </div>
           <div class="copy-container">
             <%= t :technical_indicator_copy %>
           </div>
@@ -161,7 +146,7 @@
             <% @news_items.each do |news_item| %>
             <div class="news-item">
               <h4 class="news-item__title">
-                <%= link_to news_item.title, news_item_url(id: news_item.id, slug: news_item.slug) %>
+                <%= link_to news_item.title, news_item_url(id: news_item.id, slug: news_item.slug, force_drawer: true), target: "_blank" %>
               </h4>
               <div class="news-item__summary">
                 <%= news_item.short_summary %>
@@ -171,7 +156,7 @@
                   <%= t(:time_ago, time_words: time_ago_in_words(news_item.feed_item_published_at)) %>
                 </div>
                 <div class="news-item__link">
-                  <%= link_to t(:read_more), news_item_url(id: news_item.id, slug: news_item.slug) %>
+                  <%= link_to t(:read_more), news_item_url(id: news_item.id, slug: news_item.slug, force_drawer: true), target: "_blank" %>
                 </div>
               </div>
             </div>
@@ -182,35 +167,22 @@
       <% end %>
 
       <h2><%= t(:fundamentals) %></h2>
-      <div class="flex-container">
+      <div class="flex-container flex-wrap">
         <div class="paper with-sidebar">
           <h3>
             <%= t :development_activity %>
-            <a class="header-info-icon" data-tippy="<%= t(:development_activity_copy, name: @coin.name, symbol: @coin.symbol) %>">
-              <i class="far fa-info-circle"></i>
-            </a>
           </h3>
-          <div class="tab-bar github-tab-bar">
-            <% if @commit_activity.present? %>
-            <a onclick="switchToTab(this, 'commit-activity')" class="tab">
-              <div><i class="far fa-code-commit"></i><%= t :commit_activity %></div>
-            </a>
-            <% end %>
-            <% if @code_frequency.present? %>
-            <a onclick="switchToTab(this, 'code-frequency')" class="tab">
-              <div><i class="far fa-code"></i><%= t :code_frequency %></div>
-            </a>
-            <% end %>
-          </div>
           <% if @commit_activity.present? %>
           <svg id="commit-activity" class="graph-container tab-container" preserveAspectRatio="xMidYMid meet"></svg>
           <% end %>
-          <% if @code_frequency.present? %>
-          <svg id="code-frequency" class="graph-container tab-container" preserveAspectRatio="xMidYMid meet"></svg>
-          <% end %>
         </div>
-        <div class="sidebar">
-          <h3><%= t :developer_community %></h3>
+        <div class="sidebar sidebar-right">
+          <h3>
+            <%= t :developer_community %>
+            <a class="header-info-icon" data-tippy-maxWidth="500" data-tippy="<%= simple_format(t(:developer_community_copy)) %>">
+              <i class="far fa-info-circle"></i>
+            </a>
+          </h3>
           <% if @github_snapshot.present? %>
           <div class="github-stats">
             <div class="github-stats__row">
@@ -276,6 +248,9 @@
             <%= link_to @coin.github_repo, github_url(@coin.github_repo), rel: "nofollow noopener noreferrer", target: "_blank" %>
           </div>
         </div>
+        <div class="copy-container">
+          <%= t(:development_activity_copy, name: @coin.name, symbol: @coin.symbol) %>
+        </div>
       </div>
 
       <div class="footer">
@@ -304,7 +279,7 @@
         colors: {
           0: '#ce1d1d',
           20: '#de6160',
-          40: '#d4d5d8',
+          40: '#ffc956',
           60: '#9ac854',
           80: '#6aac0e'
         },
@@ -312,40 +287,6 @@
         value: <%= @summary_value %>
       };
       var gauge = new Gauge(document.querySelector(".gauge"), options);
-    </script>
-    <script type="text/javascript">
-      /* TAB CONTROL */
-      function switchToTab(target, id) {
-        if (target) {
-          // Set tab to active
-          var tabs = document.getElementsByClassName('tab');
-          for (let tab of tabs) {
-            tab.classList.remove('active');
-          }
-          target.classList.add('active');
-
-          // Set tab container to active
-          var targetContainer = document.getElementById(id);
-          if (targetContainer) {
-            var tabContainers = document.getElementsByClassName('tab-container');
-            for (let container of tabContainers) {
-              if (container && container.id === id) continue;
-              container.classList.remove('active');
-            }
-            targetContainer.classList.add('active');
-          }
-        }
-      }
-
-      /* TAB SETUP */
-      var initialTabs = document.getElementsByClassName('tab')
-      if (initialTabs.length > 0) {
-        initialTabs[0].classList.add('active');
-      }
-      var initialTabContainers = document.getElementsByClassName('tab-container')
-      if (initialTabContainers.length > 0) {
-        initialTabContainers[0].classList.add('active');
-      }
     </script>
     <script type="text/javascript">
       /* CHARTS */
@@ -500,171 +441,6 @@
                 .attr('x', -heightCA/2)
                 .style('font-size', '12px')
                 .text(i18nCommitsLabel);
-      <% end %>
-
-      <% if @code_frequency.present? %>
-      /* Code Frequency */
-
-      // Functions
-      function getXCF(d) { return d.timestamp || d.data.timestamp; }
-      function getYCF(d) { return d[1]; }
-
-      // Data
-      var idCF = 'code-frequency';
-      var codeFrequency = <%= @code_frequency.to_json.html_safe %>;
-      var dataCF = codeFrequency.map(function(d) {
-        var timestamp = new Date(getXCF(d) * 1000);
-        var additions = d.additions;
-        var deletions = d.deletions;
-        return {
-          timestamp: timestamp,
-          additions: additions,
-          deletions: deletions,
-        };
-      });
-      var stackKeysCF = ['additions', 'deletions'];
-      var stackCF = d3.stack()
-                      .keys(stackKeysCF)
-                      .offset(d3.stackOffsetDiverging);
-      var seriesCF = stackCF(dataCF);
-
-      // Dimensions and scale
-      var marginCF = {top: 20, right: 30, bottom: 50, left: 40};
-      var outerWidthCF = document.getElementById(idCF).getBoundingClientRect()['width'] || defaultChartWidth;
-      var widthCF = outerWidthCF - marginCF.left - marginCF.right;
-      var outerHeightCF = outerWidthCF / widthToHeightRatio;
-      var heightCF = outerHeightCF - marginCF.top - marginCF.bottom;
-      var barWidthCF = widthCF / dataCF.length - 1;
-
-      var datesCF = dataCF.map(getXCF);
-      var minDateCF = d3.min(datesCF)
-      var maxDateCF = d3.max(datesCF)
-      var xCF = d3.scaleTime()
-                  .domain([
-                    minDateCF,
-                    new Date(maxDateCF.valueOf() + 7*24*60*60*1000) // add one week to max
-                  ])
-                  .range([0, widthCF]);
-      var minValueCF = d3.min(seriesCF, function(dOuter) { return d3.min(dOuter, function(d) { return d[0]; }) });
-      var yCF = d3.scaleLinear()
-                  .domain([
-                    minValueCF - Math.abs(Math.floor(minValueCF * 0.05)), // Make sure there's a gap between the smallest number and the x-axis
-                    d3.max(seriesCF, function(dOuter) { return d3.max(dOuter, function(d) { return d[1]; }) })
-                  ])
-                  .range([heightCF, 0]);
-
-      // Chart
-      var chartCF = d3.select('#' + idCF)
-                      .attr('viewBox', '0 0 ' + outerWidthCF + ' ' + outerHeightCF)
-                    .append('g')
-                      .attr('transform', 'translate(' + marginCF.left + ', ' + marginCF.top + ')');
-
-      // Tooltip
-      var tipFactoryAdditionCF = d3scription(function(d) {
-        var date = d3.timeFormat('%b %d, %Y')(getXCF(d));
-        var value = d.data.additions;
-        var tooltip = i18nAdditionsTooltip
-                        .replace('{date}', date)
-                        .replace('{value}', value);
-        return tooltip;
-      }, {
-        class: 'chart-tooltip',
-      });
-      var tipAdditionCF = tipFactoryAdditionCF().element(chartCF);
-
-      var tipFactoryDeletionCF = d3scription(function(d) {
-        var date = d3.timeFormat('%b %d, %Y')(getXCF(d));
-        var value = Math.abs(d.data.deletions);
-        var tooltip = i18nDeletionsTooltip
-                        .replace('{date}', date)
-                        .replace('{value}', value);
-        return tooltip;
-      }, {
-        class: 'chart-tooltip',
-      });
-      var tipDeletionCF = tipFactoryDeletionCF().element(chartCF);
-
-      // Bars
-      var barGroupCF = chartCF.selectAll('g.series')
-                              .data(seriesCF)
-                              .enter().append('g')
-                                .attr('class', function(d, i) {
-                                  return 'series ' + stackKeysCF[i];
-                                })
-      var barCF = barGroupCF.selectAll('g.bar')
-                            .data(function(d) { return d; })
-                            .enter().append('g')
-                              .attr('class', 'bar')
-                              .attr('transform', function(d, i) {
-                                return "translate(" + xCF(getXCF(d)) + ", 0)";
-                              });
-
-      var additionRectCF = barGroupCF.selectAll('.additions g')
-                                  .append('rect')
-                                    .attr('y', function(d) { return yCF(d[0]) })
-                                    .attr('height', 0)
-                                    .attr('width', barWidthCF)
-                                    .on('mouseover', function() {
-                                      d3.select(this).attr('opacity', 0.7);
-                                      tipAdditionCF.show.apply(this, arguments);
-                                    })
-                                    .on('mouseout', function() {
-                                      d3.select(this).attr('opacity', 1);
-                                      tipAdditionCF.hide.apply(this, arguments);
-                                    });
-
-      var deletionRectCF = barGroupCF.selectAll('.deletions g')
-                                  .append('rect')
-                                    .attr('y', function(d) { return yCF(d[1]) })
-                                    .attr('height', 0)
-                                    .attr('width', barWidthCF)
-                                    .on('mouseover', function() {
-                                      d3.select(this).attr('opacity', 0.7);
-                                      tipDeletionCF.show.apply(this, arguments);
-                                    })
-                                    .on('mouseout', function() {
-                                      d3.select(this).attr('opacity', 1);
-                                      tipDeletionCF.hide.apply(this, arguments);
-                                    });
-
-      // Starting animation
-      barCF.selectAll('rect')
-            .transition()
-            .duration(800)
-            .attr("y", function(d, i) { return yCF(d[1]); })
-            .attr("height", function(d) { return yCF(d[0]) - yCF(d[1]); })
-            .delay(0);
-
-      // X Axis
-      var tickValuesCF = d3.timeMonth.range(minDateCF, maxDateCF, 6);
-      tickValuesCF.push(maxDateCF);
-      var xAxisCF = d3.axisBottom(xCF)
-                      .tickValues(tickValuesCF)
-                      .tickFormat(d3.timeFormat('%b %Y'));
-      chartCF.append('g')
-                .attr('class', 'x axis')
-                .attr('transform', 'translate(0, ' + heightCF + ')')
-                .call(xAxisCF)
-              .append('text')
-                .attr('class', 'title')
-                .attr('y', 40)
-                .attr('x', widthCF/2)
-                .text(i18nDateLabel);
-
-      // Y Axis
-      var yAxisCF = d3.axisLeft(yCF)
-                      .ticks(5)
-                      .tickPadding(10)
-                      .tickFormat(d3.format("~s"));
-      chartCF.append('g')
-                .attr('class', 'y axis')
-                .call(yAxisCF)
-              .append('text')
-                .attr('class', 'title')
-                .attr('transform', 'rotate(-90)')
-                .attr('y', -30)
-                .attr('x', -heightCF/2)
-                .text(i18nChangesLabel);
       <% end %>
     </script>
     <%= render 'layouts/tracking_scripts' %>
