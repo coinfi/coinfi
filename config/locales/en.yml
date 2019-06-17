@@ -75,7 +75,7 @@ en:
   indicator_summary_copy: "We aggregate sell/buy/hold signals from 8 of the most commonly used technical indicators to give you a quick pulse of the market."
   fundamentals: "Fundamentals"
   development_activity: "Development Activity"
-  development_activity_copy: "A summary of development activity for %{name} (%{symbol}). Development activity can be used as part of your fundamental research & analysis to ensure the project is continuously developing and has a healthy developer community."
+  development_activity_copy: "This section provides an overview of development activity for %{name} (%{symbol}). Development activity can be used as part of your fundamental research & analysis to ensure the project is continuously developing and has a healthy developer community."
   developer_community_copy: |
     <b>Contributors:</b> Contributors are the number of developers who have committed code to the project.
     <b>Forks:</b> Forks are created when a user makes a copy of a project’s open-source code, which can indicate an intention to use or reuse the code.
