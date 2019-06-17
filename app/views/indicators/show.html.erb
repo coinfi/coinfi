@@ -73,7 +73,7 @@
           <div class="paper">
             <h3>
               <%= t(:technical_analysis_summary) %>
-              <a class="header-info-icon" data-tippy="<%= t :indicator_summary_copy %>">
+              <a class="header-info-icon" data-tippy="<%= t :indicator_summary_copy %>" data-tippy-size="small">
                 <i class="far fa-info-circle"></i>
               </a>
             </h3>
@@ -104,8 +104,8 @@
           <h3>
             <%= t(:technical_indicators) %>
             <a data-tippy="<% @indicator_rows.each do |indicator| %>
-              <b><%= t(indicator[:symbol], scope: 'indicators.title') %>:</b> <%= t(indicator[:symbol], scope: 'indicators.rule') %><br/>
-            <% end %>" data-tippy-maxWidth="700"><i class="far fa-info-circle"></i></a>
+              <p><b><%= t(indicator[:symbol], scope: 'indicators.title') %>:</b> <%= t(indicator[:symbol], scope: 'indicators.rule') %></p>
+            <% end %>" data-tippy-maxWidth="700" data-tippy-size="small" data-tippy-theme="indicators"><i class="far fa-info-circle"></i></a>
           </h3>
           <table class="indicators-table">
             <thead>
@@ -179,7 +179,7 @@
         <div class="sidebar sidebar-right">
           <h3>
             <%= t :developer_community %>
-            <a class="header-info-icon" data-tippy-maxWidth="500" data-tippy="<%= simple_format(t(:developer_community_copy)) %>">
+            <a class="header-info-icon" data-tippy-maxWidth="500" data-tippy-size="small" data-tippy="<%= simple_format(t(:developer_community_copy)) %>">
               <i class="far fa-info-circle"></i>
             </a>
           </h3>
