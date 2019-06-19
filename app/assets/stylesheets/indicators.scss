@@ -2,10 +2,13 @@
 $blue: #00a5ee;
 $green: #6aac0e;
 $red: #ce1d1d;
+$off-white: #f8f8f8;
+$light-grey: #e0e0e0;
+$border-grey: #d4d5d8;
 $dark-grey: #777;
-:root {
-  --sidebar-width: 350px;
-}
+$sidebar-width: 350px;
+$one-third-width: 45%;
+$two-thirds-width: 65%;
 
 * {
   margin: 0;
@@ -115,21 +118,44 @@ h3 {
 .half-width-container:last-child {
   padding-right: 0;
 }
+.third-width-container {
+  display: flex;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+.third-width-container:first-child {
+  padding-left: 0;
+}
+.third-width-container:last-child {
+  padding-right: 0;
+}
+.third-width-container.one-third {
+  -webkit-flex-basis: $one-third-width;
+  -ms-flex-preferred-size: $one-third-width;
+  flex-basis: $one-third-width;
+  max-width: $one-third-width;
+}
+.third-width-container.two-thirds {
+  -webkit-flex-basis: $two-thirds-width;
+  -ms-flex-preferred-size: $two-thirds-width;
+  flex-basis: $two-thirds-width;
+  max-width: $two-thirds-width;
+}
 .paper {
   background-color: #fff;
-  border: 1px solid #e0e0e0;
+  border: 1px solid $light-grey;
   width: 100%;
   padding: 20px;
 }
 .paper.with-sidebar {
-  max-width: calc(100% - var(--sidebar-width));
-  flex: 0 1 calc(100% - var(--sidebar-width));
+  max-width: calc(100% - #{$sidebar-width});
+  flex: 0 1 calc(100% - #{$sidebar-width});
 }
 .sidebar {
-  background-color: #f8f8f8;
-  border: 1px solid #e0e0e0;
-  max-width: var(--sidebar-width);
-  flex: 0 1 var(--sidebar-width);
+  background-color: $off-white;
+  border: 1px solid $light-grey;
+  max-width: $sidebar-width;
+  flex: 0 1 $sidebar-width;
   padding: 20px 30px;
   display: flex;
   flex-direction: column;
@@ -162,15 +188,12 @@ h3 {
 }
 .indicators-table th {
   padding-bottom: 4px;
-  border-bottom: 2px solid #d4d5d8;
+  border-bottom: 2px solid $border-grey;
   text-align: center;
   text-transform: uppercase;
 }
 .indicators__rule {
   font-weight: normal;
-}
-.odd {
-  background-color: #e0e0e0;
 }
 .indicators-table th {
   padding: 4px 4px;
@@ -214,19 +237,24 @@ h3 {
 .copy-container {
   padding: 20px;
   font-size: 14px;
-  background-color: #f8f8f8;
+  background-color: $off-white;
 }
 .paper .copy-container {
   margin: 20px -20px -20px;
-  border-top: 1px solid #e0e0e0;
+  border-top: 1px solid $light-grey;
 }
 .flex-container > .copy-container {
   width: 100%;
-  border: 1px solid #e0e0e0;
+  border: 1px solid $light-grey;
   border-top: none;
 }
 .header-info-icon {
   margin-left: 8px;
+}
+.gauge-container {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
 }
 .indicators-summary {
   display: flex;
@@ -251,7 +279,7 @@ h3 {
   justify-content: space-between;
   padding: 2px 2px 4px;
   margin-bottom: 12px;
-  border-bottom: 2px solid #d4d5d8;
+  border-bottom: 2px solid $border-grey;
 }
 .stats__row div:first-child {
   font-weight: 600;
@@ -275,7 +303,7 @@ h3 {
 .github-stats__row {
   padding-bottom: 12px;
   margin-bottom: 12px;
-  border-bottom: 1px solid #d4d5d8;
+  border-bottom: 1px solid $border-grey;
 }
 .github-stats__value {
   font-size: 30px;
@@ -305,7 +333,7 @@ h3 {
 }
 .news-item:not(:last-child) {
   padding-bottom: 20px;
-  border-bottom: 1px solid #e0e0e0;
+  border-bottom: 1px solid $light-grey;
   margin-bottom: 15px;
 }
 .news-item__title {
@@ -383,7 +411,7 @@ a.plain-link {
 .gauge-wrapper {
   width: 300px;
   height: 160px;
-  margin: 60px auto 20px;
+  margin: 60px auto 40px;
 }
 .gauge:before {
   background-color: #2c2c2c;
@@ -423,6 +451,10 @@ a.plain-link {
 
 /* Tablet */
 @media screen and (min-width: 741px) and (max-width: 1024px) {
+  .gauge-wrapper {
+    width: 260px;
+    height: 140px;
+  }
 }
 
 /* Non-Mobile */
@@ -475,6 +507,20 @@ a.plain-link {
     padding-right: 0;
   }
   .half-width-container + .half-width-container {
+    margin-top: 15px;
+  }
+  .third-width-container,
+  .third-width-container.one-third,
+  .third-width-container.two-thirds {
+    display: flex;
+    -webkit-flex-basis: 100%;
+    -ms-flex-preferred-size: 100%;
+    flex-basis: 100%;
+    max-width: 100%;
+    padding-left: 0;
+    padding-right: 0;
+  }
+  .third-width-container + .third-width-container {
     margin-top: 15px;
   }
   .paper {
@@ -537,10 +583,13 @@ a.plain-link {
   .news-item__link {
     display: none;
   }
+  .gauge-container {
+    display: block;
+  }
   .gauge-wrapper {
     width: 250px;
     height: 135px;
-    margin: 40px auto 20px;
+    margin: 60px auto 40px;
   }
   .graph-container {
     margin-left: -10px;
