@@ -163,7 +163,7 @@ class PriceGraph extends Component {
       priceData.forEach((day) => {
         let { timestamp: time, close: price, volume_to: vol } = day
         prices.push([time, price])
-        volumes.push([time, price])
+        volumes.push([time, vol])
       })
     }
     return { prices, volumes }
