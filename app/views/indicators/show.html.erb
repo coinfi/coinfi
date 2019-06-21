@@ -14,125 +14,121 @@
 
       <h2 class="main-title">
         <%= t(:technical_analysis_and_price_movements) %>
-        <a class="coinfi-link" href="<%= root_url %>">
+        <a class="coinfi-link" href="<%= root_url %>" target="_parent">
           Powered by <img src="<%= image_path('logo.svg') %>" class="coinfi-link__img" />
         </a>
       </h2>
 
       <div class="flex-container">
-        <div class="half-width-container">
-          <div class="paper">
-            <h3><%= t(@coin.slug, scope:'coins') %> <%= t(:stats) %></h3>
-            <div class="stats">
-              <div class="stats__row">
-                <div><%= t(:crypto_rank) %></div>
-                <div>
-                  <%= link_to @crypo_rank, coin_url(@coin.slug), class: 'plain-link' %>
-                </div>
+        <div class="paper">
+          <h3><%= t(@coin.slug, scope:'coins') %> <%= t(:stats) %></h3>
+          <div class="stats">
+            <div class="stats__row">
+              <div><%= t(:day_move_label, days: 7) %></div>
+              <div class="<%= get_buy_sell_class(@coin.change7d) %>">
+                <%= link_to format_percentage(@coin.change7d), coin_url(@coin.slug), class: 'plain-link', target: "_parent" %>
               </div>
-              <div class="stats__row">
-                <div><%= t(:day_move_label, days: 7) %></div>
-                <div class="<%= get_buy_sell_class(@coin.change7d) %>">
-                  <%= link_to format_percentage(@coin.change7d), coin_url(@coin.slug), class: 'plain-link' %>
-                </div>
+            </div>
+            <div class="stats__row">
+              <div><%= t(:day_move_label, days: 30) %></div>
+              <div class="<%= get_buy_sell_class(@coin.change30d) %>">
+                <%= link_to format_percentage(@coin.change30d), coin_url(@coin.slug), class: 'plain-link', target: "_parent" %>
               </div>
-              <div class="stats__row">
-                <div><%= t(:day_move_label, days: 30) %></div>
-                <div class="<%= get_buy_sell_class(@coin.change30d) %>">
-                  <%= link_to format_percentage(@coin.change30d), coin_url(@coin.slug), class: 'plain-link' %>
-                </div>
+            </div>
+            <div class="stats__row">
+              <div><%= t :market_cap_label %></div>
+              <div class="price">
+                <%= link_to format_price(@coin.market_cap, precision: 2), coin_url(@coin.slug), class: 'plain-link', target: "_parent" %>
               </div>
-              <div class="stats__row">
-                <div><%= t :market_cap_label %></div>
-                <div class="price">
-                  <%= link_to format_price(@coin.market_cap, precision: 2), coin_url(@coin.slug), class: 'plain-link' %>
-                </div>
+            </div>
+            <div class="stats__row">
+              <div><%= t :volume_24h_label %></div>
+              <div class="price">
+                <%= link_to format_price(@coin.volume24h, precision: 2), coin_url(@coin.slug), class: 'plain-link', target: "_parent" %>
               </div>
-              <div class="stats__row">
-                <div><%= t :volume_24h_label %></div>
-                <div class="price">
-                  <%= link_to format_price(@coin.volume24h, precision: 2), coin_url(@coin.slug), class: 'plain-link' %>
-                </div>
+            </div>
+            <div class="stats__row">
+              <div><%= t :circulating_supply_label %></div>
+              <div>
+                <%= link_to @coin.available_supply > 0 ? format_supply(@coin.available_supply) : "N/A", coin_url(@coin.slug), class: 'plain-link', target: "_parent" %>
               </div>
-              <div class="stats__row">
-                <div><%= t :circulating_supply_label %></div>
-                <div>
-                  <%= link_to @coin.available_supply > 0 ? format_supply(@coin.available_supply) : "N/A", coin_url(@coin.slug), class: 'plain-link' %>
-                </div>
-              </div>
-              <div class="stats__row">
-                <div><%= t :fixed_supply_label %></div>
-                <div>
-                  <%= link_to @coin.fixed_supply > 0 ? format_supply(@coin.fixed_supply) : "N/A", coin_url(@coin.slug), class: 'plain-link' %>
-                </div>
+            </div>
+            <div class="stats__row">
+              <div><%= t :fixed_supply_label %></div>
+              <div>
+                <%= link_to @coin.fixed_supply > 0 ? format_supply(@coin.fixed_supply) : "N/A", coin_url(@coin.slug), class: 'plain-link', target: "_parent" %>
               </div>
             </div>
           </div>
         </div>
-        <div class="half-width-container">
-          <div class="paper">
+      </div>
+
+      <div class="flex-container">
+        <div class="one-third third-width-container">
+          <div class="paper gauge-container">
             <h3>
               <%= t(:technical_analysis_summary) %>
               <a class="header-info-icon" data-tippy="<%= t :indicator_summary_copy %>" data-tippy-size="small">
                 <i class="far fa-info-circle"></i>
               </a>
             </h3>
-            <div class="gauge-wrapper">
-              <div class="gauge"></div>
-            </div>
-            <div class="indicators-summary">
-              <div>
-                <div class="sell"><%= @summary[:sell] %></div>
-                <div><%= t(:sell).upcase %></div>
+            <div>
+              <div class="gauge-wrapper">
+                <div class="gauge"></div>
               </div>
-              <div>
-                <div class="neutral"><%= @summary[:neutral] %></div>
-                <div><%= t(:neutral).upcase %></div>
-              </div>
-              <div>
-                <div class="buy"><%= @summary[:buy] %></div>
-                <div><%= t(:buy).upcase %></div>
+              <div class="indicators-summary">
+                <div>
+                  <div class="sell"><%= @summary[:sell] %></div>
+                  <div><%= t(:sell).upcase %></div>
+                </div>
+                <div>
+                  <div class="neutral"><%= @summary[:neutral] %></div>
+                  <div><%= t(:neutral).upcase %></div>
+                </div>
+                <div>
+                  <div class="buy"><%= @summary[:buy] %></div>
+                  <div><%= t(:buy).upcase %></div>
+                </div>
               </div>
             </div>
             <div class="indicators-updated"><%= t(:updated_on_date, date: l(@last_updated, format: :readable_date)) %></div>
           </div>
         </div>
-      </div>
-
-      <div class="flex-container">
-        <div class="paper">
-          <h3>
-            <%= t(:technical_indicators) %>
-            <a data-tippy="<% @indicator_rows.each do |indicator| %>
-              <p><b><%= t(indicator[:symbol], scope: 'indicators.title') %>:</b> <%= t(indicator[:symbol], scope: 'indicators.rule') %></p>
-            <% end %>" data-tippy-maxWidth="700" data-tippy-size="small" data-tippy-theme="indicators"><i class="far fa-info-circle"></i></a>
-          </h3>
-          <table class="indicators-table">
-            <thead>
-              <tr>
-                <th class="indicators__title"></th>
-                <th class="indicators__value"><%= t :sample_value_label %></th>
-                <th class="indicators__min"><%= t :min_label %></th>
-                <th class="indicators__max"><%= t :max_label %></th>
-                <th class="indicators__signal"><%= t :signal_label %></th>
-              </tr>
-            </thead>
-            <tbody>
-            <% @indicator_rows.each do |indicator| %>
-              <tr>
-                <td class="indicators__title"><%= t(indicator[:symbol], scope: 'indicators.title') %></td>
-                <td class="indicators__value number"><%= indicator[:value] %></td>
-                <td class="indicators__min number"><%= indicator[:min].presence || t(:na) %></td>
-                <td class="indicators__max number"><%= indicator[:max].presence || t(:na) %></td>
-                <td class="indicators__signal <%= indicator[:signal].downcase %>">
-                  <span><%= indicator[:signal].present? ? t(indicator[:signal].downcase).upcase : "" %></span>
-                </td>
-              </tr>
-            <% end %>
-            </tbody>
-          </table>
-          <div class="copy-container">
-            <%= t :technical_indicator_copy %>
+        <div class="two-thirds third-width-container">
+          <div class="paper">
+            <h3>
+              <%= t(:technical_indicators) %>
+              <a data-tippy="<% @indicator_rows.each do |indicator| %>
+                <p><b><%= t(indicator[:symbol], scope: 'indicators.title') %>:</b> <%= t(indicator[:symbol], scope: 'indicators.rule') %></p>
+              <% end %>" data-tippy-maxWidth="700" data-tippy-size="small" data-tippy-theme="indicators"><i class="far fa-info-circle"></i></a>
+            </h3>
+            <table class="indicators-table">
+              <thead>
+                <tr>
+                  <th class="indicators__title"></th>
+                  <th class="indicators__value"><%= t :sample_value_label %></th>
+                  <th class="indicators__min"><%= t :min_label %></th>
+                  <th class="indicators__max"><%= t :max_label %></th>
+                  <th class="indicators__signal"><%= t :signal_label %></th>
+                </tr>
+              </thead>
+              <tbody>
+              <% @indicator_rows.each do |indicator| %>
+                <tr>
+                  <td class="indicators__title"><%= t(indicator[:symbol], scope: 'indicators.title') %></td>
+                  <td class="indicators__value number"><%= indicator[:value] %></td>
+                  <td class="indicators__min number"><%= indicator[:min].presence || t(:na) %></td>
+                  <td class="indicators__max number"><%= indicator[:max].presence || t(:na) %></td>
+                  <td class="indicators__signal <%= indicator[:signal].downcase %>">
+                    <span><%= indicator[:signal].present? ? t(indicator[:signal].downcase).upcase : "" %></span>
+                  </td>
+                </tr>
+              <% end %>
+              </tbody>
+            </table>
+            <div class="copy-container">
+              <%= t :technical_indicator_copy %>
+            </div>
           </div>
         </div>
       </div>
@@ -146,7 +142,7 @@
             <% @news_items.each do |news_item| %>
             <div class="news-item">
               <h4 class="news-item__title">
-                <%= link_to news_item.title, news_item_url(id: news_item.id, slug: news_item.slug, force_drawer: true), target: "_blank" %>
+                <%= link_to news_item.title, news_item_url(id: news_item.id, slug: news_item.slug, force_drawer: true), onclick: "return sendLink(this.href);" %>
               </h4>
               <div class="news-item__summary">
                 <%= news_item.short_summary %>
@@ -156,7 +152,7 @@
                   <%= t(:time_ago, time_words: time_ago_in_words(news_item.feed_item_published_at)) %>
                 </div>
                 <div class="news-item__link">
-                  <%= link_to t(:read_more), news_item_url(id: news_item.id, slug: news_item.slug, force_drawer: true), target: "_blank" %>
+                  <%= link_to t(:read_more), news_item_url(id: news_item.id, slug: news_item.slug, force_drawer: true), onclick: "return sendLink(this.href);" %>
                 </div>
               </div>
             </div>
@@ -245,7 +241,7 @@
           <% end %>
           <div class="github-repo-link">
             <i class="fab fa-github"></i> <%= t :github_repo %>:
-            <%= link_to @coin.github_repo, github_url(@coin.github_repo), rel: "nofollow noopener noreferrer", target: "_blank" %>
+            <%= link_to @coin.github_repo, github_url(@coin.github_repo), rel: "nofollow noopener noreferrer", onclick: "return sendLink(this.href);" %>
           </div>
         </div>
         <div class="copy-container">
@@ -254,7 +250,7 @@
       </div>
 
       <div class="footer">
-        <a class="coinfi-link" href="<%= root_url %>">
+        <a class="coinfi-link" href="<%= root_url %>" target="_parent">
           Powered by <img src="<%= image_path('logo.svg') %>" class="coinfi-link__img" />
         </a>
       </div>
@@ -266,6 +262,18 @@
     <script src="https://d3js.org/d3.v5.min.js"></script>
     <script src="/js/d3scription.js"></script>
     <script type="text/javascript">
+      /* Post Messaging */
+      function sendLink(url) {
+        var payload = {
+          type: 'linkPressed',
+          parameters: {
+            url,
+          },
+        };
+        window.parent.postMessage(payload, '*');
+        return false;
+      }
+
       /* GAUGE */
       var options = {
         angle: [180, 360],
