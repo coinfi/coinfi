@@ -6,12 +6,13 @@ interface Props {
   isShown: boolean
   onClose: () => void
   bodySection: any
+  skipAnimation?: boolean
 }
 
 const BodySectionDrawer = (props: Props) => (
   <Drawer
     {...props}
-    position="bottom"
+    position={props.skipAnimation ? 'none' : 'bottom'}
     className="flex flex-column"
     onClose={props.onClose}
     isShown={props.isShown}

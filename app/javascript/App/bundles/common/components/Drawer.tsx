@@ -26,6 +26,7 @@ const Drawer = (props: Props) => {
       enter.translateY = ['0%']
       break
     default:
+      start.opacity = [1]
       break
   }
   return (

@@ -564,6 +564,7 @@ class NewsfeedPage extends React.Component<Props, State> {
                 />
                 {this.props.initialDrawer && (
                   <BodySectionDrawer
+                    skipAnimation={true}
                     isShown={this.state.ActiveMobileWindow === 'OneTimeDrawer'}
                     onClose={() =>
                       this.setState({ ActiveMobileWindow: 'None' })
