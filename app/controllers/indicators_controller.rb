@@ -5,12 +5,10 @@ class IndicatorsController < ApplicationController
   skip_before_action :verify_authenticity_token
 
   include IndicatorsHelper
+  include CoinsHelper
 
   def show
-    calculations = CalculateIndicatorsAndSignals.call(@coin)
-    @indicators, @signals = calculations.result
-    @crypo_rank = get_crypto_rank(coin_key: @coin.coin_key)
-
+    set_indicators_and_signals
     set_indicator_results
     set_summary_results
     set_news_items
@@ -61,18 +59,17 @@ class IndicatorsController < ApplicationController
 
   private
 
-  def get_crypto_rank(coin_key: @coin.coin_key)
-    distribute_reads(max_lag: MAX_ACCEPTABLE_REPLICATION_LAG, lag_failover: true) do
-      ordered_coins = Coin.where(coin_key: INDICATOR_COIN_KEYS).order(:ranking).pluck('coin_key')
-
-      ordered_coins.index(coin_key) + 1
+  def set_indicators_and_signals
+    # Expire cache at the same time as Coin.prices_data, i.e., underlying data used to calculat indicators & signals
+    @indicators, @signals = Rails.cache.fetch("indicators/#{@coin.slug}", expires_in: seconds_to_next_day + 1800) do
+      calculations = CalculateIndicatorsAndSignals.call(@coin)
+      calculations.result
     end
   end
 
   def set_github_stats
     github_stats = @coin.github_stats
     @commit_activity = github_stats[:commit_activity]
-    @code_frequency = github_stats[:code_frequency].last(52*2) if github_stats[:code_frequency].present? # two years
     @github_snapshot = github_stats[:snapshot]
   end
 
