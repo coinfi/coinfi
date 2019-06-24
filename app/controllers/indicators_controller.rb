@@ -1,20 +1,20 @@
 class IndicatorsController < ApplicationController
   before_action :set_coin, only: [:show]
   after_action :set_allow_iframe, only: [:show]
-
   skip_before_action :verify_authenticity_token
+  layout false
 
   include IndicatorsHelper
   include CoinsHelper
 
   def show
+    set_news_items
+    set_github_stats
+    fresh_when last_modified: [@coin.updated_at, @news_items.first.updated_at].max, public: true
+
     set_indicators_and_signals
     set_indicator_results
     set_summary_results
-    set_news_items
-    set_github_stats
-
-    render layout: false
   end
 
   protected
