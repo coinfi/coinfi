@@ -14,7 +14,7 @@
 
       <h2 class="main-title">
         <%= t(:technical_analysis_and_price_movements) %>
-        <a class="coinfi-link" href="<%= root_url %>" target="_parent">
+        <a class="coinfi-link" href="<%= root_url %>" onclick="return sendLink(this.href);">
           Powered by <img src="<%= image_path('logo.svg') %>" class="coinfi-link__img" />
         </a>
       </h2>
@@ -26,37 +26,37 @@
             <div class="stats__row">
               <div><%= t(:day_move_label, days: 7) %></div>
               <div class="<%= get_buy_sell_class(@coin.change7d) %>">
-                <%= link_to format_percentage(@coin.change7d), coin_url(@coin.slug), class: 'plain-link', target: "_parent" %>
+                <%= link_to format_percentage(@coin.change7d), coin_url(@coin.slug), class: 'plain-link', onclick: "return sendLink(this.href);" %>
               </div>
             </div>
             <div class="stats__row">
               <div><%= t(:day_move_label, days: 30) %></div>
               <div class="<%= get_buy_sell_class(@coin.change30d) %>">
-                <%= link_to format_percentage(@coin.change30d), coin_url(@coin.slug), class: 'plain-link', target: "_parent" %>
+                <%= link_to format_percentage(@coin.change30d), coin_url(@coin.slug), class: 'plain-link', onclick: "return sendLink(this.href);" %>
               </div>
             </div>
             <div class="stats__row">
               <div><%= t :market_cap_label %></div>
               <div class="price">
-                <%= link_to format_price(@coin.market_cap, precision: 2), coin_url(@coin.slug), class: 'plain-link', target: "_parent" %>
+                <%= link_to format_price(@coin.market_cap, precision: 2), coin_url(@coin.slug), class: 'plain-link', onclick: "return sendLink(this.href);" %>
               </div>
             </div>
             <div class="stats__row">
               <div><%= t :volume_24h_label %></div>
               <div class="price">
-                <%= link_to format_price(@coin.volume24h, precision: 2), coin_url(@coin.slug), class: 'plain-link', target: "_parent" %>
+                <%= link_to format_price(@coin.volume24h, precision: 2), coin_url(@coin.slug), class: 'plain-link', onclick: "return sendLink(this.href);" %>
               </div>
             </div>
             <div class="stats__row">
               <div><%= t :circulating_supply_label %></div>
               <div>
-                <%= link_to @coin.available_supply > 0 ? format_supply(@coin.available_supply) : "N/A", coin_url(@coin.slug), class: 'plain-link', target: "_parent" %>
+                <%= link_to @coin.available_supply > 0 ? format_supply(@coin.available_supply) : "N/A", coin_url(@coin.slug), class: 'plain-link', onclick: "return sendLink(this.href);" %>
               </div>
             </div>
             <div class="stats__row">
               <div><%= t :fixed_supply_label %></div>
               <div>
-                <%= link_to @coin.fixed_supply > 0 ? format_supply(@coin.fixed_supply) : "N/A", coin_url(@coin.slug), class: 'plain-link', target: "_parent" %>
+                <%= link_to @coin.fixed_supply > 0 ? format_supply(@coin.fixed_supply) : "N/A", coin_url(@coin.slug), class: 'plain-link', onclick: "return sendLink(this.href);" %>
               </div>
             </div>
           </div>
@@ -139,24 +139,7 @@
         <div class="paper">
           <h3><%= t(:market_news_research) %></h3>
           <div class="news">
-            <% @news_items.each do |news_item| %>
-            <div class="news-item">
-              <h4 class="news-item__title">
-                <%= link_to news_item.title, news_item_url(id: news_item.id, slug: news_item.slug, force_drawer: true), onclick: "return sendLink(this.href);" %>
-              </h4>
-              <div class="news-item__summary">
-                <%= news_item.short_summary %>
-              </div>
-              <div class="news-item__footer">
-                <div class="news-item__details">
-                  <%= t(:time_ago, time_words: time_ago_in_words(news_item.feed_item_published_at)) %>
-                </div>
-                <div class="news-item__link">
-                  <%= link_to t(:read_more), news_item_url(id: news_item.id, slug: news_item.slug, force_drawer: true), onclick: "return sendLink(this.href);" %>
-                </div>
-              </div>
-            </div>
-            <% end %>
+            <%= render partial: 'news', collection: @news_items, as: :news_item %>
           </div>
         </div>
       </div>
@@ -250,7 +233,7 @@
       </div>
 
       <div class="footer">
-        <a class="coinfi-link" href="<%= root_url %>" target="_parent">
+        <a class="coinfi-link" href="<%= root_url %>" onclick="return sendLink(this.href);">
           Powered by <img src="<%= image_path('logo.svg') %>" class="coinfi-link__img" />
         </a>
       </div>
@@ -263,13 +246,16 @@
     <script src="/js/d3scription.js"></script>
     <script type="text/javascript">
       /* Post Messaging */
-      function sendLink(url) {
+      function sendLink(url, index = null) {
         var payload = {
           type: 'linkPressed',
           parameters: {
             url,
           },
         };
+        if (index) {
+          payload.parameters.position = index;
+        }
         window.parent.postMessage(payload, '*');
         return false;
       }
