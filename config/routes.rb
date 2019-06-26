@@ -92,6 +92,8 @@ Rails.application.routes.draw do
       get 'dominance', on: :collection
     end
     get '/token-metrics(/:metric_type_slug)', to: 'token_metrics#index'
+    get '/indicators/tickers', to: 'indicators#tickers'
+    get '/indicators/overview/:symbols', to: 'indicators#overview'
 
     resources :currency, only: %i[index]
 
