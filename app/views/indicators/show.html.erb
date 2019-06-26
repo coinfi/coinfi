@@ -9,7 +9,7 @@
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i&amp;subset=cyrillic,cyrillic-ext,greek,greek-ext,latin-ext,vietnamese" rel="stylesheet">
     <%= stylesheet_link_tag 'indicators' %>
   </head>
-  <body>
+  <body onload="handleOnload();">
     <div class="main-container">
 
       <h2 class="main-title">
@@ -258,6 +258,13 @@
         }
         window.parent.postMessage(payload, '*');
         return false;
+      }
+
+      function handleOnload() {
+        var payload = {
+          type: 'loaded',
+        };
+        window.parent.postMessage(payload, '*');
       }
 
       /* GAUGE */
