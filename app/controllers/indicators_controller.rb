@@ -17,6 +17,10 @@ class IndicatorsController < ApplicationController
     set_summary_results
   end
 
+  def render_empty
+    render "indicators/empty"
+  end
+
   protected
 
   def has_indicator?(coin_key: @coin.coin_key)
@@ -30,30 +34,17 @@ class IndicatorsController < ApplicationController
 
   def set_coin
     distribute_reads(max_lag: MAX_ACCEPTABLE_REPLICATION_LAG, lag_failover: true) do
-      coin_id_or_slug = params[:id_or_slug]
+      coin_symbol = params[:symbol]
+      coin_symbol.upcase! if coin_symbol.present?
 
       # Attempt to search assuming the param is a slug
-      coin_by_slug = Coin.find_by(slug: coin_id_or_slug)
-      if coin_by_slug
-        @coin = coin_by_slug
-        unless has_indicator?
-          render_404
-        end
-        return
+      coin = Coin.find_by(symbol: coin_symbol)
+      if coin
+        @coin = coin
+        return if has_indicator?
       end
 
-      # If we don't find matches for slug, we can safely assume it is an id
-      coin_id = coin_id_or_slug
-      coin_by_id = nil
-      Rollbar.silenced {
-        coin_by_id = Coin.find(coin_id)
-      }
-      if !coin_by_id || !has_indicator?(coin_key: coin_by_id.coin_key)
-        render_404
-      end
-
-      # 301 redirect to the same action with the coin slug for SEO purposes
-      redirect_to action: action_name, id_or_slug: coin_by_id.slug, status: :moved_permanently
+      render_empty
     end
   end
 
