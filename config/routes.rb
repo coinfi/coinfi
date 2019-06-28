@@ -41,7 +41,7 @@ Rails.application.routes.draw do
     resources :contributor_submissions, path: 'contributor-submissions'
     resources :exchange_listings, only: :index, path: 'listings'
     resources :calendar_events, only: :index, path: 'calendar'
-    get '/indicators/:id_or_slug', to: 'indicators#show', as: 'indicators'
+    get '/indicators/:symbol', to: 'indicators#show', as: 'indicators'
     # get '/icos', to: redirect('/icos/upcoming'), as: 'icos_root'
     # get '/icos(/:status)', to: 'icos#index', as: 'icos'
     get '/news/beta', to: static('/news-beta.html')
@@ -85,12 +85,15 @@ Rails.application.routes.draw do
     get '/coins/:id/news', to: 'coins#news'
     get '/coins/by-slug/:slug', to: 'coins#by_slug'
     get '/coins/prices', to: 'coins#prices'
+    get '/coins/markets', to: 'coins#markets'
     resources :coins, only: %i[index show toplist watchlist dominance] do
       get 'toplist', on: :collection
       get 'watchlist', on: :collection
       get 'dominance', on: :collection
     end
     get '/token-metrics(/:metric_type_slug)', to: 'token_metrics#index'
+    get '/indicators/tickers', to: 'indicators#tickers'
+    get '/indicators/overview/:symbols', to: 'indicators#overview'
 
     resources :currency, only: %i[index]
 

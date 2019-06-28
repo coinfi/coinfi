@@ -1,24 +1,24 @@
 class IndicatorsController < ApplicationController
   before_action :set_coin, only: [:show]
   after_action :set_allow_iframe, only: [:show]
-
-  # Temporary password protection
   skip_before_action :verify_authenticity_token
-  http_basic_authenticate_with name: ENV.fetch('INDICATORS_USERNAME'), password: ENV.fetch('INDICATORS_PASSWORD')
+  layout false
 
   include IndicatorsHelper
+  include CoinsHelper
 
   def show
-    calculations = CalculateIndicatorsAndSignals.call(@coin)
-    @indicators, @signals = calculations.result
-    @crypo_rank = get_crypto_rank(coin_key: @coin.coin_key)
-
-    set_indicator_results
-    set_summary_results
     set_news_items
     set_github_stats
+    fresh_when last_modified: [@coin.updated_at, @news_items.first.updated_at].max, public: true
 
-    render layout: false
+    set_indicator_data
+    # Update must occur after the date of the last data point
+    @last_updated = Date.parse(@coin.prices_data.last['time']) + 1.day
+  end
+
+  def render_empty
+    render "indicators/empty"
   end
 
   protected
@@ -34,47 +34,41 @@ class IndicatorsController < ApplicationController
 
   def set_coin
     distribute_reads(max_lag: MAX_ACCEPTABLE_REPLICATION_LAG, lag_failover: true) do
-      coin_id_or_slug = params[:id_or_slug]
+      coin_symbol = params[:symbol]
+      coin_symbol.upcase! if coin_symbol.present?
 
       # Attempt to search assuming the param is a slug
-      coin_by_slug = Coin.find_by(slug: coin_id_or_slug)
-      if coin_by_slug
-        @coin = coin_by_slug
-        unless has_indicator?
-          render_404
-        end
-        return
+      coin = Coin.find_by(symbol: coin_symbol)
+      if coin
+        @coin = coin
+        return if has_indicator?
       end
 
-      # If we don't find matches for slug, we can safely assume it is an id
-      coin_id = coin_id_or_slug
-      coin_by_id = nil
-      Rollbar.silenced {
-        coin_by_id = Coin.find(coin_id)
-      }
-      if !coin_by_id || !has_indicator?(coin_key: coin_by_id.coin_key)
-        render_404
-      end
-
-      # 301 redirect to the same action with the coin slug for SEO purposes
-      redirect_to action: action_name, id_or_slug: coin_by_id.slug, status: :moved_permanently
+      render_empty
     end
   end
 
   private
 
-  def get_crypto_rank(coin_key: @coin.coin_key)
-    distribute_reads(max_lag: MAX_ACCEPTABLE_REPLICATION_LAG, lag_failover: true) do
-      ordered_coins = Coin.where(coin_key: INDICATOR_COIN_KEYS).order(:ranking).pluck('coin_key')
-
-      ordered_coins.index(coin_key) + 1
+  def set_indicator_data
+    # Expire cache at the same time as Coin.prices_data, i.e., underlying data used to calculate indicators & signals
+    calculations = Rails.cache.fetch("indicators/#{@coin.slug}:data", expires_in: seconds_to_next_day + 1800) do
+      calculations = CalculateIndicatorsAndSignals.call(@coin)
+      calculations.result
     end
+
+    return if calculations.empty?
+
+    @indicators = calculations[:raw_indicators]
+    @signals = calculations[:signals]
+    @indicator_rows = calculations[:indicators]
+    @summary = calculations[:summary]
+    @summary_value = calculations[:summary_value]
   end
 
   def set_github_stats
     github_stats = @coin.github_stats
     @commit_activity = github_stats[:commit_activity]
-    @code_frequency = github_stats[:code_frequency].last(52*2) if github_stats[:code_frequency].present? # two years
     @github_snapshot = github_stats[:snapshot]
   end
 
@@ -88,115 +82,6 @@ class IndicatorsController < ApplicationController
         .order_by_published
         .limit(5)
         .to_a
-    end
-  end
-
-  def set_indicator_results
-    @indicator_rows = [
-      {
-        symbol: :rsi,
-        value: @indicators[:rsi],
-        min: 0,
-        max: 100,
-        signal: @signals[:rsi],
-      },
-      {
-        symbol: :stochrsi,
-        value: @indicators[:stochrsi],
-        min: 0,
-        max: 100,
-        signal: @signals[:stochrsi],
-      },
-      {
-        symbol: :macd,
-        value: @indicators[:macd],
-        min: nil,
-        max: nil,
-        signal: @signals[:macd],
-      },
-      {
-        symbol: :cci,
-        value: @indicators[:cci],
-        min: nil,
-        max: nil,
-        signal: @signals[:cci],
-      },
-      {
-        symbol: :stochastic_fast,
-        value: @indicators[:stochastic_fast],
-        min: 0,
-        max: 100,
-        signal: @signals[:stochastic_fast],
-      },
-      {
-        symbol: :stochastic_slow,
-        value: @indicators[:stochastic_slow],
-        min: 0,
-        max: 100,
-        signal: @signals[:stochastic_slow],
-      },
-      {
-        symbol: :sma,
-        value: @indicators[:sma],
-        min: nil,
-        max: nil,
-        signal: @signals[:sma],
-      },
-      {
-        symbol: :ema,
-        value: @indicators[:ema],
-        min: nil,
-        max: nil,
-        signal: @signals[:ema],
-      }
-    ]
-  end
-
-  def set_summary_results
-    # Summary results are dependent on indicator results
-    if @indicator_rows.blank?
-      set_indicator_results
-    end
-
-    @summary = @indicator_rows.inject({buy: 0, neutral: 0, sell: 0}) do |sum, indicator|
-      case indicator[:signal]
-      when "BUY"
-        sum.update(buy: sum[:buy] + 1)
-      when "SELL"
-        sum.update(sell: sum[:sell] + 1)
-      when "NEUTRAL"
-        sum.update(neutral: sum[:neutral] + 1)
-      else
-        sum
-      end
-    end
-
-    @summary_value = get_summary_value(@summary)
-    # Update must occur after the date of the last data point
-    @last_updated = Date.parse(@coin.prices_data.last['time']) + 1.day
-  end
-
-  def get_summary_value(summary_signals, strong_threshold: 0.5, weak_threshold: 0.1, neutral_weight: 0.5)
-    total = summary_signals.inject(0.0) do |sum, (k, v)|
-      if k == :neutral
-        sum + v * neutral_weight
-      else
-        sum + v
-      end
-    end
-    raw_value = summary_signals[:sell] * -1 + summary_signals[:buy] * 1
-    percent_value = raw_value / total
-
-    if percent_value <= -1 * strong_threshold
-      10 # strong sell
-    elsif percent_value > -1 * strong_threshold && percent_value < -1 * weak_threshold
-      30 # sell
-    elsif percent_value > weak_threshold && percent_value < strong_threshold
-      70 # buy
-    elsif percent_value >= strong_threshold
-      90 # strong buy
-    else
-      50 # neutral
     end
   end
 end

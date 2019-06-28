@@ -111,10 +111,6 @@
     "webpack-strip-log-loader": "^0.1.5"
   },
   "devDependencies": {
-    "@storybook/addon-actions": "^3.4.8",
-    "@storybook/addon-links": "^3.4.8",
-    "@storybook/addons": "^3.4.8",
-    "@storybook/react": "^3.4.8",
     "@types/jest": "^23.3.3",
     "babel-eslint": "^10.0.1",
     "babel-jest": "^23.4.2",
@@ -140,9 +136,14 @@
     "tslint-config-prettier": "^1.15.0",
     "webpack-dev-server": "2.11.2"
   },
+  "resolutions": {
+    "fstream": "1.0.12",
+    "js-yaml": "3.13.1",
+    "node-sass": "4.12.0",
+    "postcss-filter-plugins": "2.0.3",
+    "querystringify": "2.0.0"
+  },
   "scripts": {
-    "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook",
     "tslint-check": "tslint-config-prettier-check ./tslint.json",
     "precommit": "lint-staged",
     "build-webpack:dev:client": "PROJECT_PATH=. NODE_ENV=development webpack --config ./client/config/webpack.client.rails.build.config.js",

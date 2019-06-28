@@ -78,6 +78,8 @@ module CoinMarketCapPro
         volume_percentage = has_base_volume24h ? volume24h.to_f / base_volume24h : 0
         volume24h_quote = pair.dig("quote", "exchange_reported",
           coin_is_primary ? "volume_24h_quote" : "volume_24h_base")
+        volume24h_base = pair.dig("quote", "exchange_reported",
+          coin_is_primary ? "volume_24h_base" : "volume_24h_quote")
         price = quote["price"] || 0
         quote_currency_symbol = pair.dig("market_pair_quote", "currency_symbol")
 
@@ -94,6 +96,7 @@ module CoinMarketCapPro
           :price => price,
           :volume24h => volume24h,
           :volume_percentage => volume_percentage,
+          :volume24h_base => volume24h_base,
           :volume24h_quote => volume24h_quote,
           :quote_currency_symbol => quote_currency_symbol,
           :last_updated => quote["last_updated"]

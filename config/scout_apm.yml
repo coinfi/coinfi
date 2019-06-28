@@ -1,0 +1,13 @@
+common: &defaults
+  name: <%= ENV.fetch("HEROKU_APP_NAME") { 'coinfi' } %>
+  key: <%= ENV["SCOUT_KEY"] %>
+  monitor: true
+
+test:
+  monitor: false
+
+development:
+  monitor: false
+
+production:
+  <<: *defaults

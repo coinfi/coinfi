@@ -4,150 +4,197 @@
     <%= render 'layouts/tracking_scripts_preconnect' %>
     <link rel="preconnect" href="https://unpkg.com" crossorigin>
     <link rel="preconnect" href="https://d3js.org" crossorigin>
-    <link rel="stylesheet" href="/css/gauge.css">
-    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-6jHF7Z3XI3fF4XZixAuSu0gGKrXwoX/w3uFPxC56OtjChio7wtTGJWRW53Nhx6Ev" crossorigin="anonymous">
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i&amp;subset=cyrillic,cyrillic-ext,greek,greek-ext,latin-ext,vietnamese" rel="stylesheet">
-    <%= stylesheet_link_tag 'indicators' %>
+    <link rel="preconnect" href="https://pro.fontawesome.com" crossorigin>
+    <link rel="preconnect" href="https://etoro-cdn.etorostatic.com" crossorigin>
+    <link rel="preload" href="/img/arrow.svg" as="image">
+    <link rel="preload" href="https://etoro-cdn.etorostatic.com/web-client/fonts/opensans/open-sans-v15-cyrillic-ext_cyrillic_greek_greek-ext_latin_latin-ext_vietnamese-regular.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="https://etoro-cdn.etorostatic.com/web-client/fonts/opensans/open-sans-v15-cyrillic-ext_cyrillic_greek_greek-ext_latin_latin-ext_vietnamese-600.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="https://etoro-cdn.etorostatic.com/web-client/fonts/opensans/open-sans-v15-cyrillic-ext_cyrillic_greek_greek-ext_latin_latin-ext_vietnamese-700.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="https://pro.fontawesome.com/releases/v5.7.2/webfonts/fa-regular-400.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="https://pro.fontawesome.com/releases/v5.7.2/webfonts/fa-brands-400.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="/css/gauge.css" as="style" type="text/css">
+    <link rel="preload" href="https://pro.fontawesome.com/releases/v5.7.2/css/all.css" as="style" type="text/css" crossorigin>
+    <link rel="preload" href="<%= stylesheet_path 'indicators' %>" as="style" type="text/css">
+    <noscript>
+      <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.7.2/css/all.css" crossorigin="anonymous">
+      <%= stylesheet_link_tag 'indicators' %>
+    </noscript>
+    <style type="text/css">
+      html, body {
+        height: 100%;
+        width: 100%;
+        background-color: #f0f0f0;
+      }
+      .loader {
+        position: relative;
+        background-color: #fff;
+        border-radius: 5px;
+        box-shadow: 0 1px 1px 1px rgba(0,0,0,.1);
+        height: 65px;
+        width: 65px;
+        margin: 10px auto;
+      }
+      .loader:before {
+        background-image: url(https://etoro-cdn.etorostatic.com/web-client/img/eToro.png);
+      }
+      .loader:after, .loader:before {
+        height: 50px;
+        left: 50%;
+        content: "";
+        display: block;
+        margin-left: -25px;
+        margin-top: -25px;
+        position: absolute;
+        top: 50%;
+        width: 50px;
+        background-size: 50px 50px;
+        background-position: 50%;
+      }
+      @keyframes rotation {
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+      .loader:after {
+        animation: rotation .5s infinite linear;
+        background-image: url(https://etoro-cdn.etorostatic.com/web-client/img/preloader.png);
+      }
+      .loader:after, .loader:before {
+        height: 50px;
+        left: 50%;
+        content: "";
+        display: block;
+        margin-left: -25px;
+        margin-top: -25px;
+        position: absolute;
+        top: 50%;
+        width: 50px;
+        background-size: 50px 50px;
+        background-position: 50%;
+      }
+    </style>
   </head>
-  <body>
-    <div class="main-container">
+  <body onload="handleOnload();">
+    <div class="loader" id="loader"></div>
+    <div class="main-container" id="main" style="display: none;">
 
       <h2 class="main-title">
         <%= t(:technical_analysis_and_price_movements) %>
-        <a class="coinfi-link" href="<%= root_url %>">
+        <a class="coinfi-link" href="<%= root_url %>" onclick="return sendLink(this.href);">
           Powered by <img src="<%= image_path('logo.svg') %>" class="coinfi-link__img" />
         </a>
       </h2>
 
       <div class="flex-container">
-        <div class="half-width-container">
-          <div class="paper">
-            <h3><%= t(@coin.slug, scope:'coins') %> <%= t(:stats) %></h3>
-            <div class="stats">
-              <div class="stats__row">
-                <div><%= t(:crypto_rank) %></div>
-                <div>
-                  <%= link_to @crypo_rank, coin_url(@coin.slug), class: 'plain-link' %>
-                </div>
-              </div>
-              <div class="stats__row">
-                <div><%= t(:day_move_label, days: 7) %></div>
-                <div class="<%= get_buy_sell_class(@coin.change7d) %>">
-                  <%= link_to format_percentage(@coin.change7d), coin_url(@coin.slug), class: 'plain-link' %>
-                </div>
-              </div>
-              <div class="stats__row">
-                <div><%= t(:day_move_label, days: 30) %></div>
-                <div class="<%= get_buy_sell_class(@coin.change30d) %>">
-                  <%= link_to format_percentage(@coin.change30d), coin_url(@coin.slug), class: 'plain-link' %>
-                </div>
-              </div>
-              <div class="stats__row">
-                <div><%= t :market_cap_label %></div>
-                <div class="price">
-                  <%= link_to format_price(@coin.market_cap, precision: 2), coin_url(@coin.slug), class: 'plain-link' %>
-                </div>
-              </div>
-              <div class="stats__row">
-                <div><%= t :volume_24h_label %></div>
-                <div class="price">
-                  <%= link_to format_price(@coin.volume24h, precision: 2), coin_url(@coin.slug), class: 'plain-link' %>
-                </div>
-              </div>
-              <div class="stats__row">
-                <div><%= t :circulating_supply_label %></div>
-                <div>
-                  <%= link_to @coin.available_supply > 0 ? format_supply(@coin.available_supply) : "N/A", coin_url(@coin.slug), class: 'plain-link' %>
-                </div>
-              </div>
-              <div class="stats__row">
-                <div><%= t :fixed_supply_label %></div>
-                <div>
-                  <%= link_to @coin.fixed_supply > 0 ? format_supply(@coin.fixed_supply) : "N/A", coin_url(@coin.slug), class: 'plain-link' %>
-                </div>
+        <div class="paper">
+          <h3><%= t(@coin.slug, scope:'coins') %> <%= t(:stats) %></h3>
+          <div class="stats">
+            <div class="stats__row">
+              <div><%= t(:day_move_label, days: 7) %></div>
+              <div class="<%= get_buy_sell_class(@coin.change7d) %>">
+                <%= link_to format_percentage(@coin.change7d), coin_url(@coin.slug), class: 'plain-link', onclick: "return sendLink(this.href);" %>
               </div>
             </div>
-          </div>
-        </div>
-        <div class="half-width-container">
-          <div class="paper">
-            <h3>
-              <%= t(:technical_analysis_summary) %>
-              <a class="header-info-icon" data-tippy="<%= t :indicator_summary_copy %>">
-                <i class="far fa-info-circle"></i>
-              </a>
-            </h3>
-            <div class="gauge-wrapper">
-              <div class="gauge"></div>
-            </div>
-            <div class="indicators-summary">
-              <div>
-                <div class="sell"><%= @summary[:sell] %></div>
-                <div><%= t(:sell).upcase %></div>
-              </div>
-              <div>
-                <div><%= @summary[:neutral] %></div>
-                <div><%= t(:neutral).upcase %></div>
-              </div>
-              <div>
-                <div class="buy"><%= @summary[:buy] %></div>
-                <div><%= t(:buy).upcase %></div>
+            <div class="stats__row">
+              <div><%= t(:day_move_label, days: 30) %></div>
+              <div class="<%= get_buy_sell_class(@coin.change30d) %>">
+                <%= link_to format_percentage(@coin.change30d), coin_url(@coin.slug), class: 'plain-link', onclick: "return sendLink(this.href);" %>
               </div>
             </div>
-            <div class="indicators-updated"><%= t(:updated_on_date, date: l(@last_updated, format: :readable_date, default: l(@last_updated))) %></div>
+            <div class="stats__row">
+              <div><%= t :market_cap_label %></div>
+              <div class="price">
+                <%= link_to format_price(@coin.market_cap, precision: 2), coin_url(@coin.slug), class: 'plain-link', onclick: "return sendLink(this.href);" %>
+              </div>
+            </div>
+            <div class="stats__row">
+              <div><%= t :volume_24h_label %></div>
+              <div class="price">
+                <%= link_to format_price(@coin.volume24h, precision: 2), coin_url(@coin.slug), class: 'plain-link', onclick: "return sendLink(this.href);" %>
+              </div>
+            </div>
+            <div class="stats__row">
+              <div><%= t :circulating_supply_label %></div>
+              <div>
+                <%= link_to @coin.available_supply > 0 ? format_supply(@coin.available_supply) : "N/A", coin_url(@coin.slug), class: 'plain-link', onclick: "return sendLink(this.href);" %>
+              </div>
+            </div>
+            <div class="stats__row">
+              <div><%= t :fixed_supply_label %></div>
+              <div>
+                <%= link_to @coin.fixed_supply > 0 ? format_supply(@coin.fixed_supply) : "N/A", coin_url(@coin.slug), class: 'plain-link', onclick: "return sendLink(this.href);" %>
+              </div>
+            </div>
           </div>
         </div>
       </div>
 
       <div class="flex-container">
-        <div class="paper">
-          <h3><%= t(:technical_indicators) %></h3>
-          <table class="indicators-desktop">
-            <thead>
-              <tr>
-                <th></th>
-                <th><%= t :sample_value_label %></th>
-                <th><%= t :min_label %></th>
-                <th><%= t :max_label %></th>
-                <th class="indicator-signal"><%= t :signal_label %></th>
-              </tr>
-            </thead>
-            <tbody>
-            <% @indicator_rows.each do |indicator| %>
-              <tr class="<%= cycle('even', 'odd') %>">
-                <td><%= t(indicator[:symbol], scope: 'indicators.title') %></td>
-                <td class="number"><%= indicator[:value] %></td>
-                <td class="number"><%= indicator[:min].presence || t(:na) %></td>
-                <td class="number"><%= indicator[:max].presence || t(:na) %></td>
-                <td class="indicator-signal <%= indicator[:signal].downcase %>">
-                  <%= indicator[:signal].present? ? t(indicator[:signal].downcase).upcase : "" %>
-                  <a data-tippy="<%= simple_format(t(indicator[:symbol], scope: 'indicators.rule')) %>"><i class="far fa-info-circle"></i></a>
-                </td>
-              </tr>
-            <% end %>
-            </tbody>
-          </table>
-          <div class="indicators-mobile">
-          <% @indicator_rows.each do |indicator| %>
-            <div class="indicators-mobile__row <%= cycle('even', 'odd') %>">
-              <div class="indicators-mobile__col-titles">
-                <div class="indicators__title"><%= t(indicator[:symbol], scope: 'indicators.title') %></div>
+        <div class="one-third third-width-container">
+          <div class="paper gauge-container">
+            <h3>
+              <%= t(:technical_analysis_summary) %>
+              <a class="header-info-icon" data-tippy="<%= t :indicator_summary_copy %>" data-tippy-size="small">
+                <i class="far fa-info-circle"></i>
+              </a>
+            </h3>
+            <div>
+              <div class="gauge-wrapper">
+                <div class="gauge"></div>
               </div>
-              <div class="indicators-mobile__col-values">
-                <div class="indicators__signal <%= indicator[:signal].downcase %>">
-                  <a data-tippy="<%= simple_format("#{t(indicator[:symbol], scope: 'indicators.rule')}
-                    #{t(:min_label)}: #{indicator[:min].presence || t(:na)}
-                    #{t(:max_label)}: #{indicator[:max].presence || t(:na)}")
-                  %>"><i class="far fa-info-circle"></i></a>
-                  <%= indicator[:signal].present? ? t(indicator[:signal].downcase).upcase : "" %>
+              <div class="indicators-summary">
+                <div>
+                  <div class="sell"><%= @summary[:sell] %></div>
+                  <div><%= t(:sell).upcase %></div>
                 </div>
-                <div class="indicators__signal-value"><%= indicator[:value] %></div>
+                <div>
+                  <div class="neutral"><%= @summary[:neutral] %></div>
+                  <div><%= t(:neutral).upcase %></div>
+                </div>
+                <div>
+                  <div class="buy"><%= @summary[:buy] %></div>
+                  <div><%= t(:buy).upcase %></div>
+                </div>
               </div>
             </div>
-          <% end %>
+            <div class="indicators-updated"><%= t(:updated_on_date, date: l(@last_updated, format: :readable_date, default: l(@last_updated))) %></div>
           </div>
-          <div class="copy-container">
-            <%= t :technical_indicator_copy %>
+        </div>
+        <div class="two-thirds third-width-container">
+          <div class="paper">
+            <h3>
+              <%= t(:technical_indicators) %>
+              <a data-tippy="<% @indicator_rows.each do |indicator| %>
+                <p><b><%= t(indicator[:symbol], scope: 'indicators.title') %>:</b> <%= t(indicator[:symbol], scope: 'indicators.rule') %></p>
+              <% end %>" data-tippy-maxWidth="700" data-tippy-size="small" data-tippy-theme="indicators"><i class="far fa-info-circle"></i></a>
+            </h3>
+            <table class="indicators-table">
+              <thead>
+                <tr>
+                  <th class="indicators__title"></th>
+                  <th class="indicators__value"><%= t :sample_value_label %></th>
+                  <th class="indicators__min"><%= t :min_label %></th>
+                  <th class="indicators__max"><%= t :max_label %></th>
+                  <th class="indicators__signal"><%= t :signal_label %></th>
+                </tr>
+              </thead>
+              <tbody>
+              <% @indicator_rows.each do |indicator| %>
+                <tr>
+                  <td class="indicators__title"><%= t(indicator[:symbol], scope: 'indicators.title') %></td>
+                  <td class="indicators__value number"><%= indicator[:value] %></td>
+                  <td class="indicators__min number"><%= indicator[:min].presence || t(:na) %></td>
+                  <td class="indicators__max number"><%= indicator[:max].presence || t(:na) %></td>
+                  <td class="indicators__signal <%= indicator[:signal].downcase %>">
+                    <span><%= indicator[:signal].present? ? t(indicator[:signal].downcase).upcase : "" %></span>
+                  </td>
+                </tr>
+              <% end %>
+              </tbody>
+            </table>
+            <div class="copy-container">
+              <%= t :technical_indicator_copy %>
+            </div>
           </div>
         </div>
       </div>
@@ -158,59 +205,29 @@
         <div class="paper">
           <h3><%= t(:market_news_research) %></h3>
           <div class="news">
-            <% @news_items.each do |news_item| %>
-            <div class="news-item">
-              <h4 class="news-item__title">
-                <%= link_to news_item.title, news_item_url(id: news_item.id, slug: news_item.slug) %>
-              </h4>
-              <div class="news-item__summary">
-                <%= news_item.short_summary %>
-              </div>
-              <div class="news-item__footer">
-                <div class="news-item__details">
-                  <%= t(:time_ago, time_words: time_ago_in_words(news_item.feed_item_published_at)) %>
-                </div>
-                <div class="news-item__link">
-                  <%= link_to t(:read_more), news_item_url(id: news_item.id, slug: news_item.slug) %>
-                </div>
-              </div>
-            </div>
-            <% end %>
+            <%= render partial: 'news', collection: @news_items, as: :news_item %>
           </div>
         </div>
       </div>
       <% end %>
 
       <h2><%= t(:fundamentals) %></h2>
-      <div class="flex-container">
+      <div class="flex-container flex-wrap">
         <div class="paper with-sidebar">
           <h3>
             <%= t :development_activity %>
-            <a class="header-info-icon" data-tippy="<%= t(:development_activity_copy, name: @coin.name, symbol: @coin.symbol) %>">
-              <i class="far fa-info-circle"></i>
-            </a>
           </h3>
-          <div class="tab-bar github-tab-bar">
-            <% if @commit_activity.present? %>
-            <a onclick="switchToTab(this, 'commit-activity')" class="tab">
-              <div><i class="far fa-code-commit"></i><%= t :commit_activity %></div>
-            </a>
-            <% end %>
-            <% if @code_frequency.present? %>
-            <a onclick="switchToTab(this, 'code-frequency')" class="tab">
-              <div><i class="far fa-code"></i><%= t :code_frequency %></div>
-            </a>
-            <% end %>
-          </div>
           <% if @commit_activity.present? %>
           <svg id="commit-activity" class="graph-container tab-container" preserveAspectRatio="xMidYMid meet"></svg>
           <% end %>
-          <% if @code_frequency.present? %>
-          <svg id="code-frequency" class="graph-container tab-container" preserveAspectRatio="xMidYMid meet"></svg>
-          <% end %>
         </div>
-        <div class="sidebar">
-          <h3><%= t :developer_community %></h3>
+        <div class="sidebar sidebar-right">
+          <h3>
+            <%= t :developer_community %>
+            <a class="header-info-icon" data-tippy-maxWidth="500" data-tippy-size="small" data-tippy="<%= simple_format(t(:developer_community_copy)) %>">
+              <i class="far fa-info-circle"></i>
+            </a>
+          </h3>
           <% if @github_snapshot.present? %>
           <div class="github-stats">
             <div class="github-stats__row">
@@ -273,78 +290,95 @@
           <% end %>
           <div class="github-repo-link">
             <i class="fab fa-github"></i> <%= t :github_repo %>:
-            <%= link_to @coin.github_repo, github_url(@coin.github_repo), rel: "nofollow noopener noreferrer", target: "_blank" %>
+            <%= link_to @coin.github_repo, github_url(@coin.github_repo), rel: "nofollow noopener noreferrer", onclick: "return sendLink(this.href);" %>
           </div>
+        </div>
+        <div class="copy-container">
+          <%= t(:development_activity_copy, name: @coin.name, symbol: @coin.symbol) %>
         </div>
       </div>
 
       <div class="footer">
-        <a class="coinfi-link" href="<%= root_url %>">
+        <a class="coinfi-link" href="<%= root_url %>" onclick="return sendLink(this.href);">
           Powered by <img src="<%= image_path('logo.svg') %>" class="coinfi-link__img" />
         </a>
       </div>
     </div>
 
-    <script src="https://unpkg.com/popper.js@1"></script>
-    <script src="https://unpkg.com/tippy.js@4"></script>
+    <script src="https://unpkg.com/popper.js@1.15.0"></script>
+    <script src="https://unpkg.com/tippy.js@4.3.4"></script>
     <script src="/js/gauge.js"></script>
     <script src="https://d3js.org/d3.v5.min.js"></script>
     <script src="/js/d3scription.js"></script>
     <script type="text/javascript">
-      /* GAUGE */
-      var options = {
-        angle: [180, 360],
-        values: {
-          10: '<%= t(:strong_sell).titleize %>',
-          30: '',
-          50: '<%= t(:neutral).titleize %>',
-          70: '',
-          90: '<%= t(:strong_buy).titleize %>'
-        },
-        colors: {
-          0: '#ce1d1d',
-          20: '#de6160',
-          40: '#d4d5d8',
-          60: '#9ac854',
-          80: '#6aac0e'
-        },
-        marks: [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100],
-        value: <%= @summary_value %>
-      };
-      var gauge = new Gauge(document.querySelector(".gauge"), options);
-    </script>
-    <script type="text/javascript">
-      /* TAB CONTROL */
-      function switchToTab(target, id) {
-        if (target) {
-          // Set tab to active
-          var tabs = document.getElementsByClassName('tab');
-          for (let tab of tabs) {
-            tab.classList.remove('active');
-          }
-          target.classList.add('active');
+      /* Load Styles */
+      (function() {
+        var css = [
+          {href: "/css/gauge.css"},
+          {
+            href: "https://pro.fontawesome.com/releases/v5.7.2/css/all.css",
+            // integrity: "sha384-6jHF7Z3XI3fF4XZixAuSu0gGKrXwoX/w3uFPxC56OtjChio7wtTGJWRW53Nhx6Ev",
+            crossOrigin: "anonymous"
+          },
+          {href: "<%= stylesheet_path 'indicators' %>"},
+        ];
+        var headFragment = document.createDocumentFragment();
+        css.forEach(function(cssObj) {
+          var link = document.createElement('link');
+          link.rel = "stylesheet";
+          Object.keys(cssObj).map((function(key) {
+            link[key] = cssObj[key];
+          }));
+          headFragment.append(link);
+        });
+        document.head.append(headFragment);
+      })();
 
-          // Set tab container to active
-          var targetContainer = document.getElementById(id);
-          if (targetContainer) {
-            var tabContainers = document.getElementsByClassName('tab-container');
-            for (let container of tabContainers) {
-              if (container && container.id === id) continue;
-              container.classList.remove('active');
-            }
-            targetContainer.classList.add('active');
-          }
+      function handleOnload() {
+        var main = document.getElementById('main');
+        var loader = document.getElementById('loader');
+        main.style.display = 'block';
+        loader.style.display = 'none';
+        loadGauge();
+      }
+
+      /* Post Messaging */
+      function sendLink(url, index = null) {
+        var payload = {
+          type: 'linkPressed',
+          parameters: {
+            url,
+          },
+        };
+        if (index) {
+          payload.parameters.position = index;
         }
+        window.parent.postMessage(payload, '*');
+        return false;
       }
 
-      /* TAB SETUP */
-      var initialTabs = document.getElementsByClassName('tab')
-      if (initialTabs.length > 0) {
-        initialTabs[0].classList.add('active');
-      }
-      var initialTabContainers = document.getElementsByClassName('tab-container')
-      if (initialTabContainers.length > 0) {
-        initialTabContainers[0].classList.add('active');
+      /* GAUGE */
+      function loadGauge() {
+        var options = {
+          angle: [180, 360],
+          values: {
+            10: '<%= t(:strong_sell).titleize %>',
+            30: '',
+            50: '<%= t(:neutral).titleize %>',
+            70: '',
+            90: '<%= t(:strong_buy).titleize %>'
+          },
+          colors: {
+            0: '#ce1d1d',
+            20: '#de6160',
+            40: '#ffc956',
+            60: '#9ac854',
+            80: '#6aac0e'
+          },
+          marks: [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100],
+          value: <%= @summary_value %>
+        };
+        var gauge = new Gauge(document.querySelector(".gauge"), options);
       }
     </script>
     <script type="text/javascript">
@@ -500,171 +534,6 @@
                 .attr('x', -heightCA/2)
                 .style('font-size', '12px')
                 .text(i18nCommitsLabel);
-      <% end %>
-
-      <% if @code_frequency.present? %>
-      /* Code Frequency */
-
-      // Functions
-      function getXCF(d) { return d.timestamp || d.data.timestamp; }
-      function getYCF(d) { return d[1]; }
-
-      // Data
-      var idCF = 'code-frequency';
-      var codeFrequency = <%= @code_frequency.to_json.html_safe %>;
-      var dataCF = codeFrequency.map(function(d) {
-        var timestamp = new Date(getXCF(d) * 1000);
-        var additions = d.additions;
-        var deletions = d.deletions;
-        return {
-          timestamp: timestamp,
-          additions: additions,
-          deletions: deletions,
-        };
-      });
-      var stackKeysCF = ['additions', 'deletions'];
-      var stackCF = d3.stack()
-                      .keys(stackKeysCF)
-                      .offset(d3.stackOffsetDiverging);
-      var seriesCF = stackCF(dataCF);
-
-      // Dimensions and scale
-      var marginCF = {top: 20, right: 30, bottom: 50, left: 40};
-      var outerWidthCF = document.getElementById(idCF).getBoundingClientRect()['width'] || defaultChartWidth;
-      var widthCF = outerWidthCF - marginCF.left - marginCF.right;
-      var outerHeightCF = outerWidthCF / widthToHeightRatio;
-      var heightCF = outerHeightCF - marginCF.top - marginCF.bottom;
-      var barWidthCF = widthCF / dataCF.length - 1;
-
-      var datesCF = dataCF.map(getXCF);
-      var minDateCF = d3.min(datesCF)
-      var maxDateCF = d3.max(datesCF)
-      var xCF = d3.scaleTime()
-                  .domain([
-                    minDateCF,
-                    new Date(maxDateCF.valueOf() + 7*24*60*60*1000) // add one week to max
-                  ])
-                  .range([0, widthCF]);
-      var minValueCF = d3.min(seriesCF, function(dOuter) { return d3.min(dOuter, function(d) { return d[0]; }) });
-      var yCF = d3.scaleLinear()
-                  .domain([
-                    minValueCF - Math.abs(Math.floor(minValueCF * 0.05)), // Make sure there's a gap between the smallest number and the x-axis
-                    d3.max(seriesCF, function(dOuter) { return d3.max(dOuter, function(d) { return d[1]; }) })
-                  ])
-                  .range([heightCF, 0]);
-
-      // Chart
-      var chartCF = d3.select('#' + idCF)
-                      .attr('viewBox', '0 0 ' + outerWidthCF + ' ' + outerHeightCF)
-                    .append('g')
-                      .attr('transform', 'translate(' + marginCF.left + ', ' + marginCF.top + ')');
-
-      // Tooltip
-      var tipFactoryAdditionCF = d3scription(function(d) {
-        var date = d3.timeFormat('%b %d, %Y')(getXCF(d));
-        var value = d.data.additions;
-        var tooltip = i18nAdditionsTooltip
-                        .replace('{date}', date)
-                        .replace('{value}', value);
-        return tooltip;
-      }, {
-        class: 'chart-tooltip',
-      });
-      var tipAdditionCF = tipFactoryAdditionCF().element(chartCF);
-
-      var tipFactoryDeletionCF = d3scription(function(d) {
-        var date = d3.timeFormat('%b %d, %Y')(getXCF(d));
-        var value = Math.abs(d.data.deletions);
-        var tooltip = i18nDeletionsTooltip
-                        .replace('{date}', date)
-                        .replace('{value}', value);
-        return tooltip;
-      }, {
-        class: 'chart-tooltip',
-      });
-      var tipDeletionCF = tipFactoryDeletionCF().element(chartCF);
-
-      // Bars
-      var barGroupCF = chartCF.selectAll('g.series')
-                              .data(seriesCF)
-                              .enter().append('g')
-                                .attr('class', function(d, i) {
-                                  return 'series ' + stackKeysCF[i];
-                                })
-      var barCF = barGroupCF.selectAll('g.bar')
-                            .data(function(d) { return d; })
-                            .enter().append('g')
-                              .attr('class', 'bar')
-                              .attr('transform', function(d, i) {
-                                return "translate(" + xCF(getXCF(d)) + ", 0)";
-                              });
-
-      var additionRectCF = barGroupCF.selectAll('.additions g')
-                                  .append('rect')
-                                    .attr('y', function(d) { return yCF(d[0]) })
-                                    .attr('height', 0)
-                                    .attr('width', barWidthCF)
-                                    .on('mouseover', function() {
-                                      d3.select(this).attr('opacity', 0.7);
-                                      tipAdditionCF.show.apply(this, arguments);
-                                    })
-                                    .on('mouseout', function() {
-                                      d3.select(this).attr('opacity', 1);
-                                      tipAdditionCF.hide.apply(this, arguments);
-                                    });
-
-      var deletionRectCF = barGroupCF.selectAll('.deletions g')
-                                  .append('rect')
-                                    .attr('y', function(d) { return yCF(d[1]) })
-                                    .attr('height', 0)
-                                    .attr('width', barWidthCF)
-                                    .on('mouseover', function() {
-                                      d3.select(this).attr('opacity', 0.7);
-                                      tipDeletionCF.show.apply(this, arguments);
-                                    })
-                                    .on('mouseout', function() {
-                                      d3.select(this).attr('opacity', 1);
-                                      tipDeletionCF.hide.apply(this, arguments);
-                                    });
-
-      // Starting animation
-      barCF.selectAll('rect')
-            .transition()
-            .duration(800)
-            .attr("y", function(d, i) { return yCF(d[1]); })
-            .attr("height", function(d) { return yCF(d[0]) - yCF(d[1]); })
-            .delay(0);
-
-      // X Axis
-      var tickValuesCF = d3.timeMonth.range(minDateCF, maxDateCF, 6);
-      tickValuesCF.push(maxDateCF);
-      var xAxisCF = d3.axisBottom(xCF)
-                      .tickValues(tickValuesCF)
-                      .tickFormat(d3.timeFormat('%b %Y'));
-      chartCF.append('g')
-                .attr('class', 'x axis')
-                .attr('transform', 'translate(0, ' + heightCF + ')')
-                .call(xAxisCF)
-              .append('text')
-                .attr('class', 'title')
-                .attr('y', 40)
-                .attr('x', widthCF/2)
-                .text(i18nDateLabel);
-
-      // Y Axis
-      var yAxisCF = d3.axisLeft(yCF)
-                      .ticks(5)
-                      .tickPadding(10)
-                      .tickFormat(d3.format("~s"));
-      chartCF.append('g')
-                .attr('class', 'y axis')
-                .call(yAxisCF)
-              .append('text')
-                .attr('class', 'title')
-                .attr('transform', 'rotate(-90)')
-                .attr('y', -30)
-                .attr('x', -heightCF/2)
-                .text(i18nChangesLabel);
       <% end %>
     </script>
     <%= render 'layouts/tracking_scripts' %>

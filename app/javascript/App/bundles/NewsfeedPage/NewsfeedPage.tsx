@@ -39,6 +39,7 @@ interface Props extends RouteComponentProps<any>, DeviceContextType {
   topCoinSlugs: string[]
   newsItemId?: string
   newslist: NewsItem[]
+  initialDrawer: boolean
   initialNewsItem?: NewsItem
   initialCoinWithDetails?: CoinWithDetails
   isNewsfeedLoading: boolean
@@ -54,7 +55,7 @@ interface Props extends RouteComponentProps<any>, DeviceContextType {
   hasMore: boolean
 }
 
-type ActiveMobileWindow = 'CoinsList' | 'BodySection' | 'None'
+type ActiveMobileWindow = 'CoinsList' | 'BodySection' | 'OneTimeDrawer' | 'None'
 
 interface State {
   ActiveMobileWindow: ActiveMobileWindow
@@ -179,7 +180,11 @@ class NewsfeedPage extends React.Component<Props, State> {
     return 'none'
   }
 
-  public getInitialActiveMobileWindow = () => {
+  public getInitialActiveMobileWindow = (): ActiveMobileWindow => {
+    if (this.props.initialDrawer) {
+      return 'OneTimeDrawer'
+    }
+
     if (this.getContentType() === 'none') {
       return 'None'
     }
@@ -481,7 +486,10 @@ class NewsfeedPage extends React.Component<Props, State> {
                   }
                 />
                 <BodySectionDrawer
-                  isShown={this.state.ActiveMobileWindow === 'BodySection'}
+                  isShown={
+                    this.state.ActiveMobileWindow === 'BodySection' ||
+                    this.state.ActiveMobileWindow === 'OneTimeDrawer'
+                  }
                   onClose={() => this.setState({ ActiveMobileWindow: 'None' })}
                   bodySection={
                     <BodySection
@@ -554,6 +562,28 @@ class NewsfeedPage extends React.Component<Props, State> {
                   onCoinClick={coinClickHandler}
                   hasMore={this.props.hasMore}
                 />
+                {this.props.initialDrawer && (
+                  <BodySectionDrawer
+                    skipAnimation={true}
+                    isShown={this.state.ActiveMobileWindow === 'OneTimeDrawer'}
+                    onClose={() =>
+                      this.setState({ ActiveMobileWindow: 'None' })
+                    }
+                    bodySection={
+                      <BodySection
+                        coinSlug={this.props.coinSlug}
+                        newsItemId={this.props.newsItemId}
+                        initialNewsItem={this.props.initialNewsItem}
+                        initialCoinWithDetails={
+                          this.props.initialCoinWithDetails
+                        }
+                        contentType={this.getContentType()}
+                        loggedIn={this.props.loggedIn}
+                        onCoinClick={coinClickHandler}
+                      />
+                    }
+                  />
+                )}
               </>
             }
             rightSection={

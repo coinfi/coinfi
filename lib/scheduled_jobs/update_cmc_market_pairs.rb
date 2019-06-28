@@ -55,7 +55,7 @@ class UpdateCmcMarketPairs
     end
     # 25 requests / 3 minutes with blank periods due to unknown coin limit
     six_hour_cycle = hours % 6 * 60 + minutes
-    if six_hour_cycle % 3 == 1 # Top 1500-3000; every 3 minutes, full cycle of 6 hours
+    if six_hour_cycle % 3 == 1 # Top 1500-4499; every 3 minutes, full cycle of 6 hours
       sub_index = (six_hour_cycle / 3) % 120
       perform_update(9, sub_index)
     end
@@ -66,9 +66,11 @@ class UpdateCmcMarketPairs
     when 1 # Top 0-19
       CoinMarketCapPro::UpdateMarketPairsService.call(start: 0, limit: 20)
     when 2 # Top 20-99 (%3)
-      limit = 20
+      limit = 26
       offset = sub_index * limit
-      CoinMarketCapPro::UpdateMarketPairsService.call(start: limit + offset, limit: 20)
+      # increasing limit for final group to deal with unevenly sized groups, (99-20+1)/3=26.6666
+      if sub_index == 2 then limit += 2 end
+      CoinMarketCapPro::UpdateMarketPairsService.call(start: 20 + offset, limit: limit)
     when 3 # Top 100-199 (%5)
       limit = 20
       offset = sub_index * limit
@@ -82,7 +84,7 @@ class UpdateCmcMarketPairs
       offset = sub_index * limit
       CoinMarketCapPro::UpdateMarketPairsService.call(start: 300 + offset, limit: limit)
     when 6 # Top 500-749 (%5)
-      limit = 30
+      limit = 50
       offset = sub_index * limit
       CoinMarketCapPro::UpdateMarketPairsService.call(start: 500 + offset, limit: limit)
     when 7 # Top 750-999 (%10)
@@ -93,7 +95,7 @@ class UpdateCmcMarketPairs
       limit = 25
       offset = sub_index * limit
       CoinMarketCapPro::UpdateMarketPairsService.call(start: 1000 + offset, limit: limit)
-    when 9 # Top 1500-3000 (%120)
+    when 9 # Top 1500-4499 (%120)
       limit = 25
       offset = sub_index * limit
       CoinMarketCapPro::UpdateMarketPairsService.call(start: 1500 + offset, limit: limit)

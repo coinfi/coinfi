@@ -251,6 +251,7 @@ class Coin < ApplicationRecord
 
   def hourly_prices_data
     Rails.cache.fetch("coins/#{id}/hourly_prices", expires_in: seconds_to_next_hour) do
+      self.touch
       url = "#{ENV.fetch('COINFI_POSTGREST_URL')}/hourly_ohcl_prices?coin_key=eq.#{coin_key}&to_currency=eq.USD&order=time.asc"
       response = HTTParty.get(url)
       JSON.parse(response.body)
@@ -259,7 +260,8 @@ class Coin < ApplicationRecord
 
   def prices_data
     # Expire cache 30 minutes after UTC midnight; new daily data is expected slightly after the midnight-scheduled job
-    Rails.cache.fetch("coins/#{id}/prices", expires_in: seconds_to_next_day + 1800) do
+    @cached_prices_data ||= Rails.cache.fetch("coins/#{id}/prices", expires_in: seconds_to_next_day + 1800) do
+      self.touch
       url = "#{ENV.fetch('COINFI_POSTGREST_URL')}/cmc_daily_ohcl_prices?coin_key=eq.#{coin_key}&to_currency=eq.USD&order=time.asc"
       response = HTTParty.get(url)
       JSON.parse(response.body)
@@ -269,19 +271,29 @@ class Coin < ApplicationRecord
   def sparkline
     # Expire cache 30 minutes after UTC midnight; new daily data is expected slightly after the midnight-scheduled job
     Rails.cache.fetch("coins/#{id}/sparkline", expires_in: seconds_to_next_day + 1800) do
+      self.touch
       url = "#{ENV.fetch('COINFI_POSTGREST_URL')}/cmc_daily_ohcl_prices?coin_key=eq.#{coin_key}&select=close&to_currency=eq.USD&limit=7&order=time.desc"
       response = HTTParty.get(url)
       results = JSON.parse(response.body)
       results.map! { |result| result["close"] }
+      results.reverse!
     end
   end
 
   def github_stats(force_refresh: false)
     return unless github_repo.present?
+    cache_key = "coins/#{id}/github_stats"
+    stats = Rails.cache.read(cache_key) || {}
 
-    Rails.cache.fetch("coins/#{id}/github_stats", force: force_refresh) do
+    if force_refresh || stats.blank?
       response = CoinServices::RetrieveGithubStats.call(coin: self)
-      response.try(:result)
+      updated_stats = response.try(:result) || stats
+      Rails.cache.write(cache_key, updated_stats)
+      self.touch
+
+      updated_stats
+    else
+      stats
     end
   end
 
@@ -289,9 +301,10 @@ class Coin < ApplicationRecord
     return unless github_repo.present?
 
     base_stats = github_stats
-    merged_stats = base_stats.deep_merge(stats_to_merge)
+    merged_stats = base_stats.present? ? base_stats.deep_merge(stats_to_merge) : stats_to_merge
 
     Rails.cache.write("coins/#{id}/github_stats", merged_stats)
+    self.touch
   end
 
   def token_metrics_data(metric_type, metric_value = 'percentage')
@@ -350,6 +363,7 @@ class Coin < ApplicationRecord
 
   def news_data
     Rails.cache.fetch("coins/#{id}/news_data", expires_in: 1.hour) do
+      self.touch
       chart_data = news_items.chart_data(self.name == "Bitcoin" || self.name == "Ethereum")
       i = chart_data.length + 1
       chart_data.map do |item|
