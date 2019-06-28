@@ -79,6 +79,116 @@ h3 {
 }
 
 @font-face {
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 300;
+  src: local('Open Sans Light'), local('OpenSans-Light'),
+    url('https://etoro-cdn.etorostatic.com/web-client/fonts/opensans/open-sans-v15-cyrillic-ext_cyrillic_greek_greek-ext_latin_latin-ext_vietnamese-300.woff2')
+      format('woff2'),
+    url('https://etoro-cdn.etorostatic.com/web-client/fonts/opensans/open-sans-v15-cyrillic-ext_cyrillic_greek_greek-ext_latin_latin-ext_vietnamese-300.woff')
+      format('woff');
+}
+
+@font-face {
+  font-family: 'Open Sans';
+  font-style: italic;
+  font-weight: 300;
+  src: local('Open Sans Light Italic'), local('OpenSans-LightItalic'),
+    url('https://etoro-cdn.etorostatic.com/web-client/fonts/opensans/open-sans-v15-cyrillic-ext_cyrillic_greek_greek-ext_latin_latin-ext_vietnamese-300italic.woff2')
+      format('woff2'),
+    url('https://etoro-cdn.etorostatic.com/web-client/fonts/opensans/open-sans-v15-cyrillic-ext_cyrillic_greek_greek-ext_latin_latin-ext_vietnamese-300italic.woff')
+      format('woff');
+}
+
+@font-face {
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Open Sans Regular'), local('OpenSans-Regular'),
+    url('https://etoro-cdn.etorostatic.com/web-client/fonts/opensans/open-sans-v15-cyrillic-ext_cyrillic_greek_greek-ext_latin_latin-ext_vietnamese-regular.woff2')
+      format('woff2'),
+    url('https://etoro-cdn.etorostatic.com/web-client/fonts/opensans/open-sans-v15-cyrillic-ext_cyrillic_greek_greek-ext_latin_latin-ext_vietnamese-regular.woff')
+      format('woff');
+}
+
+@font-face {
+  font-family: 'Open Sans';
+  font-style: italic;
+  font-weight: 400;
+  src: local('Open Sans Italic'), local('OpenSans-Italic'),
+    url('https://etoro-cdn.etorostatic.com/web-client/fonts/opensans/open-sans-v15-cyrillic-ext_cyrillic_greek_greek-ext_latin_latin-ext_vietnamese-italic.woff2')
+      format('woff2'),
+    url('https://etoro-cdn.etorostatic.com/web-client/fonts/opensans/open-sans-v15-cyrillic-ext_cyrillic_greek_greek-ext_latin_latin-ext_vietnamese-italic.woff')
+      format('woff');
+}
+
+@font-face {
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 600;
+  src: local('Open Sans SemiBold'), local('OpenSans-SemiBold'),
+    url('https://etoro-cdn.etorostatic.com/web-client/fonts/opensans/open-sans-v15-cyrillic-ext_cyrillic_greek_greek-ext_latin_latin-ext_vietnamese-600.woff2')
+      format('woff2'),
+    url('https://etoro-cdn.etorostatic.com/web-client/fonts/opensans/open-sans-v15-cyrillic-ext_cyrillic_greek_greek-ext_latin_latin-ext_vietnamese-600.woff')
+      format('woff');
+}
+
+@font-face {
+  font-family: 'Open Sans';
+  font-style: italic;
+  font-weight: 600;
+  src: local('Open Sans SemiBold Italic'), local('OpenSans-SemiBoldItalic'),
+    url('https://etoro-cdn.etorostatic.com/web-client/fonts/opensans/open-sans-v15-cyrillic-ext_cyrillic_greek_greek-ext_latin_latin-ext_vietnamese-600italic.woff2')
+      format('woff2'),
+    url('https://etoro-cdn.etorostatic.com/web-client/fonts/opensans/open-sans-v15-cyrillic-ext_cyrillic_greek_greek-ext_latin_latin-ext_vietnamese-600italic.woff')
+      format('woff');
+}
+
+@font-face {
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 700;
+  src: local('Open Sans Bold'), local('OpenSans-Bold'),
+    url('https://etoro-cdn.etorostatic.com/web-client/fonts/opensans/open-sans-v15-cyrillic-ext_cyrillic_greek_greek-ext_latin_latin-ext_vietnamese-700.woff2')
+      format('woff2'),
+    url('https://etoro-cdn.etorostatic.com/web-client/fonts/opensans/open-sans-v15-cyrillic-ext_cyrillic_greek_greek-ext_latin_latin-ext_vietnamese-700.woff')
+      format('woff');
+}
+
+@font-face {
+  font-family: 'Open Sans';
+  font-style: italic;
+  font-weight: 700;
+  src: local('Open Sans Bold Italic'), local('OpenSans-BoldItalic'),
+    url('https://etoro-cdn.etorostatic.com/web-client/fonts/opensans/open-sans-v15-cyrillic-ext_cyrillic_greek_greek-ext_latin_latin-ext_vietnamese-700italic.woff2')
+      format('woff2'),
+    url('https://etoro-cdn.etorostatic.com/web-client/fonts/opensans/open-sans-v15-cyrillic-ext_cyrillic_greek_greek-ext_latin_latin-ext_vietnamese-700italic.woff')
+      format('woff');
+}
+
+@font-face {
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 800;
+  src: local('Open Sans ExtraBold'), local('OpenSans-ExtraBold'),
+    url('https://etoro-cdn.etorostatic.com/web-client/fonts/opensans/open-sans-v15-cyrillic-ext_cyrillic_greek_greek-ext_latin_latin-ext_vietnamese-800.woff2')
+      format('woff2'),
+    url('https://etoro-cdn.etorostatic.com/web-client/fonts/opensans/open-sans-v15-cyrillic-ext_cyrillic_greek_greek-ext_latin_latin-ext_vietnamese-800.woff')
+      format('woff');
+}
+
+@font-face {
+  font-family: 'Open Sans';
+  font-style: italic;
+  font-weight: 800;
+  src: local('Open Sans ExtraBold Italic'), local('OpenSans-ExtraBoldItalic'),
+    url('https://etoro-cdn.etorostatic.com/web-client/fonts/opensans/open-sans-v15-cyrillic-ext_cyrillic_greek_greek-ext_latin_latin-ext_vietnamese-800italic.woff2')
+      format('woff2'),
+    url('https://etoro-cdn.etorostatic.com/web-client/fonts/opensans/open-sans-v15-cyrillic-ext_cyrillic_greek_greek-ext_latin_latin-ext_vietnamese-800italic.woff')
+      format('woff');
+}
+
+@font-face {
   src: url('data:image/png;base64,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bm90IGZvciBjb21tZXJjaWFsIHVzZS5HdWRlYVJlZ3VsYXJBZ3VzdGluYU1pbmdvdGU6IEd1ZGVhOiAyMDEyR3VkZWFWZXJzaW9uIDEuMDAzR3VkZWFHdWRlYSBpcyBhIHRyYWRlbWFyayBvZiBBZ3VzdGluYSBNaW5nb3RlLkFndXN0aW5hIE1pbmdvdGVBZ3VzdGluYSBNaW5nb3RlVGhpcyBGb250IFNvZnR3YXJlIGlzIGxpY2Vuc2VkIHVuZGVyIHRoZSBTSUwgT3BlbiBGb250IExpY2Vuc2UsIFZlcnNpb24gMS4xLiBUaGlzIGxpY2Vuc2UgaXMgYXZhaWxhYmxlIHdpdGggYSBGQVEgYXQ6IGh0dHA6Ly9zY3JpcHRzLnNpbC5vcmcvT0ZMaHR0cDovL3NjcmlwdHMuc2lsLm9yZy9PRkwAqQAyADAAMQA1ACAAdwB3AHcALgBjAHIAOABzAG8AZgB0AHcAYQByAGUALgBuAGUAdAAgACAARABFAE0ATwAgAC0AIABuAG8AdAAgAGYAbwByACAAYwBvAG0AbQBlAHIAYwBpAGEAbAAgAHUAcwBlAC4ARwB1AGQAZQBhAFIAZQBnAHUAbABhAHIAQQBnAHUAcwB0AGkAbgBhAE0AaQBuAGcAbwB0AGUAOgAgAEcAdQBkAGUAYQA6ACAAMgAwADEAMgBHAHUAZABlAGEAVgBlAHIAcwBpAG8AbgAgADEALgAwADAAMwBHAHUAZABlAGEARwB1AGQAZQBhACAAaQBzACAAYQAgAHQAcgBhAGQAZQBtAGEAcgBrACAAbwBmACAAQQBnAHUAcwB0AGkAbgBhACAATQBpAG4AZwBvAHQAZQAuAEEAZwB1AHMAdABpAG4AYQAgAE0AaQBuAGcAbwB0AGUAQQBnAHUAcwB0AGkAbgBhACAATQBpAG4AZwBvAHQAZQBUAGgAaQBzACAARgBvAG4AdAAgAFMAbwBmAHQAdwBhAHIAZQAgAGkAcwAgAGwAaQBjAGUAbgBzAGUAZAAgAHUAbgBkAGUAcgAgAHQAaABlACAAUwBJAEwAIABPAHAAZQBuACAARgBvAG4AdAAgAEwAaQBjAGUAbgBzAGUALAAgAFYAZQByAHMAaQBvAG4AIAAxAC4AMQAuACAAVABoAGkAcwAgAGwAaQBjAGUAbgBzAGUAIABpAHMAIABhAHYAYQBpAGwAYQBiAGwAZQAgAHcAaQB0AGgAIABhACAARgBBAFEAIABhAHQAOgAgAGgAdAB0AHAAOgAvAC8AcwBjAHIAaQBwAHQAcwAuAHMAaQBsAC4AbwByAGcALwBPAEYATABoAHQAdABwADoALwAvAHMAYwByAGkAcAB0AHMALgBzAGkAbAAuAG8AcgBnAC8ATwBGAEwAAAAAAwAAAAMAAAAeAAEAAAAAAH4AAwABAAABhAAAAAQAYAAAABIAEAADAAIACQANAB0AJQApACsALgA5//8AAAAIAAwAHQAkACgAKwAtADD////5AAAAAP/k/+QAAP/k/+QAAQAAABAAEgAAAAAADgAAAAAAAAADAAIAAQAPAAABBgAAAQAAAAAAAAABAgAAAwIAAAAAAAAAAAAAAAAAAAABAAAAAAAACAkAAAwNAA8AERIAFBUWFxgZGhscHQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAGAAAAASABAAAwACAAkADQAdACUAKQArAC4AOf//AAAACAAMAB0AJAAoACsALQAw////+QAAAAD/5P/kAAD/5P/kAAEAAAAQABIAAAAAAA4AAAAAAAAAAwACAAEADw==')
     format('truetype');
   font-family: 'num';

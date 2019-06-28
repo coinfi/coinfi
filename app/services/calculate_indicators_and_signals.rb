@@ -6,10 +6,19 @@ class CalculateIndicatorsAndSignals < Patterns::Service
 
   def call
     daily_price_data = parse_daily_prices(@coin)
-    indicators = get_indicator_values(daily_price_data)
-    signals = get_indicator_signals(indicators)
+    raw_indicators = get_indicator_values(daily_price_data)
+    signals = get_indicator_signals(raw_indicators)
+    indicators = get_indicator_results(raw_indicators, signals)
+    summary = get_summary(indicators)
+    summary_value = get_summary_value(summary)
 
-    [indicators, signals]
+    {
+      raw_indicators: raw_indicators,
+      signals: signals,
+      indicators: indicators,
+      summary: summary,
+      summary_value: summary_value,
+    }
   end
 
   private
@@ -59,6 +68,106 @@ class CalculateIndicatorsAndSignals < Patterns::Service
       sma: simple_moving_average_signal(indicator_values[:sma]),
       ema: exponential_moving_average_signal(indicator_values[:ema])
     }
+  end
+
+  def get_indicator_results(indicators, signals)
+    [
+      {
+        symbol: :rsi,
+        value: indicators[:rsi],
+        min: 0,
+        max: 100,
+        signal: signals[:rsi],
+      },
+      {
+        symbol: :stochrsi,
+        value: indicators[:stochrsi],
+        min: 0,
+        max: 100,
+        signal: signals[:stochrsi],
+      },
+      {
+        symbol: :macd,
+        value: indicators[:macd],
+        min: nil,
+        max: nil,
+        signal: signals[:macd],
+      },
+      {
+        symbol: :cci,
+        value: indicators[:cci],
+        min: nil,
+        max: nil,
+        signal: signals[:cci],
+      },
+      {
+        symbol: :stochastic_fast,
+        value: indicators[:stochastic_fast],
+        min: 0,
+        max: 100,
+        signal: signals[:stochastic_fast],
+      },
+      {
+        symbol: :stochastic_slow,
+        value: indicators[:stochastic_slow],
+        min: 0,
+        max: 100,
+        signal: signals[:stochastic_slow],
+      },
+      {
+        symbol: :sma,
+        value: indicators[:sma],
+        min: nil,
+        max: nil,
+        signal: signals[:sma],
+      },
+      {
+        symbol: :ema,
+        value: indicators[:ema],
+        min: nil,
+        max: nil,
+        signal: signals[:ema],
+      }
+    ]
+  end
+
+  def get_summary(indicators)
+    indicators.inject({buy: 0, neutral: 0, sell: 0}) do |sum, indicator|
+      case indicator[:signal]
+      when "BUY"
+        sum.update(buy: sum[:buy] + 1)
+      when "SELL"
+        sum.update(sell: sum[:sell] + 1)
+      when "NEUTRAL"
+        sum.update(neutral: sum[:neutral] + 1)
+      else
+        sum
+      end
+    end
+  end
+
+  def get_summary_value(summary_signals, strong_threshold: 0.5, weak_threshold: 0.1, neutral_weight: 0.5)
+    total = summary_signals.inject(0.0) do |sum, (k, v)|
+      if k == :neutral
+        sum + v * neutral_weight
+      else
+        sum + v
+      end
+    end
+    raw_value = summary_signals[:sell] * -1 + summary_signals[:buy] * 1
+    percent_value = raw_value / total
+
+    if percent_value <= -1 * strong_threshold
+      10 # strong sell
+    elsif percent_value > -1 * strong_threshold && percent_value < -1 * weak_threshold
+      30 # sell
+    elsif percent_value > weak_threshold && percent_value < strong_threshold
+      70 # buy
+    elsif percent_value >= strong_threshold
+      90 # strong buy
+    else
+      50 # neutral
+    end
   end
 
   # RSI 14

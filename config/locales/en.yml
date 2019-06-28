@@ -100,6 +100,7 @@ en:
   market_news_research: "Market News Research"
   time_ago: "%{time_words} ago"
   read_more: "Read More"
+  coin_empty: "This coin has no research data"
   coins:
     ethereum: Ethereum
     litecoin: Litecoin
@@ -117,45 +118,45 @@ en:
     tron: Tron
     iota: IOTA
   indicators:
-      title:
-        rsi: "RSI 14"
-        stochrsi: "Stochastic RSI 14"
-        macd: "MACD (12, 26, 9)"
-        cci: "CCI"
-        stochastic_fast: "Stochastic fast (14, 3)"
-        stochastic_slow: "Stochastic (14, 3, 3)"
-        sma: "Moving Averages (20 v 50)"
-        ema: "Exp Moving Averages (10 v 20)"
-      rule:
-        rsi: |
-          Buy when lesser than 30.
-          Sell when greater than 70.
-          Hold between 30 and 70 (inclusive).
-        stochrsi: |
-          Buy when lesser than 20.
-          Sell when greater than 80.
-          Hold between 20 and 80 (inclusive).
-        macd: |
-          Buy when greater than 0.
-          Sell when lesser than 0.
-          No hold signal.
-        cci: |
-          Buy when lesser than -100.
-          Sell when greater than 100.
-          Hold between -100 and 100 (inclusive).
-        stochastic_fast: |
-          Buy when lesser than 20.
-          Sell when greater than 80.
-          Hold between 20 and 80 (inclusive).
-        stochastic_slow: |
-          Buy when lesser than 20.
-          Sell when greater than 80.
-          Hold between 20 and 80 (inclusive).
-        sma: |
-          Buy when greater than 0.
-          Sell when lesser than 0.
-          No hold signal.
-        ema: |
-          Buy when greater than 0.
-          Sell when lesser than 0.
-          No hold signal.
+    title:
+      rsi: "RSI 14"
+      stochrsi: "Stochastic RSI 14"
+      macd: "MACD (12, 26, 9)"
+      cci: "CCI"
+      stochastic_fast: "Stochastic fast (14, 3)"
+      stochastic_slow: "Stochastic (14, 3, 3)"
+      sma: "Moving Averages (20 v 50)"
+      ema: "Exp Moving Averages (10 v 20)"
+    rule:
+      rsi: |
+        Buy when lesser than 30.
+        Sell when greater than 70.
+        Hold between 30 and 70 (inclusive).
+      stochrsi: |
+        Buy when lesser than 20.
+        Sell when greater than 80.
+        Hold between 20 and 80 (inclusive).
+      macd: |
+        Buy when greater than 0.
+        Sell when lesser than 0.
+        No hold signal.
+      cci: |
+        Buy when lesser than -100.
+        Sell when greater than 100.
+        Hold between -100 and 100 (inclusive).
+      stochastic_fast: |
+        Buy when lesser than 20.
+        Sell when greater than 80.
+        Hold between 20 and 80 (inclusive).
+      stochastic_slow: |
+        Buy when lesser than 20.
+        Sell when greater than 80.
+        Hold between 20 and 80 (inclusive).
+      sma: |
+        Buy when greater than 0.
+        Sell when lesser than 0.
+        No hold signal.
+      ema: |
+        Buy when greater than 0.
+        Sell when lesser than 0.
+        No hold signal.
