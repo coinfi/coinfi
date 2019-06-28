@@ -4,13 +4,79 @@
     <%= render 'layouts/tracking_scripts_preconnect' %>
     <link rel="preconnect" href="https://unpkg.com" crossorigin>
     <link rel="preconnect" href="https://d3js.org" crossorigin>
-    <link rel="stylesheet" href="/css/gauge.css">
-    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-6jHF7Z3XI3fF4XZixAuSu0gGKrXwoX/w3uFPxC56OtjChio7wtTGJWRW53Nhx6Ev" crossorigin="anonymous">
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i&amp;subset=cyrillic,cyrillic-ext,greek,greek-ext,latin-ext,vietnamese" rel="stylesheet">
-    <%= stylesheet_link_tag 'indicators' %>
+    <link rel="preconnect" href="https://pro.fontawesome.com" crossorigin>
+    <link rel="preconnect" href="https://etoro-cdn.etorostatic.com" crossorigin>
+    <link rel="preload" href="/img/arrow.svg" as="image">
+    <link rel="preload" href="https://etoro-cdn.etorostatic.com/web-client/fonts/opensans/open-sans-v15-cyrillic-ext_cyrillic_greek_greek-ext_latin_latin-ext_vietnamese-regular.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="https://etoro-cdn.etorostatic.com/web-client/fonts/opensans/open-sans-v15-cyrillic-ext_cyrillic_greek_greek-ext_latin_latin-ext_vietnamese-600.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="https://etoro-cdn.etorostatic.com/web-client/fonts/opensans/open-sans-v15-cyrillic-ext_cyrillic_greek_greek-ext_latin_latin-ext_vietnamese-700.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="https://pro.fontawesome.com/releases/v5.7.2/webfonts/fa-regular-400.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="https://pro.fontawesome.com/releases/v5.7.2/webfonts/fa-brands-400.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="/css/gauge.css" as="style" type="text/css">
+    <link rel="preload" href="https://pro.fontawesome.com/releases/v5.7.2/css/all.css" as="style" type="text/css" crossorigin>
+    <link rel="preload" href="<%= stylesheet_path 'indicators' %>" as="style" type="text/css">
+    <noscript>
+      <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.7.2/css/all.css" crossorigin="anonymous">
+      <%= stylesheet_link_tag 'indicators' %>
+    </noscript>
+    <style type="text/css">
+      html, body {
+        height: 100%;
+        width: 100%;
+        background-color: #f0f0f0;
+      }
+      .loader {
+        position: relative;
+        background-color: #fff;
+        border-radius: 5px;
+        box-shadow: 0 1px 1px 1px rgba(0,0,0,.1);
+        height: 65px;
+        width: 65px;
+        margin: 10px auto;
+      }
+      .loader:before {
+        background-image: url(https://etoro-cdn.etorostatic.com/web-client/img/eToro.png);
+      }
+      .loader:after, .loader:before {
+        height: 50px;
+        left: 50%;
+        content: "";
+        display: block;
+        margin-left: -25px;
+        margin-top: -25px;
+        position: absolute;
+        top: 50%;
+        width: 50px;
+        background-size: 50px 50px;
+        background-position: 50%;
+      }
+      @keyframes rotation {
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+      .loader:after {
+        animation: rotation .5s infinite linear;
+        background-image: url(https://etoro-cdn.etorostatic.com/web-client/img/preloader.png);
+      }
+      .loader:after, .loader:before {
+        height: 50px;
+        left: 50%;
+        content: "";
+        display: block;
+        margin-left: -25px;
+        margin-top: -25px;
+        position: absolute;
+        top: 50%;
+        width: 50px;
+        background-size: 50px 50px;
+        background-position: 50%;
+      }
+    </style>
   </head>
   <body onload="handleOnload();">
-    <div class="main-container">
+    <div class="loader" id="loader"></div>
+    <div class="main-container" id="main" style="display: none;">
 
       <h2 class="main-title">
         <%= t(:technical_analysis_and_price_movements) %>
@@ -239,12 +305,43 @@
       </div>
     </div>
 
-    <script src="https://unpkg.com/popper.js@1"></script>
-    <script src="https://unpkg.com/tippy.js@4"></script>
+    <script src="https://unpkg.com/popper.js@1.15.0"></script>
+    <script src="https://unpkg.com/tippy.js@4.3.4"></script>
     <script src="/js/gauge.js"></script>
     <script src="https://d3js.org/d3.v5.min.js"></script>
     <script src="/js/d3scription.js"></script>
     <script type="text/javascript">
+      /* Load Styles */
+      (function() {
+        var css = [
+          {href: "/css/gauge.css"},
+          {
+            href: "https://pro.fontawesome.com/releases/v5.7.2/css/all.css",
+            // integrity: "sha384-6jHF7Z3XI3fF4XZixAuSu0gGKrXwoX/w3uFPxC56OtjChio7wtTGJWRW53Nhx6Ev",
+            crossOrigin: "anonymous"
+          },
+          {href: "<%= stylesheet_path 'indicators' %>"},
+        ];
+        var headFragment = document.createDocumentFragment();
+        css.forEach(function(cssObj) {
+          var link = document.createElement('link');
+          link.rel = "stylesheet";
+          Object.keys(cssObj).map((function(key) {
+            link[key] = cssObj[key];
+          }));
+          headFragment.append(link);
+        });
+        document.head.append(headFragment);
+      })();
+
+      function handleOnload() {
+        var main = document.getElementById('main');
+        var loader = document.getElementById('loader');
+        main.style.display = 'block';
+        loader.style.display = 'none';
+        loadGauge();
+      }
+
       /* Post Messaging */
       function sendLink(url, index = null) {
         var payload = {
@@ -260,34 +357,29 @@
         return false;
       }
 
-      function handleOnload() {
-        var payload = {
-          type: 'loaded',
-        };
-        window.parent.postMessage(payload, '*');
-      }
-
       /* GAUGE */
-      var options = {
-        angle: [180, 360],
-        values: {
-          10: '<%= t(:strong_sell).titleize %>',
-          30: '',
-          50: '<%= t(:neutral).titleize %>',
-          70: '',
-          90: '<%= t(:strong_buy).titleize %>'
-        },
-        colors: {
-          0: '#ce1d1d',
-          20: '#de6160',
-          40: '#ffc956',
-          60: '#9ac854',
-          80: '#6aac0e'
-        },
-        marks: [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100],
-        value: <%= @summary_value %>
-      };
-      var gauge = new Gauge(document.querySelector(".gauge"), options);
+      function loadGauge() {
+        var options = {
+          angle: [180, 360],
+          values: {
+            10: '<%= t(:strong_sell).titleize %>',
+            30: '',
+            50: '<%= t(:neutral).titleize %>',
+            70: '',
+            90: '<%= t(:strong_buy).titleize %>'
+          },
+          colors: {
+            0: '#ce1d1d',
+            20: '#de6160',
+            40: '#ffc956',
+            60: '#9ac854',
+            80: '#6aac0e'
+          },
+          marks: [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100],
+          value: <%= @summary_value %>
+        };
+        var gauge = new Gauge(document.querySelector(".gauge"), options);
+      }
     </script>
     <script type="text/javascript">
       /* CHARTS */
