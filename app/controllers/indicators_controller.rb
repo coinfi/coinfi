@@ -1,4 +1,5 @@
 class IndicatorsController < ApplicationController
+  before_action :set_locale
   before_action :set_coin, only: [:show]
   after_action :set_allow_iframe, only: [:show]
   skip_before_action :verify_authenticity_token
@@ -10,7 +11,10 @@ class IndicatorsController < ApplicationController
   def show
     set_news_items
     set_github_stats
-    fresh_when last_modified: [@coin.updated_at, @news_items.first.updated_at].max, public: true
+
+    if Rails.env.production?
+      fresh_when last_modified: [@coin.updated_at, @news_items.first.updated_at].max, public: true
+    end
 
     set_indicator_data
     # Update must occur after the date of the last data point
@@ -34,7 +38,7 @@ class IndicatorsController < ApplicationController
 
   def set_coin
     distribute_reads(max_lag: MAX_ACCEPTABLE_REPLICATION_LAG, lag_failover: true) do
-      coin_symbol = params[:symbol]
+      coin_symbol = params[:ticker]
       coin_symbol.upcase! if coin_symbol.present?
 
       # Attempt to search assuming the param is a slug
