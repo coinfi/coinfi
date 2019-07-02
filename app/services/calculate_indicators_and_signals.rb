@@ -6,8 +6,7 @@ class CalculateIndicatorsAndSignals < Patterns::Service
 
   def call
     daily_price_data = parse_daily_prices(@coin)
-    raw_indicators = get_indicator_values(daily_price_data)
-    signals = get_indicator_signals(raw_indicators)
+    raw_indicators, signals = get_indicator_values_and_signals(daily_price_data)
     indicators = get_indicator_results(raw_indicators, signals)
     summary = get_summary(indicators)
     summary_value = get_summary_value(summary)
@@ -31,18 +30,18 @@ class CalculateIndicatorsAndSignals < Patterns::Service
       .last(@limit) # limit dataset for easier processing
   end
 
-  def get_rounding_places(latest_price)
-    if latest_price >= 100
+  def get_rounding_places(value)
+    abs_value = value.abs
+    if abs_value >= 100
       0
-    elsif latest_price >= 1
+    elsif abs_value >= 1
       1
     else
       6
     end
   end
 
-  def get_indicator_values(data)
-    rounding_places = get_rounding_places(data.last[:adj_close])
+  def get_indicator_values_and_signals(data)
     indicators = {
       rsi: rsi(data),
       stochrsi: stochastic_rsi(data),
@@ -54,7 +53,14 @@ class CalculateIndicatorsAndSignals < Patterns::Service
       ema: (exponential_moving_average(data, 10) - exponential_moving_average(data, 20))
     }
 
-    indicators.each { |k, v| indicators[k] = v.round(rounding_places) }
+    signals = get_indicator_signals(indicators)
+
+    indicators.each do |k, v|
+      rounding_places = get_rounding_places(v)
+      indicators[k] = v.round(rounding_places)
+    end
+
+    return indicators, signals
   end
 
   def get_indicator_signals(indicator_values)
