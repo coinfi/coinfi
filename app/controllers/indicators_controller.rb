@@ -22,6 +22,7 @@ class IndicatorsController < ApplicationController
   end
 
   def render_empty
+    set_allow_iframe
     render "indicators/empty"
   end
 
