@@ -12,7 +12,7 @@ class Api::IndicatorsController < ApiController
 
   def overview
     symbols = params[:symbols].upcase.split(',') if params[:symbols].present?
-    return render json: {data: []} if symbols.empty?
+    return render json: [] if symbols.empty?
 
     @coins = Coin.where(symbol: symbols).where(coin_key: INDICATOR_COIN_KEYS)
 
@@ -25,7 +25,7 @@ class Api::IndicatorsController < ApiController
     api_key = request.headers['X-APIToken'] || request.headers['X-API-Key']
     return if api_key.present? && api_key == ENV.fetch("INDICATORS_API_KEY")
 
-    render json: {}, status: 401
+    render plain: '', status: 401
   end
 
   def ticker_serializer(coins)
@@ -34,7 +34,7 @@ class Api::IndicatorsController < ApiController
   end
 
   def overview_serializer(coins)
-    data = coins.map do |coin|
+    coins.map do |coin|
       calculations = get_indicators_and_signals(coin)
       consensus = get_consensus(calculations.dig(:summary_value))
 
@@ -47,8 +47,6 @@ class Api::IndicatorsController < ApiController
         ticker: coin.symbol,
       }
     end
-
-    { data: data }
   end
 
   def get_indicators_and_signals(coin)
