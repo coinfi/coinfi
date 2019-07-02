@@ -1,5 +1,6 @@
 class Api::IndicatorsController < ApiController
   before_action :authenticate
+  skip_before_action :verify_authenticity_token
 
   include IndicatorsHelper
   include CoinsHelper
@@ -21,7 +22,7 @@ class Api::IndicatorsController < ApiController
   private
 
   def authenticate
-    api_key = request.headers['X-Api-Key']
+    api_key = request.headers['X-APIToken'] || request.headers['X-API-Key']
     return if api_key.present? && api_key == ENV.fetch("INDICATORS_API_KEY")
 
     render json: {}, status: 401
