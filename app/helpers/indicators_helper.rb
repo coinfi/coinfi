@@ -56,4 +56,22 @@ module IndicatorsHelper
       I18n.default_locale
     end
   end
+
+  def symbol_to_ticker_name(symbol)
+    case symbol
+    when 'ETH'
+      'ETHEREUM'
+    else
+      symbol
+    end
+  end
+
+  def ticker_name_to_symbol(name)
+    case name
+    when 'ETHEREUM'
+      'ETH'
+    else
+      name
+    end
+  end
 end

@@ -11,9 +11,10 @@ class Api::IndicatorsController < ApiController
   end
 
   def overview
-    symbols = params[:symbols].upcase.split(',') if params[:symbols].present?
-    return render json: [] if symbols.empty?
+    tickers = params[:tickers].upcase.split(',') if params[:tickers].present?
+    return render json: [] if tickers.empty?
 
+    symbols = tickers.map {|ticker| ticker_name_to_symbol(ticker)}
     @coins = Coin.where(symbol: symbols).where(coin_key: INDICATOR_COIN_KEYS)
 
     render json: overview_serializer(@coins)
@@ -29,7 +30,7 @@ class Api::IndicatorsController < ApiController
   end
 
   def ticker_serializer(coins)
-    tickers = coins.map{|coin| coin['symbol']}
+    tickers = coins.map {|coin| symbol_to_ticker_name(coin.symbol)}
     { tickers: tickers }
   end
 
@@ -37,6 +38,7 @@ class Api::IndicatorsController < ApiController
     coins.map do |coin|
       calculations = get_indicators_and_signals(coin)
       consensus = get_consensus(calculations.dig(:summary_value))
+      ticker = symbol_to_ticker_name(coin.symbol)
 
       {
         buy: calculations.dig(:summary, :buy),
@@ -44,7 +46,7 @@ class Api::IndicatorsController < ApiController
         sell: calculations.dig(:summary, :sell),
         companyName: coin.name,
         consensus: consensus,
-        ticker: coin.symbol,
+        ticker: ticker,
       }
     end
   end
