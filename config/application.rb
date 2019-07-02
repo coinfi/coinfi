@@ -36,6 +36,11 @@ module CoinfiRails
       allow do
         origins 'https://blog.coinfi.com', 'https://landing.coinfi.com'
       end
+
+      allow do
+        origins '*'
+        resource '/api/indicators/*', headers: :any, methods: :get
+      end
     end
 
     config.middleware.insert(0, Rack::Rewrite) do
