@@ -22,7 +22,7 @@ class Api::IndicatorsController < ApiController
   private
 
   def authenticate
-    api_key = request.headers['X-Api-Key']
+    api_key = request.headers['X-APIToken'] || request.headers['X-API-Key']
     return if api_key.present? && api_key == ENV.fetch("INDICATORS_API_KEY")
 
     render json: {}, status: 401
