@@ -11,7 +11,10 @@ class IndicatorsController < ApplicationController
   def show
     set_news_items
     set_github_stats
-    fresh_when last_modified: [@coin.updated_at, @news_items.first.updated_at].max, public: true
+
+    if Rails.env.production?
+      fresh_when last_modified: [@coin.updated_at, @news_items.first.updated_at].max, public: true
+    end
 
     set_indicator_data
     # Update must occur after the date of the last data point
