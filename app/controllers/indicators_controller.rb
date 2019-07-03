@@ -39,9 +39,10 @@ class IndicatorsController < ApplicationController
 
   def set_coin
     distribute_reads(max_lag: MAX_ACCEPTABLE_REPLICATION_LAG, lag_failover: true) do
-      coin_symbol = params[:ticker]
-      coin_symbol.upcase! if coin_symbol.present?
+      ticker = params[:ticker]
+      return render_empty if ticker.blank?
 
+      coin_symbol = ticker_name_to_symbol(ticker.upcase)
       # Attempt to search assuming the param is a slug
       coin = Coin.find_by(symbol: coin_symbol)
       if coin
