@@ -38,7 +38,7 @@
     "GOOGLE_PROJECT_ID": { "required": true },
     "GOOGLE_PUBSUB_TRADING_SIGNALS_TOPIC_NAME": { "required": true },
     "HEALTHCHECK_DAILY_PRICES": { "required": true },
-    "HEALTHCHECK_GITHUB": { "required": true },
+    "HEALTHCHECK_INDICATORS": { "required": true },
     "HEALTHCHECK_HOURLY_PRICES": { "required": true },
     "HEALTHCHECK_MARKET_METRICS": { "required": true },
     "HEAP_APP_ID": { "required": true },

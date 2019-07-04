@@ -28,6 +28,9 @@ TweetTrendingNews:
 RefreshGithub:
   cron: '0 15 0 * * * Etc/UTC'
 
+UpdateIndicatorStats:
+  cron: '10 */5 * * * * Etc/UTC'  # Less frequently than production
+
 # Paid API routes
 
 UpdateCmcMetrics:

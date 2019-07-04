@@ -11,7 +11,7 @@ module CoinServices
       @coin_keys = coin_keys
       @coins = Coin.where(coin_key: @coin_keys)
       @failed_updates = []
-      @healthcheck_url = ENV.fetch('HEALTHCHECK_GITHUB')
+      @healthcheck_url = ENV.fetch('HEALTHCHECK_INDICATORS')
     end
 
     def call
