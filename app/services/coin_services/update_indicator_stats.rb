@@ -10,6 +10,7 @@ module CoinServices
     end
 
     def call
+      results_coin_hash = {}
       snapshot = fetch_snapshot
 
       if snapshot.present?
@@ -19,6 +20,7 @@ module CoinServices
           if coin_stats.present?
             cache_coin_stats(coin, coin_stats)
             coin.touch
+            results_coin_hash[coin.slug] = coin_stats
           else
             @missing_data << coin.slug
           end
@@ -28,6 +30,7 @@ module CoinServices
       end
 
       log_or_ping_on_missing_data(@missing_data, @healthcheck_url)
+      results_coin_hash
     end
 
     private
@@ -56,7 +59,7 @@ module CoinServices
       contents = JSON.parse(response.body)
 
       snapshot_hash = {}
-      contents.each |coin| do
+      contents.each do |coin|
         coin_key = coin.dig('coin_key')
 
         if coin_key.present?

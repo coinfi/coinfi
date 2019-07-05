@@ -75,6 +75,12 @@ class IndicatorsController < ApplicationController
 
   def set_coin_stats
     @coin_stats = Rails.cache.read("indicators/#{@coin.slug}:stats")
+    if @coin_stats.blank?
+      fetched_stats = CoinServices::UpdateIndicatorStats.call.result
+      if fetched_stats[@coin.slug].present?
+        @coin_stats = fetched_stats[@coin.slug]
+      end
+    end
   end
 
   def set_github_stats
