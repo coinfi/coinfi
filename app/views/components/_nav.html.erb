@@ -13,7 +13,6 @@
     <!-- Menu -->
     <div id="nav-menu" class="nav-menu nav-menu--out ph0-ns">
       <div class="nav-items">
-        <%= nav_link "Trading Signals", "/signals", { class: "nav-menu__item" } %>
         <%= nav_link "Research", "https://www.coinfi.com/research/", { class: "nav-menu__item" } %>
         <%= nav_link "News", "/news", { class: "nav-menu__item" } %>
         <div class="nav-menu-item-coins">
@@ -58,7 +57,7 @@
           <%= button_to "Logout", destroy_user_session_path, method: :delete, class: "nav-menu-actions__btn nav-menu-actions--secondary", form_class: "nav-menu-actions__logout-form" %>
         <% else %>
           <a href="#login" onclick="openLoginModal(event)" class="nav-menu-actions__btn nav-menu-actions--secondary">Login</a>
-          <a href="#sign-up" onclick="openSignUpModal(event)" class="nav-menu-actions--primary nav-menu-actions--primary nav-menu-close">Get Started</a>
+          <a href="#sign-up" onclick="openSignUpModal(event)" class="nav-menu-actions__btn nav-menu-actions--primary nav-menu-close">Get Started</a>
         <% end %>
       </div>
     </div>
