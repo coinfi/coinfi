@@ -74,11 +74,13 @@ class IndicatorsController < ApplicationController
   end
 
   def set_coin_stats
-    @coin_stats = Rails.cache.read("indicators/#{@coin.slug}:stats")
-    if @coin_stats.blank?
+    @coin_stats = Rails.cache.fetch("indicators/#{@coin.slug}:stats") do
       fetched_stats = CoinServices::UpdateIndicatorStats.call.result
+
       if fetched_stats[@coin.slug].present?
-        @coin_stats = fetched_stats[@coin.slug]
+        fetched_stats[@coin.slug]
+      else
+        nil
       end
     end
   end
