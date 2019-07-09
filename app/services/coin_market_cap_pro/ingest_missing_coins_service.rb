@@ -167,10 +167,14 @@ module CoinMarketCapPro
       slack_report += "*POSSIBLE DUPLICATES:* #{@duplicate_coins.size}\n" if @duplicate_coins.respond_to?(:size)
       slack_report += "*FAILED:* #{@failed_coins.size}\n" if @failed_coins.respond_to?(:size)
 
-      if slack_report.present?
-        send_slack_message(channel: @slack_channel, message: slack_report)
-      else
-        send_slack_message(channel: @slack_channel, message: "No missing coins for top #{@top_coins} coins on CMC!")
+      begin
+        if slack_report.present?
+          send_slack_message(channel: @slack_channel, message: slack_report)
+        else
+          send_slack_message(channel: @slack_channel, message: "No missing coins for top #{@top_coins} coins on CMC!")
+        end
+      rescue Slack::Web::Api::Errors => e
+        puts "#{PAPERTRAIL_PREFIX} #{e}"
       end
     end
 
