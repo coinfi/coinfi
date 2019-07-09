@@ -12,7 +12,7 @@ class Api::IndicatorsController < ApiController
 
   def overview
     tickers = params[:tickers].upcase.split(',') if params[:tickers].present?
-    return render json: [] if tickers.empty?
+    return render json: [] if tickers.blank?
 
     symbols = tickers.map {|ticker| ticker_name_to_symbol(ticker)}
     @coins = Coin.where(symbol: symbols).where(coin_key: INDICATOR_COIN_KEYS)

@@ -8,7 +8,6 @@ module CoinMarketCapPro
 
     def initialize(top_coins: 500)
       @top_coins = top_coins <= CMC_LIMIT ? top_coins : CMC_LIMIT
-      @db_coins = Coin.top(@top_coins)
       @missing_cmc_ids = []
       @inserted_coins = []
       @duplicate_coins = []
@@ -69,8 +68,9 @@ module CoinMarketCapPro
       @cmc_coins = fetch_cmc_coins
 
       cmc_ids = @cmc_coins.map {|coin| coin['id']}
-      db_cmc_ids = @db_coins.pluck(:cmc_id).compact
-      missing_cmc_ids = cmc_ids - db_cmc_ids
+      top_coin_ids = Coin.top(@top_coins).pluck(:cmc_id).compact
+      existing_coin_ids = Coin.where(cmc_id: cmc_ids).pluck(:cmc_id).compact # Make sure to capture all existing cmc_ids
+      missing_cmc_ids = cmc_ids - top_coin_ids - existing_coin_ids
     end
 
     def find_possible_duplicate_coins(cmc_coin)
@@ -84,7 +84,7 @@ module CoinMarketCapPro
     end
 
     def fetch_cmc_coins
-      api_url = "https://pro-api.coinmarketcap.com/v1/cryptocurrency/map"
+      api_url = "https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest"
       query = { limit: @top_coins }
       headers = get_default_api_headers
       response = begin
