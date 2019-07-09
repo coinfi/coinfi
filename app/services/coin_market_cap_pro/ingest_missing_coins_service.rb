@@ -114,10 +114,17 @@ module CoinMarketCapPro
       coin_keys = nil
       website = coin_metadata.dig('urls', 'website', 0)
       if website.present?
-        website_uri = URI(website.chomp('/'))
-        coin_keys = [website_uri.host]
-        if website_uri.path.present?
-          coin_keys << "#{website_uri.host}#{website_uri.path}"
+        begin
+          website = website.strip.chomp('/')
+          website_uri = URI(website)
+          coin_keys = [website_uri.host]
+          if website_uri.path.present?
+            coin_keys << "#{website_uri.host}#{website_uri.path}"
+          end
+        rescue URI::InvalidURIError => e
+          failed_coin = coin_metadata.dup
+          failed_coin['error'] = e
+          @failed_coins << failed_coin
         end
       end
 
