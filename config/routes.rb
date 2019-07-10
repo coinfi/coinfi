@@ -142,8 +142,8 @@ Rails.application.routes.draw do
   get '/privacy-policy', to: 'pages#show', id: 'privacy-policy', as: 'page_privacy'
   get '/unstake', to: 'pages#show', id: 'unstake', as: 'page_unstake'
   get '/signals', to: 'signals#index'
-  get '/signals/reservation', to: 'signals#reservation'
-  patch '/signals/reservation', to: 'signals#reservation_update', as: 'signals_reservation_update'
+  get '/signals/reservation', to: redirect('/signals')
+  patch '/signals/reservation', to: redirect('/signals')
 
   match '/404', :to => 'errors#not_found', :via => :all
   match '/500', :to => 'errors#internal_server_error', :via => :all
