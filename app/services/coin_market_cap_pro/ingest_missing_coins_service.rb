@@ -6,8 +6,11 @@ module CoinMarketCapPro
     CMC_LIMIT = 5000
     PAPERTRAIL_PREFIX = '[CMC]'
 
-    def initialize(top_coins: 500)
+    # If provided with a list of cmc_ids, then the service will try to forcefully insert the coins without checking for duplicates.
+    # This can be used as a follow up to coins that have potential duplicates that are false positives.
+    def initialize(top_coins: 500, cmc_ids: nil)
       @top_coins = top_coins <= CMC_LIMIT ? top_coins : CMC_LIMIT
+      @force_insert_cmc_ids = cmc_ids
       @missing_cmc_ids = []
       @inserted_coins = []
       @duplicate_coins = []
@@ -17,7 +20,11 @@ module CoinMarketCapPro
     end
 
     def call
-      @missing_cmc_ids = find_missing_cmc_ids
+      if @force_insert_cmc_ids.present?
+        @missing_cmc_ids = @force_insert_cmc_ids
+      else
+        @missing_cmc_ids = find_missing_cmc_ids
+      end
       metadata = fetch_cmc_metadata(@missing_cmc_ids)
 
       @missing_cmc_ids.each do |cmc_id|
@@ -31,7 +38,7 @@ module CoinMarketCapPro
         end
 
         cmc_coin = extract_coin_data_from_metadata(coin_metadata)
-        duplicate_coins = find_possible_duplicate_coins(cmc_coin)
+        duplicate_coins = find_possible_duplicate_coins(cmc_coin) unless @force_insert_cmc_ids.present?
 
         if duplicate_coins.blank?
           # Modify cmc_coin for insertion into DB
@@ -65,9 +72,8 @@ module CoinMarketCapPro
     private
 
     def find_missing_cmc_ids
-      @cmc_coins = fetch_cmc_coins
-
-      cmc_ids = @cmc_coins.map {|coin| coin['id']}
+      cmc_coins = fetch_cmc_coins
+      cmc_ids = cmc_coins.map {|coin| coin['id']}
       top_coin_ids = Coin.top(@top_coins).pluck(:cmc_id).compact
       existing_coin_ids = Coin.where(cmc_id: cmc_ids).pluck(:cmc_id).compact # Make sure to capture all existing cmc_ids
       missing_cmc_ids = cmc_ids - top_coin_ids - existing_coin_ids
@@ -156,7 +162,13 @@ module CoinMarketCapPro
     def report_to_slack
       slack_report = ""
 
-      if @missing_cmc_ids.respond_to?(:size)
+      if @force_insert_cmc_ids.present?
+        slack_report += <<~TEXT
+          Inserting requested coins from CMC.
+          CMC IDs:
+          ```#{@force_insert_cmc_ids}```
+        TEXT
+      elsif @missing_cmc_ids.respond_to?(:size)
         slack_report += <<~TEXT
           Found #{@missing_cmc_ids.size} potentially missing coins from CMC out of top #{@top_coins} coins.
           CMC IDs:
@@ -167,6 +179,13 @@ module CoinMarketCapPro
       slack_report += "*POSSIBLE DUPLICATES:* #{@duplicate_coins.size}\n" if @duplicate_coins.respond_to?(:size)
       slack_report += "*FAILED:* #{@failed_coins.size}\n" if @failed_coins.respond_to?(:size)
 
+      if @duplicate_coins.respond_to?(:size) && @duplicate_coins.size > 0
+        slack_report += "Summary of possible duplicates:\n"
+        @duplicate_coins.each do |coin|
+          slack_report += summarize_duplicate_coin(coin)
+        end
+      end
+
       begin
         if slack_report.present?
           send_slack_message(channel: @slack_channel, message: slack_report)
@@ -176,6 +195,16 @@ module CoinMarketCapPro
       rescue Slack::Web::Api::Errors => e
         puts "#{PAPERTRAIL_PREFIX} #{e}"
       end
+    end
+
+    def summarize_duplicate_coin(report)
+      cmc_coin = report[:coin]
+      duplicate_coins = report[:duplicates]
+      duplicate_summaries = duplicate_coins.map { |coin| "#{coin[:id]} #{coin[:slug]} (#{cmc_coin['symbol']})" }
+
+      output_text = "*#{cmc_coin['id']} #{cmc_coin['slug']} (#{cmc_coin['symbol']}):* "
+      output_text += duplicate_summaries.join(", ")
+      output_text += "\n"
     end
 
     def log_to_papertrail
@@ -209,28 +238,31 @@ module CoinMarketCapPro
     end
 
     def format_inserted_coin(coin)
-      output_text = "Inserted:\n"
+      output_text = "#{PAPERTRAIL_PREFIX} Inserted:\n"
       JSON.pretty_generate(coin).each_line do |line|
-        output_text += "#{PAPERTRAIL_PREFIX} #{line}\n"
+        output_text += "#{PAPERTRAIL_PREFIX} #{line}"
       end
-      output_text
+      output_text += "\n"
     end
 
     def format_duplicate_coin(report)
       cmc_coin = report[:coin]
       duplicate_coins = report[:duplicates]
 
-      output_text = "CMC Coin:\n"
+      output_text = "#{PAPERTRAIL_PREFIX} CMC Coin:\n"
       JSON.pretty_generate(cmc_coin).each_line do |line|
         output_text += "#{PAPERTRAIL_PREFIX} #{line}"
       end
+      output_text += "\n"
 
-      output_text += "Possible Duplicates:\n"
+      output_text += "#{PAPERTRAIL_PREFIX} Possible Duplicates:\n"
       duplicate_coins.each do |coin|
         JSON.pretty_generate(coin).each_line do |line|
           output_text += "#{PAPERTRAIL_PREFIX} #{line}"
         end
+        output_text += "\n"
       end
+
       output_text
     end
 
