@@ -240,9 +240,9 @@ module CoinMarketCapPro
     def format_inserted_coin(coin)
       output_text = "#{PAPERTRAIL_PREFIX} Inserted:\n"
       JSON.pretty_generate(coin).each_line do |line|
-        output_text += "#{PAPERTRAIL_PREFIX} #{line}\n"
+        output_text += "#{PAPERTRAIL_PREFIX} #{line}"
       end
-      output_text
+      output_text += "\n"
     end
 
     def format_duplicate_coin(report)
@@ -251,14 +251,16 @@ module CoinMarketCapPro
 
       output_text = "#{PAPERTRAIL_PREFIX} CMC Coin:\n"
       JSON.pretty_generate(cmc_coin).each_line do |line|
-        output_text += "#{PAPERTRAIL_PREFIX} #{line}\n"
+        output_text += "#{PAPERTRAIL_PREFIX} #{line}"
       end
+      output_text += "\n"
 
       output_text += "#{PAPERTRAIL_PREFIX} Possible Duplicates:\n"
       duplicate_coins.each do |coin|
         JSON.pretty_generate(coin).each_line do |line|
-          output_text += "#{PAPERTRAIL_PREFIX} #{line}\n"
+          output_text += "#{PAPERTRAIL_PREFIX} #{line}"
         end
+        output_text += "\n"
       end
 
       output_text
@@ -271,7 +273,7 @@ module CoinMarketCapPro
 
       output_text = "#{error_message}\n"
       JSON.pretty_generate(temp_coin).each_line do |line|
-        output_text += "#{PAPERTRAIL_PREFIX} #{line}\n"
+        output_text += "#{PAPERTRAIL_PREFIX} #{line}"
       end
       output_text
     end
