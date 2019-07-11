@@ -91,11 +91,17 @@ module CoinMarketCapPro
     end
 
     def perform_update_ranking(coin, data)
+      last_synced = begin
+        DateTime.parse(data['last_updated']).to_i
+      rescue ArgumentError
+        DateTime.now.utc.to_i
+      end
+
       coin.update(
         cmc_id: data['id'],
         ranking: data['cmc_rank'],
-        last_synced: data['last_updated'],
-        is_listed: true
+        last_synced: last_synced,
+        is_listed: coin.coin_key.present? ? true : false # avoid listing entries without a coin key
       )
     end
 

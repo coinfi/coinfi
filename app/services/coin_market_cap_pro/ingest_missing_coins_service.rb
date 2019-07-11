@@ -43,6 +43,7 @@ module CoinMarketCapPro
         if duplicate_coins.blank?
           # Modify cmc_coin for insertion into DB
           cmc_coin[:is_listed] = false
+          cmc_coin[:ico_status] = 'listed'
           cmc_coin[:description] = coin_metadata['description'] if coin_metadata['description'].present?
           if cmc_coin[:coin_key].present? && cmc_coin[:coin_key].instance_of?(Array)
             cmc_coin[:coin_key] = cmc_coin[:coin_key][0]
@@ -124,6 +125,11 @@ module CoinMarketCapPro
           website = website.strip.chomp('/')
           website_uri = URI(website)
           coin_keys = [website_uri.host]
+
+          # add other possible, basic coin_key variations
+          if website_uri.host.include? "www." then
+            coin_keys.unshift(website_uri.host.sub(/www\./, '')) # prioritize domain without www.
+          end
           if website_uri.path.present?
             coin_keys << "#{website_uri.host}#{website_uri.path}"
           end
