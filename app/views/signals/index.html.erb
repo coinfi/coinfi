@@ -1,6 +1,13 @@
 <section class="signals-section featured-signals-section signals-section--dark">
   <div class="bs-container bs-container--default">
     <div class="row widest-gutter">
+      <div class="col-sm-12 mb5">
+        As of July 10, 2019, we're no longer accepting new signups for CoinFi Trading Signals; you can read more <a href="http://blog.coinfi.com/coinfi-update-july-2019">here</a>. If you are already subscribed, you can continue to use CoinFi Trading Signals as usual. If you'd like to unsubscribe, you can do so at <a href="https://www.coinfi.com/unstake">coinfi.com/unstake</a>. Questions? Get in touch with us at feedback@coinfi.com.
+      </div>
+    </div>
+  </div>
+  <div class="bs-container bs-container--default">
+    <div class="row widest-gutter">
       <div class="col-sm-7 signals-section__col">
         <div class="signals-section-content featured-signals-section-content">
           <h1 class="signals-section__title featured-signals-section__title">
@@ -32,23 +39,9 @@
             </li>
           </ul>
 
-          <a class="btn btn-blue signals-section__cta-btn" href="<%= signals_reservation_path %>">
-            Get Access
+          <a class="btn btn-gray signals-section__cta-btn" href="#">
+            Signups Closed
           </a>
-
-          <div class="signals-section__cta-btn-note">
-            Only 2,000 spots available
-            <%= react_component_with_jss "SignalPopoverText",
-              props: {
-                text: "Why?",
-                description: "To give our members a bigger trading edge, we’re capping the number of sign ups for the beta. Spots are first come first serve.",
-              },
-              html_options: {
-                class: 'signal-popover-text'
-              },
-              prerender: true
-            %>
-          </div>
         </div>
       </div>
       <div class="col-sm-5 signals-section__col">
@@ -508,19 +501,6 @@
           prerender: true
         %>
       </div>
-    </div>
-  </div>
-</section>
-
-<section class="signals-section cta-signals-section">
-  <div class="bs-container bs-container--default">
-    <div class="signals-section-content signals-section-content--xs-last signals-section-content--center">
-      <h2 class="signals-section__title cta-signals-section__title">Ready to trade with professional signals?</h2>
-      <p class="signals-section__lead cta-signals-section__lead">Reserve one of the 2,000 spots</p>
-
-      <a class="btn btn-blue signals-section__cta-btn" href="<%= signals_reservation_path %>">
-        Get Access
-      </a>
     </div>
   </div>
 </section>

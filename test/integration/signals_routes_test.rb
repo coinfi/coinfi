@@ -7,8 +7,8 @@ class SignalsRoutesTest < ApplicationIntegrationTest
     assert_equal 200, status
   end
 
-  test "can visit reservation" do
+  test "reservation redirects to index" do
     get "/signals/reservation"
-    assert_equal 200, status
+    assert_equal 301, status
   end
 end
