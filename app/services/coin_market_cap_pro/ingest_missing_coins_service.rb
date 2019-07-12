@@ -3,6 +3,11 @@ module CoinMarketCapPro
     include CoinMarketCapProHelpers
     include ::SlackHelpers
 
+    attr_reader :missing_cmc_ids
+    attr_reader :inserted_coins
+    attr_reader :duplicate_coins
+    attr_reader :failed_coins
+
     CMC_LIMIT = 5000
     PAPERTRAIL_PREFIX = '[CMC]'
 
@@ -40,29 +45,42 @@ module CoinMarketCapPro
         cmc_coin = extract_coin_data_from_metadata(coin_metadata)
         duplicate_coins = find_possible_duplicate_coins(cmc_coin) unless @force_insert_cmc_ids.present?
 
-        if duplicate_coins.blank?
-          # Modify cmc_coin for insertion into DB
-          cmc_coin[:is_listed] = false
-          cmc_coin[:ico_status] = 'listed'
-          cmc_coin[:description] = coin_metadata['description'] if coin_metadata['description'].present?
-          if cmc_coin[:coin_key].present? && cmc_coin[:coin_key].instance_of?(Array)
-            cmc_coin[:coin_key] = cmc_coin[:coin_key][0]
+        if duplicate_coins.present?
+          duplicate_coin_report = generate_duplicates_report(coin_metadata, duplicate_coins)
+          @duplicate_coins << duplicate_coin_report
+          next
+        end
+
+        # Modify cmc_coin for insertion into DB
+        cmc_coin[:is_listed] = false
+        cmc_coin[:ico_status] = 'listed'
+        cmc_coin[:description] = coin_metadata['description'] if coin_metadata['description'].present?
+
+        # Attempt to use the shortest coin_key possible based on uri
+        if cmc_coin[:coin_key].present? && cmc_coin[:coin_key].instance_of?(Array)
+          cmc_coin[:coin_key].each do |coin_key|
+            next if Coin.where(coin_key: coin_key).present?
+
+            cmc_coin[:coin_key] = coin_key
+            break
           end
 
-          begin
-            inserted_coin = Coin.create!(cmc_coin)
-            @inserted_coins << coin_serializer(inserted_coin)
-          rescue ActiveRecord::RecordNotUnique => e
-            cmc_coin[:error] = e
-            @failed_coins << cmc_coin
+          # This can occur when we're force inserting
+          # Notify of duplicate coin_keys but insert coin anyways
+          if cmc_coin[:coin_key].instance_of?(Array)
+            duplicate_coins = Coin.where(coin_key: cmc_coin[:coin_key])
+            duplicate_coin_report = generate_duplicates_report(coin_metadata, duplicate_coins)
+            @duplicate_coins << duplicate_coin_report
+            cmc_coin.delete(:coin_key)
           end
-        else
-          duplicates = duplicate_coins.map {|coin| coin_serializer(coin)}
-          duplicate_coin_report = {
-            coin: coin_metadata,
-            duplicates: duplicates,
-          }
-          @duplicate_coins << duplicate_coin_report
+        end
+
+        begin
+          inserted_coin = Coin.create!(cmc_coin)
+          @inserted_coins << coin_serializer(inserted_coin)
+        rescue ActiveRecord::RecordNotUnique => e
+          cmc_coin[:error] = e
+          @failed_coins << cmc_coin
         end
       end
 
@@ -120,6 +138,9 @@ module CoinMarketCapPro
     def extract_coin_data_from_metadata(coin_metadata)
       coin_keys = nil
       website = coin_metadata.dig('urls', 'website', 0)
+      # Possible coin_keys must be listed in order of priority at this point
+      # since they are used in that same order for insertion
+      # i.e., first non-conflicting coin_key is used
       if website.present?
         begin
           website = website.strip.chomp('/')
@@ -131,7 +152,12 @@ module CoinMarketCapPro
             coin_keys.unshift(website_uri.host.sub(/www\./, '')) # prioritize domain without www.
           end
           if website_uri.path.present?
-            coin_keys << "#{website_uri.host}#{website_uri.path}"
+            constructed_path = ""
+            website_uri.path.split('/').each do |path_segment|
+              next if path_segment.blank?
+              constructed_path += "/#{path_segment}"
+              coin_keys << "#{website_uri.host}#{constructed_path}"
+            end
           end
         rescue URI::InvalidURIError => e
           failed_coin = coin_metadata.dup
@@ -152,6 +178,14 @@ module CoinMarketCapPro
         github: coin_metadata.dig('urls', 'source_code', 0),
         image_url: coin_metadata['logo']
       }.compact
+    end
+
+    def generate_duplicates_report(coin_metadata, duplicate_coins)
+      duplicates = duplicate_coins.map {|coin| coin_serializer(coin)}
+      duplicate_coin_report = {
+        coin: coin_metadata,
+        duplicates: duplicates,
+      }
     end
 
     def coin_serializer(coin)
