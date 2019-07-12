@@ -19,7 +19,7 @@ module CoinMarketCapPro
       cmc_coins = load_cmc_latest_data(@start, @limit)
       unless cmc_coins.nil?
         batch_process(cmc_coins) do |cmc_coin|
-          identifier = cmc_coin['slug']
+          identifier = cmc_coin['id']
           update_coin_prices(identifier, cmc_coin)
         end
         log_db_missing_coins
@@ -60,9 +60,9 @@ module CoinMarketCapPro
         perform_update_prices(data)
       end
 
-      coin = Coin.find_by(slug: identifier)
+      coin = Coin.find_by(cmc_id: identifier)
       if !coin
-        @db_missing_coins << { identifier: identifier, ranking: data['cmc_rank'], id: data['id'] }
+        @db_missing_coins << { identifier: identifier, ranking: data['cmc_rank'], slug: data['slug'], symbol: data['symbol'] }
       else
         perform_update_ranking(coin, data)
         if is_toplist_coin?(coin)
@@ -98,7 +98,9 @@ module CoinMarketCapPro
       end
 
       coin.update(
-        cmc_id: data['id'],
+        name: data['name'],
+        symbol: data['symbol'],
+        # slug: data['slug'], # maybe don't update this frequently to avoid url changing
         ranking: data['cmc_rank'],
         last_synced: last_synced,
         is_listed: coin.coin_key.present? ? true : false # avoid listing entries without a coin key
