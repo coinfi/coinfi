@@ -20,8 +20,6 @@ $two-thirds-width: 65%;
 
 html,
 body {
-  height: 100%;
-  width: 100%;
   background-color: #f0f0f0;
 }
 
@@ -542,6 +540,130 @@ a.plain-link {
   p:not(:last-child) {
     margin-bottom: 5px;
   }
+}
+.tippy-tooltip {
+  background-color: #565656;
+  background-clip: padding-box;
+  border: 2px solid #000;
+  color: #fff;
+  box-shadow: 0 3px 14px -0.5px rgba(0, 0, 0, 0.08);
+}
+.tippy-tooltip .tippy-backdrop {
+  background-color: #565656;
+}
+.tippy-tooltip .tippy-arrow:after,
+.tippy-tooltip .tippy-arrow:before,
+.tippy-tooltip .tippy-roundarrow:after,
+.tippy-tooltip .tippy-roundarrow:before {
+  content: '';
+  position: absolute;
+  z-index: -1;
+}
+.tippy-tooltip .tippy-roundarrow {
+  fill: #565656;
+}
+.tippy-tooltip .tippy-roundarrow:after {
+  background-image: url(data:image/svg+xml;base64,PHN2ZyBjbGlwLXJ1bGU9ImV2ZW5vZGQiIGZpbGwtcnVsZT0iZXZlbm9kZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgc3Ryb2tlLW1pdGVybGltaXQ9IjEuNDE0IiB2aWV3Qm94PSIwIDAgMTggNyIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBkPSJNMCA3czIuMDIxLS4wMTUgNS4yNTMtNC4yMThDNi41ODQgMS4wNTEgNy43OTcuMDA3IDkgMGMxLjIwMy0uMDA3IDIuNDE2IDEuMDM1IDMuNzYxIDIuNzgyQzE2LjAxMiA3LjAwNSAxOCA3IDE4IDd6IiBmaWxsPSIjMzMzIiBmaWxsLW9wYWNpdHk9Ii4yMzUiIGZpbGwtcnVsZT0ibm9uemVybyIvPjwvc3ZnPg==);
+  background-size: 18px 7px;
+  width: 18px;
+  height: 7px;
+  left: 0;
+  top: 0;
+  fill: #000;
+}
+.tippy-tooltip[x-placement^='top'] .tippy-roundarrow:after {
+  top: 1px;
+  -webkit-transform: rotate(180deg);
+  transform: rotate(180deg);
+}
+.tippy-tooltip[x-placement^='top'] .tippy-arrow {
+  border-top-color: #565656;
+}
+.tippy-tooltip[x-placement^='top'] .tippy-arrow:after {
+  border-top: 8px solid #565656;
+  top: -8px;
+}
+.tippy-tooltip[x-placement^='top'] .tippy-arrow:before {
+  border-top: 8px solid #000;
+  bottom: -2px;
+}
+.tippy-tooltip[x-placement^='bottom'] .tippy-roundarrow:after {
+  top: -1px;
+}
+.tippy-tooltip[x-placement^='bottom'] .tippy-arrow {
+  border-bottom-color: #565656;
+}
+.tippy-tooltip[x-placement^='bottom'] .tippy-arrow:after {
+  border-bottom: 8px solid #565656;
+  bottom: -8px;
+}
+.tippy-tooltip[x-placement^='bottom'] .tippy-arrow:before {
+  border-bottom: 8px solid #000;
+  bottom: -5px;
+}
+.tippy-tooltip[x-placement^='left'] .tippy-roundarrow:after {
+  left: 1px;
+  top: 0;
+  -webkit-transform: rotate(90deg);
+  transform: rotate(90deg);
+}
+.tippy-tooltip[x-placement^='left'] .tippy-arrow {
+  border-left-color: #565656;
+}
+.tippy-tooltip[x-placement^='left'] .tippy-arrow:after {
+  border-left: 7px solid #565656;
+  left: -7px;
+}
+.tippy-tooltip[x-placement^='left'] .tippy-arrow:before {
+  border-left: 7px solid #000;
+  left: -6px;
+}
+.tippy-tooltip[x-placement^='right'] .tippy-roundarrow:after {
+  left: -1px;
+  top: 0;
+  -webkit-transform: rotate(-90deg);
+  transform: rotate(-90deg);
+}
+.tippy-tooltip[x-placement^='right'] .tippy-arrow {
+  border-right-color: #565656;
+}
+.tippy-tooltip[x-placement^='right'] .tippy-arrow:after {
+  border-right: 7px solid #565656;
+  right: -7px;
+}
+.tippy-tooltip[x-placement^='right'] .tippy-arrow:before {
+  border-right: 7px solid #000;
+  right: -6px;
+}
+.tippy-tooltip[x-placement^='bottom'] .tippy-arrow,
+.tippy-tooltip[x-placement^='bottom'] .tippy-roundarrow,
+.tippy-tooltip[x-placement^='top'] .tippy-arrow,
+.tippy-tooltip[x-placement^='top'] .tippy-roundarrow {
+  -webkit-transform: translateX(-1px);
+  transform: translateX(-1px);
+}
+.tippy-tooltip[x-placement^='bottom'] .tippy-arrow:after,
+.tippy-tooltip[x-placement^='bottom'] .tippy-arrow:before,
+.tippy-tooltip[x-placement^='top'] .tippy-arrow:after,
+.tippy-tooltip[x-placement^='top'] .tippy-arrow:before {
+  left: -7px;
+  border-left: 7px solid transparent;
+  border-right: 7px solid transparent;
+}
+.tippy-tooltip[x-placement^='left'] .tippy-arrow,
+.tippy-tooltip[x-placement^='left'] .tippy-roundarrow,
+.tippy-tooltip[x-placement^='right'] .tippy-arrow,
+.tippy-tooltip[x-placement^='right'] .tippy-roundarrow {
+  -webkit-transform: translateY(-1px);
+  transform: translateY(-1px);
+}
+.tippy-tooltip[x-placement^='left'] .tippy-arrow:after,
+.tippy-tooltip[x-placement^='left'] .tippy-arrow:before,
+.tippy-tooltip[x-placement^='right'] .tippy-arrow:after,
+.tippy-tooltip[x-placement^='right'] .tippy-arrow:before {
+  top: -7px;
+  border-top: 7px solid transparent;
+  border-bottom: 7px solid transparent;
 }
 
 /* Gauge */
