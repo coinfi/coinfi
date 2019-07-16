@@ -18,28 +18,28 @@ class LinksList extends React.Component<Props, {}> {
   public getLinks(coinObj): Link[] {
     const links = []
 
-    if (!_.isUndefined(coinObj.website)) {
+    if (!!coinObj.website) {
       links.push({
         linkType: 'Website',
         value: coinObj.website,
         icon: 'link',
       })
     }
-    if (!_.isUndefined(coinObj.whitepaper)) {
+    if (!!coinObj.whitepaper) {
       links.push({
         linkType: 'Whitepaper',
         value: coinObj.whitepaper,
         icon: 'file-alt',
       })
     }
-    if (!_.isUndefined(coinObj.explorer)) {
+    if (!!coinObj.explorer) {
       links.push({
         linkType: 'Explorer',
         value: coinObj.explorer,
         icon: 'search',
       })
     }
-    if (!_.isUndefined(coinObj.twitter)) {
+    if (!!coinObj.twitter) {
       links.push({
         linkType: 'Twitter',
         value: coinObj.twitter,
@@ -47,7 +47,7 @@ class LinksList extends React.Component<Props, {}> {
         brand: true,
       })
     }
-    if (!_.isUndefined(coinObj.reddit)) {
+    if (!!coinObj.reddit) {
       links.push({
         linkType: 'Reddit',
         value: coinObj.reddit,
@@ -55,7 +55,7 @@ class LinksList extends React.Component<Props, {}> {
         brand: true,
       })
     }
-    if (!_.isUndefined(coinObj.medium)) {
+    if (!!coinObj.medium) {
       links.push({
         linkType: 'Medium',
         value: coinObj.medium,
@@ -63,7 +63,7 @@ class LinksList extends React.Component<Props, {}> {
         brand: true,
       })
     }
-    if (!_.isUndefined(coinObj.github)) {
+    if (!!coinObj.github) {
       links.push({
         linkType: 'Github',
         value: coinObj.github,
@@ -71,7 +71,7 @@ class LinksList extends React.Component<Props, {}> {
         brand: true,
       })
     }
-    if (!_.isUndefined(coinObj.telegram)) {
+    if (!!coinObj.telegram) {
       links.push({
         linkType: 'Telegram',
         value: coinObj.telegram,
