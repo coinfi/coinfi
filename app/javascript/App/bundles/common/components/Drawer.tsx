@@ -11,6 +11,7 @@ interface Props {
   translateX?: string
   translateY?: string
   opacity?: number
+  children: React.ReactNode
 }
 
 const Drawer = (props: Props) => {
