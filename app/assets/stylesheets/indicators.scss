@@ -2,6 +2,11 @@
 $blue: #00a5ee;
 $green: #6aac0e;
 $red: #ce1d1d;
+$hard-green: #6eaf0f;
+$soft-green: #89c230;
+$yellow: #ffcf5b;
+$soft-red: #e85d5d;
+$hard-red: #e1191d;
 $off-white: #f8f8f8;
 $light-grey: #e0e0e0;
 $border-grey: #d4d5d8;
@@ -300,7 +305,7 @@ h3 {
 }
 .indicators-table th {
   padding-bottom: 4px;
-  border-bottom: 2px solid $border-grey;
+  border-bottom: 1px solid $border-grey;
   text-align: center;
   text-transform: uppercase;
 }
@@ -338,13 +343,13 @@ h3 {
   color: $blue;
 }
 .buy {
-  color: $green;
+  color: $soft-green;
 }
 .sell {
-  color: $red;
+  color: $soft-red;
 }
 .neutral {
-  color: #ffc956;
+  color: $yellow;
 }
 .copy-container {
   padding: 20px;
@@ -380,6 +385,17 @@ h3 {
     margin-right: 10px;
   }
 }
+.indicators-consensus {
+  text-align: center;
+}
+.indicators-consensus > span {
+  border-radius: 4px;
+  border: 1px solid $light-grey;
+  padding: 8px 8px;
+  display: inline-block;
+  text-align: center;
+  min-width: 150px;
+}
 .indicators-updated {
   margin-top: 10px;
   text-align: center;
@@ -397,7 +413,7 @@ h3 {
   justify-content: space-between;
   align-items: center;
   padding: 5px 20px;
-  border-right: 2px solid #d4d5d8;
+  border-right: 1px solid #d4d5d8;
 
   &:nth-child(1),
   &:nth-child(2) {
@@ -735,7 +751,7 @@ a.plain-link {
 /* Mobile */
 @media screen and (max-width: 740px) {
   h2 {
-    text-align: center;
+    padding-left: 21px;
     font-weight: 600;
     font-size: 20px;
     min-height: 32px;
@@ -755,6 +771,7 @@ a.plain-link {
     flex: 1 1 100%;
     padding: 20px;
     padding-bottom: 30px;
+    border-top: none;
   }
   .half-width-container {
     display: flex;
@@ -786,7 +803,7 @@ a.plain-link {
     overflow: hidden;
   }
   .main-title {
-    padding: 0 4px 20px;
+    padding: 0 4px 20px 21px;
     font-size: 19px;
   }
   .main-title .coinfi-link {
