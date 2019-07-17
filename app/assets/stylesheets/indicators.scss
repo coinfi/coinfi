@@ -561,8 +561,11 @@ a.plain-link {
 }
 
 /* Tooltips */
+.tippy-tooltip {
+  text-align: justify;
+}
 .tippy-tooltip.indicators-theme {
-  text-align: left;
+  text-align: justify;
   p:not(:last-child) {
     margin-bottom: 5px;
   }
