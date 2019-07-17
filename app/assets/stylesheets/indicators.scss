@@ -402,39 +402,6 @@ h3 {
   text-transform: uppercase;
   font-size: 12px;
 }
-.stats {
-  display: grid;
-  grid-template-columns: repeat(3, auto);
-  grid-template-rows: repeat(2, auto);
-  grid-auto-flow: column;
-}
-.stats__row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 5px 20px;
-  border-right: 1px solid #d4d5d8;
-
-  &:nth-child(1),
-  &:nth-child(2) {
-    padding-left: 10px;
-  }
-  &:nth-last-child(1),
-  &:nth-last-child(2) {
-    border-right: none;
-    padding-right: 10px;
-  }
-  &:nth-child(2n + 1) {
-    padding-top: 2px;
-  }
-  &:nth-child(2n) {
-    padding-bottom: 2px;
-  }
-
-  div:first-child {
-    font-weight: 600;
-  }
-}
 .github-tab-bar {
   width: 100%;
 }
@@ -822,14 +789,6 @@ a.plain-link {
   .main-title .coinfi-link {
     right: 2px;
     bottom: -10px;
-  }
-  .stats {
-    font-size: 14px;
-    display: block;
-  }
-  .stats__row {
-    border-right: none;
-    padding: 4px 2px 8px !important;
   }
   .indicators-table {
     .indicators__min,

@@ -11,7 +11,6 @@ class IndicatorsController < ApplicationController
   def show
     set_news_items
     set_github_stats
-    set_coin_stats
 
     if Rails.env.production?
       fresh_when last_modified: [@coin.updated_at, @news_items.first.updated_at].max, public: true
@@ -72,13 +71,6 @@ class IndicatorsController < ApplicationController
     @summary = calculations[:summary]
     @summary_value = calculations[:summary_value]
     @summary_consensus = get_consensus(@summary_value)
-  end
-
-  def set_coin_stats
-    @coin_stats = Rails.cache.fetch("indicators/#{@coin.slug}:stats") do
-      fetched_stats = CoinServices::UpdateIndicatorStats.call.result
-      fetched_stats.fetch(@coin.slug, nil)
-    end
   end
 
   def set_github_stats

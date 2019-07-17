@@ -91,52 +91,6 @@
         </a>
       </h2>
 
-      <% unless @coin_stats.blank? %>
-      <div class="flex-container">
-        <div class="paper">
-          <h3><%= t(@coin.slug, scope:'coins') %> <%= t(:stats) %></h3>
-          <div class="stats">
-            <div class="stats__row">
-              <div><%= t(:day_move_label, days: 7) %></div>
-              <div class="<%= get_buy_sell_class(@coin_stats['change7d']) %>">
-                <%= link_to format_percentage(@coin_stats['change7d']), coin_url(@coin.slug), class: 'plain-link', onclick: "return debouncedSendLink(this.href);" %>
-              </div>
-            </div>
-            <div class="stats__row">
-              <div><%= t(:day_move_label, days: 30) %></div>
-              <div class="<%= get_buy_sell_class(@coin_stats['change30d']) %>">
-                <%= link_to format_percentage(@coin_stats['change30d']), coin_url(@coin.slug), class: 'plain-link', onclick: "return debouncedSendLink(this.href);" %>
-              </div>
-            </div>
-            <div class="stats__row">
-              <div><%= t :market_cap_label %></div>
-              <div class="price">
-                <%= link_to format_price(@coin_stats['market_cap'], precision: 2), coin_url(@coin.slug), class: 'plain-link', onclick: "return debouncedSendLink(this.href);" %>
-              </div>
-            </div>
-            <div class="stats__row">
-              <div><%= t :volume_24h_label %></div>
-              <div class="price">
-                <%= link_to format_price(@coin_stats['volume24h'], precision: 2), coin_url(@coin.slug), class: 'plain-link', onclick: "return debouncedSendLink(this.href);" %>
-              </div>
-            </div>
-            <div class="stats__row">
-              <div><%= t :circulating_supply_label %></div>
-              <div>
-                <%= link_to @coin_stats['available_supply'] > 0 ? format_supply(@coin_stats['available_supply']) : "N/A", coin_url(@coin.slug), class: 'plain-link', onclick: "return debouncedSendLink(this.href);" %>
-              </div>
-            </div>
-            <div class="stats__row">
-              <div><%= t :fixed_supply_label %></div>
-              <div>
-                <%= link_to @coin_stats['fixed_supply'] > 0 ? format_supply(@coin_stats['fixed_supply']) : "N/A", coin_url(@coin.slug), class: 'plain-link', onclick: "return debouncedSendLink(this.href);" %>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <% end %>
-
       <div class="flex-container">
         <div class="one-third third-width-container">
           <div class="paper gauge-container">
@@ -351,6 +305,7 @@
         main.style.display = 'block';
         loader.style.display = 'none';
         loadGauge();
+        loadCharts();
       }
 
       /* Post Messaging */
@@ -549,158 +504,160 @@
     </script>
     <script type="text/javascript">
       /* CHARTS */
-      var defaultChartWidth = 620;
-      var widthToHeightRatio = 4/3;
+      function loadCharts() {
+        var defaultChartWidth = 620;
+        var widthToHeightRatio = 4/3;
 
-      /* Localization */
-      var i18nDays = <%= t(:day_names, scope: :date ).to_json.html_safe %>;
-      var i18nShortDays = <%= t(:abbr_day_names, scope: :date ).to_json.html_safe %>;
-      var i18nMonths = <%= t(:month_names, scope: :date ).to_json.html_safe %>;
-      var i18nShortMonths = <%= t(:abbr_month_names, scope: :date ).to_json.html_safe %>;
-      var i18nDelimiter = <%= t(:delimiter, scope: 'number.format' ).to_json.html_safe %>;
-      var i18nSeparator = <%= t(:separator, scope: 'number.format' ).to_json.html_safe %>;
-      d3.timeFormatDefaultLocale({
-        "dateTime": "%a %b %e %X %Y",
-        "date": "%Y-%m-%d",
-        "time": "%H:%M:%S",
-        "periods": ["AM", "PM"],
-        "days": i18nDays,
-        "shortDays": i18nShortDays,
-        "months": i18nMonths.slice(1),
-        "shortMonths": i18nShortMonths.slice(1),
-      });
-      d3.formatLocale({
-        "decimal": i18nDelimiter,
-        "thousands": i18nSeparator,
-        "grouping": [3],
-        "currency": ["$", ""],
-      })
+        /* Localization */
+        var i18nDays = <%= t(:day_names, scope: :date ).to_json.html_safe %>;
+        var i18nShortDays = <%= t(:abbr_day_names, scope: :date ).to_json.html_safe %>;
+        var i18nMonths = <%= t(:month_names, scope: :date ).to_json.html_safe %>;
+        var i18nShortMonths = <%= t(:abbr_month_names, scope: :date ).to_json.html_safe %>;
+        var i18nDelimiter = <%= t(:delimiter, scope: 'number.format' ).to_json.html_safe %>;
+        var i18nSeparator = <%= t(:separator, scope: 'number.format' ).to_json.html_safe %>;
+        d3.timeFormatDefaultLocale({
+          "dateTime": "%a %b %e %X %Y",
+          "date": "%Y-%m-%d",
+          "time": "%H:%M:%S",
+          "periods": ["AM", "PM"],
+          "days": i18nDays,
+          "shortDays": i18nShortDays,
+          "months": i18nMonths.slice(1),
+          "shortMonths": i18nShortMonths.slice(1),
+        });
+        d3.formatLocale({
+          "decimal": i18nDelimiter,
+          "thousands": i18nSeparator,
+          "grouping": [3],
+          "currency": ["$", ""],
+        })
 
-      var i18nDateLabel = <%= t(:date_label).to_json.html_safe %>;
-      var i18nCommitsLabel = <%= t(:commits).to_json.html_safe %>;
-      var i18nChangesLabel = <%= t(:changes).to_json.html_safe %>;
-      var i18nCommitActivityTooltip = <%= t(:commit_activity_tooltip).to_json.html_safe %>;
-      var i18nAdditionsTooltip = <%= t(:additions_tooltip).to_json.html_safe %>;
-      var i18nDeletionsTooltip = <%= t(:deletions_tooltip).to_json.html_safe %>;
+        var i18nDateLabel = <%= t(:date_label).to_json.html_safe %>;
+        var i18nCommitsLabel = <%= t(:commits).to_json.html_safe %>;
+        var i18nChangesLabel = <%= t(:changes).to_json.html_safe %>;
+        var i18nCommitActivityTooltip = <%= t(:commit_activity_tooltip).to_json.html_safe %>;
+        var i18nAdditionsTooltip = <%= t(:additions_tooltip).to_json.html_safe %>;
+        var i18nDeletionsTooltip = <%= t(:deletions_tooltip).to_json.html_safe %>;
 
-      <% if @commit_activity.present? %>
-      /* Commit Activity */
+        <% if @commit_activity.present? %>
+        /* Commit Activity */
 
-      // Functions
-      function getXCA(d) { return d.timestamp; }
-      function getYCA(d) { return d.commits; }
+        // Functions
+        function getXCA(d) { return d.timestamp; }
+        function getYCA(d) { return d.commits; }
 
-      // Data
-      var idCA = 'commit-activity';
-      var commitActivity = <%= @commit_activity.to_json.html_safe %>;
-      var dataCA = commitActivity.map(function(d) {
-        var timestamp = new Date(getXCA(d) * 1000);
-        var commits = getYCA(d);
-        return {
-          timestamp: timestamp,
-          commits: commits
-        };
-      });
+        // Data
+        var idCA = 'commit-activity';
+        var commitActivity = <%= @commit_activity.to_json.html_safe %>;
+        var dataCA = commitActivity.map(function(d) {
+          var timestamp = new Date(getXCA(d) * 1000);
+          var commits = getYCA(d);
+          return {
+            timestamp: timestamp,
+            commits: commits
+          };
+        });
 
-      // Dimensions and scale
-      var marginCA = {top: 20, right: 20, bottom: 50, left: 40};
-      var outerWidthCA = document.getElementById(idCA).getBoundingClientRect()['width'] || defaultChartWidth;
-      var widthCA = outerWidthCA - marginCA.left - marginCA.right;
-      var outerHeightCA = outerWidthCA / widthToHeightRatio;
-      var heightCA = outerHeightCA - marginCA.top - marginCA.bottom;
-      var barWidthCA = Math.floor(widthCA / dataCA.length) - 1;
+        // Dimensions and scale
+        var marginCA = {top: 20, right: 20, bottom: 50, left: 40};
+        var outerWidthCA = document.getElementById(idCA).getBoundingClientRect()['width'] || defaultChartWidth;
+        var widthCA = outerWidthCA - marginCA.left - marginCA.right;
+        var outerHeightCA = outerWidthCA / widthToHeightRatio;
+        var heightCA = outerHeightCA - marginCA.top - marginCA.bottom;
+        var barWidthCA = Math.floor(widthCA / dataCA.length) - 1;
 
-      var datesCA = dataCA.map(getXCA);
-      var minDateCA = d3.min(datesCA)
-      var maxDateCA = d3.max(datesCA)
-      var xCA = d3.scaleTime()
-                  .domain([
-                    minDateCA,
-                    new Date(maxDateCA.valueOf() + 7*24*60*60*1000) // add one week to max
-                  ])
-                  .range([0, widthCA]);
-      var yCA = d3.scaleLinear()
-                  .domain([0, d3.max(dataCA.map(getYCA))])
-                  .range([heightCA, 0]);
+        var datesCA = dataCA.map(getXCA);
+        var minDateCA = d3.min(datesCA)
+        var maxDateCA = d3.max(datesCA)
+        var xCA = d3.scaleTime()
+                    .domain([
+                      minDateCA,
+                      new Date(maxDateCA.valueOf() + 7*24*60*60*1000) // add one week to max
+                    ])
+                    .range([0, widthCA]);
+        var yCA = d3.scaleLinear()
+                    .domain([0, d3.max(dataCA.map(getYCA))])
+                    .range([heightCA, 0]);
 
-      // Chart
-      var chartCA = d3.select('#' + idCA)
-                      .attr('viewBox', '0 0 ' + outerWidthCA + ' ' + outerHeightCA)
-                    .append('g')
-                      .attr('transform', 'translate(' + marginCA.left + ', ' + marginCA.top + ')');
+        // Chart
+        var chartCA = d3.select('#' + idCA)
+                        .attr('viewBox', '0 0 ' + outerWidthCA + ' ' + outerHeightCA)
+                      .append('g')
+                        .attr('transform', 'translate(' + marginCA.left + ', ' + marginCA.top + ')');
 
-      // Tooltip
-      var tipFactoryCA = d3scription(function(d) {
-        var date = d3.timeFormat('%b %d, %Y')(getXCA(d));
-        var value = getYCA(d);
-        var tooltip = i18nCommitActivityTooltip
-                        .replace('{date}', date)
-                        .replace('{value}', value);
-        return tooltip;
-      }, {
-        class: 'chart-tooltip',
-      });
-      var tipCA = tipFactoryCA().element(chartCA);
+        // Tooltip
+        var tipFactoryCA = d3scription(function(d) {
+          var date = d3.timeFormat('%b %d, %Y')(getXCA(d));
+          var value = getYCA(d);
+          var tooltip = i18nCommitActivityTooltip
+                          .replace('{date}', date)
+                          .replace('{value}', value);
+          return tooltip;
+        }, {
+          class: 'chart-tooltip',
+        });
+        var tipCA = tipFactoryCA().element(chartCA);
 
-      // Bars
-      var barCA = chartCA.selectAll('g.bar').data(dataCA)
-                          .enter().append('g')
-                          .attr('class', 'bar')
-                          .attr('transform', function(d, i) {
-                            return "translate(" + xCA(getXCA(d)) + ", 0)";
-                          });
-      var rectCA = barCA.append('rect')
-            .attr('y', heightCA)
-            .attr('height', 0)
-            .attr('width', barWidthCA)
-            .on('mouseover', function() {
-              d3.select(this).attr('opacity', 0.7);
-              tipCA.show.apply(this, arguments);
-            })
-            .on('mouseout', function() {
-              d3.select(this).attr('opacity', 1);
-              tipCA.hide.apply(this, arguments);
-            });
+        // Bars
+        var barCA = chartCA.selectAll('g.bar').data(dataCA)
+                            .enter().append('g')
+                            .attr('class', 'bar')
+                            .attr('transform', function(d, i) {
+                              return "translate(" + xCA(getXCA(d)) + ", 0)";
+                            });
+        var rectCA = barCA.append('rect')
+              .attr('y', heightCA)
+              .attr('height', 0)
+              .attr('width', barWidthCA)
+              .on('mouseover', function() {
+                d3.select(this).attr('opacity', 0.7);
+                tipCA.show.apply(this, arguments);
+              })
+              .on('mouseout', function() {
+                d3.select(this).attr('opacity', 1);
+                tipCA.hide.apply(this, arguments);
+              });
 
-      // Starting animation
-      rectCA.transition()
-            .duration(800)
-            .attr("y", function(d) { return yCA(getYCA(d)); })
-            .attr("height", function(d) { return heightCA - yCA(getYCA(d)); })
-            .delay(0)
+        // Starting animation
+        rectCA.transition()
+              .duration(800)
+              .attr("y", function(d) { return yCA(getYCA(d)); })
+              .attr("height", function(d) { return heightCA - yCA(getYCA(d)); })
+              .delay(0)
 
-      // X Axis
-      var tickValuesCA = d3.timeMonth.range(minDateCA, maxDateCA, 3);
-      tickValuesCA.push(maxDateCA);
-      var xAxisCA = d3.axisBottom(xCA)
-                      .tickValues(tickValuesCA)
-                      .tickFormat(d3.timeFormat('%b %Y'));
-      chartCA.append('g')
-                .attr('class', 'x axis')
-                .attr('transform', 'translate(0, ' + heightCA + ')')
-                .call(xAxisCA)
-              .append('text')
-                .attr('class', 'title')
-                .attr('y', 40)
-                .attr('x', widthCA/2)
-                .style('font-size', '12px')
-                .text(i18nDateLabel);
+        // X Axis
+        var tickValuesCA = d3.timeMonth.range(minDateCA, maxDateCA, 3);
+        tickValuesCA.push(maxDateCA);
+        var xAxisCA = d3.axisBottom(xCA)
+                        .tickValues(tickValuesCA)
+                        .tickFormat(d3.timeFormat('%b %Y'));
+        chartCA.append('g')
+                  .attr('class', 'x axis')
+                  .attr('transform', 'translate(0, ' + heightCA + ')')
+                  .call(xAxisCA)
+                .append('text')
+                  .attr('class', 'title')
+                  .attr('y', 40)
+                  .attr('x', widthCA/2)
+                  .style('font-size', '12px')
+                  .text(i18nDateLabel);
 
-      // Y Axis
-      var yAxisCA = d3.axisLeft(yCA)
-                      .ticks(4)
-                      .tickPadding(10);
-      chartCA.append('g')
-                .attr('class', 'y axis')
-                .call(yAxisCA)
-              .append('text')
-                .attr('class', 'title')
-                .attr('transform', 'rotate(-90)')
-                .attr('y', -30)
-                .attr('x', -heightCA/2)
-                .style('font-size', '12px')
-                .text(i18nCommitsLabel);
-      <% end %>
+        // Y Axis
+        var yAxisCA = d3.axisLeft(yCA)
+                        .ticks(4)
+                        .tickPadding(10);
+        chartCA.append('g')
+                  .attr('class', 'y axis')
+                  .call(yAxisCA)
+                .append('text')
+                  .attr('class', 'title')
+                  .attr('transform', 'rotate(-90)')
+                  .attr('y', -30)
+                  .attr('x', -heightCA/2)
+                  .style('font-size', '12px')
+                  .text(i18nCommitsLabel);
+        <% end %>
+      }
     </script>
     <%= render 'layouts/tracking_scripts' %>
   </body>
