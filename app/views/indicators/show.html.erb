@@ -143,7 +143,7 @@
             <h3>
               <%= t(:technical_analysis_summary) %>
               <a class="header-info-icon" data-tippy="<%= t :indicator_summary_copy %>" data-tippy-size="small" data-tippy-arrow="true">
-                <i class="far fa-info-circle"></i>
+                <i class="icon-info-circle"></i>
               </a>
             </h3>
             <div>
@@ -177,7 +177,7 @@
               <%= t(:technical_indicators) %>
               <a data-tippy="<% @indicator_rows.each do |indicator| %>
                 <p><b><%= t(indicator[:symbol], scope: 'indicators.title') %>:</b> <%= t(indicator[:symbol], scope: 'indicators.rule') %></p>
-              <% end %>" data-tippy-maxWidth="700" data-tippy-size="small" data-tippy-theme="indicators" data-tippy-arrow="true"><i class="far fa-info-circle"></i></a>
+              <% end %>" data-tippy-maxWidth="700" data-tippy-size="small" data-tippy-theme="indicators" data-tippy-arrow="true"><i class="icon-info-circle"></i></a>
             </h3>
             <table class="indicators-table">
               <thead>
@@ -236,7 +236,7 @@
           <h3>
             <%= t :developer_community %>
             <a class="header-info-icon" data-tippy-maxWidth="500" data-tippy-size="small" data-tippy-arrow="true" data-tippy="<%= simple_format(t(:developer_community_copy)) %>">
-              <i class="far fa-info-circle"></i>
+              <i class="icon-info-circle"></i>
             </a>
           </h3>
           <% if @github_snapshot.present? %>

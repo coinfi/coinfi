@@ -549,6 +549,16 @@ a.plain-link {
   padding: 5px 10px;
   min-width: 100px;
 }
+.icon-info-circle {
+  &::before {
+    content: '';
+    display: inline-block;
+    background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABcAAAAXCAYAAADgKtSgAAAABmJLR0QA/wD/AP+gvaeTAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH4wcRBBcpRrmbQAAAAB1pVFh0Q29tbWVudAAAAAAAQ3JlYXRlZCB3aXRoIEdJTVBkLmUHAAACf0lEQVRIx7WVy09TQRTGv7n2QSm0t1pKaFUKwqJKSExZWJEm7jCSGOOOBEhcu2aBS2jSP6Bh46obWBkThYYmNERC1Ua74GV5SClKi31ob6FQStHjwphwS3tFU77kZDKZM78zmcx8hxERymk5nqUXSwm83RKQ2D9CNJOHSauEQa2ArZHHwzYDbtTXsHL7WSn4bDhN7mAMW0IOj9rqcauRh0GtgEmrZNFMnhL7R3i3JeD5UhyNvAoDViPszbrTRYhIFMPTG2RzBcgTSlLxWqnwhJJkcwVoeHrjVL5oMjS1Tr1j82eCFkfv2DwNTa1TSbjDF6a+8cX/Av+JvvFFcvjCJIJ7V1NkcwUkwc6ZTWoYeU3OmU3JPJsrQJ6V31fKAYA7GIOjuwVSevZ+WzSWk/NeK9zBGACAW45nKZ7N4+61i0xq0+MOk2gsJ3uzjgm5AhZ29og5fGHSVMnw5PYVSfi/yPXmC+0eHkPmj6Qx0t0qmWx0zIo+Q+ypXfIg9iYeg551cNHdPC5rlUGp5L/BimWpr2GfhRy4dK6AOrWiAxWUnGMQcsfgdCo5kvtHHyoJL/wk8CoZOJNGie1M3lpJeCiepau8ClynWQd/RKgkG7ObAuxNOnA9Fj0mQomKwidCCfRY9ODaG2qZRinDXESgSoDnIgJplDK0N9QyDgD6rUYMTq6dGVD87k9qcHIN/Vaj2M/PzRXP3c9PdqKu0QB5V1NnKuJdTVHXaOlOVLKHzmx8J3cwhq97eTy4bkCnmUeLvppVyy/goPADn1IH5I8IeLWShEGtwIDVWNJVmVT3X9jZo5cfk5iLCIhmDvHtoIBL1XKYtFW4Y+Zx31KHm8basr7zC6TFonCOLvG2AAAAAElFTkSuQmCC')
+      no-repeat;
+    width: 23px;
+    height: 23px;
+  }
+}
 
 /* Tooltips */
 .tippy-tooltip.indicators-theme {
