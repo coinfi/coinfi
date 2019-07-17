@@ -27,6 +27,20 @@ module IndicatorsHelper
     end
   end
 
+  def get_consensus(value)
+    if value == 10    # strong sell
+      return t(:sell)
+    elsif value == 30 # sell
+      return t(:sell)
+    elsif value == 70 # buy
+      return t(:buy)
+    elsif value == 90 # strong buy
+      return t(:buy)
+    else              # neutral (50)
+      return t(:neutral)
+    end
+  end
+
   def github_url(repo)
     "https://github.com/#{repo}"
   end
