@@ -10,6 +10,7 @@ export interface IconProps {
   brand?: boolean
   regular?: boolean
   solid?: boolean
+  noPadding?: boolean
   [x: string]: any
 }
 
@@ -25,6 +26,7 @@ export default ({
   regular,
   solid,
   children,
+  noPadding,
   ...rest
 }: IconProps) => {
   let prefix = 'fal'
@@ -37,9 +39,11 @@ export default ({
   if (brand) {
     prefix = 'fab'
   }
+  let className = noPadding ? '' : 'pr1 '
+  className += `${prefix} fa-${name}`
   return (
     <IconWrapper {...rest}>
-      <i className={`pr1 ${prefix} fa-${name}`} />
+      <i className={className} />
       {children}
     </IconWrapper>
   )
