@@ -542,6 +542,9 @@ a.plain-link {
     margin-bottom: 5px;
   }
 }
+.tippy-tooltip[data-size='small'] {
+  padding: 0.5rem 0.75rem;
+}
 .tippy-tooltip {
   background-color: #565656;
   background-clip: padding-box;

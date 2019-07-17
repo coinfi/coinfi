@@ -77,10 +77,10 @@ en:
   development_activity: "Development Activity"
   development_activity_copy: "This section provides an overview of development activity for %{name} (%{symbol}). Development activity can be used as part of your fundamental research & analysis to ensure the project is continuously developing and has a healthy developer community."
   developer_community_copy: |
-    <b>Contributors:</b> Contributors are the number of developers who have committed code to the project.
-    <b>Forks:</b> Forks are created when a user makes a copy of a project’s open-source code, which can indicate an intention to use or reuse the code.
-    <b>Watchers:</b> Watchers are users who subscribed to be notified when there are code changes for a project.
-    <b>Stars:</b> Stars are users who have bookmarked a project’s code. Stars can be used to measure the popularity of an open source project.
+    <p><b>Contributors:</b> Contributors are the number of developers who have committed code to the project.</p>
+    <p><b>Forks:</b> Forks are created when a user makes a copy of a project’s open-source code, which can indicate an intention to use or reuse the code.</p>
+    <p><b>Watchers:</b> Watchers are users who subscribed to be notified when there are code changes for a project.</p>
+    <p><b>Stars:</b> Stars are users who have bookmarked a project’s code. Stars can be used to measure the popularity of an open source project.</p>
   commit_activity: "Commit Activity"
   code_frequency: "Code Frequency"
   date_label: "date"
