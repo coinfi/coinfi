@@ -86,7 +86,7 @@
 
       <h2 class="main-title">
         <%= t(:technical_analysis_and_price_movements) %>
-        <a class="coinfi-link" href="<%= root_url %>" onclick="return debouncedSendLink(this.href);">
+        <a class="coinfi-link" href="<%= root_url %>?utm_source=etoro_research" onclick="return debouncedSendLink(this.href);">
           Powered by <img src="<%= image_path('logo.svg') %>" class="coinfi-link__img" />
         </a>
       </h2>
@@ -261,12 +261,6 @@
         <div class="copy-container">
           <%= t(:development_activity_copy, name: @coin.name, symbol: @coin.symbol) %>
         </div>
-      </div>
-
-      <div class="footer">
-        <a class="coinfi-link" href="<%= root_url %>" onclick="return debouncedSendLink(this.href);">
-          Powered by <img src="<%= image_path('logo.svg') %>" class="coinfi-link__img" />
-        </a>
       </div>
     </div>
 

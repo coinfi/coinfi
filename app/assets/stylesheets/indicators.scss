@@ -282,7 +282,7 @@ h3 {
   position: absolute;
   right: 0;
   bottom: 0;
-  font-size: 10px;
+  font-size: 14px;
   padding-top: 10px;
   margin-top: -10px;
   padding-bottom: 10px;
@@ -295,8 +295,9 @@ h3 {
   bottom: -10px;
 }
 .coinfi-link__img {
-  width: 50px;
-  margin-bottom: -2px;
+  width: 100px;
+  margin-bottom: -4px;
+  margin-left: 4px;
 }
 .indicators-table {
   width: 100%;
@@ -783,7 +784,7 @@ a.plain-link {
     overflow: hidden;
   }
   .main-title {
-    padding: 0 4px 20px 21px;
+    padding: 0 4px 25px 21px;
     font-size: 19px;
   }
   .main-title .coinfi-link {
