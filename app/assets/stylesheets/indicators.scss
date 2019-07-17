@@ -26,6 +26,10 @@ $two-thirds-width: 65%;
 html,
 body {
   background-color: #f0f0f0;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -khtml-user-select: none;
+  -ms-user-select: none;
 }
 
 textarea,
