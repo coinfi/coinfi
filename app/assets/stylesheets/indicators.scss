@@ -318,7 +318,7 @@ h3 {
   font-weight: normal;
 }
 .indicators-table th {
-  padding: 4px 4px;
+  padding: 12px 4px;
 }
 .indicators-table td {
   padding: 8px 4px;
@@ -712,6 +712,24 @@ a.plain-link {
 
 /* Desktop */
 @media screen and (min-width: 1025px) {
+  .indicators-table th {
+    padding: 12px 12px;
+    &:first-child {
+      padding-left: 4px;
+    }
+    &:last-child {
+      padding-right: 8px; /* Allow better alignment with signal boxes in tbody */
+    }
+  }
+  .indicators-table td {
+    padding: 8px 12px;
+    &:first-child {
+      padding-left: 4px;
+    }
+    &:last-child {
+      padding-right: 4px;
+    }
+  }
   .graph-container {
     min-height: 340px;
   }
