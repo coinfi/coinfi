@@ -286,7 +286,7 @@ h3 {
   position: absolute;
   right: 0;
   bottom: 0;
-  font-size: 14px;
+  font-size: 12px;
   padding-top: 10px;
   margin-top: -10px;
   padding-bottom: 10px;
@@ -299,7 +299,7 @@ h3 {
   bottom: -10px;
 }
 .coinfi-link__img {
-  width: 100px;
+  width: 80px;
   margin-bottom: -4px;
   margin-left: 4px;
 }
@@ -411,7 +411,6 @@ h3 {
   width: 100%;
 }
 .graph-container {
-  min-height: 340px;
   width: 100%;
 }
 .github-stats {
@@ -710,6 +709,9 @@ a.plain-link {
 
 /* Desktop */
 @media screen and (min-width: 1025px) {
+  .graph-container {
+    min-height: 340px;
+  }
 }
 
 /* Tablet */
@@ -860,6 +862,14 @@ a.plain-link {
   .graph-container .x.axis .tick text {
     transform: rotate(-20deg);
     text-anchor: end !important;
+  }
+  .graph-container .axis {
+    text:not(.title) {
+      font-size: 14px;
+    }
+    text.title {
+      font-size: 16px;
+    }
   }
   .github-stats__value {
     font-size: 24px;
