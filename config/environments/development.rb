@@ -22,7 +22,7 @@ Rails.application.configure do
     # TODO: Switch to standard Rails 5.2 redis_cache_store once upgraded.
     config.cache_store = :redis_store, ENV['REDIS_URL']
     config.public_file_server.headers = {
-      'Cache-Control' => "public, max-age=0"
+      'Cache-Control' => "public, max-age=#{2.days.seconds.to_i}"
     }
   else
     config.action_controller.perform_caching = false
