@@ -33,11 +33,7 @@
       }
       /* ios fix */
       body {
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
+        -webkit-overflow-scrolling: touch;
       }
       .loader {
         position: relative;
@@ -47,6 +43,8 @@
         height: 65px;
         width: 65px;
         margin: 10px auto;
+        margin-bottom: -75px;
+        z-index: 999;
       }
       .loader:before {
         background-image: url(https://etoro-cdn.etorostatic.com/web-client/img/eToro.png);
@@ -90,7 +88,7 @@
   </head>
   <body onload="handleOnload();">
     <div class="loader" id="loader"></div>
-    <div class="main-container" id="main" style="display: none;">
+    <div class="main-container" id="main" style="visibility: hidden;">
 
       <h2 class="main-title">
         <%= t(:technical_analysis_and_price_movements) %>
@@ -304,7 +302,7 @@
       function handleOnload() {
         var main = document.getElementById('main');
         var loader = document.getElementById('loader');
-        main.style.display = 'block';
+        main.style.visibility = 'visible';
         loader.style.display = 'none';
         loadGauge();
         loadCharts();
