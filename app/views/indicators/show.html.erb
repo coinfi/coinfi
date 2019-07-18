@@ -31,14 +31,6 @@
       html, body {
         background-color: #f0f0f0;
       }
-      /* ios fix */
-      body {
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-      }
       .loader {
         position: relative;
         background-color: #fff;
@@ -47,6 +39,8 @@
         height: 65px;
         width: 65px;
         margin: 10px auto;
+        margin-bottom: -75px;
+        z-index: 999;
       }
       .loader:before {
         background-image: url(https://etoro-cdn.etorostatic.com/web-client/img/eToro.png);
@@ -90,7 +84,7 @@
   </head>
   <body onload="handleOnload();">
     <div class="loader" id="loader"></div>
-    <div class="main-container" id="main" style="display: none;">
+    <div class="main-container" id="main" style="visibility: hidden;">
 
       <h2 class="main-title">
         <%= t(:technical_analysis_and_price_movements) %>
@@ -104,7 +98,9 @@
           <div class="paper gauge-container">
             <h3>
               <%= t(:technical_analysis_summary) %>
-              <a class="header-info-icon" data-tippy="<%= t :indicator_summary_copy %>" data-tippy-size="small" data-tippy-arrow="true">
+              <a class="header-info-icon" data-tippy="<%= t :indicator_summary_copy %>"
+                data-tippy-size="small" data-tippy-arrow="true"
+              >
                 <i class="icon-info-circle"></i>
               </a>
             </h3>
@@ -138,8 +134,12 @@
             <h3>
               <%= t(:technical_indicators) %>
               <a data-tippy="<% @indicator_rows.each do |indicator| %>
-                <p><b><%= t(indicator[:symbol], scope: 'indicators.title') %>:</b> <%= t(indicator[:symbol], scope: 'indicators.rule') %></p>
-              <% end %>" data-tippy-maxWidth="700" data-tippy-size="small" data-tippy-theme="indicators" data-tippy-arrow="true"><i class="icon-info-circle"></i></a>
+                  <p><b><%= t(indicator[:symbol], scope: 'indicators.title') %>:</b> <%= t(indicator[:symbol], scope: 'indicators.rule') %></p>
+                <% end %>" data-tippy-maxWidth="700" data-tippy-size="small" data-tippy-theme="indicators"
+                data-tippy-arrow="true"
+              >
+                <i class="icon-info-circle"></i>
+              </a>
             </h3>
             <table class="indicators-table">
               <thead>
@@ -197,7 +197,9 @@
         <div class="sidebar sidebar-right">
           <h3>
             <%= t :developer_community %>
-            <a class="header-info-icon" data-tippy-maxWidth="500" data-tippy-size="small" data-tippy-arrow="true" data-tippy-theme="indicators" data-tippy="<%= t(:developer_community_copy) %>">
+            <a class="header-info-icon" data-tippy-maxWidth="500" data-tippy-size="small" data-tippy-arrow="true"
+              data-tippy-theme="indicators" data-tippy="<%= t(:developer_community_copy) %>"
+            >
               <i class="icon-info-circle"></i>
             </a>
           </h3>
@@ -304,10 +306,13 @@
       function handleOnload() {
         var main = document.getElementById('main');
         var loader = document.getElementById('loader');
-        main.style.display = 'block';
+        main.style.visibility = 'visible';
         loader.style.display = 'none';
         loadGauge();
         loadCharts();
+
+        // Call once to ensure iframe size is set
+        throttledReportWindowSize();
       }
 
       /* Post Messaging */
@@ -479,6 +484,20 @@
       }
 
       var debouncedSendLink = debounce(sendLink, 500, {leading: true, trailing: false});
+
+      function reportWindowSize() {
+        var payload = {
+          type: 'resize',
+          parameters: {
+            height: window.innerHeight,
+            width: window.innerWidth,
+          },
+        };
+        window.parent.postMessage(payload, '*');
+      }
+      var throttledReportWindowSize = debounce(reportWindowSize, 500, {leading: true, trailing: true});
+
+      window.addEventListener('resize', throttledReportWindowSize);
 
       /* GAUGE */
       function loadGauge() {
