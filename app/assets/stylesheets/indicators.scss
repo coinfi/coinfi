@@ -11,6 +11,7 @@ $off-white: #f8f8f8;
 $light-grey: #e0e0e0;
 $border-grey: #d4d5d8;
 $dark-grey: #777;
+$text-primary: #2c2c2c;
 $sidebar-width: 350px;
 $one-third-width: 45%;
 $two-thirds-width: 65%;
@@ -52,7 +53,7 @@ body[orient='landscape'] {
 }
 
 body {
-  color: #2c2c2c;
+  color: $text-primary;
   -webkit-text-size-adjust: 100%;
   -ms-text-size-adjust: 100%;
   text-size-adjust: 100%;
@@ -350,11 +351,20 @@ h3 {
 .buy {
   color: $soft-green;
 }
+%buy-bg {
+  background-color: $soft-green;
+}
 .sell {
   color: $soft-red;
 }
+%sell-bg {
+  background-color: $soft-red;
+}
 .neutral {
   color: $yellow;
+}
+%neutral-bg {
+  background-color: $yellow;
 }
 .copy-container {
   padding: 20px;
@@ -378,23 +388,60 @@ h3 {
   justify-content: space-between;
   flex-direction: column;
 }
+.indicators-summary-wrapper {
+  text-align: center;
+}
+#indicator-summary {
+  max-width: 250px;
+}
 .indicators-summary {
   display: flex;
   justify-content: center;
+  flex-wrap: wrap;
+  text-align: left;
   max-width: 100%;
   margin: 0 auto;
   text-align: center;
-  margin-top: 30px;
+  margin-top: 10px;
   > * {
     margin-left: 10px;
     margin-right: 10px;
+    display: flex;
+  }
+
+  &__label {
+    color: $text-primary;
+
+    &::before {
+      content: '';
+      display: inline-block;
+      width: 12px;
+      height: 12px;
+      margin-right: 8px;
+
+      .sell & {
+        @extend %sell-bg;
+      }
+      .neutral & {
+        @extend %neutral-bg;
+      }
+      .buy & {
+        @extend %buy-bg;
+      }
+    }
+  }
+
+  &__value {
+    color: $text-primary;
+    font-weight: 600;
+    margin-left: 10px;
   }
 }
 .indicators-consensus {
   font-size: 18px;
   text-align: center;
   margin-top: 20px;
-  margin-bottom: 10px;
+  margin-bottom: 20px;
 }
 .indicators-consensus > span {
   border-radius: 4px;
