@@ -555,9 +555,9 @@
         }
 
         // Dimensions and scale
-        var marginCA = {top: 20, right: 20, bottom: 40, left: 40};
+        var marginCA = {top: 20, right: 20, bottom: 20, left: 40};
         if (isMobile) {
-          marginCA = {top: 0, right: 20, bottom: 60, left: 50};
+          marginCA = {top: 0, right: 20, bottom: 40, left: 50};
         }
         var outerWidthCA = document.getElementById(idCA).getBoundingClientRect()['width'] || defaultChartWidth;
         var widthCA = outerWidthCA - marginCA.left - marginCA.right;
@@ -633,12 +633,7 @@
         chartCA.append('g')
                   .attr('class', 'x axis')
                   .attr('transform', 'translate(0, ' + heightCA + ')')
-                  .call(xAxisCA)
-                .append('text')
-                  .attr('class', 'title')
-                  .attr('y', marginCA.bottom)
-                  .attr('x', widthCA/2)
-                  .text(i18nDateLabel);
+                  .call(xAxisCA);
 
         // Y Axis
         var yAxisCA = d3.axisLeft(yCA)
