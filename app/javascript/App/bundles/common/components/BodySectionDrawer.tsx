@@ -42,7 +42,7 @@ const BodySectionDrawer = (props: Props) => (
       className={classnames('flex-none', props.classes.iconWrapper)}
       onClick={props.onClose}
     >
-      <Icon name="times" className="f4 slate" noPadding={true} />
+      <Icon name="times" className="f4 white" noPadding={true} />
     </div>
     <div className="flex-auto overflow-y-auto bg-white relative">
       {props.bodySection}
