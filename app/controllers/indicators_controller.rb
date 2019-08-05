@@ -68,7 +68,7 @@ class IndicatorsController < ApplicationController
     @indicators = calculations[:raw_indicators]
     @signals = calculations[:signals]
     @indicator_rows = calculations[:indicators]
-    @summary = calculations[:summary]
+    set_summary(calculations[:summary])
     @summary_value = calculations[:summary_value]
     @summary_consensus = get_consensus(@summary_value)
   end
@@ -90,5 +90,13 @@ class IndicatorsController < ApplicationController
         .limit(5)
         .to_a
     end
+  end
+
+  def set_summary(summary)
+    total = summary[:buy] + summary[:sell] + summary[:neutral]
+    @summary = summary
+    @summary_buy = (summary[:buy] / total * 100).round
+    @summary_sell = (summary[:sell] / total * 100).round
+    @summary_neutral = 100 - @summary_buy - @summary_sell
   end
 end

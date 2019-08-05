@@ -204,10 +204,33 @@ h3 {
 
 .sprite {
   background-size: 170px 2000px;
-  background-image: url(https://etoro-cdn.etorostatic.com/web-client/img/sprite.png);
+  background-image: url('https://etoro-cdn.etorostatic.com/web-client/img/sprite.png');
   background-position: top left;
   background-repeat: no-repeat;
   background-attachment: scroll;
+}
+
+@media (-webkit-min-device-pixel-ratio: 1.5),
+  (min--moz-device-pixel-ratio: 1.5),
+  (-o-min-device-pixel-ratio: 3/2),
+  (min-resolution: 1.5dppx) {
+  .sprite-hd {
+    background-image: url('https://etoro-cdn.etorostatic.com/web-client/img/sprite-hd.png');
+    background-size: 170px 2000px;
+    background-position: top left;
+    background-repeat: no-repeat;
+    background-attachment: scroll;
+  }
+
+  .sprite {
+    @extend .sprite-hd;
+  }
+
+  .icon-info-circle {
+    &::before {
+      @extend .sprite-hd;
+    }
+  }
 }
 
 .info-point {
@@ -404,28 +427,38 @@ h3 {
   flex-direction: column;
 }
 .indicators-summary-wrapper {
-  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 #indicator-summary {
   max-width: 250px;
 }
 .indicators-summary {
   display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
   text-align: left;
   max-width: 100%;
   margin: 0 auto;
-  text-align: center;
   margin-top: 10px;
   > * {
     margin-left: 10px;
     margin-right: 10px;
     display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-items: flex-start;
+    max-width: 100%;
+    overflow-wrap: break-word;
   }
 
   &__label {
     color: $text-primary;
+    max-width: 100%;
+    margin-right: 10px;
+    flex-grow: 1;
 
     &::before {
       content: '';
@@ -449,7 +482,6 @@ h3 {
   &__value {
     color: $text-primary;
     font-weight: 600;
-    margin-left: 10px;
   }
 }
 .indicators-consensus {
