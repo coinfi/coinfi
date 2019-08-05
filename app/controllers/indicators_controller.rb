@@ -93,10 +93,16 @@ class IndicatorsController < ApplicationController
   end
 
   def set_summary(summary)
-    total = summary[:buy] + summary[:sell] + summary[:neutral]
+    total = (summary[:buy] + summary[:sell] + summary[:neutral]).to_f
     @summary = summary
-    @summary_buy = (summary[:buy] / total * 100).round
-    @summary_sell = (summary[:sell] / total * 100).round
-    @summary_neutral = 100 - @summary_buy - @summary_sell
+    if total > 0
+      @summary_buy = (summary[:buy] / total * 100).round
+      @summary_sell = (summary[:sell] / total * 100).round
+      @summary_neutral = 100 - @summary_buy - @summary_sell
+    else
+      @summary_buy = 0
+      @summary_sell = 0
+      @summary_neutral = 0
+    end
   end
 end

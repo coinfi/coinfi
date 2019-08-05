@@ -679,6 +679,7 @@
 
         var chartIS = d3.select('#' + idIS)
             .attr('viewBox', '0 0 ' + outerWidthIS + ' ' + outerHeightIS)
+            .style("width", outerWidthIS)
           .append("g")
             .attr("transform", "translate(" + (widthIS / 2 + marginIS.left) + "," + (heightIS / 2 + marginIS.top) + ")");
 
