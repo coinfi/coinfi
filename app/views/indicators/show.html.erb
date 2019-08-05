@@ -12,7 +12,6 @@
     <link rel="preload" href="https://etoro-cdn.etorostatic.com/web-client/fonts/opensans/open-sans-v15-cyrillic-ext_cyrillic_greek_greek-ext_latin_latin-ext_vietnamese-700.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="https://pro.fontawesome.com/releases/v5.7.2/webfonts/fa-regular-400.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="https://pro.fontawesome.com/releases/v5.7.2/webfonts/fa-brands-400.woff2" as="font" type="font/woff2" crossorigin>
-    <link rel="preload" href="/css/gauge.css" as="style" type="text/css">
     <link rel="preload" href="https://pro.fontawesome.com/releases/v5.7.2/css/all.css" as="style" type="text/css" crossorigin>
     <link rel="preload" href="<%= stylesheet_path 'indicators' %>" as="style" type="text/css">
     <noscript>
@@ -104,22 +103,20 @@
                 <i class="icon-info-circle"></i>
               </a>
             </h3>
-            <div>
-              <div class="gauge-wrapper">
-                <div class="gauge"></div>
-              </div>
+            <div class="indicators-summary-wrapper">
+              <svg id="indicator-summary"></svg>
               <div class="indicators-summary">
-                <div>
-                  <div class="sell"><%= @summary[:sell] %></div>
-                  <div><%= t(:sell).upcase %></div>
+                <div class="sell">
+                  <div class="indicators-summary__label"><%= t(:sell).upcase %></div>
+                  <div class="indicators-summary__value"><%= @summary_sell %>%</div>
                 </div>
-                <div>
-                  <div class="neutral"><%= @summary[:neutral] %></div>
-                  <div><%= t(:neutral).upcase %></div>
+                <div class="neutral">
+                  <div class="indicators-summary__label"><%= t(:neutral).upcase %></div>
+                  <div class="indicators-summary__value"><%= @summary_neutral %>%</div>
                 </div>
-                <div>
-                  <div class="buy"><%= @summary[:buy] %></div>
-                  <div><%= t(:buy).upcase %></div>
+                <div class="buy">
+                  <div class="indicators-summary__label"><%= t(:buy).upcase %></div>
+                  <div class="indicators-summary__value"><%= @summary_buy %>%</div>
                 </div>
               </div>
             </div>
@@ -276,14 +273,12 @@
 
     <script src="https://unpkg.com/popper.js@1.15.0"></script>
     <script src="https://unpkg.com/tippy.js@4.3.4"></script>
-    <script src="/js/gauge.js"></script>
     <script src="https://d3js.org/d3.v5.min.js"></script>
     <script src="/js/d3scription.js"></script>
     <script type="text/javascript">
       /* Load Styles */
       (function() {
         var css = [
-          {href: "/css/gauge.css"},
           {
             href: "https://pro.fontawesome.com/releases/v5.7.2/css/all.css",
             // integrity: "sha384-6jHF7Z3XI3fF4XZixAuSu0gGKrXwoX/w3uFPxC56OtjChio7wtTGJWRW53Nhx6Ev",
@@ -308,7 +303,6 @@
         var loader = document.getElementById('loader');
         main.style.visibility = 'visible';
         loader.style.display = 'none';
-        loadGauge();
         loadCharts();
 
         // Call once to ensure iframe size is set
@@ -498,30 +492,6 @@
       var throttledReportWindowSize = debounce(reportWindowSize, 500, {leading: true, trailing: true});
 
       window.addEventListener('resize', throttledReportWindowSize);
-
-      /* GAUGE */
-      function loadGauge() {
-        var options = {
-          angle: [180, 360],
-          values: {
-            10: '<%= t(:strong_sell).titleize %>',
-            30: '',
-            50: '<%= t(:neutral).titleize %>',
-            70: '',
-            90: '<%= t(:strong_buy).titleize %>'
-          },
-          colors: {
-            0: '#e1191d',
-            20: '#e85d5d',
-            40: '#ffcf5b',
-            60: '#89c230',
-            80: '#6eaf0f'
-          },
-          marks: [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100],
-          value: <%= @summary_value %>
-        };
-        var gauge = new Gauge(document.querySelector(".gauge"), options);
-      }
     </script>
     <script type="text/javascript">
       /* CHARTS */
@@ -585,9 +555,9 @@
         }
 
         // Dimensions and scale
-        var marginCA = {top: 20, right: 20, bottom: 40, left: 40};
+        var marginCA = {top: 20, right: 20, bottom: 20, left: 40};
         if (isMobile) {
-          marginCA = {top: 0, right: 20, bottom: 60, left: 50};
+          marginCA = {top: 0, right: 20, bottom: 40, left: 50};
         }
         var outerWidthCA = document.getElementById(idCA).getBoundingClientRect()['width'] || defaultChartWidth;
         var widthCA = outerWidthCA - marginCA.left - marginCA.right;
@@ -663,12 +633,7 @@
         chartCA.append('g')
                   .attr('class', 'x axis')
                   .attr('transform', 'translate(0, ' + heightCA + ')')
-                  .call(xAxisCA)
-                .append('text')
-                  .attr('class', 'title')
-                  .attr('y', marginCA.bottom)
-                  .attr('x', widthCA/2)
-                  .text(i18nDateLabel);
+                  .call(xAxisCA);
 
         // Y Axis
         var yAxisCA = d3.axisLeft(yCA)
@@ -684,6 +649,61 @@
                   .attr('x', -heightCA/2)
                   .text(i18nCommitsLabel);
         <% end %>
+
+        /* indicators summary donut chart */
+        // Data
+        var idIS = 'indicator-summary';
+        var summaryData = <%= @summary.to_json.html_safe %>;
+        var dataIS = summaryData;
+
+        // Dimensions and scale
+        var donutWidthToHeightRatio = 1;
+        var maxDonutChartDimension = 250;
+        var defaultDonutChartWidth = maxDonutChartDimension;
+        var marginIS = {top: 10, right: 10, bottom: isMobile ? 10 : 25, left: 10};
+
+        // Determine Constraints
+        var outerWidthConstraintIS = document.getElementById(idIS).getBoundingClientRect()['width'] || defaultDonutChartWidth;
+        outerWidthConstraintIS = Math.min(outerWidthConstraintIS, maxDonutChartDimension);
+        var widthConstraintIS = outerWidthConstraintIS - marginIS.left - marginIS.right;
+        var outerHeightConstraintIS = outerWidthConstraintIS / donutWidthToHeightRatio;
+        outerHeightConstraintIS = Math.min(outerHeightConstraintIS, maxDonutChartDimension);
+        var heightConstraintIS = outerHeightConstraintIS - marginIS.top - marginIS.bottom;
+        // Calculate dimensions based on constraints
+        var heightIS = Math.min(widthConstraintIS / donutWidthToHeightRatio, heightConstraintIS);
+        var widthIS = heightIS * donutWidthToHeightRatio;
+        var outerHeightIS = heightIS + marginIS.top + marginIS.bottom;
+        var outerWidthIS = widthIS + marginIS.left + marginIS.right;
+        var radiusIS = Math.floor(widthIS / 2);
+        var innerRadiusIS = Math.floor(radiusIS * 0.70);
+
+        var chartIS = d3.select('#' + idIS)
+            .attr('viewBox', '0 0 ' + outerWidthIS + ' ' + outerHeightIS)
+            .style("width", outerWidthIS)
+          .append("g")
+            .attr("transform", "translate(" + (widthIS / 2 + marginIS.left) + "," + (heightIS / 2 + marginIS.top) + ")");
+
+        // set the color scale
+        var colorIS = d3.scaleOrdinal()
+          .domain(['sell', 'neutral', 'buy'])
+          .range(["#e85d5d", "#ffcf5b", "#89c230"]);
+
+        // Compute the position of each group on the pie:
+        var pieIS = d3.pie()
+          .value(function(d) { return d.value; });
+        var pieDataIS = pieIS(d3.entries(dataIS));
+
+        // Build the pie chart: Basically, each part of the pie is a path that we build using the arc function.
+        chartIS
+          .selectAll('slice')
+          .data(pieDataIS)
+          .enter()
+          .append('path')
+          .attr('d', d3.arc()
+            .innerRadius(innerRadiusIS)         // This is the size of the donut hole
+            .outerRadius(radiusIS)
+          )
+          .attr('fill', function(d){ console.log(d); return(colorIS(d.data.key)); })
       }
     </script>
     <%= render 'layouts/tracking_scripts' %>
