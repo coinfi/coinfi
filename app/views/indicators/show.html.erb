@@ -525,12 +525,8 @@
           "currency": ["$", ""],
         })
 
-        var i18nDateLabel = <%= t(:date_label).to_json.html_safe %>;
         var i18nCommitsLabel = <%= t(:commits).to_json.html_safe %>;
-        var i18nChangesLabel = <%= t(:changes).to_json.html_safe %>;
         var i18nCommitActivityTooltip = <%= t(:commit_activity_tooltip).to_json.html_safe %>;
-        var i18nAdditionsTooltip = <%= t(:additions_tooltip).to_json.html_safe %>;
-        var i18nDeletionsTooltip = <%= t(:deletions_tooltip).to_json.html_safe %>;
 
         <% if @commit_activity.present? %>
         /* Commit Activity */
