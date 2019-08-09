@@ -4,6 +4,7 @@ import Icon from './Icon'
 import classnames from 'classnames'
 import { withStyles, createStyles } from '@material-ui/core/styles'
 import { white } from '../styles/colors'
+import { render } from 'react-dom'
 
 interface Props {
   isShown: boolean
@@ -30,24 +31,34 @@ const styles = (theme) =>
     },
   })
 
-const BodySectionDrawer = (props: Props) => (
-  <Drawer
-    {...props}
-    position={props.skipAnimation ? 'none' : 'bottom'}
-    className="flex flex-column"
-    onClose={props.onClose}
-    isShown={props.isShown}
-  >
-    <div
-      className={classnames('flex-none', props.classes.iconWrapper)}
-      onClick={props.onClose}
-    >
-      <Icon name="times" className="f4 white" noPadding={true} />
-    </div>
-    <div className="flex-auto overflow-y-auto bg-white relative">
-      {props.bodySection}
-    </div>
-  </Drawer>
-)
+class BodySectionDrawer extends React.Component<Props, {}> {
+  private scrollableElementRef = React.createRef<HTMLDivElement>()
+
+  public render() {
+    return (
+      <Drawer
+        {...this.props}
+        position={this.props.skipAnimation ? 'none' : 'bottom'}
+        className="flex flex-column"
+        onClose={this.props.onClose}
+        isShown={this.props.isShown}
+        controlledRef={this.scrollableElementRef}
+      >
+        <div
+          className={classnames('flex-none', this.props.classes.iconWrapper)}
+          onClick={this.props.onClose}
+        >
+          <Icon name="times" className="f4 white" noPadding={true} />
+        </div>
+        <div
+          className="flex-auto overflow-y-auto bg-white relative"
+          ref={this.scrollableElementRef}
+        >
+          {this.props.bodySection}
+        </div>
+      </Drawer>
+    )
+  }
+}
 
 export default withStyles(styles)(BodySectionDrawer)
