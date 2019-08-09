@@ -15,6 +15,7 @@ $text-primary: #2c2c2c;
 $sidebar-width: 350px;
 $one-third-width: 35%;
 $two-thirds-width: 65%;
+$donut-mobile-max-width: 180px;
 
 * {
   margin: 0;
@@ -973,17 +974,13 @@ a.plain-link {
     margin: 60px auto 40px;
   }
   #indicator-summary {
-    max-width: 200px;
+    max-width: $donut-mobile-max-width;
+  }
+  .indicators-summary-wrapper {
+    flex-direction: row;
   }
   .indicators-summary {
-    font-size: 14px;
-
-    &__label {
-      &::before {
-        width: 10px;
-        height: 10px;
-      }
-    }
+    max-width: calc(100% - #{$donut-mobile-max-width});
   }
   .graph-container {
     margin-left: -10px;
