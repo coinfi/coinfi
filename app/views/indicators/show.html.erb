@@ -105,18 +105,19 @@
             </h3>
             <div class="indicators-summary-wrapper">
               <svg id="indicator-summary"></svg>
+              <div class="indicators-spacer"></div>
               <div class="indicators-summary">
-                <div class="sell">
-                  <div class="indicators-summary__label"><%= t(:sell).upcase %></div>
-                  <div class="indicators-summary__value"><%= @summary_sell %>%</div>
+                <div class="buy">
+                  <div class="indicators-summary__label"><%= t(:buy).upcase %></div>
+                  <div class="indicators-summary__value"><%= @summary_buy %>%</div>
                 </div>
                 <div class="neutral">
                   <div class="indicators-summary__label"><%= t(:neutral).upcase %></div>
                   <div class="indicators-summary__value"><%= @summary_neutral %>%</div>
                 </div>
-                <div class="buy">
-                  <div class="indicators-summary__label"><%= t(:buy).upcase %></div>
-                  <div class="indicators-summary__value"><%= @summary_buy %>%</div>
+                <div class="sell">
+                  <div class="indicators-summary__label"><%= t(:sell).upcase %></div>
+                  <div class="indicators-summary__value"><%= @summary_sell %>%</div>
                 </div>
               </div>
             </div>
@@ -670,8 +671,9 @@
         var widthIS = heightIS * donutWidthToHeightRatio;
         var outerHeightIS = heightIS + marginIS.top + marginIS.bottom;
         var outerWidthIS = widthIS + marginIS.left + marginIS.right;
+        var donutHole = isMobile ? 0.65 : 0.70;
         var radiusIS = Math.floor(widthIS / 2);
-        var innerRadiusIS = Math.floor(radiusIS * 0.70);
+        var innerRadiusIS = Math.floor(radiusIS * donutHole);
 
         var chartIS = d3.select('#' + idIS)
             .attr('viewBox', '0 0 ' + outerWidthIS + ' ' + outerHeightIS)
