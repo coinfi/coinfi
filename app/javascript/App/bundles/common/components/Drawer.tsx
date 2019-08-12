@@ -2,6 +2,7 @@ import * as React from 'react'
 import Swipeable from 'react-swipeable'
 import Animate from 'react-move/Animate'
 import { easeExpOut } from 'd3-ease'
+import * as _ from 'lodash'
 
 interface Props {
   onClose: () => void
@@ -11,6 +12,8 @@ interface Props {
   translateX?: string
   translateY?: string
   opacity?: number
+  children: React.ReactNode
+  controlledRef?: React.RefObject<HTMLElement | null>
 }
 
 const Drawer = (props: Props) => {
@@ -50,10 +53,20 @@ const Drawer = (props: Props) => {
 class DrawerContent extends React.Component<Props, {}> {
   public state = { swipeAttempts: 0 }
   private drawer: any
+
+  constructor(props) {
+    super(props)
+    if (!!props.controlledRef) {
+      this.drawer = props.controlledRef
+    } else {
+      this.drawer = React.createRef()
+    }
+  }
+
   public handleClose = () => {
     const { onClose, position } = this.props
     if (position === 'bottom') {
-      if (this.drawer.scrollTop === 0) {
+      if (_.get(this.drawer, ['current', 'scrollTop']) === 0) {
         const { swipeAttempts } = this.state
         this.setState({ swipeAttempts: swipeAttempts + 1 })
         if (swipeAttempts === 2) {
@@ -64,8 +77,9 @@ class DrawerContent extends React.Component<Props, {}> {
       onClose()
     }
   }
+
   public render() {
-    const { className, children, position } = this.props
+    const { className, children, position, controlledRef } = this.props
     const swipeProps: any = {}
     let style = {}
     switch (position) {
@@ -86,7 +100,7 @@ class DrawerContent extends React.Component<Props, {}> {
         <div
           className={`drawer${className ? ` ${className}` : ''}`}
           style={style}
-          ref={(ref) => (this.drawer = ref)}
+          {...!controlledRef && { ref: this.drawer }}
         >
           {children}
         </div>

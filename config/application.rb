@@ -1,4 +1,5 @@
 require_relative 'boot'
+require_relative '../lib/middleware/handle_bad_encoding_middleware'
 
 require 'rails/all'
 
@@ -36,11 +37,18 @@ module CoinfiRails
       allow do
         origins 'https://blog.coinfi.com', 'https://landing.coinfi.com'
       end
+
+      allow do
+        origins '*'
+        resource '/api/indicators/*', headers: :any, methods: :get
+      end
     end
 
     config.middleware.insert(0, Rack::Rewrite) do
       r301 %r{(.+)/$}, '$1'
     end
+
+    config.middleware.insert_before Rack::Runtime, HandleBadEncodingMiddleware
 
     # Give the asset pipeline access to npm packages
     config.assets.paths << Rails.root.join('node_modules')

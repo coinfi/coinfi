@@ -1,6 +1,6 @@
 module HealthcheckHelpers
   def log_or_ping_on_missing_data(missing_data, healthcheck_url = nil)
-    if missing_data.empty?
+    if missing_data.blank?
       Net::HTTP.get(URI.parse(healthcheck_url)) unless healthcheck_url.blank?
     else
       healthcheck_or_log_error(missing_data, healthcheck_url)

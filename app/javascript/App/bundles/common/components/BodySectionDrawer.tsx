@@ -1,29 +1,64 @@
 import * as React from 'react'
 import Drawer from './Drawer'
 import Icon from './Icon'
+import classnames from 'classnames'
+import { withStyles, createStyles } from '@material-ui/core/styles'
+import { white } from '../styles/colors'
+import { render } from 'react-dom'
 
 interface Props {
   isShown: boolean
   onClose: () => void
   bodySection: any
   skipAnimation?: boolean
+  classes: any
 }
 
-const BodySectionDrawer = (props: Props) => (
-  <Drawer
-    {...props}
-    position={props.skipAnimation ? 'none' : 'bottom'}
-    className="flex flex-column"
-    onClose={props.onClose}
-    isShown={props.isShown}
-  >
-    <div className="flex-none pv4 tc" onClick={props.onClose}>
-      <Icon name="times" className="f4 slate" />
-    </div>
-    <div className="flex-auto overflow-y-auto bg-white relative">
-      {props.bodySection}
-    </div>
-  </Drawer>
-)
+const styles = (theme) =>
+  createStyles({
+    iconWrapper: {
+      [theme.breakpoints.up('md')]: {
+        paddingTop: '1rem',
+        paddingBottom: '0.5rem',
+        paddingRight: '2px',
+        textAlign: 'right',
+      },
+      [theme.breakpoints.down('sm')]: {
+        paddingTop: '2rem',
+        paddingBottom: '2rem',
+        textAlign: 'center',
+      },
+    },
+  })
 
-export default BodySectionDrawer
+class BodySectionDrawer extends React.Component<Props, {}> {
+  private scrollableElementRef = React.createRef<HTMLDivElement>()
+
+  public render() {
+    return (
+      <Drawer
+        {...this.props}
+        position={this.props.skipAnimation ? 'none' : 'bottom'}
+        className="flex flex-column"
+        onClose={this.props.onClose}
+        isShown={this.props.isShown}
+        controlledRef={this.scrollableElementRef}
+      >
+        <div
+          className={classnames('flex-none', this.props.classes.iconWrapper)}
+          onClick={this.props.onClose}
+        >
+          <Icon name="times" className="f4 white" noPadding={true} />
+        </div>
+        <div
+          className="flex-auto overflow-y-auto bg-white relative"
+          ref={this.scrollableElementRef}
+        >
+          {this.props.bodySection}
+        </div>
+      </Drawer>
+    )
+  }
+}
+
+export default withStyles(styles)(BodySectionDrawer)

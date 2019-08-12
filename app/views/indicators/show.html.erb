@@ -12,7 +12,6 @@
     <link rel="preload" href="https://etoro-cdn.etorostatic.com/web-client/fonts/opensans/open-sans-v15-cyrillic-ext_cyrillic_greek_greek-ext_latin_latin-ext_vietnamese-700.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="https://pro.fontawesome.com/releases/v5.7.2/webfonts/fa-regular-400.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="https://pro.fontawesome.com/releases/v5.7.2/webfonts/fa-brands-400.woff2" as="font" type="font/woff2" crossorigin>
-    <link rel="preload" href="/css/gauge.css" as="style" type="text/css">
     <link rel="preload" href="https://pro.fontawesome.com/releases/v5.7.2/css/all.css" as="style" type="text/css" crossorigin>
     <link rel="preload" href="<%= stylesheet_path 'indicators' %>" as="style" type="text/css">
     <noscript>
@@ -20,9 +19,15 @@
       <%= stylesheet_link_tag 'indicators' %>
     </noscript>
     <style type="text/css">
+      html {
+        overflow-y: auto;
+        overflow-x: hidden;
+      }
+      html * {
+        max-width: 100vw;
+        box-sizing: border-box;
+      }
       html, body {
-        height: 100%;
-        width: 100%;
         background-color: #f0f0f0;
       }
       .loader {
@@ -33,6 +38,8 @@
         height: 65px;
         width: 65px;
         margin: 10px auto;
+        margin-bottom: -75px;
+        z-index: 999;
       }
       .loader:before {
         background-image: url(https://etoro-cdn.etorostatic.com/web-client/img/eToro.png);
@@ -76,86 +83,46 @@
   </head>
   <body onload="handleOnload();">
     <div class="loader" id="loader"></div>
-    <div class="main-container" id="main" style="display: none;">
+    <div class="main-container" id="main" style="visibility: hidden;">
 
       <h2 class="main-title">
         <%= t(:technical_analysis_and_price_movements) %>
-        <a class="coinfi-link" href="<%= root_url %>" onclick="return sendLink(this.href);">
+        <a class="coinfi-link" href="<%= root_url %>?utm_source=etoro_research" onclick="return debouncedSendLink(this.href);">
           Powered by <img src="<%= image_path('logo.svg') %>" class="coinfi-link__img" />
         </a>
       </h2>
-
-      <div class="flex-container">
-        <div class="paper">
-          <h3><%= t(@coin.slug, scope:'coins') %> <%= t(:stats) %></h3>
-          <div class="stats">
-            <div class="stats__row">
-              <div><%= t(:day_move_label, days: 7) %></div>
-              <div class="<%= get_buy_sell_class(@coin.change7d) %>">
-                <%= link_to format_percentage(@coin.change7d), coin_url(@coin.slug), class: 'plain-link', onclick: "return sendLink(this.href);" %>
-              </div>
-            </div>
-            <div class="stats__row">
-              <div><%= t(:day_move_label, days: 30) %></div>
-              <div class="<%= get_buy_sell_class(@coin.change30d) %>">
-                <%= link_to format_percentage(@coin.change30d), coin_url(@coin.slug), class: 'plain-link', onclick: "return sendLink(this.href);" %>
-              </div>
-            </div>
-            <div class="stats__row">
-              <div><%= t :market_cap_label %></div>
-              <div class="price">
-                <%= link_to format_price(@coin.market_cap, precision: 2), coin_url(@coin.slug), class: 'plain-link', onclick: "return sendLink(this.href);" %>
-              </div>
-            </div>
-            <div class="stats__row">
-              <div><%= t :volume_24h_label %></div>
-              <div class="price">
-                <%= link_to format_price(@coin.volume24h, precision: 2), coin_url(@coin.slug), class: 'plain-link', onclick: "return sendLink(this.href);" %>
-              </div>
-            </div>
-            <div class="stats__row">
-              <div><%= t :circulating_supply_label %></div>
-              <div>
-                <%= link_to @coin.available_supply > 0 ? format_supply(@coin.available_supply) : "N/A", coin_url(@coin.slug), class: 'plain-link', onclick: "return sendLink(this.href);" %>
-              </div>
-            </div>
-            <div class="stats__row">
-              <div><%= t :fixed_supply_label %></div>
-              <div>
-                <%= link_to @coin.fixed_supply > 0 ? format_supply(@coin.fixed_supply) : "N/A", coin_url(@coin.slug), class: 'plain-link', onclick: "return sendLink(this.href);" %>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
 
       <div class="flex-container">
         <div class="one-third third-width-container">
           <div class="paper gauge-container">
             <h3>
               <%= t(:technical_analysis_summary) %>
-              <a class="header-info-icon" data-tippy="<%= t :indicator_summary_copy %>" data-tippy-size="small">
-                <i class="far fa-info-circle"></i>
+              <a class="header-info-icon" data-tippy="<%= t :indicator_summary_copy %>"
+                data-tippy-size="small" data-tippy-arrow="true"
+              >
+                <i class="icon-info-circle"></i>
               </a>
             </h3>
-            <div>
-              <div class="gauge-wrapper">
-                <div class="gauge"></div>
-              </div>
+            <div class="indicators-summary-wrapper">
+              <svg id="indicator-summary"></svg>
+              <div class="indicators-spacer"></div>
               <div class="indicators-summary">
-                <div>
-                  <div class="sell"><%= @summary[:sell] %></div>
-                  <div><%= t(:sell).upcase %></div>
+                <div class="buy">
+                  <div class="indicators-summary__label"><%= t(:buy).upcase %></div>
+                  <div class="indicators-summary__value"><%= @summary_buy %>%</div>
                 </div>
-                <div>
-                  <div class="neutral"><%= @summary[:neutral] %></div>
-                  <div><%= t(:neutral).upcase %></div>
+                <div class="neutral">
+                  <div class="indicators-summary__label"><%= t(:neutral).upcase %></div>
+                  <div class="indicators-summary__value"><%= @summary_neutral %>%</div>
                 </div>
-                <div>
-                  <div class="buy"><%= @summary[:buy] %></div>
-                  <div><%= t(:buy).upcase %></div>
+                <div class="sell">
+                  <div class="indicators-summary__label"><%= t(:sell).upcase %></div>
+                  <div class="indicators-summary__value"><%= @summary_sell %>%</div>
                 </div>
               </div>
+            </div>
+            <div class="indicators-consensus <%= @summary_consensus.downcase %>">
+              <span><%= t(@summary_consensus).capitalize %></span>
             </div>
             <div class="indicators-updated"><%= t(:updated_on_date, date: l(@last_updated, format: :readable_date, default: l(@last_updated))) %></div>
           </div>
@@ -165,8 +132,12 @@
             <h3>
               <%= t(:technical_indicators) %>
               <a data-tippy="<% @indicator_rows.each do |indicator| %>
-                <p><b><%= t(indicator[:symbol], scope: 'indicators.title') %>:</b> <%= t(indicator[:symbol], scope: 'indicators.rule') %></p>
-              <% end %>" data-tippy-maxWidth="700" data-tippy-size="small" data-tippy-theme="indicators"><i class="far fa-info-circle"></i></a>
+                  <p><b><%= t(indicator[:symbol], scope: 'indicators.title') %>:</b> <%= t(indicator[:symbol], scope: 'indicators.rule') %></p>
+                <% end %>" data-tippy-maxWidth="700" data-tippy-size="small" data-tippy-theme="indicators"
+                data-tippy-arrow="true"
+              >
+                <i class="icon-info-circle"></i>
+              </a>
             </h3>
             <table class="indicators-table">
               <thead>
@@ -224,8 +195,10 @@
         <div class="sidebar sidebar-right">
           <h3>
             <%= t :developer_community %>
-            <a class="header-info-icon" data-tippy-maxWidth="500" data-tippy-size="small" data-tippy="<%= simple_format(t(:developer_community_copy)) %>">
-              <i class="far fa-info-circle"></i>
+            <a class="header-info-icon" data-tippy-maxWidth="500" data-tippy-size="small" data-tippy-arrow="true"
+              data-tippy-theme="indicators" data-tippy="<%= t(:developer_community_copy) %>"
+            >
+              <i class="icon-info-circle"></i>
             </a>
           </h3>
           <% if @github_snapshot.present? %>
@@ -290,31 +263,23 @@
           <% end %>
           <div class="github-repo-link">
             <i class="fab fa-github"></i> <%= t :github_repo %>:
-            <%= link_to @coin.github_repo, github_url(@coin.github_repo), rel: "nofollow noopener noreferrer", onclick: "return sendLink(this.href);" %>
+            <%= link_to @coin.github_repo, github_url(@coin.github_repo), rel: "nofollow noopener noreferrer", onclick: "return debouncedSendLink(this.href);" %>
           </div>
         </div>
         <div class="copy-container">
           <%= t(:development_activity_copy, name: @coin.name, symbol: @coin.symbol) %>
         </div>
       </div>
-
-      <div class="footer">
-        <a class="coinfi-link" href="<%= root_url %>" onclick="return sendLink(this.href);">
-          Powered by <img src="<%= image_path('logo.svg') %>" class="coinfi-link__img" />
-        </a>
-      </div>
     </div>
 
     <script src="https://unpkg.com/popper.js@1.15.0"></script>
     <script src="https://unpkg.com/tippy.js@4.3.4"></script>
-    <script src="/js/gauge.js"></script>
     <script src="https://d3js.org/d3.v5.min.js"></script>
     <script src="/js/d3scription.js"></script>
     <script type="text/javascript">
       /* Load Styles */
       (function() {
         var css = [
-          {href: "/css/gauge.css"},
           {
             href: "https://pro.fontawesome.com/releases/v5.7.2/css/all.css",
             // integrity: "sha384-6jHF7Z3XI3fF4XZixAuSu0gGKrXwoX/w3uFPxC56OtjChio7wtTGJWRW53Nhx6Ev",
@@ -337,12 +302,168 @@
       function handleOnload() {
         var main = document.getElementById('main');
         var loader = document.getElementById('loader');
-        main.style.display = 'block';
+        main.style.visibility = 'visible';
         loader.style.display = 'none';
-        loadGauge();
+        loadCharts();
+
+        // Call once to ensure iframe size is set
+        throttledReportWindowSize();
       }
 
       /* Post Messaging */
+      // taken from https://github.com/lodash/lodash/
+      function isObject(value) {
+        const type = typeof value
+        return value != null && (type == 'object' || type == 'function')
+      }
+      function debounce(func, wait, options) {
+        let lastArgs,
+          lastThis,
+          maxWait,
+          result,
+          timerId,
+          lastCallTime
+
+        let lastInvokeTime = 0
+        let leading = false
+        let maxing = false
+        let trailing = true
+
+        // Bypass `requestAnimationFrame` by explicitly setting `wait=0`.
+        const useRAF = (!wait && wait !== 0 && typeof root.requestAnimationFrame === 'function')
+
+        if (typeof func !== 'function') {
+          throw new TypeError('Expected a function')
+        }
+        wait = +wait || 0
+        if (isObject(options)) {
+          leading = !!options.leading
+          maxing = 'maxWait' in options
+          maxWait = maxing ? Math.max(+options.maxWait || 0, wait) : maxWait
+          trailing = 'trailing' in options ? !!options.trailing : trailing
+        }
+
+        function invokeFunc(time) {
+          const args = lastArgs
+          const thisArg = lastThis
+
+          lastArgs = lastThis = undefined
+          lastInvokeTime = time
+          result = func.apply(thisArg, args)
+          return result
+        }
+
+        function startTimer(pendingFunc, wait) {
+          if (useRAF) {
+            root.cancelAnimationFrame(timerId);
+            return root.requestAnimationFrame(pendingFunc)
+          }
+          return setTimeout(pendingFunc, wait)
+        }
+
+        function cancelTimer(id) {
+          if (useRAF) {
+            return root.cancelAnimationFrame(id)
+          }
+          clearTimeout(id)
+        }
+
+        function leadingEdge(time) {
+          // Reset any `maxWait` timer.
+          lastInvokeTime = time
+          // Start the timer for the trailing edge.
+          timerId = startTimer(timerExpired, wait)
+          // Invoke the leading edge.
+          return leading ? invokeFunc(time) : result
+        }
+
+        function remainingWait(time) {
+          const timeSinceLastCall = time - lastCallTime
+          const timeSinceLastInvoke = time - lastInvokeTime
+          const timeWaiting = wait - timeSinceLastCall
+
+          return maxing
+            ? Math.min(timeWaiting, maxWait - timeSinceLastInvoke)
+            : timeWaiting
+        }
+
+        function shouldInvoke(time) {
+          const timeSinceLastCall = time - lastCallTime
+          const timeSinceLastInvoke = time - lastInvokeTime
+
+          // Either this is the first call, activity has stopped and we're at the
+          // trailing edge, the system time has gone backwards and we're treating
+          // it as the trailing edge, or we've hit the `maxWait` limit.
+          return (lastCallTime === undefined || (timeSinceLastCall >= wait) ||
+            (timeSinceLastCall < 0) || (maxing && timeSinceLastInvoke >= maxWait))
+        }
+
+        function timerExpired() {
+          const time = Date.now()
+          if (shouldInvoke(time)) {
+            return trailingEdge(time)
+          }
+          // Restart the timer.
+          timerId = startTimer(timerExpired, remainingWait(time))
+        }
+
+        function trailingEdge(time) {
+          timerId = undefined
+
+          // Only invoke if we have `lastArgs` which means `func` has been
+          // debounced at least once.
+          if (trailing && lastArgs) {
+            return invokeFunc(time)
+          }
+          lastArgs = lastThis = undefined
+          return result
+        }
+
+        function cancel() {
+          if (timerId !== undefined) {
+            cancelTimer(timerId)
+          }
+          lastInvokeTime = 0
+          lastArgs = lastCallTime = lastThis = timerId = undefined
+        }
+
+        function flush() {
+          return timerId === undefined ? result : trailingEdge(Date.now())
+        }
+
+        function pending() {
+          return timerId !== undefined
+        }
+
+        function debounced(...args) {
+          const time = Date.now()
+          const isInvoking = shouldInvoke(time)
+
+          lastArgs = args
+          lastThis = this
+          lastCallTime = time
+
+          if (isInvoking) {
+            if (timerId === undefined) {
+              return leadingEdge(lastCallTime)
+            }
+            if (maxing) {
+              // Handle invocations in a tight loop.
+              timerId = startTimer(timerExpired, wait)
+              return invokeFunc(lastCallTime)
+            }
+          }
+          if (timerId === undefined) {
+            timerId = startTimer(timerExpired, wait)
+          }
+          return result
+        }
+        debounced.cancel = cancel
+        debounced.flush = flush
+        debounced.pending = pending
+        return debounced
+      }
+
       function sendLink(url, index = null) {
         var payload = {
           type: 'linkPressed',
@@ -357,184 +478,231 @@
         return false;
       }
 
-      /* GAUGE */
-      function loadGauge() {
-        var options = {
-          angle: [180, 360],
-          values: {
-            10: '<%= t(:strong_sell).titleize %>',
-            30: '',
-            50: '<%= t(:neutral).titleize %>',
-            70: '',
-            90: '<%= t(:strong_buy).titleize %>'
+      var debouncedSendLink = debounce(sendLink, 500, {leading: true, trailing: false});
+
+      function reportWindowSize() {
+        var payload = {
+          type: 'resize',
+          parameters: {
+            height: window.innerHeight,
+            width: window.innerWidth,
           },
-          colors: {
-            0: '#ce1d1d',
-            20: '#de6160',
-            40: '#ffc956',
-            60: '#9ac854',
-            80: '#6aac0e'
-          },
-          marks: [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100],
-          value: <%= @summary_value %>
         };
-        var gauge = new Gauge(document.querySelector(".gauge"), options);
+        window.parent.postMessage(payload, '*');
       }
+      var throttledReportWindowSize = debounce(reportWindowSize, 500, {leading: true, trailing: true});
+
+      window.addEventListener('resize', throttledReportWindowSize);
     </script>
     <script type="text/javascript">
       /* CHARTS */
-      var defaultChartWidth = 620;
-      var widthToHeightRatio = 4/3;
+      function loadCharts() {
+        var mobileBreakpoint = 740;
+        var defaultChartWidth = 620;
+        var widthToHeightRatio = 4/3;
+        var isMobile = window.innerWidth <= mobileBreakpoint;
 
-      /* Localization */
-      var i18nDays = <%= t(:day_names, scope: :date ).to_json.html_safe %>;
-      var i18nShortDays = <%= t(:abbr_day_names, scope: :date ).to_json.html_safe %>;
-      var i18nMonths = <%= t(:month_names, scope: :date ).to_json.html_safe %>;
-      var i18nShortMonths = <%= t(:abbr_month_names, scope: :date ).to_json.html_safe %>;
-      var i18nDelimiter = <%= t(:delimiter, scope: 'number.format' ).to_json.html_safe %>;
-      var i18nSeparator = <%= t(:separator, scope: 'number.format' ).to_json.html_safe %>;
-      d3.timeFormatDefaultLocale({
-        "dateTime": "%a %b %e %X %Y",
-        "date": "%Y-%m-%d",
-        "time": "%H:%M:%S",
-        "periods": ["AM", "PM"],
-        "days": i18nDays,
-        "shortDays": i18nShortDays,
-        "months": i18nMonths.slice(1),
-        "shortMonths": i18nShortMonths.slice(1),
-      });
-      d3.formatLocale({
-        "decimal": i18nDelimiter,
-        "thousands": i18nSeparator,
-        "grouping": [3],
-        "currency": ["$", ""],
-      })
+        /* Localization */
+        var i18nDays = <%= t(:day_names, scope: :date ).to_json.html_safe %>;
+        var i18nShortDays = <%= t(:abbr_day_names, scope: :date ).to_json.html_safe %>;
+        var i18nMonths = <%= t(:month_names, scope: :date ).to_json.html_safe %>;
+        var i18nShortMonths = <%= t(:abbr_month_names, scope: :date ).to_json.html_safe %>;
+        var i18nDelimiter = <%= t(:delimiter, scope: 'number.format' ).to_json.html_safe %>;
+        var i18nSeparator = <%= t(:separator, scope: 'number.format' ).to_json.html_safe %>;
+        d3.timeFormatDefaultLocale({
+          "dateTime": "%a %b %e %X %Y",
+          "date": "%Y-%m-%d",
+          "time": "%H:%M:%S",
+          "periods": ["AM", "PM"],
+          "days": i18nDays,
+          "shortDays": i18nShortDays,
+          "months": i18nMonths.slice(1),
+          "shortMonths": i18nShortMonths.slice(1),
+        });
+        d3.formatLocale({
+          "decimal": i18nDelimiter,
+          "thousands": i18nSeparator,
+          "grouping": [3],
+          "currency": ["$", ""],
+        })
 
-      var i18nDateLabel = <%= t(:date_label).to_json.html_safe %>;
-      var i18nCommitsLabel = <%= t(:commits).to_json.html_safe %>;
-      var i18nChangesLabel = <%= t(:changes).to_json.html_safe %>;
-      var i18nCommitActivityTooltip = <%= t(:commit_activity_tooltip).to_json.html_safe %>;
-      var i18nAdditionsTooltip = <%= t(:additions_tooltip).to_json.html_safe %>;
-      var i18nDeletionsTooltip = <%= t(:deletions_tooltip).to_json.html_safe %>;
+        var i18nCommitsLabel = <%= t(:commits).to_json.html_safe %>;
+        var i18nCommitActivityTooltip = <%= t(:commit_activity_tooltip).to_json.html_safe %>;
 
-      <% if @commit_activity.present? %>
-      /* Commit Activity */
+        <% if @commit_activity.present? %>
+        /* Commit Activity */
 
-      // Functions
-      function getXCA(d) { return d.timestamp; }
-      function getYCA(d) { return d.commits; }
+        // Functions
+        function getXCA(d) { return d.timestamp; }
+        function getYCA(d) { return d.commits; }
 
-      // Data
-      var idCA = 'commit-activity';
-      var commitActivity = <%= @commit_activity.to_json.html_safe %>;
-      var dataCA = commitActivity.map(function(d) {
-        var timestamp = new Date(getXCA(d) * 1000);
-        var commits = getYCA(d);
-        return {
-          timestamp: timestamp,
-          commits: commits
-        };
-      });
+        // Data
+        var idCA = 'commit-activity';
+        var commitActivity = <%= @commit_activity.to_json.html_safe %>;
+        var dataCA = commitActivity.map(function(d) {
+          var timestamp = new Date(getXCA(d) * 1000);
+          var commits = getYCA(d);
+          return {
+            timestamp: timestamp,
+            commits: commits
+          };
+        });
+        if (isMobile) {
+          dataCA = dataCA.slice(Math.floor(dataCA.length) / 2);
+        }
 
-      // Dimensions and scale
-      var marginCA = {top: 20, right: 20, bottom: 50, left: 40};
-      var outerWidthCA = document.getElementById(idCA).getBoundingClientRect()['width'] || defaultChartWidth;
-      var widthCA = outerWidthCA - marginCA.left - marginCA.right;
-      var outerHeightCA = outerWidthCA / widthToHeightRatio;
-      var heightCA = outerHeightCA - marginCA.top - marginCA.bottom;
-      var barWidthCA = Math.floor(widthCA / dataCA.length) - 1;
+        // Dimensions and scale
+        var marginCA = {top: 20, right: 20, bottom: 20, left: 40};
+        if (isMobile) {
+          marginCA = {top: 0, right: 20, bottom: 40, left: 50};
+        }
+        var outerWidthCA = document.getElementById(idCA).getBoundingClientRect()['width'] || defaultChartWidth;
+        var widthCA = outerWidthCA - marginCA.left - marginCA.right;
+        var outerHeightCA = outerWidthCA / widthToHeightRatio;
+        var heightCA = outerHeightCA - marginCA.top - marginCA.bottom;
+        var barWidthCA = Math.floor(widthCA / dataCA.length) - 1;
 
-      var datesCA = dataCA.map(getXCA);
-      var minDateCA = d3.min(datesCA)
-      var maxDateCA = d3.max(datesCA)
-      var xCA = d3.scaleTime()
-                  .domain([
-                    minDateCA,
-                    new Date(maxDateCA.valueOf() + 7*24*60*60*1000) // add one week to max
-                  ])
-                  .range([0, widthCA]);
-      var yCA = d3.scaleLinear()
-                  .domain([0, d3.max(dataCA.map(getYCA))])
-                  .range([heightCA, 0]);
+        var datesCA = dataCA.map(getXCA);
+        var minDateCA = d3.min(datesCA)
+        var maxDateCA = d3.max(datesCA)
+        var xCA = d3.scaleTime()
+                    .domain([
+                      minDateCA,
+                      new Date(maxDateCA.valueOf() + 7*24*60*60*1000) // add one week to max
+                    ])
+                    .range([0, widthCA]);
+        var yCA = d3.scaleLinear()
+                    .domain([0, d3.max(dataCA.map(getYCA))])
+                    .range([heightCA, 0]);
 
-      // Chart
-      var chartCA = d3.select('#' + idCA)
-                      .attr('viewBox', '0 0 ' + outerWidthCA + ' ' + outerHeightCA)
-                    .append('g')
-                      .attr('transform', 'translate(' + marginCA.left + ', ' + marginCA.top + ')');
+        // Chart
+        var chartCA = d3.select('#' + idCA)
+                        .attr('viewBox', '0 0 ' + outerWidthCA + ' ' + outerHeightCA)
+                      .append('g')
+                        .attr('transform', 'translate(' + marginCA.left + ', ' + marginCA.top + ')');
 
-      // Tooltip
-      var tipFactoryCA = d3scription(function(d) {
-        var date = d3.timeFormat('%b %d, %Y')(getXCA(d));
-        var value = getYCA(d);
-        var tooltip = i18nCommitActivityTooltip
-                        .replace('{date}', date)
-                        .replace('{value}', value);
-        return tooltip;
-      }, {
-        class: 'chart-tooltip',
-      });
-      var tipCA = tipFactoryCA().element(chartCA);
+        // Tooltip
+        var tipFactoryCA = d3scription(function(d) {
+          var date = d3.timeFormat('%b %d, %Y')(getXCA(d));
+          var value = getYCA(d);
+          var tooltip = i18nCommitActivityTooltip
+                          .replace('{date}', date)
+                          .replace('{value}', value);
+          return tooltip;
+        }, {
+          class: 'chart-tooltip',
+        });
+        var tipCA = tipFactoryCA().element(chartCA);
 
-      // Bars
-      var barCA = chartCA.selectAll('g.bar').data(dataCA)
-                          .enter().append('g')
-                          .attr('class', 'bar')
-                          .attr('transform', function(d, i) {
-                            return "translate(" + xCA(getXCA(d)) + ", 0)";
-                          });
-      var rectCA = barCA.append('rect')
-            .attr('y', heightCA)
-            .attr('height', 0)
-            .attr('width', barWidthCA)
-            .on('mouseover', function() {
-              d3.select(this).attr('opacity', 0.7);
-              tipCA.show.apply(this, arguments);
-            })
-            .on('mouseout', function() {
-              d3.select(this).attr('opacity', 1);
-              tipCA.hide.apply(this, arguments);
-            });
+        // Bars
+        var barCA = chartCA.selectAll('g.bar').data(dataCA)
+                            .enter().append('g')
+                            .attr('class', 'bar')
+                            .attr('transform', function(d, i) {
+                              return "translate(" + xCA(getXCA(d)) + ", 0)";
+                            });
+        var rectCA = barCA.append('rect')
+              .attr('y', heightCA)
+              .attr('height', 0)
+              .attr('width', barWidthCA)
+              .on('mouseover', function() {
+                d3.select(this).attr('opacity', 0.7);
+                tipCA.show.apply(this, arguments);
+              })
+              .on('mouseout', function() {
+                d3.select(this).attr('opacity', 1);
+                tipCA.hide.apply(this, arguments);
+              });
 
-      // Starting animation
-      rectCA.transition()
-            .duration(800)
-            .attr("y", function(d) { return yCA(getYCA(d)); })
-            .attr("height", function(d) { return heightCA - yCA(getYCA(d)); })
-            .delay(0)
+        // Starting animation
+        rectCA.transition()
+              .duration(800)
+              .attr("y", function(d) { return yCA(getYCA(d)); })
+              .attr("height", function(d) { return heightCA - yCA(getYCA(d)); })
+              .delay(0)
 
-      // X Axis
-      var tickValuesCA = d3.timeMonth.range(minDateCA, maxDateCA, 3);
-      tickValuesCA.push(maxDateCA);
-      var xAxisCA = d3.axisBottom(xCA)
-                      .tickValues(tickValuesCA)
-                      .tickFormat(d3.timeFormat('%b %Y'));
-      chartCA.append('g')
-                .attr('class', 'x axis')
-                .attr('transform', 'translate(0, ' + heightCA + ')')
-                .call(xAxisCA)
-              .append('text')
-                .attr('class', 'title')
-                .attr('y', 40)
-                .attr('x', widthCA/2)
-                .style('font-size', '12px')
-                .text(i18nDateLabel);
+        // X Axis
+        var tickValuesCA = d3.timeMonth.range(minDateCA, maxDateCA, 3);
+        tickValuesCA.push(maxDateCA);
+        var xAxisCA = d3.axisBottom(xCA)
+                        .tickValues(tickValuesCA)
+                        .tickFormat(d3.timeFormat('%b %Y'));
+        chartCA.append('g')
+                  .attr('class', 'x axis')
+                  .attr('transform', 'translate(0, ' + heightCA + ')')
+                  .call(xAxisCA);
 
-      // Y Axis
-      var yAxisCA = d3.axisLeft(yCA)
-                      .ticks(4)
-                      .tickPadding(10);
-      chartCA.append('g')
-                .attr('class', 'y axis')
-                .call(yAxisCA)
-              .append('text')
-                .attr('class', 'title')
-                .attr('transform', 'rotate(-90)')
-                .attr('y', -30)
-                .attr('x', -heightCA/2)
-                .style('font-size', '12px')
-                .text(i18nCommitsLabel);
-      <% end %>
+        // Y Axis
+        var yAxisCA = d3.axisLeft(yCA)
+                        .ticks(4)
+                        .tickPadding(10);
+        chartCA.append('g')
+                  .attr('class', 'y axis')
+                  .call(yAxisCA)
+                .append('text')
+                  .attr('class', 'title')
+                  .attr('transform', 'rotate(-90)')
+                  .attr('y', -30)
+                  .attr('x', -heightCA/2)
+                  .text(i18nCommitsLabel);
+        <% end %>
+
+        /* indicators summary donut chart */
+        // Data
+        var idIS = 'indicator-summary';
+        var summaryData = <%= @summary.to_json.html_safe %>;
+        var dataIS = summaryData;
+
+        // Dimensions and scale
+        var donutWidthToHeightRatio = 1;
+        var maxDonutChartDimension = 250;
+        var defaultDonutChartWidth = maxDonutChartDimension;
+        var marginIS = {top: 10, right: 10, bottom: isMobile ? 10 : 25, left: 10};
+
+        // Determine Constraints
+        var outerWidthConstraintIS = document.getElementById(idIS).getBoundingClientRect()['width'] || defaultDonutChartWidth;
+        outerWidthConstraintIS = Math.min(outerWidthConstraintIS, maxDonutChartDimension);
+        var widthConstraintIS = outerWidthConstraintIS - marginIS.left - marginIS.right;
+        var outerHeightConstraintIS = outerWidthConstraintIS / donutWidthToHeightRatio;
+        outerHeightConstraintIS = Math.min(outerHeightConstraintIS, maxDonutChartDimension);
+        var heightConstraintIS = outerHeightConstraintIS - marginIS.top - marginIS.bottom;
+        // Calculate dimensions based on constraints
+        var heightIS = Math.min(widthConstraintIS / donutWidthToHeightRatio, heightConstraintIS);
+        var widthIS = heightIS * donutWidthToHeightRatio;
+        var outerHeightIS = heightIS + marginIS.top + marginIS.bottom;
+        var outerWidthIS = widthIS + marginIS.left + marginIS.right;
+        var donutHole = isMobile ? 0.65 : 0.70;
+        var radiusIS = Math.floor(widthIS / 2);
+        var innerRadiusIS = Math.floor(radiusIS * donutHole);
+
+        var chartIS = d3.select('#' + idIS)
+            .attr('viewBox', '0 0 ' + outerWidthIS + ' ' + outerHeightIS)
+            .style("width", outerWidthIS)
+          .append("g")
+            .attr("transform", "translate(" + (widthIS / 2 + marginIS.left) + "," + (heightIS / 2 + marginIS.top) + ")");
+
+        // set the color scale
+        var colorIS = d3.scaleOrdinal()
+          .domain(['sell', 'neutral', 'buy'])
+          .range(["#e85d5d", "#ffcf5b", "#89c230"]);
+
+        // Compute the position of each group on the pie:
+        var pieIS = d3.pie()
+          .value(function(d) { return d.value; });
+        var pieDataIS = pieIS(d3.entries(dataIS));
+
+        // Build the pie chart: Basically, each part of the pie is a path that we build using the arc function.
+        chartIS
+          .selectAll('slice')
+          .data(pieDataIS)
+          .enter()
+          .append('path')
+          .attr('d', d3.arc()
+            .innerRadius(innerRadiusIS)         // This is the size of the donut hole
+            .outerRadius(radiusIS)
+          )
+          .attr('fill', function(d){ console.log(d); return(colorIS(d.data.key)); })
+      }
     </script>
     <%= render 'layouts/tracking_scripts' %>
   </body>

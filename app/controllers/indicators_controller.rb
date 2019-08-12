@@ -1,4 +1,5 @@
 class IndicatorsController < ApplicationController
+  before_action :set_locale
   before_action :set_coin, only: [:show]
   after_action :set_allow_iframe, only: [:show]
   skip_before_action :verify_authenticity_token
@@ -10,7 +11,10 @@ class IndicatorsController < ApplicationController
   def show
     set_news_items
     set_github_stats
-    fresh_when last_modified: [@coin.updated_at, @news_items.first.updated_at].max, public: true
+
+    if Rails.env.production?
+      fresh_when last_modified: [@coin.updated_at, @news_items.first.updated_at].max, public: true
+    end
 
     set_indicator_data
     # Update must occur after the date of the last data point
@@ -18,6 +22,7 @@ class IndicatorsController < ApplicationController
   end
 
   def render_empty
+    set_allow_iframe
     render "indicators/empty"
   end
 
@@ -34,9 +39,10 @@ class IndicatorsController < ApplicationController
 
   def set_coin
     distribute_reads(max_lag: MAX_ACCEPTABLE_REPLICATION_LAG, lag_failover: true) do
-      coin_symbol = params[:symbol]
-      coin_symbol.upcase! if coin_symbol.present?
+      ticker = params[:ticker]
+      return render_empty if ticker.blank?
 
+      coin_symbol = ticker_name_to_symbol(ticker.upcase)
       # Attempt to search assuming the param is a slug
       coin = Coin.find_by(symbol: coin_symbol)
       if coin
@@ -57,13 +63,14 @@ class IndicatorsController < ApplicationController
       calculations.result
     end
 
-    return if calculations.empty?
+    return if calculations.blank?
 
     @indicators = calculations[:raw_indicators]
     @signals = calculations[:signals]
     @indicator_rows = calculations[:indicators]
-    @summary = calculations[:summary]
+    set_summary(calculations[:summary])
     @summary_value = calculations[:summary_value]
+    @summary_consensus = get_consensus(@summary_value)
   end
 
   def set_github_stats
@@ -82,6 +89,20 @@ class IndicatorsController < ApplicationController
         .order_by_published
         .limit(5)
         .to_a
+    end
+  end
+
+  def set_summary(summary)
+    total = (summary[:buy] + summary[:sell] + summary[:neutral]).to_f
+    @summary = summary
+    if total > 0
+      @summary_buy = (summary[:buy] / total * 100).round
+      @summary_sell = (summary[:sell] / total * 100).round
+      @summary_neutral = 100 - @summary_buy - @summary_sell
+    else
+      @summary_buy = 0
+      @summary_sell = 0
+      @summary_neutral = 0
     end
   end
 end

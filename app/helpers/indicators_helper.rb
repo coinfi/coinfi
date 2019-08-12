@@ -27,6 +27,20 @@ module IndicatorsHelper
     end
   end
 
+  def get_consensus(value)
+    if value == 10    # strong sell
+      return t(:sell)
+    elsif value == 30 # sell
+      return t(:sell)
+    elsif value == 70 # buy
+      return t(:buy)
+    elsif value == 90 # strong buy
+      return t(:buy)
+    else              # neutral (50)
+      return t(:neutral)
+    end
+  end
+
   def github_url(repo)
     "https://github.com/#{repo}"
   end
@@ -47,5 +61,31 @@ module IndicatorsHelper
 
   def format_percentage(value, precision: 2)
     number_to_percentage(value, precision: precision)
+  end
+
+  def set_locale
+    if params[:lang].present? && I18n.available_locales.map(&:to_s).include?(params[:lang])
+      I18n.locale = params[:lang]
+    else
+      I18n.default_locale
+    end
+  end
+
+  def symbol_to_ticker_name(symbol)
+    case symbol
+    when 'ETH'
+      'ETHEREUM'
+    else
+      symbol
+    end
+  end
+
+  def ticker_name_to_symbol(name)
+    case name
+    when 'ETHEREUM'
+      'ETH'
+    else
+      name
+    end
   end
 end

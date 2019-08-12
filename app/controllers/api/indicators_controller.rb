@@ -1,5 +1,6 @@
 class Api::IndicatorsController < ApiController
   before_action :authenticate
+  skip_before_action :verify_authenticity_token
 
   include IndicatorsHelper
   include CoinsHelper
@@ -10,9 +11,10 @@ class Api::IndicatorsController < ApiController
   end
 
   def overview
-    symbols = params[:symbols].upcase.split(',') if params[:symbols].present?
-    return render json: {data: []} if symbols.empty?
+    tickers = params[:tickers].upcase.split(',') if params[:tickers].present?
+    return render json: [] if tickers.blank?
 
+    symbols = tickers.map {|ticker| ticker_name_to_symbol(ticker)}
     @coins = Coin.where(symbol: symbols).where(coin_key: INDICATOR_COIN_KEYS)
 
     render json: overview_serializer(@coins)
@@ -21,21 +23,22 @@ class Api::IndicatorsController < ApiController
   private
 
   def authenticate
-    api_key = request.headers['X-Api-Key']
+    api_key = request.headers['X-APIToken'] || request.headers['X-API-Key']
     return if api_key.present? && api_key == ENV.fetch("INDICATORS_API_KEY")
 
-    render json: {}, status: 401
+    render plain: '', status: 401
   end
 
   def ticker_serializer(coins)
-    tickers = coins.map{|coin| coin['symbol']}
+    tickers = coins.map {|coin| symbol_to_ticker_name(coin.symbol)}
     { tickers: tickers }
   end
 
   def overview_serializer(coins)
-    data = coins.map do |coin|
+    coins.map do |coin|
       calculations = get_indicators_and_signals(coin)
       consensus = get_consensus(calculations.dig(:summary_value))
+      ticker = symbol_to_ticker_name(coin.symbol)
 
       {
         buy: calculations.dig(:summary, :buy),
@@ -43,11 +46,9 @@ class Api::IndicatorsController < ApiController
         sell: calculations.dig(:summary, :sell),
         companyName: coin.name,
         consensus: consensus,
-        ticker: coin.symbol,
+        ticker: ticker,
       }
     end
-
-    { data: data }
   end
 
   def get_indicators_and_signals(coin)
@@ -55,20 +56,6 @@ class Api::IndicatorsController < ApiController
     Rails.cache.fetch("indicators/#{coin.slug}:data", expires_in: seconds_to_next_day + 1800) do
       calculations = CalculateIndicatorsAndSignals.call(coin)
       calculations.result
-    end
-  end
-
-  def get_consensus(value)
-    if value == 10    # strong sell
-      return t(:sell)
-    elsif value == 30 # sell
-      return t(:sell)
-    elsif value == 70 # buy
-      return t(:buy)
-    elsif value == 90 # strong buy
-      return t(:buy)
-    else              # neutral (50)
-      return t(:neutral)
     end
   end
 end

@@ -93,7 +93,9 @@ var d3scription = d3scription || {}; d3scription["d3scription"] =
 	                .attr('class', options.class || 'd3scription-tip')
 	                .style('position', 'absolute')
 	                .style('z-index', options.zIndex || 100)
-	                .style('visibility', 'hidden');
+									.style('visibility', 'hidden')
+									.style("top", "0px")
+									.style("left", "0px");
 	            function updateTipPosition() {
 	                var bounds = tip.node().getBoundingClientRect();
 	                var position = getOffset(d3.event, bounds, offsetSettings);
