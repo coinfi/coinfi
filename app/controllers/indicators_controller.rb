@@ -56,6 +56,14 @@ class IndicatorsController < ApplicationController
 
   private
 
+  def set_locale
+    if params[:lang].present? && I18n.available_locales.map(&:to_s).include?(params[:lang])
+      I18n.locale = params[:lang]
+    else
+      I18n.default_locale
+    end
+  end
+
   def set_indicator_data
     # Expire cache at the same time as Coin.prices_data, i.e., underlying data used to calculate indicators & signals
     calculations = Rails.cache.fetch("indicators/#{@coin.slug}:data", expires_in: seconds_to_next_day + 1800) do
