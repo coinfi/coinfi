@@ -27,17 +27,28 @@ module IndicatorsHelper
     end
   end
 
-  def get_consensus(value)
+  def get_consensus_symbol(value)
     if value == 10    # strong sell
-      return t(:sell)
+      :sell
     elsif value == 30 # sell
-      return t(:sell)
+      :sell
     elsif value == 70 # buy
-      return t(:buy)
+      :buy
     elsif value == 90 # strong buy
-      return t(:buy)
+      :buy
     else              # neutral (50)
-      return t(:neutral)
+      :neutral
+    end
+  end
+
+  def get_consensus_string(value)
+    consensus = get_consensus_symbol(value)
+    if consensus == :sell
+      'sell'
+    elsif consensus == :buy
+      'buy'
+    else
+      'hold'
     end
   end
 

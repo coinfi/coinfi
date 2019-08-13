@@ -37,7 +37,7 @@ class Api::IndicatorsController < ApiController
   def overview_serializer(coins)
     coins.map do |coin|
       calculations = get_indicators_and_signals(coin)
-      consensus = get_consensus(calculations.dig(:summary_value))
+      consensus = get_consensus_string(calculations.dig(:summary_value))
       ticker = symbol_to_ticker_name(coin.symbol)
 
       {
