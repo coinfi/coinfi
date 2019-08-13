@@ -1,0 +1,313 @@
+---
+en-GB:
+  activerecord:
+    errors:
+      messages:
+        record_invalid: 'Validation failed: %{errors}'
+        restrict_dependent_destroy:
+          has_one: Cannot delete record because a dependent %{record} exists
+          has_many: Cannot delete record because dependent %{record} exist
+  date:
+    abbr_day_names:
+    - Sun
+    - Mon
+    - Tue
+    - Wed
+    - Thu
+    - Fri
+    - Sat
+    abbr_month_names:
+    -
+    - Jan
+    - Feb
+    - Mar
+    - Apr
+    - May
+    - Jun
+    - Jul
+    - Aug
+    - Sep
+    - Oct
+    - Nov
+    - Dec
+    day_names:
+    - Sunday
+    - Monday
+    - Tuesday
+    - Wednesday
+    - Thursday
+    - Friday
+    - Saturday
+    formats:
+      default: "%d-%m-%Y"
+      long: "%d %B, %Y"
+      short: "%d %b"
+    month_names:
+    -
+    - January
+    - February
+    - March
+    - April
+    - May
+    - June
+    - July
+    - August
+    - September
+    - October
+    - November
+    - December
+    order:
+    - :day
+    - :month
+    - :year
+  datetime:
+    distance_in_words:
+      about_x_hours:
+        one: about 1 hour
+        other: about %{count} hours
+      about_x_months:
+        one: about 1 month
+        other: about %{count} months
+      about_x_years:
+        one: about 1 year
+        other: about %{count} years
+      almost_x_years:
+        one: almost 1 year
+        other: almost %{count} years
+      half_a_minute: half a minute
+      less_than_x_seconds:
+        one: less than 1 second
+        other: less than %{count} seconds
+      less_than_x_minutes:
+        one: less than a minute
+        other: less than %{count} minutes
+      over_x_years:
+        one: over 1 year
+        other: over %{count} years
+      x_seconds:
+        one: 1 second
+        other: "%{count} seconds"
+      x_minutes:
+        one: 1 minute
+        other: "%{count} minutes"
+      x_days:
+        one: 1 day
+        other: "%{count} days"
+      x_months:
+        one: 1 month
+        other: "%{count} months"
+      x_years:
+        one: 1 year
+        other: "%{count} years"
+    prompts:
+      second: Second
+      minute: Minute
+      hour: Hour
+      day: Day
+      month: Month
+      year: Year
+  errors:
+    format: "%{attribute} %{message}"
+    messages:
+      accepted: must be accepted
+      blank: can't be blank
+      confirmation: doesn't match %{attribute}
+      empty: can't be empty
+      equal_to: must be equal to %{count}
+      even: must be even
+      exclusion: is reserved
+      greater_than: must be greater than %{count}
+      greater_than_or_equal_to: must be greater than or equal to %{count}
+      inclusion: is not included in the list
+      invalid: is invalid
+      less_than: must be less than %{count}
+      less_than_or_equal_to: must be less than or equal to %{count}
+      model_invalid: 'Validation failed: %{errors}'
+      not_a_number: is not a number
+      not_an_integer: must be an integer
+      odd: must be odd
+      other_than: must be other than %{count}
+      present: must be blank
+      required: must exist
+      taken: has already been taken
+      too_long:
+        one: is too long (maximum is 1 character)
+        other: is too long (maximum is %{count} characters)
+      too_short:
+        one: is too short (minimum is 1 character)
+        other: is too short (minimum is %{count} characters)
+      wrong_length:
+        one: is the wrong length (should be 1 character)
+        other: is the wrong length (should be %{count} characters)
+    template:
+      body: 'There were problems with the following fields:'
+      header:
+        one: 1 error prohibited this %{model} from being saved
+        other: "%{count} errors prohibited this %{model} from being saved"
+  helpers:
+    select:
+      prompt: Please select
+    submit:
+      create: Create %{model}
+      submit: Save %{model}
+      update: Update %{model}
+  number:
+    currency:
+      format:
+        delimiter: ","
+        format: "%u%n"
+        precision: 2
+        separator: "."
+        significant: false
+        strip_insignificant_zeros: false
+        unit: "£"
+    format:
+      delimiter: ","
+      precision: 3
+      separator: "."
+      significant: false
+      strip_insignificant_zeros: false
+    human:
+      decimal_units:
+        format: "%n %u"
+        units:
+          billion: Billion
+          million: Million
+          quadrillion: Quadrillion
+          thousand: Thousand
+          trillion: Trillion
+          unit: ''
+      format:
+        delimiter: ''
+        precision: 3
+        significant: true
+        strip_insignificant_zeros: true
+      storage_units:
+        format: "%n %u"
+        units:
+          byte:
+            one: Byte
+            other: Bytes
+          eb: EB
+          gb: GB
+          kb: KB
+          mb: MB
+          pb: PB
+          tb: TB
+    percentage:
+      format:
+        delimiter: ''
+        format: "%n%"
+    precision:
+      format:
+        delimiter: ''
+  support:
+    array:
+      last_word_connector: ", and "
+      two_words_connector: " and "
+      words_connector: ", "
+  time:
+    am: am
+    formats:
+      default: "%a, %d %b %Y %H:%M:%S %z"
+      long: "%d %B, %Y %H:%M"
+      short: "%d %b %H:%M"
+    pm: pm
+  buy: buy
+  sell: sell
+  neutral: hold
+  strong_buy: "buy"
+  strong_sell: "sell"
+  na: "N/A"
+  updated_on_date: "Updated on %{date}"
+  sample_value_label: "Value"
+  min_label: "Min"
+  max_label: "Max"
+  signal_label: "Signal"
+  technical_analysis_and_price_movements: "Technical Analysis"
+  technical_indicators: "Technical Indicators"
+  technical_analysis_summary: "Technical Analysis Summary"
+  technical_indicator_copy: "Technical indicators are calculations based on price and volume frequently used in the analysis of market direction. Traders often use them to analyze short-term price movements and identify entry and exit points. Technical indicators are often used in conjunction with other forms of financial analysis."
+  indicator_summary_copy: "We aggregate sell/buy/hold signals from 8 of the most commonly used technical indicators to give you a quick pulse of the market."
+  fundamentals: "Fundamentals"
+  development_activity: "Development Activity"
+  development_activity_copy: "This section provides an overview of development activity for %{name} (%{symbol}). Development activity can be used as part of your fundamental research & analysis to ensure the project is continuously developing and has a healthy developer community."
+  developer_community_copy: |
+    <p><b>Contributors:</b> Contributors are the number of developers who have committed code to the project.</p>
+    <p><b>Forks:</b> Forks are created when a user makes a copy of a project’s open-source code, which can indicate an intention to use or reuse the code.</p>
+    <p><b>Watchers:</b> Watchers are users who subscribed to be notified when there are code changes for a project.</p>
+    <p><b>Stars:</b> Stars are users who have bookmarked a project’s code. Stars can be used to measure the popularity of an open source project.</p>
+  commit_activity: "Commit Activity"
+  commits: "commits"
+  commit_activity_tooltip: "Week of {date}<br/><b>{value}</b> commits"
+  github_repo: "Github Repo"
+  developer_community: "Developer Community"
+  contributors: contributors
+  forks: forks
+  watchers: watchers
+  stargazers: stars
+  ranked_out_of: "#%{rank} out of %{total}"
+  latest_research: "Latest Research"
+  market_news_research: "Market News Research"
+  time_ago: "%{time_words} ago"
+  read_more: "Read More"
+  coin_empty: "This coin has no research data"
+  coins:
+    ethereum: Ethereum
+    litecoin: Litecoin
+    zcash: Zcash
+    cardano: Cardano
+    ethereum-classic: Ethereum Classic
+    binance-coin: Binance
+    stellar: Stellar
+    bitcoin: Bitcoin
+    ripple: Ripple
+    dash: Dash
+    neo: NEO
+    bitcoin-cash: Bitcoin Cash
+    eos: EOS
+    tron: Tron
+    iota: IOTA
+  indicators:
+    title:
+      rsi: "RSI 14"
+      stochrsi: "Stochastic RSI 14"
+      macd: "MACD (12, 26, 9)"
+      cci: "CCI"
+      stochastic_fast: "Stochastic fast (14, 3)"
+      stochastic_slow: "Stochastic (14, 3, 3)"
+      sma: "Moving Averages (20 v 50)"
+      ema: "Exp Moving Averages (10 v 20)"
+    rule:
+      rsi: |
+        Buy when lesser than 30.
+        Sell when greater than 70.
+        Hold between 30 and 70 (inclusive).
+      stochrsi: |
+        Buy when lesser than 20.
+        Sell when greater than 80.
+        Hold between 20 and 80 (inclusive).
+      macd: |
+        Buy when greater than 0.
+        Sell when lesser than 0.
+        No hold signal.
+      cci: |
+        Buy when lesser than -100.
+        Sell when greater than 100.
+        Hold between -100 and 100 (inclusive).
+      stochastic_fast: |
+        Buy when lesser than 20.
+        Sell when greater than 80.
+        Hold between 20 and 80 (inclusive).
+      stochastic_slow: |
+        Buy when lesser than 20.
+        Sell when greater than 80.
+        Hold between 20 and 80 (inclusive).
+      sma: |
+        Buy when greater than 0.
+        Sell when lesser than 0.
+        No hold signal.
+      ema: |
+        Buy when greater than 0.
+        Sell when lesser than 0.
+        No hold signal.
