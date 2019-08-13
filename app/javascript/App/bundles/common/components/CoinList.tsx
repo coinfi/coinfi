@@ -16,6 +16,7 @@ const styles = (theme) => {
       minHeight: 0,
       position: 'relative',
       overflowY: 'scroll',
+      WebkitOverflowScrolling: 'touch',
     },
     ctaText: {
       color: theme.palette.text.primary,

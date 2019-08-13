@@ -63,14 +63,6 @@ module IndicatorsHelper
     number_to_percentage(value, precision: precision)
   end
 
-  def set_locale
-    if params[:lang].present? && I18n.available_locales.map(&:to_s).include?(params[:lang])
-      I18n.locale = params[:lang]
-    else
-      I18n.default_locale
-    end
-  end
-
   def symbol_to_ticker_name(symbol)
     case symbol
     when 'ETH'

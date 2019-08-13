@@ -9,7 +9,6 @@ import { withStyles, createStyles } from '@material-ui/core/styles'
 
 import { NewsItem } from './types'
 import { CoinLinkData } from '~/bundles/common/types'
-import { classNames } from 'react-select/lib/utils'
 
 interface Props {
   classes: any
@@ -53,9 +52,14 @@ const styles = (theme) => {
       minHeight: 0,
       position: 'relative',
       overflowY: 'scroll',
+      WebkitOverflowScrolling: 'touch',
       [theme.breakpoints.up('md')]: {
         overflowY: 'auto',
       },
+    },
+    infiniteScroll: {
+      overflowY: 'scroll',
+      WebkitOverflowScrolling: 'touch',
     },
   })
 }
@@ -104,6 +108,7 @@ const NewsListItemsContainer = (props) => {
 
   return (
     <InfiniteScroll
+      className={props.classes.infiniteScroll}
       dataLength={mappedItems.length}
       scrollableTarget="newsfeed"
       next={props.fetchMoreNewsFeed}
@@ -184,6 +189,7 @@ class NewsList extends React.Component<Props, State> {
           <NewsListItemsContainer
             onSelect={this.onSelect}
             readNewsIds={this.state.readNewsIds}
+            classes={classes}
             {...remainingProps}
           />
         )}
