@@ -436,6 +436,9 @@ h3 {
 #indicator-summary {
   max-width: 250px;
 }
+.indicators-spacer {
+  display: none;
+}
 .indicators-summary {
   display: flex;
   flex-direction: column;
@@ -839,6 +842,9 @@ a.plain-link {
     width: 200px;
     height: 110px;
   }
+  #indicator-summary {
+    max-width: 230px;
+  }
 }
 
 /* Non-Mobile */
@@ -973,14 +979,26 @@ a.plain-link {
     height: 135px;
     margin: 60px auto 40px;
   }
+  .indicators-summary-wrapper {
+    flex-direction: row;
+    justify-content: center;
+  }
   #indicator-summary {
     max-width: $donut-mobile-max-width;
   }
-  .indicators-summary-wrapper {
-    flex-direction: row;
+  .indicators-spacer {
+    display: block;
+    min-width: 8px;
+    max-width: 30px;
+    flex-shrink: 0;
+    flex-grow: 1;
   }
   .indicators-summary {
     max-width: calc(100% - #{$donut-mobile-max-width});
+    margin: unset;
+    & > *:not(:last-child) {
+      margin-bottom: 6px;
+    }
   }
   .graph-container {
     margin-left: -10px;
