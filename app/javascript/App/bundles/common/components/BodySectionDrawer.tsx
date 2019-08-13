@@ -3,8 +3,6 @@ import Drawer from './Drawer'
 import Icon from './Icon'
 import classnames from 'classnames'
 import { withStyles, createStyles } from '@material-ui/core/styles'
-import { white } from '../styles/colors'
-import { render } from 'react-dom'
 
 interface Props {
   isShown: boolean
@@ -29,6 +27,10 @@ const styles = (theme) =>
         textAlign: 'center',
       },
     },
+    scrollable: {
+      overflowY: 'scroll',
+      WebkitOverflowScrolling: 'touch',
+    },
   })
 
 class BodySectionDrawer extends React.Component<Props, {}> {
@@ -51,7 +53,10 @@ class BodySectionDrawer extends React.Component<Props, {}> {
           <Icon name="times" className="f4 white" noPadding={true} />
         </div>
         <div
-          className="flex-auto overflow-y-auto bg-white relative"
+          className={classnames(
+            'flex-auto overflow-y-auto bg-white relative',
+            this.props.classes.scrollable,
+          )}
           ref={this.scrollableElementRef}
         >
           {this.props.bodySection}
