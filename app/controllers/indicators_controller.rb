@@ -78,7 +78,7 @@ class IndicatorsController < ApplicationController
     @indicator_rows = calculations[:indicators]
     set_summary(calculations[:summary])
     @summary_value = calculations[:summary_value]
-    @summary_consensus = get_consensus(@summary_value)
+    @summary_consensus = get_consensus_symbol(@summary_value)
   end
 
   def set_github_stats
