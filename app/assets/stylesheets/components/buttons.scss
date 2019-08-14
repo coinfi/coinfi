@@ -119,13 +119,11 @@ button {
     }
   }
 }
-a.btn {
+a.btn,
+.button_to button.btn {
   text-transform: unset;
   text-align: center;
   align-items: center;
-}
-form.button_to {
-  display: inline-block;
 }
 .btn-icon {
   padding: 0;
