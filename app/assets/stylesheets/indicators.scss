@@ -332,7 +332,7 @@ h3 {
   margin-top: -10px;
   padding-bottom: 10px;
   margin-bottom: -10px;
-  color: #000;
+  color: $dark-grey;
 }
 .main-title .coinfi-link {
   bottom: -5px;
@@ -1023,5 +1023,8 @@ a.plain-link {
   .github-repo-link {
     margin: 30px auto 0;
     text-align: center;
+  }
+  .tippy-tooltip.indicators-theme {
+    font-size: 9px;
   }
 }
