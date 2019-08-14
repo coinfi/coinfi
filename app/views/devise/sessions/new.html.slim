@@ -2,15 +2,15 @@
   .container-narrower
     .pa3.pa3-ns.max-w28e.center.ba.b--light-gray.shadow-s1.bg-white
       h2.mt0.tc Login
+      = devise_error_messages!
+      = button_to(user_facebook_omniauth_authorize_path, class: "btn btn-sm btn-fb-blue w-100 btn-logo", method: :post) do
+        i.fab.fa-facebook-f
+        span Login with Facebook
+      = button_to(user_google_oauth2_omniauth_authorize_path, class: "btn btn-sm btn-google-red w-100 btn-logo mt2", method: :post) do
+        i.fab.fa-google
+        span Login with Google
+      .divider-text OR
       = form_for(resource, as: resource_name, url: session_path(resource_name)) do |f|
-        = devise_error_messages!
-        a.btn.btn-sm.btn-fb-blue.w-100.btn-logo href=user_facebook_omniauth_authorize_path
-          i.fab.fa-facebook-f
-          span Login with Facebook
-        a.btn.btn-sm.btn-google-red.w-100.btn-logo.mt2 href=user_google_oauth2_omniauth_authorize_path
-          i.fab.fa-google
-          span Login with Google
-        .divider-text OR
         = f.email_field :email, autofocus: true, class: 'form-control', placeholder: 'Email', class: 'mb2'
         = f.password_field :password, autocomplete: "off", class: 'form-control', placeholder: 'Password', class: 'mb2'
         - if devise_mapping.rememberable?
