@@ -164,7 +164,11 @@
               </tbody>
             </table>
             <div class="copy-container">
-              <%= t :technical_indicator_copy %>
+              <span class="desktop-copy"><%= t :technical_indicator_copy %></span>
+              <span class="mobile-copy">
+                <%= t(:technical_indicator_copy).truncate(120, separator: /[\p{S}\s]/u, omission: "") %>
+                <a href="#" onclick="showReadMore(this); return false;"><%= t(:read_more) %></a>
+              </span>
             </div>
           </div>
         </div>
@@ -267,7 +271,11 @@
           </div>
         </div>
         <div class="copy-container">
-          <%= t(:development_activity_copy, name: @coin.name, symbol: @coin.symbol) %>
+          <span class="desktop-copy"><%= t(:development_activity_copy, name: @coin.name, symbol: @coin.symbol) %></span>
+          <span class="mobile-copy">
+            <%= t(:development_activity_copy, name: @coin.name, symbol: @coin.symbol).truncate(80, separator: /[\p{S}\s]/u, omission: "") %>
+            <a href="#" onclick="showReadMore(this); return false;"><%= t(:read_more) %></a>
+          </span>
         </div>
       </div>
     </div>
@@ -275,7 +283,7 @@
     <script src="https://unpkg.com/popper.js@1.15.0"></script>
     <script src="https://unpkg.com/tippy.js@4.3.4"></script>
     <script src="https://d3js.org/d3.v5.min.js"></script>
-    <script src="/js/d3scription.js"></script>
+    <script src="/js/d3scription.js?v2"></script>
     <script type="text/javascript">
       /* Load Styles */
       (function() {
@@ -493,6 +501,45 @@
       var throttledReportWindowSize = debounce(reportWindowSize, 500, {leading: true, trailing: true});
 
       window.addEventListener('resize', throttledReportWindowSize);
+
+      /* Others */
+      function showReadMore(triggeringElement) {
+        var containingElement = triggeringElement.closest('.copy-container');
+        var desktopElements = containingElement.getElementsByClassName('desktop-copy');
+        var mobileElements = containingElement.getElementsByClassName('mobile-copy');
+
+        if (desktopElements && desktopElements.length > 0) {
+          if (mobileElements && mobileElements.length > 0) {
+            for (var i = 0; i < mobileElements.length; i++) {
+              mobileElements[i].style.display = "none";
+            }
+          }
+          for (var i = 0; i < desktopElements.length; i++) {
+            desktopElements[i].style.display = "unset";
+          }
+        } else {
+          triggeringElement.display = "none";
+        }
+      }
+
+      /* Polyfills */
+      // Element.closest() for IE9+
+      if (!Element.prototype.matches) {
+        Element.prototype.matches = Element.prototype.msMatchesSelector ||
+                                    Element.prototype.webkitMatchesSelector;
+      }
+
+      if (!Element.prototype.closest) {
+        Element.prototype.closest = function(s) {
+          var el = this;
+
+          do {
+            if (el.matches(s)) return el;
+            el = el.parentElement || el.parentNode;
+          } while (el !== null && el.nodeType === 1);
+          return null;
+        };
+      }
     </script>
     <script type="text/javascript">
       /* CHARTS */
@@ -594,6 +641,49 @@
         });
         var tipCA = tipFactoryCA().element(chartCA);
 
+        var touchEle = null;
+
+        function startTouchEvent(event) {
+          if (event.targetTouches && event.targetTouches[0]) {
+            var touch = event.targetTouches[0];
+            if (typeof touch.clientX !== 'undefined' && typeof touch.clientY !== 'undefined') {
+              var ele = document.elementFromPoint(touch.clientX, touch.clientY);
+              console.log(touchEle, ele)
+              if (!touchEle || !touchEle.isEqualNode(ele)) {
+                console.log("different ele")
+                if (touchEle) {
+                  touchEle.dispatchEvent(new Event('mouseout'));
+                }
+                ele.dispatchEvent(new CustomEvent('mouseover', { detail: {
+                  clientX: touch.clientX,
+                  clientY: touch.clientY,
+                  pageX: touch.pageX,
+                  pageY: touch.pageY,
+                  screenX: touch.screenX,
+                  screenY: touch.screenY,
+                } }));
+                touchEle = ele;
+              } else {
+                console.log("same element")
+              }
+            }
+          }
+        }
+
+        function endTouchEvent(event) {
+          if (touchEle) {
+            touchEle.dispatchEvent(new Event('mouseout'));
+          }
+        }
+
+        var baseEle = document.getElementById(idCA);
+        if (baseEle) {
+          baseEle.addEventListener('touchstart', startTouchEvent);
+          baseEle.addEventListener('touchmove', startTouchEvent);
+          // baseEle.addEventListener('touchcancel', endTouchEvent);
+          // baseEle.addEventListener('touchend', endTouchEvent);
+        }
+
         // Bars
         var barCA = chartCA.selectAll('g.bar').data(dataCA)
                             .enter().append('g')
@@ -605,11 +695,15 @@
               .attr('y', heightCA)
               .attr('height', 0)
               .attr('width', barWidthCA)
-              .on('mouseover', function() {
+              .on('mouseover', function(event) {
+                console.log("mouseover event");
+                console.log(d3.event)
+                touchEle = d3.event.target;
                 d3.select(this).attr('opacity', 0.7);
                 tipCA.show.apply(this, arguments);
               })
               .on('mouseout', function() {
+                console.log("mouseout event");
                 d3.select(this).attr('opacity', 1);
                 tipCA.hide.apply(this, arguments);
               });
@@ -701,7 +795,7 @@
             .innerRadius(innerRadiusIS)         // This is the size of the donut hole
             .outerRadius(radiusIS)
           )
-          .attr('fill', function(d){ console.log(d); return(colorIS(d.data.key)); })
+          .attr('fill', function(d){ return(colorIS(d.data.key)); })
       }
     </script>
     <%= render 'layouts/tracking_scripts' %>

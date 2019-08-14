@@ -420,6 +420,12 @@ h3 {
   border: 1px solid $light-grey;
   border-top: none;
 }
+.desktop-copy {
+  display: unset;
+}
+.mobile-copy {
+  display: none;
+}
 .header-info-icon {
   margin-left: 8px;
 }
@@ -955,6 +961,12 @@ a.plain-link {
   }
   .copy-container {
     text-align: justify;
+  }
+  .desktop-copy {
+    display: none;
+  }
+  .mobile-copy {
+    display: unset;
   }
   .news {
     margin-top: -8px;

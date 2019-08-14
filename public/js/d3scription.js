@@ -68,11 +68,13 @@ var d3scription = d3scription || {}; d3scription["d3scription"] =
 	    }
 	    var windowResize = window.addEventListener('resize', setWindowDimmensions);
 	    function getOffset(event, bounds, offset) {
-	        var collideVertically = (windowDimensions.height + window.scrollY) - event.pageY - offset.top - bounds.height < 0;
-	        var collideHorizontally = (windowDimensions.width + window.scrollX) - event.pageX - offset.left - bounds.width < 0;
+					var pageX = event.detail ? event.detail.pageX : event.pageX;
+					var pageY = event.detail ? event.detail.pageY : event.pageY;
+	        var collideVertically = (windowDimensions.height + window.scrollY) - pageY - offset.top - bounds.height < 0;
+	        var collideHorizontally = (windowDimensions.width + window.scrollX) - pageX - offset.left - bounds.width < 0;
 	        return {
-	            top: collideVertically ? event.pageY - bounds.height - offset.top : offset.top + event.pageY,
-	            left: collideHorizontally ? event.pageX - bounds.width - offset.left : event.pageX + offset.left
+	            top: collideVertically ? pageY - bounds.height - offset.top : offset.top + pageY,
+	            left: collideHorizontally ? pageX - bounds.width - offset.left : pageX + offset.left
 	        };
 	    }
 	    var defaultOffset = { top: 10, left: 10 };
