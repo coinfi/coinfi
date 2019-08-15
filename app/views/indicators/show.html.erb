@@ -491,7 +491,7 @@
         var payload = {
           type: 'resize',
           parameters: {
-            height: window.innerHeight,
+            height: document.body.scrollHeight || window.innerHeight,
             width: window.innerWidth,
           },
         };
