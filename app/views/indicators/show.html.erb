@@ -6,7 +6,6 @@
     <link rel="preconnect" href="https://d3js.org" crossorigin>
     <link rel="preconnect" href="https://pro.fontawesome.com" crossorigin>
     <link rel="preconnect" href="https://etoro-cdn.etorostatic.com" crossorigin>
-    <link rel="preload" href="/img/arrow.svg" as="image">
     <link rel="preload" href="https://etoro-cdn.etorostatic.com/web-client/fonts/opensans/open-sans-v15-cyrillic-ext_cyrillic_greek_greek-ext_latin_latin-ext_vietnamese-regular.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="https://etoro-cdn.etorostatic.com/web-client/fonts/opensans/open-sans-v15-cyrillic-ext_cyrillic_greek_greek-ext_latin_latin-ext_vietnamese-600.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="https://etoro-cdn.etorostatic.com/web-client/fonts/opensans/open-sans-v15-cyrillic-ext_cyrillic_greek_greek-ext_latin_latin-ext_vietnamese-700.woff2" as="font" type="font/woff2" crossorigin>
@@ -629,6 +628,7 @@
                         .attr('transform', 'translate(' + marginCA.left + ', ' + marginCA.top + ')');
 
         // Tooltip
+        var tooltipOffsetCa = isMobile ? { top: -70, left: 20 } : { top: 10, left: 10 };
         var tipFactoryCA = d3scription(function(d) {
           var date = d3.timeFormat('%b %d, %Y')(getXCA(d));
           var value = getYCA(d);
@@ -638,6 +638,7 @@
           return tooltip;
         }, {
           class: 'chart-tooltip',
+          offset: tooltipOffsetCa,
         });
         var tipCA = tipFactoryCA().element(chartCA);
 
@@ -648,9 +649,7 @@
             var touch = event.targetTouches[0];
             if (typeof touch.clientX !== 'undefined' && typeof touch.clientY !== 'undefined') {
               var ele = document.elementFromPoint(touch.clientX, touch.clientY);
-              console.log(touchEle, ele)
               if (!touchEle || !touchEle.isEqualNode(ele)) {
-                console.log("different ele")
                 if (touchEle) {
                   touchEle.dispatchEvent(new Event('mouseout'));
                 }
@@ -663,8 +662,6 @@
                   screenY: touch.screenY,
                 } }));
                 touchEle = ele;
-              } else {
-                console.log("same element")
               }
             }
           }
@@ -685,6 +682,7 @@
         }
 
         // Bars
+        var activeBarsCA = [];
         var barCA = chartCA.selectAll('g.bar').data(dataCA)
                             .enter().append('g')
                             .attr('class', 'bar')
@@ -696,16 +694,17 @@
               .attr('height', 0)
               .attr('width', barWidthCA)
               .on('mouseover', function(event) {
-                console.log("mouseover event");
-                console.log(d3.event)
-                touchEle = d3.event.target;
                 d3.select(this).attr('opacity', 0.7);
                 tipCA.show.apply(this, arguments);
+                activeBarsCA.push(this);
               })
-              .on('mouseout', function() {
-                console.log("mouseout event");
+              .on('mouseout', function(event) {
                 d3.select(this).attr('opacity', 1);
                 tipCA.hide.apply(this, arguments);
+                while (activeBarsCA.length > 0) {
+                  var activeBar = activeBarsCA.pop();
+                  d3.select(activeBar).attr('opacity', 1);
+                }
               });
 
         // Starting animation
