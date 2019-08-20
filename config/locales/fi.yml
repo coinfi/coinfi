@@ -1,2 +1,100 @@
 ---
 fi:
+  buy: osta
+  sell: myy
+  neutral: pidä
+  strong_buy: "osta"
+  strong_sell: "myy"
+  na: "Ei sovellu"
+  updated_on_date: "Päivitetty %{date}"
+  sample_value_label: "Arvo"
+  min_label: "Vähintään"
+  max_label: "Enintään"
+  signal_label: "Signaali"
+  technical_analysis_and_price_movements: "Tekninen analyysi ja hinnanvaihtelut"
+  technical_indicators: "Tekniset ilmaisimet"
+  technical_analysis_summary: "Teknisen analyysin yhteenveto"
+  technical_indicator_copy: "Tekniset ilmaisimet ovat hintaan ja määrään perustuvia laskelmia, joita käytetään usein markkinoiden suuntaa analysoitaessa. Kaupankävijät käyttävät niitä usein analysoidessaan lyhyen tähtäimen hinnanvaihtelua ja tunnistaakseen osto- ja myyntiajat. Teknisiä ilmaisimia käytetään usein yhdessä muunlaisten talousanalyysien kanssa."
+  indicator_summary_copy: "Yhdistämme kahdeksan useimmin käytetyn teknisen ilmaisimen osto-/myynti-/pitosignaalit tarjotaksemme sinulle pikayhteenvedon markkinoista."
+  fundamentals: "Perusteet"
+  development_activity: "Kehitystoiminta"
+  development_activity_copy: "Tämä osio sisältää yhteenvedon kohteen %{name} (%{symbol}) kehitystoiminnasta. Kehitystoimintaa voidaan käyttää osana perustutkimuksia ja analyysia varmistamaan, että projekti kehittyy jatkuvasti ja että kehittäjäyhteisö on hyvässä kunnossa."
+  developer_community_copy: |
+    <p><b>Tuottajat:</b> Tuottajat ovat kehittäjäjoukko, joka on tuottanut projektiin koodia.</p>
+    <p><b>Forkit:</b> Forkit syntyvät, kun käyttäjä kopioi projektin avoimen lähdekoodin, mikä voi olla merkki aikeesta käyttää tai muokata koodia.</p>
+    <p><b>Seuraajat:</b> Seuraajat tarkoittavat käyttäjiä, jotka ovat tilanneet ilmoituksen projektin koodinmuutoksista.</p>
+    <p><b>Tähdet:</b> Tähdet ovat käyttäjiä, jotka ovat merkinneet projektikoodin kirjanmerkillä. Tähdillä voidaan mitata avoimen lähdekoodin projektin suosiota.</p>
+  commit_activity: "Vahvista toiminto"
+  commits: "vahvistukset"
+  commit_activity_tooltip: "Viikko {date}<br/><b>{value}</b> vahvistusta"
+  github_repo: "Github Repo"
+  developer_community: "Kehittäjäyhteisö"
+  contributors: tuottajat
+  forks: forkit
+  watchers: seuraajat
+  stargazers: tähdet
+  ranked_out_of: "%{rank} / %{total}"
+  latest_research: "Tuorein tutkimus"
+  market_news_research: "Markkinauutistutkimus"
+  time_ago: "%{time_words} sitten"
+  read_more: "Lisätietoja"
+  coin_empty: "Tästä kolikosta ei ole tutkimustietoja"
+  coins:
+    ethereum: Ethereum
+    litecoin: Litecoin
+    zcash: Zcash
+    cardano: Cardano
+    ethereum-classic: Ethereum Classic
+    binance-coin: Binance
+    stellar: Stellar
+    bitcoin: Bitcoin
+    ripple: Ripple
+    dash: Dash
+    neo: NEO
+    bitcoin-cash: Bitcoin Cash
+    eos: EOS
+    tron: Tron
+    iota: IOTA
+  indicators:
+    title:
+      rsi: "RSI 14"
+      stochrsi: "Stochastic RSI 14"
+      macd: "MACD (12, 26, 9)"
+      cci: "CCI"
+      stochastic_fast: "Stochastic fast (14, 3)"
+      stochastic_slow: "Stochastic (14, 3, 3)"
+      sma: "Muuttuvat keskiarvot (20 v 50)"
+      ema: "Exp muuttuvat keskiarvot (10 v 20)"
+    rule:
+      rsi: |
+        Osta, kun pienempi kuin 30.
+        Myy, kun suurempi kuin 70.
+        Pidä välillä 30–70 (nämä mukaanlukien).
+      stochrsi: |
+        Osta, kun pienempi kuin 20.
+        Myy, kun suurempi kuin 80.
+        Pidä välillä 20–80 (nämä mukaanlukien).
+      macd: |
+        Osta, kun suurempi kuin 0.
+        Myy, kun pienempi kuin 0.
+        Ei pitosignaalia.
+      cci: |
+        Osta, kun pienempi kuin -100.
+        Myy, kun suurempi kuin 100.
+        Pidä välillä -100–100 (nämä mukaanlukien).
+      stochastic_fast: |
+        Osta, kun pienempi kuin 20.
+        Myy, kun suurempi kuin 80.
+        Pidä välillä 20–80 (nämä mukaanlukien).
+      stochastic_slow: |
+        Osta, kun pienempi kuin 20.
+        Myy, kun suurempi kuin 80.
+        Pidä välillä 20–80 (nämä mukaanlukien).
+      sma: |
+        Osta, kun suurempi kuin 0.
+        Myy, kun pienempi kuin 0.
+        Ei pitosignaalia.
+      ema: |
+        Osta, kun suurempi kuin 0.
+        Myy, kun pienempi kuin 0.
+        Ei pitosignaalia.

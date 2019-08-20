@@ -1,2 +1,100 @@
 ---
 es:
+  buy: comprar
+  sell: vender
+  neutral: mantener
+  strong_buy: "comprar"
+  strong_sell: "vender"
+  na: "N/A"
+  updated_on_date: "Actualizado el %{date}"
+  sample_value_label: "Valor"
+  min_label: "Mín."
+  max_label: "Máx."
+  signal_label: "Señal"
+  technical_analysis_and_price_movements: "Análisis técnicos y Movimientos de los precios"
+  technical_indicators: "Indicadores técnicos"
+  technical_analysis_summary: "Resumen de Análisis técnicos"
+  technical_indicator_copy: "Los indicadores técnicos son cálculos que se basan en el precio y el volumen utilizados frecuentemente en los análisis de la dirección del mercado. Los inversores suelen utilizarlos para analizar los movimientos de los precios a corto plazo e identificar puntos de entrada o salida. Los indicadores técnicos se suelen utilizar junto con otras formas de análisis financieros."
+  indicator_summary_copy: "Hemos reunido señales tipo «vender/comprar/mantener» de 8 de los indicadores técnicos más comúnmente utilizados para ofrecerle una idea general del mercado."
+  fundamentals: "Aspectos básicos"
+  development_activity: "Actividad de desarrollo"
+  development_activity_copy: "Esta sección ofrece un resumen de la actividad de desarrollo de %{name} (%{symbol}). La actividad de desarrollo se puede utilizar como parte de los análisis y las investigaciones fundamentales para asegurarse de que el proyecto se desarrolle continuamente y tenga una próspera comunidad de desarrolladores."
+  developer_community_copy: |
+    <p><b>Contribuyentes:</b> los contribuyentes son el número de desarrolladores que han revisado códigos en el proyecto.</p>
+    <p><b>Bifurcaciones:</b> las bifurcaciones se crean cuando un usuario hace una copia del código abierto de un proyecto, lo que puede indicar la intención de utilizar o reutilizar el código.</p>
+    <p><b>Observadores:</b> los observadores son usuarios que se suscriben para recibir notificaciones cuando se producen cambios en el código de un proyecto.</p>
+    <p><b>Estrellas:</b> las estrellas son usuarios que han guardado como marcador el código de un proyecto. Las estrellas se pueden utilizar para medir la popularidad de un proyecto de código abierto.</p>
+  commit_activity: "Actividad de revisiones"
+  commits: "revisiones"
+  commit_activity_tooltip: "Semana del {date}<br/><b>{value}</b> revisiones"
+  github_repo: "Repositorio Github"
+  developer_community: "Comunidad de desarrolladores"
+  contributors: contribuyentes
+  forks: bifurcaciones
+  watchers: observadores
+  stargazers: estrellas
+  ranked_out_of: "#%{rank} de %{total}"
+  latest_research: "Análisis más reciente"
+  market_news_research: "Análisis del mercado"
+  time_ago: "hace %{time_words} "
+  read_more: "Más información"
+  coin_empty: "Esta moneda no tiene datos de investigación"
+  coins:
+    ethereum: Ethereum
+    litecoin: Litecoin
+    zcash: Zcash
+    cardano: Cardano
+    ethereum-classic: Ethereum Classic
+    binance-coin: Binance
+    stellar: Stellar
+    bitcoin: Bitcoin
+    ripple: Ripple
+    dash: Dash
+    neo: NEO
+    bitcoin-cash: Bitcoin Cash
+    eos: EOS
+    tron: Tron
+    iota: IOTA
+  indicators:
+    title:
+      rsi: "RSI 14"
+      stochrsi: "Estocástico RSI 14"
+      macd: "MACD (12, 26, 9)"
+      cci: "CCI"
+      stochastic_fast: "Estocástico rápido (14, 3)"
+      stochastic_slow: "Estocástico (14, 3, 3)"
+      sma: "Medias móviles (20 v 50)"
+      ema: "Medias móviles exponenciales (10 v 20)"
+    rule:
+      rsi: |
+        Comprar cuando sea menor que 30.
+        Vender cuando sea mayor que 70.
+        Mantener cuando esté entre 30 y 70 (incluidos).
+      stochrsi: |
+        Comprar cuando sea menor que 20.
+        Vender cuando sea mayor que 80.
+        Mantener cuando esté entre 20 y 80 (incluidos).
+      macd: |
+        Comprar cuando sea mayor que 0.
+        Vender cuando sea menor que 0.
+        No hay señal para mantener.
+      cci: |
+        Comprar cuando sea menor que -100.
+        Vender cuando sea mayor que 100.
+        Mantener cuando esté entre -100 y 100 (incluidos).
+      stochastic_fast: |
+        Comprar cuando sea menor que 20.
+        Vender cuando sea mayor que 80.
+        Mantener cuando esté entre 20 y 80 (incluidos).
+      stochastic_slow: |
+        Comprar cuando sea menor que 20.
+        Vender cuando sea mayor que 80.
+        Mantener cuando esté entre 20 y 80 (incluidos).
+      sma: |
+        Comprar cuando sea mayor que 0.
+        Vender cuando sea menor que 0.
+        No hay señal para mantener.
+      ema: |
+        Comprar cuando sea mayor que 0.
+        Vender cuando sea menor que 0.
+        No hay señal para mantener.

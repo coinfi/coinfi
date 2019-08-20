@@ -1,2 +1,100 @@
 ---
 da:
+  buy: køb
+  sell: sælg
+  neutral: hold
+  strong_buy: "køb"
+  strong_sell: "sælg"
+  na: "Ikke relevant"
+  updated_on_date: "Opdateret den %{date}"
+  sample_value_label: "Værdi"
+  min_label: "Min."
+  max_label: "Maks."
+  signal_label: "Signal"
+  technical_analysis_and_price_movements: "Teknisk analyse og kursbevægelser"
+  technical_indicators: "Tekniske indikatorer"
+  technical_analysis_summary: "Oversigt over teknisk analyse"
+  technical_indicator_copy: "Tekniske indikatorer er beregninger baseret på kurs og mængde, der ofte bruges i analysen af markedsretningen. Handlere bruger dem ofte til at analysere kortsigtede kursbevægelser og identificere ind- og udgangspunkter. Tekniske indikatorer bruges ofte sammen med andre former for økonomisk analyse."
+  indicator_summary_copy: "Vi samler salgs-/købs-/holdsignaler fra 8 af de mest anvendte tekniske indikatorer for at give dig en hurtig puls på markedet."
+  fundamentals: "Det grundlæggende"
+  development_activity: "Udviklingsaktivitet"
+  development_activity_copy: "Dette afsnit giver et overblik over udviklingsaktivitet for %{name} (%{symbol}). Udviklingsaktivitet kan bruges som en del af din grundlæggende forskning og analyse for at sikre, at projektet kontinuerligt udvikler sig og har et sundt udviklercommunity."
+  developer_community_copy: |
+    <p><b>Bidragsydere:</b> Bidragsydere er de samlede udviklere, der har bidraget med kode til projektet.</p>
+    <p><b>Forgreninger:</b> Forgreninger skabes, når en bruger laver en kopi af projektets open source-kode, hvilket kan indikere en intention om at bruge eller genbruge koden.</p>
+    <p><b>Iagttagere:</b> Iagttagere er brugere, der abonnerer på at blive underrettet, når der er kodeændringer i et projekt.</p>
+    <p><b>Stjerner:</b> Stjerner er brugere, der har bogmærket et projekts kode. Stjerner kan bruges til at måle populariteten af et open source-projekt.</p>
+  commit_activity: "Bidragssaktivitet"
+  commits: "Bidrager"
+  commit_activity_tooltip: "Uge med {date}<br/><b>{value}</b> bidrag"
+  github_repo: "Github Repo"
+  developer_community: "Udviklercommunity"
+  contributors: bidragsydere
+  forks: forgreninger
+  watchers: iagttagere
+  stargazers: stjerner
+  ranked_out_of: "# %{rank} ud af %{total}"
+  latest_research: "Seneste forskning"
+  market_news_research: "Markedsnyhedsforskning"
+  time_ago: "%{time_words} siden"
+  read_more: "Læs mere"
+  coin_empty: "Denne mønt har ingen forskningsdata"
+  coins:
+    ethereum: Ethereum
+    litecoin: Litecoin
+    zcash: Zcash
+    cardano: Cardano
+    ethereum-classic: Ethereum Classic
+    binance-coin: Binance
+    stellar: Stellar
+    bitcoin: Bitcoin
+    ripple: Ripple
+    dash: Dash
+    neo: NEO
+    bitcoin-cash: Bitcoin Cash
+    eos: EOS
+    tron: Tron
+    iota: IOTA
+  indicators:
+    title:
+      rsi: "RSI 14"
+      stochrsi: "Stokastisk RSI 14"
+      macd: "MACD (12, 26, 9)"
+      cci: "CCI"
+      stochastic_fast: "Stokastisk hurtig (14, 3)"
+      stochastic_slow: "Stokastisk (14, 3, 3)"
+      sma: "Gennemsnitlig bevægelse (20 ift. 50)"
+      ema: "Forventede gennemsnitlig bevægelse (10 ift. 20)"
+    rule:
+      rsi: |
+        Køb når mindre end 30.
+         Sælg når større end 70.
+        Hold mellem 30 og 70 (inkl.).
+      stochrsi: |
+        Køb når mindre end 20.
+         Sælg når større end 80.
+        Hold mellem 20 og 80 (inkl.).
+      macd: |
+        Køb når større end 0.
+        Sælg når mindre end  0.
+        Ingen hold-signal.
+      cci: |
+        Køb når mindre end -100.
+         Sælg når større end 100.
+        Hold mellem -100 og 100 (inkl.).
+      stochastic_fast: |
+        Køb når mindre end 20.
+         Sælg når større end 80.
+        Hold mellem 20 og 80 (inkl.).
+      stochastic_slow: |
+        Køb når mindre end 20.
+         Sælg når større end 80.
+        Hold mellem 20 og 80 (inkl.).
+      sma: |
+        Køb når større end 0.
+        Sælg når mindre end  0.
+        Ingen hold-signal.
+      ema: |
+        Køb når større end 0.
+        Sælg når mindre end  0.
+        Ingen hold-signal.

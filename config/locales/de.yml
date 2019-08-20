@@ -1,2 +1,100 @@
 ---
 de:
+  buy: Kaufen
+  sell: Verkaufen
+  neutral: Halten
+  strong_buy: "Kaufen"
+  strong_sell: "Verkaufen"
+  na: "n. v."
+  updated_on_date: "Aktualisiert am %{date}"
+  sample_value_label: "Wert"
+  min_label: "Min."
+  max_label: "Max."
+  signal_label: "Signal"
+  technical_analysis_and_price_movements: "Technische Analyse u. Preisbewegungen"
+  technical_indicators: "Technische Indikatoren"
+  technical_analysis_summary: "Zusammenfassung Technische Analyse"
+  technical_indicator_copy: "Technische Indikatoren sind Berechnungen auf der Grundlage von Preis und Volumen, die häufig bei der Analyse der Marktrichtung verwendet werden. Trader nutzen sie oft, um kurzfristige Kursbewegungen zu analysieren und Ein- und Ausstiegspunkte zu identifizieren. Technische Indikatoren werden oft in Verbindung mit anderen Formen der Finanzanalyse verwendet."
+  indicator_summary_copy: "Wir aggregieren Verkaufs-/Kauf-/Haltesignale von 8 der am häufigsten verwendeten technischen Indikatoren, damit Sie schnell den Puls des Marktes erkennen."
+  fundamentals: "Grundlagen"
+  development_activity: "Entwicklungsaktivität"
+  development_activity_copy: "Dieser Abschnitt bietet eine Übersicht der Entwicklungsaktivität für %{name} (%{symbol}). Entwicklungsaktivität kann im Rahmen Ihrer Grundlagenforschung und -analyse verwendet werden, um zu gewährleisten, dass sich das Projekt kontinuierlich weiterentwickelt und eine gesunde Entwicklergemeinschaft hat."
+  developer_community_copy: |
+    <p><b>Beitragende:</b> Beitragende sind die Anzahl von Entwicklern, die Code für das Projekt beigesteuert haben.</p>
+    <p><b>Forks:</b> Forks (Gabeln) werden erstellt, wenn ein Nutzer eine Kopie des Codes eines Open-Source-Codes macht, was auf die Absicht hinweisen kann, den Code zu verwenden oder wiederzuverwenden.</p>
+    <p><b>Beobachter:</b> Beobachter sind Nutzer, die eine automatische Benachrichtigung erhalten, wenn bei einem Projekt Änderungen am Code vorgenommen werden.</p>
+    <p><b>Stars:</b> Stars sind Nutzer, die den Code eines Projekts mit einem Lesezeichen versehen haben. Stars können verwendet werden, um die Beliebtheit eines Open-Source-Projekts zu messen.</p>
+  commit_activity: "Commit-Aktivität"
+  commits: "Commits"
+  commit_activity_tooltip: "Woche des {date}<br/><b>{value}</b> Commits"
+  github_repo: "Github Repo"
+  developer_community: "Developer-Community"
+  contributors: Beitragende
+  forks: Forks
+  watchers: Beobachter
+  stargazers: Stars
+  ranked_out_of: "Nr. %{rank} von %{total}"
+  latest_research: "Neueste Recherchen"
+  market_news_research: "Marktnachrichten Recherchen"
+  time_ago: "%{time_words} vorher"
+  read_more: "Mehr lesen"
+  coin_empty: "Für dieses Coin gibt es keine Research-Daten"
+  coins:
+    ethereum: Ethereum
+    litecoin: Litecoin
+    zcash: Zcash
+    cardano: Cardano
+    ethereum-classic: Ethereum Classic
+    binance-coin: Binance
+    stellar: Stellar
+    bitcoin: Bitcoin
+    ripple: Ripple
+    dash: Dash
+    neo: NEO
+    bitcoin-cash: Bitcoin Cash
+    eos: EOS
+    tron: Tron
+    iota: IOTA
+  indicators:
+    title:
+      rsi: "RSI 14"
+      stochrsi: "Stochastischer RSI 14"
+      macd: "MACD (12, 26, 9)"
+      cci: "CCI"
+      stochastic_fast: "Stochastisch schnell (14, 3)"
+      stochastic_slow: "Stochastisch (14, 3, 3)"
+      sma: "Gleitende Durchschnitte (20 v 50)"
+      ema: "Exp. gleitende Durchschnitte (10 v 20)"
+    rule:
+      rsi: |
+        Kaufen, wenn weniger als 30
+        Verkaufen, wenn mehr als 70
+        Halten zwischen 30 und 70 (einschließlich)
+      stochrsi: |
+        Kaufen, wenn weniger als 20
+        Verkaufen, wenn mehr als 80
+        Halten zwischen 20 und 80 (einschließlich)
+      macd: |
+        Kaufen, wenn größer als 0
+        Verkaufen, wenn kleiner als 0
+        Kein Haltesignal
+      cci: |
+        Kaufen, wenn weniger als -100
+        Verkaufen, wenn mehr als 100
+        Halten zwischen -100 und 100 (einschließlich)
+      stochastic_fast: |
+        Kaufen, wenn weniger als 20
+        Verkaufen, wenn mehr als 80
+        Halten zwischen 20 und 80 (einschließlich)
+      stochastic_slow: |
+        Kaufen, wenn weniger als 20
+        Verkaufen, wenn mehr als 80
+        Halten zwischen 20 und 80 (einschließlich)
+      sma: |
+        Kaufen, wenn größer als 0
+        Verkaufen, wenn kleiner als 0
+        Kein Haltesignal
+      ema: |
+        Kaufen, wenn größer als 0
+        Verkaufen, wenn kleiner als 0
+        Kein Haltesignal

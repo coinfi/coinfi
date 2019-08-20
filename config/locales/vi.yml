@@ -1,2 +1,100 @@
 ---
 vi:
+  buy: mua
+  sell: bán
+  neutral: nắm giữ
+  strong_buy: "mua"
+  strong_sell: "bán"
+  na: "Không áp dụng"
+  updated_on_date: "Cập nhật ngày %{date}"
+  sample_value_label: "Giá trị"
+  min_label: "Tối thiểu"
+  max_label: "Tối đa"
+  signal_label: "Tín hiệu"
+  technical_analysis_and_price_movements: "Phân tích Chuyên môn & Biến động Giá"
+  technical_indicators: "Chỉ báo Chuyên môn"
+  technical_analysis_summary: "Tổng hợp Phân tích Chuyên môn"
+  technical_indicator_copy: "Chỉ báo chuyên môn là các phép tính toán dựa trên giá và khối lượng thường xuyên được sử dụng trong phân tích chiều hướng thị trường. Nhà giao dịch thường dùng các chỉ báo này để phân tích biến động giá ngắn hạn và nhận biết điểm tham gia và rút khỏi. Các chỉ báo chuyên môn thường được dùng song song với các hình thức phân tích tài chính khác."
+  indicator_summary_copy: "Chúng tôi tổng hợp các tín hiệu bán/mua/nắm giữ từ 8 trong số các chỉ báo chuyên môn thường dùng nhất, nhằm cho bạn cái nhìn ngắn gọn về thị trường."
+  fundamentals: "Căn bản"
+  development_activity: "Hoạt động phát triển"
+  development_activity_copy: "Phần này cho biết tổng quan về hoạt động phát triển %{name} (%{symbol}). Hoạt động phát triển có thể được dùng dể đưa vào nghiên cứu & phân tích căn bản của bạn nhằm đảm bảo dự án đang liên tục phát triển và có một cộng đồng nhà phát triển lành mạnh."
+  developer_community_copy: |
+    <p><b>Người đóng góp:</b> Người đóng góp là một số nhà phát triển có mã cam kết với dự án.</p>
+    <p><b>Phân nhánh:</b> Các bản phân nhánh được tạo ra khi người dùng sao chép mã nguồn mở của dự án, có thể cho thấy ý định sử dụng hoặc tái sử dụng mã này.</p>
+    <p><b>Người quan sát:</b> Người quan sát là những người đăng ký theo dõi để được thông báo khi có thay đổi mã ở một dự án.</p>
+    <p><b>Người gắn sao:</b> Người gắn sao là những người dùng đã dấu mã của một dự án. Sao có thể được dùng để đánh giá mức độ phổ biến của một dự án nguồn mở.</p>
+  commit_activity: "Hoạt động Cam kết"
+  commits: "cam kết"
+  commit_activity_tooltip: "Tuần {date}<br/><b>{value}</b> cam kết"
+  github_repo: "Kho lưu trữ Github"
+  developer_community: "Cộng đồng Nhà phát triển"
+  contributors: người đóng góp
+  forks: phân nhánh
+  watchers: người quan sát
+  stargazers: người gắn sao
+  ranked_out_of: "Số %{rank} trên %{total}"
+  latest_research: "Nghiên cứu Mới nhất"
+  market_news_research: "Nghiên cứu Tin tức Thị trường"
+  time_ago: "%{time_words} trước"
+  read_more: "Đọc thêm"
+  coin_empty: "Đồng xu này chưa có dữ liệu nghiên cứu"
+  coins:
+    ethereum: Ethereum
+    litecoin: Litecoin
+    zcash: Zcash
+    cardano: Cardano
+    ethereum-classic: Ethereum Classic
+    binance-coin: Binance
+    stellar: Stellar
+    bitcoin: Bitcoin
+    ripple: Ripple
+    dash: Dash
+    neo: NEO
+    bitcoin-cash: Bitcoin Cash
+    eos: EOS
+    tron: Tron
+    iota: IOTA
+  indicators:
+    title:
+      rsi: "RSI 14"
+      stochrsi: "Chỉ báo Stochastic RSI 14"
+      macd: "MACD (12, 26, 9)"
+      cci: "CCI"
+      stochastic_fast: "Chỉ báo Stochastic nhanh (14, 3)"
+      stochastic_slow: "Chỉ báo Stochastic (14, 3, 3)"
+      sma: "Trung bình động (20 so với 50)"
+      ema: "Trung bình động lũy thừa (10 so với 20)"
+    rule:
+      rsi: |
+        Mua khi dưới 30.
+        Bán khi trên 70.
+        Giữ trong khoảng 30 đến 70 (tính cả 30 và 70).
+      stochrsi: |
+        Mua khi dưới 20.
+        Bán khi trên 80.
+        Giữ trong khoảng 20 đến 80 (tính cả 20 và 80).
+      macd: |
+        Mua khi trên 0.
+        Bán khi dưới 0.
+        Không có tín hiệu giữ.
+      cci: |
+        Mua khi dưới -100.
+        Bán khi trên 100.
+        Giữ trong khoảng -100 đến 100 (tính cả -100 và 100).
+      stochastic_fast: |
+        Mua khi dưới 20.
+        Bán khi trên 80.
+        Giữ trong khoảng 20 đến 80 (tính cả 20 và 80).
+      stochastic_slow: |
+        Mua khi dưới 20.
+        Bán khi trên 80.
+        Giữ trong khoảng 20 đến 80 (tính cả 20 và 80).
+      sma: |
+        Mua khi trên 0.
+        Bán khi dưới 0.
+        Không có tín hiệu giữ.
+      ema: |
+        Mua khi trên 0.
+        Bán khi dưới 0.
+        Không có tín hiệu giữ.

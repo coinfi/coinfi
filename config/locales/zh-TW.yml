@@ -211,3 +211,101 @@ zh-TW:
       long: "%Y年%m月%d日 %H:%M"
       short: "%m月%d日 %H:%M"
     pm: 下午
+  buy: 買進
+  sell: 賣出
+  neutral: hold
+  strong_buy: "買進"
+  strong_sell: "賣出"
+  na: "不適用"
+  updated_on_date: "更新日期：%{date}"
+  sample_value_label: "價值"
+  min_label: "最小值"
+  max_label: "最大值"
+  signal_label: "信號"
+  technical_analysis_and_price_movements: "技術分析及價位波動"
+  technical_indicators: "技術指標"
+  technical_analysis_summary: "技術分析彙報"
+  technical_indicator_copy: "技術指標是根據於市場走勢分析中常用的價格和數量所計算出的數值。交易者常用來分析短期價格變動並確認進場和退場時機。技術指標常結合其他形式的財務分析共同使用。"
+  indicator_summary_copy: "我們匯總了八種最常用來作為賣出／買進／持有信號的技術指標，以便提供您快捷的市場脈動。"
+  fundamentals: "基本面"
+  development_activity: "開發活動"
+  development_activity_copy: "本節概述 %{name} (%{symbol}) 的開發活動。開發活動可納入基礎面研究分析，以確保專案持續發展，並擁有健全的開發人員社群。"
+  developer_community_copy: |
+    <p><b>貢獻者：</b>貢獻者是提交專案程式碼的開發人員人數。</p>
+    <p><b>分叉：</b>使用者複製專案開放原始碼會建立分叉，以表示有意圖使用或再使用程式碼。</p>
+    <p><b>觀察者：</b>觀察者是訂閱專案程式碼變更通知的使用者。</p>
+    <p><b>明星：</b>明星是將專案程式碼設為書籤的使用者。 明星可用來衡量開放原始碼專案的人氣。</p>
+  commit_activity: "活躍度"
+  commits: "投入"
+  commit_activity_tooltip: "週別： {date}<br/><b>{value}活躍度：</b>"
+  github_repo: "Github Repo"
+  developer_community: "開發人員社群"
+  contributors: 貢獻者
+  forks: 分叉
+  watchers: 觀察者
+  stargazers: 明星
+  ranked_out_of: "計有 %{rank}，共 %{total}"
+  latest_research: "最新研究"
+  market_news_research: "市場新聞研究"
+  time_ago: "%{time_words} 前"
+  read_more: "閱讀更多"
+  coin_empty: "本代幣尚無研究資料"
+  coins:
+    ethereum: 以太坊
+    litecoin: Litecoin
+    zcash: Zcash
+    cardano: Cardano
+    ethereum-classic: Ethereum Classic
+    binance-coin: 幣安幣
+    stellar: Stellar
+    bitcoin: 比特幣
+    ripple: 瑞波幣
+    dash: Dash
+    neo: NEO
+    bitcoin-cash: 比特幣現金
+    eos: EOS
+    tron: Tron
+    iota: IOTA
+  indicators:
+    title:
+      rsi: "RSI 14"
+      stochrsi: "Stochastic RSI 14"
+      macd: "MACD (12, 26, 9)"
+      cci: "CCI"
+      stochastic_fast: "Stochastic fast (14, 3)"
+      stochastic_slow: "Stochastic (14, 3, 3)"
+      sma: "移動平均線 (20 v 50)"
+      ema: "期望移動平均線 (10 v 20)"
+    rule:
+      rsi: |
+        低於 30 時買進，
+        高於 70 時賣出，
+        位於 30 及 70 （含）間持有
+      stochrsi: |
+        低於 20 時買進，
+        高於 80 時賣出，
+        位於 20 及 80 （含）間持有
+      macd: |
+        低於 0 時買進，
+        高於 0 時賣出
+        無持有信號
+      cci: |
+        低於 -100 時買進，
+        高於 100 時賣出，
+        位於 -100 及 100 （含）間持有
+      stochastic_fast: |
+        低於 20 時買進，
+        高於 80 時賣出，
+        位於 20 及 80 （含）間持有
+      stochastic_slow: |
+        低於 20 時買進，
+        高於 80 時賣出，
+        位於 20 及 80 （含）間持有
+      sma: |
+        低於 0 時買進，
+        高於 0 時賣出
+        無持有信號
+      ema: |
+        低於 0 時買進，
+        高於 0 時賣出
+        無持有信號
