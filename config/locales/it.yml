@@ -1,2 +1,100 @@
 ---
 it:
+  buy: acquista
+  sell: vendi
+  neutral: mantieni
+  strong_buy: "da comprare decisamente"
+  strong_sell: "da vendere decisamente"
+  na: "N/D"
+  updated_on_date: "Aggiornato al %{date}"
+  sample_value_label: "Valore"
+  min_label: "Min"
+  max_label: "Max"
+  signal_label: "Segnale"
+  technical_analysis_and_price_movements: "Analisi tecnica & Movimenti di prezzo"
+  technical_indicators: "Indicatori tecnici"
+  technical_analysis_summary: "Sintesi analisi tecnica"
+  technical_indicator_copy: "Gli indicatori tecnici sono calcoli basati su prezzo e volume, usati di frequente per analizzare la direzione del mercato. Spesso i trader li usano per analizzare movimenti di prezzo di breve termine e per identificare punti di ingresso e uscita. Gli indicatori tecnici vengono spesso usati insieme ad altre forme di analisi tecnica."
+  indicator_summary_copy: "Noi combiniamo segnali di acquisto/vendita/mantenimento dagli 8 degli indicatori tecnici più usati per darti un rapido barometro del mercato."
+  fundamentals: "Fondamentali"
+  development_activity: "Attività di sviluppo"
+  development_activity_copy: "Questa sezione fornisce una panoramica dell'attività di sviluppo per %{name} (%{symbol}). Puoi usare l'attività di sviluppo nell'ambito della tua ricerca e analisi fondamentale per assicurarti che il progetto continui a svilupparsi e abbia una community vivace di sviluppatori."
+  developer_community_copy: |
+    <p><b>Contributori:</b> Per contributori s&#39;intende il numero di sviluppatori che si sono impegnati a scrivere codice per il progetto.</p>
+    <p><b>Fork:</b> I fork avvengono quando un utente crea una copia di un codice open source di un progetto, cosa che può indicare l&#39;intenzione di usare o riusare il codice.</p>
+    <p><b>Osservatori:</b> Gli osservatori sono gli utenti che si sono registrati per ricevere notifiche quando viene modificato il codice per un progetto.</p>
+    <p><b>Stelle:</b> Le stelle sono utenti che hanno aggiunto ai preferiti il codice di un progetto. Le stelle possono essere usate per misurare la popolarità di un progetto open source.</p>
+  commit_activity: "Attività di commit"
+  commits: "commit"
+  commit_activity_tooltip: "Settimana di {date}<br/><b>{value}</b> commit"
+  github_repo: "Github Repo"
+  developer_community: "Comunità sviluppatori"
+  contributors: contributori
+  forks: fork
+  watchers: osservatori
+  stargazers: stelle
+  ranked_out_of: "#%{rank} su %{total}"
+  latest_research: "Ultima ricerca"
+  market_news_research: "Ricerca notizie dai mercati"
+  time_ago: "%{time_words} fa"
+  read_more: "Continua a leggere"
+  coin_empty: "Per questa moneta non ci sono dati di ricerca"
+  coins:
+    ethereum: Ethereum
+    litecoin: Litecoin
+    zcash: Zcash
+    cardano: Cardano
+    ethereum-classic: Ethereum Classic
+    binance-coin: Binance
+    stellar: Stellar
+    bitcoin: Bitcoin
+    ripple: Ripple
+    dash: Dash
+    neo: NEO
+    bitcoin-cash: Bitcoin Cash
+    eos: EOS
+    tron: Tron
+    iota: IOTA
+  indicators:
+    title:
+      rsi: "RSI 14"
+      stochrsi: "Stocastico RSI 14"
+      macd: "MACD (12, 26, 9)"
+      cci: "CCI"
+      stochastic_fast: "Stocastico veloce (14, 3)"
+      stochastic_slow: "Stocastico (14, 3, 3)"
+      sma: "Medie mobili (20 v 50)"
+      ema: "Medie mobili espon. (10 v 20)"
+    rule:
+      rsi: |
+        Acquista quando minore di 30.
+        Vendi quando maggiore di 70.
+        Mantieni fra 30 e 70 (inclusi).
+      stochrsi: |
+        Acquista quando minore di 20.
+        Vendi quando maggiore di 80.
+        Mantieni fra 20 e 80 (inclusi).
+      macd: |
+        Acquista quando maggiore di 0.
+        Vendi quando minore di 0.
+        Nessun segnale di mantenimento.
+      cci: |
+        Acquista quando minore di -100.
+        Vendi quando maggiore di 100.
+        Mantieni fra -100 e 100 (inclusi).
+      stochastic_fast: |
+        Acquista quando minore di 20.
+        Vendi quando maggiore di 80.
+        Mantieni fra 20 e 80 (inclusi).
+      stochastic_slow: |
+        Acquista quando minore di 20.
+        Vendi quando maggiore di 80.
+        Mantieni fra 20 e 80 (inclusi).
+      sma: |
+        Acquista quando maggiore di 0.
+        Vendi quando minore di 0.
+        Nessun segnale di mantenimento.
+      ema: |
+        Acquista quando maggiore di 0.
+        Vendi quando minore di 0.
+        Nessun segnale di mantenimento.

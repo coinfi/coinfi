@@ -179,3 +179,101 @@ zh-CN:
       long: "%Y年%m月%d日 %H:%M"
       short: "%m月%d日 %H:%M"
     pm: 下午
+  buy: 买入
+  sell: 卖出
+  neutral: 持有
+  strong_buy: "买入"
+  strong_sell: "卖出"
+  na: "不适用"
+  updated_on_date: "更新于%{date}"
+  sample_value_label: "市值"
+  min_label: "最小"
+  max_label: "最大"
+  signal_label: "信号"
+  technical_analysis_and_price_movements: "技术分析与价格变动"
+  technical_indicators: "技术指标"
+  technical_analysis_summary: "技术分析概要"
+  technical_indicator_copy: "技术指标通常通过价格和交易量计算总结得出，常用于市场走向判断。交易者经常使用它们来分析短期价格变动并确定买入点和卖出点。技术指标通常与其他形式的财务指标分析一并使用。"
+  indicator_summary_copy: "我们汇总了8个最常用技术指标的卖出/买入/持有信号，为您提供快速的市场脉搏。"
+  fundamentals: "基本面"
+  development_activity: "开发活动"
+  development_activity_copy: "本节概述了%{name}（%{symbol}）的开发活动。开发活动可以作为基础研究和分析的一部分，以确保项目不断发展并拥有健康的开发者社区。"
+  developer_community_copy: |
+    <p><b>出资者：</b>出资者是已为项目提交代码的开发者数量。</p>
+    <p><b>分叉：</b>用户在复制项目的开源代码时即会创建分叉，这可以表示使用或重用该代码。</p>
+    <p><b>观察者：</b>观察者是指订阅者在项目代码改变时收到通知的用户。</p>
+    <p><b>明星：</b>明星是将项目代码添加书签的用户。星星可以用来衡量开源项目的受欢迎程度。</p>
+  commit_activity: "提交活动"
+  commits: "提交"
+  commit_activity_tooltip: "周 {date}<br/><b>{value}</b>提交"
+  github_repo: "Github Repo"
+  developer_community: "开发者社区"
+  contributors: 出资者
+  forks: 分叉
+  watchers: 观察者
+  stargazers: 明星
+  ranked_out_of: "其中%{rank}个，共%{total}个"
+  latest_research: "最新研究"
+  market_news_research: "市场新闻研究"
+  time_ago: "%{time_words}前"
+  read_more: "了解更多内容"
+  coin_empty: "该加密货币没有研究数据"
+  coins:
+    ethereum: 以太坊
+    litecoin: 莱特币
+    zcash: 大零币
+    cardano: 艾达币
+    ethereum-classic: Ethereum Classic
+    binance-coin: 币安币
+    stellar: 恒星币
+    bitcoin: 比特币
+    ripple: 瑞波币
+    dash: 达世币
+    neo: NEO
+    bitcoin-cash: 比特币现金
+    eos: EOS
+    tron: 波场币
+    iota: IOTA
+  indicators:
+    title:
+      rsi: "RSI 14"
+      stochrsi: "Stochastic RSI 14"
+      macd: "MACD (12, 26, 9)"
+      cci: "CCI"
+      stochastic_fast: "Stochastic fast (14, 3)"
+      stochastic_slow: "Stochastic (14, 3, 3)"
+      sma: "移动平均线（20比50）"
+      ema: "期望移动平均线 (10比20)"
+    rule:
+      rsi: |
+        小于30时买入。
+        大于70时卖出。
+        30到70之间（含）时持有。
+      stochrsi: |
+        小于20时买入。
+        大于80时卖出。
+        20到80之间（含）时持有。
+      macd: |
+        大于0时买入。
+        小于0时卖出。
+        无持有信号。
+      cci: |
+        小于-100时买入。
+        大于100时卖出。
+        -100到100之间（含）时持有。
+      stochastic_fast: |
+        小于20时买入。
+        大于80时卖出。
+        20到80之间（含）时持有。
+      stochastic_slow: |
+        小于20时买入。
+        大于80时卖出。
+        20到80之间（含）时持有。
+      sma: |
+        大于0时买入。
+        小于0时卖出。
+        无持有信号。
+      ema: |
+        大于0时买入。
+        小于0时卖出。
+        无持有信号。

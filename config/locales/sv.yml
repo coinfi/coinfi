@@ -1,0 +1,100 @@
+---
+sv:
+  buy: köp
+  sell: sälj
+  neutral: behåll
+  strong_buy: "köp"
+  strong_sell: "sälj"
+  na: "Ej tillämpligt"
+  updated_on_date: "Uppdaterad %{date}"
+  sample_value_label: "Värde"
+  min_label: "Min"
+  max_label: "Max"
+  signal_label: "Signal"
+  technical_analysis_and_price_movements: "Teknisk analys och prisrörelser"
+  technical_indicators: "Tekniska indikatorer"
+  technical_analysis_summary: "Sammanfattning av teknisk analys"
+  technical_indicator_copy: "Tekniska indikatorer är beräkningar baserade på pris och volym som ofta används i analysen av marknadsriktningen. Handlare använder dem ofta för att analysera kortsiktiga prisrörelser och identifiera ingångs- och avslutspunkter. Tekniska indikatorer används ofta i samband med andra former av finansiell analys."
+  indicator_summary_copy: "Vi aggregerar signaler för att sälja/köpa/behålla från åtta av de vanligaste tekniska indikatorerna för att ge dig en snabb puls av marknaden."
+  fundamentals: "Fundamental"
+  development_activity: "Utvecklingsaktivitet"
+  development_activity_copy: "Det här avsnittet ger en översikt över utvecklingsaktivitet för %{name} (%{symbol}). Utvecklingsaktivitet kan användas som en del av din grundläggande forskning och analys för att säkerställa att projektet kontinuerligt utvecklas och har kunniga utvecklare."
+  developer_community_copy: |
+    <p><b>Contributors:</b> Contributors är antalet utvecklare som har levererat kod till projektet.</p>
+    <p><b>Forks:</b> Forks skapas när en användare gör en kopia av projektets öppna källkod, vilket kan indikera en avsikt att använda eller återanvända koden.</p>
+    <p><b>Watchers:</b> Watchers är användare som prenumererar för att bli meddelade när det finns kodändringar för ett projekt.</p>
+    <p><b>Stars:</b> Stars är användare som har bokmärkt projektets kod. Stars kan användas för att mäta populariteten för ett projekt med öppen källkod.</p>
+  commit_activity: "Commit-aktivitet"
+  commits: "commits"
+  commit_activity_tooltip: "Veckor {date}<br/><b>{value}</b> commits"
+  github_repo: "Github Repo"
+  developer_community: "Utvecklare"
+  contributors: contributors
+  forks: forks
+  watchers: watchers
+  stargazers: stars
+  ranked_out_of: "#%{rank} av %{total}"
+  latest_research: "Senaste forskningen"
+  market_news_research: "Forskning om marknadsnyheter"
+  time_ago: "%{time_words} sedan"
+  read_more: "Läs mer"
+  coin_empty: "Detta mynt har inga forskningsuppgifter"
+  coins:
+    ethereum: Ethereum
+    litecoin: Litecoin
+    zcash: Zcash
+    cardano: Cardano
+    ethereum-classic: Ethereum Classic
+    binance-coin: Binance
+    stellar: Stellar
+    bitcoin: Bitcoin
+    ripple: Ripple
+    dash: Dash
+    neo: NEO
+    bitcoin-cash: Bitcoin Cash
+    eos: EOS
+    tron: Tron
+    iota: IOTA
+  indicators:
+    title:
+      rsi: "RSI 14"
+      stochrsi: "Stokastiskt RSI 14"
+      macd: "MACD (12, 26, 9)"
+      cci: "CCI"
+      stochastic_fast: "Stokastiskt snabbt (14, 3)"
+      stochastic_slow: "Stokastiskt (14, 3, 3)"
+      sma: "Glidande medelvärden (20 v 50)"
+      ema: "Exponentiellt glidande medelvärden (10 v 20)"
+    rule:
+      rsi: |
+        Köp när lägre än 30.
+        Sälj när större än 70.
+        Behåll mellan 30 och 70 (till och med).
+      stochrsi: |
+        Köp när lägre än 20.
+        Sälj när högre än 80.
+        Behåll mellan 20 och 80 (till och med).
+      macd: |
+        Köp när högre än 0.
+        Sälj när mindre än 0.
+        Ingen signal för att behålla.
+      cci: |
+        Köp när lägre än -100.
+        Sälj när högre än 100.
+        Behåll mellan -100 och 100 (till och med).
+      stochastic_fast: |
+        Köp när lägre än 20.
+        Sälj när högre än 80.
+        Behåll mellan 20 och 80 (till och med).
+      stochastic_slow: |
+        Köp när lägre än 20.
+        Sälj när högre än 80.
+        Behåll mellan 20 och 80 (till och med).
+      sma: |
+        Köp när högre än 0.
+        Sälj när mindre än 0.
+        Ingen signal för att behålla.
+      ema: |
+        Köp när högre än 0.
+        Sälj när mindre än 0.
+        Ingen signal för att behålla.

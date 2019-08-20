@@ -1,2 +1,100 @@
 ---
 nl:
+  buy: kopen
+  sell: verkopen
+  neutral: aanhouden
+  strong_buy: "kopen"
+  strong_sell: "verkopen"
+  na: "N.v.t."
+  updated_on_date: "Bijgewerkt op %{date}"
+  sample_value_label: "Waarde"
+  min_label: "Min."
+  max_label: "Max."
+  signal_label: "Signaal"
+  technical_analysis_and_price_movements: "Technische analyse en koersbewegingen"
+  technical_indicators: "Technische indicatoren"
+  technical_analysis_summary: "Overzicht technische analyse"
+  technical_indicator_copy: "Technische indicatoren zijn berekeningen op basis van prijs en volume en worden vaak gebruikt bij het analyseren van de marktrichting. Handelaren gebruiken deze vaak om koersbewegingen op de korte termijn te analyseren en koop- en verkoopmomenten te identificeren. Technische indicatoren worden vaak gebruikt in combinatie met andere vormen van financiële analyses."
+  indicator_summary_copy: "We verzamelen verkoop-/koop-/aanhoudsignalen van acht van de meest gebruikte technische indicatoren. Daarmee kunnen we u snel inzicht in de markt bieden."
+  fundamentals: "Basisbegrippen"
+  development_activity: "Ontwikkelingsactiviteit"
+  development_activity_copy: "Dit deel geeft een overzicht van de ontwikkelingsactiviteit van %{name} (%{symbol}). Ontwikkelingsactiviteit kan worden gebruikt als onderdeel van uw fundamentele onderzoek en analyse om ervoor te zorgen dat het project zich blijft ontwikkelen en een goede ontwikkelaarsgemeenschap heeft."
+  developer_community_copy: |
+    <p><b>Bijdragers:</b> bijdragers verwijst naar het aantal ontwikkelaars dat code voor het project heeft doorgevoerd.</p>
+    <p><b>Forks:</b> forks worden gecreëerd wanneer een gebruiker een kopie maakt van de open broncode van een project, wat kan duiden op een intentie om de code te gebruiken of hergebruiken.</p>
+    <p><b>Watchers:</b> watchers zijn gebruikers die zich hebben aangemeld om meldingen te ontvangen wanneer een code voor een project verandert.</p>
+    <p><b>Stars:</b> stars zijn gebruikers die een bladwijzer hebben toegevoegd voor de code van een project. Stars kunnen worden gebruikt om de populariteit van een open bronproject te meten.</p>
+  commit_activity: "Activiteit doorvoeren"
+  commits: "doorvoeringen"
+  commit_activity_tooltip: "Week van {date}<br/><b>{value}</b> doorvoeringen"
+  github_repo: "Github Repo"
+  developer_community: "Ontwikkelaarsgemeenschap"
+  contributors: bijdragers
+  forks: forks
+  watchers: watchers
+  stargazers: stars
+  ranked_out_of: "nr.%{rank} van %{total}"
+  latest_research: "Meest recente onderzoek"
+  market_news_research: "Onderzoek naar marktnieuws"
+  time_ago: "%{time_words} geleden"
+  read_more: "Meer informatie"
+  coin_empty: "Er zijn geen onderzoeksgegevens voor deze munt"
+  coins:
+    ethereum: Ethereum
+    litecoin: Litecoin
+    zcash: Zcash
+    cardano: Cardano
+    ethereum-classic: Ethereum Classic
+    binance-coin: Binance
+    stellar: Stellar
+    bitcoin: Bitcoin
+    ripple: Ripple
+    dash: Dash
+    neo: NEO
+    bitcoin-cash: Bitcoin Cash
+    eos: EOS
+    tron: Tron
+    iota: IOTA
+  indicators:
+    title:
+      rsi: "RSI 14"
+      stochrsi: "Stochastic RSI 14"
+      macd: "MACD (12, 26, 9)"
+      cci: "CCI"
+      stochastic_fast: "Stochastic fast (14, 3)"
+      stochastic_slow: "Stochastic (14, 3, 3)"
+      sma: "Voortschrijdende gemiddelden (20 v 50)"
+      ema: "Exponentiële voortschrijdende gemiddelden (10 v 20)"
+    rule:
+      rsi: |
+        Kopen indien lager dan 30.
+        Verkopen indien hoger dan 70.
+        Aanhouden tussen 30 en 70 (inclusief).
+      stochrsi: |
+        Kopen indien lager dan 20.
+        Verkopen indien hoger dan 80.
+        Aanhouden tussen 20 en 80 (inclusief).
+      macd: |
+        Kopen indien hoger dan 0.
+        Verkopen indien lager dan 0.
+        Geen signaal voor aanhouden.
+      cci: |
+        Kopen indien lager dan -100.
+        Verkopen indien hoger dan 100.
+        Aanhouden tussen -100 en 100 (inclusief).
+      stochastic_fast: |
+        Kopen indien lager dan 20.
+        Verkopen indien hoger dan 80.
+        Aanhouden tussen 20 en 80 (inclusief).
+      stochastic_slow: |
+        Kopen indien lager dan 20.
+        Verkopen indien hoger dan 80.
+        Aanhouden tussen 20 en 80 (inclusief).
+      sma: |
+        Kopen indien hoger dan 0.
+        Verkopen indien lager dan 0.
+        Geen signaal voor aanhouden.
+      ema: |
+        Kopen indien hoger dan 0.
+        Verkopen indien lager dan 0.
+        Geen signaal voor aanhouden.

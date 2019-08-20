@@ -1,2 +1,100 @@
 ---
 nb:
+  buy: kjøp
+  sell: selg
+  neutral: hold
+  strong_buy: "kjøp"
+  strong_sell: "selg"
+  na: "I/A"
+  updated_on_date: "Oppdatert %{date}"
+  sample_value_label: "Verdi"
+  min_label: "Min"
+  max_label: "Maks"
+  signal_label: "Signal"
+  technical_analysis_and_price_movements: "Teknisk analyse og prisbevegelser"
+  technical_indicators: "Tekniske indikatorer"
+  technical_analysis_summary: "Sammendrag av teknisk analyse"
+  technical_indicator_copy: "Tekniske indikatorer er beregninger basert på pris og volum. De brukes ofte i analyser av markedsretningen. Tradere bruker dem ofte til å analysere kortsiktige prisbevegelser og fastslå gode tidspunkter for kjøp og salg. Tekniske indikatorer brukes ofte sammen med andre typer økonomisk analyse."
+  indicator_summary_copy: "Vi samler selg/kjøp/hold-signalene fra åtte av de mest brukte tekniske indikatorene, slik at du kan ta pulsen på markedet."
+  fundamentals: "Grunnleggende"
+  development_activity: "Utviklingsaktivitet"
+  development_activity_copy: "Dette avsnittet gir deg en oversikt over utviklingsaktiviteten for %{name} (%{symbol}). Utviklingsaktivteten kan brukes som en del av dine grunnleggende undersøkelser og analyser for å sikre at prosjektet utvikles kontinuerlig og har et sterkt utviklerfellesskap."
+  developer_community_copy: |
+    <p><b>Bidragsytere:</b> Bidragsytere er antall utviklere som har bidratt med kode til prosjektet.</p>
+    <p><b>Forker:</b> Forker skapes når en bruker lager en kopi av et prosjekts åpne kildekode, som kan indikere en hensikt om å bruke eller gjenbruke koden.</p>
+    <p><b>Overvåkere:</b> Overvåkere er brukerne som har abonnert på varsler om kodeendringer for et prosjekt.</p>
+    <p><b>Stjerner:</b> Stjerner er brukere som har opprettet et bokmerke for et prosjekts kode. Stjerner kan brukes for å måle populariteten til et prosjekt med åpen kildekode.</p>
+  commit_activity: "Bidragsaktivitet"
+  commits: "bidrag"
+  commit_activity_tooltip: "Uken til {date}<br/><b>{value}</b> bidrag"
+  github_repo: "Github Repo"
+  developer_community: "Utviklerfellesskap"
+  contributors: bidragsytere
+  forks: forker
+  watchers: overvåkere
+  stargazers: stjerner
+  ranked_out_of: "#%{rank} av %{total}"
+  latest_research: "Siste undersøkelser"
+  market_news_research: "Undersøkelser av markedsnyheter"
+  time_ago: "%{time_words} siden"
+  read_more: "Les mer"
+  coin_empty: "Denne mynten har ingen undersøkelsesdata."
+  coins:
+    ethereum: Ethereum
+    litecoin: Litecoin
+    zcash: Zcash
+    cardano: Cardano
+    ethereum-classic: Ethereum Classic
+    binance-coin: Binance
+    stellar: Stellar
+    bitcoin: Bitcoin
+    ripple: Ripple
+    dash: Dash
+    neo: NEO
+    bitcoin-cash: Bitcoin Cash
+    eos: EOS
+    tron: Tron
+    iota: IOTA
+  indicators:
+    title:
+      rsi: "RSI 14"
+      stochrsi: "Stokastisk RSI 14"
+      macd: "MACD (12, 26, 9)"
+      cci: "CCI"
+      stochastic_fast: "Stokastisk rask (14, 3)"
+      stochastic_slow: "Stokastisk (14, 3, 3)"
+      sma: "Glidende gjennomsnitt (20 v 50)"
+      ema: "Eksp. glidende gjennomsnitt (10 v 20)"
+    rule:
+      rsi: |
+        Kjøp når under 30.
+        Selg når over 70.
+        Hold f.o.m. 30 t.o.m. 70.
+      stochrsi: |
+        Kjøp når under 20.
+        Selg når over 80.
+        Hold f.o.m. 20 t.o.m. 80.
+      macd: |
+        Kjøp når over 0.
+        Selg når under 0.
+        Ingen hold-signal.
+      cci: |
+        Kjøp når under –100.
+        Selg når over 100.
+        Hold f.o.m. –100 t.o.m. 100.
+      stochastic_fast: |
+        Kjøp når under 20.
+        Selg når over 80.
+        Hold f.o.m. 20 t.o.m. 80.
+      stochastic_slow: |
+        Kjøp når under 20.
+        Selg når over 80.
+        Hold f.o.m. 20 t.o.m. 80.
+      sma: |
+        Kjøp når over 0.
+        Selg når under 0.
+        Ingen hold-signal.
+      ema: |
+        Kjøp når over 0.
+        Selg når under 0.
+        Ingen hold-signal.

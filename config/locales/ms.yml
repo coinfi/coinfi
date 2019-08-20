@@ -1,0 +1,100 @@
+---
+ms:
+  buy: beli
+  sell: jual
+  neutral: pegang
+  strong_buy: "beli"
+  strong_sell: "jual"
+  na: "Tidak Tersedia"
+  updated_on_date: "Dikemaskini pada %{date}"
+  sample_value_label: "Nilai"
+  min_label: "Minimum"
+  max_label: "Maksimum"
+  signal_label: "Isyarat"
+  technical_analysis_and_price_movements: "Analisis Teknikal & Pergerakan Harga"
+  technical_indicators: "Petunjuk Teknikal"
+  technical_analysis_summary: "Ringkasan Analisis Teknikal"
+  technical_indicator_copy: "Petunjuk teknikal adalah kiraan berdasarkan harga dan jumlah yang kerap digunakan dalam analisis arah pasaran. Pedagang sering menggunakannya untuk menganalisis pergerakan harga jangka pendek dan mengenal pasti titik masuk dan keluar. Petunjuk teknikal sering digunakan bersama-sama dengan lain-lain bentuk analisis kewangan."
+  indicator_summary_copy: "Kami mengumpulkan isyarat jual/beli/pegang daripada 8 petunjuk teknikal yang paling biasa digunakan untuk memberikan anda maklumat mengenai nadi pasaran yang cepat."
+  fundamentals: "Asas"
+  development_activity: "Aktiviti Pembangunan"
+  development_activity_copy: "Bahagian ini menyediakan gambaran keseluruhan mengenai aktiviti pembangunan untuk %{name} (%{symbol}). Aktiviti pembangunan boleh digunakan sebagai sebahagian daripada penyelidikan & analisis asas anda untuk memastikan projek itu terus berkembang dan mempunyai komuniti pemaju yang sihat."
+  developer_community_copy: |
+    <p><b>Penyumbang:</b> Penyumbang adalah bilangan pemaju yang telah membuat kod kepada projek tersebut.</p>
+    <p><b>Forks:</b> Forks diwujudkan apabila pengguna membuat salinan kod sumber terbuka projek, yang menunjukkan niat untuk menggunakan atau menggunakan semula kod.</p>
+    <p><b>Pemerhati:</b> Pemerhati adalah pengguna-pengguna yang melanggan untuk diberitahu apabila terdapat perubahan kod untuk sesuatu projek.</p>
+    <p><b>Bintang:</b> Bintang adalah pengguna yang telah menandakan kod projek. Bintang boleh digunakan untuk mengukur populariti sesuatu projek sumber terbuka.</p>
+  commit_activity: "Komitmen Aktiviti"
+  commits: "komitmen"
+  commit_activity_tooltip: "Minggu {date}<br/><b>{value}</b> melakukan"
+  github_repo: "Github Repo"
+  developer_community: "Komuniti Pemaju"
+  contributors: penyumbang
+  forks: forks
+  watchers: pemerhati
+  stargazers: bintang
+  ranked_out_of: "#%{rank} daripada %{total}"
+  latest_research: "Penyelidikan Terkini"
+  market_news_research: "Penyelidikan Berita Pasaran"
+  time_ago: "%{time_words} yang lalu"
+  read_more: "Baca Lebih Lanjut"
+  coin_empty: "Syiling ini tidak mempunyai data penyelidikan"
+  coins:
+    ethereum: Ethereum
+    litecoin: Litecoin
+    zcash: Zcash
+    cardano: Cardano
+    ethereum-classic: Ethereum Classic
+    binance-coin: Binance
+    stellar: Stellar
+    bitcoin: Bitcoin
+    ripple: Ripple
+    dash: Dash
+    neo: NEO
+    bitcoin-cash: Bitcoin Cash
+    eos: EOS
+    tron: Tron
+    iota: IOTA
+  indicators:
+    title:
+      rsi: "RSI 14"
+      stochrsi: "Stokastik RSI 14"
+      macd: "MACD (12, 26, 9)"
+      cci: "CCI"
+      stochastic_fast: "Stokastik cepat (14, 3)"
+      stochastic_slow: "Stokastik (14, 3, 3)"
+      sma: "Purata Bergerak (20 v 50)"
+      ema: "Purata Bergerak Eksponen (10 v 20)"
+    rule:
+      rsi: |
+        Beli apabila kurang daripada 30.
+        Jual apabila lebih besar daripada 70.
+        Pegang antara 30 dan 70 (termasuk).
+      stochrsi: |
+        Beli apabila kurang daripada 20.
+        Jual apabila lebih besar daripada 80.
+        Pegang antara 20 dan 80 (termasuk).
+      macd: |
+        Beli apabila lebih besar daripada 0.
+        Jual apabila kurang daripada 0.
+        Tiada isyarat pegang.
+      cci: |
+        Beli apabila kurang daripada -100.
+        Jual apabila lebih besar daripada 100.
+        Pegang antara -100 dan 100 (termasuk).
+      stochastic_fast: |
+        Beli apabila kurang daripada 20.
+        Jual apabila lebih besar daripada 80.
+        Pegang antara 20 dan 80 (termasuk).
+      stochastic_slow: |
+        Beli apabila kurang daripada 20.
+        Jual apabila lebih besar daripada 80.
+        Pegang antara 20 dan 80 (termasuk).
+      sma: |
+        Beli apabila lebih besar daripada 0.
+        Jual apabila kurang daripada 0.
+        Tiada isyarat pegang.
+      ema: |
+        Beli apabila lebih besar daripada 0.
+        Jual apabila kurang daripada 0.
+        Tiada isyarat pegang.
