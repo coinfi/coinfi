@@ -1,2 +1,100 @@
 ---
 ro:
+  buy: cumpără
+  sell: vinde
+  neutral: păstrează
+  strong_buy: "cumpără"
+  strong_sell: "vinde"
+  na: "N/A"
+  updated_on_date: "Ultima actualizare: %{date}"
+  sample_value_label: "Valoare"
+  min_label: "Minim"
+  max_label: "Maxim"
+  signal_label: "Semnal"
+  technical_analysis_and_price_movements: "Analiză tehnică și variații ale prețului"
+  technical_indicators: "Indicatori tehnici"
+  technical_analysis_summary: "Rezumat analiză tehnică"
+  technical_indicator_copy: "Indicatorii tehnici sunt calcule efectuate pe baza prețului și volumelor și sunt utilizați frecvent în a analiza mișcările pieței. Traderii îi utilizează adesea pentru a analiza mișcările pe termen scurt ale prețurilor și pentru a identifica puncte de intrare și ieșire. Indicatorii tehnici sunt adesea utilizați împreună cu alte forme de analiză financiară."
+  indicator_summary_copy: "Pentru a te ajuta să iei rapid pulsul pieței, agregăm semnalele vinde/cumpără/păstrează de la primii 8 cei mai utilizați indicatori tehnici."
+  fundamentals: "Fundamentale"
+  development_activity: "Activitate de dezvoltare"
+  development_activity_copy: "Această secțiune oferă o privire de ansamblu asupra activității de dezvoltare pentru %{name} (%{symbol}). Activitatea de dezvoltare poate fi utilizată ca parte a cercetării și analizei fundamentale, pentru a te asigura că proiectul se dezvoltă în mod constant și că are o comunitate solidă de dezvoltatori."
+  developer_community_copy: |
+    <p><b>Dezvoltatorii contribuitori:</b> dezvoltatorii contribuitori reprezintă numărul de dezvoltatori care au dezvoltat segmente de cod pentru proiect.</p>
+    <p><b>Bifurcații:</b> bifurcațiile sunt create atunci când un utilizator face o copie a codului open-source al proiectului, lucru ce poate indica intenția de a utiliza sau reutiliza codul.</p>
+    <p><b>Observatori:</b> observatorii sunt utilizatorii care s-au abonat să fie notificați atunci când apar modificări ale codului unui proiect.</p>
+    <p><b>Stele:</b> stelele sunt utilizatorii care au marcat codul unui proiect. Numărul de stele poate fi utilizat pentru a măsura popularitatea unui proiect open-source.</p>
+  commit_activity: "Activitate de dezvoltare"
+  commits: "dezvoltări"
+  commit_activity_tooltip: "Săptămâna {date}<br/><b>{value}</b> dezvoltări"
+  github_repo: "Proiect Github"
+  developer_community: "Comunitate de dezvoltatori"
+  contributors: dezvoltatori contribuitori
+  forks: bifurcații
+  watchers: observatori
+  stargazers: stele
+  ranked_out_of: "#%{rank} din %{total}"
+  latest_research: "Ultima cercetare"
+  market_news_research: "Cercetare în știrile despre piață"
+  time_ago: "acum %{time_words}"
+  read_more: "Citește mai mult"
+  coin_empty: "Această monedă nu are date cercetate"
+  coins:
+    ethereum: Ethereum
+    litecoin: Litecoin
+    zcash: Zcash
+    cardano: Cardano
+    ethereum-classic: Ethereum Classic
+    binance-coin: Binance
+    stellar: Stellar
+    bitcoin: Bitcoin
+    ripple: Ripple
+    dash: Dash
+    neo: NEO
+    bitcoin-cash: Bitcoin Cash
+    eos: EOS
+    tron: Tron
+    iota: IOTA
+  indicators:
+    title:
+      rsi: "RSI 14"
+      stochrsi: "RSI 14 stohastic"
+      macd: "MACD (12, 26, 9)"
+      cci: "CCI"
+      stochastic_fast: "Stohastic rapid (14, 3)"
+      stochastic_slow: "Stohastic (14, 3, 3)"
+      sma: "Medii mobile (20 v 50)"
+      ema: "Medii mobile preconizate (10 v 20)"
+    rule:
+      rsi: |
+        Cumpără dacă este sub 30.
+        Vinde dacă este peste 70.
+        Păstrează între 30 și 70 (inclusiv).
+      stochrsi: |
+        Cumpără dacă este sub 20.
+        Vinde dacă este peste 80.
+        Păstrează între 20 și 80 (inclusiv).
+      macd: |
+        Cumpără dacă este peste 0.
+        Vinde dacă este sub 0.
+        Fără semnal de păstrare.
+      cci: |
+        Cumpără dacă este sub -100.
+        Vinde dacă este peste 100.
+        Păstrează între -100 și 100 (inclusiv).
+      stochastic_fast: |
+        Cumpără dacă este sub 20.
+        Vinde dacă este peste 80.
+        Păstrează între 20 și 80 (inclusiv).
+      stochastic_slow: |
+        Cumpără dacă este sub 20.
+        Vinde dacă este peste 80.
+        Păstrează între 20 și 80 (inclusiv).
+      sma: |
+        Cumpără dacă este peste 0.
+        Vinde dacă este sub 0.
+        Fără semnal de păstrare.
+      ema: |
+        Cumpără dacă este peste 0.
+        Vinde dacă este sub 0.
+        Fără semnal de păstrare.

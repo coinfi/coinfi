@@ -1,2 +1,100 @@
 ---
 cs:
+  buy: koupit
+  sell: prodat
+  neutral: držet
+  strong_buy: "koupit"
+  strong_sell: "prodat"
+  na: "—"
+  updated_on_date: "Aktualizováno dne %{date}"
+  sample_value_label: "Hodnota"
+  min_label: "Min."
+  max_label: "Max."
+  signal_label: "Signál"
+  technical_analysis_and_price_movements: "Technická analýza a cenové pohyby"
+  technical_indicators: "Technické indikátory"
+  technical_analysis_summary: "Shrnutí technické analýzy"
+  technical_indicator_copy: "Technické indikátory jsou kalkulace založené na ceně a objemu, které jsou často používány při analýze tržních trendů. Obchodníci je často využívají k analýze krátkodobých cenových pohybů a k určování vstupních a výstupních bodů. Technické indikátory se často používají společně s dalšími formami finanční analýzy."
+  indicator_summary_copy: "Agregujeme signály prodeje/nákupu/držení u 8 nejpoužívanějších technických indikátorů, abyste mohli citlivě vnímat tep trhu."
+  fundamentals: "Základy"
+  development_activity: "Rozvoj aktivity"
+  development_activity_copy: "Tento oddíl poskytuje přehled o rozvoji aktivity %{name} (%{symbol}). Rozvoj aktivity může být použit jako základní část vašeho průzkumu a analýzy pro potvrzení, že se projekt stále vyvíjí a že má zdravou komunitu vývojářů."
+  developer_community_copy: |
+    <p><b>Přispěvatelé:</b> Přispěvatelé jsou vývojáři, kteří přidali do projektu svůj kód.</p>
+    <p><b>Forky:</b> Forky jsou vytvořeny, když uživatel udělá kopii kódu s otevřeným zdrojem, což může znamenat záměr použít nebo opět použít kód.</p>
+    <p><b>Pozorovatelé:</b> Pozorovatelé jsou uživatelé, kteří se přihlásili, aby byli informováni o změnách kódu projektu.</p>
+    <p><b>Hvězdy:</b> Hvězdy jsou uživatelé, kteří sestavili kód projektu. Hvězdy mohou být využity ke zjišťování obliby projektu s otevřeným zdrojovým kódem.</p>
+  commit_activity: "Přidat aktivitu"
+  commits: "přidává"
+  commit_activity_tooltip: "Týden {date}<br/><b>{value}</b> přidává"
+  github_repo: "Úložiště Github"
+  developer_community: "Vývojářská komunita"
+  contributors: přispěvatelé
+  forks: forky
+  watchers: pozorovatelé
+  stargazers: hvězdy
+  ranked_out_of: "#%{rank} z %{total}"
+  latest_research: "Poslední průzkum"
+  market_news_research: "Průzkum novinek na trhu"
+  time_ago: "před %{time_words}"
+  read_more: "Více informací"
+  coin_empty: "Tato kryptoměna nemá žádné údaje z průzkumu"
+  coins:
+    ethereum: Ethereum
+    litecoin: Litecoin
+    zcash: Zcash
+    cardano: Cardano
+    ethereum-classic: Ethereum Classic
+    binance-coin: Binance
+    stellar: Stellar
+    bitcoin: Bitcoin
+    ripple: Ripple
+    dash: Dash
+    neo: NEO
+    bitcoin-cash: Bitcoin Cash
+    eos: EOS
+    tron: Tron
+    iota: IOTA
+  indicators:
+    title:
+      rsi: "RSI 14"
+      stochrsi: "Stochastický RSI 14"
+      macd: "MACD (12, 26, 9)"
+      cci: "CCI"
+      stochastic_fast: "Stochastický rychlý (14, 3)"
+      stochastic_slow: "Stochastický (14, 3, 3)"
+      sma: "Klouzavé průměry (20 v 50)"
+      ema: "Exponenciální klouzavé průměry (10 v 20)"
+    rule:
+      rsi: |
+        Koupit, když je hodnota pod 30.
+        Prodat, když je nad 70.
+        Držet mezi 30 a 70 (včetně).
+      stochrsi: |
+        Koupit, když je hodnota pod 20.
+        Prodat, když je nad 80.
+        Držet mezi 20 a 80 (včetně).
+      macd: |
+        Koupit, když je hodnota nad 0.
+        Prodat, když je pod 0.
+        Žádný signál k držení.
+      cci: |
+        Koupit, když je hodnota pod –100.
+        Prodat, když je nad 100.
+        Držet mezi –100 a 100 (včetně).
+      stochastic_fast: |
+        Koupit, když je hodnota pod 20.
+        Prodat, když je nad 80.
+        Držet mezi 20 a 80 (včetně).
+      stochastic_slow: |
+        Koupit, když je hodnota pod 20.
+        Prodat, když je nad 80.
+        Držet mezi 20 a 80 (včetně).
+      sma: |
+        Koupit, když je hodnota nad 0.
+        Prodat, když je pod 0.
+        Žádný signál k držení.
+      ema: |
+        Koupit, když je hodnota nad 0.
+        Prodat, když je pod 0.
+        Žádný signál k držení.
