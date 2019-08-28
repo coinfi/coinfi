@@ -152,7 +152,7 @@ class CalculateIndicatorsAndSignals < Patterns::Service
     end
   end
 
-  def get_summary_value(summary_signals, strong_threshold: 0.5, weak_threshold: 0.1, neutral_weight: 0.5)
+  def get_summary_value(summary_signals, strong_threshold: 0.5, weak_threshold: 0.3, neutral_weight: 0.7)
     total = summary_signals.inject(0.0) do |sum, (k, v)|
       if k == :neutral
         sum + v * neutral_weight
