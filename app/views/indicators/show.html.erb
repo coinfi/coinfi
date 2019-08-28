@@ -611,8 +611,10 @@
         var barWidthCA = Math.floor(widthCA / dataCA.length) - 1;
 
         var datesCA = dataCA.map(getXCA);
-        var minDateCA = d3.min(datesCA)
-        var maxDateCA = d3.max(datesCA)
+        var minDateCA = d3.min(datesCA);
+        var maxDateCA = d3.max(datesCA);
+        var minYScaleCA = 10;
+        var maxCommitsCA = d3.max(dataCA.map(getYCA));
         var xCA = d3.scaleTime()
                     .domain([
                       minDateCA,
@@ -620,8 +622,8 @@
                     ])
                     .range([0, widthCA]);
         var yCA = d3.scaleLinear()
-                    .domain([0, d3.max(dataCA.map(getYCA))])
-                    .range([heightCA, 0]);
+                    .domain([0, Math.max(maxCommitsCA, minYScaleCA)])
+                    .range([heightCA, 10]);
 
         // Chart
         var chartCA = d3.select('#' + idCA)
