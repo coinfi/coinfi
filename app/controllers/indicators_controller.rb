@@ -83,6 +83,9 @@ class IndicatorsController < ApplicationController
 
   def set_github_stats
     github_stats = @coin.github_stats
+    @has_github = github_stats.present?
+
+    return unless @has_github
     @commit_activity = github_stats[:commit_activity]
     @github_snapshot = github_stats[:snapshot]
   end
