@@ -873,8 +873,7 @@ a.plain-link {
 @media screen and (max-width: 740px) {
   h2 {
     padding-left: 21px;
-    font-weight: 600;
-    font-size: 20px;
+    font-size: 24px;
     min-height: 32px;
   }
   .main-container {
@@ -925,7 +924,6 @@ a.plain-link {
   }
   .main-title {
     padding: 0 4px 25px 21px;
-    font-size: 19px;
   }
   .main-title .coinfi-link {
     right: 2px;
@@ -1036,7 +1034,8 @@ a.plain-link {
     margin: 30px auto 0;
     text-align: center;
   }
-  .tippy-tooltip.indicators-theme {
+  .tippy-tooltip,
+  .tippy-tooltip[data-size='small'] {
     font-size: 9px;
   }
 }
