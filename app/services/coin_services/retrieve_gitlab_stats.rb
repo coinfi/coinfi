@@ -18,8 +18,7 @@ module CoinServices
       return unless @coin.has_gitlab?
       @git_repo = @coin.git_repo
 
-      commit_activity = retrieve_commit_activity_data(@git_repo)
-      code_frequency = retrieve_code_frequency_data(@git_repo)
+      commit_activity, code_frequency = retrieve_commit_activity_and_frequency_data(@git_repo)
       snapshot = retrieve_repository_stats(@git_repo)
       result = {
         commit_activity: commit_activity,
@@ -46,10 +45,10 @@ module CoinServices
           has_results = false
         end
 
-        # if result[:code_frequency].blank?
-        #   puts "No code frequency for #{coin_slug}"
-        #   has_results = false
-        # end
+        if result[:code_frequency].blank?
+          puts "No code frequency for #{coin_slug}"
+          has_results = false
+        end
 
         if result[:snapshot].blank?
           puts "No snapshot for #{coin_slug}"
@@ -91,11 +90,22 @@ module CoinServices
       has_stats
     end
 
-    def retrieve_commit_activity_data(repo_path)
-      data = @client.commits(repo_path, {per_page: 100}).auto_paginate
+    def retrieve_commit_activity_and_frequency_data(repo_path)
+      commit_options = {per_page: 100, since: 1.year.ago.to_s(:iso8601), with_stats: true}
+      data = @client.commits(repo_path, commit_options).auto_paginate
+      return nil, nil unless data.present?
+
+      weekly_data = data.group_by_week { |c| c.committed_date }
+      commit_activity = extract_commit_activity_data(weekly_data)
+      code_frequency = extract_code_frequency_data(weekly_data)
+
+      return commit_activity, code_frequency
+    end
+
+    def extract_commit_activity_data(data)
       return unless data.present?
 
-      parsed_data = data.group_by_week { |c| c.committed_date }.map do |date, commit_list|
+      parsed_data = data.map do |date, commit_list|
         timestamp = date.to_time.to_i
         commits = commit_list.size
         {
@@ -105,10 +115,25 @@ module CoinServices
       end
     end
 
-    def retrieve_code_frequency_data(repo_path)
-      # not implemented since not needed at this point
-      # this can likely be retrieved using with_stats=true for commits
-      nil
+    def extract_code_frequency_data(data)
+      return unless data.present?
+
+      parsed_data = data.map do |date, commit_list|
+        timestamp = date.to_time.to_i
+        additions = 0
+        deletions = 0
+
+        commit_list.each do |commit|
+          additions += commit.stats.additions
+          deletions += commit.stats.deletions
+        end
+
+        {
+          timestamp: timestamp,
+          additions: additions,
+          deletions: deletions,
+        }
+      end
     end
 
     def retrieve_repository_stats(repo_path)
