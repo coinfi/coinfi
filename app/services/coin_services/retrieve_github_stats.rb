@@ -14,7 +14,7 @@ module CoinServices
     end
 
     def call
-      return unless @coin.has_git_repo? && @coin.git_repo_type == "github"
+      return unless @coin.has_github?
       @git_repo = @coin.git_repo
 
       commit_activity = retrieve_commit_activity_data(@git_repo)
