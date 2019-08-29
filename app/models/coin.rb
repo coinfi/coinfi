@@ -289,6 +289,7 @@ class Coin < ApplicationRecord
 
     Rails.cache.fetch(cache_key, force: force_refresh) do
       response = nil
+      stats = nil
 
       if has_github?
         response = CoinServices::RetrieveGithubStats.call(coin: self)
@@ -296,8 +297,10 @@ class Coin < ApplicationRecord
         response = CoinServices::RetrieveGitlabStats.call(coin: self)
       end
 
-      stats = response.try(:result) if response.present?
-      self.touch
+      if response.present?
+        stats = response.try(:result)
+        self.touch
+      end
 
       stats
     end
