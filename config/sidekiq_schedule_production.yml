@@ -32,7 +32,7 @@ CheckCmcOhclv:                  # Replaces rake etldb
   cron: '0 50 * * * * Etc/UTC'
   include_metadata: true
 
-RefreshGithub:
+RefreshGitRepos:
   cron: '0 15 0 * * * Etc/UTC'
 
 # Paid API routes

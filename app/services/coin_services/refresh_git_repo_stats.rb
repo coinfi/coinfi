@@ -1,7 +1,7 @@
 require_relative '../../../lib/tasks/batch_process'
 
 module CoinServices
-  class RefreshGithubStats < Patterns::Service
+  class RefreshGitRepoStats < Patterns::Service
     attr_reader :failed_updates
     include HealthcheckHelpers
     INDICATOR_COIN_KEYS = ::IndicatorsHelper::INDICATOR_COIN_KEYS
@@ -15,13 +15,13 @@ module CoinServices
     end
 
     def call
-      refresh_github_stats(@coins)
+      refresh_git_stats(@coins)
       log_or_ping_on_missing_data(@failed_updates, @healthcheck_url)
     end
 
     private
 
-    def refresh_github_stats(coins)
+    def refresh_git_stats(coins)
       failure_coin_ids = nil
       retries = 0
 
@@ -42,7 +42,7 @@ module CoinServices
 
     def retrieve_coin_stats(coins)
       batch_process(coins) do |coin|
-        result = coin.github_stats(force_refresh: true)
+        result = coin.git_stats(force_refresh: true)
         if result.blank?
           raise StandardError, "No results for #{coin.slug}"
         end

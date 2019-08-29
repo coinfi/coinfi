@@ -57,6 +57,10 @@ module IndicatorsHelper
     "https://github.com/#{repo}"
   end
 
+  def gitlab_url(repo)
+    "https://gitlab.com/#{repo}"
+  end
+
   def format_price(value, precision: 0)
     number_to_human(value,
       precision: precision,

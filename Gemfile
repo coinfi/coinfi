@@ -51,6 +51,8 @@ gem 'feedjira'
 # fog-aws is used by sitemap generator
 gem 'fog-aws'
 gem 'friendly_id', '~> 5.2.1'
+gem 'gitlab'
+gem 'groupdate'
 gem 'httparty'
 gem 'kaminari'
 gem 'api-pagination'

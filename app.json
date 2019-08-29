@@ -32,6 +32,8 @@
     "FACEBOOK_APP_SECRET": { "required": true },
     "GITHUB_OAUTH_APP_CLIENT_ID": { "required": true },
     "GITHUB_OAUTH_APP_CLIENT_SECRET": { "required": true },
+    "GITLAB_API_ENDPOINT": { "required": true },
+    "GITLAB_API_PRIVATE_TOKEN": { "required": true },
     "GOOGLE_CLIENT_ID": { "required": true },
     "GOOGLE_CLIENT_SECRET": { "required": true },
     "GOOGLE_CREDENTIALS_JSON": { "required": true },
