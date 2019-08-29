@@ -10,7 +10,7 @@ class IndicatorsController < ApplicationController
 
   def show
     set_news_items
-    set_github_stats
+    set_git_stats
 
     if Rails.env.production?
       fresh_when last_modified: [@coin.updated_at, @news_items.first.updated_at].max, public: true
@@ -81,13 +81,13 @@ class IndicatorsController < ApplicationController
     @summary_consensus = get_consensus_symbol(@summary_value)
   end
 
-  def set_github_stats
-    github_stats = @coin.github_stats
-    @has_github = github_stats.present?
+  def set_git_stats
+    git_stats = @coin.git_stats
+    @has_git_stats = git_stats.present?
 
-    return unless @has_github
-    @commit_activity = github_stats[:commit_activity]
-    @github_snapshot = github_stats[:snapshot]
+    return unless @has_git_stats
+    @commit_activity = git_stats[:commit_activity]
+    @git_snapshot = git_stats[:snapshot]
   end
 
   def set_news_items

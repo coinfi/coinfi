@@ -185,7 +185,7 @@
       </div>
       <% end %>
 
-      <% if @has_github %>
+      <% if @has_git_stats %>
         <h2><%= t(:fundamentals) %></h2>
         <div class="flex-container flex-wrap">
           <div class="paper with-sidebar">
@@ -205,69 +205,74 @@
                 <i class="icon-info-circle"></i>
               </a>
             </h3>
-            <% if @github_snapshot.present? %>
-            <div class="github-stats">
-              <div class="github-stats__row">
-                <div class="github-stats__label">
+            <% if @git_snapshot.present? %>
+            <div class="git-stats">
+              <div class="git-stats__row">
+                <div class="git-stats__label">
                   <i class="far fa-users"></i>
                   <%= t(:contributors).capitalize %>
                 </div>
-                <div class="github-stats__right">
-                  <div class="github-stats__value"><%= @github_snapshot[:contributors] %></div>
-                  <% if @github_snapshot[:contributors_rank].present? and @github_snapshot[:contributors_total].present? %>
-                  <div class="github-stats__rank">
-                    <%= t(:ranked_out_of, rank: @github_snapshot[:contributors_rank], total: @github_snapshot[:contributors_total])%>
+                <div class="git-stats__right">
+                  <div class="git-stats__value"><%= @git_snapshot[:contributors] %></div>
+                  <% if @git_snapshot[:contributors_rank].present? and @git_snapshot[:contributors_total].present? %>
+                  <div class="git-stats__rank">
+                    <%= t(:ranked_out_of, rank: @git_snapshot[:contributors_rank], total: @git_snapshot[:contributors_total])%>
                   </div>
                   <% end %>
                 </div>
               </div>
-              <div class="github-stats__row">
-                <div class="github-stats__label">
+              <div class="git-stats__row">
+                <div class="git-stats__label">
                   <i class="far fa-code-branch"></i>
                   <%= t(:forks).capitalize %>
                 </div>
-                <div class="github-stats__right">
-                  <div class="github-stats__value"><%= @github_snapshot[:forks] %></div>
-                  <% if @github_snapshot[:forks_rank].present? and @github_snapshot[:forks_total].present? %>
-                  <div class="github-stats__rank">
-                    <%= t(:ranked_out_of, rank: @github_snapshot[:forks_rank], total: @github_snapshot[:forks_total])%>
+                <div class="git-stats__right">
+                  <div class="git-stats__value"><%= @git_snapshot[:forks] %></div>
+                  <% if @git_snapshot[:forks_rank].present? and @git_snapshot[:forks_total].present? %>
+                  <div class="git-stats__rank">
+                    <%= t(:ranked_out_of, rank: @git_snapshot[:forks_rank], total: @git_snapshot[:forks_total])%>
                   </div>
                   <% end %>
                 </div>
               </div>
-              <div class="github-stats__row">
-                <div class="github-stats__label">
+              <div class="git-stats__row">
+                <div class="git-stats__label">
                   <i class="far fa-eye"></i>
                   <%= t(:watchers).capitalize %>
                 </div>
-                <div class="github-stats__right">
-                  <div class="github-stats__value"><%= @github_snapshot[:watchers] %></div>
-                  <% if @github_snapshot[:watchers_rank].present? and @github_snapshot[:watchers_total].present? %>
-                  <div class="github-stats__rank">
-                    <%= t(:ranked_out_of, rank: @github_snapshot[:watchers_rank], total: @github_snapshot[:watchers_total])%>
+                <div class="git-stats__right">
+                  <div class="git-stats__value"><%= @git_snapshot[:watchers] %></div>
+                  <% if @git_snapshot[:watchers_rank].present? and @git_snapshot[:watchers_total].present? %>
+                  <div class="git-stats__rank">
+                    <%= t(:ranked_out_of, rank: @git_snapshot[:watchers_rank], total: @git_snapshot[:watchers_total])%>
                   </div>
                   <% end %>
                 </div>
               </div>
-              <div class="github-stats__row">
-                <div class="github-stats__label">
+              <div class="git-stats__row">
+                <div class="git-stats__label">
                   <i class="far fa-star"></i>
                   <%= t(:stargazers).capitalize %>
                 </div>
-                <div class="github-stats__right">
-                  <div class="github-stats__value"><%= @github_snapshot[:stargazers] %></div>
-                  <% if @github_snapshot[:stargazers_rank].present? and @github_snapshot[:stargazers_total].present? %>
-                  <div class="github-stats__rank">
-                    <%= t(:ranked_out_of, rank: @github_snapshot[:stargazers_rank], total: @github_snapshot[:stargazers_total])%>
+                <div class="git-stats__right">
+                  <div class="git-stats__value"><%= @git_snapshot[:stargazers] %></div>
+                  <% if @git_snapshot[:stargazers_rank].present? and @git_snapshot[:stargazers_total].present? %>
+                  <div class="git-stats__rank">
+                    <%= t(:ranked_out_of, rank: @git_snapshot[:stargazers_rank], total: @git_snapshot[:stargazers_total])%>
                   </div>
                   <% end %>
                 </div>
               </div>
             </div>
             <% end %>
-            <div class="github-repo-link">
-              <i class="fab fa-github"></i> <%= t :github_repo %>:
-              <%= link_to @coin.github_repo, github_url(@coin.github_repo), rel: "nofollow noopener noreferrer", onclick: "return debouncedSendLink(this.href);" %>
+            <div class="git-repo-link">
+              <% if @coin.has_github? %>
+                <i class="fab fa-github"></i> <%= t :github_repo %>:
+                <%= link_to @coin.git_repo, github_url(@coin.git_repo), rel: "nofollow noopener noreferrer", onclick: "return debouncedSendLink(this.href);" %>
+              <% elsif @coin.has_gitlab? %>
+                <i class="fab fa-gitlab"></i> <%= t :gitlab_repo %>:
+                <%= link_to @coin.git_repo, gitlab_url(@coin.git_repo), rel: "nofollow noopener noreferrer", onclick: "return debouncedSendLink(this.href);" %>
+              <% end %>
             </div>
           </div>
           <div class="copy-container">
@@ -320,7 +325,7 @@
       }
 
       /* Post Messaging */
-      // taken from https://github.com/lodash/lodash/
+      // taken from https://git.com/lodash/lodash/
       function isObject(value) {
         const type = typeof value
         return value != null && (type == 'object' || type == 'function')
@@ -596,7 +601,7 @@
           };
         });
         if (isMobile) {
-          dataCA = dataCA.slice(Math.floor(dataCA.length) / 2);
+          dataCA = dataCA.slice(-26); // half a year
         }
 
         // Dimensions and scale

@@ -1,20 +1,21 @@
 module CoinServices
-  class RetrieveGithubStats < Patterns::Service
+  class RetrieveGitlabStats < Patterns::Service
     def initialize(coin: nil)
       @coin = coin
-      @client_id = ENV.fetch('GITHUB_OAUTH_APP_CLIENT_ID')
-      @client_secret = ENV.fetch('GITHUB_OAUTH_APP_CLIENT_SECRET')
+      @client_endpoint = ENV.fetch('GITLAB_API_ENDPOINT')
+      @client_token = ENV.fetch('GITLAB_API_PRIVATE_TOKEN')
 
-      @client = Octokit::Client.new(
-        client_id: @client_id,
-        client_secret: @client_secret,
-        per_page: 100,
+      @client = Gitlab.client(
+        endpoint: @client_endpoint,
+        private_token: @client_token,
+        httparty: {
+          read_timeout: 60
+        }
       )
-      @client.auto_paginate = true
     end
 
     def call
-      return unless @coin.has_git_repo? && @coin.git_repo_type == "github"
+      return unless @coin.has_git_repo? && @coin.git_repo_type == "gitlab"
       @git_repo = @coin.git_repo
 
       commit_activity = retrieve_commit_activity_data(@git_repo)
@@ -45,10 +46,10 @@ module CoinServices
           has_results = false
         end
 
-        if result[:code_frequency].blank?
-          puts "No code frequency for #{coin_slug}"
-          has_results = false
-        end
+        # if result[:code_frequency].blank?
+        #   puts "No code frequency for #{coin_slug}"
+        #   has_results = false
+        # end
 
         if result[:snapshot].blank?
           puts "No snapshot for #{coin_slug}"
@@ -91,12 +92,12 @@ module CoinServices
     end
 
     def retrieve_commit_activity_data(repo_path)
-      data = @client.commit_activity_stats repo_path
+      data = @client.commits(repo_path, {per_page: 100}).auto_paginate
       return unless data.present?
 
-      parsed_data = data.map do |weekly_data|
-        timestamp = weekly_data[:week]
-        commits = weekly_data[:total]
+      parsed_data = data.group_by_week { |c| c.committed_date }.map do |date, commit_list|
+        timestamp = date.to_time.to_i
+        commits = commit_list.size
         {
           timestamp: timestamp,
           commits: commits,
@@ -105,31 +106,24 @@ module CoinServices
     end
 
     def retrieve_code_frequency_data(repo_path)
-      data = @client.code_frequency_stats repo_path
-      return unless data.present?
-
-      parsed_data = data.map do |weekly_data|
-        {
-          timestamp: weekly_data[0],
-          additions: weekly_data[1],
-          deletions: weekly_data[2],
-        }
-      end
+      # not implemented since not needed at this point
+      # this can likely be retrieved using with_stats=true for commits
+      nil
     end
 
     def retrieve_repository_stats(repo_path)
-      repository = @client.repo repo_path
+      repository = @client.project repo_path
       return unless repository.present?
       contributors = begin
-        @client.contribs repo_path, true
+        @client.get("/projects/#{@client.url_encode(repo_path)}/repository/contributors", {per_page: 100}).auto_paginate
       rescue Octokit::Unauthorized
         []
       end
 
       {
-        watchers: repository[:subscribers_count],
-        stargazers: repository[:stargazers_count],
-        forks: repository[:forks_count],
+        watchers: repository.star_count, # no separate watchers for gitlab
+        stargazers: repository.star_count,
+        forks: repository.forks_count,
         contributors: contributors.length,
       }
     end
