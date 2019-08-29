@@ -283,31 +283,49 @@ class Coin < ApplicationRecord
     end
   end
 
-  def github_stats(force_refresh: false)
-    return unless github_repo.present?
-    cache_key = "coins/#{id}/github_stats"
-    stats = Rails.cache.read(cache_key) || {}
+  def git_stats(force_refresh: false)
+    return unless has_git_repo?
+    cache_key = "coins/#{id}/git_stats"
 
-    if force_refresh || stats.blank?
-      response = CoinServices::RetrieveGithubStats.call(coin: self)
-      updated_stats = response.try(:result) || stats
-      Rails.cache.write(cache_key, updated_stats)
-      self.touch
+    Rails.cache.fetch(cache_key, force: force_refresh) do
+      response = nil
+      stats = nil
 
-      updated_stats
-    else
+      if has_github?
+        response = CoinServices::RetrieveGithubStats.call(coin: self)
+      elsif has_gitlab?
+        response = CoinServices::RetrieveGitlabStats.call(coin: self)
+      end
+
+      if response.present?
+        stats = response.try(:result)
+        self.touch
+      end
+
       stats
     end
   end
 
-  def merge_github_stats(stats_to_merge)
-    return unless github_repo.present?
+  def merge_git_stats(stats_to_merge)
+    return unless has_git_repo?
 
-    base_stats = github_stats
+    base_stats = git_stats
     merged_stats = base_stats.present? ? base_stats.deep_merge(stats_to_merge) : stats_to_merge
 
-    Rails.cache.write("coins/#{id}/github_stats", merged_stats)
+    Rails.cache.write("coins/#{id}/git_stats", merged_stats)
     self.touch
+  end
+
+  def has_git_repo?
+    git_repo.present? && git_repo_type.present?
+  end
+
+  def has_gitlab?
+    has_git_repo? && git_repo_type == "gitlab"
+  end
+
+  def has_github?
+    has_git_repo? && git_repo_type == "github"
   end
 
   def token_metrics_data(metric_type, metric_value = 'percentage')

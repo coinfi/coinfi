@@ -25,7 +25,7 @@ RefreshTrendingNews:
 TweetTrendingNews:
   cron: '30 0 * * * * Etc/UTC'  # Slightly after RefreshTrendingNews
 
-RefreshGithub:
+RefreshGitRepos:
   cron: '0 15 0 * * * Etc/UTC'
 
 # Paid API routes

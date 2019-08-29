@@ -77,6 +77,7 @@ en:
   commits: "commits"
   commit_activity_tooltip: "Week of {date}<br/><b>{value}</b> commits"
   github_repo: "Github Repo"
+  gitlab_repo: "Gitlab Repo"
   developer_community: "Developer Community"
   contributors: contributors
   forks: forks
