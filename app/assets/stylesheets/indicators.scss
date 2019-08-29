@@ -523,38 +523,39 @@ h3 {
 }
 .git-stats {
   flex: 1 0 auto;
-}
-.git-stats__row {
-  display: flex;
-  justify-content: space-between;
-  align-self: flex-start;
-  flex-wrap: wrap;
-}
-.git-stats__row {
-  padding-bottom: 12px;
-  margin-bottom: 12px;
-  border-bottom: 1px solid $border-grey;
-  &:last-child {
-    margin-bottom: 0;
+
+  &__row {
+    display: flex;
+    justify-content: space-between;
+    align-self: flex-start;
+    flex-wrap: wrap;
+    padding-bottom: 12px;
+    margin-bottom: 12px;
+    border-bottom: 1px solid $border-grey;
+    &:last-child {
+      margin-bottom: 0;
+    }
   }
-}
-.git-stats__value {
-  font-size: 30px;
-  color: #000;
-  text-align: right;
-}
-.git-stats__label {
-  padding-top: 2px;
-  font-size: 14px;
-  color: $dark-grey;
-  font-weight: 600;
-}
-.git-stats__rank {
-  color: rgba(61, 64, 74, 0.5);
-  font-size: 14px;
-}
-.git-stats__label i {
-  margin-right: 2px;
+  &__right {
+    text-align: right;
+  }
+  &__value {
+    font-size: 30px;
+    color: #000;
+  }
+  &__label {
+    padding-top: 2px;
+    font-size: 14px;
+    color: $dark-grey;
+    font-weight: 600;
+    i {
+      margin-right: 2px;
+    }
+  }
+  &__rank {
+    color: rgba(61, 64, 74, 0.5);
+    font-size: 14px;
+  }
 }
 .git-repo-link {
   color: $dark-grey;
