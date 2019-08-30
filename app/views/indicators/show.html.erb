@@ -602,6 +602,8 @@
         });
         if (isMobile) {
           dataCA = dataCA.slice(-26); // half a year in weeks
+        } else {
+          dataCA = dataCA.slice(-52); // a year in weeks
         }
 
         // Dimensions and scale
