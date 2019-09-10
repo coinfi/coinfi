@@ -383,7 +383,7 @@ GEM
       mime-types-data (~> 3.2015)
     mime-types-data (3.2018.0812)
     mini_mime (1.0.1)
-    mini_portile2 (2.3.0)
+    mini_portile2 (2.4.0)
     mini_racer (0.2.4)
       libv8 (>= 6.3)
     minitest (5.11.3)
@@ -395,8 +395,8 @@ GEM
     multipart-post (2.0.0)
     naught (1.1.0)
     nio4r (2.3.1)
-    nokogiri (1.8.5)
-      mini_portile2 (~> 2.3.0)
+    nokogiri (1.10.4)
+      mini_portile2 (~> 2.4.0)
     oauth2 (1.4.1)
       faraday (>= 0.8, < 0.16.0)
       jwt (>= 1.0, < 3.0)
@@ -727,7 +727,7 @@ DEPENDENCIES
   meta-tags
   mini_racer (~> 0.2.0)
   minitest-stub_any_instance
-  nokogiri (~> 1.8.1)
+  nokogiri (~> 1.10.4)
   octokit (~> 4.0)
   omniauth
   omniauth-facebook
