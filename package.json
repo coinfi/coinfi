@@ -144,11 +144,13 @@
     "lodash.mergewith": "4.6.2",
     "lodash.template": "4.5.0",
     "lodash-es": "4.17.14",
+    "mixin-deep": "2.0.1",
     "node-pre-gyp": "0.11.0",
     "node-sass": "4.12.0",
     "postcss-filter-plugins": "2.0.3",
     "querystringify": "2.0.0",
-    "request": "2.88.0"
+    "request": "2.88.0",
+    "set-value": "2.0.1"
   },
   "scripts": {
     "tslint-check": "tslint-config-prettier-check ./tslint.json",
