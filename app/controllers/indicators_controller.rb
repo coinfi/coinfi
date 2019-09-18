@@ -43,8 +43,9 @@ class IndicatorsController < ApplicationController
       return render_empty if ticker.blank?
 
       coin_symbol = ticker_name_to_symbol(ticker.upcase)
-      # Attempt to search assuming the param is a slug
-      coin = Coin.find_by(symbol: coin_symbol)
+      # Attempt to search assuming the param is a symbol. Use ranking to attempt to pick the correct symbol.
+      # Note: If ranking is insufficient, it may be necessary to have a hard-coded mapping
+      coin = Coin.order(ranking: :asc).find_by(symbol: coin_symbol)
       if coin
         @coin = coin
         return if has_indicator?
