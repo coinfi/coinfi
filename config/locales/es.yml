@@ -11,14 +11,14 @@ es:
   min_label: "Mín."
   max_label: "Máx."
   signal_label: "Señal"
-  technical_analysis_and_price_movements: "Análisis técnicos y Movimientos de los precios"
+  technical_analysis: "Análisis técnico"
   technical_indicators: "Indicadores técnicos"
   technical_analysis_summary: "Resumen de Análisis técnicos"
   technical_indicator_copy: "Los indicadores técnicos son cálculos que se basan en el precio y el volumen utilizados frecuentemente en los análisis de la dirección del mercado. Los inversores suelen utilizarlos para analizar los movimientos de los precios a corto plazo e identificar puntos de entrada o salida. Los indicadores técnicos se suelen utilizar junto con otras formas de análisis financieros."
   indicator_summary_copy: "Hemos reunido señales tipo «vender/comprar/mantener» de 8 de los indicadores técnicos más comúnmente utilizados para ofrecerle una idea general del mercado."
   fundamentals: "Aspectos básicos"
   development_activity: "Actividad de desarrollo"
-  development_activity_copy: "Esta sección ofrece un resumen de la actividad de desarrollo de %{name} (%{symbol}). La actividad de desarrollo se puede utilizar como parte de los análisis y las investigaciones fundamentales para asegurarse de que el proyecto se desarrolle continuamente y tenga una próspera comunidad de desarrolladores."
+  development_activity_copy: "La actividad de desarrollo se puede utilizar como parte de los análisis y las investigaciones fundamentales para asegurarse de que el proyecto se desarrolle continuamente y tenga una próspera comunidad de desarrolladores."
   developer_community_copy: |
     <p><b>Contribuyentes:</b> los contribuyentes son el número de desarrolladores que han revisado códigos en el proyecto.</p>
     <p><b>Bifurcaciones:</b> las bifurcaciones se crean cuando un usuario hace una copia del código abierto de un proyecto, lo que puede indicar la intención de utilizar o reutilizar el código.</p>
@@ -28,6 +28,7 @@ es:
   commits: "revisiones"
   commit_activity_tooltip: "Semana del {date}<br/><b>{value}</b> revisiones"
   github_repo: "Repositorio Github"
+  gitlab_repo: "Repositorio de GitLab"
   developer_community: "Comunidad de desarrolladores"
   contributors: contribuyentes
   forks: bifurcaciones
@@ -55,6 +56,7 @@ es:
     eos: EOS
     tron: Tron
     iota: IOTA
+    tezos: Tezos
   indicators:
     title:
       rsi: "RSI 14"

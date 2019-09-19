@@ -11,14 +11,14 @@ de:
   min_label: "Min."
   max_label: "Max."
   signal_label: "Signal"
-  technical_analysis_and_price_movements: "Technische Analyse u. Preisbewegungen"
+  technical_analysis: "Technische Analyse"
   technical_indicators: "Technische Indikatoren"
   technical_analysis_summary: "Zusammenfassung Technische Analyse"
   technical_indicator_copy: "Technische Indikatoren sind Berechnungen auf der Grundlage von Preis und Volumen, die häufig bei der Analyse der Marktrichtung verwendet werden. Trader nutzen sie oft, um kurzfristige Kursbewegungen zu analysieren und Ein- und Ausstiegspunkte zu identifizieren. Technische Indikatoren werden oft in Verbindung mit anderen Formen der Finanzanalyse verwendet."
   indicator_summary_copy: "Wir aggregieren Verkaufs-/Kauf-/Haltesignale von 8 der am häufigsten verwendeten technischen Indikatoren, damit Sie schnell den Puls des Marktes erkennen."
   fundamentals: "Grundlagen"
   development_activity: "Entwicklungsaktivität"
-  development_activity_copy: "Dieser Abschnitt bietet eine Übersicht der Entwicklungsaktivität für %{name} (%{symbol}). Entwicklungsaktivität kann im Rahmen Ihrer Grundlagenforschung und -analyse verwendet werden, um zu gewährleisten, dass sich das Projekt kontinuierlich weiterentwickelt und eine gesunde Entwicklergemeinschaft hat."
+  development_activity_copy: "Entwicklungsaktivitäten können im Rahmen Ihrer Grundlagenforschung und -analyse genutzt werden, um sicherzustellen, dass sich das Projekt kontinuierlich weiterentwickelt und über eine gesunde Entwicklergemeinschaft verfügt."
   developer_community_copy: |
     <p><b>Beitragende:</b> Beitragende sind die Anzahl von Entwicklern, die Code für das Projekt beigesteuert haben.</p>
     <p><b>Forks:</b> Forks (Gabeln) werden erstellt, wenn ein Nutzer eine Kopie des Codes eines Open-Source-Codes macht, was auf die Absicht hinweisen kann, den Code zu verwenden oder wiederzuverwenden.</p>
@@ -28,6 +28,7 @@ de:
   commits: "Commits"
   commit_activity_tooltip: "Woche des {date}<br/><b>{value}</b> Commits"
   github_repo: "Github Repo"
+  gitlab_repo: "Gitlab Repo"
   developer_community: "Developer-Community"
   contributors: Beitragende
   forks: Forks
@@ -55,6 +56,7 @@ de:
     eos: EOS
     tron: Tron
     iota: IOTA
+    tezos: Tezos
   indicators:
     title:
       rsi: "RSI 14"

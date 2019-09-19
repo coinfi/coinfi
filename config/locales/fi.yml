@@ -11,14 +11,14 @@ fi:
   min_label: "Vähintään"
   max_label: "Enintään"
   signal_label: "Signaali"
-  technical_analysis_and_price_movements: "Tekninen analyysi ja hinnanvaihtelut"
+  technical_analysis: "Tekninen analyysi"
   technical_indicators: "Tekniset ilmaisimet"
   technical_analysis_summary: "Teknisen analyysin yhteenveto"
   technical_indicator_copy: "Tekniset ilmaisimet ovat hintaan ja määrään perustuvia laskelmia, joita käytetään usein markkinoiden suuntaa analysoitaessa. Kaupankävijät käyttävät niitä usein analysoidessaan lyhyen tähtäimen hinnanvaihtelua ja tunnistaakseen osto- ja myyntiajat. Teknisiä ilmaisimia käytetään usein yhdessä muunlaisten talousanalyysien kanssa."
   indicator_summary_copy: "Yhdistämme kahdeksan useimmin käytetyn teknisen ilmaisimen osto-/myynti-/pitosignaalit tarjotaksemme sinulle pikayhteenvedon markkinoista."
   fundamentals: "Perusteet"
   development_activity: "Kehitystoiminta"
-  development_activity_copy: "Tämä osio sisältää yhteenvedon kohteen %{name} (%{symbol}) kehitystoiminnasta. Kehitystoimintaa voidaan käyttää osana perustutkimuksia ja analyysia varmistamaan, että projekti kehittyy jatkuvasti ja että kehittäjäyhteisö on hyvässä kunnossa."
+  development_activity_copy: "Kehitystoimintaa voidaan käyttää perustutkimuksissa ja analyysissä varmistamaan, että projekti kehittyy jatkuvasti ja että kehittäjäyhteisö on hyvässä kunnossa."
   developer_community_copy: |
     <p><b>Tuottajat:</b> Tuottajat ovat kehittäjäjoukko, joka on tuottanut projektiin koodia.</p>
     <p><b>Forkit:</b> Forkit syntyvät, kun käyttäjä kopioi projektin avoimen lähdekoodin, mikä voi olla merkki aikeesta käyttää tai muokata koodia.</p>
@@ -28,6 +28,7 @@ fi:
   commits: "vahvistukset"
   commit_activity_tooltip: "Viikko {date}<br/><b>{value}</b> vahvistusta"
   github_repo: "Github Repo"
+  gitlab_repo: "Gitlab Repo"
   developer_community: "Kehittäjäyhteisö"
   contributors: tuottajat
   forks: forkit
@@ -55,6 +56,7 @@ fi:
     eos: EOS
     tron: Tron
     iota: IOTA
+    tezos: Tezos
   indicators:
     title:
       rsi: "RSI 14"

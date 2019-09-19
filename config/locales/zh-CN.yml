@@ -190,14 +190,14 @@ zh-CN:
   min_label: "最小"
   max_label: "最大"
   signal_label: "信号"
-  technical_analysis_and_price_movements: "技术分析与价格变动"
+  technical_analysis: "技术面分析"
   technical_indicators: "技术指标"
   technical_analysis_summary: "技术分析概要"
   technical_indicator_copy: "技术指标通常通过价格和交易量计算总结得出，常用于市场走向判断。交易者经常使用它们来分析短期价格变动并确定买入点和卖出点。技术指标通常与其他形式的财务指标分析一并使用。"
   indicator_summary_copy: "我们汇总了8个最常用技术指标的卖出/买入/持有信号，为您提供快速的市场脉搏。"
   fundamentals: "基本面"
   development_activity: "开发活动"
-  development_activity_copy: "本节概述了%{name}（%{symbol}）的开发活动。开发活动可以作为基础研究和分析的一部分，以确保项目不断发展并拥有健康的开发者社区。"
+  development_activity_copy:  "可在您的基本面调研和分析中应用开发活动，以确保项目的不断推进并保持健康的开发者社区。"
   developer_community_copy: |
     <p><b>出资者：</b>出资者是已为项目提交代码的开发者数量。</p>
     <p><b>分叉：</b>用户在复制项目的开源代码时即会创建分叉，这可以表示使用或重用该代码。</p>
@@ -207,6 +207,7 @@ zh-CN:
   commits: "提交"
   commit_activity_tooltip: "周 {date}<br/><b>{value}</b>提交"
   github_repo: "Github Repo"
+  gitlab_repo: "Gitlab Repo"
   developer_community: "开发者社区"
   contributors: 出资者
   forks: 分叉
@@ -234,6 +235,7 @@ zh-CN:
     eos: EOS
     tron: 波场币
     iota: IOTA
+    tezos: Tezos
   indicators:
     title:
       rsi: "RSI 14"

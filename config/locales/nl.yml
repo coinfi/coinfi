@@ -11,14 +11,14 @@ nl:
   min_label: "Min."
   max_label: "Max."
   signal_label: "Signaal"
-  technical_analysis_and_price_movements: "Technische analyse en koersbewegingen"
+  technical_analysis: "Technische analyse"
   technical_indicators: "Technische indicatoren"
   technical_analysis_summary: "Overzicht technische analyse"
   technical_indicator_copy: "Technische indicatoren zijn berekeningen op basis van prijs en volume en worden vaak gebruikt bij het analyseren van de marktrichting. Handelaren gebruiken deze vaak om koersbewegingen op de korte termijn te analyseren en koop- en verkoopmomenten te identificeren. Technische indicatoren worden vaak gebruikt in combinatie met andere vormen van financiële analyses."
   indicator_summary_copy: "We verzamelen verkoop-/koop-/aanhoudsignalen van acht van de meest gebruikte technische indicatoren. Daarmee kunnen we u snel inzicht in de markt bieden."
   fundamentals: "Basisbegrippen"
   development_activity: "Ontwikkelingsactiviteit"
-  development_activity_copy: "Dit deel geeft een overzicht van de ontwikkelingsactiviteit van %{name} (%{symbol}). Ontwikkelingsactiviteit kan worden gebruikt als onderdeel van uw fundamentele onderzoek en analyse om ervoor te zorgen dat het project zich blijft ontwikkelen en een goede ontwikkelaarsgemeenschap heeft."
+  development_activity_copy: "Ontwikkelingsactiviteit kan worden gebruikt als onderdeel van uw fundamentele onderzoek en analyse om ervoor te zorgen dat het project zich blijft ontwikkelen en een goede ontwikkelaarsgemeenschap heeft."
   developer_community_copy: |
     <p><b>Bijdragers:</b> bijdragers verwijst naar het aantal ontwikkelaars dat code voor het project heeft doorgevoerd.</p>
     <p><b>Forks:</b> forks worden gecreëerd wanneer een gebruiker een kopie maakt van de open broncode van een project, wat kan duiden op een intentie om de code te gebruiken of hergebruiken.</p>
@@ -28,6 +28,7 @@ nl:
   commits: "doorvoeringen"
   commit_activity_tooltip: "Week van {date}<br/><b>{value}</b> doorvoeringen"
   github_repo: "Github Repo"
+  gitlab_repo: "Gitlab Repo"
   developer_community: "Ontwikkelaarsgemeenschap"
   contributors: bijdragers
   forks: forks
@@ -55,6 +56,7 @@ nl:
     eos: EOS
     tron: Tron
     iota: IOTA
+    tezos: Tezos
   indicators:
     title:
       rsi: "RSI 14"

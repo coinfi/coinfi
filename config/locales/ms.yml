@@ -11,14 +11,14 @@ ms:
   min_label: "Minimum"
   max_label: "Maksimum"
   signal_label: "Isyarat"
-  technical_analysis_and_price_movements: "Analisis Teknikal & Pergerakan Harga"
+  technical_analysis: "Analisis Teknikal"
   technical_indicators: "Petunjuk Teknikal"
   technical_analysis_summary: "Ringkasan Analisis Teknikal"
   technical_indicator_copy: "Petunjuk teknikal adalah kiraan berdasarkan harga dan jumlah yang kerap digunakan dalam analisis arah pasaran. Pedagang sering menggunakannya untuk menganalisis pergerakan harga jangka pendek dan mengenal pasti titik masuk dan keluar. Petunjuk teknikal sering digunakan bersama-sama dengan lain-lain bentuk analisis kewangan."
   indicator_summary_copy: "Kami mengumpulkan isyarat jual/beli/pegang daripada 8 petunjuk teknikal yang paling biasa digunakan untuk memberikan anda maklumat mengenai nadi pasaran yang cepat."
   fundamentals: "Asas"
   development_activity: "Aktiviti Pembangunan"
-  development_activity_copy: "Bahagian ini menyediakan gambaran keseluruhan mengenai aktiviti pembangunan untuk %{name} (%{symbol}). Aktiviti pembangunan boleh digunakan sebagai sebahagian daripada penyelidikan & analisis asas anda untuk memastikan projek itu terus berkembang dan mempunyai komuniti pemaju yang sihat."
+  development_activity_copy: "Aktiviti pembangunan boleh digunakan sebagai sebahagian daripada penyelidikan & analisis asas anda untuk memastikan projek itu terus berkembang dan mempunyai komuniti pemaju yang sihat."
   developer_community_copy: |
     <p><b>Penyumbang:</b> Penyumbang adalah bilangan pemaju yang telah membuat kod kepada projek tersebut.</p>
     <p><b>Forks:</b> Forks diwujudkan apabila pengguna membuat salinan kod sumber terbuka projek, yang menunjukkan niat untuk menggunakan atau menggunakan semula kod.</p>
@@ -28,6 +28,7 @@ ms:
   commits: "komitmen"
   commit_activity_tooltip: "Minggu {date}<br/><b>{value}</b> melakukan"
   github_repo: "Github Repo"
+  gitlab_repo: "Gitlab Repo"
   developer_community: "Komuniti Pemaju"
   contributors: penyumbang
   forks: forks
@@ -55,6 +56,7 @@ ms:
     eos: EOS
     tron: Tron
     iota: IOTA
+    tezos: Tezos
   indicators:
     title:
       rsi: "RSI 14"

@@ -11,14 +11,14 @@ pt:
   min_label: "Mín."
   max_label: "Máx."
   signal_label: "Sinal"
-  technical_analysis_and_price_movements: "Análise técnica e variações de preços"
+  technical_analysis: "Análise técnica"
   technical_indicators: "Indicadores técnicos"
   technical_analysis_summary: "Resumo da análise técnica"
   technical_indicator_copy: "Os indicadores técnicos são calculados com base no preço e no volume, e são utilizados frequentemente para analisar em que direção se movimenta o mercado. Os investidores utilizam-nos com frequência para analisarem os movimentos de preços a curto prazo e para identificarem pontos de entrada e saída. Os indicadores técnicos são muitas vezes utilizados em conjunto com outros métodos de análise financeira."
   indicator_summary_copy: "Para lhe permitir tomar rapidamente o pulso aos mercados, agregamos os sinais de comprar/vender/manter de oito dos indicadores técnicos mais utilizados."
   fundamentals: "Princípios básicos"
   development_activity: "Atividades de desenvolvimento"
-  development_activity_copy: "Esta secção apresenta um resumo das atividades de desenvolvimento de %{name} (%{symbol}). As informações sobre as atividades de desenvolvimento podem ser utilizadas, no contexto da análise fundamental, com o objetivo de confirmar que os projetos estão em constante desenvolvimento e dispõem de uma comunidade de programadores saudável."
+  development_activity_copy: "As informações sobre as atividades de desenvolvimento podem ser utilizadas, no contexto da análise fundamental, com o objetivo de confirmar que os projetos estão em constante desenvolvimento e dispõem de uma comunidade de programadores saudável."
   developer_community_copy: |
     <p><b>Contribuidores:</b> contribuidores são programadores que desenvolveram código para o projeto.</p>
     <p><b>Forks:</b> os forks surgem quando os utilizadores fazem cópias do software open source do projeto, o que pode indicar a intenção de utilizar ou reutilizar o código.</p>
@@ -28,6 +28,7 @@ pt:
   commits: "contribuições"
   commit_activity_tooltip: "Semana de {date}<br/><b>{value}</b> contribuições"
   github_repo: "Repositório Github"
+  gitlab_repo: "Gitlab Repo"
   developer_community: "Comunidade de programadores"
   contributors: contribuidores
   forks: forks
@@ -55,6 +56,7 @@ pt:
     eos: EOS
     tron: Tron
     iota: IOTA
+    tezos: Tezos
   indicators:
     title:
       rsi: "RSI 14"
