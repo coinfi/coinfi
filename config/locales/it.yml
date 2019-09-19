@@ -11,14 +11,14 @@ it:
   min_label: "Min"
   max_label: "Max"
   signal_label: "Segnale"
-  technical_analysis_and_price_movements: "Analisi tecnica & Movimenti di prezzo"
+  technical_analysis: "Analisi tecnica"
   technical_indicators: "Indicatori tecnici"
   technical_analysis_summary: "Sintesi analisi tecnica"
   technical_indicator_copy: "Gli indicatori tecnici sono calcoli basati su prezzo e volume, usati di frequente per analizzare la direzione del mercato. Spesso i trader li usano per analizzare movimenti di prezzo di breve termine e per identificare punti di ingresso e uscita. Gli indicatori tecnici vengono spesso usati insieme ad altre forme di analisi tecnica."
   indicator_summary_copy: "Noi combiniamo segnali di acquisto/vendita/mantenimento dagli 8 degli indicatori tecnici più usati per darti un rapido barometro del mercato."
   fundamentals: "Fondamentali"
   development_activity: "Attività di sviluppo"
-  development_activity_copy: "Questa sezione fornisce una panoramica dell'attività di sviluppo per %{name} (%{symbol}). Puoi usare l'attività di sviluppo nell'ambito della tua ricerca e analisi fondamentale per assicurarti che il progetto continui a svilupparsi e abbia una community vivace di sviluppatori."
+  development_activity_copy: "Puoi usare l'attività di sviluppo nell'ambito della ricerca & analisi fondamentale per assicurarti che il progetto continui a svilupparsi e abbia una community vivace di sviluppatori."
   developer_community_copy: |
     <p><b>Contributori:</b> Per contributori s&#39;intende il numero di sviluppatori che si sono impegnati a scrivere codice per il progetto.</p>
     <p><b>Fork:</b> I fork avvengono quando un utente crea una copia di un codice open source di un progetto, cosa che può indicare l&#39;intenzione di usare o riusare il codice.</p>
@@ -28,6 +28,7 @@ it:
   commits: "commit"
   commit_activity_tooltip: "Settimana di {date}<br/><b>{value}</b> commit"
   github_repo: "Github Repo"
+  gitlab_repo: "Gitlab Repo"
   developer_community: "Comunità sviluppatori"
   contributors: contributori
   forks: fork
@@ -55,6 +56,7 @@ it:
     eos: EOS
     tron: Tron
     iota: IOTA
+    tezos: Tezos
   indicators:
     title:
       rsi: "RSI 14"

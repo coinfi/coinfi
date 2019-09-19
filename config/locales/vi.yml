@@ -11,14 +11,14 @@ vi:
   min_label: "Tối thiểu"
   max_label: "Tối đa"
   signal_label: "Tín hiệu"
-  technical_analysis_and_price_movements: "Phân tích Chuyên môn & Biến động Giá"
+  technical_analysis: "Phân tích kỹ thuật"
   technical_indicators: "Chỉ báo Chuyên môn"
   technical_analysis_summary: "Tổng hợp Phân tích Chuyên môn"
   technical_indicator_copy: "Chỉ báo chuyên môn là các phép tính toán dựa trên giá và khối lượng thường xuyên được sử dụng trong phân tích chiều hướng thị trường. Nhà giao dịch thường dùng các chỉ báo này để phân tích biến động giá ngắn hạn và nhận biết điểm tham gia và rút khỏi. Các chỉ báo chuyên môn thường được dùng song song với các hình thức phân tích tài chính khác."
   indicator_summary_copy: "Chúng tôi tổng hợp các tín hiệu bán/mua/nắm giữ từ 8 trong số các chỉ báo chuyên môn thường dùng nhất, nhằm cho bạn cái nhìn ngắn gọn về thị trường."
   fundamentals: "Căn bản"
   development_activity: "Hoạt động phát triển"
-  development_activity_copy: "Phần này cho biết tổng quan về hoạt động phát triển %{name} (%{symbol}). Hoạt động phát triển có thể được dùng dể đưa vào nghiên cứu & phân tích căn bản của bạn nhằm đảm bảo dự án đang liên tục phát triển và có một cộng đồng nhà phát triển lành mạnh."
+  development_activity_copy: "Hoạt động phát triển có thể được dùng để đưa vào nghiên cứu & phân tích căn bản của bạn nhằm đảm bảo dự án liên tục phát triển và có một cộng đồng nhà phát triển lành mạnh."
   developer_community_copy: |
     <p><b>Người đóng góp:</b> Người đóng góp là một số nhà phát triển có mã cam kết với dự án.</p>
     <p><b>Phân nhánh:</b> Các bản phân nhánh được tạo ra khi người dùng sao chép mã nguồn mở của dự án, có thể cho thấy ý định sử dụng hoặc tái sử dụng mã này.</p>
@@ -28,6 +28,7 @@ vi:
   commits: "cam kết"
   commit_activity_tooltip: "Tuần {date}<br/><b>{value}</b> cam kết"
   github_repo: "Kho lưu trữ Github"
+  gitlab_repo: "Gitlab Repo"
   developer_community: "Cộng đồng Nhà phát triển"
   contributors: người đóng góp
   forks: phân nhánh
@@ -55,6 +56,7 @@ vi:
     eos: EOS
     tron: Tron
     iota: IOTA
+    tezos: Tezos
   indicators:
     title:
       rsi: "RSI 14"

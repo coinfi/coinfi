@@ -11,14 +11,14 @@ nb:
   min_label: "Min"
   max_label: "Maks"
   signal_label: "Signal"
-  technical_analysis_and_price_movements: "Teknisk analyse og prisbevegelser"
+  technical_analysis: "Teknisk analyse"
   technical_indicators: "Tekniske indikatorer"
   technical_analysis_summary: "Sammendrag av teknisk analyse"
   technical_indicator_copy: "Tekniske indikatorer er beregninger basert på pris og volum. De brukes ofte i analyser av markedsretningen. Tradere bruker dem ofte til å analysere kortsiktige prisbevegelser og fastslå gode tidspunkter for kjøp og salg. Tekniske indikatorer brukes ofte sammen med andre typer økonomisk analyse."
   indicator_summary_copy: "Vi samler selg/kjøp/hold-signalene fra åtte av de mest brukte tekniske indikatorene, slik at du kan ta pulsen på markedet."
   fundamentals: "Grunnleggende"
   development_activity: "Utviklingsaktivitet"
-  development_activity_copy: "Dette avsnittet gir deg en oversikt over utviklingsaktiviteten for %{name} (%{symbol}). Utviklingsaktivteten kan brukes som en del av dine grunnleggende undersøkelser og analyser for å sikre at prosjektet utvikles kontinuerlig og har et sterkt utviklerfellesskap."
+  development_activity_copy: "Utviklingsaktivteten kan brukes som en del av dine grunnleggende undersøkelser og analyser for å sikre at prosjektet utvikles kontinuerlig og har et sterkt utviklerfellesskap."
   developer_community_copy: |
     <p><b>Bidragsytere:</b> Bidragsytere er antall utviklere som har bidratt med kode til prosjektet.</p>
     <p><b>Forker:</b> Forker skapes når en bruker lager en kopi av et prosjekts åpne kildekode, som kan indikere en hensikt om å bruke eller gjenbruke koden.</p>
@@ -28,6 +28,7 @@ nb:
   commits: "bidrag"
   commit_activity_tooltip: "Uken til {date}<br/><b>{value}</b> bidrag"
   github_repo: "Github Repo"
+  gitlab_repo: "Gitlab Repo"
   developer_community: "Utviklerfellesskap"
   contributors: bidragsytere
   forks: forker
@@ -55,6 +56,7 @@ nb:
     eos: EOS
     tron: Tron
     iota: IOTA
+    tezos: Tezos
   indicators:
     title:
       rsi: "RSI 14"

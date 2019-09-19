@@ -11,14 +11,14 @@ ro:
   min_label: "Minim"
   max_label: "Maxim"
   signal_label: "Semnal"
-  technical_analysis_and_price_movements: "Analiză tehnică și variații ale prețului"
+  technical_analysis: "Analiză tehnică"
   technical_indicators: "Indicatori tehnici"
   technical_analysis_summary: "Rezumat analiză tehnică"
   technical_indicator_copy: "Indicatorii tehnici sunt calcule efectuate pe baza prețului și volumelor și sunt utilizați frecvent în a analiza mișcările pieței. Traderii îi utilizează adesea pentru a analiza mișcările pe termen scurt ale prețurilor și pentru a identifica puncte de intrare și ieșire. Indicatorii tehnici sunt adesea utilizați împreună cu alte forme de analiză financiară."
   indicator_summary_copy: "Pentru a te ajuta să iei rapid pulsul pieței, agregăm semnalele vinde/cumpără/păstrează de la primii 8 cei mai utilizați indicatori tehnici."
   fundamentals: "Fundamentale"
   development_activity: "Activitate de dezvoltare"
-  development_activity_copy: "Această secțiune oferă o privire de ansamblu asupra activității de dezvoltare pentru %{name} (%{symbol}). Activitatea de dezvoltare poate fi utilizată ca parte a cercetării și analizei fundamentale, pentru a te asigura că proiectul se dezvoltă în mod constant și că are o comunitate solidă de dezvoltatori."
+  development_activity_copy: "Activitatea de dezvoltare poate fi utilizată ca parte a cercetării și analizei fundamentale, pentru a te asigura că proiectul se dezvoltă în mod constant și că are o comunitate solidă de dezvoltatori."
   developer_community_copy: |
     <p><b>Dezvoltatorii contribuitori:</b> dezvoltatorii contribuitori reprezintă numărul de dezvoltatori care au dezvoltat segmente de cod pentru proiect.</p>
     <p><b>Bifurcații:</b> bifurcațiile sunt create atunci când un utilizator face o copie a codului open-source al proiectului, lucru ce poate indica intenția de a utiliza sau reutiliza codul.</p>
@@ -28,6 +28,7 @@ ro:
   commits: "dezvoltări"
   commit_activity_tooltip: "Săptămâna {date}<br/><b>{value}</b> dezvoltări"
   github_repo: "Proiect Github"
+  gitlab_repo: "Proiect Gitlab"
   developer_community: "Comunitate de dezvoltatori"
   contributors: dezvoltatori contribuitori
   forks: bifurcații
@@ -55,6 +56,7 @@ ro:
     eos: EOS
     tron: Tron
     iota: IOTA
+    tezos: Tezos
   indicators:
     title:
       rsi: "RSI 14"
