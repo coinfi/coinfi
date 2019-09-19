@@ -11,14 +11,14 @@ sv:
   min_label: "Min"
   max_label: "Max"
   signal_label: "Signal"
-  technical_analysis_and_price_movements: "Teknisk analys och prisrörelser"
+  technical_analysis: "Teknisk analys"
   technical_indicators: "Tekniska indikatorer"
   technical_analysis_summary: "Sammanfattning av teknisk analys"
   technical_indicator_copy: "Tekniska indikatorer är beräkningar baserade på pris och volym som ofta används i analysen av marknadsriktningen. Handlare använder dem ofta för att analysera kortsiktiga prisrörelser och identifiera ingångs- och avslutspunkter. Tekniska indikatorer används ofta i samband med andra former av finansiell analys."
   indicator_summary_copy: "Vi aggregerar signaler för att sälja/köpa/behålla från åtta av de vanligaste tekniska indikatorerna för att ge dig en snabb puls av marknaden."
   fundamentals: "Fundamental"
   development_activity: "Utvecklingsaktivitet"
-  development_activity_copy: "Det här avsnittet ger en översikt över utvecklingsaktivitet för %{name} (%{symbol}). Utvecklingsaktivitet kan användas som en del av din grundläggande forskning och analys för att säkerställa att projektet kontinuerligt utvecklas och har kunniga utvecklare."
+  development_activity_copy: "Utvecklingsaktivitet kan användas som en del av din grundläggande forskning och analys för att säkerställa att projektet kontinuerligt utvecklas och har kunniga utvecklare."
   developer_community_copy: |
     <p><b>Contributors:</b> Contributors är antalet utvecklare som har levererat kod till projektet.</p>
     <p><b>Forks:</b> Forks skapas när en användare gör en kopia av projektets öppna källkod, vilket kan indikera en avsikt att använda eller återanvända koden.</p>
@@ -28,6 +28,7 @@ sv:
   commits: "commits"
   commit_activity_tooltip: "Veckor {date}<br/><b>{value}</b> commits"
   github_repo: "Github Repo"
+  gitlab_repo: "Gitlab-dataförvaring"
   developer_community: "Utvecklare"
   contributors: contributors
   forks: forks
@@ -55,6 +56,7 @@ sv:
     eos: EOS
     tron: Tron
     iota: IOTA
+    tezos: Tezos
   indicators:
     title:
       rsi: "RSI 14"

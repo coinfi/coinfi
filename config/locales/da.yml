@@ -11,14 +11,14 @@ da:
   min_label: "Min."
   max_label: "Maks."
   signal_label: "Signal"
-  technical_analysis_and_price_movements: "Teknisk analyse og kursbevægelser"
+  technical_analysis: "Teknisk analyse"
   technical_indicators: "Tekniske indikatorer"
   technical_analysis_summary: "Oversigt over teknisk analyse"
   technical_indicator_copy: "Tekniske indikatorer er beregninger baseret på kurs og mængde, der ofte bruges i analysen af markedsretningen. Handlere bruger dem ofte til at analysere kortsigtede kursbevægelser og identificere ind- og udgangspunkter. Tekniske indikatorer bruges ofte sammen med andre former for økonomisk analyse."
   indicator_summary_copy: "Vi samler salgs-/købs-/holdsignaler fra 8 af de mest anvendte tekniske indikatorer for at give dig en hurtig puls på markedet."
   fundamentals: "Det grundlæggende"
   development_activity: "Udviklingsaktivitet"
-  development_activity_copy: "Dette afsnit giver et overblik over udviklingsaktivitet for %{name} (%{symbol}). Udviklingsaktivitet kan bruges som en del af din grundlæggende forskning og analyse for at sikre, at projektet kontinuerligt udvikler sig og har et sundt udviklercommunity."
+  development_activity_copy: "Udviklingsaktivitet kan bruges som en del af din grundlæggende forskning og analyse for at sikre, at projektet kontinuerligt udvikler sig og har et sundt udviklercommunity."
   developer_community_copy: |
     <p><b>Bidragsydere:</b> Bidragsydere er de samlede udviklere, der har bidraget med kode til projektet.</p>
     <p><b>Forgreninger:</b> Forgreninger skabes, når en bruger laver en kopi af projektets open source-kode, hvilket kan indikere en intention om at bruge eller genbruge koden.</p>
@@ -28,6 +28,7 @@ da:
   commits: "Bidrager"
   commit_activity_tooltip: "Uge med {date}<br/><b>{value}</b> bidrag"
   github_repo: "Github Repo"
+  gitlab_repo: "Gitlab Repo"
   developer_community: "Udviklercommunity"
   contributors: bidragsydere
   forks: forgreninger
@@ -55,6 +56,7 @@ da:
     eos: EOS
     tron: Tron
     iota: IOTA
+    tezos: Tezos
   indicators:
     title:
       rsi: "RSI 14"

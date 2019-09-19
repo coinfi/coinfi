@@ -222,14 +222,14 @@ zh-TW:
   min_label: "最小值"
   max_label: "最大值"
   signal_label: "信號"
-  technical_analysis_and_price_movements: "技術分析及價位波動"
+  technical_analysis: "技術面分析"
   technical_indicators: "技術指標"
   technical_analysis_summary: "技術分析彙報"
   technical_indicator_copy: "技術指標是根據於市場走勢分析中常用的價格和數量所計算出的數值。交易者常用來分析短期價格變動並確認進場和退場時機。技術指標常結合其他形式的財務分析共同使用。"
   indicator_summary_copy: "我們匯總了八種最常用來作為賣出／買進／持有信號的技術指標，以便提供您快捷的市場脈動。"
   fundamentals: "基本面"
   development_activity: "開發活動"
-  development_activity_copy: "本節概述 %{name} (%{symbol}) 的開發活動。開發活動可納入基礎面研究分析，以確保專案持續發展，並擁有健全的開發人員社群。"
+  development_activity_copy: "開發活動可納入基礎面研究分析，以確保項目的持續發展，並擁有健全的開發人員社群。"
   developer_community_copy: |
     <p><b>貢獻者：</b>貢獻者是提交專案程式碼的開發人員人數。</p>
     <p><b>分叉：</b>使用者複製專案開放原始碼會建立分叉，以表示有意圖使用或再使用程式碼。</p>
@@ -239,6 +239,7 @@ zh-TW:
   commits: "投入"
   commit_activity_tooltip: "週別： {date}<br/><b>{value}活躍度：</b>"
   github_repo: "Github Repo"
+  gitlab_repo: "Gitlab Repo"
   developer_community: "開發人員社群"
   contributors: 貢獻者
   forks: 分叉
@@ -266,6 +267,7 @@ zh-TW:
     eos: EOS
     tron: Tron
     iota: IOTA
+    tezos: Tezos
   indicators:
     title:
       rsi: "RSI 14"

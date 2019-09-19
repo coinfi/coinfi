@@ -11,14 +11,14 @@ pl:
   min_label: "Min."
   max_label: "Maks."
   signal_label: "Sygnał"
-  technical_analysis_and_price_movements: "Analiza techniczna i ruchy kursowe"
+  technical_analysis: "Analiza techniczna"
   technical_indicators: "Wskaźniki techniczne"
   technical_analysis_summary: "Analiza techniczna — podsumowanie"
   technical_indicator_copy: "Wskaźniki techniczne to oparte na cenie i wolumenie obrotów obliczenia często wykorzystywane w analizie kierunku rozwoju rynku. Inwestorzy często wykorzystują je do analizy krótkoterminowych ruchów cenowych oraz identyfikacji punktów wejścia i wyjścia. Wskaźniki techniczne są często stosowane w połączeniu z innymi formami analizy finansowej."
   indicator_summary_copy: "Łączymy sygnały sprzedaży/kupna/utrzymania z 8 najczęściej używanymi wskaźnikami technicznymi, aby zapewniać Ci szybkie podsumowanie sytuacji rynkowej."
   fundamentals: "Podstawy"
   development_activity: "Aktywność programistów"
-  development_activity_copy: "W tej sekcji opisano aktywność programistów waluty %{name} (%{symbol}). Aktywność programistów można wykorzystać jako element analizy fundamentalnej, tak by mieć pewność, że projekt nieustannie się rozwija i posiada wartościową społeczność programistów."
+  development_activity_copy: "Aktywność programistów można wykorzystać jako element analizy fundamentalnej, tak by mieć pewność, że projekt nieustannie się rozwija i posiada wartościową społeczność programistów."
   developer_community_copy: |
     <p><b>Uczestnicy (ang. contributors):</b> tym mianem określa się programistów, którzy przekazali kod projektu.</p>
     <p><b>Forki:</b> do forków dochodzi, gdy jeden z użytkowników sporządza kopię dostępnego w modelu open source kodu projektu, co może świadczyć o zamiarze jego ponownego wykorzystania.</p>
@@ -28,6 +28,7 @@ pl:
   commits: "zmian(y)"
   commit_activity_tooltip: "Tydzień roku {date}<br/><b>{value}</b> zmian(y)"
   github_repo: "Repozytorium Github"
+  gitlab_repo: "Repozytorium GitLab"
   developer_community: "Społeczność deweloperów"
   contributors: uczestników
   forks: forków
@@ -55,6 +56,7 @@ pl:
     eos: EOS
     tron: Tron
     iota: IOTA
+    tezos: Tezos
   indicators:
     title:
       rsi: "RSI 14"

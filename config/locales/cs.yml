@@ -11,14 +11,14 @@ cs:
   min_label: "Min."
   max_label: "Max."
   signal_label: "Signál"
-  technical_analysis_and_price_movements: "Technická analýza a cenové pohyby"
+  technical_analysis: "Technická analýza"
   technical_indicators: "Technické indikátory"
   technical_analysis_summary: "Shrnutí technické analýzy"
   technical_indicator_copy: "Technické indikátory jsou kalkulace založené na ceně a objemu, které jsou často používány při analýze tržních trendů. Obchodníci je často využívají k analýze krátkodobých cenových pohybů a k určování vstupních a výstupních bodů. Technické indikátory se často používají společně s dalšími formami finanční analýzy."
   indicator_summary_copy: "Agregujeme signály prodeje/nákupu/držení u 8 nejpoužívanějších technických indikátorů, abyste mohli citlivě vnímat tep trhu."
   fundamentals: "Základy"
   development_activity: "Rozvoj aktivity"
-  development_activity_copy: "Tento oddíl poskytuje přehled o rozvoji aktivity %{name} (%{symbol}). Rozvoj aktivity může být použit jako základní část vašeho průzkumu a analýzy pro potvrzení, že se projekt stále vyvíjí a že má zdravou komunitu vývojářů."
+  development_activity_copy: "Rozvoj aktivity může být použit jako základní část vašeho průzkumu a analýzy pro potvrzení, že se projekt stále vyvíjí a že má zdravou komunitu vývojářů."
   developer_community_copy: |
     <p><b>Přispěvatelé:</b> Přispěvatelé jsou vývojáři, kteří přidali do projektu svůj kód.</p>
     <p><b>Forky:</b> Forky jsou vytvořeny, když uživatel udělá kopii kódu s otevřeným zdrojem, což může znamenat záměr použít nebo opět použít kód.</p>
@@ -28,6 +28,7 @@ cs:
   commits: "přidává"
   commit_activity_tooltip: "Týden {date}<br/><b>{value}</b> přidává"
   github_repo: "Úložiště Github"
+  gitlab_repo: "Repozitář GitLab"
   developer_community: "Vývojářská komunita"
   contributors: přispěvatelé
   forks: forky
@@ -55,6 +56,7 @@ cs:
     eos: EOS
     tron: Tron
     iota: IOTA
+    tezos: Tezos
   indicators:
     title:
       rsi: "RSI 14"
