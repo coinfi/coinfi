@@ -261,9 +261,9 @@ class Coin < ApplicationRecord
     end
   end
 
-  def prices_data
+  def prices_data(force_refresh: false)
     # Expire cache 30 minutes after UTC midnight; new daily data is expected slightly after the midnight-scheduled job
-    @cached_prices_data ||= Rails.cache.fetch("coins/#{id}/prices", expires_in: seconds_to_next_day + 1800) do
+    @cached_prices_data ||= Rails.cache.fetch("coins/#{id}/prices", expires_in: seconds_to_next_day + 1800, force: force_refresh) do
       self.touch
       url = "#{ENV.fetch('COINFI_POSTGREST_URL')}/cmc_daily_ohcl_prices?coin_key=eq.#{coin_key}&to_currency=eq.USD&order=time.asc"
       response = HTTParty.get(url)
