@@ -150,10 +150,7 @@ class CoinBody extends React.Component<Props, State> {
           return (
             <div className={classes.root}>
               <div className={classes.coinWrapper}>
-                <a
-                  href={`/coins/${coinWithDetails.slug}`}
-                  className="f4 fw6 flex items-center color-inherit"
-                >
+                <span className="f4 fw6 flex items-center color-inherit">
                   {coinWithDetails.image_url && (
                     <img
                       className="w2e h2e mr3"
@@ -161,10 +158,10 @@ class CoinBody extends React.Component<Props, State> {
                       alt=""
                     />
                   )}
-                  {coinWithDetails.name}
-                  <span className="mh2">({coinWithDetails.symbol})</span>
-                  News
-                </a>
+                  <h1 className="f4 fw6">
+                    {coinWithDetails.name} ({coinWithDetails.symbol}) News
+                  </h1>
+                </span>
                 <div className="tooltipped">
                   <WatchStar
                     coin={coinWithDetails}
