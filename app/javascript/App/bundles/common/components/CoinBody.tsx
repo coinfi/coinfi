@@ -141,6 +141,9 @@ class CoinBody extends React.Component<Props, State> {
               currencyRate,
           )
           const summary = this.parseSummary(coinWithDetails.summary, {
+            linkToCoinNews: `<a href="/coins/${coinWithDetails.slug}">${
+              coinWithDetails.name
+            }</a>`,
             marketCap,
             currency,
             currencySymbol,
@@ -199,7 +202,10 @@ class CoinBody extends React.Component<Props, State> {
                 isTradingViewVisible={true}
               />
 
-              <p className="mt3 mb4">{summary}</p>
+              <p
+                className="mt3 mb4"
+                dangerouslySetInnerHTML={{ __html: summary }}
+              />
 
               <div className="mb3">
                 <h2 className="f5">Read Related News</h2>
