@@ -110,4 +110,10 @@ module ApplicationHelper
 
     return component_html
   end
+
+  def jsonld_tag
+    if @jsonld_data.present?
+      return "<script type=\"application/ld+json\">#{@jsonld_data}</script>".html_safe
+    end
+  end
 end

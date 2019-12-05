@@ -46,6 +46,7 @@ class CoinsController < ApplicationController
         @coin_obj = show_serializer(@coin)
         @top_coins_data = toplist_coins
         @watched_coins_data = watchlist_coins if current_user
+
       end
 
       if is_ethereum?(@coin)
@@ -60,6 +61,22 @@ class CoinsController < ApplicationController
         title: "#{@coin.symbol} ($#{@coin_price}) - #{@coin.name} Price Chart, Value, News, Market Cap",
         keywords: "#{@coin.name} price, #{@coin.name} chart, #{@coin.name} news, #{@coin.name} market cap, #{@coin.name} reddit, #{@coin.name} price prediction"
       )
+      set_jsonld({
+        "@context": "http://schema.org/",
+        "@type": "WebPage",
+        "name": @coin.name,
+        "image": @coin.image_url,
+        "dateModified": @coin.updated_at.iso8601,
+        "url": request.original_url,
+        "offers": {
+          "@type": "Offer",
+          "priceSpecification": {
+              "@type":  "PriceSpecification",
+              "priceCurrency": "USD",
+              "price": @coin.price
+          }
+        }
+      })
     else
       @data = @coin.market_info
       set_meta_tags(
