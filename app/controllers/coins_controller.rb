@@ -46,7 +46,6 @@ class CoinsController < ApplicationController
         @coin_obj = show_serializer(@coin)
         @top_coins_data = toplist_coins
         @watched_coins_data = watchlist_coins if current_user
-
       end
 
       if is_ethereum?(@coin)
