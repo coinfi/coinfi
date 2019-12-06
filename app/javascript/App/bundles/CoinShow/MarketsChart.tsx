@@ -57,7 +57,7 @@ export default class TokenChart extends React.Component<Props, State> {
 
     // To make pie-chart more pleasant, we try to reduce the total number of slices
     // using various criteria.
-    const reducedData =
+    let reducedData =
       processedData.length > 5
         ? processedData.reduce(
             (acc, slice) => {
@@ -88,15 +88,31 @@ export default class TokenChart extends React.Component<Props, State> {
       [0, 0],
     )
     if (accountedForPercentage < 100) {
-      const remainingPercentage = 100 - accountedForPercentage
-      const remainingVolume =
-        (accountedForVolume / accountedForPercentage) * remainingPercentage
+      // handle edge case where no volume percentage data was available
+      // consider available volume to be full volume
+      if (accountedForPercentage === 0 && processedData.length > 0) {
+        const totalVolume = processedData.reduce(
+          (sum, datum) => sum + _.get(datum, 'volume24h', 0),
+          0,
+        )
+        reducedData = reducedData.map((datum) => {
+          const { y, volume24h } = datum
+          return {
+            ...datum,
+            y: (volume24h / totalVolume) * 100,
+          }
+        })
+      } else {
+        const remainingPercentage = 100 - accountedForPercentage
+        const remainingVolume =
+          (accountedForVolume / accountedForPercentage) * remainingPercentage
 
-      reducedData.push({
-        name: 'Others',
-        y: remainingPercentage,
-        volume24h: remainingVolume,
-      })
+        reducedData.push({
+          name: 'Others',
+          y: remainingPercentage,
+          volume24h: remainingVolume,
+        })
+      }
     }
 
     // sort for better visual presentation

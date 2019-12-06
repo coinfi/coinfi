@@ -89,10 +89,31 @@ class MarketsTable extends React.Component<Props, State> {
   constructor(props) {
     super(props)
 
+    let data = [...props.data]
+    const accountedForVolumePercentage = data.reduce(
+      (sum, pair) => sum + _.get(pair, 'volume_percentage', 0) * 100,
+      0,
+    )
+    // handle edge case where no volume percentage data was available
+    // consider available volume to be full volume
+    if (accountedForVolumePercentage === 0 && data.length > 0) {
+      const totalVolume = data.reduce(
+        (sum, pair) => sum + _.get(pair, 'volume24h', 0),
+        0,
+      )
+      data = data.map((pair) => {
+        const volume24h = _.get(pair, 'volume24h', 0)
+        return {
+          ...pair,
+          volume_percentage: volume24h / totalVolume,
+        }
+      })
+    }
+
     this.state = {
       order: 'asc',
       orderBy: null,
-      sortedData: props.data,
+      sortedData: data,
     }
   }
 
