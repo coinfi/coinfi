@@ -47,11 +47,13 @@
       <%= render partial: "components/login_modal" %>
       <%= render partial: "components/sign_up_modal" %>
       <script src="https://unpkg.com/micromodal/dist/micromodal.min.js"></script>
-      <%= render "components/modal_script" %>
     <% end %>
     <script src="/tradingview/charting_library.min.js"></script>
     <%= javascript_pack_tag 'vendor-bundle' %>
     <%= javascript_pack_tag 'app-bundle' %>
+    <% unless user_signed_in? %>
+      <%= render "components/modal_script" %>
+    <% end %>
     <%= render 'layouts/tracking_scripts' %>
   </body>
 </html>

@@ -187,16 +187,8 @@
     openLoginModal(e)
   }
 
-  window.addEventListener('DOMContentLoaded', function() {
-    // add event listeners to forms
-    Object.values(MODAL_IDS).forEach(function(name) {
-      $(`#modal-${name} form`).bind('keypress', function(e) {
-        if (e.keyCode === 13) {
-          e.preventDefault()
-          $(`#modal-${name} .btn-enter`).click()
-        }
-      })
-    })
+  window.addEventListener('load', function() {
+    deferredInit()
 
     // check if URL includes modal hash
     var hash = getHash()
@@ -220,4 +212,27 @@
   window.addEventListener('hide-modal-login', function() {
     closeLoginModal()
   })
+
+  function deferredInit() {
+    setTimeout(function() {
+      if (typeof $ === 'function') {
+        // init requiring jquery
+        initFormSubmitByEntryKey()
+      } else {
+        deferredInit()
+      }
+    }, 50)
+  }
+
+  function initFormSubmitByEntryKey() {
+    // add event listeners to forms
+    Object.values(MODAL_IDS).forEach(function(name) {
+      $(`#modal-${name} form`).bind('keypress', function(e) {
+        if (e.keyCode === 13) {
+          e.preventDefault()
+          $(`#modal-${name} .btn-enter`).click()
+        }
+      })
+    })
+  }
 </script>

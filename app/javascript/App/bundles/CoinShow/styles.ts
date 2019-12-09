@@ -294,6 +294,9 @@ const styles = (theme) =>
       fontSize: '12px',
       marginTop: '24px',
     },
+    readMore: {
+      textAlign: 'right',
+    },
   })
 
 export default styles

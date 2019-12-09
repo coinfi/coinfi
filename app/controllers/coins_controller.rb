@@ -120,10 +120,12 @@ class CoinsController < ApplicationController
         id name coin_key symbol slug ranking ico_status
         website whitepaper explorer twitter reddit medium github telegram
         release_date blockchain_tech algorithm ico_start_epoch ico_end_epoch
+        updated_at team description
+        ico_start_date ico_end_date ico_usd_raised ico_token_price_usd ico_tokens_sold
       ],
       methods: %i[
         prices_data news_data market_info is_being_watched summary price market_cap
-        change1h change24h change7d volume24h available_supply max_supply total_supply
+        change1h change24h change7d volume24h available_supply max_supply total_supply fixed_supply
         image_url market_pairs total_market_pairs
       ]
     )
