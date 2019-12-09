@@ -105,7 +105,7 @@ class CoinBody extends React.Component<Props, State> {
   }
 
   public parseSummary(tpl, args) {
-    return args ? tpl.replace(/\${(\w+)}/g, (x, v) => args[v]) : tpl
+    return tpl && args ? tpl.replace(/\${(\w+)}/g, (x, v) => args[v]) : tpl
   }
 
   public render() {
