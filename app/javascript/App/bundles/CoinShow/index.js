@@ -76,6 +76,7 @@ class CoinShow extends Component {
       watchlistIndex: [],
       tabSlug,
       showCoinList: false,
+      showCoinDetailsText: false,
     }
   }
 
@@ -226,6 +227,14 @@ class CoinShow extends Component {
     this.setState({ showCoinList: false })
   }
 
+  showReadMoreText = () => {
+    this.setState({ showCoinDetailsText: true })
+  }
+
+  hideReadMoreText = () => {
+    this.setState({ showCoinDetailsText: false })
+  }
+
   handleClickCoin = (coinSlug) => {
     window.location.href = `/coins/${coinSlug}`
     // TODO: asynchronously retrieve coin data based on coin route
@@ -302,7 +311,12 @@ class CoinShow extends Component {
       currencySymbol,
       currencyRate,
     } = this.props
-    const { tabSlug, priceData, priceDataHourly } = this.state
+    const {
+      tabSlug,
+      priceData,
+      priceDataHourly,
+      showCoinDetailsText,
+    } = this.state
     const isMobile = !isDesktop
 
     const isLoggedIn = !!user
@@ -532,6 +546,98 @@ class CoinShow extends Component {
                     />
                   </CardContent>
                 </MainCard>
+                <MainCard>
+                  <CardContent>
+                    <h2>What Is {coinName}'s Price Today?</h2>
+                    <p>
+                      <strong>{coinName}</strong> ({symbol}) is trading at{' '}
+                      {currencySymbol}
+                      {price} {currency},{' '}
+                      {change24h >= 0 ? 'increasing' : 'decreasing'} by{' '}
+                      {formatPercentage(change24h)}% since yesterday. {coinName}{' '}
+                      has traded {currencySymbol}
+                      {volume24h} {currency} in the last 24 hours.
+                    </p>
+                    {!showCoinDetailsText ? (
+                      <p className={classes.readMore}>
+                        <a onClick={this.showReadMoreText}>Read More</a>
+                      </p>
+                    ) : (
+                      <>
+                        {ranking && (
+                          <p>
+                            {coinName} ({symbol}) is the #{ranking} largest
+                            cryptocurrency by market cap as of {updatedAt}, with
+                            a market cap of {currencySymbol}
+                            {marketCap} {currency}.
+                          </p>
+                        )}
+                        {hasFinishedIco && (
+                          <>
+                            <h3>How Much Did {coinName} Raise?</h3>
+                            <p>
+                              The {coinName} ICO (initial coin offering) raised{' '}
+                              {icoRaised
+                                ? `${currencySymbol}${icoRaised} ${currency}`
+                                : 'funds'}
+                              {icoTokensSold &&
+                                ` by selling ${icoTokensSold} ${coinName} tokens`}
+                              {isoTokenPrice &&
+                                ` at a price of ${currencySymbol}${isoTokenPrice} ${currency}`}.
+                              The {coinName} ICO{icoStartDate &&
+                                ` began on ${icoStartDate} and `}{' '}
+                              ended on {icoEndDate}.{teamArray &&
+                                ` Key team members during the ${coinName} ICO included ${teamMembers}.`}
+                            </p>
+                          </>
+                        )}
+                        {(description || blockchain_tech) && (
+                          <>
+                            <h2>
+                              What Is {coinName} Cryptocurrency ({symbol})?
+                            </h2>
+                            {description ? (
+                              <p>{description}</p>
+                            ) : (
+                              <p>
+                                Tezos is a coin that operates on the{' '}
+                                {blockchain_tech} blockchain
+                              </p>
+                            )}
+                          </>
+                        )}
+                        {hasSupply && (
+                          <>
+                            <h3>How Many {coinName} Coins Are There?</h3>
+                            <p>
+                              There are currently {circulatingSupply} {coinName}{' '}
+                              coins circulating out of a max supply of{' '}
+                              {maxSupply}.
+                            </p>
+                          </>
+                        )}
+                        {_.isNumber(totalMarketPairs) && (
+                          <>
+                            <h2>
+                              Buying/Selling {coinName} On Cryptocurrency
+                              Exchanges
+                            </h2>
+                            <p>
+                              {coinName} is trading on {totalMarketPairs}{' '}
+                              markets. In the last 24 hours, {coinName} was most
+                              traded on {topExchanges}. The most traded{' '}
+                              {coinName} pairs in the last 24 hours are{' '}
+                              {topPairs}.
+                            </p>
+                          </>
+                        )}
+                        <p className={classes.readMore}>
+                          <a onClick={this.hideReadMoreText}>Show Less</a>
+                        </p>
+                      </>
+                    )}
+                  </CardContent>
+                </MainCard>
                 {_.isArray(summarySignals) && (
                   <MainCard>
                     <CardHeader
@@ -600,84 +706,6 @@ class CoinShow extends Component {
                     </CardContent>
                   </MainCard>
                 )}
-                <MainCard>
-                  <CardContent>
-                    <h2>What Is {coinName}'s Price Today?</h2>
-                    <p>
-                      <strong>{coinName}</strong> ({symbol}) is trading at{' '}
-                      {currencySymbol}
-                      {price} {currency},{' '}
-                      {change24h >= 0 ? 'increasing' : 'decreasing'} by{' '}
-                      {formatPercentage(change24h)}% since yesterday. {coinName}{' '}
-                      has traded {currencySymbol}
-                      {volume24h} {currency} in the last 24 hours.
-                    </p>
-                    {ranking && (
-                      <p>
-                        {coinName} ({symbol}) is the #{ranking} largest
-                        cryptocurrency by market cap as of {updatedAt}, with a
-                        market cap of {currencySymbol}
-                        {marketCap} {currency}.
-                      </p>
-                    )}
-                    {hasFinishedIco && (
-                      <>
-                        <h3>How Much Did {coinName} Raise?</h3>
-                        <p>
-                          The {coinName} ICO (initial coin offering) raised{' '}
-                          {icoRaised
-                            ? `${currencySymbol}${icoRaised} ${currency}`
-                            : 'funds'}
-                          {icoTokensSold &&
-                            ` by selling ${icoTokensSold} ${coinName} tokens`}
-                          {isoTokenPrice &&
-                            ` at a price of ${currencySymbol}${isoTokenPrice} ${currency}`}.
-                          The {coinName} ICO{icoStartDate &&
-                            ` began on ${icoStartDate} and `}{' '}
-                          ended on {icoEndDate}.{teamArray &&
-                            ` Key team members during the ${coinName} ICO included ${teamMembers}.`}
-                        </p>
-                      </>
-                    )}
-                    {(description || blockchain_tech) && (
-                      <>
-                        <h2>
-                          What Is {coinName} Cryptocurrency ({symbol})?
-                        </h2>
-                        {description ? (
-                          <p>{description}</p>
-                        ) : (
-                          <p>
-                            Tezos is a coin that operates on the{' '}
-                            {blockchain_tech} blockchain
-                          </p>
-                        )}
-                      </>
-                    )}
-                    {hasSupply && (
-                      <>
-                        <h3>How Many {coinName} Coins Are There?</h3>
-                        <p>
-                          There are currently {circulatingSupply} {coinName}{' '}
-                          coins circulating out of a max supply of {maxSupply}.
-                        </p>
-                      </>
-                    )}
-                    {_.isNumber(totalMarketPairs) && (
-                      <>
-                        <h2>
-                          Buying/Selling {coinName} On Cryptocurrency Exchanges
-                        </h2>
-                        <p>
-                          {coinName} is trading on {totalMarketPairs} markets.
-                          In the last 24 hours, {coinName} was most traded on{' '}
-                          {topExchanges}. The most traded {coinName} pairs in
-                          the last 24 hours are {topPairs}.
-                        </p>
-                      </>
-                    )}
-                  </CardContent>
-                </MainCard>
                 <ExpansionPanel
                   square={true}
                   elevation={0}
