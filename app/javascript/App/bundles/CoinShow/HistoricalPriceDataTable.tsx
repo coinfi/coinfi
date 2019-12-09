@@ -178,7 +178,13 @@ class HistoricalPriceDataTable extends React.Component<Props, State> {
   }
 
   public render() {
-    const { classes, availableSupply, currency, coinObj } = this.props
+    const {
+      classes,
+      availableSupply,
+      currency,
+      currencySymbol,
+      coinObj,
+    } = this.props
     const { data, status, start, end } = this.state
     const { name: coinName } = coinObj
 
@@ -233,13 +239,31 @@ class HistoricalPriceDataTable extends React.Component<Props, State> {
                     <TableCell numeric={true} scope="row">
                       {row.formattedTime}
                     </TableCell>
-                    <TableCell numeric={true}>{row.open}</TableCell>
-                    <TableCell numeric={true}>{row.high}</TableCell>
-                    <TableCell numeric={true}>{row.low}</TableCell>
-                    <TableCell numeric={true}>{row.close}</TableCell>
-                    <TableCell numeric={true}>{row.volume}</TableCell>
+                    <TableCell numeric={true}>
+                      {currencySymbol}
+                      {row.open}
+                    </TableCell>
+                    <TableCell numeric={true}>
+                      {currencySymbol}
+                      {row.high}
+                    </TableCell>
+                    <TableCell numeric={true}>
+                      {currencySymbol}
+                      {row.low}
+                    </TableCell>
+                    <TableCell numeric={true}>
+                      {currencySymbol}
+                      {row.close}
+                    </TableCell>
+                    <TableCell numeric={true}>
+                      {currencySymbol}
+                      {row.volume}
+                    </TableCell>
                     {!!availableSupply && (
-                      <TableCell numeric={true}>{row.marketCap}</TableCell>
+                      <TableCell numeric={true}>
+                        {currencySymbol}
+                        {row.marketCap}
+                      </TableCell>
                     )}
                   </TableRow>
                 )
