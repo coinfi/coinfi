@@ -174,7 +174,7 @@ class InfoBar extends React.Component<Props, {}> {
                     className={classes.coinImage}
                   />
                   <Typography variant="h1" className={classes.coinName}>
-                    {coinObj.name}
+                    {coinObj.name} Price
                   </Typography>
                   {!_.isUndefined(symbol) && (
                     <span className={classes.coinSymbol}>({symbol})</span>
