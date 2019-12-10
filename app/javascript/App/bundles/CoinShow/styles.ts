@@ -297,6 +297,9 @@ const styles = (theme) =>
     descriptionCardContent: {
       color: black87,
       lineHeight: '1.3em',
+      '& .hidden': {
+        display: 'none',
+      },
     },
     readMore: {
       textAlign: 'right',
