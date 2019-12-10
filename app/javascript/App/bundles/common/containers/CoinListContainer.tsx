@@ -153,14 +153,14 @@ class CoinListContainer extends React.Component<Props, State> {
   }
 
   public fetchToplist = () =>
-    API.get('/coins/toplist', {}, false).then((response) =>
-      Promise.resolve(coinsNormalizer(response.payload)),
-    )
+    API.get('/coins/toplist', {}, false)
+      .then((response) => coinsNormalizer(response.payload))
+      .catch((err) => coinsNormalizer([]))
 
   public fetchWatchlist = () =>
-    API.get('/coins/watchlist', {}, false).then((response) =>
-      Promise.resolve(coinsNormalizer(response.payload)),
-    )
+    API.get('/coins/watchlist', {}, false)
+      .then((response) => coinsNormalizer(response.payload))
+      .catch((err) => coinsNormalizer([]))
 
   public persistCoinToWatchlist = (id) =>
     API.post('/watchlist/coins', { id }, false)
