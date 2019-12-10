@@ -547,7 +547,7 @@ class CoinShow extends Component {
                   </CardContent>
                 </MainCard>
                 <MainCard>
-                  <CardContent>
+                  <CardContent className={classes.descriptionCardContent}>
                     <h2>What Is {coinName}'s Price Today?</h2>
                     <p>
                       <strong>{coinName}</strong> ({symbol}) is trading at{' '}
