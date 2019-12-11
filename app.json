@@ -89,7 +89,6 @@
     "TWITTER_APP_ID": { "required": true },
     "WEBFACTION_SMTP_PASSWORD": { "required": true }
   },
-  "stack": "heroku-18",
   "formation": {},
   "addons": [
     "heroku-postgresql:hobby-basic",
