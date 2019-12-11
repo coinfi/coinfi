@@ -2,7 +2,7 @@
   "name": "coinfi-rails",
   "scripts": {
     "postdeploy":
-      "pg_dump $STAGING_DATABASE_URL | psql $DATABASE_URL && bundle exec rake db:migrate; bundle exec rake redis:copy_prod"
+      "pg_dump --no-acl --no-owner $STAGING_DATABASE_URL | psql $DATABASE_URL && bundle exec rake db:migrate; bundle exec rake redis:copy_prod"
   },
   "env": {
     "ADMINISTRATE_PASSWORD": { "required": true },
