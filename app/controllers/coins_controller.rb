@@ -60,6 +60,22 @@ class CoinsController < ApplicationController
         title: "#{@coin.symbol} ($#{@coin_price}) - #{@coin.name} Price Chart, Value, News, Market Cap",
         keywords: "#{@coin.name} price, #{@coin.name} chart, #{@coin.name} news, #{@coin.name} market cap, #{@coin.name} reddit, #{@coin.name} price prediction"
       )
+      set_jsonld({
+        "@context": "http://schema.org/",
+        "@type": "WebPage",
+        "name": @coin.name,
+        "image": @coin.image_url,
+        "dateModified": @coin.updated_at.iso8601,
+        "url": request.original_url,
+        "offers": {
+          "@type": "Offer",
+          "priceSpecification": {
+              "@type":  "PriceSpecification",
+              "priceCurrency": "USD",
+              "price": @coin.price
+          }
+        }
+      })
     else
       @data = @coin.market_info
       set_meta_tags(
@@ -104,10 +120,12 @@ class CoinsController < ApplicationController
         id name coin_key symbol slug ranking ico_status
         website whitepaper explorer twitter reddit medium github telegram
         release_date blockchain_tech algorithm ico_start_epoch ico_end_epoch
+        updated_at team description
+        ico_start_date ico_end_date ico_usd_raised ico_token_price_usd ico_tokens_sold
       ],
       methods: %i[
         prices_data news_data market_info is_being_watched summary price market_cap
-        change1h change24h change7d volume24h available_supply max_supply total_supply
+        change1h change24h change7d volume24h available_supply max_supply total_supply fixed_supply
         image_url market_pairs total_market_pairs
       ]
     )

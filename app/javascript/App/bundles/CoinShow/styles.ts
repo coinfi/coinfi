@@ -294,6 +294,16 @@ const styles = (theme) =>
       fontSize: '12px',
       marginTop: '24px',
     },
+    descriptionCardContent: {
+      color: black87,
+      lineHeight: '1.3em',
+      '& .hidden': {
+        display: 'none',
+      },
+    },
+    readMore: {
+      textAlign: 'right',
+    },
   })
 
 export default styles

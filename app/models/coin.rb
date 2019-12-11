@@ -96,7 +96,7 @@ class Coin < ApplicationRecord
 
     if self.ranking && self.market_info["market_cap_usd"]
       result << %W[
-        #{self.name} (#{self.symbol}) is currently the ##{self.ranking} cryptocurrency by market cap
+        ${linkToCoinNews} (#{self.symbol}) is currently the ##{self.ranking} cryptocurrency by market cap
         at ${currencySymbol}${marketCap} ${currency}.
       ]
     end

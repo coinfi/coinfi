@@ -44,6 +44,14 @@ protected
     )
   end
 
+  def set_jsonld(json_hash)
+    if json_hash.kind_of? String
+      @jsonld_data = json_hash
+    else
+      @jsonld_data = json_hash.to_json
+    end
+  end
+
   def hide_footer
     @hide_footer = true
   end

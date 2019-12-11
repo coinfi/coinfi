@@ -121,6 +121,30 @@ main {
   margin-top: $nav-height;
 }
 
+.nav-x {
+  ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    text-align: left;
+    li {
+      margin: 0;
+      a:hover {
+        color: rgba(255, 255, 255, 1);
+      }
+      > * {
+        font-size: 14px;
+        font-weight: 300;
+        color: rgba(255, 255, 255, 0.7);
+      }
+    }
+  }
+}
+
+img.icon-white {
+  filter: invert(1);
+}
+
 .footer {
   background: $dark-pine-green;
   color: white;
@@ -254,7 +278,7 @@ main {
     }
   }
   .nav-menu-coins {
-    min-width: 160px;
+    min-width: 190px;
   }
   .nav-actions {
     height: 100%;
@@ -277,31 +301,6 @@ main {
   .footer-item {
     padding-right: 1rem;
   }
-}
-
-.nav-x ul {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  text-align: left;
-}
-
-.nav-x ul li {
-  margin: 0;
-}
-
-.nav-x ul li > * {
-  font-size: 14px;
-  font-weight: 300;
-  color: rgba(255, 255, 255, 0.7);
-}
-
-.nav-x ul li a:hover {
-  color: rgba(255, 255, 255, 1);
-}
-
-img.icon-white {
-  filter: invert(1);
 }
 
 @media #{$screen-max-m} {
@@ -339,7 +338,6 @@ img.icon-white {
       right: 10px;
     }
   }
-
   .nav-logo-wrapper {
     text-align: center;
   }
@@ -349,12 +347,17 @@ img.icon-white {
     transition-property: max-height;
     transition-timing-function: ease;
     transition-duration: 0.6s;
-  }
-  .nav-x ul {
-    padding-top: 12px;
-  }
-  .nav-x ul li:not(:last-child) {
-    padding-bottom: 0.25rem;
+    ul {
+      padding-top: 12px;
+      li {
+        > * {
+          font-size: 15px;
+        }
+        &:not(:last-child) {
+          padding-bottom: 0.25rem;
+        }
+      }
+    }
   }
   .footer-copyright {
     text-align: center;

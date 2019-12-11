@@ -131,21 +131,29 @@ class CurrencyProvider extends React.Component<
       this.setState({ status: STATUS.LOADING })
     }
 
-    API.get('/currency').then((data) => {
-      const { payload } = data
-      if (_.isUndefined(payload)) {
-        return
-      }
-      const { updated_at, ...currencies } = payload
-      if (_.isUndefined(currencies)) {
-        return
-      }
+    API.get('/currency')
+      .then((data) => {
+        const { payload } = data
+        if (_.isUndefined(payload)) {
+          return
+        }
+        const { updated_at, ...currencies } = payload
+        if (_.isUndefined(currencies)) {
+          return
+        }
 
-      this.setState({
-        status: STATUS.READY,
-        currencies,
+        this.setState({
+          status: STATUS.READY,
+          currencies,
+        })
       })
-    })
+      .catch((err) => {
+        const currencies = { USD: 1 }
+        this.setState({
+          status: STATUS.READY,
+          currencies,
+        })
+      })
   }
 
   public getCurrencyDetails(currency) {

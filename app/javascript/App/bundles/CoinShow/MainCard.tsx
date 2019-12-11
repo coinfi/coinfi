@@ -2,7 +2,7 @@ import * as React from 'react'
 import { withStyles, createStyles } from '@material-ui/core/styles'
 import classnames from 'classnames'
 import { Card } from '@material-ui/core'
-import { borderColor } from '~/bundles/common/styles/colors'
+import { borderColor, black87 } from '~/bundles/common/styles/colors'
 
 const styles = (theme) =>
   createStyles({
@@ -14,6 +14,19 @@ const styles = (theme) =>
       },
       borderRadius: '2px',
       border: `1px solid ${borderColor}`,
+      '& h2': {
+        fontSize: '16px',
+        fontWeight: 500,
+        color: black87,
+      },
+      '& h3': {
+        fontSize: '15px',
+        fontWeight: 500,
+        color: black87,
+      },
+      '& p': {
+        fontSize: '13px',
+      },
     },
   })
 

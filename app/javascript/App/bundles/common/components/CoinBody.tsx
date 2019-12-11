@@ -105,7 +105,7 @@ class CoinBody extends React.Component<Props, State> {
   }
 
   public parseSummary(tpl, args) {
-    return tpl ? tpl.replace(/\${(\w+)}/g, (x, v) => args[v]) : tpl
+    return tpl && args ? tpl.replace(/\${(\w+)}/g, (x, v) => args[v]) : tpl
   }
 
   public render() {
@@ -141,6 +141,9 @@ class CoinBody extends React.Component<Props, State> {
               currencyRate,
           )
           const summary = this.parseSummary(coinWithDetails.summary, {
+            linkToCoinNews: `<a href="/coins/${coinWithDetails.slug}">${
+              coinWithDetails.name
+            }</a>`,
             marketCap,
             currency,
             currencySymbol,
@@ -150,10 +153,7 @@ class CoinBody extends React.Component<Props, State> {
           return (
             <div className={classes.root}>
               <div className={classes.coinWrapper}>
-                <a
-                  href={`/coins/${coinWithDetails.slug}`}
-                  className="f4 fw6 flex items-center color-inherit"
-                >
+                <span className="f4 fw6 flex items-center color-inherit">
                   {coinWithDetails.image_url && (
                     <img
                       className="w2e h2e mr3"
@@ -161,10 +161,10 @@ class CoinBody extends React.Component<Props, State> {
                       alt=""
                     />
                   )}
-                  {coinWithDetails.name}
-                  <span className="mh2">({coinWithDetails.symbol})</span>
-                  News
-                </a>
+                  <h1 className="f4 fw6">
+                    {coinWithDetails.name} ({coinWithDetails.symbol}) News
+                  </h1>
+                </span>
                 <div className="tooltipped">
                   <WatchStar
                     coin={coinWithDetails}
@@ -202,7 +202,10 @@ class CoinBody extends React.Component<Props, State> {
                 isTradingViewVisible={true}
               />
 
-              <p className="mt3 mb4">{summary}</p>
+              <p
+                className="mt3 mb4"
+                dangerouslySetInnerHTML={{ __html: summary }}
+              />
 
               <div className="mb3">
                 <h2 className="f5">Read Related News</h2>

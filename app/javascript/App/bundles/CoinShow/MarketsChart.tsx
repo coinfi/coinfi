@@ -12,10 +12,10 @@ import {
 interface Props {
   symbol: string
   data: MarketData[]
-  sortBy: SortType
+  groupBy: GroupType
 }
 
-type SortType = 'exchange' | 'pair'
+type GroupType = 'exchange' | 'pair'
 
 interface State {
   options: any
@@ -24,40 +24,48 @@ interface State {
 const pineGreen: [number, number, number] = [7 / 255, 29 / 255, 41 / 255]
 const skyBlue: [number, number, number] = [47 / 255, 174 / 255, 237 / 255]
 
+export function groupMarketData(data, groupBy: GroupType) {
+  const groupedData =
+    groupBy === 'pair'
+      ? _.groupBy(data, 'pair')
+      : _.groupBy(data, 'exchange_slug')
+
+  const processedData = _.map(groupedData, (group) => {
+    const name =
+      groupBy === 'pair'
+        ? _.get(group, [0, 'pair'], '')
+        : _.get(group, [0, 'exchange_name'], '')
+    const value = group.reduce((total, pair) => {
+      return total + _.get(pair, 'volume_percentage', 0) * 100
+    }, 0)
+    const volume24h = group.reduce((total, pair) => {
+      return total + _.get(pair, 'volume24h', 0)
+    }, 0)
+
+    return {
+      name,
+      y: value, // 'y' is used for highcharts
+      volume24h,
+    }
+  })
+
+  const sortedData = _.sortBy(processedData, ({ y }) => -y)
+
+  return sortedData
+}
+
 export default class TokenChart extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props)
 
-    const { data: rawData, sortBy: inputtedSortBy, symbol } = props
-    const sortBy = inputtedSortBy || 'exchange'
+    const { data: rawData, groupBy: inputtedGroupBy, symbol } = props
+    const groupBy = inputtedGroupBy || 'exchange'
 
-    const groupedData =
-      sortBy === 'pair'
-        ? _.groupBy(rawData, 'pair')
-        : _.groupBy(rawData, 'exchange_slug')
-
-    const processedData = _.map(groupedData, (group) => {
-      const name =
-        sortBy === 'pair'
-          ? _.get(group, [0, 'pair'], '')
-          : _.get(group, [0, 'exchange_name'], '')
-      const y = group.reduce((total, pair) => {
-        return total + _.get(pair, 'volume_percentage', 0) * 100
-      }, 0)
-      const volume24h = group.reduce((total, pair) => {
-        return total + _.get(pair, 'volume24h', 0)
-      }, 0)
-
-      return {
-        name,
-        y,
-        volume24h,
-      }
-    })
+    const processedData = groupMarketData(rawData, groupBy)
 
     // To make pie-chart more pleasant, we try to reduce the total number of slices
     // using various criteria.
-    const reducedData =
+    let reducedData =
       processedData.length > 5
         ? processedData.reduce(
             (acc, slice) => {
@@ -88,15 +96,31 @@ export default class TokenChart extends React.Component<Props, State> {
       [0, 0],
     )
     if (accountedForPercentage < 100) {
-      const remainingPercentage = 100 - accountedForPercentage
-      const remainingVolume =
-        (accountedForVolume / accountedForPercentage) * remainingPercentage
+      // handle edge case where no volume percentage data was available
+      // consider available volume to be full volume
+      if (accountedForPercentage === 0 && processedData.length > 0) {
+        const totalVolume = processedData.reduce(
+          (sum, datum) => sum + _.get(datum, 'volume24h', 0),
+          0,
+        )
+        reducedData = reducedData.map((datum) => {
+          const { y, volume24h } = datum
+          return {
+            ...datum,
+            y: (volume24h / totalVolume) * 100,
+          }
+        })
+      } else {
+        const remainingPercentage = 100 - accountedForPercentage
+        const remainingVolume =
+          (accountedForVolume / accountedForPercentage) * remainingPercentage
 
-      reducedData.push({
-        name: 'Others',
-        y: remainingPercentage,
-        volume24h: remainingVolume,
-      })
+        reducedData.push({
+          name: 'Others',
+          y: remainingPercentage,
+          volume24h: remainingVolume,
+        })
+      }
     }
 
     // sort for better visual presentation
@@ -111,9 +135,9 @@ export default class TokenChart extends React.Component<Props, State> {
     )
 
     let title = ''
-    if (sortBy === 'exchange') {
+    if (groupBy === 'exchange') {
       title = `${symbol} Volume By Exchange`
-    } else if (sortBy === 'pair') {
+    } else if (groupBy === 'pair') {
       title = `${symbol} Volume By Pair`
     }
 

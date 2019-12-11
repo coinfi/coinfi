@@ -2,7 +2,6 @@ interface CoinObj {
   id: number
   name: string
   coin_key: string
-  image_url: string
   symbol: string
   slug: string
   ranking: number
@@ -20,6 +19,14 @@ interface CoinObj {
   algorithm: string
   ico_start_epoch: number
   ico_end_epoch: number
+  updated_at: string
+  team: TeamMember[]
+  description: string
+  ico_start_date: string
+  ico_end_date: string
+  ico_usd_raised: number
+  ico_token_price_usd: number
+  ico_tokens_sold: number
   prices_data: PriceData[]
   news_data: NewsData[]
   market_info: MarketInfo
@@ -34,6 +41,10 @@ interface CoinObj {
   available_supply: number
   max_supply: number
   total_supply: number
+  fixed_supply: number
+  image_url: string
+  market_pairs: MarketData[]
+  total_market_pairs: number
 }
 
 interface PriceData {
@@ -82,6 +93,13 @@ interface MarketData {
   volume24h_quote: number
   quote_currency_symbol: string
   last_updated: string
+}
+
+interface TeamMember {
+  name: string
+  title?: string
+  linkedin?: string
+  icobench_profile?: string
 }
 
 type TokenMetrics = { [Data in TokenDataType]: TokenData[] } &
