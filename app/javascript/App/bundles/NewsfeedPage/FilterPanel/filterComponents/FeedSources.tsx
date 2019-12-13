@@ -9,17 +9,12 @@ interface Props {
 }
 
 const FeedSources = (props: Props) => {
-  const sortedSources = _.sortBy(
-    props.feedSources.map((item) => {
-      if (!item) {
-        return item
-      }
-      if (/www/.exec(item) !== null) {
-        return item.replace('www.', '').concat('.www')
-      }
-      return item.replace('www.', '')
-    }),
-  )
+  const sortedSources = _.sortBy(props.feedSources, (item) => {
+    if (!item) {
+      return item
+    }
+    return item.replace('www.', '')
+  })
   const sourcesSansSocial = sortedSources.filter(
     (source) => source !== 'twitter' && source !== 'reddit',
   )

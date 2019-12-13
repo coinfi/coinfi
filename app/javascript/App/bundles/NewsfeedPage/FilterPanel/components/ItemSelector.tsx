@@ -53,7 +53,6 @@ const ItemSelector = (props: Props) => {
     <div className="item-selector-alt">
       <ul>
         {props.items.map((item, i) => {
-          item = stripWww(item)
           return (
             <li className="mv2" key={i}>
               <ItemLink
