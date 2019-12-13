@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import * as _ from 'lodash'
-import moment from 'moment'
 import { withRouter } from 'react-router'
 import compose from 'recompose/compose'
 import classnames from 'classnames'
@@ -32,20 +31,16 @@ import FundamentalsList from './FundamentalsList'
 import InfoBar from './InfoBar'
 import LinksList from './LinksList'
 import HistoricalPriceDataTable from './HistoricalPriceDataTable'
+import DescriptionText from './DescriptionText'
 import MarketsTable from './MarketsTable'
-import MarketsChart, { groupMarketData } from './MarketsChart'
+import MarketsChart from './MarketsChart'
 import TokenMetrics from './TokenMetrics'
 import SignalTable from './SignalTable'
 import Icon from '~/bundles/common/components/Icon'
 import CoinListWrapper from '~/bundles/common/components/CoinListWrapper'
 import CoinListDrawer from '~/bundles/common/components/CoinListDrawer'
+import { formatPrice } from '~/bundles/common/utils/numberFormatters'
 import { WATCHLIST_CHANGE_EVENT } from '~/bundles/common/containers/CoinListContainer'
-import {
-  formatPrice,
-  formatVolume,
-  formatPercentage,
-  formatSupply,
-} from '~/bundles/common/utils/numberFormatters'
 import { withCurrency } from '~/bundles/common/contexts/CurrencyContext'
 import { openSignUpModal } from '~/bundles/common/utils/modals'
 import styles from './styles'
@@ -76,7 +71,6 @@ class CoinShow extends Component {
       watchlistIndex: [],
       tabSlug,
       showCoinList: false,
-      showCoinDetailsText: false,
     }
   }
 
@@ -227,14 +221,6 @@ class CoinShow extends Component {
     this.setState({ showCoinList: false })
   }
 
-  showReadMoreText = () => {
-    this.setState({ showCoinDetailsText: true })
-  }
-
-  hideReadMoreText = () => {
-    this.setState({ showCoinDetailsText: false })
-  }
-
   handleClickCoin = (coinSlug) => {
     window.location.href = `/coins/${coinSlug}`
     // TODO: asynchronously retrieve coin data based on coin route
@@ -278,22 +264,6 @@ class CoinShow extends Component {
     }
   }
 
-  formatArrayMembers = (list, n = 3) => {
-    if (!Array.isArray(list)) return null
-    list = list.slice(0, n)
-    const length = list.length
-
-    return list.reduce((str, item, index) => {
-      if (index === 0) {
-        return `${item}`
-      } else if (index === length - 1) {
-        return length > 2 ? `${str}, and ${item}` : `${str} and ${item}`
-      } else {
-        return `${str}, ${item}`
-      }
-    }, '')
-  }
-
   render() {
     const {
       symbol,
@@ -310,15 +280,10 @@ class CoinShow extends Component {
       currency,
       currencySymbol,
       currencyRate,
+      changeCurrency,
     } = this.props
-    const {
-      tabSlug,
-      priceData,
-      priceDataHourly,
-      showCoinDetailsText,
-    } = this.state
+    const { tabSlug, priceData, priceDataHourly } = this.state
     const isMobile = !isDesktop
-
     const isLoggedIn = !!user
     const hasTokenMetrics = this.hasTokenMetrics()
     const hasMarkets = this.hasMarkets()
@@ -330,66 +295,13 @@ class CoinShow extends Component {
       name: coinName,
       market_pairs: marketPairs,
       total_market_pairs: totalMarketPairs,
-      price: usdPrice,
-      volume24h: usdVolume24h,
-      market_cap: usdMarketCap,
-      change24h,
-      ranking,
-      updated_at,
-      ico_start_date,
-      ico_end_date,
-      ico_usd_raised,
-      ico_token_price_usd,
-      ico_tokens_sold,
-      team,
-      available_supply,
-      fixed_supply,
-      description,
-      blockchain_tech,
     } = coinObj
-    const price = formatPrice(usdPrice * currencyRate)
-    const volume24h = formatVolume(usdVolume24h * currencyRate)
-    const marketCap = formatPrice(usdMarketCap * currencyRate)
-    const updatedAt = moment(updated_at).format('MMMM DD, YYYY')
-
-    const icoEndDate = ico_end_date
-      ? moment(ico_end_date).format('MMMM DD, YYYY')
-      : null
-    const icoStartDate = ico_start_date
-      ? moment(ico_start_date).format('MMMM DD, YYYY')
-      : null
-    const icoRaised = ico_usd_raised
-      ? formatPrice(ico_usd_raised * currencyRate)
-      : null
-    const icoTokensSold = ico_tokens_sold
-    const isoTokenPrice = ico_token_price_usd
-      ? formatPrice(ico_token_price_usd * currencyRate)
-      : null
-    const hasFinishedIco =
-      !!icoEndDate && (!!icoRaised || !!icoTokensSold || !!isoTokenPrice)
-    const teamArray = Array.isArray(team)
-      ? team.slice(0, 3).map(({ name }) => name)
-      : null
-    const teamMembers = this.formatArrayMembers(teamArray, 3)
-    const circulatingSupply = !_.isUndefined(available_supply)
-      ? formatSupply(available_supply)
-      : null
-    const maxSupply = !_.isUndefined(fixed_supply)
-      ? formatSupply(fixed_supply)
-      : null
-    const hasSupply = !!circulatingSupply && !!maxSupply
-    const marketDataByPair = Array.isArray(marketPairs)
-      ? groupMarketData(marketPairs, 'pair')
-          .slice(0, 3)
-          .map(({ name }) => name)
-      : null
-    const marketDataByExchange = Array.isArray(marketPairs)
-      ? groupMarketData(marketPairs, 'exchange')
-          .slice(0, 3)
-          .map(({ name }) => name)
-      : null
-    const topPairs = this.formatArrayMembers(marketDataByPair, 3)
-    const topExchanges = this.formatArrayMembers(marketDataByExchange, 3)
+    const currencyCtx = {
+      currency,
+      currencySymbol,
+      currencyRate,
+      changeCurrency,
+    }
 
     return (
       <div className={classes.root}>
@@ -548,99 +460,10 @@ class CoinShow extends Component {
                 </MainCard>
                 <MainCard>
                   <CardContent className={classes.descriptionCardContent}>
-                    <h2>What Is {coinName}'s Price Today?</h2>
-                    <p>
-                      <strong>{coinName}</strong> ({symbol}) is trading at{' '}
-                      {currencySymbol}
-                      {price} {currency},{' '}
-                      {change24h >= 0 ? 'increasing' : 'decreasing'} by{' '}
-                      {formatPercentage(change24h)}% since yesterday. {coinName}{' '}
-                      has traded {currencySymbol}
-                      {volume24h} {currency} in the last 24 hours.
-                    </p>
-                    <p
-                      className={classnames(classes.readMore, {
-                        hidden: showCoinDetailsText,
-                      })}
-                    >
-                      <a onClick={this.showReadMoreText}>Read More</a>
-                    </p>
-                    <span
-                      className={classnames({ hidden: !showCoinDetailsText })}
-                    >
-                      {ranking && (
-                        <p>
-                          {coinName} ({symbol}) is the #{ranking} largest
-                          cryptocurrency by market cap as of {updatedAt}, with a
-                          market cap of {currencySymbol}
-                          {marketCap} {currency}.
-                        </p>
-                      )}
-                      {hasFinishedIco && (
-                        <>
-                          <h3>How Much Did {coinName} Raise?</h3>
-                          <p>
-                            The {coinName} ICO (initial coin offering) raised{' '}
-                            {icoRaised
-                              ? `${currencySymbol}${icoRaised} ${currency}`
-                              : 'funds'}
-                            {icoTokensSold &&
-                              ` by selling ${icoTokensSold} ${coinName} tokens`}
-                            {isoTokenPrice &&
-                              ` at a price of ${currencySymbol}${isoTokenPrice} ${currency}`}.
-                            The {coinName} ICO{icoStartDate &&
-                              ` began on ${icoStartDate} and `}{' '}
-                            ended on {icoEndDate}.{teamArray &&
-                              ` Key team members during the ${coinName} ICO included ${teamMembers}.`}
-                          </p>
-                        </>
-                      )}
-                      {(description || blockchain_tech) && (
-                        <>
-                          <h2>
-                            What Is {coinName} Cryptocurrency ({symbol})?
-                          </h2>
-                          {description ? (
-                            <p>{description}</p>
-                          ) : (
-                            <p>
-                              Tezos is a coin that operates on the{' '}
-                              {blockchain_tech} blockchain
-                            </p>
-                          )}
-                        </>
-                      )}
-                      {hasSupply && (
-                        <>
-                          <h3>How Many {coinName} Coins Are There?</h3>
-                          <p>
-                            There are currently {circulatingSupply} {coinName}{' '}
-                            coins circulating out of a max supply of {maxSupply}.
-                          </p>
-                        </>
-                      )}
-                      {_.isNumber(totalMarketPairs) && (
-                        <>
-                          <h2>
-                            Buying/Selling {coinName} On Cryptocurrency
-                            Exchanges
-                          </h2>
-                          <p>
-                            {coinName} is trading on {totalMarketPairs} markets.
-                            In the last 24 hours, {coinName} was most traded on{' '}
-                            {topExchanges}. The most traded {coinName} pairs in
-                            the last 24 hours are {topPairs}.
-                          </p>
-                        </>
-                      )}
-                    </span>
-                    <p
-                      className={classnames(classes.readMore, {
-                        hidden: !showCoinDetailsText,
-                      })}
-                    >
-                      <a onClick={this.hideReadMoreText}>Show Less</a>
-                    </p>
+                    <DescriptionText
+                      coinObj={coinObj}
+                      currencyCtx={currencyCtx}
+                    />
                   </CardContent>
                 </MainCard>
                 {_.isArray(summarySignals) && (
