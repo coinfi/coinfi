@@ -37,6 +37,9 @@ const styles = (theme) => {
       fontSize: '0.875rem',
       color: theme.palette.text.secondary,
     },
+    coinTags: {
+      marginLeft: 'auto',
+    },
   })
 }
 
@@ -60,7 +63,7 @@ const readNewsHandler = (newsItem) => {
 }
 
 const NewsListItem = (props) => {
-  const { newsItem, isSelected, hasRead, onClick, classes } = props
+  const { newsItem, isSelected, hasRead, onClick, onCoinClick, classes } = props
   const newsItemTitle = newsItem.title
 
   const { linkUrl, linkText } = formatNewsUrl(newsItem.url)
@@ -107,7 +110,11 @@ const NewsListItem = (props) => {
             <BulletSpacer />
             <Votes newsItemId={newsItem.id} />
           </div>
-          <CoinTags {...props} itemWithCoinLinkData={newsItem} />
+          <CoinTags
+            className={classes.coinTags}
+            onClick={onCoinClick}
+            itemWithCoinLinkData={newsItem}
+          />
         </div>
       </div>
     </div>

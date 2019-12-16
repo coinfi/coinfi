@@ -11,6 +11,7 @@ interface Props {
   itemWithCoinLinkData: ItemWithCoinLinkData
   onClick?: CoinClickHandler
   getLink?: (coinData: CoinLinkData) => string
+  className?: string
   classes: any
 }
 
@@ -39,6 +40,7 @@ const CoinTags = ({
   onClick,
   getLink,
   classes,
+  className,
 }: Props) => {
   const linkData = _.get(
     itemWithCoinLinkData,
@@ -46,7 +48,7 @@ const CoinTags = ({
     [] as CoinLinkData[],
   )
   return (
-    <div>
+    <div className={className}>
       {linkData.map((data, index) => {
         const isClickable = !!onClick
         const onClickHandler = isClickable
