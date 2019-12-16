@@ -27,6 +27,9 @@ const styles = (theme) => {
       ...btn(theme),
       ...(isDarkMode ? btnBlueDark : btnBlue),
       marginTop: '1rem',
+      [theme.breakpoints.down('sm')]: {
+        display: 'block',
+      },
     },
   })
 }
