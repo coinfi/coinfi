@@ -81,6 +81,35 @@ const styles = (theme) => {
       padding: '8px 20px',
       textTransform: 'none',
     },
+    mobileModal: {
+      position: 'fixed',
+      top: 0,
+      right: 0,
+      bottom: 0,
+      left: 0,
+      overflowY: 'auto',
+      display: 'grid',
+      zIndex: 999,
+      '& > div': {
+        width: '100%',
+        maxWidth: '60rem',
+        alignSelf: 'center',
+        justifySelf: 'center',
+        overflowWrap: 'break-word',
+        [theme.breakpoints.up('sm')]: {
+          maxWidth: '100vw',
+        },
+      },
+    },
+    desktopModal: {
+      position: 'absolute',
+      zIndex: 999,
+      overflowY: 'auto',
+      top: 0,
+      right: 0,
+      bottom: 0,
+      left: 0,
+    },
   })
 }
 
@@ -90,8 +119,7 @@ const Layout = (props: Props) => {
     <div
       className={classnames(
         classes.container,
-        { modal: isMobile },
-        { 'overlay z-999 overflow-y-auto': !isMobile },
+        isMobile ? classes.mobileModal : classes.desktopModal,
       )}
     >
       <div className={classes.headerWrapper}>

@@ -5,9 +5,7 @@ import classnames from 'classnames'
 
 const styles = (theme) => {
   return createStyles({
-    switch: {
-      ...switchStyle(theme),
-    },
+    ...switchStyle(theme),
   })
 }
 
@@ -15,7 +13,7 @@ const Switch = (props) => {
   const { on, classes } = props
   return (
     <button
-      className={classnames(classes.switch, { on: !!on })}
+      className={classnames(classes.switch, { [classes.on]: !!on })}
       onClick={props.onChange}
     />
   )
