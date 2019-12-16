@@ -3,6 +3,9 @@ import Swipeable from 'react-swipeable'
 import Animate from 'react-move/Animate'
 import { easeExpOut } from 'd3-ease'
 import * as _ from 'lodash'
+import { createStyles, withStyles } from '@material-ui/core/styles'
+import classnames from 'classnames'
+import { black70 } from '~/bundles/common/styles/colors'
 
 interface Props {
   onClose: () => void
@@ -14,7 +17,31 @@ interface Props {
   opacity?: number
   children: React.ReactNode
   controlledRef?: React.RefObject<HTMLElement | null>
+  classes: any
 }
+
+const styles = (theme) =>
+  createStyles({
+    drawerBg: {
+      background: black70,
+      position: 'fixed',
+      top: 0,
+      left: 0,
+      bottom: 0,
+      right: 0,
+      zIndex: 10,
+    },
+    drawer: {
+      position: 'fixed',
+      top: 0,
+      left: 0,
+      bottom: 0,
+      right: 0,
+      zIndex: 11,
+      maxWidth: '800px',
+      margin: '0 auto',
+    },
+  })
 
 const Drawer = (props: Props) => {
   const start: any = { opacity: [0] }
@@ -79,7 +106,7 @@ class DrawerContent extends React.Component<Props, {}> {
   }
 
   public render() {
-    const { className, children, position, controlledRef } = this.props
+    const { className, children, position, controlledRef, classes } = this.props
     const swipeProps: any = {}
     let style = {}
     switch (position) {
@@ -96,9 +123,12 @@ class DrawerContent extends React.Component<Props, {}> {
     }
     return (
       <Swipeable {...swipeProps}>
-        <div className="drawer-bg" style={{ opacity: this.props.opacity }} />
         <div
-          className={`drawer${className ? ` ${className}` : ''}`}
+          className={classes.drawerBg}
+          style={{ opacity: this.props.opacity }}
+        />
+        <div
+          className={classnames(classes.drawer, className)}
           style={style}
           {...!controlledRef && { ref: this.drawer }}
         >
@@ -109,4 +139,4 @@ class DrawerContent extends React.Component<Props, {}> {
   }
 }
 
-export default Drawer
+export default withStyles(styles, { withTheme: true })(Drawer)

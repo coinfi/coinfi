@@ -188,6 +188,9 @@ class InfoBar extends React.Component<Props, {}> {
                   <Icon
                     name="star"
                     solid={true}
+                    dataHeapTag={
+                      isWatched ? '' : 'news-add-coin-to-watchlist-button'
+                    }
                     className={classnames(
                       classes.watchButton,
                       isWatched

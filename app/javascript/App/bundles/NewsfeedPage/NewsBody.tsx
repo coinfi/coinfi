@@ -25,6 +25,7 @@ import {
   withNewsfeed,
   NewsfeedContextType,
 } from '~/bundles/NewsfeedPage/NewsfeedContext'
+import TagAlt from '~/bundles/common/components/TagAlt'
 
 interface Props extends NewsfeedContextType {
   classes: any
@@ -221,9 +222,7 @@ class NewsBody extends React.Component<Props, State> {
         {categories.length > 0 && (
           <div className="mv3">
             {categories.map((category, index) => (
-              <div key={index} className="tag-alt">
-                {category.name}
-              </div>
+              <TagAlt key={index} tag={category.name} />
             ))}
           </div>
         )}

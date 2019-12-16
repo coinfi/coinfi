@@ -15,8 +15,8 @@
     <%= stylesheet_link_tag 'application' %>
     <%# This should really be included but currently conflicts with a lot of our the css styles %>
     <%#= stylesheet_pack_tag 'vendor-bundle', media: 'all' %>
-
     <%= csrf_meta_tags %>
+    <%= yield :head %>
   </head>
   <body id="<%= @body_id %>" class="<%= @body_class %>">
     <header>

@@ -110,19 +110,6 @@ Note that the roadmap outlined above is subject to change based on user feedback
 This app uses Webpack (via Webpacker) and Babel in order to make use of modern JS, so don't forget to run `bin/webpack-dev-server` when developing locally.
 If you're deploying to Heroku, ensure you have the `heroku/nodejs` and `heroku/ruby` buildpacks configured (in that order).
 
-## Storybook
-
-run storybook in development
-```
-npm run storybook
-```
-
-build static storybook site
-```
-npm run build-storybook -- -o out7650
-```
-
-
 ## Coding style guide
 
 In the project root you'll find an `.eslintrc.json` and `.stylelintrc.json`, so for for JS development please ensure you're using the following extensions:
