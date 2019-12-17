@@ -106,9 +106,9 @@ const styles = (theme) =>
       backgroundColor: '#fff',
       color: '#40a9ff',
     },
-    detailsTable: {
+    detailsTable: {},
+    detailsTableBody: {
       [theme.breakpoints.up('md')]: {
-        float: 'right',
         display: 'flex',
         flexWrap: 'wrap',
         '& tr': {
@@ -265,44 +265,48 @@ class InfoBar extends React.Component<Props, {}> {
                 className={classes.detailsRoot}
               >
                 <table className={classes.detailsTable}>
-                  <tr>
-                    <td className={classes.detailsTitle}>Market Cap</td>
-                    <td className={classes.detailsValue}>
-                      {hasMarketCap &&
-                        `${currencySymbol}${formatPrice(
-                          market_cap * currencyRate,
-                        )} ${currency}`}
-                    </td>
-                  </tr>
-                  <tr>
-                    <td className={classes.detailsTitle}>24h Volume</td>
-                    <td className={classes.detailsValue}>
-                      {hasVolume24 && (
-                        <>
-                          {currencySymbol}
-                          {formatVolume(volume24h * currencyRate)} {currency}{' '}
-                          <span style={changeStyle24h}>
-                            {hasChange24h &&
-                              `(${formatPercentage(change24h)}%)`}
-                          </span>
-                        </>
-                      )}
-                    </td>
-                  </tr>
-                  <tr>
-                    <td className={classes.detailsTitle}>Circulating Supply</td>
-                    <td className={classes.detailsValue}>
-                      {!_.isUndefined(available_supply) &&
-                        `${formatSupply(available_supply)} ${symbol}`}
-                    </td>
-                  </tr>
-                  <tr>
-                    <td className={classes.detailsTitle}>Total Supply</td>
-                    <td className={classes.detailsValue}>
-                      {!_.isUndefined(total_supply) &&
-                        `${formatSupply(total_supply)} ${symbol}`}
-                    </td>
-                  </tr>
+                  <tbody className={classes.detailsTableBody}>
+                    <tr>
+                      <td className={classes.detailsTitle}>Market Cap</td>
+                      <td className={classes.detailsValue}>
+                        {hasMarketCap &&
+                          `${currencySymbol}${formatPrice(
+                            market_cap * currencyRate,
+                          )} ${currency}`}
+                      </td>
+                    </tr>
+                    <tr>
+                      <td className={classes.detailsTitle}>24h Volume</td>
+                      <td className={classes.detailsValue}>
+                        {hasVolume24 && (
+                          <>
+                            {currencySymbol}
+                            {formatVolume(volume24h * currencyRate)} {currency}{' '}
+                            <span style={changeStyle24h}>
+                              {hasChange24h &&
+                                `(${formatPercentage(change24h)}%)`}
+                            </span>
+                          </>
+                        )}
+                      </td>
+                    </tr>
+                    <tr>
+                      <td className={classes.detailsTitle}>
+                        Circulating Supply
+                      </td>
+                      <td className={classes.detailsValue}>
+                        {!_.isUndefined(available_supply) &&
+                          `${formatSupply(available_supply)} ${symbol}`}
+                      </td>
+                    </tr>
+                    <tr>
+                      <td className={classes.detailsTitle}>Total Supply</td>
+                      <td className={classes.detailsValue}>
+                        {!_.isUndefined(total_supply) &&
+                          `${formatSupply(total_supply)} ${symbol}`}
+                      </td>
+                    </tr>
+                  </tbody>
                 </table>
               </Grid>
             </Grid>
