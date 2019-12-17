@@ -21,6 +21,7 @@ import CurrencyContext, {
 } from '~/bundles/common/contexts/CurrencyContext'
 
 interface Props {
+  isMobile: boolean
   isWatched: boolean
   watchCoinHandler: () => void
   coinObj: any
@@ -39,17 +40,20 @@ const styles = (theme) =>
         padding: '24px',
         paddingBottom: '0',
         alignItems: 'baseline',
+        flexWrap: 'nowrap',
       },
       [theme.breakpoints.down('sm')]: {
-        padding: '40px 16px 0',
-      },
-      '& > *:not(:last-child)': {
-        [theme.breakpoints.down('sm')]: {
-          marginBottom: '34px',
-        },
+        padding: '16px 16px 0',
       },
     },
-    coinDetails: {},
+    titleRoot: {
+      [theme.breakpoints.up('md')]: {
+        paddingRight: '16px',
+      },
+      [theme.breakpoints.down('sm')]: {
+        marginBottom: '34px',
+      },
+    },
     coinImage: {
       marginRight: '12px',
       maxHeight: '34px',
@@ -59,10 +63,12 @@ const styles = (theme) =>
       fontSize: '34px',
       fontWeight: 500,
       marginRight: '7px',
-      display: 'inline-block',
+      display: 'inline',
     },
     coinSymbol: {
       color: black54,
+      height: '34px',
+      verticalAlign: '2px',
     },
     coinRanking: {
       marginRight: '16px',
@@ -74,7 +80,10 @@ const styles = (theme) =>
     coinPrice: {
       marginRight: `${theme.spacing.unit * 1.5}px`,
     },
-    watchButtonContainer: {},
+    watchButtonContainer: {
+      marginBottom: '16px',
+      textAlign: 'right',
+    },
     watchButton: {
       borderWidth: '1px',
       borderStyle: 'solid',
@@ -97,29 +106,50 @@ const styles = (theme) =>
       backgroundColor: '#fff',
       color: '#40a9ff',
     },
-    detailsRoot: {
-      alignSelf: 'flex-start',
-      '& > *': {
-        paddingBottom: '8px',
+    detailsTable: {
+      [theme.breakpoints.up('md')]: {
+        float: 'right',
+        display: 'flex',
+        flexWrap: 'wrap',
+        '& tr': {
+          flexBasis: '50%',
+          maxWidth: '50%',
+          display: 'flex',
+          flexDirection: 'column',
+        },
       },
+    },
+    detailsRoot: {
+      alignSelf: 'center',
     },
     detailsTitle: {
       color: black54,
       fontSize: '12px',
+      lineHeight: '17px',
+      paddingBottom: '4px',
+      whiteSpace: 'nowrap',
     },
     detailsValue: {
       fontSize: '14px',
-      lineHeight: 1.25,
-      whiteSpace: 'pre-wrap',
+      lineHeight: '17px',
+      whiteSpace: 'nowrap',
+      paddingBottom: '8px',
       [theme.breakpoints.down('sm')]: {
         marginBottom: '10px',
+        textAlign: 'right',
       },
     },
   })
 
 class InfoBar extends React.Component<Props, {}> {
   public render() {
-    const { coinObj, classes, isWatched, watchCoinHandler } = this.props
+    const {
+      coinObj,
+      classes,
+      isMobile,
+      isWatched,
+      watchCoinHandler,
+    } = this.props
     const {
       market_cap,
       change1h,
@@ -158,33 +188,12 @@ class InfoBar extends React.Component<Props, {}> {
               alignItems="flex-start"
               className={classes.root}
             >
-              <Grid
-                item={true}
-                xs={12}
-                md={3}
-                container={true}
-                justify="flex-start"
-                alignItems="baseline"
-                alignContent="flex-start"
-              >
-                <Grid item={true} className={classes.coinDetails}>
-                  <img
-                    alt={coinObj.name}
-                    src={coinObj.image_url}
-                    className={classes.coinImage}
-                  />
-                  <Typography variant="h1" className={classes.coinName}>
-                    {coinObj.name}
-                  </Typography>
-                  {!_.isUndefined(symbol) && (
-                    <span className={classes.coinSymbol}>({symbol})</span>
-                  )}
-                </Grid>
-                <Grid item={true} xs={12} style={{ height: '10px' }} />
-                <Grid item={true} className={classes.coinRanking}>
-                  Rank #{ranking}
-                </Grid>
-                <Grid item={true} className={classes.watchButtonContainer}>
+              {isMobile && (
+                <Grid
+                  item={true}
+                  xs={12}
+                  className={classes.watchButtonContainer}
+                >
                   <Icon
                     name="star"
                     solid={true}
@@ -202,74 +211,99 @@ class InfoBar extends React.Component<Props, {}> {
                     {isWatched ? 'Unwatch Coin' : 'Watch Coin'}
                   </Icon>
                 </Grid>
-              </Grid>
+              )}
               <Grid
                 item={true}
                 xs={12}
-                md={4}
+                md="auto"
                 container={true}
-                direction="column"
                 justify="flex-start"
-                alignItems="flex-start"
+                alignItems="baseline"
+                alignContent="flex-start"
+                className={classes.titleRoot}
               >
-                <Grid item={true} className={classes.coinPriceRoot}>
-                  <span className={classes.price}>
-                    {currencySymbol}
-                    {formatPrice(price * currencyRate)}
-                  </span>{' '}
-                  <span style={changeStyle1h}>
-                    ({formatPercentage(percentChange1h)}%)
-                  </span>
+                <Grid item={true}>
+                  <img
+                    alt={coinObj.name}
+                    src={coinObj.image_url}
+                    className={classes.coinImage}
+                  />
+                  <Typography variant="h1" className={classes.coinName}>
+                    {coinObj.name}
+                  </Typography>
+                  {!_.isUndefined(symbol) && (
+                    <span className={classes.coinSymbol}>({symbol})</span>
+                  )}
+                </Grid>
+                <Grid item={true} xs={12} style={{ height: '10px' }} />
+                <Grid
+                  item={true}
+                  xs={12}
+                  container={true}
+                  direction="row"
+                  justify="flex-start"
+                  alignItems="flex-start"
+                >
+                  <Grid item={true} className={classes.coinPriceRoot}>
+                    <span className={classes.price}>
+                      {currencySymbol}
+                      {formatPrice(price * currencyRate)}
+                    </span>{' '}
+                    <span style={changeStyle1h}>
+                      ({formatPercentage(percentChange1h)}%)
+                    </span>
+                  </Grid>
+                </Grid>
+                <Grid item={true} className={classes.coinRanking}>
+                  <sub>Rank #{ranking}</sub>
                 </Grid>
               </Grid>
               <Grid
                 item={true}
                 xs={12}
-                md={5}
-                container={true}
-                justify="flex-start"
-                alignItems="stretch"
-                alignContent="stretch"
-                wrap="wrap"
+                md="auto"
                 className={classes.detailsRoot}
               >
-                <Grid item={true} xs={6} className={classes.detailsTitle}>
-                  Market Cap
-                </Grid>
-                <Grid item={true} xs={6} className={classes.detailsTitle}>
-                  24h Volume
-                </Grid>
-                <Grid item={true} xs={6} className={classes.detailsValue}>
-                  {hasMarketCap &&
-                    `${currencySymbol}${formatPrice(
-                      market_cap * currencyRate,
-                    )} ${currency}`}
-                </Grid>
-                <Grid item={true} xs={6} className={classes.detailsValue}>
-                  <span>
-                    {hasVolume24 &&
-                      `${currencySymbol}${formatVolume(
-                        volume24h * currencyRate,
-                      )} ${currency}`}
-                  </span>{' '}
-                  <span style={changeStyle24h}>
-                    {hasChange24h && `(${formatPercentage(change24h)}%)`}
-                  </span>
-                </Grid>
-                <Grid item={true} xs={6} className={classes.detailsTitle}>
-                  Circulating Supply
-                </Grid>
-                <Grid item={true} xs={6} className={classes.detailsTitle}>
-                  Total Supply
-                </Grid>
-                <Grid item={true} xs={6} className={classes.detailsValue}>
-                  {!_.isUndefined(available_supply) &&
-                    `${formatSupply(available_supply)} ${symbol}`}
-                </Grid>
-                <Grid item={true} xs={6} className={classes.detailsValue}>
-                  {!_.isUndefined(total_supply) &&
-                    `${formatSupply(total_supply)} ${symbol}`}
-                </Grid>
+                <table className={classes.detailsTable}>
+                  <tr>
+                    <td className={classes.detailsTitle}>Market Cap</td>
+                    <td className={classes.detailsValue}>
+                      {hasMarketCap &&
+                        `${currencySymbol}${formatPrice(
+                          market_cap * currencyRate,
+                        )} ${currency}`}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td className={classes.detailsTitle}>24h Volume</td>
+                    <td className={classes.detailsValue}>
+                      {hasVolume24 && (
+                        <>
+                          {currencySymbol}
+                          {formatVolume(volume24h * currencyRate)} {currency}{' '}
+                          <span style={changeStyle24h}>
+                            {hasChange24h &&
+                              `(${formatPercentage(change24h)}%)`}
+                          </span>
+                        </>
+                      )}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td className={classes.detailsTitle}>Circulating Supply</td>
+                    <td className={classes.detailsValue}>
+                      {!_.isUndefined(available_supply) &&
+                        `${formatSupply(available_supply)} ${symbol}`}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td className={classes.detailsTitle}>Total Supply</td>
+                    <td className={classes.detailsValue}>
+                      {!_.isUndefined(total_supply) &&
+                        `${formatSupply(total_supply)} ${symbol}`}
+                    </td>
+                  </tr>
+                </table>
               </Grid>
             </Grid>
           )
