@@ -3,4 +3,6 @@
 @import 'modules/ico-page';
 @import 'components/table';
 
-@include striped-table;
+table {
+  @extend %striped-table;
+}
