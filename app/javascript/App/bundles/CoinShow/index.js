@@ -363,6 +363,26 @@ class CoinShow extends Component {
                     coinShow
                     unstyled
                   />
+                  {!isMobile && (
+                    <Icon
+                      name="star"
+                      solid={true}
+                      dataHeapTag={
+                        this.state.watched
+                          ? ''
+                          : 'news-add-coin-to-watchlist-button'
+                      }
+                      className={classnames(
+                        classes.watchButton,
+                        this.state.watched
+                          ? classes.watchedButton
+                          : classes.unwatchedButton,
+                      )}
+                      onClick={this.watchCoinHandler}
+                    >
+                      {this.state.watched ? 'Unwatch Coin' : 'Watch Coin'}
+                    </Icon>
+                  )}
                 </Card>
                 <Card
                   raised={false}
@@ -371,6 +391,7 @@ class CoinShow extends Component {
                   className={classes.topBarWrapper}
                 >
                   <InfoBar
+                    isMobile={isMobile}
                     isWatched={this.state.watched}
                     watchCoinHandler={this.watchCoinHandler}
                     coinObj={coinObj}

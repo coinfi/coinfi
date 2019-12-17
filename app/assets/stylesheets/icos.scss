@@ -1,0 +1,8 @@
+@import 'variables';
+@import 'tachyons';
+@import 'modules/ico-page';
+@import 'components/table';
+
+table {
+  @extend %striped-table;
+}

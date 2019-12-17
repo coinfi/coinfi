@@ -89,6 +89,7 @@ const styles = (theme) =>
       },
       [theme.breakpoints.up('md')]: {
         padding: '8px 16px',
+        justifyContent: 'space-between',
       },
     },
     mobileCoinButton: {
@@ -303,6 +304,28 @@ const styles = (theme) =>
     },
     readMore: {
       textAlign: 'right',
+    },
+    watchButton: {
+      marginTop: '-2px',
+      borderWidth: '1px',
+      borderStyle: 'solid',
+      borderRadius: '4px',
+      padding: '4px',
+      fontSize: '12px',
+      fontWeight: 600,
+      lineHeight: '16px',
+      fontFamily: 'Avenir, sans-serif',
+      '& i': {
+        verticalAlign: 'middle',
+        fontSize: '8px',
+      },
+    },
+    watchedButton: {
+      backgroundColor: '#40a9ff',
+      color: '#fff',
+    },
+    unwatchedButton: {
+      color: '#40a9ff',
     },
   })
 

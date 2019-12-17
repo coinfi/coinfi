@@ -1,0 +1,33 @@
+main p {
+  margin-top: 0 !important;
+  line-height: 1.4em;
+}
+main ul {
+  margin-top: 0 !important;
+}
+main p + ul {
+  margin-top: -0.75em !important;
+}
+main li + li {
+  margin-top: 0.25em !important;
+}
+main table + p,
+main img + p {
+  margin-top: 1em !important;
+}
+main img {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+main img + img,
+main a + img {
+  margin-top: 1em !important;
+}
+#root {
+  margin-bottom: 0.5em !important;
+}
+main {
+  display: block !important;
+  min-height: unset !important;
+}
