@@ -1,6 +1,5 @@
 import * as React from 'react'
 import { withStyles, createStyles } from '@material-ui/core/styles'
-import classnames from 'classnames'
 import { Card } from '@material-ui/core'
 import { borderColor, black87 } from '~/bundles/common/styles/colors'
 
@@ -20,7 +19,7 @@ const styles = (theme) =>
         color: black87,
       },
       '& h3': {
-        fontSize: '15px',
+        fontSize: '16px',
         fontWeight: 500,
         color: black87,
       },
@@ -31,13 +30,12 @@ const styles = (theme) =>
   })
 
 const MainCard = ({ children, classes, className, ...props }) => {
-  const classNames = classnames(classes.root, className)
   return (
     <Card
       raised={false}
       square={true}
       elevation={0}
-      className={classNames}
+      className={className}
       classes={classes}
       {...props}
     >

@@ -37,7 +37,10 @@ interface State {
 const styles = (theme) =>
   createStyles({
     wrapper: {
-      overflowX: 'scroll',
+      overflowX: 'auto',
+      [theme.breakpoints.down('sm')]: {
+        overflowX: 'scroll',
+      },
     },
     exchangeLogo: {
       width: '20px',
@@ -171,10 +174,10 @@ class MarketsTable extends React.Component<Props, State> {
                   <TableCell className={classes.tableHeadCell}>
                     Exchange
                   </TableCell>
-                  <TableCell className={classes.tableHeadCell} numeric={true}>
+                  <TableCell className={classes.tableHeadCell} align="right">
                     Market
                   </TableCell>
-                  <TableCell className={classes.tableHeadCell} numeric={true}>
+                  <TableCell className={classes.tableHeadCell} align="right">
                     <TableSortLabel
                       active={orderBy === 'volume24h'}
                       direction={order}
@@ -188,7 +191,7 @@ class MarketsTable extends React.Component<Props, State> {
                       Volume (24hr)
                     </TableSortLabel>
                   </TableCell>
-                  <TableCell className={classes.tableHeadCell} numeric={true}>
+                  <TableCell className={classes.tableHeadCell} align="right">
                     <TableSortLabel
                       active={orderBy === 'price'}
                       direction={order}
@@ -202,7 +205,7 @@ class MarketsTable extends React.Component<Props, State> {
                       Price
                     </TableSortLabel>
                   </TableCell>
-                  <TableCell className={classes.tableHeadCell} numeric={true}>
+                  <TableCell className={classes.tableHeadCell} align="right">
                     <TableSortLabel
                       active={orderBy === 'volume_percentage'}
                       direction={order}
@@ -260,7 +263,7 @@ class MarketsTable extends React.Component<Props, State> {
                         )}
                         {exchangeName}
                       </TableCell>
-                      <TableCell className={classes.tableCell} numeric={true}>
+                      <TableCell className={classes.tableCell} align="right">
                         {pair}
                         {!!lastUpdated && (
                           <div className={classes.subtext}>
@@ -268,18 +271,18 @@ class MarketsTable extends React.Component<Props, State> {
                           </div>
                         )}
                       </TableCell>
-                      <TableCell className={classes.tableCell} numeric={true}>
+                      <TableCell className={classes.tableCell} align="right">
                         {currencySymbol}
                         {formatVolume(volume24h)}
                         <div className={classes.subtext}>
                           {formatVolume(quoteVolume24h)} {quoteSymbol}
                         </div>
                       </TableCell>
-                      <TableCell className={classes.tableCell} numeric={true}>
+                      <TableCell className={classes.tableCell} align="right">
                         {currencySymbol}
                         {formatPrice(price)}
                       </TableCell>
-                      <TableCell className={classes.tableCell} numeric={true}>
+                      <TableCell className={classes.tableCell} align="right">
                         {formatPercentage(volumePercentage * 100)}%
                       </TableCell>
                     </TableRow>

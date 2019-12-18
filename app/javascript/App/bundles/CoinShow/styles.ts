@@ -67,7 +67,6 @@ const styles = (theme) =>
         flexBasis: '70%',
       },
     },
-    chartContainer: {},
     widgetContainer: {
       [theme.breakpoints.up('md')]: {
         maxWidth: '30%',
@@ -123,6 +122,13 @@ const styles = (theme) =>
     tabLabelContainer: {
       paddingRight: '12px',
       paddingLeft: '12px',
+      '&:hover': {
+        color: theme.palette.primary.main,
+        fontWeight: 600,
+      },
+    },
+    breadcrumbs: {
+      marginBottom: `${theme.spacing.unit * 2}px`,
     },
     cardHeader: {
       paddingBottom: 0,
@@ -133,14 +139,7 @@ const styles = (theme) =>
       color: black87,
       marginBottom: 0,
     },
-    priceChart: {
-      '&:not(.active)': {
-        position: 'fixed',
-        clip: 'rect(1px, 1px, 1px, 1px)',
-        opacity: 0,
-        overflow: 'hidden',
-      },
-    },
+    priceChart: {},
     tokenMetricHeader: {
       [theme.breakpoints.up('md')]: {
         '&:first-child': {

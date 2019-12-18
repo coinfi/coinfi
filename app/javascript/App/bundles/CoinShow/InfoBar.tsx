@@ -109,11 +109,10 @@ const styles = (theme) =>
     detailsTable: {},
     detailsTableBody: {
       [theme.breakpoints.up('md')]: {
-        display: 'flex',
-        flexWrap: 'wrap',
+        display: 'grid',
+        gridTemplateColumns: 'auto auto',
+        gridColumnGap: '24px',
         '& tr': {
-          flexBasis: '50%',
-          maxWidth: '50%',
           display: 'flex',
           flexDirection: 'column',
         },
