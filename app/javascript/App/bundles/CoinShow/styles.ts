@@ -326,6 +326,11 @@ const styles = (theme) =>
     unwatchedButton: {
       color: '#40a9ff',
     },
+    backToTopFab: {
+      position: 'fixed',
+      bottom: `${theme.spacing.unit * 2}px`,
+      right: `${theme.spacing.unit * 4}px`,
+    },
   })
 
 export default styles

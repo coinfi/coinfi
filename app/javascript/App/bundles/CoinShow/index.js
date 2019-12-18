@@ -16,6 +16,9 @@ import {
   ExpansionPanelDetails,
   Tooltip,
 } from '@material-ui/core'
+import Fab from '@material-ui/core/Fab'
+import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp'
+import Zoom from '@material-ui/core/Zoom'
 import { withStyles } from '@material-ui/core/styles'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import Breadcrumbs from '@material-ui/lab/Breadcrumbs'
@@ -37,6 +40,7 @@ import MarketsTable from './MarketsTable'
 import MarketsChart from './MarketsChart'
 import TokenMetrics from './TokenMetrics'
 import SignalTable from './SignalTable'
+import BackToTop from './BackToTop'
 import Icon from '~/bundles/common/components/Icon'
 import CoinListWrapper from '~/bundles/common/components/CoinListWrapper'
 import CoinListDrawer from '~/bundles/common/components/CoinListDrawer'
@@ -268,6 +272,16 @@ class CoinShow extends Component {
     }
   }
 
+  handleScrollToTop = (e) => {
+    const anchor = (e.target.ownerDocument || document).querySelector(
+      '#back-to-top-anchor',
+    )
+
+    if (anchor) {
+      anchor.scrollIntoView({ behavior: 'smooth', block: 'center' })
+    }
+  }
+
   render() {
     const {
       symbol,
@@ -390,6 +404,7 @@ class CoinShow extends Component {
                   square={true}
                   elevation={0}
                   className={classes.topBarWrapper}
+                  id="back-to-top-anchor"
                 >
                   <InfoBar
                     isMobile={isMobile}
@@ -468,7 +483,7 @@ class CoinShow extends Component {
                 >
                   <CardHeader
                     title={`${coinName} Price Chart`}
-                    titleTypographyProps={{ variant: 'h3', component: 'h3' }}
+                    titleTypographyProps={{ variant: 'h2', component: 'h2' }}
                     classes={{
                       root: classes.cardHeader,
                       title: classes.cardTitle,
@@ -636,6 +651,7 @@ class CoinShow extends Component {
                     />
                   </>
                 )}
+                <BackToTop onClick={this.handleScrollToTop} />
               </Grid>
               <Grid
                 item={true}
