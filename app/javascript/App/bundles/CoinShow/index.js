@@ -16,12 +16,9 @@ import {
   ExpansionPanelDetails,
   Tooltip,
 } from '@material-ui/core'
-import Fab from '@material-ui/core/Fab'
-import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp'
-import Zoom from '@material-ui/core/Zoom'
+import Breadcrumbs from '@material-ui/lab/Breadcrumbs'
 import { withStyles } from '@material-ui/core/styles'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
-import Breadcrumbs from '@material-ui/lab/Breadcrumbs'
 import withDevice from '~/bundles/common/utils/withDevice'
 import API from '../common/utils/localAPI'
 import SearchCoins from '~/bundles/common/components/SearchCoins'
@@ -378,26 +375,6 @@ class CoinShow extends Component {
                     coinShow
                     unstyled
                   />
-                  {!isMobile && (
-                    <Icon
-                      name="star"
-                      solid={true}
-                      dataHeapTag={
-                        this.state.watched
-                          ? ''
-                          : 'news-add-coin-to-watchlist-button'
-                      }
-                      className={classnames(
-                        classes.watchButton,
-                        this.state.watched
-                          ? classes.watchedButton
-                          : classes.unwatchedButton,
-                      )}
-                      onClick={this.watchCoinHandler}
-                    >
-                      {this.state.watched ? 'Unwatch Coin' : 'Watch Coin'}
-                    </Icon>
-                  )}
                 </Card>
                 <Card
                   raised={false}
@@ -406,12 +383,48 @@ class CoinShow extends Component {
                   className={classes.topBarWrapper}
                   id="back-to-top-anchor"
                 >
-                  <InfoBar
-                    isMobile={isMobile}
-                    isWatched={this.state.watched}
-                    watchCoinHandler={this.watchCoinHandler}
-                    coinObj={coinObj}
-                  />
+                  <Grid
+                    container={true}
+                    className={classes.breadcrumbsContainer}
+                  >
+                    <Grid item={true} xs={12} md={10}>
+                      <Breadcrumbs
+                        separator="›"
+                        aria-label="breadcrumb"
+                        className={classes.breadcrumbs}
+                      >
+                        <a href="/">Home</a>
+                        <a href="/coins">Cryptocurrency Prices</a>
+                        <a href={`/coins/${coinSlug}`}>{coinName} Price</a>
+                      </Breadcrumbs>
+                    </Grid>
+                    <Grid
+                      item={true}
+                      xs={12}
+                      md={2}
+                      className={classes.watchButtonContainer}
+                    >
+                      <Icon
+                        name="star"
+                        solid={true}
+                        dataHeapTag={
+                          this.state.watched
+                            ? ''
+                            : 'news-add-coin-to-watchlist-button'
+                        }
+                        className={classnames(
+                          classes.watchButton,
+                          this.state.watched
+                            ? classes.watchedButton
+                            : classes.unwatchedButton,
+                        )}
+                        onClick={this.watchCoinHandler}
+                      >
+                        {this.state.watched ? 'Unwatch Coin' : 'Watch Coin'}
+                      </Icon>
+                    </Grid>
+                  </Grid>
+                  <InfoBar isMobile={isMobile} coinObj={coinObj} />
                   <Tabs
                     value={false}
                     onChange={this.handleTabChange}
@@ -468,15 +481,6 @@ class CoinShow extends Component {
                 md={8}
                 className={classnames(classes.contentContainer, tabSlug)}
               >
-                <Breadcrumbs
-                  separator="›"
-                  aria-label="breadcrumb"
-                  className={classes.breadcrumbs}
-                >
-                  <a href="/">Home</a>
-                  <a href="/coins">Cryptocurrency Prices</a>
-                  <a href={`/coins/${coinSlug}`}>{coinName} Price</a>
-                </Breadcrumbs>
                 <MainCard
                   id={TAB_SLUGS.priceChart}
                   className={classes.priceChart}

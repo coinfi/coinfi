@@ -1,5 +1,10 @@
 import { createStyles } from '@material-ui/core/styles'
-import { borderColor, black87, aqua } from '~/bundles/common/styles/colors'
+import {
+  borderColor,
+  black87,
+  aqua,
+  black54,
+} from '~/bundles/common/styles/colors'
 import { btnSm } from '~/bundles/common/styles/buttons'
 
 const styles = (theme) =>
@@ -103,7 +108,7 @@ const styles = (theme) =>
     },
     topBarWrapper: {
       border: `1px solid ${borderColor}`,
-      marginTop: '-1px !important', // hide top border
+      borderTop: 'none',
     },
     tabsRoot: {
       backgroundColor: '#fff',
@@ -126,9 +131,6 @@ const styles = (theme) =>
         color: theme.palette.primary.main,
         fontWeight: 600,
       },
-    },
-    breadcrumbs: {
-      marginBottom: `${theme.spacing.unit * 2}px`,
     },
     cardHeader: {
       paddingBottom: 0,
@@ -304,8 +306,13 @@ const styles = (theme) =>
     readMore: {
       textAlign: 'right',
     },
+    watchButtonContainer: {
+      textAlign: 'right',
+      [theme.breakpoints.down('sm')]: {
+        marginTop: `${theme.spacing.unit * 2}px`,
+      },
+    },
     watchButton: {
-      marginTop: '-2px',
       borderWidth: '1px',
       borderStyle: 'solid',
       borderRadius: '4px',
@@ -324,7 +331,15 @@ const styles = (theme) =>
       color: '#fff',
     },
     unwatchedButton: {
+      backgroundColor: '#fff',
       color: '#40a9ff',
+    },
+    breadcrumbsContainer: {
+      margin: `${theme.spacing.unit * 2}px ${theme.spacing.unit * 2}px 0`,
+      width: `calc(100% - ${theme.spacing.unit * 4}px)`,
+      '& a': {
+        color: black54,
+      },
     },
     backToTopFab: {
       position: 'fixed',
