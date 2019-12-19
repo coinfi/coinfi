@@ -1,4 +1,4 @@
-import axios, { AxiosResponse } from 'axios'
+import axios, { AxiosResponse, AxiosRequestConfig } from 'axios'
 import * as qs from 'qs'
 
 axios.defaults.paramsSerializer = (params) => {
@@ -11,8 +11,8 @@ const request = (
   remote = true,
   type = 'get',
   cancelToken = null,
-): any | AxiosResponse<any> => {
-  let config: any = {}
+): Promise<any | AxiosResponse> => {
+  let config: AxiosRequestConfig = {}
   let endpoint = '/api'
   const params = data
   const headers = {
@@ -29,17 +29,18 @@ const request = (
     config = { ...config, cancelToken }
   }
   const url = `${endpoint}${path}`
-  if (type === 'delete' || type === 'get') {
-    if (type === 'get') {
-      config = { ...config, params }
-    } else if (type === 'delete') {
-      config = { ...config, data }
-    }
-    return axios[type](url, config).then((response) => {
+  if (type === 'delete') {
+    config = { ...config, data }
+    return axios.delete(url, config).then((response: AxiosResponse) => {
+      return response.data || response
+    })
+  } else if (type === 'get') {
+    config = { ...config, params }
+    return axios.get(url, config).then((response: AxiosResponse) => {
       return response.data || response
     })
   }
-  return axios[type](url, params, config).then((response) => {
+  return axios[type](url, params, config).then((response: AxiosResponse) => {
     return response.data || response
   })
 }
