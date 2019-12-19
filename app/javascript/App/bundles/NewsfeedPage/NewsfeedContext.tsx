@@ -6,8 +6,11 @@ import {
   VoteData,
   VoteDictionary,
 } from './types'
+import { CancelTokenSource } from 'axios'
 
-export interface NewsfeedContextType {
+export interface NewsfeedContextType
+  extends PromiseCancellationInterface,
+    BasicNewsInterface {
   status: string
   newslist: NewsItem[]
   newsItemDetails: NewsItemDictionary
@@ -15,14 +18,25 @@ export interface NewsfeedContextType {
   isLoading: boolean
   isLoadingMoreItems: boolean
   isReady: boolean
-  fetchNewNewsItems: (filters: Filters) => Promise<NewsItem[]>
-  fetchNewsItems: (filters: Filters) => Promise<NewsItem[]>
-  fetchMoreNewsItems: (filters: Filters) => Promise<NewsItem[]>
-  fetchNewsItem: (newsItemId: number) => Promise<NewsItem>
-  fetchVotesforNewsItem: (newsItemId: number) => Promise<VoteData>
-  voteOnNewsItem: (newsItemId: number, direction: boolean) => Promise<VoteData>
-  cleanNewsItems: () => void
+  fetchNewsItem: (newsItemId: number, cancelToken?) => Promise<NewsItem>
+  fetchVotesforNewsItem: (newsItemId: number, cancelToken?) => Promise<VoteData>
+  voteOnNewsItem: (
+    newsItemId: number,
+    direction: boolean,
+    cancelToken?,
+  ) => Promise<VoteData>
   hasMore: boolean
+}
+
+export interface BasicNewsInterface {
+  fetchNewsItems: (filters: Filters, cancelToken?) => Promise<NewsItem[]>
+  fetchMoreNewsItems: (filters: Filters, cancelToken?) => Promise<NewsItem[]>
+  fetchNewNewsItems: (filters: Filters, cancelToken?) => Promise<NewsItem[]>
+  cleanNewsItems: () => void
+}
+
+export interface PromiseCancellationInterface {
+  getCancelFetchSource: () => CancelTokenSource
 }
 
 const NewsfeedContext = React.createContext<NewsfeedContextType>(null)
