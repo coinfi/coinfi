@@ -8,6 +8,7 @@ import _ from 'lodash'
 import classnames from 'classnames'
 import { withCurrency } from '~/bundles/common/contexts/CurrencyContext'
 import { withStyles, createStyles } from '@material-ui/core/styles'
+import NoSsr from '@material-ui/core/NoSsr'
 
 const STATUSES = {
   INITIALIZING: 'INITIALIZING',
@@ -185,11 +186,13 @@ class CoinCharts extends Component {
               active: activeTabKey === 0,
             })}
           >
-            <PriceGraph
-              priceData={processedPriceData}
-              // priceDataHourly={epochPrices}
-              {...remainingProps}
-            />
+            <NoSsr>
+              <PriceGraph
+                priceData={processedPriceData}
+                // priceDataHourly={epochPrices}
+                {...remainingProps}
+              />
+            </NoSsr>
           </div>
           {isTradingViewVisible && (
             <div
@@ -197,11 +200,13 @@ class CoinCharts extends Component {
                 active: activeTabKey === 1,
               })}
             >
-              <TradingViewChart
-                priceData={processedPriceData}
-                // priceDataHourly={epochPrices}
-                {...remainingProps}
-              />
+              <NoSsr>
+                <TradingViewChart
+                  priceData={processedPriceData}
+                  // priceDataHourly={epochPrices}
+                  {...remainingProps}
+                />
+              </NoSsr>
             </div>
           )}
         </div>

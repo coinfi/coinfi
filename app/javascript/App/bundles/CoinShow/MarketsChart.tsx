@@ -8,6 +8,7 @@ import {
   formatAbbreviatedPrice,
   formatPercentage,
 } from '~/bundles/common/utils/numberFormatters'
+import NoSsr from '@material-ui/core/NoSsr'
 
 interface Props {
   symbol: string
@@ -55,7 +56,7 @@ export function groupMarketData(data, groupBy: GroupType) {
 }
 
 export default class TokenChart extends React.Component<Props, State> {
-  private internalChart: HighchartsReactChart
+  private internalChart: Highcharts.Chart
 
   constructor(props: Props) {
     super(props)
@@ -202,12 +203,14 @@ export default class TokenChart extends React.Component<Props, State> {
     const { options } = this.state
 
     return (
-      <HighchartsReact
-        highcharts={Highcharts}
-        options={options}
-        allowChartUpdate={true}
-        callback={this.afterChartCreated}
-      />
+      <NoSsr>
+        <HighchartsReact
+          highcharts={Highcharts}
+          options={options}
+          allowChartUpdate={true}
+          callback={this.afterChartCreated}
+        />
+      </NoSsr>
     )
   }
 

@@ -4,6 +4,7 @@ import * as _ from 'lodash'
 import * as numeral from 'numeral'
 import Highcharts from 'highcharts'
 import HighchartsReact from 'highcharts-react-official'
+import NoSsr from '@material-ui/core/NoSsr'
 import defaultOptions from '../common/components/CoinCharts/PriceGraph/options'
 
 interface Props {
@@ -105,14 +106,15 @@ export default class TokenChart extends React.Component<Props, State> {
 
   public render() {
     const { options } = this.state
-
     return (
-      <HighchartsReact
-        highcharts={Highcharts}
-        options={options}
-        allowChartUpdate={true}
-        immutable={true}
-      />
+      <NoSsr>
+        <HighchartsReact
+          highcharts={Highcharts}
+          options={options}
+          allowChartUpdate={true}
+          immutable={true}
+        />
+      </NoSsr>
     )
   }
 }
