@@ -1,10 +1,5 @@
-import axios, { AxiosResponse } from 'axios'
+import axios, { AxiosResponse, AxiosRequestConfig } from 'axios'
 import * as qs from 'qs'
-import * as P from 'bluebird'
-
-P.config({
-  cancellation: true,
-})
 
 axios.defaults.paramsSerializer = (params) => {
   return qs.stringify(params, { arrayFormat: 'brackets' })
@@ -15,58 +10,55 @@ const request = (
   data = {},
   remote = true,
   type = 'get',
-): any | AxiosResponse<any> => {
-  let config = {}
+  cancelToken = null,
+): Promise<any | AxiosResponse> => {
+  let config: AxiosRequestConfig = {}
   let endpoint = '/api'
-  let params = data
+  const params = data
   const headers = {
     'X-CSRF-Token': document
       .querySelector('meta[name="csrf-token"]')
       .getAttribute('content'),
   }
-  if (type === 'get') {
-    params = { params }
-  }
   if (remote) {
     endpoint = (window as any).pricesURL
+  } else {
+    config = { ...config, headers }
   }
-  if (!remote) {
-    config = { headers }
+  if (cancelToken !== null) {
+    config = { ...config, cancelToken }
   }
   const url = `${endpoint}${path}`
-  return new P((resolve) => {
-    if (type === 'delete') {
-      axios
-        .delete(url, { data, headers })
-        .then((response) => {
-          resolve(response.data || response)
-        })
-        .catch((error) => {
-          console.log(error) // tslint:disable-line
-        })
-      return
-    }
-    axios[type](url, params, config)
-      .then((response) => {
-        resolve(response.data || response)
-      })
-      .catch((error) => {
-        console.log(error) // tslint:disable-line
-      })
+  if (type === 'delete') {
+    config = { ...config, data }
+    return axios.delete(url, config).then((response: AxiosResponse) => {
+      return response.data || response
+    })
+  } else if (type === 'get') {
+    config = { ...config, params }
+    return axios.get(url, config).then((response: AxiosResponse) => {
+      return response.data || response
+    })
+  }
+  return axios[type](url, params, config).then((response: AxiosResponse) => {
+    return response.data || response
   })
 }
 
 export default {
-  get(path, data?, remote?) {
-    return request(path, data, remote, 'get')
+  source() {
+    return axios.CancelToken.source()
   },
-  post(path, data?, remote?) {
-    return request(path, data, remote, 'post')
+  get(path, data?, remote?, cancelToken?) {
+    return request(path, data, remote, 'get', cancelToken)
   },
-  patch(path, data?, remote?) {
-    return request(path, data, remote, 'patch')
+  post(path, data?, remote?, cancelToken?) {
+    return request(path, data, remote, 'post', cancelToken)
   },
-  delete(path, data?, remote?) {
-    return request(path, data, remote, 'delete')
+  patch(path, data?, remote?, cancelToken?) {
+    return request(path, data, remote, 'patch', cancelToken)
+  },
+  delete(path, data?, remote?, cancelToken?) {
+    return request(path, data, remote, 'delete', cancelToken)
   },
 }

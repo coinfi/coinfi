@@ -10,11 +10,6 @@ import {
   VoteDictionary,
   UserVoteItem,
 } from './types'
-import * as P from 'bluebird'
-
-P.config({
-  cancellation: true,
-})
 
 const STATUSES = {
   INITIALIZING: 'INITIALIZING',
@@ -96,95 +91,96 @@ class NewsfeedContainer extends React.Component<Props, State> {
     })
   }
 
-  public fetchNewNewsItems = (filters: Filters): Promise<NewsItem[]> => {
+  public getCancelFetchSource = () => {
+    return localAPI.source()
+  }
+
+  public fetchNewNewsItems = (
+    filters: Filters,
+    cancelToken?,
+  ): Promise<NewsItem[]> => {
     if (this.state.sortedNewsItems.length === 0) {
       return Promise.resolve([])
     }
 
     const firstNewsItem = this.state.sortedNewsItems[0]
-
-    return new P((resolve, reject) => {
-      this.setState(
-        {
-          status: STATUSES.NEW_NEWS_ITEMS_LOADING,
-        },
-        () => {
-          localAPI
-            .get('/news', {
-              ...filters,
-              publishedSince: !!filters.publishedSince
-                ? filters.publishedSince
-                : firstNewsItem.feed_item_published_at,
-            })
-            .then((response) => {
-              if (!response.payload) {
-                this.setState({
-                  status: STATUSES.READY,
-                })
-                return Promise.resolve([])
-              }
-              const existingNewsIds = this.state.sortedNewsItems.map(
-                (elem) => elem.id,
-              )
-              const newNews = response.payload
-                .filter(
-                  (newsItem: NewsItem) =>
-                    !existingNewsIds.includes(newsItem.id),
-                )
-                .sort(this.sortNewsFunc)
-              const voteSummaries = newNews.reduce(
-                this.getVotesFromNewsItems,
-                this.state.voteSummaries,
-              )
-              this.setState(
-                {
-                  sortedNewsItems: this.uniqNews([
-                    ...newNews,
-                    ...this.state.sortedNewsItems,
-                  ]),
-                  voteSummaries,
-                  status: STATUSES.READY,
-                },
-                () => resolve(newNews),
-              )
-            })
-        },
-      )
+    this.setState({
+      status: STATUSES.NEW_NEWS_ITEMS_LOADING,
     })
-  }
-
-  public fetchNewsItems = (filters: Filters): Promise<NewsItem[]> => {
-    return new P((resolve, reject) => {
-      this.setState(
+    return localAPI
+      .get(
+        '/news',
         {
-          status: STATUSES.LOADING,
-          hasMore: true,
+          ...filters,
+          publishedSince: !!filters.publishedSince
+            ? filters.publishedSince
+            : firstNewsItem.feed_item_published_at,
         },
-        () => {
-          localAPI.get('/news', { ...filters }).then((response) => {
-            const sortedNewsItems = this.uniqNews(
-              response.payload.sort(this.sortNewsFunc),
-            )
-            const voteSummaries = sortedNewsItems.reduce(
-              this.getVotesFromNewsItems,
-              {},
-            )
-            this.setState(
-              {
-                sortedNewsItems,
-                voteSummaries,
-                status: STATUSES.READY,
-                hasMore: sortedNewsItems.length > 0,
-              },
-              () => resolve(sortedNewsItems),
-            )
+        cancelToken,
+      )
+      .then((response) => {
+        if (!response.payload) {
+          this.setState({
+            status: STATUSES.READY,
           })
-        },
-      )
-    })
+          return Promise.resolve([])
+        }
+        const existingNewsIds = this.state.sortedNewsItems.map(
+          (elem) => elem.id,
+        )
+        const newNews = response.payload
+          .filter(
+            (newsItem: NewsItem) => !existingNewsIds.includes(newsItem.id),
+          )
+          .sort(this.sortNewsFunc)
+        const voteSummaries = newNews.reduce(
+          this.getVotesFromNewsItems,
+          this.state.voteSummaries,
+        )
+        this.setState({
+          sortedNewsItems: this.uniqNews([
+            ...newNews,
+            ...this.state.sortedNewsItems,
+          ]),
+          voteSummaries,
+          status: STATUSES.READY,
+        })
+        return newNews
+      })
   }
 
-  public fetchMoreNewsItems = (filters: Filters): Promise<NewsItem[]> => {
+  public fetchNewsItems = (
+    filters: Filters,
+    cancelToken?,
+  ): Promise<NewsItem[]> => {
+    this.setState({
+      status: STATUSES.LOADING,
+      hasMore: true,
+    })
+    return localAPI
+      .get('/news', { ...filters }, cancelToken)
+      .then((response) => {
+        const sortedNewsItems = this.uniqNews(
+          response.payload.sort(this.sortNewsFunc),
+        )
+        const voteSummaries = sortedNewsItems.reduce(
+          this.getVotesFromNewsItems,
+          {},
+        )
+        this.setState({
+          sortedNewsItems,
+          voteSummaries,
+          status: STATUSES.READY,
+          hasMore: sortedNewsItems.length > 0,
+        })
+        return sortedNewsItems
+      })
+  }
+
+  public fetchMoreNewsItems = (
+    filters: Filters,
+    cancelToken?,
+  ): Promise<NewsItem[]> => {
     if (this.state.sortedNewsItems.length === 0) {
       return Promise.resolve([])
     }
@@ -193,79 +189,77 @@ class NewsfeedContainer extends React.Component<Props, State> {
       this.state.sortedNewsItems.length - 1
     ]
 
-    return new P((resolve, reject) => {
-      this.setState(
-        {
-          status: STATUSES.LOADING_MORE_ITEMS,
-        },
-        () =>
-          localAPI
-            .get(`/news`, {
-              ...filters,
-              publishedUntil: !!filters.publishedUntil
-                ? filters.publishedUntil
-                : lastNews.feed_item_published_at,
-            })
-            .then((response) => {
-              if (!response.payload) {
-                this.setState({
-                  status: STATUSES.READY,
-                })
-                return
-              }
-              const moreNewsItems = response.payload.sort(this.sortNewsFunc)
-              const voteSummaries = moreNewsItems.reduce(
-                this.getVotesFromNewsItems,
-                this.state.voteSummaries,
-              )
-              this.setState(
-                {
-                  sortedNewsItems: this.uniqNews([
-                    ...this.state.sortedNewsItems,
-                    ...moreNewsItems,
-                  ]),
-                  voteSummaries,
-                  status: STATUSES.READY,
-                  hasMore: moreNewsItems.length > 0,
-                },
-                () => resolve(moreNewsItems),
-              )
-            }),
-      )
+    this.setState({
+      status: STATUSES.LOADING_MORE_ITEMS,
     })
+    return localAPI
+      .get(
+        `/news`,
+        {
+          ...filters,
+          publishedUntil: !!filters.publishedUntil
+            ? filters.publishedUntil
+            : lastNews.feed_item_published_at,
+        },
+        cancelToken,
+      )
+      .then((response) => {
+        if (!response.payload) {
+          this.setState({
+            status: STATUSES.READY,
+          })
+          return
+        }
+        const moreNewsItems = response.payload.sort(this.sortNewsFunc)
+        const voteSummaries = moreNewsItems.reduce(
+          this.getVotesFromNewsItems,
+          this.state.voteSummaries,
+        )
+        this.setState({
+          sortedNewsItems: this.uniqNews([
+            ...this.state.sortedNewsItems,
+            ...moreNewsItems,
+          ]),
+          voteSummaries,
+          status: STATUSES.READY,
+          hasMore: moreNewsItems.length > 0,
+        })
+        return moreNewsItems
+      })
   }
 
-  public fetchNewsItem = (newsItemId: number): Promise<NewsItem> => {
-    return new P((resolve, reject) => {
-      const { sortedNewsItems, newsItemDetails } = this.state
-      // sorted news can be used because both index/show news serializers are the same right now
-      const existingNewsItem =
-        _.find(sortedNewsItems, (item) => item.id === newsItemId) ||
-        _.get(newsItemDetails, newsItemId)
+  public fetchNewsItem = (
+    newsItemId: number,
+    cancelToken?,
+  ): Promise<NewsItem> => {
+    const { sortedNewsItems, newsItemDetails } = this.state
+    // sorted news can be used because both index/show news serializers are the same right now
+    const existingNewsItem =
+      _.find(sortedNewsItems, (item) => item.id === newsItemId) ||
+      _.get(newsItemDetails, newsItemId)
 
-      if (!_.isUndefined(existingNewsItem)) {
-        return resolve(existingNewsItem)
-      }
+    if (!_.isUndefined(existingNewsItem)) {
+      return Promise.resolve(existingNewsItem)
+    }
 
-      localAPI.get(`/news/${newsItemId}`).then((response) => {
+    return localAPI
+      .get(`/news/${newsItemId}`, undefined, cancelToken)
+      .then((response) => {
         const newsItem = response.payload
         const voteSummaries = this.getVotesFromNewsItems(
           this.state.voteSummaries,
           newsItem,
         )
-        this.setState(
-          {
-            status: STATUSES.READY,
-            newsItemDetails: {
-              ...this.state.newsItemDetails,
-              [newsItem.id]: newsItem,
-            },
-            voteSummaries,
+        this.setState({
+          status: STATUSES.READY,
+          newsItemDetails: {
+            ...this.state.newsItemDetails,
+            [newsItem.id]: newsItem,
           },
-          () => resolve(newsItem),
-        )
+          voteSummaries,
+        })
+        return newsItem
       })
-    })
   }
 
   public getVotesFromNewsItems = (
@@ -303,55 +297,54 @@ class NewsfeedContainer extends React.Component<Props, State> {
     }
   }
 
-  public fetchVotesforNewsItem = (newsItemId: number): Promise<VoteData> => {
-    return new P((resolve, reject) => {
-      const { voteSummaries } = this.state
-      const existingVotes = _.get(voteSummaries, newsItemId)
-      if (!_.isUndefined(existingVotes)) {
-        return resolve(existingVotes)
-      }
+  public fetchVotesforNewsItem = (
+    newsItemId: number,
+    cancelToken?,
+  ): Promise<VoteData> => {
+    const { voteSummaries } = this.state
+    const existingVotes = _.get(voteSummaries, newsItemId)
+    if (!_.isUndefined(existingVotes)) {
+      return Promise.resolve(existingVotes)
+    }
 
-      localAPI.get(`/news/${newsItemId}/vote`).then((response) => {
+    return localAPI
+      .get(`/news/${newsItemId}/vote`, undefined, cancelToken)
+      .then((response) => {
         const votes = response.payload
 
-        this.setState(
-          {
-            voteSummaries: {
-              ...voteSummaries,
-              [newsItemId]: votes,
-            },
+        this.setState({
+          voteSummaries: {
+            ...voteSummaries,
+            [newsItemId]: votes,
           },
-          () => resolve(votes),
-        )
+        })
+        return votes
       })
-    })
   }
 
   public voteOnNewsItem = (
     newsItemId: number,
     direction: boolean,
+    cancelToken?,
   ): Promise<VoteData> => {
-    return new P((resolve, reject) => {
-      localAPI
-        .post(`/news/${newsItemId}/vote`, { direction })
-        .then((response) => {
-          const votes = response.payload
-          const { voteSummaries } = this.state
-          this.setState(
-            {
-              voteSummaries: {
-                ...voteSummaries,
-                [newsItemId]: votes,
-              },
-            },
-            () => resolve(votes),
-          )
+    return localAPI
+      .post(`/news/${newsItemId}/vote`, { direction }, cancelToken)
+      .then((response) => {
+        const votes = response.payload
+        const { voteSummaries } = this.state
+        this.setState({
+          voteSummaries: {
+            ...voteSummaries,
+            [newsItemId]: votes,
+          },
         })
-    })
+        return votes
+      })
   }
 
   public render = () => {
     const payload: NewsfeedContextType = {
+      getCancelFetchSource: this.getCancelFetchSource,
       cleanNewsItems: this.cleanNewsItems,
       fetchMoreNewsItems: this.fetchMoreNewsItems,
       fetchNewNewsItems: this.fetchNewNewsItems,

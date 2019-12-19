@@ -1,16 +1,19 @@
 import API from './API'
 
 export default {
-  get(path, data?) {
-    return API.get(path, data, false)
+  source() {
+    return API.source()
   },
-  post(path, data?) {
-    return API.post(path, data, false)
+  get(path, data?, cancelToken?) {
+    return API.get(path, data, false, cancelToken)
   },
-  patch(path, data?) {
-    return API.patch(path, data, false)
+  post(path, data?, cancelToken?) {
+    return API.post(path, data, false, cancelToken)
   },
-  delete(path, data?) {
-    return API.delete(path, data, false)
+  patch(path, data?, cancelToken?) {
+    return API.patch(path, data, false, cancelToken)
+  },
+  delete(path, data?, cancelToken?) {
+    return API.delete(path, data, false, cancelToken)
   },
 }

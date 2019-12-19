@@ -55,6 +55,8 @@ export function groupMarketData(data, groupBy: GroupType) {
 }
 
 export default class TokenChart extends React.Component<Props, State> {
+  private internalChart: HighchartsReactChart
+
   constructor(props: Props) {
     super(props)
 
@@ -153,13 +155,6 @@ export default class TokenChart extends React.Component<Props, State> {
             color: '#212121',
           },
         },
-        chart: {
-          width: null,
-          height: 250,
-          spacingTop: 10,
-          spacingBottom: 0,
-          margin: [50, 20, 15, 20],
-        },
         navigator: {
           enabled: false,
         },
@@ -200,9 +195,7 @@ export default class TokenChart extends React.Component<Props, State> {
       },
     )
 
-    this.state = {
-      options,
-    }
+    this.state = { options }
   }
 
   public render() {
@@ -211,9 +204,19 @@ export default class TokenChart extends React.Component<Props, State> {
     return (
       <HighchartsReact
         highcharts={Highcharts}
-        options={{ ...options }}
-        allowChartUpdate={false}
+        options={options}
+        allowChartUpdate={true}
+        callback={this.afterChartCreated}
       />
     )
+  }
+
+  protected afterChartCreated(chart) {
+    this.internalChart = chart
+
+    this.internalChart.setSize(null, 250)
+    this.internalChart.spacingTop = 10
+    this.internalChart.spacingBottom = 0
+    this.internalChart.margin = [50, 20, 15, 20]
   }
 }

@@ -1,5 +1,10 @@
 import { createStyles } from '@material-ui/core/styles'
-import { borderColor, black87, aqua } from '~/bundles/common/styles/colors'
+import {
+  borderColor,
+  black87,
+  aqua,
+  black54,
+} from '~/bundles/common/styles/colors'
 import { btnSm } from '~/bundles/common/styles/buttons'
 
 const styles = (theme) =>
@@ -67,7 +72,6 @@ const styles = (theme) =>
         flexBasis: '70%',
       },
     },
-    chartContainer: {},
     widgetContainer: {
       [theme.breakpoints.up('md')]: {
         maxWidth: '30%',
@@ -104,7 +108,7 @@ const styles = (theme) =>
     },
     topBarWrapper: {
       border: `1px solid ${borderColor}`,
-      marginTop: '-1px !important', // hide top border
+      borderTop: 'none',
     },
     tabsRoot: {
       backgroundColor: '#fff',
@@ -123,6 +127,10 @@ const styles = (theme) =>
     tabLabelContainer: {
       paddingRight: '12px',
       paddingLeft: '12px',
+      '&:hover': {
+        color: theme.palette.primary.main,
+        fontWeight: 600,
+      },
     },
     cardHeader: {
       paddingBottom: 0,
@@ -133,14 +141,7 @@ const styles = (theme) =>
       color: black87,
       marginBottom: 0,
     },
-    priceChart: {
-      '&:not(.active)': {
-        position: 'fixed',
-        clip: 'rect(1px, 1px, 1px, 1px)',
-        opacity: 0,
-        overflow: 'hidden',
-      },
-    },
+    priceChart: {},
     tokenMetricHeader: {
       [theme.breakpoints.up('md')]: {
         '&:first-child': {
@@ -305,8 +306,13 @@ const styles = (theme) =>
     readMore: {
       textAlign: 'right',
     },
+    watchButtonContainer: {
+      textAlign: 'right',
+      [theme.breakpoints.down('sm')]: {
+        marginTop: `${theme.spacing.unit * 2}px`,
+      },
+    },
     watchButton: {
-      marginTop: '-2px',
       borderWidth: '1px',
       borderStyle: 'solid',
       borderRadius: '4px',
@@ -325,7 +331,20 @@ const styles = (theme) =>
       color: '#fff',
     },
     unwatchedButton: {
+      backgroundColor: '#fff',
       color: '#40a9ff',
+    },
+    breadcrumbsContainer: {
+      margin: `${theme.spacing.unit * 2}px ${theme.spacing.unit * 2}px 0`,
+      width: `calc(100% - ${theme.spacing.unit * 4}px)`,
+      '& a': {
+        color: black54,
+      },
+    },
+    backToTopFab: {
+      position: 'fixed',
+      bottom: `${theme.spacing.unit * 2}px`,
+      right: `${theme.spacing.unit * 4}px`,
     },
   })
 

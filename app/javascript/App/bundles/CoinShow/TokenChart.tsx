@@ -109,8 +109,9 @@ export default class TokenChart extends React.Component<Props, State> {
     return (
       <HighchartsReact
         highcharts={Highcharts}
-        options={{ ...options }}
-        allowChartUpdate={false}
+        options={options}
+        allowChartUpdate={true}
+        immutable={true}
       />
     )
   }

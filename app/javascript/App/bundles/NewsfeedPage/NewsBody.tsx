@@ -84,10 +84,12 @@ const styles = (theme) => {
 }
 
 class NewsBody extends React.Component<Props, State> {
-  public pendingPromises = []
+  public cancelSource
 
   constructor(props) {
     super(props)
+
+    this.cancelSource = props.getCancelFetchSource()
 
     this.state = {
       newsItem: props.initialNewsItem || null,
@@ -126,28 +128,20 @@ class NewsBody extends React.Component<Props, State> {
   }
 
   public componentWillUnmount() {
-    this.pendingPromises.map((p) => {
-      if (p.isPending()) {
-        p.cancel()
-      }
-    })
+    this.cancelSource.cancel()
   }
 
   public fetchNewsItemDetails() {
-    const fetchNewsPromise = this.props
-      .fetchNewsItem(parseInt(this.props.newsItemId, 10))
+    this.props
+      .fetchNewsItem(
+        parseInt(this.props.newsItemId, 10),
+        this.cancelSource.token,
+      )
       .then((newsItem) => {
         this.setState({
           newsItem,
         })
-        this.cleanupPromiseQueue()
       })
-
-    this.pendingPromises.push(fetchNewsPromise)
-  }
-
-  public cleanupPromiseQueue = () => {
-    this.pendingPromises = this.pendingPromises.filter((p) => !p.isPending())
   }
 
   public render() {

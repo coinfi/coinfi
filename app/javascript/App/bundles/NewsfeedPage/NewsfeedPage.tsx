@@ -15,11 +15,6 @@ import withDevice, {
   DeviceContextType,
 } from '~/bundles/common/utils/withDevice'
 import EventListener from 'react-event-listener'
-import * as P from 'bluebird'
-
-P.config({
-  cancellation: true,
-})
 
 import { NewsItem, ContentType, Filters } from './types'
 import { CoinWithDetails, CoinClickHandler } from '../common/types'
@@ -28,10 +23,18 @@ import {
   getDefaultFilters,
   mergeInitialSocialSourcesForCoinsFilter,
 } from './utils'
+import {
+  BasicNewsInterface,
+  PromiseCancellationInterface,
+} from '~/bundles/NewsfeedPage/NewsfeedContext'
 
 const POLLING_TIMEOUT = 60000
 
-interface Props extends RouteComponentProps<any>, DeviceContextType {
+interface Props
+  extends RouteComponentProps<any>,
+    DeviceContextType,
+    BasicNewsInterface,
+    PromiseCancellationInterface {
   loggedIn: boolean
   categories: string[]
   feedSources: string[]
@@ -43,10 +46,6 @@ interface Props extends RouteComponentProps<any>, DeviceContextType {
   initialNewsItem?: NewsItem
   initialCoinWithDetails?: CoinWithDetails
   isNewsfeedLoading: boolean
-  fetchNewsItems: (filters: Filters) => Promise<NewsItem[]>
-  fetchMoreNewsItems: (filters: Filters) => Promise<NewsItem[]>
-  fetchNewNewsItems: (filters: Filters) => Promise<NewsItem[]>
-  cleanNewsItems: () => void
   selectedCoinSlug: string | null
   selectCoinBySlug: any
   isWatchlistSelected: boolean
@@ -139,26 +138,20 @@ class NewsfeedPage extends React.Component<Props, State> {
     )
   }
 
-  public fetchNewNewsItems = () => {
-    return this.props.fetchNewNewsItems(this.state.filters).then((news) => {
-      return new P((resolve, reject) => {
+  public fetchNewNewsItems = (cancelToken?) => {
+    return this.props
+      .fetchNewNewsItems(this.state.filters, cancelToken)
+      .then((news) => {
         if (!this.state.isWindowFocused) {
           const ids = news.map((elem) => elem.id)
           const unseenNewsIds = _.uniq(this.state.unseenNewsIds.concat(ids))
           this.updateTitle(unseenNewsIds)
-          this.setState(
-            {
-              unseenNewsIds,
-            },
-            () => {
-              resolve()
-            },
-          )
-        } else {
-          resolve()
+          this.setState({
+            unseenNewsIds,
+          })
         }
+        return
       })
-    })
   }
 
   public handleOnBlur = () => this.setState({ isWindowFocused: false })

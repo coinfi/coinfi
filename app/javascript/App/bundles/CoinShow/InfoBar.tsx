@@ -1,8 +1,7 @@
 import * as React from 'react'
 import * as _ from 'lodash'
-import classnames from 'classnames'
-import Icon from '~/bundles/common/components/Icon'
 import { Grid, Typography } from '@material-ui/core'
+
 import { withStyles, createStyles } from '@material-ui/core/styles'
 import {
   black54,
@@ -22,8 +21,6 @@ import CurrencyContext, {
 
 interface Props {
   isMobile: boolean
-  isWatched: boolean
-  watchCoinHandler: () => void
   coinObj: any
   currency: string
   classes: any
@@ -37,18 +34,18 @@ const styles = (theme) =>
       fontSize: '12px',
       fontWeight: 500,
       [theme.breakpoints.up('md')]: {
-        padding: '24px',
+        padding: `${theme.spacing.unit * 2}px ${theme.spacing.unit * 3}px 0`,
         paddingBottom: '0',
         alignItems: 'baseline',
         flexWrap: 'nowrap',
       },
       [theme.breakpoints.down('sm')]: {
-        padding: '16px 16px 0',
+        padding: `${theme.spacing.unit * 2}px ${theme.spacing.unit * 2}px 0`,
       },
     },
     titleRoot: {
       [theme.breakpoints.up('md')]: {
-        paddingRight: '16px',
+        paddingRight: `${theme.spacing.unit * 2}px`,
       },
       [theme.breakpoints.down('sm')]: {
         marginBottom: '34px',
@@ -80,40 +77,13 @@ const styles = (theme) =>
     coinPrice: {
       marginRight: `${theme.spacing.unit * 1.5}px`,
     },
-    watchButtonContainer: {
-      marginBottom: '16px',
-      textAlign: 'right',
-    },
-    watchButton: {
-      borderWidth: '1px',
-      borderStyle: 'solid',
-      borderRadius: '4px',
-      padding: '4px',
-      fontSize: '12px',
-      fontWeight: 600,
-      lineHeight: '16px',
-      fontFamily: 'Avenir, sans-serif',
-      '& i': {
-        verticalAlign: 'middle',
-        fontSize: '8px',
-      },
-    },
-    watchedButton: {
-      backgroundColor: '#40a9ff',
-      color: '#fff',
-    },
-    unwatchedButton: {
-      backgroundColor: '#fff',
-      color: '#40a9ff',
-    },
     detailsTable: {},
     detailsTableBody: {
       [theme.breakpoints.up('md')]: {
-        display: 'flex',
-        flexWrap: 'wrap',
+        display: 'grid',
+        gridTemplateColumns: 'auto auto',
+        gridColumnGap: '24px',
         '& tr': {
-          flexBasis: '50%',
-          maxWidth: '50%',
           display: 'flex',
           flexDirection: 'column',
         },
@@ -143,14 +113,9 @@ const styles = (theme) =>
 
 class InfoBar extends React.Component<Props, {}> {
   public render() {
+    const { coinObj, classes } = this.props
     const {
-      coinObj,
-      classes,
-      isMobile,
-      isWatched,
-      watchCoinHandler,
-    } = this.props
-    const {
+      name: coinName,
       market_cap,
       change1h,
       change24h,
@@ -188,30 +153,6 @@ class InfoBar extends React.Component<Props, {}> {
               alignItems="flex-start"
               className={classes.root}
             >
-              {isMobile && (
-                <Grid
-                  item={true}
-                  xs={12}
-                  className={classes.watchButtonContainer}
-                >
-                  <Icon
-                    name="star"
-                    solid={true}
-                    dataHeapTag={
-                      isWatched ? '' : 'news-add-coin-to-watchlist-button'
-                    }
-                    className={classnames(
-                      classes.watchButton,
-                      isWatched
-                        ? classes.watchedButton
-                        : classes.unwatchedButton,
-                    )}
-                    onClick={watchCoinHandler}
-                  >
-                    {isWatched ? 'Unwatch Coin' : 'Watch Coin'}
-                  </Icon>
-                </Grid>
-              )}
               <Grid
                 item={true}
                 xs={12}
@@ -224,12 +165,12 @@ class InfoBar extends React.Component<Props, {}> {
               >
                 <Grid item={true}>
                   <img
-                    alt={coinObj.name}
+                    alt={coinName}
                     src={coinObj.image_url}
                     className={classes.coinImage}
                   />
                   <Typography variant="h1" className={classes.coinName}>
-                    {coinObj.name} Price
+                    {coinName} Price
                   </Typography>
                   {!_.isUndefined(symbol) && (
                     <span className={classes.coinSymbol}>({symbol})</span>

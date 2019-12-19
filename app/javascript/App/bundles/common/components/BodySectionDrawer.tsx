@@ -37,9 +37,11 @@ class BodySectionDrawer extends React.Component<Props, {}> {
   private scrollableElementRef = React.createRef<HTMLDivElement>()
 
   public render() {
+    const { classes, ...remainingProps } = this.props
+
     return (
       <Drawer
-        {...this.props}
+        {...remainingProps}
         position={this.props.skipAnimation ? 'none' : 'bottom'}
         className="flex flex-column"
         onClose={this.props.onClose}
@@ -47,7 +49,7 @@ class BodySectionDrawer extends React.Component<Props, {}> {
         controlledRef={this.scrollableElementRef}
       >
         <div
-          className={classnames('flex-none', this.props.classes.iconWrapper)}
+          className={classnames('flex-none', classes.iconWrapper)}
           onClick={this.props.onClose}
         >
           <Icon name="times" className="f4 white" noPadding={true} />
@@ -55,7 +57,7 @@ class BodySectionDrawer extends React.Component<Props, {}> {
         <div
           className={classnames(
             'flex-auto overflow-y-auto bg-white relative',
-            this.props.classes.scrollable,
+            classes.scrollable,
           )}
           ref={this.scrollableElementRef}
         >
