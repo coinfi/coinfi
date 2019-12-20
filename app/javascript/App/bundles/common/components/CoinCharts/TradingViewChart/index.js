@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import _ from 'lodash'
 import Datafeed from './Datafeed'
 import { withStyles, createStyles } from '@material-ui/core/styles'
-
+import LoadingIndicator from '~/bundles/common/components/LoadingIndicator'
 const containerID = 'tradingview'
 
 /***
@@ -127,14 +127,11 @@ class TradingViewChart extends Component {
       (!_.isEqual(prevProps.priceData, this.props.priceData) ||
         !_.isEqual(prevProps.priceDataHourly, this.props.priceDataHourly))
     ) {
-      const { priceData, priceDataHourly } = this.props
-      const datafeed = new Datafeed(priceData, priceDataHourly)
-
       try {
         if (this.tvWidget && this.tvWidget.chart && this.resetHandler) {
           const chart = this.tvWidget.chart()
-          this.resetHandler()
-          chart.resetData()
+          this.resetHandler() // needs to be called before resetData(); calls onResetCacheNeededCallback()
+          chart.resetData() // causes chart to re-request data
         }
       } catch (e) {
         console.error(e)
@@ -151,4 +148,70 @@ class TradingViewChart extends Component {
   }
 }
 
-export default withStyles(styles)(TradingViewChart)
+class TradingViewChartWrapper extends Component {
+  _isMounted = false
+  script_src = '/tradingview/charting_library.min.js'
+
+  constructor(props) {
+    super(props)
+    this.state = {
+      loading: !this.hasScript(),
+    }
+  }
+
+  componentDidMount() {
+    this._isMounted = true
+    this.loadScript()
+  }
+
+  componentWillUnmount() {
+    this._isMounted = false
+  }
+
+  hasScript = () => {
+    return !!document.querySelector(`script[src="${this.script_src}"]`)
+  }
+
+  loadScript = () => {
+    // postscribe does not support SSR and needs to guard against being called on server side
+    if (typeof window === 'undefined') {
+      return
+    }
+    if (this.hasScript()) {
+      if (this.state.loading) {
+        this.setState({ loading: false })
+      }
+      return
+    }
+
+    const postscribe = require('postscribe')
+    postscribe(
+      document.querySelector('head'),
+      `<script src="${this.script_src}" defer></script>`,
+      {
+        done: () => {
+          if (!this._isMounted) {
+            return
+          }
+          this.setState({ loading: false })
+        },
+        error: (e) => {
+          console.error(e)
+          if (!this._isMounted) {
+            return
+          }
+          this.loadScript()
+        },
+      },
+    )
+  }
+
+  render() {
+    if (this.state.loading) {
+      return <LoadingIndicator />
+    }
+    return <TradingViewChart {...this.props} />
+  }
+}
+
+export default withStyles(styles)(TradingViewChartWrapper)

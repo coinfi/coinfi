@@ -3,7 +3,6 @@ import classnames from 'classnames'
 import { withStyles, createStyles } from '@material-ui/core/styles'
 import { sansAlt } from '../../styles/typography'
 import { tiber, white70 } from '../../styles/colors'
-import { withUserSettings } from '../../contexts/UserSettingsContext'
 
 const styles = (theme) => {
   const isDarkMode = theme.palette.type === 'dark'
@@ -79,4 +78,4 @@ class Tabs extends Component {
   }
 }
 
-export default withStyles(styles)(withUserSettings(Tabs))
+export default withStyles(styles)(Tabs)

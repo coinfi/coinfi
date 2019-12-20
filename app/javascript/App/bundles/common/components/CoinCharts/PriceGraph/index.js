@@ -408,11 +408,7 @@ class PriceGraph extends Component {
   }
 
   render() {
-    return (
-      <div>
-        <div id={containerID} />
-      </div>
-    )
+    return <div id={containerID} />
   }
 }
 

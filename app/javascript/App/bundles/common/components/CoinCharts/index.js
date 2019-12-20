@@ -7,8 +7,8 @@ import moment from 'moment'
 import _ from 'lodash'
 import classnames from 'classnames'
 import { withCurrency } from '~/bundles/common/contexts/CurrencyContext'
+import { withUserSettings } from '~/bundles/common/contexts/UserSettingsContext'
 import { withStyles, createStyles } from '@material-ui/core/styles'
-import NoSsr from '@material-ui/core/NoSsr'
 
 const STATUSES = {
   INITIALIZING: 'INITIALIZING',
@@ -20,6 +20,14 @@ const styles = (theme) => {
   const isDarkMode = theme.palette.type === 'dark'
 
   return createStyles({
+    coinChartContainer: {
+      marginLeft: '-1rem',
+      marginRight: '-1rem',
+      [theme.breakpoints.down('sm')]: {
+        marginLeft: 0,
+        marginRight: 0,
+      },
+    },
     tabContent: {
       '&:not(.active)': {
         position: 'fixed !important',
@@ -158,6 +166,8 @@ class CoinCharts extends Component {
       priceData,
       priceDataHourly,
       classes,
+      defaultToTradingView,
+      setDefaultToTradingView,
       ...remainingProps
     } = this.props
     const { status, processedPriceData, tabKey: activeTabKey } = this.state
@@ -177,42 +187,41 @@ class CoinCharts extends Component {
             target="coin-charts"
             items={['Line Chart', 'TradingView Chart']}
             onChange={this.handleTabChange}
+            defaultToTradingView={defaultToTradingView}
+            setDefaultToTradingView={setDefaultToTradingView}
             className="flex-auto justify-center justify-start-l"
           />
         )}
-        <div id="coin-charts" className="nl3 nr3 mh0-m">
+        <div id="coin-charts" className={classes.coinChartContainer}>
           <div
             className={classnames(classes.tabContent, {
               active: activeTabKey === 0,
             })}
           >
-            <NoSsr>
-              <PriceGraph
-                priceData={processedPriceData}
-                // priceDataHourly={epochPrices}
-                {...remainingProps}
-              />
-            </NoSsr>
+            <PriceGraph
+              priceData={processedPriceData}
+              // priceDataHourly={epochPrices}
+              {...remainingProps}
+            />
           </div>
-          {isTradingViewVisible && (
-            <div
-              className={classnames(classes.tabContent, {
-                active: activeTabKey === 1,
-              })}
-            >
-              <NoSsr>
+          {isTradingViewVisible &&
+            activeTabKey === 1 && (
+              <div
+                className={classnames(classes.tabContent, {
+                  active: activeTabKey === 1,
+                })}
+              >
                 <TradingViewChart
                   priceData={processedPriceData}
                   // priceDataHourly={epochPrices}
                   {...remainingProps}
                 />
-              </NoSsr>
-            </div>
-          )}
+              </div>
+            )}
         </div>
       </div>
     )
   }
 }
 
-export default withStyles(styles)(withCurrency(CoinCharts))
+export default withStyles(styles)(withCurrency(withUserSettings(CoinCharts)))
