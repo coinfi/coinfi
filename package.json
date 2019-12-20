@@ -62,6 +62,7 @@
     "moment": "^2.22.2",
     "normalizr": "^3.2.4",
     "numeral": "^2.0.6",
+    "postscribe": "^2.0.8",
     "prop-types": "15.6.2",
     "qs": "^6.5.1",
     "rails-ujs": "^5.2.0",
