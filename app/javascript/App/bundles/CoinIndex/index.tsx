@@ -331,11 +331,10 @@ class CoinIndex extends Component<Props, State> {
                         columns.map((col, colIndex) => {
                           const { dataIndex, render, align } = col
                           const text = _.get(row, dataIndex)
-                          const isNumeric = align === 'right'
                           return (
                             <TableCell
                               key={colIndex}
-                              numeric={isNumeric}
+                              align={align}
                               className={classes[dataIndex]}
                             >
                               {render

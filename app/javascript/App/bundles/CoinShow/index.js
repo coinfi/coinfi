@@ -6,8 +6,6 @@ import classnames from 'classnames'
 import {
   Grid,
   Card,
-  CardHeader,
-  CardContent,
   List,
   ListItem,
   ListItemText,
@@ -18,6 +16,7 @@ import {
   ExpansionPanelDetails,
   Tooltip,
 } from '@material-ui/core'
+import Breadcrumbs from '@material-ui/lab/Breadcrumbs'
 import { withStyles } from '@material-ui/core/styles'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import withDevice from '~/bundles/common/utils/withDevice'
@@ -26,6 +25,8 @@ import SearchCoins from '~/bundles/common/components/SearchCoins'
 import CoinCharts from '~/bundles/common/components/CoinCharts'
 import MainCard from './MainCard'
 import SubCard from './SubCard'
+import CardContent from './CardContent'
+import CardHeader from './CardHeader'
 import NewsLabel from './NewsLabel'
 import FundamentalsList from './FundamentalsList'
 import InfoBar from './InfoBar'
@@ -36,6 +37,7 @@ import MarketsTable from './MarketsTable'
 import MarketsChart from './MarketsChart'
 import TokenMetrics from './TokenMetrics'
 import SignalTable from './SignalTable'
+import BackToTop from './BackToTop'
 import Icon from '~/bundles/common/components/Icon'
 import CoinListWrapper from '~/bundles/common/components/CoinListWrapper'
 import CoinListDrawer from '~/bundles/common/components/CoinListDrawer'
@@ -44,11 +46,12 @@ import { WATCHLIST_CHANGE_EVENT } from '~/bundles/common/containers/CoinListCont
 import { withCurrency } from '~/bundles/common/contexts/CurrencyContext'
 import { openSignUpModal } from '~/bundles/common/utils/modals'
 import styles from './styles'
+import moment from 'moment'
 
 const TAB_SLUGS = {
-  tokenMetrics: 'token-metrics',
   priceChart: 'price-chart',
   markets: 'markets',
+  tokenMetrics: 'token-metrics',
   news: 'news',
 }
 
@@ -58,11 +61,7 @@ class CoinShow extends Component {
   constructor(props) {
     super(props)
 
-    const hasTokenMetrics = this.hasTokenMetrics()
-    const tabSlug = hasTokenMetrics
-      ? TAB_SLUGS.tokenMetrics
-      : TAB_SLUGS.priceChart
-
+    const tabSlug = this.defaultTab()
     this.state = {
       priceChartSizeSet: false,
       liveCoinArr: [],
@@ -78,14 +77,13 @@ class CoinShow extends Component {
     // handle tab change here to avoid rendering issues
     const { props } = this
     const hasTokenMetrics = this.hasTokenMetrics()
+    const hasMarkets = this.hasMarkets()
     const hashTag = _.get(props, ['location', 'hash'], '').slice(1) // remove prepended octothorpe
     const isValidHashTag =
       _.findIndex(Object.values(TAB_SLUGS), (slug) => slug === hashTag) >= 0 &&
-      (hasTokenMetrics || hashTag !== TAB_SLUGS.tokenMetrics)
-    const defaultTabSlug = hasTokenMetrics
-      ? TAB_SLUGS.tokenMetrics
-      : TAB_SLUGS.priceChart
-    const tabSlug = isValidHashTag ? hashTag : defaultTabSlug
+      (hasTokenMetrics || hashTag !== TAB_SLUGS.tokenMetrics) &&
+      (hasMarkets || hashTag !== TAB_SLUGS.markets)
+    const tabSlug = isValidHashTag ? hashTag : this.defaultTab()
     if (tabSlug !== this.state.tabSlug) {
       this.setState({ tabSlug })
     }
@@ -128,6 +126,10 @@ class CoinShow extends Component {
     document.title = `${coin.symbol} (${currencySymbol}${price}) - ${
       coin.name
     } Price Chart, Value, News, Market Cap`
+  }
+
+  defaultTab = () => {
+    return TAB_SLUGS.priceChart
   }
 
   hasTokenMetrics = () => {
@@ -205,10 +207,43 @@ class CoinShow extends Component {
   getPriceData() {
     this.fetchPriceData().then((data) => {
       const { priceData, priceDataHourly } = data
+      let lastPriceUpdate
+
+      function timeToTimestamp(time) {
+        return moment.utc(time).valueOf()
+      }
+
+      /***
+       * NOTE: data is always one time unit behind the time update was performed,
+       * so we need to increment time unit by one
+       ***/
+      if (!_.isEmpty(priceDataHourly)) {
+        const initialTime = _.get(priceDataHourly, [0, 'time'])
+        if (initialTime) {
+          lastPriceUpdate = priceDataHourly.reduce(
+            (latestTimestamp, { time }) => {
+              const timestamp = timeToTimestamp(time)
+              return timestamp > latestTimestamp ? timestamp : latestTimestamp
+            },
+            timeToTimestamp(initialTime),
+          )
+        }
+        lastPriceUpdate += 60 * 60 * 1000
+      } else if (!_.isEmpty(priceData)) {
+        const initialTime = _.get(priceData, [0, 'time'])
+        if (initialTime) {
+          lastPriceUpdate = priceData.reduce((latestTimestamp, { time }) => {
+            const timestamp = timeToTimestamp(time)
+            return timestamp > latestTimestamp ? timestamp : latestTimestamp
+          }, timeToTimestamp(initialTime))
+        }
+        lastPriceUpdate += 24 * 60 * 60 * 1000
+      }
 
       this.setState({
         priceData,
         priceDataHourly,
+        lastPriceUpdate,
       })
     })
   }
@@ -244,6 +279,10 @@ class CoinShow extends Component {
 
     this.props.history.push(`#${tabSlug}`)
     this.setState({ tabSlug })
+    const tabStartElement = document.getElementById(tabSlug)
+    if (tabStartElement) {
+      tabStartElement.scrollIntoView()
+    }
 
     if (tabSlug === TAB_SLUGS.priceChart) {
       if (
@@ -261,6 +300,16 @@ class CoinShow extends Component {
           })
         }
       }, 100)
+    }
+  }
+
+  handleScrollToTop = (e) => {
+    const anchor = (e.target.ownerDocument || document).querySelector(
+      '#back-to-top-anchor',
+    )
+
+    if (anchor) {
+      anchor.scrollIntoView({ behavior: 'smooth', block: 'center' })
     }
   }
 
@@ -282,17 +331,14 @@ class CoinShow extends Component {
       currencyRate,
       changeCurrency,
     } = this.props
-    const { tabSlug, priceData, priceDataHourly } = this.state
+    const { tabSlug, priceData, priceDataHourly, lastPriceUpdate } = this.state
     const isMobile = !isDesktop
     const isLoggedIn = !!user
     const hasTokenMetrics = this.hasTokenMetrics()
     const hasMarkets = this.hasMarkets()
-    const showFundamentals =
-      tabSlug === TAB_SLUGS.priceChart || tabSlug === TAB_SLUGS.tokenMetrics
-    const showLinks =
-      tabSlug === TAB_SLUGS.priceChart || tabSlug === TAB_SLUGS.tokenMetrics
     const {
       name: coinName,
+      slug: coinSlug,
       market_pairs: marketPairs,
       total_market_pairs: totalMarketPairs,
     } = coinObj
@@ -369,30 +415,57 @@ class CoinShow extends Component {
                   square={true}
                   elevation={0}
                   className={classes.topBarWrapper}
+                  id="back-to-top-anchor"
                 >
-                  <InfoBar
-                    isWatched={this.state.watched}
-                    watchCoinHandler={this.watchCoinHandler}
-                    coinObj={coinObj}
-                  />
+                  <Grid
+                    container={true}
+                    className={classes.breadcrumbsContainer}
+                  >
+                    <Grid item={true} xs={12} md={10}>
+                      <Breadcrumbs
+                        separator="›"
+                        aria-label="breadcrumb"
+                        className={classes.breadcrumbs}
+                      >
+                        <a href="/">Home</a>
+                        <a href="/coins">Cryptocurrency Prices</a>
+                        <a href={`/coins/${coinSlug}`}>{coinName} Price</a>
+                      </Breadcrumbs>
+                    </Grid>
+                    <Grid
+                      item={true}
+                      xs={12}
+                      md={2}
+                      className={classes.watchButtonContainer}
+                    >
+                      <Icon
+                        name="star"
+                        solid={true}
+                        dataHeapTag={
+                          this.state.watched
+                            ? ''
+                            : 'news-add-coin-to-watchlist-button'
+                        }
+                        className={classnames(
+                          classes.watchButton,
+                          this.state.watched
+                            ? classes.watchedButton
+                            : classes.unwatchedButton,
+                        )}
+                        onClick={this.watchCoinHandler}
+                      >
+                        {this.state.watched ? 'Unwatch Coin' : 'Watch Coin'}
+                      </Icon>
+                    </Grid>
+                  </Grid>
+                  <InfoBar isMobile={isMobile} coinObj={coinObj} />
                   <Tabs
-                    value={tabSlug}
+                    value={false}
                     onChange={this.handleTabChange}
                     indicatorColor="primary"
                     textColor="primary"
                     className={classes.tabsRoot}
                   >
-                    {hasTokenMetrics && (
-                      <Tab
-                        label="Token Metrics"
-                        value={TAB_SLUGS.tokenMetrics}
-                        classes={{
-                          root: classes.tabRoot,
-                          selected: classes.tabSelected,
-                          labelContainer: classes.tabLabelContainer,
-                        }}
-                      />
-                    )}
                     <Tab
                       label="Price Chart"
                       value={TAB_SLUGS.priceChart}
@@ -413,6 +486,17 @@ class CoinShow extends Component {
                         }}
                       />
                     )}
+                    {hasTokenMetrics && (
+                      <Tab
+                        label="Token Metrics"
+                        value={TAB_SLUGS.tokenMetrics}
+                        classes={{
+                          root: classes.tabRoot,
+                          selected: classes.tabSelected,
+                          labelContainer: classes.tabLabelContainer,
+                        }}
+                      />
+                    )}
                     <Tab
                       label={<NewsLabel />}
                       value={TAB_SLUGS.news}
@@ -425,20 +509,16 @@ class CoinShow extends Component {
                   </Tabs>
                 </Card>
               </Grid>
-              {/* Price Chart Tab */}
-              {/* NOTE: Simply hide price chart instead of removing due to performance issues. */}
               <Grid
                 item={true}
                 xs={12}
                 md={8}
-                className={classnames(
-                  classes.contentContainer,
-                  classes.chartContainer,
-                  classes.priceChart,
-                  { active: tabSlug === TAB_SLUGS.priceChart },
-                )}
+                className={classnames(classes.contentContainer, tabSlug)}
               >
-                <MainCard>
+                <MainCard
+                  id={TAB_SLUGS.priceChart}
+                  className={classes.priceChart}
+                >
                   <CardHeader
                     title={`${coinName} Price Chart`}
                     titleTypographyProps={{ variant: 'h2', component: 'h2' }}
@@ -456,6 +536,14 @@ class CoinShow extends Component {
                       isTradingViewVisible={isTradingViewVisible}
                       onPriceChartCreated={this.handlePriceChartCreated}
                     />
+                    {lastPriceUpdate && (
+                      <div className={classes.lastUpdated}>
+                        Last Updated:{' '}
+                        {moment(lastPriceUpdate).format(
+                          'MMMM Do YYYY, HH:mm:ss Z',
+                        )}
+                      </div>
+                    )}
                   </CardContent>
                 </MainCard>
                 <MainCard>
@@ -511,8 +599,8 @@ class CoinShow extends Component {
                         </>
                       }
                       titleTypographyProps={{
-                        variant: 'h2',
-                        component: 'h2',
+                        variant: 'h3',
+                        component: 'h3',
                       }}
                       classes={{
                         root: classes.cardHeader,
@@ -543,9 +631,9 @@ class CoinShow extends Component {
                     expandIcon={<ExpandMoreIcon />}
                     className={classes.expansionSummary}
                   >
-                    <h2 className={classes.cardTitle}>
+                    <h3 className={classes.cardTitle}>
                       {coinName} Historical Data
-                    </h2>
+                    </h3>
                   </ExpansionPanelSummary>
                   <ExpansionPanelDetails className={classes.expansionDetails}>
                     <HistoricalPriceDataTable
@@ -555,100 +643,98 @@ class CoinShow extends Component {
                     />
                   </ExpansionPanelDetails>
                 </ExpansionPanel>
+                {hasMarkets && (
+                  <>
+                    <h2 id={TAB_SLUGS.markets}>{coinName} Markets</h2>
+                    <MainCard>
+                      <CardContent>
+                        <Grid container={true} justify="space-around">
+                          <Grid
+                            item={true}
+                            xs={12}
+                            md={6}
+                            className={classes.marketsChartWrapper}
+                          >
+                            <MarketsChart
+                              data={marketPairs}
+                              symbol={symbol}
+                              groupBy="exchange"
+                            />
+                          </Grid>
+                          <Grid
+                            item={true}
+                            xs={12}
+                            md={6}
+                            className={classes.marketsChartWrapper}
+                          >
+                            <MarketsChart
+                              data={marketPairs}
+                              symbol={symbol}
+                              groupBy="pair"
+                            />
+                          </Grid>
+                        </Grid>
+                      </CardContent>
+                    </MainCard>
+                    <MainCard>
+                      <CardContent className={classes.marketsCardContent}>
+                        <MarketsTable
+                          data={marketPairs}
+                          total={totalMarketPairs}
+                        />
+                      </CardContent>
+                    </MainCard>
+                  </>
+                )}
+                {hasTokenMetrics && (
+                  <>
+                    <h2 id={TAB_SLUGS.tokenMetrics}>
+                      {coinName} Token Metrics
+                    </h2>
+                    <TokenMetrics
+                      tokenMetrics={tokenMetrics}
+                      coinObj={coinObj}
+                    />
+                  </>
+                )}
+                <BackToTop onClick={this.handleScrollToTop} />
               </Grid>
-              {tabSlug === TAB_SLUGS.tokenMetrics && (
-                <TokenMetrics tokenMetrics={tokenMetrics} coinObj={coinObj} />
-              )}
-              {tabSlug === TAB_SLUGS.markets && (
-                <Grid
-                  item={true}
-                  xs={12}
-                  md={8}
-                  className={classnames(
-                    classes.contentContainer,
-                    classes.chartContainer,
-                  )}
-                >
-                  <MainCard>
-                    <CardContent>
-                      <Grid container={true} justify="space-around">
-                        <Grid
-                          item={true}
-                          xs={12}
-                          md={6}
-                          className={classes.marketsChartWrapper}
-                        >
-                          <MarketsChart
-                            data={marketPairs}
-                            symbol={symbol}
-                            groupBy="exchange"
-                          />
-                        </Grid>
-                        <Grid
-                          item={true}
-                          xs={12}
-                          md={6}
-                          className={classes.marketsChartWrapper}
-                        >
-                          <MarketsChart
-                            data={marketPairs}
-                            symbol={symbol}
-                            groupBy="pair"
-                          />
-                        </Grid>
-                      </Grid>
-                    </CardContent>
-                  </MainCard>
-                  <MainCard>
-                    <CardContent className={classes.marketsCardContent}>
-                      <MarketsTable
-                        data={marketPairs}
-                        total={totalMarketPairs}
-                      />
-                    </CardContent>
-                  </MainCard>
-                </Grid>
-              )}
               <Grid
                 item={true}
                 xs={12}
                 md={4}
                 className={classes.widgetContainer}
               >
-                {showFundamentals && (
-                  <SubCard>
-                    <CardHeader
-                      title={`${coinName} Fundamentals`}
-                      titleTypographyProps={{ variant: 'h2', component: 'h2' }}
-                      classes={{
-                        root: classes.subCardHeader,
-                        title: classes.subCardTitle,
-                      }}
-                    />
-                    <CardContent className={classes.subCardContent}>
-                      <FundamentalsList coinObj={coinObj} />
-                    </CardContent>
-                  </SubCard>
-                )}
-                {showLinks && (
-                  <SubCard>
-                    <CardHeader
-                      title={`${coinName} Links`}
-                      titleTypographyProps={{ variant: 'h2', component: 'h2' }}
-                      classes={{
-                        root: classes.subCardHeader,
-                        title: classes.subCardTitle,
-                      }}
-                    />
-                    <CardContent className={classes.subCardContent}>
-                      <LinksList coinObj={coinObj} />
-                    </CardContent>
-                  </SubCard>
-                )}
+                <SubCard>
+                  <CardHeader
+                    title={`${coinName} Fundamentals`}
+                    titleTypographyProps={{ variant: 'h3', component: 'h3' }}
+                    classes={{
+                      root: classes.subCardHeader,
+                      title: classes.subCardTitle,
+                    }}
+                  />
+                  <CardContent className={classes.subCardContent}>
+                    <FundamentalsList coinObj={coinObj} />
+                  </CardContent>
+                </SubCard>
+                <SubCard>
+                  <CardHeader
+                    title={`${coinName} Links`}
+                    titleTypographyProps={{ variant: 'h3', component: 'h3' }}
+                    classes={{
+                      root: classes.subCardHeader,
+                      title: classes.subCardTitle,
+                    }}
+                  />
+                  <CardContent className={classes.subCardContent}>
+                    <LinksList coinObj={coinObj} />
+                  </CardContent>
+                </SubCard>
                 <SubCard>
                   <CardHeader
                     title="Related Coins"
-                    titleTypographyProps={{ variant: 'h2', component: 'h2' }}
+                    titleTypographyProps={{ variant: 'h3', component: 'h3' }}
                     classes={{
                       root: classes.subCardHeader,
                       title: classes.subCardTitle,

@@ -1,3 +1,5 @@
+- content_for :head do
+  = stylesheet_link_tag 'ag-grid'
 = react_component_with_jss "App",
     withStore: true,
     props: { \

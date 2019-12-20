@@ -10,6 +10,7 @@ import {
   withThemeType,
   ThemeContextType,
 } from '~/bundles/common/contexts/ThemeContext'
+import TagAlt from '~/bundles/common/components/TagAlt'
 
 interface Props extends ThemeContextType {
   classes: any
@@ -55,9 +56,7 @@ class NewsBody extends React.Component<Props, {}> {
         {categories.length > 0 && (
           <div className="mt3">
             {categories.map((category, index) => (
-              <div key={index} className="tag-alt">
-                {category.name}
-              </div>
+              <TagAlt key={index} tag={category.name} />
             ))}
           </div>
         )}

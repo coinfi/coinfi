@@ -1,0 +1,7 @@
+export const sp1 = '0.25rem'
+export const sp2 = '0.5rem'
+export const sp3 = '1rem'
+export const sp4 = '2rem'
+export const sp5 = '4rem'
+export const sp6 = '8rem'
+export const sp7 = '16rem'

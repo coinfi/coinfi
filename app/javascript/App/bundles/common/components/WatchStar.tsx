@@ -73,6 +73,7 @@ const WatchStar = ({ coin, hasText, loggedIn, classes }: Props) => {
           } else {
             return (
               <Icon
+                dataHeapTag="news-add-coin-to-watchlist-button"
                 name="star"
                 className={classnames(classes.starIcon, {
                   [classes.starIconButton]: hasText,
@@ -90,22 +91,20 @@ const WatchStar = ({ coin, hasText, loggedIn, classes }: Props) => {
         }
 
         return (
-          <div className="div tooltipped">
-            <Icon
-              name="star"
-              className={classnames(classes.starIcon, {
-                [classes.starIconButton]: hasText,
-              })}
-              onClick={(e) => {
-                e.preventDefault()
-                e.stopPropagation()
-                // TODO: Implement new onboarding signup flow.
-                openSignUpModal()
-              }}
-            >
-              {hasText && 'Watch'}
-            </Icon>
-          </div>
+          <Icon
+            name="star"
+            className={classnames(classes.starIcon, {
+              [classes.starIconButton]: hasText,
+            })}
+            onClick={(e) => {
+              e.preventDefault()
+              e.stopPropagation()
+              // TODO: Implement new onboarding signup flow.
+              openSignUpModal()
+            }}
+          >
+            {hasText && 'Watch'}
+          </Icon>
         )
       }}
     </CoinListContext.Consumer>

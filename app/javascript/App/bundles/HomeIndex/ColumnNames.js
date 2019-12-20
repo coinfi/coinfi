@@ -28,6 +28,7 @@ function ColumnNames({ currency, currencyRate, currencySymbol }) {
         return (
           <span>
             <Icon
+              dataHeapTag={isWatched ? '' : 'news-add-coin-to-watchlist-button'}
               name="star"
               solid={isWatched}
               className={isWatched ? 'aqua' : 'light-silver'}

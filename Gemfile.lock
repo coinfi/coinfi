@@ -211,7 +211,7 @@ GEM
     etherscan_api (0.4.0)
       faraday
       json (~> 2.1)
-    excon (0.62.0)
+    excon (0.71.0)
     execjs (2.7.0)
     factory_bot (4.11.1)
       activesupport (>= 3.0.0)
@@ -441,14 +441,15 @@ GEM
     pry-rails (0.3.4)
       pry (>= 0.9.10)
     public_suffix (2.0.5)
-    puma (3.12.1)
+    puma (3.12.2)
     raabro (1.1.6)
     rack (2.0.7)
     rack-affiliates (0.4.0)
       rack
     rack-attack (5.4.1)
       rack (>= 1.0, < 3)
-    rack-cors (1.0.2)
+    rack-cors (1.0.5)
+      rack (>= 1.6.0)
     rack-protection (2.0.4)
       rack
     rack-proxy (0.6.5)

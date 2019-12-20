@@ -221,14 +221,14 @@ class HistoricalPriceDataTable extends React.Component<Props, State> {
           <Table className={classes.table} padding="dense">
             <TableHead>
               <TableRow className={classes.tableRow}>
-                <TableCell numeric={true}>Date</TableCell>
-                <TableCell numeric={true}>Open</TableCell>
-                <TableCell numeric={true}>High</TableCell>
-                <TableCell numeric={true}>Low</TableCell>
-                <TableCell numeric={true}>Close</TableCell>
-                <TableCell numeric={true}>Volume</TableCell>
+                <TableCell align="right">Date</TableCell>
+                <TableCell align="right">Open</TableCell>
+                <TableCell align="right">High</TableCell>
+                <TableCell align="right">Low</TableCell>
+                <TableCell align="right">Close</TableCell>
+                <TableCell align="right">Volume</TableCell>
                 {!!availableSupply && (
-                  <TableCell numeric={true}>Market Cap</TableCell>
+                  <TableCell align="right">Market Cap</TableCell>
                 )}
               </TableRow>
             </TableHead>
@@ -236,31 +236,31 @@ class HistoricalPriceDataTable extends React.Component<Props, State> {
               {filteredData.map((row, index) => {
                 return (
                   <TableRow key={index} className={classes.tableRow}>
-                    <TableCell numeric={true} scope="row">
+                    <TableCell align="right" scope="row">
                       {row.formattedTime}
                     </TableCell>
-                    <TableCell numeric={true}>
+                    <TableCell align="right">
                       {currencySymbol}
                       {row.open}
                     </TableCell>
-                    <TableCell numeric={true}>
+                    <TableCell align="right">
                       {currencySymbol}
                       {row.high}
                     </TableCell>
-                    <TableCell numeric={true}>
+                    <TableCell align="right">
                       {currencySymbol}
                       {row.low}
                     </TableCell>
-                    <TableCell numeric={true}>
+                    <TableCell align="right">
                       {currencySymbol}
                       {row.close}
                     </TableCell>
-                    <TableCell numeric={true}>
+                    <TableCell align="right">
                       {currencySymbol}
                       {row.volume}
                     </TableCell>
                     {!!availableSupply && (
-                      <TableCell numeric={true}>
+                      <TableCell align="right">
                         {currencySymbol}
                         {row.marketCap}
                       </TableCell>

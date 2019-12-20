@@ -1,7 +1,7 @@
 import * as React from 'react'
 import * as _ from 'lodash'
 import TokenChart from './TokenChart'
-import { Grid, CardContent, Typography } from '@material-ui/core'
+import { Grid, CardContent, Typography } from '@material-ui/core' // NOTE: We're not using custom CardContent since the relevant style changes are being overridden
 import { withStyles } from '@material-ui/core/styles'
 import {
   formatValue,
@@ -114,7 +114,7 @@ function TokenMetric({
   return (
     <>
       <Grid item={true} xs={12} className={classes.tokenMetricHeader}>
-        <Typography variant="h2" className={classes.tokenMetricHeaderText}>
+        <Typography variant="h3" className={classes.tokenMetricHeaderText}>
           {title}
         </Typography>
       </Grid>
@@ -153,22 +153,20 @@ function TokenMetric({
 
 function TokenMetrics({ classes, tokenMetrics, coinObj }: Props) {
   return (
-    <Grid item={true} xs={12} md={8} className={classes.contentContainer}>
-      <Grid container={true} spacing={16}>
-        {Object.keys(TOKEN_METRIC_OBJ_DATA).map(
-          (key) =>
-            _.get(tokenMetrics, [`${key}_metadata`, 'rank'], 0) > 0 && (
-              <TokenMetric
-                key={key}
-                classes={classes}
-                coinObj={coinObj}
-                data={_.get(tokenMetrics, `${key}_data`)}
-                metaData={_.get(tokenMetrics, `${key}_metadata`)}
-                tokenObj={TOKEN_METRIC_OBJ_DATA[key]}
-              />
-            ),
-        )}
-      </Grid>
+    <Grid container={true} spacing={16}>
+      {Object.keys(TOKEN_METRIC_OBJ_DATA).map(
+        (key) =>
+          _.get(tokenMetrics, [`${key}_metadata`, 'rank'], 0) > 0 && (
+            <TokenMetric
+              key={key}
+              classes={classes}
+              coinObj={coinObj}
+              data={_.get(tokenMetrics, `${key}_data`)}
+              metaData={_.get(tokenMetrics, `${key}_metadata`)}
+              tokenObj={TOKEN_METRIC_OBJ_DATA[key]}
+            />
+          ),
+      )}
     </Grid>
   )
 }

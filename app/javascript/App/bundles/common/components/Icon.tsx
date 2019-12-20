@@ -54,13 +54,14 @@ const IconWrapper = ({
   children,
   style,
   className,
+  dataHeapTag,
   ...rest
 }: IconWrapperProps) => {
   const klass = className || ''
   if (onClick) {
     return (
       <button
-        data-heap="news-add-coin-to-watchlist-button"
+        data-heap={dataHeapTag}
         className={`btn-icon icon ${klass}`}
         onClick={onClick}
         style={style}

@@ -51,7 +51,7 @@ class PriceGraph extends Component {
 
     const hasHourlyData = _.isArray(priceDataHourly)
 
-    this.Highcharts.setOptions(options)
+    this.Highcharts.setOptions({ ...options })
     const chart = this.Highcharts.stockChart(
       containerID,
       chartOptions(this.Highcharts, {
@@ -408,11 +408,7 @@ class PriceGraph extends Component {
   }
 
   render() {
-    return (
-      <div>
-        <div id={containerID} />
-      </div>
-    )
+    return <div id={containerID} />
   }
 }
 

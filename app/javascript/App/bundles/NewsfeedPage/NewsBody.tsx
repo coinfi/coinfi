@@ -25,6 +25,7 @@ import {
   withNewsfeed,
   NewsfeedContextType,
 } from '~/bundles/NewsfeedPage/NewsfeedContext'
+import TagAlt from '~/bundles/common/components/TagAlt'
 
 interface Props extends NewsfeedContextType {
   classes: any
@@ -83,10 +84,12 @@ const styles = (theme) => {
 }
 
 class NewsBody extends React.Component<Props, State> {
-  public pendingPromises = []
+  public cancelSource
 
   constructor(props) {
     super(props)
+
+    this.cancelSource = props.getCancelFetchSource()
 
     this.state = {
       newsItem: props.initialNewsItem || null,
@@ -125,28 +128,20 @@ class NewsBody extends React.Component<Props, State> {
   }
 
   public componentWillUnmount() {
-    this.pendingPromises.map((p) => {
-      if (p.isPending()) {
-        p.cancel()
-      }
-    })
+    this.cancelSource.cancel()
   }
 
   public fetchNewsItemDetails() {
-    const fetchNewsPromise = this.props
-      .fetchNewsItem(parseInt(this.props.newsItemId, 10))
+    this.props
+      .fetchNewsItem(
+        parseInt(this.props.newsItemId, 10),
+        this.cancelSource.token,
+      )
       .then((newsItem) => {
         this.setState({
           newsItem,
         })
-        this.cleanupPromiseQueue()
       })
-
-    this.pendingPromises.push(fetchNewsPromise)
-  }
-
-  public cleanupPromiseQueue = () => {
-    this.pendingPromises = this.pendingPromises.filter((p) => !p.isPending())
   }
 
   public render() {
@@ -221,9 +216,7 @@ class NewsBody extends React.Component<Props, State> {
         {categories.length > 0 && (
           <div className="mv3">
             {categories.map((category, index) => (
-              <div key={index} className="tag-alt">
-                {category.name}
-              </div>
+              <TagAlt key={index} tag={category.name} />
             ))}
           </div>
         )}

@@ -42,6 +42,7 @@ const NewsfeedPageContainer = (props: Props) => (
               initialNewsItem={props.initialNewsItem}
               initialCoinWithDetails={props.initialCoinWithDetails}
               isNewsfeedLoading={newsfeedPayload.isLoading}
+              getCancelFetchSource={newsfeedPayload.getCancelFetchSource}
               fetchNewsItems={newsfeedPayload.fetchNewsItems}
               fetchMoreNewsItems={newsfeedPayload.fetchMoreNewsItems}
               fetchNewNewsItems={newsfeedPayload.fetchNewNewsItems}

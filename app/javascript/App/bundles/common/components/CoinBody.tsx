@@ -12,8 +12,8 @@ import CurrencyContext, {
   CurrencyContextType,
 } from '~/bundles/common/contexts/CurrencyContext'
 import { formatAbbreviatedPrice } from '~/bundles/common/utils/numberFormatters'
-import { foam, brightGray } from '~/bundles/common/styles/colors'
-
+import { foam, brightGray, white } from '~/bundles/common/styles/colors'
+import { sp2 } from '~/bundles/common/styles/spacing'
 import { CoinWithDetails } from '../types'
 
 const styles = (theme) =>
@@ -54,6 +54,90 @@ const styles = (theme) =>
       paddingLeft: 0,
     },
     relatedCoinItem: {},
+    tooltipped: {
+      position: 'relative',
+      '&:hover': {
+        '& $tooltip': {
+          visibility: 'visible',
+          pointerEvents: 'auto',
+          opacity: 1,
+          '&:not(:last-child)': {
+            transform: 'translate(-50%, -10px)',
+            WebkitTransform: 'translate(-50%, -10px)',
+          },
+          '&:last-child': {
+            transform: 'translate(-50%, 10px)',
+            WebkitTransform: 'translate(-50%, 10px)',
+          },
+          '&$fromRight': {
+            transform: 'translate(10px, -50%)',
+            WebkitTransform: 'translate(10px, -50%)',
+          },
+        },
+      },
+    },
+    tooltip: {
+      fontSize: '0.8rem',
+      textAlign: 'center',
+      fontStyle: 'normal',
+      position: 'absolute',
+      left: '50%',
+      maxWidth: '150px',
+      background: brightGray,
+      color: white,
+      borderEadius: '2px',
+      WebkitBorderRadius: '2px',
+      padding: sp2,
+      zIndex: 5,
+      pointerEvents: 'none',
+      visibility: 'hidden',
+      opacity: 0,
+      transition: '0.2s ease-out',
+      WebkitTransition: '0.2s ease-out',
+      bottom: '102%',
+      transform: 'translate(-50%, 0px)',
+      WebkitTransform: 'translate(-50%, 0px)',
+      whiteSpace: 'nowrap',
+      lineHeight: 1,
+      '&:before': {
+        content: '""',
+        position: 'absolute',
+        left: '50%',
+        transform: 'translateX(-50%)',
+        WbkitTransform: 'translateX(-50%)',
+        width: 0,
+        height: 0,
+        borderStyle: 'solid',
+        borderWidth: '4px',
+        borderColor: `${brightGray} transparent transparent transparent`,
+        top: '100%',
+      },
+      '&:last-child': {
+        bottom: 'initial',
+        top: '102%',
+        '&:before': {
+          top: 'initial',
+          bottom: '100%',
+          borderColor: `transparent transparent ${brightGray} transparent`,
+        },
+      },
+      '&$fromRight': {
+        bottom: 'auto',
+        left: '90%',
+        top: '50%',
+        transform: 'translate(0px, -50%)',
+        WebkitTransform: 'translate(0px, -50%)',
+        '&:before': {
+          left: 0,
+          top: '50%',
+          bottom: 'initial',
+          borderColor: `transparent ${brightGray} transparent transparent`,
+          transform: 'translate(-100%, -50%)',
+          WebkitTransform: 'translate(-100%, -50%)',
+        },
+      },
+    },
+    fromRight: {},
   })
 
 interface Props {
@@ -165,13 +249,15 @@ class CoinBody extends React.Component<Props, State> {
                     {coinWithDetails.name} ({coinWithDetails.symbol}) News
                   </h1>
                 </span>
-                <div className="tooltipped">
+                <div className={classes.tooltipped}>
                   <WatchStar
                     coin={coinWithDetails}
                     loggedIn={loggedIn}
                     hasText={true}
                   />
-                  {!loggedIn && <div className="tooltip">Login to watch</div>}
+                  {!loggedIn && (
+                    <div className={classes.tooltip}>Login to watch</div>
+                  )}
                 </div>
               </div>
               <div className="min-h12e flex items-center justify-center">

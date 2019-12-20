@@ -165,12 +165,10 @@ $washed-yellow: #fffceb;
 $washed-red: #ffdfdf;
 
 // Breakpoints
-
 $breakpoint-not-small: $screen-min-ns;
 $breakpoint-medium: $screen-min-m;
 $breakpoint-large: $screen-min-l;
 
-@import 'tachyons-sass/tachyons';
 .pa-default {
   padding: 0.75rem;
 }
