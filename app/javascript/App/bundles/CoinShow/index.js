@@ -46,6 +46,7 @@ import { WATCHLIST_CHANGE_EVENT } from '~/bundles/common/containers/CoinListCont
 import { withCurrency } from '~/bundles/common/contexts/CurrencyContext'
 import { openSignUpModal } from '~/bundles/common/utils/modals'
 import styles from './styles'
+import moment from 'moment'
 
 const TAB_SLUGS = {
   priceChart: 'price-chart',
@@ -206,10 +207,43 @@ class CoinShow extends Component {
   getPriceData() {
     this.fetchPriceData().then((data) => {
       const { priceData, priceDataHourly } = data
+      let lastPriceUpdate
+
+      function timeToTimestamp(time) {
+        return moment.utc(time).valueOf()
+      }
+
+      /***
+       * NOTE: data is always one time unit behind the time update was performed,
+       * so we need to increment time unit by one
+       ***/
+      if (!_.isEmpty(priceDataHourly)) {
+        const initialTime = _.get(priceDataHourly, [0, 'time'])
+        if (initialTime) {
+          lastPriceUpdate = priceDataHourly.reduce(
+            (latestTimestamp, { time }) => {
+              const timestamp = timeToTimestamp(time)
+              return timestamp > latestTimestamp ? timestamp : latestTimestamp
+            },
+            timeToTimestamp(initialTime),
+          )
+        }
+        lastPriceUpdate += 60 * 60 * 1000
+      } else if (!_.isEmpty(priceData)) {
+        const initialTime = _.get(priceData, [0, 'time'])
+        if (initialTime) {
+          lastPriceUpdate = priceData.reduce((latestTimestamp, { time }) => {
+            const timestamp = timeToTimestamp(time)
+            return timestamp > latestTimestamp ? timestamp : latestTimestamp
+          }, timeToTimestamp(initialTime))
+        }
+        lastPriceUpdate += 24 * 60 * 60 * 1000
+      }
 
       this.setState({
         priceData,
         priceDataHourly,
+        lastPriceUpdate,
       })
     })
   }
@@ -297,7 +331,7 @@ class CoinShow extends Component {
       currencyRate,
       changeCurrency,
     } = this.props
-    const { tabSlug, priceData, priceDataHourly } = this.state
+    const { tabSlug, priceData, priceDataHourly, lastPriceUpdate } = this.state
     const isMobile = !isDesktop
     const isLoggedIn = !!user
     const hasTokenMetrics = this.hasTokenMetrics()
@@ -502,6 +536,14 @@ class CoinShow extends Component {
                       isTradingViewVisible={isTradingViewVisible}
                       onPriceChartCreated={this.handlePriceChartCreated}
                     />
+                    {lastPriceUpdate && (
+                      <div className={classes.lastUpdated}>
+                        Last Updated:{' '}
+                        {moment(lastPriceUpdate).format(
+                          'MMMM Do YYYY, HH:mm:ss Z',
+                        )}
+                      </div>
+                    )}
                   </CardContent>
                 </MainCard>
                 <MainCard>
