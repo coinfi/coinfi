@@ -142,6 +142,11 @@ const styles = (theme) =>
       marginBottom: 0,
     },
     priceChart: {},
+    lastUpdated: {
+      textAlign: 'right',
+      fontStyle: 'italic',
+      fontSize: '12px',
+    },
     tokenMetricHeader: {
       [theme.breakpoints.up('md')]: {
         '&:first-child': {

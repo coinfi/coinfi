@@ -43,16 +43,16 @@ class FundamentalsList extends React.Component<Props, {}> {
       ico_end_epoch,
     } = coinObj
 
-    const hasStartDate = _.isString(release_date)
+    const hasStartDate = _.isString(release_date) && !!release_date.trim()
     const hasSupply =
       !_.isUndefined(available_supply) &&
       !_.isUndefined(total_supply) &&
       total_supply > 0
-    const hasBlockchainType = _.isString(blockchain_tech)
-    const hasAlgorithm = _.isString(algorithm)
-
+    const hasBlockchainType =
+      _.isString(blockchain_tech) && !!blockchain_tech.trim()
+    const hasAlgorithm = _.isString(algorithm) && !!algorithm.trim()
     const hasIco = _.isNumber(ico_start_epoch)
-    const hasIcoEnded = ico_end_epoch < moment().unix()
+    const icoHasEnded = ico_end_epoch < moment().unix()
 
     return (
       <Grid container={true} direction="column">
@@ -102,7 +102,7 @@ class FundamentalsList extends React.Component<Props, {}> {
               Completed ICO
             </Grid>
             <Grid item={true} className={classes.value}>
-              {hasIcoEnded ? 'Yes' : 'No'}
+              {icoHasEnded ? 'Yes' : 'No'}
             </Grid>
           </>
         )}
