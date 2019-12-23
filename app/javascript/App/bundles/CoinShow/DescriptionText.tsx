@@ -1,7 +1,7 @@
 import * as React from 'react'
 import * as _ from 'lodash'
 import * as moment from 'moment'
-import ReactMarkdown from 'react-markdown'
+import * as ReactMarkdown from 'react-markdown'
 import {
   formatPrice,
   formatVolume,
@@ -27,6 +27,16 @@ const formatArrayMembers = (list, n = 3) => {
       return `${str}, ${item}`
     }
   }, '')
+}
+
+function MarkupLink(props) {
+  const { href, children } = props
+
+  return (
+    <a href={href} target="_blank" rel="nofollow noopener noreferrer">
+      {children}
+    </a>
+  )
 }
 
 export default function DescriptionText({
@@ -141,7 +151,9 @@ export default function DescriptionText({
             What Is {coinName} Cryptocurrency ({symbol})?
           </h2>
           {description ? (
-            <ReactMarkdown>{description}</ReactMarkdown>
+            <ReactMarkdown renderers={{ link: MarkupLink }}>
+              {description}
+            </ReactMarkdown>
           ) : (
             <p>
               Tezos is a coin that operates on the {blockchain_tech} blockchain
