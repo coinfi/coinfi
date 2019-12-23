@@ -1,6 +1,7 @@
 import * as React from 'react'
 import * as _ from 'lodash'
 import * as moment from 'moment'
+import ReactMarkdown from 'react-markdown'
 import {
   formatPrice,
   formatVolume,
@@ -140,7 +141,7 @@ export default function DescriptionText({
             What Is {coinName} Cryptocurrency ({symbol})?
           </h2>
           {description ? (
-            <p>{description}</p>
+            <ReactMarkdown>{description}</ReactMarkdown>
           ) : (
             <p>
               Tezos is a coin that operates on the {blockchain_tech} blockchain
