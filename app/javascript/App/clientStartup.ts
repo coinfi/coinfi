@@ -16,6 +16,7 @@ import SignalReservationForm from './bundles/signalsPage/SignalReservationForm'
 import HomeIndex from './bundles/HomeIndex'
 import CurrencySelectorWidget from './bundles/CurrencySelectorWidget'
 import DarkModeContainer from './bundles/common/containers/DarkModeContainer'
+import MarkdownPreview from './bundles/common/containers/MarkdownPreview'
 
 // Register the components so they can be rendered from Rails
 ReactOnRails.register({
@@ -30,5 +31,6 @@ ReactOnRails.register({
   HomeIndex: withRootProviders(HomeIndex),
   CurrencySelectorWidget: withRootProviders(CurrencySelectorWidget),
   DarkModeContainer: withRootProviders(DarkModeContainer),
+  MarkdownPreview: withRootProviders(MarkdownPreview),
   App: ClientApp,
 })

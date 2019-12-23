@@ -1,6 +1,7 @@
 import * as React from 'react'
 import * as _ from 'lodash'
 import * as moment from 'moment'
+import * as ReactMarkdown from 'react-markdown'
 import {
   formatPrice,
   formatVolume,
@@ -9,6 +10,7 @@ import {
 } from '~/bundles/common/utils/numberFormatters'
 import { groupMarketData } from './MarketsChart'
 import { CurrencyContextType } from '~/bundles/common/contexts/CurrencyContext'
+import MarkupLink from '~/bundles/common/components/MarkupLink'
 
 const formatArrayMembers = (list, n = 3) => {
   if (!Array.isArray(list)) {
@@ -140,7 +142,9 @@ export default function DescriptionText({
             What Is {coinName} Cryptocurrency ({symbol})?
           </h2>
           {description ? (
-            <p>{description}</p>
+            <ReactMarkdown renderers={{ link: MarkupLink }}>
+              {description}
+            </ReactMarkdown>
           ) : (
             <p>
               Tezos is a coin that operates on the {blockchain_tech} blockchain

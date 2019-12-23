@@ -1,0 +1,11 @@
+<div class="field-unit__label" style="align-self: flex-start;">
+  <%= f.label field.attribute %>
+</div>
+<div class="field-unit__field" style="width: calc(85% - 1rem);">
+  <%= react_component("MarkdownPreview", props: { \
+    children: field.to_s,
+    editable: true,
+    name: field.resource.class.name.downcase,
+    attribute: field.attribute
+  }) %>
+</div>

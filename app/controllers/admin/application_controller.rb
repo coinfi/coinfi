@@ -7,6 +7,7 @@
 module Admin
   class ApplicationController < Administrate::ApplicationController
     before_action :require_admin
+    helper ReactOnRails::Helper
 
     def require_admin
       redirect_to "/", alert: "Not authorized." unless current_user.try(:admin?)
