@@ -36,6 +36,9 @@ By default, it renders:
     </main>
   </div>
 
+  <%# Load react-related javascript first to avoid overriding administrate jquery %>
+  <%= javascript_pack_tag 'vendor-bundle' %>
+  <%= javascript_pack_tag 'app-bundle' %>
   <%= render "javascript" %>
 </body>
 </html>
