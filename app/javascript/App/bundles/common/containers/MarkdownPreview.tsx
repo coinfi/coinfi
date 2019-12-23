@@ -1,11 +1,13 @@
 import * as React from 'react'
 import * as ReactMarkdown from 'react-markdown'
+import MarkupLink from '~/bundles/common/components/MarkupLink'
 
 interface Props {
   editable?: boolean
   name?: string
   attribute?: string
   children?: any
+  renderers?: any
 }
 
 interface State {
@@ -43,7 +45,10 @@ export default class MarkdownPreview extends React.Component<Props, State> {
           </>
         )}
         <div>
-          <ReactMarkdown {...otherProps}>
+          <ReactMarkdown
+            {...otherProps}
+            renderers={{ ...otherProps.renderers, link: MarkupLink }}
+          >
             {editable ? inputValue : children}
           </ReactMarkdown>
         </div>

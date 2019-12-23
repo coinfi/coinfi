@@ -10,6 +10,7 @@ import {
 } from '~/bundles/common/utils/numberFormatters'
 import { groupMarketData } from './MarketsChart'
 import { CurrencyContextType } from '~/bundles/common/contexts/CurrencyContext'
+import MarkupLink from '~/bundles/common/components/MarkupLink'
 
 const formatArrayMembers = (list, n = 3) => {
   if (!Array.isArray(list)) {
@@ -27,16 +28,6 @@ const formatArrayMembers = (list, n = 3) => {
       return `${str}, ${item}`
     }
   }, '')
-}
-
-function MarkupLink(props) {
-  const { href, children } = props
-
-  return (
-    <a href={href} target="_blank" rel="nofollow noopener noreferrer">
-      {children}
-    </a>
-  )
 }
 
 export default function DescriptionText({
