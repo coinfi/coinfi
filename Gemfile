@@ -8,7 +8,7 @@ end
 
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '~> 5.1.6.2'
+gem 'rails', '~> 5.2.4.1'
 # Use postgresql as the database for Active Record
 gem 'pg', '~> 0.18'
 # Use Puma as the app server
@@ -119,7 +119,7 @@ group :development, :test do
   gem 'rubocop'
   gem 'reek'
   gem 'selenium-webdriver', '>= 3.14.0'
-  gem 'chromedriver-helper'
+  gem 'webdrivers', '~> 4.0'
   gem 'factory_bot_rails'
   gem 'faker', :git => 'https://github.com/stympy/faker.git', :branch => 'master'
   gem 'minitest-stub_any_instance'
