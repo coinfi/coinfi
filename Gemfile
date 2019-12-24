@@ -19,7 +19,8 @@ gem 'sassc-rails'
 gem 'uglifier', '~> 4.0'
 # See https://github.com/rails/execjs#readme for more supported runtimes
 # gem 'therubyracer', platforms: :ruby
-
+# for railties app_generator_test
+gem "bootsnap", ">= 1.1.0", require: false
 # Use CoffeeScript for .coffee assets and views
 gem 'coffee-rails', '~> 4.2'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
