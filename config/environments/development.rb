@@ -26,7 +26,7 @@ Rails.application.configure do
   end
 
   if ENV['REDIS_URL'].present?
-    config.cache_store = :redis_cache_store, {driver: :hiredis, url: ENV['REDIS_URL']}
+    config.cache_store = :redis_cache_store, {driver: :hiredis, url: ENV['REDIS_URL'], namespace: 'coinfi'}
   else
     config.cache_store = :null_store
   end
