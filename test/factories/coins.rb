@@ -3,23 +3,23 @@ require 'faker'
 FactoryBot.define do
   factory :coin do
     sequence(:name) { |n| "#{Faker::CryptoCoin.coin_name}#{n}" }
-    slug { Faker::Internet.slug(name, '') }
-    symbol { Faker::Internet.slug(name, '').upcase }
+    slug { Faker::Internet.slug(words: name, glue: '') }
+    symbol { Faker::Internet.slug(words: name, glue: '').upcase }
     coin_key { "#{symbol.downcase}.com" }
-    website { Faker::Internet.url(coin_key) }
+    website { Faker::Internet.url(host: coin_key) }
     eth_address { Faker::Crypto.sha256 }
     explorer { "https://etherscan.io/token/#{symbol}" }
     explorer2 { "https://ethplorer.io/address/#{eth_address}" }
     sequence(:ranking)
     is_listed { true } # Not clear what this is for, but it shouldn't be the default: Faker::Boolean.boolean(0.9)
     ico_status { is_listed ? 'listed' : Coin::ICO_STATUSES.without('listed').sample }
-    token_decimals { Faker::Number.between(18, 23) }
+    token_decimals { Faker::Number.between(from: 18, to: 23) }
 
     after(:build) do |coin, evaluator|
       coin_hash = {
-        :change1h => Faker::Number.decimal(2),
-        :change24h => Faker::Number.decimal(2),
-        :change7d => Faker::Number.decimal(2),
+        :change1h => Faker::Number.decimal(l_digits: 2),
+        :change24h => Faker::Number.decimal(l_digits: 2),
+        :change7d => Faker::Number.decimal(l_digits: 2),
         :available_supply => 0,
         :total_supply => 0,
         :max_supply => 0,

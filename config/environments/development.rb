@@ -66,6 +66,10 @@ Rails.application.configure do
   # Suppress logger output for asset requests.
   config.assets.quiet = true
 
+  # sassc-rails
+  config.sass.inline_source_maps = true
+  config.sass.line_comments = false
+
   # Do not write to log/development.log file.
   config.logger = ActiveSupport::Logger.new(nil)
 

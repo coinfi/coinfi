@@ -76,7 +76,7 @@ class Coin < ApplicationRecord
       .joins(news_items: :news_coin_mentions)
       .where(news_coin_mentions: { coin_id: self })
       .group(:id)
-      .order('COUNT(DISTINCT news_items.id) DESC')
+      .order(Arel.sql 'COUNT(DISTINCT news_items.id) DESC')
       .limit(1)
       .first
   end
@@ -86,7 +86,7 @@ class Coin < ApplicationRecord
       .joins(news_items: :news_coin_mentions)
       .where(news_coin_mentions: { coin_id: self })
       .group(:id)
-      .order('COUNT(DISTINCT news_items.id) DESC')
+      .order(Arel.sql 'COUNT(DISTINCT news_items.id) DESC')
       .limit(1)
       .first
   end
