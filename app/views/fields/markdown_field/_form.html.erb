@@ -5,7 +5,7 @@
   <%= react_component("MarkdownPreview", props: { \
     children: field.to_s,
     editable: true,
-    name: field.resource.class.name.downcase,
+    name: f.object_name,
     attribute: field.attribute
   }) %>
 </div>
