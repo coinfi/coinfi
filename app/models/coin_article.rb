@@ -11,6 +11,17 @@ class CoinArticle < ApplicationRecord
     meta_title || title
   end
 
+  def get_schema
+    schema = {
+      "@type": "Article",
+      "headline": display_title,
+      "name": title,
+      "dateCreated": created_at.iso8601,
+      "dateModified": updated_at.iso8601,
+      "author": author.get_schema,
+    }
+  end
+
   private
 
   def slugify

@@ -14,6 +14,9 @@ class CoinArticlesController < ApplicationController
       title: @coin_article.display_title,
       description: @coin_article.meta_description
     )
+    set_jsonld({
+      "@context": "http://schema.org/",
+    }.merge(@coin_article.get_schema))
   end
 
   private
