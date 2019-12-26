@@ -34,6 +34,6 @@ class CoinArticle < ApplicationRecord
   private
 
   def slugify
-    "how to buy #{coin.name} #{coin.symbol}"
+    "#{coin.name} #{coin.symbol}"
   end
 end
