@@ -22,6 +22,15 @@ class CoinArticle < ApplicationRecord
     }
   end
 
+  def related_coins
+    coins_with_articles = Coin.includes(:coin_articles).where.not(coin_articles: {coin_id: nil})
+    Coins::RelatedToQuery.call(coins_with_articles, coin: self.coin)
+  end
+
+  def related_articles
+    CoinArticle.where(coin_id: related_coins.pluck(:id)).order(updated_at: :desc).limit(8)
+  end
+
   private
 
   def slugify

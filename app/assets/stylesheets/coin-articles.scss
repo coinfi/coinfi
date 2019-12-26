@@ -36,6 +36,11 @@ h1 {
     }
   }
 }
+#related-articles {
+  div {
+    margin-bottom: 0.5rem;
+  }
+}
 #author-box {
   margin-left: auto;
   margin-right: auto;
@@ -44,7 +49,7 @@ h1 {
   h1 {
     font-size: 45px;
   }
-  #table-of-contents {
+  #side-bar {
     position: absolute;
     left: 83.334%; // based on #content flexbox width
     margin-left: 0;

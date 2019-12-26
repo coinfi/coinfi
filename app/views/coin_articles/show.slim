@@ -19,13 +19,24 @@ section.phr#content
     .row.pv3
       .col-xs-12.col-md-8.col-md-offset-2
         = markdown @coin_article.content
-  .container#table-of-contents
+  .container.pr3#side-bar
     .row.pt3
       .col-xs-12
         .b Quick Links
     .row.pv3
-      .col-xs-12
+      .col-xs-12#table-of-contents
         = markdown_toc @coin_article.content
+    - if @related_articles.present?
+      .row.pt3
+        .col-xs-12
+          .b Related Articles
+      .row.pv3
+        .col-xs-12#related-articles
+          - @related_articles.each do |a|
+            div
+              a href=coin_article_path(a)
+                = a.display_title
+
 section.phr#author
   .container
     .row.pv3
