@@ -2,6 +2,8 @@ class CoinArticlesController < ApplicationController
   rescue_from ActiveRecord::RecordNotFound, :with => :record_not_found
   before_action :set_coin_article, only: [:show]
 
+  breadcrumb 'How to Buy Cryptocurrency', :coin_articles_path, match: :exact
+
   def index
     distribute_reads(max_lag: MAX_ACCEPTABLE_REPLICATION_LAG, lag_failover: true) do
       @coin_articles = CoinArticle.page(params[:page]).per(params[:limit])
@@ -10,6 +12,7 @@ class CoinArticlesController < ApplicationController
   end
 
   def show
+    breadcrumb @coin_article.display_title, coin_article_path(@coin_article)
     set_meta_tags(
       title: @coin_article.display_title,
       description: @coin_article.meta_description

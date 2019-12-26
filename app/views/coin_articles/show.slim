@@ -1,10 +1,11 @@
 - content_for :head do
   = stylesheet_link_tag 'coin-articles'
+= render partial: 'breadcrumbs'
 section.phr#title
   .container
     .row.pv3
       .col-xs-12.col-md-8.col-md-offset-2
-        h1= @title
+        h1= @coin_article.display_title
     .row.pv3
       .col-xs-12.col-md-8.col-md-offset-2
         .row.items-center.around-xs

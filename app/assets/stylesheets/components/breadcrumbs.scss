@@ -1,0 +1,18 @@
+.breadcrumbs {
+  @at-root {
+    ol#{&} {
+      margin: 1em;
+      padding-inline-start: 0;
+      list-style: none;
+    }
+  }
+  .breadcrumb {
+    display: inline-block;
+  }
+  .breadcrumb + .breadcrumb::before {
+    display: inline-block;
+    padding-right: 0.25rem;
+    padding-left: 0.25rem;
+    content: '/';
+  }
+}
