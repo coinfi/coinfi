@@ -12,6 +12,11 @@ import { groupMarketData } from './MarketsChart'
 import { CurrencyContextType } from '~/bundles/common/contexts/CurrencyContext'
 import MarkupLink from '~/bundles/common/components/MarkupLink'
 
+interface CoinArticle {
+  display_title: string
+  path: string
+}
+
 const formatArrayMembers = (list, n = 3) => {
   if (!Array.isArray(list)) {
     return null
@@ -33,9 +38,11 @@ const formatArrayMembers = (list, n = 3) => {
 export default function DescriptionText({
   coinObj,
   currencyCtx,
+  relatedArticle,
 }: {
   coinObj: CoinObj
   currencyCtx: CurrencyContextType
+  relatedArticle?: CoinArticle
 }) {
   const {
     name: coinName,
@@ -170,6 +177,11 @@ export default function DescriptionText({
             {coinName} pairs in the last 24 hours are {topPairs}.
           </p>
         </>
+      )}
+      {relatedArticle && (
+        <p>
+          <a href={relatedArticle.path}>{relatedArticle.display_title}</a>
+        </p>
       )}
     </>
   )

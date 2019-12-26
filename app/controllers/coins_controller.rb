@@ -44,6 +44,7 @@ class CoinsController < ApplicationController
         @related_coins = @coin.related_coins.select(:id, :coin_key, :name, :symbol, :slug).to_a # Calling `to_a` ensures query executes on replica.
         @token_metrics = @coin.has_token_metrics? ? @coin.token_metrics : {}
         @coin_obj = show_serializer(@coin)
+        @how_to_article = coin_article_serializer(@coin.coin_articles.first)
         @top_coins_data = toplist_coins
         @watched_coins_data = watchlist_coins if current_user
       end
@@ -124,10 +125,21 @@ class CoinsController < ApplicationController
         ico_start_date ico_end_date ico_usd_raised ico_token_price_usd ico_tokens_sold
       ],
       methods: %i[
-        prices_data news_data market_info is_being_watched summary price market_cap
+        news_data market_info is_being_watched summary price market_cap
         change1h change24h change7d volume24h available_supply max_supply total_supply fixed_supply
         image_url market_pairs total_market_pairs
       ]
     )
+  end
+
+  def coin_article_serializer(article)
+    return nil unless article.present?
+
+    article.as_json(
+      only: %i[],
+      methods: %i[display_title]
+    ).merge({
+      path: coin_article_path(article)
+    })
   end
 end
