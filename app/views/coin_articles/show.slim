@@ -13,7 +13,7 @@ section.phr#title
             img.br-100.dib.h3.w3.v-mid.mr3 src=@coin_article.author.photo_url alt=@coin_article.author.name
             = @coin_article.author.name
           .col.ph3.pt3
-            = "Last Updated: #{@coin_article.updated_at.strftime('%B %-d, %Y')}"
+            = display_article_date @coin_article
 section.phr#content
   .container
     .row.pv3
