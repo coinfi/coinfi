@@ -11,6 +11,10 @@
     margin-left: $sp3;
     margin-right: $sp3;
     margin-top: $sp3;
+    &.hover-silver:hover,
+    &.hover-silver:focus {
+      color: $silver !important;
+    }
     &.icon-light {
       color: $white;
     }

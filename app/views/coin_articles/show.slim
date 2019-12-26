@@ -1,0 +1,32 @@
+- content_for :head do
+  = stylesheet_link_tag 'coin-articles'
+section.phr#title
+  .container
+    .row.pv3
+      .col-xs-12.col-md-8.col-md-offset-2
+        h1= @title
+    .row.pv3
+      .col-xs-12.col-md-8.col-md-offset-2
+        .row.items-center.around-xs
+          .col.ph3.pt3
+            img.br-100.dib.h3.w3.v-mid.mr3 src=@coin_article.author.photo_url alt=@coin_article.author.name
+            = @coin_article.author.name
+          .col.ph3.pt3
+            = "Last Updated: #{@coin_article.updated_at.strftime('%B %-d, %Y')}"
+section.phr#content
+  .container
+    .row.pv3
+      .col-xs-12.col-md-8.col-md-offset-2
+        = markdown @coin_article.content
+  .container#table-of-contents
+    .row.pt3
+      .col-xs-12
+        .b Quick Links
+    .row.pv3
+      .col-xs-12
+        = markdown_toc @coin_article.content
+section.phr#author
+  .container
+    .row.pv3
+      .col-xs-12.col-md-8.col-md-offset-2
+        = render partial: 'author'

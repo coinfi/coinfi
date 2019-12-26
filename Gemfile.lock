@@ -103,9 +103,10 @@ GEM
       momentjs-rails (~> 2.8)
       sassc-rails (~> 2.1)
       selectize-rails (~> 0.6)
-    administrate-field-belongs_to_search (0.4.0)
+    administrate-field-belongs_to_search (0.7.0)
       administrate (>= 0.3, < 1.0)
-      rails (>= 4.2, < 5.2)
+      jbuilder (~> 2)
+      rails (>= 4.2, < 7.0)
       selectize-rails (~> 0.6)
     aggregate (0.2.2)
     api-pagination (4.8.1)
@@ -510,6 +511,7 @@ GEM
       execjs (~> 2.5)
       rails (>= 3.2)
       rainbow (~> 3.0)
+    redcarpet (3.5.0)
     redis (4.1.0)
     redis-actionpack (5.0.2)
       actionpack (>= 4.0, < 6)
@@ -747,6 +749,7 @@ DEPENDENCIES
   rails_12factor
   ransack
   react_on_rails (= 11.1.4)
+  redcarpet
   redis (~> 4.1)
   redis-rails
   reek

@@ -41,6 +41,7 @@ Rails.application.routes.draw do
     resources :contributor_submissions, path: 'contributor-submissions'
     resources :exchange_listings, only: :index, path: 'listings'
     resources :calendar_events, only: :index, path: 'calendar'
+    resources :coin_articles, only: %i[index show], path: 'how-to-buy-cryptocurrency'
     get '/indicators', to: 'indicators#show', as: 'indicators'
     # get '/icos', to: redirect('/icos/upcoming'), as: 'icos_root'
     # get '/icos(/:status)', to: 'icos#index', as: 'icos'
@@ -65,6 +66,8 @@ Rails.application.routes.draw do
       get 'pending', on: :collection
       get 'tagged', on: :collection
     end
+    resources :coin_articles
+    resources :authors
     resources :calendar_events
     resources :articles
     resources :users

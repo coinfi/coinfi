@@ -1,0 +1,57 @@
+@import 'variables';
+@import 'tachyons';
+@import 'components/table';
+
+h1 {
+  font-size: 25px;
+  font-weight: 800;
+  line-height: 1.3em;
+  text-align: center;
+}
+.icon span {
+  padding-left: 0.5rem;
+}
+#content {
+  img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  table {
+    margin-left: auto;
+    margin-right: auto;
+    @extend %striped-table;
+  }
+}
+#table-of-contents {
+  ul {
+    margin: 0;
+    padding-inline-start: 0;
+    list-style: none;
+    li {
+      a {
+        display: inline-block;
+        margin-bottom: 0.5rem;
+      }
+    }
+  }
+}
+#author-box {
+  margin-left: auto;
+  margin-right: auto;
+}
+@media #{$screen-min-m} {
+  h1 {
+    font-size: 45px;
+  }
+  #table-of-contents {
+    position: absolute;
+    left: 83.334%; // based on #content flexbox width
+    margin-left: 0;
+    margin-right: 0;
+    width: auto;
+  }
+  #author-box {
+    max-width: 750px;
+  }
+}
