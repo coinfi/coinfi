@@ -1,0 +1,10 @@
+.phr.pv3
+  .container
+    .box.cozy
+      h1.mt0 How to buy cryptocurrency
+      - @coin_articles.each do |a|
+        .mb3
+          a href= coin_article_path(a)
+            = a.display_title
+      - if @coin_articles.total_pages > 1
+        = paginate @coin_articles
