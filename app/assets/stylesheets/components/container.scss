@@ -21,6 +21,15 @@
   margin-left: auto;
   margin-right: auto;
 }
+.container-fixed {
+  @extend .container-wide;
+  @media #{$screen-min-m} {
+    width: 100%;
+    max-width: $fixed-width;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
 
 /**
  * Bootstrap container

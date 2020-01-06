@@ -51,7 +51,9 @@ h1 {
   }
   #side-bar {
     position: absolute;
-    left: 83.334%; // based on #content flexbox width
+    left: calc(
+      #{$fixed-width} / 2 + 50%
+    ); // 83.334%; // based on #content flexbox width
     margin-left: 0;
     margin-right: 0;
     width: auto;

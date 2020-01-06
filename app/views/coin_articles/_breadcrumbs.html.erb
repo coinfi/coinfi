@@ -1,4 +1,4 @@
-<nav aria-label="breadcrumb">
+<nav aria-label="breadcrumb" class="breadcrumbs-container">
   <ol class="breadcrumbs" vocab="https://schema.org/" typeof="BreadcrumbList">
     <% breadcrumb_trail.each_with_index do |crumb, index| %>
       <li class="<%= crumb.current? ? 'current' : '' %> breadcrumb" property="itemListElement" typeof="ListItem">
