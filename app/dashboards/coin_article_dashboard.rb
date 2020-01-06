@@ -34,7 +34,7 @@ class CoinArticleDashboard < Administrate::BaseDashboard
   # Feel free to add, remove, or rearrange items.
   COLLECTION_ATTRIBUTES = %i[
     id
-    meta_title,
+    meta_title
     H1
     coin
     author
