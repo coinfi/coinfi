@@ -1,6 +1,7 @@
 class CoinArticle < ApplicationRecord
   extend FriendlyId
   friendly_id :slugify, use: :slugged
+  alias_attribute :H1, :title
   belongs_to :coin
   belongs_to :author
   validates :title, presence: true

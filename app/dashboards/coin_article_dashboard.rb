@@ -18,8 +18,8 @@ class CoinArticleDashboard < Administrate::BaseDashboard
     ),
     id: Field::Number,
     slug: Field::String.with_options(searchable: false),
-    title: Field::String,
     meta_title: Field::String,
+    H1: Field::String,
     meta_description: Field::String,
     summary: Field::Text,
     content: MarkdownField,
@@ -34,7 +34,8 @@ class CoinArticleDashboard < Administrate::BaseDashboard
   # Feel free to add, remove, or rearrange items.
   COLLECTION_ATTRIBUTES = %i[
     id
-    title
+    meta_title,
+    H1
     coin
     author
   ].freeze
@@ -45,8 +46,8 @@ class CoinArticleDashboard < Administrate::BaseDashboard
     coin
     author
     id
-    title
     meta_title
+    H1
     meta_description
     summary
     content
@@ -60,8 +61,8 @@ class CoinArticleDashboard < Administrate::BaseDashboard
   FORM_ATTRIBUTES = %i[
     coin
     author
-    title
     meta_title
+    H1
     meta_description
     summary
     content
