@@ -136,8 +136,7 @@ class CoinsController < ApplicationController
     return nil unless article.present?
 
     article.as_json(
-      only: %i[],
-      methods: %i[display_title]
+      only: %i[title]
     ).merge({
       path: coin_article_path(article)
     })

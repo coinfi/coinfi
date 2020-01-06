@@ -5,6 +5,6 @@
       - @coin_articles.each do |a|
         .mb3
           a href= coin_article_path(a)
-            = a.display_title
+            = a.title
       - if @coin_articles.total_pages > 1
         = paginate @coin_articles

@@ -8,15 +8,10 @@ class CoinArticle < ApplicationRecord
   paginates_per 100
   max_paginates_per 100
 
-  def display_title
-    meta_title || title
-  end
-
   def get_schema
     schema = {
       "@type": "Article",
-      "headline": display_title,
-      "name": title,
+      "headline": title,
       "dateCreated": created_at.iso8601,
       "dateModified": updated_at.iso8601,
       "author": author.get_schema,

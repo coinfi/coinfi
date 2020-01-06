@@ -16,7 +16,7 @@ class CoinArticlesController < ApplicationController
 
     breadcrumb "#{@coin_article.coin.name} (#{@coin_article.coin.symbol})", coin_article_path(@coin_article)
     set_meta_tags(
-      title: @coin_article.display_title,
+      title: @coin_article.meta_title || @coin_article.title,
       description: @coin_article.meta_description
     )
     set_jsonld({

@@ -13,7 +13,7 @@ import { CurrencyContextType } from '~/bundles/common/contexts/CurrencyContext'
 import MarkupLink from '~/bundles/common/components/MarkupLink'
 
 interface CoinArticle {
-  display_title: string
+  title: string
   path: string
 }
 
@@ -180,7 +180,7 @@ export default function DescriptionText({
       )}
       {relatedArticle && (
         <p>
-          <a href={relatedArticle.path}>{relatedArticle.display_title}</a>
+          <a href={relatedArticle.path}>{relatedArticle.title}</a>
         </p>
       )}
     </>

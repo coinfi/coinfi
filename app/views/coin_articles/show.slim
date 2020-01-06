@@ -5,7 +5,7 @@ section.phr#title
   .container-fixed
     .row.pv3
       .col-xs-12
-        h1= @coin_article.display_title
+        h1= @coin_article.title
     .row.pv3
       .col-xs-12
         .row.items-center.around-xs
@@ -35,7 +35,7 @@ section.phr#content
           - @related_articles.each do |a|
             div
               a href=coin_article_path(a)
-                = a.display_title
+                = a.title
 
 section.phr#author
   .container-fixed
