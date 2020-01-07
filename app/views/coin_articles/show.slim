@@ -4,10 +4,10 @@
 section.phr#title
   .container-fixed
     .row.pv3
-      .col-xs-12
+      .col-xs-12.col-md-8.col-md-offset-2
         h1= @coin_article.title
     .row.pv3
-      .col-xs-12
+      .col-xs-12.col-md-8.col-md-offset-2
         .row.items-center.around-xs
           .col.ph3.pt3
             img.br-100.dib.h3.w3.v-mid.mr3 src=@coin_article.author.photo_url alt=@coin_article.author.name
@@ -17,7 +17,7 @@ section.phr#title
 section.phr#content
   .container-fixed
     .row.pv3
-      .col-xs-12
+      .col-xs-12.col-md-8.col-md-offset-2
         = markdown @coin_article.content
   .container.ph3-m#side-bar
     .row.pt3
@@ -40,5 +40,5 @@ section.phr#content
 section.phr#author
   .container-fixed
     .row.pv3
-      .col-xs-12
+      .col-xs-12.col-md-8.col-md-offset-2
         = render partial: 'author'
