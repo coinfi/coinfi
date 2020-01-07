@@ -29,7 +29,7 @@ module CoinArticlesHelper
   def html_santize(raw_html)
     if @markdown_sanitizer.blank?
       @markdown_sanitizer = Rails::Html::SafeListSanitizer.new
-      @markdown_sanitizer_allowed_tags = Set.new(%w(table thead tbody tr th td ul ol li strong br))
+      @markdown_sanitizer_allowed_tags = Set.new(%w(table thead tbody tr th td ul ol li strong br div span p))
       @markdown_sanitizer_allowed_attributes = Set.new(%w(id class))
     end
 

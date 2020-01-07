@@ -77,6 +77,9 @@ export default class MarkdownPreview extends React.Component<Props, State> {
         'li',
         'strong',
         'br',
+        'div',
+        'span',
+        'p',
       ],
       allowedAttributes: { '*': ['id', 'class'] },
     })

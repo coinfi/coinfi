@@ -62,6 +62,13 @@ h1 {
   margin-left: auto;
   margin-right: auto;
 }
+@media #{$screen-max-ns} {
+  #content {
+    .table-responsive {
+      overflow-x: auto;
+    }
+  }
+}
 @media #{$screen-min-m} {
   h1 {
     font-size: 45px;
@@ -69,14 +76,16 @@ h1 {
   #side-bar {
     position: absolute;
     left: 83.334%; // based on #content flexbox width
-    @media #{$screen-min-xl} {
-      left: calc(#{$fixed-width / 2} + 50%);
-    }
     margin-left: 0;
     margin-right: 0;
     width: auto;
   }
   #author-box {
     max-width: 750px;
+  }
+}
+@media #{$screen-min-xl} {
+  #side-bar {
+    left: calc(#{$fixed-width / 2} + 50%);
   }
 }
