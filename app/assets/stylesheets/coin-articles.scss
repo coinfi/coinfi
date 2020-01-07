@@ -28,6 +28,14 @@ h1 {
     }
   }
 }
+.article-grid-box {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  grid-gap: 8px 12px;
+}
+.pagination {
+  padding: 1rem 0 0;
+}
 #content {
   img {
     display: block;
