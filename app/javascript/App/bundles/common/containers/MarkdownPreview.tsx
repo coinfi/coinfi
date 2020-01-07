@@ -1,5 +1,6 @@
 import * as React from 'react'
 import * as ReactMarkdown from 'react-markdown'
+import sanitizeHtml from 'sanitize-html'
 import MarkupLink from '~/bundles/common/components/MarkupLink'
 
 interface Props {
@@ -17,8 +18,9 @@ interface State {
 export default class MarkdownPreview extends React.Component<Props, State> {
   constructor(props) {
     super(props)
+    const sanitizedValue = this.sanitizeHtml(props.children)
     this.state = {
-      inputValue: props.children,
+      inputValue: sanitizedValue,
     }
   }
 
@@ -44,12 +46,12 @@ export default class MarkdownPreview extends React.Component<Props, State> {
             </div>
           </>
         )}
-        <div>
+        <div className="react-markdown-preview">
           <ReactMarkdown
             {...otherProps}
             renderers={{ ...otherProps.renderers, link: MarkupLink }}
           >
-            {editable ? inputValue : children}
+            {inputValue}
           </ReactMarkdown>
         </div>
       </>
@@ -57,6 +59,26 @@ export default class MarkdownPreview extends React.Component<Props, State> {
   }
 
   private handleInputChange = (event) => {
-    this.setState({ inputValue: event.target.value })
+    const sanitizedValue = this.sanitizeHtml(event.target.value)
+    this.setState({ inputValue: sanitizedValue })
+  }
+
+  private sanitizeHtml = (rawHtml) => {
+    return sanitizeHtml(rawHtml, {
+      allowedTags: [
+        'table',
+        'thead',
+        'tbody',
+        'tr',
+        'th',
+        'td',
+        'ul',
+        'ol',
+        'li',
+        'strong',
+        'br',
+      ],
+      allowedAttributes: { '*': ['id', 'class'] },
+    })
   }
 }
