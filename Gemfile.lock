@@ -446,7 +446,7 @@ GEM
     public_suffix (2.0.5)
     puma (3.12.2)
     raabro (1.1.6)
-    rack (2.0.7)
+    rack (2.0.8)
     rack-affiliates (0.4.0)
       rack
     rack-attack (5.4.1)
