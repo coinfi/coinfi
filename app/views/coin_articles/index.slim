@@ -5,14 +5,15 @@ section.phr
     .row.pv3
       .col-xs-12.col-md-8.col-md-offset-2
         h1.mt0 How To Buy Cryptocurrency: The Best Way To Buy Crypto In #{Time.current.year}
-        .box
-          .article-grid-box
-            - @coin_articles.each do |a|
-              div
-                a href= coin_article_path(a)
-                  = a.coin.name
-          - if @coin_articles.total_pages > 1
-            = paginate @coin_articles
+        - if @coin_articles.present?
+          .box.mt4
+            .article-grid-box
+              - @coin_articles.each do |a|
+                div
+                  a href= coin_article_path(a)
+                    = a.coin.name
+            - if @coin_articles.total_pages > 1
+              = paginate @coin_articles
 section.phr
   .container-fixed
     .row.pv3
