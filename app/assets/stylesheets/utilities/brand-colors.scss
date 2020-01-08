@@ -8,6 +8,10 @@
   .b--#{$name} {
     border-color: $hex;
   }
+  .hover-#{$name}:hover,
+  .hover-#{$name}:focus {
+    color: $hex;
+  }
 }
 
 @include addColorClass($aqua, 'aqua');

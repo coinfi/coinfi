@@ -330,6 +330,7 @@ class CoinShow extends Component {
       currencySymbol,
       currencyRate,
       changeCurrency,
+      howToArticle,
     } = this.props
     const { tabSlug, priceData, priceDataHourly, lastPriceUpdate } = this.state
     const isMobile = !isDesktop
@@ -551,6 +552,7 @@ class CoinShow extends Component {
                     <DescriptionText
                       coinObj={coinObj}
                       currencyCtx={currencyCtx}
+                      relatedArticle={howToArticle}
                     />
                   </CardContent>
                 </MainCard>

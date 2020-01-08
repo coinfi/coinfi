@@ -1,0 +1,42 @@
+- content_for :head do
+  = stylesheet_link_tag 'coin-articles'
+= render partial: 'breadcrumbs'
+section.phr#title
+  .container-fixed
+    .row.pt3
+      .col-xs-12.col-md-8.col-md-offset-2
+        h1= @coin_article.title
+        .row.items-center.around-xs.pv3
+          .col.ph3
+            img.br-100.dib.h2.w2.mr2.v-mid src=@coin_article.author.photo_url alt=@coin_article.author.name
+            | By: #{@coin_article.author.name}
+          .col.ph3
+            = display_article_date @coin_article
+section.phr#content
+  .container-fixed
+    .row.pt3
+      .col-xs-12.col-md-8.col-md-offset-2
+        = markdown @coin_article.content
+  .container.ph3-m#side-bar
+    .row.pt3
+      .col-xs-12
+        .b Quick Links
+    .row.pv3
+      .col-xs-12#table-of-contents
+        = markdown_toc @coin_article.content
+    - if @related_articles.present?
+      .row.pt3
+        .col-xs-12
+          .b Related Articles
+      .row.pv3
+        .col-xs-12#related-articles
+          - @related_articles.each do |a|
+            div
+              a href=coin_article_path(a)
+                = a.title
+
+section.phr#author
+  .container-fixed
+    .row.pv3
+      .col-xs-12.col-md-8.col-md-offset-2
+        = render partial: 'author'

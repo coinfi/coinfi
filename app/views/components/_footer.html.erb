@@ -14,10 +14,10 @@
         <nav class="nav-x" data-expandable="coins" data-height="80">
           <ul className="flex-wrap">
             <li>
-              <a href="/coins">Cryptocurrency Prices Live</a>
+              <a href="<%= coins_path %>">Cryptocurrency Prices Live</a>
             </li>
             <li>
-              <a href="/token-metrics">ERC-20 Token Metrics</a>
+              <a href="<%= token_metrics_path %>">ERC-20 Token Metrics</a>
             </li>
           </ul>
         </nav>
@@ -37,7 +37,7 @@
         <nav class="nav-x" data-expandable="calculators" data-height="30">
           <ul className="flex-wrap">
             <li>
-              <a href="/calculators/bitcoin-investment-calculator">Bitcoin Investment Calculator</a>
+              <a href="<%= calculator_path('bitcoin-investment-calculator') %>">Bitcoin Investment Calculator</a>
             </li>
           </ul>
         </nav>
@@ -47,7 +47,7 @@
         <nav class="nav-x" data-expandable="company" data-height="180">
           <ul className="flex-wrap">
             <li>
-              <a href="/podcast">Podcast</a>
+              <a href="<%= podcast_path %>">Podcast</a>
             </li>
             <li>
               <a href="https://blog.coinfi.com">Blog</a>
@@ -56,16 +56,16 @@
               <a href="https://careers.coinfi.com">Careers</a>
             </li>
             <li>
-              <a href="/press" rel="nofollow">Press</a>
+              <a href="<%= page_press_path %>" rel="nofollow">Press</a>
             </li>
             <li>
-              <a href="/about">About</a>
+              <a href="<%= page_about_path %>">About</a>
             </li>
             <li>
               <a href="https://feedback.coinfi.com/feature-requests" rel="nofollow">Feedback</a>
             </li>
             <li>
-              <a href="/privacy-policy" rel="nofollow">Privacy Policy</a>
+              <a href="<%= page_contact_us_path %>" rel="nofollow">Privacy Policy</a>
             </li>
           </ul>
         </nav>
