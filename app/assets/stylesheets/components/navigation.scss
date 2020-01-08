@@ -189,7 +189,7 @@ img.icon-white {
     margin: 0;
   }
   .fixed-width {
-    max-width: 1200px;
+    max-width: $fixed-width;
   }
   .nav {
     position: relative;
@@ -278,7 +278,7 @@ img.icon-white {
     }
   }
   .nav-menu-coins {
-    min-width: 190px;
+    min-width: 200px;
   }
   .nav-actions {
     height: 100%;

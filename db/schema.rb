@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190829151700) do
+ActiveRecord::Schema.define(version: 20191224231944) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -45,6 +45,16 @@ ActiveRecord::Schema.define(version: 20190829151700) do
     t.string "slug"
     t.index ["slug"], name: "index_author_profiles_on_slug"
     t.index ["user_id"], name: "index_author_profiles_on_user_id"
+  end
+
+  create_table "authors", force: :cascade do |t|
+    t.string "name"
+    t.string "slug"
+    t.string "website_url"
+    t.string "twitter_url"
+    t.string "linkedin_url"
+    t.string "photo_url"
+    t.text "bio"
   end
 
   create_table "blazer_audits", force: :cascade do |t|
@@ -138,6 +148,21 @@ ActiveRecord::Schema.define(version: 20190829151700) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["cmc_id"], name: "index_cmc_exchanges_on_cmc_id", unique: true
+  end
+
+  create_table "coin_articles", force: :cascade do |t|
+    t.bigint "coin_id"
+    t.bigint "author_id"
+    t.string "slug"
+    t.string "title"
+    t.string "meta_title"
+    t.string "meta_description"
+    t.text "summary"
+    t.text "content"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["author_id"], name: "index_coin_articles_on_author_id"
+    t.index ["coin_id"], name: "index_coin_articles_on_coin_id"
   end
 
   create_table "coin_excluded_countries", force: :cascade do |t|
@@ -603,6 +628,8 @@ ActiveRecord::Schema.define(version: 20190829151700) do
   add_foreign_key "calendar_event_coins", "calendar_events"
   add_foreign_key "calendar_event_coins", "coins"
   add_foreign_key "calendar_events", "users"
+  add_foreign_key "coin_articles", "authors", on_delete: :cascade
+  add_foreign_key "coin_articles", "coins", on_delete: :cascade
   add_foreign_key "coin_excluded_countries", "coins", on_delete: :cascade
   add_foreign_key "coin_excluded_countries", "countries", on_delete: :cascade
   add_foreign_key "coin_industries_coins", "coin_industries"

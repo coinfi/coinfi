@@ -51,17 +51,23 @@ $f5: 1rem;
 $f6: 0.875rem;
 $f7: 0.7rem;
 
+// Dimensions
+$fixed-width: 1200px;
+
 // Breakpoints
 
 $screen-ns: 480px;
 $screen-m: 922px;
 /* screen size changed from 768 to allow for nav items to fit in one row */
 $screen-l: 1184px;
+$screen-xl: 1400px;
 
 $screen-min-ns: 'screen and (min-width: #{$screen-ns})';
 $screen-min-m: 'screen and (min-width: #{$screen-m})';
 $screen-min-l: 'screen and (min-width: #{$screen-l})';
+$screen-min-xl: 'screen and (min-width: #{$screen-xl})';
 
 $screen-max-ns: 'screen and (max-width: #{$screen-ns - 1px})';
 $screen-max-m: 'screen and (max-width: #{$screen-m - 1px})';
 $screen-max-l: 'screen and (max-width: #{$screen-l - 1px})';
+$screen-max-xl: 'screen and (max-width: #{$screen-xl - 1px})';

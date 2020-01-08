@@ -1,0 +1,248 @@
+- content_for :head do
+  = stylesheet_link_tag 'coin-articles'
+section.phr
+  .container-fixed
+    .row.pv3
+      .col-xs-12.col-md-8.col-md-offset-2
+        h1.mt0 How To Buy Cryptocurrency: The Best Way To Buy Crypto In #{Time.current.year}
+        - if @coin_articles.present?
+          .box.mt4
+            .article-grid-box
+              - @coin_articles.each do |a|
+                div
+                  a href= coin_article_path(a)
+                    = a.coin.name
+            - if @coin_articles.total_pages > 1
+              = paginate @coin_articles
+section.phr
+  .container-fixed
+    .row.pv3
+      .col-xs-12.col-md-8.col-md-offset-2
+        p Ever since the meteoric rise in the price of cryptocurrencies in late 2017, investors in this asset class have proliferated.
+        p With each passing year new exchanges, both online and offline, emerge and supersede their competitors. This epic bull run also led to the rise of several digital currencies like Dogecoin, Ripple, and Litecoin. The entire market capitalization saw a parabolic upward curve.
+        p Over 2000 cryptocurrencies were created on Ethereum. Companies like ConsenSys also aim to create Decentralized Autonomous Organizations or the DAO that run on Smart Contracts powered by the Ethereum blockchain.
+        p Even after a decade of existence, new investors in the market often find themselves asking how do I buy cryptocurrency.
+        p Finding the most efficient method of purchasing cryptocurrencies in this dynamic market can be overwhelming at times. Therefore we have compiled a detailed guide on the best ways of buying cryptocurrencies in 2020. Buying cryptocurrency is easier than setting up a bank account.
+        p As we go into this new year, after a bear market for two years, expectations are high. We will also witness Bitcoin’s halving in 2020 and that is usually followed by a steep rise in Bitcoin’s price.
+        h2#how-do-you-buy-cryptocurrency How do you Buy Cryptocurrency?
+        p Buying cryptocurrencies at present is as easy as ever. There are only a handful of steps required to be followed for buying digital currencies.
+        p Although we cover steps for each exchange in detail, here is a basic overview that presents the best way to buy cryptocurrency online:
+        ul
+          li You need to register yourself on a cryptocurrency exchange or a trading platform that will allow you to buy Bitcoin, Litecoin or any other digital currency
+          li You may need to verify your identity (KYC).
+          li You deposit your local Fiat currency or Bitcoin
+          li You trade your deposited currency for the cryptocurrency you are looking for
+          li You will get the cryptocurrency in your exchange wallet. You can now hold this or take profits and sell Bitcoin
+        h2#where-to-buy-cryptocurrency Where To Buy Cryptocurrency?
+        p There are a plethora of ways to buy cryptocurrencies.
+        p Exchanges like Coinbase, Binance, Cex.io, Bitstamp, etc are one of the easiest and safest methods to purchase Bitcoin and other cryptocurrencies online.
+        p LocalBitcoin.com and similar sites are the most popular ways to purchase cryptocurrencies in cash and in a P2P fashion.These are also known as OTC or Over The Counter ways of buying cryptocurrencies. Bitcoin ATMs are another popular medium to easily buy cryptocurrencies.
+        p You may be buying into Bitcoin or buying Ethereum or trading Litecoin. Whatever you do, it is important to know the best sites to buy cryptocurrency.
+        h3#how-to-buy-cryptocurrency-on-cryptocurrency-exchanges How To Buy Cryptocurrency on Cryptocurrency Exchanges?
+        h4#binance Binance
+        p A company founded by Changpeng Zhao in 2017, Binance is currently one of the most used cryptocurrency exchanges. However, Binance at present only allows users of certain countries to deposit via their fiat gateway.
+        p Other users have to deposit either Bitcoin, Bitcoin Cash, ETH, BNB, TRX, XRP or USDT to buy other cryptocurrencies. Binance is probably the best place to buy cryptocurrency right now. Binance’s mobile app is one of the best too.
+        p Here are instructions on how to buy cryptocurrencies on Binance:
+        ol
+          li Go to their website, Binance.com and get yourself registered.
+          li Submit the required documents to complete your KYC.
+          li Enable 2 Factor Authentication to add further security to your account.
+          li Deposit Bitcoin or Ethereum to your account.
+          li Users of certain countries can alternatively deposit their local currency directly via the fiat gateway.
+          li Wait for the confirmation of the deposit to take place.
+          li Click "Exchange > Basic” on the top left menu to go to the exchange screen.
+          li Select the desired exchange pair.
+          li Click the ‘Market’ option in the buy box below the graph.
+          li Put in the desired amount of Bitcoin, ETH, BNB, TRX, XRP or USDT you want to buy with.
+          li Simply click the buy button and the trade will be carried out.
+        h4#coinbase Coinbase
+        p Coinbase is one of the oldest cryptocurrency exchanges, operational since 2012. They allow the purchase of Bitcoin, Bitcoin Cash, Ethereum and 14 other cryptocurrencies. Coinbase permits depositing money through wire transfers, debit cards or domestic transfers.
+        p Coinbase also has a trading app for those who are on the move.
+        p Here are instructions on how to buy crypto on Coinbase:
+        ol
+          li Create an account on their website, coinbase.com.
+          li Verify your account by completing the KYC.
+          li Enable 2 Factor Authentication to add further security to your account.
+          li Deposit money into your account via bank account transfer or by using a credit or debit cards.
+          li Select the "Buy/Sell” option from the top menu.
+          li Select the cryptocurrency of your choice and check the price.
+          li Buy the desired cryptocurrency by simply entering the amount of the payment and click "Buy".
+        h4#cex-io Cex.io
+        p Cex.io is a London based cryptocurrency exchange. Operational since 2013, Cex.io allows users to buy cryptocurrency with debit card, credit card, bank account transfer or wire transfer.
+        p Here are instructions on how to buy cryptocurrencies on Cex.io:
+        ol
+          li Register yourself on their website, Cex.io and confirm your email address.
+          li Fill in your personal details.
+          li Submit the required documents to complete your KYC.
+          li Deposit funds into your account using any one of their many alternatives.
+          li Select the cryptocurrency you want to purchase from the ones available on their exchange.
+          li Select one of the fiat currencies - USD, EUR, GBP or RUB, you deposited.
+          li Once you click on one of the currencies, a trading page along with a graph will open.
+          li Now select “Market” located below the “Buy” box to trade at the prevailing trading rates.
+          li Enter the amount you would like to purchase and click the option below.
+        h4#gate-io Gate.io
+        p Gate.io is a secure and easy to use cryptocurrency exchange. It allows users to deposit Bitcoin, Ethereum or USDT and trade them to buy other cryptocurrencies.
+        p Here are instructions on how to buy cryptocurrencies on Gate.io:
+        ol
+          li Go to their website, Gate.io and create an account.
+          li Verify your email address.
+          li Enable 2 Factor Authentication to add further security to your account.
+          li Go to their deposit page and deposit Bitcoin, Ethereum or USDT.
+          li Look for “Markets” on the top menu and click it.
+          li Select your desired cryptocurrency along with the trading pair on the left panel.
+          li Enter the payment amount of the selected cryptocurrency in the box below the graph and click it.
+          li The cryptocurrency of your choice will now be in your wallet.
+        h4#bitstamp Bitstamp
+        p Bitstamp, founded in 2011 is one of the first major cryptocurrency exchange. They allow their users to deposit EUR and USD via their fiat gateway. Users can buy Bitcoin, ETH, XRP, LTC and BCH on the exchange.
+        p Here are instructions on how to buy cryptocurrencies on Bitstamp:
+        ol
+          li Register yourself on their website, bitstamp.net.
+          li Complete your KYC by submitting the required documents.
+          li Secure your Bitstamp account by setting a 2-factor authentication.
+          li Click “Deposit” located on the top left of the page and fund your account.
+          li Go to the “Buy/Sell” tab and select one of the four methods of trading.
+          li Choose the cryptocurrency you wish to purchase and enter the desired amount.
+          li Simply click on the “Buy” option and you will find the cryptocurrency in your wallet.
+        h4#bitfinex Bitfinex
+        p Headquartered in Hong Kong, Bitfinex was founded in 2012 as a peer-to-peer Bitcoin exchange. Since then they have expanded and are now offering other cryptocurrencies like ETH, XRP, LTC, NEO among numerous others. They also allow users to deposit USD, EUR, JPY and GBP via their fiat gateway.
+        p Here are instructions on how to buy cryptocurrencies on Bitfinex :
+        ol
+          li Go to their website, bitfinex.com and click on either the ‘Sign Up’ or ‘Open Account’ button to register.
+          li Confirm your email address.
+          li Complete the five stages of the verification process - Name & Contact, Address, Identity, Financial and KYC.
+          li Safeguard your account by enabling 2-factor authentication.
+          li Fund your account by depositing EUR, JPY, GSB or USD. You can also deposit a wide array of cryptocurrencies.
+          li Choose the “Trading” tab from the main menu
+          li Now enter the desired amount and select the trading pair of your choice.
+          li Once you select “Exchange Buy”, the trade will be carried out and you will find the cryptocurrency in your wallet.
+        h3#how-to-buy-cryptocurrency-on-non-exchange-trading-platforms How To Buy Cryptocurrency on Non-Exchange Trading Platforms
+        h4#etoro eToro
+        p eToro provides a wide array of assets to trade. One of them is cryptocurrencies. With eToro you can purchase Bitcoin, ETH, BCH, XRP, DASH etc using local currencies. It is the best site to buy cryptocurrency
+        p Here are instructions on how to buy cryptocurrencies on eToro:
+        ol
+          li Create an account by going to their website, etoro.com.
+          li Verify your email address.
+          li Deposit a minimum payment of £200 using any one of the following mediums - Paypal, Skrill, debit/credit cards or wire transfer.
+          li Click on “Top Markets” on the top of the menu and select cryptocurrencies.
+          li Select the trading pair of your choice and enter the desired amount of that cryptocurrency.
+          li Click on “Trade” and the aforementioned cryptocurrency will be present in your wallet.
+        h4#paxful Paxful
+        p Paxful is a peer-to-peer Bitcoin trading company. As it is a P2P trading platform, fees are drastically less than other centralised trading exchanges. At present, Paxful allows its users to only buy and sell Bitcoin.
+        p Here are instructions on how to buy cryptocurrencies on Paxful:
+        ol
+          li Sign up on their website, paxful.com.
+          li Complete all the verifications required.
+          li Secure your Paxful account by setting a 2-factor authentication.
+          li Fund your account by depositing via credit/debit cards, MoneyGram, Bank transfers, Paypal or Western Union.
+          li After depositing, you can directly purchase Bitcoin with the amount deposited.
+          li Once you have purchased Bitcoin you can find the desired amount in your wallet.
+        h4#coinmama Coinmama
+        p Coinmama is an easy to use cryptocurrency brokerage company that allows its users to buy cryptocurrencies using their local currencies. They serve over 1 million customers in over 180 countries!
+        p Here are instructions on how to buy cryptocurrencies on Coinmama:
+        ol
+          li Register yourself on their website, coinmama.com.
+          li Verify yourself by submitting the required documents.
+          li Link or set up a cryptocurrency wallet on any third-party provider (ex: MyEtherWallet, Freewallet, exodus, etc)
+          li Choose the desired cryptocurrency - Bitcoin, ETH, ETC, XRP, LTC, BCH, ADA or QTUM.
+          li Enter the specific amount you would like to buy and click “buy now”.
+          li Enter your wallet address of any third party provided.
+          li Choose the desired form of payment - credit/debit card or bank account transfer.
+          li Confirm your wallet address and receive the cryptocurrency in the linked wallet.
+        h4#changelly Changelly
+        p Changelly is one of the fastest and easiest to use Bitcoin and altcoin exchange platforms. Their platform allows users quick conversion between cryptocurrencies. Users can also purchase cryptocurrencies via credit or debit card.
+        p Here are instructions on how to buy cryptocurrencies on Changelly:
+        ol
+          li Go to their website, changelly.com.
+          li Choose the desired trading pair. You can also select either debit/credit card or bank transfer.
+          li Enter the desired amount and click “Exchange Now”.
+          li Confirm the transaction by signing in via your email address.
+          li Transfer the exact payment to the address provided and receive the previously chosen cryptocurrency in your wallet within minutes.
+        h3#how-to-buy-cryptocurrency-with-credit-card-debit-card-paypal How to buy cryptocurrency with credit card / debit card / Paypal?
+        p You can use a credit or debit card to purchase cryptocurrency from exchanges like Coinbase, Coinmama, Cex.io among many others. Out of these, Coinbase charges the least fees at 3.99%. It is easy to buy cryptocurrency with Paypal now.
+        h3#how-to-buy-cryptocurrency-with-cash How to buy cryptocurrency with cash?
+        p Buying Bitcoin or other cryptocurrencies with cash has never been easier. There are quite a few numbers of ways to buy cryptocurrency with cash payment. LocalBitcoins is the most popular and trusted peer-to-peer ways to buy Bitcoin. Others include Paxful, Walls of Coins, BitQuick, etc.
+        p One can also buy digital currency with cash at Bitcoin ATMs. One can also sell Bitcoin for cash via these ATMs. Once you buy cryptocurrency with cash, be sure to secure it in your wallet and safeguard your private key.
+        h2#frequently-asked-questions Frequently Asked Questions
+        h3#should-i-buy-cryptocurrency Should I Buy Cryptocurrency?
+        p Yes, buying cryptocurrencies are a no-brainer! It has been over a decade since the first bitcoin transaction took place and no other piece of technology since then has been more of a revolutionary one.
+        p Blockchain, the technology underlying bitcoin removes the need of a third party like a bank for carrying out financial transactions. With this, transaction fees are a fraction of what banks charge to send money across the globe. This is just one of the innumerable utilities of cryptocurrencies.
+        h3#when-should-one-buy-cryptocurrency When Should one Buy Cryptocurrency?
+        p There is no perfect time to buy cryptocurrencies. Due to the volatile nature of these assets, swing or short term trading results in more losses than gains. Hence, the best way to go about it is to accumulate whenever you have disposable funds.
+        h3#how-to-buy-cryptocurrency-with-usd How to buy cryptocurrency with USD?
+        p The simplest way would be to download Coinbase app, deposit US Dollars and trade for buying Bitcoin. These transactions take less than a few minutes and once the money is deposited, you can buy any cryptocurrency, be it Bitcoin or Bitcoin Cash.
+        h2#where-can-i-buy-cryptocurrency-in-my-country Where Can I Buy Cryptocurrency In My Country?
+        h3#how-to-buy-cryptocurrency-in-usa How to buy cryptocurrency in USA?
+        p For the last two years, the U.S. Securities and Exchange Commission (US SEC) has been monitoring ICOs and protecting investors from scammers. They are definitely making it a safe place for retail investors with more regulation.
+        p The USA is one of the few countries where purchasing cryptocurrency is as easy as shopping online. There are numerous ways to buy and sell cryptocurrencies. Coinbase is one of the easiest and safest methods to purchase Bitcoin and other cryptocurrencies online. LocalBitcoins, Walls of Coins and BitQuick are the most popular ways to purchase cryptocurrencies in cash and in a P2P fashion. Bitcoin ATMs are another popular medium to easily buy cryptocurrencies.
+        h3#how-to-buy-cryptocurrency-in-india How to buy cryptocurrency in India?
+        p Although buying cryptocurrency is not as easy in India as it is in the USA, there are still quite a few ways of procuring cryptocurrencies in this country. The best way to go about it is through online exchanges like BitBns and Unocoin. LocalBitcoins is also operational in India.
+        p Indian exchange WazirX was recently acquired by Binance, adding it as an option to buy cryptocurrencies with Indian Rupees under the Binance Fiat Gateway model.
+        h3#how-to-buy-cryptocurrency-in-canada How to buy cryptocurrency in Canada?
+        p Online exchanges like MyBitcoin.ca, Bitbuy, Coinsquare, Coinmama and Bitvo are the most trusted company in Canada. Bitcoin ATMs are also quite popular in Canada as the country is home to the most number of Bitcoin ATMs per capita!
+        p P2P exchanges like LocalBitcoins and Walls of Coins are quite prevalently used in Canada.
+        h3#how-to-buy-cryptocurrency-in-australia How to buy cryptocurrency in Australia?
+        p Coinbase is also the most popular and widely used cryptocurrency exchange in Australia. Exchanges like Coinmama, Coinbase Pro and the Australian based Independent Reserve are a few of the other preferred exchanges.
+        p Bitcoin ATMs are also another popular method of purchasing Bitcoin and other digital currencies.
+  .container.ph3-m#side-bar
+    .row.pt3
+      .col-xs-12
+        .b Quick Links
+    .row.pv3
+      .col-xs-12#table-of-contents
+        ul
+          li
+            a[href="#how-do-you-buy-cryptocurrency"] How do you Buy Cryptocurrency?
+          li
+            a[href="#where-to-buy-cryptocurrency"] Where To Buy Cryptocurrency?
+            ul
+              li
+                a[href="#how-to-buy-cryptocurrency-on-cryptocurrency-exchanges"] How To Buy Cryptocurrency on Cryptocurrency Exchanges?
+                ul
+                  li
+                    a[href="#binance"] Binance
+                  li
+                    a[href="#coinbase"] Coinbase
+                  li
+                    a[href="#cex-io"] Cex.io
+                  li
+                    a[href="#gate-io"] Gate.io
+                  li
+                    a[href="#bitstamp"] Bitstamp
+                  li
+                    a[href="#bitfinex"] Bitfinex
+              li
+                a[href="#how-to-buy-cryptocurrency-on-non-exchange-trading-platforms"] How To Buy Cryptocurrency on Non-Exchange Trading Platforms
+                ul
+                  li
+                    a[href="#etoro"] eToro
+                  li
+                    a[href="#paxful"] Paxful
+                  li
+                    a[href="#coinmama"] Coinmama
+                  li
+                    a[href="#changelly"] Changelly
+              li
+                a[href="#how-to-buy-cryptocurrency-with-credit-card-debit-card-paypal"] How to buy cryptocurrency with credit card / debit card / Paypal?
+              li
+                a[href="#how-to-buy-cryptocurrency-with-credit-card-debit-card-paypal"] How to buy cryptocurrency with cash?
+          li
+            a[href="#frequently-asked-questions"] Frequently Asked Questions
+            ul
+              li
+                a[href="#should-i-buy-cryptocurrency"] Should I Buy Cryptocurrency?
+              li
+                a[href="#when-should-one-buy-cryptocurrency"] When Should one Buy Cryptocurrency?
+              li
+                a[href="#how-to-buy-cryptocurrency-with-usd"] How to buy cryptocurrency with USD?
+          li
+            a[href="#where-can-i-buy-cryptocurrency-in-my-country"] Where Can I Buy Cryptocurrency In My Country?
+            ul
+              li
+                a[href="#how-to-buy-cryptocurrency-in-usa"] How to buy cryptocurrency in USA?
+              li
+                a[href="#how-to-buy-cryptocurrency-in-india"] How to buy cryptocurrency in India?
+              li
+                a[href="#how-to-buy-cryptocurrency-in-canada"] How to buy cryptocurrency in Canada?
+              li
+                a[href="#how-to-buy-cryptocurrency-in-australia"] How to buy cryptocurrency in Australia?
+

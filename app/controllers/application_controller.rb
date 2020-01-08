@@ -6,6 +6,8 @@ class ApplicationController < ActionController::Base
   before_action :set_locale
   before_action :set_no_seo, if: :devise_controller?
 
+  breadcrumb 'Home', :root_path
+
 private
 
   def set_locale
