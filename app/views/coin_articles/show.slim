@@ -3,20 +3,18 @@
 = render partial: 'breadcrumbs'
 section.phr#title
   .container-fixed
-    .row.pv3
+    .row.pt3
       .col-xs-12.col-md-8.col-md-offset-2
         h1= @coin_article.title
-    .row.pv3
-      .col-xs-12.col-md-8.col-md-offset-2
-        .row.items-center.around-xs
-          .col.ph3.pt3
-            img.br-100.dib.h3.w3.v-mid.mr3 src=@coin_article.author.photo_url alt=@coin_article.author.name
+        .row.items-center.around-xs.pv3
+          .col.ph3
+            img.br-100.dib.h2.w2.mr2.v-mid src=@coin_article.author.photo_url alt=@coin_article.author.name
             | By: #{@coin_article.author.name}
-          .col.ph3.pt3
+          .col.ph3
             = display_article_date @coin_article
 section.phr#content
   .container-fixed
-    .row.pv3
+    .row.pt3
       .col-xs-12.col-md-8.col-md-offset-2
         = markdown @coin_article.content
   .container.ph3-m#side-bar

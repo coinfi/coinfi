@@ -10,7 +10,7 @@ section.phr
             - @coin_articles.each do |a|
               div
                 a href= coin_article_path(a)
-                  | #{a.coin.name} (#{a.coin.symbol})
+                  = a.coin.name
           - if @coin_articles.total_pages > 1
             = paginate @coin_articles
 section.phr
