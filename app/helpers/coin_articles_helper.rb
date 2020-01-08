@@ -1,6 +1,4 @@
 module CoinArticlesHelper
-
-
   def markdown(data)
     @markdown_html_renderer ||= Renderers::CoinArticleRenderer.new(
         filter_html: false,
@@ -12,7 +10,7 @@ module CoinArticlesHelper
         lax_spacing: true,
         space_after_headers: true
       )
-    sanitized_data = html_santize(data)
+    sanitized_data = sanitize_html(data)
     @markdown_html.render(sanitized_data).html_safe
   end
 
@@ -22,18 +20,14 @@ module CoinArticlesHelper
       with_toc_data: true,
     )
     @markdown_toc ||= Redcarpet::Markdown.new(@markdown_toc_renderer)
-    sanitized_data = html_santize(data)
+    sanitized_data = sanitize_html(data)
     @markdown_toc.render(sanitized_data).html_safe
   end
 
-  def html_santize(raw_html)
-    if @markdown_sanitizer.blank?
-      @markdown_sanitizer = Rails::Html::SafeListSanitizer.new
-      @markdown_sanitizer_allowed_tags = Set.new(%w(table thead tbody tr th td ul ol li strong br div span p))
-      @markdown_sanitizer_allowed_attributes = Set.new(%w(id class))
-    end
-
-    @markdown_sanitizer.sanitize(raw_html, tags: @markdown_sanitizer_allowed_tags, attributes: @markdown_sanitizer_allowed_attributes)
+  def sanitize_html(raw_html)
+    @html_sanitizer ||= Rails::Html::SafeListSanitizer.new
+    @html_scrubber ||= Scrubbers::CoinArticleScrubber.new
+    @html_sanitizer.sanitize(raw_html, scrubber: @html_scrubber)
   end
 
   def display_article_date(article)

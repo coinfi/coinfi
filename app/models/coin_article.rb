@@ -5,6 +5,7 @@ class CoinArticle < ApplicationRecord
   belongs_to :coin
   belongs_to :author
   validates :title, presence: true
+  before_validation :sanitize_html_content
   paginates_per 100
   max_paginates_per 100
 
@@ -28,6 +29,11 @@ class CoinArticle < ApplicationRecord
   end
 
   private
+
+  def sanitize_html_content
+    sanitizer = Rails::Html::SafeListSanitizer.new
+    self.content = sanitizer.sanitize(content, scrubber: Scrubbers::CoinArticleScrubber.new)
+  end
 
   def slugify
     "#{coin.name} #{coin.symbol}"
