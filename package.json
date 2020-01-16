@@ -91,7 +91,7 @@
     "react-sparklines": "^1.7.0",
     "react-swipeable": "^4.3.0",
     "react-tweet": "^1.7.0",
-    "react-twitter-widgets": "^1.7.1",
+    "react-twitter-widgets": "npm:@anthotsang/react-twitter-widgets",
     "redux": "^3.7.2",
     "redux-devtools": "^3.4.1",
     "redux-persist": "^5.9.1",
