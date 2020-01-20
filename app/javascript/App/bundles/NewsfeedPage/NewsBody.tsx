@@ -69,6 +69,11 @@ const styles = (theme) => {
       '& hr': {
         border: `0.5px solid ${theme.palette.border.main}`,
       },
+      '& br': {
+        display: 'block',
+        content: '""',
+        marginTop: '1rem',
+      },
     },
     localTime: {
       cursor: 'default',
@@ -144,6 +149,11 @@ class NewsBody extends React.Component<Props, State> {
       })
   }
 
+  public formatContent(content) {
+    const formattedContent = content.replace(/(?:\r\n|\r|\n)/g, '<br/>')
+    return formattedContent
+  }
+
   public render() {
     const { newsItem } = this.state
     const { classes } = this.props
@@ -168,7 +178,9 @@ class NewsBody extends React.Component<Props, State> {
 
     const categories = newsItem.categories
 
-    const content = _.trim(newsItem.content) || _.trim(newsItem.summary)
+    const content = this.formatContent(
+      _.trim(newsItem.content) || _.trim(newsItem.summary),
+    )
     const publishedAt = moment(newsItem.feed_item_published_at)
 
     return (
