@@ -1,6 +1,6 @@
 class User < ApplicationRecord
   acts_as_voter
-  after_create :add_to_convertkit
+  after_create :add_to_sendy
 
   has_many :news_items
   has_many :visits
@@ -170,9 +170,9 @@ class User < ApplicationRecord
 
   private
 
-  def add_to_convertkit
+  def add_to_sendy
     if Rails.env.production?
-      Convertkit::Client.new.add_subscriber_to_form('267531', email)
+      Sendy::Subscribe.call(email)
     end
   end
 
