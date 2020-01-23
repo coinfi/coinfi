@@ -15,15 +15,6 @@ GIT
       rails (>= 4.2, < 5.3)
 
 GIT
-  remote: https://github.com/hanchang/convertkit-ruby.git
-  revision: 7aa5efeee74ae6fa94e34fae8da876a96c06ac16
-  specs:
-    convertkit-ruby (0.0.2)
-      faraday (>= 0.9.2)
-      faraday_middleware (>= 0.10.0)
-      json (>= 1.8.3)
-
-GIT
   remote: https://github.com/nickcharlton/administrate-field-nested_has_many.git
   revision: 10eefee002395a55fccf4a59c318d7da38df22e6
   specs:
@@ -701,7 +692,6 @@ DEPENDENCIES
   capybara (~> 2.13)
   chromedriver-helper
   coffee-rails (~> 4.2)
-  convertkit-ruby!
   database_cleaner
   derailed_benchmarks
   devise (>= 4.6.0)
