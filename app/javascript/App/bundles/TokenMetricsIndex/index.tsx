@@ -21,14 +21,14 @@ import {
   withCurrency,
 } from '~/bundles/common/contexts/CurrencyContext'
 import Icon from '~/bundles/common/components/Icon'
-import API from '../common/utils/localAPI'
+import API from '~/bundles/common/utils/localAPI'
 import {
   formatValue,
   formatValueFixed,
   formatPrice,
   formatPercentage,
-} from '../common/utils/numberFormatters'
-import WatchStar from '../common/components/WatchStar'
+} from '~/bundles/common/utils/numberFormatters'
+import WatchStar from '~/bundles/common/components/WatchStar'
 import SearchCoins from '~/bundles/common/components/SearchCoins'
 import RedGreenSpan from '~/bundles/common/components/RedGreenSpan'
 import LoadingIndicator from '~/bundles/common/components/LoadingIndicator'
@@ -41,6 +41,7 @@ import {
   muiBorderColor,
 } from '~/bundles/common/styles/colors'
 import { TABS, orderByDefaults } from './constants'
+import LazyLoadImage from '~/bundles/common/components/LazyLoadImage'
 
 interface Props extends RouteComponentProps<any>, CurrencyContextType {
   classes: any
@@ -537,7 +538,10 @@ class TokenMetricsIndex extends React.Component<Props, State> {
                           >
                             <Grid item={true} className={classes.coinIcon}>
                               {_.isString(row.image_url) && (
-                                <img alt={row.name} src={row.image_url} />
+                                <LazyLoadImage
+                                  alt={row.name}
+                                  src={row.image_url}
+                                />
                               )}
                             </Grid>
                             <Grid item={true}>
