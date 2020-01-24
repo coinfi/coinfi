@@ -121,6 +121,12 @@ main {
   margin-top: $nav-height;
 }
 
+.social-icons {
+  i {
+    font-size: 20px;
+  }
+}
+
 .nav-x {
   ul {
     list-style: none;
@@ -144,10 +150,13 @@ main {
 img.icon-white {
   filter: invert(1);
 }
+i.icon-white {
+  color: $white;
+}
 
 .footer {
   background: $dark-pine-green;
-  color: white;
+  color: $white;
   .nav-logo {
     &__img {
       width: 100px;
@@ -170,7 +179,7 @@ img.icon-white {
     margin-bottom: 1rem;
   }
   &.expandable {
-    i {
+    i.fa-angle-down {
       display: none;
     }
   }
