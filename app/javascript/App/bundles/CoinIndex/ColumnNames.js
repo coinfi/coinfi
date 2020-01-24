@@ -8,6 +8,7 @@ import {
   formatPercentage,
   formatVolume,
 } from '~/bundles/common/utils/numberFormatters'
+import LazyLoadImage from '~/bundles/common/components/LazyLoadImage'
 
 export default ({ currency, currencyRate, currencySymbol }) => {
   return [
@@ -30,7 +31,7 @@ export default ({ currency, currencyRate, currencySymbol }) => {
             className={classes.coinWrapper}
           >
             <Grid item={true} className={classes.coinIcon}>
-              <img alt={row.name} src={row.image_url} />
+              <LazyLoadImage alt={row.name} src={row.image_url} />
             </Grid>
             <Grid item={true}>
               <Grid container={true} direction="column">
