@@ -4,7 +4,7 @@ import green from '@material-ui/core/colors/green'
 import amber from '@material-ui/core/colors/amber'
 import Slide from '@material-ui/core/Slide'
 import IconButton from '@material-ui/core/IconButton'
-import Icon from '@material-ui/core/Icon'
+import Icon from '~/bundles/common/components/Icon'
 import Snackbar, {
   SnackbarProps,
   SnackbarOrigin,
@@ -78,6 +78,21 @@ const getSnackbarVariant = (flashType: string) => {
   throw new Error(`Unrecognized flash type: ${flashType}`)
 }
 
+const getIconName = (variant: string) => {
+  switch (variant) {
+    case 'error':
+      return 'times-circle'
+    case 'warning':
+      return 'exclamation-triangle'
+    case 'info':
+      return 'exclamation-square'
+    case 'success':
+      return 'check-circle'
+    default:
+      return ''
+  }
+}
+
 const TransitionComponent = (props) => <Slide {...props} />
 
 interface Props
@@ -91,15 +106,31 @@ const styles = (theme) =>
   createStyles({
     success: {
       backgroundColor: green[600],
+      '& $iconVariant': {
+        color: green[600],
+        filter: 'brightness(0.5)',
+      },
     },
     error: {
       backgroundColor: theme.palette.error.dark,
+      '& $iconVariant': {
+        color: theme.palette.error.dark,
+        filter: 'brightness(0.5)',
+      },
     },
     info: {
       backgroundColor: theme.palette.primary.dark,
+      '& $iconVariant': {
+        color: theme.palette.primary.dark,
+        filter: 'brightness(0.5)',
+      },
     },
     warning: {
       backgroundColor: amber[700],
+      '& $iconVariant': {
+        color: amber[700],
+        filter: 'brightness(0.5)',
+      },
     },
     icon: {
       fontSize: 20,
@@ -128,6 +159,9 @@ const FlashMessageListItem: React.StatelessComponent<Props> = (props) => {
     direction: getTransitionDirection(anchorOrigin),
   } as TransitionProps
 
+  const variant = getSnackbarVariant(message.type)
+  const iconName = getIconName(variant)
+
   return (
     <Snackbar
       anchorOrigin={anchorOrigin}
@@ -139,10 +173,14 @@ const FlashMessageListItem: React.StatelessComponent<Props> = (props) => {
       {...otherProps}
     >
       <SnackbarContent
-        className={classes[getSnackbarVariant(message.type)]}
+        className={classes[variant]}
         message={
           <span className={classes.message}>
-            <Icon className={classnames(classes.icon, classes.iconVariant)} />
+            <Icon
+              name={iconName}
+              solid={true}
+              className={classnames(classes.icon, classes.iconVariant)}
+            />
             {message.text}
           </span>
         }

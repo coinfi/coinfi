@@ -53,7 +53,7 @@ class CurrencyProvider extends React.Component<
   constructor(props: CurrencyContextProps) {
     super(props)
 
-    const { cookies, user, currencies } = props
+    const { cookies, user, currencies = {} } = props
     const userCurrency = _.get(user, 'default_currency')
     const cookieCurrency = cookies.get('currency')
     const currency = userCurrency || cookieCurrency || defaultCurrency
@@ -72,9 +72,12 @@ class CurrencyProvider extends React.Component<
       cookies.set('currency', currency, cookieOptions)
     }
 
+    const isReady = !_.isEmpty(currencies)
+    const status = isReady ? STATUS.READY : STATUS.INITIALIZING
+
     this.state = {
-      status: STATUS.INITIALIZING,
-      currencies: {},
+      status,
+      currencies,
       currency,
       currencySymbol,
       currencyRate,
@@ -83,7 +86,9 @@ class CurrencyProvider extends React.Component<
 
   public componentDidMount() {
     document.addEventListener(CURRENCY_CHANGE_EVENT, this.onCurrencyChange)
-    this.getCurrencyRates()
+    if (this.state.status !== STATUS.READY) {
+      this.getCurrencyRates()
+    }
   }
 
   public componentDidUpdate(
