@@ -14,6 +14,7 @@ import {
   TableCell,
   TableSortLabel,
 } from '@material-ui/core'
+import Button from '@material-ui/core/Button'
 import { withStyles, createStyles } from '@material-ui/core/styles'
 import {
   CurrencyContextType,
@@ -168,6 +169,12 @@ const styles = (theme) =>
     coinName: {
       fontSize: '12px',
     },
+    inlineButton: {
+      padding: 0,
+      textTransform: 'unset',
+      lineHeight: 'unset',
+      verticalAlign: 'unset',
+    },
   })
 
 const generateSortIcon = ({ property, orderBy, order }) => {
@@ -203,58 +210,100 @@ class TokenMetricsIndex extends React.Component<Props, State> {
     }
   }
 
+  public componentDidMount() {
+    if (this.state.status !== STATUSES.READY) {
+      const { tabIndex, orderBy, order } = this.state
+      this.fetchAndSetMetrics(tabIndex, orderBy, order)
+    }
+  }
+
   public componentDidUpdate(prevProps, prevState) {
     const hasOrderChanged =
       this.state.orderBy !== prevState.orderBy ||
       this.state.order !== prevState.order
     const hasTabChanged = this.state.tabIndex !== prevState.tabIndex
     if (hasOrderChanged || hasTabChanged) {
-      this.setState(
-        {
-          status: STATUSES.LOADING,
-        },
-        () => {
-          this.fetchMetrics().then((payload) => {
-            const { data, metricType, metricTypeSlug, orderBy, order } = payload
-            const tabIndex = this.getTabIndexFromSlug(metricTypeSlug)
-
-            if (
-              this.state.tabIndex === tabIndex &&
-              this.state.orderBy === orderBy &&
-              this.state.order === order
-            ) {
-              this.setState({
-                status: STATUSES.READY,
-                metricType,
-                tabIndex,
-                orderBy,
-                order,
-                rows: data,
-              })
-            }
-          })
-        },
-      )
+      const { tabIndex, orderBy, order } = this.state
+      this.fetchAndSetMetrics(tabIndex, orderBy, order)
     }
 
     if (hasTabChanged) {
       const { tabIndex } = this.state
-      const metricTypeSlug = _.get(TABS, [tabIndex, 'slug'], TABS[0].slug)
+      const metricTypeSlug = this.getSlugFromTabIndex(tabIndex)
       this.props.history.push(`/token-metrics/${metricTypeSlug}`)
     }
   }
 
-  public fetchMetrics = (): Promise<TokenMetricsResponsePayload> => {
-    const { tabIndex, orderBy, order } = this.state
-    const metricTypeSlug = _.get(TABS, [tabIndex, 'slug'], TABS[0].slug)
+  public fetchAndSetMetrics = (tabIndex, orderBy, order) => {
+    this.setState(
+      {
+        status: STATUSES.LOADING,
+      },
+      () => {
+        this.fetchMetrics(tabIndex, orderBy, order)
+          .then((payload) => {
+            const {
+              data,
+              metricType,
+              metricTypeSlug,
+              orderBy: payloadOrderBy,
+              order: payloadOrder,
+            } = payload
+            const payloadTabIndex = this.getTabIndexFromSlug(metricTypeSlug)
+
+            if (
+              this.state.tabIndex === payloadTabIndex &&
+              this.state.orderBy === payloadOrderBy &&
+              this.state.order === payloadOrder
+            ) {
+              this.setState({
+                status: STATUSES.READY,
+                metricType,
+                tabIndex: payloadTabIndex,
+                orderBy: payloadOrderBy,
+                order: payloadOrder,
+                rows: data,
+              })
+            } else {
+              this.setState({
+                status: STATUSES.READY,
+              })
+            }
+          })
+          .catch((error) => {
+            this.setState({
+              status: STATUSES.READY,
+              rows: [],
+            })
+          })
+      },
+    )
+  }
+
+  public fetchMetrics = (
+    tabIndex,
+    orderBy,
+    order,
+  ): Promise<TokenMetricsResponsePayload> => {
+    const metricTypeSlug = this.getSlugFromTabIndex(tabIndex)
     return API.get(
       `/token-metrics/${metricTypeSlug}/?orderBy=${orderBy}&order=${order}`,
     ).then((response) => response.payload as TokenMetricsResponsePayload)
   }
 
+  public getSlugFromTabIndex = (tabIndex) => {
+    const metricTypeSlug = _.get(TABS, [tabIndex, 'slug'], TABS[0].slug)
+    return metricTypeSlug
+  }
+
   public getTabIndexFromSlug = (metricTypeSlug) => {
     const index = _.findIndex(TABS, (tab) => tab.slug === metricTypeSlug)
     return index >= 0 ? index : 0
+  }
+
+  public handleRefresh = (e) => {
+    const { tabIndex, orderBy, order } = this.state
+    this.fetchAndSetMetrics(tabIndex, orderBy, order)
   }
 
   public handleTabChange = (e, tabIndex: number) => {
@@ -298,7 +347,7 @@ class TokenMetricsIndex extends React.Component<Props, State> {
           onChange={this.handleTabChange}
           indicatorColor="primary"
           textColor="primary"
-          scrollable={true}
+          variant="scrollable"
           scrollButtons="off"
           classes={{
             root: classes.tabsRoot,
@@ -349,7 +398,7 @@ class TokenMetricsIndex extends React.Component<Props, State> {
                     classes.tableHeaderCell,
                     classes.tableCellRank,
                   )}
-                  numeric={true}
+                  align="right"
                 >
                   #
                 </TableCell>
@@ -361,7 +410,7 @@ class TokenMetricsIndex extends React.Component<Props, State> {
                 >
                   Coin
                 </TableCell>
-                <TableCell className={classes.tableHeaderCell} numeric={true}>
+                <TableCell className={classes.tableHeaderCell} align="right">
                   <TableSortLabel
                     active={orderBy === 'metric_value'}
                     direction={order}
@@ -375,7 +424,7 @@ class TokenMetricsIndex extends React.Component<Props, State> {
                     {tabInfo.columnName}
                   </TableSortLabel>
                 </TableCell>
-                <TableCell className={classes.tableHeaderCell} numeric={true}>
+                <TableCell className={classes.tableHeaderCell} align="right">
                   <TableSortLabel
                     active={orderBy === 'change_1d'}
                     direction={order}
@@ -389,7 +438,7 @@ class TokenMetricsIndex extends React.Component<Props, State> {
                     % 1D
                   </TableSortLabel>
                 </TableCell>
-                <TableCell className={classes.tableHeaderCell} numeric={true}>
+                <TableCell className={classes.tableHeaderCell} align="right">
                   <TableSortLabel
                     active={orderBy === 'change_7d'}
                     direction={order}
@@ -403,7 +452,7 @@ class TokenMetricsIndex extends React.Component<Props, State> {
                     % 1W
                   </TableSortLabel>
                 </TableCell>
-                <TableCell className={classes.tableHeaderCell} numeric={true}>
+                <TableCell className={classes.tableHeaderCell} align="right">
                   <TableSortLabel
                     active={orderBy === 'change_30d'}
                     direction={order}
@@ -417,7 +466,7 @@ class TokenMetricsIndex extends React.Component<Props, State> {
                     % 1M
                   </TableSortLabel>
                 </TableCell>
-                <TableCell className={classes.tableHeaderCell} numeric={true}>
+                <TableCell className={classes.tableHeaderCell} align="right">
                   <TableSortLabel
                     active={orderBy === 'price'}
                     direction={order}
@@ -431,7 +480,7 @@ class TokenMetricsIndex extends React.Component<Props, State> {
                     Price
                   </TableSortLabel>
                 </TableCell>
-                <TableCell className={classes.tableHeaderCell} numeric={true}>
+                <TableCell className={classes.tableHeaderCell} align="right">
                   <TableSortLabel
                     active={orderBy === 'market_cap'}
                     direction={order}
@@ -448,123 +497,142 @@ class TokenMetricsIndex extends React.Component<Props, State> {
               </TableRow>
             </TableHead>
             <TableBody>
-              {isLoading ? (
+              {!isLoading ? (
+                rows && rows.length > 0 ? (
+                  rows.map((row) => {
+                    return (
+                      <TableRow key={row.coin_key}>
+                        <TableCell
+                          className={classes.tableCellRank}
+                          align="right"
+                        >
+                          <Grid
+                            container={true}
+                            wrap="nowrap"
+                            alignContent="stretch"
+                            justify="space-between"
+                          >
+                            <Grid item={true}>
+                              {!_.isUndefined(row.id) && (
+                                <WatchStar
+                                  coin={row as { id: number }}
+                                  loggedIn={isLoggedIn}
+                                  hasText={false}
+                                />
+                              )}
+                            </Grid>
+                            <Grid item={true} className={classes.rankItem}>
+                              {row.rank}
+                            </Grid>
+                          </Grid>
+                        </TableCell>
+                        <TableCell className={classes.tableCellCoin}>
+                          <Grid
+                            container={true}
+                            direction="row"
+                            alignContent="flex-start"
+                            alignItems="stretch"
+                            wrap="nowrap"
+                            className={classes.coinWrapper}
+                          >
+                            <Grid item={true} className={classes.coinIcon}>
+                              {_.isString(row.image_url) && (
+                                <img alt={row.name} src={row.image_url} />
+                              )}
+                            </Grid>
+                            <Grid item={true}>
+                              <Grid
+                                container={true}
+                                direction="column"
+                                justify="space-evenly"
+                                wrap="nowrap"
+                                className={classes.coinTextWrapper}
+                              >
+                                <Grid
+                                  item={true}
+                                  xs={12}
+                                  className={classes.coinSymbol}
+                                >
+                                  <a href={`/coins/${row.slug}`}>
+                                    {row.symbol}
+                                  </a>
+                                </Grid>
+                                <Grid
+                                  item={true}
+                                  xs={12}
+                                  className={classes.coinName}
+                                >
+                                  {row.name}
+                                </Grid>
+                              </Grid>
+                            </Grid>
+                          </Grid>
+                        </TableCell>
+                        <TableCell align="right">
+                          {_.isNumber(row.metric_value) &&
+                            `${metricFormatter(row.metric_value)}`}
+                        </TableCell>
+                        <TableCell align="right">
+                          {_.isNumber(row.change_1d) && (
+                            <RedGreenSpan
+                              text={formatPercentage(row.change_1d)}
+                              affix="%"
+                            />
+                          )}
+                        </TableCell>
+                        <TableCell align="right">
+                          {_.isNumber(row.change_7d) && (
+                            <RedGreenSpan
+                              text={formatPercentage(row.change_7d)}
+                              affix="%"
+                            />
+                          )}
+                        </TableCell>
+                        <TableCell align="right">
+                          {_.isNumber(row.change_30d) && (
+                            <RedGreenSpan
+                              text={formatPercentage(row.change_30d)}
+                              affix="%"
+                            />
+                          )}
+                        </TableCell>
+                        <TableCell align="right">
+                          {_.isNumber(row.price) &&
+                            `${currencySymbol}${formatPrice(
+                              row.price * currencyRate,
+                            )}`}
+                        </TableCell>
+                        <TableCell align="right">
+                          {_.isNumber(row.market_cap) &&
+                            `${currencySymbol}${formatPrice(
+                              row.market_cap * currencyRate,
+                            )}`}
+                        </TableCell>
+                      </TableRow>
+                    )
+                  })
+                ) : (
+                  // No data
+                  <TableRow>
+                    <TableCell colSpan={8} align="center">
+                      <span>Could not retrieve data. </span>
+                      <Button
+                        onClick={this.handleRefresh}
+                        color="primary"
+                        className={classes.inlineButton}
+                      >
+                        Try again.
+                      </Button>
+                    </TableCell>
+                  </TableRow>
+                )
+              ) : (
+                // Loading
                 <TableRow>
                   <TableCell colSpan={8}>
                     <LoadingIndicator />
                   </TableCell>
                 </TableRow>
-              ) : (
-                rows.map((row) => {
-                  return (
-                    <TableRow key={row.coin_key}>
-                      <TableCell
-                        className={classes.tableCellRank}
-                        numeric={true}
-                      >
-                        <Grid
-                          container={true}
-                          wrap="nowrap"
-                          alignContent="stretch"
-                          justify="space-between"
-                        >
-                          <Grid item={true}>
-                            {!_.isUndefined(row.id) && (
-                              <WatchStar
-                                coin={row as { id: number }}
-                                loggedIn={isLoggedIn}
-                                hasText={false}
-                              />
-                            )}
-                          </Grid>
-                          <Grid item={true} className={classes.rankItem}>
-                            {row.rank}
-                          </Grid>
-                        </Grid>
-                      </TableCell>
-                      <TableCell className={classes.tableCellCoin}>
-                        <Grid
-                          container={true}
-                          direction="row"
-                          alignContent="flex-start"
-                          alignItems="stretch"
-                          wrap="nowrap"
-                          className={classes.coinWrapper}
-                        >
-                          <Grid item={true} className={classes.coinIcon}>
-                            {_.isString(row.image_url) && (
-                              <img alt={row.name} src={row.image_url} />
-                            )}
-                          </Grid>
-                          <Grid item={true}>
-                            <Grid
-                              container={true}
-                              direction="column"
-                              justify="space-evenly"
-                              wrap="nowrap"
-                              className={classes.coinTextWrapper}
-                            >
-                              <Grid
-                                item={true}
-                                xs={12}
-                                className={classes.coinSymbol}
-                              >
-                                <a href={`/coins/${row.slug}`}>{row.symbol}</a>
-                              </Grid>
-                              <Grid
-                                item={true}
-                                xs={12}
-                                className={classes.coinName}
-                              >
-                                {row.name}
-                              </Grid>
-                            </Grid>
-                          </Grid>
-                        </Grid>
-                      </TableCell>
-                      <TableCell numeric={true}>
-                        {_.isNumber(row.metric_value) &&
-                          `${metricFormatter(row.metric_value)}`}
-                      </TableCell>
-                      <TableCell numeric={true}>
-                        {_.isNumber(row.change_1d) && (
-                          <RedGreenSpan
-                            text={formatPercentage(row.change_1d)}
-                            affix="%"
-                          />
-                        )}
-                      </TableCell>
-                      <TableCell numeric={true}>
-                        {_.isNumber(row.change_7d) && (
-                          <RedGreenSpan
-                            text={formatPercentage(row.change_7d)}
-                            affix="%"
-                          />
-                        )}
-                      </TableCell>
-                      <TableCell numeric={true}>
-                        {_.isNumber(row.change_30d) && (
-                          <RedGreenSpan
-                            text={formatPercentage(row.change_30d)}
-                            affix="%"
-                          />
-                        )}
-                      </TableCell>
-                      <TableCell numeric={true}>
-                        {_.isNumber(row.price) &&
-                          `${currencySymbol}${formatPrice(
-                            row.price * currencyRate,
-                          )}`}
-                      </TableCell>
-                      <TableCell numeric={true}>
-                        {_.isNumber(row.market_cap) &&
-                          `${currencySymbol}${formatPrice(
-                            row.market_cap * currencyRate,
-                          )}`}
-                      </TableCell>
-                    </TableRow>
-                  )
-                })
               )}
             </TableBody>
           </Table>
