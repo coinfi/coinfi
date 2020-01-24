@@ -100,7 +100,11 @@ class NewsListHeader extends React.Component<Props, {}> {
               onClick={this.props.toggleFilters}
               className={classes.filterBtn}
             >
-              <img style={{ height: 10, marginRight: 10 }} src={filterBtn} />
+              <img
+                style={{ height: 10, marginRight: 10 }}
+                src={filterBtn}
+                alt="Filter Icon"
+              />
               Filters
             </button>
             <div className={classes.searchWrapper}>

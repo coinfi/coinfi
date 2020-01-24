@@ -1,6 +1,6 @@
 import React from 'react'
 import FilterButton from './FilterButton'
-import ExchangeListingsContext from '~/bundles/ExchangeListings/ExchangeListingsContext'
+import Icon from '~/bundles/common/components/Icon'
 import withDevice from '~/bundles/common/utils/withDevice'
 
 const FilterBar = ({
@@ -31,7 +31,7 @@ const FilterBar = ({
           }
           onClick={showCoinListDrawer}
         >
-          <i className="material-icons f6 mr2">list</i>
+          <Icon name="list" className="f6 mr2" />
           Coins
         </button>
       )}
