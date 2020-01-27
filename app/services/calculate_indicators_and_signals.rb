@@ -1,14 +1,15 @@
 class CalculateIndicatorsAndSignals < Patterns::Service
+  CONSENSUS_VALUES = {
+    strong_sell: 10,
+    sell: 30,
+    neutral: 50,
+    buy: 70,
+    strong_buy: 90
+  }
+
   def initialize(coin, limit = 200)
     @coin = coin
     @limit = limit
-    @consensus_values = {
-      strong_sell: 10,
-      sell: 30,
-      neutral: 50,
-      buy: 70,
-      strong_buy: 90
-    }
   end
 
   def call
@@ -164,18 +165,18 @@ class CalculateIndicatorsAndSignals < Patterns::Service
 
     if summary_signals[:buy] > summary_signals[:neutral] && summary_signals[:sell] == 0
       if (summary_signals[:buy] - summary_signals[:neutral]).to_f / total_signals >= strong_threshold
-        @consensus_values[:strong_buy]
+        CONSENSUS_VALUES[:strong_buy]
       else
-        @consensus_values[:buy]
+        CONSENSUS_VALUES[:buy]
       end
     elsif summary_signals[:sell] > summary_signals[:neutral] && summary_signals[:buy] == 0
       if (summary_signals[:sell] - summary_signals[:neutral]).to_f / total_signals >= strong_threshold
-        @consensus_values[:strong_sell]
+        CONSENSUS_VALUES[:strong_sell]
       else
-        @consensus_values[:sell]
+        CONSENSUS_VALUES[:sell]
       end
     else
-      @consensus_values[:neutral]
+      CONSENSUS_VALUES[:neutral]
     end
   end
 
