@@ -1,4 +1,12 @@
 class CalculateIndicatorsAndSignals < Patterns::Service
+  CONSENSUS_VALUES = {
+    strong_sell: 10,
+    sell: 30,
+    neutral: 50,
+    buy: 70,
+    strong_buy: 90
+  }
+
   def initialize(coin, limit = 200)
     @coin = coin
     @limit = limit
@@ -152,27 +160,31 @@ class CalculateIndicatorsAndSignals < Patterns::Service
     end
   end
 
-  def get_summary_value(summary_signals, strong_threshold: 0.5, weak_threshold: 0.3, neutral_weight: 0.7)
-    total = summary_signals.inject(0.0) do |sum, (k, v)|
-      if k == :neutral
-        sum + v * neutral_weight
-      else
-        sum + v
-      end
+  def get_summary_value(summary_signals, strong_threshold: 0.75, weak_threshold: 0.4, neutral_threshold: 0.5, opposing_threshold: 0.4)
+    total_signals = summary_signals.inject(0) { |total, (k, v)| total + v }.to_f
+    neutral_percentage = summary_signals[:neutral] / total_signals
+    buy_percentage = summary_signals[:buy] / total_signals
+    sell_percentage = summary_signals[:sell] / total_signals
+    if weak_threshold + opposing_threshold > 1
+      opposing_threshold = 1.0 - weak_threshold
     end
-    raw_value = summary_signals[:sell] * -1 + summary_signals[:buy] * 1
-    percent_value = raw_value / total
 
-    if percent_value <= -1 * strong_threshold
-      10 # strong sell
-    elsif percent_value > -1 * strong_threshold && percent_value < -1 * weak_threshold
-      30 # sell
-    elsif percent_value > weak_threshold && percent_value < strong_threshold
-      70 # buy
-    elsif percent_value >= strong_threshold
-      90 # strong buy
+    if neutral_percentage >= neutral_threshold
+      CONSENSUS_VALUES[:neutral]
+    elsif buy_percentage >= weak_threshold and sell_percentage < opposing_threshold
+      if buy_percentage >= strong_threshold
+        CONSENSUS_VALUES[:strong_buy]
+      else
+        CONSENSUS_VALUES[:buy]
+      end
+    elsif sell_percentage >= weak_threshold and buy_percentage < opposing_threshold
+      if sell_percentage >= strong_threshold
+        CONSENSUS_VALUES[:strong_sell]
+      else
+        CONSENSUS_VALUES[:sell]
+      end
     else
-      50 # neutral
+      CONSENSUS_VALUES[:neutral]
     end
   end
 

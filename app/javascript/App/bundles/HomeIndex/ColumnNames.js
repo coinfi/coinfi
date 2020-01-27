@@ -1,13 +1,14 @@
 import React from 'react'
 import _ from 'lodash'
-import RedGreenSpan from '../common/components/RedGreenSpan'
-import Icon from '../common/components/Icon'
+import RedGreenSpan from '~/bundles/common/components/RedGreenSpan'
+import Icon from '~/bundles/common/components/Icon'
 import { Sparklines, SparklinesLine } from 'react-sparklines'
 import {
   formatVolume,
   formatPrice,
   formatPercentage,
-} from '../common/utils/numberFormatters'
+} from '~/bundles/common/utils/numberFormatters'
+import LazyLoadImage from '~/bundles/common/components/LazyLoadImage'
 
 function ColumnNames({ currency, currencyRate, currencySymbol }) {
   return [
@@ -62,7 +63,7 @@ function ColumnNames({ currency, currencyRate, currencySymbol }) {
               paddingBottom: '5px',
             }}
           >
-            <img alt={text} src={row.image_url} className="fl mr2" />
+            <LazyLoadImage alt={text} src={row.image_url} className="fl mr2" />
             <div
               className="fl"
               style={{

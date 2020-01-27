@@ -26,6 +26,7 @@ import {
   withCurrency,
 } from '~/bundles/common/contexts/CurrencyContext'
 import { black65 } from '~/bundles/common/styles/colors'
+import LazyLoadImage from '~/bundles/common/components/LazyLoadImage'
 
 interface CoinData {
   id: number
@@ -103,6 +104,15 @@ const styles = (theme) =>
     },
     tableRow: {
       minHeight: `${theme.spacing.unit * 7}px`,
+    },
+    tablePaginationToolbar: {
+      [theme.breakpoints.down('sm')]: {
+        flexWrap: 'wrap',
+        height: 'auto',
+        justifyContent: 'space-evenly',
+        padding: '1rem',
+        paddingBottom: 0,
+      },
     },
     sparkline: {
       width: '200px',
@@ -293,7 +303,7 @@ class CoinIndex extends Component<Props, State> {
                           className={classes.mobileTableCell}
                         >
                           {row.image_url && (
-                            <img
+                            <LazyLoadImage
                               alt={row.name}
                               src={row.image_url}
                               className="fr ml2"
@@ -352,6 +362,7 @@ class CoinIndex extends Component<Props, State> {
             <TableFooter>
               <TableRow>
                 <TablePagination
+                  classes={{ toolbar: classes.tablePaginationToolbar }}
                   count={coinCount}
                   rowsPerPage={pageSize}
                   page={currentPage - 1}

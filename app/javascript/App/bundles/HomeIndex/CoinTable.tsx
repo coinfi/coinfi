@@ -21,10 +21,13 @@ import {
   formatVolume,
 } from '~/bundles/common/utils/numberFormatters'
 import { CoinData, EnhancedCoinData } from './types'
-import SearchCoins from '../common/components/SearchCoins'
-import WatchStar from '../common/components/WatchStar'
-import API from '../common/utils/API'
-import coinsNormalizer from '../common/normalizers/coins'
+import SearchCoins from '~/bundles/common/components/SearchCoins'
+import WatchStar from '~/bundles/common/components/WatchStar'
+import LazyLoadImage, {
+  forceLazyLoadCheck,
+} from '~/bundles/common/components/LazyLoadImage'
+import API from '~/bundles/common/utils/API'
+import coinsNormalizer from '~/bundles/common/normalizers/coins'
 import {
   CurrencyContextType,
   withCurrency,
@@ -321,6 +324,7 @@ class CoinTable extends React.Component<Props, State> {
     this.columnApi = params.columnApi
 
     this.api.sizeColumnsToFit()
+    forceLazyLoadCheck()
   }
 
   // NOTE: Manually implementing watch button for now since ag-grid doesn't work well with context
@@ -506,7 +510,11 @@ class CoinTable extends React.Component<Props, State> {
                         className={classes.coinWrapper}
                       >
                         <Grid item={true} className={classes.coinIcon}>
-                          <img alt={name} src={image_url} />
+                          <LazyLoadImage
+                            containerProps={{ height: 32 }}
+                            alt={name}
+                            src={image_url}
+                          />
                         </Grid>
                         <Grid item={true}>
                           <Grid container={true}>
