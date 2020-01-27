@@ -2,6 +2,13 @@ class CalculateIndicatorsAndSignals < Patterns::Service
   def initialize(coin, limit = 200)
     @coin = coin
     @limit = limit
+    @consensus_values = {
+      strong_sell: 10,
+      sell: 30,
+      neutral: 50,
+      buy: 70,
+      strong_buy: 90
+    }
   end
 
   def call
@@ -152,27 +159,23 @@ class CalculateIndicatorsAndSignals < Patterns::Service
     end
   end
 
-  def get_summary_value(summary_signals, strong_threshold: 0.5, weak_threshold: 0.3, neutral_weight: 0.7)
-    total = summary_signals.inject(0.0) do |sum, (k, v)|
-      if k == :neutral
-        sum + v * neutral_weight
-      else
-        sum + v
-      end
-    end
-    raw_value = summary_signals[:sell] * -1 + summary_signals[:buy] * 1
-    percent_value = raw_value / total
+  def get_summary_value(summary_signals, strong_threshold: 0.5)
+    total_signals = summary_signals.inject(0) { |total, (k, v)| total + v }
 
-    if percent_value <= -1 * strong_threshold
-      10 # strong sell
-    elsif percent_value > -1 * strong_threshold && percent_value < -1 * weak_threshold
-      30 # sell
-    elsif percent_value > weak_threshold && percent_value < strong_threshold
-      70 # buy
-    elsif percent_value >= strong_threshold
-      90 # strong buy
+    if summary_signals[:buy] > summary_signals[:neutral] && summary_signals[:sell] == 0
+      if (summary_signals[:buy] - summary_signals[:neutral]).to_f / total_signals >= strong_threshold
+        @consensus_values[:strong_buy]
+      else
+        @consensus_values[:buy]
+      end
+    elsif summary_signals[:sell] > summary_signals[:neutral] && summary_signals[:buy] == 0
+      if (summary_signals[:sell] - summary_signals[:neutral]).to_f / total_signals >= strong_threshold
+        @consensus_values[:strong_sell]
+      else
+        @consensus_values[:sell]
+      end
     else
-      50 # neutral
+      @consensus_values[:neutral]
     end
   end
 
