@@ -161,7 +161,9 @@ class CurrencyProvider extends React.Component<
     if (currency !== this.state.currency) {
       const hasCurrencyDetails = !!currencySymbol && !!currencyRate
       if (hasCurrencyDetails || currencies) {
-        const updatedState: any = {}
+        const updatedState: any = {
+          currency,
+        }
         if (hasCurrencyDetails) {
           updatedState.currencySymbol = currencySymbol
           updatedState.currencyRate = currencyRate
