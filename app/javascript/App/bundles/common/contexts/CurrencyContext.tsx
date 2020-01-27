@@ -53,12 +53,12 @@ class CurrencyProvider extends React.Component<
   constructor(props: CurrencyContextProps) {
     super(props)
 
-    const { cookies, user, currencies = {} } = props
+    const { cookies, user, currencies = { [defaultCurrency]: 1 } } = props
     const userCurrency = _.get(user, 'default_currency')
     const cookieCurrency = cookies.get('currency')
     const currency = userCurrency || cookieCurrency || defaultCurrency
     const currencySymbol = _.get(currencyMap, currency, '')
-    const currencyRate = _.get(currencies, currency, 1)
+    const currencyRate = _.get(currencies, currency)
 
     // remediate server-saved currency and local-saved currency
     if (
@@ -72,7 +72,7 @@ class CurrencyProvider extends React.Component<
       cookies.set('currency', currency, cookieOptions)
     }
 
-    const isReady = !_.isEmpty(currencies)
+    const isReady = !!currencySymbol && !!currencyRate
     const status = isReady ? STATUS.READY : STATUS.INITIALIZING
 
     this.state = {
@@ -80,49 +80,15 @@ class CurrencyProvider extends React.Component<
       currencies,
       currency,
       currencySymbol,
-      currencyRate,
+      currencyRate: currencyRate || 1,
     }
   }
 
   public componentDidMount() {
     document.addEventListener(CURRENCY_CHANGE_EVENT, this.onCurrencyChange)
     if (this.state.status !== STATUS.READY) {
+      // TODO: fetch from single context and transmit to others
       this.getCurrencyRates()
-    }
-  }
-
-  public componentDidUpdate(
-    prevProps: CurrencyContextProps,
-    prevState: CurrencyContextState,
-  ) {
-    // update based on cookie
-    const { cookies } = this.props
-    const cookieCurrency = cookies.get('currency')
-
-    if (
-      !_.isUndefined(cookieCurrency) &&
-      prevState.currency !== cookieCurrency
-    ) {
-      const currencyDetails = this.getCurrencyDetails(cookieCurrency)
-
-      this.setState({
-        currency: cookieCurrency,
-        ...currencyDetails,
-      })
-    }
-
-    // update if coming out of loading (i.e., got currency rate data)
-    if (
-      this.state.status === STATUS.READY &&
-      prevState.status !== this.state.status
-    ) {
-      const { currency } = this.state
-      const currencyDetails = this.getCurrencyDetails(currency)
-
-      this.setState({
-        currency,
-        ...currencyDetails,
-      })
     }
   }
 
@@ -130,40 +96,58 @@ class CurrencyProvider extends React.Component<
     document.removeEventListener(CURRENCY_CHANGE_EVENT, this.onCurrencyChange)
   }
 
-  public getCurrencyRates = () => {
-    const { status, currency } = this.state
+  public async fetchCurrencyRates() {
+    try {
+      const data = await API.get('/currency')
+      const { payload } = data
+      const { updated_at, ...currencies } = payload
+      return currencies
+    } catch {
+      const currencies = { [defaultCurrency]: 1 }
+      return currencies
+    }
+  }
+
+  public getCurrencyRates = (requestedCurrency = null) => {
+    const { status } = this.state
     if (status === STATUS.READY) {
       this.setState({ status: STATUS.LOADING })
     }
 
-    API.get('/currency')
-      .then((data) => {
-        const { payload } = data
-        if (_.isUndefined(payload)) {
-          return
-        }
-        const { updated_at, ...currencies } = payload
-        if (_.isUndefined(currencies)) {
-          return
-        }
+    return this.fetchCurrencyRates()
+      .then((currencies) => {
+        const { currency: stateCurrency } = this.state
+        const currency = requestedCurrency ? requestedCurrency : stateCurrency
+        const currencyDetails = this.getCurrencyDetails(currency)
 
+        const payload = {
+          currency,
+          currencies,
+          ...currencyDetails,
+        }
         this.setState({
           status: STATUS.READY,
-          currencies,
+          ...payload,
         })
+
+        return payload
       })
       .catch((err) => {
-        const currencies = { USD: 1 }
         this.setState({
           status: STATUS.READY,
-          currencies,
         })
+
+        return null
       })
   }
 
   public getCurrencyDetails(currency) {
-    const currencySymbol = _.get(currencyMap, currency, '')
-    const currencyRate = _.get(this.state.currencies, currency, 1)
+    const currencySymbol = _.get(currencyMap, currency)
+    const currencyRate = _.get(this.state, ['currencies', currency])
+
+    if (!currencySymbol || !currencyRate) {
+      return null
+    }
 
     return {
       currencySymbol,
@@ -172,14 +156,23 @@ class CurrencyProvider extends React.Component<
   }
 
   public onCurrencyChange = (e: CustomEvent) => {
-    const { currency } = e.detail
+    const { currency, currencySymbol, currencyRate, currencies } = e.detail
 
-    const currencyDetails = this.getCurrencyDetails(currency)
     if (currency !== this.state.currency) {
-      this.setState({
-        currency,
-        ...currencyDetails,
-      })
+      const hasCurrencyDetails = !!currencySymbol && !!currencyRate
+      if (hasCurrencyDetails || currencies) {
+        const updatedState: any = {}
+        if (hasCurrencyDetails) {
+          updatedState.currencySymbol = currencySymbol
+          updatedState.currencyRate = currencyRate
+        }
+        if (currencies) {
+          updatedState.currencies = currencies
+        }
+        this.setState(updatedState)
+      } else {
+        this.handleCurrencyChange(currency)
+      }
     }
   }
 
@@ -192,21 +185,16 @@ class CurrencyProvider extends React.Component<
     }
 
     cookies.set('currency', currency, cookieOptions)
-    const currencyDetails = this.getCurrencyDetails(currency)
-
-    this.setState({
-      currency,
-      ...currencyDetails,
+    this.handleCurrencyChange(currency, (currencyData) => {
+      const event = new CustomEvent(CURRENCY_CHANGE_EVENT, {
+        detail: { currency, ...currencyData },
+      })
+      document.dispatchEvent(event)
     })
 
     if (loggedIn || user) {
       API.patch('/user', { currency })
     }
-
-    const event = new CustomEvent(CURRENCY_CHANGE_EVENT, {
-      detail: { currency },
-    })
-    document.dispatchEvent(event)
   }
 
   public render() {
@@ -222,6 +210,27 @@ class CurrencyProvider extends React.Component<
         {this.props.children}
       </CurrencyContext.Provider>
     )
+  }
+
+  private handleCurrencyChange(currency, cb = null) {
+    const currencyDetails = this.getCurrencyDetails(currency)
+
+    if (currencyDetails === null) {
+      this.getCurrencyRates(currency).then((currencyRelatedState) => {
+        if (cb && typeof cb === 'function') {
+          cb(currencyRelatedState)
+        }
+      })
+    } else {
+      const currencyRelatedState = {
+        currency,
+        ...currencyDetails,
+      }
+      this.setState(currencyRelatedState)
+      if (cb && typeof cb === 'function') {
+        cb({ ...currencyRelatedState, currencies: this.state.currencies })
+      }
+    }
   }
 }
 const ProviderWithCookies = withCookies(CurrencyProvider)
