@@ -160,17 +160,25 @@ class CalculateIndicatorsAndSignals < Patterns::Service
     end
   end
 
-  def get_summary_value(summary_signals, strong_threshold: 0.5)
-    total_signals = summary_signals.inject(0) { |total, (k, v)| total + v }
+  def get_summary_value(summary_signals, strong_threshold: 0.75, weak_threshold: 0.4, neutral_threshold: 0.5, opposing_threshold: 0.4)
+    total_signals = summary_signals.inject(0) { |total, (k, v)| total + v }.to_f
+    neutral_percentage = summary_signals[:neutral] / total_signals
+    buy_percentage = summary_signals[:buy] / total_signals
+    sell_percentage = summary_signals[:sell] / total_signals
+    if weak_threshold + opposing_threshold > 1
+      opposing_threshold = 1.0 - weak_threshold
+    end
 
-    if summary_signals[:buy] > summary_signals[:neutral] && summary_signals[:sell] == 0
-      if (summary_signals[:buy] - summary_signals[:neutral]).to_f / total_signals >= strong_threshold
+    if neutral_percentage >= neutral_threshold
+      CONSENSUS_VALUES[:neutral]
+    elsif buy_percentage >= weak_threshold and sell_percentage < opposing_threshold
+      if buy_percentage >= strong_threshold
         CONSENSUS_VALUES[:strong_buy]
       else
         CONSENSUS_VALUES[:buy]
       end
-    elsif summary_signals[:sell] > summary_signals[:neutral] && summary_signals[:buy] == 0
-      if (summary_signals[:sell] - summary_signals[:neutral]).to_f / total_signals >= strong_threshold
+    elsif sell_percentage >= weak_threshold and buy_percentage < opposing_threshold
+      if sell_percentage >= strong_threshold
         CONSENSUS_VALUES[:strong_sell]
       else
         CONSENSUS_VALUES[:sell]
