@@ -7,7 +7,6 @@ import JssProvider from 'react-jss/lib/JssProvider'
 import getOrCreateStylesContext from '~/getOrCreateStylesContext'
 import ClearJssServerSide from '~/ClearJssServerSide'
 import { CookiesProvider } from 'react-cookie'
-import { CurrencyProvider } from './bundles/common/contexts/CurrencyContext'
 import { UserSettingsProvider } from './bundles/common/contexts/UserSettingsContext'
 
 interface WithClientProvidersOptions {
@@ -44,9 +43,7 @@ const withRootProviders = (
               <RailsProvider railsContext={railsContext}>
                 <DeviceProvider {...railsContext.deviceProviderProps}>
                   <UserSettingsProvider {...props}>
-                    <CurrencyProvider {...props}>
-                      <TargetComponent {...props} />
-                    </CurrencyProvider>
+                    <TargetComponent {...props} />
                   </UserSettingsProvider>
                 </DeviceProvider>
               </RailsProvider>
