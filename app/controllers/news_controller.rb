@@ -1,5 +1,5 @@
 class NewsController < ApplicationController
-  before_action :set_body_class, :set_fluid, :hide_footer, :show_dark_mode,
+  before_action :set_body_class, :set_fluid, :set_exchange_rates, :hide_footer, :show_dark_mode,
                 :set_view_data
   before_action :set_default_news_items, only: [:index, :show]
 

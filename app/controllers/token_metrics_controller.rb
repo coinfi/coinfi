@@ -1,5 +1,5 @@
 class TokenMetricsController < ApplicationController
-  before_action :set_params
+  before_action :set_params, :set_exchange_rates
 
   include TokensHelper
 

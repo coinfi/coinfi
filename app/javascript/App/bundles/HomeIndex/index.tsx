@@ -14,8 +14,6 @@ import TotalMarketCap, {
 } from '~/bundles/common/components/TotalMarketCap'
 import NewsList from '~/bundles/common/components/NewsList'
 import { CoinData } from './types'
-import Banner from './Banner'
-
 interface Props extends DeviceContextType {
   classes: any
   coins: CoinData[]
