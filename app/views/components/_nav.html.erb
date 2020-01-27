@@ -43,7 +43,7 @@
 
       <div class="nav-menu-actions pa2">
         <% unless hide_currency? %>
-          <%= react_component_with_jss "CurrencySelectorWidget", props: { user: current_user }, prerender: false %>
+          <%= react_component_with_jss "CurrencySelectorWidget", props: { user: current_user, currencies: @exchange_rates }, prerender: false %>
         <% end %>
         <% if user_signed_in? %>
           <div class="nav-menu-actions-account">
@@ -72,7 +72,7 @@
         <a href="#sign-up" onclick="openSignUpModal(event)" class="nav-menu__item nav-menu--primary">Get Started</a>
       <% end %>
       <% unless hide_currency? %>
-        <%= react_component_with_jss "CurrencySelectorWidget", props: { user: current_user }, prerender: false %>
+        <%= react_component_with_jss "CurrencySelectorWidget", props: { user: current_user, currencies: @exchange_rates }, prerender: false %>
       <% end %>
     </div>
 
