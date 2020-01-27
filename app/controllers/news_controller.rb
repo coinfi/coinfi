@@ -5,6 +5,7 @@ class NewsController < ApplicationController
 
   include NewsHelper
   include CoinListHelper
+  include CurrencyHelper
 
   def index
     set_meta_tags(

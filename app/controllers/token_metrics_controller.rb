@@ -2,6 +2,7 @@ class TokenMetricsController < ApplicationController
   before_action :set_params, :set_exchange_rates
 
   include TokensHelper
+  include CurrencyHelper
 
   def index
     distribute_reads(max_lag: MAX_ACCEPTABLE_REPLICATION_LAG, lag_failover: true) do
