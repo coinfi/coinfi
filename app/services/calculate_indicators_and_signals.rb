@@ -160,7 +160,7 @@ class CalculateIndicatorsAndSignals < Patterns::Service
     end
   end
 
-  def get_summary_value(summary_signals, strong_threshold: 0.75, weak_threshold: 0.4, neutral_threshold: 0.5, opposing_threshold: 0.4)
+  def get_summary_value(summary_signals, strong_threshold: 0.75, weak_threshold: 0.4, neutral_threshold: 0.5, opposing_threshold: 0.2)
     total_signals = summary_signals.inject(0) { |total, (k, v)| total + v }.to_f
     neutral_percentage = summary_signals[:neutral] / total_signals
     buy_percentage = summary_signals[:buy] / total_signals
