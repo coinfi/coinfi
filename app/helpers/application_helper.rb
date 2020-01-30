@@ -116,4 +116,13 @@ module ApplicationHelper
       return "<script type=\"application/ld+json\">#{@jsonld_data}</script>".html_safe
     end
   end
+
+  def get_inline_asset(asset_path)
+    asset = Rails.application.assets_manifest.find_sources(asset_path).first
+    if asset.present?
+      asset.to_s.html_safe
+    else
+      ""
+    end
+  end
 end

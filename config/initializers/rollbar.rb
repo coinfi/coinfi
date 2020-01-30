@@ -54,7 +54,7 @@ Rollbar.configure do |config|
     'ActionController::InvalidAuthenticityToken' => 'ignore',
     'SignalException: SIGTERM' => 'ignore',
   })
-  
+
   # Use before process handler to ignore routing errors to specified paths
   config.before_process << before_process_handler
 
@@ -80,16 +80,5 @@ Rollbar.configure do |config|
   # setup for Heroku. See:
   # https://devcenter.heroku.com/articles/deploying-to-a-custom-rails-environment
   config.environment = ENV['ROLLBAR_ENV'] || Rails.env
-
-  config.js_enabled = true
-  config.js_options = {
-    accessToken: ENV.fetch('ROLLBAR_CLIENT_ACCESS_TOKEN'),
-    captureUncaught: true,
-    captureUnhandledRejections: true,
-    logLevel: 'error',
-    hostWhiteList: ['coinfi.com', 'herokuapp.com'],
-    payload: {
-      environment: "production"
-    }
-  }
+  config.js_enabled = false
 end

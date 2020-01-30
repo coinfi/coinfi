@@ -5,6 +5,8 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
   before_action :set_locale
   before_action :set_no_seo, if: :devise_controller?
+  append_before_action :set_amp_rel, if: :has_amp?, unless: :is_amp?
+  append_before_action :set_amp_canonical, if: :is_amp?
 
   breadcrumb 'Home', :root_path
 
@@ -17,6 +19,14 @@ private
   def default_url_options
     return {} if I18n.locale == I18n.default_locale
     { locale: I18n.locale }
+  end
+
+  def set_amp_rel
+    set_meta_tags(amphtml: url_for(format: :amp, only_path: false))
+  end
+
+  def set_amp_canonical
+    set_meta_tags(canonical: url_for(format: '', only_path: false))
   end
 
 protected
@@ -89,6 +99,20 @@ protected
     @is_fluid
   end
   helper_method :is_fluid?
+
+  def set_amp
+    @has_amp = true
+  end
+
+  def has_amp?
+    @has_amp == true
+  end
+  helper_method :has_amp?
+
+  def is_amp?
+    @has_amp && request.format.amp?
+  end
+  helper_method :is_amp?
 
   # Helpers to use devise forms anywhere
   # https://github.com/plataformatec/devise/wiki/How-To:-Display-a-custom-sign_in-form-anywhere-in-your-app
