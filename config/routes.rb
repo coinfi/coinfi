@@ -33,6 +33,12 @@ Rails.application.routes.draw do
 
   resources :author_profiles, only: %i[index show create update], path: 'authors'
 
+  # HTML+AMP routes
+  scope constraints: lambda { |req| req.format == :html || req.format == :amp } do
+    get '/news/:id/:slug', to: 'news#show', as: 'news_item'
+    get '/news', to: 'news#index'
+  end
+
   # HTML only routes
   scope defaults: { format: 'html' }, constraints: { format: 'html' } do
     get '/calculators/:id', to: 'calculators#show', as: 'calculator'
@@ -46,10 +52,7 @@ Rails.application.routes.draw do
     # get '/icos', to: redirect('/icos/upcoming'), as: 'icos_root'
     # get '/icos(/:status)', to: 'icos#index', as: 'icos'
     get '/news/beta', to: static('/news-beta.html')
-    get '/news/:id/:slug', to: 'news#show', as: 'news_item'
     get '/news/:coin_slug', to: 'news#coin_index', as: 'news_coin'
-    get '/news', to: 'news#index'
-    get '/news-beta', to: static('/news-beta.html')
     get '/podcast', to: redirect('https://www.coinfi.com/research/coinfi-podcast', status: 302), as: 'podcast'
     get '/profile', to: 'users#edit'
     put '/profile', to: 'users#update'

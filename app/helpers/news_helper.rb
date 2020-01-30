@@ -30,9 +30,24 @@ module NewsHelper
   end
 
   def get_default_news_item_ids(rewrite_cache: false)
+    rewrite_cache = true unless Rails.env.production?
     Rails.cache.fetch("default_news_item_ids", force: rewrite_cache) do
       news_items = NewsServices::RetrieveDefaultNewsItems.call.try(:result)
       news_items.pluck(:id) if news_items.present?
     end
+  end
+
+  def get_favicon_link(url)
+    parsedUrl = URI(url)
+    "https://www.google.com/s2/favicons?domain=#{parsedUrl.host}"
+  end
+
+  def link_to_news_item(url, html_options = {})
+    html_options = {
+      target: "_blank",
+      rel: "noopener noreferrer nofollow"
+    }.merge(html_options)
+    parsedUrl = URI(url)
+    link_to(parsedUrl.host, url, html_options)
   end
 end

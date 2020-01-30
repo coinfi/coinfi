@@ -1,0 +1,16 @@
+- content_for :styles
+  = get_inline_asset('modules/amp-news-page')
+- @news_items.each do |news_item|
+  .news-item-wrapper.p1
+    h4.mb1 = link_to news_item.title, news_item_path(news_item, slug: news_item.slug), { class: "text-decoration-none" }
+    .flex.justify-between.flex-wrap.items-center
+      .news-item-details.flex.items-center.h5
+        amp-img.mr1 src=get_favicon_link(news_item.url) width=12 height=12
+        = link_to_news_item news_item.url, {class: "text-decoration-none"}
+        span.px1.h6 •
+        | #{time_ago_in_words news_item.feed_item_published_at} ago
+      - if news_item.tag_scoped_coins.present?
+        .news-item-coin-tags
+          - news_item.tag_scoped_coins.each do |coin|
+            = link_to coin.symbol, news_coin_path(coin_slug: coin.slug), { class: "coin-tag text-decoration-none" }
+
