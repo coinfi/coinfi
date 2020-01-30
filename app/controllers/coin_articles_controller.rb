@@ -8,6 +8,7 @@ class CoinArticlesController < ApplicationController
   def index
     distribute_reads(max_lag: MAX_ACCEPTABLE_REPLICATION_LAG, lag_failover: true) do
       @coin_articles = CoinArticle.page(params[:page]).per(params[:limit])
+      @coin_articles.each # force load
     end
   end
 
