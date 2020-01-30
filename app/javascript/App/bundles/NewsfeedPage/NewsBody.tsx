@@ -201,7 +201,7 @@ class NewsBody extends React.Component<Props, State> {
           <a
             href={newsItem.url}
             target="_blank"
-            rel="nofollow"
+            rel="noopener noreferrer nofollow"
             className="break-all"
           >
             <Icon name="link" className="mr1 f7" />
