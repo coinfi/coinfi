@@ -34,7 +34,7 @@ Rails.application.routes.draw do
   resources :author_profiles, only: %i[index show create update], path: 'authors'
 
   # HTML+AMP routes
-  scope constraints: lambda { |req| req.format == :html || req.format == :amp } do
+  scope defaults: { format: 'html' }, constraints: lambda { |req| req.format == :html || req.format == :amp } do
     resources :coin_articles, only: %i[index], path: 'how-to-buy-cryptocurrency'
   end
 
