@@ -36,10 +36,8 @@ amp-img.contain img {
 .ampstart-sidebar {
   background: $tiber;
   color: #fff;
-  .i-amphtml-accordion-header {
-    padding-right: 1.25em;
-  }
   .ampstart-dropdown > section > header {
+    padding-right: 1.25em;
     &:after {
       position: absolute;
       top: 50%;
