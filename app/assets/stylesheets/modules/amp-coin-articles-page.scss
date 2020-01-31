@@ -75,10 +75,15 @@ section > p:not(:first-child) {
     padding-inline-start: 0;
     list-style: none;
     li {
+      margin-bottom: 0.5rem;
       a {
         display: inline-block;
         margin-bottom: 0.5rem;
         text-decoration: none;
+      }
+      ul {
+        padding-inline-start: 1rem;
+        margin-top: 0.5rem;
       }
     }
   }

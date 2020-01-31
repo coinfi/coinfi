@@ -36,15 +36,32 @@ amp-img.contain img {
 .ampstart-sidebar {
   background: $tiber;
   color: #fff;
-  .ampstart-dropdown > section > header:after {
-    position: absolute;
-    right: 0;
-    padding: 0;
-    color: #fff;
-    content: '\02228'; /* &or; */
+  .i-amphtml-accordion-header {
+    padding-right: 1.25em;
+  }
+  .ampstart-dropdown > section > header {
+    &:after {
+      position: absolute;
+      top: 50%;
+      right: 0.25rem;
+      margin-top: -0.5em;
+      padding: 0;
+      content: '';
+      width: 1em;
+      height: 1em;
+      filter: invert(1);
+      background-repeat: no-repeat;
+      background-size: 1em 1em;
+      background-position: center;
+      background-image: linear-gradient(transparent, transparent),
+        url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"><title>expand</title><path d="M17.5 4.75l-7.5 7.5-7.5-7.5L1 6.25l9 9 9-9z"/></svg>');
+    }
   }
   .ampstart-dropdown > [expanded] > header:after {
-    content: '\02227'; /* &and; */
+    -webkit-transform: scaleY(-1);
+    -moz-transform: scaleY(-1);
+    -ms-transform: scaleY(-1);
+    transform: scaleY(-1);
   }
 }
 .ampstart-nav-dropdown .ampstart-dropdown-item,

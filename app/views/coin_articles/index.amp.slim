@@ -188,9 +188,10 @@ amp-accordion#content[expand-single-section]
       p Coinbase is also the most popular and widely used cryptocurrency exchange in Australia. Exchanges like Coinmama, Coinbase Pro and the Australian based Independent Reserve are a few of the other preferred exchanges.
       p Bitcoin ATMs are also another popular method of purchasing Bitcoin and other digital currencies.
 amp-sidebar id="sidebar" class="ampstart-sidebar px3" layout="nodisplay" side="right"
-  .pt3
+  .flex.justify-between.items-center.ampstart-sidebar-header
     .b Quick Links
-  .py3#table-of-contents
+    .ampstart-navbar-trigger.items-start role="button" aria-label="close sidebar" on="tap:sidebar.toggle" tabindex="0" class="" ✕
+  #table-of-contents
     ul
       li
         a[href="#how-to-buy-cryptocurrency"] How To You Buy Cryptocurrency?
