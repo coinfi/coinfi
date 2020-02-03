@@ -160,7 +160,13 @@ class CalculateIndicatorsAndSignals < Patterns::Service
     end
   end
 
-  def get_summary_value(summary_signals, strong_threshold: 0.75, weak_threshold: 0.4, neutral_threshold: 0.5, opposing_threshold: 0.2)
+  # Strong threshold: a strong buy/sell, obvious from visual inspection
+  # Weak threshold: possible buy/sell, conditioned on a weak opposing signal
+  # Opposing threshold: what is a "weak opposing signal" compared to the signal under consideration.
+  #   We use is_weak_sell to provide an additional bias for signals that look especially weak (i.e., < 50%)
+  # Neutral threshold: an overriding neutral condition; the basic logic is if not buy/sell, then neutral.
+  #   But in some cases, it should be neutral even if a buy or sell condition could be met
+  def get_summary_value(summary_signals, strong_threshold: 0.75, weak_threshold: 0.4, neutral_threshold: 0.5, opposing_threshold: 0.1)
     total_signals = summary_signals.inject(0) { |total, (k, v)| total + v }.to_f
     neutral_percentage = summary_signals[:neutral] / total_signals
     buy_percentage = summary_signals[:buy] / total_signals
@@ -171,13 +177,15 @@ class CalculateIndicatorsAndSignals < Patterns::Service
 
     if neutral_percentage >= neutral_threshold
       CONSENSUS_VALUES[:neutral]
-    elsif buy_percentage >= weak_threshold and sell_percentage < opposing_threshold
+    elsif (buy_percentage >= strong_threshold) || (buy_percentage >= weak_threshold && is_weak_pass(buy_percentage, sell_percentage, opposing_threshold))
+    then
       if buy_percentage >= strong_threshold
         CONSENSUS_VALUES[:strong_buy]
       else
         CONSENSUS_VALUES[:buy]
       end
-    elsif sell_percentage >= weak_threshold and buy_percentage < opposing_threshold
+    elsif (sell_percentage >= strong_threshold) || (sell_percentage >= weak_threshold && is_weak_pass(sell_percentage, buy_percentage, opposing_threshold))
+    then
       if sell_percentage >= strong_threshold
         CONSENSUS_VALUES[:strong_sell]
       else
@@ -185,6 +193,14 @@ class CalculateIndicatorsAndSignals < Patterns::Service
       end
     else
       CONSENSUS_VALUES[:neutral]
+    end
+  end
+
+  def is_weak_pass(percentage, opposing_percentage, opposing_threshold, below_half_penalty = 0.1)
+    if percentage >= 0.5
+      percentage > opposing_percentage + opposing_threshold
+    else
+      percentage > opposing_percentage + opposing_threshold + below_half_penalty
     end
   end
 
