@@ -70,4 +70,9 @@ SitemapGenerator::Sitemap.create do
     add coin_path(id_or_slug: coin.slug), :changefreq => 'hourly'
     add news_coin_path(coin_slug: coin.slug), :changefreq => 'hourly'
   end
+
+  add coin_articles_path, :changefreq => 'daily'
+  CoinArticle.find_each do |article|
+    add coin_article_path(article), :changefreq => 'daily'
+  end
 end
