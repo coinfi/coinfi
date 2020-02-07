@@ -15,7 +15,8 @@ p {
   margin: 0 0 1rem;
 }
 section {
-  max-width: unquote('min(100%, #{$fixed-width})');
+  width: 100%;
+  max-width: $fixed-width;
   margin-left: auto;
   margin-right: auto;
 }
