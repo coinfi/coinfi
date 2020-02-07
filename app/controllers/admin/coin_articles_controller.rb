@@ -1,5 +1,6 @@
 module Admin
   class CoinArticlesController < Admin::ApplicationController
+    before_action :default_params
     # Overwrite any of the RESTful controller actions to implement custom behavior
     # For example, you may want to send an email after a foo is updated.
     #
@@ -30,5 +31,10 @@ module Admin
 
     # See https://administrate-prototype.herokuapp.com/customizing_controller_actions
     # for more information
+    def default_params
+      params[resource_name] = {} unless params.key? resource_name
+      params[resource_name][:order] ||= 'updated_at'
+      params[resource_name][:direction] ||= 'desc'
+    end
   end
 end
