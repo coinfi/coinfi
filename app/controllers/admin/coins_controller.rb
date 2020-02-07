@@ -38,7 +38,6 @@ module Admin
       params[resource_name] = {} unless params.key? resource_name
       params[resource_name][:order] ||= 'ranking'
       params[resource_name][:direction] ||= 'asc'
-      pp params
     end
   end
 end
