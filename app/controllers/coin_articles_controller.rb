@@ -2,6 +2,7 @@ class CoinArticlesController < ApplicationController
   rescue_from ActiveRecord::RecordNotFound, :with => :record_not_found
   before_action :set_coin_article, only: [:show]
   prepend_before_action :set_amp, only: [:index]
+  prepend_before_action :set_amp, only: [:show], if: :select_amp_coin
 
   breadcrumb 'How to Buy Cryptocurrency', :coin_articles_path, match: :exact
 
@@ -39,5 +40,10 @@ class CoinArticlesController < ApplicationController
 
   def record_not_found
     render_404
+  end
+
+  def select_amp_coin
+    amp_coins = ['cardano-ada']
+    amp_coins.include? params[:id].downcase
   end
 end

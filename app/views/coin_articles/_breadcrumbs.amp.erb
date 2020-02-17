@@ -1,0 +1,12 @@
+<nav aria-label="breadcrumb" class="breadcrumbs-container">
+  <ol class="breadcrumbs" vocab="https://schema.org/" typeof="BreadcrumbList">
+    <% breadcrumb_trail.each_with_index do |crumb, index| %>
+      <li class="<%= crumb.current? ? 'current' : '' %> breadcrumb" property="itemListElement" typeof="ListItem">
+        <%= link_to crumb.url, {"property" => "item", "typeof" => "WebPage", "aria-current" => ("page" if crumb.current?)} do %>
+          <span property="name"><%= crumb.name %></span>
+        <% end %>
+        <meta property="position" content="<%= index+1 %>">
+      </li>
+    <% end %>
+  </ol>
+</nav>

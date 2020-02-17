@@ -1,8 +1,8 @@
 .breadcrumbs {
   @at-root {
     ol#{&} {
-      margin: 1em;
-      padding-inline-start: 0;
+      margin: 0;
+      padding: 1em;
       list-style: none;
     }
   }
@@ -29,7 +29,7 @@
     width: 100%;
     margin: 0 auto;
     .breadcrumbs {
-      margin: 1em 0.5em;
+      padding: 1em 0.5em;
     }
   }
 }

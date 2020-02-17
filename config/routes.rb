@@ -35,7 +35,7 @@ Rails.application.routes.draw do
 
   # HTML+AMP routes
   scope defaults: { format: 'html' }, constraints: lambda { |req| req.format == :html || req.format == :amp } do
-    resources :coin_articles, only: %i[index], path: 'how-to-buy-cryptocurrency'
+    resources :coin_articles, only: %i[index show], path: 'how-to-buy-cryptocurrency'
   end
 
   # HTML only routes
@@ -46,7 +46,6 @@ Rails.application.routes.draw do
     resources :contributor_submissions, path: 'contributor-submissions'
     resources :exchange_listings, only: :index, path: 'listings'
     resources :calendar_events, only: :index, path: 'calendar'
-    resources :coin_articles, only: %i[show], path: 'how-to-buy-cryptocurrency'
     get '/indicators', to: 'indicators#show', as: 'indicators'
     # get '/icos', to: redirect('/icos/upcoming'), as: 'icos_root'
     # get '/icos(/:status)', to: 'icos#index', as: 'icos'

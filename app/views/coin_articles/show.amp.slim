@@ -1,0 +1,30 @@
+- content_for :styles
+  = get_inline_asset 'modules/amp-coin-articles-page.css'
+- content_for :head
+  link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.12.1/css/all.css" integrity="sha384-TxKWSXbsweFt0o2WqfkfJRRNVaPdzXJ/YLqgStggBVRREXkwU7OKz+xXtqOU4u8+" crossorigin="anonymous"
+= render partial: 'breadcrumbs'
+section.p2#title
+  h1.center= @coin_article.title
+  .flex.flex-column.items-center.justify-center.h5
+    .flex.items-center.pt3
+      amp-img.circle.mr2 src=@coin_article.author.photo_url alt=@coin_article.author.name width="32" height="32" layout="fixed"
+      | By: #{@coin_article.author.name}
+    .pt1
+      = display_article_date @coin_article
+div role="button" aria-label="open sidebar" on="tap:sidebar.toggle" tabindex="0" class="sidebar-button" Quick Links
+= convert_to_amp_html amp_markdown @coin_article.content
+amp-sidebar id="sidebar" class="ampstart-sidebar px3" layout="nodisplay" side="right"
+  .flex.justify-between.items-center.ampstart-sidebar-header
+    .bold Quick Links
+    .ampstart-navbar-trigger.items-start role="button" aria-label="close sidebar" on="tap:sidebar.toggle" tabindex="0" class="" ✕
+  #table-of-contents
+    = amp_markdown_toc @coin_article.content
+    - if @related_articles.present?
+      .bold.mb2 Related Articles
+      ul#related-articles
+        - @related_articles.each do |a|
+          li
+            a href=coin_article_path(a)
+              = a.title
+section.py3.px2#author
+  = render partial: 'author'
