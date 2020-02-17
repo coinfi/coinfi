@@ -26,7 +26,7 @@ private
   end
 
   def set_amp_canonical
-    set_meta_tags(canonical: url_for(format: '', only_path: false))
+    set_meta_tags(canonical: url_for(format: :html, only_path: false))
   end
 
 protected

@@ -1,7 +1,9 @@
 @import 'variables';
+@import 'tachyons';
+@import 'components/breadcrumbs';
 
 h1 {
-  font-size: 1.5rem;
+  font-size: 1.75rem;
   line-height: 2rem;
   font-weight: 500;
 }
@@ -66,8 +68,52 @@ h6 {
 section > p:not(:first-child) {
   margin-top: 1rem;
 }
-#content {
+main {
   margin-bottom: 200px;
+}
+#content {
+  .table-responsive {
+    overflow-x: auto;
+  }
+  // Based on 'components/table'
+  table {
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+    border-collapse: collapse;
+    border-spacing: 0;
+    font-size: 0.9em;
+    thead {
+      tr {
+        th,
+        td {
+          text-align: inherit;
+          padding: $sp2;
+        }
+      }
+    }
+    tbody {
+      tr {
+        &:nth-child(odd) {
+          background-color: $near-white;
+        }
+        td {
+          padding: $sp2;
+          border-top: 1px solid $light-gray;
+        }
+      }
+    }
+  }
+  td {
+    ul,
+    ol {
+      margin: 0;
+      padding-inline-start: 20px;
+      li {
+        line-height: 1.15;
+      }
+    }
+  }
 }
 #table-of-contents {
   ul {
@@ -120,4 +166,51 @@ amp-accordion {
       }
     }
   }
+}
+#author-box {
+  .border-bottom {
+    border-color: rgba(0, 0, 0, 0.1);
+    border-width: 2px;
+  }
+}
+
+// based on 'components/icons', but modified for amp-compliant css
+.icons {
+  margin-left: -1rem;
+  margin-right: -1rem;
+  margin-top: -1rem;
+  .icon {
+    display: inline-block;
+    font-size: 1rem;
+    line-height: 1;
+    text-decoration: none;
+    text-align: center;
+    color: $dark-gray;
+    margin-left: 0;
+    margin-right: $sp3;
+    margin-top: $sp3;
+    &.icon-light {
+      color: $white;
+    }
+    > i {
+      transform: scale(0.9);
+      -webkit-transform: scale(0.9);
+    }
+    label {
+      display: block;
+      text-transform: uppercase;
+      font-size: 0.5rem;
+      margin-top: $sp2;
+      letter-spacing: 0.1em;
+      font-family: $sans-alt;
+    }
+    span {
+      padding-left: 0.5rem;
+    }
+  }
+}
+.icon {
+  display: inline-block;
+  line-height: 0;
+  vertical-align: middle;
 }

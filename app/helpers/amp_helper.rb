@@ -31,9 +31,13 @@ module AmpHelper
   def convert_img_tags(nokogiri_fragment)
     nokogiri_fragment.css("img").each do |tag|
       tag.name = "amp-img"
-      tag.add_class "contain"
-      tag.set_attribute "layout", "fill"
-      tag.replace("<div class=\"fixed-height-container\">#{tag.to_html}</div>")
+      if tag.key?('width') and tag.key?('height')
+        tag.set_attribute "layout", "responsive"
+      else # add responsive container if image doesn't have width and height
+        tag.add_class "contain"
+        tag.set_attribute "layout", "fill"
+        tag.replace("<div class=\"fixed-height-container\">#{tag.to_html}</div>")
+      end
     end
 
     nokogiri_fragment
