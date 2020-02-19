@@ -44,8 +44,6 @@ Rails.application.routes.draw do
     get '/coins/:id_or_slug', to: 'coins#show', as: 'coin'
     resources :coins, only: %i[index]
     resources :contributor_submissions, path: 'contributor-submissions'
-    resources :exchange_listings, only: :index, path: 'listings'
-    resources :calendar_events, only: :index, path: 'calendar'
     get '/indicators', to: 'indicators#show', as: 'indicators'
     # get '/icos', to: redirect('/icos/upcoming'), as: 'icos_root'
     # get '/icos(/:status)', to: 'icos#index', as: 'icos'
@@ -87,8 +85,6 @@ Rails.application.routes.draw do
   end
 
   namespace :api, constraints: { format: 'json' } do
-    resources :calendar_events, only: %i[index]
-
     get '/coins/search', to: 'coins#search'
     get '/coins/search_by_params', to: 'coins#search_by_params'
     get '/coins/:id/news', to: 'coins#news'
@@ -122,8 +118,6 @@ Rails.application.routes.draw do
     namespace :watchlist do
       resources :coins, only: %i[index create destroy]
     end
-
-    resources :exchange_listings, only: %i[index show]
 
     resources :news, only: %i[index show] do
       resources :news_vote, :path => 'vote', only: %i[index create]
