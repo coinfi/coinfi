@@ -1,48 +1,56 @@
 namespace :data_migrations do
   desc "Seed Exchanges for Exchanges Reviews"
   task :seed_exchanges_for_exchange_reviews => :environment do
-    CmcExchange.find_or_create_by(cmc_id: 'changelly') do |exchange|
-      exchange.name = 'Changelly'
+    changelly = CmcExchange.find_or_create_by(name: 'Changelly') do |exchange|
+      exchange.cmc_id = 'changelly'
       exchange.slug = 'changelly'
-      exchange.www_url = 'https://changelly.com/'
-      exchange.twitter_url = 'https://twitter.com/changelly_team'
-      exchange.blog_url = 'https://medium.com/@Changelly'
-      exchange.chat_url = 'https://t.me/join_changelly'
-      exchange.logo_url = 'https://changelly.com/static/favicons/favicon-32x32.png'
-      exchange.is_active = true
     end
-    CmcExchange.find_or_create_by(cmc_id: 'coin-switch') do |exchange|
-      exchange.name = 'CoinSwitch'
-      exchange.slug = 'coin-switch'
-      exchange.www_url = 'https://coinswitch.co/'
-      exchange.twitter_url = 'https://twitter.com/coinswitch'
-      exchange.blog_url = 'https://blog.coinswitch.co/'
-      exchange.chat_url = 'https://t.me/coinswitch_community'
-      exchange.fee_url = 'https://coinswitch.co/faq#desktopcollapseInnerFour'
-      exchange.logo_url = 'https://files.coinswitch.co/public/images/favicon_new.png'
-      exchange.is_active = true
+    changelly.update(
+      www_url: 'https://changelly.com/',
+      twitter_url: 'https://twitter.com/changelly_team',
+      blog_url: 'https://medium.com/@Changelly',
+      chat_url: 'https://t.me/join_changelly',
+      logo_url: 'https://changelly.com/static/favicons/favicon-32x32.png',
+      is_active: true
+    )
+    coinswitch = CmcExchange.find_or_create_by(name: 'CoinSwitch') do |exchange|
+      exchange.cmc_id = 'coinswitch'
+      exchange.slug = 'coinswitch'
     end
-    CmcExchange.find_or_create_by(cmc_id: 'ftx') do |exchange|
-      exchange.name = 'FTX'
+    coinswitch.update(
+      www_url: 'https://coinswitch.co/',
+      twitter_url: 'https://twitter.com/coinswitch',
+      blog_url: 'https://blog.coinswitch.co/',
+      chat_url: 'https://t.me/coinswitch_community',
+      fee_url: 'https://coinswitch.co/faq#desktopcollapseInnerFour',
+      logo_url: 'https://files.coinswitch.co/public/images/favicon_new.png',
+      is_active: true
+    )
+    ftx = CmcExchange.find_or_create_by(name: 'FTX') do |exchange|
+      exchange.cmc_id = 'ftx'
       exchange.slug = 'ftx'
-      exchange.www_url = 'https://ftx.com/'
-      exchange.twitter_url = 'https://twitter.com/FTX_official'
-      exchange.blog_url = 'https://blog.ftx.com/'
-      exchange.chat_url = 'https://t.me/FTX_Official'
-      exchange.fee_url = 'https://ftexchange.zendesk.com/hc/en-us/articles/360024479432-Fees'
-      exchange.logo_url = 'https://ftx.com/favicon-32x32.png'
-      exchange.is_active = true
     end
-    CmcExchange.find_or_create_by(cmc_id: 'bybit') do |exchange|
-      exchange.name = 'Bybit'
+    ftx.update(
+      www_url: 'https://ftx.com/',
+      twitter_url: 'https://twitter.com/FTX_official',
+      blog_url: 'https://blog.ftx.com/',
+      chat_url: 'https://t.me/FTX_Official',
+      fee_url: 'https://ftzendesk.com/hc/en-us/articles/360024479432-Fees',
+      logo_url: 'https://ftx.com/favicon-32x32.png',
+      is_active: true
+    )
+    bybit = CmcExchange.find_or_create_by(name: 'Bybit') do |exchange|
+      exchange.cmc_id = 'bybit'
       exchange.slug = 'bybit'
-      exchange.www_url = 'https://www.bybit.com/'
-      exchange.twitter_url = 'https://twitter.com/Bybit_Official'
-      exchange.blog_url = 'https://medium.com/bybit'
-      exchange.chat_url = 'https://t.me/BybitTradingChat'
-      exchange.fee_url = 'https://www.bybit.com/app/contract/cost'
-      exchange.logo_url = 'https://www.bybit.com/favicon.ico'
-      exchange.is_active = true
     end
+    bybit.update(
+      www_url: 'https://www.bybit.com/',
+      twitter_url: 'https://twitter.com/Bybit_Official',
+      blog_url: 'https://medium.com/bybit',
+      chat_url: 'https://t.me/BybitTradingChat',
+      fee_url: 'https://www.bybit.com/app/contract/cost',
+      logo_url: 'https://www.bybit.com/favicon.ico',
+      is_active: true
+    )
   end
 end
