@@ -44,7 +44,10 @@ export default class MarkdownPreview extends React.Component<Props, State> {
             </div>
           </>
         )}
-        <div className="react-markdown-preview">
+        <div
+          className="react-markdown-preview"
+          style={{ height: '80vh', overflowY: 'scroll' }}
+        >
           <ReactMarkdown
             {...otherProps}
             renderers={{ ...otherProps.renderers, link: MarkupLink }}
