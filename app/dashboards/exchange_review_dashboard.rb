@@ -1,6 +1,6 @@
 require "administrate/base_dashboard"
 
-class AuthorDashboard < Administrate::BaseDashboard
+class ExchangeReviewDashboard < Administrate::BaseDashboard
   # ATTRIBUTE_TYPES
   # a hash that describes the type of each of the model's fields.
   #
@@ -8,15 +8,28 @@ class AuthorDashboard < Administrate::BaseDashboard
   # which determines how the attribute is displayed
   # on pages throughout the dashboard.
   ATTRIBUTE_TYPES = {
-    coin_articles: Field::HasMany,
     id: Field::Number,
-    name: Field::String,
+    cmc_exchange: Field::BelongsToSearch.with_options(
+      searchable: true,
+      searchable_field: 'name',
+    ),
+    author: Field::BelongsTo.with_options(
+      searchable: true,
+      searchable_field: 'name',
+    ),
     slug: Field::String.with_options(searchable: false),
-    website_url: Field::String.with_options(searchable: false),
-    twitter_url: Field::String.with_options(searchable: false),
-    linkedin_url: Field::String.with_options(searchable: false),
-    photo_url: Field::String.with_options(searchable: false),
-    bio: Field::Text,
+    h1: Field::String,
+    meta_title: Field::String,
+    meta_description: Field::String,
+    summary: Field::Text,
+    content: MarkdownField,
+    deposit: Field::Text,
+    withdrawal: Field::Text,
+    fees: Field::Text,
+    available_countries: Field::Text,
+    payment_methods: Field::Text,
+    created_at: Field::DateTime,
+    updated_at: Field::DateTime,
   }.freeze
 
   # COLLECTION_ATTRIBUTES
@@ -25,33 +38,49 @@ class AuthorDashboard < Administrate::BaseDashboard
   # By default, it's limited to four items to reduce clutter on index pages.
   # Feel free to add, remove, or rearrange items.
   COLLECTION_ATTRIBUTES = %i[
-  id
-  name
-  coin_articles
+    cmc_exchange
+    h1
+    author
   ].freeze
 
   # SHOW_PAGE_ATTRIBUTES
   # an array of attributes that will be displayed on the model's show page.
   SHOW_PAGE_ATTRIBUTES = %i[
-  id
-  name
-  website_url
-  twitter_url
-  linkedin_url
-  photo_url
-  bio
+    id
+    slug
+    cmc_exchange
+    author
+    h1
+    meta_title
+    meta_description
+    summary
+    content
+    deposit
+    withdrawal
+    fees
+    available_countries
+    payment_methods
+    created_at
+    updated_at
   ].freeze
 
   # FORM_ATTRIBUTES
   # an array of attributes that will be displayed
   # on the model's form (`new` and `edit`) pages.
   FORM_ATTRIBUTES = %i[
-  name
-  website_url
-  twitter_url
-  linkedin_url
-  photo_url
-  bio
+    slug
+    cmc_exchange
+    author
+    h1
+    meta_title
+    meta_description
+    summary
+    content
+    deposit
+    withdrawal
+    fees
+    available_countries
+    payment_methods
   ].freeze
 
   # COLLECTION_FILTERS
@@ -66,10 +95,7 @@ class AuthorDashboard < Administrate::BaseDashboard
   #   }.freeze
   COLLECTION_FILTERS = {}.freeze
 
-  # Overwrite this method to customize how authors are displayed
-  # across all pages of the admin dashboard.
-  #
-  def display_resource(author)
-    "#{author.name}"
+  def display_resource(review)
+    "#{review.cmc_exchange.name} Review"
   end
 end

@@ -1,6 +1,6 @@
 require "administrate/base_dashboard"
 
-class AuthorDashboard < Administrate::BaseDashboard
+class CmcExchangeDashboard < Administrate::BaseDashboard
   # ATTRIBUTE_TYPES
   # a hash that describes the type of each of the model's fields.
   #
@@ -8,15 +8,19 @@ class AuthorDashboard < Administrate::BaseDashboard
   # which determines how the attribute is displayed
   # on pages throughout the dashboard.
   ATTRIBUTE_TYPES = {
-    coin_articles: Field::HasMany,
     id: Field::Number,
+    cmc_id: Field::String,
     name: Field::String,
     slug: Field::String.with_options(searchable: false),
-    website_url: Field::String.with_options(searchable: false),
-    twitter_url: Field::String.with_options(searchable: false),
-    linkedin_url: Field::String.with_options(searchable: false),
-    photo_url: Field::String.with_options(searchable: false),
-    bio: Field::Text,
+    www_url: Field::String,
+    twitter_url: Field::String,
+    blog_url: Field::String,
+    chat_url: Field::String,
+    fee_url: Field::String,
+    logo_url: Field::String,
+    is_active: Field::Boolean,
+    created_at: Field::DateTime,
+    updated_at: Field::DateTime,
   }.freeze
 
   # COLLECTION_ATTRIBUTES
@@ -25,33 +29,44 @@ class AuthorDashboard < Administrate::BaseDashboard
   # By default, it's limited to four items to reduce clutter on index pages.
   # Feel free to add, remove, or rearrange items.
   COLLECTION_ATTRIBUTES = %i[
-  id
-  name
-  coin_articles
+    cmc_id
+    name
+    www_url
+    is_active
   ].freeze
 
   # SHOW_PAGE_ATTRIBUTES
   # an array of attributes that will be displayed on the model's show page.
   SHOW_PAGE_ATTRIBUTES = %i[
-  id
-  name
-  website_url
-  twitter_url
-  linkedin_url
-  photo_url
-  bio
+    id
+    cmc_id
+    name
+    slug
+    www_url
+    twitter_url
+    blog_url
+    chat_url
+    fee_url
+    logo_url
+    is_active
+    created_at
+    updated_at
   ].freeze
 
   # FORM_ATTRIBUTES
   # an array of attributes that will be displayed
   # on the model's form (`new` and `edit`) pages.
   FORM_ATTRIBUTES = %i[
-  name
-  website_url
-  twitter_url
-  linkedin_url
-  photo_url
-  bio
+    cmc_id
+    name
+    slug
+    www_url
+    twitter_url
+    blog_url
+    chat_url
+    fee_url
+    logo_url
+    is_active
   ].freeze
 
   # COLLECTION_FILTERS
@@ -64,12 +79,11 @@ class AuthorDashboard < Administrate::BaseDashboard
   #   COLLECTION_FILTERS = {
   #     open: ->(resources) { resources.where(open: true) }
   #   }.freeze
-  COLLECTION_FILTERS = {}.freeze
+  COLLECTION_FILTERS = {
+    active: ->(resources) { resources.where(is_active: true) }
+  }.freeze
 
-  # Overwrite this method to customize how authors are displayed
-  # across all pages of the admin dashboard.
-  #
-  def display_resource(author)
-    "#{author.name}"
+  def display_resource(exchange)
+    exchange.name
   end
 end

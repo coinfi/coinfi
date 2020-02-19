@@ -71,7 +71,10 @@ Rails.application.routes.draw do
     end
     resources :coin_articles
     resources :authors
-    resources :calendar_events
+    resources :cmc_exchanges
+    resources :exchange_reviews
+    resources :exchange_categories
+    resources :exchange_review_categorizations
     resources :articles
     resources :users
     resources :submission_categories
