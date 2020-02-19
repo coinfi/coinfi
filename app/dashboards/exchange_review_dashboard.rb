@@ -28,6 +28,11 @@ class ExchangeReviewDashboard < Administrate::BaseDashboard
     fees: Field::Text,
     available_countries: Field::Text,
     payment_methods: Field::Text,
+    fees_rating: Field::Number,
+    ease_of_use_rating: Field::Number,
+    security_rating: Field::Number,
+    support_rating: Field::Number,
+    selection_rating: Field::Number,
     created_at: Field::DateTime,
     updated_at: Field::DateTime,
   }.freeze
@@ -60,6 +65,11 @@ class ExchangeReviewDashboard < Administrate::BaseDashboard
     fees
     available_countries
     payment_methods
+    fees_rating
+    ease_of_use_rating
+    security_rating
+    support_rating
+    selection_rating
     created_at
     updated_at
   ].freeze
@@ -81,6 +91,11 @@ class ExchangeReviewDashboard < Administrate::BaseDashboard
     fees
     available_countries
     payment_methods
+    fees_rating
+    ease_of_use_rating
+    security_rating
+    support_rating
+    selection_rating
   ].freeze
 
   # COLLECTION_FILTERS
