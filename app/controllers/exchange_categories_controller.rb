@@ -5,7 +5,7 @@ class ExchangeCategoriesController < ApplicationController
     distribute_reads(max_lag: MAX_ACCEPTABLE_REPLICATION_LAG, lag_failover: true) do
       @category = ExchangeCategory.find_by!(slug: params[:slug])
       @author = @category.author
-      @reviews = @category.exchange_reviews.ranked.limit(10)
+      @reviews = @category.exchange_reviews.ranked.limit(10).includes(:cmc_exchange)
 
       breadcrumb @category.name, exchange_category_path(slug: @category.slug)
       set_meta_tags(
