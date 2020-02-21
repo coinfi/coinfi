@@ -8,7 +8,7 @@ end
 
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '~> 5.1.6.2'
+gem 'rails', '~> 5.2.4.1'
 # Use postgresql as the database for Active Record
 gem 'pg', '~> 0.18'
 # Use Puma as the app server
@@ -19,7 +19,8 @@ gem 'sassc-rails'
 gem 'uglifier', '~> 4.0'
 # See https://github.com/rails/execjs#readme for more supported runtimes
 # gem 'therubyracer', platforms: :ruby
-
+# for railties app_generator_test
+gem "bootsnap", ">= 1.1.0", require: false
 # Use CoffeeScript for .coffee assets and views
 gem 'coffee-rails', '~> 4.2'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
@@ -120,7 +121,7 @@ group :development, :test do
   gem 'rubocop'
   gem 'reek'
   gem 'selenium-webdriver', '>= 3.14.0'
-  gem 'chromedriver-helper'
+  gem 'webdrivers', '~> 4.0'
   gem 'factory_bot_rails'
   gem 'faker', :git => 'https://github.com/stympy/faker.git', :branch => 'master'
   gem 'minitest-stub_any_instance'

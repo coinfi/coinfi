@@ -50,7 +50,7 @@ module NewsItems
               .merge(
                 Coin.where("coins.ranking < ?", 20)
                   .or(Coin.where(ranking: nil))
-              ).exists.not
+              ).arel.exists.not
           )
       end
 

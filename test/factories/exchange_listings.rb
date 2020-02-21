@@ -12,6 +12,6 @@ FactoryBot.define do
     sequence(:base_symbol) { |n| base_coin&.symbol || "USD#{n}" }
     symbol { "#{quote_symbol}/#{base_symbol}" }
     ccxt_exchange_id { exchange.ccxt_id }
-    detected_at { Faker::Date.between(2.months.ago, 1.week.ago) }
+    detected_at { Faker::Date.between(from: 2.months.ago, to: 1.week.ago) }
   end
 end
