@@ -46,6 +46,16 @@
           <li class="ampstart-nav-item ampstart-nav-dropdown relative ">
             <amp-accordion layout="container" disable-session-states="" class="ampstart-dropdown">
               <section>
+                <header>Exchanges</header>
+                <ul class="ampstart-dropdown-items list-reset m0 p0">
+                  <li class="ampstart-dropdown-item"><%= nav_link "Best Cryptocurrency Exchanges", exchange_category_path(slug: 'crypto') %></li>
+                </ul>
+              </section>
+            </amp-accordion>
+          </li>
+          <li class="ampstart-nav-item ampstart-nav-dropdown relative ">
+            <amp-accordion layout="container" disable-session-states="" class="ampstart-dropdown">
+              <section>
                 <header>Company</header>
                 <ul class="ampstart-dropdown-items list-reset m0 p0">
                   <li class="ampstart-dropdown-item"><%= nav_link "Podcast", podcast_path %></li>
