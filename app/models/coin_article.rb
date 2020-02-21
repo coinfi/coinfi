@@ -15,6 +15,7 @@ class CoinArticle < ApplicationRecord
       "headline": title,
       "dateCreated": created_at.iso8601,
       "dateModified": updated_at.iso8601,
+      "datePublished": created_at.iso8601,
       "author": author.get_schema,
     }
   end

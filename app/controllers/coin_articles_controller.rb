@@ -23,13 +23,32 @@ class CoinArticlesController < ApplicationController
         title: @coin_article.meta_title || @coin_article.title,
         description: @coin_article.meta_description
       )
-      set_jsonld({
-        "@context": "http://schema.org/",
-      }.merge(@coin_article.get_schema))
+      set_jsonld(
+        {
+          "@context": "http://schema.org/",
+          "publisher": {
+            "@type": "Organization",
+            "name": "CoinFi",
+            "url": "https://#{ENV.fetch('ROOT_DOMAIN')}",
+            "logo": {
+              "@type": "ImageObject",
+              "url": view_context.image_url('amp-logo.png'),
+              "height": "174",
+              "width": "60"
+            }
+          },
+          "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": url_for(format: :html, only_path: false),
+          },
+          "image": view_context.image_url('amp-logo.png'), # default image
+        }.merge(@coin_article.get_schema)
+      )
     end
   end
 
   private
+
   def coin_article_params
     params.fetch(:coin_article, {})
   end
