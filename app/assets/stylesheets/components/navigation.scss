@@ -90,24 +90,21 @@ $nav-menu-more-width: 150px;
   margin-bottom: 0.75rem;
   color: rgba(255, 255, 255, 0.8);
 }
-.nav-menu-company,
-.nav-menu-coins {
+.nav-menu__dropdown {
   display: none;
   background: $dark-pine-green;
   &--active {
     display: block;
   }
 }
-.nav-menu-company__inner,
-.nav-menu-coins__inner {
+.nav-menu__dropdown-inner {
   flex-direction: column;
   display: flex;
   .nav-menu__item {
     padding-left: 2.75rem;
   }
 }
-.nav-menu-company-toggle,
-.nav-menu-coins-toggle {
+.nav-menu__item-toggle {
   display: flex;
   flex-wrap: nowrap;
   justify-content: space-between;
@@ -266,13 +263,11 @@ i.icon-white {
   .nav-menu-toggle {
     display: none;
   }
-  .nav-menu-item-company,
-  .nav-menu-item-coins {
+  .nav-menu__item-wrapper {
     position: relative;
     display: inline-block;
   }
-  .nav-menu-company,
-  .nav-menu-coins {
+  .nav-menu__dropdown {
     position: absolute;
     box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
     padding: 12px 0;
@@ -280,14 +275,16 @@ i.icon-white {
     margin-left: -0.5rem;
     z-index: 1;
   }
-  .nav-menu-company__inner,
-  .nav-menu-coins__inner {
+  .nav-menu__dropdown-inner {
     .nav-menu__item {
       padding-left: 0.5rem;
     }
   }
   .nav-menu-coins {
     min-width: 200px;
+  }
+  .nav-menu-exchanges {
+    min-width: 225px;
   }
   .nav-actions {
     height: 100%;

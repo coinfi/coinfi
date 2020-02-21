@@ -16,15 +16,16 @@ function onClickOutside(selector, fn) {
 
 $(document).ready(() => {
   let navMenuIsOpen = false
-  let navMenuCoinsIsOpen = false
-  let navMenuCompanyIsOpen = false
   const $navMenu = $('#nav-menu')
   const $navMenuToggle = $('.nav-menu-toggle')
   const $navMenuClose = $('.nav-menu-close')
-  const $navMenuCoins = $('.nav-menu-coins')
-  const $navMenuCoinsToggle = $('.nav-menu-coins-toggle')
-  const $navMenuCompany = $('.nav-menu-company')
-  const $navMenuCompanyToggle = $('.nav-menu-company-toggle')
+
+  const subMenuIsOpen = {}
+  const subMenuItems = ['coins', 'exchanges', 'company']
+  const closeSubMenuFns = {}
+  const openSubMenuFns = {}
+  const $subMenuElements = {}
+  const $subMenuToggles = {}
 
   const closeNavMenu = () => {
     $navMenu.removeClass('nav-menu--in')
@@ -37,31 +38,6 @@ $(document).ready(() => {
     $navMenu.addClass('nav-menu--in')
     navMenuIsOpen = true
     onClickOutside('#nav-menu, .nav-menu-toggle', closeNavMenu)
-  }
-
-  const closeNavMenuCoins = () => {
-    $navMenuCoins.removeClass('nav-menu-coins--active')
-    navMenuCoinsIsOpen = false
-  }
-
-  const openNavMenuCoins = () => {
-    $navMenuCoins.addClass('nav-menu-coins--active')
-    navMenuCoinsIsOpen = true
-    onClickOutside('.nav-menu-coins, .nav-menu-coins-toggle', closeNavMenuCoins)
-  }
-
-  const closeNavMenuCompany = () => {
-    $navMenuCompany.removeClass('nav-menu-company--active')
-    navMenuCompanyIsOpen = false
-  }
-
-  const openNavMenuCompany = () => {
-    $navMenuCompany.addClass('nav-menu-company--active')
-    navMenuCompanyIsOpen = true
-    onClickOutside(
-      '.nav-menu-company, .nav-menu-company-toggle',
-      closeNavMenuCompany,
-    )
   }
 
   // Bind click handler to menu toggle
@@ -80,26 +56,35 @@ $(document).ready(() => {
     closeNavMenu()
   })
 
-  // Bind click handler to coins toggle
-  $navMenuCoinsToggle.click((e) => {
-    e.preventDefault()
+  subMenuItems.forEach((name) => {
+    $subMenuElements[name] = $(`.nav-menu-${name}`)
+    $subMenuToggles[name] = $(`.nav-menu-${name}-toggle`)
+    subMenuIsOpen[name] = false
 
-    if (navMenuCoinsIsOpen) {
-      closeNavMenuCoins()
-    } else {
-      openNavMenuCoins()
+    closeSubMenuFns[name] = () => {
+      $subMenuElements[name].removeClass('nav-menu__dropdown--active')
+      subMenuIsOpen[name] = false
     }
-  })
 
-  // Bind click handler to company toggle
-  $navMenuCompanyToggle.click((e) => {
-    e.preventDefault()
-
-    if (navMenuCompanyIsOpen) {
-      closeNavMenuCompany()
-    } else {
-      openNavMenuCompany()
+    openSubMenuFns[name] = () => {
+      $subMenuElements[name].addClass('nav-menu__dropdown--active')
+      subMenuIsOpen[name] = true
+      onClickOutside(
+        `.nav-menu-${name}, .nav-menu-${name}-toggle`,
+        closeSubMenuFns[name],
+      )
     }
+
+    // Bind click handler to toggle
+    $subMenuToggles[name].click((e) => {
+      e.preventDefault()
+
+      if (subMenuIsOpen[name]) {
+        closeSubMenuFns[name]()
+      } else {
+        openSubMenuFns[name]()
+      }
+    })
   })
 
   $('.expandable > .footer-item__header').click(function(e) {
