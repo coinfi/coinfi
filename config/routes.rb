@@ -44,6 +44,9 @@ Rails.application.routes.draw do
     get '/coins/:id_or_slug', to: 'coins#show', as: 'coin'
     resources :coins, only: %i[index]
     resources :contributor_submissions, path: 'contributor-submissions'
+    get '/cryptocurrency-exchanges/best-(:slug)-exchanges', to: 'exchange_categories#show', as: 'exchange_category'
+    get '/cryptocurrency-exchanges/(:slug)-review', to: 'exchange_reviews#show', as: 'exchange_review'
+    # get '/cryptocurrency-exchanges/(:slug)', to: 'cmc_exchanges#show', as: 'exchange'
     get '/indicators', to: 'indicators#show', as: 'indicators'
     # get '/icos', to: redirect('/icos/upcoming'), as: 'icos_root'
     # get '/icos(/:status)', to: 'icos#index', as: 'icos'

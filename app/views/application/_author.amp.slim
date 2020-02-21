@@ -1,0 +1,20 @@
+.flex.justify-center.flex-wrap.mt3#author-box
+  .col-12.border-bottom.center.pb1.mb3.bold.h4
+    | About the author
+  .col-12.center.mb2
+    amp-img.circle src=@author.photo_url alt=@author.name width="128" height="128"
+  .col-12.center.mb1.bold= @author.name
+  .col-12.mb1= @author.bio
+  .col-12.icons
+    - if @author.linkedin_url.present?
+      a.icon href=@author.linkedin_url target="_blank" rel="nofollow noopener noreferrer"
+        i.fab.fa-linkedin
+        span LinkedIn
+    - if @author.twitter_url.present?
+      a.icon href=@author.twitter_url target="_blank" rel="nofollow noopener noreferrer"
+        i.fab.fa-twitter
+        span Twitter
+    - if @author.website_url.present?
+      a.icon href=@author.website_url target="_blank" rel="nofollow noopener noreferrer"
+        i.fas.fa-home
+        span Website

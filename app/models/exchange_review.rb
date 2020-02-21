@@ -5,7 +5,6 @@ class ExchangeReview < ApplicationRecord
   has_many :exchange_categorizations, through: :exchange_review_categorizations
 
   before_validation :create_slug, :on => :create
-
   validates :author, presence: true
   validates :cmc_exchange, presence: true
   validates :slug, presence: true
@@ -16,6 +15,14 @@ class ExchangeReview < ApplicationRecord
   validates :security_rating, numericality: { greater_than_or_equal_to: 0, less_than_or_equal_to: 5 }, allow_nil: true
   validates :support_rating, numericality: { greater_than_or_equal_to: 0, less_than_or_equal_to: 5 }, allow_nil: true
   validates :selection_rating, numericality: { greater_than_or_equal_to: 0, less_than_or_equal_to: 5 }, allow_nil: true
+
+  scope :ranked, -> { includes(:exchange_review_categorizations).order('exchange_review_categorizations.ranking', updated_at: :desc) }
+
+  def overall_rating
+    ratings = [fees_rating, ease_of_use_rating, security_rating, support_rating, selection_rating].compact
+
+    (ratings.sum / ratings.size.to_f).round unless ratings.empty?
+  end
 
   private
 

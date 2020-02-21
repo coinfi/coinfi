@@ -1,0 +1,53 @@
+@import 'variables';
+@import 'tachyons';
+@import 'components/table';
+@import 'components/buttons';
+@import 'modules/article';
+
+dt {
+  font-weight: bold;
+  margin-bottom: 0.25rem;
+  font-size: 0.9rem;
+}
+dd {
+  margin-left: 0;
+  font-size: 0.9rem;
+}
+.flex-noshrink {
+  flex-shrink: 0;
+}
+body > main > .splash {
+  flex: 0 0 auto;
+}
+.splash {
+  position: relative;
+  overflow: hidden;
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: image-url('article-splash.jpg');
+    background-size: contain;
+    -webkit-filter: grayscale(100%);
+    filter: grayscale(100%);
+    @media #{$screen-min-m} {
+      background-size: cover;
+    }
+  }
+  & > * {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+  }
+}
+#review-rankings {
+  & > :last-child {
+    margin-bottom: 0;
+  }
+  a {
+    color: inherit;
+  }
+}
