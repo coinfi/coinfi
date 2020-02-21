@@ -1,4 +1,5 @@
 import React from 'react'
+const filterBtn = require('~/images/filterBtn.svg') // tslint:disable-line
 
 export default ({ onClick }) => (
   <button
@@ -6,7 +7,7 @@ export default ({ onClick }) => (
     className="btn btn-xs btn-white filter-btn mr2"
     onClick={onClick}
   >
-    <i className="material-icons f6 mr2">filter_list</i>
+    <img className="f6 mr2" src={filterBtn} alt="Filter Icon" />
     Filters
   </button>
 )

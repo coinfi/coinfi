@@ -35,6 +35,9 @@ CheckCmcOhclv:                  # Replaces rake etldb
 RefreshGitRepos:
   cron: '0 15 0 * * * Etc/UTC'
 
+RefreshIndicators:
+  cron: '0 20 0 * * * Etc/UTC'
+
 # Paid API routes
 
 UpdateCmcPrices:

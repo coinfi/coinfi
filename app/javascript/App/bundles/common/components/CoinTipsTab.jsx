@@ -1,6 +1,7 @@
 import React from 'react'
 import * as _ from 'lodash'
 import { withStyles, createStyles } from '@material-ui/core/styles'
+import Icon from '~/bundles/common/components/Icon'
 import { athensDarker, darkSkyBlue, darkerSkyBlue } from '../styles/colors'
 import { btn, btnBlue, btnBlueDark } from '../styles/buttons'
 
@@ -41,6 +42,7 @@ const styles = (theme) => {
       minHeight: 0,
       justifyContent: 'center',
       backgroundColor: `${isDarkMode ? darkerSkyBlue : darkSkyBlue} !important`,
+      fontSize: '0.875rem',
     },
     tipsBtnTab: {
       ...btn(theme),
@@ -50,11 +52,15 @@ const styles = (theme) => {
       minWidth: 0,
       minHeight: 0,
       justifyContent: 'center',
+      fontSize: '0.875rem',
+    },
+    icon: {
+      marginRight: '0.25rem',
     },
   })
 }
 
-const CoinTipsTabs = function(props) {
+const CoinTipsTab = function(props) {
   const { classes } = props
   return (
     <div id="coin-tips-tab" className={classes.root}>
@@ -63,16 +69,20 @@ const CoinTipsTabs = function(props) {
           className={classes.coinsBtnTab}
           onClick={props.showCoinListDrawer}
         >
-          <i className="material-icons f6 mr1">list</i>
-          <span className="f6">Coins</span>
+          <Icon name="list" className={classes.icon} />
+          <span>Coins</span>
         </button>
         <button className={classes.tipsBtnTab} onClick={props.showTips}>
-          <i className="material-icons f6 mr1">announcement</i>
-          <span className="f6">Tips</span>
+          <Icon
+            name="comment-alt-exclamation"
+            solid={true}
+            className={classes.icon}
+          />
+          <span>Tips</span>
         </button>
       </div>
     </div>
   )
 }
 
-export default withStyles(styles)(CoinTipsTabs)
+export default withStyles(styles)(CoinTipsTab)

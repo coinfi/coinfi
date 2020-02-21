@@ -1,8 +1,12 @@
 //= link_tree ../images
 //= link_directory ../javascripts .js
 //= link application.css
+
 //= link ag-grid.css
+//= link amp-application.css
+//= link modules/amp-coin-articles-page.css
 //= link calculators.css
+//= link coin-articles.css
 //= link icos.css
 //= link indicators.css
 

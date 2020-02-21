@@ -44,12 +44,12 @@ export default class MarkdownPreview extends React.Component<Props, State> {
             </div>
           </>
         )}
-        <div>
+        <div className="react-markdown-preview">
           <ReactMarkdown
             {...otherProps}
             renderers={{ ...otherProps.renderers, link: MarkupLink }}
           >
-            {editable ? inputValue : children}
+            {inputValue}
           </ReactMarkdown>
         </div>
       </>

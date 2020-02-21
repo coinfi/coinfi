@@ -1,4 +1,6 @@
 class PagesController < ApplicationController
+  before_action :hide_currency
+
   def show
     @page = params[:id] || 'home'
     render_404 unless page_known?

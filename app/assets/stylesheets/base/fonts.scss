@@ -1,0 +1,26 @@
+/*
+ * Font weights:
+ * 100
+ * 200
+ * 300
+ * 400 (regular)
+ * 500
+ * 600
+ * 700 (bold)
+ * 800
+ * 900
+ */
+@mixin build-font($name, $path, $weight) {
+  @font-face {
+    font-family: $name;
+    src: font-url('#{$path}.eot');
+    src: font-url('#{$path}.eot?#iefix') format('embedded-opentype'),
+      font-url('#{$path}.woff') format('woff');
+    font-weight: $weight;
+    font-style: normal;
+    font-display: swap;
+  }
+}
+@include build-font('Avenir', '/fonts/AvenirNext/Regular', 400);
+@include build-font('Avenir', '/fonts/AvenirNext/Medium', 500);
+@include build-font('Avenir', '/fonts/AvenirNext/DemiBold', 600);

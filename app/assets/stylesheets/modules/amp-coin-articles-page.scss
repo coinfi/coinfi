@@ -1,0 +1,216 @@
+@import 'variables';
+@import 'tachyons';
+@import 'components/breadcrumbs';
+
+h1 {
+  font-size: 1.75rem;
+  line-height: 2rem;
+  font-weight: 500;
+}
+h2 {
+  font-size: 1.25rem;
+  line-height: 1.5rem;
+  font-weight: 500;
+}
+h3 {
+  font-size: 1.125rem;
+  line-height: 1.25rem;
+  font-weight: 500;
+}
+h4 {
+  font-size: 1rem;
+  line-height: 1.125rem;
+  font-weight: 500;
+}
+h5 {
+  font-size: 0.875rem;
+  line-height: 1rem;
+  font-weight: 500;
+}
+h6 {
+  font-size: 0.75rem;
+  line-height: 0.875rem;
+  font-weight: 500;
+}
+.article-grid-box {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  grid-gap: 8px 12px;
+}
+.pagination {
+  padding: 1rem 0 0;
+  a {
+    text-decoration: none;
+  }
+  ul {
+    li {
+      list-style: none;
+      display: inline-block;
+      &:not(:last-of-type) {
+        margin-right: 0.5rem;
+      }
+    }
+  }
+}
+.sidebar-button {
+  position: fixed;
+  bottom: 100px;
+  right: 0;
+  writing-mode: vertical-rl;
+  text-orientation: sideways;
+  z-index: 9999;
+  background: $dark-pine-green;
+  color: #fff;
+  padding: 0.5rem;
+  border-top-left-radius: 8px;
+  border-bottom-left-radius: 8px;
+}
+section > p:not(:first-child) {
+  margin-top: 1rem;
+}
+main {
+  margin-bottom: 200px;
+}
+#content {
+  .table-responsive {
+    overflow-x: auto;
+  }
+  // Based on 'components/table'
+  table {
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+    border-collapse: collapse;
+    border-spacing: 0;
+    font-size: 0.9em;
+    thead {
+      tr {
+        th,
+        td {
+          text-align: inherit;
+          padding: $sp2;
+        }
+      }
+    }
+    tbody {
+      tr {
+        &:nth-child(odd) {
+          background-color: $near-white;
+        }
+        td {
+          padding: $sp2;
+          border-top: 1px solid $light-gray;
+        }
+      }
+    }
+  }
+  td {
+    ul,
+    ol {
+      margin: 0;
+      padding-inline-start: 20px;
+      li {
+        line-height: 1.15;
+      }
+    }
+  }
+}
+#table-of-contents {
+  ul {
+    margin: 0;
+    padding-inline-start: 0;
+    list-style: none;
+    li {
+      margin-bottom: 0.5rem;
+      a {
+        display: inline-block;
+        margin-bottom: 0.5rem;
+        text-decoration: none;
+      }
+      ul {
+        padding-inline-start: 1rem;
+        margin-top: 0.5rem;
+      }
+    }
+  }
+}
+amp-accordion {
+  & > section {
+    & > h2 {
+      padding: 0.5rem 1.25em 0.5rem 0.5rem;
+    }
+    & > h2:after {
+      position: absolute;
+      top: 50%;
+      right: 0.25rem;
+      margin-top: -0.5em;
+      content: '';
+      width: 1em;
+      height: 1em;
+      background-repeat: no-repeat;
+      background-size: 1em 1em;
+      background-position: center;
+      background-image: linear-gradient(transparent, transparent),
+        url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"><title>expand</title><path d="M17.5 4.75l-7.5 7.5-7.5-7.5L1 6.25l9 9 9-9z"/></svg>');
+    }
+    &[expanded] > h2:after {
+      -webkit-transform: scaleY(-1);
+      -moz-transform: scaleY(-1);
+      -ms-transform: scaleY(-1);
+      transform: scaleY(-1);
+    }
+    & > div:last-child {
+      padding: 1rem;
+      & > *:not(:first-child) {
+        margin-top: 1rem;
+      }
+    }
+  }
+}
+#author-box {
+  .border-bottom {
+    border-color: rgba(0, 0, 0, 0.1);
+    border-width: 2px;
+  }
+}
+
+// based on 'components/icons', but modified for amp-compliant css
+.icons {
+  margin-left: -1rem;
+  margin-right: -1rem;
+  margin-top: -1rem;
+  .icon {
+    display: inline-block;
+    font-size: 1rem;
+    line-height: 1;
+    text-decoration: none;
+    text-align: center;
+    color: $dark-gray;
+    margin-left: 0;
+    margin-right: $sp3;
+    margin-top: $sp3;
+    &.icon-light {
+      color: $white;
+    }
+    > i {
+      transform: scale(0.9);
+      -webkit-transform: scale(0.9);
+    }
+    label {
+      display: block;
+      text-transform: uppercase;
+      font-size: 0.5rem;
+      margin-top: $sp2;
+      letter-spacing: 0.1em;
+      font-family: $sans-alt;
+    }
+    span {
+      padding-left: 0.5rem;
+    }
+  }
+}
+.icon {
+  display: inline-block;
+  line-height: 0;
+  vertical-align: middle;
+}

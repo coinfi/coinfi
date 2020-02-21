@@ -1,4 +1,12 @@
 class CalculateIndicatorsAndSignals < Patterns::Service
+  CONSENSUS_VALUES = {
+    strong_sell: 10,
+    sell: 30,
+    neutral: 50,
+    buy: 70,
+    strong_buy: 90
+  }
+
   def initialize(coin, limit = 200)
     @coin = coin
     @limit = limit
@@ -152,27 +160,47 @@ class CalculateIndicatorsAndSignals < Patterns::Service
     end
   end
 
-  def get_summary_value(summary_signals, strong_threshold: 0.5, weak_threshold: 0.3, neutral_weight: 0.7)
-    total = summary_signals.inject(0.0) do |sum, (k, v)|
-      if k == :neutral
-        sum + v * neutral_weight
-      else
-        sum + v
-      end
+  # Strong threshold: a strong buy/sell, obvious from visual inspection
+  # Weak threshold: possible buy/sell, conditioned on a weak opposing signal
+  # Opposing threshold: what is a "weak opposing signal" compared to the signal under consideration.
+  #   We use is_weak_sell to provide an additional bias for signals that look especially weak (i.e., < 50%)
+  # Neutral threshold: an overriding neutral condition; the basic logic is if not buy/sell, then neutral.
+  #   But in some cases, it should be neutral even if a buy or sell condition could be met
+  def get_summary_value(summary_signals, strong_threshold: 0.75, weak_threshold: 0.4, neutral_threshold: 0.5, opposing_threshold: 0.1)
+    total_signals = summary_signals.inject(0) { |total, (k, v)| total + v }.to_f
+    neutral_percentage = summary_signals[:neutral] / total_signals
+    buy_percentage = summary_signals[:buy] / total_signals
+    sell_percentage = summary_signals[:sell] / total_signals
+    if weak_threshold + opposing_threshold > 1
+      opposing_threshold = 1.0 - weak_threshold
     end
-    raw_value = summary_signals[:sell] * -1 + summary_signals[:buy] * 1
-    percent_value = raw_value / total
 
-    if percent_value <= -1 * strong_threshold
-      10 # strong sell
-    elsif percent_value > -1 * strong_threshold && percent_value < -1 * weak_threshold
-      30 # sell
-    elsif percent_value > weak_threshold && percent_value < strong_threshold
-      70 # buy
-    elsif percent_value >= strong_threshold
-      90 # strong buy
+    if neutral_percentage >= neutral_threshold
+      CONSENSUS_VALUES[:neutral]
+    elsif (buy_percentage >= strong_threshold) || (buy_percentage >= weak_threshold && is_weak_pass(buy_percentage, sell_percentage, opposing_threshold))
+    then
+      if buy_percentage >= strong_threshold
+        CONSENSUS_VALUES[:strong_buy]
+      else
+        CONSENSUS_VALUES[:buy]
+      end
+    elsif (sell_percentage >= strong_threshold) || (sell_percentage >= weak_threshold && is_weak_pass(sell_percentage, buy_percentage, opposing_threshold))
+    then
+      if sell_percentage >= strong_threshold
+        CONSENSUS_VALUES[:strong_sell]
+      else
+        CONSENSUS_VALUES[:sell]
+      end
     else
-      50 # neutral
+      CONSENSUS_VALUES[:neutral]
+    end
+  end
+
+  def is_weak_pass(percentage, opposing_percentage, opposing_threshold, below_half_penalty = 0.1)
+    if percentage >= 0.5
+      percentage > opposing_percentage + opposing_threshold
+    else
+      percentage > opposing_percentage + opposing_threshold + below_half_penalty
     end
   end
 

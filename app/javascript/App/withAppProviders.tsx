@@ -1,6 +1,7 @@
 import * as React from 'react'
 import CoinListContainer from './bundles/common/containers/CoinListContainer'
 import NewsfeedContainer from '~/bundles/NewsfeedPage/NewsfeedContainer'
+import { CurrencyProvider } from '~/bundles/common/contexts/CurrencyContext'
 
 /**
  * Wraps `TargetComponent` with providers used by the main App component
@@ -18,7 +19,9 @@ const withAppProviders = (TargetComponent) => {
           initialToplistData={props.initialTopCoinsData}
           initialWatchlistData={props.initialWatchedCoinsData}
         >
-          <TargetComponent {...props} />
+          <CurrencyProvider {...props}>
+            <TargetComponent {...props} />
+          </CurrencyProvider>
         </CoinListContainer>
       </NewsfeedContainer>
     )

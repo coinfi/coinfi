@@ -10,6 +10,7 @@ class Coin < ApplicationRecord
   ICO_STATUSES = %w(upcoming active ended listed).freeze
 
   has_many :articles
+  has_many :coin_articles
   has_many :coin_excluded_countries
   has_many :coin_industries_coins
   has_many :coin_industries, through: :coin_industries_coins

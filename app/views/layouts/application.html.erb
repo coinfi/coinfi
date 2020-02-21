@@ -1,17 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    <%= render 'components/rollbar' %>
     <meta charset="utf-8">
     <% unless is_production? %><meta name="robots" content="noindex,nofollow"><% end %>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <%= display_meta_tags site: "CoinFi", reverse: true %>
+    <%= jsonld_tag %>
     <link rel="manifest" href="/manifest.json">
     <link rel="apple-touch-icon" href="<%= image_path('apple-touch-icon.png') %>">
     <link rel="apple-touch-icon-precomposed" href="<%= image_path('apple-touch-icon-precomposed.png') %>">
     <link rel="icon" href="<%= image_path('favicon.png') %>">
     <%= render 'layouts/tracking_scripts_preconnect' %>
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-6jHF7Z3XI3fF4XZixAuSu0gGKrXwoX/w3uFPxC56OtjChio7wtTGJWRW53Nhx6Ev" crossorigin="anonymous">
+    <script src="https://kit.fontawesome.com/08d8853f9c.js" crossorigin="anonymous"></script>
     <%= stylesheet_link_tag 'application' %>
     <%# This should really be included but currently conflicts with a lot of our the css styles %>
     <%#= stylesheet_pack_tag 'vendor-bundle', media: 'all' %>

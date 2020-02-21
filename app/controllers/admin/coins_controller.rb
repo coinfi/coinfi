@@ -1,5 +1,6 @@
 module Admin
   class CoinsController < Admin::ApplicationController
+    before_action :default_params
     # To customize the behavior of this controller,
     # you can overwrite any of the RESTful actions. For example:
     #
@@ -31,6 +32,12 @@ module Admin
 
     def search_term
       params[:search].to_s.strip
+    end
+
+    def default_params
+      params[resource_name] = {} unless params.key? resource_name
+      params[resource_name][:order] ||= 'ranking'
+      params[resource_name][:direction] ||= 'asc'
     end
   end
 end

@@ -2,25 +2,26 @@
   <div class="nav__inner<%= ' fixed-width' unless is_fluid? %>">
     <!-- Menu toggle -->
     <a href="#" class="nav-menu-toggle link">
-      <img src="<%= image_path('nav-trigger.svg') %>" class="nav-menu-toggle__img">
+      <img src="<%= image_path('nav-trigger.svg') %>" class="nav-menu-toggle__img" alt="Menu Toggle">
     </a>
 
     <!-- Logo -->
     <a class="nav-logo link pa2 ma2 ma0-ns mr4-ns h-70" href="<%= root_path %>" title="Home">
-      <img src="<%= image_path('logo.svg') %>" class="nav-logo__img">
+      <img src="<%= image_path('logo.svg') %>" class="nav-logo__img" alt="CoinFi Logo">
     </a>
 
     <!-- Menu -->
     <div id="nav-menu" class="nav-menu nav-menu--out ph0-ns">
       <div class="nav-items">
         <%= nav_link "Research", "https://www.coinfi.com/research/", { class: "nav-menu__item" } %>
-        <%= nav_link "Crypto News", "/news", { class: "nav-menu__item" } %>
+        <%= nav_link "Crypto News", news_path, { class: "nav-menu__item" } %>
         <div class="nav-menu-item-coins">
           <div class="nav-menu__item nav-menu-coins-toggle"><span>Coins </span><i class="fa fa-angle-down"></i></div>
           <div class="nav-menu-coins">
             <div class="nav-menu-coins__inner">
-              <%= nav_link "Cryptocurrency Prices Live", "/coins", { class: "nav-menu__item" } %>
-              <%= nav_link "ERC-20 Token Metrics", "/token-metrics", { class: "nav-menu__item" } %>
+              <%= nav_link "Cryptocurrency Prices Live", coins_path, { class: "nav-menu__item" } %>
+              <%= nav_link "ERC-20 Token Metrics", token_metrics_path, { class: "nav-menu__item" } %>
+              <%= nav_link "How To Buy Cryptocurrency", coin_articles_path, { class: "nav-menu__item" } %>
             </div>
           </div>
         </div>
@@ -28,13 +29,13 @@
           <div class="nav-menu__item nav-menu-company-toggle"><span>Company </span><i class="fa fa-angle-down"></i></div>
           <div class="nav-menu-company">
             <div class="nav-menu-company__inner">
-            <%= nav_link "Podcast", "/podcast", { class: "nav-menu__item" } %>
-            <%= nav_link "Blog", "https://blog.coinfi.com/", { class: "nav-menu__item" } %>
+            <%= nav_link "Podcast", podcast_path, { class: "nav-menu__item" } %>
+            <%= nav_link "Blog", "https://www.coinfi.com/blog/", { class: "nav-menu__item" } %>
             <%= nav_link "Careers", "https://careers.coinfi.com", { class: "nav-menu__item" } %>
-            <%= nav_link "Press", "/press", { class: "nav-menu__item" } %>
-            <%= nav_link "About", "/about", { class: "nav-menu__item" } %>
+            <%= nav_link "Press", page_press_path, { class: "nav-menu__item" } %>
+            <%= nav_link "About", page_about_path, { class: "nav-menu__item" } %>
             <%= nav_link "Feedback", "https://feedback.coinfi.com/feature-requests", { class: "nav-menu__item" } %>
-            <%= nav_link "Contact Us", "/contact-us", { class: "nav-menu__item" } %>
+            <%= nav_link "Contact Us", page_contact_us_path, { class: "nav-menu__item" } %>
             </div>
           </div>
         </div>
@@ -42,7 +43,7 @@
 
       <div class="nav-menu-actions pa2">
         <% unless hide_currency? %>
-          <%= react_component_with_jss "CurrencySelectorWidget", props: { user: current_user }, prerender: false %>
+          <%= react_component_with_jss "CurrencySelectorWidget", props: { user: current_user, currencies: @exchange_rates }, prerender: false %>
         <% end %>
         <% if user_signed_in? %>
           <div class="nav-menu-actions-account">
@@ -71,7 +72,7 @@
         <a href="#sign-up" onclick="openSignUpModal(event)" class="nav-menu__item nav-menu--primary">Get Started</a>
       <% end %>
       <% unless hide_currency? %>
-        <%= react_component_with_jss "CurrencySelectorWidget", props: { user: current_user }, prerender: false %>
+        <%= react_component_with_jss "CurrencySelectorWidget", props: { user: current_user, currencies: @exchange_rates }, prerender: false %>
       <% end %>
     </div>
 

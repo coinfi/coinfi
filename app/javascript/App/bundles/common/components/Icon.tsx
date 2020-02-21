@@ -20,7 +20,7 @@ export interface IconWrapperProps {
   [x: string]: any
 }
 
-export default ({
+const Icon = ({
   name,
   brand,
   regular,
@@ -78,3 +78,5 @@ const IconWrapper = ({
     )
   }
 }
+
+export default Icon

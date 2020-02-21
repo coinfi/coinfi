@@ -1,0 +1,35 @@
+.breadcrumbs {
+  @at-root {
+    ol#{&} {
+      margin: 0;
+      padding: 1em;
+      list-style: none;
+    }
+  }
+  .breadcrumb {
+    display: inline-block;
+  }
+  .breadcrumb + .breadcrumb::before {
+    padding-right: 0.25rem;
+    padding-left: 0.25rem;
+    content: '/';
+  }
+}
+
+@media #{$screen-max-m} {
+  .breadcrumbs {
+    white-space: nowrap;
+    overflow-x: auto;
+  }
+}
+
+@media #{$screen-min-m} {
+  .breadcrumbs-container {
+    max-width: $fixed-width;
+    width: 100%;
+    margin: 0 auto;
+    .breadcrumbs {
+      padding: 1em 0.5em;
+    }
+  }
+}
