@@ -1,6 +1,6 @@
 require "administrate/base_dashboard"
 
-class CoinArticleDashboard < Administrate::BaseDashboard
+class ExchangeReviewDashboard < Administrate::BaseDashboard
   # ATTRIBUTE_TYPES
   # a hash that describes the type of each of the model's fields.
   #
@@ -8,7 +8,8 @@ class CoinArticleDashboard < Administrate::BaseDashboard
   # which determines how the attribute is displayed
   # on pages throughout the dashboard.
   ATTRIBUTE_TYPES = {
-    coin: Field::BelongsToSearch.with_options(
+    id: Field::Number,
+    cmc_exchange: Field::BelongsToSearch.with_options(
       searchable: true,
       searchable_field: 'name',
     ),
@@ -16,13 +17,22 @@ class CoinArticleDashboard < Administrate::BaseDashboard
       searchable: true,
       searchable_field: 'name',
     ),
-    id: Field::Number,
     slug: Field::String.with_options(searchable: false),
+    h1: Field::String,
     meta_title: Field::String,
-    H1: Field::String,
     meta_description: Field::String,
     summary: Field::Text,
     content: MarkdownField,
+    deposit: Field::Text,
+    withdrawal: Field::Text,
+    fees: Field::Text,
+    available_countries: Field::Text,
+    payment_methods: Field::Text,
+    fees_rating: Field::Number,
+    ease_of_use_rating: Field::Number,
+    security_rating: Field::Number,
+    support_rating: Field::Number,
+    selection_rating: Field::Number,
     created_at: Field::DateTime,
     updated_at: Field::DateTime,
   }.freeze
@@ -33,24 +43,33 @@ class CoinArticleDashboard < Administrate::BaseDashboard
   # By default, it's limited to four items to reduce clutter on index pages.
   # Feel free to add, remove, or rearrange items.
   COLLECTION_ATTRIBUTES = %i[
-    id
-    meta_title
-    H1
-    coin
+    cmc_exchange
+    h1
     author
   ].freeze
 
   # SHOW_PAGE_ATTRIBUTES
   # an array of attributes that will be displayed on the model's show page.
   SHOW_PAGE_ATTRIBUTES = %i[
-    coin
-    author
     id
+    slug
+    cmc_exchange
+    author
+    h1
     meta_title
-    H1
     meta_description
     summary
     content
+    deposit
+    withdrawal
+    fees
+    available_countries
+    payment_methods
+    fees_rating
+    ease_of_use_rating
+    security_rating
+    support_rating
+    selection_rating
     created_at
     updated_at
   ].freeze
@@ -59,13 +78,24 @@ class CoinArticleDashboard < Administrate::BaseDashboard
   # an array of attributes that will be displayed
   # on the model's form (`new` and `edit`) pages.
   FORM_ATTRIBUTES = %i[
-    coin
+    slug
+    cmc_exchange
     author
+    h1
     meta_title
-    H1
     meta_description
     summary
     content
+    deposit
+    withdrawal
+    fees
+    available_countries
+    payment_methods
+    fees_rating
+    ease_of_use_rating
+    security_rating
+    support_rating
+    selection_rating
   ].freeze
 
   # COLLECTION_FILTERS
@@ -80,10 +110,7 @@ class CoinArticleDashboard < Administrate::BaseDashboard
   #   }.freeze
   COLLECTION_FILTERS = {}.freeze
 
-  # Overwrite this method to customize how coin articles are displayed
-  # across all pages of the admin dashboard.
-  #
-  # def display_resource(coin_article)
-  #   "#{coin_article.title}"
-  # end
+  def display_resource(review)
+    "#{review.cmc_exchange.name} Review"
+  end
 end

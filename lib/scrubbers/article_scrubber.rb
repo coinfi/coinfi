@@ -1,5 +1,5 @@
 module Scrubbers
-  class CoinArticleScrubber < Rails::Html::PermitScrubber
+  class ArticleScrubber < Rails::Html::PermitScrubber
     def initialize
       super
       self.tags = Set.new(%w(table thead tbody tr th td ul ol li strong br div span p img))

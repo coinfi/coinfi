@@ -1,6 +1,5 @@
 import * as React from 'react'
 import { Route, Switch } from 'react-router-dom'
-import ExchangeListingsPage from '~/bundles/ExchangeListings/ExchangeListingsCointainer'
 import NewsfeedPageContainer from '~/bundles/NewsfeedPage/NewsfeedPageContainer'
 import CoinIndex from '../bundles/CoinIndex'
 import HomeIndex from '../bundles/HomeIndex'
@@ -44,11 +43,6 @@ const AppRoutes = (props) => {
             initialTheme={props.initialTheme}
           />
         )}
-      />
-      <Route
-        exact={true}
-        path="/listings"
-        render={() => <ExchangeListingsPage {...props} />}
       />
       <Route
         exact={true}

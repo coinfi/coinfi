@@ -1,4 +1,8 @@
-module CoinArticlesHelper
+module ArticlesHelper
+  EMPTY_STAR_ICON = 'fal fa-star'.freeze
+  HALF_STAR_ICON = 'fas fa-star-half-alt'.freeze
+  FULL_STAR_ICON = 'fas fa-star'.freeze
+
   def markdown(data)
     @markdown_html_renderer ||= Renderers::CoinArticleRenderer.new(
         filter_html: false,
@@ -86,7 +90,7 @@ module CoinArticlesHelper
 
   def sanitize_html(raw_html)
     @html_sanitizer ||= Rails::Html::SafeListSanitizer.new
-    @html_scrubber ||= Scrubbers::CoinArticleScrubber.new
+    @html_scrubber ||= Scrubbers::ArticleScrubber.new
     @html_sanitizer.sanitize(raw_html, scrubber: @html_scrubber)
   end
 
@@ -102,5 +106,10 @@ module CoinArticlesHelper
 
   def get_formatted_date(date)
     date.strftime('%B %-d, %Y')
+  end
+
+  def get_star_icons(rating, max_rating: 5)
+    Array.new(max_rating, EMPTY_STAR_ICON)
+      .fill(FULL_STAR_ICON, 0, rating)
   end
 end
