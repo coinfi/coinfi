@@ -41,7 +41,7 @@ class CoinArticlesController < ApplicationController
             "@type": "WebPage",
             "@id": url_for(format: :html, only_path: false),
           },
-          "image": view_context.image_url('amp-logo.png'), # default image
+          "image": view_context.image_url('article-splash.jpg'), # default image
         }.merge(@coin_article.get_schema)
       )
     end

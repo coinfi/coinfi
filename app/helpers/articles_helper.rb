@@ -90,7 +90,7 @@ module ArticlesHelper
 
   def sanitize_html(raw_html)
     @html_sanitizer ||= Rails::Html::SafeListSanitizer.new
-    @html_scrubber ||= Scrubbers::CoinArticleScrubber.new
+    @html_scrubber ||= Scrubbers::ArticleScrubber.new
     @html_sanitizer.sanitize(raw_html, scrubber: @html_scrubber)
   end
 

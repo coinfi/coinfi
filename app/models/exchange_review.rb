@@ -5,6 +5,7 @@ class ExchangeReview < ApplicationRecord
   has_many :exchange_categorizations, through: :exchange_review_categorizations
 
   before_validation :create_slug, :on => :create
+  before_validation :sanitize_html_content
   validates :author, presence: true
   validates :cmc_exchange, presence: true
   validates :slug, presence: true
@@ -18,6 +19,17 @@ class ExchangeReview < ApplicationRecord
 
   scope :ranked, -> { includes(:exchange_review_categorizations).order('exchange_review_categorizations.ranking', updated_at: :desc) }
 
+  def get_schema
+    schema = {
+      "@type": "Article",
+      "headline": h1,
+      "dateCreated": created_at.iso8601,
+      "dateModified": updated_at.iso8601,
+      "datePublished": created_at.iso8601,
+      "author": author.get_schema,
+    }
+  end
+
   def overall_rating
     ratings = [fees_rating, ease_of_use_rating, security_rating, support_rating, selection_rating].compact
 
@@ -25,6 +37,11 @@ class ExchangeReview < ApplicationRecord
   end
 
   private
+
+  def sanitize_html_content
+    sanitizer = Rails::Html::SafeListSanitizer.new
+    self.content = sanitizer.sanitize(content, scrubber: Scrubbers::ArticleScrubber.new)
+  end
 
   def create_slug
     if slug.blank? and cmc_exchange.present?
