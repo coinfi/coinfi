@@ -76,10 +76,10 @@ SitemapGenerator::Sitemap.create do
     add coin_article_path(article), :changefreq => 'daily'
   end
 
-  ExchangeCategories.find_each do |category|
+  ExchangeCategory.find_each do |category|
     add exchange_category_path(slug: category.slug), :changefreq => 'daily'
   end
-  ExchangeReviews.find_each do |review|
+  ExchangeReview.find_each do |review|
     add exchange_review_path(slug: review.slug), :changefreq => 'daily'
   end
 end
