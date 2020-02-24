@@ -7,10 +7,15 @@ class CoinArticlesController < ApplicationController
   breadcrumb 'How to Buy Cryptocurrency', :coin_articles_path, match: :exact
 
   def index
+    @h1 = "How To Buy Cryptocurrency: The Best Way To Buy Crypto In #{Time.current.year}"
     distribute_reads(max_lag: MAX_ACCEPTABLE_REPLICATION_LAG, lag_failover: true) do
       @coin_articles = CoinArticle.page(params[:page]).per(params[:limit])
       @coin_articles.each # force load
     end
+
+    set_meta_tags(
+      title: @h1
+    )
   end
 
   def show

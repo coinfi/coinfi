@@ -2,7 +2,7 @@
   = get_inline_asset 'modules/amp-coin-articles-page.css'
 = render partial: 'breadcrumbs'
 section.p2#how-to-buy-cryptocurrency
-  h1.mb1.center How To Buy Cryptocurrency: The Best Way To Buy Crypto In #{Time.current.year}
+  h1.mb1.center= @h1
   - if @coin_articles.present?
     .box.mt4
       .article-grid-box
