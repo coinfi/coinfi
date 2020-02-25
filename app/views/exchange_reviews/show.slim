@@ -17,32 +17,33 @@ section.ph2.ph0-m
   .pv3.flex.justify-center.flex-wrap.flex-nowrap-m
     .w-0.w-10-m
     .w-100.w-60-m
-      #quick-facts.bb.bw1.b--black-10.mb4.pb4
-        .flex.flex-wrap.nl2-m.nr2-m.nb2-m
-          .w-100.pa2.flex.items-center
-            - if @review.cmc_exchange.logo_url.present?
-              img.mr2 src= @review.cmc_exchange.logo_url class="exchange-logo" alt= @review.cmc_exchange.name
-            h2 #{@review.cmc_exchange.name} Quick Facts
-          - if @review.available_countries.present?
-            .w-100.w-third-m.pa2
-              dt Available Countries
-              dd= @review.available_countries
-          - if @review.fees.present?
-            .w-100.w-third-m.pa2
-              dt Fees
-              dd= @review.fees
-          - if @review.payment_methods.present?
-            .w-100.w-third-m.pa2
-              dt Payment Methods
-              dd= @review.payment_methods
-          - if @review.deposit.present?
-            .w-100.w-third-m.pa2
-              dt Deposit Methods
-              dd= @review.deposit
-          - if @review.withdrawal.present?
-            .w-100.w-third-m.pa2
-              dt Withdrawal Methods
-              dd= @review.withdrawal
+      - if @review.has_quick_facts?
+        #quick-facts.bb.bw1.b--black-10.mb4.pb4
+          .flex.flex-wrap.nl2-m.nr2-m.nb2-m
+            .w-100.pa2.flex.items-center
+              - if @review.cmc_exchange.logo_url.present?
+                img.mr2 src= @review.cmc_exchange.logo_url class="exchange-logo" alt= @review.cmc_exchange.name
+              h2 #{@review.cmc_exchange.name} Quick Facts
+            - if @review.available_countries.present?
+              .w-100.w-third-m.pa2
+                dt Available Countries
+                dd= @review.available_countries
+            - if @review.fees.present?
+              .w-100.w-third-m.pa2
+                dt Fees
+                dd= @review.fees
+            - if @review.payment_methods.present?
+              .w-100.w-third-m.pa2
+                dt Payment Methods
+                dd= @review.payment_methods
+            - if @review.deposit.present?
+              .w-100.w-third-m.pa2
+                dt Deposit Methods
+                dd= @review.deposit
+            - if @review.withdrawal.present?
+              .w-100.w-third-m.pa2
+                dt Withdrawal Methods
+                dd= @review.withdrawal
       #content.mt4.mb3
         = markdown @review.content
     .w-100.w-30-m.ph4-m.mt3

@@ -36,6 +36,10 @@ class ExchangeReview < ApplicationRecord
     (ratings.sum / ratings.size.to_f).round unless ratings.empty?
   end
 
+  def has_quick_facts?
+    available_countries.present? || fees.present? || payment_methods.present? || deposit.present? || withdrawal.present?
+  end
+
   private
 
   def sanitize_html_content

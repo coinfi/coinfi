@@ -20,7 +20,7 @@ section.splash.br2.mt4-m
         .w-100.w-auto-m.flex.justify-center.justify-start-m.flex-noshrink.items-center
           .b.mr3 #{index+1}.
         .w-100.w-auto-m.flex.justify-center.justify-start-m.items-center.flex-noshrink.mb3.mb0-m
-          a.flex.justify-center.justify-start-m.items-center href= review.cmc_exchange.www_url
+          a.flex.justify-center.justify-start-m.items-center href= review.cmc_exchange.www_url rel="nofollow noopener noreferrer"
             - if review.cmc_exchange.logo_url.present?
               img.mr2 src= review.cmc_exchange.logo_url class="exchange-logo" alt= review.cmc_exchange.name
             b= review.cmc_exchange.name
@@ -33,37 +33,37 @@ section.splash.br2.mt4-m
             .f5.f6-m.b.aqua
               | #{review.cmc_exchange.name} Review
           - if review.fees_rating.present?
-            a.dn.flex-m.flex-column.justify-center.items-center.tc href= review.cmc_exchange.www_url
+            a.dn.flex-m.flex-column.justify-center.items-center.tc href= review.cmc_exchange.www_url rel="nofollow noopener noreferrer"
               .mb2
                 - get_star_icons(review.fees_rating).each do |icon_class|
                   i class= icon_class
               .f6.b Fees
           - if review.ease_of_use_rating.present?
-            a.dn.flex-m.flex-column.justify-center.items-center.tc href= review.cmc_exchange.www_url
+            a.dn.flex-m.flex-column.justify-center.items-center.tc href= review.cmc_exchange.www_url rel="nofollow noopener noreferrer"
               .mb2
                 - get_star_icons(review.ease_of_use_rating).each do |icon_class|
                   i class= icon_class
               .f6.b Ease of Use
           - if review.security_rating.present?
-            a.dn.flex-m.flex-column.justify-center.items-center.tc href= review.cmc_exchange.www_url
+            a.dn.flex-m.flex-column.justify-center.items-center.tc href= review.cmc_exchange.www_url rel="nofollow noopener noreferrer"
               .mb2
                 - get_star_icons(review.security_rating).each do |icon_class|
                   i class= icon_class
               .f6.b Security
           - if review.support_rating.present?
-            a.dn.flex-m.flex-column.justify-center.items-center.tc href= review.cmc_exchange.www_url
+            a.dn.flex-m.flex-column.justify-center.items-center.tc href= review.cmc_exchange.www_url rel="nofollow noopener noreferrer"
               .mb2
                 - get_star_icons(review.support_rating).each do |icon_class|
                   i class= icon_class
               .f6.b Support
           - if review.selection_rating.present?
-            a.dn.flex-m.flex-column.justify-center.items-center.tc href= review.cmc_exchange.www_url
+            a.dn.flex-m.flex-column.justify-center.items-center.tc href= review.cmc_exchange.www_url rel="nofollow noopener noreferrer"
               .mb2
                 - get_star_icons(review.selection_rating).each do |icon_class|
                   i class= icon_class
               .f6.b Selection
         .w-100.w-20-m.flex.items-center.flex-noshrink
-          a.w-100 href= review.cmc_exchange.www_url
+          a.w-100 href= review.cmc_exchange.www_url rel="nofollow noopener noreferrer"
             .btn.btn-small.btn-blue.w-100.tc Visit #{review.cmc_exchange.name}
 section.ph2.ph0-m
   .pv3.flex.justify-center.flex-wrap.flex-nowrap-m
