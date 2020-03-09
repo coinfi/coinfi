@@ -1,0 +1,44 @@
+.w-sixth {
+  width: calc(100% / 6);
+}
+@include breakpoint(ns) {
+  .w-sixth-ns {
+    width: calc(100% / 6);
+  }
+}
+@include breakpoint(m) {
+  .w-sixth-m {
+    width: calc(100% / 6);
+  }
+}
+@include breakpoint(l) {
+  .w-sixth-l {
+    width: calc(100% / 6);
+  }
+}
+.w-15 {
+  width: 15%;
+}
+@include breakpoint(ns) {
+  .w-15-ns {
+    width: 15%;
+  }
+}
+@include breakpoint(m) {
+  .w-15-m {
+    width: 15%;
+  }
+}
+@include breakpoint(l) {
+  .w-15-l {
+    width: 15%;
+  }
+}
+@media #{$screen-min-m} {
+  .w-15-m {
+    width: 15%;
+  }
+}
+.min-w5 {
+  min-width: $width-5;
+}
