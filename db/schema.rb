@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20191224231944) do
+ActiveRecord::Schema.define(version: 20200218141802) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -284,6 +284,21 @@ ActiveRecord::Schema.define(version: 20191224231944) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "exchange_categories", force: :cascade do |t|
+    t.bigint "author_id"
+    t.string "name"
+    t.string "slug", null: false
+    t.string "h1"
+    t.string "meta_title"
+    t.string "meta_description"
+    t.text "summary"
+    t.text "content"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["author_id"], name: "index_exchange_categories_on_author_id"
+    t.index ["slug"], name: "index_exchange_categories_on_slug", unique: true
+  end
+
   create_table "exchange_listings", force: :cascade do |t|
     t.bigint "exchange_id"
     t.string "ccxt_exchange_id"
@@ -299,6 +314,41 @@ ActiveRecord::Schema.define(version: 20191224231944) do
     t.index ["detected_at"], name: "index_exchange_listings_on_detected_at"
     t.index ["quote_symbol"], name: "index_exchange_listings_on_quote_symbol"
     t.index ["quote_symbol_id"], name: "index_exchange_listings_on_quote_symbol_id"
+  end
+
+  create_table "exchange_review_categorizations", force: :cascade do |t|
+    t.bigint "exchange_review_id"
+    t.bigint "exchange_category_id"
+    t.integer "ranking"
+    t.index ["exchange_category_id"], name: "index_exchange_review_categorizations_on_exchange_category_id"
+    t.index ["exchange_review_id", "exchange_category_id"], name: "unique_index_exchange_review_categorizations", unique: true
+    t.index ["exchange_review_id"], name: "index_exchange_review_categorizations_on_exchange_review_id"
+  end
+
+  create_table "exchange_reviews", force: :cascade do |t|
+    t.bigint "author_id"
+    t.bigint "cmc_exchange_id"
+    t.string "slug", null: false
+    t.string "h1"
+    t.string "meta_title"
+    t.string "meta_description"
+    t.text "summary"
+    t.text "content"
+    t.text "deposit"
+    t.text "withdrawal"
+    t.text "fees"
+    t.text "available_countries"
+    t.text "payment_methods"
+    t.integer "fees_rating"
+    t.integer "ease_of_use_rating"
+    t.integer "security_rating"
+    t.integer "support_rating"
+    t.integer "selection_rating"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["author_id"], name: "index_exchange_reviews_on_author_id"
+    t.index ["cmc_exchange_id"], name: "index_exchange_reviews_on_cmc_exchange_id"
+    t.index ["slug"], name: "index_exchange_reviews_on_slug", unique: true
   end
 
   create_table "exchanges", force: :cascade do |t|
@@ -636,9 +686,14 @@ ActiveRecord::Schema.define(version: 20191224231944) do
   add_foreign_key "coin_industries_coins", "coins"
   add_foreign_key "contributor_submissions", "submission_categories"
   add_foreign_key "contributor_submissions", "users", on_delete: :cascade
+  add_foreign_key "exchange_categories", "authors", on_delete: :cascade
   add_foreign_key "exchange_listings", "coins", column: "base_symbol_id"
   add_foreign_key "exchange_listings", "coins", column: "quote_symbol_id"
   add_foreign_key "exchange_listings", "exchanges"
+  add_foreign_key "exchange_review_categorizations", "exchange_categories", on_delete: :cascade
+  add_foreign_key "exchange_review_categorizations", "exchange_reviews", on_delete: :cascade
+  add_foreign_key "exchange_reviews", "authors", on_delete: :cascade
+  add_foreign_key "exchange_reviews", "cmc_exchanges", on_delete: :cascade
   add_foreign_key "feed_sources", "coins"
   add_foreign_key "influencer_reviews", "coins", on_delete: :cascade
   add_foreign_key "influencer_reviews", "influencers", on_delete: :cascade

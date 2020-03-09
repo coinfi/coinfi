@@ -15,6 +15,7 @@ Rails.application.config.assets.precompile += %w(
   ag-grid.css
   calculators.css
   coin-articles.css
+  exchange-reviews.css
   icos.css
   indicators.css
   amp-application.css

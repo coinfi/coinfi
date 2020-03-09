@@ -71,3 +71,25 @@ $screen-max-ns: 'screen and (max-width: #{$screen-ns - 1px})';
 $screen-max-m: 'screen and (max-width: #{$screen-m - 1px})';
 $screen-max-l: 'screen and (max-width: #{$screen-l - 1px})';
 $screen-max-xl: 'screen and (max-width: #{$screen-xl - 1px})';
+
+@mixin breakpoint($class) {
+  @if $class == ns {
+    @media #{$screen-min-ns} {
+      @content;
+    }
+  } @else if $class == m {
+    @media #{$screen-min-m} {
+      @content;
+    }
+  } @else if $class == l {
+    @media #{$screen-min-l} {
+      @content;
+    }
+  } @else if $class == xl {
+    @media #{$screen-min-xl} {
+      @content;
+    }
+  } @else {
+    @warn "Breakpoint mixin supports: ns, m, l, xl";
+  }
+}

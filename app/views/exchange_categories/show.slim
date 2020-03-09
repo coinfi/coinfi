@@ -1,0 +1,77 @@
+- content_for :head do
+  = stylesheet_link_tag 'exchange-reviews'
+section.splash.br2.mt4-m
+  .pv5.ph3.pt6-m.pb4-m.ph0-m.pt7-l.flex.justify-center.flex-wrap.flex-nowrap-m
+    .w-0.w-10-m
+    .w-100.w-60-m.bg-white-90.br2
+      h1.lh-title.fw6.f3.f2-ns.mt0.mb3.mb0-m.pv4-ns
+        = @category.h1
+      #article-meta.flex.items-center.around-xs.flex-wrap.flex-nowrap-m.mb3
+        .ph3.mb2.mb0-m
+          img.br-100.dib.h2.w2.mr2.v-mid src=@author.photo_url alt=@author.name
+          | By: #{@author.name}
+        .ph3
+          = display_article_date @category
+    .w-0.w-30-m
+- if @reviews.present?
+  section.ph2.ph0-m.mt4.mb3-m#review-rankings
+    - @reviews.each_with_index do |review, index|
+      .mb4.mb3-m.pa3.bg-white.ba.b--black-10.br2.flex.flex-column.flex-row-m
+        .w-100.w-15-m.flex.justify-center.justify-start-m.items-center.flex-noshrink.mb3.mb0-m
+          .b.mr3 #{index+1}.
+          a.flex.justify-center.justify-start-m.items-center href= review.cmc_exchange.www_url rel="nofollow noopener noreferrer"
+            - if review.cmc_exchange.logo_url.present?
+              img.mr2 src= review.cmc_exchange.logo_url class="exchange-logo" alt= review.cmc_exchange.name
+            b= review.cmc_exchange.name
+        .w-100.flex-auto-m.flex.justify-around.items-center.ph3-m.mb3.mb0-m
+          a.flex.w-sixth-m.flex-column.justify-center.items-center.tc href= exchange_review_path(slug: review.slug)
+            - if review.overall_rating.present?
+              .mb2
+                - get_star_icons(review.overall_rating).each do |icon_class|
+                  i class= icon_class
+            .f5.f6-m.b.aqua
+              | #{review.cmc_exchange.name} Review
+          - if review.fees_rating.present?
+            a.dn.flex-m.w-sixth-m.flex-column.justify-center.items-center.tc href= review.cmc_exchange.www_url rel="nofollow noopener noreferrer"
+              .mb2
+                - get_star_icons(review.fees_rating).each do |icon_class|
+                  i class= icon_class
+              .f6.b Fees
+          - if review.ease_of_use_rating.present?
+            a.dn.flex-m.w-sixth-m.flex-column.justify-center.items-center.tc href= review.cmc_exchange.www_url rel="nofollow noopener noreferrer"
+              .mb2
+                - get_star_icons(review.ease_of_use_rating).each do |icon_class|
+                  i class= icon_class
+              .f6.b Ease of Use
+          - if review.security_rating.present?
+            a.dn.flex-m.w-sixth-m.flex-column.justify-center.items-center.tc href= review.cmc_exchange.www_url rel="nofollow noopener noreferrer"
+              .mb2
+                - get_star_icons(review.security_rating).each do |icon_class|
+                  i class= icon_class
+              .f6.b Security
+          - if review.support_rating.present?
+            a.dn.flex-m.w-sixth-m.flex-column.justify-center.items-center.tc href= review.cmc_exchange.www_url rel="nofollow noopener noreferrer"
+              .mb2
+                - get_star_icons(review.support_rating).each do |icon_class|
+                  i class= icon_class
+              .f6.b Support
+          - if review.selection_rating.present?
+            a.dn.flex-m.w-sixth-m.flex-column.justify-center.items-center.tc href= review.cmc_exchange.www_url rel="nofollow noopener noreferrer"
+              .mb2
+                - get_star_icons(review.selection_rating).each do |icon_class|
+                  i class= icon_class
+              .f6.b Selection
+        .w-100.w-20-m.flex.items-center.flex-noshrink
+          a.w-100 href= review.cmc_exchange.www_url rel="nofollow noopener noreferrer"
+            .btn.btn-small.btn-blue.w-100.tc Visit #{review.cmc_exchange.name}
+section.ph2.ph0-m
+  .pv3.flex.justify-center.flex-wrap.flex-nowrap-m
+    .w-0.w-10-m
+    .w-100.w-60-m.ph1-m#content
+      = markdown @category.content
+    .w-100.w-30-m.ph4-m#side-bar
+      .b Quick Links
+      .pt3#table-of-contents
+        = markdown_toc @category.content
+section.ph2.ph0-m.mv5#author
+  = render partial: 'author'

@@ -33,7 +33,7 @@ class CoinArticle < ApplicationRecord
 
   def sanitize_html_content
     sanitizer = Rails::Html::SafeListSanitizer.new
-    self.content = sanitizer.sanitize(content, scrubber: Scrubbers::CoinArticleScrubber.new)
+    self.content = sanitizer.sanitize(content, scrubber: Scrubbers::ArticleScrubber.new)
   end
 
   def slugify

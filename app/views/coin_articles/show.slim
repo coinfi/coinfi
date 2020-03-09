@@ -1,19 +1,19 @@
 - content_for :head do
   = stylesheet_link_tag 'coin-articles'
 = render partial: 'breadcrumbs'
-section.ph1.ph0-m#title
+section.ph0.ph0-m#title
   .pv3.flex.justify-center.flex-wrap.flex-nowrap-m
     .w-0.w-10-m
     .w-100.w-60-m
       h1= @coin_article.title
       .flex.items-center.around-xs.pv3
         .ph3
-          img.br-100.dib.h2.w2.mr2.v-mid src=@coin_article.author.photo_url alt=@coin_article.author.name
-          | By: #{@coin_article.author.name}
+          img.br-100.dib.h2.w2.mr2.v-mid src=@author.photo_url alt=@author.name
+          | By: #{@author.name}
         .ph3
           = display_article_date @coin_article
     .w-0.w-30-m
-section.ph1.ph0-m
+section.ph2.ph0-m
   .pv3.flex.justify-center.flex-wrap.flex-nowrap-m
     .w-0.w-10-m
     .w-100.w-60-m.ph1-m#content
@@ -30,5 +30,5 @@ section.ph1.ph0-m
             div
               a href=coin_article_path(a)
                 = a.title
-section.ph1.ph0-m.mv5#author
+section.ph2.ph0-m.mv5#author
   = render partial: 'author'

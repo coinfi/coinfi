@@ -1,28 +1,7 @@
 @import 'variables';
 @import 'tachyons';
 @import 'components/table';
-
-h1 {
-  font-size: 30px;
-  font-weight: 800;
-  line-height: 1.3;
-  text-align: center;
-  margin-bottom: 0;
-}
-p {
-  font-size: 18px;
-  line-height: 1.5;
-  margin: 0 0 1rem;
-}
-section {
-  width: 100%;
-  max-width: $fixed-width;
-  margin-left: auto;
-  margin-right: auto;
-}
-.icon span {
-  padding-left: 0.5rem;
-}
+@import 'modules/article';
 .article-grid-box {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
@@ -30,80 +9,4 @@ section {
 }
 .pagination {
   padding: 1rem 0 0;
-}
-#content {
-  li {
-    line-height: 2;
-  }
-  img {
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-  }
-  table {
-    margin-left: auto;
-    margin-right: auto;
-    @extend %striped-table;
-  }
-  td {
-    ul,
-    ol {
-      margin: 0;
-      padding-inline-start: 20px;
-      li {
-        line-height: 1.15;
-      }
-    }
-  }
-}
-#side-bar {
-  a {
-    line-height: 1.3;
-  }
-}
-#table-of-contents {
-  ul {
-    margin: 0;
-    padding-inline-start: 0;
-    list-style: none;
-    li {
-      margin-bottom: 0.8rem;
-      a {
-        display: inline-block;
-      }
-      ul {
-        margin-top: 0.8rem;
-        ul {
-          margin-left: 1.5rem;
-          li {
-            list-style: circle;
-          }
-        }
-      }
-    }
-  }
-}
-#related-articles {
-  div {
-    margin-bottom: 0.8rem;
-  }
-}
-#author-box {
-  margin-left: auto;
-  margin-right: auto;
-}
-@media #{$screen-max-ns} {
-  #content {
-    .table-responsive {
-      overflow-x: auto;
-    }
-  }
-}
-@media #{$screen-min-m} {
-  h1 {
-    font-size: 48px;
-  }
-  #author-box {
-    max-width: 750px;
-  }
 }

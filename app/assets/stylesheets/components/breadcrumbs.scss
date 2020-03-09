@@ -1,3 +1,6 @@
+body > main > .breadcrumbs-container {
+  flex: 0 0 auto;
+}
 .breadcrumbs {
   @at-root {
     ol#{&} {

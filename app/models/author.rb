@@ -2,6 +2,8 @@ class Author < ApplicationRecord
   extend FriendlyId
   friendly_id :name, use: :slugged
   has_many :coin_articles
+  has_many :exchange_reviews
+  has_many :exchange_categories
   validates :name, presence: true
 
   def get_schema

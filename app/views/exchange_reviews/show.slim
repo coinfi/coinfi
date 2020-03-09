@@ -1,0 +1,87 @@
+- content_for :head do
+  = stylesheet_link_tag 'exchange-reviews'
+section.splash.br2-m.mt4-m
+  .pv5.ph3.pt6-m.pb4-m.ph0-m.pt7-l.flex.justify-center.flex-wrap.flex-nowrap-m
+    .w-0.w-10-m
+    .w-100.w-60-m.pv3.pv0-m.ph2.bg-white-90.br2
+      h1.lh-title.fw6.f3.f2-ns.mt0.mb3.mb0-m.pv4-ns
+        = @review.h1
+      #article-meta.flex.items-center.around-xs.flex-wrap.flex-nowrap-m.mb3
+        .ph3.mb2.mb0-m
+          img.br-100.dib.h2.w2.mr2.v-mid src=@author.photo_url alt=@author.name
+          | By: #{@author.name}
+        .ph3
+          = display_article_date @review
+    .w-0.w-30-m
+section.ph2.ph0-m
+  .pv3.flex.justify-center.flex-wrap.flex-nowrap-m
+    .w-0.w-10-m
+    .w-100.w-60-m
+      - if @review.has_quick_facts?
+        #quick-facts.bb.bw1.b--black-10.mb4.pb4
+          .flex.flex-wrap.nl2-m.nr2-m.nb2-m
+            .w-100.pa2.flex.items-center
+              - if @review.cmc_exchange.logo_url.present?
+                img.mr2 src= @review.cmc_exchange.logo_url class="exchange-logo" alt= @review.cmc_exchange.name
+              h2 #{@review.cmc_exchange.name} Quick Facts
+            - if @review.available_countries.present?
+              .w-100.w-third-m.pa2
+                dt Available Countries
+                dd= @review.available_countries
+            - if @review.fees.present?
+              .w-100.w-third-m.pa2
+                dt Fees
+                dd= @review.fees
+            - if @review.payment_methods.present?
+              .w-100.w-third-m.pa2
+                dt Payment Methods
+                dd= @review.payment_methods
+            - if @review.deposit.present?
+              .w-100.w-third-m.pa2
+                dt Deposit Methods
+                dd= @review.deposit
+            - if @review.withdrawal.present?
+              .w-100.w-third-m.pa2
+                dt Withdrawal Methods
+                dd= @review.withdrawal
+      #content.mt4.mb3
+        = markdown @review.content
+    .w-100.w-30-m.ph4-m.mt3
+      - if @review.overall_rating.present?
+        #ratings
+          .b.mb3 Ratings
+          dt Overall
+          dd.mb2
+            - get_star_icons(@review.overall_rating).each do |icon_class|
+              i class= icon_class
+          - if @review.fees_rating.present?
+            dt Fees
+            dd.mb2
+              - get_star_icons(@review.fees_rating).each do |icon_class|
+                i class= icon_class
+          - if @review.ease_of_use_rating.present?
+            dt Ease of Use
+            dd.mb2
+              - get_star_icons(@review.ease_of_use_rating).each do |icon_class|
+                i class= icon_class
+          - if @review.security_rating.present?
+            dt Security
+            dd.mb2
+              - get_star_icons(@review.security_rating).each do |icon_class|
+                i class= icon_class
+          - if @review.support_rating.present?
+            dt Support
+            dd.mb2
+              - get_star_icons(@review.support_rating).each do |icon_class|
+                i class= icon_class
+          - if @review.selection_rating.present?
+            dt Selection
+            dd.mb2
+              - get_star_icons(@review.selection_rating).each do |icon_class|
+                i class= icon_class
+      #side-bar.mt4
+        .b Quick Links
+        .pt3#table-of-contents
+          = markdown_toc @review.content
+section.ph2.ph0-m.mv5#author
+  = render partial: 'author'
