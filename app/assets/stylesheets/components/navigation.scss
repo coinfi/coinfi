@@ -102,6 +102,9 @@ $nav-menu-more-width: 150px;
   display: flex;
   .nav-menu__item {
     padding-left: 2.75rem;
+    &.nav-menu__sub-item {
+      padding-left: 4rem;
+    }
   }
 }
 .nav-menu__item-toggle {
@@ -278,6 +281,9 @@ i.icon-white {
   .nav-menu__dropdown-inner {
     .nav-menu__item {
       padding-left: 0.5rem;
+      &.nav-menu__sub-item {
+        padding-left: 1.5rem;
+      }
     }
   }
   .nav-menu-coins {

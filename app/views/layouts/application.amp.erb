@@ -49,6 +49,14 @@
                 <header>Exchanges</header>
                 <ul class="ampstart-dropdown-items list-reset m0 p0">
                   <li class="ampstart-dropdown-item"><%= nav_link "Best Cryptocurrency Exchanges", exchange_category_path(slug: 'crypto') %></li>
+                  <li class="ampstart-dropdown-item">
+                    <ul class="ampstart-dropdown-items list-reset m0 ml2 p0">
+                      <li class="ampstart-dropdown-item"><%= nav_link "Changelly Review", exchange_review_path(slug: 'changelly') %></li>
+                      <li class="ampstart-dropdown-item"><%= nav_link "CoinSwitch Review", exchange_review_path(slug: 'coinswitch') %></li>
+                      <li class="ampstart-dropdown-item"><%= nav_link "Bybit Review", exchange_review_path(slug: 'bybit') %></li>
+                      <li class="ampstart-dropdown-item"><%= nav_link "FTX Review", exchange_review_path(slug: 'ftx') %></li>
+                    </ul>
+                  </li>
                 </ul>
               </section>
             </amp-accordion>
