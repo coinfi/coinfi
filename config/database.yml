@@ -37,6 +37,9 @@ default: &default
   variables:
     statement_timeout: <%= ENV.fetch("POSTGRES_STATEMENT_TIMEOUT", 300_000) %>
 
+production:
+  <<: *default
+
 development:
   <<: *default
   database: coinfi-rails_development

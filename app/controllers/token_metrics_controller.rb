@@ -5,19 +5,17 @@ class TokenMetricsController < ApplicationController
   include CurrencyHelper
 
   def index
-    distribute_reads(max_lag: MAX_ACCEPTABLE_REPLICATION_LAG, lag_failover: true) do
-      start = (@page - 1) * @limit
-      token_model = get_model_from_metric_type(@metric_type)
+    start = (@page - 1) * @limit
+    token_model = get_model_from_metric_type(@metric_type)
 
-      @coins = Coin.legit.erc20_tokens.joins(token_model)
-      @tokens_count = @coins.count
+    @coins = Coin.legit.erc20_tokens.joins(token_model)
+    @tokens_count = @coins.count
 
-      @coins = @coins.sort { |a, b| a.market_cap <=> b.market_cap }
-      @coins = @coins.reverse
-      @coins_page = @coins[start, @limit]
+    @coins = @coins.sort { |a, b| a.market_cap <=> b.market_cap }
+    @coins = @coins.reverse
+    @coins_page = @coins[start, @limit]
 
-      @tokens_and_coins_data = serialize_token_metrics(@coins_page, token_model)
-    end
+    @tokens_and_coins_data = serialize_token_metrics(@coins_page, token_model)
   end
 
   private

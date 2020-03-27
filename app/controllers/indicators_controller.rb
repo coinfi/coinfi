@@ -38,21 +38,19 @@ class IndicatorsController < ApplicationController
   end
 
   def set_coin
-    distribute_reads(max_lag: MAX_ACCEPTABLE_REPLICATION_LAG, lag_failover: true) do
-      ticker = params[:ticker]
-      return render_empty if ticker.blank?
+    ticker = params[:ticker]
+    return render_empty if ticker.blank?
 
-      coin_symbol = ticker_name_to_symbol(ticker.upcase)
-      # Attempt to search assuming the param is a symbol. Use ranking to attempt to pick the correct symbol.
-      # Note: If ranking is insufficient, it may be necessary to have a hard-coded mapping
-      coin = Coin.order(ranking: :asc).find_by(symbol: coin_symbol)
-      if coin
-        @coin = coin
-        return if has_indicator?
-      end
-
-      render_empty
+    coin_symbol = ticker_name_to_symbol(ticker.upcase)
+    # Attempt to search assuming the param is a symbol. Use ranking to attempt to pick the correct symbol.
+    # Note: If ranking is insufficient, it may be necessary to have a hard-coded mapping
+    coin = Coin.order(ranking: :asc).find_by(symbol: coin_symbol)
+    if coin
+      @coin = coin
+      return if has_indicator?
     end
+
+    render_empty
   end
 
   private
@@ -92,16 +90,14 @@ class IndicatorsController < ApplicationController
   end
 
   def set_news_items
-    distribute_reads(max_lag: MAX_ACCEPTABLE_REPLICATION_LAG, lag_failover: true) do
-      @news_items = NewsItem.published
-        .joins(:feed_source)
-        .merge(FeedSource.active.not_reddit.not_twitter)
-        .joins(:news_coin_mentions)
-        .where("news_coin_mentions.id IN (?)", NewsCoinMention.default_tagged.where(coin: @coin).select(:id))
-        .order_by_published
-        .limit(5)
-        .to_a
-    end
+    @news_items = NewsItem.published
+      .joins(:feed_source)
+      .merge(FeedSource.active.not_reddit.not_twitter)
+      .joins(:news_coin_mentions)
+      .where("news_coin_mentions.coin_id = ?", @coin.id)
+      .order_by_published
+      .limit(5)
+      .to_a
   end
 
   def set_summary(summary)

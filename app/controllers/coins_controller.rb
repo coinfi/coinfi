@@ -15,16 +15,14 @@ class CoinsController < ApplicationController
     @limit = params[:limit]&.to_i || DEFAULT_PAGE_LIMIT
     @limit = MAX_PAGE_LIMIT if @limit > MAX_PAGE_LIMIT
 
-    distribute_reads(max_lag: MAX_ACCEPTABLE_REPLICATION_LAG, lag_failover: true) do
-      coins = Coin.listed.legit
-      @coin_count = coins.count
-      @coins = coins_serializer(
-        coins
-          .page(@page)
-          .per(@limit)
-          .order(:ranking)
-      )
-    end
+    coins = Coin.listed.legit
+    @coin_count = coins.count
+    @coins = coins_serializer(
+      coins
+        .page(@page)
+        .per(@limit)
+        .order(:ranking)
+    )
 
     set_meta_tags(
       title: "Top Cryptocurrency Prices Live, Cryptocurrency Market Cap, Best Cryptocurrency Charts",
@@ -38,21 +36,19 @@ class CoinsController < ApplicationController
       render_404
     end
 
-    distribute_reads(max_lag: MAX_ACCEPTABLE_REPLICATION_LAG, lag_failover: true) do
-      if @coin.ico_listed?
-        @coin_price = format_price(@coin.price)
-        @related_coins = @coin.related_coins.select(:id, :coin_key, :name, :symbol, :slug).to_a # Calling `to_a` ensures query executes on replica.
-        @token_metrics = @coin.has_token_metrics? ? @coin.token_metrics : {}
-        @coin_obj = show_serializer(@coin)
-        @how_to_article = coin_article_serializer(@coin.coin_articles.first)
-        @top_coins_data = toplist_coins
-        @watched_coins_data = watchlist_coins if current_user
-      end
+    if @coin.ico_listed?
+      @coin_price = format_price(@coin.price)
+      @related_coins = @coin.related_coins.select(:id, :coin_key, :name, :symbol, :slug).to_a # Calling `to_a` ensures query executes on replica.
+      @token_metrics = @coin.has_token_metrics? ? @coin.token_metrics : {}
+      @coin_obj = show_serializer(@coin)
+      @how_to_article = coin_article_serializer(@coin.coin_articles.first)
+      @top_coins_data = toplist_coins
+      @watched_coins_data = watchlist_coins if current_user
+    end
 
-      if is_ethereum?(@coin)
-        @grouped_large_eth_signals = TradingSignal.get_large_transactions_by_period
-        @recent_large_signals = TradingSignal.get_recent_large_transactions
-      end
+    if is_ethereum?(@coin)
+      @grouped_large_eth_signals = TradingSignal.get_large_transactions_by_period
+      @recent_large_signals = TradingSignal.get_recent_large_transactions
     end
 
     # TODO: Flag if a non-listed coin gets routed to this controller.
@@ -90,29 +86,27 @@ class CoinsController < ApplicationController
   protected
 
   def set_coin
-    distribute_reads(max_lag: MAX_ACCEPTABLE_REPLICATION_LAG, lag_failover: true) do
-      coin_id_or_slug = params[:id_or_slug]
+    coin_id_or_slug = params[:id_or_slug]
 
-      # Attempt to search assuming the param is a slug
-      coin_by_slug = Coin.find_by(slug: coin_id_or_slug)
-      if coin_by_slug
-        @coin = coin_by_slug
-        return
-      end
-
-      # If we don't find matches for slug, we can safely assume it is an id
-      coin_id = coin_id_or_slug
-      coin_by_id = nil
-      Rollbar.silenced {
-        coin_by_id = Coin.find(coin_id)
-      }
-      if !coin_by_id
-        render_404
-      end
-
-      # 301 redirect to the same action with the coin slug for SEO purposes
-      redirect_to action: action_name, id_or_slug: coin_by_id.slug, status: :moved_permanently
+    # Attempt to search assuming the param is a slug
+    coin_by_slug = Coin.find_by(slug: coin_id_or_slug)
+    if coin_by_slug
+      @coin = coin_by_slug
+      return
     end
+
+    # If we don't find matches for slug, we can safely assume it is an id
+    coin_id = coin_id_or_slug
+    coin_by_id = nil
+    Rollbar.silenced {
+      coin_by_id = Coin.find(coin_id)
+    }
+    if !coin_by_id
+      render_404
+    end
+
+    # 301 redirect to the same action with the coin slug for SEO purposes
+    redirect_to action: action_name, id_or_slug: coin_by_id.slug, status: :moved_permanently
   end
 
   def show_serializer(coin)

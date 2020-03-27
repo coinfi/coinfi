@@ -7,20 +7,18 @@ class Api::TokenMetricsController < ApiController
     start = (@page - 1) * @limit
     token_model = get_model_from_metric_type(@metric_type)
 
-    distribute_reads(max_lag: MAX_ACCEPTABLE_REPLICATION_LAG, lag_failover: true) do
-      @coins = Coin.legit.erc20_tokens.joins(token_model)
-      @tokens_count = @coins.count
+    @coins = Coin.legit.erc20_tokens.joins(token_model)
+    @tokens_count = @coins.count
 
-      if is_order_by_coin?
-        @coins = @coins.sort { |a, b| a.try(@order_by) <=> b.try(@order_by) }
-      else
-        @coins = @coins.sort { |a, b| a.try(token_model).try(@order_by) <=> b.try(token_model).try(@order_by) }
-      end
-      @coins = @coins.reverse if @order == 'desc'
-      @coins_page = @coins[start, @limit]
-
-      @tokens_and_coins_data = serialize_token_metrics(@coins_page, token_model)
+    if is_order_by_coin?
+      @coins = @coins.sort { |a, b| a.try(@order_by) <=> b.try(@order_by) }
+    else
+      @coins = @coins.sort { |a, b| a.try(token_model).try(@order_by) <=> b.try(token_model).try(@order_by) }
     end
+    @coins = @coins.reverse if @order == 'desc'
+    @coins_page = @coins[start, @limit]
+
+    @tokens_and_coins_data = serialize_token_metrics(@coins_page, token_model)
 
     respond_success index_payload
   end
