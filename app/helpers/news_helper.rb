@@ -1,7 +1,9 @@
 module NewsHelper
   def serialize_news_items(news_items)
+    if news_items.try(:respond_to?, :includes)
+      news_items = news_items.includes(:default_tagged_coins, :news_categories)
+    end
     data = news_items
-      .includes(:default_tagged_coins, :news_categories)
       .as_json(
         only: %i[id title summary feed_item_published_at updated_at url content],
         methods: %i[tag_scoped_coin_link_data categories vote_score]
