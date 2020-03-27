@@ -1,8 +1,6 @@
 module CoinsHelper
   include ActionView::Helpers::NumberHelper
 
-  MAX_ACCEPTABLE_REPLICATION_LAG = ApplicationHelper::MAX_ACCEPTABLE_REPLICATION_LAG
-
   def display_percentage_change(percentage_change)
     return "N/A" if percentage_change.nil?
     return "0.0%" if percentage_change == 0
@@ -79,19 +77,15 @@ module CoinsHelper
   end
 
   def latest_total_market_cap
-    distribute_reads(max_lag: MAX_ACCEPTABLE_REPLICATION_LAG, lag_failover: true) do
-      latest_market_metric = MarketMetric.latest
-      latest_market_metric.total_market_cap if latest_market_metric.present?
-    end
+    latest_market_metric = MarketMetric.latest
+    latest_market_metric.total_market_cap if latest_market_metric.present?
   end
 
   def historical_total_market_data(days: 7, months: nil)
-    distribute_reads(max_lag: MAX_ACCEPTABLE_REPLICATION_LAG, lag_failover: true) do
-      if days.present?
-        MarketMetric.daily(days).to_a
-      elsif months.present?
-        MarketMetric.monthly(months).to_a
-      end
+    if days.present?
+      MarketMetric.daily(days).to_a
+    elsif months.present?
+      MarketMetric.monthly(months).to_a
     end
   end
 
@@ -103,28 +97,26 @@ module CoinsHelper
 
     total_market_cap = latest_total_market_cap
 
-    distribute_reads(max_lag: MAX_ACCEPTABLE_REPLICATION_LAG, lag_failover: true) do
-      pinned_coin_slug = 'bitcoin'
-      top_coins = Coin.listed.legit.top(number_of_other_coins).where.not(slug: pinned_coin_slug)
-      pinned_coin = Coin.where(slug: pinned_coin_slug)
-      coins = Coin.from("((#{top_coins.to_sql}) UNION (#{pinned_coin.to_sql})) AS coins")
-      market_dominance = coins.map do |coin|
-        market_cap = coin.market_cap || 0
-        market_percentage = total_market_cap.present? ? market_cap / total_market_cap : 0
-        [coin.coin_key, {
-          :id => coin.id,
-          :name => coin.name,
-          :symbol => coin.symbol,
-          :slug => coin.slug,
-          :price_usd => coin.price || 0,
-          :market_percentage => market_percentage
-        }]
-      end.to_h
+    pinned_coin_slug = 'bitcoin'
+    top_coins = Coin.listed.legit.top(number_of_other_coins).where.not(slug: pinned_coin_slug)
+    pinned_coin = Coin.where(slug: pinned_coin_slug)
+    coins = Coin.from("((#{top_coins.to_sql}) UNION (#{pinned_coin.to_sql})) AS coins")
+    market_dominance = coins.map do |coin|
+      market_cap = coin.market_cap || 0
+      market_percentage = total_market_cap.present? ? market_cap / total_market_cap : 0
+      [coin.coin_key, {
+        :id => coin.id,
+        :name => coin.name,
+        :symbol => coin.symbol,
+        :slug => coin.slug,
+        :price_usd => coin.price || 0,
+        :market_percentage => market_percentage
+      }]
+    end.to_h
 
-      Rails.cache.write("market_dominance/#{number_of_other_coins}", market_dominance, expires_in: seconds_to_next_day) unless no_cache || total_market_cap.blank?
+    Rails.cache.write("market_dominance/#{number_of_other_coins}", market_dominance, expires_in: seconds_to_next_day) unless no_cache || total_market_cap.blank?
 
-      market_dominance
-    end
+    market_dominance
   end
 
   def market_percentage(coin_key)

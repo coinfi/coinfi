@@ -6,45 +6,46 @@ class CoinArticlesController < ApplicationController
   breadcrumb 'How to Buy Cryptocurrency', :coin_articles_path, match: :exact
 
   def index
-    distribute_reads(max_lag: MAX_ACCEPTABLE_REPLICATION_LAG, lag_failover: true) do
-      @coin_articles = CoinArticle.page(params[:page]).per(params[:limit])
-      @coin_articles.each # force load
-    end
+    @h1 = "How To Buy Cryptocurrency: The Best Way To Buy Crypto In #{Time.current.year}"
+    @coin_articles = CoinArticle.page(params[:page]).per(params[:limit])
+    @coin_articles.each # force distribute_reads load
+
+    set_meta_tags(
+      title: @h1
+    )
   end
 
   def show
-    distribute_reads(max_lag: MAX_ACCEPTABLE_REPLICATION_LAG, lag_failover: true) do
-      @coin_article = CoinArticle.friendly.find(params[:id])
-      @author = @coin_article.author
-      @related_articles = @coin_article.related_articles
+    @coin_article = CoinArticle.friendly.find(params[:id])
+    @author = @coin_article.author
+    @related_articles = @coin_article.related_articles
 
-      breadcrumb "#{@coin_article.coin.name} (#{@coin_article.coin.symbol})", coin_article_path(@coin_article)
-      set_meta_tags(
-        title: @coin_article.meta_title || @coin_article.title,
-        description: @coin_article.meta_description
-      )
-      set_jsonld(
-        {
-          "@context": "http://schema.org/",
-          "publisher": {
-            "@type": "Organization",
-            "name": "CoinFi",
-            "url": "https://#{ENV.fetch('ROOT_DOMAIN')}",
-            "logo": {
-              "@type": "ImageObject",
-              "url": view_context.image_url('amp-logo.png'),
-              "height": "174",
-              "width": "60"
-            }
-          },
-          "mainEntityOfPage": {
-            "@type": "WebPage",
-            "@id": url_for(format: :html, only_path: false),
-          },
-          "image": view_context.image_url('article-splash.jpg'), # default image
-        }.merge(@coin_article.get_schema)
-      )
-    end
+    breadcrumb "#{@coin_article.coin.name} (#{@coin_article.coin.symbol})", coin_article_path(@coin_article)
+    set_meta_tags(
+      title: @coin_article.meta_title || @coin_article.title,
+      description: @coin_article.meta_description
+    )
+    set_jsonld(
+      {
+        "@context": "http://schema.org/",
+        "publisher": {
+          "@type": "Organization",
+          "name": "CoinFi",
+          "url": "https://#{ENV.fetch('ROOT_DOMAIN')}",
+          "logo": {
+            "@type": "ImageObject",
+            "url": view_context.image_url('amp-logo.png'),
+            "height": "174",
+            "width": "60"
+          }
+        },
+        "mainEntityOfPage": {
+          "@type": "WebPage",
+          "@id": url_for(format: :html, only_path: false),
+        },
+        "image": view_context.image_url('article-splash.jpg'), # default image
+      }.merge(@coin_article.get_schema)
+    )
   end
 
   private

@@ -1,6 +1,4 @@
 module ApplicationHelper
-  MAX_ACCEPTABLE_REPLICATION_LAG = 1 # seconds
-
   def is_production?
     ENV["IS_PRODUCTION"] == "true"
   end

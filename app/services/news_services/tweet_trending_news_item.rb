@@ -2,7 +2,6 @@ module NewsServices
   class TweetTrendingNewsItem < Patterns::Service
     include Rails.application.routes.url_helpers
     LOG_PREFIX = '[NewsTweet]'
-    MAX_ACCEPTABLE_REPLICATION_LAG = ::ApplicationHelper::MAX_ACCEPTABLE_REPLICATION_LAG
 
     # Test run will not send to Twitter or save to database, but will still notify on slack
     def initialize(min_tweet_interval: 4.hours, max_tweets_per_day: 4, min_score_required: 10, leading_text: "", max_coin_tag_count: 3, test_run: false, store_test_run: false)
@@ -83,31 +82,27 @@ module NewsServices
     # - Less than max # of tweets in a 24 hour window
     # - More than min time interval since last tweet
     def can_tweet?
-      distribute_reads(max_lag: MAX_ACCEPTABLE_REPLICATION_LAG, lag_failover: true) do
-        recent_tweets = NewsTweet.where("updated_at >= now() - interval '1 day'").order("updated_at DESC")
+      recent_tweets = NewsTweet.where("updated_at >= now() - interval '1 day'").order("updated_at DESC")
 
-        # shortcut checking if no recent tweets
-        if recent_tweets.empty?
-          return true
-        end
+      # shortcut checking if no recent tweets
+      if recent_tweets.empty?
+        return true
+      end
 
-        if recent_tweets.length >= @max_tweets_per_day
-          return false
-        end
+      if recent_tweets.length >= @max_tweets_per_day
+        return false
+      end
 
-        if recent_tweets.first.updated_at >= DateTime.now() - @min_tweet_interval
-          return false
-        end
+      if recent_tweets.first.updated_at >= DateTime.now() - @min_tweet_interval
+        return false
       end
 
       true
     end
 
     def fetch_trendingest_news_item
-      distribute_reads(max_lag: MAX_ACCEPTABLE_REPLICATION_LAG, lag_failover: true) do
-        @news_votes = NewsVotesTrending.order_by_score.joins(:news_item).first
-        @news_item = @news_votes.news_item if @news_votes.present?
-      end
+      @news_votes = NewsVotesTrending.order_by_score.joins(:news_item).first
+      @news_item = @news_votes.news_item if @news_votes.present?
     end
 
     def store_news_item_tweet(response_hash)

@@ -10,30 +10,24 @@ class Api::CoinsController < ApiController
     @limit = params[:per]&.to_i || DEFAULT_PAGE_LIMIT
     @limit = MAX_PAGE_LIMIT if @limit > MAX_PAGE_LIMIT
 
-    distribute_reads(max_lag: MAX_ACCEPTABLE_REPLICATION_LAG, lag_failover: true) do
-      @coins = Coin.listed.legit.page(@current_page).per(@limit).order(:ranking)
-      respond_success coins_serializer(@coins)
-    end
+    @coins = Coin.listed.legit.page(@current_page).per(@limit).order(:ranking)
+    respond_success coins_serializer(@coins)
   end
 
   def show
-    distribute_reads(max_lag: MAX_ACCEPTABLE_REPLICATION_LAG, lag_failover: true) do
-      coin = Coin.find(params[:id])
-      if coin.present?
-        coin.current_user = current_user
-        respond_success show_serializer(coin)
-      else
-        respond_error "Could not find coin."
-      end
+    coin = Coin.find(params[:id])
+    if coin.present?
+      coin.current_user = current_user
+      respond_success show_serializer(coin)
+    else
+      respond_error "Could not find coin."
     end
   end
 
   def search
-    distribute_reads(max_lag: MAX_ACCEPTABLE_REPLICATION_LAG, lag_failover: true) do
-      query = params[:q] || {}
-      @coins = Coin.ransack(query).result(distinct: true).limit(params[:limit] || 10).order(:ranking)
-      respond_success search_serializer(@coins)
-    end
+    query = params[:q] || {}
+    @coins = Coin.ransack(query).result(distinct: true).limit(params[:limit] || 10).order(:ranking)
+    respond_success search_serializer(@coins)
   end
 
   def prices
@@ -55,46 +49,42 @@ class Api::CoinsController < ApiController
   end
 
   def search_by_params
-    distribute_reads(max_lag: MAX_ACCEPTABLE_REPLICATION_LAG, lag_failover: true) do
-      coins = []
-      tokens_only = params[:tokensOnly].present? && params[:tokensOnly].downcase == 'true'
+    coins = []
+    tokens_only = params[:tokensOnly].present? && params[:tokensOnly].downcase == 'true'
 
-      if params[:coinSlugs].present?
-        coins = Coin.where(slug: params[:coinSlugs])
-        coins.erc20_tokens if tokens_only
-      elsif params[:name].present?
-        token_query = '(coins.blockchain_tech ~* \'(\b(ETH|ETHER|ER[A-Z]?\d*|EIP\d*)\b)|(ETHEREUM)\'
-          OR coins.token_type ~* \'(\b(ETH|ETHER|ER[A-Z]?\d*|EIP\d*)\b)|(ETHEREUM)\'
-          OR coins.eth_address IS NOT NULL) AND '
-        coins = Coin.find_by_sql(["
-          SELECT *, CASE
-              WHEN UPPER(symbol) = UPPER(:name) THEN 1
-              WHEN UPPER(name) = UPPER(:name) THEN 1
-              ELSE 3
-            END as match
-            FROM coins
-            WHERE
-              #{token_query if tokens_only}
-              (UPPER(symbol) LIKE UPPER(:name_prefix)
-              OR UPPER(name) LIKE UPPER(:name_prefix))
-            ORDER BY match ASC, ranking ASC
-            LIMIT 10",
-          { name: params[:name], name_prefix: "#{params[:name]}%" }
-        ])
-      end
-      respond_success search_serializer(coins)
+    if params[:coinSlugs].present?
+      coins = Coin.where(slug: params[:coinSlugs])
+      coins.erc20_tokens if tokens_only
+    elsif params[:name].present?
+      token_query = '(coins.blockchain_tech ~* \'(\b(ETH|ETHER|ER[A-Z]?\d*|EIP\d*)\b)|(ETHEREUM)\'
+        OR coins.token_type ~* \'(\b(ETH|ETHER|ER[A-Z]?\d*|EIP\d*)\b)|(ETHEREUM)\'
+        OR coins.eth_address IS NOT NULL) AND '
+      coins = Coin.find_by_sql(["
+        SELECT *, CASE
+            WHEN UPPER(symbol) = UPPER(:name) THEN 1
+            WHEN UPPER(name) = UPPER(:name) THEN 1
+            ELSE 3
+          END as match
+          FROM coins
+          WHERE
+            #{token_query if tokens_only}
+            (UPPER(symbol) LIKE UPPER(:name_prefix)
+            OR UPPER(name) LIKE UPPER(:name_prefix))
+          ORDER BY match ASC, ranking ASC
+          LIMIT 10",
+        { name: params[:name], name_prefix: "#{params[:name]}%" }
+      ])
     end
+    respond_success search_serializer(coins)
   end
 
   def by_slug
-    distribute_reads(max_lag: MAX_ACCEPTABLE_REPLICATION_LAG, lag_failover: true) do
-      coin = Coin.find_by(slug: params[:slug])
-      if coin.present?
-        coin.current_user = current_user
-        respond_success show_serializer(coin)
-      else
-        respond_error "Could not find coin."
-      end
+    coin = Coin.find_by(slug: params[:slug])
+    if coin.present?
+      coin.current_user = current_user
+      respond_success show_serializer(coin)
+    else
+      respond_error "Could not find coin."
     end
   end
 
