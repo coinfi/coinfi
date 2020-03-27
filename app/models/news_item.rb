@@ -8,9 +8,11 @@ class NewsItem < ApplicationRecord
   has_many :news_coin_mentions, class_name: 'NewsCoinMention'
   has_many :machine_tagged_news_coin_mentions, -> { NewsCoinMention.machine_tagged }, class_name: 'NewsCoinMention'
   has_many :human_tagged_news_coin_mentions, -> { NewsCoinMention.human_tagged }, class_name: 'NewsCoinMention'
+  has_many :default_tagged_news_coin_mentions, -> { NewsCoinMention.default_tagged }, class_name: 'NewsCoinMention'
   has_many :coins, through: :news_coin_mentions
   has_many :machine_tagged_coins, through: :machine_tagged_news_coin_mentions, source: :coin
   has_many :human_tagged_coins, through: :human_tagged_news_coin_mentions, source: :coin
+  has_many :default_tagged_coins, through: :default_tagged_news_coin_mentions, source: :coin
   has_one :news_votes_trending, foreign_key: :id
 
   scope :general, -> { where(feed_source: FeedSource.general) }
@@ -53,25 +55,12 @@ class NewsItem < ApplicationRecord
       .order_by_published(:asc)
   end
 
-  def tag_scoped_coins
-    case ENV.fetch('NEWS_COIN_MENTION_TAG_SCOPE')
-    when 'human'
-      self.human_tagged_coins
-    when 'machine'
-      self.machine_tagged_coins
-    when 'combo'
-      self.human_tagged_coins.or(self.machine_tagged_coins).distinct()
-    else
-      raise "Invalid NEWS_COIN_MENTION_TAG_SCOPE environment variable"
-    end
-  end
-
   def tag_scoped_coin_link_data
-    tag_scoped_coins.map { |coin| coin.as_json(only: [:symbol, :slug, :id] ) }
+    default_tagged_coins.map { |coin| coin.as_json(only: [:symbol, :slug, :id] ) }
   end
 
   def tag_scoped_coin_symbols
-    tag_scoped_coins.pluck(:symbol).join(', ')
+    default_tagged_coins.pluck(:symbol).join(', ')
   end
 
   def coin_symbols

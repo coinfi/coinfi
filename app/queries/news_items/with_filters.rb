@@ -13,7 +13,7 @@ module NewsItems
       result = relation
 
       # Apply FeedSources filter
-      if feed_sources.present?
+      if not feed_sources.nil?
         result = result.where(feed_source: feed_sources)
       else
         # Based on app/javascript/App/bundles/NewsfeedPage/utils.ts
@@ -21,7 +21,7 @@ module NewsItems
         # then we disable Reddit and Twitter
         # TODO: Reconcile split back/front-end logic
         top_coin_slugs = Coin.top(5).pluck(:slug)
-        has_all_top_coins = if coins.present?
+        has_all_top_coins = unless coins.nil?
           (coins.length <= top_coin_slugs.length) &&
           coins.all? do |coin|
             top_coin_slugs.any? { |top_slug| top_slug == coin.slug }
@@ -37,7 +37,7 @@ module NewsItems
       news_coin_mentions = NewsCoinMention.default_tagged
 
       # Apply Coins filter
-      if coins.present?
+      if !coins.nil?
         result = result
           .joins(:news_coin_mentions)
           .where("news_coin_mentions.id IN (?)", news_coin_mentions.where(coin: coins).select(:id))
@@ -55,7 +55,7 @@ module NewsItems
       end
 
       # Apply NewsCategories filter
-      if news_categories.present?
+      unless news_categories.nil?
         result = result
           .joins(:news_item_categorizations)
           .where(news_item_categorizations: {
@@ -69,6 +69,8 @@ module NewsItems
 
       if published_since.present?
         result = result.where('news_items.feed_item_published_at > ?', published_since.to_datetime)
+      else
+        result = result.where("news_items.feed_item_published_at > current_timestamp - interval '1 year'")
       end
 
       if published_until.present?
