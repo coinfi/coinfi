@@ -35,21 +35,19 @@ class NewsController < ApplicationController
 
   def show
     @force_drawer = params[:force_drawer].present?
-    distribute_reads(max_lag: MAX_ACCEPTABLE_REPLICATION_LAG, lag_failover: true) do
-      news_item = NewsItem.published.find(params[:id])
-      @news_item_data = serialize_news_items(news_item)
+    news_item = NewsItem.published.find(params[:id])
+    @news_item_data = serialize_news_items(news_item)
 
-      set_meta_tags(
-        title: "CoinFi News - #{news_item.title}",
-        canonical: news_item.url,
-        twitter: {
-          card: "summary",
-          site: "@coin_fi",
-          title: news_item.title,
-          description: news_item.summary,
-        }
-      )
-    end
+    set_meta_tags(
+      title: "CoinFi News - #{news_item.title}",
+      canonical: news_item.url,
+      twitter: {
+        card: "summary",
+        site: "@coin_fi",
+        title: news_item.title,
+        description: news_item.summary,
+      }
+    )
   end
 
   protected

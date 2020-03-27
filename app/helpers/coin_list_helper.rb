@@ -3,10 +3,8 @@ module CoinListHelper
 
   def toplist_coins(force_cache_refresh: false)
     serialized_coins = Rails.cache.fetch("coins/toplist", expires_in: 1.hour, force: force_cache_refresh) do
-      distribute_reads(max_lag: ApplicationController::MAX_ACCEPTABLE_REPLICATION_LAG, lag_failover: true) do
-        coins = Coin.order(:ranking).limit(TOP_LIST_LIMIT)
-        coinlist_serializer(coins)
-      end
+      coins = Coin.order(:ranking).limit(TOP_LIST_LIMIT)
+      coinlist_serializer(coins)
     end
     serialized_coins
   end
@@ -20,10 +18,8 @@ module CoinListHelper
       return []
     end
 
-    distribute_reads(max_lag: ApplicationController::MAX_ACCEPTABLE_REPLICATION_LAG, lag_failover: true) do
-      coins = current_user.watchlist.coins.order(:ranking)
-      coinlist_serializer(coins)
-    end
+    coins = current_user.watchlist.coins.order(:ranking)
+    coinlist_serializer(coins)
   end
 
   def coinlist_serializer(coins)

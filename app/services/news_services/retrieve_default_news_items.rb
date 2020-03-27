@@ -5,14 +5,12 @@ module NewsServices
     end
 
     def call
-      distribute_reads(max_lag: ::ApplicationHelper::MAX_ACCEPTABLE_REPLICATION_LAG, lag_failover: true) do
-        @news_items = default_news_query.to_a
-        if @news_items.empty? || @news_items.length < @limit
-          @news_items = backup_default_news_query.to_a
-        end
-
-        @news_items
+      @news_items = default_news_query.to_a
+      if @news_items.empty? || @news_items.length < @limit
+        @news_items = backup_default_news_query.to_a
       end
+
+      @news_items
     end
 
     private

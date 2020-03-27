@@ -1,14 +1,12 @@
 class Api::NewsVoteController < ApiController
   def index
-    distribute_reads(max_lag: MAX_ACCEPTABLE_REPLICATION_LAG, lag_failover: true) do
-      news_item = NewsItem.find_by_id(params[:news_id])
+    news_item = NewsItem.find_by_id(params[:news_id])
 
-      if not news_item
-        return respond_error 'Could not find news item.'
-      end
-
-      respond_success serialize_votes(news_item)
+    if not news_item
+      return respond_error 'Could not find news item.'
     end
+
+    respond_success serialize_votes(news_item)
   end
 
   def create
@@ -20,20 +18,18 @@ class Api::NewsVoteController < ApiController
       return respond_error 'No vote submitted.'
     end
 
-    distribute_reads(max_lag: MAX_ACCEPTABLE_REPLICATION_LAG, lag_failover: true) do
-      @news_item = NewsItem.find_by_id(params[:news_id])
-      if @news_item.blank?
-        return respond_error 'Could not save vote.'
-      end
-
-      if current_user.admin?
-        weighted_vote_on_news_item(!!params[:direction])
-      else
-        vote_on_news_item(!!params[:direction])
-      end
-
-      respond_success serialize_votes(@news_item)
+    @news_item = NewsItem.find_by_id(params[:news_id])
+    if @news_item.blank?
+      return respond_error 'Could not save vote.'
     end
+
+    if current_user.admin?
+      weighted_vote_on_news_item(!!params[:direction])
+    else
+      vote_on_news_item(!!params[:direction])
+    end
+
+    respond_success serialize_votes(@news_item)
   end
 
   private
