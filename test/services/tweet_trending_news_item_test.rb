@@ -13,12 +13,10 @@ class TweetTrendingNewsItemTest < ActiveSupport::TestCase
     def @slack_mock.chat_postMessage(hash); {}; end
 
     Rails.cache.clear("default_news_item_ids")
-    initialize_views
   end
 
   teardown do
     Rails.cache.clear("default_news_item_ids")
-    teardown_views
   end
 
   test 'tweets trending news item' do
@@ -151,31 +149,4 @@ class TweetTrendingNewsItemTest < ActiveSupport::TestCase
   end
 
   protected
-
-  def initialize_views
-    @connection ||= ActiveRecord::Base.connection
-    @connection.execute <<-SQL
-      CREATE MATERIALIZED VIEW news_votes_trending_view AS SELECT
-        COUNT(*) AS total,
-        SUM(CASE WHEN vote_flag THEN vote_weight ELSE vote_weight * -1 END) AS score,
-        votable_id AS id
-      FROM votes
-      WHERE votable_type = 'NewsItem'
-      AND updated_at >= now() - interval '1 day'
-      GROUP BY votable_id
-      WITH DATA;
-    SQL
-
-    @connection.execute <<-SQL
-    CREATE UNIQUE INDEX index_news_votes_trending_view ON news_votes_trending_view(id);
-    SQL
-  end
-
-  def teardown_views
-    @connection ||= ActiveRecord::Base.connection
-    @connection.execute <<-SQL
-    DROP MATERIALIZED VIEW news_votes_trending_view;
-    SQL
-  end
-
 end

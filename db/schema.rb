@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20200218141802) do
+ActiveRecord::Schema.define(version: 20200327160206) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -714,4 +714,215 @@ ActiveRecord::Schema.define(version: 20200218141802) do
   add_foreign_key "watchlist_items", "coins"
   add_foreign_key "watchlist_items", "watchlists"
   add_foreign_key "watchlists", "users"
+
+  create_view "daily_ohcl_prices_view", sql_definition: <<-SQL
+      SELECT t1.coin_key,
+      t1.to_currency,
+      t1."time",
+      t1.volume_from,
+      t1.volume_to
+     FROM dblink('
+          dbname=etl_production
+          port=5432
+          host=etl.cpigdmj1vpw4.eu-west-1.rds.amazonaws.com
+          user=etl_readonly
+          password=yaRC6oU5kF7BcQ'::text, 'SELECT coin_key, to_currency, time, volume_from, volume_to FROM staging.daily_ohcl_prices WHERE time >= NOW() - ''3 days''::INTERVAL'::text) t1(coin_key character varying, to_currency character varying, "time" timestamp without time zone, volume_from numeric, volume_to numeric);
+  SQL
+  create_view "hourly_ohcl_prices_view", sql_definition: <<-SQL
+      SELECT t1.coin_key,
+      t1.to_currency,
+      t1."time",
+      t1.volume_from,
+      t1.volume_to
+     FROM dblink('
+          dbname=etl_production
+          port=5432
+          host=etl.cpigdmj1vpw4.eu-west-1.rds.amazonaws.com
+          user=etl_readonly
+          password=yaRC6oU5kF7BcQ'::text, 'SELECT coin_key, to_currency, time, volume_from, volume_to FROM staging.hourly_ohcl_prices WHERE time >= NOW() - ''2 days''::INTERVAL'::text) t1(coin_key character varying, to_currency character varying, "time" timestamp without time zone, volume_from numeric, volume_to numeric);
+  SQL
+  create_view "news_votes_trendings", materialized: true, sql_definition: <<-SQL
+      SELECT count(*) AS total,
+      sum(
+          CASE
+              WHEN votes.vote_flag THEN votes.vote_weight
+              ELSE (votes.vote_weight * '-1'::integer)
+          END) AS score,
+      votes.votable_id AS id
+     FROM votes
+    WHERE (((votes.votable_type)::text = 'NewsItem'::text) AND (votes.updated_at >= (now() - '1 day'::interval)))
+    GROUP BY votes.votable_id;
+  SQL
+  add_index "news_votes_trendings", ["id"], name: "index_news_votes_trendings_on_id", unique: true
+
+  create_view "token_supplies", materialized: true, sql_definition: <<-SQL
+      SELECT rank() OVER (ORDER BY metrics.metric_value DESC) AS rank,
+      sum(1) OVER () AS num_coins,
+      (metrics.metric_value * (100.0)::double precision) AS metric_value,
+      COALESCE(((100.0)::double precision * ((metrics.metric_value / (NULLIF(metrics.metrics_1d_before, 0))::double precision) - (1)::double precision)), (0.0)::double precision) AS change_1d,
+      COALESCE(((100.0)::double precision * ((metrics.metric_value / (NULLIF(metrics.metrics_7d_before, 0))::double precision) - (1)::double precision)), (0.0)::double precision) AS change_7d,
+      COALESCE(((100.0)::double precision * ((metrics.metric_value / (NULLIF(metrics.metrics_30d_before, 0))::double precision) - (1)::double precision)), (0.0)::double precision) AS change_30d,
+      coins.coin_key
+     FROM (( SELECT metrics_1.token_address,
+              metrics_1.metric_value,
+              lead(1) OVER w AS metrics_1d_before,
+              lead(7) OVER w AS metrics_7d_before,
+              lead(30) OVER w AS metrics_30d_before
+             FROM metrics metrics_1
+            WHERE (((metrics_1.metric_type)::text = 'exchange_supply'::text) AND (metrics_1.date = ( SELECT max(metrics_2.date) AS max
+                     FROM metrics metrics_2
+                    WHERE ((metrics_2.metric_type)::text = 'exchange_supply'::text))))
+            WINDOW w AS (ORDER BY metrics_1.date DESC)) metrics
+       JOIN coins ON (((metrics.token_address)::text = (coins.eth_address)::text)));
+  SQL
+  add_index "token_supplies", ["coin_key"], name: "index_token_supplies_on_coin_key", unique: true
+
+  create_view "token_retentions", materialized: true, sql_definition: <<-SQL
+      SELECT rank() OVER (ORDER BY metrics.metric_value DESC) AS rank,
+      sum(1) OVER () AS num_coins,
+      (metrics.metric_value * (100.0)::double precision) AS metric_value,
+      COALESCE(((100.0)::double precision * ((metrics.metric_value / (NULLIF(metrics.metrics_1d_before, 0))::double precision) - (1)::double precision)), (0.0)::double precision) AS change_1d,
+      COALESCE(((100.0)::double precision * ((metrics.metric_value / (NULLIF(metrics.metrics_7d_before, 0))::double precision) - (1)::double precision)), (0.0)::double precision) AS change_7d,
+      COALESCE(((100.0)::double precision * ((metrics.metric_value / (NULLIF(metrics.metrics_30d_before, 0))::double precision) - (1)::double precision)), (0.0)::double precision) AS change_30d,
+      coins.coin_key
+     FROM (( SELECT metrics_1.token_address,
+              metrics_1.metric_value,
+              lead(1) OVER w AS metrics_1d_before,
+              lead(7) OVER w AS metrics_7d_before,
+              lead(30) OVER w AS metrics_30d_before
+             FROM metrics metrics_1
+            WHERE (((metrics_1.metric_type)::text = 'token_retention_rate'::text) AND (metrics_1.date = ( SELECT max(metrics_2.date) AS max
+                     FROM metrics metrics_2
+                    WHERE ((metrics_2.metric_type)::text = 'token_retention_rate'::text))))
+            WINDOW w AS (ORDER BY metrics_1.date DESC)) metrics
+       JOIN coins ON (((metrics.token_address)::text = (coins.eth_address)::text)));
+  SQL
+  add_index "token_retentions", ["coin_key"], name: "index_token_retentions_on_coin_key", unique: true
+
+  create_view "token_adoptions", materialized: true, sql_definition: <<-SQL
+      SELECT rank() OVER (ORDER BY metrics.metric_value DESC) AS rank,
+      sum(1) OVER () AS num_coins,
+      metrics.metric_value,
+      COALESCE(((100.0)::double precision * ((metrics.metric_value / (NULLIF(metrics.metrics_1d_before, 0))::double precision) - (1)::double precision)), (0.0)::double precision) AS change_1d,
+      COALESCE(((100.0)::double precision * ((metrics.metric_value / (NULLIF(metrics.metrics_7d_before, 0))::double precision) - (1)::double precision)), (0.0)::double precision) AS change_7d,
+      COALESCE(((100.0)::double precision * ((metrics.metric_value / (NULLIF(metrics.metrics_30d_before, 0))::double precision) - (1)::double precision)), (0.0)::double precision) AS change_30d,
+      coins.coin_key
+     FROM (( SELECT metrics_1.token_address,
+              metrics_1.metric_value,
+              lead(1) OVER w AS metrics_1d_before,
+              lead(7) OVER w AS metrics_7d_before,
+              lead(30) OVER w AS metrics_30d_before
+             FROM metrics metrics_1
+            WHERE (((metrics_1.metric_type)::text = 'unique_wallet_count'::text) AND (metrics_1.date = ( SELECT max(metrics_2.date) AS max
+                     FROM metrics metrics_2
+                    WHERE ((metrics_2.metric_type)::text = 'unique_wallet_count'::text))))
+            WINDOW w AS (ORDER BY metrics_1.date DESC)) metrics
+       JOIN coins ON (((metrics.token_address)::text = (coins.eth_address)::text)));
+  SQL
+  add_index "token_adoptions", ["coin_key"], name: "index_token_adoptions_on_coin_key", unique: true
+
+  create_view "token_decentralizations", materialized: true, sql_definition: <<-SQL
+      SELECT rank() OVER (ORDER BY metrics.metric_value DESC) AS rank,
+      sum(1) OVER () AS num_coins,
+      (metrics.metric_value * (100.0)::double precision) AS metric_value,
+      COALESCE(((100.0)::double precision * ((metrics.metric_value / (NULLIF(metrics.metrics_1d_before, 0))::double precision) - (1)::double precision)), (0.0)::double precision) AS change_1d,
+      COALESCE(((100.0)::double precision * ((metrics.metric_value / (NULLIF(metrics.metrics_7d_before, 0))::double precision) - (1)::double precision)), (0.0)::double precision) AS change_7d,
+      COALESCE(((100.0)::double precision * ((metrics.metric_value / (NULLIF(metrics.metrics_30d_before, 0))::double precision) - (1)::double precision)), (0.0)::double precision) AS change_30d,
+      coins.coin_key
+     FROM (( SELECT metrics_1.token_address,
+              metrics_1.metric_value,
+              lead(1) OVER w AS metrics_1d_before,
+              lead(7) OVER w AS metrics_7d_before,
+              lead(30) OVER w AS metrics_30d_before
+             FROM metrics metrics_1
+            WHERE (((metrics_1.metric_type)::text = 'token_distribution_100'::text) AND (metrics_1.date = ( SELECT max(metrics_2.date) AS max
+                     FROM metrics metrics_2
+                    WHERE ((metrics_2.metric_type)::text = 'token_distribution_100'::text))))
+            WINDOW w AS (ORDER BY metrics_1.date DESC)) metrics
+       JOIN coins ON (((metrics.token_address)::text = (coins.eth_address)::text)));
+  SQL
+  add_index "token_decentralizations", ["coin_key"], name: "index_token_decentralizations_on_coin_key", unique: true
+
+  create_view "token_velocities", materialized: true, sql_definition: <<-SQL
+      SELECT rank() OVER (ORDER BY metrics.metric_value DESC) AS rank,
+      sum(1) OVER () AS num_coins,
+      (metrics.metric_value * (100.0)::double precision) AS metric_value,
+      COALESCE(((100.0)::double precision * ((metrics.metric_value / (NULLIF(metrics.metrics_1d_before, 0))::double precision) - (1)::double precision)), (0.0)::double precision) AS change_1d,
+      COALESCE(((100.0)::double precision * ((metrics.metric_value / (NULLIF(metrics.metrics_7d_before, 0))::double precision) - (1)::double precision)), (0.0)::double precision) AS change_7d,
+      COALESCE(((100.0)::double precision * ((metrics.metric_value / (NULLIF(metrics.metrics_30d_before, 0))::double precision) - (1)::double precision)), (0.0)::double precision) AS change_30d,
+      coins.coin_key
+     FROM (( SELECT metrics_1.token_address,
+              metrics_1.metric_value,
+              lead(1) OVER w AS metrics_1d_before,
+              lead(7) OVER w AS metrics_7d_before,
+              lead(30) OVER w AS metrics_30d_before
+             FROM metrics metrics_1
+            WHERE (((metrics_1.metric_type)::text = 'token_velocity'::text) AND (metrics_1.date = ( SELECT max(metrics_2.date) AS max
+                     FROM metrics metrics_2
+                    WHERE ((metrics_2.metric_type)::text = 'token_velocity'::text))))
+            WINDOW w AS (ORDER BY metrics_1.date DESC)) metrics
+       JOIN coins ON (((metrics.token_address)::text = (coins.eth_address)::text)));
+  SQL
+  add_index "token_velocities", ["coin_key"], name: "index_token_velocities_on_coin_key", unique: true
+
+  create_view "daily_token_supplies", materialized: true, sql_definition: <<-SQL
+      SELECT coins.coin_key,
+      metrics.date,
+      (avg(metrics.metric_value) * (100.0)::double precision) AS percentage
+     FROM (metrics
+       JOIN coins ON (((metrics.token_address)::text = (coins.eth_address)::text)))
+    WHERE ((metrics.metric_type)::text = 'exchange_supply'::text)
+    GROUP BY metrics.date, coins.coin_key
+    ORDER BY metrics.date;
+  SQL
+  add_index "daily_token_supplies", ["coin_key", "date"], name: "index_daily_token_supplies", unique: true
+
+  create_view "daily_token_retentions", materialized: true, sql_definition: <<-SQL
+      SELECT coins.coin_key,
+      metrics.date,
+      (avg(metrics.metric_value) * (100.0)::double precision) AS percentage
+     FROM (metrics
+       JOIN coins ON (((metrics.token_address)::text = (coins.eth_address)::text)))
+    WHERE ((metrics.metric_type)::text = 'token_distribution_100'::text)
+    GROUP BY metrics.date, coins.coin_key
+    ORDER BY metrics.date;
+  SQL
+  add_index "daily_token_retentions", ["coin_key", "date"], name: "index_daily_token_retentions", unique: true
+
+  create_view "daily_token_adoptions", materialized: true, sql_definition: <<-SQL
+      SELECT coins.coin_key,
+      metrics.date,
+      avg(metrics.metric_value) AS number
+     FROM (metrics
+       JOIN coins ON (((metrics.token_address)::text = (coins.eth_address)::text)))
+    WHERE ((metrics.metric_type)::text = 'unique_wallet_count'::text)
+    GROUP BY metrics.date, coins.coin_key
+    ORDER BY metrics.date;
+  SQL
+  add_index "daily_token_adoptions", ["coin_key", "date"], name: "index_daily_token_adoptions", unique: true
+
+  create_view "daily_token_decentralizations", materialized: true, sql_definition: <<-SQL
+      SELECT coins.coin_key,
+      metrics.date,
+      (avg(metrics.metric_value) * (100.0)::double precision) AS percentage
+     FROM (metrics
+       JOIN coins ON (((metrics.token_address)::text = (coins.eth_address)::text)))
+    WHERE ((metrics.metric_type)::text = 'token_distribution_100'::text)
+    GROUP BY metrics.date, coins.coin_key
+    ORDER BY metrics.date;
+  SQL
+  add_index "daily_token_decentralizations", ["coin_key", "date"], name: "index_daily_token_decentralizations", unique: true
+
+  create_view "daily_token_velocities", materialized: true, sql_definition: <<-SQL
+      SELECT coins.coin_key,
+      metrics.date,
+      (avg(metrics.metric_value) * (100.0)::double precision) AS percentage
+     FROM (metrics
+       JOIN coins ON (((metrics.token_address)::text = (coins.eth_address)::text)))
+    WHERE ((metrics.metric_type)::text = 'token_velocity'::text)
+    GROUP BY metrics.date, coins.coin_key
+    ORDER BY metrics.date;
+  SQL
+  add_index "daily_token_velocities", ["coin_key", "date"], name: "index_daily_token_velocities", unique: true
+
 end

@@ -65,6 +65,7 @@ gem 'omniauth'
 gem 'omniauth-facebook'
 gem 'omniauth-google-oauth2'
 gem "omniauth-rails_csrf_protection"
+gem 'scenic'
 gem 'scout_apm'
 gem 'slack-ruby-client'
 gem 'rack-affiliates'
