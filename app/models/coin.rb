@@ -329,11 +329,11 @@ class Coin < ApplicationRecord
     has_git_repo? && git_repo_type == "github"
   end
 
-  def token_metrics_data(metric_type, metric_value = 'percentage')
+  def token_metrics_data(metric_model, metric_value = 'percentage')
     return unless has_token_metrics?
 
     @token_metrics_data ||= {}
-    @token_metrics_data[metric_type] ||= TokenDailyMetric.where(coin_key: coin_key, metric_type: metric_type).order(:date).select(:date, metric_value)
+    @token_metrics_data[metric_model.name] ||= metric_model.where(coin_key: coin_key).order(:date).select(:date, metric_value)
   end
 
   def token_metrics_metadata(metric_type)
@@ -344,7 +344,7 @@ class Coin < ApplicationRecord
   end
 
   def exchange_supply_data
-    token_metrics_data('exchange_supply')
+    token_metrics_data(DailyTokenSupply)
   end
 
   def exchange_supply_metadata
@@ -352,7 +352,7 @@ class Coin < ApplicationRecord
   end
 
   def token_retention_rate_data
-    token_metrics_data('token_retention_rate')
+    token_metrics_data(DailyTokenRetention)
   end
 
   def token_retention_rate_metadata
@@ -360,7 +360,7 @@ class Coin < ApplicationRecord
   end
 
   def unique_wallet_count_data
-    token_metrics_data('unique_wallet_count', 'number')
+    token_metrics_data(DailyTokenAdoption, 'number')
   end
 
   def unique_wallet_count_metadata
@@ -368,7 +368,7 @@ class Coin < ApplicationRecord
   end
 
   def token_distribution_100_data
-    token_metrics_data('token_distribution_100')
+    token_metrics_data(DailyTokenDecentralization)
   end
 
   def token_distribution_100_metadata
@@ -376,7 +376,7 @@ class Coin < ApplicationRecord
   end
 
   def token_velocity_data
-    token_metrics_data('token_velocity')
+    token_metrics_data(DailyTokenVelocity)
   end
 
   def token_velocity_metadata
