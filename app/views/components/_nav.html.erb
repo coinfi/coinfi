@@ -30,10 +30,11 @@
           <div class="nav-menu__dropdown nav-menu-exchanges">
             <div class="nav-menu__dropdown-inner">
               <%= nav_link "Best Cryptocurrency Exchanges", exchange_category_path(slug: 'crypto'), { class: "nav-menu__item" } %>
-              <%= nav_link "Changelly Review", exchange_review_path(slug: 'changelly'), { class: "nav-menu__item nav-menu__sub-item" } %>
-              <%= nav_link "CoinSwitch Review", exchange_review_path(slug: 'coinswitch'), { class: "nav-menu__item nav-menu__sub-item" } %>
-              <%= nav_link "Bybit Review", exchange_review_path(slug: 'bybit'), { class: "nav-menu__item nav-menu__sub-item" } %>
-              <%= nav_link "FTX Review", exchange_review_path(slug: 'ftx'), { class: "nav-menu__item nav-menu__sub-item" } %>
+              <% if @crypto_exchanges.present? %>
+                <% @crypto_exchanges.each do |exchange_review| %>
+                  <%= nav_link "#{exchange_review.cmc_exchange.name} Review", exchange_review_path(slug: exchange_review.slug), { class: "nav-menu__item nav-menu__sub-item" } %>
+                <% end %>
+              <% end %>
             </div>
           </div>
         </div>
