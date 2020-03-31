@@ -21,7 +21,7 @@ section.splash.br2.mt4-m
           .b.mr3 #{index+1}.
           a.flex.justify-center.justify-start-m.items-center href= review.cmc_exchange.www_url rel="nofollow noopener noreferrer"
             - if review.cmc_exchange.logo_url.present?
-              img.mr2 src= review.cmc_exchange.logo_url class="exchange-logo" alt= review.cmc_exchange.name
+              img.w2.mr2.exchange-logo src= review.cmc_exchange.logo_url alt= review.cmc_exchange.name
             b= review.cmc_exchange.name
         .w-100.flex-auto-m.flex.justify-around.items-center.ph3-m.mb3.mb0-m
           a.flex.w-sixth-m.flex-column.justify-center.items-center.tc href= exchange_review_path(slug: review.slug)

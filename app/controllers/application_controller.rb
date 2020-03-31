@@ -3,6 +3,7 @@ class ApplicationController < ActionController::Base
 
   protect_from_forgery with: :exception
   before_action :set_locale
+  before_action :set_nav_exchanges, unless: :indicators_controller?
   before_action :set_no_seo, if: :devise_controller?
   append_before_action :set_amp_rel, if: :has_amp?, unless: :is_amp?
   append_before_action :set_amp_canonical, if: :is_amp?
@@ -26,6 +27,12 @@ private
 
   def set_amp_canonical
     set_meta_tags(canonical: url_for(format: :html, only_path: false))
+  end
+
+  def set_nav_exchanges
+    @crypto_exchanges ||= Rails.cache.fetch("nav_exchanges", expires_in: 24.hours) do
+      ExchangeReview.includes(:exchange_categories, :cmc_exchange).where(exchange_categories: {slug: 'crypto'}).limit(10)
+    end
   end
 
 protected
@@ -116,6 +123,10 @@ protected
     @has_amp && request.format.amp?
   end
   helper_method :is_amp?
+
+  def indicators_controller?
+    controller_name == 'indicators'
+  end
 
   # Helpers to use devise forms anywhere
   # https://github.com/plataformatec/devise/wiki/How-To:-Display-a-custom-sign_in-form-anywhere-in-your-app

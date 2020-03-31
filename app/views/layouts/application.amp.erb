@@ -51,10 +51,11 @@
                   <li class="ampstart-dropdown-item"><%= nav_link "Best Cryptocurrency Exchanges", exchange_category_path(slug: 'crypto') %></li>
                   <li class="ampstart-dropdown-item">
                     <ul class="ampstart-dropdown-items list-reset m0 ml2 p0">
-                      <li class="ampstart-dropdown-item"><%= nav_link "Changelly Review", exchange_review_path(slug: 'changelly') %></li>
-                      <li class="ampstart-dropdown-item"><%= nav_link "CoinSwitch Review", exchange_review_path(slug: 'coinswitch') %></li>
-                      <li class="ampstart-dropdown-item"><%= nav_link "Bybit Review", exchange_review_path(slug: 'bybit') %></li>
-                      <li class="ampstart-dropdown-item"><%= nav_link "FTX Review", exchange_review_path(slug: 'ftx') %></li>
+                    <% if @crypto_exchanges.present? %>
+                      <% @crypto_exchanges.each do |exchange_review| %>
+                        <li class="ampstart-dropdown-item"><%= nav_link "#{exchange_review.cmc_exchange.name} Review", exchange_review_path(slug: exchange_review.slug) %></li>
+                      <% end %>
+                    <% end %>
                     </ul>
                   </li>
                 </ul>
