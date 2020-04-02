@@ -8,7 +8,7 @@ class ExchangeCategoriesController < ApplicationController
 
     breadcrumb @category.name, exchange_category_path(slug: @category.slug)
     set_meta_tags(
-      title: @category.meta_title || @category.h1,
+      title: @category.meta_title.presence || @category.h1,
       description: @category.meta_description
     )
   end
