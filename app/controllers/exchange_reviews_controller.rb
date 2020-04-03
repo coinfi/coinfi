@@ -7,7 +7,7 @@ class ExchangeReviewsController < ApplicationController
 
     breadcrumb "#{@review.cmc_exchange.name} Review", exchange_review_path(slug: @review.slug)
     set_meta_tags(
-      title: @review.meta_title || @review.h1,
+      title: @review.meta_title.presence || @review.h1,
       description: @review.meta_description
     )
   end
