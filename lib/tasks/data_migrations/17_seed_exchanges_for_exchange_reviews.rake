@@ -76,5 +76,17 @@ namespace :data_migrations do
       logo_url: 'https://assets.coinbase.com/assets/favicon-32x32.d4c99c275565ed6e271c914063d2c1bc.png',
       is_active: true
     )
+    paxful = CmcExchange.find_or_create_by(name: 'Paxful') do |exchange|
+      exchange.cmc_id = 'paxful'
+      exchange.slug = 'paxful'
+    end
+    paxful.update(
+      www_url: 'https://www.paxful.com',
+      twitter_url: 'https://twitter.com/paxful',
+      blog_url: 'https://paxful.com/blog',
+      fee_url: 'https://paxful.com/support/en-us/articles/360013609793-Paxful-fees',
+      logo_url: 'https://www.paxful.com/assets/images/favicons/favicon-32x32.png',
+      is_active: true
+    )
   end
 end
