@@ -25,7 +25,23 @@ module ArticlesHelper
     )
     @markdown_toc ||= Redcarpet::Markdown.new(@markdown_toc_renderer)
     sanitized_data = sanitize_html(data)
-    @markdown_toc.render(sanitized_data).html_safe
+    html_data = @markdown_toc.render(sanitized_data)
+
+    fragment = Nokogiri::HTML::DocumentFragment.parse(html_data)
+
+    if fragment.xpath('./li').present? || fragment.xpath('./ul').size > 1 # improper list
+      # an improper list does not have a overall wrapping ul tag
+      # thus we wrap all top-level lists in a list items, then wrap all list items in a list
+      fragment.xpath('./ul').each do |node|
+        node.replace('<li/>').first << node
+      end
+
+      new_parent_fragment = Nokogiri::HTML::DocumentFragment.parse('<ul/>')
+      new_parent_fragment.child << fragment
+      fragment = new_parent_fragment
+    end
+
+    fragment.to_html.html_safe
   end
 
   def amp_markdown(data)
