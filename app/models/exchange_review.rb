@@ -21,19 +21,37 @@ class ExchangeReview < ApplicationRecord
 
   def get_schema
     schema = {
-      "@type": "Article",
+      "@type": "Review",
       "headline": h1,
       "dateCreated": created_at.iso8601,
       "dateModified": updated_at.iso8601,
       "datePublished": created_at.iso8601,
       "author": author.get_schema,
+      "itemReviewed": {
+        "@type": "Product",
+        "name": cmc_exchange.name,
+        "image": cmc_exchange.logo_url,
+      },
+      "reviewRating": {
+        "@type": "Rating",
+        "ratingValue": overall_rating,
+        "bestRating": highest_rating,
+        "worstRating": lowest_rating,
+      },
+      "reviewBody": meta_description,
     }
   end
 
   def overall_rating
-    ratings = [fees_rating, ease_of_use_rating, security_rating, support_rating, selection_rating].compact
+    (all_ratings.sum / all_ratings.size.to_f).round unless all_ratings.empty?
+  end
 
-    (ratings.sum / ratings.size.to_f).round unless ratings.empty?
+  def highest_rating
+    all_ratings.max unless all_ratings.empty?
+  end
+
+  def lowest_rating
+    all_ratings.min unless all_ratings.empty?
   end
 
   def has_quick_facts?
@@ -41,6 +59,10 @@ class ExchangeReview < ApplicationRecord
   end
 
   private
+
+  def all_ratings
+    ratings ||= [fees_rating, ease_of_use_rating, security_rating, support_rating, selection_rating].compact
+  end
 
   def sanitize_html_content
     sanitizer = Rails::Html::SafeListSanitizer.new

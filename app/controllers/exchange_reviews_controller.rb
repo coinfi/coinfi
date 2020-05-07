@@ -10,5 +10,6 @@ class ExchangeReviewsController < ApplicationController
       title: @review.meta_title.presence || @review.h1,
       description: @review.meta_description
     )
+    set_jsonld(@review.get_schema)
   end
 end
