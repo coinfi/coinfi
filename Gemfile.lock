@@ -384,7 +384,7 @@ GEM
     minitest-stub_any_instance (1.0.2)
     momentjs-rails (2.20.1)
       railties (>= 3.1)
-    multi_json (1.12.1)
+    multi_json (1.14.1)
     multi_xml (0.6.0)
     multipart-post (2.0.0)
     naught (1.1.0)
@@ -531,8 +531,7 @@ GEM
       actionpack (>= 5.0)
       railties (>= 5.0)
     rly (0.2.3)
-    rollbar (2.15.0)
-      multi_json
+    rollbar (2.25.0)
     rubocop (0.56.0)
       parallel (~> 1.10)
       parser (>= 2.5)
