@@ -32,6 +32,7 @@ default: &default
         url: <%= ENV.fetch("DATABASE_REPLICA_URL") %>
   <% else %>
   adapter: postgresql
+  statement_limit: 200
   url: <%= ENV["DATABASE_URL"] %>
   <% end %>
   variables:
