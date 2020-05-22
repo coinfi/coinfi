@@ -30,7 +30,7 @@ module NewsItems
 
         # Default feed sources
         if coins.blank? || has_all_top_coins
-          result = result.joins(:feed_source).merge(FeedSource.active.not_reddit.not_twitter)
+          result = result.where(feed_source: FeedSource.active.not_reddit.not_twitter)
         end
       end
 
@@ -38,30 +38,37 @@ module NewsItems
 
       # Apply Coins filter
       if !coins.nil?
-        result = result
-          .joins(:news_coin_mentions)
-          .where("news_coin_mentions.id IN (?)", news_coin_mentions.where(coin: coins).select(:id))
-      elsif feed_sources.nil? && news_categories.nil?
+        result = result.where(
+            id: news_coin_mentions
+                  .select(:news_item_id)
+                  .where("news_coin_mentions.coin_id IN (?)", coins.select(:id))
+                  .group(:news_item_id)
+          )
+      elsif feed_sources.nil? # && news_categories.nil?
         # Only top 20 coins or no coins exist
-        result = result
-          .where(
-            news_coin_mentions.joins(:coin)
-              .where("news_coin_mentions.news_item_id = news_items.id")
-              .merge(
-                Coin.where("coins.ranking < ?", 20)
-                  .or(Coin.where(ranking: nil))
-              ).exists.not
+        result = result.where(
+            # i.e., no coin mentions exist
+            "news_items.id in (
+              select news_items.id
+              from news_items
+              left join news_coin_mentions
+                on news_items.id = news_coin_mentions.news_item_id
+              where news_coin_mentions.id is null
+            )
+            or news_items.id in (?)",
+            news_coin_mentions.select(:news_item_id).where("news_coin_mentions.coin_id IN (?)", Coin.select(:id).where("coins.ranking <= ?", 20))
           )
       end
 
       # Apply NewsCategories filter
-      unless news_categories.nil?
-        result = result
-          .joins(:news_item_categorizations)
-          .where(news_item_categorizations: {
-            news_category_id: news_categories.select(:id)
-          })
-      end
+      # Remove for now since unused. Need to handle grouping of multiple results.
+      # unless news_categories.nil?
+      #   result = result
+      #     .joins(:news_item_categorizations)
+      #     .where(news_item_categorizations: {
+      #       news_category_id: news_categories.select(:id)
+      #     })
+      # end
 
       if keywords.present?
         result = result.where('news_items.title ILIKE ?', "%#{keywords}%")
@@ -78,10 +85,8 @@ module NewsItems
       end
 
       if trending
-        result = result.joins(:news_votes_trending)
+        result = result.joins(:news_votes_trending) # 1-1 join
       end
-
-      result = result.group(:id)
 
       result
     end
