@@ -38,6 +38,9 @@ module NewsItems
 
       # Apply Coins filter
       if !coins.nil?
+        if !coins.is_a?(ActiveRecord::Relation)
+          coins = Coin.where(slug: coins)
+        end
         result = result.where(
             id: news_coin_mentions
                   .select(:news_item_id)
