@@ -2,12 +2,10 @@ module CoinServices
   class RetrieveGithubStats < Patterns::Service
     def initialize(coin: nil)
       @coin = coin
-      @client_login = ENV.fetch('GITHUB_OAUTH_LOGIN')
       @client_token = ENV.fetch('GITHUB_OAUTH_PERSONAL_ACCESS_TOKEN')
 
       @client = Octokit::Client.new(
-        login: @client_login,
-        password: @client_token,
+        access_token: @client_token,
         per_page: 100,
       )
       @client.auto_paginate = true
