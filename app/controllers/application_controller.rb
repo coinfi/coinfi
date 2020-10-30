@@ -62,7 +62,7 @@ protected
 
   def set_no_seo
     set_meta_tags(
-      robots: 'noindex,follow'
+      robots: 'noindex, nofollow'
     )
   end
 

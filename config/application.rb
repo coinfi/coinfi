@@ -35,7 +35,7 @@ module CoinfiRails
     config.middleware.use Rack::Affiliates
     config.middleware.insert_before 0, Rack::Cors do
       allow do
-        origins 'https://blog.coinfi.com', 'https://landing.coinfi.com'
+        origins 'https://landing.coinfi.com'
       end
 
       allow do
