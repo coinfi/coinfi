@@ -1,6 +1,7 @@
 Rails.application.configure do
   # Verifies that versions and hashed value of the package contents in the project's package.json
   config.webpacker.check_yarn_integrity = true
+  config.web_console.whitelisted_ips = '192.168.56.1'
 
   # Settings specified here will take precedence over those in config/application.rb.
 
@@ -59,6 +60,16 @@ Rails.application.configure do
   # Suppress logger output for asset requests.
   config.assets.quiet = true
 
+  ### SIMULATE PRODUCTION ENV FOR ASSETS
+
+  # config.public_file_server.enabled = true
+  # config.assets.debug = false
+  # config.assets.compile = false
+  # config.assets.quiet = false
+  # config.serve_static_assets = true
+
+  ### END SIMULATE
+
   # Do not write to log/development.log file.
   config.logger = ActiveSupport::Logger.new(nil)
 
@@ -67,7 +78,8 @@ Rails.application.configure do
 
   # Use an evented file watcher to asynchronously detect changes in source code,
   # routes, locales, etc. This feature depends on the listen gem.
-  config.file_watcher = ActiveSupport::EventedFileUpdateChecker
+  # config.file_watcher = ActiveSupport::EventedFileUpdateChecker
+  config.file_watcher = ActiveSupport::FileUpdateChecker
 
   config.after_initialize do
     Bullet.enable = true

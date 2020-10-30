@@ -32,7 +32,7 @@ module Renderers
       host = uri.host
       host = "#{host}:#{uri.port}" if host.present? && uri.port.present? && uri.port != uri.default_port
 
-      host.strip
+      host.respond_to?(:strip) ? host.strip : host
     end
 
     def is_whitelisted_host?(host)
