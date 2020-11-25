@@ -27,9 +27,11 @@ default: &default
     connections:
       - role: master
         name: primary
-        url: <%= ENV.fetch("DATABASE_MASTER_URL") %>
+        url: <%= ENV.fetch("DATABASE_MASTER_URL").sub('postgres://', 'postgresql://') %>
+      <% ENV.fetch("DATABASE_REPLICA_URLS").split(",").each do |replica_url| %>
       - name: replica
-        url: <%= ENV.fetch("DATABASE_REPLICA_URL") %>
+        url: <%= replica_url.sub('postgres://', 'postgresql://') %>
+      <% end %>
   <% else %>
   adapter: postgresql
   statement_limit: 200
