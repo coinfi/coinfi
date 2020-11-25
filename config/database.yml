@@ -28,8 +28,10 @@ default: &default
       - role: master
         name: primary
         url: <%= ENV.fetch("DATABASE_MASTER_URL") %>
+      <% ENV.fetch("DATABASE_REPLICA_URLS").split(",").each do |replica_url| %>
       - name: replica
-        url: <%= ENV.fetch("DATABASE_REPLICA_URL") %>
+        url: <%= replica_url %>
+      <% end %>
   <% else %>
   adapter: postgresql
   statement_limit: 200
