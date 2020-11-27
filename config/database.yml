@@ -34,7 +34,7 @@ default: &default
       <% end %>
   <% else %>
   adapter: postgresql
-  statement_limit: 200
+  statement_limit: <%= ENV.fetch("POSTGRES_STATEMENT_LIMIT", 200) %>
   url: <%= ENV["DATABASE_URL"] %>
   <% end %>
   variables:
