@@ -34,9 +34,9 @@ default: &default
       <% end %>
   <% else %>
   adapter: postgresql
-  statement_limit: <%= ENV.fetch("POSTGRES_STATEMENT_LIMIT", 200) %>
   url: <%= ENV["DATABASE_URL"] %>
   <% end %>
+  statement_limit: <%= ENV.fetch("POSTGRES_STATEMENT_LIMIT", 200) %>
   variables:
     statement_timeout: <%= ENV.fetch("POSTGRES_STATEMENT_TIMEOUT", 300_000) %>
 
