@@ -38,6 +38,9 @@ RefreshGitRepos:
 RefreshIndicators:
   cron: '0 20 0 * * * Etc/UTC'
 
+ProcessRawNewsItems:
+  cron: '45 */5 * * * * Etc/UTC'  # Every 5 minutes @ 45s
+
 # Paid API routes
 
 UpdateCmcPrices:

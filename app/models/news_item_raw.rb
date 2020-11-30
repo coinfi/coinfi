@@ -5,7 +5,7 @@ class NewsItemRaw < ApplicationRecord
 
   def self.ingest!(feed_item, source)
     raw_item = NewsItemRaw.create!(feed_item_id: feed_item[:id], source: source, websub_hub: 'superfeedr', feed_item_json: feed_item)
-    raw_item.process!
+    # raw_item.process! # processing is handled in IngestRawNewsItems
   end
 
   def self.clean_content_html(content_html)
@@ -27,7 +27,7 @@ class NewsItemRaw < ApplicationRecord
     begin
       news_item = NewsItem.create!(news_item_params)
     rescue ActiveRecord::RecordNotUnique => e
-      news_item = NewsItem.find_by( feed_item_id: feed_item_id, feed_source: feed_source)
+      news_item = NewsItem.find_by(feed_item_id: feed_item_id, feed_source: feed_source)
       previous_raw = news_item.news_item_raw
       self.destroy and return if previous_raw.present? && feed_item_json == previous_raw.feed_item_json
       self.destroy and return if news_item.feed_item_updated_at > feed_item_updated_at

@@ -28,6 +28,9 @@ TweetTrendingNews:
 RefreshGitRepos:
   cron: '0 15 0 * * * Etc/UTC'
 
+ProcessRawNewsItems:
+  cron: '45 */5 * * * * Etc/UTC'  # Every 5 minutes @ 45s
+
 # Paid API routes
 
 UpdateCmcMetrics:
