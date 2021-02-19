@@ -280,7 +280,7 @@ GEM
       signet (~> 0.7)
     groupdate (4.1.2)
       activesupport (>= 4.2)
-    grpc (1.16.0)
+    grpc (1.19.0)
       google-protobuf (~> 3.1)
       googleapis-common-protos-types (~> 1.0.0)
     grpc-google-iam-v1 (0.6.9)
@@ -773,7 +773,7 @@ DEPENDENCIES
   webpacker (~> 3.5)
 
 RUBY VERSION
-   ruby 2.5.7p206
+   ruby 2.6.6p146
 
 BUNDLED WITH
    1.17.3
