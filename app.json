@@ -1,5 +1,6 @@
 {
   "name": "coinfi-rails",
+  "stack": "heroku-20",
   "scripts": {
     "postdeploy":
       "pg_dump --no-acl --no-owner $STAGING_DATABASE_URL | psql $DATABASE_URL && bundle exec rake db:migrate; bundle exec rake redis:copy_prod"
