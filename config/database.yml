@@ -19,7 +19,7 @@ default: &default
   encoding: unicode
   # For details on connection pooling, see Rails configuration guide
   # http://guides.rubyonrails.org/configuring.html#database-pooling
-  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  pool: <%= (ENV.fetch("RAILS_MAX_THREADS") { 5 }).to_i * 2 %>
   <% if ENV["MAKARA_ENABLED"] && !Rails.env.test? %>
   url: postgresql-makara:///
   makara:
