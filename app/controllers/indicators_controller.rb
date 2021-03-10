@@ -90,7 +90,7 @@ class IndicatorsController < ApplicationController
   end
 
   def set_news_items
-    @news_items = Rails.cache.fetch("indicators/#{@coin.slug}:data", expires_in: 5.minutes) do
+    @news_items = Rails.cache.fetch("indicators/#{@coin.slug}:news_item", expires_in: 5.minutes) do
       NewsItem.published
         .joins(:feed_source)
         .merge(FeedSource.active.not_reddit.not_twitter)
