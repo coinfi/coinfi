@@ -72,24 +72,34 @@ class Coin < ApplicationRecord
       .or(Coin.where.not(eth_address: nil))
   end
 
+  def recent_news_count
+    @recent_news_count ||= Rails.cache.fetch("coins/#{id}/recent_news_count", expires_in: seconds_to_next_day) do
+      self.news_items.where('feed_item_published_at >= ?', 7.days.ago).count
+    end
+  end
+
   def most_common_news_category
-    NewsCategory
-      .joins(news_items: :news_coin_mentions)
-      .where(news_coin_mentions: { coin_id: self })
-      .group(:id)
-      .order('COUNT(DISTINCT news_items.id) DESC')
-      .limit(1)
-      .first
+    Rails.cache.fetch("coins/#{id}/most_common_news_category", expires_in: seconds_to_next_day) do
+      NewsCategory
+        .joins(news_items: :news_coin_mentions)
+        .where(news_coin_mentions: { coin_id: self })
+        .group(:id)
+        .order('COUNT(DISTINCT news_items.id) DESC')
+        .limit(1)
+        .first
+    end
   end
 
   def most_common_feed_source
-    FeedSource
-      .joins(news_items: :news_coin_mentions)
-      .where(news_coin_mentions: { coin_id: self })
-      .group(:id)
-      .order('COUNT(DISTINCT news_items.id) DESC')
-      .limit(1)
-      .first
+    Rails.cache.fetch("coins/#{id}/most_common_feed_source", expires_in: seconds_to_next_day) do
+      FeedSource
+        .joins(news_items: :news_coin_mentions)
+        .where(news_coin_mentions: { coin_id: self })
+        .group(:id)
+        .order('COUNT(DISTINCT news_items.id) DESC')
+        .limit(1)
+        .first
+    end
   end
 
   def summary
@@ -109,8 +119,6 @@ class Coin < ApplicationRecord
       ]
     end
 
-    recent_news_count = self.news_items.where('feed_item_published_at >= ?', 7.days.ago).count
-    formatted_recent_news_count = recent_news_count == 0 ? 'no' : recent_news_count
     if recent_news_count > 1
       result << %W[
         There have been #{recent_news_count} news stories on #{self.name} over the last 7 days.
