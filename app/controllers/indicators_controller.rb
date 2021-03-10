@@ -59,7 +59,7 @@ class IndicatorsController < ApplicationController
     if params[:lang].present? && I18n.available_locales.map(&:to_s).include?(params[:lang])
       I18n.locale = params[:lang]
     else
-      I18n.default_locale
+      I18n.locale = I18n.default_locale
     end
   end
 
@@ -90,14 +90,16 @@ class IndicatorsController < ApplicationController
   end
 
   def set_news_items
-    @news_items = NewsItem.published
-      .joins(:feed_source)
-      .merge(FeedSource.active.not_reddit.not_twitter)
-      .joins(:news_coin_mentions)
-      .where("news_coin_mentions.coin_id = ?", @coin.id)
-      .order_by_published
-      .limit(5)
-      .to_a
+    @news_items = Rails.cache.fetch("indicators/#{@coin.slug}:news_item", expires_in: 5.minutes) do
+      NewsItem.published
+        .joins(:feed_source)
+        .merge(FeedSource.active.not_reddit.not_twitter)
+        .joins(:news_coin_mentions)
+        .where("news_coin_mentions.coin_id = ?", @coin.id)
+        .order_by_published
+        .limit(5)
+        .to_a
+    end
   end
 
   def set_summary(summary)
