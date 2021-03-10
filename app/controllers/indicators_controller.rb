@@ -55,7 +55,7 @@ class IndicatorsController < ApplicationController
 
   private
 
-  def set_local
+  def set_locale
     if params[:lang].present? && I18n.available_locales.map(&:to_s).include?(params[:lang])
       I18n.locale = params[:lang]
     else
