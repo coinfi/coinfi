@@ -6,18 +6,24 @@ class Api::IndicatorsController < ApiController
   include CoinsHelper
 
   def tickers
-    @coins = Coin.where(coin_key: INDICATOR_COIN_KEYS)
-    render json: ticker_serializer(@coins)
+    tickers_json = Rails.cache.fetch("indicators/tickers", expires_in: cache_expiry) do
+      @coins = Coin.where(coin_key: INDICATOR_COIN_KEYS)
+      ticker_serializer(@coins)
+    end
+    render json: tickers_json
   end
 
   def overview
     tickers = params[:tickers].upcase.split(',') if params[:tickers].present?
     return render json: [] if tickers.blank?
 
-    symbols = tickers.map {|ticker| ticker_name_to_symbol(ticker)}
-    @coins = Coin.where(symbol: symbols).where(coin_key: INDICATOR_COIN_KEYS)
+    overview_json = Rails.cache.fetch("indicators/overview/#{tickers}", expires_in: cache_expiry) do
+      symbols = tickers.map {|ticker| ticker_name_to_symbol(ticker)}
+      @coins = Coin.where(symbol: symbols).where(coin_key: INDICATOR_COIN_KEYS)
+      overview_serializer(@coins)
+    end
 
-    render json: overview_serializer(@coins)
+    render json: overview_json
   end
 
   private
@@ -53,9 +59,13 @@ class Api::IndicatorsController < ApiController
 
   def get_indicators_and_signals(coin)
     # Expire cache at the same time as Coin.prices_data, i.e., underlying data used to calculate indicators & signals
-    Rails.cache.fetch("indicators/#{coin.slug}:data", expires_in: seconds_to_next_day + 1800) do
+    Rails.cache.fetch("indicators/#{coin.slug}:data", expires_in: cache_expiry) do
       calculations = CalculateIndicatorsAndSignals.call(coin)
       calculations.result
     end
+  end
+
+  def cache_expiry
+    seconds_to_next_day + 1800
   end
 end
