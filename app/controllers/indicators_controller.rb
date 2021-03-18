@@ -5,17 +5,19 @@ class IndicatorsController < ApplicationController
   skip_before_action :verify_authenticity_token
   layout false
 
+  caches_action :show, expires_in: 10.minutes
+
   include IndicatorsHelper
   include CoinsHelper
 
   def show
     set_news_items
-    set_git_stats
 
     if Rails.env.production?
-      fresh_when last_modified: [@coin.updated_at, @news_items.first.updated_at].max, public: true
+      fresh_when etag: @coin, last_modified: [@coin.updated_at, @news_items.first.updated_at].max, public: true
     end
 
+    set_git_stats
     set_indicator_data
     # Update must occur after the date of the last data point
     @last_updated = Date.parse(@coin.prices_data.last['time']) + 1.day
@@ -44,7 +46,10 @@ class IndicatorsController < ApplicationController
     coin_symbol = ticker_name_to_symbol(ticker.upcase)
     # Attempt to search assuming the param is a symbol. Use ranking to attempt to pick the correct symbol.
     # Note: If ranking is insufficient, it may be necessary to have a hard-coded mapping
-    coin = Coin.order(ranking: :asc).find_by(symbol: coin_symbol)
+    # Caching the coin model should be fine since we're not using any frequently-changing data
+    coin = Rails.cache.fetch("indicators/coins/#{coin_symbol}", expires_in: seconds_to_next_day + 1800) do
+      Coin.order(ranking: :asc).find_by(symbol: coin_symbol)
+    end
     if coin
       @coin = coin
       return if has_indicator?
@@ -90,7 +95,7 @@ class IndicatorsController < ApplicationController
   end
 
   def set_news_items
-    @news_items = Rails.cache.fetch("indicators/#{@coin.slug}:news_item", expires_in: 5.minutes) do
+    @news_items = Rails.cache.fetch("indicators/#{@coin.slug}:news_item", expires_in: 10.minutes) do
       NewsItem.published
         .joins(:feed_source)
         .merge(FeedSource.active.not_reddit.not_twitter)
