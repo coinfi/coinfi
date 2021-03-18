@@ -36,6 +36,7 @@ gem 'redis-rails' # Remove when upgrading to Rails 5.2 since it is built-in
 
 gem 'react_on_rails', '11.1.4'
 
+gem 'actionpack-action_caching'
 gem 'active_hash'
 gem 'acts-as-taggable-on'
 gem 'administrate'
