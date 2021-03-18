@@ -44,7 +44,10 @@ class IndicatorsController < ApplicationController
     coin_symbol = ticker_name_to_symbol(ticker.upcase)
     # Attempt to search assuming the param is a symbol. Use ranking to attempt to pick the correct symbol.
     # Note: If ranking is insufficient, it may be necessary to have a hard-coded mapping
-    coin = Coin.order(ranking: :asc).find_by(symbol: coin_symbol)
+    # Caching the coin model should be fine since we're not using any frequently-changing data
+    coin = Rails.cache.fetch("indicators/coins/#{coin_symbol}", expires_in: seconds_to_next_day + 1800) do
+      Coin.order(ranking: :asc).find_by(symbol: coin_symbol)
+    end
     if coin
       @coin = coin
       return if has_indicator?
