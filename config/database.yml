@@ -19,7 +19,7 @@ default: &default
   encoding: unicode
   # For details on connection pooling, see Rails configuration guide
   # http://guides.rubyonrails.org/configuring.html#database-pooling
-  pool: <%= (ENV.fetch("RAILS_MAX_THREADS") { 5 }).to_i * 2 %>
+  pool: <%= Integer(ENV.fetch("RAILS_MAX_THREADS") { 5 }) %>
   <% if ENV["MAKARA_ENABLED"] && !Rails.env.test? %>
   url: postgresql-makara:///
   makara:
@@ -27,16 +27,16 @@ default: &default
     connections:
       - role: master
         name: primary
-        url: <%= ENV.fetch("DATABASE_MASTER_URL").sub('postgres://', 'postgresql://') %>
+        url: <%= (ENV['DATABASE_CONNECTION_POOL_URL'].presence || ENV.fetch('DATABASE_MASTER_URL')).sub('postgres://', 'postgresql://') %>
       <% ENV.fetch("DATABASE_REPLICA_URLS").split(",").each do |replica_url| %>
       - name: replica
         url: <%= replica_url.sub('postgres://', 'postgresql://') %>
       <% end %>
   <% else %>
   adapter: postgresql
-  url: <%= ENV["DATABASE_URL"] %>
+  url: <%= ENV['DATABASE_CONNECTION_POOL_URL'].presence || ENV["DATABASE_URL"] %>
   <% end %>
-  statement_limit: <%= ENV.fetch("POSTGRES_STATEMENT_LIMIT", 200) %>
+  prepared_statements: false
   reaping_frequency: <%= ENV["POSTGRES_REAPING_FREQUENCY"] %>
   variables:
     statement_timeout: <%= ENV.fetch("POSTGRES_STATEMENT_TIMEOUT", 300_000) %>
