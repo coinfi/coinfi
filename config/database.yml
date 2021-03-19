@@ -34,7 +34,7 @@ default: &default
       <% end %>
   <% else %>
   adapter: postgresql
-  url: <%= ENV["DATABASE_URL"] %>
+  url: <%= ENV['DATABASE_CONNECTION_POOL_URL'].presence || ENV["DATABASE_URL"] %>
   <% end %>
   prepared_statements: false
   reaping_frequency: <%= ENV["POSTGRES_REAPING_FREQUENCY"] %>
