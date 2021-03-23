@@ -52,11 +52,10 @@ module NewsItems
         # Absence of coin mentions is a very slow parallel seq scan.
         # Limit the scope to the desired publish time requirements.
         bindings = [
-          news_coin_mentions.select(:news_item_id).where("news_coin_mentions.coin_id IN (?)",
           (published_since.to_datetime if published_since.present?),
           (published_until.to_datetime if published_until.present?),
-          Coin.select(:id).where("coins.ranking <= ?", 20)),
         ].compact
+        puts "number of bindings #{bindings.size}"
         result = result.where(
             # i.e., no coin mentions exist
             "news_items.id in (
@@ -65,14 +64,16 @@ module NewsItems
               left join news_coin_mentions
                 on news_items.id = news_coin_mentions.news_item_id
               where news_coin_mentions.id is null
-              #{published_since.present?
-                ? 'news_items.feed_item_published_at > ?'
-                : "news_items.feed_item_published_at > current_timestamp - interval '1 year'"
+              and #{published_since.present? ? 'news_items.feed_item_published_at > ?' : "news_items.feed_item_published_at > current_timestamp - interval '1 year'"
               }
-              #{published_until.present? ? 'news_items.feed_item_published_at < ?' : ''}
+              #{published_until.present? ? 'and news_items.feed_item_published_at < ?' : ''}
             )
             or news_items.id in (?)",
-            *bindings
+            *bindings,
+            news_coin_mentions.select(:news_item_id).where(
+              "news_coin_mentions.coin_id IN (?)",
+              Coin.select(:id).where("coins.ranking <= ?", 20)
+            ),
           )
       end
 
