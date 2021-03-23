@@ -55,7 +55,6 @@ module NewsItems
           (published_since.to_datetime if published_since.present?),
           (published_until.to_datetime if published_until.present?),
         ].compact
-        puts "number of bindings #{bindings.size}"
         result = result.where(
             # i.e., no coin mentions exist
             "news_items.id in (
