@@ -53,7 +53,7 @@
     "immutable": "^3.8.2",
     "imports-loader": "^0.8.0",
     "jest-enzyme": "^6.1.2",
-    "jquery": "^3.4.0",
+    "jquery": "^3.5.0",
     "jquery-serializejson": "^2.9.0",
     "jquery-ujs": "^1.2.2",
     "jss": "^9.8.7",
