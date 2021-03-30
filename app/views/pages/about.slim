@@ -6,35 +6,3 @@ section.phr.pv4.pv6-m.bg-tiber.white-90
           h1.white-90 About CoinFi
           p.f4 CoinFi offers crowdsourced and professionally curated research, analysis, trading signals, trading algorithms, and market-moving news to give cryptocurrency traders the real-time market intelligence needed to gain an edge.
 
-section#team.phr.pv5.pv6-m.bg-white.tiber
-  .container-narrow
-    h1.tc.tl-m The Team
-    - TeamMember.all.each do |member|
-      .row.wide-gutter.mt5
-        .col-xs-12.col-md-3.tc
-          img class="br-100 dib w-100 max-w10e max-w15e-m" src=member.img alt=member.name
-        .col-xs-12.col-md-9.tc.tl-m
-          h3.db.pt3.pt0-m
-            = member.name
-            .pa3.pb0.f5.fw1.db.dib-m= member.title
-          .lh-copy.mb3= member.bio
-          - unless member.linkedin.empty?
-            .icons
-              a.icon.hover-silver href=member.linkedin target="_blank"
-                i.fab.fa-linkedin.dark-gray.hover-silver.f2
-  .container-narrow.pt5
-    h1.tc.tl-m Advisory Board
-    - Advisor.all.each do |member|
-      .row.wide-gutter.mt5
-        .col-xs-12.col-md-3.tc
-          img class="br-100 dib w-100 max-w10e max-w15e-m" src=member.img alt=member.name
-        .col-xs-12.col-md-9.tc.tl-m
-          h3.db.pt3.pt0-m
-            = member.name
-            .pa3.pb0.f5.fw1.db.dib-m=(member.try(:title) ? member.title : 'Advisor')
-          .lh-copy.mb3= member.bio.html_safe
-          - unless member.linkedin.empty?
-            .icons
-              a.icon.hover-silver href=member.linkedin target="_blank"
-                i.fab.fa-linkedin.dark-gray.hover-silver.f2
-
