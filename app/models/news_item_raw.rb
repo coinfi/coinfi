@@ -58,8 +58,8 @@ class NewsItemRaw < ApplicationRecord
       summary: item[:summary],
       content: self.class.clean_content_html(item[:content]),
       actor_id: actor_id,
-      feed_item_published_at: DateTime.strptime(item[:published].to_s, '%s'),
-      feed_item_updated_at: DateTime.strptime(item[:updated].to_s, '%s'),
+      feed_item_published_at: DateTime.strptime(item[:published].to_s),
+      feed_item_updated_at: DateTime.strptime(item[:updated].to_s),
     }
   end
 
