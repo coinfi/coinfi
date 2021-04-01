@@ -4,8 +4,13 @@ class NewsItemRaw < ApplicationRecord
   scope :unprocessed, -> { where(is_processed: false)}
 
   def self.ingest!(feed_item, source)
-    raw_item = NewsItemRaw.create!(feed_item_id: feed_item[:id], source: source, websub_hub: 'superfeedr', feed_item_json: feed_item)
-    raw_item.process!
+    begin
+      raw_item = NewsItemRaw.create!(feed_item_id: feed_item[:id], source: source, websub_hub: 'superfeedr', feed_item_json: feed_item)
+      raw_item.process!
+    rescue StandardError => e
+      e.rollbar_context = { feed_item: feed_item }
+      raise
+    end
   end
 
   def self.clean_content_html(content_html)
@@ -61,8 +66,8 @@ class NewsItemRaw < ApplicationRecord
       summary: item[:summary],
       content: self.class.clean_content_html(item[:content]),
       actor_id: actor_id,
-      feed_item_published_at: (DateTime.strptime(published.to_s) if published.present?),
-      feed_item_updated_at: (DateTime.strptime(updated.to_s) if updated.present?),
+      feed_item_published_at: parse_timestamp(published),
+      feed_item_updated_at: parse_timestamp(updated),
     }
   end
 
@@ -76,5 +81,15 @@ class NewsItemRaw < ApplicationRecord
 
   def feed_item_updated_at
     item["updated"]
+  end
+
+  def parse_timestamp(timestamp)
+    return nil unless timestamp.present?
+    timestamp_string = timestamp.to_s
+    if timestamp_string !~ /\D/
+      DateTime.strptime(timestamp_string, '%s')
+    else
+      DateTime.strptime(timestamp_string)
+    end
   end
 end
