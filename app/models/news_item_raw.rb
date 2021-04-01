@@ -50,6 +50,9 @@ class NewsItemRaw < ApplicationRecord
   def news_item_params
     return @news_item_params if @news_item_params
 
+    published = item[:published].presence || item.dig(:source, :published)
+    updated = item[:updated].presence || item.dig(:source, :updated)
+
     @news_item_params = {
       feed_item_id: feed_item_id,
       feed_source: feed_source,
@@ -58,8 +61,8 @@ class NewsItemRaw < ApplicationRecord
       summary: item[:summary],
       content: self.class.clean_content_html(item[:content]),
       actor_id: actor_id,
-      feed_item_published_at: DateTime.strptime(item[:published].to_s),
-      feed_item_updated_at: DateTime.strptime(item[:updated].to_s),
+      feed_item_published_at: DateTime.strptime(published.to_s) if published.present?,
+      feed_item_updated_at: DateTime.strptime(updated.to_s) if updated.present?,
     }
   end
 
