@@ -13,6 +13,7 @@ class CalculateIndicatorsAndSignals < Patterns::Service
   end
 
   def call
+    last_updated = Time.parse(@coin.prices_data.last['time']) + 1.day,
     daily_price_data = parse_daily_prices(@coin)
     raw_indicators, signals = get_indicator_values_and_signals(daily_price_data)
     indicators = get_indicator_results(raw_indicators, signals)
@@ -20,6 +21,7 @@ class CalculateIndicatorsAndSignals < Patterns::Service
     summary_value = get_summary_value(summary)
 
     {
+      last_updated: last_updated.to_s,
       raw_indicators: raw_indicators,
       signals: signals,
       indicators: indicators,

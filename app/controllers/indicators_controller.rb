@@ -5,10 +5,10 @@ class IndicatorsController < ApplicationController
   skip_before_action :verify_authenticity_token
   layout false
 
-  caches_action :show, expires_in: 10.minutes
-
   include IndicatorsHelper
   include CoinsHelper
+
+  caches_action :show, cache_path: :show_cache_path, expires_in: 10.minutes
 
   def show
     set_news_items
@@ -29,6 +29,13 @@ class IndicatorsController < ApplicationController
   end
 
   protected
+
+  def show_cache_path
+    {
+      ticker: (params[:ticker].presence || "EMPTY").upcase,
+      lang: (params[:lang].presence || "en").downcase
+    }
+  end
 
   def has_indicator?(coin_key: @coin.coin_key)
     INDICATOR_COIN_KEYS.include? coin_key
