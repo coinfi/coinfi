@@ -7,8 +7,8 @@ class Api::IndicatorsController < ApiController
 
   def tickers
     tickers_json = Rails.cache.fetch("indicators/tickers", expires_in: cache_expiry) do
-      @coins = Coin.where(coin_key: INDICATOR_COIN_KEYS)
-      ticker_serializer(@coins)
+      coins = Coin.where(coin_key: INDICATOR_COIN_KEYS)
+      ticker_serializer(coins)
     end
     render json: tickers_json
   end
@@ -17,12 +17,16 @@ class Api::IndicatorsController < ApiController
     tickers = params[:tickers].upcase.split(',') if params[:tickers].present?
     return render json: [] if tickers.blank?
 
-    tickers_key = tickers.uniq.sort.join(',')
-    overview_json = Rails.cache.fetch("indicators/overview/#{tickers_key}", expires_in: cache_expiry) do
-      symbols = tickers.map {|ticker| ticker_name_to_symbol(ticker)}
-      @coins = Coin.where(symbol: symbols).where(coin_key: INDICATOR_COIN_KEYS)
-      overview_serializer(@coins)
+    cache_keys = tickers.uniq.map {|ticker| "indicators/overview/#{ticker}"}
+    overview_coins_json = Rails.cache.fetch_multi(*cache_keys, expires_in: cache_expiry) do |cache_key|
+      ticker = cache_key.split('/').last
+      symbol = ticker_name_to_symbol(ticker)
+      coin = Coin.where(symbol: symbol).where(coin_key: INDICATOR_COIN_KEYS).first
+      next nil if coin.blank?
+      overview_coin_serializer(coin)
     end
+    # Use flatmap to transition from old combined cache keys style
+    overview_json = cache_keys.flat_map{|key| overview_coins_json[key]}.compact
 
     render json: overview_json
   end
@@ -41,20 +45,24 @@ class Api::IndicatorsController < ApiController
     { tickers: tickers }
   end
 
+  def overview_coin_serializer(coin)
+    calculations = get_indicators_and_signals(coin)
+    consensus = get_consensus_string(calculations.dig(:summary_value))
+    ticker = symbol_to_ticker_name(coin.symbol)
+
+    {
+      buy: calculations.dig(:summary, :buy),
+      hold: calculations.dig(:summary, :neutral),
+      sell: calculations.dig(:summary, :sell),
+      companyName: coin.name,
+      consensus: consensus,
+      ticker: ticker,
+    }
+  end
+
   def overview_serializer(coins)
     coins.map do |coin|
-      calculations = get_indicators_and_signals(coin)
-      consensus = get_consensus_string(calculations.dig(:summary_value))
-      ticker = symbol_to_ticker_name(coin.symbol)
-
-      {
-        buy: calculations.dig(:summary, :buy),
-        hold: calculations.dig(:summary, :neutral),
-        sell: calculations.dig(:summary, :sell),
-        companyName: coin.name,
-        consensus: consensus,
-        ticker: ticker,
-      }
+      overview_coin_serializer(coin)
     end
   end
 
