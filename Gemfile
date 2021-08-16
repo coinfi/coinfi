@@ -84,7 +84,7 @@ gem 'unidecoder'
 gem 'twitter'
 gem 'webpacker', '~> 3.5'
 # Used by ReactOnRails for rendering javascript
-gem 'mini_racer', '~> 0.2.0', platforms: :ruby
+gem 'mini_racer', platforms: :ruby
 # For parsing browser stats from user-agent
 gem 'browser'
 # Used to produce sitemap.xml
