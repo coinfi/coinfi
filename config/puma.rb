@@ -39,6 +39,7 @@ preload_app!
 #
 before_fork do
   ActiveRecord::Base.connection_pool.disconnect! if defined?(ActiveRecord)
+  ObjectSpace.each_object(MiniRacer::Context){|c| c.dispose}
   Barnes.start
 end
 
