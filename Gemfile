@@ -34,7 +34,7 @@ gem 'redis-rails' # Remove when upgrading to Rails 5.2 since it is built-in
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
-gem 'react_on_rails', '11.1.4'
+gem 'react_on_rails', '~> 11.1.4'
 
 gem 'actionpack-action_caching'
 gem 'active_hash'
