@@ -455,7 +455,8 @@ GEM
     pry-rails (0.3.4)
       pry (>= 0.9.10)
     public_suffix (3.1.1)
-    puma (3.12.2)
+    puma (4.3.8)
+      nio4r (~> 2.0)
     raabro (1.1.6)
     rack (2.2.3)
     rack-affiliates (0.4.0)
@@ -754,7 +755,7 @@ DEPENDENCIES
   pghero
   pry-byebug
   pry-rails
-  puma (~> 3.12)
+  puma (~> 4.3)
   rack-affiliates
   rack-attack
   rack-cors
