@@ -25,7 +25,7 @@ class IndicatorsController < ApplicationController
 
   def render_empty
     set_allow_iframe
-    render "indicators/empty"
+    render "indicators/empty" and return
   end
 
   protected
@@ -37,10 +37,6 @@ class IndicatorsController < ApplicationController
     }
   end
 
-  def has_indicator?(coin_key: @coin.coin_key)
-    INDICATOR_COIN_KEYS.include? coin_key
-  end
-
   def set_allow_iframe
     # Single domain is done using response.set_header('X-Frame-Options', 'allow-from https://example.com')
     response.delete_header('X-Frame-Options') # Allowing all iframe embedding is done by deleting sameorigin policy
@@ -50,19 +46,13 @@ class IndicatorsController < ApplicationController
     ticker = params[:ticker]
     return render_empty if ticker.blank?
 
-    coin_symbol = ticker_name_to_symbol(ticker.upcase)
-    # Attempt to search assuming the param is a symbol. Use ranking to attempt to pick the correct symbol.
-    # Note: If ranking is insufficient, it may be necessary to have a hard-coded mapping
+    coin_symbol = ticker_name_to_symbol(ticker)
+    # Attempt to search assuming the param is a symbol.
     # Caching the coin model should be fine since we're not using any frequently-changing data
-    coin = Rails.cache.fetch("indicators/coins/#{coin_symbol}", expires_in: seconds_to_next_day + 1800) do
-      Coin.order(ranking: :asc).find_by(symbol: coin_symbol)
+    @coin = Rails.cache.fetch("indicators/coins/#{coin_symbol}", expires_in: seconds_to_next_day + 1800) do
+      Coin.where(symbol: coin_symbol).where(coin_key: INDICATOR_COIN_KEYS).first
     end
-    if coin
-      @coin = coin
-      return if has_indicator?
-    end
-
-    render_empty
+    render_empty unless @coin.present?
   end
 
   private

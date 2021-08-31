@@ -28,9 +28,11 @@ default: &default
       - role: master
         name: primary
         url: <%= (ENV['DATABASE_CONNECTION_POOL_URL'].presence || ENV.fetch('DATABASE_MASTER_URL')).sub('postgres://', 'postgresql://') %>
-      <% ENV.fetch("DATABASE_REPLICA_URLS").split(",").each do |replica_url| %>
+      <% ENV.fetch("DATABASE_REPLICA_ENV_VARS").split(",").each do |replica_env_var| %>
+      <% if ENV[replica_env_var].present? %>
       - name: replica
-        url: <%= replica_url.sub('postgres://', 'postgresql://') %>
+        url: <%= ENV[replica_env_var].sub('postgres://', 'postgresql://') %>
+      <% end %>
       <% end %>
   <% else %>
   adapter: postgresql

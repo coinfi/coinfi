@@ -106,6 +106,19 @@ en:
     tron: Tron
     iota: IOTA
     tezos: Tezos
+    matic-network: Polygon
+    yearn-finance: yearn.finance
+    algorand: Algorand
+    enjin-coin: Enjin Coin
+    compound: Compound
+    decentraland: Decentraland
+    maker: Maker
+    shiba-inu: SHIBA INU
+    basic-attention-token: Basic Attention Token
+    aave: Aave
+    chainlink: Chainlink
+    uniswap: Uniswap
+    dogecoin: Dogecoin
   indicators:
     title:
       rsi: "RSI 14"
