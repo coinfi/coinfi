@@ -15,7 +15,20 @@ module IndicatorsHelper
     'z.cash',
     'binance.com',
     'tron.network',
-    'tezos.com'
+    'tezos.com',
+    'algorand.com',
+    'basicattentiontoken.org',
+    'chain.link',
+    'decentraland.org',
+    'dogecoin.com',
+    'enjincoin.io',
+    'makerdao.com/maker',
+    'matic.network',
+    'aave.com',
+    'compound.finance',
+    'shibatoken.com/shib',
+    'uniswap.org',
+    'yearn.finance'
   ]
 
   def get_buy_sell_class(value)
@@ -80,18 +93,22 @@ module IndicatorsHelper
   end
 
   def symbol_to_ticker_name(symbol)
-    case symbol
+    case symbol.upcase
     when 'ETH'
       'ETHEREUM'
+    when 'SHIB'
+      'SHIBxM'
     else
       symbol
     end
   end
 
   def ticker_name_to_symbol(name)
-    case name
+    case name.upcase
     when 'ETHEREUM'
       'ETH'
+    when 'SHIBXM'
+      'SHIB'
     else
       name
     end
