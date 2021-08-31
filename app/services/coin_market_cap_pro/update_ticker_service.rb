@@ -18,9 +18,20 @@ module CoinMarketCapPro
     def call
       cmc_coins = load_cmc_latest_data(@start, @limit)
       unless cmc_coins.nil?
-        batch_process(cmc_coins) do |cmc_coin|
+        cmc_coin_dict = cmc_coins.inject(Hash.new) do |dict, cmc_coin|
           identifier = cmc_coin['id']
-          update_coin_prices(identifier, cmc_coin)
+          dict[identifier] = cmc_coin if identifier.present?
+          dict
+        end
+        coin_identifiers = cmc_coin_dict.keys
+
+        coins_to_process = Coin.where(cmc_id: coin_identifiers)
+        progress = ProgressBar.create(:title => 'coins', :total => coins_to_process.count)
+        coins_to_process.find_in_batches do |coins|
+          coins.each do |coin|
+            update_coin_prices(identifier, cmc_coin, coin)
+            progress.increment
+          end
         end
         log_db_missing_coins
         log_or_ping_on_missing_data(@cmc_missing_data, @healthcheck_url)
@@ -53,22 +64,17 @@ module CoinMarketCapPro
         (has_7d && quote['percent_change_7d'].blank?)
     end
 
-    def update_coin_prices(identifier, data)
+    def update_coin_prices(identifier, data, coin)
       if has_missing_data(data)
         @cmc_missing_data << { identifier: identifier, data: data }
       else
         perform_update_prices(data)
       end
 
-      coin = Coin.find_by(cmc_id: identifier)
-      if !coin
-        @db_missing_coins << { identifier: identifier, ranking: data['cmc_rank'], slug: data['slug'], symbol: data['symbol'] }
-      else
-        perform_update_ranking(coin, data)
-        if is_toplist_coin?(coin)
-          puts "Refreshing toplist"
-          toplist_coins(force_cache_refresh: true)
-        end
+      perform_update_ranking(coin, data)
+      if is_toplist_coin?(coin)
+        puts "Refreshing toplist"
+        toplist_coins(force_cache_refresh: true)
       end
     end
 
