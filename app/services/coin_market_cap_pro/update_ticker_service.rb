@@ -18,9 +18,11 @@ module CoinMarketCapPro
     def call
       cmc_coins = load_cmc_latest_data(@start, @limit)
       unless cmc_coins.nil?
-        batch_process(cmc_coins) do |cmc_coin|
+        progress = ProgressBar.create(:title => 'coins', :total => cmc_coins.size)
+        cmc_coins.each do |cmc_coin|
           identifier = cmc_coin['id']
-          update_coin_prices(identifier, cmc_coin)
+          update_coin_prices(identifier, cmc_coin) if identifier.present?
+          progress.increment
         end
         log_db_missing_coins
         log_or_ping_on_missing_data(@cmc_missing_data, @healthcheck_url)
