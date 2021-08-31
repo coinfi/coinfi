@@ -8,6 +8,9 @@ Sidekiq.configure_server do |config|
   config.redis = { url: redis_url }
 
   config.on(:startup) do
+    # https://github.com/mperham/sidekiq/issues/3879#issuecomment-642295502
+    ActiveRecord::Base.clear_active_connections!
+
     # load production-specific schedule config
     if is_production
       Sidekiq.schedule = YAML.load_file(File.expand_path('../../sidekiq_schedule_production.yml', __FILE__))
