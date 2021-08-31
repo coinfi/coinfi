@@ -17,7 +17,7 @@ class Api::IndicatorsController < ApiController
     tickers = params[:tickers].upcase.split(',') if params[:tickers].present?
     return render json: [] if tickers.blank?
 
-    cache_keys = tickers.uniq.map {|ticker| "indicators/overview/#{ticker.upcase}"}
+    cache_keys = tickers.uniq.map {|ticker| "indicators/overview/#{ticker}"}
     overview_coins_json = Rails.cache.fetch_multi(*cache_keys, expires_in: cache_expiry) do |cache_key|
       ticker = cache_key.split('/').last
       symbol = ticker_name_to_symbol(ticker)
@@ -41,7 +41,7 @@ class Api::IndicatorsController < ApiController
   end
 
   def ticker_serializer(coins)
-    tickers = coins.map {|coin| symbol_to_ticker_name(coin.symbol)}
+    tickers = coins.map {|coin| symbol_to_ticker_name(coin.symbol)}.compact
     { tickers: tickers }
   end
 

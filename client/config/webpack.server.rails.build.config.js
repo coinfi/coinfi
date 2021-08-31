@@ -116,8 +116,9 @@ module.exports = {
       },
     ],
   },
-  // watchOptions: {
-  //   poll: 1000,
-  //   aggregateTimeout: 300,
-  // },
+  watchOptions: {
+    ignored: /node_modules/,
+    poll: 5000,
+    aggregateTimeout: 300,
+  },
 }
