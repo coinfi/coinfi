@@ -13,7 +13,6 @@ class RefreshTokenMetricsViewsService < Patterns::Service
   ]
 
   def initialize(concurrently: true)
-    @connection = ActiveRecord::Base.connection
     @concurrently = concurrently
   end
 

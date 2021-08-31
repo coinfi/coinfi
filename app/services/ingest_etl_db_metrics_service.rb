@@ -6,7 +6,6 @@ class IngestEtlDbMetricsService < Patterns::Service
     @results = 0
     @log_errors = []
 
-    @connection = ActiveRecord::Base.connection
     @etl_db_name = ENV.fetch('ETL_DB_NAME')
     @etl_db_port = ENV.fetch('ETL_DB_PORT')
     @etl_db_host = ENV.fetch('ETL_DB_HOST')
@@ -16,9 +15,14 @@ class IngestEtlDbMetricsService < Patterns::Service
   end
 
   def call
-    create_view!
-    ingest!
-    drop_view!
+    begin
+      checkout_connection
+      create_view!
+      ingest!
+      drop_view!
+    ensure
+      checkin_connection
+    end
 
     @results
   end
@@ -75,5 +79,13 @@ class IngestEtlDbMetricsService < Patterns::Service
     end
 
     @results += results.num_inserts
+  end
+
+  def checkout_connection
+    @connection = ActiveRecord::Base.connection_pool.checkout
+  end
+
+  def checkin_connection
+    ActiveRecord::Base.connection_pool.checkin(@connection)
   end
 end
