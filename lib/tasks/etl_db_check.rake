@@ -42,85 +42,85 @@ namespace :etldb do
 
   desc "check for recent entries in specified table of etl database"
   task :check, [:index] => :environment do |task, args|
-    #set up connection
-    @connection ||= ActiveRecord::Base.connection
+    ActiveRecord::Base.connection_pool.with_connection do |connection|
 
-    #set up table view
-    table = tables[args.index]
-    @connection.execute("
-      CREATE OR REPLACE VIEW #{table["name"]}_view AS
-      SELECT *
-      FROM dblink('
-        dbname=#{db_name}
-        port=#{db_port}
-        host=#{db_host}
-        user=#{db_user}
-        password=#{db_pass}',
-        'SELECT coin_key, to_currency, time, volume_to FROM staging.#{table["name"]} WHERE time >= NOW() - #{table["interval"]}::INTERVAL'
-      )
-      AS t1(coin_key varchar, to_currency varchar, time timestamp, volume_to numeric);
-    ")
+      #set up table view
+      table = tables[args.index]
+      connection.execute("
+        CREATE OR REPLACE VIEW #{table["name"]}_view AS
+        SELECT *
+        FROM dblink('
+          dbname=#{db_name}
+          port=#{db_port}
+          host=#{db_host}
+          user=#{db_user}
+          password=#{db_pass}',
+          'SELECT coin_key, to_currency, time, volume_to FROM staging.#{table["name"]} WHERE time >= NOW() - #{table["interval"]}::INTERVAL'
+        )
+        AS t1(coin_key varchar, to_currency varchar, time timestamp, volume_to numeric);
+      ")
 
-    # initialize results
-    params = {
-      'table' => table["title"],
-      'coins' => []
-    }
-    success = true
+      # initialize results
+      params = {
+        'table' => table["title"],
+        'coins' => []
+      }
+      success = true
 
-    # Run all coin tests
-    coins.each do |data|
-      # Check each individual coin within a test
-      data["query"].call.each do |coin|
-        coin_key = coin[0].to_s
-        ranking = coin[1]
-        label = "#{table["title"]}:#{coin_key}"
-        puts "Checking #{label}"
+      # Run all coin tests
+      coins.each do |data|
+        # Check each individual coin within a test
+        data["query"].call.each do |coin|
+          coin_key = coin[0].to_s
+          ranking = coin[1]
+          label = "#{table["title"]}:#{coin_key}"
+          puts "Checking #{label}"
 
-        query = "
-          SELECT
-            COUNT(*) AS count,
-            MIN(volume_to) AS to,
-            coin_key
-          FROM #{table["name"]}_view
-          WHERE coin_key = '#{coin_key}'
-          GROUP BY coin_key;"
-        result = @connection.exec_query(query)
+          query = "
+            SELECT
+              COUNT(*) AS count,
+              MIN(volume_to) AS to,
+              coin_key
+            FROM #{table["name"]}_view
+            WHERE coin_key = '#{coin_key}'
+            GROUP BY coin_key;"
+          result = connection.exec_query(query)
 
-        if result.empty? then
-          success = false
-          params["coins"] << coin_key
-        else
-          # Check results. This should only be one row since we're only checking one coin at a time.
-          result.each do |row|
-            check_volume = !ranking.nil? && ranking < 100
-            has_volume = row["to"].to_f > 0
-            has_results = row["count"] > 0
+          if result.empty? then
+            success = false
+            params["coins"] << coin_key
+          else
+            # Check results. This should only be one row since we're only checking one coin at a time.
+            result.each do |row|
+              check_volume = !ranking.nil? && ranking < 100
+              has_volume = row["to"].to_f > 0
+              has_results = row["count"] > 0
 
-            # there should be at least one entry and if ranking < 100 volume should be non-zero
-            if !has_results || (check_volume && !has_volume) then
-              success = false
-              params["coins"] << coin_key
+              # there should be at least one entry and if ranking < 100 volume should be non-zero
+              if !has_results || (check_volume && !has_volume) then
+                success = false
+                params["coins"] << coin_key
+              end
             end
           end
         end
       end
+
+      # format results
+      params["coins"] = params["coins"].uniq
+
+      # send response
+      if success then
+        Net::HTTP.get(URI.parse(table["url"]))
+      else
+        Net::HTTP.post(URI.parse("#{table["url"]}/fail"), params.to_json)
+      end
+
+      # clean up
+      connection.execute("
+        DROP VIEW #{table["name"]}_view;
+      ")
     end
-
-    # format results
-    params["coins"] = params["coins"].uniq
-
-    # send response
-    if success then
-      Net::HTTP.get(URI.parse(table["url"]))
-    else
-      Net::HTTP.post(URI.parse("#{table["url"]}/fail"), params.to_json)
-    end
-
-    # clean up
-    @connection.execute("
-      DROP VIEW #{table["name"]}_view;
-    ")
   end
 
   desc "check for recent entries in daily table of etl database"

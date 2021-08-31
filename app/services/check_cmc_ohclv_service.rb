@@ -5,7 +5,6 @@ class CheckCmcOhclvService < Patterns::Service
   INDICATOR_COIN_KEYS = IndicatorsHelper::INDICATOR_COIN_KEYS
 
   def initialize(granularity: 'daily')
-    @connection = ActiveRecord::Base.connection
     @etl_db_name = ENV.fetch('ETL_DB_NAME')
     @etl_db_port = ENV.fetch('ETL_DB_PORT')
     @etl_db_host = ENV.fetch('ETL_DB_HOST')
@@ -62,11 +61,14 @@ class CheckCmcOhclvService < Patterns::Service
   end
 
   def call
+    checkout_connection
     create_view!
     check_coins
     log_results
     ping_health_check
     destroy_view!
+  ensure
+    checkin_connection
   end
 
   def check_coins
@@ -191,5 +193,13 @@ class CheckCmcOhclvService < Patterns::Service
 
   def destroy_view!
     @connection.execute("DROP VIEW #{@table[:name]}_view;")
+  end
+
+  def checkout_connection
+    @connection = ActiveRecord::Base.connection_pool.checkout
+  end
+
+  def checkin_connection
+    ActiveRecord::Base.connection_pool.checkin(@connection)
   end
 end
