@@ -84,7 +84,8 @@ module CoinMarketCapPro
         quote_currency_symbol = pair.dig("market_pair_quote", "currency_symbol")
 
         unless coin_is_primary
-          price /= pair.dig("quote", "exchange_reported", "price") if price != 0
+          quote_price = pair.dig("quote", "exchange_reported", "price")
+          price /= quote_price if quote_price.present? && quote_price != 0
           quote_currency_symbol = base_symbol
         end
 
