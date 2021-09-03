@@ -1,18 +1,23 @@
 module CoinServices
   class CalculateGitRepoRankings < Patterns::Service
+    attr_reader :failed_to_rank
+    include HealthcheckHelpers
     INDICATOR_COIN_KEYS = ::IndicatorsHelper::INDICATOR_COIN_KEYS
     STATS_TO_RANK = [:watchers, :stargazers, :forks, :contributors]
 
     def initialize()
-      @coins = Coin.where(coin_key: INDICATOR_COIN_KEYS)
+      @coins = Coin.with_git_repo.where(coin_key: INDICATOR_COIN_KEYS)
       @snapshots = []
       @ranked_snapshots = {}
+      @failed_to_rank = []
+      @healthcheck_url = ENV.fetch('HEALTHCHECK_INDICATORS')
     end
 
     def call
       get_git_stats
       calculate_git_rankings
       store_git_rankings
+      log_or_ping_on_missing_data(@failed_to_rank, @healthcheck_url)
     end
 
     private
@@ -20,8 +25,10 @@ module CoinServices
     def get_git_stats
       @coins.each do |coin|
         results = coin.git_stats
-        if results.present?
+        if results.present? && results.has_key?(:snapshot)
           @snapshots << results[:snapshot].merge({id: coin.id})
+        else
+          @failed_to_rank << coin.id
         end
       end
     end
@@ -37,6 +44,7 @@ module CoinServices
 
     def store_git_rankings
       @coins.each do |coin|
+        next if @failed_to_rank.include?(coin.id)
         coin_ranked_data = {}
         STATS_TO_RANK.each do |stat_name|
           ranking_data = @ranked_snapshots[stat_name]

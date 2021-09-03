@@ -42,6 +42,7 @@ module CoinServices
 
     def retrieve_coin_stats(coins)
       batch_process(coins) do |coin|
+        next unless coin.has_git_repo?
         result = coin.git_stats(force_refresh: true)
         if result.blank?
           raise StandardError, "No results for #{coin.slug}"

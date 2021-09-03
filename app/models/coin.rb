@@ -47,6 +47,7 @@ class Coin < ApplicationRecord
   scope :quick_top, -> (limit) { where("coins.ranking >= ?", limit) }
   scope :icos, -> { where(ico_status: ICO_STATUSES).order(:ico_end_date) }
   scope :unslugged, -> { where(slug: nil) }
+  scope :with_git_repo, -> { where.not(git_repo: nil).where.not(git_repo_type: nil) }
 
   alias_method :industries, :coin_industries
 
