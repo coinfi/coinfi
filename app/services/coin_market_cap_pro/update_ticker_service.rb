@@ -30,9 +30,9 @@ module CoinMarketCapPro
         progress = ProgressBar.create(:title => 'coins', :total => coins_to_process.count)
         coins_to_process.find_in_batches do |coins|
           coins.each do |coin|
-            cmc_coin = cmc_coin_dict[coin.id]
-            identifier = cmc_coin['id'] if cmc_coin.present?
-            update_coin_prices(identifier, cmc_coin, coin) if identifier.present?
+            identifier = coin.cmc_id
+            cmc_coin = cmc_coin_dict[identifier] if identifier.present?
+            update_coin_prices(identifier, cmc_coin, coin) if cmc_coin.present?
             progress.increment
           end
         end
