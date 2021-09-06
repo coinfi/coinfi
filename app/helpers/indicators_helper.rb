@@ -94,8 +94,6 @@ module IndicatorsHelper
 
   def symbol_to_ticker_name(symbol)
     case symbol&.upcase
-    when 'ETH'
-      'ETHEREUM'
     when 'SHIB'
       'SHIBxM'
     else
@@ -105,8 +103,6 @@ module IndicatorsHelper
 
   def ticker_name_to_symbol(name)
     case name&.upcase
-    when 'ETHEREUM'
-      'ETH'
     when 'SHIBXM'
       'SHIB'
     else
