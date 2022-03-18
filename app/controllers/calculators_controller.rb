@@ -1,6 +1,5 @@
 class CalculatorsController < ApplicationController
   def show
-    puts "calculator control #{params[:id]}"
     @page = params[:id]
     render_404 unless page_known?
     redirect_to('/login') && return if member_page? && !current_user
