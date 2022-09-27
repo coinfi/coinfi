@@ -63,7 +63,15 @@ function ColumnNames({ currency, currencyRate, currencySymbol }) {
               paddingBottom: '5px',
             }}
           >
-            <LazyLoadImage alt={text} src={row.image_url} className="fl mr2" />
+            <LazyLoadImage
+              alt={text}
+              src={row.image_url}
+              className="fl mr2"
+              style={{
+                maxWidth: '32px',
+                height: 'auto',
+              }}
+            />
             <div
               className="fl"
               style={{

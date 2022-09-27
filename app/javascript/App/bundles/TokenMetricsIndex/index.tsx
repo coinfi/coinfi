@@ -166,6 +166,10 @@ const styles = (theme) =>
       flexGrow: 0,
       paddingRight: '7px',
     },
+    coinImage: {
+      maxWidth: '32px',
+      height: 'auto',
+    },
     coinSymbol: {},
     coinName: {
       fontSize: '12px',
@@ -541,6 +545,7 @@ class TokenMetricsIndex extends React.Component<Props, State> {
                                 <LazyLoadImage
                                   alt={row.name}
                                   src={row.image_url}
+                                  className={classes.coinImage}
                                 />
                               )}
                             </Grid>
