@@ -441,6 +441,7 @@ class Coin < ApplicationRecord
   end
 
   def has_token_metrics?
-    symbol && is_erc20?
+    # symbol && is_erc20?
+    false
   end
 end
