@@ -58,10 +58,6 @@ SitemapGenerator::Sitemap.create do
   add coins_path, :changefreq => 'hourly'
   add news_path, :changefreq => 'hourly'
 
-  TokensHelper::METRIC_TYPES.each do |type_obj|
-    add token_metrics_path(type_obj[:slug]), :changefreq => 'daily'
-  end
-
   # Coin::ICO_STATUSES.each do |status|
   #   add icos_path(status), :changefreq => 'daily'
   # end

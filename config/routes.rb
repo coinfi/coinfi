@@ -57,7 +57,7 @@ Rails.application.routes.draw do
     get '/podcast', to: redirect('https://www.coinfi.com/research/coinfi-podcast', status: 302), as: 'podcast'
     get '/profile', to: 'users#edit'
     put '/profile', to: 'users#update'
-    get '/token-metrics(/:metric_type_slug)', to: 'token_metrics#index', as: 'token_metrics'
+    # get '/token-metrics(/:metric_type_slug)', to: 'token_metrics#index', as: 'token_metrics'
   end
 
   get '/static/:type/:id', to: 'static#show', format: 'png'
@@ -99,7 +99,7 @@ Rails.application.routes.draw do
       get 'watchlist', on: :collection
       get 'dominance', on: :collection
     end
-    get '/token-metrics(/:metric_type_slug)', to: 'token_metrics#index'
+    # get '/token-metrics(/:metric_type_slug)', to: 'token_metrics#index'
     get '/indicators/tickers', to: 'indicators#tickers'
     get '/indicators/overview/:tickers', to: 'indicators#overview'
 
