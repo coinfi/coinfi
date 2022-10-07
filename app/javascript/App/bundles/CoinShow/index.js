@@ -35,7 +35,6 @@ import HistoricalPriceDataTable from './HistoricalPriceDataTable'
 import DescriptionText from './DescriptionText'
 import MarketsTable from './MarketsTable'
 import MarketsChart from './MarketsChart'
-import TokenMetrics from './TokenMetrics'
 import SignalTable from './SignalTable'
 import BackToTop from './BackToTop'
 import Icon from '~/bundles/common/components/Icon'
@@ -51,7 +50,6 @@ import moment from 'moment'
 const TAB_SLUGS = {
   priceChart: 'price-chart',
   markets: 'markets',
-  tokenMetrics: 'token-metrics',
   news: 'news',
 }
 
@@ -76,12 +74,10 @@ class CoinShow extends Component {
   componentDidMount() {
     // handle tab change here to avoid rendering issues
     const { props } = this
-    const hasTokenMetrics = this.hasTokenMetrics()
     const hasMarkets = this.hasMarkets()
     const hashTag = _.get(props, ['location', 'hash'], '').slice(1) // remove prepended octothorpe
     const isValidHashTag =
       _.findIndex(Object.values(TAB_SLUGS), (slug) => slug === hashTag) >= 0 &&
-      (hasTokenMetrics || hashTag !== TAB_SLUGS.tokenMetrics) &&
       (hasMarkets || hashTag !== TAB_SLUGS.markets)
     const tabSlug = isValidHashTag ? hashTag : this.defaultTab()
     if (tabSlug !== this.state.tabSlug) {
@@ -130,11 +126,6 @@ class CoinShow extends Component {
 
   defaultTab = () => {
     return TAB_SLUGS.priceChart
-  }
-
-  hasTokenMetrics = () => {
-    const { tokenMetrics } = this.props
-    return !_.isEmpty(tokenMetrics)
   }
 
   hasMarkets = () => {
@@ -318,7 +309,6 @@ class CoinShow extends Component {
       symbol,
       availableSupply,
       isTradingViewVisible,
-      tokenMetrics,
       coinObj,
       relatedCoins,
       classes,
@@ -335,7 +325,6 @@ class CoinShow extends Component {
     const { tabSlug, priceData, priceDataHourly, lastPriceUpdate } = this.state
     const isMobile = !isDesktop
     const isLoggedIn = !!user
-    const hasTokenMetrics = this.hasTokenMetrics()
     const hasMarkets = this.hasMarkets()
     const {
       name: coinName,
@@ -480,17 +469,6 @@ class CoinShow extends Component {
                       <Tab
                         label="Markets"
                         value={TAB_SLUGS.markets}
-                        classes={{
-                          root: classes.tabRoot,
-                          selected: classes.tabSelected,
-                          labelContainer: classes.tabLabelContainer,
-                        }}
-                      />
-                    )}
-                    {hasTokenMetrics && (
-                      <Tab
-                        label="Token Metrics"
-                        value={TAB_SLUGS.tokenMetrics}
                         classes={{
                           root: classes.tabRoot,
                           selected: classes.tabSelected,
@@ -686,17 +664,6 @@ class CoinShow extends Component {
                         />
                       </CardContent>
                     </MainCard>
-                  </>
-                )}
-                {hasTokenMetrics && (
-                  <>
-                    <h2 id={TAB_SLUGS.tokenMetrics}>
-                      {coinName} Token Metrics
-                    </h2>
-                    <TokenMetrics
-                      tokenMetrics={tokenMetrics}
-                      coinObj={coinObj}
-                    />
                   </>
                 )}
                 <BackToTop onClick={this.handleScrollToTop} />

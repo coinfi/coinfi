@@ -39,7 +39,6 @@ class CoinsController < ApplicationController
     if @coin.ico_listed?
       @coin_price = format_price(@coin.price)
       @related_coins = @coin.related_coins.select(:id, :coin_key, :name, :symbol, :slug).to_a # Calling `to_a` ensures query executes on replica.
-      @token_metrics = @coin.has_token_metrics? ? @coin.token_metrics : {}
       @coin_obj = show_serializer(@coin)
       @how_to_article = coin_article_serializer(@coin.coin_articles.first)
       @top_coins_data = toplist_coins
