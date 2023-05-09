@@ -715,32 +715,6 @@ ActiveRecord::Schema.define(version: 20200327160206) do
   add_foreign_key "watchlist_items", "watchlists"
   add_foreign_key "watchlists", "users"
 
-  create_view "daily_ohcl_prices_view", sql_definition: <<-SQL
-      SELECT t1.coin_key,
-      t1.to_currency,
-      t1."time",
-      t1.volume_from,
-      t1.volume_to
-     FROM dblink('
-          dbname=etl_production
-          port=5432
-          host=etl.cpigdmj1vpw4.eu-west-1.rds.amazonaws.com
-          user=etl_readonly
-          password=yaRC6oU5kF7BcQ'::text, 'SELECT coin_key, to_currency, time, volume_from, volume_to FROM staging.daily_ohcl_prices WHERE time >= NOW() - ''3 days''::INTERVAL'::text) t1(coin_key character varying, to_currency character varying, "time" timestamp without time zone, volume_from numeric, volume_to numeric);
-  SQL
-  create_view "hourly_ohcl_prices_view", sql_definition: <<-SQL
-      SELECT t1.coin_key,
-      t1.to_currency,
-      t1."time",
-      t1.volume_from,
-      t1.volume_to
-     FROM dblink('
-          dbname=etl_production
-          port=5432
-          host=etl.cpigdmj1vpw4.eu-west-1.rds.amazonaws.com
-          user=etl_readonly
-          password=yaRC6oU5kF7BcQ'::text, 'SELECT coin_key, to_currency, time, volume_from, volume_to FROM staging.hourly_ohcl_prices WHERE time >= NOW() - ''2 days''::INTERVAL'::text) t1(coin_key character varying, to_currency character varying, "time" timestamp without time zone, volume_from numeric, volume_to numeric);
-  SQL
   create_view "news_votes_trendings", materialized: true, sql_definition: <<-SQL
       SELECT count(*) AS total,
       sum(
