@@ -21,7 +21,7 @@
       }
     </style>
   </head>
-  <body>
+  <body onload="handleOnload();">
     <div class="empty-container">
       <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
           viewBox="35 -33 131 147" style="max-height: 250px;" xml:space="preserve">
@@ -95,6 +95,17 @@
         <span><%= t(:coin_empty) %></span>
       </div>
     </div>
+    <script type="text/javascript">
+      function handleOnload() {
+        window.parent.postMessage(
+          {
+            type: 'dataLoadFailed',
+            parameters: {},
+          },
+          '*'
+        );
+      }
+    </script>
     <%= render 'layouts/tracking_scripts' %>
   </body>
 </html>

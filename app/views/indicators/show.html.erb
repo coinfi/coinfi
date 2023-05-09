@@ -320,6 +320,14 @@
         loader.style.display = 'none';
         loadCharts();
 
+        window.parent.postMessage(
+          {
+            type: 'dataLoaded',
+            parameters: {},
+          },
+          '*'
+        );
+
         // Call once to ensure iframe size is set
         throttledReportWindowSize();
       }
