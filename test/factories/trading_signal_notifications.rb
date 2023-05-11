@@ -10,7 +10,7 @@ FactoryBot.define do
 
     factory :telegram_trading_signal_notification do
       transient do
-        telegram_chat_id { Faker::Number.number(9) }
+        telegram_chat_id { Faker::Number.number(digits: 9) }
       end
 
       extra {
