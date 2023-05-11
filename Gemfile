@@ -1,5 +1,5 @@
 source 'https://rubygems.org'
-ruby '2.6.6'
+ruby '2.7.6'
 
 git_source(:github) do |repo_name|
   repo_name = "#{repo_name}/#{repo_name}" unless repo_name.include?("/")
@@ -8,7 +8,7 @@ end
 
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '~> 5.1.6.2'
+gem 'rails', '~> 5.2.8'
 # Use postgresql as the database for Active Record
 gem 'pg', '~> 0.18'
 # Use Puma as the app server
@@ -34,6 +34,9 @@ gem 'redis-rails' # Remove when upgrading to Rails 5.2 since it is built-in
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
+# Reduces boot times through caching; required in config/boot.rb
+gem 'bootsnap', require: false
+
 gem 'react_on_rails', '~> 11.1.4'
 
 gem 'actionpack-action_caching'
@@ -41,8 +44,8 @@ gem 'active_hash'
 gem 'acts-as-taggable-on'
 gem 'administrate'
 gem 'administrate-field-belongs_to_search'
-gem 'administrate-field-json', github: 'eddietejeda/administrate-field-json'
-gem 'administrate-field-nested_has_many', github: 'nickcharlton/administrate-field-nested_has_many'
+gem 'administrate-field-jsonb'
+gem 'administrate-field-nested_has_many'
 gem 'aws-sdk-rails', '~> 2'
 gem 'blazer', '>= 2.1.0'
 gem 'devise', '>= 4.6.0'
@@ -54,13 +57,15 @@ gem 'friendly_id', '~> 5.2.1'
 gem 'gitlab'
 gem 'groupdate'
 gem 'httparty'
+gem 'judoscale-rails'
+gem 'judoscale-sidekiq'
 gem 'kaminari'
 gem 'api-pagination'
 gem 'loaf'
 gem 'lograge'
 gem 'marginalia'
 gem 'meta-tags'
-gem 'nokogiri', '~> 1.10.4'
+gem 'nokogiri'
 gem 'octokit', '~> 4.0'
 gem 'omniauth'
 gem 'omniauth-facebook'
@@ -72,7 +77,6 @@ gem 'slack-ruby-client'
 gem 'rack-affiliates'
 gem 'rack-cors'
 gem 'rack-rewrite'
-gem 'rails_autoscale_agent'
 gem 'rails-i18n', '~> 5.1'
 gem 'ransack'
 gem 'redcarpet'
@@ -98,7 +102,7 @@ gem 'etherscan_api', require: 'etherscan'
 # Performance dashboard for Postgres
 gem 'pghero'
 # Job queue
-gem 'sidekiq'
+gem 'sidekiq', '< 7'
 gem 'sidekiq-scheduler'
 # App metrics and statistics
 gem 'librato-rails', '~> 1'
@@ -107,7 +111,7 @@ gem 'barnes', '~> 0.0.7'
 # Google Pub/Sub client
 gem 'google-cloud-pubsub'
 # technical indicators
-gem "indicators", "~> 1.0", git: 'https://github.com/coinfi/indicators.git', :tag => 'v1.0.4'
+gem "indicators", "~> 1.0", git: 'https://github.com/coinfi/indicators.git'
 gem "activerecord-import", "~> 0.27.0"
 gem "active_record_upsert", "~> 0.9.4"
 gem "acts_as_votable", "~> 0.12.0"
@@ -122,12 +126,12 @@ group :development, :test do
   gem 'pry-rails'
   gem 'rubocop'
   gem 'reek'
-  gem 'selenium-webdriver', '>= 3.14.0'
-  gem 'chromedriver-helper'
+  gem 'selenium-webdriver'
+  gem 'webdrivers', '~> 5.0', require: false
   gem 'factory_bot_rails'
-  gem 'faker', :git => 'https://github.com/stympy/faker.git', :branch => 'master'
+  gem 'faker'
   gem 'minitest-stub_any_instance'
-  gem 'database_cleaner'
+  gem 'database_cleaner', '< 2'
   gem 'webmock'
 end
 

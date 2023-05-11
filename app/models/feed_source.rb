@@ -97,7 +97,7 @@ class FeedSource < ApplicationRecord
   def retrieve!
     retrieve.each do |item|
       # Since ingest is using symbols to access the hash.
-      NewsItemRaw.ingest!(HashWithIndifferentAccess.new(item), slug)
+      NewsItemRaw.ingest!(ActiveSupport::HashWithIndifferentAccess.new(item), slug)
     end
   end
 

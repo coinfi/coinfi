@@ -1,3 +1,4 @@
+
 Rails.application.configure do
   # Verifies that versions and hashed value of the package contents in the project's package.json
   config.webpacker.check_yarn_integrity = false
@@ -24,6 +25,10 @@ Rails.application.configure do
   # Requires an encryption key in `ENV["RAILS_MASTER_KEY"]` or
   # `config/secrets.yml.key`.
   config.read_encrypted_secrets = true
+  # Ensures that a master key has been made available in either ENV["RAILS_MASTER_KEY"]
+  # or in config/master.key. This key is used to decrypt credentials (and other encrypted files).
+  # config.require_master_key = true
+
 
   # Disable serving static files from the `/public` folder by default since
   # Apache or NGINX already handles this.
@@ -47,6 +52,10 @@ Rails.application.configure do
   # Specifies the header that your server uses for sending files.
   # config.action_dispatch.x_sendfile_header = 'X-Sendfile' # for Apache
   # config.action_dispatch.x_sendfile_header = 'X-Accel-Redirect' # for NGINX
+
+  # Store uploaded files on the local file system (see config/storage.yml for options)
+  # config.active_storage.service = :local
+
 
   # Mount Action Cable outside main process or domain
   # config.action_cable.mount_path = nil
@@ -101,8 +110,14 @@ Rails.application.configure do
 
   config.action_mailer.default_url_options = { host: ENV.fetch('ROOT_DOMAIN') }
 
-  # TODO: Switch to standard Rails 5.2 redis_cache_store once upgraded.
-  config.cache_store = :redis_store, ENV.fetch('REDIS_URL')
+  config.cache_store = :redis_cache_store, {
+    url: ENV.fetch('REDIS_TLS_URL') { |name| ENV.fetch('REDIS_URL') },
+    reconnect_attempts: 1,   # Defaults to 0
+    ssl_params: { verify_mode: OpenSSL::SSL::VERIFY_NONE },
+    error_handler: -> (method:, returning:, exception:) {
+      Rollbar.warning(exception,  method: method, returning: returning)
+    }
+  }
 
   # Rack middleware for blocking & throttling abusive requests
   # Only enable on production https://github.com/kickstarter/rack-attack/issues/220
