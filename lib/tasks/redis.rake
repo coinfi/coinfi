@@ -7,7 +7,7 @@ namespace :redis do
     next if raw_prod_redis_uri.blank?
 
     prod_redis_uri = URI.parse(raw_prod_redis_uri)
-    redis = Redis.new(url: ENV.fetch('REDIS_URL'), :driver => :hiredis)
+    redis = Redis.new(url: ENV.fetch('REDIS_URL'))
     redis.slaveof(prod_redis_uri.host, prod_redis_uri.port)
     redis.config('set', 'masterauth', prod_redis_uri.password)
     redis.config('set', 'slave-read-only', 'no')

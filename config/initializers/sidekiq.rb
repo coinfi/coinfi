@@ -4,6 +4,10 @@ require 'sidekiq-scheduler'
 is_production = (ENV['IS_PRODUCTION'] || "false").downcase == 'true'
 redis_url = ENV.fetch('REDISCLOUD_URL')
 
+# We jumped straight from v5->v7 so we haven't had a chance to check for
+# args that are not strict JSON
+Sidekiq.strict_args!(:warn)
+
 Sidekiq.configure_server do |config|
   config.redis = { url: redis_url }
 
