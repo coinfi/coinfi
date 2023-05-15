@@ -101,7 +101,7 @@ gem 'etherscan_api', require: 'etherscan'
 # Performance dashboard for Postgres
 gem 'pghero'
 # Job queue
-gem 'sidekiq', '< 8'
+gem 'sidekiq', '6.5.5'
 gem 'sidekiq-scheduler', '< 6'
 # App metrics and statistics
 gem 'librato-rails', '~> 1'

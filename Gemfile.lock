@@ -635,11 +635,10 @@ GEM
       rexml (~> 3.2, >= 3.2.5)
       rubyzip (>= 1.2.2, < 3.0)
       websocket (~> 1.0)
-    sidekiq (7.1.0)
-      concurrent-ruby (< 2)
-      connection_pool (>= 2.3.0)
-      rack (>= 2.2.4)
-      redis-client (>= 0.14.0)
+    sidekiq (6.5.5)
+      connection_pool (>= 2.2.2)
+      rack (~> 2.0)
+      redis (>= 4.5.0)
     sidekiq-scheduler (5.0.2)
       rufus-scheduler (~> 3.2)
       sidekiq (>= 6, < 8)
@@ -832,7 +831,7 @@ DEPENDENCIES
   scenic
   scout_apm
   selenium-webdriver
-  sidekiq (< 8)
+  sidekiq (= 6.5.5)
   sidekiq-scheduler (< 6)
   simple_form
   sitemap_generator
