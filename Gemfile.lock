@@ -806,7 +806,7 @@ DEPENDENCIES
   pghero
   pry-byebug
   pry-rails
-  puma (~> 3.12)
+  puma (< 6)
   rack-affiliates
   rack-attack
   rack-cors
