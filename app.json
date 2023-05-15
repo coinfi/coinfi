@@ -92,7 +92,7 @@
   "formation": {},
   "addons": [
     "heroku-postgresql:hobby-basic",
-    "heroku-redis:hobby-dev",
+    "heroku-redis:mini",
     "rediscloud:30",
     "papertrail",
     "rollbar",
