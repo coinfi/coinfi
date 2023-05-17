@@ -72,7 +72,7 @@ class NewsItemRaw < ApplicationRecord
   end
 
   def item
-    @item ||= HashWithIndifferentAccess.new(feed_item_json)
+    @item ||= ActiveSupport::HashWithIndifferentAccess.new(feed_item_json)
   end
 
   def actor_id

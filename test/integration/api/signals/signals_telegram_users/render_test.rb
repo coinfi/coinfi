@@ -6,9 +6,9 @@ module Api::Signals::SignalsTelegramUsers
   class RenderTest < Api::Signals::BaseTest
     test "register when valid" do
       unregistered_user = create(:user, :with_confirmed_signals_reservation)
-      telegram_id = Faker::Number.number(9)
+      telegram_id = Faker::Number.number(digits: 9)
       telegram_username = unregistered_user.token_sale['telegram_username']
-      telegram_chat_id = Faker::Number.number(9)
+      telegram_chat_id = Faker::Number.number(digits: 9)
       started_at = 1.hour.ago
 
       request_params = {
@@ -24,9 +24,9 @@ module Api::Signals::SignalsTelegramUsers
       assert_equal 200, status
       unregistered_user.reload
       assert_not_nil unregistered_user.signals_telegram_user
-      assert_equal telegram_id, unregistered_user.signals_telegram_user.telegram_id
+      assert_equal telegram_id, unregistered_user.signals_telegram_user.telegram_id.to_i
       assert_equal telegram_username, unregistered_user.signals_telegram_user.telegram_username
-      assert_equal telegram_chat_id, unregistered_user.signals_telegram_user.telegram_chat_id
+      assert_equal telegram_chat_id, unregistered_user.signals_telegram_user.telegram_chat_id.to_i
       assert_equal started_at.utc.to_s, unregistered_user.signals_telegram_user.started_at.utc.to_s
     end
 

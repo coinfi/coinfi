@@ -26,7 +26,7 @@ class Api::CalendarEventsController < ApiController
     if q[:confidence].present?
       puts q[:confidence]
     end
-    
+
     if q[:publishedUntil].present?
       @calendar_events = @calendar_events.where('date_event < ?', q[:publishedUntil])
     end
@@ -36,7 +36,7 @@ class Api::CalendarEventsController < ApiController
     end
 
     past = q[:events] == 'Past events'
-    
+
     if q[:id].present?
       if past
         @calendar_events = @calendar_events.where('id < ?',  q[:id])
@@ -46,9 +46,9 @@ class Api::CalendarEventsController < ApiController
     end
 
     if past
-      @calendar_events = @calendar_events.where('date_event < ?', Time.now).order('date_event DESC, id DESC')
+      @calendar_events = @calendar_events.where('date_event < ?', Time.now).order(date_event: :desc, id: :desc)
     else
-      @calendar_events = @calendar_events.where('date_event > ?', Time.now).order('date_event ASC, id ASC')
+      @calendar_events = @calendar_events.where('date_event > ?', Time.now).order(:date_event, :id)
     end
 
     # if have to pluck, maybe better to apply all other filters first

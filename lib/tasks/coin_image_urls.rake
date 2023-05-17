@@ -10,7 +10,7 @@ namespace :coins do
     #> rake "coins:update_image_urls[force]"
     github_url = "https://raw.githubusercontent.com/cjdowner/cryptocurrency-icons/master/svg/color/"
     cdn_url = "https://gitcdn.link/repo/cjdowner/cryptocurrency-icons/master/svg/color/"
-    Coin.all.order('name').each do |coin|
+    Coin.all.order(:name).each do |coin|
       if coin.image_url.to_s.present?
         unless args.force
           puts "#{coin.name} - skipped, image_url present"

@@ -6,7 +6,15 @@ module NewsServices
 
     def call
       ActiveRecord::Base.connection_pool.with_connection do |connection|
-        connection.execute("REFRESH MATERIALIZED VIEW CONCURRENTLY #{@view_name} WITH DATA;")
+        begin
+          connection.execute("REFRESH MATERIALIZED VIEW CONCURRENTLY #{@view_name} WITH DATA;")
+        rescue ActiveRecord::StatementInvalid => e
+          if e.message.match "CONCURRENTLY cannot be used when the materialized view is not populated"
+            connection.execute("REFRESH MATERIALIZED VIEW #{@view_name} WITH DATA;")
+          else
+            raise
+          end
+        end
         connection.execute("ANALYSE #{@view_name};") # according to https://dba.stackexchange.com/a/194717
       end
     end
