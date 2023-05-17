@@ -8,7 +8,6 @@ require 'minitest/stub_any_instance'
 require 'webmock/minitest'
 
 DatabaseCleaner.strategy = :truncation
-DatabaseCleaner.logger = Rails.logger
 
 class ActiveSupport::TestCase
   # Setup all fixtures in test/fixtures/*.yml for all tests in alphabetical order.

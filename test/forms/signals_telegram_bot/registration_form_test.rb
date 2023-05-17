@@ -3,11 +3,11 @@ require 'faker'
 
 class SignalsTelegramBot::RegistrationFormTest < ActiveSupport::TestCase
   setup do
-    @telegram_username = Faker::Internet.username(nil, %w(_))
+    @telegram_username = Faker::Internet.username(specifier: nil, separators: %w(_))
     @default_form_params = {
-      telegram_id: Faker::Number.number(9),
+      telegram_id: Faker::Number.number(digits: 9),
       telegram_username: @telegram_username,
-      telegram_chat_id: Faker::Number.number(9),
+      telegram_chat_id: Faker::Number.number(digits: 9),
       started_at: DateTime.now.iso8601,
     }
 
@@ -31,9 +31,9 @@ class SignalsTelegramBot::RegistrationFormTest < ActiveSupport::TestCase
     assert_difference 'SignalsTelegramUser.count', 1 do
       form.save!
     end
-    assert_equal @default_form_params[:telegram_id], form.signals_telegram_user.telegram_id
+    assert_equal @default_form_params[:telegram_id], form.signals_telegram_user.telegram_id.to_i
     assert_equal @default_form_params[:telegram_username], form.signals_telegram_user.telegram_username
-    assert_equal @default_form_params[:telegram_chat_id], form.signals_telegram_user.telegram_chat_id
+    assert_equal @default_form_params[:telegram_chat_id], form.signals_telegram_user.telegram_chat_id.to_i
     assert_equal DateTime.parse(@default_form_params[:started_at]), form.signals_telegram_user.started_at
   end
 

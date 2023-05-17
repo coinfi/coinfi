@@ -16,6 +16,9 @@ port        ENV.fetch("PORT") { 3000 }
 #
 environment ENV.fetch("RAILS_ENV") { "development" }
 
+# Specifies the `pidfile` that Puma will use.
+pidfile ENV.fetch("PIDFILE") { "tmp/pids/server.pid" }
+
 # Specifies the number of `workers` to boot in clustered mode.
 # Workers are forked webserver processes. If using threads and workers together
 # the concurrency of the application would be max `threads` * `workers`.
@@ -23,6 +26,13 @@ environment ENV.fetch("RAILS_ENV") { "development" }
 # processes).
 #
 workers ENV.fetch("WEB_CONCURRENCY") { 2 }
+
+# Experimental config option that may reduce latency and improve throughput for
+# high-load Puma apps on MRI. Users of this option should see reduced
+# request queue latency and possibly less overall latency.
+# Introduced here: https://github.com/puma/puma/pull/2079
+# Can be disabled by setting WAIT_FOR_LESS_BUSY_WORKERS=0
+wait_for_less_busy_worker ENV.fetch('WAIT_FOR_LESS_BUSY_WORKERS', '0.005').to_f
 
 # Use the `preload_app!` method when specifying a `workers` number.
 # This directive tells Puma to first boot the application and load code
@@ -38,7 +48,8 @@ preload_app!
 # are forked to prevent connection leakage.
 #
 before_fork do
-  ActiveRecord::Base.connection_pool.disconnect! if defined?(ActiveRecord)
+  # Handling forking for exejc/mini_racer
+  # https://github.com/rubyjs/mini_racer#fork-safety
   ObjectSpace.each_object(MiniRacer::Context){|c| c.dispose}
   Barnes.start
 end
@@ -50,9 +61,8 @@ end
 # or connections that may have been created at application boot, as Ruby
 # cannot share connections between processes.
 #
-on_worker_boot do
-  ActiveRecord::Base.establish_connection if defined?(ActiveRecord)
-end
+# on_worker_boot do
+# end
 
 # Allow puma to be restarted by `rails restart` command.
 plugin :tmp_restart

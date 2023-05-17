@@ -56,7 +56,7 @@ class CoinDashboard < Administrate::BaseDashboard
     coin_excluded_countries: Field::NestedHasMany.with_options(skip: :coin),
     blockchain_tech: Field::String.with_options(searchable: false),
     token_type: Field::String.with_options(searchable: false),
-    exchanges: Field::JSON,
+    exchanges: Field::JSONB,
     previous_name: Field::String,
     created_at: Field::DateTime,
     updated_at: Field::DateTime,

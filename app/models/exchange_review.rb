@@ -17,7 +17,7 @@ class ExchangeReview < ApplicationRecord
   validates :support_rating, numericality: { greater_than_or_equal_to: 0, less_than_or_equal_to: 5 }, allow_nil: true
   validates :selection_rating, numericality: { greater_than_or_equal_to: 0, less_than_or_equal_to: 5 }, allow_nil: true
 
-  scope :ranked, -> { includes(:exchange_review_categorizations).order('exchange_review_categorizations.ranking', updated_at: :desc) }
+  scope :ranked, -> { includes(:exchange_review_categorizations).order(Arel.sql('exchange_review_categorizations.ranking, exchange_reviews.updated_at desc')) }
 
   def get_schema
     schema = {
