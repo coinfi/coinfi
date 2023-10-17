@@ -22,10 +22,6 @@ RefreshTrendingNews:
 TweetTrendingNews:
   cron: '30 0 * * * * Etc/UTC'  # Slightly after RefreshTrendingNews
 
-CheckCmcOhclv:
-  cron: '0 50 * * * * Etc/UTC'
-  include_metadata: true
-
 RefreshGitRepos:
   cron: '0 15 0 * * * Etc/UTC'
 
@@ -33,6 +29,11 @@ RefreshIndicators:
   cron: '0 20 0 * * * Etc/UTC'
 
 # Paid API routes
+
+
+UpdateCmcDailyPrices:
+  cron: '0 0 1 * * * Etc/UTC'
+  include_metadata: true
 
 UpdateCmcPrices:
   cron: '0 * * * * * Etc/UTC'
