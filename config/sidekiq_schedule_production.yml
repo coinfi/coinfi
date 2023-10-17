@@ -22,7 +22,7 @@ RefreshTrendingNews:
 TweetTrendingNews:
   cron: '30 0 * * * * Etc/UTC'  # Slightly after RefreshTrendingNews
 
-CheckCmcOhclv:                  # Replaces rake etldb
+CheckCmcOhclv:
   cron: '0 50 * * * * Etc/UTC'
   include_metadata: true
 

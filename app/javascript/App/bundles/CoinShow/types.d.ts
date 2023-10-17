@@ -101,33 +101,3 @@ interface TeamMember {
   linkedin?: string
   icobench_profile?: string
 }
-
-type TokenMetrics = { [Data in TokenDataType]: TokenData[] } &
-  { [MetaData in TokenMetaDataType]: TokenMetaData }
-
-interface TokenMetaData {
-  rank: number
-  num_coins: number
-  metric_value: number
-}
-
-interface TokenData {
-  date: string
-  percentage?: number
-  number?: number
-}
-
-declare enum TokenDataType {
-  'exchange_supply_data' = 'exchange_supply_data',
-  'token_retention_rate_data' = 'token_retention_rate_data',
-  'token_distribution_100_data' = 'token_distribution_100_data',
-  'unique_wallet_count_data' = 'unique_wallet_count_data',
-  'token_velocity_data' = 'token_velocity_data',
-}
-declare enum TokenMetaDataType {
-  'exchange_supply_metadata' = 'exchange_supply_metadata',
-  'token_retention_rate_metadata' = 'token_retention_rate_metadata',
-  'token_distribution_100_metadata' = 'token_distribution_100_metadata',
-  'unique_wallet_count_metadata' = 'unique_wallet_count_metadata',
-  'token_velocity_metadata' = 'token_velocity_metadata',
-}
