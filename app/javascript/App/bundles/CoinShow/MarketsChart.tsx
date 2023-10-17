@@ -55,7 +55,7 @@ export function groupMarketData(data, groupBy: GroupType) {
   return sortedData
 }
 
-export default class TokenChart extends React.Component<Props, State> {
+export default class MarketsChart extends React.Component<Props, State> {
   private internalChart: Highcharts.Chart
 
   constructor(props: Props) {

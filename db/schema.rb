@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20200327160206) do
+ActiveRecord::Schema.define(version: 2023_10_16_022444) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -282,6 +282,19 @@ ActiveRecord::Schema.define(version: 20200327160206) do
     t.string "alpha2"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "daily_ohcl_prices", force: :cascade do |t|
+    t.bigint "coin_id"
+    t.string "to_currency", default: "USD"
+    t.datetime "time"
+    t.decimal "open"
+    t.decimal "high"
+    t.decimal "low"
+    t.decimal "close"
+    t.decimal "volume_to"
+    t.index ["coin_id", "to_currency", "time"], name: "index_daily_ohcl_prices_on_coin_id_and_to_currency_and_time", unique: true
+    t.index ["coin_id"], name: "index_daily_ohcl_prices_on_coin_id"
   end
 
   create_table "exchange_categories", force: :cascade do |t|
@@ -686,6 +699,7 @@ ActiveRecord::Schema.define(version: 20200327160206) do
   add_foreign_key "coin_industries_coins", "coins"
   add_foreign_key "contributor_submissions", "submission_categories"
   add_foreign_key "contributor_submissions", "users", on_delete: :cascade
+  add_foreign_key "daily_ohcl_prices", "coins"
   add_foreign_key "exchange_categories", "authors", on_delete: :cascade
   add_foreign_key "exchange_listings", "coins", column: "base_symbol_id"
   add_foreign_key "exchange_listings", "coins", column: "quote_symbol_id"

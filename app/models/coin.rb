@@ -3,7 +3,6 @@ class Coin < ApplicationRecord
 
   include ICO
   include CoinsHelper
-  include TokensHelper
   extend FriendlyId
   friendly_id :name, use: [:slugged, :finders]
 
@@ -25,14 +24,9 @@ class Coin < ApplicationRecord
   has_many :machine_tagged_news_items, through: :machine_tagged_mentions, source: :news_item
   has_many :human_tagged_news_items, through: :human_tagged_mentions, source: :news_item
   has_many :metrics, foreign_key: :eth_address
-  has_one :token_supply, foreign_key: :coin_key, primary_key: :coin_key
-  has_one :token_retention, foreign_key: :coin_key, primary_key: :coin_key
-  has_one :token_decentralization, foreign_key: :coin_key, primary_key: :coin_key
-  has_one :token_adoption, foreign_key: :coin_key, primary_key: :coin_key
-  has_one :token_velocity, foreign_key: :coin_key, primary_key: :coin_key
-
   has_many :calendar_event_coins
   has_many :calendar_events, through: :calendar_event_coins
+  has_many :daily_ohcl_prices
 
   validates :name, presence: true
 
@@ -247,21 +241,6 @@ class Coin < ApplicationRecord
     data
   end
 
-  def token_metrics
-    {
-      exchange_supply_data: exchange_supply_data,
-      exchange_supply_metadata: exchange_supply_metadata,
-      token_retention_rate_data: token_retention_rate_data,
-      token_retention_rate_metadata: token_retention_rate_metadata,
-      unique_wallet_count_data: unique_wallet_count_data,
-      unique_wallet_count_metadata: unique_wallet_count_metadata,
-      token_distribution_100_data: token_distribution_100_data,
-      token_distribution_100_metadata: token_distribution_100_metadata,
-      token_velocity_data: token_velocity_data,
-      token_velocity_metadata: token_velocity_metadata,
-    }
-  end
-
   def hourly_prices_data
     Rails.cache.fetch("coins/#{id}/hourly_prices", expires_in: seconds_to_next_hour) do
       self.touch
@@ -338,60 +317,6 @@ class Coin < ApplicationRecord
     has_git_repo? && git_repo_type == "github"
   end
 
-  def token_metrics_data(metric_model, metric_value = 'percentage')
-    return unless has_token_metrics?
-
-    @token_metrics_data ||= {}
-    @token_metrics_data[metric_model.name] ||= metric_model.where(coin_key: coin_key).order(:date).select(:date, metric_value)
-  end
-
-  def token_metrics_metadata(metric_type)
-    return unless has_token_metrics?
-
-    token_model = get_model_from_metric_type(metric_type)
-    self.try(token_model).try(:attributes)
-  end
-
-  def exchange_supply_data
-    token_metrics_data(DailyTokenSupply)
-  end
-
-  def exchange_supply_metadata
-    token_metrics_metadata('exchange_supply')
-  end
-
-  def token_retention_rate_data
-    token_metrics_data(DailyTokenRetention)
-  end
-
-  def token_retention_rate_metadata
-    token_metrics_metadata('token_retention_rate')
-  end
-
-  def unique_wallet_count_data
-    token_metrics_data(DailyTokenAdoption, 'number')
-  end
-
-  def unique_wallet_count_metadata
-    token_metrics_metadata('unique_wallet_count')
-  end
-
-  def token_distribution_100_data
-    token_metrics_data(DailyTokenDecentralization)
-  end
-
-  def token_distribution_100_metadata
-    token_metrics_metadata('token_distribution_100')
-  end
-
-  def token_velocity_data
-    token_metrics_data(DailyTokenVelocity)
-  end
-
-  def token_velocity_metadata
-    token_metrics_metadata('token_velocity')
-  end
-
   def news_data
     Rails.cache.fetch("coins/#{id}/news_data", expires_in: 1.hour) do
       self.touch
@@ -438,10 +363,5 @@ class Coin < ApplicationRecord
       re.match(self.blockchain_tech) ||
       re.match(self.token_type)
     ).present?
-  end
-
-  def has_token_metrics?
-    # symbol && is_erc20?
-    false
   end
 end
