@@ -26,6 +26,7 @@ class Coin < ApplicationRecord
   has_many :metrics, foreign_key: :eth_address
   has_many :calendar_event_coins
   has_many :calendar_events, through: :calendar_event_coins
+  has_many :daily_ohcl_prices
 
   validates :name, presence: true
 
