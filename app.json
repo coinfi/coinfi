@@ -86,7 +86,7 @@
   },
   "formation": {},
   "addons": [
-    "heroku-postgresql:hobby-basic",
+    "heroku-postgresql:standard-0",
     "heroku-redis:mini",
     "rediscloud:30",
     "papertrail",
