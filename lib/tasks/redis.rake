@@ -7,7 +7,10 @@ namespace :redis do
     next if raw_prod_redis_uri.blank?
 
     prod_redis_uri = URI.parse(raw_prod_redis_uri)
-    redis = Redis.new(url: ENV.fetch('REDIS_URL'))
+    redis = Redis.new(
+      url: ENV.fetch('REDIS_TLS_URL') { |name| ENV.fetch('REDIS_URL') },
+      ssl_params: { verify_mode: OpenSSL::SSL::VERIFY_NONE }
+    )
     redis.slaveof(prod_redis_uri.host, prod_redis_uri.port)
     redis.config('set', 'masterauth', prod_redis_uri.password)
     redis.config('set', 'slave-read-only', 'no')
@@ -17,14 +20,20 @@ namespace :redis do
   task :copy_prod => :environment do
     puts "Starting redis copy."
     prod_redis_uri = ENV['PRODUCTION_REDIS_URL']
-    local_redis_uri = ENV.fetch('REDIS_URL')
+    local_redis_uri = ENV.fetch('REDIS_TLS_URL') { |name| ENV.fetch('REDIS_URL') }
     if prod_redis_uri.blank? || prod_redis_uri == local_redis_uri
       puts "Skipping redis copy for production."
       next
     end
 
-    redisSrc = Redis.new :url => prod_redis_uri
-    redisDest = Redis.new :url => local_redis_uri
+    redisSrc = Redis.new(
+      url: prod_redis_uri,
+      ssl_params: { verify_mode: OpenSSL::SSL::VERIFY_NONE }
+    )
+    redisDest = Redis.new(
+      url: local_redis_uri,
+      ssl_params: { verify_mode: OpenSSL::SSL::VERIFY_NONE }
+    )
 
     # copy snapshots
     redisSrc.keys("*:snapshot").each do |key|
@@ -42,13 +51,16 @@ namespace :redis do
 
   desc "Add local key prefix"
   task :copy_local => :environment do
-    redis_uri = ENV.fetch('REDIS_URL')
+    redis_uri = ENV.fetch('REDIS_TLS_URL') { |name| ENV.fetch('REDIS_URL') }
     parsed_redis_url = URI.parse(redis_uri)
     prefix_array = parsed_redis_url.path.match(/\/\d+\/(.+)/)
     prefix = prefix_array[1] if prefix_array.present?
     next if prefix.blank?
 
-    redis = Redis.new :url => redis_uri
+    redis = Redis.new(
+      url: redis_uri,
+      ssl_params: { verify_mode: OpenSSL::SSL::VERIFY_NONE }
+    )
 
     # remove old snapshots
     redis.keys("#{prefix}:*:snapshot").each do |key|
@@ -75,7 +87,7 @@ namespace :redis do
   task :delete_keys, [:key] => :environment do |task, args|
     next if args[:key].blank?
 
-    redis_uri = ENV.fetch('REDIS_URL')
+    redis_uri = ENV.fetch('REDIS_TLS_URL') { |name| ENV.fetch('REDIS_URL') }
     parsed_redis_url = URI.parse(redis_uri)
     prefix_array = parsed_redis_url.path.match(/\/\d+\/(.+)/)
     prefix = prefix_array[1] if prefix_array.present?
@@ -84,7 +96,10 @@ namespace :redis do
     search = "#{prefix}#{args[:key]}"
     puts "Searching for #{search}"
 
-    redis = Redis.new :url => redis_uri
+    redis = Redis.new(
+      url: redis_uri,
+      ssl_params: { verify_mode: OpenSSL::SSL::VERIFY_NONE }
+    )
     redis.keys(search).each do |key|
       puts "Deleting #{key}"
       redis.del key
