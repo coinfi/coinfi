@@ -18,9 +18,13 @@ module CoinMarketCapPro
         target_cmc_coin_ids = Coin.where(id: @target_coin_ids).pluck(:cmc_id)
         # Ensure targetted coins exist
         filtered_target_cmc_coin_ids = target_cmc_coin_ids.filter {|id| cmc_coin_ids.include?(id.to_s)}
-        if filtered_target_cmc_coin_ids.size != target_cmc_coin_ids.size
+        if filtered_target_cmc_coin_ids.size == 0
+          puts "[WARNING] All coin IDs are not available on CMC."
+          return
+        elsif filtered_target_cmc_coin_ids.size != target_cmc_coin_ids.size
           puts "[WARNING] Coin IDs not available on CMC: #{target_cmc_coin_ids - filtered_target_cmc_coin_ids}"
         end
+        target_cmc_coin_ids = filtered_target_cmc_coin_ids
       else
         target_cmc_coin_ids = cmc_coin_ids
       end
