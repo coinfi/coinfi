@@ -32,7 +32,7 @@ RefreshIndicators:
 
 
 UpdateCmcDailyPrices:
-  cron: '0 0 1 * * * Etc/UTC'
+  cron: '0 10 0 * * * Etc/UTC'
   include_metadata: true
 
 UpdateCmcPrices:
