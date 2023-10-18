@@ -96,33 +96,38 @@ module CoinMarketCapPro
           response = HTTParty.get(url, :query => query, :headers => headers)
 
           unless response.success?
-            if response.timed_out?
-              puts "#{(cmc_id)} timed out"
-            elsif response.code == 0
+            if response.code == 0
               # Could not get an http response, something's wrong.
-              puts "#{(cmc_id)} #{response.return_message}"
+              raise HTTParty::Error.new "#{response.return_message}"
             elsif response.code == 429
               body = JSON.parse(response.body)
               json_response_code = get_json_response_code body
               if json_response_code == 1008
-                sleep 60
+                # 1-min rate limit - assume 30s wait is good enough at first
+                if retries == 0
+                  sleep 30
+                else
+                  sleep 60
+                end
+                raise HTTParty::Error.new "Rate limited"
               else
-                raise "Got unretryable rate limit error code #{json_response_code}"
+                # Don't raise HTTParty::Error - we don't want to retry
+                raise "#{(cmc_id)} Got unretryable rate limit error code #{json_response_code}"
               end
             elsif response.code >= 400 && response.code < 500
               body = JSON.parse(response.body)
               json_error = get_error_message body
 
-              puts "#{(cmc_id)} HTTP request failed: #{response.code} with error: #{json_error}"
+              raise HTTParty::Error.new "HTTP request failed: #{response.code} with error: #{json_error}"
             else
               # Received a non-successful http response.
-              puts "#{(cmc_id)} HTTP request failed: " + response.code.to_s
+              raise HTTParty::Error.new "HTTP request failed: " + response.code.to_s
             end
-            raise HTTParty::Error.new
           end
-        rescue HTTParty::Error
+        rescue HTTParty::Error, Net::OpenTimeout => e
+          puts "#{(cmc_id)} #{e}"
           if (retries += 1) <= max_retries
-            sleep 30
+            sleep 1
             retry
           else
             response = nil

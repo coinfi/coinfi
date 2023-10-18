@@ -5,20 +5,17 @@ class CheckCmcOhclvService < Patterns::Service
   INDICATOR_COIN_KEYS = IndicatorsHelper::INDICATOR_COIN_KEYS
 
   def initialize(granularity: 'daily')
-    @etl_db_name = ENV.fetch('ETL_DB_NAME')
-    @etl_db_port = ENV.fetch('ETL_DB_PORT')
-    @etl_db_host = ENV.fetch('ETL_DB_HOST')
-    @etl_db_user = ENV.fetch('ETL_DB_USER')
-    @etl_db_pass = ENV.fetch('ETL_DB_PASSWORD')
 
     @failed_tests = []
     @failed_coins = []
     @failed_cached_coins = []
 
     if granularity == 'hourly'
+      raise "No hourly data"
+
       @granularity = 'hourly'
       @table = {
-        name: "cmc_hourly_ohcl_prices",
+        name: "hourly_ohcl_prices",
         interval: "2 hours",
         url: ENV.fetch('HEALTHCHECK_HOURLY_PRICES')
       }
@@ -44,10 +41,10 @@ class CheckCmcOhclvService < Patterns::Service
           query: lambda { Coin.listed.legit.order("RANDOM()").limit(3) }
         }
       ]
-    else
+    elsif
       @granularity = 'daily'
       @table = {
-        name: "cmc_daily_ohcl_prices",
+        name: "daily_ohcl_prices",
         interval: "2 days",
         url: ENV.fetch('HEALTHCHECK_DAILY_PRICES')
       }
@@ -57,16 +54,16 @@ class CheckCmcOhclvService < Patterns::Service
           query: lambda { Coin.where(coin_key: INDICATOR_COIN_KEYS) }
         }
       ]
+    else
+      raise "No #{@granularity} data"
     end
   end
 
   def call
     checkout_connection
-    create_view!
     check_coins
     log_results
     ping_health_check
-    destroy_view!
   ensure
     checkin_connection
   end
@@ -87,15 +84,18 @@ class CheckCmcOhclvService < Patterns::Service
         label = "#{@granularity.capitalize}:#{coin_test[:title]}:#{coin_key}"
         puts "Checking #{label}"
 
-        query = "
+        query = <<~SQL
           SELECT
             COUNT(*) AS count,
             MIN(volume_to) AS to,
             MAX(time) AS time,
             coin_key
-          FROM #{@table[:name]}_view
+          FROM #{@table[:name]}
           WHERE coin_key = '#{coin_key}'
-          GROUP BY coin_key;"
+            and time >= NOW() - '#{@table[:interval]}'::INTERVAL
+          GROUP BY coin_key;
+        SQL
+
         result = @connection.exec_query(query)
 
         if result.empty? then
@@ -171,28 +171,6 @@ class CheckCmcOhclvService < Patterns::Service
       }
       Net::HTTP.post(URI.parse("#{@table[:url]}/fail"), error_body.to_json)
     end
-  end
-
-  def create_view!
-    @connection.execute("
-      CREATE OR REPLACE VIEW #{@table[:name]}_view AS
-      SELECT *
-      FROM dblink('
-        dbname=#{@etl_db_name}
-        port=#{@etl_db_port}
-        host=#{@etl_db_host}
-        user=#{@etl_db_user}
-        password=#{@etl_db_pass}',
-        'SELECT coin_key, to_currency, time, volume_to
-          FROM staging.#{@table[:name]}
-          WHERE time >= NOW() - ''#{@table[:interval]}''::INTERVAL'
-      )
-      AS t1(coin_key varchar, to_currency varchar, time timestamp, volume_to numeric);
-    ")
-  end
-
-  def destroy_view!
-    @connection.execute("DROP VIEW #{@table[:name]}_view;")
   end
 
   def checkout_connection
