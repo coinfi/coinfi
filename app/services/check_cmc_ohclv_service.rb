@@ -78,6 +78,7 @@ class CheckCmcOhclvService < Patterns::Service
       end
 
       coins.each do |coin|
+        coin_id = coin.id
         coin_key = coin.coin_key.to_s
         ranking = coin.ranking
         label = "#{@granularity.capitalize}:#{coin_test[:title]}:#{coin_key}"
@@ -88,11 +89,11 @@ class CheckCmcOhclvService < Patterns::Service
             COUNT(*) AS count,
             MIN(volume_to) AS to,
             MAX(time) AS time,
-            coin_key
+            coin_id
           FROM #{@table[:name]}
-          WHERE coin_key = '#{coin_key}'
+          WHERE coin_id = #{coin_id}
             and time >= NOW() - '#{@table[:interval]}'::INTERVAL
-          GROUP BY coin_key;
+          GROUP BY coin_id;
         SQL
 
         result = @connection.exec_query(query)
@@ -118,18 +119,20 @@ class CheckCmcOhclvService < Patterns::Service
         end
 
         # Double-check that we've cached the latest results
-        latest_cached_price_data = nil
-        if @granularity == 'daily'
-          latest_cached_price_data = coin.prices_data.reverse!.first # prices_data is fetched as ASC
-        # elsif @granularity == 'hourly'
-        #   latest_cached_price_data = coin.hourly_prices_data.reverse!.first # hourly_prices_data is fetched as ASC
-        else
-          raise "Could not find cached price data for selected granularity: #{@granularity}"
-        end
-
+        latest_cached_price_data = check_latest_cached_price_data coin
         if latest_cached_price_data.blank?
-          @failed_cached_coins << coin_key
-          next
+          # Force refresh before flagging as missing
+          if @granularity == 'daily'
+            coin.prices_data(force_refresh: true)
+          else
+            raise "Could not refresh cached price data for selected granularity: #{@granularity}"
+          end
+
+          latest_cached_price_data = check_latest_cached_price_data coin
+          if latest_cached_price_data.blank?
+            @failed_cached_coins << coin_key
+            next
+          end
         end
 
         latest_cached_timestamp = DateTime.parse(latest_cached_price_data["time"])
@@ -138,6 +141,16 @@ class CheckCmcOhclvService < Patterns::Service
           @failed_cached_coins << coin_key
         end
       end
+    end
+  end
+
+  def check_latest_cached_price_data(coin)
+    if @granularity == 'daily'
+      coin.prices_data.reverse!.first # prices_data is fetched as ASC
+    # elsif @granularity == 'hourly'
+    #   latest_cached_price_data = coin.hourly_prices_data.reverse!.first # hourly_prices_data is fetched as ASC
+    else
+      raise "Could not find cached price data for selected granularity: #{@granularity}"
     end
   end
 
