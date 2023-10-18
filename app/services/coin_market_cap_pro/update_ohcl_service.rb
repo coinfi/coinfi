@@ -14,10 +14,12 @@ module CoinMarketCapPro
     def call
       cmc_coin_ids = get_cmc_coin_ids
       if @target_coin_ids.present?
+        # Get cmc_ids
+        target_cmc_coin_ids = Coin.where(id: @target_coin_ids).pluck(:cmc_id)
         # Ensure targetted coins exist
-        target_cmc_coin_ids = @target_coin_ids.filter {|id| cmc_coin_ids.include?(id.to_s)}
-        if target_cmc_coin_ids.size != @target_coin_ids.size
-          puts "[WARNING] Coin IDs not available on CMC: #{@target_coin_ids - target_cmc_coin_ids}"
+        filtered_target_cmc_coin_ids = target_cmc_coin_ids.filter {|id| cmc_coin_ids.include?(id.to_s)}
+        if filtered_target_cmc_coin_ids.size != target_cmc_coin_ids.size
+          puts "[WARNING] Coin IDs not available on CMC: #{target_cmc_coin_ids - filtered_target_cmc_coin_ids}"
         end
       else
         target_cmc_coin_ids = cmc_coin_ids
@@ -194,10 +196,41 @@ module CoinMarketCapPro
 
       query = { listing_status: 'active' }
       headers = get_default_api_headers
-      response = begin
-        HTTParty.get(map_url, :query => query, :headers => headers)
+
+      max_retries = 5
+      retries = 0
+      begin
+        response = HTTParty.get(map_url, :query => query, :headers => headers)
+
+        unless response.success?
+          if response.code == 429
+            body = JSON.parse(response.body)
+            json_response_code = get_json_response_code body
+            if json_response_code == 1008
+              # 1-min rate limit - assume 30s wait is good enough at first
+              if retries == 0
+                sleep 30
+              else
+                sleep 60
+              end
+              raise HTTParty::Error.new "Rate limited"
+            else
+              # Don't raise HTTParty::Error - we don't want to retry
+              raise "#{(cmc_id)} Got unretryable rate limit error code #{json_response_code}"
+            end
+          else
+            # Received a non-successful http response.
+            raise HTTParty::Error.new "HTTP request failed: " + response.code.to_s
+          end
+        end
       rescue HTTParty::Error
-        nil
+        puts "Coin Map: #{e}"
+        if (retries += 1) <= max_retries
+          sleep 1
+          retry
+        else
+          response = nil
+        end
       end
 
       extract_api_data(response, @healthcheck_url)
