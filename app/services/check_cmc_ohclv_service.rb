@@ -1,6 +1,5 @@
 class CheckCmcOhclvService < Patterns::Service
-  attr_accessor :failed_tests
-  attr_accessor :failed_coins
+  attr_reader :failed_tests, :failed_coins, :failed_cached_coins
 
   INDICATOR_COIN_KEYS = IndicatorsHelper::INDICATOR_COIN_KEYS
 
