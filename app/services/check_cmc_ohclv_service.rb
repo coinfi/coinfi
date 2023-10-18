@@ -5,7 +5,6 @@ class CheckCmcOhclvService < Patterns::Service
   INDICATOR_COIN_KEYS = IndicatorsHelper::INDICATOR_COIN_KEYS
 
   def initialize(granularity: 'daily')
-
     @failed_tests = []
     @failed_coins = []
     @failed_cached_coins = []
@@ -122,8 +121,8 @@ class CheckCmcOhclvService < Patterns::Service
         latest_cached_price_data = nil
         if @granularity == 'daily'
           latest_cached_price_data = coin.prices_data.reverse!.first # prices_data is fetched as ASC
-        elsif @granularity == 'hourly'
-          latest_cached_price_data = coin.hourly_prices_data.reverse!.first # hourly_prices_data is fetched as ASC
+        # elsif @granularity == 'hourly'
+        #   latest_cached_price_data = coin.hourly_prices_data.reverse!.first # hourly_prices_data is fetched as ASC
         else
           raise "Could not find cached price data for selected granularity: #{@granularity}"
         end

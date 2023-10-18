@@ -68,15 +68,16 @@ module CoinMarketCapPro
     # TODO: Parallelize requests
     def download_ohcl_data(coin_mapping, time_of_request)
       start = DateTime.current.to_f
-      puts "Start downloading OHCL data from coinmarketcap"
-
-      url = "https://pro-api.coinmarketcap.com/v1/cryptocurrency/ohlcv/historical"
 
       previous_interval = get_previous_time_interval time_of_request
+      puts "Start downloading OHCL data from coinmarketcap for #{previous_interval}"
+
       # Start time is exclusive, so to retrieve the previous time unit, we need to go further back
       # e.g., at 4AM, we attempt to retrieve 3AM data, so we must input a start time before 3AM, for example, 2AM
       start_time = previous_interval - 1.day
       epoch = (start_time.to_f * 1000).to_i
+
+      url = "https://pro-api.coinmarketcap.com/v1/cryptocurrency/ohlcv/historical"
 
       progress = ProgressBar.create(:title => 'coins', :total => coin_mapping.size)
       responses = coin_mapping.keys.map do |cmc_id|

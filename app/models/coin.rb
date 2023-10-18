@@ -241,22 +241,20 @@ class Coin < ApplicationRecord
     data
   end
 
-  def hourly_prices_data
-    Rails.cache.fetch("coins/#{id}/hourly_prices", expires_in: seconds_to_next_hour) do
-      self.touch
-      url = "#{ENV.fetch('COINFI_POSTGREST_URL')}/hourly_ohcl_prices?coin_key=eq.#{coin_key}&to_currency=eq.USD&order=time.asc"
-      response = HTTParty.get(url)
-      JSON.parse(response.body)
-    end
-  end
+  # def hourly_prices_data
+  #   Rails.cache.fetch("coins/#{id}/hourly_prices", expires_in: seconds_to_next_hour) do
+  #     self.touch
+  #     url = "#{ENV.fetch('COINFI_POSTGREST_URL')}/hourly_ohcl_prices?coin_key=eq.#{coin_key}&to_currency=eq.USD&order=time.asc"
+  #     response = HTTParty.get(url)
+  #     JSON.parse(response.body)
+  #   end
+  # end
 
   def prices_data(force_refresh: false)
     # Expire cache 30 minutes after UTC midnight; new daily data is expected slightly after the midnight-scheduled job
     @cached_prices_data ||= Rails.cache.fetch("coins/#{id}/prices", expires_in: seconds_to_next_day + 1800, force: force_refresh) do
       self.touch
-      url = "#{ENV.fetch('COINFI_POSTGREST_URL')}/cmc_daily_ohcl_prices?coin_key=eq.#{coin_key}&to_currency=eq.USD&order=time.asc"
-      response = HTTParty.get(url)
-      JSON.parse(response.body)
+      daily_ohcl_prices.usd.chronological.map(&:as_json)
     end
   end
 
@@ -264,11 +262,7 @@ class Coin < ApplicationRecord
     # Expire cache 30 minutes after UTC midnight; new daily data is expected slightly after the midnight-scheduled job
     Rails.cache.fetch("coins/#{id}/sparkline", expires_in: seconds_to_next_day + 1800) do
       self.touch
-      url = "#{ENV.fetch('COINFI_POSTGREST_URL')}/cmc_daily_ohcl_prices?coin_key=eq.#{coin_key}&select=close&to_currency=eq.USD&limit=7&order=time.desc"
-      response = HTTParty.get(url)
-      results = JSON.parse(response.body)
-      results.map! { |result| result["close"] }
-      results.reverse!
+      daily_ohcl_prices.usd.reverse_chronological.limit(7).pluck(:close).reverse
     end
   end
 
