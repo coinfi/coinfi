@@ -26,7 +26,7 @@ class UpdateCmcDailyPrices
       healthcheck_url: ENV.fetch('HEALTHCHECK_DAILY_PRICES')
     )
 
-    check_results = CheckCmcOhclvService.call(granularity: 'daily')
+    check_results = CheckCmcOhclvService.call(granularity: 'daily', check_time: scheduled_day)
     if check_results.failed_coins.present? || check_results.failed_cached_coins.present?
       raise "Failed CMC OHCLV Checks"
     end
