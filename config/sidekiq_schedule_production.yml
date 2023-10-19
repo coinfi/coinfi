@@ -27,9 +27,9 @@ RefreshGitRepos:
 
 RefreshIndicators:
   cron: '0 20 0 * * * Etc/UTC'
+  include_metadata: true
 
 # Paid API routes
-
 
 UpdateCmcDailyPrices:
   cron: '0 10 0 * * * Etc/UTC'

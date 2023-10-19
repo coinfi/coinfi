@@ -3,18 +3,21 @@ class CheckCmcOhclvService < Patterns::Service
 
   INDICATOR_COIN_KEYS = IndicatorsHelper::INDICATOR_COIN_KEYS
 
-  def initialize(granularity: 'daily')
+  def initialize(check_time: nil, granularity: 'daily')
     @failed_tests = []
     @failed_coins = []
     @failed_cached_coins = []
+
+    check_time = Time.current unless check_time.present?
 
     if granularity == 'hourly'
       raise "No hourly data"
 
       @granularity = 'hourly'
+      @check_time = check_time.beginning_of_hour
       @table = {
         name: "hourly_ohcl_prices",
-        interval: "2 hours",
+        interval: "1 hour",
         url: ENV.fetch('HEALTHCHECK_HOURLY_PRICES')
       }
       @coin_tests = [
@@ -41,9 +44,10 @@ class CheckCmcOhclvService < Patterns::Service
       ]
     elsif
       @granularity = 'daily'
+      @check_time = check_time.beginning_of_day
       @table = {
         name: "daily_ohcl_prices",
-        interval: "2 days",
+        interval: "1 day",
         url: ENV.fetch('HEALTHCHECK_DAILY_PRICES')
       }
       @coin_tests = [
@@ -86,12 +90,12 @@ class CheckCmcOhclvService < Patterns::Service
         query = <<~SQL
           SELECT
             COUNT(*) AS count,
-            MIN(volume_to) AS to,
+            MIN(volume_to) AS volume,
             MAX(time) AS time,
             coin_id
           FROM #{@table[:name]}
           WHERE coin_id = #{coin_id}
-            and time >= NOW() - '#{@table[:interval]}'::INTERVAL
+            and time >= '#{@check_time}'::timestamp - '#{@table[:interval]}'::INTERVAL
           GROUP BY coin_id;
         SQL
 
@@ -107,7 +111,7 @@ class CheckCmcOhclvService < Patterns::Service
         row = result.first
 
         check_volume = ranking.present? && ranking < 100
-        has_volume = row["to"].to_f > 0
+        has_volume = row["volume"].to_f > 0
         has_results = row["count"] > 0
 
         # There should be at least one entry and volume should be non-zero if ranking < 100
@@ -118,7 +122,7 @@ class CheckCmcOhclvService < Patterns::Service
         end
 
         # Double-check that we've cached the latest results
-        latest_cached_price_data = check_latest_cached_price_data coin
+        latest_cached_price_data = get_latest_cached_price_data coin
         if latest_cached_price_data.blank?
           # Force refresh before flagging as missing
           if @granularity == 'daily'
@@ -127,7 +131,7 @@ class CheckCmcOhclvService < Patterns::Service
             raise "Could not refresh cached price data for selected granularity: #{@granularity}"
           end
 
-          latest_cached_price_data = check_latest_cached_price_data coin
+          latest_cached_price_data = get_latest_cached_price_data coin
           if latest_cached_price_data.blank?
             @failed_cached_coins << coin_key
             next
@@ -136,14 +140,25 @@ class CheckCmcOhclvService < Patterns::Service
 
         latest_cached_timestamp = DateTime.parse(latest_cached_price_data["time"])
         db_timestamp = DateTime.parse(row["time"])
-        if latest_cached_timestamp != db_timestamp then
-          @failed_cached_coins << coin_key
+        if latest_cached_timestamp != db_timestamp
+          # Force refresh before flagging as incorrect
+          if @granularity == 'daily'
+            coin.prices_data(force_refresh: true)
+          else
+            raise "Could not refresh cached price data for selected granularity: #{@granularity}"
+          end
+
+          latest_cached_price_data = get_latest_cached_price_data coin
+          latest_cached_timestamp = DateTime.parse(latest_cached_price_data["time"])
+          if latest_cached_timestamp != db_timestamp
+            @failed_cached_coins << coin_key
+          end
         end
       end
     end
   end
 
-  def check_latest_cached_price_data(coin)
+  def get_latest_cached_price_data(coin)
     if @granularity == 'daily'
       coin.prices_data.reverse!.first # prices_data is fetched as ASC
     # elsif @granularity == 'hourly'
