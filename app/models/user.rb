@@ -1,6 +1,6 @@
 class User < ApplicationRecord
   acts_as_voter
-  after_create :add_to_sendy
+  before_save :add_to_sendy, if: [:will_save_change_to_confirmed_at?, :confirmed?]
 
   has_many :news_items
   has_many :visits
