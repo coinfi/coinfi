@@ -6,7 +6,7 @@ class UpdateCmcDailyPrices
     scheduled_day = Time.at(metadata["scheduled_at"]).utc.beginning_of_day
     day_before_scheduled_day = scheduled_day - 1.day
 
-    current_price_query = DailyOhclPrice.where(day_before_scheduled_day...scheduled_day)
+    current_price_query = DailyOhclPrice.where(time: day_before_scheduled_day...scheduled_day)
     if current_price_query.count > 0
       coin_ids = Coin.where.not(cmc_id: nil).
         where.not(id: current_price_query.select(:coin_id).distinct).
