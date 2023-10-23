@@ -160,9 +160,9 @@ class CheckCmcOhclvService < Patterns::Service
 
   def get_latest_cached_price_data(coin)
     if @granularity == 'daily'
-      coin.prices_data.reverse!.first # prices_data is fetched as ASC
+      coin.prices_data.reverse.first # prices_data is fetched as ASC
     # elsif @granularity == 'hourly'
-    #   latest_cached_price_data = coin.hourly_prices_data.reverse!.first # hourly_prices_data is fetched as ASC
+    #   latest_cached_price_data = coin.hourly_prices_data.reverse.first # hourly_prices_data is fetched as ASC
     else
       raise "Could not find cached price data for selected granularity: #{@granularity}"
     end
