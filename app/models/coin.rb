@@ -251,8 +251,12 @@ class Coin < ApplicationRecord
   # end
 
   def prices_data(force_refresh: false)
+    unless force_refresh
+      return @cached_prices_data if @cached_prices_data.present?
+    end
+
     # Expire cache 30 minutes after UTC midnight; new daily data is expected slightly after the midnight-scheduled job
-    @cached_prices_data ||= Rails.cache.fetch("coins/#{id}/prices", expires_in: seconds_to_next_day + 1800, force: force_refresh) do
+    @cached_prices_data = Rails.cache.fetch("coins/#{id}/prices", expires_in: seconds_to_next_day + 1800, force: force_refresh) do
       self.touch
       daily_ohcl_prices.usd.chronological.map(&:as_json)
     end
