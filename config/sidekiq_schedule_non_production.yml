@@ -16,6 +16,10 @@ StakedCofiRefreshTransactions:  # rake staked_cofi:refresh_transactions
 UpdateCurrencies:
   cron: '0 0 0 * * * Etc/UTC'
 
+CopyPrices:
+  cron: '1 10 0 * * * Etc/UTC'
+  include_metadata: true
+
 RefreshTrendingNews:
   cron: '20 */5 * * * * Etc/UTC'  # Stagger start time
 
