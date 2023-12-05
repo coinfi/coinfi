@@ -147,61 +147,6 @@ const styles = (theme) =>
       fontStyle: 'italic',
       fontSize: '12px',
     },
-    tokenMetricHeader: {
-      [theme.breakpoints.up('md')]: {
-        '&:first-child': {
-          marginTop: '10px',
-        },
-        '&:not(:first-child)': {
-          marginTop: '30px',
-        },
-      },
-      [theme.breakpoints.down('sm')]: {
-        paddingLeft: '16px', // container has a -8px margin
-        marginTop: '10px',
-      },
-    },
-    tokenMetricHeaderText: {
-      fontSize: '20px',
-      fontWeight: 500,
-      color: black87,
-    },
-    tokenChartCardContent: {
-      padding: '18px 8px 0 0 !important',
-    },
-    tokenCardContent: {
-      padding: '30px 24px !important',
-      textAlign: 'center',
-      color: black87,
-    },
-    tokenMetricValue: {
-      fontSize: '35px',
-      fontWeight: 600,
-    },
-    tokenMetricSubtitle: {
-      textAlign: 'center',
-      fontSize: '16px',
-    },
-    marketsCardContent: {
-      padding: '0 !important',
-    },
-    marketsChartWrapper: {
-      [theme.breakpoints.down('sm')]: {
-        '&:not(:first-child)': {
-          marginTop: '16px',
-        },
-      },
-    },
-    progressWrapper: {
-      width: '100%',
-      display: 'flex',
-      justifyContent: 'center',
-      alignItems: 'center',
-      flexDirection: 'column',
-      '& *:not(:first-child)': {
-        marginTop: '10px',
-      },
-    },
     expansionRoot: {
       padding: 0,
       marginBottom: `${theme.spacing.unit * 2}px`,

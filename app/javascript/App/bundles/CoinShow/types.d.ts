@@ -43,8 +43,6 @@ interface CoinObj {
   total_supply: number
   fixed_supply: number
   image_url: string
-  market_pairs: MarketData[]
-  total_market_pairs: number
 }
 
 interface PriceData {
@@ -80,19 +78,6 @@ interface MarketInfo {
   price_usd: number
   total_supply: string
   volume24h: number
-}
-
-interface MarketData {
-  exchange_id: number
-  exchange_name: string
-  exchange_slug: string
-  pair: string
-  price: number
-  volume24h: number
-  volume_percentage: number
-  volume24h_quote: number
-  quote_currency_symbol: string
-  last_updated: string
 }
 
 interface TeamMember {

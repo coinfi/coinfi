@@ -39,15 +39,6 @@ class Api::CoinsController < ApiController
     end
   end
 
-  def markets
-    coin = Coin.find(params[:id])
-    if coin
-      respond_success markets_serializer(coin)
-    else
-      respond_error "Could not find coin markets."
-    end
-  end
-
   def search_by_params
     coins = []
     tokens_only = params[:tokensOnly].present? && params[:tokensOnly].downcase == 'true'
@@ -135,13 +126,6 @@ private
     return {
       priceData: coin.prices_data,
       # priceDataHourly: coin.hourly_prices_data,
-    }
-  end
-
-  def markets_serializer(coin)
-    return {
-      markets: coin.market_pairs,
-      total_markets: coin.total_market_pairs,
     }
   end
 end

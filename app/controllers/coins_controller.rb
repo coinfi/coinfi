@@ -120,7 +120,7 @@ class CoinsController < ApplicationController
       methods: %i[
         news_data market_info is_being_watched summary price market_cap
         change1h change24h change7d volume24h available_supply max_supply total_supply fixed_supply
-        image_url market_pairs total_market_pairs
+        image_url
       ]
     )
   end
