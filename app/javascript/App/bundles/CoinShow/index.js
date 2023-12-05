@@ -33,8 +33,6 @@ import InfoBar from './InfoBar'
 import LinksList from './LinksList'
 import HistoricalPriceDataTable from './HistoricalPriceDataTable'
 import DescriptionText from './DescriptionText'
-import MarketsTable from './MarketsTable'
-import MarketsChart from './MarketsChart'
 import SignalTable from './SignalTable'
 import BackToTop from './BackToTop'
 import Icon from '~/bundles/common/components/Icon'
@@ -49,7 +47,6 @@ import moment from 'moment'
 
 const TAB_SLUGS = {
   priceChart: 'price-chart',
-  markets: 'markets',
   news: 'news',
 }
 
@@ -74,11 +71,9 @@ class CoinShow extends Component {
   componentDidMount() {
     // handle tab change here to avoid rendering issues
     const { props } = this
-    const hasMarkets = this.hasMarkets()
     const hashTag = _.get(props, ['location', 'hash'], '').slice(1) // remove prepended octothorpe
     const isValidHashTag =
-      _.findIndex(Object.values(TAB_SLUGS), (slug) => slug === hashTag) >= 0 &&
-      (hasMarkets || hashTag !== TAB_SLUGS.markets)
+      _.findIndex(Object.values(TAB_SLUGS), (slug) => slug === hashTag) >= 0
     const tabSlug = isValidHashTag ? hashTag : this.defaultTab()
     if (tabSlug !== this.state.tabSlug) {
       this.setState({ tabSlug })
@@ -126,11 +121,6 @@ class CoinShow extends Component {
 
   defaultTab = () => {
     return TAB_SLUGS.priceChart
-  }
-
-  hasMarkets = () => {
-    const marketPairs = _.get(this.props, ['coinObj', 'market_pairs'])
-    return !_.isEmpty(marketPairs)
   }
 
   watchCoinHandler = () => {
@@ -325,13 +315,7 @@ class CoinShow extends Component {
     const { tabSlug, priceData, priceDataHourly, lastPriceUpdate } = this.state
     const isMobile = !isDesktop
     const isLoggedIn = !!user
-    const hasMarkets = this.hasMarkets()
-    const {
-      name: coinName,
-      slug: coinSlug,
-      market_pairs: marketPairs,
-      total_market_pairs: totalMarketPairs,
-    } = coinObj
+    const { name: coinName, slug: coinSlug } = coinObj
     const currencyCtx = {
       currency,
       currencySymbol,
@@ -465,17 +449,6 @@ class CoinShow extends Component {
                         labelContainer: classes.tabLabelContainer,
                       }}
                     />
-                    {hasMarkets && (
-                      <Tab
-                        label="Markets"
-                        value={TAB_SLUGS.markets}
-                        classes={{
-                          root: classes.tabRoot,
-                          selected: classes.tabSelected,
-                          labelContainer: classes.tabLabelContainer,
-                        }}
-                      />
-                    )}
                     <Tab
                       label={<NewsLabel />}
                       value={TAB_SLUGS.news}
@@ -623,49 +596,6 @@ class CoinShow extends Component {
                     />
                   </ExpansionPanelDetails>
                 </ExpansionPanel>
-                {hasMarkets && (
-                  <>
-                    <h2 id={TAB_SLUGS.markets}>{coinName} Markets</h2>
-                    <MainCard>
-                      <CardContent>
-                        <Grid container={true} justify="space-around">
-                          <Grid
-                            item={true}
-                            xs={12}
-                            md={6}
-                            className={classes.marketsChartWrapper}
-                          >
-                            <MarketsChart
-                              data={marketPairs}
-                              symbol={symbol}
-                              groupBy="exchange"
-                            />
-                          </Grid>
-                          <Grid
-                            item={true}
-                            xs={12}
-                            md={6}
-                            className={classes.marketsChartWrapper}
-                          >
-                            <MarketsChart
-                              data={marketPairs}
-                              symbol={symbol}
-                              groupBy="pair"
-                            />
-                          </Grid>
-                        </Grid>
-                      </CardContent>
-                    </MainCard>
-                    <MainCard>
-                      <CardContent className={classes.marketsCardContent}>
-                        <MarketsTable
-                          data={marketPairs}
-                          total={totalMarketPairs}
-                        />
-                      </CardContent>
-                    </MainCard>
-                  </>
-                )}
                 <BackToTop onClick={this.handleScrollToTop} />
               </Grid>
               <Grid

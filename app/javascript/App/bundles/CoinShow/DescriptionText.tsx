@@ -8,7 +8,6 @@ import {
   formatPercentage,
   formatSupply,
 } from '~/bundles/common/utils/numberFormatters'
-import { groupMarketData } from './MarketsChart'
 import { CurrencyContextType } from '~/bundles/common/contexts/CurrencyContext'
 import MarkupLink from '~/bundles/common/components/MarkupLink'
 
@@ -47,8 +46,6 @@ export default function DescriptionText({
   const {
     name: coinName,
     symbol,
-    market_pairs: marketPairs,
-    total_market_pairs: totalMarketPairs,
     price: usdPrice,
     volume24h: usdVolume24h,
     market_cap: usdMarketCap,
@@ -98,18 +95,6 @@ export default function DescriptionText({
     ? formatSupply(fixed_supply)
     : null
   const hasSupply = !!circulatingSupply && !!maxSupply
-  const marketDataByPair = Array.isArray(marketPairs)
-    ? groupMarketData(marketPairs, 'pair')
-        .slice(0, 3)
-        .map(({ name }) => name)
-    : null
-  const marketDataByExchange = Array.isArray(marketPairs)
-    ? groupMarketData(marketPairs, 'exchange')
-        .slice(0, 3)
-        .map(({ name }) => name)
-    : null
-  const topPairs = formatArrayMembers(marketDataByPair, 3)
-  const topExchanges = formatArrayMembers(marketDataByExchange, 3)
 
   return (
     <>
@@ -165,16 +150,6 @@ export default function DescriptionText({
           <p>
             There are currently {circulatingSupply} {coinName} coins circulating
             out of a max supply of {maxSupply}.
-          </p>
-        </>
-      )}
-      {_.isNumber(totalMarketPairs) && (
-        <>
-          <h2>Buying/Selling {coinName} On Cryptocurrency Exchanges</h2>
-          <p>
-            {coinName} is trading on {totalMarketPairs} markets. In the last 24
-            hours, {coinName} was most traded on {topExchanges}. The most traded{' '}
-            {coinName} pairs in the last 24 hours are {topPairs}.
           </p>
         </>
       )}
