@@ -2,18 +2,20 @@ require 'sidekiq-scheduler'
 class UpdateCmcPrices
   include Sidekiq::Worker
 
+  # This makes up to 5 API calls per minute
   def perform(metadata)
     minutes = Time.at(metadata["scheduled_at"]).min
 
-    (1..5).each do |id|
-      if (minutes % id == 0)
-        perform_prices(id)
+    (1..5).each do |number_of_minutes|
+      is_number_of_minutes = minutes % number_of_minutes == 0
+      if is_number_of_minutes
+        update_prices(number_of_minutes)
       end
     end
   end
 
-  def perform_prices(id)
-    case id
+  def update_prices(number_of_minutes)
+    case number_of_minutes
     when 1 # Top 1-100
       CoinMarketCapPro::UpdateTickerService.call(start: 1, limit: 100, healthcheck_url: ENV.fetch('HEALTHCHECK_SNAP_PRICES1'))
     when 2 # Top 101-200
