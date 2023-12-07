@@ -10,10 +10,10 @@ class CheckCmcOhclvService < Patterns::Service
 
     check_time = Time.current unless check_time.present?
 
-    if granularity == 'hourly'
+    @granularity = granularity
+    if @granularity == 'hourly'
       raise "No hourly data"
 
-      @granularity = 'hourly'
       @check_time = check_time.beginning_of_hour
       @table = {
         name: "hourly_ohcl_prices",
@@ -42,8 +42,7 @@ class CheckCmcOhclvService < Patterns::Service
           query: lambda { Coin.listed.legit.order("RANDOM()").limit(3) }
         }
       ]
-    elsif
-      @granularity = 'daily'
+    elsif @granularity == 'daily'
       @check_time = check_time.beginning_of_day
       @table = {
         name: "daily_ohcl_prices",
