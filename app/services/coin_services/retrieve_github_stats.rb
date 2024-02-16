@@ -113,6 +113,8 @@ module CoinServices
           deletions: weekly_data[2],
         }
       end
+    rescue Octokit::UnprocessableEntity => e
+      return
     end
 
     def retrieve_repository_stats(repo_path)
