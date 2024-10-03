@@ -3,7 +3,6 @@
   "private": true,
   "engines": {
     "node": "^8.9.1",
-    "npm": "^5.8.0",
     "yarn": "^1.5.1"
   },
   "dependencies": {
