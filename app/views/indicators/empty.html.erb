@@ -1,12 +1,15 @@
-<html>
+<html class="<%= @dark_mode ? 'dark-theme' : 'light-theme' %>">
   <head>
     <meta name="viewport" content="width=device-width">
     <%= render 'layouts/tracking_scripts_preconnect' %>
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i&amp;subset=cyrillic,cyrillic-ext,greek,greek-ext,latin-ext,vietnamese" rel="stylesheet">
     <%= stylesheet_link_tag 'indicators' %>
     <style type="text/css">
-      body {
+      .light-theme body {
         background: #f0f0f0;
+      }
+      .dark-theme body {
+        background-color: #13151C;
       }
       .empty-container {
         padding-top: 20px;
@@ -17,7 +20,12 @@
         text-align: center;
         font-size: 25px;
         font-weight: 700;
+      }
+      .light-theme .empty-text {
         color: #777;
+      }
+      .dark-theme .empty-text {
+        color: #bcc1d1;
       }
     </style>
   </head>

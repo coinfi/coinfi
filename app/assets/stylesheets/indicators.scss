@@ -7,15 +7,94 @@ $soft-green: #89c230;
 $yellow: #ffcf5b;
 $soft-red: #e85d5d;
 $hard-red: #e1191d;
+$white: #ffffff;
 $off-white: #f8f8f8;
 $light-grey: #e0e0e0;
 $border-grey: #d4d5d8;
 $dark-grey: #777;
+$black: #000;
 $text-primary: #2c2c2c;
 $sidebar-width: 350px;
 $one-third-width: 35%;
 $two-thirds-width: 65%;
 $donut-mobile-max-width: 170px;
+
+$dark-background: #13151c;
+$dark-subtitle: #e4f7f0;
+$dark-secondary-text: #bcc1d1;
+$dark-primary-card: #1c1f29;
+$dark-secondary-card: #232733;
+$dark-border: #343b4d;
+
+/* Theme functionality */
+@mixin themify($themes) {
+  @each $name, $values in $themes {
+    .#{$name}-theme & {
+      $theme-map: $values !global;
+      @content;
+    }
+  }
+}
+@function themed($key) {
+  @return map-get($theme-map, $key);
+}
+
+$themes: (
+  light: (
+    background: #f0f0f0,
+    title: $dark-grey,
+    text: $text-primary,
+    text-alt: $text-primary,
+    tiny-text: $dark-grey,
+    subtitle: $text-primary,
+    git-labels: $dark-grey,
+    git-numbers: $black,
+    tooltip-text: $white,
+    tooltip-bg: #565656,
+    tooltip-border: $black,
+    card-background: $white,
+    card-background-alt: $off-white,
+    buy: $soft-green,
+    hold: $yellow,
+    sell: $soft-red,
+    link: #0079b9,
+    button-border: $light-grey,
+    chart-lines: $dark-grey,
+    chart-bars: $blue,
+    chart-bars-alt: $green,
+    chart-tooltip: $white,
+    chart-tooltip-bg: #3d404a,
+    border: $light-grey,
+    divider: $border-grey,
+  ),
+  dark: (
+    background: $dark-background,
+    title: $white,
+    text: $white,
+    text-alt: $dark-secondary-text,
+    tiny-text: $dark-secondary-text,
+    subtitle: $dark-subtitle,
+    git-labels: $dark-subtitle,
+    git-numbers: $dark-subtitle,
+    tooltip-text: $white,
+    tooltip-bg: $dark-secondary-card,
+    tooltip-border: $dark-border,
+    card-background: $dark-primary-card,
+    card-background-alt: $dark-secondary-card,
+    buy: #0eb12e,
+    hold: #ffe66b,
+    sell: #f75d5d,
+    link: #30cf4f,
+    button-border: $dark-secondary-text,
+    chart-lines: $dark-subtitle,
+    chart-bars: $blue,
+    chart-bars-alt: $green,
+    chart-tooltip: $white,
+    chart-tooltip-bg: $dark-secondary-card,
+    border: $dark-border,
+    divider: $dark-border,
+  ),
+);
 
 * {
   margin: 0;
@@ -27,7 +106,6 @@ $donut-mobile-max-width: 170px;
 
 html,
 body {
-  background-color: #f0f0f0;
   -webkit-user-select: none;
   -moz-user-select: none;
   -khtml-user-select: none;
@@ -42,7 +120,9 @@ input {
 a {
   text-decoration: none;
   outline: 0;
-  color: #0079b9;
+  @include themify($themes) {
+    color: themed('link');
+  }
 }
 
 body[orient='portrait'] {
@@ -54,7 +134,9 @@ body[orient='landscape'] {
 }
 
 body {
-  color: $text-primary;
+  @include themify($themes) {
+    color: themed('text');
+  }
   -webkit-text-size-adjust: 100%;
   -ms-text-size-adjust: 100%;
   text-size-adjust: 100%;
@@ -66,7 +148,9 @@ h3,
 h4,
 h5,
 h6 {
-  color: $dark-grey;
+  @include themify($themes) {
+    color: themed('title');
+  }
 }
 
 h2 {
@@ -236,10 +320,19 @@ h3 {
 }
 
 .info-point {
-  background-position: -132px -1200px;
-  height: 24px;
-  width: 24px;
+  background-position: -133px -1200px;
+  height: 23px;
+  width: 23px;
   cursor: pointer;
+}
+
+.icon-info-circle {
+  &::before {
+    content: '';
+    display: inline-block;
+    @extend .sprite;
+    @extend .info-point;
+  }
 }
 
 /* Custom */
@@ -300,8 +393,10 @@ h3 {
   max-width: $two-thirds-width;
 }
 .paper {
-  background-color: #fff;
-  border: 1px solid $light-grey;
+  @include themify($themes) {
+    background-color: themed('card-background');
+    border: 1px solid themed('border');
+  }
   width: 100%;
   padding: 20px;
 }
@@ -310,8 +405,10 @@ h3 {
   flex: 0 1 calc(100% - #{$sidebar-width});
 }
 .sidebar {
-  background-color: $off-white;
-  border: 1px solid $light-grey;
+  @include themify($themes) {
+    background-color: themed('card-background-alt');
+    border: 1px solid themed('border');
+  }
   max-width: $sidebar-width;
   flex: 0 1 $sidebar-width;
   padding: 20px 30px;
@@ -332,7 +429,9 @@ h3 {
   margin-top: -10px;
   padding-bottom: 10px;
   margin-bottom: -10px;
-  color: $dark-grey;
+  @include themify($themes) {
+    color: themed('title');
+  }
 }
 .main-title .coinfi-link {
   bottom: -5px;
@@ -351,13 +450,18 @@ h3 {
   font-size: 14px;
 }
 .indicators-table th {
-  color: $dark-grey;
+  @include themify($themes) {
+    color: themed('title');
+    border-bottom: 1px solid themed('divider');
+  }
   padding: 12px 4px;
-  border-bottom: 1px solid $border-grey;
   text-align: center;
   text-transform: uppercase;
 }
 .indicators-table td {
+  @include themify($themes) {
+    color: themed('subtitle');
+  }
   padding: 8px 4px;
   font-weight: 600;
 }
@@ -384,40 +488,55 @@ h3 {
 .indicators-mobile {
   display: none;
 }
-.fa-info-circle {
-  color: $blue;
-}
 .buy {
-  color: $soft-green;
+  @include themify($themes) {
+    color: themed('buy');
+  }
 }
 %buy-bg {
-  background-color: $soft-green;
+  @include themify($themes) {
+    background-color: themed('buy');
+  }
 }
 .sell {
-  color: $soft-red;
+  @include themify($themes) {
+    color: themed('sell');
+  }
 }
 %sell-bg {
-  background-color: $soft-red;
+  @include themify($themes) {
+    background-color: themed('sell');
+  }
 }
 .neutral {
-  color: $yellow;
+  @include themify($themes) {
+    color: themed('hold');
+  }
 }
 %neutral-bg {
-  background-color: $yellow;
+  @include themify($themes) {
+    background-color: themed('hold');
+  }
 }
 .copy-container {
   padding: 20px;
   font-size: 14px;
-  background-color: $off-white;
-  color: $dark-grey;
+  @include themify($themes) {
+    background-color: themed('card-background-alt');
+    color: themed('tiny-text');
+  }
 }
 .paper .copy-container {
   margin: 20px -20px -20px;
-  border-top: 1px solid $light-grey;
+  @include themify($themes) {
+    border-top: 1px solid themed('border');
+  }
 }
 .flex-container > .copy-container {
   width: 100%;
-  border: 1px solid $light-grey;
+  @include themify($themes) {
+    border: 1px solid themed('border');
+  }
   border-top: none;
 }
 .desktop-copy {
@@ -429,7 +548,7 @@ h3 {
 .header-info-icon {
   margin-left: 8px;
 }
-.gauge-container {
+.donut-container {
   display: flex;
   justify-content: space-between;
   flex-direction: column;
@@ -466,7 +585,9 @@ h3 {
   }
 
   &__label {
-    color: $dark-grey;
+    @include themify($themes) {
+      color: themed('text-alt');
+    }
     max-width: 100%;
     margin-right: 10px;
     flex-grow: 1;
@@ -491,7 +612,9 @@ h3 {
   }
 
   &__value {
-    color: $text-primary;
+    @include themify($themes) {
+      color: themed('text');
+    }
     font-weight: 600;
   }
 }
@@ -503,7 +626,9 @@ h3 {
 }
 .indicators-consensus > span {
   border-radius: 4px;
-  border: 1px solid $light-grey;
+  @include themify($themes) {
+    border: 1px solid themed('button-border');
+  }
   padding: 8px 8px;
   display: inline-block;
   text-align: center;
@@ -514,6 +639,9 @@ h3 {
   text-align: center;
   text-transform: uppercase;
   font-size: 12px;
+  @include themify($themes) {
+    color: themed('text-alt');
+  }
 }
 .git-tab-bar {
   width: 100%;
@@ -531,7 +659,9 @@ h3 {
     flex-wrap: wrap;
     padding-bottom: 12px;
     margin-bottom: 12px;
-    border-bottom: 1px solid $border-grey;
+    @include themify($themes) {
+      border-bottom: 1px solid themed('divider');
+    }
     &:last-child {
       margin-bottom: 0;
     }
@@ -541,24 +671,32 @@ h3 {
   }
   &__value {
     font-size: 30px;
-    color: #000;
+    @include themify($themes) {
+      color: themed('git-numbers');
+    }
   }
   &__label {
     padding-top: 2px;
     font-size: 14px;
-    color: $dark-grey;
+    @include themify($themes) {
+      color: themed('git-labels');
+    }
     font-weight: 600;
     i {
       margin-right: 2px;
     }
   }
   &__rank {
-    color: rgba(61, 64, 74, 0.5);
+    @include themify($themes) {
+      color: themed('tiny-text');
+    }
     font-size: 14px;
   }
 }
 .git-repo-link {
-  color: $dark-grey;
+  @include themify($themes) {
+    color: themed('tiny-text');
+  }
   align-self: flex-start;
   text-align: left;
 }
@@ -567,20 +705,27 @@ h3 {
 }
 .news-item:not(:last-child) {
   padding-bottom: 20px;
-  border-bottom: 1px solid $light-grey;
+  @include themify($themes) {
+    border-bottom: 1px solid themed('border');
+  }
   margin-bottom: 15px;
 }
 .news-item__title {
   margin-bottom: 8px;
 }
 .news-item__summary {
+  @include themify($themes) {
+    color: themed('subtitle');
+  }
   font-size: 15px;
   line-height: 1.3rem;
   text-align: justify;
   margin-bottom: 6px;
 }
 .news-item__footer {
-  color: $dark-grey;
+  @include themify($themes) {
+    color: themed('tiny-text');
+  }
   font-size: 13px;
   display: flex;
   justify-content: space-between;
@@ -596,13 +741,19 @@ a.plain-link {
 
 /* Graph */
 .graph-container rect {
-  fill: $blue;
+  @include themify($themes) {
+    fill: themed('chart-bars');
+  }
 }
 .graph-container .deletions rect {
-  fill: $green;
+  @include themify($themes) {
+    fill: themed('chart-bars-alt');
+  }
 }
 .graph-container .axis .tick text {
-  fill: $dark-grey;
+  @include themify($themes) {
+    color: themed('chart-lines');
+  }
   font-size: 10px;
   text-anchor: middle;
 }
@@ -612,11 +763,15 @@ a.plain-link {
 .graph-container .axis path,
 .graph-container .axis line {
   fill: none;
-  stroke: $dark-grey;
+  @include themify($themes) {
+    stroke: themed('chart-lines');
+  }
   shape-rendering: crispEdges;
 }
 .graph-container .axis text.title {
-  fill: $dark-grey;
+  @include themify($themes) {
+    fill: themed('chart-lines');
+  }
   font-size: 12px;
   text-anchor: middle;
   text-transform: capitalize;
@@ -624,22 +779,16 @@ a.plain-link {
 .chart-tooltip {
   font-size: 11px;
   line-height: 1.15rem;
-  color: white;
-  background: #3d404a;
+  @include themify($themes) {
+    color: themed('chart-tooltip');
+    background: themed('chart-tooltip-bg');
+  }
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.7);
   border-radius: 3px;
   padding: 5px 10px;
   min-width: 100px;
   top: 0;
   left: 0;
-}
-.icon-info-circle {
-  &::before {
-    content: '';
-    display: inline-block;
-    @extend .sprite;
-    @extend .info-point;
-  }
 }
 
 /* Tooltips */
@@ -656,14 +805,18 @@ a.plain-link {
   padding: 0.5rem 0.75rem;
 }
 .tippy-tooltip {
-  background-color: #565656;
+  @include themify($themes) {
+    color: themed('tooltip-text');
+    background-color: themed('tooltip-bg');
+    border: 1px solid themed('tooltip-border');
+  }
   background-clip: padding-box;
-  border: 2px solid #000;
-  color: #fff;
   box-shadow: 0 3px 14px -0.5px rgba(0, 0, 0, 0.08);
 }
 .tippy-tooltip .tippy-backdrop {
-  background-color: #565656;
+  @include themify($themes) {
+    background-color: themed('tooltip-bg');
+  }
 }
 .tippy-tooltip .tippy-arrow:after,
 .tippy-tooltip .tippy-arrow:before,
@@ -674,7 +827,9 @@ a.plain-link {
   z-index: -1;
 }
 .tippy-tooltip .tippy-roundarrow {
-  fill: #565656;
+  @include themify($themes) {
+    fill: themed('tooltip-bg');
+  }
 }
 .tippy-tooltip .tippy-roundarrow:after {
   background-image: url(data:image/svg+xml;base64,PHN2ZyBjbGlwLXJ1bGU9ImV2ZW5vZGQiIGZpbGwtcnVsZT0iZXZlbm9kZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgc3Ryb2tlLW1pdGVybGltaXQ9IjEuNDE0IiB2aWV3Qm94PSIwIDAgMTggNyIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBkPSJNMCA3czIuMDIxLS4wMTUgNS4yNTMtNC4yMThDNi41ODQgMS4wNTEgNy43OTcuMDA3IDkgMGMxLjIwMy0uMDA3IDIuNDE2IDEuMDM1IDMuNzYxIDIuNzgyQzE2LjAxMiA3LjAwNSAxOCA3IDE4IDd6IiBmaWxsPSIjMzMzIiBmaWxsLW9wYWNpdHk9Ii4yMzUiIGZpbGwtcnVsZT0ibm9uemVybyIvPjwvc3ZnPg==);
@@ -683,7 +838,9 @@ a.plain-link {
   height: 7px;
   left: 0;
   top: 0;
-  fill: #000;
+  @include themify($themes) {
+    fill: themed('tooltip-border');
+  }
 }
 .tippy-tooltip[x-placement^='top'] .tippy-roundarrow:after {
   top: 1px;
@@ -691,28 +848,40 @@ a.plain-link {
   transform: rotate(180deg);
 }
 .tippy-tooltip[x-placement^='top'] .tippy-arrow {
-  border-top-color: #565656;
+  @include themify($themes) {
+    border-top-color: themed('tooltip-bg');
+  }
 }
 .tippy-tooltip[x-placement^='top'] .tippy-arrow:after {
-  border-top: 8px solid #565656;
+  @include themify($themes) {
+    border-top: 8px solid themed('tooltip-bg');
+  }
   top: -8px;
 }
 .tippy-tooltip[x-placement^='top'] .tippy-arrow:before {
-  border-top: 8px solid #000;
+  @include themify($themes) {
+    border-top: 8px solid themed('tooltip-border');
+  }
   bottom: -2px;
 }
 .tippy-tooltip[x-placement^='bottom'] .tippy-roundarrow:after {
   top: -1px;
 }
 .tippy-tooltip[x-placement^='bottom'] .tippy-arrow {
-  border-bottom-color: #565656;
+  @include themify($themes) {
+    border-bottom-color: themed('tooltip-bg');
+  }
 }
 .tippy-tooltip[x-placement^='bottom'] .tippy-arrow:after {
-  border-bottom: 8px solid #565656;
+  @include themify($themes) {
+    border-bottom: 8px solid themed('tooltip-bg');
+  }
   bottom: -8px;
 }
 .tippy-tooltip[x-placement^='bottom'] .tippy-arrow:before {
-  border-bottom: 8px solid #000;
+  @include themify($themes) {
+    border-bottom: 8px solid themed('tooltip-border');
+  }
   bottom: -5px;
 }
 .tippy-tooltip[x-placement^='left'] .tippy-roundarrow:after {
@@ -722,14 +891,20 @@ a.plain-link {
   transform: rotate(90deg);
 }
 .tippy-tooltip[x-placement^='left'] .tippy-arrow {
-  border-left-color: #565656;
+  @include themify($themes) {
+    border-left-color: themed('tooltip-bg');
+  }
 }
 .tippy-tooltip[x-placement^='left'] .tippy-arrow:after {
-  border-left: 7px solid #565656;
+  @include themify($themes) {
+    border-left: 7px solid themed('tooltip-bg');
+  }
   left: -7px;
 }
 .tippy-tooltip[x-placement^='left'] .tippy-arrow:before {
-  border-left: 7px solid #000;
+  @include themify($themes) {
+    border-left: 7px solid themed('tooltip-border');
+  }
   left: -6px;
 }
 .tippy-tooltip[x-placement^='right'] .tippy-roundarrow:after {
@@ -739,14 +914,20 @@ a.plain-link {
   transform: rotate(-90deg);
 }
 .tippy-tooltip[x-placement^='right'] .tippy-arrow {
-  border-right-color: #565656;
+  @include themify($themes) {
+    border-right-color: themed('tooltip-bg');
+  }
 }
 .tippy-tooltip[x-placement^='right'] .tippy-arrow:after {
-  border-right: 7px solid #565656;
+  @include themify($themes) {
+    border-right: 7px solid themed('tooltip-bg');
+  }
   right: -7px;
 }
 .tippy-tooltip[x-placement^='right'] .tippy-arrow:before {
-  border-right: 7px solid #000;
+  @include themify($themes) {
+    border-right: 7px solid themed('tooltip-border');
+  }
   right: -6px;
 }
 .tippy-tooltip[x-placement^='bottom'] .tippy-arrow,
@@ -780,44 +961,6 @@ a.plain-link {
   border-bottom: 7px solid transparent;
 }
 
-/* Gauge */
-.gauge-wrapper {
-  width: 300px;
-  height: 160px;
-  margin: 60px auto 40px;
-}
-.gauge:before {
-  background-color: #2c2c2c;
-}
-.gauge-value {
-  white-space: nowrap;
-}
-.gauge-values .gauge-value:nth-child(1) {
-  transform: rotate(-70deg) translate(4px, -15px);
-}
-.gauge-values .gauge-value:nth-child(2) {
-  transform: rotate(-36deg) translate(-10px, -35px);
-}
-.gauge-values .gauge-value:nth-child(3) {
-  transform: translate(0px, -10px);
-}
-.gauge-values .gauge-value:nth-child(4) {
-  transform: rotate(38deg) translate(-16px, -13px);
-}
-.gauge-values .gauge-value:nth-child(5) {
-  transform: rotate(70deg) translate(0px, -15px);
-}
-.gauge-arrow {
-  filter: invert(17%) sepia(7%) saturate(0%) hue-rotate(261deg) brightness(87%)
-    contrast(93%);
-}
-.gauge-marks {
-  display: none;
-}
-.gauge-color {
-  stroke-width: 24;
-}
-
 /* Desktop */
 @media screen and (min-width: 1025px) {
   .indicators-table th {
@@ -845,10 +988,6 @@ a.plain-link {
 
 /* Tablet */
 @media screen and (min-width: 741px) and (max-width: 1024px) {
-  .gauge-wrapper {
-    width: 200px;
-    height: 110px;
-  }
   #indicator-summary {
     max-width: 230px;
   }
@@ -983,13 +1122,8 @@ a.plain-link {
   .news-item__link {
     display: none;
   }
-  .gauge-container {
+  .donut-container {
     display: block;
-  }
-  .gauge-wrapper {
-    width: 250px;
-    height: 135px;
-    margin: 60px auto 40px;
   }
   .indicators-summary-wrapper {
     flex-direction: row;
