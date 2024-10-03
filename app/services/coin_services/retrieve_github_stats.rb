@@ -45,7 +45,7 @@ module CoinServices
 
         if result[:code_frequency].blank?
           puts "No code frequency for #{coin_slug}"
-          has_results = false
+          # has_results = false
         end
 
         if result[:snapshot].blank?
