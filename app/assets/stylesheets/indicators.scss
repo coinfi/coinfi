@@ -312,7 +312,7 @@ h3 {
     @extend .sprite-hd;
   }
 
-  .icon-info-circle {
+  .light-theme .icon-info-circle {
     &::before {
       @extend .sprite-hd;
     }
@@ -320,18 +320,33 @@ h3 {
 }
 
 .info-point {
-  background-position: -133px -1200px;
-  height: 23px;
-  width: 23px;
+  background-position: -132px -1200px;
+  height: 24px;
+  width: 24px;
   cursor: pointer;
 }
 
-.icon-info-circle {
+.light-theme .icon-info-circle {
   &::before {
     content: '';
     display: inline-block;
     @extend .sprite;
     @extend .info-point;
+  }
+}
+
+.dark-theme .icon-info-circle {
+  &::before {
+    content: '';
+    display: inline-block;
+    background-image: url(asset_path('/img/info-dark-mode.svg'));
+    background-size: 24px 24px;
+    background-position: top left;
+    background-repeat: no-repeat;
+    background-attachment: scroll;
+    height: 24px;
+    width: 24px;
+    cursor: pointer;
   }
 }
 
