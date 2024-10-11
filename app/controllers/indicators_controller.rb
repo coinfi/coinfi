@@ -1,5 +1,5 @@
 class IndicatorsController < ApplicationController
-  before_action :set_locale
+  before_action :set_locale, :set_theme
   before_action :set_coin, only: [:show]
   after_action :set_allow_iframe, only: [:show]
   skip_before_action :verify_authenticity_token
@@ -8,7 +8,7 @@ class IndicatorsController < ApplicationController
   include IndicatorsHelper
   include CoinsHelper
 
-  caches_action :show, cache_path: :show_cache_path, expires_in: 10.minutes
+  # caches_action :show, cache_path: :show_cache_path, expires_in: 10.minutes
 
   def show
     set_news_items
@@ -33,13 +33,18 @@ class IndicatorsController < ApplicationController
   def show_cache_path
     {
       ticker: (params[:ticker].presence || "EMPTY").upcase,
-      lang: (params[:lang].presence || "en").downcase
+      lang: (params[:lang].presence || "en").downcase,
+      theme: (params[:theme].presence || "light").downcase,
     }
   end
 
   def set_allow_iframe
     # Single domain is done using response.set_header('X-Frame-Options', 'allow-from https://example.com')
     response.delete_header('X-Frame-Options') # Allowing all iframe embedding is done by deleting sameorigin policy
+  end
+
+  def set_theme
+    @dark_mode = params[:theme].present? && params[:theme]&.downcase == 'dark'
   end
 
   def set_coin
