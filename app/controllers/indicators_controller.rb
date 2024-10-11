@@ -8,7 +8,7 @@ class IndicatorsController < ApplicationController
   include IndicatorsHelper
   include CoinsHelper
 
-  # caches_action :show, cache_path: :show_cache_path, expires_in: 10.minutes
+  caches_action :show, cache_path: :show_cache_path, expires_in: 10.minutes
 
   def show
     set_news_items
