@@ -89,7 +89,16 @@ module CoinServices
     end
 
     def retrieve_commit_activity_data(repo_path)
-      data = @client.commit_activity_stats repo_path
+      # Sometimes returns nil for unknown reasons
+      # Try to mitigate the issue for now by retrying a few times
+      retries = 0
+      data = nil
+      loop do
+        data = @client.commit_activity_stats repo_path
+        break if data.present? || retries >= 5
+        retries += 1
+        sleep 1
+      end
       return unless data.present?
 
       parsed_data = data.map do |weekly_data|

@@ -18,7 +18,6 @@ module CoinMarketCapPro
     def call
       cmc_coins = load_cmc_latest_data(@start, @limit)
       unless cmc_coins.nil?
-
         cmc_coin_dict = cmc_coins.inject(Hash.new) do |dict, cmc_coin|
           identifier = cmc_coin['id']
           dict[identifier] = cmc_coin if identifier.present?
