@@ -1,4 +1,4 @@
-<html>
+<html class="<%= @dark_mode ? 'dark-theme' : 'light-theme' %>">
   <head>
     <meta name="viewport" content="width=device-width">
     <%= render 'layouts/tracking_scripts_preconnect' %>
@@ -26,12 +26,18 @@
         max-width: 100vw;
         box-sizing: border-box;
       }
-      html, body {
+      body {
+        padding-top: 1px;
+        padding-bottom: 1px;
+      }
+      html.light-theme, .light-theme body {
         background-color: #f0f0f0;
+      }
+      html.dark-theme, .dark-theme body {
+        background-color: #13151C;
       }
       .loader {
         position: relative;
-        background-color: #fff;
         border-radius: 5px;
         box-shadow: 0 1px 1px 1px rgba(0,0,0,.1);
         height: 65px;
@@ -39,6 +45,12 @@
         margin: 10px auto;
         margin-bottom: -75px;
         z-index: 999;
+      }
+      .light-theme .loader {
+        background-color: #fff;
+      }
+      .dark-theme .loader {
+        background-color: #1c1f29;
       }
       .loader:before {
         background-image: url(https://etoro-cdn.etorostatic.com/web-client/img/eToro.png);
@@ -93,7 +105,7 @@
 
       <div class="flex-container">
         <div class="one-third third-width-container">
-          <div class="paper gauge-container">
+          <div class="paper donut-container">
             <h3>
               <%= t(:technical_analysis_summary) %>
               <a class="header-info-icon" data-tippy="<%= t :indicator_summary_copy %>"
@@ -214,7 +226,7 @@
                 </div>
                 <div class="git-stats__right">
                   <div class="git-stats__value"><%= @git_snapshot[:contributors] %></div>
-                  <% if @git_snapshot[:contributors_rank].present? and @git_snapshot[:contributors_total].present? %>
+                  <% if @git_snapshot[:contributors_rank].present? && @git_snapshot[:contributors_total].present? %>
                   <div class="git-stats__rank">
                     <%= t(:ranked_out_of, rank: @git_snapshot[:contributors_rank], total: @git_snapshot[:contributors_total])%>
                   </div>
@@ -228,7 +240,7 @@
                 </div>
                 <div class="git-stats__right">
                   <div class="git-stats__value"><%= @git_snapshot[:forks] %></div>
-                  <% if @git_snapshot[:forks_rank].present? and @git_snapshot[:forks_total].present? %>
+                  <% if @git_snapshot[:forks_rank].present? && @git_snapshot[:forks_total].present? %>
                   <div class="git-stats__rank">
                     <%= t(:ranked_out_of, rank: @git_snapshot[:forks_rank], total: @git_snapshot[:forks_total])%>
                   </div>
@@ -242,7 +254,7 @@
                 </div>
                 <div class="git-stats__right">
                   <div class="git-stats__value"><%= @git_snapshot[:watchers] %></div>
-                  <% if @git_snapshot[:watchers_rank].present? and @git_snapshot[:watchers_total].present? %>
+                  <% if @git_snapshot[:watchers_rank].present? && @git_snapshot[:watchers_total].present? %>
                   <div class="git-stats__rank">
                     <%= t(:ranked_out_of, rank: @git_snapshot[:watchers_rank], total: @git_snapshot[:watchers_total])%>
                   </div>
@@ -256,7 +268,7 @@
                 </div>
                 <div class="git-stats__right">
                   <div class="git-stats__value"><%= @git_snapshot[:stargazers] %></div>
-                  <% if @git_snapshot[:stargazers_rank].present? and @git_snapshot[:stargazers_total].present? %>
+                  <% if @git_snapshot[:stargazers_rank].present? && @git_snapshot[:stargazers_total].present? %>
                   <div class="git-stats__rank">
                     <%= t(:ranked_out_of, rank: @git_snapshot[:stargazers_rank], total: @git_snapshot[:stargazers_total])%>
                   </div>
@@ -794,9 +806,12 @@
             .attr("transform", "translate(" + (widthIS / 2 + marginIS.left) + "," + (heightIS / 2 + marginIS.top) + ")");
 
         // set the color scale
+        var isDarkMode = document.getElementsByTagName('html')[0].classList.contains('dark-theme');
+        var lightColors = ["#e85d5d", "#ffcf5b", "#89c230"];
+        var darkColors = ["#F75D5D", "#FFE66B", "#0EB12E"];
         var colorIS = d3.scaleOrdinal()
           .domain(['sell', 'neutral', 'buy'])
-          .range(["#e85d5d", "#ffcf5b", "#89c230"]);
+          .range(isDarkMode ? darkColors : lightColors);
 
         // Compute the position of each group on the pie:
         var pieIS = d3.pie()
