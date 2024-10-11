@@ -460,6 +460,9 @@ h3 {
   margin-left: 4px;
 }
 .indicators-table {
+  @include themify($themes) {
+    color: themed('subtitle');
+  }
   width: 100%;
   border-spacing: 0;
   font-size: 14px;
@@ -474,9 +477,6 @@ h3 {
   text-transform: uppercase;
 }
 .indicators-table td {
-  @include themify($themes) {
-    color: themed('subtitle');
-  }
   padding: 8px 4px;
   font-weight: 600;
 }
