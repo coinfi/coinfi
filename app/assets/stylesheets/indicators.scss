@@ -477,6 +477,9 @@ h3 {
   text-transform: uppercase;
 }
 .indicators-table td {
+  @include themify($themes) {
+    color: themed('subtitle');
+  }
   padding: 8px 4px;
   font-weight: 600;
 }
