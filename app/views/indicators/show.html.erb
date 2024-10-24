@@ -199,7 +199,7 @@
 
       <% if @has_git_stats %>
         <h2><%= t(:fundamentals) %></h2>
-        <div class="flex-container flex-wrap">
+        <div class="flex-container flex-wrap" id="fundamentals">
           <div class="paper with-sidebar">
             <h3>
               <%= t :development_activity %>
@@ -574,6 +574,7 @@
         var defaultChartWidth = 620;
         var widthToHeightRatio = 4/3;
         var isMobile = window.innerWidth <= mobileBreakpoint;
+        var isDarkMode = document.getElementsByTagName('html')[0].classList.contains('dark-theme');
 
         /* Localization */
         var i18nDays = <%= t(:day_names, scope: :date ).to_json.html_safe %>;
@@ -725,12 +726,22 @@
               .attr('height', 0)
               .attr('width', barWidthCA)
               .on('mouseover', function(event) {
-                d3.select(this).attr('opacity', 0.7);
+                // bar hover
+                if (isDarkMode) {
+                  d3.select(this).style("fill", "#6DFF8A");
+                } else {
+                  d3.select(this).attr('opacity', 0.7);
+                }
                 tipCA.show.apply(this, arguments);
                 activeBarsCA.push(this);
               })
               .on('mouseout', function(event) {
-                d3.select(this).attr('opacity', 1);
+                // bar un-hover
+                if (isDarkMode) {
+                  d3.select(this).style("fill", null);
+                } else {
+                  d3.select(this).attr('opacity', 1);
+                }
                 tipCA.hide.apply(this, arguments);
                 while (activeBarsCA.length > 0) {
                   var activeBar = activeBarsCA.pop();
@@ -806,7 +817,6 @@
             .attr("transform", "translate(" + (widthIS / 2 + marginIS.left) + "," + (heightIS / 2 + marginIS.top) + ")");
 
         // set the color scale
-        var isDarkMode = document.getElementsByTagName('html')[0].classList.contains('dark-theme');
         var lightColors = ["#e85d5d", "#ffcf5b", "#89c230"];
         var darkColors = ["#F75D5D", "#FFE66B", "#0EB12E"];
         var colorIS = d3.scaleOrdinal()

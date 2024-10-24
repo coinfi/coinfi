@@ -38,6 +38,12 @@ $dark-border: #343b4d;
 @function themed($key) {
   @return map-get($theme-map, $key);
 }
+@mixin single-themify($themes, $name) {
+  .#{$name}-theme & {
+    $theme-map: map-get($themes, $name) !global;
+    @content;
+  }
+}
 
 $themes: (
   light: (
@@ -87,7 +93,7 @@ $themes: (
     link: #30cf4f,
     button-border: $dark-secondary-text,
     chart-lines: $dark-subtitle,
-    chart-bars: #4ae869,
+    chart-bars: #30cf4f,
     chart-bars-alt: $green,
     chart-tooltip: $white,
     chart-tooltip-bg: $dark-secondary-card,
@@ -351,6 +357,12 @@ h3 {
 }
 
 /* Custom */
+#fundamentals {
+  @include single-themify($themes, 'dark') {
+    border-radius: 6px;
+    overflow: hidden;
+  }
+}
 .main-container {
   margin: 20px auto 40px;
   padding-left: 20px;
@@ -412,17 +424,29 @@ h3 {
     background-color: themed('card-background');
     border: 1px solid themed('border');
   }
+  @include single-themify($themes, 'dark') {
+    border: none;
+    border-radius: 6px;
+    overflow: hidden;
+  }
   width: 100%;
   padding: 20px;
-}
-.paper.with-sidebar {
-  max-width: calc(100% - #{$sidebar-width});
-  flex: 0 1 calc(100% - #{$sidebar-width});
+
+  &.with-sidebar {
+    max-width: calc(100% - #{$sidebar-width});
+    flex: 0 1 calc(100% - #{$sidebar-width});
+    @include single-themify($themes, 'dark') {
+      border-radius: 0;
+    }
+  }
 }
 .sidebar {
   @include themify($themes) {
     background-color: themed('card-background-alt');
     border: 1px solid themed('border');
+  }
+  @include single-themify($themes, 'dark') {
+    border: none;
   }
   max-width: $sidebar-width;
   flex: 0 1 $sidebar-width;
@@ -551,8 +575,12 @@ h3 {
   width: 100%;
   @include themify($themes) {
     border: 1px solid themed('border');
+    border-top: none;
   }
-  border-top: none;
+  @include single-themify($themes, 'dark') {
+    border: none;
+    border-top: 1px solid themed('border');
+  }
 }
 .desktop-copy {
   display: unset;
@@ -1017,10 +1045,17 @@ a.plain-link {
     padding-right: 30px;
   }
   .sidebar.sidebar-right {
-    border-left: none;
+    @include themify($themes) {
+      border-left: none;
+    }
+    @include single-themify($themes, 'dark') {
+      border-left: 1px solid themed('border');
+    }
   }
   .sidebar.sidebar-left {
-    border-right: none;
+    @include themify($themes) {
+      border-right: none;
+    }
   }
 }
 
@@ -1047,7 +1082,12 @@ a.plain-link {
     flex: 1 1 100%;
     padding: 20px;
     padding-bottom: 30px;
-    border-top: none;
+    @include themify($themes) {
+      border-top: none;
+    }
+    @include single-themify($themes, 'dark') {
+      border-top: 1px solid themed('border');
+    }
   }
   .half-width-container {
     display: flex;
