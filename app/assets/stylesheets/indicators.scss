@@ -27,6 +27,7 @@ $dark-secondary-card: #232733;
 $dark-border: #343b4d;
 
 /* Theme functionality */
+$theme-map: null;
 @mixin themify($themes) {
   @each $name, $values in $themes {
     .#{$name}-theme & {

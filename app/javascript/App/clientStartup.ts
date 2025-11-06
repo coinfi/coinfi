@@ -1,3 +1,6 @@
+import 'core-js/stable'
+import 'regenerator-runtime/runtime'
+
 import ReactOnRails from 'react-on-rails'
 import withRootProviders from '~/withRootProviders'
 
