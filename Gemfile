@@ -8,9 +8,10 @@ end
 
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '~> 5.2.8'
+gem 'rails', '~> 6.1.7.10'
 # Use postgresql as the database for Active Record
-gem 'pg', '~> 0.18'
+# We can update to 1.5+ once we move to Rails 7
+gem 'pg', '>= 1.3', '< 1.5'
 # Use Puma as the app server
 gem 'puma', '< 6'
 # Use SCSS for stylesheets
@@ -26,7 +27,6 @@ gem 'coffee-rails', '~> 4.2'
 gem 'jbuilder', '~> 2.5'
 # Use Redis adapter to run Action Cable in production
 gem 'redis', '~> 5.0'
-gem 'redis-rails' # Remove when upgrading to Rails 5.2 since it is built-in
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
@@ -47,6 +47,7 @@ gem 'administrate-field-jsonb'
 gem 'administrate-field-nested_has_many'
 gem 'aws-sdk-rails', '~> 2'
 gem 'blazer', '>= 2.1.0'
+gem 'concurrent-ruby', '1.3.4' # 1.3.5 causes error uninitialized constant ActiveSupport::LoggerThreadSafeLevel::Logger (NameError)
 gem 'devise', '>= 4.6.0'
 gem 'distribute_reads'
 gem 'feedjira'
@@ -76,7 +77,7 @@ gem 'slack-ruby-client'
 gem 'rack-affiliates'
 gem 'rack-cors'
 gem 'rack-rewrite'
-gem 'rails-i18n', '~> 5.1'
+gem 'rails-i18n', '~> 6.0' # Needs to be in step with rails version
 gem 'ransack'
 gem 'redcarpet'
 gem 'rollbar'
@@ -87,6 +88,7 @@ gem 'strong_migrations'
 gem 'unidecoder'
 gem 'twitter'
 gem 'webpacker', '~> 3.5'
+gem 'zeitwerk', '< 2.7' # Ruby < 3.2
 # Used by ReactOnRails for rendering javascript
 gem 'mini_racer', platforms: :ruby
 # For parsing browser stats from user-agent
@@ -103,16 +105,14 @@ gem 'pghero'
 # Job queue
 gem 'sidekiq', '6.5.5'
 gem 'sidekiq-scheduler', '< 6'
-# App metrics and statistics
-gem 'librato-rails', '~> 1'
 # Ruby runtime metrics
 gem 'barnes', '~> 0.0.7'
 # Google Pub/Sub client
 gem 'google-cloud-pubsub'
 # technical indicators
 gem "indicators", "~> 1.0", git: 'https://github.com/coinfi/indicators.git'
-gem "activerecord-import", "~> 0.27.0"
-gem "active_record_upsert", "~> 0.9.4"
+gem "activerecord-import", "~> 2.2.0"
+gem "active_record_upsert", "~> 0.12.0"
 gem "acts_as_votable", "~> 0.12.0"
 
 group :development, :test do
@@ -136,7 +136,7 @@ end
 
 group :development do
   # Access an IRB console on exception pages or by using <%= console %> anywhere in the code.
-  gem 'web-console', '>= 3.3.0'
+  gem 'web-console', '>= 4.0.0'
   gem 'listen', '>= 3.0.5', '< 3.2'
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
