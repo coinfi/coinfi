@@ -1,5 +1,5 @@
 source 'https://rubygems.org'
-ruby '2.7.6'
+ruby '3.2.8'
 
 git_source(:github) do |repo_name|
   repo_name = "#{repo_name}/#{repo_name}" unless repo_name.include?("/")
@@ -90,7 +90,7 @@ gem 'twitter'
 gem 'webpacker', '~> 3.5'
 gem 'zeitwerk', '< 2.7' # Ruby < 3.2
 # Used by ReactOnRails for rendering javascript
-gem 'mini_racer', platforms: :ruby
+gem 'mini_racer', '0.6.4'
 # For parsing browser stats from user-agent
 gem 'browser'
 # Used to produce sitemap.xml
@@ -117,7 +117,7 @@ gem "acts_as_votable", "~> 0.12.0"
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
-  gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
+  gem 'byebug', platforms: [:mri, :windows]
   # Adds support for Capybara system testing and selenium driver
   gem 'capybara', '~> 2.13'
   gem 'dotenv-rails'
@@ -137,7 +137,7 @@ end
 group :development do
   # Access an IRB console on exception pages or by using <%= console %> anywhere in the code.
   gem 'web-console', '>= 4.0.0'
-  gem 'listen', '>= 3.0.5', '< 3.2'
+  gem 'listen', '~> 3.5'
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
   gem 'spring-watcher-listen', '~> 2.0.0'
