@@ -139,7 +139,6 @@
   },
   "resolutions": {
     "deep-extend": "0.6.0",
-    "fsevents": "1.2.9",
     "fstream": "1.0.12",
     "lodash": "4.17.14",
     "lodash.mergewith": "4.6.2",
