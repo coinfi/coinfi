@@ -36,7 +36,7 @@ gem 'redis', '~> 5.0'
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', require: false
 
-gem 'react_on_rails', '~> 11.1.4'
+gem 'react_on_rails', '~> 12.4.0'
 
 gem 'actionpack-action_caching'
 gem 'active_hash'

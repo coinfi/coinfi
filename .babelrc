@@ -7,7 +7,8 @@
         "targets": {
           "browsers": "> 1%"
         },
-        "useBuiltIns": "usage"
+        "useBuiltIns": "usage",
+        "corejs": "3.46"
       }
     ],
     "@babel/preset-typescript",
@@ -23,38 +24,97 @@
         "@babel/preset-react"
       ],
       "plugins": [
-        "@babel/plugin-syntax-dynamic-import",
-        "@babel/plugin-proposal-object-rest-spread",
+        "babel-plugin-macros",
+        "babel-plugin-dynamic-import-node",
+        [
+          "@babel/plugin-proposal-class-properties",
+          {
+            "loose": true
+          }
+        ],
+        [
+          "@babel/plugin-proposal-object-rest-spread",
+          {
+            "useBuiltIns": true
+          }
+        ],
+        [
+          "@babel/plugin-transform-private-methods",
+          {
+            "loose": true
+          }
+        ],
+        [
+          "@babel/plugin-transform-private-property-in-object",
+          {
+            "loose": true
+          }
+        ],
+        [
+          "@babel/plugin-transform-runtime",
+          {
+            "helpers": false
+          }
+        ],
+        [
+          "@babel/plugin-transform-regenerator",
+          {
+            "async": false
+          }
+        ],
         [
           "babel-plugin-root-import",
           {
             "rootPathSuffix": "./app/javascript/App/",
             "rootPathPrefix": "~"
           }
-        ],
-        [
-          "@babel/plugin-proposal-class-properties",
-          {
-            "spec": true
-          }
         ]
       ]
     }
   },
   "plugins": [
-    "@babel/plugin-syntax-dynamic-import",
-    "@babel/plugin-proposal-object-rest-spread",
+    "babel-plugin-macros",
+    [
+      "@babel/plugin-proposal-class-properties",
+      {
+        "loose": true
+      }
+    ],
+    [
+      "@babel/plugin-proposal-object-rest-spread",
+      {
+        "useBuiltIns": true
+      }
+    ],
+    [
+      "@babel/plugin-transform-private-methods",
+      {
+        "loose": true
+      }
+    ],
+    [
+      "@babel/plugin-transform-private-property-in-object",
+      {
+        "loose": true
+      }
+    ],
+    [
+      "@babel/plugin-transform-runtime",
+      {
+        "helpers": false
+      }
+    ],
+    [
+      "@babel/plugin-transform-regenerator",
+      {
+        "async": false
+      }
+    ],
     [
       "babel-plugin-root-import",
       {
         "rootPathSuffix": "./app/javascript/App/",
         "rootPathPrefix": "~"
-      }
-    ],
-    [
-      "@babel/plugin-proposal-class-properties",
-      {
-        "spec": true
       }
     ]
   ]

@@ -23,8 +23,8 @@ export interface DeviceProviderProps {
 }
 
 export const DeviceProvider: React.StatelessComponent<DeviceProviderProps> = ({
-  fallback,
-  breakpoints,
+  fallback = { width: null, height: null },
+  breakpoints = { m: null },
   children,
 }) => {
   const sizesProviderConfig = {

@@ -1,4 +1,3 @@
-const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const { resolve } = require('path')
 const { paths } = require(resolve(
   process.env.PROJECT_PATH,
@@ -42,59 +41,6 @@ module.exports = {
         exclude: /node_modules/,
       },
       {
-        test: /\.css$/,
-        loader: ExtractTextPlugin.extract({
-          fallback: 'style-loader',
-          use: [
-            {
-              loader: 'css-loader',
-              options: {
-                minimize: true,
-                modules: true,
-                importLoaders: 1,
-                localIdentName: '[name]__[local]__[hash:base64:5]',
-              },
-            },
-            {
-              loader: 'postcss-loader',
-              options: {
-                config: {
-                  path: paths.postcssConfig,
-                },
-              },
-            },
-          ],
-        }),
-      },
-      {
-        test: /\.scss$/,
-        loader: ExtractTextPlugin.extract({
-          fallback: 'style-loader',
-          use: [
-            {
-              loader: 'css-loader',
-              options: {
-                minimize: true,
-                modules: true,
-                importLoaders: 2,
-                localIdentName: '[name]__[local]__[hash:base64:5]',
-              },
-            },
-            {
-              loader: 'postcss-loader',
-              options: {
-                config: {
-                  path: paths.postcssConfig,
-                },
-              },
-            },
-            {
-              loader: 'sass-loader',
-            },
-          ],
-        }),
-      },
-      {
         test: require.resolve('react'),
         use: {
           loader: 'imports-loader',
@@ -116,11 +62,5 @@ module.exports = {
     ],
   },
 
-  plugins: [
-    ...baseConfig.plugins,
-    new ExtractTextPlugin({
-      filename: '[name]-[hash].css',
-      allChunks: true,
-    }),
-  ],
+  plugins: baseConfig.plugins,
 }

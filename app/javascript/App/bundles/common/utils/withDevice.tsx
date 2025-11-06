@@ -14,6 +14,6 @@ const withDevice = (TargetComponent) => {
 }
 
 // export context interface for easy access
-export { DeviceContextType } from '../contexts/DeviceContext'
+export { DeviceContextType }
 
 export default withDevice

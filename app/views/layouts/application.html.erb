@@ -49,8 +49,7 @@
       <%= render partial: "components/sign_up_modal" %>
       <script src="https://unpkg.com/micromodal/dist/micromodal.min.js"></script>
     <% end %>
-    <%= javascript_pack_tag 'vendor-bundle' %>
-    <%= javascript_pack_tag 'app-bundle' %>
+    <%= javascript_packs_with_chunks_tag 'vendor-bundle', 'app-bundle' %>
     <% unless user_signed_in? %>
       <%= render "components/modal_script" %>
     <% end %>
