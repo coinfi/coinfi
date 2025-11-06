@@ -87,7 +87,7 @@ gem 'slim-rails'
 gem 'strong_migrations'
 gem 'unidecoder'
 gem 'twitter'
-gem 'webpacker', '~> 3.5'
+gem 'webpacker', '~> 5.4.4'
 gem 'zeitwerk', '< 2.7' # Ruby < 3.2
 # Used by ReactOnRails for rendering javascript
 gem 'mini_racer', '0.6.4'
