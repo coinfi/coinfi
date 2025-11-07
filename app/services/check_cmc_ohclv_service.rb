@@ -138,7 +138,7 @@ class CheckCmcOhclvService < Patterns::Service
         end
 
         latest_cached_timestamp = DateTime.parse(latest_cached_price_data["time"])
-        db_timestamp = DateTime.parse(row["time"])
+        db_timestamp = row["time"].respond_to?(:to_datetime) ? row["time"].to_datetime : DateTime.parse(row["time"])
         if latest_cached_timestamp != db_timestamp
           # Force refresh before flagging as incorrect
           if @granularity == 'daily'
