@@ -21,6 +21,7 @@ class Api::IndicatorsController < ApiController
     overview_coins_json = Rails.cache.fetch_multi(*cache_keys, expires_in: cache_expiry) do |cache_key|
       ticker = cache_key.split('/').last
       symbol = ticker_name_to_symbol(ticker)
+      next unless valid_symbol?(symbol)
       coin = Coin.where(symbol: symbol).where(coin_key: INDICATOR_COIN_KEYS).first
       next nil if coin.blank?
       overview_coin_serializer(coin)
@@ -32,6 +33,16 @@ class Api::IndicatorsController < ApiController
   end
 
   private
+
+  def valid_symbol?(symbol)
+    valid_symbols.include?(symbol)
+  end
+
+  def valid_symbols
+    @valid_symbols ||= Rails.cache.fetch("indicators/valid_symbols", expires_in: cache_expiry) do
+      Coin.where(coin_key: INDICATOR_COIN_KEYS).pluck(:symbol)
+    end
+  end
 
   def authenticate
     api_key = request.headers['X-APIToken'] || request.headers['X-API-Key']

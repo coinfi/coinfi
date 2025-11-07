@@ -82,7 +82,7 @@ class StakedCofiRefreshTransactions
     page_items = etherscan.token_transactions(nil, wallet_address, {
       sort: 'asc',
       start_block: start_block,
-      end_block: 99999999,
+      end_block: end_block,
       offset: offset,
       page: page,
     })
