@@ -10,8 +10,9 @@ RefreshSitemap:                 # rake sitemap:refresh
 StakedCofiPerformActions:       # rake staked_cofi:perform_actions
   cron: '0 30 * * * * Etc/UTC'
 
-StakedCofiRefreshTransactions:  # rake staked_cofi:refresh_transactions
-  cron: '0 0 * * * * Etc/UTC'
+# TODO: Migrate to etherscan api v2
+# StakedCofiRefreshTransactions:  # rake staked_cofi:refresh_transactions
+#   cron: '0 0 * * * * Etc/UTC'
 
 UpdateCurrencies:
   cron: '0 0 0 * * * Etc/UTC'
