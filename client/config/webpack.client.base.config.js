@@ -5,8 +5,9 @@ const { paths } = require(resolve(
   'client/config/lib/constants',
 ))
 const webpack = require('webpack')
-const ManifestPlugin = require('webpack-manifest-plugin')
+const WebpackAssetsManifest = require('webpack-assets-manifest')
 const webpackConfigLoader = require('react-on-rails/webpackConfigLoader')
+const { environment } = require('@rails/webpacker')
 
 const railsWebpackConfig = webpackConfigLoader(paths.railsConfig)
 const devBuild = process.env.NODE_ENV !== 'production'
@@ -18,9 +19,7 @@ module.exports = {
     // This will contain the app entry points defined by
     // webpack.client.rails.hot.config and webpack.client.rails.build.config
 
-    // See use of 'vendor' in the CommonsChunkPlugin inclusion below.
     'vendor-bundle': [
-      'babel-polyfill',
       'es5-shim/es5-shim',
       'es5-shim/es5-sham',
       'jquery',
@@ -60,26 +59,25 @@ module.exports = {
       NODE_ENV: 'development', // use 'development' unless process.env.NODE_ENV is defined
       DEBUG: false,
     }),
-
-    // https://webpack.github.io/docs/list-of-plugins.html#2-explicit-vendor-chunk
-    new webpack.optimize.CommonsChunkPlugin({
-      // This name 'vendor-bundle' ties into the entry definition
-      name: 'vendor-bundle',
-
-      // We don't want the default vendor.js name
-      filename: 'vendor-bundle-[hash].js',
-
-      minChunks(module) {
-        // this assumes your vendor imports exist in the node_modules directory
-        return module.context && module.context.indexOf('node_modules') !== -1
-      },
-    }),
-
-    new ManifestPlugin({
+    new WebpackAssetsManifest({
+      entrypoints: true,
+      writeToDisk: true,
       publicPath: railsWebpackConfig.output.publicPath,
-      writeToFileEmit: true,
     }),
   ],
+
+  // https://github.com/rails/webpacker/blob/2a7e298fd6a32ccd1d22d7d260539da8f87ce814/package/environments/base.js#L131
+  optimization: {
+    // Split vendor and common chunks
+    // https://twitter.com/wSokra/status/969633336732905474
+    splitChunks: {
+      chunks: 'all',
+      name: true,
+    },
+    // Separate runtime chunk to enable long term caching
+    // https://twitter.com/wSokra/status/969679223278505985
+    runtimeChunk: true,
+  },
 
   module: {
     rules: [
@@ -97,6 +95,10 @@ module.exports = {
           },
         },
       },
+      environment.loaders.get('css'),
+      environment.loaders.get('sass'),
+      environment.loaders.get('moduleCss'),
+      environment.loaders.get('moduleSass'),
       {
         test: require.resolve('jquery'),
         use: [
@@ -112,6 +114,7 @@ module.exports = {
       },
     ],
   },
+
   watchOptions: {
     ignored: /node_modules/,
     poll: 5000,

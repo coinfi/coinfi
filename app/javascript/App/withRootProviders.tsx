@@ -29,7 +29,7 @@ const withRootProviders = (
       stylesContextStore,
     )
 
-    return (
+    return () => (
       <CookiesProvider>
         <JssProvider
           registry={stylesContext.sheetsRegistry}

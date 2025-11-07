@@ -8,12 +8,11 @@ module.exports = {
     root: rootPath,
     app: appPath,
     railsConfig: resolve(rootPath, 'config'),
-    postcssConfig: resolve(rootPath, '.postcssrc.yml'),
     webpack: {
       config: resolve(rootPath, 'client/config'),
       src: resolve(appPath, 'javascript'),
       clientEntry: resolve(appPath, 'javascript/App/clientStartup.ts'),
-      serverEntry: resolve(appPath, 'javascript/App/serverStartup.tsx'),
+      serverEntry: resolve(appPath, 'javascript/App/serverStartup.ts'),
     },
   },
 }

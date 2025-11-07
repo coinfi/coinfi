@@ -45,53 +45,6 @@ module.exports = {
         exclude: /node_modules/,
       },
       {
-        test: /\.css$/,
-        use: [
-          'style-loader',
-          {
-            loader: 'css-loader',
-            options: {
-              modules: true,
-              importLoaders: 1,
-              localIdentName: '[name]__[local]__[hash:base64:5]',
-            },
-          },
-          {
-            loader: 'postcss-loader',
-            options: {
-              config: {
-                path: paths.postcssConfig,
-              },
-            },
-          },
-        ],
-      },
-      {
-        test: /\.scss$/,
-        use: [
-          'style-loader',
-          {
-            loader: 'css-loader',
-            options: {
-              modules: true,
-              importLoaders: 2,
-              localIdentName: '[name]__[local]__[hash:base64:5]',
-            },
-          },
-          {
-            loader: 'postcss-loader',
-            options: {
-              config: {
-                path: paths.postcssConfig,
-              },
-            },
-          },
-          {
-            loader: 'sass-loader',
-          },
-        ],
-      },
-      {
         test: require.resolve('jquery-ujs'),
         use: {
           loader: 'imports-loader',

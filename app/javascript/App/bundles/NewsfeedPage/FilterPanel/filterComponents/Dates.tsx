@@ -1,7 +1,6 @@
 import * as React from 'react'
 import * as moment from 'moment'
 import DatePicker from 'react-datepicker'
-import 'react-datepicker/dist/react-datepicker-cssmodules.css'
 import withDevice from '~/bundles/common/utils/withDevice'
 
 interface Props {

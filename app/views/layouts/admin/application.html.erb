@@ -37,8 +37,7 @@ By default, it renders:
   </div>
 
   <%# Load react-related javascript first to avoid overriding administrate jquery %>
-  <%= javascript_pack_tag 'vendor-bundle' %>
-  <%= javascript_pack_tag 'app-bundle' %>
+  <%= javascript_packs_with_chunks_tag 'vendor-bundle', 'app-bundle' %>
   <%= render "javascript" %>
 </body>
 </html>

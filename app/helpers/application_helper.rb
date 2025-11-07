@@ -89,7 +89,7 @@ module ApplicationHelper
 
   # Renders a react component and update `@jss_server_side_css` with css. Should be used in place of
   # `react_component` for components that return hashes with `componentHtml` and `componentCss`
-  def react_component_with_jss(component_name, options = {})
+  def react_component_with_jss(component_name, **options)
     new_options = options.deep_merge(props: { stylesNamespace: component_name })
 
     unless options[:prerender]

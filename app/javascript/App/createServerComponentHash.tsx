@@ -36,6 +36,8 @@ const createServerComponentHash = (TargetComponent: any) => {
         ).sheetsRegistry.toString(),
         componentStylesNamespace: stylesNamespace,
       },
+      redirectLocation: undefined,
+      error: undefined,
     }
   }
 }

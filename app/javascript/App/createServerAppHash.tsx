@@ -38,9 +38,7 @@ const createServerAppHash = (props, railsContext) => {
   // see: https://github.com/shakacode/react_on_rails/blob/master/docs/additional-reading/react-router.md
   const redirected = !!context.url
   if (redirected) {
-    return {
-      redirectLocation: context.url,
-    }
+    componentHash.redirectLocation = context.url
   }
 
   // Return the successful markup as a string for Rails `react_component` or `react_component_hash`

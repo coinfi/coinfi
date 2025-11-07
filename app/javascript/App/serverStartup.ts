@@ -1,4 +1,6 @@
-import * as React from 'react'
+import 'core-js/stable'
+import 'regenerator-runtime/runtime'
+
 import ReactOnRails from 'react-on-rails'
 
 // react-router app
@@ -14,7 +16,7 @@ import SignalReservationForm from './bundles/signalsPage/SignalReservationForm'
 import CurrencySelectorWidget from './bundles/CurrencySelectorWidget'
 
 // Register the components so they can be rendered from Rails
-;(ReactOnRails as any).register({
+ReactOnRails.register({
   SignalExamplePanel: createServerComponentHash(SignalExamplePanel),
   SignalFaqPanel: createServerComponentHash(SignalFaqPanel),
   SignalPopoverText: createServerComponentHash(SignalPopoverText),
