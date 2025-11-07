@@ -47,7 +47,7 @@ class NewsItemRaw < ApplicationRecord
   end
 
   def feed_source
-    @feed_source ||= FeedSource.find(source)
+    @feed_source ||= FeedSource.find_by(slug: source)
   end
 
   private
