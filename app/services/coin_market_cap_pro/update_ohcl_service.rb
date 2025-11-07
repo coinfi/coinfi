@@ -86,7 +86,7 @@ module CoinMarketCapPro
       url = "https://pro-api.coinmarketcap.com/v1/cryptocurrency/ohlcv/historical"
 
       progress = ProgressBar.create(:title => 'coins', :total => coin_mapping.size)
-      responses = coin_mapping.keys.map do |cmc_id|
+      responses = coin_mapping.map do |(cmc_id, coin_id)|
         query = {
           id: cmc_id,
           convert: 'USD',
@@ -137,6 +137,7 @@ module CoinMarketCapPro
             sleep 1
             retry
           else
+            @cmc_missing_data << { identifier: coin_id, data: nil }
             response = nil
           end
         end
@@ -148,8 +149,8 @@ module CoinMarketCapPro
 
       results = responses.map do |response|
         raw_ohcl = extract_api_data(response, @healthcheck_url)
-        result = process_raw_ohcl(raw_ohcl, time_of_request, coin_mapping)
-      end
+        result = process_raw_ohcl(raw_ohcl, time_of_request, coin_mapping) if raw_ohcl.present?
+      end.compact
 
       num_elements = results.size
       elapsed_time = DateTime.current.to_f - start
