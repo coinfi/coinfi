@@ -4,10 +4,11 @@ module CoinMarketCapPro
     include CoinListHelper
     attr_reader :cmc_missing_data
 
-    def initialize(coin_ids: nil, start_date: Date.new(2019, 2, 20), healthcheck_url: nil)
+    def initialize(coin_ids: nil, start_date: Date.new(2019, 2, 20), end_date: nil, healthcheck_url: nil)
       @cmc_missing_data = []
       @target_coin_ids = coin_ids
       @start_date = start_date
+      @end_date = end_date
       @healthcheck_url = healthcheck_url
     end
 
@@ -33,7 +34,14 @@ module CoinMarketCapPro
       coin_key_mapping = Coin.where(cmc_id: target_cmc_coin_ids).pluck(:cmc_id, :id).to_h
       coin_key_mapping.transform_keys! {|cmc_id| cmc_id.to_s }
 
-      ohcls = download_ohcl_data(coin_key_mapping, @start_date.to_datetime)
+      start_datetime = @start_date.to_datetime
+      entries = if @end_date.blank?
+                  1
+                else
+                  (@end_date.to_datetime - start_datetime).to_i + 1 # End-date inclusive
+                end
+
+      ohcls = download_ohcl_data(coin_key_mapping, start_datetime, entries)
       insert_ohcls(ohcls)
 
       log_or_ping_on_missing_data(@cmc_missing_data, @healthcheck_url)
@@ -72,7 +80,7 @@ module CoinMarketCapPro
     # :param cmc_ids: Array of Coinmarketcap ids
     # :param time_of_request: DateTime of request for retrieving data
     # TODO: Parallelize requests
-    def download_ohcl_data(coin_mapping, time_of_request)
+    def download_ohcl_data(coin_mapping, time_of_request, entries = 1)
       start = DateTime.current.to_f
 
       previous_interval = get_previous_time_interval time_of_request
@@ -90,7 +98,7 @@ module CoinMarketCapPro
         query = {
           id: cmc_id,
           convert: 'USD',
-          count: 1,
+          count: entries,
           time_start: epoch,
           time_period: 'daily',
           interval: 'daily',
@@ -147,9 +155,9 @@ module CoinMarketCapPro
         response
       end
 
-      results = responses.map do |response|
+      results = responses.flat_map do |response|
         raw_ohcl = extract_api_data(response, @healthcheck_url)
-        result = process_raw_ohcl(raw_ohcl, time_of_request, coin_mapping) if raw_ohcl.present?
+        results = process_raw_ohcls(raw_ohcl, time_of_request, coin_mapping) if raw_ohcl.present?
       end.compact
 
       num_elements = results.size
@@ -161,14 +169,14 @@ module CoinMarketCapPro
 
     # Extract relevant information from raw contents and map external ids to coin_keys.
     # https://coinmarketcap.com/api/documentation/v1/#operation/getV2CryptocurrencyOhlcvHistorical
-    def process_raw_ohcl(raw_ohcl, requested_ts, coin_keys)
+    def process_raw_ohcls(raw_ohcl, requested_ts, coin_keys)
       cmc_id = raw_ohcl.fetch('id', nil)&.to_s
-      # the list should only ever have 1 item since we only request 1 count
-      quote_entry = (raw_ohcl.dig('quotes').presence || [{}]).first
-      # there should only ever be one dictionary key pair
-      data = quote_entry.fetch('quote', {}).dig('USD')
+      quotes = (raw_ohcl.dig('quotes').presence || [{}])
+      quotes.map do |quote_entry|
+        # there should only ever be one dictionary key pair
+        data = quote_entry.fetch('quote', {}).dig('USD')
+        return unless data.present? && coin_keys.dig(cmc_id).present?
 
-      if data.present? && coin_keys.dig(cmc_id).present?
         time_open = quote_entry["time_open"]
         if time_open.present?
           timestamp = time_open.to_datetime
@@ -186,7 +194,7 @@ module CoinMarketCapPro
           close: data.fetch('close', nil),
           volume_to: data.fetch('volume', nil),
         }
-      end
+      end.compact
     end
 
     # Return cmc coins id list from map.
@@ -228,7 +236,7 @@ module CoinMarketCapPro
             raise HTTParty::Error.new "HTTP request failed: " + response.code.to_s
           end
         end
-      rescue HTTParty::Error
+      rescue HTTParty::Error => e
         puts "Coin Map: #{e}"
         if (retries += 1) <= max_retries
           sleep 1
