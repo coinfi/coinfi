@@ -99,7 +99,7 @@ Rails.application.routes.draw do
       get 'dominance', on: :collection
     end
     get '/indicators/tickers', to: 'indicators#tickers'
-    get '/indicators/overview/:tickers', to: 'indicators#overview'
+    get '/indicators/overview/:tickers', to: 'indicators#overview', constraints: { tickers: /[a-zA-Z0-9,\.\-_]+/ }
 
     resources :currency, only: %i[index]
 

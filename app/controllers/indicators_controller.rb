@@ -11,6 +11,8 @@ class IndicatorsController < ApplicationController
   caches_action :show, cache_path: :show_cache_path, expires_in: 10.minutes
 
   def show
+    return render_empty unless @coin.present?
+
     set_news_items
 
     if Rails.env.production?
