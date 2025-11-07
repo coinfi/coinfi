@@ -44,7 +44,7 @@ module CoinMarketCapPro
     private
 
     def has_missing_data(data)
-      data[:open].blank? || data[:high].blank? ||
+      data.nil? || data[:open].blank? || data[:high].blank? ||
         data[:low].blank? || data[:close].blank? ||
         data[:volume_to].blank?
     end
